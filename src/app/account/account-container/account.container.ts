@@ -4,18 +4,18 @@ import {
 } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as accountActions from '../redux/accounts.actions';
-import * as domainActions from '../../domains/redux/domains.actions';
-import * as roleActions from '../../roles/redux/roles.actions';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as domainActions from '../../reducers/domains/redux/domains.actions';
+import * as roleActions from '../../reducers/roles/redux/roles.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import {
   ActivatedRoute,
   Router
 } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import * as fromAccounts from '../redux/accounts.reducers';
-import * as fromDomains from '../../domains/redux/domains.reducers'
-import * as fromRoles from '../../roles/redux/roles.reducers'
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as fromDomains from '../../reducers/domains/redux/domains.reducers'
+import * as fromRoles from '../../reducers/roles/redux/roles.reducers'
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Account } from '../../shared/models/account.model';
 

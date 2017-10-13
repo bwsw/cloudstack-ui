@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { ResourceLimit } from '../../../shared/models/resource-limit.model';
 
 
@@ -33,8 +38,13 @@ export class AccountLimitsComponent {
   }
 
   public onSave(): void {
-    this.onLimitsEdit.emit(this.limits);
+    console.log(this.limits);
+    //this.onLimitsEdit.emit(limits);
     this.isEdit = false;
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
   }
 
 }

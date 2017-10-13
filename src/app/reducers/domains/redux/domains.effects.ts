@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import * as domainActions from './domains.actions';
 import { Action } from '@ngrx/store';
-import { DomainService } from '../../shared/services/domain.service';
-import { Domain } from '../../shared/models/domain.model';
-import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from '../../../shared/services/domain.service';
+import { Domain } from '../../../shared/models/domain.model';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Injectable()
 export class DomainsEffects {

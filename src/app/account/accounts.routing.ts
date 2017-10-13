@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { AccountDetailsComponent } from './account-sidebar/account-details/account-details.component';
 import { AccountPageContainerComponent } from './account-container/account.container';
-import { AccountSidebarContainer } from './account-container/account-sidebar.container';
+import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
+import { AccountDetailsContainerComponent } from './account-container/account-details.container';
 
 export const accountsRoutes: Routes = [
   {
@@ -15,7 +15,7 @@ export const accountsRoutes: Routes = [
         component: AccountCreationDialogComponent
       },*/ {
         path: ':id',
-        component: AccountSidebarContainer,
+        component: AccountSidebarContainerComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -25,7 +25,7 @@ export const accountsRoutes: Routes = [
           },
           {
             path: 'account',
-            component: AccountDetailsComponent
+            component: AccountDetailsContainerComponent
           },
         ]
       }

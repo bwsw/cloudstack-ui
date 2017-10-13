@@ -1,6 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { ResourceCount } from '../../../shared/models/resource-count.model';
-import { Account } from '../../../shared/models/account.model';
 import { ResourceCountService } from '../../../shared/services/resource-count.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
@@ -8,9 +12,9 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
   selector: 'cs-account-statistics',
   templateUrl: 'account-statistics.component.html'
 })
-export class AccountStatisticsComponent implements OnInit {
-  @Input() public account: Account;
-  public stats: Array<ResourceCount>;
+export class AccountStatisticsComponent {
+  @Input() public stats: Array<ResourceCount>;
+  @Output() public onStatsUpdate = new EventEmitter();
 
   public resourceLabels = [
     'ACCOUNT_PAGE.CONFIGURATION.VM_COUNT',
@@ -32,14 +36,6 @@ export class AccountStatisticsComponent implements OnInit {
     private dialogService: DialogService
   ) { }
 
-  ngOnInit() {
-    this.updateStats();
-  }
-
-  public updateStats(){
-    this.resourceCountService.updateResourceCount(this.account)
-            .subscribe(stats => this.stats = stats);
-  }
 
   public confirmUpdateStats() {
     this.dialogService.confirm({
@@ -48,7 +44,7 @@ export class AccountStatisticsComponent implements OnInit {
       .onErrorResumeNext()
       .subscribe(res => {
         if (res) {
-          this.updateStats();
+          this.onStatsUpdate.emit(res);
         }
       });
   }

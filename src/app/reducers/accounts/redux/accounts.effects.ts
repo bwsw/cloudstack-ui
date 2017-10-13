@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import * as accountActions from './accounts.actions';
 import { Action } from '@ngrx/store';
-import { AccountService } from '../../shared/services/account.service';
+import { AccountService } from '../../../shared/services/account.service';
 
 @Injectable()
 export class AccountsEffects {
@@ -23,6 +26,14 @@ export class AccountsEffects {
         })
         .catch(() => Observable.of(new accountActions.LoadAccountsResponse([])));
     });
+
+  /*@Effect()
+  loadSelectedAccount: Observable<Action> = this.actions$
+    .ofType(accountActions.LOAD_SELECTED_ACCOUNT_REQUEST)
+    .switchMap((action: accountActions.LoadSelectedAccountRequest) => {
+      return new accountActions.LoadSelectedAccountResponse(action.payload);
+    })
+    .catch(() => Observable.of(new accountActions.LoadSelectedAccountResponse({ })));*/
 
   constructor(
     private actions$: Actions,

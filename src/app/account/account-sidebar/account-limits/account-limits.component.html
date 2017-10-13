@@ -8,26 +8,26 @@
   </md-card-header>
   <md-card-content class="md-card-content-with-actions">
     <div class="md-card-content-container">
-      <div *ngFor="let limit of limits" class="height-container">
+      <div *ngFor="let limit of limits; let i = index;" class="height-container">
         <div class="flex-container container">
           <div class="flex-container left">
             <div
               class="name"
-              [innerHTML]="limitLabels[limit.resourceType] | translate"
+              [innerHTML]="limitLabels[limits[i].resourcetype] | translate"
             ></div>
           </div>
           <div *ngIf="!isEdit"
             ngxClipboard
             class="value"
-            [innerHTML]="limit.max"
+            [innerHTML]="limits[i].max"
           ></div>
           <div *ngIf="isEdit"
             class="value"
           ><md-form-field class="full-width-input">
             <input
               mdInput
-              name="vmlimit"
-              [(ngModel)]="limit.max"
+              name="{{'vmlimit'+i}}"
+              [(ngModel)]="limits[i].max"
               required
             ></md-form-field>
           </div>

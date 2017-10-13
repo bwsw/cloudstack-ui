@@ -1,7 +1,14 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
 import * as event from './roles.actions';
-import { Role } from '../../shared/models/role.model';
+import { Role } from '../../../shared/models/role.model';
 
 /**
  * @ngrx/entity provides a predefined interface for handling

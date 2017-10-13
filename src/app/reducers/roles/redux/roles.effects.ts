@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import * as roleActions from './roles.actions';
 import { Action } from '@ngrx/store';
-import { RoleService } from '../../shared/services/role.service';
-import { Role } from '../../shared/models/role.model';
-import { AuthService } from '../../shared/services/auth.service';
+import { RoleService } from '../../../shared/services/role.service';
+import { Role } from '../../../shared/models/role.model';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Injectable()
 export class RolesEffects {

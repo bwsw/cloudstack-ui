@@ -19,7 +19,7 @@ export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit
 
   public getList(params?: {}): Observable<Array<ResourceLimit>> {
     return super.getList(params)
-      .map(result => result.sort((a, b) => a.resourceType - b.resourceType));
+      .map(result => result.sort((a, b) => a.resourcetype - b.resourcetype));
   }
 
   public updateResourceLimit(
@@ -27,7 +27,7 @@ export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit
     account: Account
   ): Observable<ResourceLimit> {
     return this.sendCommand('update', {
-      resourceType: resourceLimit.resourceType,
+      resourceType: resourceLimit.resourcetype,
       max: resourceLimit.max,
       domainid: account.domainid,
       account: account.name

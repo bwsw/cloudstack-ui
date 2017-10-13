@@ -3,8 +3,7 @@ import { Action } from '@ngrx/store';
 export const LOAD_ACCOUNTS_REQUEST = '[ACCOUNTS] LOAD_ACCOUNTS_REQUEST';
 export const LOAD_ACCOUNTS_RESPONSE = '[ACCOUNTS] LOAD_ACCOUNTS_RESPONSE';
 export const ACCOUNT_FILTER_UPDATE = '[ACCOUNTS] ACCOUNT_FILTER_UPDATE';
-export const LOAD_SELECTED_ACCOUNT_REQUEST = '[ACCOUNTS] LOAD_SELECTED_ACCOUNT_REQUEST';
-export const LOAD_SELECTED_ACCOUNT_RESPONSE = '[ACCOUNTS] LOAD_SELECTED_ACCOUNT_RESPONSE';
+export const LOAD_SELECTED_ACCOUNT = '[ACCOUNTS] LOAD_SELECTED_ACCOUNT';
 
 export class LoadAccountsRequest implements Action {
   type = LOAD_ACCOUNTS_REQUEST;
@@ -22,18 +21,10 @@ export class LoadAccountsResponse implements Action {
 
 }
 
-export class LoadSelectedAccountRequest implements Action {
-  type = LOAD_SELECTED_ACCOUNT_REQUEST;
+export class LoadSelectedAccount implements Action {
+  type = LOAD_SELECTED_ACCOUNT;
 
-  constructor(public payload: any) {
-  }
-
-}
-
-export class LoadSelectedAccountResponse implements Action {
-  type = LOAD_SELECTED_ACCOUNT_RESPONSE;
-
-  constructor(public payload: any ) {
+  constructor(public payload: string) {
   }
 
 }
@@ -47,4 +38,4 @@ export class AccountFilterUpdate implements Action {
 }
 
 
-export type Actions = LoadAccountsRequest | LoadAccountsResponse | AccountFilterUpdate;
+export type Actions = LoadAccountsRequest | LoadAccountsResponse | AccountFilterUpdate | LoadSelectedAccount;

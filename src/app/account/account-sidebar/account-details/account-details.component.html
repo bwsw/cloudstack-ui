@@ -147,7 +147,3 @@
     </md-card-content>
   </md-card>
 </ng-container>
-
-<cs-account-settings *ngIf="account && isAdmin()" [account]="account"></cs-account-settings>
-<cs-account-limits *ngIf="limits" [limits]="limits" [isAdmin]="isAdmin()" (onLimitsEdit)="updateLimits($event)"></cs-account-limits>
-<cs-account-statistics *ngIf="account  && isAdmin()"  [account]="account"></cs-account-statistics>

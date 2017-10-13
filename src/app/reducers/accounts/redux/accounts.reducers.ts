@@ -8,7 +8,7 @@ import {
   EntityState
 } from '@ngrx/entity';
 import * as event from './accounts.actions';
-import { Account } from '../../shared/models/account.model';
+import { Account } from '../../../shared/models/account.model';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -19,7 +19,7 @@ import { Account } from '../../shared/models/account.model';
  */
 export interface State extends EntityState<Account> {
   loading: boolean,
-  selectedAccount: Account,
+  selectedAccountId: string | null;
   filters: {
     selectedDomainIds: string[],
     selectedRoleNames: string[],
@@ -56,7 +56,7 @@ export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  selectedAccount: null,
+  selectedAccountId: null,
   filters: {
     selectedDomainIds:[],
     selectedRoleTypes: [],
@@ -103,17 +103,10 @@ export function reducer(
       };
     }
 
-    case event.LOAD_SELECTED_ACCOUNT_REQUEST: {
+    case event.LOAD_SELECTED_ACCOUNT: {
       return {
-        ...state
-      };
-    }
-    case event.LOAD_SELECTED_ACCOUNT_RESPONSE: {
-      const account = action.payload;
-      return {
-        //...adapter.addOne(account, state),
         ...state,
-        selectedAccount: account
+        selectedAccountId: action.payload
       };
     }
 
@@ -144,9 +137,15 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const selectedAccount = createSelector(
+export const getSelectedId = createSelector(
   getAccountsEntitiesState,
-  state => state.selectedAccount
+  state => state.selectedAccountId
+);
+
+export const getSelectedAccount = createSelector(
+  getAccountsState,
+  getSelectedId,
+  (state, selectedId) => state.accounts.entities[selectedId]
 );
 
 export const filters = createSelector(
