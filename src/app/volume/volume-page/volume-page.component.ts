@@ -84,7 +84,6 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.getVmInfo();
     Observable.merge(
       this.volumeService.onVolumeAttachment.takeUntil(this.unsubscribe$)
         .do(e => {
@@ -188,20 +187,25 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public activate() {
-    if (this.hasVm) {
-      this.showCreationDialog();
-    } else {
-      return this.dialogService.confirm({
-        message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
-        confirmText: 'COMMON.CONTINUE',
-        declineText: 'COMMON.CANCEL'
-      })
-        .subscribe((res) => {
-          if (res) {
-            this.showCreationDialog();
-          }
-        });
-    }
+    this.vmService.getListWithDetails()
+      .switchMap(res => Observable.of(res.length))
+      .subscribe((res) => {
+        this.hasVm = res !== 0;
+        if (this.hasVm) {
+          this.showCreationDialog();
+        } else {
+          return this.dialogService.confirm({
+            message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
+            confirmText: 'COMMON.CONTINUE',
+            declineText: 'COMMON.CANCEL'
+          })
+            .subscribe((isContinue) => {
+              if (isContinue) {
+                this.showCreationDialog();
+              }
+            });
+        }
+      });
   }
 
   public showCreationDialog(): void {
@@ -306,11 +310,5 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
           this.showSuggestionDialog();
         }
       });
-  }
-
-  private getVmInfo() {
-    this.vmService.getListWithDetails().subscribe((res: VirtualMachine[]) => {
-      return res.length === 0 ? this.hasVm = false : this.hasVm = true;
-    });
   }
 }
