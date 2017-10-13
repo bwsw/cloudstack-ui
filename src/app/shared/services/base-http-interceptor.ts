@@ -1,5 +1,14 @@
-import { Injectable, Injector } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  Injectable,
+  Injector
+} from '@angular/core';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
+} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';

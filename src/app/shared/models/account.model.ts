@@ -33,6 +33,8 @@ export class Account extends BaseModel {
   public roleid: string;
   public rolename: string;
   public roletype: string;
+  public receivedbytes: number;
+  public sentbytes: number;
   public secondarystorageavailable: number;
   public secondarystoragelimit: number;
   public secondarystoragetotal: number;

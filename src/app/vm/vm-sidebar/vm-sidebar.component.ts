@@ -14,6 +14,7 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
   styleUrls: ['vm-sidebar.component.scss']
 })
 export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
+
   constructor(
     protected vmService: VmService,
     protected notificationService: NotificationService,

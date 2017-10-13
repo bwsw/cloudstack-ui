@@ -1,0 +1,32 @@
+<cs-account-list-filter *ngIf="isAdmin()"
+  [domains]="domains"
+  [roles]="roles"
+  [roleTypes]="roleTypes"
+  [states]="states"
+  [groupings]="groupings"
+  [selectedDomainIds]="selectedDomainIds"
+  [selectedRoleNames]="selectedRoleNames"
+  [selectedRoleTypes]="selectedRoleTypes"
+  [selectedStates]="selectedStates"
+  [selectedGroupings]="selectedGroupings"
+  (onDomainsChange)="onDomainsChange.emit($event)"
+  (onRolesChange)="onRolesChange.emit($event)"
+  (onRoleTypesChange)="onRoleTypesChange.emit($event)"
+  (onStatesChange)="onStatesChange.emit($event)"
+  (onGroupingsChange)="onGroupingsChange.emit($event)"
+  cs-list
+></cs-account-list-filter>
+<cs-top-bar  *ngIf="!isAdmin()"></cs-top-bar>
+<cs-account-list
+  *loading="isLoading"
+  [groupings]="selectedGroupings"
+  [accounts]="accounts"
+  (onAccountChanged)="updateList($event)"
+  cs-list
+></cs-account-list>
+<ng-container cs-sidebar>
+  <cs-sidebar [isOpen]="listService?.hasSelected()">
+    <router-outlet></router-outlet>
+  </cs-sidebar>
+</ng-container>
+

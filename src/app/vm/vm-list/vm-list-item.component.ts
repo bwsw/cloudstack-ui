@@ -1,8 +1,20 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { MdMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
-import { VirtualMachine, VmState } from '../shared/vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from '../shared/vm.model';
 import { Utils } from '../../shared/services/utils/utils.service';
 
 const stateTranslations = {

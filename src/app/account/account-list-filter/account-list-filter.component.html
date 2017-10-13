@@ -1,0 +1,59 @@
+<cs-top-bar>
+  <div class="options-panel">
+
+    <md-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_DOMAINS' | translate"
+      [ngModel]="selectedDomainIds"
+      (change)="onDomainsChange.emit($event.value)"
+    >
+      <md-option *ngFor="let domain of domains" [value]="domain.id">{{ domain.name }}</md-option>
+    </md-select>
+
+    <md-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLES' | translate"
+      [ngModel]="selectedRoleNames"
+      (change)="onRolesChange.emit($event.value)"
+    >
+      <md-option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</md-option>
+    </md-select>
+
+    <md-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLE_TYPES' | translate"
+      [ngModel]="selectedRoleTypes"
+      (change)="onRoleTypesChange.emit($event.value)"
+    >
+      <md-option *ngFor="let roleType of roleTypes" [value]="roleType">{{ roleType }}</md-option>
+    </md-select>
+
+    <md-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_STATES' | translate"
+      [ngModel]="selectedStates"
+      (change)="onStatesChange.emit($event.value)"
+    >
+      <md-option *ngFor="let state of states" [value]="state">{{ stateTranslationToken(state) | translate }}</md-option>
+    </md-select>
+
+    <cs-draggable-select
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'ACCOUNT_PAGE.FILTERS.GROUP_BY' | translate"
+      [(ngModel)]="selectedGroupings"
+      [dragItems]="groupings"
+      (change)="onGroupingsChange.emit($event.value)"
+    >
+      <md-option *ngFor="let g of groupings" [value]="g">
+        {{ g.label | translate }}
+      </md-option>
+    </cs-draggable-select>
+
+  </div>
+</cs-top-bar>
+

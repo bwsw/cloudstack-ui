@@ -32,13 +32,13 @@ import { SgFilterComponent } from './sg-filter/sg-filter.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
 // tslint:disable-next-line
-import { SecurityGroupCreationSecurityGroupComponent } from './sg-template-creation/security-group-creation-security-group/security-group-creation-security-group.component';
+import { SecurityGroupCreationSecurityGroupComponent } from './sg-creation/security-group-creation-security-group/security-group-creation-security-group.component';
 // tslint:disable-next-line
-import { SecurityGroupCreationRulesManagerComponent } from './sg-template-creation/security-group-rules-manager/security-group-creation-rules-manager.component';
-import { SgTemplateCreationDialogComponent } from './sg-template-creation/sg-template-creation-dialog.component';
-import { SgTemplateCreationComponent } from './sg-template-creation/sg-template-creation.component';
-import { SgTemplateListItemComponent } from './sg-template-list/sg-template-list-item.component';
-import { SgTemplateListComponent } from './sg-template-list/sg-template-list.component';
+import { SecurityGroupCreationRulesManagerComponent } from './sg-creation/security-group-rules-manager/security-group-creation-rules-manager.component';
+import { SecurityGroupCreationDialogComponent } from './sg-creation/security-group-creation-dialog.component';
+import { SecurityGroupCreationComponent } from './sg-creation/security-group-creation.component';
+import { SecurityGroupListItemComponent } from './sg-list/security-group-list-item.component';
+import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
 
 
 @NgModule({
@@ -59,15 +59,15 @@ import { SgTemplateListComponent } from './sg-template-list/sg-template-list.com
     MdTabsModule
   ],
   exports: [
-    SgTemplateListComponent
+    SecurityGroupListComponent
   ],
   declarations: [
     SecurityGroupActionsComponent,
     SgFilterComponent,
-    SgTemplateListComponent,
-    SgTemplateListItemComponent,
-    SgTemplateCreationComponent,
-    SgTemplateCreationDialogComponent,
+    SecurityGroupListComponent,
+    SecurityGroupListItemComponent,
+    SecurityGroupCreationComponent,
+    SecurityGroupCreationDialogComponent,
     SgRulesComponent,
     SgRuleComponent,
     SecurityGroupCreationSecurityGroupComponent,
@@ -85,7 +85,7 @@ import { SgTemplateListComponent } from './sg-template-list/sg-template-list.com
     TemplateSecurityGroupCreationService
   ],
   entryComponents: [
-    SgTemplateCreationComponent,
+    SecurityGroupCreationComponent,
     SgRulesComponent,
     SecurityGroupCreationSecurityGroupComponent
   ]

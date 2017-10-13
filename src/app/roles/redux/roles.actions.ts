@@ -6,7 +6,7 @@ export const LOAD_ROLES_RESPONSE = '[ROLES] LOAD_ROLES_RESPONSE';
 export class LoadRolesRequest implements Action {
   type = LOAD_ROLES_REQUEST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 
 }

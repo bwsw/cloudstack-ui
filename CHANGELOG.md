@@ -1,3 +1,28 @@
+<a name="1.49.11"></a>
+## [1.49.11](https://github.com/bwsw/cloudstack-ui/compare/1.49.10...1.49.11) (2017-10-04)
+
+
+### Bug Fixes
+
+* **security-group:** add new translation for sg-groups ([5b2a75d](https://github.com/bwsw/cloudstack-ui/commit/5b2a75d))
+* **pulse:** Manual Chart Refresh fix ([c1f338b](https://github.com/bwsw/cloudstack-ui/commit/c1f338b))
+* **security-group:** Missing translations added to SG creation modal (closes [#553](https://github.com/bwsw/cloudstack-ui/issues/553)) ([#559](https://github.com/bwsw/cloudstack-ui/issues/559)) ([25c4c9a](https://github.com/bwsw/cloudstack-ui/commit/25c4c9a))
+* **sidebar:** Ignore saved config for sidebar reordering if allowReorderingSidebar is disabled ([#558](https://github.com/bwsw/cloudstack-ui/issues/558)) ([9e74045](https://github.com/bwsw/cloudstack-ui/commit/9e74045))
+* **translate:** Fixed missing translation on Login Screen ([#570](https://github.com/bwsw/cloudstack-ui/issues/570)) ([a9ed887](https://github.com/bwsw/cloudstack-ui/commit/a9ed887))
+
+
+### Features
+
+* **core:** Added support for listCapabilities API call (closes [#521](https://github.com/bwsw/cloudstack-ui/issues/521)) ([af1e936](https://github.com/bwsw/cloudstack-ui/commit/af1e936))
+* **listAll:** add listAll and account filter ([#535](https://github.com/bwsw/cloudstack-ui/issues/535)) ([f950015](https://github.com/bwsw/cloudstack-ui/commit/f950015))
+* **optional:** add template optional fields ([be36d1b](https://github.com/bwsw/cloudstack-ui/commit/be36d1b))
+* **security-group:** Rename "security group template" to "security group" in source code ([#584](https://github.com/bwsw/cloudstack-ui/issues/584)) ([db3ba7e](https://github.com/bwsw/cloudstack-ui/commit/db3ba7e))
+* **sg-rules:** Improve object name display in forms ([#586](https://github.com/bwsw/cloudstack-ui/issues/586)) ([c1de286](https://github.com/bwsw/cloudstack-ui/commit/c1de286))
+* **vm-creation:** VM creation log and post-deployment actions ([14db677](https://github.com/bwsw/cloudstack-ui/commit/14db677))
+* **vm-sidebar:** Fix text in "Attach a volume" bar in VM management sidebar ([#579](https://github.com/bwsw/cloudstack-ui/issues/579)) ([3c2144f](https://github.com/bwsw/cloudstack-ui/commit/3c2144f))
+
+
+
 <a name="1.49.10"></a>
 ## [1.49.10](https://github.com/bwsw/cloudstack-ui/compare/1.49.9...1.49.10) (2017-09-21)
 

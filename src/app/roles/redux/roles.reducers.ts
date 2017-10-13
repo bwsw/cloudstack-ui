@@ -107,11 +107,8 @@ export const list = createSelector(
 );
 
 export const roleTypes = createSelector(
-  getRolesEntitiesState,
-  state => {
-    const allTypes = state.list.map(role => role.type);
-    return allTypes.filter((value, index) => allTypes.indexOf(value) == index );
-  }
+  list,
+  state => Array.from(new Set(state.map(role => role.type)))
 );
 
 

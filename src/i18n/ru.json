@@ -12,10 +12,11 @@
     "DELETE": "Удалить",
     "DESCRIPTION": "Описание",
     "EDIT": "Редактировать",
+    "ERROR": "Ошибка",
     "NO": "Нет",
     "NO_RESULTS": "Поиск не дал результатов",
     "NONE": "Не выбрано",
-    "OK": "Ок",
+    "OK": "ОК",
     "REFRESH": "Обновить",
     "REMOVE": "Удалить",
     "RESET": "Сбросить",
@@ -482,13 +483,28 @@
       "IPS": "IP",
       "VOLUMES": "Дисков",
       "PRIMARY_STORAGE": "Основного хранилища",
-      "CREATING_SG": "Создание группы безопасности",
-      "CREATING_AG": "Создание аффинитетной группы",
-      "DEPLOYING_VM": "Создание виртуальной машины",
+      "CREATING_SG": "Создание группы безопасности...",
+      "CREATING_AG": "Создание аффинитетной группы...",
+      "DEPLOYING_VM": "Создание виртуальной машины...",
+      "CREATING_INSTANCE_GROUP": "Создание группы...",
+      "TAG_COPYING": "Копирование тегов из шаблона...",
+      "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",
       "NO_TEMPLATES": "Нет доступных шаблонов"
     }
   },
+
+  "VM_POST_ACTION": {
+    "TITLE": "Виртуальная машина успешно создана",
+    "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
+    "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
+    "OPEN_URL": "Открыть URL",
+    "VM_PASSWORD": "Пароль",
+    "LOGIN": "Логин",
+    "VM": "Имя машины",
+    "VM_IP": "IP адрес"
+  },
+
   "VOLUME_PAGE": {
     "FILTERS": {
       "SPARE_DRIVES_ONLY": "Только свободные диски",
@@ -627,7 +643,8 @@
       "DESCRIPTION": "Описание"
     },
     "RULES": {
-      "TITLE": "Редактирование правил группы {{ value }}",
+      "VIEW_TITLE": "Правила группы <b>{{ value }}</b>",
+      "EDIT_TITLE": "Редактирование правил группы <b>{{ value }}</b>",
       "TYPE": "Тип",
       "PROTOCOL": "Протокол",
       "CIDR": "CIDR",
@@ -906,7 +923,12 @@
       "SELECT_DOMAINS": "Выберите домены",
       "SELECT_ROLES": "Выберите роли",
       "SELECT_ROLE_TYPES": "Выберите типы ролей",
-      "SELECT_STATES": "Выберите состояния"
+      "SELECT_STATES": "Выберите состояния",
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_DOMAINS": "Доменам",
+      "GROUP_BY_ROLES": "Ролям",
+      "GROUP_BY_ROLETYPES": "Типам ролей",
+      "GROUP_BY_STATES": "Состояниям"
     },
     "CARD": {
       "ROLE": "Роль",
@@ -926,7 +948,11 @@
       "ID": "ID",
       "ROLE": "Роль",
       "ROLE_TYPE": "Тип роли",
-      "DOMAIN": "Домен"
+      "DOMAIN": "Домен",
+      "VMS": "Всего ВМ",
+      "IPS": "Всего IP адресов",
+      "R_BYTES": "Байт получено",
+      "S_BYTES": "Байт отправлено"
     },
     "CONFIGURATION": {
       "VM_LIMIT": "Лимит машин",

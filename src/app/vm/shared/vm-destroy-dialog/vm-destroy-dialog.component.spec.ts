@@ -1,6 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed
+} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MD_DIALOG_DATA, MdCheckbox, MdCheckboxModule, MdDialogModule, MdDialogRef } from '@angular/material';
+import {
+  MD_DIALOG_DATA,
+  MdCheckbox,
+  MdCheckboxModule,
+  MdDialogModule,
+  MdDialogRef
+} from '@angular/material';
 import { By } from '@angular/platform-browser';
 
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';

@@ -1,6 +1,7 @@
 .overlay {
   position: static;
-  height: 50vh;
+  max-height: 50vh;
+  height: 40vh;
   background: white;
   z-index: 9999999999999;
 

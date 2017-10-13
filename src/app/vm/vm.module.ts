@@ -8,7 +8,7 @@ import {
   MdDialogModule,
   MdIconModule,
   MdInputModule,
-  MdMenuModule,
+  MdMenuModule, MdProgressBarModule,
   MdSelectModule,
   MdTabsModule,
   MdTooltipModule
@@ -67,17 +67,19 @@ import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snaps
 import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
+import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
 import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.component';
 import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
+import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
+
 import { WebShellService } from './web-shell/web-shell.service';
 // tslint:disable-next-line
 import { SecurityGroupManagerExistingGroupComponent } from './vm-creation/components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
 import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/components/security-group-rules-manager/vm-creation-security-group-rules-manager.component';
-import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
 import { NicComponent } from './vm-sidebar/network-detail/nics/nic/nic.component';
 import { NicListComponent } from './vm-sidebar/network-detail/nics/nic-list/nic-list.component';
 import { SecondaryIpComponent } from './vm-sidebar/network-detail/nics/secondary-ip/secondary-ip.component';
@@ -111,7 +113,8 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     SnapshotModule,
     TagsModule,
     TemplateModule,
-    TranslateModule
+    TranslateModule,
+    MdProgressBarModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,
@@ -156,7 +159,8 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     NicListComponent,
     SecondaryIpComponent,
     SecondaryIpListComponent,
-    NicFieldsComponent
+    NicFieldsComponent,
+    PostdeploymentComponent,
   ],
   providers: [
     VmActionsService,
@@ -167,7 +171,7 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     VmService,
     WebShellService,
     SnapshotActionsService,
-    ...VmActionProviders
+    ...VmActionProviders,
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,
@@ -180,7 +184,8 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     SnapshotModalComponent,
     VolumeAttachmentDialogComponent,
     SshKeypairResetComponent,
-    VmCreationSecurityGroupComponent
+    VmCreationSecurityGroupComponent,
+    PostdeploymentComponent
   ]
 })
 export class VmModule { }

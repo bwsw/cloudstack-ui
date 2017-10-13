@@ -30,7 +30,7 @@ export class FirewallRulesDetailComponent {
 
   private onSharedGroupEdit(securityGroup: SecurityGroup): void {
     this.router.navigate(
-      ['/sg-templates'],
+      ['/security-group'],
       {
         queryParams: {
           viewMode: 'shared'
