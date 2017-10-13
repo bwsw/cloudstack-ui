@@ -8,6 +8,8 @@ import { MemoryStorageService } from './shared/services/memory-storage.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
 import { UserService } from './shared/services/user.service';
+import { DateTimeFormatterService } from './shared/services/date-time-formatter.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'cs-app',
@@ -18,6 +20,8 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private languageService: LanguageService,
+    private dateTimeFormatterService: DateTimeFormatterService,
+    private translateService: TranslateService,
     private asyncJobService: AsyncJobService,
     private sessionStorage: SessionStorageService,
     private memoryStorage: MemoryStorageService,
@@ -34,6 +38,15 @@ export class AppComponent implements OnInit {
     this.auth.loggedIn.subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.userService.startIdleMonitor();
+        this.languageService.getTimeFormat()
+          .subscribe(timeFormat => {
+            this.dateTimeFormatterService.updateFormatters(timeFormat);
+          });
+        this.translateService.onLangChange
+          .switchMap(() => this.languageService.getTimeFormat())
+          .subscribe((format) =>
+            this.dateTimeFormatterService.updateFormatters(format)
+          );
         this.loadSettings();
       } else {
         this.userService.stopIdleMonitor();

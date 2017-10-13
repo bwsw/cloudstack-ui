@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService, TimeFormat } from './language.service';
+import { TimeFormat } from './language.service';
 import { dateTimeFormat as enDateTimeFormat } from '../components/date-picker/dateUtils';
 import DateTimeFormat = Intl.DateTimeFormat;
 
@@ -11,12 +11,8 @@ export class DateTimeFormatterService {
   private timeFormatter: DateTimeFormat;
 
   constructor(
-    private languageService: LanguageService,
     private translateService: TranslateService
   ) {
-    this.initializeFormatter();
-    this.subscribeToLanguageUpdates();
-    // this.subscribeToTimeFormatUpdates();
   }
 
   public get dateTimeFormat(): any {
@@ -47,7 +43,7 @@ export class DateTimeFormatterService {
     return '';
   }
 
-  private updateFormatters(timeFormat: any): void {
+  public updateFormatters(timeFormat: any): void {
     this.updateTimeFormatter(timeFormat);
     this.updateDateFormatter(timeFormat);
   }
@@ -97,26 +93,6 @@ export class DateTimeFormatterService {
 
     return options;
   }
-
-  private initializeFormatter(): void {
-    this.languageService.getTimeFormat()
-      .subscribe(timeFormat => {
-        this.updateFormatters(timeFormat);
-      });
-  }
-
-  private subscribeToLanguageUpdates(): void {
-    this.translateService.onLangChange
-      .switchMap(() => this.languageService.getTimeFormat())
-      .subscribe((format) => this.updateFormatters(format));
-  }
-
-  // private subscribeToTimeFormatUpdates(): void {
-  //   this.languageService.timeFormat
-  //     .subscribe(timeFormat => {
-  //       this.updateFormatters(timeFormat);
-  //     });
-  // }
 
   private removeAmPmLocalization(date: string): string {
     return date

@@ -74,7 +74,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
       .switchMap(res => this.getCapabilities().do(() => this.setLoggedIn(res)))
-      .catch(error => this.handleCommandError(error));
+      .catch(error => this.handleCommandError(error.error));
   }
 
   public logout(): Observable<void> {
