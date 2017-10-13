@@ -4,25 +4,12 @@
       (change)="setMode($event.value)"
       *ngIf="showIsoSwitch"
     >
-      <ng-container [ngSwitch]="templateSwitchPosition">
-        <ng-container *ngSwitchCase="0">
-          <md-button-toggle value="0" checked="true">
-            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-          </md-button-toggle>
-          <md-button-toggle value="1">
-            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-          </md-button-toggle>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="1">
-          <md-button-toggle value="0">
-            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-          </md-button-toggle>
-          <md-button-toggle value="1" checked="true">
-            {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-          </md-button-toggle>
-        </ng-container>
-      </ng-container>
+      <md-button-toggle value="0" [checked]="templateSwitchPosition === 0">
+        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+      </md-button-toggle>
+      <md-button-toggle value="1" [checked]="templateSwitchPosition === 1">
+        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+      </md-button-toggle>
     </md-button-toggle-group>
 
     <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
@@ -94,24 +81,12 @@
     (change)="setMode($event.value)"
     *ngIf="showIsoSwitch"
   >
-    <ng-container [ngSwitch]="templateSwitchPosition">
-      <ng-container *ngSwitchCase="0">
-        <md-button-toggle value="0" checked="true">
-          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-        </md-button-toggle>
-        <md-button-toggle value="1">
-          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-        </md-button-toggle>
-      </ng-container>
-      <ng-container *ngSwitchCase="1">
-        <md-button-toggle value="0">
-          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-        </md-button-toggle>
-        <md-button-toggle value="1" checked="true">
-          {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-        </md-button-toggle>
-      </ng-container>
-    </ng-container>
+    <md-button-toggle value="0" [checked]="templateSwitchPosition === 0">
+      {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+    </md-button-toggle>
+    <md-button-toggle value="1" [checked]="templateSwitchPosition === 1">
+      {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+    </md-button-toggle>
   </md-button-toggle-group>
 
   <md-select
