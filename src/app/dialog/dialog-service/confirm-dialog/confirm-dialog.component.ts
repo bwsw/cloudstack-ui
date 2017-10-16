@@ -13,7 +13,7 @@ export interface ConfirmDialogConfiguration extends BaseDialogConfiguration {
   selector: 'cs-confirm-dialog',
   templateUrl: 'confirm-dialog.component.html'
 })
-export class ConfirmDialogComponent{
+export class ConfirmDialogComponent {
 
   public config: ConfirmDialogConfiguration;
 

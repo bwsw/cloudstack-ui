@@ -55,6 +55,10 @@
       "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?"
     },
+    "SECURITY_GROUPS": {
+      "CONFIRM_EDIT_FROM_VM": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group in the Security Group management area?",
+      "CONFIRM_EDIT": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group?"
+    },
     "VOLUME": {
       "CONFIRM_DELETION": "Are you sure you want to delete this volume?",
       "CONFIRM_DETACHMENT": "Are you sure you want to detach this volume?"
@@ -360,7 +364,6 @@
         "READ_RATE_IOPS": "Read rate",
         "WRITE_RATE_IOPS": "Write rate"
       },
-
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
         "DISK_OFFERING": "Disk offering",
@@ -648,6 +651,8 @@
       "ENTER_VALID_CIDR": "Enter a valid CIDR",
       "FAILED_TO_ADD_RULE": "Failed to add the rule",
       "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
+      "SELECT_TYPE": "Select types",
+      "SELECT_PROTOCOL": "Select protocols",
       "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port {{ startPort }}</b>",
       "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> to <b>port range {{ startPort }}-{{ endPort }}</b>",
       "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpCode }}]</b> ",
@@ -657,7 +662,8 @@
       "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} to port range {{ startPort }}-{{ endPort }}",
       "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCodeText }} [{{ icmpCode }}] ",
       "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpType }} and ICMP code {{ icmpCode }} ",
-      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCode }} "
+      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCode }} ",
+      "NO_FIREWALL_RULES": "No firewall rules"
     },
     "ICMP_TYPES": {
       "-1": {
@@ -1106,7 +1112,6 @@
     "MBPS": "{{value}} MB/s",
     "MHZ": "MHz"
   },
-
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Take a snapshot",
     "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
