@@ -38,7 +38,7 @@ export class AccountDetailsComponent {
 
   public updateLimits(limits: Array<ResourceLimit>) {
     const observes = limits.map(limit => this.resourceLimitService.updateResourceLimit(limit, this.account));
-    Observable.forkJoin(observes).subscribe();
+    Observable.forkJoin(...observes).subscribe();
   }
 
   public isAdmin() {
