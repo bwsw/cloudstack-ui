@@ -1,5 +1,12 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
 import * as event from './roles.actions';
 import { Role } from '../../shared/models/role.model';
 
@@ -11,8 +18,7 @@ import { Role } from '../../shared/models/role.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<Role> {
-  loading: boolean,
-  list: Role[]
+  loading: boolean
 }
 
 export interface RolesState {
@@ -41,8 +47,7 @@ export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false,
-  list: [],
+  loading: false
 });
 
 export function reducer(
@@ -69,8 +74,7 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(roles, state),
-        loading: false,
-        list: roles
+        loading: false
       };
     }
 
@@ -101,14 +105,14 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const list = createSelector(
-  getRolesEntitiesState,
-  state => state.list
+export const roles = createSelector(
+  selectAll,
+  (roles) => roles
 );
 
 export const roleTypes = createSelector(
-  list,
-  state => Array.from(new Set(state.map(role => role.type)))
+  roles,
+  roles => Array.from(new Set(roles.map(role => role.type)))
 );
 
 
