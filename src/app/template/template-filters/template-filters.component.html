@@ -1,16 +1,19 @@
 <cs-top-bar *ngIf="!dialogMode">
   <div class="options-panel">
-    <md-tab-group
-      class="tab-switch"
-      [selectedIndex]="templateSwitchPosition"
-      (selectChange)="setMode($event.index)"
+    <md-button-toggle-group
+      (change)="setMode($event.value)"
       *ngIf="showIsoSwitch"
     >
-      <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}"></md-tab>
-      <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
-    </md-tab-group>
+      <md-button-toggle value="0" [checked]="templateSwitchPosition === 0">
+        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+      </md-button-toggle>
+      <md-button-toggle value="1" [checked]="templateSwitchPosition === 1">
+        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+      </md-button-toggle>
+    </md-button-toggle-group>
 
-    <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds" (onChangeAccount)="updateAccount($event)"></cs-account-filter>
+    <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
+                       (onChangeAccount)="updateAccount($event)"></cs-account-filter>
 
     <md-select
       class="filter-select"
@@ -74,15 +77,17 @@
   [class.delimiter]="showDelimiter"
   *ngIf="dialogMode"
 >
-  <md-tab-group
-    class="tab-switch"
-    [selectedIndex]="templateSwitchPosition"
-    (selectChange)="setMode($event.index)"
+  <md-button-toggle-group
+    (change)="setMode($event.value)"
     *ngIf="showIsoSwitch"
   >
-    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}"></md-tab>
-    <md-tab label="{{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}"></md-tab>
-  </md-tab-group>
+    <md-button-toggle value="0" [checked]="templateSwitchPosition === 0">
+      {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
+    </md-button-toggle>
+    <md-button-toggle value="1" [checked]="templateSwitchPosition === 1">
+      {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
+    </md-button-toggle>
+  </md-button-toggle-group>
 
   <md-select
     class="filter-select"
