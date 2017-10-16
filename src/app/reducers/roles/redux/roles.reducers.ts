@@ -108,14 +108,15 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const list = createSelector(
-  getRolesEntitiesState,
-  state => state.list
+export const roles = createSelector(
+  selectAll,
+  (roles) => roles
 );
 
+
 export const roleTypes = createSelector(
-  list,
-  state => Array.from(new Set(state.map(role => role.type)))
+  roles,
+  roles => Array.from(new Set(roles.map(role => role.type)))
 );
 
 

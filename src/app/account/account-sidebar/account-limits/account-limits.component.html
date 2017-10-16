@@ -8,31 +8,48 @@
   </md-card-header>
   <md-card-content class="md-card-content-with-actions">
     <div class="md-card-content-container">
+
+
+      <div *ngIf="!isEdit">
       <div *ngFor="let limit of limits; let i = index;" class="height-container">
         <div class="flex-container container">
           <div class="flex-container left">
             <div
               class="name"
-              [innerHTML]="limitLabels[limits[i].resourcetype] | translate"
+              [innerHTML]="limitLabels[limit.resourcetype] | translate"
             ></div>
           </div>
-          <div *ngIf="!isEdit"
+          <div
             ngxClipboard
             class="value"
-            [innerHTML]="limits[i].max"
+            [innerHTML]="limit.max"
           ></div>
-          <div *ngIf="isEdit"
-            class="value"
+        </div>
+      </div>
+      </div>
+
+
+      <div *ngIf="isEdit">
+      <div *ngFor="let limit of localLimits; let i = index;trackBy: trackByIndex" class="height-container">
+        <div class="flex-container container">
+          <div class="flex-container left">
+            {{localLimits[i].max}}
+          </div>
+          <div class="value"
           ><md-form-field class="full-width-input">
             <input
               mdInput
               name="{{'vmlimit'+i}}"
-              [(ngModel)]="limits[i].max"
+              [(ngModel)]="localLimits[i].max"
               required
             ></md-form-field>
+
           </div>
         </div>
       </div>
+      </div>
+
+
     </div>
     <div *ngIf="isAdmin">
       <md-card-actions *ngIf="!isEdit">
@@ -40,7 +57,7 @@
           md-icon-button
           [mdTooltip]="'COMMON.EDIT' | translate"
           mdTooltipPosition="above"
-          (click)="isEdit=!isEdit"
+          (click)="editLimits()"
         >
           <md-icon>edit</md-icon>
         </button>

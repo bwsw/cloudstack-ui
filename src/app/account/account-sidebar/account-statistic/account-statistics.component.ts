@@ -5,8 +5,8 @@ import {
   Output
 } from '@angular/core';
 import { ResourceCount } from '../../../shared/models/resource-count.model';
-import { ResourceCountService } from '../../../shared/services/resource-count.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { ResourceType } from '../../../shared/models/resource-limit.model';
 
 @Component({
   selector: 'cs-account-statistics',
@@ -16,23 +16,22 @@ export class AccountStatisticsComponent {
   @Input() public stats: Array<ResourceCount>;
   @Output() public onStatsUpdate = new EventEmitter();
 
-  public resourceLabels = [
-    'ACCOUNT_PAGE.CONFIGURATION.VM_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.IP_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.VOLUME_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.SNAPSHOT_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.TEMPLATE_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.PROJECT_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.NETWORK_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.VPC_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.CPU_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.MEMORY_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.PSTORAGE_COUNT',
-    'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_COUNT',
-  ];
+  public resourceLabels = {
+    [ResourceType.Instance]: 'ACCOUNT_PAGE.CONFIGURATION.VM_COUNT',
+    [ResourceType.IP]: 'ACCOUNT_PAGE.CONFIGURATION.IP_COUNT',
+    [ResourceType.Volume]: 'ACCOUNT_PAGE.CONFIGURATION.VOLUME_COUNT',
+    [ResourceType.Snapshot]: 'ACCOUNT_PAGE.CONFIGURATION.SNAPSHOT_COUNT',
+    [ResourceType.Template]: 'ACCOUNT_PAGE.CONFIGURATION.TEMPLATE_COUNT',
+    [ResourceType.Project]: 'ACCOUNT_PAGE.CONFIGURATION.PROJECT_COUNT',
+    [ResourceType.Network]: 'ACCOUNT_PAGE.CONFIGURATION.NETWORK_COUNT',
+    [ResourceType.VPC]: 'ACCOUNT_PAGE.CONFIGURATION.VPC_COUNT',
+    [ResourceType.CPU]: 'ACCOUNT_PAGE.CONFIGURATION.CPU_COUNT',
+    [ResourceType.Memory]: 'ACCOUNT_PAGE.CONFIGURATION.MEMORY_COUNT',
+    [ResourceType.PrimaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.PSTORAGE_COUNT',
+    [ResourceType.SecondaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_COUNT',
+  };
 
   constructor(
-    private resourceCountService: ResourceCountService,
     private dialogService: DialogService
   ) { }
 

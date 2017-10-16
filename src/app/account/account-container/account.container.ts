@@ -20,9 +20,9 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Account } from '../../shared/models/account.model';
 
 export const stateTranslations = {
-  DISABLED: 'ACCOUNT_STATE.DISABLED',
-  ENABLED: 'ACCOUNT_STATE.ENABLED',
-  LOCKED: 'ACCOUNT_STATE.LOCKED',
+  disabled: 'ACCOUNT_STATE.DISABLED',
+  enabled: 'ACCOUNT_STATE.ENABLED',
+  locked: 'ACCOUNT_STATE.LOCKED',
 };
 
 @Component({
@@ -54,8 +54,8 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
   readonly filters$ = this.store.select(fromAccounts.filters);
-  readonly domains$ = this.store.select(fromDomains.list);
-  readonly roles$ = this.store.select(fromRoles.list);
+  readonly domains$ = this.store.select(fromDomains.domians);
+  readonly roles$ = this.store.select(fromRoles.roles);
   readonly roleTypes$ = this.store.select(fromRoles.roleTypes);
 
   readonly selectedDomainIds$ = this.store.select(fromAccounts.filterSelectedDomainIds);

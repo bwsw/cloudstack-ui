@@ -18,8 +18,7 @@ import { Domain } from '../../../shared/models/domain.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<Domain> {
-  loading: boolean,
-  list: Domain[]
+  loading: boolean
 }
 
 export interface DomainsState {
@@ -48,8 +47,7 @@ export const adapter: EntityAdapter<Domain> = createEntityAdapter<Domain>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false,
-  list: []
+  loading: false
 });
 
 export function reducer(
@@ -76,8 +74,7 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(domains, state),
-        loading: false,
-        list: domains
+        loading: false
       };
     }
 
@@ -108,9 +105,9 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const list = createSelector(
-  getDomainsEntitiesState,
-  state => state.list
+export const domians = createSelector(
+  selectAll,
+  (domains) => domains
 );
 
 
