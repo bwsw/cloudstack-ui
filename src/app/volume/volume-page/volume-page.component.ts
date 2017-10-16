@@ -61,7 +61,6 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
   public filterData: any;
   public domainList: Array<Domain>;
-  public hasVm: boolean;
 
   constructor(
     public listService: ListService,
@@ -188,26 +187,28 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
   public activate() {
     this.vmService.getListWithDetails()
-      .switchMap(res => Observable.of(res.length))
+      .map(res => res.length)
       .subscribe((res) => {
-        this.hasVm = res !== 0;
-        if (this.hasVm) {
+        if (res !== 0) {
           this.showCreationDialog();
         } else {
-          return this.dialogService.confirm({
-            message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
-            confirmText: 'COMMON.CONTINUE',
-            declineText: 'COMMON.CANCEL'
-          })
-            .subscribe((isContinue) => {
-              if (isContinue) {
-                this.showCreationDialog();
-              }
-            });
+          this.showConfirmationDialog();
         }
       });
   }
 
+  public showConfirmationDialog() {
+    return this.dialogService.confirm({
+      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
+      confirmText: 'COMMON.CONTINUE',
+      declineText: 'COMMON.CANCEL'
+    })
+      .subscribe((isContinue) => {
+        if (isContinue) {
+          this.showCreationDialog();
+        }
+      });
+  }
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
       queryParamsHandling: 'preserve',
