@@ -10,7 +10,8 @@ export interface State extends EntityState<SSHKeyPair> {
     selectedGroupings: any[],
     selectedAccounts: Account[]
   },
-  selectedSshKeyName: string | null
+  selectedSshKeyName: string | null,
+  error: Object;
 }
 
 export interface SshKeysState {
@@ -31,7 +32,8 @@ export const initialState: State = adapter.getInitialState({
   filters: {
     selectedGroupings: [],
     selectedAccounts: []
-  }
+  },
+  error: null
 });
 
 export function reducer(
@@ -41,7 +43,7 @@ export function reducer(
   switch (action.type) {
     case sshKey.LOAD_SSH_KEYS_REQUEST: {
       return {
-        ...state,
+        ...state
       };
     }
     case sshKey.SSH_KEY_FILTER_UPDATE: {
@@ -82,6 +84,13 @@ export function reducer(
     }
     case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
       return adapter.addOne(action.payload, state);
+    }
+    case sshKey.SSH_KEY_PAIR_REMOVE_ERROR:
+    case sshKey.SSH_KEY_PAIR_CREATE_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
     }
     case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
       if (action.payload.success) {
@@ -146,4 +155,9 @@ export const selectSshKey = createSelector(
   (sshKeys, state) => {
     return sshKeys.find(entity => entity.name === state.selectedSshKeyName);
   }
+);
+
+export const selectSshKeyActionError = createSelector(
+  getSshKeysEntitiesState,
+  state => state.error
 );

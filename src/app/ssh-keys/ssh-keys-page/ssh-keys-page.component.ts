@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { SshKeyFilter } from '../ssh-key-filter/ssh-key-filter.component';
 
 
 @Component({
@@ -36,16 +35,6 @@ export class SshKeysPageComponent {
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
-  }
-
-  public onFilterChange(filterData: SshKeyFilter) {
-    if (filterData.accounts) {
-      this.onAccountsChange.emit(filterData.accounts);
-    }
-
-    if (filterData.groupings) {
-      this.onGroupingsChange.emit(filterData.groupings);
-    }
   }
 
   public removeKey(sshKeyPair: SSHKeyPair): void {

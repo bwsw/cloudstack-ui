@@ -38,30 +38,28 @@ export class SShKeyCreationDialogComponent {
 
   private createSshKey(data: SshKeyCreationData) {
     this.store.dispatch(new sshKeyActions.CreateSshKeyPair(data));
+    this.store.dispatch(new sshKeyActions.CreateSshKeyPair(data));
     this.store.select(fromSshKeys.selectSshKey).subscribe(
       key => {
-        if (key) {
-          this.loading = false;
-          this.dialogRef.close(key);
-        }
+        this.loading = false;
 
-        // else {
-        //   // @todo: error handler ???
-        //   this.handleError({
-        //     translationToken: 'Message',
-        //     interpolateParams: 'params'
-        //   });
-        // }
-      }
-    );
+        if (key) {
+          this.dialogRef.close(key);
+        } else {
+          this.store.select(fromSshKeys.selectSshKeyActionError)
+            .subscribe(error => this.handleError(error));
+        }
+      });
   }
 
   private handleError(error): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
-    });
+    if (error) {
+      this.dialogService.alert({
+        message: {
+          translationToken: error.message,
+          interpolateParams: error.params
+        }
+      });
+    }
   }
 }

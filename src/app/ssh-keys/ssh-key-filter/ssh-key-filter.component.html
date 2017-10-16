@@ -1,8 +1,8 @@
 <cs-top-bar>
   <div class="options-panel" *ngIf="showAccountFilter()">
     <cs-account-filter
-      [selectedAccountIds]="selectedAccountIds"
-      (onChangeAccount)="updateAccount($event)"
+      [selectedAccountIds]="selectedAccounts"
+      (onChangeAccount)="onAccountsChange.emit($event)"
     >
     </cs-account-filter>
 
@@ -12,7 +12,7 @@
       [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupings"
       [dragItems]="groupings"
-      (change)="update()"
+      (ngModelChange)="onGroupingsChange.emit($event)"
     >
       <md-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}

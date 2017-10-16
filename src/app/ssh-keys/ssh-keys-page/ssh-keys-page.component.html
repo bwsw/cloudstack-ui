@@ -6,7 +6,8 @@
     [groupings]="groupings"
     [selectedAccounts]="selectedAccounts"
     [selectedGroupings]="selectedGroupings"
-    (updateFilter)="onFilterChange($event)"
+    (onGroupingsChange)="onGroupingsChange.emit($event)"
+    (onAccountsChange)="onAccountsChange.emit($event)"
     cs-list
   ></cs-ssh-key-filter>
 

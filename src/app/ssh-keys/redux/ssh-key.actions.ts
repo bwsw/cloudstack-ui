@@ -6,8 +6,10 @@ export const LOAD_SSH_KEYS_RESPONSE = '[SshKeys] LOAD_SSH_KEYS_RESPONSE';
 export const SSH_KEY_FILTER_UPDATE = '[SshKeys] SSH_KEY_FILTER_UPDATE';
 export const SSH_KEY_PAIR_REMOVE = '[SshKeys] SSH_KEY_PAIR_REMOVE';
 export const SSH_KEY_PAIR_REMOVE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_REMOVE_SUCCESS';
+export const SSH_KEY_PAIR_REMOVE_ERROR = '[SshKeys] SSH_KEY_PAIR_REMOVE_SUCCESS';
 export const SSH_KEY_PAIR_CREATE = '[SshKeys] SSH_KEY_PAIR_CREATE';
 export const SSH_KEY_PAIR_CREATE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_CREATE_SUCCESS';
+export const SSH_KEY_PAIR_CREATE_ERROR = '[SshKeys] SSH_KEY_PAIR_CREATE_ERROR';
 export const GET_SSH_KEY_PAIR = '[SshKeys] GET_SSH_KEY_PAIR';
 
 export class LoadSshKeyRequest implements Action {
@@ -45,6 +47,13 @@ export class RemoveSshKeyPairSuccessAction implements Action {
   }
 }
 
+export class RemoveSshKeyPairErrorAction implements Action {
+  readonly type = SSH_KEY_PAIR_REMOVE_ERROR;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export class CreateSshKeyPair implements Action {
   readonly type = SSH_KEY_PAIR_CREATE;
 
@@ -56,6 +65,13 @@ export class CreateSshKeyPairSuccessAction implements Action {
   readonly type = SSH_KEY_PAIR_CREATE_SUCCESS;
 
   constructor(public payload: SSHKeyPair) {
+  }
+}
+
+export class CreateSshKeyPairErrorAction implements Action {
+  readonly type = SSH_KEY_PAIR_CREATE_ERROR;
+
+  constructor(public payload: Error) {
   }
 }
 
@@ -74,4 +90,5 @@ export type Actions =
   | RemoveSshKeyPair
   | RemoveSshKeyPairSuccessAction
   | CreateSshKeyPair
-  | CreateSshKeyPairSuccessAction;
+  | CreateSshKeyPairSuccessAction
+  | CreateSshKeyPairErrorAction;

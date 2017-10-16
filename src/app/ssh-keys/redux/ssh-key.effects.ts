@@ -13,7 +13,7 @@ export class SshKeyEffects {
   @Effect()
   loadFilterSshKeysByGroupings$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_FILTER_UPDATE)
-    .map((action: sshKey.SshKeyFilterUpdate) => new sshKey.LoadSshKeyRequest(action.payload));
+    .map((action: sshKey.SshKeyFilterUpdate) => new sshKey.LoadSshKeyRequest());
 
   @Effect()
   loadSshKeys$: Observable<Action> = this.actions$
@@ -43,11 +43,10 @@ export class SshKeyEffects {
               success,
               { name: action.payload.name }
             ));
-          } else {
-            // @todo: catch errors
           }
         })
-        .catch(() => Observable.of(null));
+        .catch((error: Error) =>
+          Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error)));
     });
 
   @Effect()
@@ -58,7 +57,8 @@ export class SshKeyEffects {
         ? this.sshKeyService.register(action.payload)
         : this.sshKeyService.create(action.payload))
         .map(createdKey => new sshKey.CreateSshKeyPairSuccessAction(createdKey))
-        .catch(() => Observable.of(null));
+        .catch((error: Error) =>
+          Observable.of(new sshKey.CreateSshKeyPairErrorAction(error)));
     });
 
   constructor(

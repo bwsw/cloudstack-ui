@@ -23,6 +23,7 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
   readonly domainList$ = this.store.select(fromDomains.list);
   readonly filters$ = this.store.select(fromSshKeys.filters);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
+  readonly selectedAccounts$ = this.store.select(fromSshKeys.filterSelectedAccounts);
 
   public groupings = [
     {
@@ -71,33 +72,23 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
         }));
   }
 
-  public onGroupingChange(selectedGroupings) {
-    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
-  }
-
-  public createSshKeyPair(value) {
-    this.store.dispatch(new sshKeyActions.CreateSshKeyPair(value));
-  }
-
   public removeSshKeyPair(sshKeyPair: SSHKeyPair) {
     this.store.dispatch(new sshKeyActions.RemoveSshKeyPair(sshKeyPair));
   }
 
   public update(selectedGroupings) {
-    this.selectedGroupings = selectedGroupings;
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
   }
 
   public onAccountsChange(selectedAccounts) {
-    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccounts }));
+    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({
+      selectedAccounts: selectedAccounts,
+      selectedGroupings: this.selectedGroupings
+    }));
   }
 
   private initFilters(): void {
     const params = this.filterService.getParams();
-
-    const selectedGroupings = params['groupings'];
-    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
-
     this.selectedGroupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {
