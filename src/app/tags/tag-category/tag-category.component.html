@@ -6,17 +6,18 @@
       </h2>
     </md-card-title>
   </md-card-header>
-  <md-card-content class="md-card-content-with-actions">
+  <md-card-content [ngClass]="{ 'md-card-content-with-actions': hasPermissions }">
     <div class="md-card-content-container">
       <cs-tag
         *ngFor="let tag of category.tags"
         [tag]="tag"
         [query]="query"
+        [hasPermissions]="hasPermissions"
         (onTagEdit)="editTag($event)"
         (onTagRemove)="removeTag($event)"
       ></cs-tag>
     </div>
-    <md-card-actions>
+    <md-card-actions *ngIf="hasPermissions">
       <button
         md-icon-button
         [mdTooltip]="'COMMON.ADD' | translate"

@@ -6,7 +6,7 @@
         [mdTooltip]="tag.key"
         [innerHTML]="tag.key | highlight:query"
       ></span>
-      <div class="buttons">
+      <div class="buttons" *ngIf="hasPermissions">
         <button
           class="button-18px"
           md-icon-button

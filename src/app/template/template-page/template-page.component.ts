@@ -5,7 +5,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
 import { TemplateFilters } from '../shared/base-template.service';
-import { AuthService } from "../../shared/services/auth.service";
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -57,7 +57,7 @@ export class TemplatePageComponent implements OnInit {
     ];
 
     if (this.authService.isAdmin()) {
-      filters = [ TemplateFilters.all ];
+      filters = [TemplateFilters.all];
     }
 
     Observable.forkJoin(

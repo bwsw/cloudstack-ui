@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { Tag } from '../../shared/models/tag.model';
 
 
@@ -17,6 +16,7 @@ export class TagCategoryComponent {
   @Input() public category: TagCategory;
   @Input() public tags: Array<Tag>;
   @Input() public query: string;
+  @Input() public hasPermissions = false;
   @Output() public onTagAdd: EventEmitter<TagCategory>;
   @Output() public onTagEdit: EventEmitter<Tag>;
   @Output() public onTagDelete: EventEmitter<Tag>;
