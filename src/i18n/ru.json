@@ -481,6 +481,7 @@
     "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
     "OPEN_URL": "Открыть URL",
     "VM_PASSWORD": "Пароль",
+    "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
     "VM": "Имя машины",
     "VM_IP": "IP адрес"

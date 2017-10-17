@@ -1,10 +1,14 @@
 <div>
     <h5 >{{ title | translate }}</h5>
-        <div><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{vm.name}}</div>
-        <div *ngIf="vm.passwordEnabled"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{vm.password || 'Unknown'}}</div>
-        <div *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipAddress}}</div>
-        <div *ngIf="isHttpAuthMode(vm) && getLogin(vm)"><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b> {{getLogin(vm)}}</div>
-        <div *ngIf="isHttpAuthMode(vm) && getPassword(vm)"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{getPassword(vm)}}</div>
+    <div><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{vm.name}}</div>
+    <div *ngIf="vm.passwordEnabled">
+      <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b>
+      <span *ngIf="getPassword()">{{ getPassword()}}</span>
+      <i *ngIf="!getPassword()">{{ 'VM_POST_ACTION.UNKNOWN' | translate }}</i>
+    </div>
+    <div *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipAddress}}</div>
+    <div *ngIf="isHttpAuthMode(vm) && getUrlLogin(vm)"><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b> {{getUrlLogin(vm)}}</div>
+    <div *ngIf="isHttpAuthMode(vm) && getUrlPassword(vm)"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{getUrlPassword(vm)}}</div>
     <div class="mat-dialog-actions">
         <span *ngFor="let act of actions">
         <button md-button color="primary"

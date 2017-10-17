@@ -482,6 +482,7 @@
     "OPEN_SHELL_CONSOLE": "Open WebShell",
     "OPEN_URL": "Open URL",
     "VM_PASSWORD": "Password",
+    "UNKNOWN": "Unknown",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
     "VM_IP": "IP"
