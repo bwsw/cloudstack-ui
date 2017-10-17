@@ -30,11 +30,12 @@
 
 
       <div *ngIf="isEdit">
-      <div *ngFor="let limit of localLimits; let i = index;trackBy: trackByIndex" class="height-container">
+      <div *ngFor="let limit of localLimits; let i = index" class="height-container">
         <div class="flex-container container">
-          <div class="flex-container left">
-            {{localLimits[i].max}}
-          </div>
+          <div
+            class="name"
+            [innerHTML]="limitLabels[limit.resourcetype] | translate"
+          ></div>
           <div class="value"
           ><md-form-field class="full-width-input">
             <input

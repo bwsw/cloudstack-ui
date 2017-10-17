@@ -45,9 +45,6 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
     super();
   }
 
-  public onAccountChange(account) {
-  }
-
   public onConfigurationEdit(configuration) {
     this.account$
       .takeUntil(this.unsubscribe$)
@@ -65,9 +62,6 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
           account: account
         }));
       });
-      /*const observes =
-      limits.map(limit => this.resourceLimitService.updateResourceLimit(limit, this.account));
-      Observable.forkJoin(observes).subscribe();*/
   }
 
   public onStatsUpdate(stats) {

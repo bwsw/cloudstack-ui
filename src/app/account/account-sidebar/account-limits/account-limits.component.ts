@@ -45,19 +45,13 @@ export class AccountLimitsComponent {
   }
 
   public onSave(): void {
-    console.log(this.localLimits);
+    this.onLimitsEdit.emit(this.localLimits);
     this.isEdit = false;
   }
 
   public editLimits() {
-    this.localLimits =  [new ResourceLimit({max: 20, resourcetype: 0, id: '0'})];
-      //Object.assign([], this.limits);
-    console.log(this.localLimits);
+    this.localLimits =  this.limits.map(limit => ({resourcetype: limit.resourcetype, max: limit.max}));
     this.isEdit = !this.isEdit;
-  }
-
-  trackByIndex(index: number, obj: any): any {
-    return index;
   }
 
 }

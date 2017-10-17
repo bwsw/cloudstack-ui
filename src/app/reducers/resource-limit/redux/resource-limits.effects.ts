@@ -32,12 +32,12 @@ export class ResourceLimitsEffects {
           return Observable.forkJoin(observes)
         .map(() => {
           return new resourceLimitActions.LoadResourceLimitsRequest({
-            domianId: action.payload.account.domainid,
+            domainid: action.payload.account.domainid,
             account: action.payload.account.name
           });
         })
         .catch(() => Observable.of(new resourceLimitActions.LoadResourceLimitsRequest({
-          domianId: action.payload.account.domainid,
+          domainid: action.payload.account.domainid,
           account: action.payload.account.name
         })));
     });
