@@ -41,7 +41,6 @@
 }
 
 .stat-list {
-  font-size: 0; // hack to remove extra space between stat cards
   transition: margin 0.3s;
 
   &.open {
@@ -114,13 +113,13 @@ md-card md-card-content {
   margin: 0;
 }
 
-:host /deep/ .mat-tab-label {
-  min-width: 70px !important;
-}
-
 cs-divider-vertical {
   height: 40px;
   display: inline-block;
   margin-left: 15px;
   vertical-align: middle;
+}
+
+:host /deep/ .mat-button-toggle-group {
+  margin-left: 15px;
 }

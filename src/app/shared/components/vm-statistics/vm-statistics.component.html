@@ -12,24 +12,24 @@
   </h4>
   <div class="stat-list" [class.closed]="!isOpen">
     <ng-container *ngIf="isAdmin">
-      <md-tab-group
-        class="tab-switch"
-        [selectedIndex]="statsType"
-        (selectChange)="switchType()"
-      >
-        <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.ACCOUNT' | translate }}"></md-tab>
-        <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.DOMAIN' | translate }}"></md-tab>
-      </md-tab-group>
+      <md-button-toggle-group (change)="switchType()">
+        <md-button-toggle value="0" [checked]="statsType === 0">
+          {{ 'VM_PAGE.RESOURCE_USAGE.ACCOUNT' | translate }}
+        </md-button-toggle>
+        <md-button-toggle value="1" [checked]="statsType === 1">
+          {{ 'VM_PAGE.RESOURCE_USAGE.DOMAIN' | translate }}
+        </md-button-toggle>
+      </md-button-toggle-group>
       <cs-divider-vertical></cs-divider-vertical>
     </ng-container>
-    <md-tab-group
-      class="tab-switch"
-      [selectedIndex]="mode"
-      (selectChange)="switchMode()"
-    >
-      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}"></md-tab>
-      <md-tab label="{{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}"></md-tab>
-    </md-tab-group>
+    <md-button-toggle-group (change)="switchMode()">
+      <md-button-toggle value="0" [checked]="mode === 0">
+        {{ 'VM_PAGE.RESOURCE_USAGE.USED' | translate }}
+      </md-button-toggle>
+      <md-button-toggle value="1" [checked]="mode === 1">
+        {{ 'VM_PAGE.RESOURCE_USAGE.FREE' | translate }}
+      </md-button-toggle>
+    </md-button-toggle-group>
     <div class="stat-list-container">
       <md-card *ngFor="let stat of statsList" class="stat-card-md">
         <md-card-header>

@@ -12,6 +12,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 export class TagComponent {
   @Input() public query: string;
   @Input() public tag: Tag;
+  @Input() public hasPermissions = false;
   @Output() public onTagEdit: EventEmitter<Tag>;
   @Output() public onTagRemove: EventEmitter<Tag>;
 

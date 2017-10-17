@@ -13,6 +13,7 @@ import { VmStartAction } from './vm-start';
 import { VmStopAction } from './vm-stop';
 import { VmWebShellAction } from './vm-webshell';
 import { VmURLAction } from './vm-url';
+import { VmSavePasswordAction } from './vm-save-password';
 import { VmAccessAction } from './vm-access';
 
 export {
@@ -31,6 +32,7 @@ export {
   VmPulseAction,
   VmChangeServiceOfferingAction,
   VmURLAction,
+  VmSavePasswordAction,
   VmAccessAction
 };
 
@@ -50,5 +52,6 @@ export const VmActionProviders = [
   VmPulseAction,
   VmChangeServiceOfferingAction,
   VmURLAction,
+  VmSavePasswordAction,
   VmAccessAction
 ];

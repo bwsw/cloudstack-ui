@@ -1,5 +1,8 @@
 import { VmActions } from './vm-action';
-import { VirtualMachine, VmState } from '../shared/vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from '../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VmService } from '../shared/vm.service';
@@ -8,6 +11,10 @@ import { Injectable } from '@angular/core';
 import { VmStartActionSilent } from './silent/vm-start-silent';
 import { VmStopActionSilent } from './silent/vm-stop-silent';
 import { VirtualMachineCommand } from './vm-command';
+import { MdDialog } from '@angular/material';
+import { VmResetPasswordComponent } from './vm-reset-password-component/vm-reset-password.component';
+import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { TagService } from '../../shared/services/tags/tag.service';
 
 
 @Injectable()
@@ -32,7 +39,10 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
 
   constructor(
     protected dialogService: DialogService,
+    protected dialog: MdDialog,
     protected jobsNotificationService: JobsNotificationService,
+    protected userTagService: UserTagService,
+    protected tagService: TagService,
     protected vmService: VmService,
     protected vmStartActionSilent: VmStartActionSilent,
     protected vmStopActionSilent: VmStopActionSilent
@@ -72,7 +82,13 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
     return this.vmService.command(vm, this)
       .map(vmWithPassword => {
         if (vmWithPassword && vmWithPassword.password) {
-          this.showPasswordDialog(vmWithPassword.displayName, vmWithPassword.password);
+          this.userTagService.getSavePasswordForAllVms().switchMap(tag => {
+            if (tag) {
+               return this.tagService.update(vmWithPassword, vmWithPassword.resourceType, 'csui.vm.password', vmWithPassword.password);
+            }
+            return Observable.of(null);
+          }).subscribe(() =>
+          this.showPasswordDialog(vmWithPassword));
         }
       })
       .catch(error => {
@@ -94,16 +110,9 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
       });
   }
 
-  private showPasswordDialog(vmName: string, vmPassword: string): Observable<void> {
-    return this.dialogService.alert({
-      message: {
-        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
-        interpolateParams: {
-          vmName,
-          vmPassword
-        },
-      },
-      disableClose: true,
+  private showPasswordDialog(vm: VirtualMachine) {
+    return this.dialog.open(VmResetPasswordComponent, {
+      data: vm,
       width: '400px'
     });
   }

@@ -11,7 +11,8 @@ import {
   MdRadioModule,
   MdSelectModule,
   MdTabsModule,
-  MdTooltipModule
+  MdTooltipModule,
+  MdButtonToggleModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -67,6 +68,7 @@ import { TemplateActionsSidebarComponent } from './template-sidebar/template-act
     MdSelectModule,
     MdTabsModule,
     MdTooltipModule,
+    MdButtonToggleModule,
     RouterModule,
     SharedModule,
     TagsModule,

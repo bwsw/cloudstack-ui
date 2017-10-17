@@ -10,7 +10,8 @@ import {
   MdMenuModule,
   MdSelectModule,
   MdTabsModule,
-  MdTooltipModule
+  MdTooltipModule,
+  MdButtonToggleModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -56,7 +57,8 @@ import { SecurityGroupListComponent } from './sg-list/security-group-list.compon
     MdButtonModule,
     MdIconModule,
     MdInputModule,
-    MdTabsModule
+    MdTabsModule,
+    MdButtonToggleModule
   ],
   exports: [
     SecurityGroupListComponent

@@ -90,6 +90,7 @@ import { SecondaryIpComponent } from './vm-sidebar/network-detail/nics/secondary
 // tslint:disable-next-line
 import { SecondaryIpListComponent } from './vm-sidebar/network-detail/nics/secondary-ip-list/secondary-ip-list.component';
 import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fields/nic-fields.component';
+import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 
 
@@ -167,6 +168,7 @@ import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.c
     SecondaryIpListComponent,
     NicFieldsComponent,
     PostdeploymentComponent,
+    VmResetPasswordComponent,
   ],
   providers: [
     VmActionsService,
@@ -192,6 +194,7 @@ import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.c
     SshKeypairResetComponent,
     VmCreationSecurityGroupComponent,
     PostdeploymentComponent,
+    VmResetPasswordComponent,
     VmAccessComponent
   ]
 })

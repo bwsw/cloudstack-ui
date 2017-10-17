@@ -152,8 +152,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       .get(
         BACKEND_API_URL, {
           params: this.buildParams(command, params, entity)
-        })
-      .catch(error => Observable.throw(error));
+        });
   }
 
   protected getResponse(result: any): any {
@@ -170,8 +169,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
       'Content-Type',
       'application/x-www-form-urlencoded'
     );
-    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers })
-      .catch(error => Observable.throw(error));
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers });
   }
 
   protected sendCommand(

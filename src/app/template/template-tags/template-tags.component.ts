@@ -4,6 +4,7 @@ import { TemplateService } from '../shared';
 import { BaseTemplateTagsComponent } from './tags.component';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -15,9 +16,10 @@ export class TemplateTagsComponent extends BaseTemplateTagsComponent {
     service: TemplateService,
     route: ActivatedRoute,
     dialogService: DialogService,
-    tagService: TagService
+    tagService: TagService,
+    authService: AuthService
   ) {
-    super(service, route, dialogService, tagService);
+    super(service, route, dialogService, tagService, authService);
   }
 }
 
