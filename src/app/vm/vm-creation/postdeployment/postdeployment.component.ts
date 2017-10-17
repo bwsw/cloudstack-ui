@@ -21,6 +21,7 @@ interface PostDeploymentAction {
 @Component({
   selector: 'cs-postdeployment-dialog',
   templateUrl: 'postdeployment.component.html',
+  styleUrls: ['postdeployment.component.scss']
 })
 export class PostdeploymentComponent {
 
@@ -34,6 +35,7 @@ export class PostdeploymentComponent {
   @Input() public dialogRef: MdDialogRef<VmCreationComponent>;
 
   public canSavePassword: boolean;
+  public disableButton: boolean = false;
 
   constructor(
     private vmConsole: VmConsoleAction,
@@ -60,7 +62,10 @@ export class PostdeploymentComponent {
   }
 
   public savePassword() {
-    this.vmSavePassword.activate(this.vm, { key: 'csui.vm.password', value: this.vm.password }).subscribe();
+    this.disableButton = true;
+    this.vmSavePassword.activate(this.vm, { key: 'csui.vm.password', value: this.vm.password }).subscribe(() => {
+      this.canSavePassword = false;
+    });
   }
 
 }

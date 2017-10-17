@@ -16,7 +16,8 @@ export class VmSavePasswordAction  {
  ) { }
 
   public activate(vm: VirtualMachine, tag: KeyValuePair ): Observable<any> {
-   return this.showConfirmDialog().switchMap(() => this.tagService.update(vm, vm.resourceType, tag.key, tag.value));
+   return this.showConfirmDialog().switchMap(() =>
+     this.tagService.update(vm, vm.resourceType, tag.key, tag.value).map(() => tag));
   }
 
   public showConfirmDialog(): Observable<any> {

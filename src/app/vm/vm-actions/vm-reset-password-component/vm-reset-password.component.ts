@@ -14,12 +14,14 @@ import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 
 @Component({
   selector: 'cs-vm-reset-password',
-  templateUrl: 'vm-reset-password.component.html'
+  templateUrl: 'vm-reset-password.component.html',
+  styleUrls: ['vm-reset-password.component.scss']
 })
 export class VmResetPasswordComponent {
   public message;
   public vm: VirtualMachine;
   public showSaveButton: boolean;
+  public disableButton: boolean = false;
 
   constructor(
     public dialogRef: MdDialogRef<VmResetPasswordComponent>,
@@ -51,7 +53,10 @@ export class VmResetPasswordComponent {
   }
 
   public savePassword() {
-    this.vmSavePassword.activate(this.vm, { key: 'csui.vm.password', value: this.vm.password }).subscribe();
+    this.disableButton = true;
+    this.vmSavePassword.activate(this.vm, { key: 'csui.vm.password', value: this.vm.password }).subscribe(() => {
+      this.showSaveButton = false;
+    });
   }
 
 }
