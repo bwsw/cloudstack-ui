@@ -18,8 +18,7 @@ import { Role } from '../../../shared/models/role.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<Role> {
-  loading: boolean,
-  list: Role[]
+  loading: boolean
 }
 
 export interface RolesState {
@@ -48,8 +47,7 @@ export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false,
-  list: [],
+  loading: false
 });
 
 export function reducer(
@@ -76,8 +74,7 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(roles, state),
-        loading: false,
-        list: roles
+        loading: false
       };
     }
 

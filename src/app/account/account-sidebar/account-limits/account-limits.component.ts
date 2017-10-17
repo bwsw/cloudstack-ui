@@ -46,7 +46,6 @@ export class AccountLimitsComponent {
 
   public onSave(): void {
     console.log(this.localLimits);
-    //this.onLimitsEdit.emit(limits);
     this.isEdit = false;
   }
 
