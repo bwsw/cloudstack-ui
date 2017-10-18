@@ -15,6 +15,8 @@ import { volumeTypeNames } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
+import { VirtualMachine } from '../../vm/shared/vm.model';
+import { VmService } from '../../vm/shared/vm.service';
 
 
 export interface VolumeCreationData {
@@ -70,11 +72,11 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private domainService: DomainService,
     private volumeService: VolumeService,
     private zoneService: ZoneService,
-    private authService: AuthService
-  ) {
+    private authService: AuthService,
+    private vmService: VmService) {
     super();
     if (!this.authService.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     } else {
       this.getDomainList();
     }
@@ -183,6 +185,30 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     };
   }
 
+  public activate() {
+    this.vmService.getListWithDetails()
+      .map(res => res.length)
+      .subscribe((res) => {
+        if (res !== 0) {
+          this.showCreationDialog();
+        } else {
+          this.showConfirmationDialog();
+        }
+      });
+  }
+
+  public showConfirmationDialog() {
+    return this.dialogService.confirm({
+      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
+      confirmText: 'COMMON.CONTINUE',
+      declineText: 'COMMON.CANCEL'
+    })
+      .subscribe((isContinue) => {
+        if (isContinue) {
+          this.showCreationDialog();
+        }
+      });
+  }
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
       queryParamsHandling: 'preserve',
@@ -237,7 +263,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
             {
-              handler: () => this.showCreationDialog(),
+              handler: () => this.activate(),
               text: 'COMMON.YES'
             },
             { text: 'COMMON.NO' },
