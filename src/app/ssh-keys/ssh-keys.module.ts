@@ -13,7 +13,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
 import { SharedModule } from '../shared/shared.module';
-import { SShKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshKeyCreationComponent } from './ssh-key-creation/ssh-key-creation.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';
 import { SshKeyFingerprintComponent } from './ssh-key-fingerprint/ssh-key-fingerprint.component';
@@ -31,6 +30,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { SshKeyEffects } from './redux/ssh-key.effects';
 import { domainReducers } from '../domains/redux/domains.reducers';
 import { DomainsEffects } from '../domains/redux/domains.effects';
+import { SShKeyCreationDialogContainerComponent } from './ssh-key-creation/containers/ssh-key-creation-dialog.container';
+import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,7 @@ import { DomainsEffects } from '../domains/redux/domains.effects';
     MdInputModule,
     DynamicModule.withComponents([SshKeyListItemComponent]),
     DraggableSelectModule,
-    StoreModule.forFeature('sshKeys', sshKeyReducers),
+    StoreModule.forFeature('list', sshKeyReducers),
     StoreModule.forFeature('domains', domainReducers),
     EffectsModule.forFeature([SshKeyEffects, DomainsEffects]),
   ],
@@ -57,15 +58,16 @@ import { DomainsEffects } from '../domains/redux/domains.effects';
     SshKeyListComponent,
     SshKeyListItemComponent,
     SshKeysPageComponent,
-    SShKeyCreationDialogComponent,
+    SShKeyCreationDialogContainerComponent,
     SshKeyCreationComponent,
+    SshKeyCreationDialogComponent,
     SshPrivateKeyDialogComponent,
     SshKeySidebarComponent,
     SshKeyFingerprintComponent,
     ShhKeyFilterComponent
   ],
   entryComponents: [
-    SShKeyCreationDialogComponent,
+    SShKeyCreationDialogContainerComponent,
     SshPrivateKeyDialogComponent
   ]
 })

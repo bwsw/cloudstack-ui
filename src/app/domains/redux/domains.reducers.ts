@@ -103,9 +103,9 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const list = createSelector(
-  getDomainsEntitiesState,
-  state => state.list
+export const domains = createSelector(
+  selectAll,
+  (domainList) => domainList
 );
 
 export const getDomain = createSelector(

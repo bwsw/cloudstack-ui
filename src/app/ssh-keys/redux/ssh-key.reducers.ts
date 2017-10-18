@@ -3,6 +3,7 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Account } from '../../shared/models/account.model';
 import * as sshKey from './ssh-key.actions';
+import { falseIfMissing } from 'protractor/built/util';
 
 
 export interface State extends EntityState<SSHKeyPair> {
@@ -10,36 +11,43 @@ export interface State extends EntityState<SSHKeyPair> {
     selectedGroupings: any[],
     selectedAccounts: Account[]
   },
-  selectedSshKeyName: string | null,
-  error: Object;
+  error: Object,
+  form: {
+    loading: boolean
+  }
 }
 
 export interface SshKeysState {
-  sshKeys: State;
+  list: State;
 }
 
-export const reducers = {
-  sshKeys: reducer
+export const sshKeyReducers = {
+  list: reducer
 };
 
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
-  selectId: (item: SSHKeyPair) => item.name,
+  selectId: (item: SSHKeyPair) => `${item.account}-${item.name}`,
   sortComparer: false
 });
 
 export const initialState: State = adapter.getInitialState({
-  selectedSshKeyName: null,
   filters: {
     selectedGroupings: [],
     selectedAccounts: []
   },
-  error: null
+  error: null,
+  form: {
+    loading: false
+  }
 });
 
 export function reducer(
   state = initialState,
   action: sshKey.Actions
 ): State {
+
+  console.log(state, action);
+
   switch (action.type) {
     case sshKey.LOAD_SSH_KEYS_REQUEST: {
       return {
@@ -70,26 +78,26 @@ export function reducer(
       };
     }
     case sshKey.SSH_KEY_PAIR_REMOVE: {
-      return state;
+      return {
+        ...state,
+        error: null,
+      };
     }
     case sshKey.SSH_KEY_PAIR_CREATE: {
       return {
-        ...Object.assign({}, state, {
-          selectedSshKeyName: action.payload.name
-        }),
-        filters: {
-          ...state.filters,
-        }
+        ...state,
+        error: null,
+        form: { loading: true }
       };
     }
     case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
-      return adapter.addOne(action.payload, state);
-    }
-    case sshKey.SSH_KEY_PAIR_REMOVE_ERROR:
-    case sshKey.SSH_KEY_PAIR_CREATE_ERROR: {
+      // or just addOne() but it will add new element to the end of array
+
       return {
         ...state,
-        error: action.payload
+        ids: [action.payload.name, ...state.ids],
+        entities: { [action.payload.name]: action.payload, ...state.entities },
+        form: { loading: false }
       };
     }
     case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
@@ -99,8 +107,21 @@ export function reducer(
         break;
       }
     }
+    case sshKey.SSH_KEY_PAIR_REMOVE_ERROR: {
+      return {
+        ...state,
+        error: action.payload
+      };
+    }
+    case sshKey.SSH_KEY_PAIR_CREATE_ERROR: {
+      return {
+        ...state,
+        form: { loading: false },
+        error: action.payload
+      };
+    }
     case sshKey.GET_SSH_KEY_PAIR: {
-      return action.payload;
+      return state;
     }
     default: {
       return state;
@@ -108,11 +129,11 @@ export function reducer(
   }
 }
 
-export const getSshKeysState = createFeatureSelector<SshKeysState>('sshKeys');
+export const getSshKeysState = createFeatureSelector<SshKeysState>('list');
 
 export const getSshKeysEntitiesState = createSelector(
   getSshKeysState,
-  state => state.sshKeys
+  state => state.list
 );
 
 export const {
@@ -125,6 +146,11 @@ export const {
 export const filters = createSelector(
   getSshKeysEntitiesState,
   state => state.filters
+);
+
+export const isLoading = createSelector(
+  getSshKeysEntitiesState,
+  state => state.form.loading
 );
 
 export const filterSelectedGroupings = createSelector(
@@ -146,14 +172,6 @@ export const selectFilteredSshKeys = createSelector(
       !selectedAccounts.length || !!accountsMap[sshKey.account]
       && accountsMap[sshKey.account].domainid === sshKey.domainid;
     return sshKeys.filter(sshKey => selectedAccountsFilter(sshKey));
-  }
-);
-
-export const selectSshKey = createSelector(
-  selectAll,
-  getSshKeysEntitiesState,
-  (sshKeys, state) => {
-    return sshKeys.find(entity => entity.name === state.selectedSshKeyName);
   }
 );
 

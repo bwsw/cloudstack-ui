@@ -16,7 +16,7 @@ export const sshRoutes: Routes = [
         component: SshKeyCreationComponent
       },
       {
-        path: ':id',
+        path: 'view/:id',
         component: SshKeySidebarComponent,
         canActivate: [AuthGuard]
       }

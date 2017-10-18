@@ -1,29 +1,16 @@
-import { Component } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { SSHKeyPair } from '../../shared/models';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SshKeyCreationData } from '../../shared/services/ssh-keypair.service';
-import { Store } from '@ngrx/store';
-
-import * as sshKeyActions from '../redux/ssh-key.actions';
-import * as fromSshKeys from '../redux/ssh-key.reducers';
 
 @Component({
-  selector: 'cs-ssh-key-creation-dialog',
-  templateUrl: 'ssh-key-creation-dialog.component.html',
-  styleUrls: ['ssh-key-creation-dialog.component.scss']
+  selector: 'cs-ssh-key-creation',
+  templateUrl: 'ssh-key-creation-dialog.component.html'
 })
-export class SShKeyCreationDialogComponent {
+export class SshKeyCreationDialogComponent {
   public name: string;
   public publicKey: string;
-  public loading: boolean;
 
-  constructor(
-    public dialogRef: MdDialogRef<SShKeyCreationDialogComponent>,
-    public dialogService: DialogService,
-    public store: Store<SSHKeyPair>
-  ) {
-  }
+  @Input() public isLoading: boolean;
+  @Output() public onSshKeyPairCreation = new EventEmitter<SshKeyCreationData>();
 
   public onSubmit(e): void {
     e.preventDefault();
@@ -32,34 +19,6 @@ export class SShKeyCreationDialogComponent {
       publicKey: this.publicKey
     };
 
-    this.loading = true;
-    this.createSshKey(sshKeyCreationParams);
-  }
-
-  private createSshKey(data: SshKeyCreationData) {
-    this.store.dispatch(new sshKeyActions.CreateSshKeyPair(data));
-    this.store.dispatch(new sshKeyActions.CreateSshKeyPair(data));
-    this.store.select(fromSshKeys.selectSshKey).subscribe(
-      key => {
-        this.loading = false;
-
-        if (key) {
-          this.dialogRef.close(key);
-        } else {
-          this.store.select(fromSshKeys.selectSshKeyActionError)
-            .subscribe(error => this.handleError(error));
-        }
-      });
-  }
-
-  private handleError(error): void {
-    if (error) {
-      this.dialogService.alert({
-        message: {
-          translationToken: error.message,
-          interpolateParams: error.params
-        }
-      });
-    }
+    this.onSshKeyPairCreation.emit(sshKeyCreationParams);
   }
 }

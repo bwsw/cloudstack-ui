@@ -20,7 +20,7 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 })
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
-  readonly domainList$ = this.store.select(fromDomains.list);
+  readonly domainList$ = this.store.select(fromDomains.domains);
   readonly filters$ = this.store.select(fromSshKeys.filters);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
   readonly selectedAccounts$ = this.store.select(fromSshKeys.filterSelectedAccounts);
@@ -81,15 +81,12 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
   }
 
   public onAccountsChange(selectedAccounts) {
-    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({
-      selectedAccounts: selectedAccounts,
-      selectedGroupings: this.selectedGroupings
-    }));
+    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccounts }));
   }
 
   private initFilters(): void {
     const params = this.filterService.getParams();
-    this.selectedGroupings = params['groupings'].reduce((acc, _) => {
+    const selectedGroupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {
         acc.push(grouping);
@@ -97,11 +94,11 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
       return acc;
     }, []);
 
-    this.selectedAccounts = params['accounts'];
+    const selectedAccounts = params['accounts'];
 
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({
-      selectedAccounts: this.selectedAccounts,
-      selectedGroupings: this.selectedGroupings
+      selectedAccounts,
+      selectedGroupings
     }));
   }
 

@@ -46,7 +46,6 @@ export class SshKeysPageComponent {
       .onErrorResumeNext()
       .subscribe((res) => {
         if (res) {
-          this.setLoading(sshKeyPair.name);
           this.onKeyRemove.emit(sshKeyPair);
         } else {
           return Observable.throw(null);
@@ -55,16 +54,7 @@ export class SshKeysPageComponent {
         if (!error) {
           return;
         }
-        this.setLoading(name, false);
         this.dialogService.alert({ message: 'SSH_KEYS.KEY_REMOVAL_FAILED' });
       });
-  }
-
-  private setLoading(name, value = true): void {
-    const sshKey: SSHKeyPair = this.sshKeyList.find(key => key.name === name);
-    if (!sshKey) {
-      return;
-    }
-    sshKey['loading'] = value;
   }
 }
