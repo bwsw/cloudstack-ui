@@ -33,7 +33,7 @@ import moment = require('moment');
       [date]="date$ | async"
       [query]="query$ | async"
       [accounts]="accounts$ | async"
-      [selectedAccountIds]="selectedAccountIds | async"
+      [selectedAccountIds]="selectedAccountIds$ | async"
       (onAccountChange)="onAccountChange($event)"
       (onDateChange)="onDateChange($event)"
       (onQueryChange)="onQueryChange($event)"
@@ -51,6 +51,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
   readonly filters$ = this.store.select(fromEvents.filters);
   readonly selectedTypes$ = this.store.select(fromEvents.filterSelectedTypes);
   readonly selectedLevels$ = this.store.select(fromEvents.filterSelectedLevels);
+  readonly selectedAccountIds$ = this.store.select(fromEvents.filterSelectedAccountIds);
   readonly eventTypes$ = this.store.select(fromEvents.eventTypes)
     .withLatestFrom(this.selectedTypes$)
     .map(([all, selected]) => {
