@@ -1,4 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
+import {
+  Injectable,
+  Injector
+} from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,

@@ -9,7 +9,7 @@ import { Snapshot } from '../../shared/models/snapshot.model';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { AuthService } from "../../shared/services/auth.service";
+import { AuthService } from '../../shared/services/auth.service';
 
 interface TemplateFormat {
   name: string;

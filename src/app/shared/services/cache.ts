@@ -1,6 +1,3 @@
-import * as isEqual from 'lodash/isEqual';
-
-
 export interface ICache<T> {
   get({}): T;
   set(CacheEntry): void;

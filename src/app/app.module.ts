@@ -47,6 +47,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { metaReducers, reducers } from './reducers/index';
 import { CustomRouterStateSerializer } from './shared/services/utils/utils.service';
+import { AccountModule } from './account/accounts.module';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -92,6 +93,7 @@ export function InitAppFactory(
     SshKeysModule,
     TemplateModule,
     VmModule,
+    AccountModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

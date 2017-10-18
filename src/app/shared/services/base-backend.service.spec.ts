@@ -2,13 +2,16 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { async, inject, TestBed } from '@angular/core/testing';
+import {
+  async,
+  inject,
+  TestBed
+} from '@angular/core/testing';
 import { BackendResource } from '../decorators';
 
 import { BaseModel } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { CacheService } from './cache.service';
-import { ErrorService } from './error.service';
 import { HttpClient } from '@angular/common/http';
 
 

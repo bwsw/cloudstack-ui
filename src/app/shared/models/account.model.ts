@@ -29,9 +29,12 @@ export class Account extends BaseModel {
   public primarystorageavailable: number;
   public primarystoragelimit: number;
   public primarystoragetotal: number;
+  public role: string;
   public roleid: string;
   public rolename: string;
   public roletype: string;
+  public receivedbytes: number;
+  public sentbytes: number;
   public secondarystorageavailable: number;
   public secondarystoragelimit: number;
   public secondarystoragetotal: number;
@@ -72,5 +75,10 @@ export class Account extends BaseModel {
         }
       });
     super(fixedJson);
+  }
+
+  public get isAdmin() {
+    return this.accounttype !== AccountType.User;
+
   }
 }

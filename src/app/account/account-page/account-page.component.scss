@@ -1,0 +1,24 @@
+@import '../../../style/__variables.scss';
+
+:host {
+  display: block;
+  height: 100%;
+  position: relative;
+  transform: translate3d(0,0,0);
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+}
+
+md-sidenav-container {
+  height: 100%;
+}
+
+cs-sidebar, md-sidenav {
+  width: $sidebar-width + 1;
+}
+
+.detail-list {
+  height: 100%;
+  overflow: auto;
+}

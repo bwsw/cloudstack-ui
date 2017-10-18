@@ -4,6 +4,7 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ResourceLimit } from '../models/resource-limit.model';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
+import { Account } from '../models/account.model';
 
 
 @Injectable()
@@ -19,5 +20,17 @@ export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit
   public getList(params?: {}): Observable<Array<ResourceLimit>> {
     return super.getList(params)
       .map(result => result.sort((a, b) => a.resourceType - b.resourceType));
+  }
+
+  public updateResourceLimit(
+    resourceLimit: ResourceLimit,
+    account: Account
+  ): Observable<ResourceLimit> {
+    return this.sendCommand('update', {
+      resourceType: resourceLimit.resourceType,
+      max: resourceLimit.max,
+      domainid: account.domainid,
+      account: account.name
+    });
   }
 }

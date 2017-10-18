@@ -322,7 +322,7 @@ md-card-actions {
   }
 }
 
-.running {
+.running, .enabled {
   background-color: #388E3C;
 }
 
@@ -330,7 +330,7 @@ md-card-actions {
   background-color: #FFA726;
 }
 
-.stopped,
+.stopped, .disabled, .locked,
 .error {
   background-color: #B71C1C;
 }

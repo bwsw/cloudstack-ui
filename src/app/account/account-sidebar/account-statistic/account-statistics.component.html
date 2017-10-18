@@ -1,0 +1,38 @@
+<md-card class="custom-card">
+  <md-card-header>
+    <md-card-title>
+      <h2 class="md-card-title-text">
+        {{ 'ACCOUNT_PAGE.SIDEBAR.STATISTIC' | translate}}
+      </h2>
+    </md-card-title>
+    <div class="md-card-header-menu">
+      <button
+        md-icon-button
+        [mdTooltip]="'COMMON.REFRESH' | translate"
+        mdTooltipPosition="before"
+        (click)="confirmUpdateStats()"
+      >
+        <md-icon>sync</md-icon>
+      </button>
+    </div>
+  </md-card-header>
+  <md-card-content class="md-card-content-with-actions">
+    <div class="md-card-content-container">
+      <div *ngFor="let stat of stats" class="height-container">
+        <div class="flex-container container">
+          <div class="flex-container left">
+            <span
+              class="name"
+              [innerHTML]="resourceLabels[stat.resourceType] | translate"
+            ></span>
+          </div>
+          <div
+               ngxClipboard
+               class="value | division:2:30:2"
+               [innerHTML]="stat.resourcecount"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>

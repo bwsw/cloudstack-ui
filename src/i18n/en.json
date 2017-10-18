@@ -31,6 +31,12 @@
     "YES": "Yes"
   },
   "DIALOG_MESSAGES": {
+    "ACCOUNT": {
+      "CONFIRM_DELETION": "Are you sure you want to delete this account?",
+      "CONFIRM_DISABLE": "Are you sure you want to disable this account?",
+      "CONFIRM_ENABLE": "Are you sure you want to enable this account?",
+      "CONFIRM_LOCK": "Are you sure you want to lock this account?"
+    },
     "ISO": {
       "CONFIRM_DETACHMENT": "Are you sure you want ot detach this ISO?",
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
@@ -93,6 +99,20 @@
     }
   },
   "JOB_NOTIFICATIONS": {
+    "ACCOUNT": {
+      "DELETION_IN_PROGRESS": "Deleting an account",
+      "DELETION_DONE": "Account deleted successfully",
+      "DELETION_FAILED": "Failed to delete an account",
+      "DISABLE_IN_PROGRESS": "Disabling an account",
+      "DISABLE_DONE": "Account disabled successfully",
+      "DISABLE_FAILED": "Failed to disable an account",
+      "ENABLE_IN_PROGRESS": "Enabling an account",
+      "ENABLE_DONE": "Account enabled successfully",
+      "ENABLE_FAILED": "Failed to enable an account",
+      "LOCK_IN_PROGRESS": "Locking an account",
+      "LOCK_DONE": "Account locked successfully",
+      "LOCK_FAILED": "Failed to lock an account"
+    },
     "PENDING_OPERATIONS": "Pending operations",
     "ISO": {
       "ATTACHMENT_IN_PROGRESS": "Attaching an ISO",
@@ -202,6 +222,7 @@
     "FIREWALL_TEMPLATES": "Firewall",
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
+    "ACCOUNTS": "Accounts",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
     "LICENSE": {
@@ -905,6 +926,72 @@
       "GROUP_BY_ACCOUNTS": "Accounts"
     }
   },
+  "ACCOUNT_PAGE" : {
+    "FILTERS" : {
+      "SELECT_DOMAINS": "Select domains",
+      "SELECT_ROLES": "Select roles",
+      "SELECT_ROLE_TYPES": "Select role types",
+      "SELECT_STATES": "Select states",
+      "GROUP_BY": "Group by",
+      "GROUP_BY_DOMAINS": "Domains",
+      "GROUP_BY_ROLES": "Roles",
+      "GROUP_BY_ROLETYPES": "Role Types",
+      "GROUP_BY_STATES": "States"
+    },
+    "CARD": {
+      "ROLE": "Role",
+      "ROLE_TYPE": "Role type",
+      "DOMAIN": "Domain"
+    },
+    "SIDEBAR": {
+      "GENERAL": "General",
+      "USERS": "Users",
+      "LIMITS": "Limits",
+      "SETTINGS": "Settings",
+      "STATISTIC": "Statistic",
+      "ARE_YOU_SURE_UPDATE_STATS": "Are you sure you want to update account statistic"
+    },
+    "DETAILS": {
+      "TITLE": "Details",
+      "ID": "ID",
+      "ROLE": "Role",
+      "ROLE_TYPE": "Role type",
+      "DOMAIN": "Domain",
+      "VMS": "VMs",
+      "IPS": "IPs",
+      "R_BYTES": "Bytes received",
+      "S_BYTES": "Bytes sent"
+    },
+    "CONFIGURATION": {
+      "VM_LIMIT": "VM limit",
+      "IP_LIMIT": "IP limit",
+      "VOLUME_LIMIT": "Volume limit",
+      "SNAPSHOT_LIMIT": "Snapshot limit",
+      "TEMPLATE_LIMIT": "Template limit",
+      "PROJECT_LIMIT": "Project limit",
+      "NETWORK_LIMIT": "Network limit",
+      "VPC_LIMIT": "VPC limit",
+      "CPU_LIMIT": "CPU limit",
+      "MEMORY_LIMIT": "Memory limit",
+      "PSTORAGE_LIMIT": "Primary storage limit",
+      "SSTORAGE_LIMIT": "Second storage limit",
+      "VM_COUNT": "VM count",
+      "IP_COUNT": "IP count",
+      "VOLUME_COUNT": "Volume count",
+      "SNAPSHOT_COUNT": "Snapshot count",
+      "TEMPLATE_COUNT": "Template count",
+      "PROJECT_COUNT": "Project count",
+      "NETWORK_COUNT": "Network count",
+      "VPC_COUNT": "VPC count",
+      "CPU_COUNT": "CPU count",
+      "MEMORY_COUNT": "Memory count",
+      "PSTORAGE_COUNT": "Primary storage count",
+      "SSTORAGE_COUNT": "Second storage count",
+      "EDIT": "Edit",
+      "NAME": "Name",
+      "VALUE": "Value"
+    }
+  },
   "SETTINGS": {
     "SECURITY": {
       "TITLE": "Security",
@@ -952,6 +1039,7 @@
   "VM_NOT_FOUND": "Virtual machine not found",
   "VOLUME_NOT_FOUND": "Volume not found",
   "TEMPLATE_NOT_FOUND": "Template not found",
+  "ACCOUNT_NOT_FOUND": "Account not found",
   "PULSE": {
     "PULSE": "Pulse",
     "CPU_RAM": "CPU / RAM",
@@ -1121,5 +1209,16 @@
     "RESIZE": "Resize the disk",
     "ATTACH": "Attach",
     "DETACH": "Detach"
+  },
+  "ACCOUNT_ACTION": {
+    "DELETE": "Delete account",
+    "DISABLE": "Disable account",
+    "ENABLE": "Enable account",
+    "LOCK": "Lock account"
+  },
+  "ACCOUNT_STATE": {
+    "DISABLED": "Disabled",
+    "ENABLED": "Enabled",
+    "LOCKED": "Locked"
   }
 }

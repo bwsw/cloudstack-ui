@@ -77,6 +77,13 @@ export const sideBarRoutes: Array<SidebarRoute> = [
     enabled: true
   },
   {
+    path: '/accounts',
+    text: 'NAVIGATION_SIDEBAR.ACCOUNTS',
+    icon: 'person',
+    id: 'ACCOUNTS',
+    enabled: true
+  },
+  {
     path: '/settings',
     text: 'NAVIGATION_SIDEBAR.SETTINGS',
     icon: 'settings',

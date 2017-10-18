@@ -14,7 +14,10 @@ import { ConfigService } from '../shared/services/config.service';
 import { LayoutService } from '../shared/services/layout.service';
 import { RouterUtilsService } from '../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-import { transformHandle, transformLinks } from './sidebar-animations';
+import {
+  transformHandle,
+  transformLinks
+} from './sidebar-animations';
 import {
   NavigationItem,
   navigationPredicate,

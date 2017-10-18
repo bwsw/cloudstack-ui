@@ -1,5 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Injectable } from '@angular/core';
+import {
+  Component,
+  Injectable
+} from '@angular/core';
 import {
   async,
   discardPeriodicTasks,
@@ -9,7 +12,10 @@ import {
 } from '@angular/core/testing';
 import { BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { NavigationExtras, Router } from '@angular/router';
+import {
+  NavigationExtras,
+  Router
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { MockUserTagService } from '../../../testutils/mocks/tag-services/mock-user-tag.service';
