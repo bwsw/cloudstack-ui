@@ -9,22 +9,6 @@
     </button>
   </div>
 
-  <nav md-tab-nav-bar>
-    <a
-      mdTabLink
-      [routerLink]="['./account']"
-      queryParamsHandling="preserve"
-      [active]="tabIsActive('account')"
-    >
-      <div
-        class="md-tab-tooltip"
-        [mdTooltip]="'ACCOUNT_PAGE.SIDEBAR.GENERAL' | translate"
-      >
-        <md-icon>local_offer</md-icon>
-      </div>
-    </a>
-
-  </nav>
 </div>
 
 <md-menu #actionsMenu="mdMenu">
