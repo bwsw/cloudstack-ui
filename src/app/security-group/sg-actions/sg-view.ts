@@ -32,7 +32,7 @@ export class SecurityGroupViewAction extends SecurityGroupAction {
     );
   }
 
-  public activate(securityGroup: SecurityGroup, params?: {}): Observable<any> {
+  public activate(securityGroup: SecurityGroup): Observable<any> {
     this.router.navigate(
       [`security-group/${securityGroup.id}`],
       { queryParamsHandling: 'preserve' }

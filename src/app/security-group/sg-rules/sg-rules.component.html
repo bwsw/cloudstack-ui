@@ -220,7 +220,7 @@
     color="primary"
     (click)="confirmChangeMode()"
   >
-    {{ !editMode ? ('COMMON.EDIT' | translate) : ('COMMON.VIEW' | translate) }}
+    {{ (!editMode ? 'COMMON.EDIT' : 'COMMON.VIEW') | translate }}
   </button>
   <button md-button color="primary" mdDialogClose>
     {{ 'COMMON.CLOSE' | translate }}
