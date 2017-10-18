@@ -1,7 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
-import { InstanceGroup, Zone } from '../../shared/models';
+import {
+  InstanceGroup,
+  Zone
+} from '../../shared/models';
 import { FilterService } from '../../shared/services/filter.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -31,6 +43,7 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
   @Input() public availableGroupings: Array<any>;
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;
+  @Input() public accounts: Array<Account>;
   @Output() public updateFilters = new EventEmitter<VmFilter>();
 
   public noGroup = noGroup;
@@ -117,6 +130,7 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
       this.selectedGroups.push(noGroup);
     }
     this.selectedAccountIds = params['accounts'];
+    this.selectedAccounts = this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id));
     this.update();
   }
 
@@ -130,8 +144,8 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
     });
   }
 
-  public updateAccount(users: Array<Account>) {
-    this.selectedAccounts = users;
+  public updateAccount(accountIds: Array<string>) {
+    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
     this.update();
   }
 
@@ -143,7 +157,6 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
       groupings: this.selectedGroupings,
       accounts: this.selectedAccounts
     });
-
     this.filterService.update({
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),

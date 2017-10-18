@@ -1,5 +1,12 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  HostBinding,
+  OnInit
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
@@ -10,6 +17,8 @@ import { SshKeyFilter } from '../ssh-key-filter/ssh-key-filter.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { Domain } from '../../shared/models/domain.model';
 import { DomainService } from '../../shared/services/domain.service';
+import { AccountService } from '../../shared/services/account.service';
+import { Account } from '../../shared/models/account.model';
 
 
 @Component({
@@ -35,12 +44,14 @@ export class SshKeysPageComponent implements OnInit {
 
   public filterData: any;
   public domainList: Array<Domain>;
+  public accounts: Array<Account>;
 
   constructor(
     public listService: ListService,
     private dialogService: DialogService,
     private sshKeyService: SSHKeyPairService,
     private domainService: DomainService,
+    private accountService: AccountService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
@@ -48,7 +59,7 @@ export class SshKeysPageComponent implements OnInit {
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     } else {
-      this.getDomainList();
+      this.getAccountList();
     }
   }
 
@@ -124,10 +135,19 @@ export class SshKeysPageComponent implements OnInit {
       );
   }
 
-  private getDomainList() {
-    this.domainService.getList().subscribe(domains => {
-      this.domainList = domains;
-    });
+  private getAccountList() {
+    Observable.forkJoin(
+      this.accountService.getList(),
+      this.domainService.getList()
+    )
+      .subscribe(([accounts, domains]) => {
+        this.accounts = accounts;
+        this.accounts.map(account => {
+          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
+          return account;
+        });
+        this.domainList = domains;
+      });
   }
 
   private getDomain(domainId: string) {

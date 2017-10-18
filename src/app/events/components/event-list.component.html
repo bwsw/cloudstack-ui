@@ -39,6 +39,8 @@
         </md-option>
       </md-select>
 
+      <cs-account-filter *ngIf="isAdmin" [accounts]="accounts" [selectedAccountIds]="selectedAccountIds" (onChangeAccounts)="onAccountChange.emit($event)"></cs-account-filter>
+
       <cs-search
         [ngModel]="query"
         (ngModelChange)="onQueryChange.emit($event)"

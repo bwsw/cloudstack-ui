@@ -9,6 +9,7 @@ import { Event } from '../event.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
+import { Account } from '../../shared/models/account.model';
 
 @Component({
   selector: 'cs-event-list',
@@ -27,10 +28,14 @@ export class EventListComponent {
   @Input() public isLoading = false;
   @Input() public date: Date;
   @Input() public query: string;
+  @Input() public accounts: Account[] = [];
+  @Input() public selectedAccountIds: string[] = [];
+  @Input() public isAdmin: boolean;
   @Output() public onDateChange = new EventEmitter();
   @Output() public onQueryChange = new EventEmitter();
   @Output() public onEventTypesChange = new EventEmitter();
   @Output() public onSelectedLevelsChange = new EventEmitter();
+  @Output() public onAccountChange = new EventEmitter();
 
   public tableColumns = ['description', 'level', 'type', 'time'];
 

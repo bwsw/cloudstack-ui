@@ -2,9 +2,10 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-volume-filter
+  <cs-volume-filter *ngIf="zones && accounts"
     [zones]="zones"
     [groupings]="groupings"
+    [accounts]="accounts"
     [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
     (updateFilters)="updateFiltersAndFilter($event)"
     cs-list

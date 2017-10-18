@@ -1,8 +1,21 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
 import { FilterComponent } from '../../shared/interfaces/filter-component';
-import { VolumeType, volumeTypeNames } from '../../shared/models/volume.model';
+import {
+  VolumeType,
+  volumeTypeNames
+} from '../../shared/models/volume.model';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -29,6 +42,7 @@ export const volumeListFilters = 'volumeListFilters';
 export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnChanges {
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
+  @Input() public accounts: Array<Account>;
   @Input() public searchPanelWhite: boolean;
   @Output() public updateFilters: EventEmitter<VolumeFilter>;
 
@@ -89,7 +103,12 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.selectedTypes = this.types.filter(type =>
       params['types'].find(_ => _ === type)
     );
+
     this.selectedAccountIds = params['accounts'];
+
+    this.selectedAccounts = this.accounts.filter(account =>
+      this.selectedAccountIds.find(id => id === account.id)
+    );
 
     this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -102,8 +121,8 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.update();
   }
 
-  public updateAccount(accounts: Array<Account>) {
-    this.selectedAccounts = accounts;
+  public updateAccount(accountIds: Array<string>) {
+    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
     this.update();
   }
 

@@ -1,5 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 
@@ -11,6 +20,9 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
 import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from '../../shared/services/domain.service';
+import { AccountService } from '../../shared/services/account.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -37,7 +49,8 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string> = [];
 
-  public zones: Array<Zone>;
+  public zones: Array<Zone> = [];
+  public accounts: Array<Account> = [];
   public selectedZones: Array<Zone> = [];
 
   public filterTranslations: {};
@@ -86,17 +99,17 @@ export class TemplateFiltersComponent implements OnInit {
     private storageService: LocalStorageService,
     private translateService: TranslateService,
     private zoneService: ZoneService,
+    private domainService: DomainService,
+    private accountService: AccountService,
     private authService: AuthService
   ) {
   }
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
-      this.zoneService.getList()
-        .subscribe(zones => {
-          this.zones = zones;
-          this.initFilters();
-        });
+      const observes = this.showAccountFilter() ? Observable.forkJoin(this.getAccountList(),this.getZones()) :
+        Observable.forkJoin(this.getZones());
+      observes.subscribe(() => this.initFilters());
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
@@ -159,8 +172,8 @@ export class TemplateFiltersComponent implements OnInit {
     this.storageService.write('templateDisplayMode', mode);
   }
 
-  public updateAccount(accounts: Array<Account>) {
-    this.selectedAccounts = accounts;
+  public updateAccount(accountIds: Array<string>) {
+    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
     this.updateFilters();
   }
 
@@ -176,7 +189,31 @@ export class TemplateFiltersComponent implements OnInit {
     this.query = params['query'];
     this.queryStream.next(this.query);
     this.selectedAccountIds = params['accounts'];
+    this.selectedAccounts = this.accounts.filter(account =>
+      this.selectedAccountIds.find(id => id === account.id)
+    );
 
     this.updateFilters();
+  }
+
+  private getAccountList() {
+    return Observable.forkJoin(
+      this.accountService.getList(),
+      this.domainService.getList()
+    )
+      .map(([accounts, domains]) => {
+        this.accounts = accounts;
+        this.accounts.map(account => {
+          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
+          return account;
+        });
+      });
+  }
+
+  private getZones() {
+    return this.zoneService.getList()
+      .map(zones => {
+        this.zones = zones;
+      });
   }
 }

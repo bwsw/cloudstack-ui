@@ -2,8 +2,9 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-ssh-key-filter
+  <cs-ssh-key-filter *ngIf="accounts"
     [groupings]="groupings"
+    [accounts]="accounts"
     (updateFilters)="updateFilters($event)"
     cs-list
   ></cs-ssh-key-filter>

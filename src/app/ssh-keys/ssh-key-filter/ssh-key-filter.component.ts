@@ -1,5 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { FilterComponent } from '../../shared/interfaces/filter-component';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -20,12 +29,13 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 })
 export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnInit {
   @Input() public groupings: Array<any>;
+  @Input() public accounts: Array<Account>;
   @Output() public updateFilters: EventEmitter<SshKeyFilter>;
 
 
   public selectedGroupingNames = [];
   public selectedAccounts: Array<Account> = [];
-  public selectedAccountIds: Array<string> = [];
+  public selectedAccountIds: Array<string>;
 
   private filtersKey = sshKeyListFilters;
   private filterService = new FilterService({
@@ -54,6 +64,9 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
   public initFilters(): void {
     const params = this.filterService.getParams();
     this.selectedAccountIds = params['accounts'];
+    this.selectedAccounts = this.accounts.filter(account =>
+      this.selectedAccountIds.find(id => id === account.id)
+    );
 
     this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -66,8 +79,8 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
     this.update();
   }
 
-  public updateAccount(accounts: Array<Account>) {
-    this.selectedAccounts = accounts;
+  public updateAccount(accountIds: Array<string>) {
+    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
     this.update();
   }
 

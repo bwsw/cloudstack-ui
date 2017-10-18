@@ -12,8 +12,8 @@
       </md-button-toggle>
     </md-button-toggle-group>
 
-    <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
-                       (onChangeAccount)="updateAccount($event)"></cs-account-filter>
+    <cs-account-filter *ngIf="showAccountFilter()" [accounts]="accounts" [selectedAccountIds]="selectedAccountIds"
+                       (onChangeAccounts)="updateAccount($event)"></cs-account-filter>
 
     <md-select
       class="filter-select"

@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import * as event from '../redux/events.actions';
 import * as debounce from 'lodash/debounce';
-import moment = require('moment');
 import { FilterService } from '../../shared/services/filter.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import * as fromEvents from '../redux/events.reducers';
 import { LanguageService } from '../../shared/services/language.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import moment = require('moment');
 
 @Component({
   selector: 'cs-event-list-container',
@@ -23,6 +29,9 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       [selectedTypes]="selectedTypes$ | async"
       [date]="date$ | async"
       [query]="query$ | async"
+      [accounts]="accounts$ | async"
+      [selectedAccountIds]="selectedAccountIds | async"
+      (onAccountChange)="onAccountChange($event)"
       (onDateChange)="onDateChange($event)"
       (onQueryChange)="onQueryChange($event)"
       (onEventTypesChange)="onEventTypesChange($event)"
