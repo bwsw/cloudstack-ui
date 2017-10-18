@@ -1,3 +1,23 @@
+<a name="1.49.12"></a>
+## [1.49.12](https://github.com/bwsw/cloudstack-ui/compare/1.49.11...1.49.12) (2017-10-18)
+
+
+### Bug Fixes
+
+* **auth:** Login error handling fixed ([40db70b](https://github.com/bwsw/cloudstack-ui/commit/40db70b))
+* **recurring-snapshots:** reorder components and update styles for Recurring Snapshots dialog ([#565](https://github.com/bwsw/cloudstack-ui/issues/565)) ([954b470](https://github.com/bwsw/cloudstack-ui/commit/954b470))
+* **volume-attachment:** Volume/VM Attachment dialog allows to attach Disk and VM from different accounts ([#602](https://github.com/bwsw/cloudstack-ui/issues/602)) ([932fe5d](https://github.com/bwsw/cloudstack-ui/commit/932fe5d))
+
+
+### Features
+
+* **vm:** Added "Access VM" action that opens modal window ([#604](https://github.com/bwsw/cloudstack-ui/issues/604)) ([099359e](https://github.com/bwsw/cloudstack-ui/commit/099359e))
+* **manage-accounts:** Accounts management page added ([#594](https://github.com/bwsw/cloudstack-ui/issues/594)) ([844f98d](https://github.com/bwsw/cloudstack-ui/commit/844f98d))
+* **save-vm-password:** Save VM password functionality added ([#603](https://github.com/bwsw/cloudstack-ui/issues/603)) ([f019cba](https://github.com/bwsw/cloudstack-ui/commit/f019cba))
+* **vm:** Move VM color picker from details card to the VM name line ([#583](https://github.com/bwsw/cloudstack-ui/issues/583)) ([5ce7aaa](https://github.com/bwsw/cloudstack-ui/commit/5ce7aaa))
+
+
+
 <a name="1.49.11"></a>
 ## [1.49.11](https://github.com/bwsw/cloudstack-ui/compare/1.49.10...1.49.11) (2017-10-04)
 
