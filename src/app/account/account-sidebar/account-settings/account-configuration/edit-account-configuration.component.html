@@ -1,0 +1,45 @@
+<h3 class="mat-dialog-title">
+  {{ (title || 'ACCOUNT_PAGE.CONFIGURATION.EDIT') | translate }}
+</h3>
+<form (ngSubmit)="onConfigurationUpdate()" #configurationForm="ngForm">
+  <div class="mat-dialog-content">
+    <md-form-field class="full-width-input">
+      <input
+        mdInput
+        name="name"
+        [(ngModel)]="name"
+        [placeholder]="'ACCOUNT_PAGE.CONFIGURATION.NAME' | translate"
+        disabled
+      >
+    </md-form-field>
+    <md-form-field class="full-width-input">
+      <input
+        mdInput
+        name="value"
+        [(ngModel)]="value"
+        [placeholder]="'ACCOUNT_PAGE.CONFIGURATION.VALUE' | translate"
+        required
+      >
+    </md-form-field>
+  </div>
+
+  <div class="mat-dialog-actions">
+    <button
+      md-button
+      color="primary"
+      (click)="close()"
+      type="button"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      md-button
+      color="primary"
+      type="submit"
+      [disabled]="!configurationForm.valid"
+    >
+      {{ 'COMMON.EDIT' | translate }}
+    </button>
+  </div>
+</form>
+

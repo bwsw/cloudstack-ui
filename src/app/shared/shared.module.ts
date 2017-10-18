@@ -140,6 +140,15 @@ import { AnimatedSlashComponent } from './components/progress-logger/animated-sl
 import { SecurityGroupService } from '../security-group/services/security-group.service';
 import { HypervisorService } from './services/hypervisor.service';
 import { DomainService } from './services/domain.service';
+import { RoleService } from './services/role.service';
+import { ConfigurationService } from './services/configuration.service';
+import { ResourceCountService } from './services/resource-count.service';
+import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
+import { AccountActionsService } from './actions/account-actions/account-actions.service';
+import { AccountDisableAction } from './actions/account-actions/actions/account-disable-action';
+import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
+import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
+import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
 
 @NgModule({
   imports: [
@@ -176,6 +185,8 @@ import { DomainService } from './services/domain.service';
   ],
   exports: [
     CdkTableModule,
+    AccountActionsComponent,
+    AccountFilterComponent,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -227,8 +238,7 @@ import { DomainService } from './services/domain.service';
     MdInputModule,
     TopBarComponent,
     ViewValuePipe,
-    VmStatisticsComponent,
-    AccountFilterComponent
+    VmStatisticsComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -237,6 +247,8 @@ import { DomainService } from './services/domain.service';
     SecurityGroupBuilderComponent
   ],
   declarations: [
+    AccountActionsComponent,
+    AccountFilterComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
@@ -294,17 +306,22 @@ import { DomainService } from './services/domain.service';
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
-    VmStatisticsComponent,
-    AccountFilterComponent,
+    VmStatisticsComponent
   ],
   providers: [
     AccountService,
+    AccountActionsService,
+    AccountDisableAction,
+    AccountDeleteAction,
+    AccountEnableAction,
+    AccountLockAction,
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
     AuthService,
     CacheService,
     ConfigService,
+    ConfigurationService,
     DateTimeFormatterService,
     DescriptionTagService,
     DiskOfferingService,
@@ -320,8 +337,10 @@ import { DomainService } from './services/domain.service';
     MemoryStorageService,
     NotificationService,
     OsTypeService,
+    ResourceCountService,
     ResourceLimitService,
     ResourceUsageService,
+    RoleService,
     RouterUtilsService,
     SSHKeyPairService,
     SecurityGroupService,

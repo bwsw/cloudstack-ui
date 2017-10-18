@@ -15,3 +15,7 @@ export * from './tag.model';
 export * from './volume.model';
 export * from './zone.model';
 export * from './hypervisor.model';
+export * from './role.model';
+export * from './domain.model';
+export * from './account.model';
+export * from './configuration.model';

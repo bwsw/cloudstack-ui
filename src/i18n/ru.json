@@ -31,6 +31,12 @@
     "YES": "Да"
   },
   "DIALOG_MESSAGES": {
+    "ACCOUNT": {
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот аккаунт?",
+      "CONFIRM_DISABLE": "Вы уверены, что хотите деактивировать этот аккаунт?",
+      "CONFIRM_ENABLE": "Вы уверены, что хотите активировать этот аккаунт?",
+      "CONFIRM_LOCK": "Вы уверены, что хотите заблокировать этот аккаунт?"
+    },
     "ISO": {
       "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот ISO файл?",
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот ISO файл?"
@@ -93,6 +99,20 @@
     }
   },
   "JOB_NOTIFICATIONS": {
+    "ACCOUNT": {
+      "DELETION_IN_PROGRESS": "Удаление аккаунта",
+      "DELETION_DONE": "Аккаунт успешно удален",
+      "DELETION_FAILED": "Ошибка удаления аккаунта",
+      "DISABLE_IN_PROGRESS": "Деактивация аккаунта",
+      "DISABLE_DONE": "Аккаунт успешно деактивирован",
+      "DISABLE_FAILED": "Ошибка деактивации аккаунта",
+      "ENABLE_IN_PROGRESS": "Активация аккаунта",
+      "ENABLE_DONE": "Аккаунт успешно активирован",
+      "ENABLE_FAILED": "Ошибка активации аккаунта",
+      "LOCK_IN_PROGRESS": "Блокирование аккаунта",
+      "LOCK_DONE": "Аккаунт успешно заблокирован",
+      "LOCK_FAILED": "Ошибка блокирования аккаунта"
+    },
     "PENDING_OPERATIONS": "Текущие операции",
     "ISO": {
       "ATTACHMENT_IN_PROGRESS": "Прикрепление ISO",
@@ -201,6 +221,7 @@
     "FIREWALL_TEMPLATES": "Брандмауэр",
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
+    "ACCOUNTS": "Аккаунты",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
@@ -220,7 +241,9 @@
       "RECOVER": "Восстановить",
       "RESET_PASSWORD": "Сбросить пароль",
       "CONSOLE": "Консоль",
-      "WEB_SHELL": "WebShell"
+      "WEB_SHELL": "WebShell",
+      "VM_ACCESS": "Доступ к ВМ",
+      "VM_ACCESS_TITLE": "Виртуальная машина"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -481,6 +504,7 @@
     "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
     "OPEN_URL": "Открыть URL",
     "VM_PASSWORD": "Пароль",
+    "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
     "VM": "Имя машины",
     "VM_IP": "IP адрес"
@@ -899,6 +923,72 @@
       "GROUP_BY_ACCOUNTS": "Accounts"
     }
   },
+  "ACCOUNT_PAGE" : {
+    "FILTERS" : {
+      "SELECT_DOMAINS": "Выберите домены",
+      "SELECT_ROLES": "Выберите роли",
+      "SELECT_ROLE_TYPES": "Выберите типы ролей",
+      "SELECT_STATES": "Выберите состояния",
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_DOMAINS": "Доменам",
+      "GROUP_BY_ROLES": "Ролям",
+      "GROUP_BY_ROLETYPES": "Типам ролей",
+      "GROUP_BY_STATES": "Состояниям"
+    },
+    "CARD": {
+      "ROLE": "Роль",
+      "ROLE_TYPE": "Тип роли",
+      "DOMAIN": "Домен"
+    },
+    "SIDEBAR": {
+      "GENERAL": "Общее",
+      "USERS": "Пользователи",
+      "LIMITS": "Ограничения",
+      "SETTINGS": "Настройки",
+      "STATISTIC": "Статистика",
+      "ARE_YOU_SURE_UPDATE_STATS": "Вы уверены, что хотите обновить статистику"
+    },
+    "DETAILS": {
+      "TITLE": "Детали",
+      "ID": "ID",
+      "ROLE": "Роль",
+      "ROLE_TYPE": "Тип роли",
+      "DOMAIN": "Домен",
+      "VMS": "Всего ВМ",
+      "IPS": "Всего IP адресов",
+      "R_BYTES": "Байт получено",
+      "S_BYTES": "Байт отправлено"
+    },
+    "CONFIGURATION": {
+      "VM_LIMIT": "Лимит машин",
+      "IP_LIMIT": "Ограничения маршрутизируемых IP адресов",
+      "VOLUME_LIMIT": "Лимит дисков",
+      "SNAPSHOT_LIMIT": "Лимит снимков",
+      "TEMPLATE_LIMIT": "Лимит шаблонов",
+      "PROJECT_LIMIT": "Лимит проектов",
+      "NETWORK_LIMIT": "Ограничения сети",
+      "VPC_LIMIT": "Ограничение VPC",
+      "CPU_LIMIT": "Ограничение CPU",
+      "MEMORY_LIMIT": "Ограничения в памяти",
+      "PSTORAGE_LIMIT": "Ограничения основного хранилища",
+      "SSTORAGE_LIMIT": "Ограничения дополнительного хранилища",
+      "VM_COUNT": "Количество машин",
+      "IP_COUNT": "Количество IP адресов",
+      "VOLUME_COUNT": "Количество дисков",
+      "SNAPSHOT_COUNT": "Количество снимков",
+      "TEMPLATE_COUNT": "Количество шаблонов",
+      "PROJECT_COUNT": "Количество проектов",
+      "NETWORK_COUNT": "Количество сетей",
+      "VPC_COUNT": "Количество VPC",
+      "CPU_COUNT": "Количество CPU",
+      "MEMORY_COUNT": "Размер памяти",
+      "PSTORAGE_COUNT": "Размер основного хранилища",
+      "SSTORAGE_COUNT": "Размер дополнительного хранилища",
+      "EDIT": "Редактировать",
+      "NAME": "Имя",
+      "VALUE": "Значение"
+    }
+  },
   "SETTINGS": {
     "SECURITY": {
       "TITLE": "Безопасность",
@@ -946,6 +1036,7 @@
   "VM_NOT_FOUND": "Виртуальная машина не найдена",
   "VOLUME_NOT_FOUND": "Диск не найден",
   "TEMPLATE_NOT_FOUND": "Шаблон не найден",
+  "ACCOUNT_NOT_FOUND": "Аккаунт не найден",
   "PULSE": {
     "PULSE": "Pulse",
     "CPU_RAM": "ЦП / ОЗУ",
@@ -1115,5 +1206,16 @@
     "RESIZE": "Изменить размер диска",
     "ATTACH": "Прикрепить",
     "DETACH": "Открепить"
+  },
+  "ACCOUNT_ACTION": {
+    "DELETE": "Удалить аккаунт",
+    "DISABLE": "Деактивировать аккаунт",
+    "ENABLE": "Активировать аккаунт",
+    "LOCK": "Заблокировать аккаунт"
+  },
+  "ACCOUNT_STATE": {
+    "DISABLED": "Деактивирован",
+    "ENABLED": "Активирован",
+    "LOCKED": "Заблокирован"
   }
 }

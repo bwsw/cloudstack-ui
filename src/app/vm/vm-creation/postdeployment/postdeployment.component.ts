@@ -33,6 +33,9 @@ export class PostdeploymentComponent {
 
   @Input() public vm: VirtualMachine;
   @Input() public dialogRef: MdDialogRef<VmCreationComponent>;
+  @Input() public title: string;
+
+  private passwordToken = 'csui.vm.password';
 
   public canSavePassword: boolean;
   public disableButton: boolean = false;
@@ -49,15 +52,20 @@ export class PostdeploymentComponent {
     });
   }
 
+  public getPassword() {
+    const passwordTag = this.vm.tags.find(tag => tag.key === this.passwordToken);
+    return this.vm.password || passwordTag && passwordTag.value;
+  }
+
   public isHttpAuthMode(vm): boolean {
     return this.vmURL.canActivate(vm);
   }
 
-  public getLogin(vm) {
+  public getUrlLogin(vm) {
     return this.vmURL.getLogin(vm);
   }
 
-  public getPassword(vm) {
+  public getUrlPassword(vm) {
     return this.vmURL.getPassword(vm);
   }
 

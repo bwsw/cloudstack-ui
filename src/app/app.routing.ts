@@ -12,6 +12,7 @@ import { volumeRoutes } from './volume/volume.routing';
 import { sshRoutes } from './ssh-keys/ssh-keys.routing';
 import { templateRouting } from './template/template.routing';
 import { vmRoutes } from './vm/vm.routing';
+import { accountsRoutes } from './account/accounts.routing';
 import { EventListContainerComponent } from './events/containers/event-list.container';
 
 
@@ -37,6 +38,7 @@ export const routes: Routes = [
       ...volumeRoutes,
       ...templateRouting,
       ...sgRoutes,
+      ...accountsRoutes,
       {
         path: 'events',
         component: EventListContainerComponent,

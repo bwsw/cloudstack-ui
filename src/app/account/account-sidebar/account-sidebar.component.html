@@ -1,0 +1,22 @@
+<div *ngIf="entity">
+  <div class="title-container">
+    <h4 class="details-header">{{ entity.name }}</h4>
+    <button *ngIf="isAdmin()"
+      md-icon-button
+      [mdMenuTriggerFor]="actionsMenu"
+    >
+      <md-icon>more_vert</md-icon>
+    </button>
+  </div>
+
+</div>
+
+<md-menu #actionsMenu="mdMenu">
+  <cs-account-actions  *ngIf="entity" [account]="entity" (onAccountChanged)="loadEntity($event.id)"></cs-account-actions>
+</md-menu>
+
+<router-outlet></router-outlet>
+
+<cs-no-results *ngIf="notFound" [text]="'ACCOUNT_NOT_FOUND'"></cs-no-results>
+
+<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>

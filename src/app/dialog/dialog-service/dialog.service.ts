@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import {
+  MdDialog,
+  MdDialogConfig,
+  MdDialogRef
+} from '@angular/material';
 import { Observable } from 'rxjs/Rx';
 
 import {

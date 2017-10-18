@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
-import { CacheService } from '../../shared/services/cache.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from './base-template.model';

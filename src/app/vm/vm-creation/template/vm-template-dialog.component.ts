@@ -6,7 +6,7 @@ import { Template } from '../../../template/shared';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
-import { DomainService } from "../../../shared/services/domain.service";
+import { DomainService } from '../../../shared/services/domain.service';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
