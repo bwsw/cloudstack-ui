@@ -23,13 +23,16 @@ h4 {
 }
 
 :host /deep/ .security-group {
-    .sg-name {
-      white-space: nowrap;
-      width: 90%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display:inline-block;
-    }
+  .row {
+    padding: 2px;
+  }
+  .sg-name {
+    white-space: nowrap;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
 
   .md-icon-button--small {
     min-width: 20px;
