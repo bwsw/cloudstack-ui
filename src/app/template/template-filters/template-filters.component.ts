@@ -46,7 +46,6 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
-  public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string> = [];
 
   public zones: Array<Zone> = [];
@@ -151,7 +150,7 @@ export class TemplateFiltersComponent implements OnInit {
       selectedZones: this.selectedZones,
       query: this.query,
       groupings: this.selectedGroupingNames,
-      accounts: this.selectedAccounts
+      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
     });
 
     if (!this.dialogMode) {
@@ -161,7 +160,7 @@ export class TemplateFiltersComponent implements OnInit {
         categoryFilters: this.selectedFilters,
         zones: this.selectedZones.map(_ => _.id),
         groupings: this.selectedGroupingNames.map(_ => _.key),
-        accounts: this.selectedAccounts.map(_ => _.id)
+        accounts: this.selectedAccountIds
       });
     }
   }
@@ -170,11 +169,6 @@ export class TemplateFiltersComponent implements OnInit {
     const mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);
-  }
-
-  public updateAccount(accountIds: Array<string>) {
-    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
-    this.updateFilters();
   }
 
   private initFilters(): void {
@@ -189,9 +183,6 @@ export class TemplateFiltersComponent implements OnInit {
     this.query = params['query'];
     this.queryStream.next(this.query);
     this.selectedAccountIds = params['accounts'];
-    this.selectedAccounts = this.accounts.filter(account =>
-      this.selectedAccountIds.find(id => id === account.id)
-    );
 
     this.updateFilters();
   }

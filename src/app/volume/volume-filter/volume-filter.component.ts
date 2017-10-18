@@ -54,7 +54,6 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
   public selectedZones: Array<Zone> = [];
   public selectedGroupingNames = [];
   public query: string;
-  public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string> = [];
 
   private filtersKey = volumeListFilters;
@@ -106,10 +105,6 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
 
     this.selectedAccountIds = params['accounts'];
 
-    this.selectedAccounts = this.accounts.filter(account =>
-      this.selectedAccountIds.find(id => id === account.id)
-    );
-
     this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {
@@ -121,11 +116,6 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.update();
   }
 
-  public updateAccount(accountIds: Array<string>) {
-    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
-    this.update();
-  }
-
   public update(): void {
     this.updateFilters.emit({
       spareOnly: this.spareOnly,
@@ -133,7 +123,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
       selectedTypes: this.selectedTypes,
       groupings: this.selectedGroupingNames,
       query: this.query,
-      accounts: this.selectedAccounts
+      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
     });
 
     this.filterService.update({
@@ -142,7 +132,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
       types: this.selectedTypes,
       groupings: this.selectedGroupingNames.map(_ => _.key),
       query: this.query,
-      accounts: this.selectedAccounts.map(_ => _.id)
+      accounts: this.selectedAccountIds
     });
   }
 }

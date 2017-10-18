@@ -39,7 +39,15 @@
         </md-option>
       </md-select>
 
-      <cs-account-filter *ngIf="isAdmin" [accounts]="accounts" [selectedAccountIds]="selectedAccountIds" (onChangeAccounts)="onAccountChange.emit($event)"></cs-account-filter>
+      <md-select
+        class="filter-select"
+        multiple="true"
+        [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+        [(ngModel)]="selectedAccountIds"
+        (change)="onAccountChange.emit($event.value)"
+      >
+        <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+      </md-select>
 
       <cs-search
         [ngModel]="query"

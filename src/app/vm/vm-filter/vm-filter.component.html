@@ -1,5 +1,15 @@
 <div class="options-panel delimiter">
-  <cs-account-filter *ngIf="showAccountFilter()" [accounts]="accounts" [selectedAccountIds]="selectedAccountIds" (onChangeAccounts)="updateAccount($event)"></cs-account-filter>
+
+  <md-select
+    class="filter-select"
+    multiple="true"
+    [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+    [(ngModel)]="selectedAccountIds"
+    (change)="update()"
+  >
+    <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+  </md-select>
+
   <md-select
     class="filter-select"
     multiple="true"

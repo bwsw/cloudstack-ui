@@ -52,7 +52,6 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
-  public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string> = [];
   public states = [
     {
@@ -130,7 +129,6 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
       this.selectedGroups.push(noGroup);
     }
     this.selectedAccountIds = params['accounts'];
-    this.selectedAccounts = this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id));
     this.update();
   }
 
@@ -144,25 +142,20 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
     });
   }
 
-  public updateAccount(accountIds: Array<string>) {
-    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
-    this.update();
-  }
-
   public update(): void {
     this.updateFilters.emit({
       selectedGroups: this.selectedGroups.sort(this.groupSortPredicate),
       selectedStates: this.selectedStates,
       selectedZones: sortBy(this.selectedZones, 'name'),
       groupings: this.selectedGroupings,
-      accounts: this.selectedAccounts
+      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
     });
     this.filterService.update({
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       states: this.selectedStates,
       groupings: this.selectedGroupings.map(_ => _.key),
-      accounts: this.selectedAccounts.map(_ => _.id)
+      accounts: this.selectedAccountIds
     });
   }
 

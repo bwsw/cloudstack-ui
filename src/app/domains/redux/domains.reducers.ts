@@ -105,7 +105,7 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const domians = createSelector(
+export const domains = createSelector(
   selectAll,
   (domains) => domains
 );

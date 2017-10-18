@@ -7,6 +7,7 @@ import {
   MdIconModule,
   MdInputModule,
   MdMenuModule,
+  MdSelectModule,
   MdTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -35,6 +36,7 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
     SharedModule,
     TranslateModule,
     MdTooltipModule,
+    MdSelectModule,
     MdDialogModule,
     MdMenuModule,
     MdButtonModule,

@@ -34,7 +34,6 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
 
 
   public selectedGroupingNames = [];
-  public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string>;
 
   private filtersKey = sshKeyListFilters;
@@ -64,9 +63,6 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
   public initFilters(): void {
     const params = this.filterService.getParams();
     this.selectedAccountIds = params['accounts'];
-    this.selectedAccounts = this.accounts.filter(account =>
-      this.selectedAccountIds.find(id => id === account.id)
-    );
 
     this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -79,20 +75,16 @@ export class ShhKeyFilterComponent implements FilterComponent<SshKeyFilter>, OnI
     this.update();
   }
 
-  public updateAccount(accountIds: Array<string>) {
-    this.selectedAccounts = this.accounts.filter(account => accountIds.find(id => id === account.id));
-    this.update();
-  }
 
   public update(): void {
     this.updateFilters.emit({
       groupings: this.selectedGroupingNames,
-      accounts: this.selectedAccounts
+      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
     });
 
     this.filterService.update({
       groupings: this.selectedGroupingNames.map(_ => _.key),
-      accounts: this.selectedAccounts.map(_ => _.id)
+      accounts: this.selectedAccountIds
     });
   }
 }
