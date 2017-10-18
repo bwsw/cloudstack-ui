@@ -221,7 +221,9 @@
       "RECOVER": "Recover",
       "RESET_PASSWORD": "Reset password",
       "CONSOLE": "Console",
-      "WEB_SHELL": "WebShell"
+      "WEB_SHELL": "WebShell",
+      "VM_ACCESS": "Access VM",
+      "VM_ACCESS_TITLE": "Virtual Machine"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
@@ -482,6 +484,7 @@
     "OPEN_SHELL_CONSOLE": "Open WebShell",
     "OPEN_URL": "Open URL",
     "VM_PASSWORD": "Password",
+    "UNKNOWN": "Unknown",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
     "VM_IP": "IP"

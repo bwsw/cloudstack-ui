@@ -1,6 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 import { VmActionsService } from '../../shared/vm-actions.service';
-import { VirtualMachine, VmState } from '../../shared/vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from '../../shared/vm.model';
 import { VirtualMachineAction } from '../vm-action';
 import { VmExpungeAction } from '../vm-expunge';
 import { VmRecoverAction } from '../vm-recover';
@@ -16,7 +22,7 @@ export class VmActionsComponent {
   public vmActions: Array<VirtualMachineAction>;
   public pluginActions: Array<VirtualMachineAction>;
 
-  public destroyedVmActions: Array<VirtualMachineAction>;;
+  public destroyedVmActions: Array<VirtualMachineAction>;
 
   public vmActionsContext: {};
   public pluginActionsContext: {};

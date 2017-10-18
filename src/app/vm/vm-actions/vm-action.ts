@@ -19,7 +19,8 @@ export enum VmActions {
   CONSOLE = 'console',
   CHANGE_SERVICE_OFFERING = 'changeServiceOffering',
   WEB_SHELL = 'webShell',
-  PULSE = 'pulse'
+  PULSE = 'pulse',
+  ACCESS = 'access'
 }
 
 @Injectable()

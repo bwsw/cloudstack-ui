@@ -91,6 +91,7 @@ import { SecondaryIpComponent } from './vm-sidebar/network-detail/nics/secondary
 import { SecondaryIpListComponent } from './vm-sidebar/network-detail/nics/secondary-ip-list/secondary-ip-list.component';
 import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fields/nic-fields.component';
 import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
+import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 
 
 @NgModule({
@@ -137,6 +138,7 @@ import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-compone
     VmDetailZoneComponent,
     VmListComponent,
     VmActionsComponent,
+    VmAccessComponent,
     VmActionsSidebarComponent,
     VmColorComponent,
     VmCreationComponent,
@@ -192,7 +194,8 @@ import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-compone
     SshKeypairResetComponent,
     VmCreationSecurityGroupComponent,
     PostdeploymentComponent,
-    VmResetPasswordComponent
+    VmResetPasswordComponent,
+    VmAccessComponent
   ]
 })
 export class VmModule { }
