@@ -40,6 +40,7 @@ import { SecurityGroupCreationDialogComponent } from './sg-creation/security-gro
 import { SecurityGroupCreationComponent } from './sg-creation/security-group-creation.component';
 import { SecurityGroupListItemComponent } from './sg-list/security-group-list-item.component';
 import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
+import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { SecurityGroupListComponent } from './sg-list/security-group-list.compon
     SecurityGroupListItemComponent,
     SecurityGroupCreationComponent,
     SecurityGroupCreationDialogComponent,
+    SecurityGroupRulesDialogComponent,
     SgRulesComponent,
     SgRuleComponent,
     SecurityGroupCreationSecurityGroupComponent,

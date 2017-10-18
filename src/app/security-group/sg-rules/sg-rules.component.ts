@@ -12,6 +12,8 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { NetworkRuleService } from '../services/network-rule.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol } from '../network-rule.model';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,6 +25,8 @@ export class SgRulesComponent {
   @ViewChild('rulesForm') public rulesForm: NgForm;
   public selectedType = '';
   public selectedCode = '';
+  public selectedTypes: string[] = [];
+  public selectedProtocols: string[] = [];
 
   public type: NetworkRuleType;
   public protocol: NetworkProtocol;
@@ -34,8 +38,12 @@ export class SgRulesComponent {
   public endPort: number;
   public cidr: string;
   public securityGroup: SecurityGroup;
+  public visibleIngressRules: any[];
+  public visibleEgressRules: any[];
 
   public adding: boolean;
+  public editMode = false;
+  public vmId: string;
 
   public NetworkProtocols = NetworkProtocol;
   public NetworkRuleTypes = NetworkRuleType;
@@ -56,18 +64,33 @@ export class SgRulesComponent {
     @Inject(MD_DIALOG_DATA) data,
     private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private router: Router
   ) {
-    this.securityGroup = data.securityGroup;
+    this.securityGroup = data.entity;
+
+    if (data.vmId) {
+      this.vmId = data.vmId;
+    }
+
+    if (data.editMode) {
+      this.editMode = data.editMode;
+    }
+
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
 
     this.adding = false;
+
+    if (this.securityGroup) {
+      this.filter();
+    }
   }
 
   public get isPredefinedTemplate(): boolean {
-    return this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
+    return this.securityGroup && this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
   }
 
   public addRule(e: Event): void {
@@ -156,6 +179,28 @@ export class SgRulesComponent {
     }
   }
 
+  public filter(): void {
+    if (!this.securityGroup.ingressRules.length || !this.securityGroup.egressRules.length) {
+      return;
+    }
+
+    if (!this.selectedProtocols.length) {
+      this.visibleEgressRules = this.securityGroup.egressRules;
+      this.visibleIngressRules = this.securityGroup.ingressRules;
+      return;
+    }
+
+    this.visibleEgressRules = this.securityGroup.egressRules.filter(_ =>
+      this.selectedProtocols.find(protocol => protocol === _.protocol));
+
+    this.visibleIngressRules = this.securityGroup.ingressRules.filter(_ =>
+      this.selectedProtocols.find(protocol => protocol === _.protocol));
+  }
+
+  public isSelectedType(type: string) {
+    return !this.selectedTypes.length || this.selectedTypes.includes(type);
+  }
+
   public filterTypes(val: number | string) {
     const filterValue = val.toString().toLowerCase();
     return !!val ? ICMPtypes.filter(_ => _.type.toString() === filterValue ||
@@ -170,7 +215,39 @@ export class SgRulesComponent {
       _.toString().indexOf(filterValue) !== -1 ||
       this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
         .toLowerCase()
-        .indexOf(filterValue) !== -1) : ICMPtypes.find(x => x.type === this.icmpType).codes;
+        .indexOf(filterValue) !== -1) : ICMPtypes.find(
+      x => x.type === this.icmpType).codes;
+  }
+
+  public confirmChangeMode() {
+    if (!this.editMode && this.securityGroup.type === SecurityGroupType.Shared) {
+      this.dialogService.confirm({
+        message: !this.vmId
+          ? 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT'
+          : 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT_FROM_VM'
+      })
+        .subscribe((res) => {
+          if (res) {
+            if (this.vmId) {
+              this.router.navigate([
+                `security-group/${this.securityGroup.id}`
+              ], {
+                queryParams: { vm: this.vmId }
+              });
+              this.dialogRef.close();
+            } else {
+              this.changeMode();
+            }
+          }
+        });
+    } else {
+      this.changeMode();
+    }
+  }
+
+  private changeMode() {
+    this.resetFilters();
+    this.editMode = !this.editMode;
   }
 
   private resetForm(): void {
@@ -183,5 +260,11 @@ export class SgRulesComponent {
         control.reset();
       }
     });
+  }
+
+  private resetFilters() {
+    this.selectedTypes = [];
+    this.selectedProtocols = [];
+    this.filter();
   }
 }

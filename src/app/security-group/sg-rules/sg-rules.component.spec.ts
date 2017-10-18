@@ -1,4 +1,4 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MD_DIALOG_DATA, MdAutocompleteModule, MdDialogRef } from '@angular/material';
@@ -13,7 +13,15 @@ import { NetworkRuleType, SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from './sg-rules.component';
 import { NetworkRule } from '../network-rule.model';
 import { NetworkRuleService } from '../services/network-rule.service';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Router } from '@angular/router';
 
+@Injectable()
+class MockRouter {
+  public navigate(route: any): Promise<any> {
+    return Promise.resolve(route);
+  }
+}
 
 describe('Security group firewall rules component', () => {
   let f;
@@ -57,6 +65,7 @@ describe('Security group firewall rules component', () => {
 
   beforeEach(async(() => {
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
+    const dialogService = jasmine.createSpyObj('DialogService', ['confirm', 'alert']);
 
     TestBed.configureTestingModule({
       imports: [FormsModule, MdAutocompleteModule],
@@ -66,8 +75,10 @@ describe('Security group firewall rules component', () => {
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: MD_DIALOG_DATA, useValue: { securityGroup: mockSecurityGroup } },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
+        { provide: Router, useClass: MockRouter },
         { provide: NotificationService, useClass: MockNotificationService },
-        { provide: NetworkRuleService, useClass: NetworkRuleServiceMock }
+        { provide: NetworkRuleService, useClass: NetworkRuleServiceMock },
+        { provide: DialogService, useValue: dialogService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
