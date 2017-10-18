@@ -17,7 +17,7 @@ export class AccountConfigurationComponent {
   @Output() public onConfigurationEdit: EventEmitter<Configuration>;
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MdDialog
   ) {
     this.onConfigurationEdit = new EventEmitter<Configuration>();
   }

@@ -1,5 +1,5 @@
 <div class="flex-container">
-  <button *ngIf="canAddTag" md-mini-fab (click)="addTag()">
+  <button *ngIf="canAddTag && hasPermissions" md-mini-fab (click)="addTag()">
     <md-icon>add</md-icon>
   </button>
 
@@ -24,6 +24,7 @@
   [category]="category"
   [tags]="tags"
   [query]="query"
+  [hasPermissions]="hasPermissions"
   (onTagAdd)="addTag($event)"
   (onTagEdit)="editTag($event)"
   (onTagDelete)="removeTag($event)"

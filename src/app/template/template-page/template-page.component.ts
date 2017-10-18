@@ -57,7 +57,7 @@ export class TemplatePageComponent implements OnInit {
     ];
 
     if (this.authService.isAdmin()) {
-      filters = [ TemplateFilters.all ];
+      filters = [TemplateFilters.all];
     }
 
     Observable.forkJoin(

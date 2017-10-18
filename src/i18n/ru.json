@@ -21,6 +21,7 @@
     "REMOVE": "Удалить",
     "RESET": "Сбросить",
     "SAVE": "Сохранить",
+    "SAVED": "Сохранено",
     "SELECT": "Выбрать",
     "SELECT_ALL": "Выбрать все",
     "STATUS": "Статус",
@@ -57,9 +58,10 @@
       "CONFIRM_DESTROY": "Вы уверены, что хотите удалить виртуальную машину?",
       "CONFIRM_EXPUNGE": "Вы уверены, что хотите уничтожить виртуальную машину?<br><b>Эта операция необратима.</b>",
       "CONFIRM_RECOVER": "Вы уверены, что хотите восстановить виртуальную машину?",
-      "CONFIRM_RESET_PASSWORD": "Вы увереныRECOVER, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
-      "PASSWORD_DIALOG_MESSAGE": "Пароль длRECOVERя машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
-      "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?"
+      "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
+      "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
+      "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?",
+      "CONFIRM_SAVE_PASSWORD": "Вы уверены, что хотите сохранять пароли для всех вирутальных машин?"
     },
     "VOLUME": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот диск?",
@@ -239,7 +241,9 @@
       "RECOVER": "Восстановить",
       "RESET_PASSWORD": "Сбросить пароль",
       "CONSOLE": "Консоль",
-      "WEB_SHELL": "WebShell"
+      "WEB_SHELL": "WebShell",
+      "VM_ACCESS": "Доступ к ВМ",
+      "VM_ACCESS_TITLE": "Виртуальная машина"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -500,6 +504,7 @@
     "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
     "OPEN_URL": "Открыть URL",
     "VM_PASSWORD": "Пароль",
+    "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
     "VM": "Имя машины",
     "VM_IP": "IP адрес"
@@ -994,6 +999,9 @@
       "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
       "INACTIVITY_LIMITS": "От 0 до 300"
     },
+    "VM": {
+      "SAVE_PASSWORD_FOR_ALL_VMS": "Сохранять пароли виртуальных машин по умолчанию"
+    },
     "API_CONFIGURATION": {
       "TITLE": "Конфигурация API",
       "API_KEY": "Ключ API",
@@ -1087,6 +1095,7 @@
   "SNAPSHOT_POLICIES": {
     "TITLE": "Повторяемые снимки",
     "SCHEDULED_SNAPSHOTS": "Расписание снимков",
+    "NO_RESULTS": "Расписание снимков не найдено",
     "KEEP": "Сохранять",
     "STORE_SNAPSHOTS": "Количество хранимых снимков",
     "MINUTE": "Минута",
@@ -1101,7 +1110,8 @@
     "HOURLY": "Ежечасно",
     "DAILY": "Ежедневно",
     "WEEKLY": "Еженедельно",
-    "MONTHLY": "Ежемесячно"
+    "MONTHLY": "Ежемесячно",
+    "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}"
   },
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",

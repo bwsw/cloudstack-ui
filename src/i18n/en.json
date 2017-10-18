@@ -21,6 +21,7 @@
     "REMOVE": "Remove",
     "RESET": "Reset",
     "SAVE": "Save",
+    "SAVED": "Saved",
     "SELECT": "Select",
     "SELECT_ALL": "Select all",
     "STATUS": "Status",
@@ -59,7 +60,8 @@
       "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?<br><b>This cannot be undone.</b>",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
-      "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?"
+      "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
+      "CONFIRM_SAVE_PASSWORD": "Are you sure you want to save a password for all VMs?"
     },
     "VOLUME": {
       "CONFIRM_DELETION": "Are you sure you want to delete this volume?",
@@ -240,7 +242,9 @@
       "RECOVER": "Recover",
       "RESET_PASSWORD": "Reset password",
       "CONSOLE": "Console",
-      "WEB_SHELL": "WebShell"
+      "WEB_SHELL": "WebShell",
+      "VM_ACCESS": "Access VM",
+      "VM_ACCESS_TITLE": "Virtual Machine"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
@@ -501,6 +505,7 @@
     "OPEN_SHELL_CONSOLE": "Open WebShell",
     "OPEN_URL": "Open URL",
     "VM_PASSWORD": "Password",
+    "UNKNOWN": "Unknown",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
     "VM_IP": "IP"
@@ -997,6 +1002,9 @@
       "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
       "INACTIVITY_LIMITS": "Between 0 and 300"
     },
+    "VM": {
+      "SAVE_PASSWORD_FOR_ALL_VMS": "Save VM passwords by default"
+    },
     "API_CONFIGURATION": {
       "TITLE": "API configuration",
       "API_KEY": "API Key",
@@ -1090,6 +1098,7 @@
   "SNAPSHOT_POLICIES": {
     "TITLE": "Recurring snapshots",
     "SCHEDULED_SNAPSHOTS": "Scheduled snapshots",
+    "NO_RESULTS": "No recurring snapshot schedule",
     "KEEP": "Keep",
     "STORE_SNAPSHOTS": "Number of stored snapshots",
     "MINUTE": "Minute",
@@ -1104,7 +1113,8 @@
     "HOURLY": "Hourly",
     "DAILY": "Daily",
     "WEEKLY": "Weekly",
-    "MONTHLY": "Monthly"
+    "MONTHLY": "Monthly",
+    "BETWEEN": "From {{ lowerLimit }} to {{ upperLimit }}"
   },
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Would you like to create a virtual machine?",

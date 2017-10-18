@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import {
   MdAutocompleteModule,
   MdButtonModule,
@@ -8,7 +11,8 @@ import {
   MdDialogModule,
   MdIconModule,
   MdInputModule,
-  MdMenuModule, MdProgressBarModule,
+  MdMenuModule,
+  MdProgressBarModule,
   MdSelectModule,
   MdTabsModule,
   MdTooltipModule
@@ -86,6 +90,8 @@ import { SecondaryIpComponent } from './vm-sidebar/network-detail/nics/secondary
 // tslint:disable-next-line
 import { SecondaryIpListComponent } from './vm-sidebar/network-detail/nics/secondary-ip-list/secondary-ip-list.component';
 import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fields/nic-fields.component';
+import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
+import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 
 
 @NgModule({
@@ -132,6 +138,7 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     VmDetailZoneComponent,
     VmListComponent,
     VmActionsComponent,
+    VmAccessComponent,
     VmActionsSidebarComponent,
     VmColorComponent,
     VmCreationComponent,
@@ -161,6 +168,7 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     SecondaryIpListComponent,
     NicFieldsComponent,
     PostdeploymentComponent,
+    VmResetPasswordComponent,
   ],
   providers: [
     VmActionsService,
@@ -185,7 +193,9 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
     VolumeAttachmentDialogComponent,
     SshKeypairResetComponent,
     VmCreationSecurityGroupComponent,
-    PostdeploymentComponent
+    PostdeploymentComponent,
+    VmResetPasswordComponent,
+    VmAccessComponent
   ]
 })
 export class VmModule { }

@@ -24,7 +24,7 @@ export class StoredNumberComponent implements ControlValueAccessor {
   constructor(private translateService: TranslateService) {}
 
   public get errorMessage(): Observable<string> {
-    return this.translateService.get('BETWEEN', {
+    return this.translateService.get('SNAPSHOT_POLICIES.BETWEEN', {
       lowerLimit: this.min,
       upperLimit: this.max
     });

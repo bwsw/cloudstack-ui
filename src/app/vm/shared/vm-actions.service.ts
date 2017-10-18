@@ -13,9 +13,13 @@ import {
 } from '../vm-actions';
 import { VmStartActionSilent } from '../vm-actions/silent/vm-start-silent';
 import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
-import { VirtualMachineAction, VmActions } from '../vm-actions/vm-action';
+import {
+  VirtualMachineAction,
+  VmActions
+} from '../vm-actions/vm-action';
 import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-offering';
 import { VirtualMachine } from './vm.model';
+import { VmAccessAction } from '../vm-actions/vm-access';
 
 
 @Injectable()
@@ -27,12 +31,11 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
     this.vmRestoreAction,
     this.vmDestroyAction,
     this.vmResetPasswordAction,
-    this.vmConsoleAction
+    this.vmAccessAction
   ];
 
   public pluginActions = [
     this.vmPulseAction,
-    this.vmWebShellAction
   ];
 
   constructor(
@@ -47,7 +50,8 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
     public vmConsoleAction: VmConsoleAction,
     public vmWebShellAction: VmWebShellAction,
     public vmPulseAction: VmPulseAction,
-    public vmChangeServiceOfferingAction: VmChangeServiceOfferingAction
+    public vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
+    public vmAccessAction: VmAccessAction
   ) {}
 
   public getActionByName(name: VmActions): VirtualMachineAction {
@@ -58,9 +62,8 @@ export class VmActionsService implements ActionsService<VirtualMachine, VirtualM
       [VmActions.RESTORE]: this.vmRestoreAction,
       [VmActions.DESTROY]: this.vmDestroyAction,
       [VmActions.RESET_PASSWORD]: this.vmResetPasswordAction,
-      [VmActions.CONSOLE]: this.vmConsoleAction,
-      [VmActions.WEB_SHELL]: this.vmWebShellAction,
-      [VmActions.PULSE]: this.vmWebShellAction
+      [VmActions.PULSE]: this.vmWebShellAction,
+      [VmActions.ACCESS]: this.vmAccessAction
     };
 
     return actions[name];

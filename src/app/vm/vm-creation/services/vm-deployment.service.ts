@@ -2,16 +2,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
+import {
+  AffinityGroup,
+  AffinityGroupType
+} from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { GROUP_POSTFIX } from '../../../security-group/services/security-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { VirtualMachine, VmState } from '../../shared/vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
+import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 
 export enum VmDeploymentStage {
   STARTED = 'STARTED',
@@ -47,7 +54,8 @@ export class VmDeploymentService {
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
-    private vmService: VmService
+    private vmService: VmService,
+    private userTagService: UserTagService
   ) {}
 
   public deploy(state: VmCreationState): VmDeployObservables {
@@ -152,6 +160,16 @@ export class VmDeploymentService {
       })
       .switchMap(() => {
         return this.tagService.copyTagsToEntity(state.template.tags, vm);
+      })
+      .switchMap(() => {
+        return this.userTagService.getSavePasswordForAllVms();
+      })
+      .switchMap((tag) => {
+        if (tag) {
+          return this.tagService.update(vm, vm.resourceType, 'csui.vm.password', vm.password);
+        } else {
+          return Observable.of(null);
+        }
       })
       .do(() => {
         deployObservable.next({

@@ -41,10 +41,7 @@ export class AccountStatisticsComponent {
       message: 'ACCOUNT_PAGE.SIDEBAR.ARE_YOU_SURE_UPDATE_STATS'
     })
       .onErrorResumeNext()
-      .subscribe(res => {
-        if (res) {
-          this.onStatsUpdate.emit(res);
-        }
-      });
+      .filter(res => Boolean(res))
+      .subscribe(res => this.onStatsUpdate.emit(res));
   }
 }

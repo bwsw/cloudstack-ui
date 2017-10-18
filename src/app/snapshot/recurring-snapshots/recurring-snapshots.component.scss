@@ -7,13 +7,15 @@
   width: 730px !important;
 }
 /deep/ .mat-dialog-content {
-  overflow: hidden;
   .mat-dialog-actions {
     margin-bottom: 0px;
   }
 }
 
-.editor,
-.list {
+.editor {
   margin-top: 10px;
+}
+
+.list {
+  margin-bottom: 30px;
 }

@@ -20,7 +20,8 @@ import {
   MdSnackBarModule,
   MdTableModule,
   MdTabsModule,
-  MdTooltipModule
+  MdTooltipModule,
+  MdButtonToggleModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -179,7 +180,8 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     MdTooltipModule,
     MdTabsModule,
     PopoverModule,
-    TranslateModule
+    TranslateModule,
+    MdButtonToggleModule
   ],
   exports: [
     CdkTableModule,

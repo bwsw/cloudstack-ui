@@ -15,6 +15,7 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'cs-account-page',
   templateUrl: 'account-page.component.html',
+  styleUrls: ['account-page.component.scss'],
   providers: [ListService]
 })
 export class AccountPageComponent {

@@ -1,6 +1,12 @@
-<button type="button" md-button (click)="onClick()">
-  {{ 'COMMON.SELECT' | translate }}
-</button>
+<div class="top-row">
+  <h5 class="dialog-select-header">
+    {{ 'VM_PAGE.VM_CREATION.INSTALLATION_SOURCE' | translate }}
+  </h5>
+
+  <button type="button" md-button (click)="onClick()">
+    {{ 'COMMON.SELECT' | translate }}
+  </button>
+</div>
 
 <div class="mat-input-wrapper template-list">
   <ng-container *ngIf="template; else noTemplates">
