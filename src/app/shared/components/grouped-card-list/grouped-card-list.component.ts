@@ -30,7 +30,7 @@ export class GroupedCardListComponent implements OnChanges {
       const groups = groupBy(this.list, groupings[this.level].selector);
       this.tree = Object.keys(groups).map(gn => {
         return {
-          name: groups[gn][0].account,
+          name: groupings[this.level].name(groups[gn][0]),
           items: groups[gn]
         };
       });

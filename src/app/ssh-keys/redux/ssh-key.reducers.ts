@@ -45,9 +45,6 @@ export function reducer(
   state = initialState,
   action: sshKey.Actions
 ): State {
-
-  console.log(state, action);
-
   switch (action.type) {
     case sshKey.LOAD_SSH_KEYS_REQUEST: {
       return {
@@ -167,15 +164,12 @@ export const selectFilteredSshKeys = createSelector(
   selectAll,
   filterSelectedAccounts,
   (sshKeys, selectedAccounts) => {
-    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
-    const selectedAccountsFilter = (sshKey: SSHKeyPair) =>
-      !selectedAccounts.length || !!accountsMap[sshKey.account]
-      && accountsMap[sshKey.account].domainid === sshKey.domainid;
+    const selectedAccountsFilter = (sshKey: SSHKeyPair) => {
+      const account = selectedAccounts.find(
+        _ => _.name === sshKey.account && _.domainid === sshKey.domainid);
+
+      return !selectedAccounts.length || account;
+    };
     return sshKeys.filter(sshKey => selectedAccountsFilter(sshKey));
   }
-);
-
-export const selectSshKeyActionError = createSelector(
-  getSshKeysEntitiesState,
-  state => state.error
 );

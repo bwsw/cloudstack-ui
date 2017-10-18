@@ -12,8 +12,7 @@ import * as event from './domains.actions';
  * any additional interface properties.
  */
 export interface State extends EntityState<Domain> {
-  loading: boolean,
-  selectedDomainId: string | null
+  loading: boolean
 }
 
 export interface DomainsState {
@@ -42,8 +41,7 @@ export const adapter: EntityAdapter<Domain> = createEntityAdapter<Domain>({
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false,
-  selectedDomainId: null
+  loading: false
 });
 
 export function reducer(
@@ -73,10 +71,6 @@ export function reducer(
         loading: false
       };
     }
-    case event.GET_DOMAIN: {
-      const domainId = action.payload;
-      return { ...state, selectedDomainId: domainId };
-    }
     default: {
       return state;
     }
@@ -105,10 +99,5 @@ export const isLoading = createSelector(
 
 export const domains = createSelector(
   selectAll,
-  (domainList) => domainList
-);
-
-export const getDomain = createSelector(
-  getDomainsEntitiesState,
-  state => state.entities[state.selectedDomainId]
+  (domainsList) => domainsList
 );

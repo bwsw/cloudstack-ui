@@ -20,7 +20,7 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 })
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
-  readonly domainList$ = this.store.select(fromDomains.domains);
+  readonly domainList$ = this.store.select(fromDomains.selectEntities);
   readonly filters$ = this.store.select(fromSshKeys.filters);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
   readonly selectedAccounts$ = this.store.select(fromSshKeys.filterSelectedAccounts);
@@ -30,10 +30,7 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
       key: 'accounts',
       label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: SSHKeyPair) => item.account,
-      name: (item: SSHKeyPair) => {
-        return `${this.getDomain(item.domainid)}${item.account}`
-          || `${item.domain}/${item.account}`;
-      },
+      name: (item: SSHKeyPair) => this.getGroupName(item)
     }
   ];
 
@@ -102,11 +99,9 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
     }));
   }
 
-  private getDomain(domainId: string) {
-    this.store.dispatch(new domainActions.GetDomain(domainId));
-    const domain$ = this.store.select(fromDomains.getDomain);
-
-    return domain$.takeUntil(this.unsubscribe$)
-      .subscribe(domain => domain ? domain.getPath() : '');
+  private getGroupName(sshKey: SSHKeyPair) {
+    return sshKey.domain !== 'ROOT'
+      ? `${sshKey.domain}/${sshKey.account}`
+      : sshKey.account;
   }
 }
