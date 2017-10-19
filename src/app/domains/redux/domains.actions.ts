@@ -14,9 +14,8 @@ export class LoadDomainsRequest implements Action {
 export class LoadDomainsResponse implements Action {
   type = LOAD_DOMAINS_RESPONSE;
 
-  constructor(public payload:  any ) {
+  constructor(public payload: any) {
   }
-
 }
 
 export type Actions = LoadDomainsResponse | LoadDomainsRequest;
