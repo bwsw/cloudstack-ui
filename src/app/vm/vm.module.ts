@@ -46,7 +46,7 @@ import { VmCreationTemplateComponent } from './vm-creation/template/vm-creation-
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
-import { VmListItemComponent } from './vm-list/vm-list-item.component';
+import { VmListCardItemComponent } from './vm-list-item/card-item/vm-list-card-item.component';
 import { VmListComponent } from './vm-list/vm-list.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
@@ -92,12 +92,14 @@ import { SecondaryIpListComponent } from './vm-sidebar/network-detail/nics/secon
 import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fields/nic-fields.component';
 import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
+import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([VmListItemComponent]),
+    DynamicModule.withComponents([VmListCardItemComponent]),
+    DynamicModule.withComponents([VmListRowItemComponent]),
     FormsModule,
     DraggableSelectModule,
     MdAutocompleteModule,
@@ -143,7 +145,8 @@ import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.c
     VmColorComponent,
     VmCreationComponent,
     VmCreationDialogComponent,
-    VmListItemComponent,
+    VmListCardItemComponent,
+    VmListRowItemComponent,
     VmDetailComponent,
     VmFilterComponent,
     VmSidebarComponent,

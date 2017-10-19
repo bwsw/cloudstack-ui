@@ -1,18 +1,16 @@
-import { Component, Input, OnChanges, Type } from '@angular/core';
+import {
+  OnChanges,
+  Type
+} from '@angular/core';
 import * as groupBy from 'lodash/groupBy';
 
-@Component({
-  selector: 'cs-grouped-card-list',
-  templateUrl: './grouped-card-list.component.html',
-  styleUrls: ['./grouped-card-list.component.scss']
-})
-export class GroupedCardListComponent implements OnChanges {
-  @Input() public component: Type<any>;
-  @Input() public list: Array<any>;
-  @Input() public level = 0;
-  @Input() public groupings: Array<any>;
-  @Input() dynamicInputs: { [k: string]: any } = {};
-  @Input() dynamicOutputs: { [k: string]: Function } = {};
+export class BaseGroupedComponent implements OnChanges {
+ public component: Type<any>;
+  public list: Array<any>;
+  public level = 0;
+  public groupings: Array<any>;
+  dynamicInputs: { [k: string]: any } = {};
+  dynamicOutputs: { [k: string]: Function } = {};
 
   public tree: Array<{ items?, name? }>;
 

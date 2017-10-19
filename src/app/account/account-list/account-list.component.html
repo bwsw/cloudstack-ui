@@ -1,9 +1,9 @@
-<cs-grouped-card-list
+<cs-grouped-list
   *ngIf="accounts?.length"
   [list]="accounts"
   [groupings]="groupings"
   [component]="AccountItemComponent"
   [dynamicInputs]="inputs"
   [dynamicOutputs]="outputs"
-></cs-grouped-card-list>
+></cs-grouped-list>
 <cs-no-results *ngIf="!accounts?.length"></cs-no-results>

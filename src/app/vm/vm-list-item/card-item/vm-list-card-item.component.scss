@@ -1,0 +1,68 @@
+:host {
+  display: inline-flex;
+  cursor: pointer;
+  z-index: -1;
+
+  & md-card {
+    width: 320px;
+    margin-top: 15px;
+    margin-left: 15px;
+    z-index: 0;
+    line-height: normal;
+  }
+}
+
+.custom-card {
+  md-card-header {
+    padding-bottom: 5px;
+  }
+
+  &.has-text-color {
+    md-card-content,
+    md-card-title {
+      color: inherit;
+    }
+  }
+  &.dark-background {
+    md-card-content,
+    md-card-title {
+      color: rgba(255, 255, 255, 0.87) !important;
+    }
+  }
+  &.light-background {
+    md-card-content,
+    md-card-title {
+      color: rgba(0, 0, 0, 0.87) !important;
+    }
+  }
+
+  .state-icon {
+    box-shadow: 0 0 1px 1px white;
+  }
+}
+
+.os-type {
+  margin-bottom: 5px;
+}
+
+md-card {
+  &.error {
+    cursor: auto;
+  }
+  &.destroyed {
+    opacity: 0.65;
+  }
+}
+
+.vm-ip-address {
+  display: inline-block;
+}
+
+.vm-state {
+  float: right;
+}
+
+md-divider {
+  flex: 1 0 100%;
+  margin: 10px 0;
+}

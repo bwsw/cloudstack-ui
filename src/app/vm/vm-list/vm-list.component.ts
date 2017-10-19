@@ -1,8 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
+import {
+  InstanceGroup,
+  VmStatisticsComponent,
+  Zone
+} from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
@@ -10,17 +21,22 @@ import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachine, VmState } from '../shared/vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import {
   InstanceGroupOrNoGroup,
   noGroup,
   VmFilter
 } from '../vm-filter/vm-filter.component';
-import { VmListItemComponent } from './vm-list-item.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
+import { VmListRowItemComponent } from '../vm-list-item/row-item/vm-list-row-item.component';
+import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-item.component';
+import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 
 @Component({
   selector: 'cs-vm-list',
@@ -60,7 +76,10 @@ export class VmListComponent implements OnInit {
     }
   ];
 
-  public VmListItemComponent = VmListItemComponent;
+  public VmListRowItemComponent = VmListRowItemComponent;
+  public VmListCardItemComponent = VmListCardItemComponent;
+  public mode = ViewMode.BOX;
+
 
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
@@ -116,6 +135,10 @@ export class VmListComponent implements OnInit {
 
   public get noFilteringResults(): boolean {
     return !this.visibleVmList.length;
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 
   public updateFiltersAndFilter(filterData: VmFilter): void {

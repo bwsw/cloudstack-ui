@@ -55,8 +55,6 @@ md-select,
 
 md-card {
   padding: 0 !important;
-  width: 320px;
-  margin: 15px 0 0 15px;
 }
 
 cs-sidebar md-card {
@@ -281,14 +279,6 @@ md-card.custom-card {
   overflow: visible !important;
 }
 
-.card-list-container md-card {
-  margin-top: 15px;
-  margin-left: 15px;
-}
-
-.card-list-container:last-child {
-  margin-bottom: 15px;
-}
 
 md-card-actions {
   border-top: 1px solid rgba(0, 0, 0, 0.1);

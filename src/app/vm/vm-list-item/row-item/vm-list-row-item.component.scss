@@ -1,11 +1,33 @@
 :host {
-  display: inline-flex;
   cursor: pointer;
   z-index: -1;
 
   & md-card {
     z-index: 0;
     line-height: normal;
+    margin: 0 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  div.info {
+    flex-grow: 1;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    line-height: normal;
+    flex-grow: 1;
+  }
+
+  div.table {
+    text-align: center;
+    flex-grow: 3;
+    table {
+      table-layout: auto;
+    }
   }
 }
 

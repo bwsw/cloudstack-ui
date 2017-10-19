@@ -1,5 +1,13 @@
 @import '../../../../style/__variables.scss';
 
+:host {
+  & md-card {
+    padding: 0 !important;
+    width: 320px;
+    margin: 15px 0 0 15px;
+  }
+}
+
 .tab-switch {
   margin: 0 auto 0 15px;
   text-transform: uppercase;
