@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { AuthService } from '../../shared/services/auth.service';
 import { SshPrivateKeyDialogComponent } from '../ssh-key-creation/ssh-private-key-dialog.component';
 import { MdDialog } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -32,24 +31,23 @@ export class SshKeyEffects {
   removeSshKeyPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_REMOVE)
     .switchMap((action: sshKey.RemoveSshKeyPair) => {
-      return this.sshKeyService.remove(
-        this.authService.isAdmin()
-          ? {
-            name: action.payload.name,
-            account: action.payload.account,
-            domainid: action.payload.domainid
-          } : { name: action.payload.name })
-        .map((success: boolean) => {
-          if (success) {
-            return new sshKey.RemoveSshKeyPairSuccessAction(Object.assign(
-              {},
-              success,
-              { name: action.payload.name }
-            ));
-          }
+      return this.sshKeyService.remove({
+        name: action.payload.name,
+        account: action.payload.account,
+        domainid: action.payload.domainid
+      })
+        .map((response: any) => {
+          return new sshKey.RemoveSshKeyPairSuccessAction(Object.assign(
+            {},
+            {
+              success: response.success,
+              name: `${action.payload.account}-${action.payload.name}`
+            }
+          ));
         })
-        .catch((error: Error) =>
-          Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error)));
+        .catch((error: Error) => {
+          return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
+        });
     });
 
   @Effect()
@@ -59,22 +57,41 @@ export class SshKeyEffects {
       return (action.payload.publicKey
         ? this.sshKeyService.register(action.payload)
         : this.sshKeyService.create(action.payload))
-        .map(createdKey => {
-          if (createdKey && createdKey.privateKey) {
-            this.showPrivateKey(createdKey.privateKey);
-          }
-          return new sshKey.CreateSshKeyPairSuccessAction(createdKey);
-        })
+        .map(createdKey => new sshKey.CreateSshKeyPairSuccessAction(createdKey))
         .catch((error: Error) => {
-          this.handleError(error);
           return Observable.of(new sshKey.CreateSshKeyPairErrorAction(error));
         });
+    });
+
+  @Effect({ dispatch: false })
+  createSshKeySuccessPair$: Observable<Action> = this.actions$
+    .ofType(sshKey.SSH_KEY_PAIR_CREATE_SUCCESS)
+    .do((action: sshKey.CreateSshKeyPairSuccessAction) => {
+      if (action.payload.privateKey) {
+        this.showPrivateKey(action.payload.privateKey);
+      }
+      return new sshKey.AddSshKeyPair(action.payload);
+    });
+
+  @Effect({ dispatch: false })
+  createSshKeyErrorPair$: Observable<Action> = this.actions$
+    .ofType(sshKey.SSH_KEY_PAIR_CREATE_ERROR)
+    .do((action: sshKey.CreateSshKeyPairErrorAction) => {
+      this.handleError(action.payload);
+      return new sshKey.AddErrorSshKey(action.payload);
+    });
+
+  @Effect({ dispatch: false })
+  removeSshKeyErrorPair$: Observable<Action> = this.actions$
+    .ofType(sshKey.SSH_KEY_PAIR_REMOVE_ERROR)
+    .do((action: sshKey.RemoveSshKeyPairErrorAction) => {
+      this.handleError(action.payload);
+      return new sshKey.RemoveSshKeyError(action.payload);
     });
 
   constructor(
     private actions$: Actions,
     private sshKeyService: SSHKeyPairService,
-    private authService: AuthService,
     private dialog: MdDialog,
     private dialogService: DialogService
   ) {
@@ -90,14 +107,12 @@ export class SshKeyEffects {
   }
 
   private handleError(error): void {
-    if (error) {
-      this.dialogService.alert({
-        message: {
-          translationToken: error.message,
-          interpolateParams: error.params
-        }
-      });
-    }
+    this.dialogService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 
 }

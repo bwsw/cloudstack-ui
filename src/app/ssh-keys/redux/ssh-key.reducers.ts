@@ -1,50 +1,63 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import {
+  combineReducers,
+  compose,
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
 import { Account } from '../../shared/models/account.model';
+
 import * as sshKey from './ssh-key.actions';
-import { falseIfMissing } from 'protractor/built/util';
 
+export interface State {
+  list: ListState,
+  form: FormState
+}
 
-export interface State extends EntityState<SSHKeyPair> {
+export interface ListState extends EntityState<SSHKeyPair> {
   filters: {
     selectedGroupings: any[],
     selectedAccounts: Account[]
-  },
-  error: Object,
-  form: {
-    loading: boolean
   }
 }
 
-export interface SshKeysState {
-  list: State;
+const initialListState: ListState = {
+  ids: [],
+  entities: null,
+  filters: {
+    selectedAccounts: [],
+    selectedGroupings: []
+  }
+};
+
+export interface FormState {
+  loading: boolean,
+  error: Object
 }
 
-export const sshKeyReducers = {
-  list: reducer
+const initialFormState: FormState = {
+  loading: false,
+  error: null
 };
+
+
+export interface SshKeysState {
+  list: ListState;
+  form: FormState;
+}
+
+export const sshKeyReducers = compose(combineReducers)({
+  list: listReducer,
+  form: formReducer
+});
 
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
   selectId: (item: SSHKeyPair) => `${item.account}-${item.name}`,
   sortComparer: false
 });
 
-export const initialState: State = adapter.getInitialState({
-  filters: {
-    selectedGroupings: [],
-    selectedAccounts: []
-  },
-  error: null,
-  form: {
-    loading: false
-  }
-});
-
-export function reducer(
-  state = initialState,
-  action: sshKey.Actions
-): State {
+export function listReducer(state = initialListState, action: sshKey.Actions): ListState {
   switch (action.type) {
     case sshKey.LOAD_SSH_KEYS_REQUEST: {
       return {
@@ -61,8 +74,6 @@ export function reducer(
       };
     }
     case sshKey.LOAD_SSH_KEYS_RESPONSE: {
-      const sshKeys = action.payload;
-
       return {
         /**
          * The addMany function provided by the created adapter
@@ -71,9 +82,33 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(sshKeys, state),
+        ...adapter.addAll(action.payload, state),
       };
     }
+
+    case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
+      // or just addOne() but it will add new element to the end of array
+
+      return {
+        ...state,
+        ids: [`${action.payload.account}-${action.payload.name}`, ...state.ids],
+        entities: {
+          [`${action.payload.account}-${action.payload.name}`]: action.payload,
+          ...state.entities
+        },
+      };
+    }
+    case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
+      return adapter.removeOne(action.payload.name, state);
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+export function formReducer(state = initialFormState, action: sshKey.Actions): FormState {
+  switch (action.type) {
     case sshKey.SSH_KEY_PAIR_REMOVE: {
       return {
         ...state,
@@ -84,25 +119,14 @@ export function reducer(
       return {
         ...state,
         error: null,
-        form: { loading: true }
+        loading: true
       };
     }
     case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
-      // or just addOne() but it will add new element to the end of array
-
       return {
         ...state,
-        ids: [action.payload.name, ...state.ids],
-        entities: { [action.payload.name]: action.payload, ...state.entities },
-        form: { loading: false }
+        loading: false
       };
-    }
-    case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
-      if (action.payload.success) {
-        return adapter.removeOne(action.payload.name, state);
-      } else {
-        break;
-      }
     }
     case sshKey.SSH_KEY_PAIR_REMOVE_ERROR: {
       return {
@@ -113,12 +137,9 @@ export function reducer(
     case sshKey.SSH_KEY_PAIR_CREATE_ERROR: {
       return {
         ...state,
-        form: { loading: false },
+        loading: false,
         error: action.payload
       };
-    }
-    case sshKey.GET_SSH_KEY_PAIR: {
-      return state;
     }
     default: {
       return state;
@@ -126,11 +147,16 @@ export function reducer(
   }
 }
 
-export const getSshKeysState = createFeatureSelector<SshKeysState>('list');
+export const getSshKeysState = createFeatureSelector<SshKeysState>('sshKeys');
 
 export const getSshKeysEntitiesState = createSelector(
   getSshKeysState,
   state => state.list
+);
+
+export const getSshKeysFormState = createSelector(
+  getSshKeysState,
+  state => state.form
 );
 
 export const {
@@ -146,8 +172,8 @@ export const filters = createSelector(
 );
 
 export const isLoading = createSelector(
-  getSshKeysEntitiesState,
-  state => state.form.loading
+  getSshKeysFormState,
+  state => state.loading
 );
 
 export const filterSelectedGroupings = createSelector(
@@ -164,11 +190,13 @@ export const selectFilteredSshKeys = createSelector(
   selectAll,
   filterSelectedAccounts,
   (sshKeys, selectedAccounts) => {
+    const accountsMap = selectedAccounts.reduce((m, i) => ({
+      ...m, [`${i.name}-${i.domainid}`]: i
+    }), {});
     const selectedAccountsFilter = (sshKey: SSHKeyPair) => {
-      const account = selectedAccounts.find(
-        _ => _.name === sshKey.account && _.domainid === sshKey.domainid);
+      const name = `${sshKey.account}-${sshKey.domainid}`;
 
-      return !selectedAccounts.length || account;
+      return !selectedAccounts.length || !!accountsMap[name];
     };
     return sshKeys.filter(sshKey => selectedAccountsFilter(sshKey));
   }

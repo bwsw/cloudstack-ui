@@ -6,11 +6,13 @@ export const LOAD_SSH_KEYS_RESPONSE = '[SshKeys] LOAD_SSH_KEYS_RESPONSE';
 export const SSH_KEY_FILTER_UPDATE = '[SshKeys] SSH_KEY_FILTER_UPDATE';
 export const SSH_KEY_PAIR_REMOVE = '[SshKeys] SSH_KEY_PAIR_REMOVE';
 export const SSH_KEY_PAIR_REMOVE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_REMOVE_SUCCESS';
-export const SSH_KEY_PAIR_REMOVE_ERROR = '[SshKeys] SSH_KEY_PAIR_REMOVE_SUCCESS';
+export const SSH_KEY_PAIR_REMOVE_ERROR = '[SshKeys] SSH_KEY_PAIR_REMOVE_ERROR';
+export const SSH_KEY_REMOVE_ERROR = '[SshKeys] SSH_KEY_REMOVE_ERROR';
 export const SSH_KEY_PAIR_CREATE = '[SshKeys] SSH_KEY_PAIR_CREATE';
+export const SSH_KEY_ADD = '[SshKeys] SSH_KEY_ADD';
+export const SSH_KEY_ADD_ERROR = '[SshKeys] SSH_KEY_ADD_ERROR';
 export const SSH_KEY_PAIR_CREATE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_CREATE_SUCCESS';
 export const SSH_KEY_PAIR_CREATE_ERROR = '[SshKeys] SSH_KEY_PAIR_CREATE_ERROR';
-export const GET_SSH_KEY_PAIR = '[SshKeys] GET_SSH_KEY_PAIR';
 
 export class LoadSshKeyRequest implements Action {
   readonly type = LOAD_SSH_KEYS_REQUEST;
@@ -61,6 +63,13 @@ export class CreateSshKeyPair implements Action {
   }
 }
 
+export class AddSshKeyPair implements Action {
+  readonly type = SSH_KEY_ADD;
+
+  constructor(public payload: SSHKeyPair) {
+  }
+}
+
 export class CreateSshKeyPairSuccessAction implements Action {
   readonly type = SSH_KEY_PAIR_CREATE_SUCCESS;
 
@@ -75,20 +84,31 @@ export class CreateSshKeyPairErrorAction implements Action {
   }
 }
 
-export class GetSshKeyPair implements Action {
-  readonly type = GET_SSH_KEY_PAIR;
+export class AddErrorSshKey implements Action {
+  readonly type = SSH_KEY_ADD_ERROR;
 
-  constructor(public payload: any) {
+  constructor(public payload: Error) {
+  }
+}
+
+export class RemoveSshKeyError implements Action {
+  readonly type = SSH_KEY_ADD_ERROR;
+
+  constructor(public payload: Error) {
   }
 }
 
 export type Actions =
   LoadSshKeyRequest
   | LoadSshKeyResponse
-  | GetSshKeyPair
   | SshKeyFilterUpdate
   | RemoveSshKeyPair
   | RemoveSshKeyPairSuccessAction
+  | RemoveSshKeyPairErrorAction
+  | RemoveSshKeyError
+  | AddSshKeyPair
+  | AddErrorSshKey
   | CreateSshKeyPair
+  | CreateSshKeyPairSuccessAction
   | CreateSshKeyPairSuccessAction
   | CreateSshKeyPairErrorAction;

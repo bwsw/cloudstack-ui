@@ -28,8 +28,6 @@ import { StoreModule } from '@ngrx/store';
 import { sshKeyReducers } from './redux/ssh-key.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { SshKeyEffects } from './redux/ssh-key.effects';
-import { domainReducers } from '../domains/redux/domains.reducers';
-import { DomainsEffects } from '../domains/redux/domains.effects';
 import { SShKeyCreationDialogContainerComponent } from './ssh-key-creation/containers/ssh-key-creation-dialog.container';
 import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 
@@ -49,9 +47,8 @@ import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creati
     MdInputModule,
     DynamicModule.withComponents([SshKeyListItemComponent]),
     DraggableSelectModule,
-    StoreModule.forFeature('list', sshKeyReducers),
-    StoreModule.forFeature('domains', domainReducers),
-    EffectsModule.forFeature([SshKeyEffects, DomainsEffects]),
+    StoreModule.forFeature('sshKeys', sshKeyReducers),
+    EffectsModule.forFeature([SshKeyEffects]),
   ],
   declarations: [
     SshKeyListContainerComponent,
