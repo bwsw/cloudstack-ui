@@ -50,9 +50,13 @@ export const sshKeyReducers = {
   form: formReducer
 };
 
-export function sortByName(a: SSHKeyPair, b: SSHKeyPair) {
+export const sshKeyId = (sshKey: SSHKeyPair) => {
+  return `${sshKey.domainid}-${sshKey.account}-${sshKey.name}`;
+};
+
+export const sortByName = (a: SSHKeyPair, b: SSHKeyPair) => {
   return a.name.localeCompare(b.name);
-}
+};
 
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
   selectId: sshKeyId,
@@ -197,7 +201,3 @@ export const selectFilteredSshKeys = createSelector(
     return sshKeys.filter(sshKey => selectedAccountsFilter(sshKey));
   }
 );
-
-export function sshKeyId(sshKey: SSHKeyPair) {
-  return `${sshKey.domainid}-${sshKey.account}-${sshKey.name}`;
-}
