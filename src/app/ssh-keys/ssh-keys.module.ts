@@ -68,4 +68,5 @@ import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creati
     SshPrivateKeyDialogComponent
   ]
 })
-export class SshKeysModule { }
+export class SshKeysModule {
+}

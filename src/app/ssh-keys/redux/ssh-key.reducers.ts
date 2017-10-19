@@ -1,8 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import {
-  combineReducers,
-  compose,
   createFeatureSelector,
   createSelector
 } from '@ngrx/store';
@@ -47,17 +45,17 @@ export interface SshKeysState {
   form: FormState;
 }
 
-export const sshKeyReducers = compose(combineReducers)({
+export const sshKeyReducers = {
   list: listReducer,
   form: formReducer
-});
+};
 
 export function sortByName(a: SSHKeyPair, b: SSHKeyPair) {
   return a.name.localeCompare(b.name);
 }
 
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
-  selectId: (item: SSHKeyPair) => sshKeyId(item),
+  selectId: sshKeyId,
   sortComparer: sortByName
 });
 
