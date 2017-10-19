@@ -120,6 +120,7 @@ export class VmListComponent implements OnInit {
 
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+      this.accounts = [];
     } else {
       this.getAccountList();
     }
@@ -187,23 +188,13 @@ export class VmListComponent implements OnInit {
       this.vmService.getListWithDetails(),
       this.vmService.getInstanceGroupList(),
       this.zoneService.getList(),
-      this.accountService.getList(),
-      this.domainService.getList()
     )
       .finally(() => this.fetching = false)
-      .subscribe(([vmList, groups, zones, accounts, domains]) => {
+      .subscribe(([vmList, groups, zones]) => {
         this.vmList = this.sortByDate(vmList);
         this.visibleVmList = vmList;
         this.groups = groups;
         this.zones = zones;
-        this.accounts = accounts;
-
-        this.accounts.map(account => {
-          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
-          return account;
-        });
-
-        this.domainList = domains;
 
         const selectedVmIsGone = this.visibleVmList.every(
           vm => !this.listService.isSelected(vm.id)

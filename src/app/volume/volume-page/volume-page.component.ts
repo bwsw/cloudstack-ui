@@ -28,7 +28,6 @@ import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
 import { AccountService } from '../../shared/services/account.service';
 import { Account } from '../../shared/models/account.model';
-import { VirtualMachine } from '../../vm/shared/vm.model';
 import { VmService } from '../../vm/shared/vm.service';
 
 
@@ -90,6 +89,13 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private authService: AuthService,
     private vmService: VmService) {
     super();
+
+    if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.accounts = [];
+    } else {
+      this.getAccountList();
+    }
   }
 
   public ngOnInit(): void {
@@ -106,12 +112,6 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       this.volumeService.onVolumeTagsChanged.takeUntil(this.unsubscribe$)
     )
       .subscribe(() => this.onVolumeUpdated());
-
-    if (!this.authService.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
-    } else {
-      this.getAccountList();
-    }
 
     Observable.forkJoin(
       this.updateVolumeList(),

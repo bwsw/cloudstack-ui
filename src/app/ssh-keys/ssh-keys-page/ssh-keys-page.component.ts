@@ -44,7 +44,7 @@ export class SshKeysPageComponent implements OnInit {
 
   public filterData: any;
   public domainList: Array<Domain>;
-  public accounts: Array<Account>;
+  public accounts: Array<Account> = [];
 
   constructor(
     public listService: ListService,

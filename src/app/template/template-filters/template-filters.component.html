@@ -12,7 +12,7 @@
       </md-button-toggle>
     </md-button-toggle-group>
 
-    <md-select
+    <md-select *ngIf="accounts.length"
       class="filter-select"
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"

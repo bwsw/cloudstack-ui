@@ -18,6 +18,7 @@ import * as fromEvents from '../redux/events.reducers';
 import * as fromAccounts from '../../account/redux/accounts.reducers';
 import { LanguageService } from '../../shared/services/language.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { AuthService } from '../../shared/services/auth.service';
 import moment = require('moment');
 
 @Component({
@@ -33,6 +34,7 @@ import moment = require('moment');
       [date]="date$ | async"
       [query]="query$ | async"
       [accounts]="accounts$ | async"
+      [isAdmin]="isAdmin()"
       [selectedAccountIds]="selectedAccountIds$ | async"
       (onAccountChange)="onAccountChange($event)"
       (onDateChange)="onDateChange($event)"
@@ -81,11 +83,16 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private authService: AuthService,
   ) {
     super();
 
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
+  }
+
+  public isAdmin() {
+    return this.authService.isAdmin();
   }
 
   public onQueryChange(query) {
@@ -133,13 +140,13 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     const selectedLevels = params['levels'];
     const selectedTypes = params['types'];
     const query = params['query'];
-    const accounts = params['accounts'];
+    const selectedAccountIds = params['accounts'];
     this.store.dispatch(new eventAction.EventFilterUpdate({
       query,
       date,
       selectedTypes,
       selectedLevels,
-      accounts
+      selectedAccountIds
     }));
   }
 

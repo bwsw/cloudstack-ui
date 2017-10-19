@@ -1,7 +1,7 @@
 <cs-top-bar>
   <div class="options-panel" *ngIf="showAccountFilter()">
 
-    <md-select
+    <md-select *ngIf="accounts.length"
       class="filter-select"
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"

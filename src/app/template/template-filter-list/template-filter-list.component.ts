@@ -14,9 +14,9 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Iso } from '../shared/iso.model';
 import { Template } from '../shared/template.model';
-import { User } from '../../shared/models/user.model';
 import { Domain } from '../../shared/models/domain.model';
 import { DomainService } from '../../shared/services/domain.service';
+import { Account } from '../../shared/models/account.model';
 
 
 @Component({
@@ -40,8 +40,8 @@ export class TemplateFilterListComponent implements OnChanges {
   public selectedOsFamilies: Array<OsFamily> = [];
   public selectedZones: Array<Zone> = [];
   public visibleTemplateList: Array<BaseTemplateModel> = [];
-  public accounts: Array<User>;
-  public domainList: Array<Domain> = [];
+  public accounts: Array<Account>;
+  public domainList: Array<Domain>;
 
   public selectedGroupings = [];
   public groupings = [
@@ -62,6 +62,7 @@ export class TemplateFilterListComponent implements OnChanges {
   constructor(protected authService: AuthService, private domainService: DomainService) {
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+      this.accounts = [];
     } else {
       this.getDomainList();
     }

@@ -39,7 +39,7 @@
         </md-option>
       </md-select>
 
-      <md-select
+      <md-select *ngIf="isAdmin"
         class="filter-select"
         multiple="true"
         [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"

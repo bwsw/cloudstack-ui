@@ -8,7 +8,7 @@
       {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
     </md-checkbox>
 
-    <md-select
+    <md-select *ngIf="accounts.length"
       class="filter-select"
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"

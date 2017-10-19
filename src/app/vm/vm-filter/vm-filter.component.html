@@ -1,6 +1,6 @@
 <div class="options-panel delimiter">
 
-  <md-select
+  <md-select *ngIf="accounts.length"
     class="filter-select"
     multiple="true"
     [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
