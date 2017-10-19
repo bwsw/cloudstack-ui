@@ -33,7 +33,7 @@ const initialListState: ListState = {
 
 export interface FormState {
   loading: boolean,
-  error: Object
+  error: object
 }
 
 const initialFormState: FormState = {
@@ -53,7 +53,7 @@ export const sshKeyReducers = compose(combineReducers)({
 });
 
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
-  selectId: (item: SSHKeyPair) => `${item.account}-${item.name}`,
+  selectId: (item: SSHKeyPair) => sshKeyId(item),
   sortComparer: false
 });
 
@@ -87,19 +87,18 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
     }
 
     case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
-      // or just addOne() but it will add new element to the end of array
 
       return {
         ...state,
-        ids: [`${action.payload.account}-${action.payload.name}`, ...state.ids],
+        ids: [sshKeyId(action.payload), ...state.ids],
         entities: {
-          [`${action.payload.account}-${action.payload.name}`]: action.payload,
+          [sshKeyId(action.payload)]: action.payload,
           ...state.entities
         },
       };
     }
     case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
-      return adapter.removeOne(action.payload.name, state);
+      return adapter.removeOne(action.payload, state);
     }
     default: {
       return state;
@@ -201,3 +200,7 @@ export const selectFilteredSshKeys = createSelector(
     return sshKeys.filter(sshKey => selectedAccountsFilter(sshKey));
   }
 );
+
+export function sshKeyId(sshKey: SSHKeyPair) {
+  return `${sshKey.domainid}-${sshKey.account}-${sshKey.name}`;
+}

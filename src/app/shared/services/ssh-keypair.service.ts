@@ -27,17 +27,17 @@ export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
     super(http);
   }
 
-  public getByName(name: string): Observable<any> {
+  public getByName(name: string): Observable<SSHKeyPair> {
     return this.getList({ name }).map(sshKeys => sshKeys[0]);
   }
 
-  public create(params: SshKeyCreationData): Observable<any> {
+  public create(params: SshKeyCreationData): Observable<SSHKeyPair> {
     this.invalidateCache();
     return this.sendCommand('create', params)
       .map(response => this.prepareModel(response['keypair']));
   }
 
-  public register(params: SshKeyCreationData): Observable<any> {
+  public register(params: SshKeyCreationData): Observable<SSHKeyPair> {
     this.invalidateCache();
     return this.sendCommand('register', params)
       .map(response => this.prepareModel(response['keypair']));

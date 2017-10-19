@@ -9,6 +9,7 @@ import { MdDialog } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 import * as sshKey from './ssh-key.actions';
+import { sshKeyId } from './ssh-key.reducers';
 
 @Injectable()
 export class SshKeyEffects {
@@ -36,14 +37,8 @@ export class SshKeyEffects {
         account: action.payload.account,
         domainid: action.payload.domainid
       })
-        .map((response: any) => {
-          return new sshKey.RemoveSshKeyPairSuccessAction(Object.assign(
-            {},
-            {
-              success: response.success,
-              name: `${action.payload.account}-${action.payload.name}`
-            }
-          ));
+        .map(() => {
+          return new sshKey.RemoveSshKeyPairSuccessAction(sshKeyId(action.payload));
         })
         .catch((error: Error) => {
           return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
@@ -70,7 +65,6 @@ export class SshKeyEffects {
       if (action.payload.privateKey) {
         this.showPrivateKey(action.payload.privateKey);
       }
-      return new sshKey.AddSshKeyPair(action.payload);
     });
 
   @Effect({ dispatch: false })
@@ -78,7 +72,6 @@ export class SshKeyEffects {
     .ofType(sshKey.SSH_KEY_PAIR_CREATE_ERROR)
     .do((action: sshKey.CreateSshKeyPairErrorAction) => {
       this.handleError(action.payload);
-      return new sshKey.AddErrorSshKey(action.payload);
     });
 
   @Effect({ dispatch: false })
@@ -86,7 +79,6 @@ export class SshKeyEffects {
     .ofType(sshKey.SSH_KEY_PAIR_REMOVE_ERROR)
     .do((action: sshKey.RemoveSshKeyPairErrorAction) => {
       this.handleError(action.payload);
-      return new sshKey.RemoveSshKeyError(action.payload);
     });
 
   constructor(
