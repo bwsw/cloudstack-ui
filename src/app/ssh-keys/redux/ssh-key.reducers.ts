@@ -52,9 +52,13 @@ export const sshKeyReducers = compose(combineReducers)({
   form: formReducer
 });
 
+export function sortByName(a: SSHKeyPair, b: SSHKeyPair) {
+  return a.name.localeCompare(b.name);
+}
+
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
   selectId: (item: SSHKeyPair) => sshKeyId(item),
-  sortComparer: false
+  sortComparer: sortByName
 });
 
 export function listReducer(state = initialListState, action: sshKey.Actions): ListState {
@@ -82,19 +86,14 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(action.payload, state),
+        ...adapter.addAll([...action.payload], state),
       };
     }
 
     case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
 
       return {
-        ...state,
-        ids: [sshKeyId(action.payload), ...state.ids],
-        entities: {
-          [sshKeyId(action.payload)]: action.payload,
-          ...state.entities
-        },
+        ...adapter.addOne(action.payload, state),
       };
     }
     case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {

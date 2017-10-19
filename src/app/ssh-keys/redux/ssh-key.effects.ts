@@ -61,10 +61,9 @@ export class SshKeyEffects {
   @Effect({ dispatch: false })
   createSshKeySuccessPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_CREATE_SUCCESS)
+    .filter((action: sshKey.CreateSshKeyPairSuccessAction) => !!action.payload.privateKey)
     .do((action: sshKey.CreateSshKeyPairSuccessAction) => {
-      if (action.payload.privateKey) {
         this.showPrivateKey(action.payload.privateKey);
-      }
     });
 
   @Effect({ dispatch: false })
