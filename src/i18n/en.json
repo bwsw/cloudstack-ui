@@ -1175,8 +1175,8 @@
     "RECOVER_IN_PROGRESS": "Recovering"
   },
   "VOLUME_TYPE": {
-    "ROOT": "ROOT",
-    "DATADISK": "DATADISK"
+    "ROOT": "System Volumes",
+    "DATADISK": "Additional Volumes"
   },
   "DATE_TIME": {
     "AM": "AM",
