@@ -35,7 +35,7 @@ import moment = require('moment');
       [query]="query$ | async"
       [accounts]="accounts$ | async"
       [isAdmin]="isAdmin()"
-      [selectedAccountIds]="selectedAccountIds$ | async"
+      [selectedAccounts]="selectedAccounts$ | async"
       (onAccountChange)="onAccountChange($event)"
       (onDateChange)="onDateChange($event)"
       (onQueryChange)="onQueryChange($event)"
@@ -53,7 +53,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
   readonly filters$ = this.store.select(fromEvents.filters);
   readonly selectedTypes$ = this.store.select(fromEvents.filterSelectedTypes);
   readonly selectedLevels$ = this.store.select(fromEvents.filterSelectedLevels);
-  readonly selectedAccountIds$ = this.store.select(fromEvents.filterSelectedAccountIds);
+  readonly selectedAccounts$ = this.store.select(fromEvents.filterSelectedAccounts);
   readonly eventTypes$ = this.store.select(fromEvents.eventTypes)
     .withLatestFrom(this.selectedTypes$)
     .map(([all, selected]) => {
@@ -107,8 +107,8 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     this.store.dispatch(new eventAction.EventFilterUpdate({ selectedLevels }));
   }
 
-  public onAccountChange(selectedAccountIds) {
-    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccountIds }))
+  public onAccountChange(selectedAccounts) {
+    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccounts }))
   }
 
   public onDateChange(date) {
@@ -127,7 +127,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
           'date': moment(filters.date).format('YYYY-MM-DD'),
           'levels': filters.selectedLevels,
           'types': filters.selectedTypes,
-          'accounts': filters.selectedAccountIds,
+          'accounts': filters.selectedAccounts.map(a => a.id),
           'query': filters.query
         });
       });
@@ -141,13 +141,18 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     const selectedTypes = params['types'];
     const query = params['query'];
     const selectedAccountIds = params['accounts'];
-    this.store.dispatch(new eventAction.EventFilterUpdate({
-      query,
-      date,
-      selectedTypes,
-      selectedLevels,
-      selectedAccountIds
-    }));
+
+    this.accounts$.takeUntil(this.unsubscribe$)
+      .subscribe(accounts =>{
+        const selectedAccounts = accounts.filter(account => selectedAccountIds.find(id => id === account.id));
+        this.store.dispatch(new eventAction.EventFilterUpdate({
+          query,
+          date,
+          selectedTypes,
+          selectedLevels,
+          selectedAccounts
+        }));
+      });
   }
 
 }

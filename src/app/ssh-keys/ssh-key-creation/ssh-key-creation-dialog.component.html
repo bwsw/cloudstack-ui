@@ -1,5 +1,5 @@
-<cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<div *ngIf="!loading">
+<cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
+<div *ngIf="!isLoading">
   <h3 class="mat-dialog-title">{{ 'SSH_KEYS.CREATE_SSH_KEY' | translate }}</h3>
   <form
     (ngSubmit)="onSubmit($event)"

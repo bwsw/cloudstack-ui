@@ -5,19 +5,19 @@
       class="filter-select"
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]="selectedAccountIds"
-      (change)="update()"
+      [(ngModel)]="selectedAccounts"
+      (change)="onAccountsChange.emit($event.value)"
     >
-      <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+      <md-option *ngFor="let account of accounts" [value]="account">{{ account.fullDomain }}{{ account.name }}</md-option>
     </md-select>
 
     <cs-draggable-select
       class="filter-select"
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupingNames"
+      [(ngModel)]="selectedGroupings"
       [dragItems]="groupings"
-      (change)="update()"
+      (ngModelChange)="onGroupingsChange.emit($event)"
     >
       <md-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}

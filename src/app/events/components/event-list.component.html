@@ -43,10 +43,10 @@
         class="filter-select"
         multiple="true"
         [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-        [(ngModel)]="selectedAccountIds"
+        [(ngModel)]="selectedAccounts"
         (change)="onAccountChange.emit($event.value)"
       >
-        <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+        <md-option *ngFor="let account of accounts" [value]="account">{{ account.fullDomain }}{{ account.name }}</md-option>
       </md-select>
 
       <cs-search

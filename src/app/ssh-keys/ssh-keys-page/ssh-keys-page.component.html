@@ -5,13 +5,16 @@
   <cs-ssh-key-filter
     [groupings]="groupings"
     [accounts]="accounts"
-    (updateFilters)="updateFilters($event)"
+    [selectedAccounts]="selectedAccounts"
+    [selectedGroupings]="selectedGroupings"
+    (onGroupingsChange)="onGroupingsChange.emit($event)"
+    (onAccountsChange)="onAccountsChange.emit($event)"
     cs-list
   ></cs-ssh-key-filter>
 
   <cs-ssh-key-list
     *loading="!sshKeyList"
-    [keys]="visibleSshKeyList"
+    [keys]="sshKeyList"
     [groupings]="selectedGroupings"
     (onRemove)="removeKey($event)"
     cs-list

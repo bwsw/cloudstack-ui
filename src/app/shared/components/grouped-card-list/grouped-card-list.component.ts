@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, Type } from '@angular/core';
+import { Component, Input, OnChanges, Type } from '@angular/core';
 import * as groupBy from 'lodash/groupBy';
 
 @Component({
