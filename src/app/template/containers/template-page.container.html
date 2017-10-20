@@ -1,0 +1,10 @@
+<!--<pre [innerHTML]="templates$ | async | json"></pre>-->
+<cs-template-page
+  [viewMode]="selectedViewMode$ | async"
+  [isLoading]="isLoading$ | async"
+  [groupings]="groupings"
+  (onViewModeChange)="onViewModeChange($event)"
+  (onQueryChange)="onQueryChange($event)"
+  (onFiltersChange)="onFiltersChange($event)"
+  [templates]="templates$ | async"
+></cs-template-page>

@@ -50,6 +50,13 @@ import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TemplateComponent } from './template/template.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
+import { TemplatePageContainerComponent } from './containers/template-page.container';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { TemplateEffects } from './redux/template.effects';
+import { templateReducers } from './redux/template.reducers';
+import { osTypeReducers } from './redux/ostype.reducers';
+import { OsTypeEffects } from './redux/ostype.effects';
 
 
 @NgModule({
@@ -73,6 +80,9 @@ import { TemplateActionsSidebarComponent } from './template-sidebar/template-act
     SharedModule,
     TagsModule,
     TranslateModule,
+    StoreModule.forFeature('templates', templateReducers),
+    StoreModule.forFeature('osTypes', osTypeReducers),
+    EffectsModule.forFeature([TemplateEffects, OsTypeEffects]),
   ],
   declarations: [
     TemplateSidebarComponent,
@@ -90,6 +100,7 @@ import { TemplateActionsSidebarComponent } from './template-sidebar/template-act
     TemplateCardListComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
+    TemplatePageContainerComponent,
     TemplatePageComponent,
     TemplateTagsComponent,
     IsoTagsComponent,

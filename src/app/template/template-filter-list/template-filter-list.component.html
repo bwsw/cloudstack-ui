@@ -1,7 +1,7 @@
 <cs-template-filters
   class="options"
-  (queries)="filterResults($event)"
-  (filters)="filterResults($event)"
+  (queries)="onQueryChange.emit($event)"
+  (filters)="onFiltersChange.emit($event)"
   (displayMode)="changeViewMode($event)"
   [showIso]="viewMode === 'Iso'"
   [showDelimiter]="showDelimiter"
@@ -9,15 +9,14 @@
   [availableGroupings]="groupings"
 ></cs-template-filters>
 
-<ng-container *loading="!templateList?.length" cs-list>
+<ng-container *loading="!templates?.length" cs-list>
   <cs-template-card-list
-    *loading="fetching"
     class="template-list"
     [query]="query"
-    [templateList]="visibleTemplateList"
+    [templateList]="templates"
     [groupings]="selectedGroupings"
   >
   </cs-template-card-list>
 </ng-container>
 
-<cs-no-results *ngIf="!visibleTemplateList?.length && !fetching"></cs-no-results>
+<cs-no-results *ngIf="!templates?.length && !fetching"></cs-no-results>

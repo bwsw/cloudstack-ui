@@ -22,6 +22,7 @@ export const TemplateFilters = {
 
 export interface RequestParams {
   filter: string;
+
   [propName: string]: any;
 }
 
@@ -96,13 +97,23 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       .catch(error => Observable.throw(error));
   }
 
-  public getList(params: RequestParams, customApiFormat?: {}, useCache = true): Observable<Array<BaseTemplateModel>> {
+  public getList(
+    params: RequestParams,
+    customApiFormat?: {},
+    useCache = true
+  ): Observable<Array<BaseTemplateModel>> {
     return this.getListWithDuplicates(params, useCache)
       .map(templates => this.distinctIds(templates))
-      .catch(() => Observable.of([]));
+      .catch((err) => {
+      debugger;
+      return Observable.of([]);
+      });
   }
 
-  public getListWithDuplicates(params: RequestParams, useCache = true): Observable<Array<BaseTemplateModel>> {
+  public getListWithDuplicates(
+    params: RequestParams,
+    useCache = true
+  ): Observable<Array<BaseTemplateModel>> {
     params[`${this.entity}filter`.toLowerCase()] = params.filter;
     delete params.filter;
 
@@ -113,26 +124,25 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       delete params['maxSize'];
     }
 
-    return Observable.forkJoin(
-      super.getList(params, null, useCache),
-      this.osTypeService.getList()
-    )
-      .map(([templates, osTypes]) => {
-        templates.forEach(template => {
-          template.osType = osTypes.find(osType => osType.id === template.osTypeId);
-        });
-        return templates;
-      })
+    return super.getList(params, null, useCache)
       .map(templates => {
         if (maxSize) {
-          return templates.filter(template => Utils.convertToGb(template.size) <= maxSize);
+          return templates.filter(
+            template => Utils.convertToGb(template.size) <= maxSize);
         }
         return templates;
       })
-      .catch(() => Observable.of([]));
+      .catch((error) => {
+      debugger;
+        return Observable.of([])
+      });
   }
 
-  public getWithGroupedZones(id: string, params?: RequestParams, useCache = true): Observable<BaseTemplateModel> {
+  public getWithGroupedZones(
+    id: string,
+    params?: RequestParams,
+    useCache = true
+  ): Observable<BaseTemplateModel> {
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
     return this.getListWithDuplicates({ id, filter }, useCache)
       .map(templates => {
@@ -188,6 +198,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         filters = Object.keys(TemplateFilters).map((key) => TemplateFilters[key]);
       }
       localFilters = filters;
+
     }
 
     const templateObservables = [];
@@ -200,12 +211,13 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       templateObservables.push(templates);
     }
 
-    return Observable.forkJoin(templateObservables)
+    return Observable.forkJoin(...templateObservables)
       .map(data => {
         const obj = {};
         data.forEach((templateSet, i) => {
           obj[localFilters[i]] = templateSet;
         });
+
         return new GroupedTemplates<T>(obj);
       });
   }

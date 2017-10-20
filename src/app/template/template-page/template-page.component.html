@@ -2,11 +2,17 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
+
+  <!--*ngIf="templates && isos"-->
+
   <cs-template-filter-list
-    *ngIf="templates && isos"
-    [(viewMode)]="viewMode"
+    [viewMode]="viewMode"
     [templates]="templates"
-    [isos]="isos"
+    [groupings]="groupings"
+    [fetching]="isLoading"
+    (viewModeChange)="onViewModeChange.emit($event)"
+    (onFiltersChange)="onFiltersChange.emit($event)"
+    (onQueryChange)="onQueryChange.emit($event)"
     cs-list
   ></cs-template-filter-list>
   <ng-container cs-sidebar>

@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { BaseTemplateModel } from '../shared/base-template.model';
+import { Iso } from '../shared/iso.model';
 import { ListService } from '../../shared/components/list/list.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../shared';
-import { TemplateFilters } from '../shared/base-template.service';
-import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -13,28 +10,29 @@ import { AuthService } from '../../shared/services/auth.service';
   templateUrl: 'template-page.component.html',
   providers: [ListService]
 })
-export class TemplatePageComponent implements OnInit {
-  public templates: Array<Template>;
-  public isos: Array<Iso>;
-  public viewMode: string;
+export class TemplatePageComponent {
+  @Input() public templates: Array<BaseTemplateModel>;
+  @Input() public isLoading: boolean;
+  // @Input() public isos: Array<Iso>;
+  @Input() public viewMode: string;
+  @Input() public groupings: object[];
+  @Output() public onViewModeChange = new EventEmitter<string>();
+  @Output() public onFiltersChange = new EventEmitter();
+  @Output() public onQueryChange = new EventEmitter();
 
   constructor(
-    private storageService: LocalStorageService,
-    public listService: ListService,
-    private templateService: TemplateService,
-    private isoService: IsoService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    public listService: ListService
   ) {
   }
 
-  public ngOnInit(): void {
-    this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-    this.listService.onUpdate.subscribe((template) => this.updateList(template));
-    this.subscribeToTemplateDeletions();
-    this.getTemplates();
-  }
+  // public ngOnInit(): void {
+  // this.viewMode = this.storageService.read('templateDisplayMode') || 'Template';
+  // this.listService.onUpdate.subscribe((template) => this.updateList(template));
+  // this.subscribeToTemplateDeletions();
+  // this.getTemplates();
+  // }
 
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
@@ -43,39 +41,39 @@ export class TemplatePageComponent implements OnInit {
     });
   }
 
-  private updateList(template?: BaseTemplateModel): void {
-    this.getTemplates();
-    if (template && this.listService.isSelected(template.id)) {
-      this.listService.deselectItem();
-    }
-  }
+  // private updateList(template?: BaseTemplateModel): void {
+  //   this.getTemplates();
+  //   if (template && this.listService.isSelected(template.id)) {
+  //     this.listService.deselectItem();
+  //   }
+  // }
 
-  private getTemplates(): void {
-    let filters = [
-      TemplateFilters.featured,
-      TemplateFilters.self
-    ];
+  // private getTemplates(): void {
+  //   let filters = [
+  //     TemplateFilters.featured,
+  //     TemplateFilters.self
+  //   ];
+  //
+  //   if (this.authService.isAdmin()) {
+  //     filters = [TemplateFilters.all];
+  //   }
+  //
+  //   Observable.forkJoin(
+  //     this.templateService.getGroupedTemplates<Template>({}, filters, true)
+  //       .map(_ => _.toArray()),
+  //     this.isoService.getGroupedTemplates<Iso>({}, filters, true).map(_ => _.toArray())
+  //   )
+  //     .subscribe(([templates, isos]) => {
+  //       this.templates = templates;
+  //       this.isos = isos;
+  //     });
+  // }
 
-    if (this.authService.isAdmin()) {
-      filters = [TemplateFilters.all];
-    }
-
-    Observable.forkJoin(
-      this.templateService.getGroupedTemplates<Template>({}, filters, true)
-        .map(_ => _.toArray()),
-      this.isoService.getGroupedTemplates<Iso>({}, filters, true).map(_ => _.toArray())
-    )
-      .subscribe(([templates, isos]) => {
-        this.templates = templates;
-        this.isos = isos;
-      });
-  }
-
-  private subscribeToTemplateDeletions(): void {
-    Observable.merge(
-      this.templateService.onTemplateRemoved,
-      this.isoService.onTemplateRemoved
-    )
-      .subscribe(template => this.updateList(template));
-  }
+  // private subscribeToTemplateDeletions(): void {
+  //   Observable.merge(
+  //     this.templateService.onTemplateRemoved,
+  //     this.isoService.onTemplateRemoved
+  //   )
+  //     .subscribe(template => this.updateList(template));
+  // }
 }

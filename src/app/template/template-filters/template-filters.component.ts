@@ -66,26 +66,26 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.self
   ];
 
-  private filtersKey = 'imageListFilters';
-  private filterService = new FilterService({
-    osFamilies: {
-      type: 'array',
-      options: this.osFamilies,
-      defaultOption: []
-    },
-    categoryFilters: {
-      type: 'array',
-      options: this.categoryFilters,
-      defaultOption: []
-    },
-    zones: {
-      type: 'array',
-      defaultOption: []
-    },
-    query: { type: 'string' },
-    groupings: { type: 'array', defaultOption: [] },
-    accounts: {type: 'array', defaultOption: [] }
-  }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
+  // private filtersKey = 'imageListFilters';
+  // private filterService = new FilterService({
+  //   osFamilies: {
+  //     type: 'array',
+  //     options: this.osFamilies,
+  //     defaultOption: []
+  //   },
+  //   categoryFilters: {
+  //     type: 'array',
+  //     options: this.categoryFilters,
+  //     defaultOption: []
+  //   },
+  //   zones: {
+  //     type: 'array',
+  //     defaultOption: []
+  //   },
+  //   query: { type: 'string' },
+  //   groupings: { type: 'array', defaultOption: [] },
+  //   accounts: {type: 'array', defaultOption: [] }
+  // }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
 
   private templateTabIndex = 0;
   private isoTabIndex = 1;
@@ -105,11 +105,7 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (!this.dialogMode) {
-      const observes = this.showAccountFilter() ? Observable.forkJoin(this.getAccountList(),this.getZones()) :
-        Observable.forkJoin(this.getZones());
-      observes.subscribe(() => this.initFilters());
-    } else {
+    if (this.dialogMode) {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
     }
@@ -144,67 +140,51 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   public updateFilters(): void {
-    this.filters.emit({
-      selectedOsFamilies: this.selectedOsFamilies,
-      selectedFilters: this.selectedFilters,
-      selectedZones: this.selectedZones,
-      query: this.query,
-      groupings: this.selectedGroupingNames,
-      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
-    });
+    // this.filters.emit({
+    //   selectedOsFamilies: this.selectedOsFamilies,
+    //   selectedFilters: this.selectedFilters,
+    //   selectedZones: this.selectedZones,
+    //   query: this.query,
+    //   groupings: this.selectedGroupingNames,
+    //   accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
+    // });
 
-    if (!this.dialogMode) {
-      this.filterService.update({
-        query: this.query || null,
-        osFamilies: this.selectedOsFamilies,
-        categoryFilters: this.selectedFilters,
-        zones: this.selectedZones.map(_ => _.id),
-        groupings: this.selectedGroupingNames.map(_ => _.key),
-        accounts: this.selectedAccountIds
-      });
-    }
+    // if (!this.dialogMode) {
+    //   this.filterService.update({
+    //     query: this.query || null,
+    //     osFamilies: this.selectedOsFamilies,
+    //     categoryFilters: this.selectedFilters,
+    //     zones: this.selectedZones.map(_ => _.id),
+    //     groupings: this.selectedGroupingNames.map(_ => _.key),
+    //     accounts: this.selectedAccountIds
+    //   });
+    // }
   }
 
   public updateDisplayMode(): void {
     const mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
-    this.storageService.write('templateDisplayMode', mode);
+    // this.storageService.write('templateDisplayMode', mode);
   }
 
-  private initFilters(): void {
-    const params = this.filterService.getParams();
-    this.selectedOsFamilies = params['osFamilies'];
-    this.selectedFilters = params['categoryFilters'];
-    this.selectedZones = this.zones.filter(
-      zone => params['zones'].find(id => id === zone.id));
-    this.selectedGroupingNames = params['groupings']
-      .map(g => this.availableGroupings.find(_ => _.key === g))
-      .filter(g => g);
-    this.query = params['query'];
-    this.queryStream.next(this.query);
-    this.selectedAccountIds = params['accounts'];
-
+  public updateAccount(accounts: Array<Account>) {
+    this.selectedAccounts = accounts;
     this.updateFilters();
   }
 
-  private getAccountList() {
-    return Observable.forkJoin(
-      this.accountService.getList(),
-      this.domainService.getList()
-    )
-      .map(([accounts, domains]) => {
-        this.accounts = accounts;
-        this.accounts.map(account => {
-          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
-          return account;
-        });
-      });
-  }
-
-  private getZones() {
-    return this.zoneService.getList()
-      .map(zones => {
-        this.zones = zones;
-      });
-  }
+  // private initFilters(): void {
+  //   const params = this.filterService.getParams();
+  //   this.selectedOsFamilies = params['osFamilies'];
+  //   this.selectedFilters = params['categoryFilters'];
+  //   this.selectedZones = this.zones.filter(
+  //     zone => params['zones'].find(id => id === zone.id));
+  //   this.selectedGroupingNames = params['groupings']
+  //     .map(g => this.availableGroupings.find(_ => _.key === g))
+  //     .filter(g => g);
+  //   this.query = params['query'];
+  //   this.queryStream.next(this.query);
+  //   this.selectedAccountIds = params['accounts'];
+  //
+  //   this.updateFilters();
+  // }
 }
