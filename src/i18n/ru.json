@@ -1174,8 +1174,8 @@
     "RECOVER_IN_PROGRESS": "Идет восстановление"
   },
   "VOLUME_TYPE": {
-    "ROOT": "ROOT",
-    "DATADISK": "DATADISK"
+    "ROOT": "Системные тома",
+    "DATADISK": "Дополнительные тома"
   },
   "DATE_TIME": {
     "AM": "AM",
