@@ -1,0 +1,9 @@
+<cs-ssh-keys-page
+  [sshKeyList]="sshKeyList$ | async"
+  [groupings]="groupings"
+  [selectedAccounts]="selectedAccounts$ | async"
+  [selectedGroupings]="selectedGroupings$ | async"
+  (onAccountsChange)="onAccountsChange($event)"
+  (onGroupingsChange)="update($event)"
+  (onKeyRemove)="removeSshKeyPair($event)"
+></cs-ssh-keys-page>

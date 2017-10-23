@@ -1,14 +1,8 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './domains.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Domain } from '../../shared/models/domain.model';
+
+import * as event from './domains.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -77,8 +71,6 @@ export function reducer(
         loading: false
       };
     }
-
-
     default: {
       return state;
     }
@@ -105,9 +97,7 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const domians = createSelector(
+export const domains = createSelector(
   selectAll,
-  (domains) => domains
+  (domainsList) => domainsList
 );
-
-

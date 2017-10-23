@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { ListService } from '../../shared/components/list/list.service';
 import { SshKeyListItemComponent } from '../ssh-key-list-item/ssh-key-list-item.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -17,15 +17,18 @@ export class SshKeyListComponent {
 
   public SshKeyListItemComponent = SshKeyListItemComponent;
 
-  constructor(private listService: ListService) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.outputs = {
       onClick: this.selectSshKeyPair.bind(this),
       onRemove: this.removeKeyPair.bind(this)
-    }
+    };
   }
 
   public selectSshKeyPair(sshKeyPair: SSHKeyPair): void {
-    this.listService.showDetails(sshKeyPair.name);
+    this.router.navigate(['view', sshKeyPair.name], {
+      relativeTo: this.route,
+      queryParamsHandling: 'preserve'
+    });
   }
 
   public removeKeyPair(sshKeyPair: SSHKeyPair): void {

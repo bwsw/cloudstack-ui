@@ -1,26 +1,16 @@
-import { Component } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { SSHKeyPair } from '../../shared/models';
-import { SshKeyCreationData, SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SshKeyCreationData } from '../../shared/services/ssh-keypair.service';
 
 @Component({
-  selector: 'cs-ssh-key-creation-dialog',
-  templateUrl: 'ssh-key-creation-dialog.component.html',
-  styleUrls: ['ssh-key-creation-dialog.component.scss']
+  selector: 'cs-ssh-key-creation',
+  templateUrl: 'ssh-key-creation-dialog.component.html'
 })
-export class SShKeyCreationDialogComponent {
+export class SshKeyCreationDialogComponent {
   public name: string;
   public publicKey: string;
-  public loading: boolean;
 
-  constructor(
-    public dialogRef: MdDialogRef<SShKeyCreationDialogComponent>,
-    public dialogService: DialogService,
-    public sshKeyPairService: SSHKeyPairService
-  ) { }
+  @Input() public isLoading: boolean;
+  @Output() public onSshKeyPairCreation = new EventEmitter<SshKeyCreationData>();
 
   public onSubmit(e): void {
     e.preventDefault();
@@ -29,27 +19,6 @@ export class SShKeyCreationDialogComponent {
       publicKey: this.publicKey
     };
 
-    this.loading = true;
-    this.createSshKey(sshKeyCreationParams)
-      .finally(() => this.loading = false)
-      .subscribe(
-        sshKeyPair => this.dialogRef.close(sshKeyPair),
-        error => this.handleError(error)
-      );
-  }
-
-  private createSshKey(data: SshKeyCreationData): Observable<SSHKeyPair> {
-    return data.publicKey ?
-      this.sshKeyPairService.register(data) :
-      this.sshKeyPairService.create(data);
-  }
-
-  private handleError(error): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
-    });
+    this.onSshKeyPairCreation.emit(sshKeyCreationParams);
   }
 }
