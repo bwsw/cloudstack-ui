@@ -20,7 +20,6 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 export class AccountSidebarContainerComponent extends WithUnsubscribe() implements OnInit {
 
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
-  readonly loading$ = this.store.select(fromAccounts.isLoading);
 
 
   constructor(

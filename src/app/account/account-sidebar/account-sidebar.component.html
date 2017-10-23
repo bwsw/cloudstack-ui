@@ -17,6 +17,4 @@
 
 <router-outlet></router-outlet>
 
-<cs-no-results *ngIf="notFound" [text]="'ACCOUNT_NOT_FOUND'"></cs-no-results>
-
-<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>
+<cs-overlay-loading [active]="!entity"></cs-overlay-loading>
