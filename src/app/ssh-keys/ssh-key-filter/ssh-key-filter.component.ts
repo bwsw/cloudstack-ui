@@ -14,7 +14,7 @@ import { AuthService } from '../../shared/services/auth.service';
 export class ShhKeyFilterComponent {
   @Input() public accounts: Array<Account>;
   @Input() public groupings: Array<any>;
-  @Input() public selectedAccounts: Array<Account> = [];
+  @Input() public selectedAccountIds: Array<string> = [];
   @Input() public selectedGroupings: Array<any> = [];
   @Output() public onGroupingsChange = new EventEmitter<any>();
   @Output() public onAccountsChange = new EventEmitter<any>();

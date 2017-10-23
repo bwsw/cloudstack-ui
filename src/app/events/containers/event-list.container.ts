@@ -6,7 +6,6 @@ import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import * as eventAction from '../redux/events.actions';
 import * as accountAction from '../../account/redux/accounts.actions';
-import * as domainAction from '../../domains/redux/domains.actions';
 import * as debounce from 'lodash/debounce';
 import { FilterService } from '../../shared/services/filter.service';
 import {
@@ -35,7 +34,7 @@ import moment = require('moment');
       [query]="query$ | async"
       [accounts]="accounts$ | async"
       [isAdmin]="isAdmin()"
-      [selectedAccounts]="selectedAccounts$ | async"
+      [selectedAccountIds]="selectedAccountIds$ | async"
       (onAccountChange)="onAccountChange($event)"
       (onDateChange)="onDateChange($event)"
       (onQueryChange)="onQueryChange($event)"
@@ -53,7 +52,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
   readonly filters$ = this.store.select(fromEvents.filters);
   readonly selectedTypes$ = this.store.select(fromEvents.filterSelectedTypes);
   readonly selectedLevels$ = this.store.select(fromEvents.filterSelectedLevels);
-  readonly selectedAccounts$ = this.store.select(fromEvents.filterSelectedAccounts);
+  readonly selectedAccountIds$ = this.store.select(fromEvents.filterSelectedAccountIds);
   readonly eventTypes$ = this.store.select(fromEvents.eventTypes)
     .withLatestFrom(this.selectedTypes$)
     .map(([all, selected]) => {
@@ -107,8 +106,8 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     this.store.dispatch(new eventAction.EventFilterUpdate({ selectedLevels }));
   }
 
-  public onAccountChange(selectedAccounts) {
-    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccounts }))
+  public onAccountChange(selectedAccountIds) {
+    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccountIds }))
   }
 
   public onDateChange(date) {
@@ -117,7 +116,6 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
 
   public ngOnInit() {
     this.store.dispatch(new accountAction.LoadAccountsRequest());
-    this.store.dispatch(new domainAction.LoadDomainsRequest());
 
     this.initFilters();
     this.filters$
@@ -127,7 +125,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
           'date': moment(filters.date).format('YYYY-MM-DD'),
           'levels': filters.selectedLevels,
           'types': filters.selectedTypes,
-          'accounts': filters.selectedAccounts.map(a => a.id),
+          'accounts': filters.selectedAccountIds,
           'query': filters.query
         });
       });
@@ -142,17 +140,13 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     const query = params['query'];
     const selectedAccountIds = params['accounts'];
 
-    this.accounts$.takeUntil(this.unsubscribe$)
-      .subscribe(accounts =>{
-        const selectedAccounts = accounts.filter(account => selectedAccountIds.find(id => id === account.id));
-        this.store.dispatch(new eventAction.EventFilterUpdate({
-          query,
-          date,
-          selectedTypes,
-          selectedLevels,
-          selectedAccounts
-        }));
-      });
+    this.store.dispatch(new eventAction.EventFilterUpdate({
+      query,
+      date,
+      selectedTypes,
+      selectedLevels,
+      selectedAccountIds
+    }));
   }
 
 }

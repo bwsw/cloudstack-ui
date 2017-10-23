@@ -187,7 +187,7 @@ export class VmListComponent implements OnInit {
     Observable.forkJoin(
       this.vmService.getListWithDetails(),
       this.vmService.getInstanceGroupList(),
-      this.zoneService.getList(),
+      this.zoneService.getList()
     )
       .finally(() => this.fetching = false)
       .subscribe(([vmList, groups, zones]) => {

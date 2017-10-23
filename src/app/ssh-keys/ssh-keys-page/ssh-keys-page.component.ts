@@ -27,7 +27,7 @@ export class SshKeysPageComponent {
   @Input() public sshKeyList: Array<SSHKeyPair>;
   @Input() public groupings;
   @Input() public accounts: Array<Account>;
-  @Input() public selectedAccounts = [];
+  @Input() public selectedAccountIds = [];
   @Input() public selectedGroupings = [];
   @Output() public onKeyRemove = new EventEmitter<SSHKeyPair>();
   @Output() public onAccountsChange = new EventEmitter<Account[]>();

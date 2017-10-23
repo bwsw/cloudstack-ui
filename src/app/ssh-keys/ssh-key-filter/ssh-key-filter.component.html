@@ -5,10 +5,10 @@
       class="filter-select"
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]="selectedAccounts"
+      [(ngModel)]="selectedAccountIds"
       (change)="onAccountsChange.emit($event.value)"
     >
-      <md-option *ngFor="let account of accounts" [value]="account">{{ account.fullDomain }}{{ account.name }}</md-option>
+      <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
     </md-select>
 
     <cs-draggable-select

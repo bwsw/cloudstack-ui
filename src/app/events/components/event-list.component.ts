@@ -29,7 +29,7 @@ export class EventListComponent {
   @Input() public date: Date;
   @Input() public query: string;
   @Input() public accounts: Account[] = [];
-  @Input() public selectedAccounts: Account[] = [];
+  @Input() public selectedAccountIds: string[] = [];
   @Input() public isAdmin: boolean;
   @Output() public onDateChange = new EventEmitter();
   @Output() public onQueryChange = new EventEmitter();

@@ -9,7 +9,7 @@ import {
 } from '@ngrx/entity';
 import * as event from './events.actions';
 import { Event } from '../event.model';
-import { Account } from '../../shared/models/account.model';
+import { accounts } from '../../account/redux/accounts.reducers';
 import moment = require('moment');
 
 /**
@@ -26,17 +26,17 @@ export interface State extends EntityState<Event> {
     date: Date,
     selectedTypes: string[],
     selectedLevels: string[],
-    selectedAccounts: Account[],
+    selectedAccountIds: string[],
     query: string
   }
 }
 
 export interface EventsState {
-  events: State;
+  list: State;
 }
 
 export const reducers = {
-  events: reducer,
+  list: reducer,
 };
 
 /**
@@ -63,7 +63,7 @@ export const initialState: State = adapter.getInitialState({
     date: moment().toDate(),
     selectedTypes: [],
     selectedLevels: [],
-    selectedAccounts: [],
+    selectedAccountIds: [],
     query: ''
   }
 });
@@ -121,7 +121,7 @@ export const getEventsState = createFeatureSelector<EventsState>('events');
 
 export const getEventsEntitiesState = createSelector(
   getEventsState,
-  state => state.events
+  state => state.list
 );
 
 export const {
@@ -168,9 +168,9 @@ export const filterSelectedLevels = createSelector(
   state => state.selectedLevels
 );
 
-export const filterSelectedAccounts = createSelector(
+export const filterSelectedAccountIds = createSelector(
   filters,
-  state => state.selectedAccounts
+  state => state.selectedAccountIds
 );
 
 export const selectFilteredEvents = createSelector(
@@ -178,8 +178,9 @@ export const selectFilteredEvents = createSelector(
   filterQuery,
   filterSelectedTypes,
   filterSelectedLevels,
-  filterSelectedAccounts,
-  (events, query, selectedTypes, selectedLevels, selectedAccounts) => {
+  filterSelectedAccountIds,
+  accounts,
+  (events, query, selectedTypes, selectedLevels, selectedAccountIds, accounts) => {
     const queryLower = query && query.toLowerCase();
     const typeMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
     const levelsMap = selectedLevels.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -196,19 +197,19 @@ export const selectFilteredEvents = createSelector(
       return !selectedLevels.length ||
         !!levelsMap[event.level];
     };
-    const accountsMap = selectedAccounts.reduce((m, i) => ({...m, [`${i.name}-${i.domainid}`]: i }), {});
 
-    const selectedAccountsFilter = event => {
-      const name = `${event.account}-${event.domainId}`;
+    const selectedAccounts = accounts.filter(account => selectedAccountIds.find(id => id === account.id));
+    const accountsMap = selectedAccounts.reduce((m, i) => ({...m, [i.name]: i }), {});
+    const domainsMap = selectedAccounts.reduce((m, i) => ({...m, [i.domainid]: i }), {});
 
-      return !selectedAccounts.length || !!accountsMap[name];
-    };
+    const selectedAccountIdsFilter = event => !selectedAccountIds.length ||
+      (accountsMap[event.account] && domainsMap[event.domainId]);
 
     return events.filter(event => {
       return queryFilter(event)
         && selectedTypesFilter(event)
         && selectedLevelsFilter(event)
-        && selectedAccountsFilter(event);
+        && selectedAccountIdsFilter(event);
     });
   }
 );
