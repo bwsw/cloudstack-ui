@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
+import { OsType } from '../../shared/models/os-type.model';
 
-export const LOAD_OS_TYPES_REQUEST = '[DOMAINS] LOAD_OS_TYPES_REQUEST';
-export const LOAD_OS_TYPES_RESPONSE = '[DOMAINS] LOAD_OS_TYPES_RESPONSE';
+export const LOAD_OS_TYPES_REQUEST = '[OS_TYPES] LOAD_OS_TYPES_REQUEST';
+export const LOAD_OS_TYPES_RESPONSE = '[OS_TYPES] LOAD_OS_TYPES_RESPONSE';
 
 export class LoadOsTypesRequest implements Action {
   type = LOAD_OS_TYPES_REQUEST;
@@ -14,7 +15,7 @@ export class LoadOsTypesRequest implements Action {
 export class LoadOsTypesResponse implements Action {
   type = LOAD_OS_TYPES_RESPONSE;
 
-  constructor(public payload: any) {
+  constructor(public payload: OsType[]) {
   }
 }
 

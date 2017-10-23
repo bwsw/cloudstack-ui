@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 export const LOAD_TEMPLATE_REQUEST = '[Templates] LOAD_TEMPLATE_REQUEST';
 export const LOAD_TEMPLATE_RESPONSE = '[Templates] LOAD_TEMPLATE_RESPONSE';
@@ -14,7 +15,7 @@ export class LoadTemplatesRequest implements Action {
 export class LoadTemplatesResponse implements Action {
   readonly type = LOAD_TEMPLATE_RESPONSE;
 
-  constructor(public payload: any) {
+  constructor(public payload: BaseTemplateModel[]) {
   }
 }
 

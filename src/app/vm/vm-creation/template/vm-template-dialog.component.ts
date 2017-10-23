@@ -22,10 +22,9 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   constructor(
     @Inject(MD_DIALOG_DATA) data,
     private dialogRef: MdDialogRef<VmTemplateDialogComponent>,
-    authService: AuthService,
-    domainService: DomainService
+    authService: AuthService
   ) {
-    super(authService, domainService);
+    super(authService);
 
     this.preselectedTemplate = data.template;
     this.templates = data.templates;

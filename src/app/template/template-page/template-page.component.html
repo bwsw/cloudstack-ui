@@ -3,15 +3,29 @@
   [isOpen]="listService?.hasSelected()"
 >
 
-  <!--*ngIf="templates && isos"-->
-
   <cs-template-filter-list
     [viewMode]="viewMode"
     [templates]="templates"
     [groupings]="groupings"
+    [accounts]="accounts"
+    [domains]="domains"
     [fetching]="isLoading"
+    [osTypes]="osTypes"
+    [zones]="zones"
+
+    [selectedAccounts]="selectedAccounts"
+    [selectedGroupings]="selectedGroupings"
+    [selectedZones]="selectedZones"
+    [selectedTypes]="selectedTypes"
+    [selectedOsFamilies]="selectedOsFamilies"
+    [query]="query"
+
     (viewModeChange)="onViewModeChange.emit($event)"
-    (onFiltersChange)="onFiltersChange.emit($event)"
+    (onSelectedAccountsChange)="onSelectedAccountsChange.emit($event)"
+    (onSelectedGroupingsChange)="onSelectedGroupingsChange.emit($event)"
+    (onSelectedTypesChange)="onSelectedTypesChange.emit($event)"
+    (onSelectedZonesChange)="onSelectedZonesChange.emit($event)"
+    (onSelectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
     (onQueryChange)="onQueryChange.emit($event)"
     cs-list
   ></cs-template-filter-list>

@@ -57,6 +57,9 @@ import { TemplateEffects } from './redux/template.effects';
 import { templateReducers } from './redux/template.reducers';
 import { osTypeReducers } from './redux/ostype.reducers';
 import { OsTypeEffects } from './redux/ostype.effects';
+import { TemplateOsContainerComponent } from './template-sidebar/template-os/template-os.container';
+import { zoneReducers } from './redux/zone.reducers';
+import { ZoneEffects } from './redux/zone.effects';
 
 
 @NgModule({
@@ -82,7 +85,8 @@ import { OsTypeEffects } from './redux/ostype.effects';
     TranslateModule,
     StoreModule.forFeature('templates', templateReducers),
     StoreModule.forFeature('osTypes', osTypeReducers),
-    EffectsModule.forFeature([TemplateEffects, OsTypeEffects]),
+    StoreModule.forFeature('zones', zoneReducers),
+    EffectsModule.forFeature([TemplateEffects, OsTypeEffects, ZoneEffects]),
   ],
   declarations: [
     TemplateSidebarComponent,
@@ -95,6 +99,7 @@ import { OsTypeEffects } from './redux/ostype.effects';
     TemplateCreationDialogComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
+    TemplateOsContainerComponent,
     TemplateOsComponent,
     TemplateOsIconComponent,
     TemplateCardListComponent,

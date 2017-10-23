@@ -11,6 +11,7 @@ import {
 import { MdMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
 import { BaseTemplateModel } from '../shared';
+import { OsType } from '../../shared/models/os-type.model';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class TemplateComponent implements OnChanges {
   @HostBinding('class.single-line') @Input() public singleLine = true;
   @Input() public item: BaseTemplateModel;
   @Input() public isSelected: (item: BaseTemplateModel) => boolean;
+  @Input() public osTypes: Array<OsType>;
   @Input() public searchQuery: () => string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
@@ -29,7 +31,8 @@ export class TemplateComponent implements OnChanges {
 
   public query: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     const query = changes.searchQuery;

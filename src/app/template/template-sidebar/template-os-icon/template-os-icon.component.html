@@ -1,6 +1,7 @@
 <div
+  *ngIf="!!templateOsType"
   class="os-icon"
-  [ngSwitch]="template.osType.osFamily"
+  [ngSwitch]="templateOsType.osFamily"
   md-card-avatar
 >
   <ng-template [ngSwitchCase]="'Linux'">

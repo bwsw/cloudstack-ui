@@ -16,8 +16,11 @@ export class TemplateEffects {
   @Effect()
   loadFilterTemplatesByGroupings$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_FILTER_UPDATE)
-    .map((action: template.TemplatesFilterUpdate) => new template.LoadTemplatesRequest(
-      action.payload));
+    .map((action: template.TemplatesFilterUpdate) =>
+      new template.LoadTemplatesRequest({
+        ...action.payload,
+        currentUser: this.authService.user
+      }));
 
   @Effect()
   loadTemplates$: Observable<Action> = this.actions$

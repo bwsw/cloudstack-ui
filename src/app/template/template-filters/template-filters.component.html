@@ -12,14 +12,18 @@
       </md-button-toggle>
     </md-button-toggle-group>
 
+    <div>{{selectedAccounts | json}}</div>
     <md-select *ngIf="accounts.length"
       class="filter-select"
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]="selectedAccountIds"
-      (change)="updateFilters()"
+      [(ngModel)]="selectedAccounts"
+      (change)="updateSelectedAccounts()"
     >
-      <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+      <md-option *ngFor="let account of accounts"
+                 [value]="account">
+        {{ accountFullDomain(account) }}{{ account.name }}
+      </md-option>
     </md-select>
 
     <md-select
@@ -27,7 +31,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
       [(ngModel)]="selectedOsFamilies"
-      (change)="updateFilters()"
+      (change)="updateSelectedOsFamilies()"
     >
       <md-option
         *ngFor="let family of osFamilies"
@@ -42,7 +46,7 @@
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
         [(ngModel)]="selectedFilters"
-        (change)="updateFilters()"
+        (change)="updateSelectedTypes()"
       >
         <md-option
           *ngFor="let f of categoryFilters"
@@ -58,9 +62,9 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
-      (change)="updateFilters()"
+      (change)="updateSelectedZones()"
     >
-      <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
+      <md-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</md-option>
     </md-select>
 
     <cs-divider-vertical></cs-divider-vertical>
@@ -69,13 +73,14 @@
       class="filter-select"
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupingNames"
-      (change)="updateFilters()"
+      [(ngModel)]="selectedGroupings"
+      (change)="updateSelectedGroupings($event.value)"
     >
       <md-option *ngFor="let g of availableGroupings" [value]="g">
         {{ g.label | translate }}
       </md-option>
     </md-select>
+
   </div>
 </cs-top-bar>
 
@@ -116,7 +121,7 @@
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
       [(ngModel)]="selectedFilters"
-      (change)="updateFilters()"
+      (change)="updateSelectedOsFamilies()"
     >
       <md-option
         *ngFor="let f of categoryFilters"
@@ -131,6 +136,6 @@
 <div [class.search-bar-white]="searchPanelWhite">
   <cs-search
     [(ngModel)]="query"
-    (ngModelChange)="updateFilters()"
+    (ngModelChange)="updateQuery()"
   ></cs-search>
 </div>

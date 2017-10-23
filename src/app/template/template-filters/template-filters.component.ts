@@ -1,28 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
-
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
-import { FilterService } from '../../shared/services/filter.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
-import { AuthService } from '../../shared/services/auth.service';
-import { DomainService } from '../../shared/services/domain.service';
-import { AccountService } from '../../shared/services/account.service';
-import { Observable } from 'rxjs/Observable';
+import { Domain } from '../../shared/models/domain.model';
 
 
 @Component({
@@ -30,28 +12,34 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'template-filters.component.html',
   styleUrls: ['template-filters.component.scss']
 })
-export class TemplateFiltersComponent implements OnInit {
+export class TemplateFiltersComponent implements OnInit, OnChanges {
   @Input() public showIsoSwitch = true;
   @Input() public showDelimiter = false;
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
   @Input() public searchPanelWhite: boolean;
   @Input() public availableGroupings: Array<any> = [];
+  @Input() public accounts: Array<Account> = [];
+  @Input() public zones: Array<Zone>;
+  @Input() public domains: Array<Domain>;
+  @Input() public selectedAccounts: any[];
+  @Input() public selectedGroupings: any[];
+  @Input() public selectedFilters: string[];
+  @Input() public selectedZones: Zone[];
+  @Input() public selectedOsFamilies: OsFamily[];
+  @Input() public query: string;
 
   @Output() public queries = new EventEmitter();
   @Output() public displayMode = new EventEmitter();
   @Output() public filters = new EventEmitter();
+  @Output() public selectedAccountsChange = new EventEmitter();
+  @Output() public selectedGroupingsChange = new EventEmitter();
+  @Output() public selectedZonesChange = new EventEmitter();
+  @Output() public selectedOsFamiliesChange = new EventEmitter();
+  @Output() public selectedTypesChange = new EventEmitter();
+  @Output() public queryChange = new EventEmitter();
 
-  public query: string;
-  public selectedOsFamilies: Array<OsFamily>;
-  public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
-  public selectedAccountIds: Array<string> = [];
-
-  public zones: Array<Zone> = [];
-  public accounts: Array<Account> = [];
-  public selectedZones: Array<Zone> = [];
-
   public filterTranslations: {};
 
   public osFamilies: Array<OsFamily> = [
@@ -66,42 +54,11 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.self
   ];
 
-  // private filtersKey = 'imageListFilters';
-  // private filterService = new FilterService({
-  //   osFamilies: {
-  //     type: 'array',
-  //     options: this.osFamilies,
-  //     defaultOption: []
-  //   },
-  //   categoryFilters: {
-  //     type: 'array',
-  //     options: this.categoryFilters,
-  //     defaultOption: []
-  //   },
-  //   zones: {
-  //     type: 'array',
-  //     defaultOption: []
-  //   },
-  //   query: { type: 'string' },
-  //   groupings: { type: 'array', defaultOption: [] },
-  //   accounts: {type: 'array', defaultOption: [] }
-  // }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
-
   private templateTabIndex = 0;
   private isoTabIndex = 1;
+  private domainsMap: object;
 
-  private queryStream = new Subject<string>();
-
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private storageService: LocalStorageService,
-    private translateService: TranslateService,
-    private zoneService: ZoneService,
-    private domainService: DomainService,
-    private accountService: AccountService,
-    private authService: AuthService
-  ) {
+  constructor(private translateService: TranslateService) {
   }
 
   public ngOnInit(): void {
@@ -109,10 +66,13 @@ export class TemplateFiltersComponent implements OnInit {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
     }
-
-    this.queryStream
-      .distinctUntilChanged()
-      .subscribe(query => this.queries.emit(query));
+    this.selectedAccounts = this.selectedAccounts.reduce((m, i) => {
+      const grouping = this.accounts.find(a => a.id === i);
+      if (grouping) {
+        m.push(grouping);
+      }
+      return m;
+    }, []);
 
     this.translateService.get(
       this.categoryFilters.map(filter => `TEMPLATE_PAGE.FILTERS.${filter.toUpperCase()}`)
@@ -126,6 +86,17 @@ export class TemplateFiltersComponent implements OnInit {
       });
   }
 
+  public ngOnChanges(changes) {
+    if (changes.domains) {
+      this.domainsMap = this.domains.reduce((m, i) => ({ ...m, [i.id]: i }), {});
+    }
+  }
+
+  public accountFullDomain(account) {
+    const domain = this.domainsMap[account.domainid];
+    return domain.getPath();
+  }
+
   public get templateSwitchPosition(): number {
     return this.showIso ? this.isoTabIndex : this.templateTabIndex;
   }
@@ -135,56 +106,43 @@ export class TemplateFiltersComponent implements OnInit {
     this.updateDisplayMode();
   }
 
-  public showAccountFilter(): boolean {
-    return this.authService.isAdmin();
-  }
-
   public updateFilters(): void {
-    // this.filters.emit({
-    //   selectedOsFamilies: this.selectedOsFamilies,
-    //   selectedFilters: this.selectedFilters,
-    //   selectedZones: this.selectedZones,
-    //   query: this.query,
-    //   groupings: this.selectedGroupingNames,
-    //   accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
-    // });
-
-    // if (!this.dialogMode) {
-    //   this.filterService.update({
-    //     query: this.query || null,
-    //     osFamilies: this.selectedOsFamilies,
-    //     categoryFilters: this.selectedFilters,
-    //     zones: this.selectedZones.map(_ => _.id),
-    //     groupings: this.selectedGroupingNames.map(_ => _.key),
-    //     accounts: this.selectedAccountIds
-    //   });
-    // }
+    this.filters.emit({
+      selectedOsFamilies: this.selectedOsFamilies,
+      selectedTypes: this.selectedFilters,
+      selectedZones: this.selectedZones,
+      query: this.query,
+      groupings: this.selectedGroupingNames,
+      accounts: this.selectedAccounts
+    });
   }
 
   public updateDisplayMode(): void {
     const mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
-    // this.storageService.write('templateDisplayMode', mode);
   }
 
-  public updateAccount(accounts: Array<Account>) {
-    this.selectedAccounts = accounts;
-    this.updateFilters();
+  public updateSelectedAccounts() {
+    this.selectedAccountsChange.emit(this.selectedAccounts);
   }
 
-  // private initFilters(): void {
-  //   const params = this.filterService.getParams();
-  //   this.selectedOsFamilies = params['osFamilies'];
-  //   this.selectedFilters = params['categoryFilters'];
-  //   this.selectedZones = this.zones.filter(
-  //     zone => params['zones'].find(id => id === zone.id));
-  //   this.selectedGroupingNames = params['groupings']
-  //     .map(g => this.availableGroupings.find(_ => _.key === g))
-  //     .filter(g => g);
-  //   this.query = params['query'];
-  //   this.queryStream.next(this.query);
-  //   this.selectedAccountIds = params['accounts'];
-  //
-  //   this.updateFilters();
-  // }
+  public updateSelectedGroupings(selectedGroupings) {
+    this.selectedGroupingsChange.emit(selectedGroupings);
+  }
+
+  public updateSelectedTypes() {
+    this.selectedTypesChange.emit(this.selectedFilters);
+  }
+
+  public updateSelectedOsFamilies() {
+    this.selectedOsFamiliesChange.emit(this.selectedOsFamilies);
+  }
+
+  public updateSelectedZones() {
+    this.selectedZonesChange.emit(this.selectedZones);
+  }
+
+  public updateQuery() {
+    this.queryChange.emit(this.query);
+  }
 }

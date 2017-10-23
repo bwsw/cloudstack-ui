@@ -1,10 +1,26 @@
-<!--<pre [innerHTML]="templates$ | async | json"></pre>-->
 <cs-template-page
   [viewMode]="selectedViewMode$ | async"
   [isLoading]="isLoading$ | async"
   [groupings]="groupings"
+  [accounts]="accounts$ | async"
+  [domains]="domains$ | async"
+  [templates]="templates$ | async"
+  [osTypes]="osTypes$ | async"
+  [zones]="zones$ | async"
+  [selectedAccounts]="selectedAccounts$ | async"
+  [selectedGroupings]="selectedGroupings$ | async"
+  [selectedZones]="selectedZones$ | async"
+  [selectedTypes]="selectedTypes$ | async"
+  [selectedOsFamilies]="selectedOsFamilies$ | async"
+  [query]="query$ | async"
   (onViewModeChange)="onViewModeChange($event)"
   (onQueryChange)="onQueryChange($event)"
-  (onFiltersChange)="onFiltersChange($event)"
-  [templates]="templates$ | async"
+  (onSelectedAccountsChange)="onAccountsChange($event)"
+  (onSelectedGroupingsChange)="onGroupingsChange($event)"
+  (onSelectedTypesChange)="onTypesChange($event)"
+  (onSelectedZonesChange)="onZonesChange($event)"
+  (onSelectedOsFamiliesChange)="onOsFamiliesChange($event)"
+  (updateList)="update()"
 ></cs-template-page>
+
+<div [innerHTML]="selectedGroupings$ | async | json"></div>

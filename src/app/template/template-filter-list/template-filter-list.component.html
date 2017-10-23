@@ -1,12 +1,27 @@
 <cs-template-filters
   class="options"
-  (queries)="onQueryChange.emit($event)"
-  (filters)="onFiltersChange.emit($event)"
-  (displayMode)="changeViewMode($event)"
   [showIso]="viewMode === 'Iso'"
   [showDelimiter]="showDelimiter"
   [searchPanelWhite]="selectedGroupings?.length"
   [availableGroupings]="groupings"
+  [zones]="zones"
+  [accounts]="accounts"
+  [domains]="domains"
+
+  [selectedAccounts]="selectedAccounts"
+  [selectedGroupings]="selectedGroupings"
+  [selectedZones]="selectedZones"
+  [selectedFilters]="selectedTypes"
+  [selectedOsFamilies]="selectedOsFamilies"
+  [query]="query"
+
+  (queryChange)="onQueryChange.emit($event)"
+  (selectedAccountsChange)="onSelectedAccountsChange.emit($event)"
+  (selectedGroupingsChange)="onSelectedGroupingsChange.emit($event)"
+  (selectedTypesChange)="onSelectedTypesChange.emit($event)"
+  (selectedZonesChange)="onSelectedZonesChange.emit($event)"
+  (selectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
+  (displayMode)="changeViewMode($event)"
 ></cs-template-filters>
 
 <ng-container *loading="!templates?.length" cs-list>
@@ -15,6 +30,7 @@
     [query]="query"
     [templateList]="templates"
     [groupings]="selectedGroupings"
+    [osTypes]="osTypes"
   >
   </cs-template-card-list>
 </ng-container>
