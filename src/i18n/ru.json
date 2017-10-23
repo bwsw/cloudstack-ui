@@ -929,8 +929,9 @@
     "SSH_KEY_PAIR_NOT_FOUND": "SSH ключ не найден",
     "FINGERPRINT": "Fingerprint",
     "FILTERS": {
-      "GROUP_BY": "Group by",
-      "GROUP_BY_ACCOUNTS": "Accounts"
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
+      "GROUP_BY": "Группировать по",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
     }
   },
   "ACCOUNT_PAGE" : {
