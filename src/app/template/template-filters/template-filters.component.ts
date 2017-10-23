@@ -1,5 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 
@@ -11,6 +20,9 @@ import { ZoneService } from '../../shared/services/zone.service';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
 import { AuthService } from '../../shared/services/auth.service';
+import { DomainService } from '../../shared/services/domain.service';
+import { AccountService } from '../../shared/services/account.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -34,10 +46,10 @@ export class TemplateFiltersComponent implements OnInit {
   public selectedOsFamilies: Array<OsFamily>;
   public selectedFilters: Array<string>;
   public selectedGroupingNames = [];
-  public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string> = [];
 
-  public zones: Array<Zone>;
+  public zones: Array<Zone> = [];
+  public accounts: Array<Account> = [];
   public selectedZones: Array<Zone> = [];
 
   public filterTranslations: {};
@@ -86,17 +98,17 @@ export class TemplateFiltersComponent implements OnInit {
     private storageService: LocalStorageService,
     private translateService: TranslateService,
     private zoneService: ZoneService,
+    private domainService: DomainService,
+    private accountService: AccountService,
     private authService: AuthService
   ) {
   }
 
   public ngOnInit(): void {
     if (!this.dialogMode) {
-      this.zoneService.getList()
-        .subscribe(zones => {
-          this.zones = zones;
-          this.initFilters();
-        });
+      const observes = this.showAccountFilter() ? Observable.forkJoin(this.getAccountList(),this.getZones()) :
+        Observable.forkJoin(this.getZones());
+      observes.subscribe(() => this.initFilters());
     } else {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
@@ -138,7 +150,7 @@ export class TemplateFiltersComponent implements OnInit {
       selectedZones: this.selectedZones,
       query: this.query,
       groupings: this.selectedGroupingNames,
-      accounts: this.selectedAccounts
+      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
     });
 
     if (!this.dialogMode) {
@@ -148,7 +160,7 @@ export class TemplateFiltersComponent implements OnInit {
         categoryFilters: this.selectedFilters,
         zones: this.selectedZones.map(_ => _.id),
         groupings: this.selectedGroupingNames.map(_ => _.key),
-        accounts: this.selectedAccounts.map(_ => _.id)
+        accounts: this.selectedAccountIds
       });
     }
   }
@@ -157,11 +169,6 @@ export class TemplateFiltersComponent implements OnInit {
     const mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
     this.storageService.write('templateDisplayMode', mode);
-  }
-
-  public updateAccount(accounts: Array<Account>) {
-    this.selectedAccounts = accounts;
-    this.updateFilters();
   }
 
   private initFilters(): void {
@@ -178,5 +185,26 @@ export class TemplateFiltersComponent implements OnInit {
     this.selectedAccountIds = params['accounts'];
 
     this.updateFilters();
+  }
+
+  private getAccountList() {
+    return Observable.forkJoin(
+      this.accountService.getList(),
+      this.domainService.getList()
+    )
+      .map(([accounts, domains]) => {
+        this.accounts = accounts;
+        this.accounts.map(account => {
+          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
+          return account;
+        });
+      });
+  }
+
+  private getZones() {
+    return this.zoneService.getList()
+      .map(zones => {
+        this.zones = zones;
+      });
   }
 }

@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
 
 
@@ -7,9 +12,9 @@ import { AuthService } from '../../shared/services/auth.service';
   templateUrl: 'ssh-key-filter.component.html'
 })
 export class ShhKeyFilterComponent {
-  @Input() public accounts: Array<string>;
+  @Input() public accounts: Array<Account>;
   @Input() public groupings: Array<any>;
-  @Input() public selectedAccounts: Account[] = [];
+  @Input() public selectedAccountIds: Array<string> = [];
   @Input() public selectedGroupings: Array<any> = [];
   @Output() public onGroupingsChange = new EventEmitter<any>();
   @Output() public onAccountsChange = new EventEmitter<any>();

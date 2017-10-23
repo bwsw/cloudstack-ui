@@ -930,6 +930,7 @@
     "SSH_KEY_PAIR_NOT_FOUND": "SSH key pair not found",
     "FINGERPRINT": "Fingerprint",
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "GROUP_BY": "Group by",
       "GROUP_BY_ACCOUNTS": "Accounts"
     }
@@ -1175,8 +1176,8 @@
     "RECOVER_IN_PROGRESS": "Recovering"
   },
   "VOLUME_TYPE": {
-    "ROOT": "ROOT",
-    "DATADISK": "DATADISK"
+    "ROOT": "System Volumes",
+    "DATADISK": "Additional Volumes"
   },
   "DATE_TIME": {
     "AM": "AM",

@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as event from '../redux/events.actions';
+import * as eventAction from '../redux/events.actions';
+import * as accountAction from '../../account/redux/accounts.actions';
 import * as debounce from 'lodash/debounce';
-import moment = require('moment');
 import { FilterService } from '../../shared/services/filter.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import * as fromEvents from '../redux/events.reducers';
+import * as fromAccounts from '../../account/redux/accounts.reducers';
 import { LanguageService } from '../../shared/services/language.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { AuthService } from '../../shared/services/auth.service';
+import moment = require('moment');
 
 @Component({
   selector: 'cs-event-list-container',
@@ -23,6 +32,10 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       [selectedTypes]="selectedTypes$ | async"
       [date]="date$ | async"
       [query]="query$ | async"
+      [accounts]="accounts$ | async"
+      [isAdmin]="isAdmin()"
+      [selectedAccountIds]="selectedAccountIds$ | async"
+      (onAccountChange)="onAccountChange($event)"
       (onDateChange)="onDateChange($event)"
       (onQueryChange)="onQueryChange($event)"
       (onEventTypesChange)="onEventTypesChange($event)"
@@ -33,11 +46,13 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
 
   readonly firstDayOfWeek$ = this.languageService.getFirstDayOfWeek();
   readonly events$ = this.store.select(fromEvents.selectFilteredEvents);
+  readonly accounts$ = this.store.select(fromAccounts.accounts);
   readonly query$ = this.store.select(fromEvents.filterQuery);
   readonly loading$ = this.store.select(fromEvents.isLoading);
   readonly filters$ = this.store.select(fromEvents.filters);
   readonly selectedTypes$ = this.store.select(fromEvents.filterSelectedTypes);
   readonly selectedLevels$ = this.store.select(fromEvents.filterSelectedLevels);
+  readonly selectedAccountIds$ = this.store.select(fromEvents.filterSelectedAccountIds);
   readonly eventTypes$ = this.store.select(fromEvents.eventTypes)
     .withLatestFrom(this.selectedTypes$)
     .map(([all, selected]) => {
@@ -53,6 +68,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
       'date': { type: 'string' },
       'levels': { type: 'array', options: this.levels, defaultOption: [] },
       'types': { type: 'array', defaultOption: [] },
+      'accounts': { type: 'array', defaultOption: [] },
       'query': { type: 'string' }
     },
     this.router,
@@ -66,31 +82,41 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private authService: AuthService,
   ) {
     super();
 
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
   }
 
+  public isAdmin() {
+    return this.authService.isAdmin();
+  }
+
   public onQueryChange(query) {
-    this.store.dispatch(new event.EventFilterUpdate({ query }));
+    this.store.dispatch(new eventAction.EventFilterUpdate({ query }));
   }
 
   public onEventTypesChange(selectedTypes) {
-    this.store.dispatch(new event.EventFilterUpdate({ selectedTypes }));
+    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedTypes }));
   }
 
   public onSelectedLevelsChange(selectedLevels) {
-    this.store.dispatch(new event.EventFilterUpdate({ selectedLevels }));
+    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedLevels }));
+  }
+
+  public onAccountChange(selectedAccountIds) {
+    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccountIds }))
   }
 
   public onDateChange(date) {
-    this.store.dispatch(new event.EventFilterUpdate({ date }));
-
+    this.store.dispatch(new eventAction.EventFilterUpdate({ date }));
   }
 
   public ngOnInit() {
+    this.store.dispatch(new accountAction.LoadAccountsRequest());
+
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)
@@ -99,6 +125,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
           'date': moment(filters.date).format('YYYY-MM-DD'),
           'levels': filters.selectedLevels,
           'types': filters.selectedTypes,
+          'accounts': filters.selectedAccountIds,
           'query': filters.query
         });
       });
@@ -111,11 +138,14 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     const selectedLevels = params['levels'];
     const selectedTypes = params['types'];
     const query = params['query'];
-    this.store.dispatch(new event.EventFilterUpdate({
+    const selectedAccountIds = params['accounts'];
+
+    this.store.dispatch(new eventAction.EventFilterUpdate({
       query,
       date,
       selectedTypes,
-      selectedLevels
+      selectedLevels,
+      selectedAccountIds
     }));
   }
 

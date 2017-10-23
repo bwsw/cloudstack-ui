@@ -1,8 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { DiskOffering, Volume, VolumeType, Zone } from '../../shared';
+import {
+  DiskOffering,
+  Volume,
+  VolumeType,
+  Zone
+} from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
@@ -15,7 +26,8 @@ import { volumeTypeNames } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
-import { VirtualMachine } from '../../vm/shared/vm.model';
+import { AccountService } from '../../shared/services/account.service';
+import { Account } from '../../shared/models/account.model';
 import { VmService } from '../../vm/shared/vm.service';
 
 
@@ -34,6 +46,7 @@ export interface VolumeCreationData {
 export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   public volumes: Array<Volume>;
   public zones: Array<Zone>;
+  public accounts: Array<Account>;
   public visibleVolumes: Array<Volume>;
 
   public selectedGroupings = [];
@@ -69,16 +82,19 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private userTagService: UserTagService,
+    private accountService: AccountService,
     private domainService: DomainService,
     private volumeService: VolumeService,
     private zoneService: ZoneService,
     private authService: AuthService,
     private vmService: VmService) {
     super();
+
     if (!this.authService.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.accounts = [];
     } else {
-      this.getDomainList();
+      this.getAccountList();
     }
   }
 
@@ -216,10 +232,19 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     });
   }
 
-  private getDomainList() {
-    this.domainService.getList().subscribe(domains => {
-      this.domainList = domains;
-    });
+  private getAccountList() {
+    Observable.forkJoin(
+      this.accountService.getList(),
+      this.domainService.getList()
+    )
+      .subscribe(([accounts, domains]) => {
+        this.accounts = accounts;
+        this.accounts.map(account => {
+          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
+          return account;
+        });
+        this.domainList = domains;
+      });
   }
 
   private getDomain(domainId: string) {

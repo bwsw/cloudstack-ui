@@ -1,7 +1,8 @@
 <cs-ssh-keys-page
   [sshKeyList]="sshKeyList$ | async"
   [groupings]="groupings"
-  [selectedAccounts]="selectedAccounts$ | async"
+  [accounts]="accounts$ | async"
+  [selectedAccountIds]="selectedAccountIds$ | async"
   [selectedGroupings]="selectedGroupings$ | async"
   (onAccountsChange)="onAccountsChange($event)"
   (onGroupingsChange)="update($event)"

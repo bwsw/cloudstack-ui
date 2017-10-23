@@ -7,6 +7,7 @@ import {
   MdIconModule,
   MdInputModule,
   MdMenuModule,
+  MdSelectModule,
   MdTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -40,6 +41,7 @@ import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creati
     SharedModule,
     TranslateModule,
     MdTooltipModule,
+    MdSelectModule,
     MdDialogModule,
     MdMenuModule,
     MdButtonModule,

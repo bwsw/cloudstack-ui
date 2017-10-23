@@ -1,11 +1,16 @@
 <cs-top-bar>
   <div class="options-panel" *ngIf="showAccountFilter()">
-    <cs-account-filter
-      [selectedAccountIds]="selectedAccounts"
-      (onChangeAccount)="onAccountsChange.emit($event)"
+
+    <md-select *ngIf="accounts.length"
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"
+      [(ngModel)]="selectedAccountIds"
+      (change)="onAccountsChange.emit($event.value)"
     >
-    </cs-account-filter>
-    <cs-divider-vertical></cs-divider-vertical>
+      <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+    </md-select>
+
     <cs-draggable-select
       class="filter-select"
       multiple="true"

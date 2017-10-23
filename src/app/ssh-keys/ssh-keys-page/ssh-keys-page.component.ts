@@ -1,9 +1,19 @@
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Account } from '../../shared/models/account.model';
 
 
 @Component({
@@ -16,7 +26,8 @@ export class SshKeysPageComponent {
   @HostBinding('class.detail-list-container') public detailListContainer = true;
   @Input() public sshKeyList: Array<SSHKeyPair>;
   @Input() public groupings;
-  @Input() public selectedAccounts = [];
+  @Input() public accounts: Array<Account>;
+  @Input() public selectedAccountIds = [];
   @Input() public selectedGroupings = [];
   @Output() public onKeyRemove = new EventEmitter<SSHKeyPair>();
   @Output() public onAccountsChange = new EventEmitter<Account[]>();

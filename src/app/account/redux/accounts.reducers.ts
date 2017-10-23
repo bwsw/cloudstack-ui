@@ -29,11 +29,11 @@ export interface State extends EntityState<Account> {
 }
 
 export interface AccountsState {
-  accounts: State;
+  list: State;
 }
 
 export const accountReducers = {
-  accounts: reducer,
+  list: reducer,
 };
 
 /**
@@ -113,7 +113,7 @@ export const getAccountsState = createFeatureSelector<AccountsState>('accounts')
 
 export const getAccountsEntitiesState = createSelector(
   getAccountsState,
-  state => state.accounts
+  state => state.list
 );
 
 export const {
@@ -154,6 +154,11 @@ export const filterSelectedRoleNames = createSelector(
 export const filterSelectedStates = createSelector(
   filters,
   state => state.selectedStates
+);
+
+export const accounts = createSelector(
+  selectAll,
+  (accounts) => accounts
 );
 
 export const selectFilteredAccounts = createSelector(

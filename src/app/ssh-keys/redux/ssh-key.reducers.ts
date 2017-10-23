@@ -1,10 +1,14 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import {
   createFeatureSelector,
   createSelector
 } from '@ngrx/store';
-import { Account } from '../../shared/models/account.model';
+import { accounts } from '../../account/redux/accounts.reducers';
 
 import * as sshKey from './ssh-key.actions';
 
@@ -16,7 +20,7 @@ export interface State {
 export interface ListState extends EntityState<SSHKeyPair> {
   filters: {
     selectedGroupings: any[],
-    selectedAccounts: Account[]
+    selectedAccountIds: string[]
   }
 }
 
@@ -24,7 +28,7 @@ const initialListState: ListState = {
   ids: [],
   entities: null,
   filters: {
-    selectedAccounts: [],
+    selectedAccountIds: [],
     selectedGroupings: []
   }
 };
@@ -181,23 +185,24 @@ export const filterSelectedGroupings = createSelector(
   state => state.selectedGroupings
 );
 
-export const filterSelectedAccounts = createSelector(
+export const filterSelectedAccountIds = createSelector(
   filters,
-  state => state.selectedAccounts
+  state => state.selectedAccountIds
 );
 
 export const selectFilteredSshKeys = createSelector(
   selectAll,
-  filterSelectedAccounts,
-  (sshKeys, selectedAccounts) => {
-    const accountsMap = selectedAccounts.reduce((m, i) => ({
-      ...m, [`${i.name}-${i.domainid}`]: i
-    }), {});
-    const selectedAccountsFilter = (sshKey: SSHKeyPair) => {
-      const name = `${sshKey.account}-${sshKey.domainid}`;
+  filterSelectedAccountIds,
+  accounts,
+  (sshKeys, selectedAccountIds, accounts) => {
 
-      return !selectedAccounts.length || !!accountsMap[name];
-    };
-    return sshKeys.filter(sshKey => selectedAccountsFilter(sshKey));
+    const selectedAccounts = accounts.filter(account => selectedAccountIds.find(id => id === account.id));
+    const accountsMap = selectedAccounts.reduce((m, i) => ({...m, [i.name]: i }), {});
+    const domainsMap = selectedAccounts.reduce((m, i) => ({...m, [i.domainid]: i }), {});
+
+    const selectedAccountIdsFilter = sshKey => !selectedAccountIds.length ||
+      (accountsMap[sshKey.account] && domainsMap[sshKey.domainid]);
+
+    return sshKeys.filter(sshKey => selectedAccountIdsFilter(sshKey));
   }
 );

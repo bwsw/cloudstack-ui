@@ -25,8 +25,9 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
   readonly filters$ = this.store.select(fromSshKeys.filters);
+  readonly accounts$ = this.store.select(fromAccounts.accounts);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
-  readonly selectedAccounts$ = this.store.select(fromSshKeys.filterSelectedAccounts);
+  readonly selectedAccountIds$ = this.store.select(fromSshKeys.filterSelectedAccountIds);
 
   public groupings = [
     {
@@ -36,9 +37,6 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
       name: (item: SSHKeyPair) => this.getGroupName(item)
     }
   ];
-
-  public selectedGroupings = [];
-  public selectedAccounts = [];
 
   private filtersKey = sshKeyListFilters;
   private filterService = new FilterService(
@@ -62,13 +60,14 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
   }
 
   public ngOnInit(): void {
+    this.store.dispatch(new accountAction.LoadAccountsRequest());
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)
       .subscribe(filters =>
         this.filterService.update({
           'groupings': filters.selectedGroupings.map(g => g.key),
-          'accounts': filters.selectedAccounts.map(a => a.id)
+          'accounts': filters.selectedAccountIds
         }));
   }
 
@@ -80,8 +79,8 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
   }
 
-  public onAccountsChange(selectedAccounts) {
-    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccounts }));
+  public onAccountsChange(selectedAccountIds) {
+    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccountIds }));
   }
 
   private initFilters(): void {
@@ -94,10 +93,9 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
       return acc;
     }, []);
 
-    const selectedAccounts = params['accounts'];
-
+    const selectedAccountIds = params['accounts'];
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({
-      selectedAccounts,
+      selectedAccountIds,
       selectedGroupings
     }));
   }
