@@ -9,7 +9,6 @@
   <md-card-content class="md-card-content-with-actions">
     <div class="md-card-content-container">
 
-
       <div *ngIf="!isEdit">
       <div *ngFor="let limit of limits; let i = index;" class="height-container">
         <div class="flex-container container">
@@ -27,7 +26,6 @@
         </div>
       </div>
       </div>
-
 
       <div *ngIf="isEdit">
       <div *ngFor="let limit of localLimits; let i = index" class="height-container">
@@ -49,7 +47,6 @@
         </div>
       </div>
       </div>
-
 
     </div>
     <div *ngIf="isAdmin">

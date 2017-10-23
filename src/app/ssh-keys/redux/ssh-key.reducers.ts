@@ -8,7 +8,7 @@ import {
   createFeatureSelector,
   createSelector
 } from '@ngrx/store';
-import { accounts } from '../../account/redux/accounts.reducers';
+import { accounts } from '../../reducers/accounts/redux/accounts.reducers';
 
 import * as sshKey from './ssh-key.actions';
 

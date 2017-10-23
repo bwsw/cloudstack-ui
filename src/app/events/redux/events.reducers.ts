@@ -9,7 +9,7 @@ import {
 } from '@ngrx/entity';
 import * as event from './events.actions';
 import { Event } from '../event.model';
-import { accounts } from '../../account/redux/accounts.reducers';
+import { accounts } from '../../reducers/accounts/redux/accounts.reducers';
 import moment = require('moment');
 
 /**

@@ -14,7 +14,9 @@ import { FilterService } from '../../shared/services/filter.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
 import * as fromSshKeys from '../redux/ssh-key.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as sshKeyActions from '../redux/ssh-key.actions';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 export const sshKeyListFilters = 'sshKeyListFilters';
 
@@ -60,7 +62,7 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new accountAction.LoadAccountsRequest());
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)

@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import * as accountEvent from '../../reducers/accounts/redux/accounts.actions';
 import { ActivatedRoute } from '@angular/router';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
 @Component({
   selector: 'cs-account-page-container',
@@ -17,7 +16,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       (onAccountChanged)="onAccountChange($event)"
     ></cs-account-sidebar>`
 })
-export class AccountSidebarContainerComponent extends WithUnsubscribe() implements OnInit {
+export class AccountSidebarContainerComponent implements OnInit {
 
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
 
@@ -25,9 +24,7 @@ export class AccountSidebarContainerComponent extends WithUnsubscribe() implemen
   constructor(
     private store: Store<State>,
     private activatedRoute: ActivatedRoute
-  ) {
-    super();
-  }
+  ) { }
 
   public onAccountChange(id) {
     this.store.dispatch(new accountEvent.LoadAccountsRequest());
@@ -36,7 +33,6 @@ export class AccountSidebarContainerComponent extends WithUnsubscribe() implemen
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
     this.store.dispatch(new accountEvent.LoadSelectedAccount(params['id']));
-
   }
 
 }

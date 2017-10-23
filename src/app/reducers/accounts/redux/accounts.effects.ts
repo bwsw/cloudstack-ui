@@ -27,14 +27,6 @@ export class AccountsEffects {
         .catch(() => Observable.of(new accountActions.LoadAccountsResponse([])));
     });
 
-  /*@Effect()
-  loadSelectedAccount: Observable<Action> = this.actions$
-    .ofType(accountActions.LOAD_SELECTED_ACCOUNT_REQUEST)
-    .switchMap((action: accountActions.LoadSelectedAccountRequest) => {
-      return new accountActions.LoadSelectedAccountResponse(action.payload);
-    })
-    .catch(() => Observable.of(new accountActions.LoadSelectedAccountResponse({ })));*/
-
   constructor(
     private actions$: Actions,
     private accountService: AccountService

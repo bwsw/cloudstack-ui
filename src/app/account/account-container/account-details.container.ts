@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as accountAction from '../../reducers/accounts/redux/accounts.actions';
 import * as configurationAction from '../../reducers/configuration/redux/configurations.actions';
 import * as resourceLimitAction from '../../reducers/resource-limit/redux/resource-limits.actions';
 import * as resourceCountAction from '../../reducers/resource-count/redux/resource-counts.actions';
@@ -15,6 +14,7 @@ import * as fromResourceLimits from '../../reducers/resource-limit/redux/resourc
 import * as fromResourceCounts from '../../reducers/resource-count/redux/resource-counts.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
+import { Account } from '../../shared/models/account.model';
 
 @Component({
   selector: 'cs-account-page-container',
@@ -36,6 +36,8 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
   readonly limits$ = this.store.select(fromResourceLimits.resourceLimits);
   readonly stats$ = this.store.select(fromResourceCounts.resourceCounts);
 
+  public account: Account;
+
 
   constructor(
     private store: Store<State>,
@@ -46,42 +48,27 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
   }
 
   public onConfigurationEdit(configuration) {
-    this.account$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(account => {
-        this.store.dispatch(new configurationAction.UpdateConfigurationRequest({ configuration, account }));
-      });
+    this.store.dispatch(new configurationAction.UpdateConfigurationRequest({ configuration, account: this.account }));
   }
 
   public onLimitsEdit(limits) {
-    this.account$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(account => {
-        this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest({
-          limits: limits,
-          account: account
-        }));
-      });
+    this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest({ limits, account: this.account }));
   }
 
   public onStatsUpdate(stats) {
-    this.account$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(account => {
-        this.store.dispatch(new resourceCountAction.LoadResourceCountsRequest({
-          account: account.name,
-          domainid: account.domainid
-        }));
-      });
+    this.store.dispatch(new resourceCountAction.LoadResourceCountsRequest({
+      account: this.account.name,
+      domainid: this.account.domainid
+    }));
   }
 
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.parent.params;
-    this.store.dispatch(new accountAction.LoadSelectedAccount(params['id']));
     this.account$
       .takeUntil(this.unsubscribe$)
       .subscribe(account => {
-        if(account && account.id) {
+        if(account) {
+          this.account = account;
           this.store.dispatch(new configurationAction.LoadConfigurationsRequest({ accountid: account.id }));
           this.store.dispatch(new resourceLimitAction.LoadResourceLimitsRequest({
             account: account.name,
