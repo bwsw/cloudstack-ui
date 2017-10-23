@@ -22,11 +22,11 @@ export interface State extends EntityState<Role> {
 }
 
 export interface RolesState {
-  roles: State;
+  list: State;
 }
 
 export const roleReducers = {
-  roles: reducer,
+  list: reducer,
 };
 
 /**
@@ -90,7 +90,7 @@ export const getRolesState = createFeatureSelector<RolesState>('roles');
 
 export const getRolesEntitiesState = createSelector(
   getRolesState,
-  state => state.roles
+  state => state.list
 );
 
 export const {

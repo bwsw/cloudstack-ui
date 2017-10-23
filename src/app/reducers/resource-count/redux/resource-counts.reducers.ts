@@ -22,11 +22,11 @@ export interface State extends EntityState<ResourceCount> {
 }
 
 export interface ResourceCountsState {
-  resourceCounts: State;
+  list: State;
 }
 
 export const resourceCountsReducers = {
-  resourceCounts: reducer,
+  list: reducer,
 };
 
 /**
@@ -90,7 +90,7 @@ export const getResourceCountsState = createFeatureSelector<ResourceCountsState>
 
 export const getResourceCountsEntitiesState = createSelector(
   getResourceCountsState,
-  state => state.resourceCounts
+  state => state.list
 );
 
 export const {

@@ -22,11 +22,11 @@ export interface State extends EntityState<Domain> {
 }
 
 export interface DomainsState {
-  domains: State;
+  list: State;
 }
 
 export const domainReducers = {
-  domains: reducer,
+  list: reducer,
 };
 
 /**
@@ -90,7 +90,7 @@ export const getDomainsState = createFeatureSelector<DomainsState>('domains');
 
 export const getDomainsEntitiesState = createSelector(
   getDomainsState,
-  state => state.domains
+  state => state.list
 );
 
 export const {
@@ -105,7 +105,7 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const domians = createSelector(
+export const domains = createSelector(
   selectAll,
   (domains) => domains
 );

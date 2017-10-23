@@ -22,11 +22,11 @@ export interface State extends EntityState<Configuration> {
 }
 
 export interface ConfigurationsState {
-  configurations: State;
+  list: State;
 }
 
 export const configurationReducers = {
-  configurations: reducer,
+  list: reducer,
 };
 
 /**
@@ -89,7 +89,7 @@ export const getConfigurationsState = createFeatureSelector<ConfigurationsState>
 
 export const getConfigurationsEntitiesState = createSelector(
   getConfigurationsState,
-  state => state.configurations
+  state => state.list
 );
 
 export const {

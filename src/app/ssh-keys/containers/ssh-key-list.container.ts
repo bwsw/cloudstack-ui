@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { FilterService } from '../../shared/services/filter.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
 import * as fromSshKeys from '../redux/ssh-key.reducers';
 import * as sshKeyActions from '../redux/ssh-key.actions';
-import * as fromDomains from '../../domains/redux/domains.reducers';
-import * as domainActions from '../../domains/redux/domains.actions';
 
 export const sshKeyListFilters = 'sshKeyListFilters';
 
@@ -20,7 +24,6 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 })
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
-  readonly domainList$ = this.store.select(fromDomains.selectEntities);
   readonly filters$ = this.store.select(fromSshKeys.filters);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
   readonly selectedAccounts$ = this.store.select(fromSshKeys.filterSelectedAccounts);

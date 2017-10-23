@@ -22,11 +22,11 @@ export interface State extends EntityState<ResourceLimit> {
 }
 
 export interface ResourceLimitsState {
-  resourceLimits: State;
+  list: State;
 }
 
 export const resourceLimitsReducers = {
-  resourceLimits: reducer,
+  list: reducer,
 };
 
 /**
@@ -90,7 +90,7 @@ export const getResourceLimitsState = createFeatureSelector<ResourceLimitsState>
 
 export const getResourceLimitsEntitiesState = createSelector(
   getResourceLimitsState,
-  state => state.resourceLimits
+  state => state.list
 );
 
 export const {
