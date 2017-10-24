@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 50vh;
 
   .message {
     position: static;
@@ -21,6 +22,10 @@
 :host {
   md-form-field {
     width: 100%;
+  }
+
+  .mat-dialog-content {
+    overflow: visible;
   }
 }
 
