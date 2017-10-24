@@ -1,7 +1,6 @@
 <div class="options-panel filter-wrapper">
   <mat-form-field>
     <mat-select
-      class="filter-select"
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_DOMAINS' | translate"
       [ngModel]="selectedDomainIds"
@@ -13,7 +12,6 @@
   </mat-form-field>
   <mat-form-field>
     <mat-select
-      class="filter-select"
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLES' | translate"
       [ngModel]="selectedRoleNames"
@@ -25,7 +23,6 @@
   </mat-form-field>
   <mat-form-field>
     <mat-select
-      class="filter-select"
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLE_TYPES' | translate"
       [ngModel]="selectedRoleTypes"
@@ -37,7 +34,6 @@
   </mat-form-field>
   <mat-form-field>
     <mat-select
-      class="filter-select"
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_STATES' | translate"
       [ngModel]="selectedStates"
@@ -51,7 +47,6 @@
   <cs-divider-vertical></cs-divider-vertical>
   <mat-form-field>
     <cs-draggable-select
-      class="filter-select"
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupings"

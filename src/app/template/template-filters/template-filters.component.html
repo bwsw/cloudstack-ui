@@ -11,23 +11,22 @@
         {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
       </mat-button-toggle>
     </mat-button-toggle-group>
-    <mat-form-field>
+    <mat-form-field *ngIf="accounts.length">
       <mat-select
-        *ngIf="accounts.length"
-        class="filter-select"
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
         [(ngModel)]="selectedAccountIds"
         (change)="updateFilters()"
       >
-        <mat-option *ngFor="letaccountof accounts" [value]="account.id">{{
-          account.fullDomain }}{{ account.name }}
+        <mat-option
+          *ngFor="let account of accounts"
+          [value]="account.id"
+        >{{ account.fullDomain }}{{ account.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field>
       <mat-select
-        class="filter-select"
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
         [(ngModel)]="selectedOsFamilies"
@@ -43,7 +42,6 @@
     </mat-form-field>
     <mat-form-field>
       <mat-select
-        class="filter-select"
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
         [(ngModel)]="selectedFilters"
@@ -60,8 +58,6 @@
 
     <mat-form-field *ngIf="zones">
       <mat-select
-
-        class="filter-select"
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
         [(ngModel)]="selectedZones"
@@ -73,8 +69,6 @@
     <cs-divider-vertical></cs-divider-vertical>
     <mat-form-field *ngIf="zones">
       <mat-select
-
-        class="filter-select"
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
         [(ngModel)]="selectedGroupingNames"
@@ -106,7 +100,6 @@
   </mat-button-toggle-group>
   <mat-form-field>
     <mat-select
-      class="filter-select"
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
       [(ngModel)]="selectedOsFamilies"
@@ -123,7 +116,6 @@
 
   <mat-form-field>
     <mat-select
-      class="filter-select"
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
       [(ngModel)]="selectedFilters"

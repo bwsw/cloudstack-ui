@@ -1,19 +1,22 @@
 <cs-top-bar>
   <div class="options-panel filter-wrapper" *ngIf="showAccountFilter()">
-    <mat-form-field>
-      <mat-select *ngIf="accounts.length"
-        class="filter-select"
+    <mat-form-field *ngIf="accounts.length">
+      <mat-select
         multiple="true"
         [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"
         [(ngModel)]="selectedAccountIds"
         (change)="onAccountsChange.emit($event.value)"
       >
-        <mat-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</mat-option>
+        <mat-option
+          *ngFor="let account of accounts"
+          [value]="account.id"
+        >{{ account.fullDomain }}{{ account.name }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
+    <cs-divider-vertical></cs-divider-vertical>
     <mat-form-field>
       <cs-draggable-select
-        class="filter-select"
         multiple="true"
         [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
         [(ngModel)]="selectedGroupings"

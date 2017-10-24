@@ -1,34 +1,37 @@
-<div class="options-panel delimiterfilter-wrapper">
-  <md-select *ngIf="accounts.length"
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-    [(ngModel)]=" selectedAccountIds"(change)="update()"
-  >
-    <md-option *ngFor="letaccountof accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
-  </md-select>
-  <mat-form-field>
+<div class="options-panel delimiter filter-wrapper">
+  <mat-form-field *ngIf="accounts.length">
     <mat-select
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
-    [(ngModel)]="selectedZones"
-    (change)="update()"
-  >
-    <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
-  </mat-select>
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [(ngModel)]=" selectedAccountIds" (change)="update()"
+    >
+      <mat-option
+        *ngFor="let account of accounts"
+        [value]="account.id"
+      >{{ account.fullDomain }}{{ account.name }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-form-field>
     <mat-select
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
-    [(ngModel)]="selectedGroups"
-    (change)="update()"
-  >
-    <mat-option *ngIf="showNoGroupFilter" [value]="noGroup">
-      <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
-    </mat-option>
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
+      [(ngModel)]="selectedZones"
+      (change)="update()"
+    >
+      <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
+      [(ngModel)]="selectedGroups"
+      (change)="update()"
+    >
+      <mat-option *ngIf="showNoGroupFilter" [value]="noGroup">
+        <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
+      </mat-option>
 
       <mat-option
         *ngFor="let g of groups"
@@ -40,7 +43,6 @@
   </mat-form-field>
   <mat-form-field>
     <mat-select
-      class="filter-select"
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_STATES' | translate"
       [(ngModel)]="selectedStates"
@@ -54,7 +56,6 @@
   <cs-divider-vertical></cs-divider-vertical>
   <mat-form-field>
     <cs-draggable-select
-      class="filter-select"
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupings"

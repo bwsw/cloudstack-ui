@@ -7,44 +7,46 @@
     >
       {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
     </mat-checkbox>
-
-    <md-select *ngIf="accounts.length"
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]=" selectedAccountIds"(change)="update()"
-    >
-      <md-option *ngFor="letaccountof accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
-    </md-select>
+    <mat-form-field *ngIf="accounts.length">
+      <mat-select
+        multiple="true"
+        [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+        [(ngModel)]=" selectedAccountIds" (change)="update()"
+      >
+        <mat-option
+          *ngFor="let account of accounts"
+          [value]="account.id"
+        >{{ account.fullDomain }}{{ account.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field
-      *ngIf="zones">
-      <mat-selectclass="filter-select"
-      multiple="true"
-      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
-      [(ngModel)]="selectedZones"
-      (change)="update()"
+      *ngIf="zones"
     >
-      <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
-    </mat-select>
-</mat-form-field>
+      <mat-select
+        multiple="true"
+        [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
+        [(ngModel)]="selectedZones"
+        (change)="update()"
+      >
+        <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field>
       <mat-select
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
-      [(ngModel)]="selectedTypes"
-      (change)="update()"
-    >
-      <mat-option *ngFor="let t of types" [value]="t">
-        {{ getVolumeTypeName(t) | translate }}
-      </mat-option>
-    </mat-select>
-</mat-form-field>
+        multiple="true"
+        [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
+        [(ngModel)]="selectedTypes"
+        (change)="update()"
+      >
+        <mat-option *ngFor="let t of types" [value]="t">
+          {{ getVolumeTypeName(t) | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <cs-divider-vertical></cs-divider-vertical>
     <mat-form-field *ngIf="zones">
       <cs-draggable-select
-
-        class="filter-select"
         multiple="true"
         [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
         [(ngModel)]="selectedGroupingNames"
