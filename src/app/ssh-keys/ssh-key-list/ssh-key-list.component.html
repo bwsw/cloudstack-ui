@@ -1,9 +1,9 @@
-<cs-grouped-list
+<cs-grouped-card
   *ngIf="keys && !!keys.length"
   [list]="keys"
   [groupings]="groupings"
   [component]="SshKeyListItemComponent"
   [dynamicInputs]="inputs"
   [dynamicOutputs]="outputs"
-></cs-grouped-list>
+></cs-grouped-card>
 <cs-no-results *ngIf="!keys || !keys?.length"></cs-no-results>
