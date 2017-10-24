@@ -2,20 +2,27 @@
   (onAction)="activate()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-volume-filter *ngIf="zones && accounts"
-    [zones]="zones"
-    [groupings]="groupings"
-    [accounts]="accounts"
-    [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
-    (updateFilters)="updateFiltersAndFilter($event)"
-    cs-list
-  ></cs-volume-filter>
+  <ng-container cs-panels>
+    <cs-filter
+      (onModeChange)="changeMode($event)"
+    >
+      <cs-volume-filter *ngIf="zones && accounts"
+        [zones]="zones"
+        [groupings]="groupings"
+        [accounts]="accounts"
+        [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
+        (updateFilters)="updateFiltersAndFilter($event)"
+        cs-list
+      ></cs-volume-filter>
+    </cs-filter>
+  </ng-container>
 
   <cs-volume-list
     *loading="!volumes"
     [volumes]="visibleVolumes"
     [groupings]="selectedGroupings"
     [query]="query"
+    [mode]="mode"
     cs-list
   ></cs-volume-list>
 

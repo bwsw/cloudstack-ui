@@ -29,6 +29,7 @@ import { Domain } from '../../shared/models/domain.model';
 import { AccountService } from '../../shared/services/account.service';
 import { Account } from '../../shared/models/account.model';
 import { VmService } from '../../vm/shared/vm.service';
+import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 
 
 export interface VolumeCreationData {
@@ -71,6 +72,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     }
   ];
   public query: string;
+  public mode = ViewMode.BOX;
 
   public filterData: any;
   public domainList: Array<Domain>;
@@ -118,6 +120,10 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       this.updateZones()
     )
       .subscribe(() => this.filter());
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 
   public updateFiltersAndFilter(filterData: VolumeFilter): void {

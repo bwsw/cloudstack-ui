@@ -1,0 +1,27 @@
+:host {
+  cursor: pointer;
+  z-index: -1;
+}
+
+.desc {
+  flex-grow: 2;
+}
+
+.size, .state {
+  flex-grow: 1;
+}
+
+.action {
+  position: absolute;
+  right: 3px;
+}
+
+.root-disk {
+  background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0) 20px,
+      rgba(0, 0, 0, 0.05) 20px,
+      rgba(0, 0, 0, 0.05) 40px
+  );
+}

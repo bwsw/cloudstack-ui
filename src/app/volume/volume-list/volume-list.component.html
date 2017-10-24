@@ -1,8 +1,17 @@
-<cs-grouped-card
-  *ngIf="volumes?.length"
+<cs-grouped-list
+  *ngIf="mode == 0"
   [list]="volumes"
   [groupings]="groupings"
-  [component]="VolumeItemComponent"
+  [component]="VolumeRowItemComponent"
+  [dynamicInputs]="inputs"
+  [dynamicOutputs]="outputs"
+>
+</cs-grouped-list>
+<cs-grouped-card
+  *ngIf="mode == 1"
+  [list]="volumes"
+  [groupings]="groupings"
+  [component]="VolumeCardItemComponent"
   [dynamicInputs]="inputs"
   [dynamicOutputs]="outputs"
 ></cs-grouped-card>
