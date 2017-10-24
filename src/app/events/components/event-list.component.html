@@ -41,6 +41,16 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field>
+        <md-select *ngIf="isAdmin"
+                   multiple="true"
+                   [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+                   [(ngModel)]="selectedAccountIds"
+                   (change)="onAccountChange.emit($event.value)"
+        >
+          <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+        </md-select>
+      </mat-form-field>
       <cs-search
         [ngModel]="query"
         (ngModelChange)="onQueryChange.emit($event)"

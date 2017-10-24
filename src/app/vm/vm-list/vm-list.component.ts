@@ -1,8 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { InstanceGroup, VmStatisticsComponent, Zone } from '../../shared';
+import {
+  InstanceGroup,
+  VmStatisticsComponent,
+  Zone
+} from '../../shared';
 import { ListService } from '../../shared/components/list/list.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { StatsUpdateService } from '../../shared/services/stats-update.service';
@@ -10,7 +21,10 @@ import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VmActionsService } from '../shared/vm-actions.service';
-import { VirtualMachine, VmState } from '../shared/vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 import {
   InstanceGroupOrNoGroup,
@@ -21,6 +35,8 @@ import { VmListItemComponent } from './vm-list-item.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
+import { Account } from '../../shared/models/account.model';
+import { AccountService } from '../../shared/services/account.service';
 
 @Component({
   selector: 'cs-vm-list',
@@ -64,6 +80,7 @@ export class VmListComponent implements OnInit {
 
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
+  public accounts: Array<Account>;
 
   public vmList: Array<VirtualMachine>;
   public domainList: Array<Domain>;
@@ -83,6 +100,7 @@ export class VmListComponent implements OnInit {
     private statsUpdateService: StatsUpdateService,
     private userTagService: UserTagService,
     private domainService: DomainService,
+    private accountService: AccountService,
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private zoneService: ZoneService,
@@ -102,8 +120,9 @@ export class VmListComponent implements OnInit {
 
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+      this.accounts = [];
     } else {
-      this.getDomainList();
+      this.getAccountList();
     }
   }
 
@@ -190,10 +209,19 @@ export class VmListComponent implements OnInit {
       });
   }
 
-  private getDomainList() {
-    this.domainService.getList().subscribe(domains => {
-      this.domainList = domains;
-    });
+  private getAccountList() {
+    Observable.forkJoin(
+      this.accountService.getList(),
+      this.domainService.getList()
+    )
+      .subscribe(([accounts, domains]) => {
+        this.accounts = accounts;
+        this.accounts.map(account => {
+          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
+          return account;
+        });
+        this.domainList = domains;
+      });
   }
 
   private getDomain(domainId: string) {

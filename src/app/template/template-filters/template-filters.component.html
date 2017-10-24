@@ -11,11 +11,20 @@
         {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
       </mat-button-toggle>
     </mat-button-toggle-group>
-
-    <cs-account-filter
-      *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
-      (onChangeAccount)="updateAccount($event)"
-    ></cs-account-filter>
+    <mat-form-field>
+      <mat-select
+        *ngIf="accounts.length"
+        class="filter-select"
+        multiple="true"
+        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+        [(ngModel)]="selectedAccountIds"
+        (change)="updateFilters()"
+      >
+        <mat-option *ngFor="letaccountof accounts" [value]="account.id">{{
+          account.fullDomain }}{{ account.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field>
       <mat-select
         class="filter-select"
@@ -49,7 +58,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field  *ngIf="zones">
+    <mat-form-field *ngIf="zones">
       <mat-select
 
         class="filter-select"
@@ -62,7 +71,7 @@
       </mat-select>
     </mat-form-field>
     <cs-divider-vertical></cs-divider-vertical>
-    <mat-form-field  *ngIf="zones">
+    <mat-form-field *ngIf="zones">
       <mat-select
 
         class="filter-select"

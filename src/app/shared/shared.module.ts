@@ -46,7 +46,6 @@ import { TemplateActionsComponent } from './actions/template-actions/template-ac
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { BadgeModule } from './badge/';
 import {
-  AccountFilterComponent,
   CalendarComponent,
   CalendarMonthComponent,
   CalendarYearComponent,
@@ -90,7 +89,11 @@ import { IntegerValidatorDirective } from './directives/integer-value.directive'
 import { LoadingDirective } from './directives/loading.directive';
 import { MaxValueValidatorDirective } from './directives/max-value.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
-import { DivisionPipe, HighLightPipe, ViewValuePipe } from './pipes';
+import {
+  DivisionPipe,
+  HighLightPipe,
+  ViewValuePipe
+} from './pipes';
 import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
 import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 import { AccountService } from './services/account.service';
@@ -186,7 +189,6 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
   exports: [
     CdkTableModule,
     AccountActionsComponent,
-    AccountFilterComponent,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -248,7 +250,6 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
   ],
   declarations: [
     AccountActionsComponent,
-    AccountFilterComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,

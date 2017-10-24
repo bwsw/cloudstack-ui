@@ -1,31 +1,34 @@
-<div class="options-panel delimiter filter-wrapper">
-  <cs-account-filter
-    *ngIf="showAccountFilter()"
-    [selectedAccountIds]="selectedAccountIds"
-    (onChangeAccount)="updateAccount($event)"
-  ></cs-account-filter>
+<div class="options-panel delimiterfilter-wrapper">
+  <md-select *ngIf="accounts.length"
+    class="filter-select"
+    multiple="true"
+    [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+    [(ngModel)]=" selectedAccountIds"(change)="update()"
+  >
+    <md-option *ngFor="letaccountof accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+  </md-select>
   <mat-form-field>
     <mat-select
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
-      [(ngModel)]="selectedZones"
-      (change)="update()"
-    >
-      <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
-    </mat-select>
+    class="filter-select"
+    multiple="true"
+    [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
+    [(ngModel)]="selectedZones"
+    (change)="update()"
+  >
+    <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
+  </mat-select>
   </mat-form-field>
   <mat-form-field>
     <mat-select
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
-      [(ngModel)]="selectedGroups"
-      (change)="update()"
-    >
-      <mat-option *ngIf="showNoGroupFilter" [value]="noGroup">
-        <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
-      </mat-option>
+    class="filter-select"
+    multiple="true"
+    [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
+    [(ngModel)]="selectedGroups"
+    (change)="update()"
+  >
+    <mat-option *ngIf="showNoGroupFilter" [value]="noGroup">
+      <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
+    </mat-option>
 
       <mat-option
         *ngFor="let g of groups"

@@ -7,6 +7,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatMenuModule,
+  MatSelectModule,
   MatTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
@@ -40,6 +41,7 @@ import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creati
     SharedModule,
     TranslateModule,
     MatTooltipModule,
+    MatSelectModule,
     MatDialogModule,
     MatMenuModule,
     MatButtonModule,
