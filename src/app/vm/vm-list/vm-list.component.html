@@ -9,7 +9,7 @@
     <cs-filter
       (onModeChange)="changeMode($event)"
     >
-      <cs-vm-filter *ngIf="zones && groups"
+      <cs-vm-filter *ngIf="zones && groups  && accounts"
         [zones]="zones"
         [groups]="groups"
         [availableGroupings]="groupings"

@@ -4,7 +4,8 @@
 >
   <cs-ssh-key-filter
     [groupings]="groupings"
-    [selectedAccounts]="selectedAccounts"
+    [accounts]="accounts"
+    [selectedAccountIds]="selectedAccountIds"
     [selectedGroupings]="selectedGroupings"
     (onGroupingsChange)="onGroupingsChange.emit($event)"
     (onAccountsChange)="onAccountsChange.emit($event)"

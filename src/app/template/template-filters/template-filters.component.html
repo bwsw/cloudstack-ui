@@ -12,8 +12,15 @@
       </md-button-toggle>
     </md-button-toggle-group>
 
-    <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
-                       (onChangeAccount)="updateAccount($event)"></cs-account-filter>
+    <md-select *ngIf="accounts.length"
+      class="filter-select"
+      multiple="true"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [(ngModel)]="selectedAccountIds"
+      (change)="updateFilters()"
+    >
+      <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
+    </md-select>
 
     <md-select
       class="filter-select"

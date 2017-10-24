@@ -1,8 +1,21 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
 import { FilterComponent } from '../../shared/interfaces/filter-component';
-import { VolumeType, volumeTypeNames } from '../../shared/models/volume.model';
+import {
+  VolumeType,
+  volumeTypeNames
+} from '../../shared/models/volume.model';
 import { Zone } from '../../shared/models/zone.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -29,6 +42,7 @@ export const volumeListFilters = 'volumeListFilters';
 export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnChanges {
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
+  @Input() public accounts: Array<Account>;
   @Input() public searchPanelWhite: boolean;
   @Output() public updateFilters: EventEmitter<VolumeFilter>;
 
@@ -40,7 +54,6 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
   public selectedZones: Array<Zone> = [];
   public selectedGroupingNames = [];
   public query: string;
-  public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string> = [];
 
   private filtersKey = volumeListFilters;
@@ -89,6 +102,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.selectedTypes = this.types.filter(type =>
       params['types'].find(_ => _ === type)
     );
+
     this.selectedAccountIds = params['accounts'];
 
     this.selectedGroupingNames = params.groupings.reduce((acc, _) => {
@@ -102,11 +116,6 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
     this.update();
   }
 
-  public updateAccount(accounts: Array<Account>) {
-    this.selectedAccounts = accounts;
-    this.update();
-  }
-
   public update(): void {
     this.updateFilters.emit({
       spareOnly: this.spareOnly,
@@ -114,7 +123,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
       selectedTypes: this.selectedTypes,
       groupings: this.selectedGroupingNames,
       query: this.query,
-      accounts: this.selectedAccounts
+      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
     });
 
     this.filterService.update({
@@ -123,7 +132,7 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
       types: this.selectedTypes,
       groupings: this.selectedGroupingNames.map(_ => _.key),
       query: this.query,
-      accounts: this.selectedAccounts.map(_ => _.id)
+      accounts: this.selectedAccountIds
     });
   }
 }

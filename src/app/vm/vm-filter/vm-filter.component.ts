@@ -1,7 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import * as sortBy from 'lodash/sortBy';
-import { InstanceGroup, Zone } from '../../shared/models';
+import {
+  InstanceGroup,
+  Zone
+} from '../../shared/models';
 import { FilterService } from '../../shared/services/filter.service';
 import { InstanceGroupService } from '../../shared/services/instance-group.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -31,6 +43,7 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
   @Input() public availableGroupings: Array<any>;
   @Input() public groups: Array<InstanceGroup>;
   @Input() public zones: Array<Zone>;
+  @Input() public accounts: Array<Account>;
   @Output() public updateFilters = new EventEmitter<VmFilter>();
 
   public noGroup = noGroup;
@@ -39,7 +52,6 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
   public selectedStates: Array<VmState> = [];
   public selectedZones: Array<Zone> = [];
   public selectedGroupings: Array<any> = [];
-  public selectedAccounts: Array<Account> = [];
   public selectedAccountIds: Array<string> = [];
   public states = [
     {
@@ -130,26 +142,20 @@ export class VmFilterComponent implements FilterComponent<VmFilter>, OnInit {
     });
   }
 
-  public updateAccount(users: Array<Account>) {
-    this.selectedAccounts = users;
-    this.update();
-  }
-
   public update(): void {
     this.updateFilters.emit({
       selectedGroups: this.selectedGroups.sort(this.groupSortPredicate),
       selectedStates: this.selectedStates,
       selectedZones: sortBy(this.selectedZones, 'name'),
       groupings: this.selectedGroupings,
-      accounts: this.selectedAccounts
+      accounts: this.accounts.filter(account => this.selectedAccountIds.find(id => id === account.id))
     });
-
     this.filterService.update({
       zones: this.selectedZones.map(_ => _.id),
       groups: this.selectedGroups.map(_ => (_ as InstanceGroup).name || ''),
       states: this.selectedStates,
       groupings: this.selectedGroupings.map(_ => _.key),
-      accounts: this.selectedAccounts.map(_ => _.id)
+      accounts: this.selectedAccountIds
     });
   }
 

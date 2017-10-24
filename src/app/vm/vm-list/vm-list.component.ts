@@ -34,9 +34,12 @@ import {
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
+import { Account } from '../../shared/models/account.model';
+import { AccountService } from '../../shared/services/account.service';
 import { VmListRowItemComponent } from '../vm-list-item/row-item/vm-list-row-item.component';
 import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-item.component';
 import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+
 
 @Component({
   selector: 'cs-vm-list',
@@ -83,6 +86,7 @@ export class VmListComponent implements OnInit {
 
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
+  public accounts: Array<Account>;
 
   public vmList: Array<VirtualMachine>;
   public domainList: Array<Domain>;
@@ -102,6 +106,7 @@ export class VmListComponent implements OnInit {
     private statsUpdateService: StatsUpdateService,
     private userTagService: UserTagService,
     private domainService: DomainService,
+    private accountService: AccountService,
     private vmActionsService: VmActionsService,
     private vmTagService: VmTagService,
     private zoneService: ZoneService,
@@ -121,8 +126,9 @@ export class VmListComponent implements OnInit {
 
     if (!this.authService.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+      this.accounts = [];
     } else {
-      this.getDomainList();
+      this.getAccountList();
     }
   }
 
@@ -213,10 +219,19 @@ export class VmListComponent implements OnInit {
       });
   }
 
-  private getDomainList() {
-    this.domainService.getList().subscribe(domains => {
-      this.domainList = domains;
-    });
+  private getAccountList() {
+    Observable.forkJoin(
+      this.accountService.getList(),
+      this.domainService.getList()
+    )
+      .subscribe(([accounts, domains]) => {
+        this.accounts = accounts;
+        this.accounts.map(account => {
+          account.fullDomain = domains.find(domain => domain.id === account.domainid).getPath();
+          return account;
+        });
+        this.domainList = domains;
+      });
   }
 
   private getDomain(domainId: string) {

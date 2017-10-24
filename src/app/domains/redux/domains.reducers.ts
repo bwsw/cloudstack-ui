@@ -1,5 +1,12 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
 import { Domain } from '../../shared/models/domain.model';
 
 import * as event from './domains.actions';
@@ -16,11 +23,11 @@ export interface State extends EntityState<Domain> {
 }
 
 export interface DomainsState {
-  domains: State;
+  list: State;
 }
 
 export const domainReducers = {
-  domains: reducer,
+  list: reducer,
 };
 
 /**
@@ -82,7 +89,7 @@ export const getDomainsState = createFeatureSelector<DomainsState>('domains');
 
 export const getDomainsEntitiesState = createSelector(
   getDomainsState,
-  state => state.domains
+  state => state.list
 );
 
 export const {

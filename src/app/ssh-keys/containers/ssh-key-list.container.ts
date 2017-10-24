@@ -1,16 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { FilterService } from '../../shared/services/filter.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
 import * as fromSshKeys from '../redux/ssh-key.reducers';
 import * as sshKeyActions from '../redux/ssh-key.actions';
-import * as fromDomains from '../../domains/redux/domains.reducers';
-import * as domainActions from '../../domains/redux/domains.actions';
+import * as accountAction from '../../account/redux/accounts.actions';
+import * as fromAccounts from '../../account/redux/accounts.reducers';
 
 export const sshKeyListFilters = 'sshKeyListFilters';
 
@@ -20,10 +26,10 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 })
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
-  readonly domainList$ = this.store.select(fromDomains.selectEntities);
   readonly filters$ = this.store.select(fromSshKeys.filters);
+  readonly accounts$ = this.store.select(fromAccounts.accounts);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
-  readonly selectedAccounts$ = this.store.select(fromSshKeys.filterSelectedAccounts);
+  readonly selectedAccountIds$ = this.store.select(fromSshKeys.filterSelectedAccountIds);
 
   public groupings = [
     {
@@ -33,9 +39,6 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
       name: (item: SSHKeyPair) => this.getGroupName(item)
     }
   ];
-
-  public selectedGroupings = [];
-  public selectedAccounts = [];
 
   private filtersKey = sshKeyListFilters;
   private filterService = new FilterService(
@@ -59,13 +62,14 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
   }
 
   public ngOnInit(): void {
+    this.store.dispatch(new accountAction.LoadAccountsRequest());
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)
       .subscribe(filters =>
         this.filterService.update({
           'groupings': filters.selectedGroupings.map(g => g.key),
-          'accounts': filters.selectedAccounts.map(a => a.id)
+          'accounts': filters.selectedAccountIds
         }));
   }
 
@@ -77,8 +81,8 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
   }
 
-  public onAccountsChange(selectedAccounts) {
-    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccounts }));
+  public onAccountsChange(selectedAccountIds) {
+    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccountIds }));
   }
 
   private initFilters(): void {
@@ -91,10 +95,9 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
       return acc;
     }, []);
 
-    const selectedAccounts = params['accounts'];
-
+    const selectedAccountIds = params['accounts'];
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({
-      selectedAccounts,
+      selectedAccountIds,
       selectedGroupings
     }));
   }

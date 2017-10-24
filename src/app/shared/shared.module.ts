@@ -46,7 +46,6 @@ import { TemplateActionsComponent } from './actions/template-actions/template-ac
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { BadgeModule } from './badge/';
 import {
-  AccountFilterComponent,
   CalendarComponent,
   CalendarMonthComponent,
   CalendarYearComponent,
@@ -192,7 +191,6 @@ import { GroupedCardComponent } from './components/grouped-list/grouped-card.com
   exports: [
     CdkTableModule,
     AccountActionsComponent,
-    AccountFilterComponent,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -256,7 +254,6 @@ import { GroupedCardComponent } from './components/grouped-list/grouped-card.com
   ],
   declarations: [
     AccountActionsComponent,
-    AccountFilterComponent,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
