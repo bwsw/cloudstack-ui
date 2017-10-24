@@ -12,28 +12,28 @@
         novalidate
         #passwordForm="ngForm"
       >
-        <md-form-field class="full-width-input">
+        <mat-form-field class="full-width-input">
           <input
-            mdInput
+            matInput
             type="password"
             formControlName="password"
             [placeholder]="'SETTINGS.SECURITY.NEW_PASSWORD' | translate"
             required
           >
-        </md-form-field>
+        </mat-form-field>
         <br>
-        <md-form-field class="full-width-input">
+        <mat-form-field class="full-width-input">
           <input
-            mdInput
+            matInput
             type="password"
             formControlName="passwordRepeat"
             [placeholder]="'SETTINGS.SECURITY.REPEAT_PASSWORD' | translate"
             required
           >
-        </md-form-field>
+        </mat-form-field>
         <br>
         <div class="pull-right-button">
-          <button md-button type="submit" [disabled]="!passwordUpdateForm.valid">
+          <button mat-button type="submit" [disabled]="!passwordUpdateForm.valid">
             {{ 'COMMON.UPDATE' | translate }}
           </button>
         </div>
@@ -42,13 +42,14 @@
       <cs-inactivity-timeout></cs-inactivity-timeout>
 
       <div class="save-password">
-        <md-checkbox ngDefaultControl
-                     name="saveVmPassword"
-                     [(ngModel)]="savePassword"
-                     (ngModelChange)="doSavePasswordForAllVms($event)"
+        <mat-checkbox
+          ngDefaultControl
+          name="saveVmPassword"
+          [(ngModel)]="savePassword"
+          (ngModelChange)="doSavePasswordForAllVms($event)"
         >
           {{ 'SETTINGS.VM.SAVE_PASSWORD_FOR_ALL_VMS' | translate }}
-        </md-checkbox>
+        </mat-checkbox>
       </div>
 
     </div>
@@ -62,51 +63,58 @@
     <div class="section-container">
       <div *ngIf="language" class="settings-control">
         <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.LANGUAGE' | translate }}</h5>
-        <md-select
-          class="form-select-control"
-          [(ngModel)]="language"
-          (change)="changeLanguage($event)"
-        >
-          <md-option
-            *ngFor="let l of languages"
-            [value]="l.value"
+        <mat-form-field class="form-select-control">
+          <mat-select
+            [(ngModel)]="language"
+            (change)="changeLanguage($event)"
           >
-            {{ l.text }}
-          </md-option>
-        </md-select>
+            <mat-option
+              *ngFor="let l of languages"
+              [value]="l.value"
+            >
+              {{ l.text }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div *ngIf="firstDayOfWeek != null" class="settings-control">
-        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate }}</h5>
-        <md-select
-          *ngIf="dayTranslations"
-          class="form-select-control"
-          [ngModel]="firstDayOfWeek"
-          [disabled]="updatingFirstDayOfWeek"
-          (change)="firstDayOfWeekChange($event)"
-        >
-          <md-option
-            *ngFor="let d of daysOfTheWeek"
-            [value]="d.value"
+        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate
+          }}</h5>
+        <mat-form-field
+          *ngIf="!loading"
+          class="form-select-control">
+          <mat-select
+            [ngModel]="firstDayOfWeek"
+            [disabled]="updatingFirstDayOfWeek"
+            (change)="firstDayOfWeekChange($event)"
           >
-            {{ d.text | translate }}
-          </md-option>
-        </md-select>
+            <mat-option
+              *ngFor="let d of daysOfTheWeek"
+              [value]="d.value"
+            >
+              {{ d.text | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="settings-control">
         <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.TIME_FORMAT' | translate }}</h5>
-        <md-select
-          class="form-select-control"
-          [ngModel]="timeFormat"
-          [disabled]="updatingTimeFormat"
-          (change)="changeTimeFormat($event)"
-        >
-          <md-option
-            *ngFor="let format of timeFormats"
-            [value]="TimeFormat[format]"
+        <mat-form-field
+          *ngIf="!loading"
+          class="form-select-control">
+          <mat-select
+            [ngModel]="timeFormat"
+            [disabled]="updatingTimeFormat"
+            (change)="changeTimeFormat($event)"
           >
-            {{ getTimeFormatTranslationToken(format) | translate }}
-          </md-option>
-        </md-select>
+            <mat-option
+              *ngFor="let format of timeFormats"
+              [value]="TimeFormat[format]"
+            >
+              {{ getTimeFormatTranslationToken(format) | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="settings-control">
         <h5>{{ 'SETTINGS.LOOK_AND_FEEL.THEME' | translate }}</h5>

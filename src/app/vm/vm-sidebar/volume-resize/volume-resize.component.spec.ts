@@ -1,7 +1,7 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -87,9 +87,9 @@ describe('volume resize for root disks', () => {
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
-        { provide: MdDialogRef, useValue: dialog },
+        { provide: MatDialogRef, useValue: dialog },
         { provide: VolumeService, useClass: MockVolumeService },
-        { provide: MD_DIALOG_DATA, useValue: { volume: testVolume } }
+        { provide: MAT_DIALOG_DATA, useValue: { volume: testVolume } }
       ]
     });
 
@@ -153,9 +153,9 @@ describe('volume resize for data disks', () => {
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
-        { provide: MdDialogRef, useValue: dialog },
+        { provide: MatDialogRef, useValue: dialog },
         { provide: VolumeService, useClass: MockVolumeService },
-        { provide: MD_DIALOG_DATA, useValue: { volume: testVolume } }
+        { provide: MAT_DIALOG_DATA, useValue: { volume: testVolume } }
       ]
     });
 

@@ -1,11 +1,11 @@
-<md-card class="vm-card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.TITLE' | translate }}</h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content class="md-card-content-with-actions">
-    <div class="grid service-offering md-card-content-container" [class.open]="expandServiceOffering">
+<mat-card class="vm-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.TITLE' | translate }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content-with-actions">
+    <div class="grid service-offering mat-card-content-container" [class.open]="expandServiceOffering">
 
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.name' | translate }}</div>
@@ -108,26 +108,26 @@
       </div>
 
     </div>
-    <md-card-actions>
+    <mat-card-actions>
       <div class="card-left-button">
         <button
-          [mdTooltip]="'COMMON.CHANGE' | translate"
-          mdTooltipPosition="above"
-          md-icon-button
+          [matTooltip]="'COMMON.CHANGE' | translate"
+          matTooltipPosition="above"
+          mat-icon-button
           (click)="changeServiceOffering()"
         >
-          <md-icon>edit</md-icon>
+          <mat-icon>edit</mat-icon>
         </button>
       </div>
       <div class="card-right-button">
         <button
-          md-icon-button
+          mat-icon-button
           (click)="toggleServiceOffering()"
           [class.open]="expandServiceOffering"
         >
-          <md-icon>keyboard_arrow_down</md-icon>
+          <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
       </div>
-    </md-card-actions>
-  </md-card-content>
-</md-card>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

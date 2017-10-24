@@ -47,7 +47,7 @@ describe('Sg creation rule component', () => {
     f.detectChanges();
 
     const listContent = f.debugElement.query(
-      By.css('md-list-item h4')
+      By.css('mat-list-item h4')
     ).nativeElement.textContent;
 
     expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE');

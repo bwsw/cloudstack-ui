@@ -5,27 +5,28 @@
         [controller]="progressLoggerController"
       ></cs-progress-logger>
 
-      <md-progress-bar
+      <mat-progress-bar
         mode="indeterminate"
         [class.progress-hidden]="!deploymentStopped"
-      ></md-progress-bar>
+      ></mat-progress-bar>
 
       <cs-postdeployment-dialog
         *ngIf="!deploymentStopped && deployedVm"
         [vm]="deployedVm"
         [dialogRef]="dialogRef"
-        [title]="'VM_POST_ACTION.TITLE'">
+        [title]="'VM_POST_ACTION.TITLE'"
+      >
       </cs-postdeployment-dialog>
     </div>
   </div>
 
   <div class="mat-dialog-actions">
     <button
-      md-button
+      mat-button
       type="button"
       color="primary"
       *ngIf="!deploymentStopped && !deployedVm"
-      mdDialogClose
+      matDialogClose
     >
       {{ 'COMMON.CLOSE' | translate }}
     </button>
@@ -45,35 +46,36 @@
         <div *ngIf="enoughResources && formState?.state" class="left-column">
           <div>
             <h5>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h5>
-            <md-form-field floatPlaceholder="never" class="full-width-input">
+            <mat-form-field floatPlaceholder="never" class="full-width-input">
               <input
-                mdInput
+                matInput
                 name="name"
                 [ngModel]="formState.state.displayName"
                 (ngModelChange)="displayNameChange($event)"
                 [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
                 pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
                 required
-                [errorStateMatcher]="vmNameErrorMatcher"
               >
-              <md-error *ngIf="takenName">
+              <mat-error *ngIf="takenName">
                 {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
-              </md-error>
-            </md-form-field>
+              </mat-error>
+            </mat-form-field>
           </div>
 
           <div>
             <h5>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h5>
-            <md-select
-              class="form-select-control"
-              name="zone"
-              [ngModel]="formState.state.zone"
-              (change)="zoneChange($event)"
-            >
-              <md-option *ngFor="let z of formState.data.zones" [value]="z">
-                {{ z.name }}
-              </md-option>
-            </md-select>
+            <mat-form-field class="form-select-control">
+              <mat-select
+
+                name="zone"
+                [ngModel]="formState.state.zone"
+                (change)="zoneChange($event)"
+              >
+                <mat-option *ngFor="let z of formState.data.zones" [value]="z">
+                  {{ z.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
           <div>
@@ -128,46 +130,48 @@
         <div *ngIf="enoughResources && formState?.state" class="right-column">
           <div>
             <h5>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h5>
-            <md-form-field floatPlaceholder="never">
+            <mat-form-field floatPlaceholder="never">
               <input
                 name="group"
-                mdInput
-                [mdAutocomplete]="instanceGroups"
+                matInput
+                [matAutocomplete]="instanceGroups"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
                 [ngModel]="formState.state.instanceGroup.name"
                 (ngModelChange)="instanceGroupChange($event)"
               >
-            </md-form-field>
-            <md-autocomplete #instanceGroups>
-              <md-option
-                *ngFor="let group of visibleInstanceGroups"
-                [value]="group.name"
-              >
-                {{ group.name }}
-              </md-option>
-            </md-autocomplete>
+            </mat-form-field>
+            <!--<mat-form-field>-->
+              <mat-autocomplete #instanceGroups>
+                <mat-option
+                  *ngFor="let group of visibleInstanceGroups"
+                  [value]="group.name"
+                >
+                  {{ group.name }}
+                </mat-option>
+              </mat-autocomplete>
+            <!--</mat-form-field>-->
           </div>
 
           <div>
             <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUPS' | translate }}</h5>
-            <md-form-field floatPlaceholder="never">
+            <mat-form-field floatPlaceholder="never">
               <input
                 name="group"
-                mdInput
+                matInput
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                [mdAutocomplete]="affinityGroups"
+                [matAutocomplete]="affinityGroups"
                 [(ngModel)]="formState.state.affinityGroup.name"
                 (ngModelChange)="affinityGroupChange($event)"
               >
-            </md-form-field>
-            <md-autocomplete #affinityGroups>
-              <md-option
+            </mat-form-field>
+            <mat-autocomplete #affinityGroups>
+              <mat-option
                 *ngFor="let group of visibleAffinityGroups"
                 [value]="group.name"
               >
                 {{ group.name }}
-              </md-option>
-            </md-autocomplete>
+              </mat-option>
+            </mat-autocomplete>
           </div>
 
           <div>
@@ -191,29 +195,31 @@
 
           <div>
             <h5>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h5>
-            <md-select
-              class="form-select-control"
-              name="ssh"
-              [ngModel]="formState.state.sshKeyPair"
-              (change)="sshKeyPairChange($event)"
-            >
-              <md-option
-                *ngFor="let keyPair of formState.data.sshKeyPairs"
-                [value]="keyPair"
+            <mat-form-field class="form-select-control">
+              <mat-select
+
+                name="ssh"
+                [ngModel]="formState.state.sshKeyPair"
+                (change)="sshKeyPairChange($event)"
               >
-                {{ keyPair.name }}
-              </md-option>
-            </md-select>
+                <mat-option
+                  *ngFor="let keyPair of formState.data.sshKeyPairs"
+                  [value]="keyPair"
+                >
+                  {{ keyPair.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
           <div class="start-vm-checkbox">
-            <md-checkbox
+            <mat-checkbox
               name="startVm"
               [ngModel]="formState.state.doStartVm"
               (ngModelChange)="doStartVmChange($event)"
             >
               {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
-            </md-checkbox>
+            </mat-checkbox>
           </div>
 
         </div>
@@ -232,15 +238,15 @@
     </div>
     <div class="mat-dialog-actions">
       <button
-        md-button
+        mat-button
         color="primary"
-        mdDialogClose
+        matDialogClose
         type="button"
       >
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
-        md-button
+        mat-button
         color="primary"
         type="submit"
         [disabled]="!vmCreateForm.valid || nameIsTaken || !formState?.state.template"

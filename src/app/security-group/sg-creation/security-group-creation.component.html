@@ -9,9 +9,9 @@
   </h3>
   <form (ngSubmit)="onSubmit($event)" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
-      <md-form-field class="full-width-input">
+      <mat-form-field class="full-width-input">
         <input
-          mdInput
+          matInput
           name="name"
           [(ngModel)]="name"
           [placeholder]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.NAME' | translate"
@@ -19,26 +19,26 @@
           maxlength="255"
           required
         >
-        <md-hint align="end">
+        <mat-hint align="end">
           <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
-        </md-hint>
-      </md-form-field>
+        </mat-hint>
+      </mat-form-field>
       <br />
-      <md-form-field class="full-width-input">
+      <mat-form-field class="full-width-input">
         <input
-          mdInput
+          matInput
           name="description"
           [(ngModel)]="description"
           [placeholder]="'SECURITY_GROUP_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
           maxlength="255"
         >
-        <md-hint align="end">
+        <mat-hint align="end">
           <cs-character-count
             [value]="description"
             [maxLength]="255"
           ></cs-character-count>
-        </md-hint>
-      </md-form-field>
+        </mat-hint>
+      </mat-form-field>
       <br />
 
       <cs-security-group-creation-rules-manager
@@ -49,15 +49,15 @@
     </div>
     <div class="mat-dialog-actions">
       <button
-        md-button
+        mat-button
         color="primary"
-        mdDialogClose
+        matDialogClose
         type="button"
       >
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
-        md-button
+        mat-button
         color="primary"
         type="submit"
         [disabled]="!templateCreationForm.valid"

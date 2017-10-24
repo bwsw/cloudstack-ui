@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../shared/models';
@@ -38,7 +38,7 @@ export class VolumeCreationComponent implements OnInit {
   private insufficientResourcesDialog: Observable<any>;
 
   constructor(
-    private dialogRef: MdDialogRef<VolumeCreationComponent>,
+    private dialogRef: MatDialogRef<VolumeCreationComponent>,
     private dialogService: DialogService,
     private diskOfferingService: DiskOfferingService,
     private jobsNotificationService: JobsNotificationService,

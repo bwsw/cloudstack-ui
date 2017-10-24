@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { MdInput } from '@angular/material';
+import { MatInput } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { AbstractInlineEditComponent } from './abstract-inline-edit.component';
 
@@ -21,7 +21,7 @@ export class InlineEditComponent extends AbstractInlineEditComponent implements 
   @Input() public maxrows: number;
   @Input() public maxLength: number;
 
-  @ViewChild(MdInput) public textArea: MdInput;
+  @ViewChild(MatInput) public textArea: MatInput;
 
   public constructor(
     protected changeDetectorRef: ChangeDetectorRef,

@@ -3,38 +3,34 @@
   cursor: pointer;
   z-index: -1;
 
-  & md-card {
+  & mat-card {
     z-index: 0;
     line-height: normal;
   }
 }
 
 .custom-card {
-  md-card-header {
+  mat-card-header {
     padding-bottom: 5px;
   }
 
   &.has-text-color {
-    md-card-content,
-    md-card-title {
+    mat-card-content,
+    mat-card-title {
       color: inherit;
     }
   }
   &.dark-background {
-    md-card-content,
-    md-card-title {
+    mat-card-content,
+    mat-card-title {
       color: rgba(255, 255, 255, 0.87) !important;
     }
   }
   &.light-background {
-    md-card-content,
-    md-card-title {
+    mat-card-content,
+    mat-card-title {
       color: rgba(0, 0, 0, 0.87) !important;
     }
-  }
-
-  .state-icon {
-    box-shadow: 0 0 1px 1px white;
   }
 }
 
@@ -42,7 +38,7 @@
   margin-bottom: 5px;
 }
 
-md-card {
+mat-card {
   &.error {
     cursor: auto;
   }
@@ -59,7 +55,7 @@ md-card {
   float: right;
 }
 
-md-divider {
+mat-divider {
   flex: 1 0 100%;
   margin: 10px 0;
 }

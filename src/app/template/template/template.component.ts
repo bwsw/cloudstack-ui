@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
 import { BaseTemplateModel } from '../shared';
 
@@ -25,7 +25,7 @@ export class TemplateComponent implements OnChanges {
   @Input() public searchQuery: () => string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
 
   public query: string;
 

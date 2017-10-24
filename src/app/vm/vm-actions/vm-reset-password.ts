@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { VmStartActionSilent } from './silent/vm-start-silent';
 import { VmStopActionSilent } from './silent/vm-stop-silent';
 import { VirtualMachineCommand } from './vm-command';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { VmResetPasswordComponent } from './vm-reset-password-component/vm-reset-password.component';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { TagService } from '../../shared/services/tags/tag.service';
@@ -39,7 +39,7 @@ export class VmResetPasswordAction extends VirtualMachineCommand {
 
   constructor(
     protected dialogService: DialogService,
-    protected dialog: MdDialog,
+    protected dialog: MatDialog,
     protected jobsNotificationService: JobsNotificationService,
     protected userTagService: UserTagService,
     protected tagService: TagService,

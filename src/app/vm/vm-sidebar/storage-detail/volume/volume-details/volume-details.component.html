@@ -21,8 +21,8 @@
     </div>
     <div class="row"
          *ngIf="volume?.diskOffering?.name"
-         [mdTooltip]="volume?.diskOffering?.displayText"
-         mdTooltipPosition="above"
+         [matTooltip]="volume?.diskOffering?.displayText"
+         matTooltipPosition="above"
     >
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.DISK_OFFERING' | translate }}</div>
       <div>{{ volume.diskOffering.name }}</div>

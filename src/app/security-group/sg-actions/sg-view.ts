@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SecurityGroupAction } from './sg-action';
 import { SecurityGroup } from '../sg.model';
 import { Observable } from 'rxjs/Observable';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -16,7 +16,7 @@ export class SecurityGroupViewAction extends SecurityGroupAction {
 
 
   constructor(
-    dialog: MdDialog,
+    dialog: MatDialog,
     dialogService: DialogService,
     jobsNotificationService: JobsNotificationService,
     notificationService: NotificationService,

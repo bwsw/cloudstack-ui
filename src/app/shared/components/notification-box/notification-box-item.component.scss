@@ -3,14 +3,14 @@
   line-height: 26px;
 }
 
-:host md-spinner {
+:host mat-spinner {
   background: transparent !important;
   margin-right: 16px;
   width: 40px;
   height: 40px;
 }
 
-:host md-icon.close {
+:host mat-icon.close {
   float: right;
   cursor: pointer;
 }

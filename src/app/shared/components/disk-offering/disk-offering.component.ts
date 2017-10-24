@@ -1,6 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material';
 import { DiskOffering } from '../../models/disk-offering.model';
 
 
@@ -26,7 +26,7 @@ export class DiskOfferingComponent implements ControlValueAccessor {
     this.change = new EventEmitter();
   }
 
-  public updateDiskOffering(change: MdSelectChange): void {
+  public updateDiskOffering(change: MatSelectChange): void {
     const diskOffering = change.value as DiskOffering;
     if (diskOffering) {
       this.diskOffering = diskOffering;

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 
 import { OsFamily } from '../../shared/models/os-type.model';
@@ -40,8 +39,6 @@ export class TemplateFiltersComponent implements OnInit {
   public zones: Array<Zone>;
   public selectedZones: Array<Zone> = [];
 
-  public filterTranslations: {};
-
   public osFamilies: Array<OsFamily> = [
     OsFamily.Linux,
     OsFamily.Windows,
@@ -53,6 +50,11 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.featured,
     TemplateFilters.self
   ];
+
+  public filterTranslations = {
+    [TemplateFilters.featured]: 'TEMPLATE_PAGE.FILTERS.FEATURED',
+    [TemplateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',
+  };
 
   private filtersKey = 'imageListFilters';
   private filterService = new FilterService({
@@ -72,7 +74,7 @@ export class TemplateFiltersComponent implements OnInit {
     },
     query: { type: 'string' },
     groupings: { type: 'array', defaultOption: [] },
-    accounts: {type: 'array', defaultOption: [] }
+    accounts: { type: 'array', defaultOption: [] }
   }, this.router, this.storageService, this.filtersKey, this.activatedRoute);
 
   private templateTabIndex = 0;
@@ -84,7 +86,7 @@ export class TemplateFiltersComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService,
-    private translateService: TranslateService,
+    // private translateService: TranslateService,
     private zoneService: ZoneService,
     private authService: AuthService
   ) {
@@ -105,17 +107,6 @@ export class TemplateFiltersComponent implements OnInit {
     this.queryStream
       .distinctUntilChanged()
       .subscribe(query => this.queries.emit(query));
-
-    this.translateService.get(
-      this.categoryFilters.map(filter => `TEMPLATE_PAGE.FILTERS.${filter.toUpperCase()}`)
-    )
-      .subscribe(translations => {
-        const strs = {};
-        this.categoryFilters.forEach(f => {
-          strs[f] = translations[`TEMPLATE_PAGE.FILTERS.${f.toUpperCase()}`];
-        });
-        this.filterTranslations = strs;
-      });
   }
 
   public get templateSwitchPosition(): number {

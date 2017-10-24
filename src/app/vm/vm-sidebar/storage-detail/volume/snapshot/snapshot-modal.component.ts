@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 import {
   TableDatabase,
@@ -20,7 +20,7 @@ export class SnapshotModalComponent implements OnInit {
 
   constructor(
     public snapshotActionsService: SnapshotActionsService,
-    @Inject(MD_DIALOG_DATA) public volume: Volume
+    @Inject(MAT_DIALOG_DATA) public volume: Volume
   ) {
   }
 

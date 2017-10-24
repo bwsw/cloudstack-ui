@@ -17,12 +17,12 @@ import * as fromAccounts from '../redux/accounts.reducers';
 import * as fromDomains from '../../domains/redux/domains.reducers';
 import * as fromRoles from '../../roles/redux/roles.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Account } from '../../shared/models/account.model';
+import { Account, AccountState } from '../../shared/models/account.model';
 
 export const stateTranslations = {
-  DISABLED: 'ACCOUNT_STATE.DISABLED',
-  ENABLED: 'ACCOUNT_STATE.ENABLED',
-  LOCKED: 'ACCOUNT_STATE.LOCKED',
+  [AccountState.locked]: 'ACCOUNT_STATE.LOCKED',
+  [AccountState.enabled]: 'ACCOUNT_STATE.ENABLED',
+  [AccountState.disabled]: 'ACCOUNT_STATE.DISABLED',
 };
 
 @Component({
@@ -117,7 +117,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   }
 
   public stateTranslation(state): string {
-    return stateTranslations[state.toUpperCase()];
+    return stateTranslations[state];
   }
 
   public onDomainsChange(selectedDomainIds) {

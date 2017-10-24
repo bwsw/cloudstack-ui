@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdSelectModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SharedModule } from '../shared/shared.module';
@@ -17,7 +17,7 @@ import { EventListComponent } from './components/event-list.component';
   imports: [
     CommonModule,
     FormsModule,
-    MdSelectModule,
+    MatSelectModule,
     SharedModule,
     TranslateModule,
     StoreModule.forFeature('events', reducers),

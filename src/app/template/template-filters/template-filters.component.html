@@ -1,124 +1,134 @@
 <cs-top-bar *ngIf="!dialogMode">
-  <div class="options-panel">
-    <md-button-toggle-group
+  <div class="options-panel filter-wrapper">
+    <mat-button-toggle-group
       (change)="setMode($event.value)"
       *ngIf="showIsoSwitch"
     >
-      <md-button-toggle value="0" [checked]="templateSwitchPosition === 0">
+      <mat-button-toggle value="0" [checked]="templateSwitchPosition === 0">
         {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-      </md-button-toggle>
-      <md-button-toggle value="1" [checked]="templateSwitchPosition === 1">
+      </mat-button-toggle>
+      <mat-button-toggle value="1" [checked]="templateSwitchPosition === 1">
         {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-      </md-button-toggle>
-    </md-button-toggle-group>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
 
-    <cs-account-filter *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
-                       (onChangeAccount)="updateAccount($event)"></cs-account-filter>
-
-    <md-select
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
-      [(ngModel)]="selectedOsFamilies"
-      (change)="updateFilters()"
-    >
-      <md-option
-        *ngFor="let family of osFamilies"
-        [value]="family"
+    <cs-account-filter
+      *ngIf="showAccountFilter()" [selectedAccountIds]="selectedAccountIds"
+      (onChangeAccount)="updateAccount($event)"
+    ></cs-account-filter>
+    <mat-form-field>
+      <mat-select
+        class="filter-select"
+        multiple="true"
+        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
+        [(ngModel)]="selectedOsFamilies"
+        (change)="updateFilters()"
       >
-        {{ family }}
-      </md-option>
-    </md-select>
-    <div *ngIf="filterTranslations" class="filter-select-container">
-      <md-select
+        <mat-option
+          *ngFor="let family of osFamilies"
+          [value]="family"
+        >
+          {{ family }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select
         class="filter-select"
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
         [(ngModel)]="selectedFilters"
         (change)="updateFilters()"
       >
-        <md-option
+        <mat-option
           *ngFor="let f of categoryFilters"
           [value]="f"
         >
-          {{ filterTranslations[f] }}
-        </md-option>
-      </md-select>
-    </div>
-    <md-select
-      *ngIf="zones"
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
-      [(ngModel)]="selectedZones"
-      (change)="updateFilters()"
-    >
-      <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
-    </md-select>
+          {{ filterTranslations[f] | translate}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    <mat-form-field  *ngIf="zones">
+      <mat-select
+
+        class="filter-select"
+        multiple="true"
+        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
+        [(ngModel)]="selectedZones"
+        (change)="updateFilters()"
+      >
+        <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <cs-divider-vertical></cs-divider-vertical>
-    <md-select
-      *ngIf="zones"
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupingNames"
-      (change)="updateFilters()"
-    >
-      <md-option *ngFor="let g of availableGroupings" [value]="g">
-        {{ g.label | translate }}
-      </md-option>
-    </md-select>
+    <mat-form-field  *ngIf="zones">
+      <mat-select
+
+        class="filter-select"
+        multiple="true"
+        [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
+        [(ngModel)]="selectedGroupingNames"
+        (change)="updateFilters()"
+      >
+        <mat-option *ngFor="let g of availableGroupings" [value]="g">
+          {{ g.label | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </cs-top-bar>
 
 <div
-  class="options-panel"
+  class="options-panel filter-wrapper"
   [class.delimiter]="showDelimiter"
   *ngIf="dialogMode"
 >
-  <md-button-toggle-group
+  <mat-button-toggle-group
     (change)="setMode($event.value)"
     *ngIf="showIsoSwitch"
   >
-    <md-button-toggle value="0" [checked]="templateSwitchPosition === 0">
+    <mat-button-toggle value="0" [checked]="templateSwitchPosition === 0">
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-    </md-button-toggle>
-    <md-button-toggle value="1" [checked]="templateSwitchPosition === 1">
+    </mat-button-toggle>
+    <mat-button-toggle value="1" [checked]="templateSwitchPosition === 1">
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-    </md-button-toggle>
-  </md-button-toggle-group>
-
-  <md-select
-    class="filter-select"
-    multiple="true"
-    placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
-    [(ngModel)]="selectedOsFamilies"
-    (change)="updateFilters()"
-  >
-    <md-option
-      *ngFor="let family of osFamilies"
-      [value]="family"
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+  <mat-form-field>
+    <mat-select
+      class="filter-select"
+      multiple="true"
+      placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
+      [(ngModel)]="selectedOsFamilies"
+      (change)="updateFilters()"
     >
-      {{ family }}
-    </md-option>
-  </md-select>
-  <div *ngIf="filterTranslations" class="filter-select-container">
-    <md-select
+      <mat-option
+        *ngFor="let family of osFamilies"
+        [value]="family"
+      >
+        {{ family }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select
       class="filter-select"
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
       [(ngModel)]="selectedFilters"
       (change)="updateFilters()"
     >
-      <md-option
+      <mat-option
         *ngFor="let f of categoryFilters"
         [value]="f"
       >
-        {{ filterTranslations[f] }}
-      </md-option>
-    </md-select>
-  </div>
+        {{ filterTranslations[f] | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
 </div>
 
 <div [class.search-bar-white]="searchPanelWhite">

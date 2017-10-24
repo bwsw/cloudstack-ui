@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdSelectChange, MdDialog } from '@angular/material';
+import { MatSelectChange, MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -33,7 +33,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private translateService: TranslateService
   ) {
     this.change = new EventEmitter();
@@ -64,7 +64,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
       });
   }
 
-  public changeOffering(change: MdSelectChange): void {
+  public changeOffering(change: MatSelectChange): void {
     const newOffering = change.value as ServiceOffering;
     this.saveOffering();
     this.serviceOffering = newOffering;

@@ -11,29 +11,33 @@
       <tbody>
       <tr class="mat-row rule-row table-form" *ngIf="!isPredefinedTemplate && editMode">
         <td class="mat-cell">
-          <md-select class="type" [(ngModel)]="type" name="type">
-            <md-option
-              *ngFor="let t of types"
-              [value]="t.value"
-            >
-              {{ t.text | translate }}
-            </md-option>
-          </md-select>
+          <mat-form-field>
+            <mat-select class="type" [(ngModel)]="type" name="type">
+              <mat-option
+                *ngFor="let t of types"
+                [value]="t.value"
+              >
+                {{ t.text | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </td>
         <td class="mat-cell">
-          <md-select [(ngModel)]="protocol" name="protocol">
-            <md-option
-              *ngFor="let p of protocols"
-              [value]="p.value"
-            >
-              {{ p.text | translate }}
-            </md-option>
-          </md-select>
+          <mat-form-field>
+            <mat-select [(ngModel)]="protocol" name="protocol">
+              <mat-option
+                *ngFor="let p of protocols"
+                [value]="p.value"
+              >
+                {{ p.text | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </td>
         <td class="cidr mat-cell">
-          <md-form-field class="cidr">
+          <mat-form-field class="cidr">
             <input
-              mdInput
+              matInput
               name="cidr"
               type="text"
               [(ngModel)]="cidr"
@@ -42,41 +46,41 @@
               (click)="onCidrClick()"
               #cidrField="ngModel"
             >
-            <md-error *ngIf="cidrField.hasError('pattern')">
+            <mat-error *ngIf="cidrField.hasError('pattern')">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
-            </md-error>
-          </md-form-field>
+            </mat-error>
+          </mat-form-field>
         </td>
 
         <td class="mat-cell">
           <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
-            <md-form-field floatPlaceholder="never">
+            <mat-form-field floatPlaceholder="never">
               <input
-                mdInput
+                matInput
                 maxValue="255"
                 minValue="-1"
                 #icmpTypeField="ngModel"
                 name="icmpType"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate"
-                [mdAutocomplete]="icmpTypesAuto"
+                [matAutocomplete]="icmpTypesAuto"
                 [(ngModel)]="selectedType"
                 (ngModelChange)="setIcmpTypes(filterTypes(selectedType));"
               >
-              <md-error *ngIf="icmpTypeField.invalid">{{
+              <mat-error *ngIf="icmpTypeField.invalid">{{
                 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
-              </md-error>
+              </mat-error>
 
-              <md-autocomplete #icmpTypesAuto="mdAutocomplete">
-                <md-option *ngFor="let t of icmpTypes" [value]="t.type">
+              <mat-autocomplete #icmpTypesAuto="matAutocomplete">
+                <mat-option *ngFor="let t of icmpTypes" [value]="t.type">
                   {{ getIcmpTypeTranslationToken(t.type) | translate }} [{{ t.type }}]
-                </md-option>
-              </md-autocomplete>
-            </md-form-field>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </ng-container>
 
-          <md-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
+          <mat-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
             <input
-              mdInput
+              matInput
               name="startPort"
               type="number"
               [(ngModel)]="startPort"
@@ -86,44 +90,44 @@
               required
               #startPortField="ngModel"
             >
-            <md-error *ngIf="startPortField.invalid">
+            <mat-error *ngIf="startPortField.invalid">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
-            </md-error>
-          </md-form-field>
+            </mat-error>
+          </mat-form-field>
         </td>
 
         <td class="mat-cell">
           <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
-            <md-form-field floatPlaceholder="never">
+            <mat-form-field floatPlaceholder="never">
               <input
-                mdInput
+                matInput
                 name="icmpCode"
                 maxValue="255"
                 minValue="-1"
                 #icmpCodeField="ngModel"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
-                [mdAutocomplete]="icmpCodesAuto"
+                [matAutocomplete]="icmpCodesAuto"
                 [(ngModel)]="selectedCode"
                 (ngModelChange)="setIcmpCodes(filterCodes(selectedCode))"
               >
-              <md-error *ngIf="icmpCodeField.invalid">
+              <mat-error *ngIf="icmpCodeField.invalid">
                 {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
-              </md-error>
+              </mat-error>
 
-              <md-autocomplete
-                #icmpCodesAuto="mdAutocomplete"
+              <mat-autocomplete
+                #icmpCodesAuto="matAutocomplete"
                 name="icmpCodesAuto"
               >
-                <md-option *ngFor="let t of icmpCodes" [value]="t">
+                <mat-option *ngFor="let t of icmpCodes" [value]="t">
                   {{ getIcmpCodeTranslationToken(icmpType, t) | translate }} [{{ t }}]
-                </md-option>
-              </md-autocomplete>
-            </md-form-field>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </ng-container>
 
-          <md-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
+          <mat-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
             <input
-              mdInput
+              matInput
               name="endPort"
               type="number"
               [(ngModel)]="endPort"
@@ -133,49 +137,53 @@
               required
               #endPortField="ngModel"
             >
-            <md-error *ngIf="endPortField.invalid">
+            <mat-error *ngIf="endPortField.invalid">
               {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
-            </md-error>
-          </md-form-field>
+            </mat-error>
+          </mat-form-field>
         </td>
 
         <td class="mat-cell">
           <button
-            md-icon-button
+            mat-icon-button
             class="add-rule-button"
             (click)="addRule($event)"
             disabled="{{ isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
-            <md-icon *ngIf="!adding">add</md-icon>
-            <md-spinner *ngIf="adding"></md-spinner>
+            <mat-icon *ngIf="!adding">add</mat-icon>
+            <mat-spinner *ngIf="adding"></mat-spinner>
           </button>
         </td>
       </tr>
 
       <tr class="mat-row rule-row" *ngIf="!editMode">
-        <md-select
-          class="filter-select"
-          multiple="true"
-          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
-          name="selectedTypes"
-          [(ngModel)]="selectedTypes"
-          (change)="filter()"
-        >
-          <md-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate }}
-          </md-option>
-        </md-select>
-        <md-select
-          class="filter-select"
-          multiple="true"
-          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
-          name="selectedProtocols"
-          [(ngModel)]="selectedProtocols"
-          (change)="filter()"
-        >
-          <md-option *ngFor="let z of protocols" [value]="z.value">
-            {{ z.text | translate }}
-          </md-option>
-        </md-select>
+        <mat-form-field class="form-select-control">
+          <mat-select
+            class="filter-select"
+            multiple="true"
+            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
+            name="selectedTypes"
+            [(ngModel)]="selectedTypes"
+            (change)="filter()"
+          >
+            <mat-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-select-control">
+          <mat-select
+            class="filter-select"
+            multiple="true"
+            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
+            name="selectedProtocols"
+            [(ngModel)]="selectedProtocols"
+            (change)="filter()"
+          >
+            <mat-option *ngFor="let z of protocols" [value]="z.value">
+              {{ z.text | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </tr>
 
       <ng-container *ngIf="isSelectedType(NetworkRuleTypes.Ingress)">
@@ -216,13 +224,13 @@
 <div class="mat-dialog-actions">
   <button
     *ngIf="!isPredefinedTemplate"
-    md-button
+    mat-button
     color="primary"
     (click)="confirmChangeMode()"
   >
     {{ (!editMode ? 'COMMON.EDIT' : 'COMMON.VIEW') | translate }}
   </button>
-  <button md-button color="primary" mdDialogClose>
+  <button mat-button color="primary" matDialogClose>
     {{ 'COMMON.CLOSE' | translate }}
   </button>
 </div>

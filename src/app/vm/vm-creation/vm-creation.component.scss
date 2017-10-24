@@ -13,13 +13,13 @@
     transform: none;
   }
 
-  md-progress-bar {
+  mat-progress-bar {
     width: 500px;
   }
 }
 
 :host {
-  md-form-field {
+  mat-form-field {
     width: 100%;
   }
 }
@@ -112,7 +112,7 @@ h5 {
   visibility: hidden;
 }
 
-md-progress-bar {
+mat-progress-bar {
   margin-top: 10px;
 }
 

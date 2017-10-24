@@ -3,14 +3,15 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdDialog,
-  MdIconModule,
-  MdInputModule,
-  MdProgressSpinnerModule,
-  MdSidenavModule,
-  MdTooltipModule
+  MATERIAL_COMPATIBILITY_MODE,
+  MatButtonModule,
+  MatCheckboxModule,
+  MatDialog,
+  MatIconModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSidenavModule,
+  MatTooltipModule
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -76,13 +77,13 @@ export function InitAppFactory(
     FormsModule,
     DragulaModule,
     EventsModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdIconModule,
-    MdInputModule,
-    MdProgressSpinnerModule,
-    MdSidenavModule,
-    MdTooltipModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatTooltipModule,
     ScrollDispatchModule,
     SecurityGroupModule,
     ServiceOfferingModule,
@@ -123,13 +124,14 @@ export function InitAppFactory(
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+    { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,
       deps: [AuthService, HttpClient, LanguageService, ConfigService],
       multi: true
     },
-    MdDialog,
+    MatDialog,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseHttpInterceptor,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MdDialogRef, MdSelectChange } from '@angular/material';
+import { MatDialogRef, MatSelectChange } from '@angular/material';
 import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
 
@@ -61,7 +61,7 @@ export class VmCreationComponent implements OnInit {
   public visibleInstanceGroups: Array<InstanceGroup>;
 
   constructor(
-    public dialogRef: MdDialogRef<VmCreationComponent>,
+    public dialogRef: MatDialogRef<VmCreationComponent>,
     private formNormalizationService: VmCreationFormNormalizationService,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
@@ -116,7 +116,7 @@ export class VmCreationComponent implements OnInit {
     this.updateFormState();
   }
 
-  public zoneChange(change: MdSelectChange) {
+  public zoneChange(change: MatSelectChange) {
     this.formState.state.zone = change.value;
     this.updateFormState();
   }
@@ -180,7 +180,7 @@ export class VmCreationComponent implements OnInit {
     this.formState.state.keyboard = value;
   }
 
-  public sshKeyPairChange(change: MdSelectChange) {
+  public sshKeyPairChange(change: MatSelectChange) {
     this.formState.state.sshKeyPair = change.value;
     this.updateFormState();
   }
@@ -254,9 +254,9 @@ export class VmCreationComponent implements OnInit {
     });
   }
 
-  public vmNameErrorMatcher(control: FormControl): boolean {
-    return control.invalid || this.nameIsTaken;
-  }
+  // public vmNameErrorMatcher(control: FormControl): boolean {
+  //   return control.invalid || this.nameIsTaken;
+  // }
 
   private handleDeploymentMessages(
     deploymentMessage: VmDeploymentMessage,

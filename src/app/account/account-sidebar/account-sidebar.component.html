@@ -2,18 +2,18 @@
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
     <button *ngIf="isAdmin()"
-      md-icon-button
-      [mdMenuTriggerFor]="actionsMenu"
+      mat-icon-button
+      [matMenuTriggerFor]="actionsMenu"
     >
-      <md-icon>more_vert</md-icon>
+      <mat-icon>more_vert</mat-icon>
     </button>
   </div>
 
 </div>
 
-<md-menu #actionsMenu="mdMenu">
+<mat-menu #actionsMenu="matMenu">
   <cs-account-actions  *ngIf="entity" [account]="entity" (onAccountChanged)="loadEntity($event.id)"></cs-account-actions>
-</md-menu>
+</mat-menu>
 
 <router-outlet></router-outlet>
 

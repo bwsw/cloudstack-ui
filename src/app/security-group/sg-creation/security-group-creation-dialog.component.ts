@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -16,7 +16,7 @@ import { SecurityGroupCreationComponent } from './security-group-creation.compon
 })
 export class SecurityGroupCreationDialogComponent {
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
@@ -24,7 +24,7 @@ export class SecurityGroupCreationDialogComponent {
     private securityGroupEditAction: SecurityGroupEditAction,
     private storageService: LocalStorageService
   ) {
-    this.dialog.open(SecurityGroupCreationComponent, <MdDialogConfig>{
+    this.dialog.open(SecurityGroupCreationComponent, <MatDialogConfig>{
       data: { mode: this.viewMode },
       disableClose: true,
       width: '450px'

@@ -1,7 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MdDialog, MdTooltipModule } from '@angular/material';
+import {
+  MatDialog, MATERIAL_COMPATIBILITY_MODE,
+  MatTooltipModule
+} from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
@@ -63,7 +66,7 @@ describe('VmCreationTemplateComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        MdTooltipModule
+        MatTooltipModule
       ],
       declarations: [
         VmCreationTemplateComponent,
@@ -71,7 +74,8 @@ describe('VmCreationTemplateComponent', () => {
         MockTranslatePipe
       ],
       providers: [
-        { provide: MdDialog, useValue: mockDialog },
+        { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
+        { provide: MatDialog, useValue: mockDialog },
         { provide: TranslateService, useClass: MockTranslateService }
       ]
     })

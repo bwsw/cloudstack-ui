@@ -1,5 +1,5 @@
 import { Component, HostListener, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'cs-vm-destroy-dialog',
@@ -10,8 +10,8 @@ export class VmDestroyDialogComponent {
   public expunge = false;
 
   constructor(
-    public dialogRef: MdDialogRef<VmDestroyDialogComponent>,
-    @Inject(MD_DIALOG_DATA) public canExpunge: boolean
+    public dialogRef: MatDialogRef<VmDestroyDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public canExpunge: boolean
   ) { }
 
   public confirmDestroy(): void {

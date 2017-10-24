@@ -1,14 +1,14 @@
 <div *ngIf="entity">
   <div *ngIf="!readyInEveryZone" class="update-button-container">
-    <button md-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</button>
+    <button mat-button (click)="updateStatus()">{{ 'COMMON.UPDATE' | translate }}</button>
   </div>
-  <md-card *ngFor="let zone of entity.zones" class="vm-card">
-    <md-card-header>
-      <md-card-title>
-        <h2 class="md-card-title-text">{{ zone.zoneName }}</h2>
-      </md-card-title>
-    </md-card-header>
-    <md-card-content class="grid">
+  <mat-card *ngFor="let zone of entity.zones" class="vm-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">{{ zone.zoneName }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="grid">
       <div class="row">
         <div>{{ 'TEMPLATE_PAGE.ZONE_DETAILS.READY' | translate }}</div>
         <div>{{ zone.isReady | viewValue | async }}</div>
@@ -17,6 +17,6 @@
         <div>{{ 'COMMON.STATUS' | translate }}</div>
         <div>{{ zone.status }}</div>
       </div>
-    </md-card-content>
-  </md-card>
+    </mat-card-content>
+  </mat-card>
 </div>

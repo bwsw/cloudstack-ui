@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MdButtonModule, MdDialogModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
@@ -10,8 +10,8 @@ import { DialogService } from './dialog.service';
 
 @NgModule({
   imports: [
-    MdDialogModule,
-    MdButtonModule,
+    MatDialogModule,
+    MatButtonModule,
     TranslateModule,
     CommonModule
   ],

@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdMenuModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,12 +39,12 @@ import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creati
     RouterModule,
     SharedModule,
     TranslateModule,
-    MdTooltipModule,
-    MdDialogModule,
-    MdMenuModule,
-    MdButtonModule,
-    MdIconModule,
-    MdInputModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
     DynamicModule.withComponents([SshKeyListItemComponent]),
     DraggableSelectModule,
     StoreModule.forFeature('sshKeys', sshKeyReducers),

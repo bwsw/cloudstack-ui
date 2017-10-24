@@ -5,9 +5,9 @@
   #inactivityTimeoutForm="ngForm"
   novalidate
 >
-  <md-form-field class="full-width-input">
+  <mat-form-field class="full-width-input">
     <input
-      mdInput
+      matInput
       name="inactivityTimeout"
       type="number"
       integerValue
@@ -21,14 +21,14 @@
       (blur)="onBlur()"
       #inactivityTimeoutControl="ngModel"
     >
-    <md-error *ngIf="inactivityTimeoutControl.invalid">
+    <mat-error *ngIf="inactivityTimeoutControl.invalid">
       {{ 'SETTINGS.SECURITY.INACTIVITY_LIMITS' | translate }}
-    </md-error>
-  </md-form-field>
+    </mat-error>
+  </mat-form-field>
   <div class="pull-right-button">
     <button
       type="submit"
-      md-button
+      mat-button
       [disabled]="changeButtonDisabled"
     >
       {{ 'COMMON.UPDATE' | translate }}

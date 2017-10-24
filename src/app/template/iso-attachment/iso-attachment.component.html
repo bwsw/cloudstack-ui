@@ -11,13 +11,13 @@
   ></cs-template-filter-list-selector>
 </div>
 <div class="mat-dialog-actions">
-  <button md-button color="primary" mdDialogClose>
+  <button mat-button color="primary" matDialogClose>
     {{ 'COMMON.CANCEL' | translate }}
   </button>
   <button
-    md-button
+    mat-button
     color="primary"
-    [mdDialogClose]="selectedIso"
+    [matDialogClose]="selectedIso"
     [disabled]="!selectedIso"
   >
     {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.ATTACH' | translate }}

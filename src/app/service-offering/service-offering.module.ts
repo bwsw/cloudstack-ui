@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdDialogModule,
-  MdInputModule,
-  MdSelectModule
+  MatButtonModule,
+  MatDialogModule,
+  MatInputModule,
+  MatSelectModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
@@ -19,13 +19,13 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
     CommonModule,
     FormsModule,
     SharedModule,
-    MdButtonModule,
-    MdDialogModule,
-    MdInputModule,
-    MdSelectModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    MatSelectModule,
     SharedModule,
-    MdSelectModule,
-    MdDialogModule,
+    MatSelectModule,
+    MatDialogModule,
     TranslateModule,
   ],
   exports: [

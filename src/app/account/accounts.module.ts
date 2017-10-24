@@ -7,12 +7,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AccountListComponent } from './account-list/account-list.component';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
 import {
-  MdButtonModule,
-  MdIconModule,
-  MdMenuModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatIconModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatTooltipModule
 } from '@angular/material';
 import { AccountItemComponent } from './account/account-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -41,12 +41,12 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
     CommonModule,
     DynamicModule.withComponents([AccountItemComponent]),
     FormsModule,
-    MdMenuModule,
-    MdTooltipModule,
-    MdTabsModule,
-    MdButtonModule,
-    MdSelectModule,
-    MdIconModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatIconModule,
     RouterModule,
     SharedModule,
     TranslateModule,

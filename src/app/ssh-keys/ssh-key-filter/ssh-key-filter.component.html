@@ -1,22 +1,24 @@
 <cs-top-bar>
-  <div class="options-panel" *ngIf="showAccountFilter()">
+  <div class="options-panel filter-wrapper" *ngIf="showAccountFilter()">
     <cs-account-filter
       [selectedAccountIds]="selectedAccounts"
       (onChangeAccount)="onAccountsChange.emit($event)"
     >
     </cs-account-filter>
     <cs-divider-vertical></cs-divider-vertical>
-    <cs-draggable-select
-      class="filter-select"
-      multiple="true"
-      [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupings"
-      [dragItems]="groupings"
-      (ngModelChange)="onGroupingsChange.emit($event)"
-    >
-      <md-option *ngFor="let g of groupings" [value]="g">
-        {{ g.label | translate }}
-      </md-option>
-    </cs-draggable-select>
+    <mat-form-field>
+      <cs-draggable-select
+        class="filter-select"
+        multiple="true"
+        [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
+        [(ngModel)]="selectedGroupings"
+        [dragItems]="groupings"
+        (ngModelChange)="onGroupingsChange.emit($event)"
+      >
+        <mat-option *ngFor="let g of groupings" [value]="g">
+          {{ g.label | translate }}
+        </mat-option>
+      </cs-draggable-select>
+    </mat-form-field>
   </div>
 </cs-top-bar>
