@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import * as configurationAction from '../../reducers/configuration/redux/configurations.actions';
 import * as resourceLimitAction from '../../reducers/resource-limit/redux/resource-limits.actions';
 import * as resourceCountAction from '../../reducers/resource-count/redux/resource-counts.actions';
-import { ActivatedRoute } from '@angular/router';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromConfigurations from '../../reducers/configuration/redux/configurations.reducers';
 import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
@@ -22,12 +21,23 @@ import { Account } from '../../shared/models/account.model';
     <cs-account-detail
       [account]="account$ | async"
     ></cs-account-detail>
-    <cs-account-settings *ngIf="isAdmin()" 
-                         [account]="account$ | async" 
-                         [configurations]="configurations$ | async" 
-                         (onConfigurationEdit)="onConfigurationEdit($event)"></cs-account-settings>
-    <cs-account-limits [limits]="limits$ | async" [isAdmin]="isAdmin()" (onLimitsEdit)="onLimitsEdit($event)"></cs-account-limits>
-    <cs-account-statistics *ngIf="isAdmin()"  [stats]="stats$ | async" (onStatsUpdate)="onStatsUpdate($event)"></cs-account-statistics>`
+    <cs-account-settings
+      *ngIf="isAdmin()"
+      [account]="account$ | async"
+      [configurations]="configurations$ | async"
+      (onConfigurationEdit)="onConfigurationEdit($event)"
+    >
+    </cs-account-settings>
+    <cs-account-limits
+      [limits]="limits$ | async"
+      [isAdmin]="isAdmin()"
+      (onLimitsEdit)="onLimitsEdit($event)"
+    ></cs-account-limits>
+    <cs-account-statistics
+      *ngIf="isAdmin()"
+      [stats]="stats$ | async"
+      (onStatsUpdate)="onStatsUpdate($event)"
+    ></cs-account-statistics>`
 })
 export class AccountDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
 
@@ -41,18 +51,23 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
 
   constructor(
     private store: Store<State>,
-    private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ) {
     super();
   }
 
   public onConfigurationEdit(configuration) {
-    this.store.dispatch(new configurationAction.UpdateConfigurationRequest({ configuration, account: this.account }));
+    this.store.dispatch(new configurationAction.UpdateConfigurationRequest({
+      configuration,
+      account: this.account
+    }));
   }
 
   public onLimitsEdit(limits) {
-    this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest({ limits, account: this.account }));
+    this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest({
+      limits,
+      account: this.account
+    }));
   }
 
   public onStatsUpdate(stats) {
@@ -63,11 +78,10 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
   }
 
   public ngOnInit() {
-    const params = this.activatedRoute.snapshot.parent.params;
     this.account$
       .takeUntil(this.unsubscribe$)
       .subscribe(account => {
-        if(account) {
+        if (account) {
           this.account = account;
           this.store.dispatch(new configurationAction.LoadConfigurationsRequest({ accountid: account.id }));
           this.store.dispatch(new resourceLimitAction.LoadResourceLimitsRequest({

@@ -9,7 +9,7 @@ import {
 } from '@ngrx/entity';
 import * as event from './events.actions';
 import { Event } from '../event.model';
-import { accounts } from '../../reducers/accounts/redux/accounts.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import moment = require('moment');
 
 /**
@@ -179,7 +179,7 @@ export const selectFilteredEvents = createSelector(
   filterSelectedTypes,
   filterSelectedLevels,
   filterSelectedAccountIds,
-  accounts,
+  fromAccounts.selectAll,
   (events, query, selectedTypes, selectedLevels, selectedAccountIds, accounts) => {
     const queryLower = query && query.toLowerCase();
     const typeMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -198,9 +198,10 @@ export const selectFilteredEvents = createSelector(
         !!levelsMap[event.level];
     };
 
-    const selectedAccounts = accounts.filter(account => selectedAccountIds.find(id => id === account.id));
-    const accountsMap = selectedAccounts.reduce((m, i) => ({...m, [i.name]: i }), {});
-    const domainsMap = selectedAccounts.reduce((m, i) => ({...m, [i.domainid]: i }), {});
+    const selectedAccounts = accounts.filter(
+      account => selectedAccountIds.find(id => id === account.id));
+    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
+    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
     const selectedAccountIdsFilter = event => !selectedAccountIds.length ||
       (accountsMap[event.account] && domainsMap[event.domainId]);

@@ -58,7 +58,7 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   selectedAccountId: null,
   filters: {
-    selectedDomainIds:[],
+    selectedDomainIds: [],
     selectedRoleTypes: [],
     selectedRoleNames: [],
     selectedStates: [],
@@ -172,11 +172,6 @@ export const filterSelectedRoleNames = createSelector(
 export const filterSelectedStates = createSelector(
   filters,
   state => state.selectedStates
-);
-
-export const accounts = createSelector(
-  selectAll,
-  (accountsList) => accountsList
 );
 
 export const selectFilteredAccounts = createSelector(
