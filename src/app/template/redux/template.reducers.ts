@@ -1,11 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TemplateFilters } from '../shared/base-template.service';
-import { Account } from '../../shared/models/account.model';
 import { osTypes } from './ostype.reducers';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { User } from '../../shared/models/user.model';
+import { accounts } from '../../account/redux/accounts.reducers';
+
 import * as template from './template.actions';
+
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean,
@@ -16,7 +18,7 @@ export interface ListState extends EntityState<BaseTemplateModel> {
     selectedOsFamilies: string[],
     selectedZones: string[],
     selectedGroupings: any[],
-    selectedAccounts: Account[]
+    selectedAccountIds: string[],
     query: string
   }
 }
@@ -26,12 +28,12 @@ const initialListState: ListState = {
   entities: null,
   loading: false,
   filters: {
-    currentUser: new User(),
+    currentUser: null,
     selectedViewMode: 'Template',
     selectedOsFamilies: [],
     selectedZones: [],
     selectedGroupings: [],
-    selectedAccounts: [],
+    selectedAccountIds: [],
     selectedTypes: [],
     query: ''
   }
@@ -42,13 +44,14 @@ export interface TemplatesState {
 };
 
 export const templateReducers = {
-  list: listReducer,
+  list: listReducer
 };
 
-export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<BaseTemplateModel>({
-  selectId: (item: BaseTemplateModel) => item.id,
-  sortComparer: false
-});
+export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<BaseTemplateModel>(
+  {
+    selectId: (item: BaseTemplateModel) => item.id,
+    sortComparer: false
+  });
 
 export function listReducer(
   state = initialListState,
@@ -58,6 +61,10 @@ export function listReducer(
     case template.LOAD_TEMPLATE_REQUEST: {
       return {
         ...state,
+        filters: {
+          ...state.filters,
+          currentUser: action.payload.currentUser
+        },
         loading: true
       };
     }
@@ -83,6 +90,19 @@ export function listReducer(
         ...adapter.addAll([...action.payload], state),
       };
     }
+    case template.LOAD_TEMPLATE_RESPONSE_STOP: {
+      return {
+        ...state, loading: false
+      };
+    }
+    case template.TEMPLATE_CREATE_SUCCESS: {
+      return {
+        ...adapter.addOne(action.payload, state)
+      };
+    }
+    case template.TEMPLATE_REMOVE_SUCCESS: {
+      return adapter.removeOne(action.payload.id, state);
+    }
     default: {
       return state;
     }
@@ -91,7 +111,7 @@ export function listReducer(
 
 export const getTemplatesState = createFeatureSelector<TemplatesState>('templates');
 
-export const getSshKeysEntitiesState = createSelector(
+export const getTemplatesEntitiesState = createSelector(
   getTemplatesState,
   state => state.list
 );
@@ -101,15 +121,15 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getSshKeysEntitiesState);
+} = adapter.getSelectors(getTemplatesEntitiesState);
 
 export const isLoading = createSelector(
-  getSshKeysEntitiesState,
+  getTemplatesEntitiesState,
   state => state.loading
 );
 
 export const filters = createSelector(
-  getSshKeysEntitiesState,
+  getTemplatesEntitiesState,
   state => state.filters
 );
 
@@ -132,9 +152,9 @@ export const filterSelectedZones = createSelector(
   state => state.selectedZones
 );
 
-export const filterSelectedAccounts = createSelector(
+export const filterSelectedAccountIds = createSelector(
   filters,
-  state => state.selectedAccounts
+  state => state.selectedAccountIds
 );
 
 export const filterSelectedOsFamilies = createSelector(
@@ -152,22 +172,31 @@ export const currentUser = createSelector(
   state => state.currentUser
 );
 
-export const selectByViewMode = createSelector(
+export const selectByViewModeAndAccounts = createSelector(
   selectAll,
   filterSelectedViewMode,
-  (templates, viewMode) => {
+  accounts,
+  filterSelectedAccountIds,
+  (templates, viewMode, accounts, selectedAccountIds) => {
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
       return viewMode.toLowerCase() === template.resourceType.toLowerCase();
     };
 
+    const selectedAccounts = accounts.filter(
+      account => selectedAccountIds.find(id => id === account.id));
+    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
+    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
+
+    const selectedAccountIdsFilter = (template: BaseTemplateModel) => !selectedAccountIds.length ||
+      (accountsMap[template.account] && domainsMap[template.domainId]);
+
     return templates.filter((template: BaseTemplateModel) => selectedViewModeFilter(
-      template));
+      template) && selectedAccountIdsFilter(template));
   }
 );
 
 export const selectFilteredTemplates = createSelector(
-  selectByViewMode,
-  filterSelectedAccounts,
+  selectByViewModeAndAccounts,
   osTypes,
   filterSelectedOsFamilies,
   filterSelectedZones,
@@ -176,7 +205,6 @@ export const selectFilteredTemplates = createSelector(
   filterQuery,
   (
     templates,
-    selectedAccounts,
     osTypes,
     selectedOsFamilies,
     selectedZones,
@@ -184,10 +212,7 @@ export const selectFilteredTemplates = createSelector(
     user,
     query
   ) => {
-    const accountsMap = selectedAccounts.reduce((m, i: Account) => ({
-      ...m,
-      [`${i.domainid}-${i.name}`]: i
-    }), {});
+
     const osFamiliesMap = selectedOsFamilies.reduce((m, i) => ({ ...m, [i]: i }), {});
     const osTypesMap = osTypes.reduce((m, i) => ({ ...m, [i.id]: i }), {});
     const zonesMap = selectedZones.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -199,10 +224,6 @@ export const selectFilteredTemplates = createSelector(
       return featuredFilter && selfFilter;
     });
 
-    const selectedAccountsFilter = (template: BaseTemplateModel) => {
-      const account = `${template.domainId}-${template.account}`;
-      return !selectedAccounts.length || !!accountsMap[account];
-    };
     const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {
       const osFamily = osTypesMap[template.osTypeId]
         ? osTypesMap[template.osTypeId].osFamily
@@ -224,12 +245,10 @@ export const selectFilteredTemplates = createSelector(
     };
 
     return templates.filter(template => {
-      return selectedAccountsFilter(template)
-        && selectedZonesFilter(template)
+      return selectedZonesFilter(template)
         && selectedTypesFilter(template)
         && selectedOsFamiliesFilter(template)
         && queryFilter(template);
     });
   }
-  )
-;
+);

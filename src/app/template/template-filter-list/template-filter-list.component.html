@@ -8,7 +8,7 @@
   [accounts]="accounts"
   [domains]="domains"
 
-  [selectedAccounts]="selectedAccounts"
+  [selectedAccountIds]="selectedAccountIds"
   [selectedGroupings]="selectedGroupings"
   [selectedZones]="selectedZones"
   [selectedFilters]="selectedTypes"
@@ -24,13 +24,14 @@
   (displayMode)="changeViewMode($event)"
 ></cs-template-filters>
 
-<ng-container *loading="!templates?.length" cs-list>
+<ng-container *loading="!templates?.length && fetching" cs-list>
   <cs-template-card-list
     class="template-list"
     [query]="query"
     [templateList]="templates"
     [groupings]="selectedGroupings"
     [osTypes]="osTypes"
+    (deleteTemplate)="onTemplateDelete.emit($event)"
   >
   </cs-template-card-list>
 </ng-container>

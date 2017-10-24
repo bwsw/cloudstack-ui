@@ -1,11 +1,14 @@
 <div *ngIf="entity">
   <div class="title-container">
-    <cs-template-os-icon [template]="entity" [osTypes]="osTypes$ | async"></cs-template-os-icon>
+    <cs-template-os-icon
+      [template]="entity"
+      [osTypes]="osTypes$ | async"
+    ></cs-template-os-icon>
     <h4 class="details-header">{{ entity.name }}</h4>
-    <cs-template-actions-sidebar
+    <cs-template-actions-sidebar-container
       *ngIf="isSelf"
       [template]="entity"
-    ></cs-template-actions-sidebar>
+    ></cs-template-actions-sidebar-container>
   </div>
 
   <nav md-tab-nav-bar>

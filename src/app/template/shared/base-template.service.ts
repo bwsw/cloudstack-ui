@@ -105,8 +105,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     return this.getListWithDuplicates(params, useCache)
       .map(templates => this.distinctIds(templates))
       .catch((err) => {
-      debugger;
-      return Observable.of([]);
+        return Observable.of([]);
       });
   }
 
@@ -133,8 +132,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         return templates;
       })
       .catch((error) => {
-      debugger;
-        return Observable.of([])
+        return Observable.of([]);
       });
   }
 

@@ -33,7 +33,7 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   readonly domains$ = this.store.select(fromDomains.domains);
   readonly zones$ = this.store.select(fromZones.zones);
   readonly query$ = this.store.select(fromTemplates.filterQuery);
-  readonly selectedAccounts$ = this.store.select(fromTemplates.filterSelectedAccounts);
+  readonly selectedAccountIds$ = this.store.select(fromTemplates.filterSelectedAccountIds);
   readonly selectedOsFamilies$ = this.store.select(fromTemplates.filterSelectedOsFamilies);
   readonly selectedTypes$ = this.store.select(fromTemplates.filterSelectedTypes);
   readonly selectedZones$ = this.store.select(fromTemplates.filterSelectedZones);
@@ -103,7 +103,7 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
       .subscribe(filters => {
         this.filterService.update({
           'viewMode': filters.selectedViewMode,
-          'accounts': filters.selectedAccounts.map(_ => _.id),
+          'accounts': filters.selectedAccountIds,
           'osFamilies': filters.selectedOsFamilies,
           'types': filters.selectedTypes,
           'zones': filters.selectedZones,
@@ -113,42 +113,16 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
       });
   }
 
-  private initFilters(): void {
-    const params = this.filterService.getParams();
-    const selectedGroupings = params['groupings'].reduce((acc, _) => {
-      const grouping = this.groupings.find(g => g.key === _);
-      if (grouping) {
-        acc.push(grouping);
-      }
-      return acc;
-    }, []);
-
-    const selectedViewMode = params['viewMode'];
-    const selectedAccounts = params['accounts'];
-
-    const selectedOsFamilies = params['osFamilies'];
-    const selectedTypes = params['types'];
-    const selectedZones = params['zones'];
-    const query = params['query'];
-
-    this.update(
-      selectedViewMode,
-      selectedAccounts,
-      selectedOsFamilies,
-      selectedTypes,
-      selectedZones,
-      selectedGroupings,
-      query
-    );
+  public onTemplateDelete(template) {
+    this.store.dispatch(new templateActions.RemoveTemplateSuccess(template));
   }
 
-  public onQueryChange(query) {
+   public onQueryChange(query) {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({ query }));
   }
 
-  public onAccountsChange(selectedAccounts) {
-    console.log(selectedAccounts[0]);
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedAccounts }));
+  public onAccountsChange(selectedAccountIds) {
+    this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedAccountIds }));
   }
 
   public onOsFamiliesChange(selectedOsFamilies) {
@@ -173,7 +147,7 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
 
   public update(
     selectedViewMode,
-    selectedAccounts,
+    selectedAccountIds,
     selectedOsFamilies,
     selectedTypes,
     selectedZones,
@@ -182,7 +156,7 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   ) {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({
       selectedViewMode,
-      selectedAccounts,
+      selectedAccountIds,
       selectedOsFamilies,
       selectedTypes,
       selectedZones,
@@ -190,6 +164,35 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
       query
     }));
   }
+
+  private initFilters(): void {
+    const params = this.filterService.getParams();
+    const selectedGroupings = params['groupings'].reduce((acc, _) => {
+      const grouping = this.groupings.find(g => g.key === _);
+      if (grouping) {
+        acc.push(grouping);
+      }
+      return acc;
+    }, []);
+
+    const selectedViewMode = params['viewMode'];
+    const selectedAccounts = params['accounts'];
+    const selectedOsFamilies = params['osFamilies'];
+    const selectedTypes = params['types'];
+    const selectedZones = params['zones'];
+    const query = params['query'];
+
+    this.update(
+      selectedViewMode,
+      selectedAccounts,
+      selectedOsFamilies,
+      selectedTypes,
+      selectedZones,
+      selectedGroupings,
+      query
+    );
+  }
+
 
   private getGroupName(template: BaseTemplateModel) {
     return template.domain !== 'ROOT'

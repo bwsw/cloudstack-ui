@@ -1,26 +1,27 @@
 <cs-template-page
   [viewMode]="selectedViewMode$ | async"
-  [isLoading]="isLoading$ | async"
-  [groupings]="groupings"
-  [accounts]="accounts$ | async"
-  [domains]="domains$ | async"
-  [templates]="templates$ | async"
-  [osTypes]="osTypes$ | async"
-  [zones]="zones$ | async"
-  [selectedAccounts]="selectedAccounts$ | async"
-  [selectedGroupings]="selectedGroupings$ | async"
-  [selectedZones]="selectedZones$ | async"
   [selectedTypes]="selectedTypes$ | async"
+  [selectedAccountIds]="selectedAccountIds$ | async"
   [selectedOsFamilies]="selectedOsFamilies$ | async"
+  [selectedZones]="selectedZones$ | async"
+  [selectedGroupings]="selectedGroupings$ | async"
   [query]="query$ | async"
-  (onViewModeChange)="onViewModeChange($event)"
+
+  [domains]="domains$ | async"
+  [zones]="zones$ | async"
+  [osTypes]="osTypes$ | async"
+  [accounts]="accounts$ | async"
+  [groupings]="groupings"
+
+  [templates]="templates$ | async"
+  [isLoading]="isLoading$ | async"
+
   (onQueryChange)="onQueryChange($event)"
-  (onSelectedAccountsChange)="onAccountsChange($event)"
   (onSelectedGroupingsChange)="onGroupingsChange($event)"
+  (onSelectedAccountsChange)="onAccountsChange($event)"
+  (onSelectedOsFamiliesChange)="onOsFamiliesChange($event)"
   (onSelectedTypesChange)="onTypesChange($event)"
   (onSelectedZonesChange)="onZonesChange($event)"
-  (onSelectedOsFamiliesChange)="onOsFamiliesChange($event)"
-  (updateList)="update()"
+  (onViewModeChange)="onViewModeChange($event)"
+  (onTemplateDelete)="onTemplateDelete($event)"
 ></cs-template-page>
-
-<div [innerHTML]="selectedGroupings$ | async | json"></div>

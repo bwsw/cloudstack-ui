@@ -51,6 +51,9 @@
     </div>
   </md-card-content>
   <md-menu #actionsMenu="mdMenu">
-    <cs-template-actions [template]="item"></cs-template-actions>
+    <cs-template-actions
+      [template]="item"
+      (deleteTemplate)="deleteTemplate.emit($event)"
+    ></cs-template-actions>
   </md-menu>
 </md-card>

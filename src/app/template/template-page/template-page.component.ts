@@ -21,7 +21,7 @@ export class TemplatePageComponent implements OnInit {
   @Input() public groupings: object[];
   @Input() public accounts: Account[];
   @Input() public domains: Domain[];
-  @Input() public selectedAccounts: Account[];
+  @Input() public selectedAccountIds: Account[];
   @Input() public selectedGroupings: any[];
   @Input() public selectedTypes: any[];
   @Input() public selectedZones: any[];
@@ -37,6 +37,8 @@ export class TemplatePageComponent implements OnInit {
   @Output() public onSelectedOsFamiliesChange = new EventEmitter();
   @Output() public onSelectedZonesChange = new EventEmitter();
 
+  @Output() public onTemplateDelete = new EventEmitter();
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -45,7 +47,9 @@ export class TemplatePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.listService.onUpdate.subscribe((template) => this.updateList.emit(template));
+    this.listService.onUpdate.subscribe((template) => {
+      this.updateList.emit(template);
+    });
   }
 
   public showCreationDialog(): void {

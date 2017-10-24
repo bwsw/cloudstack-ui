@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ListService } from '../../shared/components/list/list.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
-import { TemplateCreationComponent } from './template-creation.component';
-
+import { TemplateCreationContainerComponent } from './containers/template-creation.container';
 
 @Component({
   selector: 'cs-template-create-dialog',
@@ -12,32 +9,21 @@ import { TemplateCreationComponent } from './template-creation.component';
 })
 export class TemplateCreationDialogComponent {
   constructor(
-    private listService: ListService,
     private dialog: MdDialog,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private storageService: LocalStorageService
+    private activatedRoute: ActivatedRoute
   ) {
-    const viewMode = this.storageService.read('templateDisplayMode') || 'Template';
-
-    this.dialog.open(TemplateCreationComponent, {
-      data: { mode: viewMode },
+    this.dialog.open(TemplateCreationContainerComponent, {
+      data: {},
       disableClose: true,
       width: '720px'
     })
       .afterClosed()
-      .subscribe(templateData => {
-        if (templateData) {
-          this.listService.onUpdate.emit(templateData);
-        }
+      .subscribe(() => {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
       });
-  }
-
-  private get viewMode(): string {
-    return this.storageService.read('templateDisplayMode') || 'Template';
   }
 }

@@ -50,7 +50,6 @@ import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TemplateComponent } from './template/template.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
-import { TemplatePageContainerComponent } from './containers/template-page.container';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { TemplateEffects } from './redux/template.effects';
@@ -60,6 +59,9 @@ import { OsTypeEffects } from './redux/ostype.effects';
 import { TemplateOsContainerComponent } from './template-sidebar/template-os/template-os.container';
 import { zoneReducers } from './redux/zone.reducers';
 import { ZoneEffects } from './redux/zone.effects';
+import { TemplatePageContainerComponent } from './containers/template-page.container';
+import { TemplateCreationContainerComponent } from './template-creation/containers/template-creation.container';
+import { TemplateActionsSidebarContainerComponent } from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
 
 
 @NgModule({
@@ -92,10 +94,12 @@ import { ZoneEffects } from './redux/zone.effects';
     TemplateSidebarComponent,
     IsoSidebarComponent,
     IsoAttachmentComponent,
+    TemplateActionsSidebarContainerComponent,
     TemplateActionsSidebarComponent,
     TemplateComponent,
     TemplateCreationComponent,
     TemplateDescriptionComponent,
+    TemplateCreationContainerComponent,
     TemplateCreationDialogComponent,
     TemplateFiltersComponent,
     TemplateListComponent,
@@ -103,9 +107,9 @@ import { ZoneEffects } from './redux/zone.effects';
     TemplateOsComponent,
     TemplateOsIconComponent,
     TemplateCardListComponent,
+    TemplatePageContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
-    TemplatePageContainerComponent,
     TemplatePageComponent,
     TemplateTagsComponent,
     IsoTagsComponent,
@@ -130,7 +134,7 @@ import { ZoneEffects } from './redux/zone.effects';
   ],
   entryComponents: [
     IsoAttachmentComponent,
-    TemplateCreationComponent
+    TemplateCreationContainerComponent
   ]
 })
 export class TemplateModule {

@@ -12,16 +12,18 @@
       </md-button-toggle>
     </md-button-toggle-group>
 
-    <div>{{selectedAccounts | json}}</div>
-    <md-select *ngIf="accounts.length"
+    <md-select
+      *ngIf="accounts?.length"
       class="filter-select"
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]="selectedAccounts"
-      (change)="updateSelectedAccounts()"
+      [(ngModel)]="selectedAccountIds"
+      (change)="selectedAccountsChange.emit(selectedAccountIds)"
     >
-      <md-option *ngFor="let account of accounts"
-                 [value]="account">
+      <md-option
+        *ngFor="let account of accounts"
+        [value]="account.id"
+      >
         {{ accountFullDomain(account) }}{{ account.name }}
       </md-option>
     </md-select>
@@ -31,7 +33,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
       [(ngModel)]="selectedOsFamilies"
-      (change)="updateSelectedOsFamilies()"
+      (change)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
     >
       <md-option
         *ngFor="let family of osFamilies"
@@ -46,7 +48,7 @@
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
         [(ngModel)]="selectedFilters"
-        (change)="updateSelectedTypes()"
+        (change)="selectedTypesChange.emit(selectedFilters)"
       >
         <md-option
           *ngFor="let f of categoryFilters"
@@ -62,7 +64,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
-      (change)="updateSelectedZones()"
+      (change)="selectedZonesChange.emit(selectedZones)"
     >
       <md-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</md-option>
     </md-select>
@@ -106,7 +108,7 @@
     multiple="true"
     placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
     [(ngModel)]="selectedOsFamilies"
-    (change)="updateFilters()"
+    (change)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
   >
     <md-option
       *ngFor="let family of osFamilies"
@@ -121,7 +123,7 @@
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
       [(ngModel)]="selectedFilters"
-      (change)="updateSelectedOsFamilies()"
+      (change)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
     >
       <md-option
         *ngFor="let f of categoryFilters"
@@ -136,6 +138,6 @@
 <div [class.search-bar-white]="searchPanelWhite">
   <cs-search
     [(ngModel)]="query"
-    (ngModelChange)="updateQuery()"
+    (ngModelChange)="queryChange.emit(query)"
   ></cs-search>
 </div>

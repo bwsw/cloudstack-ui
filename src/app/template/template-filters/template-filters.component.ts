@@ -5,6 +5,7 @@ import { Zone } from '../../shared/models/zone.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
 import { Domain } from '../../shared/models/domain.model';
+import { Dictionary } from '@ngrx/entity/src/models';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
   @Input() public accounts: Array<Account> = [];
   @Input() public zones: Array<Zone>;
   @Input() public domains: Array<Domain>;
-  @Input() public selectedAccounts: any[];
+  @Input() public selectedAccountIds: string[];
   @Input() public selectedGroupings: any[];
   @Input() public selectedFilters: string[];
   @Input() public selectedZones: Zone[];
@@ -56,7 +57,7 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
 
   private templateTabIndex = 0;
   private isoTabIndex = 1;
-  private domainsMap: object;
+  private domainsMap: Dictionary<Domain>;
 
   constructor(private translateService: TranslateService) {
   }
@@ -66,13 +67,6 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
     }
-    this.selectedAccounts = this.selectedAccounts.reduce((m, i) => {
-      const grouping = this.accounts.find(a => a.id === i);
-      if (grouping) {
-        m.push(grouping);
-      }
-      return m;
-    }, []);
 
     this.translateService.get(
       this.categoryFilters.map(filter => `TEMPLATE_PAGE.FILTERS.${filter.toUpperCase()}`)
@@ -94,7 +88,7 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
 
   public accountFullDomain(account) {
     const domain = this.domainsMap[account.domainid];
-    return domain.getPath();
+    return domain ? domain.getPath() : '';
   }
 
   public get templateSwitchPosition(): number {
@@ -106,43 +100,13 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
     this.updateDisplayMode();
   }
 
-  public updateFilters(): void {
-    this.filters.emit({
-      selectedOsFamilies: this.selectedOsFamilies,
-      selectedTypes: this.selectedFilters,
-      selectedZones: this.selectedZones,
-      query: this.query,
-      groupings: this.selectedGroupingNames,
-      accounts: this.selectedAccounts
-    });
-  }
-
   public updateDisplayMode(): void {
     const mode = this.showIso ? 'Iso' : 'Template';
     this.displayMode.emit(mode);
-  }
-
-  public updateSelectedAccounts() {
-    this.selectedAccountsChange.emit(this.selectedAccounts);
   }
 
   public updateSelectedGroupings(selectedGroupings) {
     this.selectedGroupingsChange.emit(selectedGroupings);
   }
 
-  public updateSelectedTypes() {
-    this.selectedTypesChange.emit(this.selectedFilters);
-  }
-
-  public updateSelectedOsFamilies() {
-    this.selectedOsFamiliesChange.emit(this.selectedOsFamilies);
-  }
-
-  public updateSelectedZones() {
-    this.selectedZonesChange.emit(this.selectedZones);
-  }
-
-  public updateQuery() {
-    this.queryChange.emit(this.query);
-  }
 }

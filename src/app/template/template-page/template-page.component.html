@@ -13,7 +13,7 @@
     [osTypes]="osTypes"
     [zones]="zones"
 
-    [selectedAccounts]="selectedAccounts"
+    [selectedAccountIds]="selectedAccountIds"
     [selectedGroupings]="selectedGroupings"
     [selectedZones]="selectedZones"
     [selectedTypes]="selectedTypes"
@@ -27,6 +27,7 @@
     (onSelectedZonesChange)="onSelectedZonesChange.emit($event)"
     (onSelectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
     (onQueryChange)="onQueryChange.emit($event)"
+    (onTemplateDelete)="onTemplateDelete.emit($event)"
     cs-list
   ></cs-template-filter-list>
   <ng-container cs-sidebar>
