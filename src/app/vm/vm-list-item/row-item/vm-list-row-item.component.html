@@ -1,12 +1,11 @@
-<md-card
-  class="custom-card"
+<md-list-item
+  class="custom-row"
   [ngClass]="cardClass"
   (click)="handleClick($event)"
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
 >
-
-  <h2>
+  <h2 class="title">
     <span
       class="state-icon"
       [ngClass]="statusClass"
@@ -50,8 +49,7 @@
     <md-icon>more_vert</md-icon>
   </button>
 
-</md-card>
-
-<md-menu #actionsMenu="mdMenu">
-  <cs-vm-actions [vm]="item"></cs-vm-actions>
-</md-menu>
+  <md-menu #actionsMenu="mdMenu">
+    <cs-vm-actions [vm]="item"></cs-vm-actions>
+  </md-menu>
+</md-list-item>

@@ -1,14 +1,14 @@
 <ng-container *ngFor="let child of tree">
   <div class="grouped-section" *ngIf="child.name; else leaf">
     <h4>{{ child.name | translate }}</h4>
-    <cs-grouped-list
+    <cs-grouped-card
       [component]="component"
       [groupings]="groupings"
       [level]="level + 1"
       [list]="child.items"
       [dynamicInputs]="dynamicInputs"
       [dynamicOutputs]="dynamicOutputs"
-    ></cs-grouped-list>
+    ></cs-grouped-card>
   </div>
   <ng-template #leaf>
     <div class="card-container">

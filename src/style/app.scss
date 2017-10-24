@@ -53,8 +53,23 @@ md-select,
   padding-top: 0 !important;
 }
 
+md-list-item {
+  height: 60px;
+}
+
+.mat-list-item-content {
+  z-index: 0;
+  line-height: normal;
+  margin: 0 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 md-card {
   padding: 0 !important;
+  width: 320px;
+  margin: 15px 0 0 15px;
 }
 
 cs-sidebar md-card {
@@ -123,7 +138,9 @@ md-card.custom-card {
     line-height: normal;
     height: 1.2em;
   }
+}
 
+.custom-card, .custom-row {
   & table {
     margin-top: 10px;
     width: 100%;

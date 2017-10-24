@@ -2,75 +2,56 @@
   cursor: pointer;
   z-index: -1;
 
-  & md-card {
-    z-index: 0;
-    line-height: normal;
-    margin: 0 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  // &
+
+  .info {
+    flex-grow: 2;
+    flex-basis: 100px;
   }
 
-  div.info {
-    flex-grow: 1;
-  }
-
-  h2 {
+  .title {
     margin: 0;
     font-size: 18px;
     line-height: normal;
     flex-grow: 1;
+    flex-basis: 100px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
-  div.table {
+  .table {
     text-align: center;
     flex-grow: 3;
+    flex-basis: 300px;
     table {
-      table-layout: auto;
+      table-layout: fixed;
+      width: 100%;
     }
   }
 }
 
-.custom-card {
-  md-card-header {
-    padding-bottom: 5px;
-  }
-
+.custom-row {
   &.has-text-color {
-    md-card-content,
-    md-card-title {
+    .mat-list-item-content {
       color: inherit;
     }
   }
   &.dark-background {
-    md-card-content,
-    md-card-title {
-      color: rgba(255, 255, 255, 0.87) !important;
-    }
+    color: rgba(255, 255, 255, 0.87) !important;
   }
   &.light-background {
-    md-card-content,
-    md-card-title {
-      color: rgba(0, 0, 0, 0.87) !important;
-    }
+    color: rgba(0, 0, 0, 0.87) !important;
   }
+}
 
-  .state-icon {
-    box-shadow: 0 0 1px 1px white;
-  }
+.state-icon {
+  box-shadow: 0 0 1px 1px white;
 }
 
 .os-type {
   margin-bottom: 5px;
-}
-
-md-card {
-  &.error {
-    cursor: auto;
-  }
-  &.destroyed {
-    opacity: 0.65;
-  }
 }
 
 .vm-ip-address {
