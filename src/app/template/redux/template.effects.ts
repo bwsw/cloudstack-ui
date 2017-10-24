@@ -10,8 +10,6 @@ import { Template } from '../shared/template.model';
 import { Iso } from '../shared/iso.model';
 
 import * as template from './template.actions';
-import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
-import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
 
 @Injectable()
 export class TemplateEffects {
@@ -35,7 +33,7 @@ export class TemplateEffects {
 
       if (this.authService.isAdmin()) {
         filters = [TemplateFilters.all];
-      } else if (action.payload.selectedTypes.length) {
+      } else if (action.payload.selectedTypes && action.payload.selectedTypes.length) {
         filters = action.payload.selectedTypes;
       }
 
@@ -52,12 +50,6 @@ export class TemplateEffects {
           ]);
         });
     });
-
-  @Effect()
-  loadTemplatesResponse$: Observable<Action> = this.actions$
-    .ofType(template.LOAD_TEMPLATE_RESPONSE)
-    .map((action: template.LoadTemplatesResponse) => new template.LoadTemplatesResponseStop());
-
 
   constructor(
     private actions$: Actions,

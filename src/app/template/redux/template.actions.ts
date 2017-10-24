@@ -3,7 +3,6 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 
 export const LOAD_TEMPLATE_REQUEST = '[Templates] LOAD_TEMPLATE_REQUEST';
 export const LOAD_TEMPLATE_RESPONSE = '[Templates] LOAD_TEMPLATE_RESPONSE';
-export const LOAD_TEMPLATE_RESPONSE_STOP = '[Templates] LOAD_TEMPLATE_RESPONSE_STOP';
 export const TEMPLATE_FILTER_UPDATE = '[Templates] TEMPLATE_FILTER_UPDATE';
 export const TEMPLATE_CREATE_SUCCESS = '[Templates] TEMPLATE_CREATE_SUCCESS';
 export const TEMPLATE_REMOVE_SUCCESS = '[Templates] TEMPLATE_REMOVE_SUCCESS';
@@ -29,13 +28,6 @@ export class TemplatesFilterUpdate implements Action {
   }
 }
 
-export class LoadTemplatesResponseStop implements Action {
-  readonly type = LOAD_TEMPLATE_RESPONSE_STOP;
-
-  constructor(public payload?: any) {
-  }
-}
-
 export class CreateTemplateSuccess implements Action {
   readonly type = TEMPLATE_CREATE_SUCCESS;
 
@@ -53,7 +45,6 @@ export class RemoveTemplateSuccess implements Action {
 export type Actions =
   LoadTemplatesRequest
   | LoadTemplatesResponse
-  | LoadTemplatesResponseStop
   | TemplatesFilterUpdate
   | CreateTemplateSuccess
   | RemoveTemplateSuccess;

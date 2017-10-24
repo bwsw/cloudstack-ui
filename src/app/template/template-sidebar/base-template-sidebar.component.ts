@@ -15,7 +15,7 @@ import * as fromOsTypes from '../redux/ostype.reducers';
 
 export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> {
   private service: BaseTemplateService;
-  public osTypes$ = this.store.select(fromOsTypes.osTypes);
+  public osTypes$ = this.store.select(fromOsTypes.selectAll);
 
   constructor(
     service: BaseTemplateService,

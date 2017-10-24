@@ -11,7 +11,7 @@ import * as fromOsTypes from '../../redux/ostype.reducers';
     <cs-template-os [template]="template" [osTypes]="osTypes$ | async"></cs-template-os>`
 })
 export class TemplateOsContainerComponent {
-  public osTypes$ = this.store.select(fromOsTypes.osTypes);
+  public osTypes$ = this.store.select(fromOsTypes.selectAll);
   public entity: BaseTemplateModel;
   @Input() public template: BaseTemplateModel;
 

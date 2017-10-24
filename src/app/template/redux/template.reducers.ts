@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TemplateFilters } from '../shared/base-template.service';
-import { osTypes } from './ostype.reducers';
+import * as fromOsTypes from './ostype.reducers';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { User } from '../../shared/models/user.model';
 import { accounts } from '../../account/redux/accounts.reducers';
@@ -41,7 +41,7 @@ const initialListState: ListState = {
 
 export interface TemplatesState {
   list: ListState
-};
+}
 
 export const templateReducers = {
   list: listReducer
@@ -88,11 +88,7 @@ export function listReducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll([...action.payload], state),
-      };
-    }
-    case template.LOAD_TEMPLATE_RESPONSE_STOP: {
-      return {
-        ...state, loading: false
+        loading: false,
       };
     }
     case template.TEMPLATE_CREATE_SUCCESS: {
@@ -197,7 +193,7 @@ export const selectByViewModeAndAccounts = createSelector(
 
 export const selectFilteredTemplates = createSelector(
   selectByViewModeAndAccounts,
-  osTypes,
+  fromOsTypes.selectEntities,
   filterSelectedOsFamilies,
   filterSelectedZones,
   filterSelectedTypes,
@@ -205,7 +201,7 @@ export const selectFilteredTemplates = createSelector(
   filterQuery,
   (
     templates,
-    osTypes,
+    osTypesEntities,
     selectedOsFamilies,
     selectedZones,
     selectedTypes,
@@ -214,19 +210,18 @@ export const selectFilteredTemplates = createSelector(
   ) => {
 
     const osFamiliesMap = selectedOsFamilies.reduce((m, i) => ({ ...m, [i]: i }), {});
-    const osTypesMap = osTypes.reduce((m, i) => ({ ...m, [i.id]: i }), {});
     const zonesMap = selectedZones.reduce((m, i) => ({ ...m, [i]: i }), {});
     const typesMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
-      const featuredFilter = !selectedTypes || typesMap[TemplateFilters.featured] || !template.isFeatured;
-      const selfFilter = !selectedTypes || typesMap[TemplateFilters.self] || !(template.account === user.username);
+      const featuredFilter = !selectedTypes.length || typesMap[TemplateFilters.featured] || !template.isFeatured;
+      const selfFilter = !selectedTypes.length || typesMap[TemplateFilters.self] || !(template.account === user.username);
       return featuredFilter && selfFilter;
     });
 
     const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {
-      const osFamily = osTypesMap[template.osTypeId]
-        ? osTypesMap[template.osTypeId].osFamily
+      const osFamily = osTypesEntities[template.osTypeId]
+        ? osTypesEntities[template.osTypeId].osFamily
         : '';
       return !selectedOsFamilies.length || !!osFamiliesMap[osFamily];
     };
@@ -241,10 +236,11 @@ export const selectFilteredTemplates = createSelector(
         return template.name.toLowerCase().includes(queryLower) ||
           template.displayText.toLowerCase().includes(queryLower);
       }
-      return !query;
+      return true;
     };
 
     return templates.filter(template => {
+      debugger;
       return selectedZonesFilter(template)
         && selectedTypesFilter(template)
         && selectedOsFamiliesFilter(template)

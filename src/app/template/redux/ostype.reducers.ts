@@ -93,8 +93,3 @@ export const isLoading = createSelector(
   getOsTypesEntitiesState,
   state => state.loading
 );
-
-export const osTypes = createSelector(
-  selectAll,
-  (types) => types
-);

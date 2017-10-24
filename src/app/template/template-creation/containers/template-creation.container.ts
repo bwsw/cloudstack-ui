@@ -21,7 +21,7 @@ import * as templateActions from '../../redux/template.actions';
 })
 export class TemplateCreationContainerComponent {
   readonly viewMode$ = this.store.select(fromTemplates.filterSelectedViewMode);
-  readonly osTypes$ = this.store.select(fromOsTypes.osTypes);
+  readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.zones);
 
   constructor(private store: Store<State>) {
