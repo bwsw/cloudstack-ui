@@ -1,11 +1,13 @@
-<md-select
-  [placeholder]="'SNAPSHOT_POLICIES.TIME_ZONE' | translate"
-  [(ngModel)]="timeZone"
->
-  <md-option
-    *ngFor="let tz of timeZones"
-    [value]="tz"
+<mat-form-field>
+  <mat-select
+    [placeholder]="'SNAPSHOT_POLICIES.TIME_ZONE' | translate"
+    [(ngModel)]="timeZone"
   >
-    {{ timeZoneToString(tz) }}
-  </md-option>
-</md-select>
+    <mat-option
+      *ngFor="let tz of timeZones"
+      [value]="tz"
+    >
+      {{ timeZoneToString(tz) }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

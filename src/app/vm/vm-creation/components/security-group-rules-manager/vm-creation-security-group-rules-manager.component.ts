@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Rules } from '../../../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
@@ -24,7 +24,7 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
 
   private _securityGroupRulesManagerData: VmCreationSecurityGroupData;
 
-  constructor(private dialog: MdDialog) {
+  constructor(private dialog: MatDialog) {
     this.savedData = VmCreationSecurityGroupData.fromRules(new Rules());
   }
 

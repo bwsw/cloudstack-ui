@@ -13,17 +13,17 @@
     <div class="calendar-container" *ngIf="displayMonth">
       <div class="calendar-toolbar">
         <button
-          md-icon-button
+          mat-icon-button
           (click)="onMonthChange(-1)"
         >
-          <md-icon>keyboard_arrow_left</md-icon>
+          <mat-icon>keyboard_arrow_left</mat-icon>
         </button>
         <div class="title-div">{{ dateTimeFormatted }}</div>
         <button
-          md-icon-button
+          mat-icon-button
           (click)="onMonthChange(1)"
         >
-          <md-icon>keyboard_arrow_right</md-icon>
+          <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
       </div>
       <div class="week-title">

@@ -12,59 +12,59 @@
 
     <cs-service-offering-details [vm]="vm"></cs-service-offering-details>
 
-    <md-card class="vm-card">
-      <md-card-header>
-        <md-card-title>
-          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.TITLE' | translate }}</h2>
-        </md-card-title>
-      </md-card-header>
-      <md-card-content class="md-card-content-with-actions">
-        <div class="md-card-content-container">
+    <mat-card class="vm-card">
+      <mat-card-header>
+        <mat-card-title>
+          <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.TITLE' | translate }}</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content-with-actions">
+        <div class="mat-card-content-container">
           <div *ngFor="let affinityGroup of vm.affinityGroup">{{ affinityGroup.name }}</div>
           <div *ngIf="!vm.affinityGroup.length">
             {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.NO_AFFINITY_GROUP' | translate }}
           </div>
         </div>
-        <md-card-actions *loading="affinityGroupLoading">
+        <mat-card-actions *loading="affinityGroupLoading">
           <button
-            [mdTooltip]="'COMMON.EDIT' | translate"
-            mdTooltipPosition="above"
-            md-icon-button
+            [matTooltip]="'COMMON.EDIT' | translate"
+            matTooltipPosition="above"
+            mat-icon-button
             (click)="changeAffinityGroup()"
           >
-            <md-icon>edit</md-icon>
+            <mat-icon>edit</mat-icon>
           </button>
-        </md-card-actions>
-      </md-card-content>
-    </md-card>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
 
     <cs-vm-detail-template [vm]="vm"></cs-vm-detail-template>
 
-    <md-card class="vm-card">
-      <md-card-header>
-        <md-card-title>
-          <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.TITLE' | translate }}</h2>
-        </md-card-title>
-      </md-card-header>
-      <md-card-content class="md-card-content-with-actions">
-        <div class="md-card-content-container">
+    <mat-card class="vm-card">
+      <mat-card-header>
+        <mat-card-title>
+          <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.TITLE' | translate }}</h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mat-card-content-with-actions">
+        <div class="mat-card-content-container">
           <span *ngIf="vm.keyPair; else noKeys">{{ vm.keyPair }}</span>
           <ng-template #noKeys>{{ 'VM_PAGE.VM_DETAILS.SSH_KEY.NO_SSH_KEY' | translate }}</ng-template>
         </div>
-        <md-card-actions *loading="sskKeyLoading">
+        <mat-card-actions *loading="sskKeyLoading">
           <button
-            md-icon-button
+            mat-icon-button
             type="button"
-            [mdTooltip]="(vm.keyPair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
-            mdTooltipPosition="above"
+            [matTooltip]="(vm.keyPair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
+            matTooltipPosition="above"
             (click)="resetSshKey()"
           >
-            <md-icon *ngIf="vm.keyPair; else add">edit</md-icon>
-            <ng-template #add><md-icon>add</md-icon></ng-template>
+            <mat-icon *ngIf="vm.keyPair; else add">edit</mat-icon>
+            <ng-template #add><mat-icon>add</mat-icon></ng-template>
           </button>
-        </md-card-actions>
-      </md-card-content>
-    </md-card>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
 
     <cs-statistics [vm]="vm"></cs-statistics>
   </div>

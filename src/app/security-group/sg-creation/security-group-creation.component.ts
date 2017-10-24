@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../shared/components/security-group-builder/rules';
@@ -22,8 +22,8 @@ export class SecurityGroupCreationComponent {
   public creationInProgress = false;
 
   constructor(
-    @Inject(MD_DIALOG_DATA) public data: any,
-    public dialogRef: MdDialogRef<SecurityGroupCreationComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<SecurityGroupCreationComponent>,
     public dialogService: DialogService,
     private sgService: SecurityGroupService,
   ) { }

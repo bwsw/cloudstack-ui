@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EditAccountConfigurationComponent } from './account-configuration/edit-account-configuration.component';
 import { Configuration } from '../../../shared/models/configuration.model';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { Account } from '../../../shared/models/account.model';
 
@@ -14,7 +14,7 @@ export class AccountSettingsComponent implements OnInit {
   public configurations: Array<Configuration>;
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private configurationService: ConfigurationService
   ) { }
 

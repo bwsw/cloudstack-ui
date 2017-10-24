@@ -23,12 +23,12 @@
     </div>
   </div>
   <div class="mat-dialog-actions">
-    <button md-button color="primary" mdDialogClose>
+    <button mat-button color="primary" matDialogClose>
       {{ 'COMMON.CANCEL' | translate }}
     </button>
     <button
       *ngIf="serviceOfferings?.length"
-      md-button
+      mat-button
       color="primary"
       [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
       (click)="onChange()"

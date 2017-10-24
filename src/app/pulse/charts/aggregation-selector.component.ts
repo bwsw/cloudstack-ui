@@ -8,7 +8,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { MdOptionSelectionChange, MdSelectChange } from '@angular/material';
+import { MatOptionSelectionChange, MatSelectChange } from '@angular/material';
 import * as debounce from 'lodash/debounce';
 
 @Component({
@@ -35,7 +35,7 @@ import * as debounce from 'lodash/debounce';
 export class AggregationSelectorComponent {
   @Input() permittedIntervals: any;
   @Output() scaleChange = new EventEmitter();
-  @Output() aggregationsChange = new EventEmitter<MdOptionSelectionChange>();
+  @Output() aggregationsChange = new EventEmitter<MatOptionSelectionChange>();
   @Output() refreshHandle = new EventEmitter<any>();
   @Output() shiftChange = new EventEmitter<string>();
   @Output() shiftAmountChange = new EventEmitter<number>();
@@ -79,17 +79,17 @@ export class AggregationSelectorComponent {
     this.selectedAggregations = value;
   }
 
-  public handleScaleChange(change: MdSelectChange) {
+  public handleScaleChange(change: MatSelectChange) {
     this.aggregationSelectControl.reset();
     this.scale = change.value;
   }
 
-  public handleAggregationsChange(change: MdSelectChange) {
+  public handleAggregationsChange(change: MatSelectChange) {
     this.selectedAggregations = change.value;
     this.aggregationsChange.emit(change.value);
   }
 
-  public handleShiftChange(change: MdSelectChange) {
+  public handleShiftChange(change: MatSelectChange) {
     this.shift = change.value;
     this.shiftChange.emit(change.value);
   }

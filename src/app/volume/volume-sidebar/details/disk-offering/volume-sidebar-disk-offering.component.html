@@ -1,12 +1,12 @@
-<md-card *ngIf="offering">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">
+<mat-card *ngIf="offering">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">
         {{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}
       </h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <div class="grid grid-right">
       <div class="row" *ngIf="name">
         <div>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING_NAME' | translate }}</div>
@@ -41,5 +41,5 @@
         <div>{{ 'UNITS.IOPS' | translate:{ value: diskIopsWriteRate } }}</div>
       </div>
     </div>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

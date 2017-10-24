@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { Volume } from '../../../../../shared/models';
 
 
@@ -11,7 +11,7 @@ import { Volume } from '../../../../../shared/models';
 export class VolumeAttachmentDialogComponent implements OnInit {
   public selectedVolume: Volume;
 
-  constructor(@Inject(MD_DIALOG_DATA) public volumes: Array<Volume>) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public volumes: Array<Volume>) {}
 
   public ngOnInit(): void {
     if (this.volumes.length) {

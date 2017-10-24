@@ -5,12 +5,12 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdIconModule,
-  MdInputModule,
-  MdSelectModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
@@ -25,12 +25,12 @@ import { SettingsComponent } from './settings.component';
     CommonModule,
     FormsModule,
     TranslateModule,
-    MdTooltipModule,
-    MdButtonModule,
-    MdIconModule,
-    MdInputModule,
-    MdSelectModule,
-    MdCheckboxModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
     SharedModule,
     ReactiveFormsModule,
     ClipboardModule

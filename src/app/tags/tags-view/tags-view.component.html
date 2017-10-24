@@ -1,6 +1,6 @@
 <div class="flex-container">
-  <button *ngIf="canAddTag && hasPermissions" md-mini-fab (click)="addTag()">
-    <md-icon>add</md-icon>
+  <button *ngIf="canAddTag && hasPermissions" mat-mini-fab (click)="addTag()">
+    <mat-icon>add</mat-icon>
   </button>
 
   <cs-search
@@ -10,13 +10,13 @@
 
 </div>
 
-<md-checkbox
+<mat-checkbox
   name="showSystemTags"
   [(ngModel)]="showSystemTags"
   (change)="onShowSystemTagsChange()"
 >
   {{ 'TAGS.SHOW_SYSTEM_TAGS' | translate }}
-</md-checkbox>
+</mat-checkbox>
 
 
 <cs-tag-category

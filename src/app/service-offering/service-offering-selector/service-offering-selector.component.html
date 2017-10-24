@@ -1,20 +1,20 @@
-<md-select
-  class="form-select-control"
-  [ngModel]="serviceOffering"
-  (change)="changeOffering($event)"
->
-  <md-option *ngFor="let so of serviceOfferings" [value]="so">
-    {{ so.name }}
-  </md-option>
-</md-select>
-
+<mat-form-field class="form-select-control">
+  <mat-select
+    [ngModel]="serviceOffering"
+    (change)="changeOffering($event)"
+  >
+    <mat-option *ngFor="let so of serviceOfferings" [value]="so">
+      {{ so.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 <div class="flex-container">
   <span *ngIf="customOfferingDescription" class="custom-offering-info">
     {{ customOfferingDescription | async }}
   </span>
   <button
     *ngIf="serviceOffering?.isCustomized"
-    md-button
+    mat-button
     type="button"
     (click)="changeOffering({ value: serviceOffering })"
   >

@@ -1,28 +1,28 @@
-<md-card
+<mat-card
   class="custom-card"
   [ngClass]="cardClass"
   (click)="handleClick($event)"
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
 >
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">
         <span
           class="state-icon"
           [ngClass]="statusClass"
-          [mdTooltip]="stateTranslationToken | translate"
+          [matTooltip]="stateTranslationToken | translate"
         ></span>
-        <span [mdTooltip]="item.name"> {{ item.name }} </span>
+        <span [matTooltip]="item.name"> {{ item.name }} </span>
       </h2>
-    </md-card-title>
-    <div class="md-card-header-menu">
-      <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-        <md-icon>more_vert</md-icon>
+    </mat-card-title>
+    <div class="mat-card-header-menu">
+      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+        <mat-icon>more_vert</mat-icon>
       </button>
     </div>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <div class="os-type">OS {{ item?.osType?.description }}</div>
     <div class="vm-ip-address">
       {{ item.nic[0].ipAddress ? item.nic[0].ipAddress : ('VM_PAGE.CARD.IP_NA' | translate) }}
@@ -49,8 +49,8 @@
       </tr>
     </table>
 
-  </md-card-content>
-  <md-menu #actionsMenu="mdMenu">
+  </mat-card-content>
+  <mat-menu #actionsMenu="matMenu">
     <cs-vm-actions [vm]="item"></cs-vm-actions>
-  </md-menu>
-</md-card>
+  </mat-menu>
+</mat-card>

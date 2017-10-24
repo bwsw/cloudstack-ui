@@ -1,15 +1,15 @@
-.draggable-select-panel md-option {
+.draggable-select-panel mat-option {
   cursor: move !important;
   cursor: grab !important;
 }
 
-.draggable-select-panel md-option,
-md-option.gu-mirror {
+.draggable-select-panel mat-option,
+mat-option.gu-mirror {
   padding-left: 8px;
 }
 
-.draggable-select-panel md-option:before,
-md-option.gu-mirror:before {
+.draggable-select-panel mat-option:before,
+mat-option.gu-mirror:before {
   content: "";
   position: relative;
   top: -1px;

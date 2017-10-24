@@ -1,6 +1,6 @@
 import { Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../shared/models';
@@ -42,7 +42,7 @@ export class RecurringSnapshotsComponent implements OnInit {
     });
 
   constructor(
-    @Inject(MD_DIALOG_DATA) public volume: Volume,
+    @Inject(MAT_DIALOG_DATA) public volume: Volume,
     private dialogService: DialogService,
     private languageService: LanguageService,
     private snapshotPolicyService: SnapshotPolicyService

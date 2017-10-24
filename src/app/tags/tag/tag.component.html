@@ -3,32 +3,32 @@
     <div class="flex-container left">
       <span
         class="key"
-        [mdTooltip]="tag.key"
+        [matTooltip]="tag.key"
         [innerHTML]="tag.key | highlight:query"
       ></span>
       <div class="buttons" *ngIf="hasPermissions">
         <button
           class="button-18px"
-          md-icon-button
+          mat-icon-button
           (click)="edit()"
           [disabled]="loading"
         >
-          <md-icon>edit</md-icon>
+          <mat-icon>edit</mat-icon>
         </button>
         <button
           class="button-18px"
-          md-icon-button
+          mat-icon-button
           (click)="showRemoveDialog()"
           [disabled]="loading"
         >
-          <md-icon>delete</md-icon>
+          <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
     <div
       ngxClipboard
       class="value"
-      [mdTooltip]="tag.value"
+      [matTooltip]="tag.value"
       [innerHTML]="tag.value | highlight:query"
       [cbContent]="tag.value"
       (cbOnSuccess)="onCopySuccess()"

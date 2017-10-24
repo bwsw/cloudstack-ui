@@ -2,9 +2,9 @@
 <form (ngSubmit)="onSubmit()" #customOfferingForm="ngForm" novalidate>
   <div class="mat-dialog-content">
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_NUMBER' | translate }}</h5>
-    <md-form-field *ngIf="offering && restrictions" class="full-width-input">
+    <mat-form-field *ngIf="offering && restrictions" class="full-width-input">
       <input
-        mdInput
+        matInput
         name="cpuNumber"
         type="number"
         [(ngModel)]="offering.cpuNumber"
@@ -16,15 +16,15 @@
         required
         #cpuNumberControl="ngModel"
       >
-      <md-error *ngIf="cpuNumberControl.invalid">
+      <mat-error *ngIf="cpuNumberControl.invalid">
         {{ errorMessage(restrictions.cpuNumber.min, restrictions.cpuNumber.max) | async }}
-      </md-error>
-    </md-form-field>
+      </mat-error>
+    </mat-form-field>
 
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_SPEED' | translate }}</h5>
-    <md-form-field *ngIf="offering && restrictions" class="full-width-input">
+    <mat-form-field *ngIf="offering && restrictions" class="full-width-input">
       <input
-        mdInput
+        matInput
         name="cpuSpeed"
         type="number"
         [(ngModel)]="offering.cpuSpeed"
@@ -36,15 +36,15 @@
         required
         #cpuSpeedControl="ngModel"
       >
-      <md-error *ngIf="cpuSpeedControl.invalid">
+      <mat-error *ngIf="cpuSpeedControl.invalid">
         {{ errorMessage(restrictions.cpuSpeed.min, restrictions.cpuSpeed.max) | async }}
-      </md-error>
-    </md-form-field>
+      </mat-error>
+    </mat-form-field>
 
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.MEMORY' | translate }}</h5>
-    <md-form-field *ngIf="offering && restrictions" class="full-width-input">
+    <mat-form-field *ngIf="offering && restrictions" class="full-width-input">
       <input
-        mdInput
+        matInput
         name="memory"
         type="number"
         [(ngModel)]="offering.memory"
@@ -56,22 +56,22 @@
         required
         #memoryControl="ngModel"
       >
-      <md-error *ngIf="memoryControl.invalid">
+      <mat-error *ngIf="memoryControl.invalid">
         {{ errorMessage(restrictions.memory.min, restrictions.memory.max) | async }}
-      </md-error>
-    </md-form-field>
+      </mat-error>
+    </mat-form-field>
   </div>
   <div class="mat-dialog-actions">
     <button
-      md-button
+      mat-button
       color="primary"
-      mdDialogClose
+      matDialogClose
       type="button"
     >
       {{ 'COMMON.CANCEL' | translate }}
     </button>
     <button
-      md-button
+      mat-button
       color="primary"
       type="submit"
       [disabled]="!customOfferingForm.valid"

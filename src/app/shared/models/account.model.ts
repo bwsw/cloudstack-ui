@@ -6,6 +6,12 @@ export const enum AccountType {
   DomainAdmin
 }
 
+export const AccountState = {
+  enabled: 'enabled',
+  disabled: 'disabled',
+  locked: 'locked',
+};
+
 export class Account extends BaseModel {
   public accounttype: AccountType;
   public cpuavailable: number;
@@ -79,6 +85,5 @@ export class Account extends BaseModel {
 
   public get isAdmin() {
     return this.accounttype !== AccountType.User;
-
   }
 }

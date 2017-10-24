@@ -1,6 +1,6 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
@@ -60,8 +60,8 @@ export class SgRulesComponent {
   ];
 
   constructor(
-    public dialogRef: MdDialogRef<SgRulesComponent>,
-    @Inject(MD_DIALOG_DATA) data,
+    public dialogRef: MatDialogRef<SgRulesComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
     private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
     private translateService: TranslateService,

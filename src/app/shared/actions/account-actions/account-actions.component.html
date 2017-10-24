@@ -1,7 +1,7 @@
 <ng-container *ngFor="let action of actions">
   <button *ngIf="action.canActivate(account)"
-          md-menu-item (click)="action.activate(account).subscribe()">
-    <md-icon>{{ action.icon }}</md-icon>
+          mat-menu-item (click)="action.activate(account).subscribe()">
+    <mat-icon>{{ action.icon }}</mat-icon>
     <span>{{ action.name | translate }}</span>
   </button>
 </ng-container>

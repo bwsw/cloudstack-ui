@@ -9,15 +9,16 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
-import { MdSnackBar, MdSnackBarModule, OverlayContainer } from '@angular/material';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { NotificationService } from './notification.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 describe('Service: Notification service', () => {
   let notificationService: NotificationService;
-  let mdSnackBar: MdSnackBar;
+  let mdSnackBar: MatSnackBar;
   let liveAnnouncer: LiveAnnouncer;
   let overlayContainerElement: HTMLElement;
   let testViewContainerRef: ViewContainerRef;
@@ -25,7 +26,7 @@ describe('Service: Notification service', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MdSnackBarModule, NotificationTestModule, NoopAnimationsModule],
+      imports: [MatSnackBarModule, NotificationTestModule, NoopAnimationsModule],
       providers: [
         NotificationService,
         { provide: TranslateService, useClass: MockTranslateService },
@@ -40,10 +41,10 @@ describe('Service: Notification service', () => {
   }));
 
   beforeEach(async(inject(
-    [NotificationService, MdSnackBar, LiveAnnouncer],
+    [NotificationService, MatSnackBar, LiveAnnouncer],
     (
       service: NotificationService,
-      snackBar: MdSnackBar,
+      snackBar: MatSnackBar,
       lAnnouncer: LiveAnnouncer
     ) => {
       notificationService = service;
@@ -121,7 +122,7 @@ class TestComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, MdSnackBarModule],
+  imports: [CommonModule, MatSnackBarModule],
   exports: [TestComponent, ViewContainerDirective],
   declarations: [TestComponent, ViewContainerDirective],
   entryComponents: [TestComponent],

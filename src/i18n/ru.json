@@ -519,6 +519,7 @@
 
   "VOLUME_PAGE": {
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SPARE_DRIVES_ONLY": "Только свободные диски",
       "SELECT_ZONES": "Выберите зоны",
       "SELECT_TYPES": "Выберите типы",
@@ -576,6 +577,7 @@
       "ISO": "ISO"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_OS_FAMILIES": "Выберите ОС",
       "SELECT_TYPES": "Выберите типы",
       "SELECT_ZONES": "Выберите зоны",

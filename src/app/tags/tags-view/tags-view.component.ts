@@ -7,7 +7,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
@@ -49,7 +49,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private userTagService: UserTagService
   ) {
     this.onTagAdd = new EventEmitter<Tag>();

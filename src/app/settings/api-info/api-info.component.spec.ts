@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MdInput, MdInputModule } from '@angular/material';
+import { MatInput, MatInputModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -74,7 +74,7 @@ describe('Api Info component', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        MdInputModule,
+        MatInputModule,
         FormsModule,
         TranslateModule,
         ClipboardModule,
@@ -128,7 +128,7 @@ describe('Api Info component', () => {
     fixture.whenStable().then(() => {
       tick();
       fixture.detectChanges();
-      const inputFields = fixture.debugElement.queryAll(By.directive(MdInput));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MatInput));
       expect(inputFields[0].nativeElement.value).toBe('apiKey');
       expect(inputFields[1].nativeElement.value).toBe('secretKey');
     });
@@ -138,7 +138,7 @@ describe('Api Info component', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const syncButton = fixture.debugElement.query(By.css('button[md-icon-button]'));
+    const syncButton = fixture.debugElement.query(By.css('button[mat-icon-button]'));
     syncButton.triggerEventHandler('click');
 
     tick();
@@ -158,7 +158,7 @@ describe('Api Info component', () => {
       });
 
       tick();
-      const inputFields = fixture.debugElement.queryAll(By.directive(MdInput));
+      const inputFields = fixture.debugElement.queryAll(By.directive(MatInput));
       expect(inputFields[0].nativeElement.value).toBe('newApiKey');
       expect(inputFields[1].nativeElement.value).toBe('newSecretKey');
     });

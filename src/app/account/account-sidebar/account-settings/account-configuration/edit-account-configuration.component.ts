@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'cs-edit-account-configuration',
@@ -12,8 +12,8 @@ export class EditAccountConfigurationComponent {
   public title: string;
 
   constructor(
-    private dialogRef: MdDialogRef<EditAccountConfigurationComponent>,
-    @Inject(MD_DIALOG_DATA) data,
+    private dialogRef: MatDialogRef<EditAccountConfigurationComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.name = data.configuration.name;
     this.value = data.configuration.value;

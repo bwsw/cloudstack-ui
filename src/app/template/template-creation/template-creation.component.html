@@ -5,9 +5,9 @@
     <div class="mat-dialog-content">
       <div [class.flex-dialog-content]="!snapshot">
         <div [class.column]="!snapshot">
-          <md-form-field class="full-width-input">
+          <mat-form-field class="full-width-input">
             <input
-              mdInput
+              matInput
               name="name"
               [(ngModel)]="name"
               [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.NAME' | translate"
@@ -15,31 +15,31 @@
               maxlength="255"
               required
             >
-            <md-hint align="end">
+            <mat-hint align="end">
               <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
-            </md-hint>
-          </md-form-field>
+            </mat-hint>
+          </mat-form-field>
           <br>
-          <md-form-field class="full-width-input">
+          <mat-form-field class="full-width-input">
             <input
-              mdInput
+              matInput
               name="description"
               [(ngModel)]="displayText"
               [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
               maxlength="255"
               required
             >
-            <md-hint align="end">
+            <mat-hint align="end">
               <cs-character-count
                 [value]="displayText"
                 [maxLength]="255"
               ></cs-character-count>
-            </md-hint>
-          </md-form-field>
+            </mat-hint>
+          </mat-form-field>
           <br>
-          <md-form-field *ngIf="!snapshot" class="full-width-input">
+          <mat-form-field *ngIf="!snapshot" class="full-width-input">
             <input
-              mdInput
+              matInput
               type="url"
               name="url"
               [(ngModel)]="url"
@@ -49,136 +49,149 @@
               required
               #urlField="ngModel"
             >
-            <md-error
+            <mat-error
               *ngIf="urlField.hasError('pattern')"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.INVALID_URL' | translate }}
-            </md-error>
-            <md-hint align="end">
+            </mat-error>
+            <mat-hint align="end">
               <cs-character-count [value]="url" [maxLength]="255"></cs-character-count>
-            </md-hint>
-          </md-form-field>
+            </mat-hint>
+          </mat-form-field>
         </div>
         <div [class.column]="!snapshot">
-          <md-select
-            class="form-select-control"
-            [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
-            [(ngModel)]="osTypeId"
-            id="osType"
-            name="osType"
-          >
-            <md-option
-              *ngFor="let osType of osTypes"
-              [value]="osType.id"
-            >
-              {{ osType.description }}
-            </md-option>
-          </md-select>
-          <div *ngIf="!snapshot">
-            <md-select
+          <mat-form-field class="full-width-input">
+            <mat-select
               class="form-select-control"
-              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.ZONE' | translate"
-              [(ngModel)]="zoneId"
-              id="serviceOffering"
-              name="serviceOffering"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
+              [(ngModel)]="osTypeId"
+              id="osType"
+              name="osType"
             >
-              <md-option
-                *ngFor="let zone of zones"
-                [value]="zone.id"
+              <mat-option
+                *ngFor="let osType of osTypes"
+                [value]="osType.id"
               >
-                {{ zone.name }}
-              </md-option>
-            </md-select>
+                {{ osType.description }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="!snapshot">
+            <mat-form-field class="full-width-input">
+              <mat-select
+                class="form-select-control"
+                [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.ZONE' | translate"
+                [(ngModel)]="zoneId"
+                id="serviceOffering"
+                name="serviceOffering"
+              >
+                <mat-option
+                  *ngFor="let zone of zones"
+                  [value]="zone.id"
+                >
+                  {{ zone.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
           <div class="additional">
-            <md-checkbox
+            <mat-checkbox
               *ngIf="mode === 'Template'"
               name="pass"
               [(ngModel)]="passwordEnabled"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
-            </md-checkbox>
-            <md-checkbox
+            </mat-checkbox>
+            <mat-checkbox
               name="scalable"
               [(ngModel)]="dynamicallyScalable"
               *ngIf="mode === 'Template'"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
-            </md-checkbox>
+            </mat-checkbox>
           </div>
         </div>
       </div>
 
       <div>
-        <button md-button type="button" (click)="showAdditional=!showAdditional">
+        <button mat-button type="button" (click)="showAdditional=!showAdditional">
           {{ (showAdditional ? 'TEMPLATE_PAGE.TEMPLATE_CREATION.HIDE_ADDITIONAL'
-          : 'TEMPLATE_PAGE.TEMPLATE_CREATION.SHOW_ADDITIONAL') | translate }}</button>
+          : 'TEMPLATE_PAGE.TEMPLATE_CREATION.SHOW_ADDITIONAL') | translate }}
+        </button>
       </div>
 
       <div *ngIf="showAdditional" class="additional">
         <div class="flex-dialog-content">
           <div class="column" *ngIf="mode === 'Template'">
-            <md-select
-                    class="form-select-control"
-                    [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
-                    [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
-                    name="hypervisor"
-            >
-              <md-option *ngFor="let h of hypervisors"
-                         [value]="h.name">{{h.name}}</md-option>
-            </md-select>
-            <md-select
-                       class="form-select-control"
-                       [disabled]="!hypervisor"
-                       [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.FORMAT' | translate"
-                       [(ngModel)]="format"
-                       name="format"
-            >
-              <md-option *ngFor="let f of visibleFormats" [value]="f.name">{{f.name}}</md-option>
-            </md-select>
-
+            <mat-form-field class="full-width-input">
+              <mat-select
+                class="form-select-control"
+                [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
+                [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
+                name="hypervisor"
+              >
+                <mat-option
+                  *ngFor="let h of hypervisors"
+                  [value]="h.name"
+                >{{h.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <mat-select
+                class="form-select-control"
+                [disabled]="!hypervisor"
+                [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.FORMAT' | translate"
+                [(ngModel)]="format"
+                name="format"
+              >
+                <mat-option *ngFor="let f of visibleFormats" [value]="f.name">{{f.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
           <div [class.column]="mode === 'Template'" class="additional">
-            <md-checkbox
+            <mat-checkbox
               name="extract"
               [(ngModel)]="isExtractable"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_EXTRACTABLE' | translate }}
-            </md-checkbox>
-            <md-checkbox
+            </mat-checkbox>
+            <mat-checkbox
               name="public"
               [(ngModel)]="isPublic"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
-            </md-checkbox>
-            <md-checkbox
+            </mat-checkbox>
+            <mat-checkbox
               name="feature"
               [(ngModel)]="isFeatured"
               *ngIf="isAdmin()"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
-            </md-checkbox>
+            </mat-checkbox>
 
-            <md-checkbox
+            <mat-checkbox
               name="routing"
               [(ngModel)]="isRouting"
               *ngIf="isAdmin()"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
-            </md-checkbox>
-            <md-checkbox
+            </mat-checkbox>
+            <mat-checkbox
               name="hvm"
               [(ngModel)]="requiresHvm"
               *ngIf="mode === 'Template'"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
-            </md-checkbox>
-            <md-checkbox *ngIf="mode === 'Iso'"
-                         name="bootable"
-                         [(ngModel)]="bootable"
+            </mat-checkbox>
+            <mat-checkbox
+              *ngIf="mode === 'Iso'"
+              name="bootable"
+              [(ngModel)]="bootable"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.BOOTABLE' | translate }}
-            </md-checkbox>
+            </mat-checkbox>
           </div>
         </div>
 
@@ -187,15 +200,15 @@
     </div>
     <div class="mat-dialog-actions">
       <button
-        md-button
+        mat-button
         color="primary"
-        mdDialogClose
+        matDialogClose
         type="button"
       >
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
-        md-button
+        mat-button
         color="primary"
         type="submit"
         [disabled]="!templateCreationForm.valid"
