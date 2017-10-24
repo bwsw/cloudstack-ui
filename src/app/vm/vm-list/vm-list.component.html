@@ -12,6 +12,7 @@
       <cs-vm-filter *ngIf="zones && groups  && accounts"
         [zones]="zones"
         [groups]="groups"
+        [accounts]="accounts"
         [availableGroupings]="groupings"
         (updateFilters)="updateFiltersAndFilter($event)"
       ></cs-vm-filter>

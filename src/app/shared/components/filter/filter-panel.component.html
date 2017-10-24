@@ -3,10 +3,10 @@
 
   <md-button-toggle-group (change)="onModeChange.emit($event.value)">
     <md-button-toggle value="0" [checked]="mode === 0">
-      LIST
+      <md-icon>view_list</md-icon>
     </md-button-toggle>
     <md-button-toggle value="1" [checked]="mode === 1">
-      BOX
+      <md-icon>view_module</md-icon>
     </md-button-toggle>
   </md-button-toggle-group>
 </div>
