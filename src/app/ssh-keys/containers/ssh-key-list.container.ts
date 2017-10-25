@@ -27,7 +27,7 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
   readonly filters$ = this.store.select(fromSshKeys.filters);
-  readonly accounts$ = this.store.select(fromAccounts.accounts);
+  readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
   readonly selectedAccountIds$ = this.store.select(fromSshKeys.filterSelectedAccountIds);
 

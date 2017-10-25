@@ -9,7 +9,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-  max-width: 34% !important;
   text-align: right;
   white-space: nowrap;
 }
@@ -21,14 +20,11 @@
 }
 
 .left {
-  max-width: 66% !important;
-  min-width: 66% !important;
   margin-right: 15px;
 }
 
 .buttons {
   display: none;
-  min-width: 68px;
   margin-left: 10px;
 }
 
@@ -43,5 +39,5 @@
 }
 
 .container:hover .buttons {
-  display: inline-block;
+  display: flex;
 }
