@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
 import { Domain } from '../../shared/models/domain.model';
 import { Dictionary } from '@ngrx/entity/src/models';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -41,7 +41,10 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
   @Output() public queryChange = new EventEmitter();
 
   public selectedGroupingNames = [];
-  public filterTranslations: {};
+  public filterTranslations = {
+    [TemplateFilters.featured]: 'TEMPLATE_PAGE.FILTERS.FEATURED',
+    [TemplateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF'
+  };
 
   public osFamilies: Array<OsFamily> = [
     OsFamily.Linux,
@@ -59,7 +62,7 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
   private isoTabIndex = 1;
   private domainsMap: Dictionary<Domain>;
 
-  constructor(private translateService: TranslateService) {
+  constructor(private authService: AuthService) {
   }
 
   public ngOnInit(): void {
@@ -67,17 +70,10 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedFilters = this.categoryFilters.concat();
     }
+  }
 
-    this.translateService.get(
-      this.categoryFilters.map(filter => `TEMPLATE_PAGE.FILTERS.${filter.toUpperCase()}`)
-    )
-      .subscribe(translations => {
-        const strs = {};
-        this.categoryFilters.forEach(f => {
-          strs[f] = translations[`TEMPLATE_PAGE.FILTERS.${f.toUpperCase()}`];
-        });
-        this.filterTranslations = strs;
-      });
+  public showAccountFilter(): boolean {
+    return this.authService.isAdmin();
   }
 
   public ngOnChanges(changes) {

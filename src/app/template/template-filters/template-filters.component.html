@@ -12,7 +12,7 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
 
-    <mat-form-field *ngIf="accounts?.length">
+    <mat-form-field *ngIf="showAccountFilter() && accounts?.length">
       <mat-select
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"

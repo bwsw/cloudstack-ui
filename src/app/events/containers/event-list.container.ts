@@ -46,7 +46,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
 
   readonly firstDayOfWeek$ = this.languageService.getFirstDayOfWeek();
   readonly events$ = this.store.select(fromEvents.selectFilteredEvents);
-  readonly accounts$ = this.store.select(fromAccounts.accounts);
+  readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly query$ = this.store.select(fromEvents.filterQuery);
   readonly loading$ = this.store.select(fromEvents.isLoading);
   readonly filters$ = this.store.select(fromEvents.filters);

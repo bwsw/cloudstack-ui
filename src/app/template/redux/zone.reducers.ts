@@ -93,8 +93,3 @@ export const isLoading = createSelector(
   getZonesEntitiesState,
   state => state.loading
 );
-
-export const zones = createSelector(
-  selectAll,
-  (zoneList) => zoneList
-);

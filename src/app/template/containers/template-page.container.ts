@@ -29,9 +29,9 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly filters$ = this.store.select(fromTemplates.filters);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
-  readonly accounts$ = this.store.select(fromAccounts.accounts);
-  readonly domains$ = this.store.select(fromDomains.domains);
-  readonly zones$ = this.store.select(fromZones.zones);
+  readonly accounts$ = this.store.select(fromAccounts.selectAll);
+  readonly domains$ = this.store.select(fromDomains.selectAll);
+  readonly zones$ = this.store.select(fromZones.selectAll);
   readonly query$ = this.store.select(fromTemplates.filterQuery);
   readonly selectedAccountIds$ = this.store.select(fromTemplates.filterSelectedAccountIds);
   readonly selectedOsFamilies$ = this.store.select(fromTemplates.filterSelectedOsFamilies);

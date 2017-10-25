@@ -11,7 +11,7 @@ import { AuthService } from '../../shared/services/auth.service';
 
 interface TemplateFormat {
   name: string;
-  hypervisors: string;
+  hypervisors: string[];
 }
 
 @Component({
@@ -48,14 +48,14 @@ export class TemplateCreationComponent implements OnInit {
   public hypervisors: Array<Hypervisor>;
 
   public formats: TemplateFormat[] = [
-    { name: 'VHD', hypervisors: 'XenServer,Hyperv,KVM' },
-    { name: 'OVA', hypervisors: 'VMware' },
-    { name: 'QCOW2', hypervisors: 'KVM' },
-    { name: 'RAW', hypervisors: 'KVM,Ovm' },
-    { name: 'VMDK', hypervisors: 'KVM' },
-    { name: 'BareMetal', hypervisors: 'BareMetal' },
-    { name: 'TAR', hypervisors: 'LXC' },
-    { name: 'VHDX', hypervisors: 'Hyperv' }
+    { name: 'VHD', hypervisors: ['XenServer', 'Hyperv', 'KVM'] },
+    { name: 'OVA', hypervisors: ['VMware'] },
+    { name: 'QCOW2', hypervisors: ['KVM'] },
+    { name: 'RAW', hypervisors: ['KVM', 'Ovm'] },
+    { name: 'VMDK', hypervisors: ['KVM'] },
+    { name: 'BareMetal', hypervisors: ['BareMetal'] },
+    { name: 'TAR', hypervisors: ['LXC'] },
+    { name: 'VHDX', hypervisors: ['Hyperv'] }
   ];
   public visibleFormats: TemplateFormat[];
 
@@ -90,7 +90,9 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public filterFormats(formats: TemplateFormat[], hypervisor: string) {
-    return hypervisor ? formats.filter(f => f.hypervisors.includes(hypervisor)) : formats;
+    return hypervisor
+      ? formats.filter(f => f.hypervisors.find(h => h === hypervisor))
+      : formats;
   }
 
   public get modeTranslationToken(): string {
@@ -151,8 +153,8 @@ export class TemplateCreationComponent implements OnInit {
       );
   }
 
-  public isAdmin() {
-    return this.authService.isAdmin;
+  public isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
   private getCreationAction(params: any): Observable<void> {

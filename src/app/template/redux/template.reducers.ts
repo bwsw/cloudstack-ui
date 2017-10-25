@@ -4,7 +4,7 @@ import { TemplateFilters } from '../shared/base-template.service';
 import * as fromOsTypes from './ostype.reducers';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { User } from '../../shared/models/user.model';
-import { accounts } from '../../account/redux/accounts.reducers';
+import * as fromAccounts from '../../account/redux/accounts.reducers';
 
 import * as template from './template.actions';
 
@@ -171,7 +171,7 @@ export const currentUser = createSelector(
 export const selectByViewModeAndAccounts = createSelector(
   selectAll,
   filterSelectedViewMode,
-  accounts,
+  fromAccounts.selectAll,
   filterSelectedAccountIds,
   (templates, viewMode, accounts, selectedAccountIds) => {
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
@@ -214,8 +214,12 @@ export const selectFilteredTemplates = createSelector(
     const typesMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
-      const featuredFilter = !selectedTypes.length || typesMap[TemplateFilters.featured] || !template.isFeatured;
-      const selfFilter = !selectedTypes.length || typesMap[TemplateFilters.self] || !(template.account === user.username);
+      const featuredFilter = !selectedTypes.length
+        || typesMap[TemplateFilters.featured]
+        || !template.isFeatured;
+      const selfFilter = !selectedTypes.length
+        || typesMap[TemplateFilters.self]
+        || !(template.account === user.username);
       return featuredFilter && selfFilter;
     });
 
@@ -240,7 +244,6 @@ export const selectFilteredTemplates = createSelector(
     };
 
     return templates.filter(template => {
-      debugger;
       return selectedZonesFilter(template)
         && selectedTypesFilter(template)
         && selectedOsFamiliesFilter(template)

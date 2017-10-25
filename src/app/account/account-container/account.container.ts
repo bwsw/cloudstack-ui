@@ -54,7 +54,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
   readonly filters$ = this.store.select(fromAccounts.filters);
-  readonly domains$ = this.store.select(fromDomains.domains);
+  readonly domains$ = this.store.select(fromDomains.selectAll);
   readonly roles$ = this.store.select(fromRoles.roles);
   readonly roleTypes$ = this.store.select(fromRoles.roleTypes);
 

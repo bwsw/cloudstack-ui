@@ -156,11 +156,6 @@ export const filterSelectedStates = createSelector(
   state => state.selectedStates
 );
 
-export const accounts = createSelector(
-  selectAll,
-  (accounts) => accounts
-);
-
 export const selectFilteredAccounts = createSelector(
   selectAll,
   filterSelectedRoleTypes,
