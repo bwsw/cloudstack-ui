@@ -62,7 +62,7 @@
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
-      "CONFIRM_SAVE_PASSWORD": "Are you sure you want to save a password for all VMs?"
+      "CONFIRM_SAVE_PASSWORD": "Do you want to save a password for all VMs?"
     },
     "SECURITY_GROUPS": {
       "CONFIRM_EDIT_FROM_VM": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group in the Security Group management area?",
