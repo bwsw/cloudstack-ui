@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { VolumeActionsService } from '../../shared/actions/volume-actions/volume-actions.service';
 import { DiskOffering, Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
@@ -18,7 +18,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
   @Input() public searchQuery: () => string;
   @Input() public item: Volume;
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
 
   public diskOfferings: Array<DiskOffering>;
   public query: string;

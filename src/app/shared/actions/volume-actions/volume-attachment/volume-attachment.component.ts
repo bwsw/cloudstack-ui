@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../../models';
@@ -23,12 +23,12 @@ export class VolumeAttachmentComponent implements OnInit {
   public zoneId: string;
 
   constructor(
-    private dialogRef: MdDialogRef<VolumeAttachmentComponent>,
+    private dialogRef: MatDialogRef<VolumeAttachmentComponent>,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
     private vmService: VmService,
     private volumeService: VolumeService,
-    @Inject(MD_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data
   ) {
     this.volume = data.volume;
     this.zoneId = data.zoneId;

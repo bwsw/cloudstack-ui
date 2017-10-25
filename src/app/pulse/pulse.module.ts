@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdProgressSpinnerModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -31,14 +31,14 @@ import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
     CommonModule,
     ChartsModule,
     FormsModule,
-    MdButtonModule,
-    MdIconModule,
-    MdTooltipModule,
-    MdDialogModule,
-    MdInputModule,
-    MdTabsModule,
-    MdSelectModule,
-    MdProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatInputModule,
+    MatTabsModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
     TranslateModule
   ],
   exports: [

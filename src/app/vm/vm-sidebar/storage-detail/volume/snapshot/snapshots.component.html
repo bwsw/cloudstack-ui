@@ -3,7 +3,7 @@
     <div class="row">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.LAST_SNAPSHOT' | translate }}:</div>
       <div >
-        <button md-button color="primary" (click)="showSnapshots()">
+        <button mat-button color="primary" (click)="showSnapshots()">
           {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
         </button>
       </div>
@@ -16,14 +16,14 @@
       <div style="width: 30%;">
         <button
           *ngFor="let action of snapshotActionsService.actions"
-          md-icon-button
+          mat-icon-button
           class="button-18px"
-          [mdTooltip]="action.name | translate"
-          mdTooltipPosition="above"
+          [matTooltip]="action.name | translate"
+          matTooltipPosition="above"
           (click)="action.activate(volume.snapshots[0], volume).subscribe()"
           [disabled]="volume.snapshots[0]['loading']"
         >
-          <md-icon>{{ action.icon }}</md-icon>
+          <mat-icon>{{ action.icon }}</mat-icon>
         </button>
       </div>
     </div>

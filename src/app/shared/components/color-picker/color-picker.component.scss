@@ -31,7 +31,7 @@ $input-margin: 10px;
   }
 }
 
-:host md-form-field {
+:host mat-form-field {
   width: 300px - $input-margin - $preview-width !important;
   margin-left: $input-margin;
   input {

@@ -1,6 +1,6 @@
-<md-form-field>
+<mat-form-field>
   <input
-    mdInput
+    matInput
     name="hour"
     type="number"
     [ngModel]="hour"
@@ -8,20 +8,20 @@
     [placeholder]="'SNAPSHOT_POLICIES.TIME' | translate"
     #hourField
   >
-</md-form-field>
+</mat-form-field>
 
 <span class="delimiter">:</span>
 
-<md-form-field>
+<mat-form-field>
   <input
-    mdInput
+    matInput
     name="minute"
     type="number"
     [ngModel]="minute"
     (ngModelChange)="updateMinute($event)"
     #minuteField
   >
-</md-form-field>
+</mat-form-field>
 
 <span class="delimiter"></span>
 

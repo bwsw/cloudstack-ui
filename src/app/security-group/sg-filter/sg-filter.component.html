@@ -1,13 +1,13 @@
 <cs-top-bar>
   <div class="options-panel">
-    <md-button-toggle-group (change)="setMode($event.value)">
-      <md-button-toggle value="0" [checked]="mode === 0">
+    <mat-button-toggle-group (change)="setMode($event.value)">
+      <mat-button-toggle value="0" [checked]="mode === 0">
         {{ 'SECURITY_GROUP_PAGE.FILTERS.TEMPLATES' | translate }}
-      </md-button-toggle>
-      <md-button-toggle value="1" [checked]="mode === 1">
+      </mat-button-toggle>
+      <mat-button-toggle value="1" [checked]="mode === 1">
         {{ 'SECURITY_GROUP_PAGE.FILTERS.SHARED' | translate }}
-      </md-button-toggle>
-    </md-button-toggle-group>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 </cs-top-bar>
 <cs-search [(ngModel)]="query" (ngModelChange)="update()"></cs-search>

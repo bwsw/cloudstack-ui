@@ -8,34 +8,34 @@
   >
     <div class="mat-dialog-content">
       <ng-container *ngIf="enoughResources">
-        <md-form-field class="full-width-input">
+        <mat-form-field class="full-width-input">
           <input
-            mdInput
+            matInput
             name="name"
             [(ngModel)]="name"
             [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.NAME' | translate"
             autofocus
             required
           >
-        </md-form-field>
-        <md-form-field class="full-width-input">
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
           <input
-            mdInput
+            matInput
             name="description"
             [(ngModel)]="description"
             [placeholder]="'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_CREATION.DESCRIPTION' | translate"
           >
-        </md-form-field>
+        </mat-form-field>
       </ng-container>
       <div *ngIf="!enoughResources">{{ "ERRORS.SNAPSHOT.LIMIT_EXCEEDED" | translate }}</div>
     </div>
     <div class="mat-dialog-actions">
-      <button md-button color="primary" mdDialogClose type="button">
+      <button mat-button color="primary" matDialogClose type="button">
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
         *ngIf="enoughResources"
-        md-button
+        mat-button
         color="primary"
         type="button"
         (click)="onSubmit()"

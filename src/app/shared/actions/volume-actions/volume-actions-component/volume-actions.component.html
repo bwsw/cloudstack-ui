@@ -1,11 +1,11 @@
 <ng-container *ngFor="let action of volumeActionsService.actions">
   <button
-    md-menu-item
+    mat-menu-item
     *ngIf="!action.hidden(volume)"
     (click)="onAction(action, volume)"
     [disabled]="!diskOfferings"
   >
-    <md-icon>{{ action.icon }}</md-icon>
+    <mat-icon>{{ action.icon }}</mat-icon>
     <span>{{ action.name | translate }}</span>
   </button>
 </ng-container>

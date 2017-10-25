@@ -7,47 +7,47 @@
       {{ entity.displayName }}</h4>
     <cs-vm-actions-sidebar [vm]="entity"></cs-vm-actions-sidebar>
   </div>
-  <nav md-tab-nav-bar>
+  <nav mat-tab-nav-bar>
     <a
-      mdTabLink
+      matTabLink
       [routerLink]="['./vm']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('vm')"
 
     >
-      <div [mdTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="md-tab-tooltip">
-        <md-icon>computer</md-icon>
+      <div [matTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="mat-tab-tooltip">
+        <mat-icon>computer</mat-icon>
       </div>
     </a>
     <a
-      mdTabLink
+      matTabLink
       [routerLink]="['./disks']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('disks')"
 
     >
-      <div [mdTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="md-tab-tooltip">
-        <md-icon>storage</md-icon>
+      <div [matTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="mat-tab-tooltip">
+        <mat-icon>storage</mat-icon>
       </div>
     </a>
     <a
-      mdTabLink
+      matTabLink
       [routerLink]="['./network']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('network')"
     >
-      <div [mdTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="md-tab-tooltip">
-        <md-icon>router</md-icon>
+      <div [matTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="mat-tab-tooltip">
+        <mat-icon>router</mat-icon>
       </div>
     </a>
     <a
-      mdTabLink
+      matTabLink
       [routerLink]="['./tags']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('tags')"
     >
-      <div [mdTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="md-tab-tooltip">
-        <md-icon>local_offer</md-icon>
+      <div [matTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
+        <mat-icon>local_offer</mat-icon>
       </div>
     </a>
   </nav>

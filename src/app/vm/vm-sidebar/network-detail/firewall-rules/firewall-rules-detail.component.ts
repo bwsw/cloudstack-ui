@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SgRulesComponent } from '../../../../security-group/sg-rules/sg-rules.component';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VirtualMachine } from '../../../shared/vm.model';
@@ -14,7 +14,7 @@ export class FirewallRulesDetailComponent {
   @Input() public vm: VirtualMachine;
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private securityGroupService: SecurityGroupService
   ) {
   }
@@ -22,7 +22,7 @@ export class FirewallRulesDetailComponent {
   public showRulesDialog(entity: SecurityGroup) {
     const vmId = this.vm.id;
 
-    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
+    this.dialog.open(SgRulesComponent, <MatDialogConfig>{
       width: '880px',
       data: { entity, vmId }
     })

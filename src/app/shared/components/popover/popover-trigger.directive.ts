@@ -2,7 +2,7 @@ import {
   HorizontalConnectionPos,
   Overlay,
   OverlayRef,
-  OverlayState,
+  OverlayConfig,
   PositionStrategy,
   VerticalConnectionPos
 } from '@angular/cdk/overlay';
@@ -117,7 +117,7 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
         this.viewContainerRef
       );
 
-      const config = new OverlayState();
+      const config = new OverlayConfig();
       config.positionStrategy = this.getPositionStrategy();
       config.scrollStrategy = this.overlay.scrollStrategies.reposition();
 

@@ -1,43 +1,43 @@
-<md-card>
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">
         {{ 'VM_PAGE.STORAGE_DETAILS.ISO.TITLE' | translate }}
       </h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content class="md-card-content-with-actions" [ngSwitch]="!!iso">
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content-with-actions" [ngSwitch]="!!iso">
     <ng-template [ngSwitchCase]="true">
-      <div class="md-card-content-container">
+      <div class="mat-card-content-container">
         {{ iso.name }}
       </div>
-      <md-card-actions>
+      <mat-card-actions>
         <button
-          md-icon-button
-          mdTooltipPosition="above"
-          [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.ISO.DETACH' | translate"
+          mat-icon-button
+          matTooltipPosition="above"
+          [matTooltip]="'VM_PAGE.STORAGE_DETAILS.ISO.DETACH' | translate"
           [disabled]="isoOperationInProgress"
           (click)="detachIso()"
         >
-          <md-icon>remove</md-icon>
+          <mat-icon>remove</mat-icon>
         </button>
-      </md-card-actions>
+      </mat-card-actions>
     </ng-template>
     <ng-template ngSwitchDefault>
-      <div class="md-card-content-container">
+      <div class="mat-card-content-container">
         {{ 'VM_PAGE.STORAGE_DETAILS.ISO.NO_MEDIUM' | translate }}
       </div>
-      <md-card-actions>
+      <mat-card-actions>
         <button
-          md-icon-button
-          mdTooltipPosition="above"
-          [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.ISO.ATTACH' | translate"
+          mat-icon-button
+          matTooltipPosition="above"
+          [matTooltip]="'VM_PAGE.STORAGE_DETAILS.ISO.ATTACH' | translate"
           [disabled]="isoOperationInProgress"
           (click)="attachIso()"
         >
-          <md-icon>add</md-icon>
+          <mat-icon>add</mat-icon>
         </button>
-      </md-card-actions>
+      </mat-card-actions>
     </ng-template>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

@@ -2,21 +2,21 @@
   {{ 'DIALOG_MESSAGES.VM.CONFIRM_DESTROY' | translate }}
 
   <section *ngIf="canExpunge">
-    <md-checkbox [(ngModel)]="expunge">
+    <mat-checkbox [(ngModel)]="expunge">
       {{ 'VM_PAGE.COMMANDS.EXPUNGE' | translate }}
-    </md-checkbox>
+    </mat-checkbox>
   </section>
 </div>
 <div class="mat-dialog-actions">
   <button
-    md-button
+    mat-button
     color="primary"
-    mdDialogClose
+    matDialogClose
   >
     {{ 'COMMON.NO' | translate }}
   </button>
   <button
-    md-button
+    mat-button
     color="primary"
     (click)="confirmDestroy()"
   >

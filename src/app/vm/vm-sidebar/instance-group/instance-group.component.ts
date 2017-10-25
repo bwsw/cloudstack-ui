@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { VirtualMachine } from '../../shared/vm.model';
 import { InstanceGroupSelectorComponent } from '../instance-group-selector/instance-group-selector.component';
 
@@ -12,7 +12,7 @@ import { InstanceGroupSelectorComponent } from '../instance-group-selector/insta
 export class InstanceGroupComponent {
   @Input() public vm: VirtualMachine;
 
-  constructor(private dialog: MdDialog) {}
+  constructor(private dialog: MatDialog) {}
 
   public get groupName(): string {
     return this.vm.instanceGroup && this.vm.instanceGroup.name;

@@ -1,17 +1,17 @@
 <div>
-    <h5 >{{ 'VM_POST_ACTION.TITLE' | translate}}</h5>
+    <h5 >{{ title | translate}}</h5>
         <div><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{vm.name}}</div>
         <div *ngIf="vm.passwordEnabled">
           <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b>
           <span *ngIf="getPassword()">{{ getPassword()}}</span>
           <i *ngIf="!getPassword()">{{ 'VM_POST_ACTION.UNKNOWN' | translate }}</i>
-          <button md-button color="primary" *ngIf="canSavePassword" [disabled]="disableButton"
+          <button mat-button color="primary" *ngIf="canSavePassword" [disabled]="disableButton"
                   (click)="savePassword()">{{ 'COMMON.SAVE' | translate }}</button>
           <div class="saved">
-            <md-icon *ngIf="!canSavePassword"
-                     mdTooltipPosition="below"
-                     [mdTooltip]="'COMMON.SAVED' | translate"
-            >check_circle</md-icon>
+            <mat-icon *ngIf="!canSavePassword"
+                     matTooltipPosition="below"
+                     [matTooltip]="'COMMON.SAVED' | translate"
+            >check_circle</mat-icon>
           </div>
         </div>
         <div *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipAddress}}</div>
@@ -19,11 +19,11 @@
         <div *ngIf="isHttpAuthMode(vm) && getUrlPassword(vm)"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{getUrlPassword(vm)}}</div>
     <div class="mat-dialog-actions">
         <span *ngFor="let act of actions">
-        <button md-button color="primary"
+        <button mat-button color="primary"
                 *ngIf="act.action.canActivate(vm)"
                 (click)="act.action.activate(vm)">{{ act.key | translate }}</button>
         </span>
-      <button md-button color="primary"
+      <button mat-button color="primary"
               (click)="dialogRef.close()">{{ 'COMMON.CLOSE' | translate }}</button>
     </div>
 </div>

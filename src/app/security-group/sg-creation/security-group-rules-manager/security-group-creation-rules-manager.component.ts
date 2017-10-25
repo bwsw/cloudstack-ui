@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 // tslint:disable-next-line
 import { SecurityGroupCreationSecurityGroupComponent } from '../security-group-creation-security-group/security-group-creation-security-group.component';
 
@@ -22,7 +22,7 @@ export class SecurityGroupCreationRulesManagerComponent {
   public savedData = new Rules();
   private _securityGroupRulesManagerData: Rules;
 
-  constructor(private dialog: MdDialog) {}
+  constructor(private dialog: MatDialog) {}
 
   public propagateChange: any = () => {};
 

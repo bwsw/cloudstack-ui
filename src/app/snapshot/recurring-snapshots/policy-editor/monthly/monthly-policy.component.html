@@ -1,23 +1,26 @@
 <div class="flex-container">
-  <cs-time-picker class="column"
+  <cs-time-picker
+    class="column"
     name="time"
     [timeFormat]="timeFormat"
     [ngModel]="time"
     (ngModelChange)="updateTime($event)"
   ></cs-time-picker>
 
-  <md-select class="column"
-    name="dayOfMonth"
-    [ngModel]="dayOfMonth"
-    (ngModelChange)="updateDayOfMonth($event)"
-    [placeholder]="'DATE_TIME.DAY_OF_MONTH' | translate"
-    required
-  >
-    <md-option
-      *ngFor="let d of daysOfMonth"
-      [value]="d"
+  <mat-form-field class="column">
+    <mat-select
+      name="dayOfMonth"
+      [ngModel]="dayOfMonth"
+      (ngModelChange)="updateDayOfMonth($event)"
+      [placeholder]="'DATE_TIME.DAY_OF_MONTH' | translate"
+      required
     >
-      {{ d }}
-    </md-option>
-  </md-select>
+      <mat-option
+        *ngFor="let d of daysOfMonth"
+        [value]="d"
+      >
+        {{ d }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>

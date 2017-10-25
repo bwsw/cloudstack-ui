@@ -3,17 +3,17 @@
   class="no-charts"
 >
   <img src="img/no-charts.svg" alt="">
-  <md-spinner *ngIf="fetching" [strokeWidth]="8"></md-spinner>
+  <mat-spinner *ngIf="fetching" [strokeWidth]="8"></mat-spinner>
   <span *ngIf="!fetching && !error && !hasDatasets(charts[0])">{{ 'PULSE.SELECT_DATA' | translate }}</span>
   <span *ngIf="!fetching && error">{{ 'PULSE.ERROR' | translate }}</span>
 </div>
 <div *ngIf="fetching && hasDatasets(charts[0])" class="overlay">
-  <md-spinner [strokeWidth]="8"></md-spinner>
+  <mat-spinner [strokeWidth]="8"></mat-spinner>
 </div>
 <ng-container *ngIf="!error">
   <div *ngFor="let chart of charts" class="chart">
     <div *ngIf="hasDatasets(chart)" class="arrow" (click)="previous.emit()">
-      <md-icon>keyboard_arrow_left</md-icon>
+      <mat-icon>keyboard_arrow_left</mat-icon>
     </div>
     <div
       *ngIf="hasDatasets(chart) && !hasData(chart)"
@@ -31,7 +31,7 @@
       [labels]="chart.labels"
     ></canvas>
     <div *ngIf="hasNext && hasDatasets(chart)" class="arrow" (click)="next.emit()">
-      <md-icon>keyboard_arrow_right</md-icon>
+      <mat-icon>keyboard_arrow_right</mat-icon>
     </div>
   </div>
 </ng-container>

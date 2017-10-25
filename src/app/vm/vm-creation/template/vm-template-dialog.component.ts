@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { AuthService } from '../../../shared/services/auth.service';
 import { Template } from '../../../template/shared';
@@ -20,8 +20,8 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   public zoneId: string;
 
   constructor(
-    @Inject(MD_DIALOG_DATA) data,
-    private dialogRef: MdDialogRef<VmTemplateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
+    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
     authService: AuthService
   ) {
     super(authService);

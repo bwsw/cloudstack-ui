@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SshKeyCreationData } from '../../../shared/services/ssh-keypair.service';
 import { Store } from '@ngrx/store';

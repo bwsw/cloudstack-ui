@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { MD_DIALOG_DATA, MdTabChangeEvent } from '@angular/material';
+import { MAT_DIALOG_DATA, MatTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import * as debounce from 'lodash/debounce';
 import * as moment from 'moment';
@@ -54,7 +54,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   private updateInterval;
 
   constructor(
-    @Inject(MD_DIALOG_DATA) public vmId: string,
+    @Inject(MAT_DIALOG_DATA) public vmId: string,
     private pulse: PulseService,
     private translateService: TranslateService,
     private storage: LocalStorageService
@@ -160,7 +160,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     this.scheduleAutoRefresh();
   }
 
-  public handleSelectChange(change: MdTabChangeEvent) {
+  public handleSelectChange(change: MatTabChangeEvent) {
     if (this.selectedAggregations) {
       this.updateChart(change.index);
     }

@@ -1,27 +1,27 @@
-<md-card (click)="onClicked($event)" class="custom-card">
-  <md-card-header>
-    <md-card-title>
-      <md-icon>vpn_key</md-icon>
+<mat-card (click)="onClicked($event)" class="custom-card">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>vpn_key</mat-icon>
       <h2
-        class="md-card-title-text"
-        [mdTooltip]="item.name"
+        class="mat-card-title-text"
+        [matTooltip]="item.name"
       >
         {{ item.name }}
       </h2>
-    </md-card-title>
-    <div class="md-card-header-menu">
-      <button  md-icon-button [mdMenuTriggerFor]="actionsMenu">
-        <md-icon>more_vert</md-icon>
+    </mat-card-title>
+    <div class="mat-card-header-menu">
+      <button  mat-icon-button [matMenuTriggerFor]="actionsMenu">
+        <mat-icon>more_vert</mat-icon>
       </button>
     </div>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     {{ item.fingerPrint }}
-  </md-card-content>
-  <md-menu #actionsMenu="mdMenu">
-    <button md-menu-item (click)="onRemoveClicked()">
-      <md-icon>delete</md-icon>
+  </mat-card-content>
+  <mat-menu #actionsMenu="matMenu">
+    <button mat-menu-item (click)="onRemoveClicked()">
+      <mat-icon>delete</mat-icon>
       <span>{{ 'COMMON.DELETE' | translate }}</span>
     </button>
-  </md-menu>
-</md-card>
+  </mat-menu>
+</mat-card>

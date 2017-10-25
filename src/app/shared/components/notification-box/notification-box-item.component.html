@@ -1,32 +1,32 @@
-<md-list-item>
-  <h4 md-line class="mat-list-item-content">
+<mat-list-item>
+  <h4 matLine class="mat-list-item-content">
     <ng-container [ngSwitch]="notification.status">
-      <md-icon
+      <mat-icon
         *ngSwitchCase="notificationStatus.Finished"
-        mdListIcon
+        matListIcon
       >
         done
-      </md-icon>
-      <md-spinner
+      </mat-icon>
+      <mat-spinner
         *ngSwitchCase="notificationStatus.Pending"
-      ></md-spinner>
-      <md-icon
+      ></mat-spinner>
+      <mat-icon
         *ngSwitchCase="notificationStatus.Failed"
-        mdListIcon
+        matListIcon
       >
         close
-      </md-icon>
+      </mat-icon>
     </ng-container>
     {{ notification.message | translate }}
   </h4>
   <span>
-    <md-icon
+    <mat-icon
       class="close"
       *ngIf="notification.status !== notificationStatus.Pending"
       (click)="remove()"
-      mdListIcon
+      matListIcon
     >
       close
-    </md-icon>
+    </mat-icon>
   </span>
-</md-list-item>
+</mat-list-item>

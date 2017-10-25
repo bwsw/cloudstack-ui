@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { Iso } from '../shared';
@@ -26,7 +26,7 @@ export class IsoAttachmentComponent {
   )
     .map(isos => isos.toArray());
 
-  constructor(@Inject(MD_DIALOG_DATA) data, private isoService: IsoService) {
+  constructor(@Inject(MAT_DIALOG_DATA) data, private isoService: IsoService) {
     this.zoneId = data.zoneId;
   }
 }

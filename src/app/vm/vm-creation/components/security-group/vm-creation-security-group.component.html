@@ -3,13 +3,16 @@
 </h3>
 
 <div class="mat-dialog-content">
-  <md-tab-group
-    [(selectedIndex)]="displayMode"
-    class="tab-switch"
+  <mat-button-toggle-group
+    (change)="setMode($event.value)"
   >
-    <md-tab label="{{ 'SECURITY_GROUP_SELECTOR.BUILD' | translate }}"></md-tab>
-    <md-tab label="{{ 'SECURITY_GROUP_SELECTOR.SELECT' | translate }}"></md-tab>
-  </md-tab-group>
+    <mat-button-toggle value="0" [checked]="displayMode === 0">
+      {{ 'SECURITY_GROUP_SELECTOR.BUILD' | translate }}
+    </mat-button-toggle>
+    <mat-button-toggle value="1" [checked]="displayMode === 1">
+      {{ 'SECURITY_GROUP_SELECTOR.SELECT' | translate }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
 
   <cs-security-group-builder
     *ngIf="isModeBuilder"
@@ -25,11 +28,11 @@
 </div>
 
 <div class="mat-dialog-actions">
-  <button md-button (click)="onCancel()">
+  <button mat-button (click)="onCancel()">
     {{ 'COMMON.CANCEL' | translate }}
   </button>
 
-  <button md-button (click)="onSave()">
+  <button mat-button (click)="onSave()">
     {{ 'COMMON.SAVE' | translate }}
   </button>
 </div>

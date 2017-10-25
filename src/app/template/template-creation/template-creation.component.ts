@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { Hypervisor, OsType, Zone } from '../../shared';
@@ -63,12 +63,12 @@ export class TemplateCreationComponent implements OnInit {
   public showAdditional = false;
 
   constructor(
-    private dialogRef: MdDialogRef<TemplateCreationComponent>,
+    private dialogRef: MatDialogRef<TemplateCreationComponent>,
     private isoCreationAction: IsoCreateAction,
     private templateCreationAction: TemplateCreateAction,
     private hypervisorService: HypervisorService,
     private authService: AuthService,
-    @Inject(MD_DIALOG_DATA) data: any
+    @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.snapshot = data.snapshot;
     this.visibleFormats = this.formats;

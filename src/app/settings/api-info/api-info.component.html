@@ -2,13 +2,13 @@
   <div class="header-wrap">
     <h4>{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h4>
     <button
-      md-icon-button
+      mat-icon-button
       type="button"
-      mdTooltipPosition="above"
-      [mdTooltip]="'SETTINGS.API_CONFIGURATION.REGENERATE_KEYS' | translate"
+      matTooltipPosition="above"
+      [matTooltip]="'SETTINGS.API_CONFIGURATION.REGENERATE_KEYS' | translate"
       (click)="askToRegenerateKeys()"
     >
-      <md-icon>sync</md-icon>
+      <mat-icon>sync</mat-icon>
     </button>
   </div>
   <div class="section-container">
@@ -17,27 +17,27 @@
         <div *ngIf="inputFields.apiKey.value">
           <h5 [translate]="inputFields.apiKey.title"></h5>
           <cs-input-group>
-            <md-form-field cs-input-group-textbox class="full-width-input">
+            <mat-form-field cs-input-group-textbox class="full-width-input">
               <input
-                mdInput
+                matInput
                 [value]="inputFields.apiKey.value"
                 readonly
               >
-            </md-form-field>
+            </mat-form-field>
             <button
-              md-icon-button
+              mat-icon-button
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiKey.value"
               (cbOnSuccess)="onCopySuccess()"
               (cbOnError)="onCopyFail()"
             >
-              <md-icon
-                mdTooltipPosition="after"
-                [mdTooltip]="'CLIPBOARD.COPY' | translate"
+              <mat-icon
+                matTooltipPosition="after"
+                [matTooltip]="'CLIPBOARD.COPY' | translate"
               >
                 content_copy
-              </md-icon>
+              </mat-icon>
             </button>
           </cs-input-group>
         </div>
@@ -45,27 +45,27 @@
         <div *ngIf="inputFields.apiSecretKey.value">
           <h5 [translate]="inputFields.apiSecretKey.title"></h5>
           <cs-input-group>
-            <md-form-field cs-input-group-textbox class="full-width-input">
+            <mat-form-field cs-input-group-textbox class="full-width-input">
               <input
-                mdInput
+                matInput
                 [value]="inputFields.apiSecretKey.value"
                 readonly
               >
-            </md-form-field>
+            </mat-form-field>
             <button
-              md-icon-button
+              mat-icon-button
               cs-input-group-button
               ngxClipboard
               [cbContent]="inputFields.apiSecretKey.value"
               (cbOnSuccess)="onCopySuccess()"
               (cbOnError)="onCopyFail()"
             >
-              <md-icon
-                mdTooltipPosition="after"
-                [mdTooltip]="'CLIPBOARD.COPY' | translate"
+              <mat-icon
+                matTooltipPosition="after"
+                [matTooltip]="'CLIPBOARD.COPY' | translate"
               >
                 content_copy
-              </md-icon>
+              </mat-icon>
             </button>
           </cs-input-group>
         </div>

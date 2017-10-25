@@ -30,7 +30,7 @@ export class AccountListFilterComponent {
   @Output() public onGroupingsChange = new EventEmitter();
 
   public stateTranslationToken(state): string {
-    return stateTranslations[state.toUpperCase()];
+    return stateTranslations[state];
   }
 
 }

@@ -1,13 +1,15 @@
-<md-select
+<mat-form-field
   class="form-select-control"
-  name="keyboard"
-  *ngIf="translatedLayouts"
-  [(ngModel)]="keyboardLayout"
 >
-  <md-option
-    *ngFor="let l of translatedLayouts"
-    [value]="l.value"
+  <mat-select
+    name="keyboard"
+    [(ngModel)]="keyboardLayout"
   >
-    {{ l.name }}
-  </md-option>
-</md-select>
+    <mat-option
+      *ngFor="let l of keyboardLayouts"
+      [value]="l.value"
+    >
+      {{ l.name | translate}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

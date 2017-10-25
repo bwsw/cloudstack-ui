@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupService } from '../services/security-group.service';
 import { SecurityGroup } from '../sg.model';
 import { NotificationService } from '../../shared/services/notification.service';
-import { MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SgRulesComponent } from './sg-rules.component';
 import { Observable } from 'rxjs/Observable';
 
@@ -16,7 +16,7 @@ export class SecurityGroupRulesDialogComponent {
     private entityService: SecurityGroupService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private router: Router
   ) {
     this.pluckId()
@@ -30,7 +30,7 @@ export class SecurityGroupRulesDialogComponent {
   private showDialog(entity: SecurityGroup) {
     const editMode = !!this.route.snapshot.queryParams.hasOwnProperty('vm');
 
-    this.dialog.open(SgRulesComponent, <MdDialogConfig>{
+    this.dialog.open(SgRulesComponent, <MatDialogConfig>{
       width: '880px',
       data: { entity, editMode }
     })

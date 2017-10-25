@@ -52,7 +52,11 @@ export class VmCreationData {
 
   public get defaultTemplate(): BaseTemplateModel {
     const templates: Array<BaseTemplateModel> = this.templates.length ? this.templates : this.isos;
-    return templates[0];
+    const filteredTemplates =  templates.filter(template => {
+      return template.isReady;
+    });
+
+    return filteredTemplates[0];
   }
 
   public get affinityGroupNames(): Array<string> {

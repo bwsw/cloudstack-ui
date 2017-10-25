@@ -1,7 +1,10 @@
 import { Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MD_DIALOG_DATA, MdAutocompleteModule, MdDialogRef } from '@angular/material';
+import {
+  MAT_DIALOG_DATA, MatAutocompleteModule, MatDialogRef,
+  MATERIAL_COMPATIBILITY_MODE
+} from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
@@ -68,12 +71,13 @@ describe('Security group firewall rules component', () => {
     const dialogService = jasmine.createSpyObj('DialogService', ['confirm', 'alert']);
 
     TestBed.configureTestingModule({
-      imports: [FormsModule, MdAutocompleteModule],
+      imports: [FormsModule, MatAutocompleteModule],
       declarations: [SgRulesComponent, MockTranslatePipe],
       providers: [
-        { provide: MdDialogRef, useValue: dialog },
+        { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
+        { provide: MatDialogRef, useValue: dialog },
         { provide: TranslateService, useClass: MockTranslateService },
-        { provide: MD_DIALOG_DATA, useValue: { securityGroup: mockSecurityGroup } },
+        { provide: MAT_DIALOG_DATA, useValue: { securityGroup: mockSecurityGroup } },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
         { provide: Router, useClass: MockRouter },
         { provide: NotificationService, useClass: MockNotificationService },

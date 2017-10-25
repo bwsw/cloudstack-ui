@@ -1,14 +1,14 @@
-md-list {
+mat-list {
   flex: 1 1 auto;
   overflow-y: auto;
   max-height: 370px;
 }
 
-md-list-item {
+mat-list-item {
   cursor: pointer;
 }
 
-md-list-item .md-line-secondary {
+mat-list-item .mat-line-secondary {
   color: rgba(0, 0, 0, 0.54);
 }
 
@@ -20,7 +20,7 @@ md-list-item .md-line-secondary {
   padding: 0;
 }
 
-:host md-icon img {
+:host mat-icon img {
   vertical-align: top;
 }
 

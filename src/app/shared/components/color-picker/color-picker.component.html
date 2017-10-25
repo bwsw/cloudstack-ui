@@ -11,14 +11,14 @@
        [csPopoverTrigger]="popover"
        [style.background-color]="selectedColor?.value"></div>
 </div>
-<md-form-field *ngIf="hasColorField" [csPopoverTrigger]="popover" class="full-width-input">
+<mat-form-field *ngIf="hasColorField" [csPopoverTrigger]="popover" class="full-width-input">
   <input
-    mdInput
+    matInput
     [value]="selectedColor?.value.toLowerCase()"
     [disabled]="disabled"
     readonly
   >
-</md-form-field>
+</mat-form-field>
 
 <div class="popover-container">
   <cs-popover #popover>

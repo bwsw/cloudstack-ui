@@ -1,14 +1,18 @@
-<md-select [style.width.%]="100"
+<mat-form-field
+  class="form-select-control"
   *ngIf="daysOfWeek$ | async as daysOfWeek"
-  name="dayOfWeek"
-  [(ngModel)]="dayOfWeek"
-  [placeholder]="'DATE_TIME.DAY_OF_WEEK' | translate"
-  required
 >
-  <md-option
-    *ngFor="let day of daysOfWeek"
-    [value]="day.value"
+  <mat-select
+    name="dayOfWeek"
+    [(ngModel)]="dayOfWeek"
+    [placeholder]="'DATE_TIME.DAY_OF_WEEK' | translate"
+    required
   >
-    {{ day.name }}
-  </md-option>
-</md-select>
+    <mat-option
+      *ngFor="let day of daysOfWeek"
+      [value]="day.value"
+    >
+      {{ day.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

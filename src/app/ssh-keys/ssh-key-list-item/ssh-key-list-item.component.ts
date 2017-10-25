@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
 
@@ -12,7 +12,7 @@ export class SshKeyListItemComponent {
   @Input() public item: SSHKeyPair;
   @Output() public onClick = new EventEmitter<SSHKeyPair>();
   @Output() public onRemove = new EventEmitter<SSHKeyPair>();
-  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
 
   public onClicked(e: MouseEvent): void {
     e.stopPropagation();

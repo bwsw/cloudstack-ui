@@ -1,16 +1,16 @@
-<md-card class="vm-card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">
+<mat-card class="vm-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">
         {{ name }}
       </h2>
-    </md-card-title>
-  </md-card-header>
+    </mat-card-title>
+  </mat-card-header>
 
-  <md-card-content class="mat-card-content">
+  <mat-card-content class="mat-card-content">
     <div class="expanded-panel grid">
       <cs-nic-fields [nic]="nic"></cs-nic-fields>
       <cs-secondary-ip-list [nic]="nic"></cs-secondary-ip-list>
     </div>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

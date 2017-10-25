@@ -2,7 +2,7 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmCreationComponent } from '../vm-creation.component';
 import { Action } from '../../../shared/interfaces/action.interface';
@@ -32,7 +32,7 @@ export class PostdeploymentComponent {
   ];
 
   @Input() public vm: VirtualMachine;
-  @Input() public dialogRef: MdDialogRef<VmCreationComponent>;
+  @Input() public dialogRef: MatDialogRef<VmCreationComponent>;
   @Input() public title: string;
 
   private passwordToken = 'csui.vm.password';

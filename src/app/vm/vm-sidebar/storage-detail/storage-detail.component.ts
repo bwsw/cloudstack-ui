@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 import { Volume } from '../../../shared/models';
@@ -26,7 +26,7 @@ export class StorageDetailComponent extends WithUnsubscribe() implements OnChang
   public isoOperationInProgress = false;
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private dialogService: DialogService,
     private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,

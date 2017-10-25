@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TemplateCreationContainerComponent } from './containers/template-creation.container';
 
@@ -9,7 +9,7 @@ import { TemplateCreationContainerComponent } from './containers/template-creati
 })
 export class TemplateCreationDialogComponent {
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {

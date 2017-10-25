@@ -1,50 +1,50 @@
 <h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' |
   translate }}</h3>
 <div class="mat-dialog-content" *ngIf="volume?.snapshots?.length">
-  <md-table [dataSource]="dataSource" mdSort>
+  <mat-table [dataSource]="dataSource" matSort>
     <!-- Name Column -->
     <ng-container cdkColumnDef="name">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NAME' | translate}}
-      </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{ row.name }}</md-cell>
+      </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{ row.name }}</mat-cell>
     </ng-container>
 
     <!-- Date Column -->
     <ng-container cdkColumnDef="date">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.DATE' | translate}}
-      </md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{ row.created | date:'y-MM-dd H:m:s' }}</md-cell>
+      </mat-header-cell>
+      <mat-cell *cdkCellDef="let row"> {{ row.created | date:'y-MM-dd H:m:s' }}</mat-cell>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container cdkColumnDef="actions">
-      <md-header-cell *cdkHeaderCellDef>
+      <mat-header-cell *cdkHeaderCellDef>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.ACTIONS' | translate}}
-      </md-header-cell>
-      <md-cell *cdkCellDef="let row">
+      </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">
         <button
           *ngFor="let action of snapshotActionsService.actions"
-          md-icon-button
+          mat-icon-button
           class="button-18px"
           (click)="action.activate(row, volume).subscribe()"
           [disabled]="row['loading']"
         >
-          <md-icon>{{ action.icon }}</md-icon>
+          <mat-icon>{{ action.icon }}</mat-icon>
         </button>
-      </md-cell>
+      </mat-cell>
     </ng-container>
 
-    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-  </md-table>
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
   <div class="row" *ngIf="!volume.snapshots?.length">
     {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NO_SNAPSHOTS' | translate }}
   </div>
 </div>
 <div class="mat-dialog-actions">
-  <button md-button color="primary" mdDialogClose>
+  <button mat-button color="primary" matDialogClose>
     {{ 'COMMON.CLOSE' | translate }}
   </button>
 </div>

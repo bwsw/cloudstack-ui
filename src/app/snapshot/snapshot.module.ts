@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MdAutocompleteModule,
-  MdButtonModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
@@ -35,17 +35,17 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     CommonModule,
     FormsModule,
     TranslateModule,
-    MdTooltipModule,
-    MdSelectModule,
-    MdInputModule,
-    MdAutocompleteModule,
-    MdButtonModule,
-    MdDialogModule,
-    MdIconModule,
-    MdInputModule,
+    MatTooltipModule,
+    MatSelectModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
     SharedModule,
     ReactiveFormsModule,
-    MdTabsModule,
+    MatTabsModule,
   ],
   exports: [
     RecurringSnapshotsComponent

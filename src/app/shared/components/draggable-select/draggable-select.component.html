@@ -6,19 +6,17 @@
   #origin="cdkOverlayOrigin"
   #trigger
 >
-  <span
-    class="mat-select-placeholder"
-    [class.mat-floating-placeholder]="_selectionModel.hasValue()"
-    [@transformPlaceholder]="_getPlaceholderAnimationState()"
-    [style.opacity]="_getPlaceholderOpacity()"
-    [style.width.px]="_selectedValueWidth"
-  > {{ placeholder }} </span>
-  <span class="mat-select-value" *ngIf="_selectionModel.hasValue()">
-    <span class="mat-select-value-text">{{ triggerValue }}</span>
-  </span>
+  <div class="mat-select-value">
+    <ng-container *ngIf="empty">&nbsp;</ng-container>
+    <span class="mat-select-value-text" *ngIf="!empty" [ngSwitch]="!!customTrigger">
+      <span *ngSwitchDefault>{{ triggerValue }}</span>
+      <ng-content select="mat-select-trigger" *ngSwitchCase="true"></ng-content>
+    </span>
+  </div>
 
-  <span class="mat-select-arrow"></span>
-  <span class="mat-select-underline"></span>
+  <div class="mat-select-arrow-wrapper">
+    <div class="mat-select-arrow"></div>
+  </div>
 </div>
 
 <ng-template
@@ -28,7 +26,7 @@
   [origin]="origin"
   [open]="panelOpen"
   [positions]="_positions"
-  [minWidth]="_triggerWidth"
+  [minWidth]="_triggerRect?.width"
   [offsetY]="_offsetY"
   (backdropClick)="close()"
   (attach)="_onAttached()"
@@ -36,13 +34,14 @@
 >
 
   <div
-    class="mat-select-panel draggable-select-panel {{ 'mat-' + color }}"
+    #panel
+    class="mat-select-panel draggable-select-panel {{ _getPanelTheme() }}"
     [ngClass]="panelClass"
     [@transformPanel]="multiple ? 'showing-multiple' : 'showing'"
     (@transformPanel.done)="_onPanelDone()"
-    (keydown)="_handlePanelKeydown($event)"
     [style.transformOrigin]="_transformOrigin"
     [class.mat-select-panel-done-animating]="_panelDoneAnimating"
+    [style.font-size.px]="_triggerFontSize"
   >
     <div
       class="mat-select-content"
