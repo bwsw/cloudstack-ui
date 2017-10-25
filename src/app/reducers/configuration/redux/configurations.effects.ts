@@ -8,6 +8,7 @@ import * as configurationActions from './configurations.actions';
 import { Action } from '@ngrx/store';
 import { ConfigurationService } from '../../../shared/services/configuration.service';
 import { Configuration } from '../../../shared/models/configuration.model';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class ConfigurationEffects {
@@ -35,15 +36,30 @@ export class ConfigurationEffects {
             accountid: action.payload.account.id
           })
         })
-        .catch(() => Observable.of(new configurationActions.LoadConfigurationsRequest({
-          accountid: action.payload.account.id
-        })));
+        .catch((error) => Observable.of(new configurationActions.UpdateConfigurationError(error)));
+    });
+
+  @Effect({ dispatch: false })
+  updateConfigurationError$: Observable<Action> = this.actions$
+    .ofType(configurationActions.UPDATE_CONFIGURATIONS_ERROR)
+    .do((action: configurationActions.UpdateConfigurationError) => {
+      this.handleError(action.payload);
     });
 
 
   constructor(
     private actions$: Actions,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private dialogService: DialogService
   ) {
+  }
+
+  private handleError(error): void {
+    this.dialogService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

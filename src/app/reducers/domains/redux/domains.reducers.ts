@@ -103,8 +103,3 @@ export const isLoading = createSelector(
   getDomainsEntitiesState,
   state => state.loading
 );
-
-export const domains = createSelector(
-  selectAll,
-  (domainsList) => domainsList
-);

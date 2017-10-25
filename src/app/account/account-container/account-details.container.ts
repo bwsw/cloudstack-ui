@@ -42,9 +42,9 @@ import { Account } from '../../shared/models/account.model';
 export class AccountDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
 
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
-  readonly configurations$ = this.store.select(fromConfigurations.configurations);
-  readonly limits$ = this.store.select(fromResourceLimits.resourceLimits);
-  readonly stats$ = this.store.select(fromResourceCounts.resourceCounts);
+  readonly configurations$ = this.store.select(fromConfigurations.selectAll);
+  readonly limits$ = this.store.select(fromResourceLimits.selectAll);
+  readonly stats$ = this.store.select(fromResourceCounts.selectAll);
 
   public account: Account;
 

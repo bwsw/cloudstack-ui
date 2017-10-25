@@ -104,9 +104,4 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const configurations = createSelector(
-  selectAll,
-  (configurations) => configurations
-);
-
 

@@ -105,14 +105,8 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const roles = createSelector(
-  selectAll,
-  (roles) => roles
-);
-
-
 export const roleTypes = createSelector(
-  roles,
+  selectAll,
   roles => Array.from(new Set(roles.map(role => role.type)))
 );
 

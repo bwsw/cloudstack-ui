@@ -21,6 +21,7 @@ import {
   Account,
   AccountState
 } from '../../shared/models/account.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 export const stateTranslations = {
   [AccountState.disabled]: 'ACCOUNT_STATE.DISABLED',
@@ -57,8 +58,8 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
   readonly filters$ = this.store.select(fromAccounts.filters);
-  readonly domains$ = this.store.select(fromDomains.domains);
-  readonly roles$ = this.store.select(fromRoles.roles);
+  readonly domains$ = this.store.select(fromDomains.selectAll);
+  readonly roles$ = this.store.select(fromRoles.selectAll);
   readonly roleTypes$ = this.store.select(fromRoles.roleTypes);
 
   readonly selectedDomainIds$ = this.store.select(fromAccounts.filterSelectedDomainIds);
@@ -112,6 +113,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
 
   constructor(
     private store: Store<State>,
+    private authService: AuthService,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -143,21 +145,29 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
     this.store.dispatch(new accountActions.AccountFilterUpdate({}));
   }
 
+  public isAdmin() {
+    return this.authService.isAdmin();
+  }
+
   public ngOnInit() {
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
-    this.store.dispatch(new roleActions.LoadRolesRequest());
-    this.initFilters();
-    this.filters$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(filters => {
-        this.filterService.update({
-          'domains': filters.selectedDomainIds,
-          'roles': filters.selectedRoleNames,
-          'roleTypes': filters.selectedRoleTypes,
-          'states': filters.selectedStates,
-          'groupings': filters.selectedGroupingNames
+    if (this.isAdmin()) {
+      this.store.dispatch(new domainActions.LoadDomainsRequest());
+      this.store.dispatch(new roleActions.LoadRolesRequest());
+      this.initFilters();
+      this.filters$
+        .takeUntil(this.unsubscribe$)
+        .subscribe(filters => {
+          this.filterService.update({
+            'domains': filters.selectedDomainIds,
+            'roles': filters.selectedRoleNames,
+            'roleTypes': filters.selectedRoleTypes,
+            'states': filters.selectedStates,
+            'groupings': filters.selectedGroupingNames
+          });
         });
-      });
+    } else {
+      this.store.dispatch(new accountActions.LoadAccountsRequest());
+    }
   }
 
   public update(selectedGroupings) {

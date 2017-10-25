@@ -105,9 +105,4 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const resourceCounts = createSelector(
-  selectAll,
-  (counts) => counts
-);
-
 
