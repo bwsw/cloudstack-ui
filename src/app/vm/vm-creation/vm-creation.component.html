@@ -153,11 +153,12 @@
           </div>
 
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUPS' | translate }}</h5>
+            <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h5>
             <mat-form-field floatPlaceholder="never">
               <input
                 name="group"
                 matInput
+                pattern="[a-zA-Z]{1}[a-zA-Z0-9\-\_]{0,61}[a-zA-Z0-9]$"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
                 [matAutocomplete]="affinityGroups"
                 [(ngModel)]="formState.state.affinityGroup.name"

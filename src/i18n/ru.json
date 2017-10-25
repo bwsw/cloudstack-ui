@@ -477,7 +477,7 @@
       "DISK_SIZE": "Размер диска",
       "GROUP": "Группа",
       "NO_GROUP": "Без группы",
-      "AFFINITY_GROUPS": "Аффинитетные группы",
+      "AFFINITY_GROUP": "Аффинитетная группа",
       "SECURITY_GROUPS": "Брандмауэр",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
       "KB_US": "Standard (US) keyboard",
