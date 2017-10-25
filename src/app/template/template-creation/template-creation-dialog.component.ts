@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
@@ -13,7 +13,7 @@ import { TemplateCreationComponent } from './template-creation.component';
 export class TemplateCreationDialogComponent {
   constructor(
     private listService: ListService,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private storageService: LocalStorageService

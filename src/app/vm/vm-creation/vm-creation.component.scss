@@ -7,20 +7,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 50vh;
 
   .message {
     position: static;
     transform: none;
   }
 
-  md-progress-bar {
+  mat-progress-bar {
     width: 500px;
   }
 }
 
 :host {
-  md-form-field {
+  mat-form-field {
     width: 100%;
+  }
+
+  .mat-dialog-content {
+    overflow: visible;
   }
 }
 
@@ -112,7 +117,7 @@ h5 {
   visibility: hidden;
 }
 
-md-progress-bar {
+mat-progress-bar {
   margin-top: 10px;
 }
 

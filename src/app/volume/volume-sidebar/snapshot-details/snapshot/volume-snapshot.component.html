@@ -1,25 +1,25 @@
-<md-card>
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">{{ snapshot?.name }}</h2>
-    </md-card-title>
-    <div class="md-card-header-menu">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">{{ snapshot?.name }}</h2>
+    </mat-card-title>
+    <div class="mat-card-header-menu">
       <button
-        md-icon-button
-        [mdMenuTriggerFor]="actionsMenu"
+        mat-icon-button
+        [matMenuTriggerFor]="actionsMenu"
       >
-        <md-icon>more_vert</md-icon>
+        <mat-icon>more_vert</mat-icon>
       </button>
     </div>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <div>{{ snapshot?.description }}</div>
     <div>{{ snapshot?.created | stringifyDate }}</div>
-  </md-card-content>
-  <md-menu
-    #actionsMenu="mdMenu"
+  </mat-card-content>
+  <mat-menu
+    #actionsMenu="matMenu"
     [style.width.px]="300"
   >
     <cs-snapshot-actions [snapshot]="snapshot"></cs-snapshot-actions>
-  </md-menu>
-</md-card>
+  </mat-menu>
+</mat-card>

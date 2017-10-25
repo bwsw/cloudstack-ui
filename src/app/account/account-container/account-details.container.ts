@@ -63,21 +63,23 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
   }
 
   public ngOnInit() {
-    const params = this.activatedRoute.snapshot.parent.params;
     this.account$
       .takeUntil(this.unsubscribe$)
       .subscribe(account => {
         if(account) {
           this.account = account;
-          this.store.dispatch(new configurationAction.LoadConfigurationsRequest({ accountid: account.id }));
           this.store.dispatch(new resourceLimitAction.LoadResourceLimitsRequest({
             account: account.name,
             domainid: account.domainid
           }));
-          this.store.dispatch(new resourceCountAction.LoadResourceCountsRequest({
-            account: account.name,
-            domainid: account.domainid
-          }));
+
+          if (this.isAdmin()) {
+            this.store.dispatch(new configurationAction.LoadConfigurationsRequest({ accountid: account.id }));
+            this.store.dispatch(new resourceCountAction.LoadResourceCountsRequest({
+              account: account.name,
+              domainid: account.domainid
+            }));
+          }
         }
       });
   }

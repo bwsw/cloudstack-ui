@@ -1,14 +1,14 @@
-<md-select
+<mat-select
   class="aggregation-select"
   [(ngModel)]="selectedScale"
   (change)="handleScaleChange($event)"
   [placeholder]="'PULSE.RANGE' | translate"
 >
-  <md-option *ngFor="let scale of permittedIntervals?.scales" [value]="scale">
+  <mat-option *ngFor="let scale of permittedIntervals?.scales" [value]="scale">
     {{ scale.range }}
-  </md-option>
-</md-select>
-<md-select
+  </mat-option>
+</mat-select>
+<mat-select
   class="aggregation-select"
   multiple
   [placeholder]="'PULSE.AGGREGATION' | translate"
@@ -16,34 +16,34 @@
   #aggregationSelect="ngModel"
   (change)="handleAggregationsChange($event)"
 >
-  <md-option
+  <mat-option
     *ngFor="let aggregation of selectedScale?.aggregations"
     [value]="aggregation"
   >
     {{ aggregation }}
-  </md-option>
-</md-select>
-<md-form-field class="shift-input">
+  </mat-option>
+</mat-select>
+<mat-form-field class="shift-input">
   <input
     [(ngModel)]="shiftAmount"
-    mdInput
+    matInput
     type="number"
     value="0"
     [min]="0"
     [max]="100"
     (input)="handleShiftAmountChange($event)"
   >
-</md-form-field>
-<md-select
+</mat-form-field>
+<mat-select
   class="aggregation-select shift-select"
   [(ngModel)]="selectedShift"
   (change)="handleShiftChange($event)"
   [placeholder]="'PULSE.SHIFT' | translate"
 >
-  <md-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
+  <mat-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
     {{ shift }}
-  </md-option>
-</md-select>
-<button class="refresh-button" md-icon-button (click)="handleRefresh()">
-  <md-icon [mdTooltip]="'COMMON.REFRESH' | translate">sync</md-icon>
+  </mat-option>
+</mat-select>
+<button class="refresh-button" mat-icon-button (click)="handleRefresh()">
+  <mat-icon [matTooltip]="'COMMON.REFRESH' | translate">sync</mat-icon>
 </button>

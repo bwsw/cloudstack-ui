@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { DiskOffering, Volume, VolumeType, Zone, } from '../../../../shared';
@@ -26,7 +26,7 @@ export class VolumeComponent implements OnInit {
   private _loading = false;
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private diskOfferingService: DiskOfferingService,
     private statsUpdateService: StatsUpdateService,
     private zoneService: ZoneService

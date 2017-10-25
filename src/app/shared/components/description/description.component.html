@@ -1,12 +1,12 @@
-<md-card
+<mat-card
   class="vm-card"
 >
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">{{ 'COMMON.DESCRIPTION' | translate }}</h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">{{ 'COMMON.DESCRIPTION' | translate }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <cs-inline-edit
       (click)="$event.stopPropagation()"
       (textChange)="updateDescription($event)"
@@ -14,5 +14,5 @@
       [maxLength]="maxLength"
       [rows]="rows"
     ></cs-inline-edit>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

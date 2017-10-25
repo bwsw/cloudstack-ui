@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 
 
@@ -9,8 +9,8 @@ import { Rules } from '../../../shared/components/security-group-builder/rules';
 })
 export class SecurityGroupCreationSecurityGroupComponent {
   constructor(
-    private dialogRef: MdDialogRef<SecurityGroupCreationSecurityGroupComponent>,
-    @Inject(MD_DIALOG_DATA) public savedData: Rules
+    private dialogRef: MatDialogRef<SecurityGroupCreationSecurityGroupComponent>,
+    @Inject(MAT_DIALOG_DATA) public savedData: Rules
   ) {}
 
   public onSave(): void {

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import {
   ServiceOfferingDialogComponent
 } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
@@ -19,14 +19,14 @@ export class ServiceOfferingDetailsComponent {
   public expandServiceOffering: boolean;
 
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private serviceOfferingService: ServiceOfferingService
   ) {
     this.expandServiceOffering = false;
   }
 
   public changeServiceOffering(): void {
-    this.dialog.open(ServiceOfferingDialogComponent, <MdDialogConfig>{
+    this.dialog.open(ServiceOfferingDialogComponent, <MatDialogConfig>{
       width: '350px',
       data: { virtualMachine: this.vm },
       disableClose: true

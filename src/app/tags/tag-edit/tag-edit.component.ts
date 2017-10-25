@@ -1,6 +1,6 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { defaultCategoryName, Tag } from '../../shared/models';
 
 
@@ -25,8 +25,8 @@ export class TagEditComponent {
   private categoryName: string;
 
   constructor(
-    private dialogRef: MdDialogRef<TagEditComponent>,
-    @Inject(MD_DIALOG_DATA) data,
+    private dialogRef: MatDialogRef<TagEditComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.forbiddenKeys = data.forbiddenKeys;
     this.title = data.title;

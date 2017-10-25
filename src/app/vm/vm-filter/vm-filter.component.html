@@ -1,65 +1,70 @@
-<div class="options-panel delimiter">
-
-  <md-select *ngIf="accounts.length"
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-    [(ngModel)]="selectedAccountIds"
-    (change)="update()"
-  >
-    <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
-  </md-select>
-
-  <md-select
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
-    [(ngModel)]="selectedZones"
-    (change)="update()"
-  >
-    <md-option *ngFor="let z of zones" [value]="z">{{ z.name }}</md-option>
-  </md-select>
-  <md-select
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
-    [(ngModel)]="selectedGroups"
-    (change)="update()"
-  >
-    <md-option *ngIf="showNoGroupFilter" [value]="noGroup">
-      <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
-    </md-option>
-
-    <md-option
-      *ngFor="let g of groups"
-      [value]="g"
+<div class="options-panel delimiter filter-wrapper">
+  <mat-form-field *ngIf="accounts.length">
+    <mat-select
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [(ngModel)]=" selectedAccountIds" (change)="update()"
     >
-      {{ g.name }}
-    </md-option>
-  </md-select>
+      <mat-option
+        *ngFor="let account of accounts"
+        [value]="account.id"
+      >{{ account.fullDomain }}{{ account.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
+      [(ngModel)]="selectedZones"
+      (change)="update()"
+    >
+      <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
+      [(ngModel)]="selectedGroups"
+      (change)="update()"
+    >
+      <mat-option *ngIf="showNoGroupFilter" [value]="noGroup">
+        <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
+      </mat-option>
 
-  <md-select
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.SELECT_STATES' | translate"
-    [(ngModel)]="selectedStates"
-    (change)="update()"
-  >
-    <md-option *ngFor="let s of states" [value]="s.state">
-      {{ s.name | translate }}
-    </md-option>
-  </md-select>
+      <mat-option
+        *ngFor="let g of groups"
+        [value]="g"
+      >
+        {{ g.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.SELECT_STATES' | translate"
+      [(ngModel)]="selectedStates"
+      (change)="update()"
+    >
+      <mat-option *ngFor="let s of states" [value]="s.state">
+        {{ s.name | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <cs-divider-vertical></cs-divider-vertical>
-  <cs-draggable-select
-    class="filter-select"
-    multiple="true"
-    [placeholder]="'VM_PAGE.FILTERS.GROUP_BY' | translate"
-    [(ngModel)]="selectedGroupings"
-    [dragItems]="availableGroupings"
-    (change)="update()"
-  >
-    <md-option *ngFor="let g of availableGroupings" [value]="g">
-      {{ g.label | translate }}
-    </md-option>
-  </cs-draggable-select>
+  <mat-form-field>
+    <cs-draggable-select
+      multiple="true"
+      [placeholder]="'VM_PAGE.FILTERS.GROUP_BY' | translate"
+      [(ngModel)]="selectedGroupings"
+      [dragItems]="availableGroupings"
+      (change)="update()"
+    >
+      <mat-option *ngFor="let g of availableGroupings" [value]="g">
+        {{ g.label | translate }}
+      </mat-option>
+    </cs-draggable-select>
+  </mat-form-field>
 </div>

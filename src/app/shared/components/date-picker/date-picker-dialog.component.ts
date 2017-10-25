@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 
 @Component({
@@ -12,8 +12,8 @@ export class DatePickerDialogComponent {
   private selectedDate: Date;
 
   constructor(
-    private dialogRef: MdDialogRef<DatePickerDialogComponent>,
-    @Inject(MD_DIALOG_DATA) public data
+    private dialogRef: MatDialogRef<DatePickerDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data
   ) {
     this.config = data.datePickerConfig;
   }

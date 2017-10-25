@@ -32,12 +32,12 @@
 <td class="mat-cell">
   <button
     class="delete-rule-button"
-    md-icon-button
+    mat-icon-button
     disabled="{{ !canRemove || deleting }}"
     *ngIf="canRemove"
     (click)="handleRemoveClicked($event)"
   >
-    <md-icon *ngIf="!deleting">delete</md-icon>
-    <md-spinner *ngIf="deleting"></md-spinner>
+    <mat-icon *ngIf="!deleting">delete</mat-icon>
+    <mat-spinner *ngIf="deleting"></mat-spinner>
   </button>
 </td>

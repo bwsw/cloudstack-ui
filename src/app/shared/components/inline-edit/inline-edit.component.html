@@ -12,10 +12,10 @@
     </span>
     <button
       class="edit-button"
-      md-icon-button
+      mat-icon-button
       (click)="edit()"
     >
-      <md-icon>edit</md-icon>
+      <mat-icon>edit</mat-icon>
     </button>
   </div>
 
@@ -27,10 +27,10 @@
     {{ contentPlaceholder | translate }}
   </span>
 
-  <md-form-field *ngIf="editing" class="full-width-input">
+  <mat-form-field *ngIf="editing" class="full-width-input">
     <textarea
-      mdInput
-      mdTextareaAutosize
+      matInput
+      matTextareaAutosize
       name="textField"
       [ngModel]="textFieldText"
       (ngModelChange)="updateTextFieldText($event)"
@@ -38,12 +38,12 @@
       [rows]="rows"
       (keyup)="onKeyUp($event)"
     ></textarea>
-  </md-form-field>
+  </mat-form-field>
 
   <div class="buttons">
     <button
       *ngIf="editing"
-      md-button
+      mat-button
       color="primary"
       (click)="onCancel()"
       type="button"
@@ -52,7 +52,7 @@
     </button>
 
     <button
-      md-button
+      mat-button
       color="primary"
       *ngIf="editing"
       type="submit"

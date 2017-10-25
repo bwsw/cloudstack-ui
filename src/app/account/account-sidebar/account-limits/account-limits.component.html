@@ -1,81 +1,81 @@
-<md-card class="custom-card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">
+<mat-card class="custom-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">
         {{ 'ACCOUNT_PAGE.SIDEBAR.LIMITS' | translate}}
       </h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content class="md-card-content-with-actions">
-    <div class="md-card-content-container">
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content-with-actions">
+    <div class="mat-card-content-container">
 
       <div *ngIf="!isEdit">
-      <div *ngFor="let limit of limits; let i = index;" class="height-container">
-        <div class="flex-container container">
-          <div class="flex-container left">
+        <div *ngFor="let limit of limits; let i = index;" class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <div
+                class="name"
+                [innerHTML]="limitLabels[limit.resourcetype] | translate"
+              ></div>
+            </div>
+            <div
+              ngxClipboard
+              class="value"
+              [innerHTML]="limit.max"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isEdit">
+        <div *ngFor="let limit of localLimits; let i = index" class="height-container">
+          <div class="flex-container container">
             <div
               class="name"
               [innerHTML]="limitLabels[limit.resourcetype] | translate"
             ></div>
-          </div>
-          <div
-            ngxClipboard
-            class="value"
-            [innerHTML]="limit.max"
-          ></div>
-        </div>
-      </div>
-      </div>
+            <div class="value"
+            ><mat-form-field class="full-width-input">
+              <input
+                mdInput
+                name="{{'vmlimit'+i}}"
+                [(ngModel)]="localLimits[i].max"
+                required
+              ></mat-form-field>
 
-      <div *ngIf="isEdit">
-      <div *ngFor="let limit of localLimits; let i = index" class="height-container">
-        <div class="flex-container container">
-          <div
-            class="name"
-            [innerHTML]="limitLabels[limit.resourcetype] | translate"
-          ></div>
-          <div class="value"
-          ><md-form-field class="full-width-input">
-            <input
-              mdInput
-              name="{{'vmlimit'+i}}"
-              [(ngModel)]="localLimits[i].max"
-              required
-            ></md-form-field>
-
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
     </div>
     <div *ngIf="isAdmin">
-      <md-card-actions *ngIf="!isEdit">
+      <mat-card-actions *ngIf="!isEdit">
         <button
-          md-icon-button
-          [mdTooltip]="'COMMON.EDIT' | translate"
-          mdTooltipPosition="above"
+          mat-icon-button
+          [matTooltip]="'COMMON.EDIT' | translate"
+          matTooltipPosition="above"
           (click)="editLimits()"
         >
-          <md-icon>edit</md-icon>
+          <mat-icon>edit</mat-icon>
         </button>
-      </md-card-actions>
-      <md-card-actions *ngIf="isEdit" class="buttons">
+      </mat-card-actions>
+      <mat-card-actions *ngIf="isEdit" class="buttons">
         <button
-          md-button
+          mat-button
           color="primary"
           (click)="isEdit=!isEdit"
         >
           {{ 'COMMON.CANCEL' | translate }}
         </button>
         <button
-          md-button
+          mat-button
           color="primary"
           (click)="onSave()"
         >
           {{ 'COMMON.SAVE' | translate }}
         </button>
-      </md-card-actions>
+      </mat-card-actions>
     </div>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

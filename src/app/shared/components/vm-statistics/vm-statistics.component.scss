@@ -1,10 +1,5 @@
 @import '../../../../style/__variables.scss';
 
-.tab-switch {
-  margin: 0 auto 0 15px;
-  text-transform: uppercase;
-}
-
 .progress {
   margin-left: 16px;
   padding-left: 0;
@@ -31,7 +26,7 @@
     margin-bottom: 0;
   }
 
-  md-progress-bar {
+  mat-progress-bar {
     margin-top: 4px;
   }
 }
@@ -61,7 +56,7 @@
   display: inline-block;
 }
 
-.stat-list-container md-card {
+.stat-list-container mat-card {
   display: inline-flex;
   min-height: 156px;
   flex-direction: column;
@@ -104,11 +99,11 @@ div.closed {
   align-self: auto;
 }
 
-:host /deep/ md-card-actions {
+:host /deep/ mat-card-actions {
   padding: 0;
 }
 
-md-card md-card-content {
+mat-card mat-card-content {
   padding: 0 16px 16px 16px;
   margin: 0;
 }

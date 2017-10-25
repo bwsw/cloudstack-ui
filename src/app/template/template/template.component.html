@@ -1,31 +1,31 @@
-<md-card
+<mat-card
   [class.card-selected]="isSelected && isSelected(item)"
   class="custom-card"
   (click)="handleClick($event)"
 >
-  <md-card-header>
-    <md-card-title>
+  <mat-card-header>
+    <mat-card-title>
       <cs-template-os-icon [template]="item"></cs-template-os-icon>
       <h2
-        [mdTooltip]="item.name"
+        [matTooltip]="item.name"
         [innerHTML]="item.name | highlight:query"
-        class="template-header md-card-title-text"
+        class="template-header mat-card-title-text"
       ></h2>
-    </md-card-title>
-    <div *ngIf="isSelf" class="md-card-header-menu">
-      <button *ngIf="isSelf" md-icon-button [mdMenuTriggerFor]="actionsMenu">
-        <md-icon>more_vert</md-icon>
+    </mat-card-title>
+    <div *ngIf="isSelf" class="mat-card-header-menu">
+      <button *ngIf="isSelf" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+        <mat-icon>more_vert</mat-icon>
       </button>
     </div>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <div class="card-wrapper">
       <div>{{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:</div>
       <div
         *ngIf="singleLine"
         class="flex-2 single-line text-overflow-tooltip-fix"
-        [mdTooltip]="item.osTypeName"
-        mdTooltipPosition="above"
+        [matTooltip]="item.osTypeName"
+        matTooltipPosition="above"
         [innerHTML]="item.osTypeName | highlight:query"
       ></div>
       <div
@@ -38,8 +38,8 @@
       <div
         *ngIf="singleLine"
         class="single-line text-overflow-tooltip-fix"
-        [mdTooltip]="item.displayText"
-        mdTooltipPosition="above"
+        [matTooltip]="item.displayText"
+        matTooltipPosition="above"
       >
         <span [innerHTML]="item.displayText | highlight:query"></span>
       </div>
@@ -49,8 +49,8 @@
         [innerHTML]="item.displayText | highlight:query"
       ></div>
     </div>
-  </md-card-content>
-  <md-menu #actionsMenu="mdMenu">
+  </mat-card-content>
+  <mat-menu #actionsMenu="matMenu">
     <cs-template-actions [template]="item"></cs-template-actions>
-  </md-menu>
-</md-card>
+  </mat-menu>
+</mat-card>

@@ -1,5 +1,5 @@
 import { Component, HostListener, Inject } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { BaseDialogConfiguration } from '../dialog.service';
@@ -17,9 +17,9 @@ export class AlertDialogComponent {
   public config: AlertDialogConfiguration;
 
   constructor(
-    public dialogRef: MdDialogRef<AlertDialogConfiguration>,
+    public dialogRef: MatDialogRef<AlertDialogConfiguration>,
     private translateService: TranslateService,
-    @Inject(MD_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data
   ) {
     this.config = data.config;
   }

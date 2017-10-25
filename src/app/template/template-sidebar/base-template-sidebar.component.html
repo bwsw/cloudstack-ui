@@ -8,16 +8,16 @@
     ></cs-template-actions-sidebar>
   </div>
 
-  <nav md-tab-nav-bar>
+  <nav mat-tab-nav-bar>
     <a
-      mdTabLink
+      matTabLink
       [routerLink]="['./details']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('details')"
     >
       <div
-        [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate"
-        class="md-tab-tooltip"
+        [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate"
+        class="mat-tab-tooltip"
       >
         <div class="disc-icon-container">
           <div class="disc-icon"></div>
@@ -25,26 +25,26 @@
       </div>
     </a>
     <a
-      mdTabLink
+      matTabLink
       [routerLink]="['./zones']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('zones')"
     >
-      <div [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.ZONES' | translate" class="md-tab-tooltip">
-        <md-icon>public</md-icon>
+      <div [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.ZONES' | translate" class="mat-tab-tooltip">
+        <mat-icon>public</mat-icon>
       </div>
     </a>
     <a
-      mdTabLink
+      matTabLink
       [routerLink]="['./tags']"
       queryParamsHandling="preserve"
       [active]="tabIsActive('tags')"
     >
       <div
-        [mdTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate"
-        class="md-tab-tooltip"
+        [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate"
+        class="mat-tab-tooltip"
       >
-        <md-icon>local_offer</md-icon>
+        <mat-icon>local_offer</mat-icon>
       </div>
     </a>
   </nav>

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 
 import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
@@ -26,12 +26,12 @@ export class SnapshotCreationComponent implements OnInit {
   public enoughResources: boolean;
 
   constructor(
-    private dialogRef: MdDialogRef<SnapshotCreationComponent>,
+    private dialogRef: MatDialogRef<SnapshotCreationComponent>,
     private dialogService: DialogService,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
     private statsUpdateService: StatsUpdateService,
-    @Inject(MD_DIALOG_DATA) private volume: Volume,
+    @Inject(MAT_DIALOG_DATA) private volume: Volume,
     private resourceUsageService: ResourceUsageService,
   ) {}
 

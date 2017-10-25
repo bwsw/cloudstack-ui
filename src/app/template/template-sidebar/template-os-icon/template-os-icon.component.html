@@ -1,7 +1,7 @@
 <div
   class="os-icon"
   [ngSwitch]="template.osType.osFamily"
-  md-card-avatar
+  mat-card-avatar
 >
   <ng-template [ngSwitchCase]="'Linux'">
     <img
@@ -25,6 +25,6 @@
     >
   </ng-template>
   <ng-template ngSwitchDefault>
-    <md-icon class="os-icon">help</md-icon>
+    <mat-icon class="os-icon">help</mat-icon>
   </ng-template>
 </div>

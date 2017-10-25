@@ -1,17 +1,17 @@
-<md-card class="vm-card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">{{ volume.name }}</h2>
-    </md-card-title>
-    <div *ngIf="!loading" class="md-card-header-menu">
+<mat-card class="vm-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">{{ volume.name }}</h2>
+    </mat-card-title>
+    <div *ngIf="!loading" class="mat-card-header-menu">
       <button *ngIf="!loading"
-              md-icon-button [mdMenuTriggerFor]="actionsMenu">
-        <md-icon>more_vert</md-icon>
+              mat-icon-button [matMenuTriggerFor]="actionsMenu">
+        <mat-icon>more_vert</mat-icon>
       </button>
     </div>
-  </md-card-header>
-  <md-card-content class="md-card-content-with-actions">
-    <div class="md-card-content-container">
+  </mat-card-header>
+  <mat-card-content class="mat-card-content-with-actions">
+    <div class="mat-card-content-container">
       <div
         *ngIf="!expandDetails"
         class="disk-size"
@@ -24,35 +24,35 @@
       ></cs-volume-details>
       <cs-snapshots [volume]="volume"></cs-snapshots>
     </div>
-    <md-card-actions>
+    <mat-card-actions>
       <div class="card-left-button">
         <button
           *ngIf="showAttachmentActions"
-          md-icon-button
-          mdTooltipPosition="above"
-          [mdTooltip]="'VOLUME_ACTIONS.DETACH' | translate"
+          mat-icon-button
+          matTooltipPosition="above"
+          [matTooltip]="'VOLUME_ACTIONS.DETACH' | translate"
           [disabled]="loading"
           (click)="detach()"
         >
-          <md-icon>remove</md-icon>
+          <mat-icon>remove</mat-icon>
         </button>
       </div>
       <div class="card-right-button">
         <button
-          md-icon-button
+          mat-icon-button
           [class.open]="expandDetails"
           [disabled]="loading"
           (click)="toggleDetails()"
         >
-          <md-icon>keyboard_arrow_down</md-icon>
+          <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
       </div>
-    </md-card-actions>
-  </md-card-content>
-    <md-menu
-      #actionsMenu="mdMenu"
+    </mat-card-actions>
+  </mat-card-content>
+    <mat-menu
+      #actionsMenu="matMenu"
       [style.width.px]="300"
     >
       <cs-volume-actions [volume]="volume"></cs-volume-actions>
-    </md-menu>
-</md-card>
+    </mat-menu>
+</mat-card>

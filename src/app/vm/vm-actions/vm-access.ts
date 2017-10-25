@@ -9,8 +9,8 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import {
-  MdDialog,
-  MdDialogConfig
+  MatDialog,
+  MatDialogConfig
 } from '@angular/material';
 import { VmService } from '../shared/vm.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
@@ -24,7 +24,7 @@ export class VmAccessAction extends VirtualMachineAction {
   public name = 'VM_PAGE.COMMANDS.VM_ACCESS';
   public icon = 'computer';
 
-  constructor (private dialog: MdDialog,
+  constructor (private dialog: MatDialog,
                protected dialogService: DialogService,
                protected jobsNotificationService: JobsNotificationService,
                protected vmService: VmService){
@@ -36,7 +36,7 @@ export class VmAccessAction extends VirtualMachineAction {
   }
 
   public activate(vm: VirtualMachine): Observable<void> {
-    return this.dialog.open(VmAccessComponent, <MdDialogConfig>{
+    return this.dialog.open(VmAccessComponent, <MatDialogConfig>{
         width: '550px',
         data: vm
       }).afterClosed();

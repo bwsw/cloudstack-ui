@@ -3,36 +3,36 @@
 </h3>
 <form (ngSubmit)="onConfigurationUpdate()" #configurationForm="ngForm">
   <div class="mat-dialog-content">
-    <md-form-field class="full-width-input">
+    <mat-form-field class="full-width-input">
       <input
-        mdInput
+        matInput
         name="name"
         [(ngModel)]="name"
         [placeholder]="'ACCOUNT_PAGE.CONFIGURATION.NAME' | translate"
         disabled
       >
-    </md-form-field>
-    <md-form-field class="full-width-input">
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
       <input
-        mdInput
+        matInput
         name="value"
         [(ngModel)]="value"
         [placeholder]="'ACCOUNT_PAGE.CONFIGURATION.VALUE' | translate"
         required
       >
-    </md-form-field>
+    </mat-form-field>
   </div>
 
   <div class="mat-dialog-actions">
     <button
-      md-button
+      mat-button
       color="primary"
       (click)="close()"
     >
       {{ 'COMMON.CANCEL' | translate }}
     </button>
     <button
-      md-button
+      mat-button
       color="primary"
       type="submit"
       [disabled]="!configurationForm.valid"

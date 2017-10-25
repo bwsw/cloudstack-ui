@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Configuration } from '../../../../shared/models/configuration.model';
 import { EditAccountConfigurationComponent } from './edit-account-configuration.component';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'cs-account-configuration',
@@ -17,7 +17,7 @@ export class AccountConfigurationComponent {
   @Output() public onConfigurationEdit: EventEmitter<Configuration>;
 
   constructor(
-    private dialog: MdDialog
+    private dialog: MatDialog
   ) {
     this.onConfigurationEdit = new EventEmitter<Configuration>();
   }

@@ -1,11 +1,11 @@
-<md-card class="vm-card">
-  <md-card-header>
-    <h2 class="md-card-title-text">
+<mat-card class="vm-card">
+  <mat-card-header>
+    <h2 class="mat-card-title-text">
       {{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.TITLE' | translate }}
     </h2>
-  </md-card-header>
-  <md-card-content class="overflow-card md-card-content-with-actions">
-    <div class="md-card-content-container">
+  </mat-card-header>
+  <mat-card-content class="overflow-card mat-card-content-with-actions">
+    <div class="mat-card-content-container">
       <div *ngIf="groupName">
         {{ vm.instanceGroup.name }}
       </div>
@@ -13,15 +13,15 @@
         {{ 'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.NO_GROUP' | translate }}
       </div>
     </div>
-    <md-card-actions>
+    <mat-card-actions>
       <button
-        md-icon-button
-        [mdTooltip]="'COMMON.EDIT' | translate"
-        mdTooltipPosition="above"
+        mat-icon-button
+        [matTooltip]="'COMMON.EDIT' | translate"
+        matTooltipPosition="above"
         (click)="changeGroup()"
       >
-        <md-icon>edit</md-icon>
+        <mat-icon>edit</mat-icon>
       </button>
-    </md-card-actions>
-  </md-card-content>
-</md-card>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

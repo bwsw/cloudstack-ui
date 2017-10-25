@@ -1,32 +1,32 @@
-<md-table #table [dataSource]="dataSource" mdSort>
+<mat-table #table [dataSource]="dataSource" matSort>
   <ng-container cdkColumnDef="select">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>
-      <md-checkbox
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>
+      <mat-checkbox
         name="select-all-checkbox"
         [ngModel]="isAllSelected()"
         (ngModelChange)="toggleAll()"
-      ></md-checkbox>
-    </md-header-cell>
-    <md-cell *cdkCellDef="let row">
-      <md-checkbox
+      ></mat-checkbox>
+    </mat-header-cell>
+    <mat-cell *cdkCellDef="let row">
+      <mat-checkbox
         name="select-item-checkbox"
         [(ngModel)]="row.selected"
         (ngModelChange)="selectionChanged(row)"
-      ></md-checkbox>
-    </md-cell>
+      ></mat-checkbox>
+    </mat-cell>
   </ng-container>
 
   <ng-container *ngFor="let column of columns">
     <ng-container [cdkColumnDef]="column">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>
         {{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate }}
-      </md-header-cell>
-      <md-cell *cdkCellDef="let row">
+      </mat-header-cell>
+      <mat-cell *cdkCellDef="let row">
         <span [innerHTML]="row[column] | highlight:searchQuery"></span>
-      </md-cell>
+      </mat-cell>
     </ng-container>
   </ng-container>
 
-  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
-</md-table>
+  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

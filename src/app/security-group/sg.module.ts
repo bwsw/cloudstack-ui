@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdMenuModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule,
-  MdButtonToggleModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatTooltipModule,
+  MatButtonToggleModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -49,17 +49,17 @@ import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.co
     FormsModule,
     RouterModule,
     TranslateModule,
-    MdCheckboxModule,
-    MdSelectModule,
-    MdTooltipModule,
-    MdDialogModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatDialogModule,
     SharedModule,
-    MdMenuModule,
-    MdButtonModule,
-    MdIconModule,
-    MdInputModule,
-    MdTabsModule,
-    MdButtonToggleModule
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatTabsModule,
+    MatButtonToggleModule
   ],
   exports: [
     SecurityGroupListComponent

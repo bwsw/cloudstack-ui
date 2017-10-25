@@ -3,19 +3,19 @@
   cursor: pointer;
 }
 
-:host md-card {
+:host mat-card {
   width: 340px
 }
 
-:host md-card-title {
+:host mat-card-title {
   line-height: normal;
 }
 
-:host md-card-title md-icon {
+:host mat-card-title mat-icon {
   margin-right: 10px;
 }
 
-:host md-card-content {
+:host mat-card-content {
   overflow: hidden;
   text-overflow: ellipsis;
 }

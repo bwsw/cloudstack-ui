@@ -7,13 +7,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AccountListComponent } from './account-list/account-list.component';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
 import {
-  MdButtonModule,
-  MdIconModule,
-  MdInputModule,
-  MdMenuModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatIconModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatTooltipModule,
+  MatInputModule
 } from '@angular/material';
 import { AccountItemComponent } from './account/account-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -49,13 +49,13 @@ import { resourceCountsReducers } from '../reducers/resource-count/redux/resourc
     CommonModule,
     DynamicModule.withComponents([AccountItemComponent]),
     FormsModule,
-    MdMenuModule,
-    MdTooltipModule,
-    MdTabsModule,
-    MdButtonModule,
-    MdSelectModule,
-    MdIconModule,
-    MdInputModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatIconModule,
+    MatInputModule,
     RouterModule,
     SharedModule,
     TranslateModule,

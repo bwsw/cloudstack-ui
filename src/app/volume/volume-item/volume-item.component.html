@@ -1,26 +1,26 @@
-<md-card
+<mat-card
   class="custom-card volume-card"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
   [class.root-disk]="isRoot"
 >
-  <md-card-header>
-    <md-card-title>
+  <mat-card-header>
+    <mat-card-title>
       <h2
-        class="md-card-title-text"
-        [mdTooltip]="item.name"
+        class="mat-card-title-text"
+        [matTooltip]="item.name"
         [innerHTML]="item.name | highlight:query"
       >
         {{ item.name }}
       </h2>
-    </md-card-title>
-    <div class="md-card-header-menu">
-      <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-        <md-icon>more_vert</md-icon>
+    </mat-card-title>
+    <div class="mat-card-header-menu">
+      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+        <mat-icon>more_vert</mat-icon>
       </button>
     </div>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <div class="card-wrapper">
       <div class="flex-1">
         <div class="row" *ngIf="descriptionIncludesQuery">
@@ -43,11 +43,11 @@
         </div>
       </div>
     </div>
-  </md-card-content>
-  <md-menu
-    #actionsMenu="mdMenu"
+  </mat-card-content>
+  <mat-menu
+    #actionsMenu="matMenu"
     [style.width.px]="300"
   >
     <cs-volume-actions [volume]="item"></cs-volume-actions>
-  </md-menu>
-</md-card>
+  </mat-menu>
+</mat-card>

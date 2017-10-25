@@ -1,7 +1,7 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MdCommonModule, MdOptionModule } from '@angular/material';
+import { MatCommonModule, MatOptionModule } from '@angular/material';
 import { DragulaModule } from 'ng2-dragula';
 import { DraggableSelectComponent } from './draggable-select.component';
 
@@ -9,9 +9,9 @@ import { DraggableSelectComponent } from './draggable-select.component';
   imports: [
     CommonModule,
     DragulaModule,
-    MdOptionModule,
+    MatOptionModule,
     OverlayModule,
-    MdCommonModule,
+    MatCommonModule,
   ],
   exports: [DraggableSelectComponent],
   declarations: [DraggableSelectComponent]

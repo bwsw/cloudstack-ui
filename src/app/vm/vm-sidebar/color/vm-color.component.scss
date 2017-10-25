@@ -1,14 +1,15 @@
 .color-picker {
   margin-bottom: 14px;
-  width: 330px;
+  margin-left: 5px;
+  //width: 330px;
 }
 
-md-card {
+mat-card {
   z-index: 2;
 }
 
-md-card,
-md-card-content
+mat-card,
+mat-card-content
 {
   overflow: visible;
 }

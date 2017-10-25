@@ -1,6 +1,6 @@
-<md-form-field >
+<mat-form-field >
   <input
-    mdInput
+    matInput
     name="store"
     type="number"
     [(ngModel)]="storedNumber"
@@ -14,7 +14,7 @@
     required
     #storedSnapshots="ngModel"
   >
-  <md-error *ngIf="storedSnapshots.invalid">
+  <mat-error *ngIf="storedSnapshots.invalid">
     {{ errorMessage | async }}
-  </md-error>
-</md-form-field>
+  </mat-error>
+</mat-form-field>

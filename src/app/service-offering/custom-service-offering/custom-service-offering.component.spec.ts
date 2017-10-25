@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
-  MD_DIALOG_DATA,
-  MdDialogModule,
-  MdDialogRef,
-  MdInputModule
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef, MATERIAL_COMPATIBILITY_MODE,
+  MatInputModule
 } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -57,7 +57,7 @@ describe('CustomServiceOfferingComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, FormsModule, MdDialogModule, MdInputModule],
+      imports: [NoopAnimationsModule, FormsModule, MatDialogModule, MatInputModule],
       declarations: [
         CustomServiceOfferingComponent,
         MockTranslatePipe,
@@ -65,13 +65,14 @@ describe('CustomServiceOfferingComponent', () => {
         MaxValueValidatorDirective
       ],
       providers: [
+        { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
         { provide: TranslateService, useClass: MockTranslateService },
         {
-          provide: MD_DIALOG_DATA,
+          provide: MAT_DIALOG_DATA,
           useValue: data || dialogData
         },
         {
-          provide: MdDialogRef,
+          provide: MatDialogRef,
           useValue: mockDialogRef
         }
       ]

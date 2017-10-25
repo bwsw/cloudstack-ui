@@ -12,15 +12,15 @@
   </div>
   <div *ngIf="!policies?.length" class="list">{{ 'SNAPSHOT_POLICIES.NO_RESULTS' | translate }}</div>
 
-  <md-tab-group
+  <mat-tab-group
     [selectedIndex]="policyMode"
     (selectChange)="tabChanged($event)"
   >
-    <md-tab label="{{ 'SNAPSHOT_POLICIES.HOURLY' | translate }}"></md-tab>
-    <md-tab label="{{ 'SNAPSHOT_POLICIES.DAILY' | translate }}"></md-tab>
-    <md-tab label="{{ 'SNAPSHOT_POLICIES.WEEKLY' | translate }}"></md-tab>
-    <md-tab label="{{ 'SNAPSHOT_POLICIES.MONTHLY' | translate }}"></md-tab>
-  </md-tab-group>
+    <mat-tab label="{{ 'SNAPSHOT_POLICIES.HOURLY' | translate }}"></mat-tab>
+    <mat-tab label="{{ 'SNAPSHOT_POLICIES.DAILY' | translate }}"></mat-tab>
+    <mat-tab label="{{ 'SNAPSHOT_POLICIES.WEEKLY' | translate }}"></mat-tab>
+    <mat-tab label="{{ 'SNAPSHOT_POLICIES.MONTHLY' | translate }}"></mat-tab>
+  </mat-tab-group>
 
   <div class="editor">
     <cs-policy-editor
@@ -32,9 +32,9 @@
 
   <div class="mat-dialog-actions">
     <button
-      md-button
+      mat-button
       color="primary"
-      mdDialogClose
+      matDialogClose
     >
       {{ 'COMMON.CLOSE' | translate }}
     </button></div>

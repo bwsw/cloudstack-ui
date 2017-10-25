@@ -1,18 +1,18 @@
-<md-card class="custom-card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">
+<mat-card class="custom-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">
         {{ 'ACCOUNT_PAGE.SIDEBAR.SETTINGS' | translate}}
       </h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content class="md-card-content-with-actions">
-    <div class="md-card-content-container">
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content-with-actions">
+    <div class="mat-card-content-container">
       <cs-account-configuration
         *ngFor="let configuration of configurations"
         [configuration]="configuration"
         (onConfigurationEdit)="onConfigurationEdit.emit($event)"
       ></cs-account-configuration>
     </div>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

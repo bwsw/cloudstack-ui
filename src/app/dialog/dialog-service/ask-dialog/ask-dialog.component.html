@@ -8,7 +8,7 @@
 <div class="mat-dialog-actions">
   <button
     *ngFor="let action of config?.actions"
-    md-button
+    mat-button
     color="primary"
     (click)="actionClicked(action)"
     [ngClass]="{'close': action.isClosingAction}"

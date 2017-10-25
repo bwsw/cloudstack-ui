@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import {
   AffinityGroupSelectorComponent
 } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
@@ -34,7 +34,7 @@ export class VmDetailComponent implements OnChanges {
     public dateTimeFormatterService: DateTimeFormatterService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private  vmActionsService: VmActionsService,
     private vmService: VmService,
     private vmTagService: VmTagService,
@@ -132,7 +132,7 @@ export class VmDetailComponent implements OnChanges {
   }
 
   private showAffinityGroupDialog(): void {
-    this.dialog.open( AffinityGroupSelectorComponent,<MdDialogConfig>{
+    this.dialog.open( AffinityGroupSelectorComponent,<MatDialogConfig>{
        width: '350px' ,
       data: this.vm ,
       disableClose: true
@@ -145,7 +145,7 @@ export class VmDetailComponent implements OnChanges {
   }
 
   private showSshKeypairResetDialog(): void {
-    this.dialog.open( SshKeypairResetComponent,<MdDialogConfig>{
+    this.dialog.open( SshKeypairResetComponent,<MatDialogConfig>{
        width: '350px' ,
       data: this.vm ,
       disableClose: true

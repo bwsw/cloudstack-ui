@@ -1,20 +1,20 @@
-<md-card class="vm-card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">{{ 'VM_PAGE.VM_DETAILS.STATISTICS.TITLE' | translate }}</h2>
-    </md-card-title>
-    <div class="md-card-header-menu">
+<mat-card class="vm-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.STATISTICS.TITLE' | translate }}</h2>
+    </mat-card-title>
+    <div class="mat-card-header-menu">
       <button
-        md-icon-button
-        [mdTooltip]="'COMMON.REFRESH' | translate"
-        mdTooltipPosition="before"
+        mat-icon-button
+        [matTooltip]="'COMMON.REFRESH' | translate"
+        matTooltipPosition="before"
         (click)="updateStats()"
       >
-        <md-icon>sync</md-icon>
+        <mat-icon>sync</mat-icon>
       </button>
     </div>
-  </md-card-header>
-  <md-card-content>
+  </mat-card-header>
+  <mat-card-content>
     <div class="grid statistics">
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.CPU_UTILIZED' | translate }}</div>
@@ -45,5 +45,5 @@
         <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite || 0 } }}</div>
       </div>
     </div>
-  </md-card-content>
-</md-card>
+  </mat-card-content>
+</mat-card>

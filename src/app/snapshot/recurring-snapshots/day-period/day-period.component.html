@@ -1,5 +1,7 @@
-<md-select *ngIf="periods" name="period" [(ngModel)]="period">
-  <md-option *ngFor="let p of periods" [value]="p.value">
-    {{ p.name | translate }}
-  </md-option>
-</md-select>
+<mat-form-field *ngIf="periods">
+  <mat-select name="period" [(ngModel)]="period">
+    <mat-option *ngFor="let p of periods" [value]="p.value">
+      {{ p.name | translate }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

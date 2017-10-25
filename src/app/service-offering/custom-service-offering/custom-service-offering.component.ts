@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { ICustomOfferingRestrictions } from './custom-offering-restrictions';
@@ -17,8 +17,8 @@ export class CustomServiceOfferingComponent implements OnInit {
   public zoneId: string;
 
   constructor(
-    @Inject(MD_DIALOG_DATA) data,
-    public dialogRef: MdDialogRef<CustomServiceOfferingComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
+    public dialogRef: MatDialogRef<CustomServiceOfferingComponent>,
     private translateService: TranslateService
   ) {
     const { offering, restriction, zoneId } = data;

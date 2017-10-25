@@ -1,13 +1,13 @@
-<md-card class="card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text">
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">
         {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH_VOLUME' | translate }}
       </h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content [class.md-card-content-with-actions]="selectedVolume || !selectedVolume && volumes?.length">
-    <div class="md-card-content-container">
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content [class.mat-card-content-with-actions]="selectedVolume || !selectedVolume && volumes?.length">
+    <div class="mat-card-content-container">
       <ng-container *ngIf="volumes?.length">
         <ng-container *ngIf="!selectedVolume">
           {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}
@@ -22,33 +22,33 @@
         {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_3' | translate }}
       </ng-container>
     </div>
-    <md-card-actions *ngIf="selectedVolume">
+    <mat-card-actions *ngIf="selectedVolume">
       <button
         *ngIf="!loading"
-        md-icon-button
-        [mdTooltip]="'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH' | translate"
-        mdTooltipPosition="above"
+        mat-icon-button
+        [matTooltip]="'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH' | translate"
+        matTooltipPosition="above"
         (click)="$event.stopPropagation(); attachVolume()"
       >
-        <md-icon>attach_file</md-icon>
+        <mat-icon>attach_file</mat-icon>
       </button>
       <button
         *ngIf="loading"
-        md-icon-button
+        mat-icon-button
         disabled
       >
-        <md-icon>attach_file</md-icon>
+        <mat-icon>attach_file</mat-icon>
       </button>
-    </md-card-actions>
-    <md-card-actions *ngIf="!selectedVolume && volumes?.length">
+    </mat-card-actions>
+    <mat-card-actions *ngIf="!selectedVolume && volumes?.length">
       <button
-        md-icon-button
-        [mdTooltip]="'COMMON.SELECT' | translate"
-        mdTooltipPosition="above"
+        mat-icon-button
+        [matTooltip]="'COMMON.SELECT' | translate"
+        matTooltipPosition="above"
         (click)="$event.stopPropagation(); showDialog()"
       >
-        <md-icon>add</md-icon>
+        <mat-icon>add</mat-icon>
       </button>
-    </md-card-actions>
-  </md-card-content>
-</md-card>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

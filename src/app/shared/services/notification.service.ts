@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class NotificationService {
-  public snackBarConfig: MdSnackBarConfig;
+  public snackBarConfig: MatSnackBarConfig;
 
   constructor(
-    private snackBar: MdSnackBar,
+    private snackBar: MatSnackBar,
     private translateService: TranslateService
   ) {
     this.snackBarConfig = { duration: 2750 };
@@ -17,7 +17,7 @@ export class NotificationService {
 
   public message(
     message: string | ParametrizedTranslation,
-    config?: MdSnackBarConfig
+    config?: MatSnackBarConfig
   ): any {
     return this.getTranslatedMessage(message)
       .subscribe(translatedMessage => this.snackBar
@@ -27,7 +27,7 @@ export class NotificationService {
   public warning(
     message: string | ParametrizedTranslation,
     action: string,
-    config?: MdSnackBarConfig
+    config?: MatSnackBarConfig
   ) {
     return this.getTranslatedMessage(message)
       .subscribe(translatedMessage => this.snackBar
@@ -37,7 +37,7 @@ export class NotificationService {
   public error(
     message: string | ParametrizedTranslation,
     action?: string,
-    config?: MdSnackBarConfig
+    config?: MatSnackBarConfig
   ) {
     return this.getTranslatedMessage(message)
       .subscribe(translatedMessage => this.snackBar
@@ -55,7 +55,7 @@ export class NotificationService {
     }
   }
 
-  private getConfig(config): MdSnackBarConfig {
+  private getConfig(config): MatSnackBarConfig {
     return config ? config : this.snackBarConfig;
   }
 }

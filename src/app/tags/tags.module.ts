@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdTooltipModule,
-  MdCheckboxModule
+  MatButtonModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatTooltipModule,
+  MatCheckboxModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard/dist';
@@ -23,14 +23,14 @@ import { TagsViewComponent } from './tags-view/tags-view.component';
     CommonModule,
     FormsModule,
     TranslateModule,
-    MdIconModule,
-    MdButtonModule,
-    MdTooltipModule,
-    MdInputModule,
-    MdDialogModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatInputModule,
+    MatDialogModule,
     SharedModule,
     ClipboardModule,
-    MdCheckboxModule
+    MatCheckboxModule
   ],
   declarations: [
     TagComponent,

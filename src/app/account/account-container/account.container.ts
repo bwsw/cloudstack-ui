@@ -14,15 +14,18 @@ import {
 } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import * as fromDomains from '../../reducers/domains/redux/domains.reducers'
-import * as fromRoles from '../../reducers/roles/redux/roles.reducers'
+import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
+import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Account } from '../../shared/models/account.model';
+import {
+  Account,
+  AccountState
+} from '../../shared/models/account.model';
 
 export const stateTranslations = {
-  disabled: 'ACCOUNT_STATE.DISABLED',
-  enabled: 'ACCOUNT_STATE.ENABLED',
-  locked: 'ACCOUNT_STATE.LOCKED',
+  [AccountState.disabled]: 'ACCOUNT_STATE.DISABLED',
+  [AccountState.enabled]: 'ACCOUNT_STATE.ENABLED',
+  [AccountState.locked]: 'ACCOUNT_STATE.LOCKED',
 };
 
 @Component({
@@ -117,7 +120,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   }
 
   public stateTranslation(state): string {
-    return stateTranslations[state.toUpperCase()];
+    return stateTranslations[state];
   }
 
   public onDomainsChange(selectedDomainIds) {

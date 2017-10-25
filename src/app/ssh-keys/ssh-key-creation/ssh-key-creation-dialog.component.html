@@ -7,39 +7,39 @@
     novalidate
   >
     <div class="mat-dialog-content">
-      <md-form-field class="full-width-input">
+      <mat-form-field class="full-width-input">
         <input
-          mdInput
+          matInput
           name="name"
           [(ngModel)]="name"
           [placeholder]="'SSH_KEYS.NAME' | translate"
           autofocus
           required
         >
-      </md-form-field>
+      </mat-form-field>
       <br/>
       <span class="public-key-label">{{ 'SSH_KEYS.PUBLIC_KEY' | translate }}</span>
-      <md-form-field floatPlaceholder="never" class="full-width-input">
+      <mat-form-field floatPlaceholder="never" class="full-width-input">
         <textarea
-          mdInput
+          matInput
           name="public-key"
           [(ngModel)]="publicKey"
           [placeholder]="'SSH_KEYS.AUTO_GENERATED' | translate"
           rows="3"
         ></textarea>
-      </md-form-field>
+      </mat-form-field>
     </div>
     <div class="mat-dialog-actions">
       <button
-        md-button
+        mat-button
         color="primary"
-        mdDialogClose
+        matDialogClose
         type="button"
       >
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
-        md-button
+        mat-button
         color="primary"
         type="submit"
         [disabled]="!sshCreationForm.valid"

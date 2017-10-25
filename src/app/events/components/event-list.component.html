@@ -1,6 +1,6 @@
 <div class="event-list-container">
   <cs-top-bar cs-panels>
-    <div class="options-panel top-bar-height">
+    <div class="options-panel filter-wrapper">
       <cs-date-picker
         [okLabel]="'COMMON.OK' | translate"
         [locale]="locale"
@@ -10,45 +10,51 @@
         [ngModel]="date"
         (change)="onDateChange.emit($event)"
       ></cs-date-picker>
-      <md-select
-        class="level-selector"
-        [ngModel]="selectedLevels"
-        (change)="onSelectedLevelsChange.emit($event.value)"
-        multiple="true"
-        [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
-      >
-        <md-option
-          *ngFor="let level of levels"
-          [value]="level"
+      <mat-form-field>
+        <mat-select
+          class="level-selector"
+          [ngModel]="selectedLevels"
+          (change)="onSelectedLevelsChange.emit($event.value)"
+          multiple="true"
+          [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
         >
-          {{ level }}
-        </md-option>
-      </md-select>
-
-      <md-select
-        [ngModel]="selectedTypes"
-        (change)="onEventTypesChange.emit($event.value)"
-        multiple="true"
-        [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
-      >
-        <md-option
-          *ngFor="let et of eventTypes"
-          [value]="et"
+          <mat-option
+            *ngFor="let level of levels"
+            [value]="level"
+          >
+            {{ level }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select
+          [ngModel]="selectedTypes"
+          (change)="onEventTypesChange.emit($event.value)"
+          multiple="true"
+          [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
         >
-          {{ et }}
-        </md-option>
-      </md-select>
-
-      <md-select *ngIf="isAdmin"
-        class="filter-select"
-        multiple="true"
-        [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-        [(ngModel)]="selectedAccountIds"
-        (change)="onAccountChange.emit($event.value)"
-      >
-        <md-option *ngFor="let account of accounts" [value]="account.id">{{ account.fullDomain }}{{ account.name }}</md-option>
-      </md-select>
-
+          <mat-option
+            *ngFor="let et of eventTypes"
+            [value]="et"
+          >
+            {{ et }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="isAdmin">
+        <mat-select
+          multiple="true"
+          [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+          [(ngModel)]="selectedAccountIds"
+          (change)="onAccountChange.emit($event.value)"
+        >
+          <mat-option
+            *ngFor="let account of accounts"
+            [value]="account.id"
+          >{{ account.fullDomain }}{{ account.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <cs-search
         [ngModel]="query"
         (ngModelChange)="onQueryChange.emit($event)"

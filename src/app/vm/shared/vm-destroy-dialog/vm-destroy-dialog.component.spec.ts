@@ -5,11 +5,11 @@ import {
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
-  MD_DIALOG_DATA,
-  MdCheckbox,
-  MdCheckboxModule,
-  MdDialogModule,
-  MdDialogRef
+  MAT_DIALOG_DATA,
+  MatCheckbox,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatDialogRef, MATERIAL_COMPATIBILITY_MODE
 } from '@angular/material';
 import { By } from '@angular/platform-browser';
 
@@ -19,21 +19,22 @@ import { VmDestroyDialogComponent } from './vm-destroy-dialog.component';
 describe('VmDestroyDialogComponent', () => {
   let component: VmDestroyDialogComponent;
   let fixture: ComponentFixture<VmDestroyDialogComponent>;
-  let dialog: MdDialogRef<VmDestroyDialogComponent>;
+  let dialog: MatDialogRef<VmDestroyDialogComponent>;
 
   beforeEach(
     async(() => {
       dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
 
       TestBed.configureTestingModule({
-        imports: [FormsModule, MdCheckboxModule, MdDialogModule],
+        imports: [FormsModule, MatCheckboxModule, MatDialogModule],
         declarations: [MockTranslatePipe, VmDestroyDialogComponent],
         providers: [
+          { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
           {
-            provide: MdDialogRef,
+            provide: MatDialogRef,
             useValue: dialog
           },
-          { provide: MD_DIALOG_DATA, useValue: true }
+          { provide: MAT_DIALOG_DATA, useValue: true }
         ]
       }).compileComponents();
     })
@@ -46,13 +47,13 @@ describe('VmDestroyDialogComponent', () => {
   });
 
   it('should display `expunge` checkbox', () => {
-    let checkbox = fixture.debugElement.query(By.directive(MdCheckbox));
+    let checkbox = fixture.debugElement.query(By.directive(MatCheckbox));
     expect(checkbox).toBeDefined();
 
     component.canExpunge = false;
     fixture.detectChanges();
 
-    checkbox = fixture.debugElement.query(By.directive(MdCheckbox));
+    checkbox = fixture.debugElement.query(By.directive(MatCheckbox));
     expect(checkbox).toBe(null);
   });
 
@@ -84,7 +85,7 @@ describe('VmDestroyDialogComponent', () => {
     expect(dialog.close).toHaveBeenCalledWith({});
 
 
-    const checkbox = fixture.debugElement.query(By.directive(MdCheckbox));
+    const checkbox = fixture.debugElement.query(By.directive(MatCheckbox));
     checkbox.nativeElement.querySelector('input').click();
     await fixture.whenStable();
     fixture.detectChanges();

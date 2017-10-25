@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../shared/models/volume.model';
@@ -36,7 +36,7 @@ export class VmDestroyAction extends VirtualMachineCommand {
 
   constructor(
     private auth: AuthService,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     protected vmService: VmService,
