@@ -1,8 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Template } from '../shared';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { TemplateComponent } from '../template/template.component';
+import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { TemplateCardItemComponent } from '../template/card-item/template-card-item.component';
 
 
 @Component({
@@ -14,9 +20,10 @@ export class TemplateCardListComponent {
   @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
   @Input() public groupings: string;
+  @Input() public mode: ViewMode;
   @Output() public deleteTemplate = new EventEmitter();
 
-  public TemplateComponent = TemplateComponent;
+  public TemplateCardComponent = TemplateCardItemComponent;
   public inputs;
   public outputs;
 

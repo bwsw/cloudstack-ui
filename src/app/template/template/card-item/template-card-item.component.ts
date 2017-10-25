@@ -1,0 +1,35 @@
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
+import { MdMenuTrigger } from '@angular/material';
+import { AuthService } from '../../../shared/services/auth.service';
+import { BaseTemplateModel } from '../../shared';
+import { TemplateComponent } from '../template.component';
+
+
+@Component({
+  selector: 'cs-template-card-item',
+  templateUrl: 'template-card-item.component.html',
+  styleUrls: ['template-card-item.component.scss']
+})
+export class TemplateCardItemComponent extends TemplateComponent{
+  @HostBinding('class.single-line') @Input() public singleLine = true;
+  @Input() public item: BaseTemplateModel;
+  @Input() public isSelected: (item: BaseTemplateModel) => boolean;
+  @Input() public searchQuery: () => string;
+  @Output() public deleteTemplate = new EventEmitter();
+  @Output() public onClick = new EventEmitter();
+  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+
+  public query: string;
+
+  constructor(protected authService: AuthService) {
+    super(authService);
+  }
+
+}
