@@ -1,9 +1,9 @@
-md-card-actions {
+mat-card-actions {
   margin-left: 0;
   margin-right: 0;
 }
 
-md-list {
+mat-list {
   min-height: 100px;
   max-height: 288px;
   overflow: auto;
@@ -15,15 +15,15 @@ cs-popover {
   right: 20px;
 }
 
-.md-card-header {
+.mat-card-header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 16px;
 
-  md-card-title {
+  mat-card-title {
     margin: 0;
   }
 
-  .md-card-title-text {
+  .mat-card-title-text {
     font-size: 1.4em;
     margin: 0;
     line-height: normal;

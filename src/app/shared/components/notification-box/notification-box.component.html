@@ -1,40 +1,40 @@
 <button
-  md-icon-button
+  mat-icon-button
   style="overflow: visible;"
   [csPopoverTrigger]="popover"
   popoverPositionX="end"
   (onPopoverClose)="onToggle()"
 >
-  <md-icon
+  <mat-icon
     *ngIf="unseenCount"
     [csBadge]="unseenCount"
     csBadgeOverlap
   >
     notifications
-  </md-icon>
-  <md-icon *ngIf="!unseenCount">notifications</md-icon>
+  </mat-icon>
+  <mat-icon *ngIf="!unseenCount">notifications</mat-icon>
 </button>
 <cs-popover #popover>
-  <md-card class="mat-elevation-z4">
-    <md-card-header class="md-card-header">
-      <md-card-title>
-        <h2 class="md-card-title-text">
+  <mat-card class="mat-elevation-z4">
+    <mat-card-header class="mat-card-header">
+      <mat-card-title>
+        <h2 class="mat-card-title-text">
           {{ 'JOB_NOTIFICATIONS.PENDING_OPERATIONS' | translate }}
         </h2>
-      </md-card-title>
-    </md-card-header>
-    <md-list>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-list>
       <cs-notification-box-item
         *ngFor="let notification of jobsNotificationService.notifications"
         [notification]="notification"
         (onClose)="close($event)"
       >
       </cs-notification-box-item>
-    </md-list>
-    <md-card-actions>
-      <button md-button (click)="removeCompleted()">
+    </mat-list>
+    <mat-card-actions>
+      <button mat-button (click)="removeCompleted()">
         {{ 'COMMON.CLEAR_ALL' | translate }}
       </button>
-    </md-card-actions>
-  </md-card>
+    </mat-card-actions>
+  </mat-card>
 </cs-popover>

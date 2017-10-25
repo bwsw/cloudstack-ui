@@ -1,19 +1,19 @@
-<md-card class="custom-card">
-  <md-card-header>
-    <md-card-title>
+<mat-card class="custom-card">
+  <mat-card-header>
+    <mat-card-title>
       <h2
-        class="md-card-title-text"
-        [mdTooltip]="securityGroupTemplate.name"
+        class="mat-card-title-text"
+        [matTooltip]="securityGroupTemplate.name"
         [innerHTML]="securityGroupTemplate.name | highlight:query"
       ></h2>
-      <div class="md-card-header-menu">
-        <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-          <md-icon>more_vert</md-icon>
+      <div class="mat-card-header-menu">
+        <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+          <mat-icon>more_vert</mat-icon>
         </button>
       </div>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <div class="card-wrapper" *ngIf="!securityGroupTemplate?.description">
       <div class="description"></div>
     </div>
@@ -24,15 +24,15 @@
         <span
           class="tooltip-position-fix fixed-width-span"
           *ngIf="securityGroupTemplate.description"
-          [mdTooltip]="securityGroupTemplate.description"
+          [matTooltip]="securityGroupTemplate.description"
           [innerHTML]="securityGroupTemplate.description | highlight:query"
-          mdTooltipPosition="above"
+          matTooltipPosition="above"
         ></span>
       </div>
     </div>
-  </md-card-content>
+  </mat-card-content>
 
-  <md-menu #actionsMenu="mdMenu">
+  <mat-menu #actionsMenu="matMenu">
     <cs-security-group-actions [securityGroup]="securityGroupTemplate"></cs-security-group-actions>
-  </md-menu>
-</md-card>
+  </mat-menu>
+</mat-card>

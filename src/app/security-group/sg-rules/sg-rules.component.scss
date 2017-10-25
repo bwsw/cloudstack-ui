@@ -9,11 +9,15 @@
   }
 }
 
-:host md-form-field {
+mat-form-field {
   width: 120px;
+  &.form-select-control {
+    width: 200px;
+    margin-left: 20px;
+  }
 }
 
-:host /deep/ md-spinner {
+:host /deep/ mat-spinner {
   position: relative;
   top: 2px;
 }
@@ -47,10 +51,10 @@
   background-color: #eeeeee !important;
 }
 
-.mat-input-container {
+.mat-form-field {
   font-size: 16px;
 }
 
-md-form-field {
+mat-form-field {
   display: inline-block !important;
 }

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { InstanceGroup } from '../../../shared/models';
@@ -19,8 +19,8 @@ export class InstanceGroupSelectorComponent implements OnInit {
   public modes = Mode;
 
   constructor(
-    @Inject(MD_DIALOG_DATA) public vm: VirtualMachine,
-    public dialogRef: MdDialogRef<InstanceGroupSelectorComponent>,
+    @Inject(MAT_DIALOG_DATA) public vm: VirtualMachine,
+    public dialogRef: MatDialogRef<InstanceGroupSelectorComponent>,
     private instanceGroupService: InstanceGroupService,
     private vmService: VmService
   ) {}

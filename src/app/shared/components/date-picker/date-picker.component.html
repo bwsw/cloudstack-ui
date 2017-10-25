@@ -1,17 +1,17 @@
 <cs-input-group>
-  <md-form-field cs-input-group-textbox>
+  <mat-form-field cs-input-group-textbox>
     <input
-      mdInput
+      matInput
       [(ngModel)]="displayDate"
       [placeholder]="'EVENT_PAGE.SELECT_DATE' | translate"
       (focus)="onFocus($event)"
     >
-  </md-form-field>
+  </mat-form-field>
   <button
-    md-icon-button
+    mat-icon-button
     cs-input-group-button
     (click)="onFocus($event)"
   >
-    <md-icon>date_range</md-icon>
+    <mat-icon>date_range</mat-icon>
   </button>
 </cs-input-group>

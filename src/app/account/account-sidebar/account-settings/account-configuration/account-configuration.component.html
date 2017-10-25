@@ -3,23 +3,23 @@
     <div class="flex-container left">
       <div
         class="name"
-        [mdTooltip]="configuration.name"
+        [matTooltip]="configuration.name"
         [innerHTML]="configuration.name"
       ></div>
       <div class="buttons">
         <button
           class="button-18px"
-          md-icon-button
+          mat-icon-button
           (click)="edit()"
         >
-          <md-icon>edit</md-icon>
+          <mat-icon>edit</mat-icon>
         </button>
       </div>
     </div>
     <div
       ngxClipboard
       class="value"
-      [mdTooltip]="configuration.value"
+      [matTooltip]="configuration.value"
       [innerHTML]="configuration.value"
     ></div>
   </div>

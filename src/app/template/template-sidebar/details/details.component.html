@@ -3,13 +3,13 @@
 
   <cs-template-os [template]="entity"></cs-template-os>
 
-  <md-card>
-    <md-card-header>
-      <md-card-title>
-        <h2 class="md-card-title-text">{{ "TEMPLATE_PAGE.TEMPLATE_DETAILS.DETAILS" | translate }}</h2>
-      </md-card-title>
-    </md-card-header>
-    <md-card-content>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">{{ "TEMPLATE_PAGE.TEMPLATE_DETAILS.DETAILS" | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <div class="grid grid-right">
         <div class="row" *ngIf="entity.size">
           <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.SIZE' | translate }}</div>
@@ -56,33 +56,33 @@
           <div>{{ entity.hypervisor }}</div>
         </div>
       </div>
-    </md-card-content>
-  </md-card>
-  <md-card *ngIf="templateDownloadUrl">
-    <md-card-header>
-      <md-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></md-card-title>
-    </md-card-header>
-    <md-card-content>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="templateDownloadUrl">
+    <mat-card-header>
+      <mat-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
       <cs-input-group class="full-width-input">
-        <md-form-field class="full-width-input" cs-input-group-textbox>
-          <input mdInput [value]="entity?.downloadUrl" readonly>
-        </md-form-field>
+        <mat-form-field class="full-width-input" cs-input-group-textbox>
+          <input matInput [value]="entity?.downloadUrl" readonly>
+        </mat-form-field>
         <button
-          md-icon-button
+          mat-icon-button
           cs-input-group-button
           ngxClipboard
           [cbContent]="templateDownloadUrl"
           (cbOnSuccess)="onCopySuccess()"
           (cbOnError)="onCopyFail()"
         >
-          <md-icon
-            mdTooltipPosition="below"
-            [mdTooltip]="'CLIPBOARD.COPY' | translate"
+          <mat-icon
+            matTooltipPosition="below"
+            [matTooltip]="'CLIPBOARD.COPY' | translate"
           >
             content_copy
-          </md-icon>
+          </mat-icon>
         </button>
       </cs-input-group>
-    </md-card-content>
-  </md-card>
+    </mat-card-content>
+  </mat-card>
 </ng-container>

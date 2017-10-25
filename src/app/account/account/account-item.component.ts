@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
 import { Account } from '../../shared/models/account.model';
+import { stateTranslations } from '../account-container/account.container';
 
 @Component({
   selector: 'cs-account-item',
@@ -13,9 +14,12 @@ export class AccountItemComponent {
   @Input() public isSelected: (account) => boolean;
   @Output() public onClick = new EventEmitter<Account>();
   @Output() public onAccountChanged = new EventEmitter<Account>();
-  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
 
-  constructor(private authService: AuthService) {}
+  readonly stateTranslations = stateTranslations;
+
+  constructor(private authService: AuthService) {
+  }
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();

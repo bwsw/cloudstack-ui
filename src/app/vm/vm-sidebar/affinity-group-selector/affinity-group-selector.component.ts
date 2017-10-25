@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
@@ -19,9 +19,9 @@ export class AffinityGroupSelectorComponent implements OnInit {
 
   constructor(
     private affinityGroupService: AffinityGroupService,
-    private dialogRef: MdDialogRef<AffinityGroupSelectorComponent>,
+    private dialogRef: MatDialogRef<AffinityGroupSelectorComponent>,
     private dialogService: DialogService,
-    @Inject(MD_DIALOG_DATA) public vm: VirtualMachine
+    @Inject(MAT_DIALOG_DATA) public vm: VirtualMachine
   ) {}
 
   public ngOnInit(): void {

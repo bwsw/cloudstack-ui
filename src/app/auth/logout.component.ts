@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { RouterUtilsService } from '../shared/services/router-utils.service';
@@ -12,7 +12,7 @@ export class LogoutComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private router: Router,
     private routerUtilsService: RouterUtilsService
   ) {}

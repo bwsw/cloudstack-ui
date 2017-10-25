@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { VirtualMachine } from '../../shared/vm.model';
-import { MdMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { VmListItemComponent } from '../vm-list-item.component';
 
@@ -19,7 +19,7 @@ export class VmListRowItemComponent extends VmListItemComponent {
   @Input() public item: VirtualMachine;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   constructor(vmTagService: VmTagService) {
     super(vmTagService);

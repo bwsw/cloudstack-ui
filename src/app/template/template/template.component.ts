@@ -3,7 +3,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
 import { BaseTemplateModel } from '../shared';
 
@@ -14,7 +14,7 @@ export class TemplateComponent implements OnChanges {
   public searchQuery: () => string;
   public deleteTemplate = new EventEmitter();
   public onClick = new EventEmitter();
-  public mdMenuTrigger: MdMenuTrigger;
+  public matMenuTrigger: MatMenuTrigger;
 
   public query: string;
 
@@ -29,7 +29,7 @@ export class TemplateComponent implements OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger || !this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

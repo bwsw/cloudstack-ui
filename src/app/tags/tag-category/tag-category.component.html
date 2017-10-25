@@ -1,13 +1,13 @@
-<md-card class="custom-card">
-  <md-card-header>
-    <md-card-title>
-      <h2 class="md-card-title-text" [mdTooltip]="category.name">
+<mat-card class="custom-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text" [matTooltip]="category.name">
         <span [innerHTML]="category.name | highlight:query"></span>
       </h2>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content [ngClass]="{ 'md-card-content-with-actions': hasPermissions }">
-    <div class="md-card-content-container">
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content [ngClass]="{ 'mat-card-content-with-actions': hasPermissions }">
+    <div class="mat-card-content-container">
       <cs-tag
         *ngFor="let tag of category.tags"
         [tag]="tag"
@@ -17,15 +17,15 @@
         (onTagRemove)="removeTag($event)"
       ></cs-tag>
     </div>
-    <md-card-actions *ngIf="hasPermissions">
+    <mat-card-actions *ngIf="hasPermissions">
       <button
-        md-icon-button
-        [mdTooltip]="'COMMON.ADD' | translate"
-        mdTooltipPosition="above"
+        mat-icon-button
+        [matTooltip]="'COMMON.ADD' | translate"
+        matTooltipPosition="above"
         (click)="$event.stopPropagation(); addTag()"
       >
-        <md-icon>add</md-icon>
+        <mat-icon>add</mat-icon>
       </button>
-    </md-card-actions>
-  </md-card-content>
-</md-card>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

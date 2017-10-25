@@ -1,12 +1,12 @@
 <div class="options-panel delimiter">
   <ng-content></ng-content>
 
-  <md-button-toggle-group (change)="onModeChange.emit($event.value)">
-    <md-button-toggle value="0" [checked]="mode === 0">
-      <md-icon>view_list</md-icon>
-    </md-button-toggle>
-    <md-button-toggle value="1" [checked]="mode === 1">
-      <md-icon>view_module</md-icon>
-    </md-button-toggle>
-  </md-button-toggle-group>
+  <mat-button-toggle-group (change)="onModeChange.emit($event.value)">
+    <mat-button-toggle value="0" [checked]="mode === 0">
+      <mat-icon>view_list</mat-icon>
+    </mat-button-toggle>
+    <mat-button-toggle value="1" [checked]="mode === 1">
+      <mat-icon>view_module</mat-icon>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
 </div>

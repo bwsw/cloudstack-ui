@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Action } from '../../interfaces/action.interface';
@@ -14,7 +14,7 @@ export abstract class VolumeAction implements Action<Volume> {
   public icon?: string;
 
   constructor(
-    protected dialog: MdDialog,
+    protected dialog: MatDialog,
     protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     protected volumeService: VolumeService

@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { MdMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { VolumeActionsService } from '../../../shared/actions/volume-actions/volume-actions.service';
 import { Volume } from '../../../shared/models';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
@@ -23,7 +23,7 @@ export class VolumeCardItemComponent extends VolumeItemComponent {
   @Input() public searchQuery: () => string;
   @Input() public item: Volume;
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MdMenuTrigger) public mdMenuTrigger: MdMenuTrigger;
+  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   constructor(
     public volumeActionsService: VolumeActionsService,

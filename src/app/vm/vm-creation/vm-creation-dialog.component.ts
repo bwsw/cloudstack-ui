@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { VmCreationComponent } from './vm-creation.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class VmCreationDialogComponent {
   constructor(
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {

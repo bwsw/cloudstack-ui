@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
@@ -35,7 +35,7 @@ export class VmCreationTemplateComponent implements OnChanges {
 
   private _template: BaseTemplateModel | null;
 
-  constructor(private dialog: MdDialog, private translateService: TranslateService) {
+  constructor(private dialog: MatDialog, private translateService: TranslateService) {
     this.change = new EventEmitter();
   }
 

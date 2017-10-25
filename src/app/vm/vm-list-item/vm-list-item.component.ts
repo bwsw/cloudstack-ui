@@ -4,15 +4,14 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
+import { Color } from '../../shared/models';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import {
   VirtualMachine,
   VmState
 } from '../shared/vm.model';
-import { MdMenuTrigger } from '@angular/material';
-import { Color } from '../../shared/models/color.model';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { Utils } from '../../shared/services/utils/utils.service';
-
 
 const stateTranslations = {
   RUNNING: 'VM_STATE.RUNNING',
@@ -38,7 +37,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public item: VirtualMachine;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
-  public mdMenuTrigger: MdMenuTrigger;
+  public matMenuTrigger: MatMenuTrigger;
 
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
@@ -95,7 +94,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

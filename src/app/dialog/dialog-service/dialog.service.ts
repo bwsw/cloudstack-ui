@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  MdDialog,
-  MdDialogConfig,
-  MdDialogRef
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef
 } from '@angular/material';
 import { Observable } from 'rxjs/Rx';
 
@@ -41,10 +41,10 @@ export interface BaseDialogConfiguration {
 @Injectable()
 export class DialogService {
 
-  constructor(private dialog: MdDialog) { }
+  constructor(private dialog: MatDialog) { }
 
   public confirm(config: ConfirmDialogConfiguration): Observable<void> {
-    let dialogRef: MdDialogRef<ConfirmDialogComponent>;
+    let dialogRef: MatDialogRef<ConfirmDialogComponent>;
     if (!config.confirmText) {
       config.confirmText = defaultConfirmDialogConfirmText;
     }
@@ -59,7 +59,7 @@ export class DialogService {
   }
 
   public alert(config: AlertDialogConfiguration): Observable<void> {
-    let dialogRef: MdDialogRef<AlertDialogComponent>;
+    let dialogRef: MatDialogRef<AlertDialogComponent>;
     if (!config.okText) {
       config.okText = defaultAlertDialogConfirmText;
     }
@@ -72,7 +72,7 @@ export class DialogService {
   }
 
   public askDialog(config: AskDialogConfiguration): Observable<void> {
-    let dialogRef: MdDialogRef<AskDialogComponent>;
+    let dialogRef: MatDialogRef<AskDialogComponent>;
     if (config.disableClose === undefined) {
       config.disableClose = defaultDisableClose;
     }
@@ -87,7 +87,7 @@ export class DialogService {
   }
 
   private getDialogConfiguration(config: BaseDialogConfiguration) {
-    const configuration =  <MdDialogConfig>{
+    const configuration =  <MatDialogConfig>{
       data: { config },
       disableClose: config.disableClose
     };

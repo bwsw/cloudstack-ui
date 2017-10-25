@@ -1,11 +1,11 @@
 <div class="flex-container" *ngIf="!loading">
   <img class="logo" src="img/cloudstack_logo.png">
-  <md-card class="login">
+  <mat-card class="login">
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
       <div class="mat-dialog-content">
-        <md-form-field class="full-width-input">
+        <mat-form-field class="full-width-input">
           <input
-            mdInput
+            matInput
             name="username"
             [(ngModel)]="username"
             [placeholder]="'AUTH.USERNAME' | translate"
@@ -13,14 +13,14 @@
             required
             #usernameControl="ngModel"
           >
-          <md-error *ngIf="usernameControl.hasError('required')">
+          <mat-error *ngIf="usernameControl.hasError('required')">
             {{'AUTH.USERNAME_REQUIRED' | translate}}
-          </md-error>
-        </md-form-field>
+          </mat-error>
+        </mat-form-field>
         <br />
-        <md-form-field class="full-width-input">
+        <mat-form-field class="full-width-input">
           <input
-            mdInput
+            matInput
             type="password"
             name="password"
             [(ngModel)]="password"
@@ -28,23 +28,23 @@
             required
             #passwordControl="ngModel"
           >
-          <md-error *ngIf="passwordControl.hasError('required')">
+          <mat-error *ngIf="passwordControl.hasError('required')">
             {{'AUTH.PASSWORD_REQUIRED' | translate}}
-          </md-error>
-        </md-form-field>
+          </mat-error>
+        </mat-form-field>
         <br />
-        <md-form-field *ngIf="showDomain" class="full-width-input">
+        <mat-form-field *ngIf="showDomain" class="full-width-input">
           <input
-            mdInput
+            matInput
             name="domain"
             [(ngModel)]="domain"
             [placeholder]="'AUTH.DOMAIN' | translate"
           >
-        </md-form-field>
+        </mat-form-field>
       </div>
       <div class="mat-dialog-actions">
         <button
-          md-button
+          mat-button
           color="primary"
           type="submit"
           [disabled]="(passwordControl.invalid && !passwordControl.pristine) || (usernameControl.invalid && !usernameControl.pristine)"
@@ -52,16 +52,16 @@
           {{ 'AUTH.LOGIN' | translate }}
         </button>
         <button
-          md-icon-button
+          mat-icon-button
           class="options-button"
           type="button"
-          [mdTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
-          mdTooltipPosition="above"
+          [matTooltip]="(showDomain ? 'AUTH.HIDE_ADVANCED' : 'AUTH.SHOW_ADVANCED') | translate"
+          matTooltipPosition="above"
           (click)="toggleDomain()"
         >
-          <md-icon [class.domains-visible]="showDomain">settings</md-icon>
+          <mat-icon [class.domains-visible]="showDomain">settings</mat-icon>
         </button>
       </div>
     </form>
-  </md-card>
+  </mat-card>
 </div>

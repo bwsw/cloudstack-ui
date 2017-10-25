@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { DiskOffering } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
@@ -26,12 +26,12 @@ export class VolumeResizeComponent implements OnInit {
   private notificationId: string;
 
   constructor(
-    public dialogRef: MdDialogRef<VolumeResizeComponent>,
+    public dialogRef: MatDialogRef<VolumeResizeComponent>,
     private dialogService: DialogService,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
     private volumeService: VolumeService,
-    @Inject(MD_DIALOG_DATA) data,
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.volume = data.volume;
     this.diskOfferings = data.diskOfferings;

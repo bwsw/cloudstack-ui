@@ -1,16 +1,14 @@
 // styles in src/style directory are applied to the whole page
 @import "~@angular/material/theming";
-
 @import "~dragula/dist/dragula.css";
 @import '__variables.scss';
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
-@import '../app/shared/styles/tab-switch';
-@import '../app/shared/styles/md-input';
+@import '../app/shared/styles/mat-input';
 @import '../app/shared/badge/badge';
-
 @import "typography";
 @import "app-theme";
+
 @include mat-core();
 
 $primary: mat-palette($mat-blue);
@@ -28,7 +26,6 @@ body {
   font-family: $mat-font-family;
   margin: 0;
 }
-
 
 .disabled-link {
   cursor: pointer;
@@ -48,16 +45,11 @@ body {
   @extend .text-overflow-tooltip-fix;
 }
 
-md-select,
-.mat-select {
-  padding-top: 0 !important;
-}
-
-md-list-item {
+mat-list-item {
   background-color: #fff;
 }
 
-md-list-item {
+mat-list-item {
   height: 60px;
   border-bottom: 1px solid #ccc;
 }
@@ -83,72 +75,73 @@ md-list-item {
   justify-content: space-between;
 }
 
-md-card {
+
+mat-card {
   padding: 0 !important;
   width: 320px;
   margin: 15px 0 0 15px;
 }
 
-cs-sidebar md-card {
+cs-sidebar mat-card {
   width: auto;
   margin: 5px;
 }
 
-md-card md-card-header {
+mat-card mat-card-header {
   padding: 16px;
 }
 
-md-card md-card-title,
-md-card .mat-card-header-text {
+mat-card mat-card-title,
+mat-card .mat-card-header-text {
   margin: 0 !important;
 }
 
-md-card md-card-header h2 {
+mat-card mat-card-header h2 {
   margin: 0;
   font-size: 18px;
   line-height: normal;
 
-  &.md-card-title-text {
+  &.mat-card-title-text {
     max-width: 250px !important;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 }
 
-md-card md-card-header .md-card-header-menu {
+mat-card mat-card-header .mat-card-header-menu {
   position: absolute;
   top: 5px !important;
   right: 5px !important;
 }
 
-md-card md-card-content {
+mat-card mat-card-content {
   color: rgba(0, 0, 0, 0.54);
   padding: 0 16px 16px 16px;
   margin-bottom: 0 !important;
   line-height: 18px;
 }
 
-md-card .md-card-content-with-actions {
+mat-card .mat-card-content-with-actions {
   padding-bottom: 0;
 }
 
-md-card .md-card-content-container {
+mat-card .mat-card-content-container {
   padding-bottom: 16px;
   word-wrap: break-word;
 }
 
-md-card.custom-card {
+mat-card.custom-card {
   min-height: 0;
 
-  & .md-card-title-text {
+  & .mat-card-title-text {
     @extend .tooltip-position-fix;
   }
 
-  & md-card-actions {
+  & mat-card-actions {
     border-top: 1px solid rgba(0, 0, 0, .1);
   }
 
-  & md-card-title > h2 {
+  & mat-card-title > h2 {
     display: block;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -193,6 +186,7 @@ md-card.custom-card {
   box-sizing: border-box;
   z-index: 1;
   display: flex;
+  justify-content: space-between;
   background-color: #fff;
   flex-direction: row !important;
   width: 100% !important;
@@ -251,8 +245,8 @@ md-card.custom-card {
 
 .card-selected {
   box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-    0 3px 14px 2px rgba(0, 0, 0, 0.12),
-    0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
+  0 3px 14px 2px rgba(0, 0, 0, 0.12),
+  0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
 }
 
@@ -269,15 +263,21 @@ md-card.custom-card {
   margin-bottom: 15px;
 }
 
-.form-select-control {
+mat-form-field.form-select-control {
   width: 100%;
-  margin: 20px 0;
+  //margin: 20px 0;
 }
 
-.filter-select {
-  display: inline-block;
-  width: $template-filter-select-width;
-  margin: 20px;
+.filter-wrapper {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  > * {
+    margin-right: 20px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 }
 
 .section-header {
@@ -290,31 +290,34 @@ md-card.custom-card {
   color: rgba(0, 0, 0, .87);
 }
 
-.mat-icon-button md-icon {
+.mat-icon-button mat-icon {
   color: black !important;
 }
 
-.md-card-header-menu .mat-icon-button md-icon {
+.mat-card-header-menu .mat-icon-button mat-icon {
   color: inherit !important;
 }
 
-.mat-icon-button[disabled] md-icon {
+.mat-icon-button[disabled] mat-icon {
   color: rgba(0, 0, 0, .26) !important;
   cursor: default;
   background-color: transparent;
-}
-
-.card-popover {
-  top: 0;
-  right: 50px;
 }
 
 .dialog-overflow-visible {
   overflow: visible !important;
 }
 
+.card-list-container mat-card {
+  margin-top: 15px;
+  margin-left: 15px;
+}
 
-md-card-actions {
+.card-list-container:last-child {
+  margin-bottom: 15px;
+}
+
+mat-card-actions {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding: 8px !important;
   min-height: 49px;
@@ -340,6 +343,7 @@ md-card-actions {
   height: 10px;
   margin-left: 8px;
   margin-right: 8px;
+  box-shadow: 0 0 1px 1px white;
 
   &.destroyed {
     background-color: #212121;
@@ -424,7 +428,7 @@ h4.details-header {
   background-color: #eeeeee;
 }
 
-md-table,
+mat-table,
 .mat-table {
   font-family: "Helvetica", "Arial", sans-serif;
   font-size: 13px;
@@ -433,7 +437,7 @@ md-table,
   border-collapse: collapse;
 }
 
-md-table md-row,
+mat-table mat-row,
 .mat-table .mat-row {
   min-height: 48px;
   height: 100%;
@@ -441,13 +445,13 @@ md-table md-row,
   border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
 }
 
-md-table md-header-row,
+mat-table mat-header-row,
 .mat-table .mat-header-row {
   display: table-row;
   border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
 }
 
-md-table md-cell,
+mat-table mat-cell,
 .mat-table .mat-cell {
   min-height: 48px;
   height: 100%;
@@ -456,7 +460,7 @@ md-table md-cell,
   display: table-cell;
 }
 
-md-table md-header-cell,
+mat-table mat-header-cell,
 .mat-table .mat-header-cell {
   height: 48px;
   padding: 12px 18px;
@@ -467,8 +471,6 @@ md-table md-header-cell,
   height: 95px !important;
 }
 
-/* md-dialog
-*/
 .mat-dialog-container {
   max-height: 95vh !important;
 }
@@ -498,12 +500,6 @@ md-table md-header-cell,
   width: 32px !important;
   height: 32px !important;
   line-height: 32px !important;
-
-  // TODO remove this after material2.beta10
-  md-icon {
-    position: relative;
-    top: -1px;
-  }
 }
 
 .button-18px {
@@ -512,7 +508,7 @@ md-table md-header-cell,
   width: 24px !important;
   line-height: 24px !important;
 
-  md-icon {
+  mat-icon {
     font-size: 18px !important;
   }
 }

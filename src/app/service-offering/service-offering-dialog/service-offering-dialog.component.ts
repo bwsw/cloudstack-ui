@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Zone } from '../../shared/models';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
@@ -30,8 +30,8 @@ export class ServiceOfferingDialogComponent implements OnInit {
   public restrictions$: Observable<ICustomOfferingRestrictions>;
 
   constructor(
-    @Inject(MD_DIALOG_DATA) data,
-    public dialogRef: MdDialogRef<ServiceOfferingDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
+    public dialogRef: MatDialogRef<ServiceOfferingDialogComponent>,
     public customServiceOfferingService: CustomServiceOfferingService,
     private configService: ConfigService,
     private serviceOfferingService: ServiceOfferingService,

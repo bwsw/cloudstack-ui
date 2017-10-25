@@ -1,32 +1,32 @@
 <div class="template-list">
-  <md-list>
-    <md-list-item
+  <mat-list>
+    <mat-list-item
       *ngFor="let template of templateList"
       lines="2"
       (click)="$event.stopPropagation(); selectTemplate(template)"
       [class.selected-template]="selectedTemplate?.id === template?.id"
       [class.inline-block]="!radio"
     >
-      <cs-template-os-icon mdListAvatar [template]="template"></cs-template-os-icon>
-      <h4 md-line>
+      <cs-template-os-icon matListAvatar [template]="template"></cs-template-os-icon>
+      <h4 matLine>
         <span [innerHTML]="template.name | highlight:query"></span>
         <ng-container *ngIf="!template.isReady">
           <div
             class="state-icon"
             [class.in-progress]="true"
-            [mdTooltip]="'NOT_READY' | translate"
-            mdTooltipPosition="before"
+            [matTooltip]="'NOT_READY' | translate"
+            matTooltipPosition="before"
           ></div>
         </ng-container>
       </h4>
       <p
-        md-line
-        class="md-line-secondary"
+        matLine
+        class="matLine-secondary"
         [innerHTML]="template.displayText | highlight:query"
       ></p>
       <span *ngIf="radio">
-        <md-radio-button [checked]="template?.id === selectedTemplate?.id"></md-radio-button>
+        <mat-radio-button [checked]="template?.id === selectedTemplate?.id"></mat-radio-button>
       </span>
-    </md-list-item>
-  </md-list>
+    </mat-list-item>
+  </mat-list>
 </div>

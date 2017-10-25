@@ -1,6 +1,6 @@
 <ng-container *ngFor="let action of actions">
-  <button md-menu-item (click)="action.activate(template).subscribe()">
-    <md-icon>{{ action.icon }}</md-icon>
+  <button mat-menu-item (click)="action.activate(template).subscribe()">
+    <mat-icon>{{ action.icon }}</mat-icon>
     <span>{{ action.name | translate }}</span>
   </button>
 </ng-container>

@@ -10,7 +10,7 @@ import {
   NgForm,
   Validators
 } from '@angular/forms';
-import { MdSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
@@ -48,7 +48,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   public updatingFirstDayOfWeek = false;
   public updatingTimeFormat = false;
-  public dayTranslations: {};
+  // public dayTranslations: {};
   public loading = false;
 
   public primaryColorControl = new FormControl();
@@ -86,11 +86,11 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     this.loadColors();
     this.loadFirstDayOfWeek();
     this.buildForm();
-    this.loadDayTranslations();
+    this.setLoading();
     this.loadTimeFormat();
     this.translateService.onLangChange
       .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.loadDayTranslations());
+      .subscribe(() => this.setLoading());
   }
 
   public getTimeFormatTranslationToken(format: TimeFormat): string {
@@ -107,13 +107,12 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     this.userTagService.setSavePasswordForAllVms(value).subscribe();
   }
 
-  public changeLanguage(change: MdSelectChange): void {
-    this.loading = true;
+  public changeLanguage(change: MatSelectChange): void {
     this.languageService.setLanguage(change.value).subscribe();
-    this.loadDayTranslations();
+    this.setLoading();
   }
 
-  public changeTimeFormat(change: MdSelectChange): void {
+  public changeTimeFormat(change: MatSelectChange): void {
     this.updatingTimeFormat = true;
     this.languageService
       .setTimeFormat(change.value)
@@ -145,7 +144,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     this.passwordForm.resetForm();
   }
 
-  public firstDayOfWeekChange(change: MdSelectChange): void {
+  public firstDayOfWeekChange(change: MatSelectChange): void {
     this.firstDayOfWeek = change.value;
     this.updatingFirstDayOfWeek = true;
     this.userTagService
@@ -158,17 +157,9 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     return this.passwordUpdateForm.controls['password'].value;
   }
 
-  private loadDayTranslations(): void {
-    this.translateService
-      .get(['DATE_TIME.DAYS_OF_WEEK.SUNDAY', 'DATE_TIME.DAYS_OF_WEEK.MONDAY'])
-      .subscribe(translations => {
-        // workaround for queryList change bug (https://git.io/v9R69)
-        this.dayTranslations = undefined;
-        setTimeout(() => {
-          this.dayTranslations = translations;
-          setTimeout(() => (this.loading = false), 500);
-        }, 0);
-      });
+  private setLoading(): void {
+    this.loading = true;
+    setTimeout(() => (this.loading = false), 0);
   }
 
   private loadSaveVmPassword(): void {

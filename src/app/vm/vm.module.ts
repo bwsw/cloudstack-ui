@@ -5,17 +5,17 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import {
-  MdAutocompleteModule,
-  MdButtonModule,
-  MdCheckboxModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdMenuModule,
-  MdProgressBarModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule
+  MatAutocompleteModule,
+  MatButtonModule, MatButtonToggleModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatProgressBarModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -102,16 +102,17 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     DynamicModule.withComponents([VmListRowItemComponent]),
     FormsModule,
     DraggableSelectModule,
-    MdAutocompleteModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdDialogModule,
-    MdIconModule,
-    MdInputModule,
-    MdMenuModule,
-    MdSelectModule,
-    MdTabsModule,
-    MdTooltipModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatTabsModule,
+    MatTooltipModule,
+    MatButtonToggleModule,
     PulseModule,
     ReactiveFormsModule,
     RouterModule,
@@ -122,7 +123,7 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     TagsModule,
     TemplateModule,
     TranslateModule,
-    MdProgressBarModule
+    MatProgressBarModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,

@@ -64,7 +64,7 @@ export class SgFilterComponent implements FilterComponent<SecurityGroupFilter>, 
       [SecurityGroupViewMode.Shared]: 1
     };
 
-    return modeIndices[this.viewMode];
+    return modeIndices[this.viewMode] || 0;
   }
 
   public initFilters(): void {

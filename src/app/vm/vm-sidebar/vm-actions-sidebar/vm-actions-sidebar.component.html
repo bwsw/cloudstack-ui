@@ -1,13 +1,13 @@
 <div class="vm-actions-container">
   <button
     class="vm-actions-button"
-    md-icon-button
-    [mdMenuTriggerFor]="actionsMenu"
+    mat-icon-button
+    [matMenuTriggerFor]="actionsMenu"
   >
-    <md-icon>more_vert</md-icon>
+    <mat-icon>more_vert</mat-icon>
   </button>
 </div>
 
-<md-menu #actionsMenu="mdMenu">
+<mat-menu #actionsMenu="matMenu">
   <cs-vm-actions [vm]="vm"></cs-vm-actions>
-</md-menu>
+</mat-menu>

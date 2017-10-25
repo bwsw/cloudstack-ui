@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { SecurityGroupService } from '../services/security-group.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -15,7 +15,7 @@ export abstract class SecurityGroupAction implements Action<SecurityGroup> {
   public icon?: string;
 
   constructor(
-    protected dialog: MdDialog,
+    protected dialog: MatDialog,
     protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     protected notificationService: NotificationService,

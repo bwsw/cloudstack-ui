@@ -3,8 +3,8 @@ import {
   Inject
 } from '@angular/core';
 import {
-  MD_DIALOG_DATA,
-  MdDialogRef
+  MAT_DIALOG_DATA,
+  MatDialogRef
 } from '@angular/material';
 import { VmSavePasswordAction } from '../vm-save-password';
 import { VirtualMachine } from '../../shared/vm.model';
@@ -24,11 +24,11 @@ export class VmResetPasswordComponent {
   public disableButton: boolean = false;
 
   constructor(
-    public dialogRef: MdDialogRef<VmResetPasswordComponent>,
+    public dialogRef: MatDialogRef<VmResetPasswordComponent>,
     private vmSavePassword: VmSavePasswordAction,
     private translateService: TranslateService,
     private userTagService: UserTagService,
-    @Inject(MD_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.vm = data;
     this.message = {

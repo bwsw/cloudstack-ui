@@ -9,14 +9,14 @@
   background-color: #f5f5f5 !important;
 }
 
-md-sidenav-container {
+mat-sidenav-container {
   flex-grow: 1;
   min-height: 100%;
   height: auto !important;
   max-width: 100%;
   margin: 0;
 
-  md-sidenav {
+  mat-sidenav {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -44,7 +44,7 @@ md-sidenav-container {
   justify-content: space-around;
 }
 
-/deep/ .md-tab-tooltip {
+/deep/ .mat-tab-tooltip {
   height: 40px;
 }
 

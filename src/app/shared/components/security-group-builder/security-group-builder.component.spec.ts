@@ -1,7 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { By } from '@angular/platform-browser';
+import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
 import { NetworkRule } from '../../../security-group/network-rule.model';
@@ -89,7 +88,7 @@ describe('Sg creation component', () => {
     TestBed.configureTestingModule({
       declarations: [SecurityGroupBuilderComponent, MockTranslatePipe],
       providers: [
-        { provide: MdDialogRef, useFactory: () => dialogReferenceMock },
+        { provide: MatDialogRef, useFactory: () => dialogReferenceMock },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]

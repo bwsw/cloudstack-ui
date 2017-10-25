@@ -2,11 +2,11 @@
   <ng-container *ngFor="let action of actions">
     <button
       *ngIf="!action.hidden(vm)"
-      md-menu-item
+      mat-menu-item
       [disabled]="!action.canActivate(vm)"
       (click)="onAction(action, vm)"
     >
-      <md-icon>{{ action.icon }}</md-icon>
+      <mat-icon>{{ action.icon }}</mat-icon>
       <span>{{ action.name | translate }}</span>
     </button>
   </ng-container>
@@ -20,6 +20,6 @@
   <ng-container *ngTemplateOutlet="menuItems; context: destroyedVmActionsContext">
   </ng-container>
 </ng-template>
-<md-divider *ngIf="hasPrimaryActions"></md-divider>
+<mat-divider *ngIf="hasPrimaryActions"></mat-divider>
 <ng-container *ngTemplateOutlet="menuItems; context: pluginActionsContext ">
 </ng-container>

@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MdButtonModule,
-  MdCheckboxModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdMenuModule,
-  MdSelectModule,
-  MdTabsModule,
-  MdTooltipModule
+  MatButtonModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -50,19 +50,19 @@ import { VolumeRowItemComponent } from './volume-item/row-item/volume-row-item.c
     CommonModule,
     FormsModule,
     DynamicModule.withComponents([VolumeCardItemComponent, VolumeRowItemComponent]),
-    MdButtonModule,
-    MdCheckboxModule,
-    MdDialogModule,
-    MdIconModule,
-    MdInputModule,
-    MdMenuModule,
-    MdSelectModule,
-    MdTabsModule,
-    MdTooltipModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatTabsModule,
+    MatTooltipModule,
     RouterModule,
     SharedModule,
     TranslateModule,
-    MdDialogModule,
+    MatDialogModule,
     DraggableSelectModule
   ],
   declarations: [

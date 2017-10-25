@@ -1,13 +1,13 @@
 <div class="template-actions-container">
   <button
     class="template-actions-button"
-    md-icon-button
-    [mdMenuTriggerFor]="actionsMenu"
+    mat-icon-button
+    [matMenuTriggerFor]="actionsMenu"
   >
-    <md-icon>more_vert</md-icon>
+    <mat-icon>more_vert</mat-icon>
   </button>
 </div>
 
-<md-menu #actionsMenu="mdMenu">
+<mat-menu #actionsMenu="matMenu">
   <cs-template-actions [template]="template"></cs-template-actions>
-</md-menu>
+</mat-menu>

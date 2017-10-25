@@ -13,9 +13,9 @@ $list-height: 187px;
   flex: 1;
 }
 
-.left-list > md-list,
-.right-list > md-list,
-.rules-list > md-list {
+.left-list > mat-list,
+.right-list > mat-list,
+.rules-list > mat-list {
   height: $list-height;
   overflow: auto;
   border: 1px solid rgba(0, 0, 0, 0.14);
@@ -27,11 +27,11 @@ $list-height: 187px;
   margin-bottom: 10px;
 }
 
-md-list-item.active {
+mat-list-item.active {
   background-color: rgba(0, 0, 0, 0.14);
 }
 
-:host md-list-item h4 {
+:host mat-list-item h4 {
   display: block;
   width: 305px;
   overflow: hidden;

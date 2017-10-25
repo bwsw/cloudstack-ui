@@ -12,14 +12,14 @@
   </div>
   <ng-template #leaf>
     <div class="list-container">
-      <md-list>
+      <mat-list>
         <ndc-dynamic
           *ngFor="let item of child.items"
           [ndcDynamicComponent]="component"
           [ndcDynamicInputs]="leafInputs(item)"
           [ndcDynamicOutputs]="dynamicOutputs"
         ></ndc-dynamic>
-      </md-list>
+      </mat-list>
     </div>
   </ng-template>
 </ng-container>

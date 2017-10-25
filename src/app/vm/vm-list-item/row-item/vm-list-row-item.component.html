@@ -1,4 +1,4 @@
-<md-list-item
+<mat-list-item
   class="custom-row"
   [ngClass]="cardClass"
   (click)="handleClick($event)"
@@ -9,9 +9,9 @@
     <span
       class="state-icon"
       [ngClass]="statusClass"
-      [mdTooltip]="stateTranslationToken | translate"
+      [matTooltip]="stateTranslationToken | translate"
     ></span>
-    <span [mdTooltip]="item.name"> {{ item.name }} </span>
+    <span [matTooltip]="item.name"> {{ item.name }} </span>
   </h2>
 
   <div class="info">
@@ -45,11 +45,11 @@
     </table>
   </div>
 
-  <button md-icon-button [mdMenuTriggerFor]="actionsMenu">
-    <md-icon>more_vert</md-icon>
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <mat-icon>more_vert</mat-icon>
   </button>
 
-  <md-menu #actionsMenu="mdMenu">
+  <mat-menu #actionsMenu="matMenu">
     <cs-vm-actions [vm]="item"></cs-vm-actions>
-  </md-menu>
-</md-list-item>
+  </mat-menu>
+</mat-list-item>

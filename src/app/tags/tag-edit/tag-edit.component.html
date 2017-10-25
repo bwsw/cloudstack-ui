@@ -4,9 +4,9 @@
 </h3>
 <form (ngSubmit)="onTagUpdate()" #tagCreationForm="ngForm">
   <div class="mat-dialog-content">
-    <md-form-field class="full-width-input">
+    <mat-form-field class="full-width-input">
       <input
-        mdInput
+        matInput
         name="key"
         [(ngModel)]="key"
         [forbiddenValues]="forbiddenKeys || []"
@@ -16,43 +16,43 @@
         required
         #keyField="ngModel"
       >
-      <md-error *ngIf="keyField.invalid">
+      <mat-error *ngIf="keyField.invalid">
         {{ keyFieldErrorMessage | translate }}
-      </md-error>
-      <md-hint align="end">
+      </mat-error>
+      <mat-hint align="end">
         <cs-character-count [value]="key" [maxLength]="maxKeyLength"></cs-character-count>
-      </md-hint>
-    </md-form-field>
+      </mat-hint>
+    </mat-form-field>
 
-    <md-form-field class="full-width-input">
+    <mat-form-field class="full-width-input">
       <input
-        mdInput
+        matInput
         name="value"
         [(ngModel)]="value"
         [placeholder]="'TAGS.TAG_VALUE' | translate"
         [maxlength]="maxValueLength"
         required
       >
-      <md-hint align="end">
+      <mat-hint align="end">
         <cs-character-count
           [value]="value"
           [maxLength]="maxValueLength"
         ></cs-character-count>
-      </md-hint>
-    </md-form-field>
+      </mat-hint>
+    </mat-form-field>
   </div>
 
   <div class="mat-dialog-actions">
     <button
-      md-button
+      mat-button
       color="primary"
-      mdDialogClose
+      matDialogClose
       type="button"
     >
       {{ 'COMMON.CANCEL' | translate }}
     </button>
     <button
-      md-button
+      mat-button
       color="primary"
       type="submit"
       [disabled]="!tagCreationForm.valid"

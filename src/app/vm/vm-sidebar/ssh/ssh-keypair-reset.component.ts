@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
@@ -16,8 +16,8 @@ export class SshKeypairResetComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private dialogRef: MdDialogRef<SshKeypairResetComponent>,
-    @Inject(MD_DIALOG_DATA) private vm,
+    private dialogRef: MatDialogRef<SshKeypairResetComponent>,
+    @Inject(MAT_DIALOG_DATA) private vm,
     private sshService: SSHKeyPairService
   ) { }
 

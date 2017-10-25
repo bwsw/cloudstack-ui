@@ -10,11 +10,11 @@
   overflow: hidden;
 }
 
-md-sidenav-container {
+mat-sidenav-container {
   height: 100%;
 }
 
-cs-sidebar, md-sidenav {
+cs-sidebar, mat-sidenav {
   width: $sidebar-width + 1;
 }
 

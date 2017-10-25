@@ -1,11 +1,11 @@
 import { ParametrizedTranslation } from '../../app/dialog/dialog-service/dialog.service';
-import { MdSnackBarConfig } from '@angular/material';
+import { MatSnackBarConfig } from '@angular/material';
 
 
 export class MockNotificationService {
   public message(
     message: string | ParametrizedTranslation,
-    config?: MdSnackBarConfig
+    config?: MatSnackBarConfig
   ): any {
     return;
   }
@@ -13,7 +13,7 @@ export class MockNotificationService {
   public warning(
     message: string | ParametrizedTranslation,
     action: string,
-    config?: MdSnackBarConfig
+    config?: MatSnackBarConfig
   ): any {
     return;
   }
@@ -21,7 +21,7 @@ export class MockNotificationService {
   public error(
     message: string | ParametrizedTranslation,
     action?: string,
-    config?: MdSnackBarConfig
+    config?: MatSnackBarConfig
   ): any {
     return;
   }

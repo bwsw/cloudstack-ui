@@ -45,11 +45,11 @@
   transform: rotate(180deg);
 }
 
-.sidebar /deep/ md-card-content {
+.sidebar /deep/ mat-card-content {
   width: 100%;
   line-height: 18px;
 
-  & .md-card-content-container {
+  & .mat-card-content-container {
     padding-bottom: 0;
     margin-bottom: 16px;
   }

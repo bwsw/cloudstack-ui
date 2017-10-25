@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { SshPrivateKeyDialogComponent } from '../ssh-key-creation/ssh-private-key-dialog.component';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 import * as sshKey from './ssh-key.actions';
@@ -83,7 +83,7 @@ export class SshKeyEffects {
   constructor(
     private actions$: Actions,
     private sshKeyService: SSHKeyPairService,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private dialogService: DialogService
   ) {
   }

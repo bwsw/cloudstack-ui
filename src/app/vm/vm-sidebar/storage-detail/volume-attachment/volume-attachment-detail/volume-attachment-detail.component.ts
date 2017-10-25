@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../../../../shared/models';
 import { VolumeService } from '../../../../../shared/services/volume.service';
@@ -22,7 +22,7 @@ export class VolumeAttachmentDetailComponent implements OnInit {
   public volumes: Array<Volume>;
 
   constructor(
-     private dialog: MdDialog,
+     private dialog: MatDialog,
      private volumeService: VolumeService,
      private authService: AuthService
   ) {}
