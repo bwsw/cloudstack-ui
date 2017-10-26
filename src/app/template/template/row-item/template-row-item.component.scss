@@ -1,5 +1,4 @@
 :host {
-  display: inline-flex;
   z-index: -1;
 }
 
@@ -11,15 +10,9 @@
   margin-left: 20px;
 }
 
-.single-line {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.multiline {
-  word-wrap: break-word;
-  overflow: hidden;
+.info {
+  flex-grow: 1;
+  flex-basis: 100px;
 }
 
 .template-header {

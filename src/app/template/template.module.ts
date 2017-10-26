@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
+  MatButtonToggleModule,
   MatCheckboxModule,
   MatDialogModule,
   MatIconModule,
@@ -11,8 +12,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatButtonToggleModule
+  MatTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,7 +27,10 @@ import { TemplateActionsService } from '../shared/actions/template-actions/templ
 import { SharedModule } from '../shared/shared.module';
 import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
-import { IsoService, TemplateService } from './shared';
+import {
+  IsoService,
+  TemplateService
+} from './shared';
 import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
@@ -50,6 +53,7 @@ import { TemplateTagsComponent } from './template-tags/template-tags.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
+import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 
 
 @NgModule({
@@ -57,7 +61,7 @@ import { TemplateCardItemComponent } from './template/card-item/template-card-it
     CommonModule,
     FormsModule,
     ClipboardModule,
-    DynamicModule.withComponents([TemplateCardItemComponent]),
+    DynamicModule.withComponents([TemplateCardItemComponent, TemplateRowItemComponent]),
     MatButtonModule,
     MatCheckboxModule,
     MatDialogModule,
@@ -80,6 +84,7 @@ import { TemplateCardItemComponent } from './template/card-item/template-card-it
     IsoAttachmentComponent,
     TemplateActionsSidebarComponent,
     TemplateCardItemComponent,
+    TemplateRowItemComponent,
     TemplateCreationComponent,
     TemplateDescriptionComponent,
     TemplateCreationDialogComponent,

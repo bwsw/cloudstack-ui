@@ -3,18 +3,20 @@
   [isOpen]="listService?.hasSelected()"
 >
   <ng-container cs-panels>
-    <cs-filter
-      (onModeChange)="changeMode($event)"
-    >
-      <cs-volume-filter *ngIf="zones && accounts"
-        [zones]="zones"
-        [groupings]="groupings"
-        [accounts]="accounts"
-        [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
-        (updateFilters)="updateFiltersAndFilter($event)"
-        cs-list
-      ></cs-volume-filter>
-    </cs-filter>
+    <cs-top-bar>
+      <cs-filter
+        (onModeChange)="changeMode($event)"
+      >
+        <cs-volume-filter *ngIf="zones && accounts"
+          [zones]="zones"
+          [groupings]="groupings"
+          [accounts]="accounts"
+          [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
+          (updateFilters)="updateFiltersAndFilter($event)"
+          cs-list
+        ></cs-volume-filter>
+      </cs-filter>
+    </cs-top-bar>
   </ng-container>
 
   <cs-volume-list

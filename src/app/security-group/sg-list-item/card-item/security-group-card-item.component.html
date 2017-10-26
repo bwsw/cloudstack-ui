@@ -3,8 +3,8 @@
     <mat-card-title>
       <h2
         class="mat-card-title-text"
-        [matTooltip]="securityGroupTemplate.name"
-        [innerHTML]="securityGroupTemplate.name | highlight:query"
+        [matTooltip]="item.name"
+        [innerHTML]="item.name | highlight:query"
       ></h2>
       <div class="mat-card-header-menu">
         <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
@@ -14,18 +14,18 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="card-wrapper" *ngIf="!securityGroupTemplate?.description">
+    <div class="card-wrapper" *ngIf="!item?.description">
       <div class="description"></div>
     </div>
 
-    <div class="card-wrapper" *ngIf="securityGroupTemplate?.description">
+    <div class="card-wrapper" *ngIf="item?.description">
       <div class="description flex-1">{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</div>
       <div class="description flex-2">
         <span
           class="tooltip-position-fix fixed-width-span"
-          *ngIf="securityGroupTemplate.description"
-          [matTooltip]="securityGroupTemplate.description"
-          [innerHTML]="securityGroupTemplate.description | highlight:query"
+          *ngIf="item.description"
+          [matTooltip]="item.description"
+          [innerHTML]="item.description | highlight:query"
           matTooltipPosition="above"
         ></span>
       </div>
@@ -33,6 +33,6 @@
   </mat-card-content>
 
   <mat-menu #actionsMenu="matMenu">
-    <cs-security-group-actions [securityGroup]="securityGroupTemplate"></cs-security-group-actions>
+    <cs-security-group-actions [securityGroup]="item"></cs-security-group-actions>
   </mat-menu>
 </mat-card>

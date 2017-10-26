@@ -12,29 +12,25 @@
   </h2>
 
   <div class="desc">
-    <div *ngIf="descriptionIncludesQuery">
+    <span *ngIf="descriptionIncludesQuery">
     {{ 'VOLUME_PAGE.CARD.DESCRIPTION' | translate }}:
-    </div>
-    <div *ngIf="descriptionIncludesQuery">
+    </span>
+    <span *ngIf="descriptionIncludesQuery">
       <span [innerHTML]="item.description | highlight:query"></span>
-    </div>
+    </span>
   </div>
 
   <div class="size">
-    <div>{{ 'VOLUME_PAGE.CARD.SIZE' | translate }}:</div>
-    <div>
-      <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
-    </div>
-  </div>
+    <span>{{ 'VOLUME_PAGE.CARD.SIZE' | translate }}: </span>
+    <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
+   </div>
 
   <div class="state">
-    <div>{{ 'VOLUME_PAGE.CARD.STATE' | translate }}:</div>
-    <div>
-      <span>{{ stateTranslationToken | translate }}</span>
-    </div>
+    <span>{{ 'VOLUME_PAGE.CARD.STATE' | translate }}: </span>
+    <span>{{ stateTranslationToken | translate }}</span>
   </div>
 
-  <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="action">
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="row-action">
     <mat-icon>more_vert</mat-icon>
   </button>
 

@@ -9,6 +9,7 @@ import { Template } from '../shared';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 import { TemplateCardItemComponent } from '../template/card-item/template-card-item.component';
+import { TemplateRowItemComponent } from '../template/row-item/template-row-item.component';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class TemplateCardListComponent {
   @Output() public deleteTemplate = new EventEmitter();
 
   public TemplateCardComponent = TemplateCardItemComponent;
+  public TemplateRowComponent = TemplateRowItemComponent;
   public inputs;
   public outputs;
 

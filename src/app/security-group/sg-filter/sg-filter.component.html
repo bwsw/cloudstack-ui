@@ -1,13 +1,11 @@
-<cs-top-bar>
-  <div class="options-panel">
-    <mat-button-toggle-group (change)="setMode($event.value)">
-      <mat-button-toggle value="0" [checked]="mode === 0">
-        {{ 'SECURITY_GROUP_PAGE.FILTERS.TEMPLATES' | translate }}
-      </mat-button-toggle>
-      <mat-button-toggle value="1" [checked]="mode === 1">
-        {{ 'SECURITY_GROUP_PAGE.FILTERS.SHARED' | translate }}
-      </mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-</cs-top-bar>
+<div class="filter-wrapper">
+  <mat-button-toggle-group (change)="setMode($event.value)">
+    <mat-button-toggle value="0" [checked]="mode === 0">
+      {{ 'SECURITY_GROUP_PAGE.FILTERS.TEMPLATES' | translate }}
+    </mat-button-toggle>
+    <mat-button-toggle value="1" [checked]="mode === 1">
+      {{ 'SECURITY_GROUP_PAGE.FILTERS.SHARED' | translate }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
 <cs-search [(ngModel)]="query" (ngModelChange)="update()"></cs-search>

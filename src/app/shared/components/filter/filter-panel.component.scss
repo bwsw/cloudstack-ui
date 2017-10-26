@@ -1,6 +1,11 @@
+:host {
+  width: 100%;
+}
+
 mat-button-toggle-group {
   transition: margin .4s cubic-bezier(.25,.8,.25,1);
-  position: relative;
   right: 10px;
+  align-self: flex-end;
+  margin-bottom: 10px;
   z-index: 99;
 }

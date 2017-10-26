@@ -81,6 +81,10 @@ export class TemplateFilterListComponent implements OnChanges {
     return this.viewMode === 'Template' ? this.templates : this.isos;
   }
 
+  public changeMode(mode) {
+    this.mode = mode;
+  }
+
   public updateList(): void {
     this.visibleTemplateList = this.templateList;
     this.filterResults();

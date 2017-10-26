@@ -1,0 +1,26 @@
+<mat-list-item>
+  <h2
+    class="row-title"
+    [matTooltip]="item.name"
+    [innerHTML]="item.name | highlight:query"
+  ></h2>
+
+
+  <div class="desc" *ngIf="item?.description">
+    <span >{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</span>
+    <span
+      *ngIf="item.description"
+      [matTooltip]="item.description"
+      [innerHTML]="item.description | highlight:query"
+      matTooltipPosition="above"
+    ></span>
+  </div>
+
+  <button class="row-action" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-security-group-actions [securityGroup]="item"></cs-security-group-actions>
+  </mat-menu>
+</mat-list-item>
