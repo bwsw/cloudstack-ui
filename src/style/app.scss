@@ -58,7 +58,7 @@ mat-list-item {
   margin: 0;
   font-size: 18px;
   line-height: normal;
-  flex-grow: 1;
+  flex-grow: 2;
   flex-basis: 100px;
   display: block;
   white-space: nowrap;
@@ -73,6 +73,8 @@ mat-list-item {
 .mat-list-item-content {
   z-index: 0;
   line-height: normal;
+  height: 100% !important;
+  padding: 0 !important;
   margin: 0 15px;
   display: flex;
   flex-direction: row;
@@ -154,7 +156,7 @@ mat-card.custom-card {
   }
 }
 
-.custom-card, .custom-row {
+.custom-card {
   & table {
     margin-top: 10px;
     width: 100%;
