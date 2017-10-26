@@ -1,6 +1,7 @@
 <mat-list-item
   class="volume-row"
   (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
   [class.root-disk]="isRoot"
 >
   <h2

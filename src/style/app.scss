@@ -65,6 +65,10 @@ mat-list-item {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+.row-action {
+  position: absolute !important;
+  right: 3px;
+}
 
 .mat-list-item-content {
   z-index: 0;
