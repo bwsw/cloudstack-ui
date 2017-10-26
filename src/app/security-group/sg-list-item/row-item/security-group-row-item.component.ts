@@ -1,6 +1,8 @@
 import {
   Component,
-  Input
+  Input,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { SecurityGroup } from '../../sg.model';
 
@@ -9,7 +11,16 @@ import { SecurityGroup } from '../../sg.model';
   templateUrl: 'security-group-row-item.component.html',
   styleUrls: ['security-group-row-item.component.scss']
 })
-export class SecurityGroupRowItemComponent {
+export class SecurityGroupRowItemComponent implements OnChanges {
   @Input() public item: SecurityGroup;
-  @Input() public query: string;
+  @Input() public searchQuery: () => string;
+
+  public query: string;
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const query = changes.searchQuery;
+    if (query) {
+      this.query = this.searchQuery();
+    }
+  }
 }
