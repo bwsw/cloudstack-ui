@@ -55,6 +55,7 @@ export class VmCreationComponent implements OnInit {
   public progressLoggerController = new ProgressLoggerController();
   public showOverlay = false;
   public deploymentStopped = false;
+  public maxEntityNameLength = 63;
   public loggerStageList: Array<ProgressLoggerMessage>;
 
   public visibleAffinityGroups: Array<AffinityGroup>;

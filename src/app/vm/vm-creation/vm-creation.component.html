@@ -54,11 +54,15 @@
                 (ngModelChange)="displayNameChange($event)"
                 [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
                 pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
+                [maxlength]="maxEntityNameLength"
                 required
               >
               <mat-error *ngIf="takenName">
                 {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
               </mat-error>
+              <mat-hint align="end">
+                <cs-character-count [value]="formState.state.displayName" [maxLength]="maxEntityNameLength"></cs-character-count>
+              </mat-hint>
             </mat-form-field>
           </div>
 
@@ -161,9 +165,13 @@
                 pattern="[a-zA-Z]{1}[a-zA-Z0-9\-\_]{0,61}[a-zA-Z0-9]$"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
                 [matAutocomplete]="affinityGroups"
+                [maxlength]="maxEntityNameLength"
                 [(ngModel)]="formState.state.affinityGroup.name"
                 (ngModelChange)="affinityGroupChange($event)"
               >
+              <mat-hint align="end">
+                <cs-character-count [value]="formState.state.affinityGroup.name" [maxLength]="maxEntityNameLength"></cs-character-count>
+              </mat-hint>
             </mat-form-field>
             <mat-autocomplete #affinityGroups>
               <mat-option
