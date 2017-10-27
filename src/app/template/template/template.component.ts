@@ -25,7 +25,7 @@ export class TemplateComponent implements OnChanges {
   @Input() public searchQuery: () => string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   public query: string;
 
@@ -40,7 +40,7 @@ export class TemplateComponent implements OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger || !this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

@@ -14,9 +14,9 @@ import { FilterService } from '../../shared/services/filter.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 
 import * as fromSshKeys from '../redux/ssh-key.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as sshKeyActions from '../redux/ssh-key.actions';
-import * as accountAction from '../../account/redux/accounts.actions';
-import * as fromAccounts from '../../account/redux/accounts.reducers';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 export const sshKeyListFilters = 'sshKeyListFilters';
 
@@ -27,7 +27,7 @@ export const sshKeyListFilters = 'sshKeyListFilters';
 export class SshKeyListContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
   readonly filters$ = this.store.select(fromSshKeys.filters);
-  readonly accounts$ = this.store.select(fromAccounts.accounts);
+  readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
   readonly selectedAccountIds$ = this.store.select(fromSshKeys.filterSelectedAccountIds);
 
@@ -62,7 +62,7 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new accountAction.LoadAccountsRequest());
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)

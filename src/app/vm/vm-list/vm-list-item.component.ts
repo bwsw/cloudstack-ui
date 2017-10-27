@@ -46,7 +46,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
   @Input() public item: VirtualMachine;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
@@ -103,7 +103,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

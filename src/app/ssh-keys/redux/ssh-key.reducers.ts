@@ -8,7 +8,8 @@ import {
   createFeatureSelector,
   createSelector
 } from '@ngrx/store';
-import { accounts } from '../../account/redux/accounts.reducers';
+
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 
 import * as sshKey from './ssh-key.actions';
 
@@ -193,12 +194,13 @@ export const filterSelectedAccountIds = createSelector(
 export const selectFilteredSshKeys = createSelector(
   selectAll,
   filterSelectedAccountIds,
-  accounts,
+  fromAccounts.selectAll,
   (sshKeys, selectedAccountIds, accounts) => {
 
-    const selectedAccounts = accounts.filter(account => selectedAccountIds.find(id => id === account.id));
-    const accountsMap = selectedAccounts.reduce((m, i) => ({...m, [i.name]: i }), {});
-    const domainsMap = selectedAccounts.reduce((m, i) => ({...m, [i.domainid]: i }), {});
+    const selectedAccounts = accounts.filter(
+      account => selectedAccountIds.find(id => id === account.id));
+    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
+    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
     const selectedAccountIdsFilter = sshKey => !selectedAccountIds.length ||
       (accountsMap[sshKey.account] && domainsMap[sshKey.domainid]);

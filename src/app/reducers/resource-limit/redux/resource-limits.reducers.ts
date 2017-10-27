@@ -7,9 +7,8 @@ import {
   EntityAdapter,
   EntityState
 } from '@ngrx/entity';
-import { Domain } from '../../shared/models/domain.model';
-
-import * as event from './domains.actions';
+import * as event from './resource-limits.actions';
+import { ResourceLimit } from '../../../shared/models/resource-limit.model';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -18,15 +17,15 @@ import * as event from './domains.actions';
  * model type by id. This interface is extended to include
  * any additional interface properties.
  */
-export interface State extends EntityState<Domain> {
+export interface State extends EntityState<ResourceLimit> {
   loading: boolean
 }
 
-export interface DomainsState {
+export interface ResourceLimitsState {
   list: State;
 }
 
-export const domainReducers = {
+export const resourceLimitsReducers = {
   list: reducer,
 };
 
@@ -38,8 +37,8 @@ export const domainReducers = {
  * a sortComparer option which is set to a compare
  * function if the records are to be sorted.
  */
-export const adapter: EntityAdapter<Domain> = createEntityAdapter<Domain>({
-  selectId: (item: Domain) => item.id,
+export const adapter: EntityAdapter<ResourceLimit> = createEntityAdapter<ResourceLimit>({
+  selectId: (item: ResourceLimit) => item.resourcetype.toString(),
   sortComparer: false
 });
 
@@ -56,15 +55,15 @@ export function reducer(
   action: event.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_DOMAINS_REQUEST: {
+    case event.LOAD_RESOURCE_LIMITS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case event.LOAD_DOMAINS_RESPONSE: {
+    case event.LOAD_RESOURCE_LIMITS_RESPONSE: {
 
-      const domains = action.payload;
+      const resourceLimits = action.payload;
 
       return {
         /**
@@ -74,10 +73,12 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(domains, state),
+        ...adapter.addAll(resourceLimits, state),
         loading: false
       };
     }
+
+
     default: {
       return state;
     }
@@ -85,10 +86,10 @@ export function reducer(
 }
 
 
-export const getDomainsState = createFeatureSelector<DomainsState>('domains');
+export const getResourceLimitsState = createFeatureSelector<ResourceLimitsState>('resourceLimits');
 
-export const getDomainsEntitiesState = createSelector(
-  getDomainsState,
+export const getResourceLimitsEntitiesState = createSelector(
+  getResourceLimitsState,
   state => state.list
 );
 
@@ -97,14 +98,9 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getDomainsEntitiesState);
+} = adapter.getSelectors(getResourceLimitsEntitiesState);
 
 export const isLoading = createSelector(
-  getDomainsEntitiesState,
+  getResourceLimitsEntitiesState,
   state => state.loading
-);
-
-export const domains = createSelector(
-  selectAll,
-  (domainsList) => domainsList
 );

@@ -7,8 +7,8 @@ import {
   EntityAdapter,
   EntityState
 } from '@ngrx/entity';
-import * as event from './roles.actions';
-import { Role } from '../../shared/models/role.model';
+import * as event from './configurations.actions';
+import { Configuration } from '../../../shared/models/configuration.model';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -17,15 +17,15 @@ import { Role } from '../../shared/models/role.model';
  * model type by id. This interface is extended to include
  * any additional interface properties.
  */
-export interface State extends EntityState<Role> {
+export interface State extends EntityState<Configuration> {
   loading: boolean
 }
 
-export interface RolesState {
+export interface ConfigurationsState {
   list: State;
 }
 
-export const roleReducers = {
+export const configurationReducers = {
   list: reducer,
 };
 
@@ -37,8 +37,8 @@ export const roleReducers = {
  * a sortComparer option which is set to a compare
  * function if the records are to be sorted.
  */
-export const adapter: EntityAdapter<Role> = createEntityAdapter<Role>({
-  selectId: (item: Role) => item.id,
+export const adapter: EntityAdapter<Configuration> = createEntityAdapter<Configuration>({
+  selectId: (item: Configuration) => item.name,
   sortComparer: false
 });
 
@@ -55,15 +55,16 @@ export function reducer(
   action: event.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_ROLES_REQUEST: {
+    case event.LOAD_CONFIGURATIONS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case event.LOAD_ROLES_RESPONSE: {
 
-      const roles = action.payload;
+    case event.LOAD_CONFIGURATIONS_RESPONSE: {
+
+      const configurations = action.payload;
 
       return {
         /**
@@ -73,12 +74,10 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(roles, state),
+        ...adapter.addAll(configurations, state),
         loading: false
       };
     }
-
-
     default: {
       return state;
     }
@@ -86,10 +85,10 @@ export function reducer(
 }
 
 
-export const getRolesState = createFeatureSelector<RolesState>('roles');
+export const getConfigurationsState = createFeatureSelector<ConfigurationsState>('configurations');
 
-export const getRolesEntitiesState = createSelector(
-  getRolesState,
+export const getConfigurationsEntitiesState = createSelector(
+  getConfigurationsState,
   state => state.list
 );
 
@@ -98,21 +97,11 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getRolesEntitiesState);
+} = adapter.getSelectors(getConfigurationsEntitiesState);
 
 export const isLoading = createSelector(
-  getRolesEntitiesState,
+  getConfigurationsEntitiesState,
   state => state.loading
-);
-
-export const roles = createSelector(
-  selectAll,
-  (roles) => roles
-);
-
-export const roleTypes = createSelector(
-  roles,
-  roles => Array.from(new Set(roles.map(role => role.type)))
 );
 
 

@@ -12,7 +12,8 @@ import {
   MatMenuModule,
   MatSelectModule,
   MatTabsModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatInputModule
 } from '@angular/material';
 import { AccountItemComponent } from './account/account-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -25,16 +26,23 @@ import { AccountDetailsComponent } from './account-sidebar/account-details/accou
 import { AccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/account-configuration.component';
 import { EditAccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/edit-account-configuration.component';
 import { AccountPageContainerComponent } from './account-container/account.container';
-import { AccountsEffects } from './redux/accounts.effects';
-import { DomainsEffects } from '../domains/redux/domains.effects';
-import { RolesEffects } from '../roles/redux/roles.effects';
+import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
+import { DomainsEffects } from '../reducers/domains/redux/domains.effects';
+import { RolesEffects } from '../reducers/roles/redux/roles.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { accountReducers } from './redux/accounts.reducers';
-import { domainReducers } from '../domains/redux/domains.reducers'
-import { roleReducers } from '../roles/redux/roles.reducers';
+import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
+import { domainReducers } from '../reducers/domains/redux/domains.reducers'
+import { roleReducers } from '../reducers/roles/redux/roles.reducers';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-
+import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
+import { AccountDetailsContainerComponent } from './account-container/account-details.container';
+import { configurationReducers } from '../reducers/configuration/redux/configurations.reducers';
+import { ConfigurationEffects } from '../reducers/configuration/redux/configurations.effects';
+import { resourceLimitsReducers } from '../reducers/resource-limit/redux/resource-limits.reducers';
+import { ResourceLimitsEffects } from '../reducers/resource-limit/redux/resource-limits.effects';
+import { ResourceCountsEffects } from '../reducers/resource-count/redux/resource-counts.effects';
+import { resourceCountsReducers } from '../reducers/resource-count/redux/resource-counts.reducers';
 
 @NgModule({
   imports: [
@@ -47,14 +55,25 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
     MatButtonModule,
     MatSelectModule,
     MatIconModule,
+    MatInputModule,
     RouterModule,
     SharedModule,
     TranslateModule,
     DraggableSelectModule,
+    StoreModule.forFeature('configurations', configurationReducers),
+    StoreModule.forFeature('resourceLimits', resourceLimitsReducers),
+    StoreModule.forFeature('resourceCounts', resourceCountsReducers),
     StoreModule.forFeature('accounts', accountReducers),
     StoreModule.forFeature('domains', domainReducers),
     StoreModule.forFeature('roles', roleReducers),
-    EffectsModule.forFeature([AccountsEffects, DomainsEffects, RolesEffects]),
+    EffectsModule.forFeature([
+      AccountsEffects,
+      DomainsEffects,
+      RolesEffects,
+      ConfigurationEffects,
+      ResourceLimitsEffects,
+      ResourceCountsEffects
+    ]),
   ],
   declarations: [
     AccountPageComponent,
@@ -68,6 +87,8 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
     AccountDetailsComponent,
     AccountConfigurationComponent,
     AccountPageContainerComponent,
+    AccountSidebarContainerComponent,
+    AccountDetailsContainerComponent,
     EditAccountConfigurationComponent,
   ],
   entryComponents: [

@@ -1,11 +1,8 @@
-import { Component } from '@angular/core';
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Account } from '../../shared/models/account.model';
 import { AccountService } from '../../shared/services/account.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
@@ -13,7 +10,11 @@ import { AuthService } from '../../shared/services/auth.service';
   templateUrl: 'account-sidebar.component.html',
   styleUrls: ['account-sidebar.component.scss']
 })
-export class AccountSidebarComponent extends SidebarComponent<Account>{
+export class AccountSidebarComponent {
+
+  @Input() public entity: any;
+  @Output() public onAccountChanged = new EventEmitter<Account>();
+
   constructor(
     protected accountService: AccountService,
     protected notificationService: NotificationService,
@@ -21,18 +22,13 @@ export class AccountSidebarComponent extends SidebarComponent<Account>{
     protected router: Router,
     protected authService: AuthService
   ) {
-    super(accountService, notificationService, route, router);
+
   }
 
-  protected loadEntity(id: string): Observable<Account> {
-    return this.accountService.get(id)
-      .switchMap(account => {
-        if (account) {
-          return Observable.of(account);
-        } else {
-          return Observable.throw(new EntityDoesNotExistError());
-        }
-      });
+  public tabIsActive(tabId: string) {
+    const path = this.route.snapshot;
+    const pathLastChild = path.firstChild.routeConfig.path;
+    return (tabId === pathLastChild)
   }
 
   public isAdmin() {

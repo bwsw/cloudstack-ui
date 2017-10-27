@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
 import { Account } from '../../shared/models/account.model';
@@ -14,7 +20,7 @@ export class AccountItemComponent {
   @Input() public isSelected: (account) => boolean;
   @Output() public onClick = new EventEmitter<Account>();
   @Output() public onAccountChanged = new EventEmitter<Account>();
-  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   readonly stateTranslations = stateTranslations;
 
@@ -23,7 +29,7 @@ export class AccountItemComponent {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger || !this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

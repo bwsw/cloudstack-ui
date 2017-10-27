@@ -4,20 +4,24 @@ import {
 } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as accountActions from '../redux/accounts.actions';
-import * as domainActions from '../../domains/redux/domains.actions';
-import * as roleActions from '../../roles/redux/roles.actions';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as domainActions from '../../reducers/domains/redux/domains.actions';
+import * as roleActions from '../../reducers/roles/redux/roles.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import {
   ActivatedRoute,
   Router
 } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import * as fromAccounts from '../redux/accounts.reducers';
-import * as fromDomains from '../../domains/redux/domains.reducers';
-import * as fromRoles from '../../roles/redux/roles.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
+import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Account, AccountState } from '../../shared/models/account.model';
+import {
+  Account,
+  AccountState
+} from '../../shared/models/account.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 export const stateTranslations = {
   [AccountState.disabled]: 'ACCOUNT_STATE.DISABLED',
@@ -54,8 +58,8 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
   readonly filters$ = this.store.select(fromAccounts.filters);
-  readonly domains$ = this.store.select(fromDomains.domains);
-  readonly roles$ = this.store.select(fromRoles.roles);
+  readonly domains$ = this.store.select(fromDomains.selectAll);
+  readonly roles$ = this.store.select(fromRoles.selectAll);
   readonly roleTypes$ = this.store.select(fromRoles.roleTypes);
 
   readonly selectedDomainIds$ = this.store.select(fromAccounts.filterSelectedDomainIds);
@@ -109,6 +113,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
 
   constructor(
     private store: Store<State>,
+    private authService: AuthService,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -140,21 +145,29 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
     this.store.dispatch(new accountActions.AccountFilterUpdate({}));
   }
 
+  public isAdmin() {
+    return this.authService.isAdmin();
+  }
+
   public ngOnInit() {
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
-    this.store.dispatch(new roleActions.LoadRolesRequest());
-    this.initFilters();
-    this.filters$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(filters => {
-        this.filterService.update({
-          'domains': filters.selectedDomainIds,
-          'roles': filters.selectedRoleNames,
-          'roleTypes': filters.selectedRoleTypes,
-          'states': filters.selectedStates,
-          'groupings': filters.selectedGroupingNames
+    if (this.isAdmin()) {
+      this.store.dispatch(new domainActions.LoadDomainsRequest());
+      this.store.dispatch(new roleActions.LoadRolesRequest());
+      this.initFilters();
+      this.filters$
+        .takeUntil(this.unsubscribe$)
+        .subscribe(filters => {
+          this.filterService.update({
+            'domains': filters.selectedDomainIds,
+            'roles': filters.selectedRoleNames,
+            'roleTypes': filters.selectedRoleTypes,
+            'states': filters.selectedStates,
+            'groupings': filters.selectedGroupingNames
+          });
         });
-      });
+    } else {
+      this.store.dispatch(new accountActions.LoadAccountsRequest());
+    }
   }
 
   public update(selectedGroupings) {

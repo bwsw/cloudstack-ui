@@ -1,7 +1,19 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { VolumeActionsService } from '../../shared/actions/volume-actions/volume-actions.service';
-import { DiskOffering, Volume } from '../../shared/models';
+import {
+  DiskOffering,
+  Volume
+} from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
@@ -18,7 +30,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
   @Input() public searchQuery: () => string;
   @Input() public item: Volume;
   @Output() public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   public diskOfferings: Array<DiskOffering>;
   public query: string;
@@ -61,7 +73,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }
