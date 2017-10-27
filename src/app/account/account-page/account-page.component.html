@@ -2,6 +2,7 @@
   <cs-top-bar>
     <cs-filter *ngIf="isAdmin()"
       (onModeChange)="changeMode($event)"
+      [key]="key"
     >
       <cs-account-list-filter
         [domains]="domains"

@@ -16,7 +16,6 @@ import {
   SecurityGroup,
   SecurityGroupType
 } from '../sg.model';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 
 
 @Component({
@@ -38,7 +37,8 @@ export class SecurityGroupPageComponent implements OnInit {
   public query: string;
   public viewMode: SecurityGroupViewMode;
 
-  public mode = ViewMode.BOX;
+  public mode;
+  public key = 'sg-page';
 
   constructor(
     private cd: ChangeDetectorRef,

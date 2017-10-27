@@ -14,7 +14,6 @@ import { ListService } from '../../shared/components/list/list.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Account } from '../../shared/models/account.model';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 
 
 @Component({
@@ -34,7 +33,8 @@ export class SshKeysPageComponent {
   @Output() public onAccountsChange = new EventEmitter<Account[]>();
   @Output() public onGroupingsChange = new EventEmitter();
 
-  public mode = ViewMode.BOX;
+  public mode;
+  public key = 'shhkey-page';
 
   constructor(
     public listService: ListService,

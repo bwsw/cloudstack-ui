@@ -1,5 +1,5 @@
 <cs-grouped-list
-  *ngIf="mode == 0"
+  *ngIf="mode == 1"
   [list]="templateList"
   [groupings]="groupings"
   [component]="TemplateRowComponent"
@@ -7,7 +7,7 @@
   [dynamicOutputs]="outputs"
 ></cs-grouped-list>
 <cs-grouped-card
-  *ngIf="mode == 1"
+  *ngIf="mode == 0"
   [list]="templateList"
   [groupings]="groupings"
   [component]="TemplateCardComponent"

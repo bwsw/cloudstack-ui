@@ -4,6 +4,7 @@
     <cs-top-bar>
       <cs-filter
         (onModeChange)="changeMode($event)"
+        [key]="key"
       >
         <cs-sg-filter
           [viewMode]="viewMode"

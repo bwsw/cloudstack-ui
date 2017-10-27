@@ -6,6 +6,7 @@
     <cs-top-bar>
       <cs-filter
         (onModeChange)="changeMode($event)"
+        [key]="key"
       >
         <cs-volume-filter *ngIf="zones && accounts"
           [zones]="zones"

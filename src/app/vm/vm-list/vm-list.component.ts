@@ -38,7 +38,6 @@ import { Account } from '../../shared/models/account.model';
 import { AccountService } from '../../shared/services/account.service';
 import { VmListRowItemComponent } from '../vm-list-item/row-item/vm-list-row-item.component';
 import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-item.component';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 
 
 @Component({
@@ -82,7 +81,8 @@ export class VmListComponent implements OnInit {
 
   public VmListRowItemComponent = VmListRowItemComponent;
   public VmListCardItemComponent = VmListCardItemComponent;
-  public mode = ViewMode.BOX;
+  public mode;
+  public key = 'vm-page';
 
 
   public groups: Array<InstanceGroup>;

@@ -8,6 +8,7 @@
     </cs-top-bar>
     <cs-filter
       (onModeChange)="changeMode($event)"
+      [key]="key"
     >
       <cs-vm-filter *ngIf="zones && groups  && accounts"
         [zones]="zones"
@@ -21,7 +22,7 @@
   </ng-container>
 
   <ng-container *loading="fetching" cs-list>
-    <cs-grouped-list *ngIf="mode == 0"
+    <cs-grouped-list *ngIf="mode == 1"
       [list]="visibleVmList"
       [groupings]="selectedGroupings"
       [component]="VmListRowItemComponent"
@@ -29,7 +30,7 @@
       [dynamicOutputs]="outputs"
     >
     </cs-grouped-list>
-    <cs-grouped-card *ngIf="mode == 1"
+    <cs-grouped-card *ngIf="mode == 0"
       [list]="visibleVmList"
       [groupings]="selectedGroupings"
       [component]="VmListCardItemComponent"

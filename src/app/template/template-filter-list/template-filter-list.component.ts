@@ -17,7 +17,6 @@ import { Template } from '../shared/template.model';
 import { Domain } from '../../shared/models/domain.model';
 import { DomainService } from '../../shared/services/domain.service';
 import { Account } from '../../shared/models/account.model';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 
 
 @Component({
@@ -35,7 +34,8 @@ export class TemplateFilterListComponent implements OnChanges {
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
 
-  public mode = ViewMode.BOX;
+  public mode;
+  public key = 'template-page';
 
   public fetching = false;
   public query: string;
