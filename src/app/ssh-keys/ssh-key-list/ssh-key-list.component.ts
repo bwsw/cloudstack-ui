@@ -1,7 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { SshKeyListItemComponent } from '../ssh-key-list-item/ssh-key-list-item.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { SshKeyCardItemComponent } from '../ssh-key-list-item/card-item/ssh-key-card-item.component';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
+import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { SshKeyRowItemComponent } from '../ssh-key-list-item/row-item/ssh-key-row-item.component';
 
 
 @Component({
@@ -11,11 +21,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SshKeyListComponent {
   @Input() public keys: Array<SSHKeyPair>;
   @Input() public groupings: Array<any>;
+  @Input() public mode: ViewMode.BOX;
   @Output() public onRemove = new EventEmitter<SSHKeyPair>();
   public inputs;
   public outputs;
 
-  public SshKeyListItemComponent = SshKeyListItemComponent;
+  public SshKeyCardItemComponent = SshKeyCardItemComponent;
+  public SshKeyRowItemComponent = SshKeyRowItemComponent;
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.outputs = {

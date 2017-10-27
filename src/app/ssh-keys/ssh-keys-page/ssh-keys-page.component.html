@@ -2,18 +2,27 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-ssh-key-filter
-    [groupings]="groupings"
-    [accounts]="accounts"
-    [selectedAccountIds]="selectedAccountIds"
-    [selectedGroupings]="selectedGroupings"
-    (onGroupingsChange)="onGroupingsChange.emit($event)"
-    (onAccountsChange)="onAccountsChange.emit($event)"
-    cs-list
-  ></cs-ssh-key-filter>
+  <ng-container cs-panels>
+    <cs-top-bar>
+      <cs-filter
+        (onModeChange)="changeMode($event)"
+      >
+        <cs-ssh-key-filter
+          [groupings]="groupings"
+          [accounts]="accounts"
+          [selectedAccountIds]="selectedAccountIds"
+          [selectedGroupings]="selectedGroupings"
+          (onGroupingsChange)="onGroupingsChange.emit($event)"
+          (onAccountsChange)="onAccountsChange.emit($event)"
+          cs-list
+        ></cs-ssh-key-filter>
+      </cs-filter>
+    </cs-top-bar>
+  </ng-container>
 
   <cs-ssh-key-list
     *loading="!sshKeyList"
+    [mode]="mode"
     [keys]="sshKeyList"
     [groupings]="selectedGroupings"
     (onRemove)="removeKey($event)"
