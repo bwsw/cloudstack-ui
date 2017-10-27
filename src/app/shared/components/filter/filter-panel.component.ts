@@ -19,4 +19,9 @@ export class FilterPanelComponent {
   @Input() mode = ViewMode.BOX;
   @Output() onModeChange = new EventEmitter();
 
+  changeMode() {
+    this.mode = this.mode === 0 ? 1 : 0;
+    this.onModeChange.emit(this.mode);
+  }
+
 }

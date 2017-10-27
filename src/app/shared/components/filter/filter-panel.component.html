@@ -1,12 +1,8 @@
 <div class="options-panel">
   <ng-content></ng-content>
 
-  <mat-button-toggle-group (change)="onModeChange.emit($event.value)">
-    <mat-button-toggle value="0" [checked]="mode === 0">
-      <mat-icon>view_list</mat-icon>
-    </mat-button-toggle>
-    <mat-button-toggle value="1" [checked]="mode === 1">
-      <mat-icon>view_module</mat-icon>
-    </mat-button-toggle>
-  </mat-button-toggle-group>
+  <button mat-icon-button (click)="changeMode()">
+    <mat-icon *ngIf="mode === 1">view_list</mat-icon>
+    <mat-icon *ngIf="mode === 0">view_module</mat-icon>
+  </button>
 </div>
