@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import * as accountActions from './accounts.actions';
 import { Action } from '@ngrx/store';
 import { AccountService } from '../../../shared/services/account.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class AccountsEffects {
@@ -27,9 +28,37 @@ export class AccountsEffects {
         .catch(() => Observable.of(new accountActions.LoadAccountsResponse([])));
     });
 
+  @Effect()
+  createAccount$: Observable<Action> = this.actions$
+    .ofType(accountActions.CREATE_ACCOUNT)
+    .switchMap((action: accountActions.CreateAccount) => {
+      return this.accountService.create(action.payload)
+        .map(createdAccount => new accountActions.CreateSuccess(createdAccount))
+        .catch((error: Error) => {
+          return Observable.of(new accountActions.CreateError(error));
+        });
+    });
+
+  @Effect({ dispatch: false })
+  createError$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_CREATE_ERROR)
+    .do((action: accountActions.CreateError) => {
+      this.handleError(action.payload);
+    });
+
   constructor(
     private actions$: Actions,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private dialogService: DialogService
   ) {
+  }
+
+  private handleError(error): void {
+    this.dialogService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

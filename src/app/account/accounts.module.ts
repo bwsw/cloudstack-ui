@@ -8,12 +8,13 @@ import { AccountListComponent } from './account-list/account-list.component';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
 import {
   MatButtonModule,
+  MatDialogModule,
   MatIconModule,
+  MatInputModule,
   MatMenuModule,
   MatSelectModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatInputModule
+  MatTooltipModule
 } from '@angular/material';
 import { AccountItemComponent } from './account/account-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -43,6 +44,10 @@ import { resourceLimitsReducers } from '../reducers/resource-limit/redux/resourc
 import { ResourceLimitsEffects } from '../reducers/resource-limit/redux/resource-limits.effects';
 import { ResourceCountsEffects } from '../reducers/resource-count/redux/resource-counts.effects';
 import { resourceCountsReducers } from '../reducers/resource-count/redux/resource-counts.reducers';
+import { AccountCreationComponent } from './creation-form/account-creation.component';
+import { AccountCreationDialogComponent } from './creation-form/account-creation-dialog.component';
+import { AccountCreationContainer } from './account-container/account-creation.container';
+import { AccountFilterContainerComponent } from './account-container/account-filter.container';
 
 @NgModule({
   imports: [
@@ -53,6 +58,8 @@ import { resourceCountsReducers } from '../reducers/resource-count/redux/resourc
     MatTooltipModule,
     MatTabsModule,
     MatButtonModule,
+    MatSelectModule,
+    MatDialogModule,
     MatSelectModule,
     MatIconModule,
     MatInputModule,
@@ -89,10 +96,15 @@ import { resourceCountsReducers } from '../reducers/resource-count/redux/resourc
     AccountPageContainerComponent,
     AccountSidebarContainerComponent,
     AccountDetailsContainerComponent,
+    AccountFilterContainerComponent,
     EditAccountConfigurationComponent,
+    AccountCreationComponent,
+    AccountCreationDialogComponent,
+    AccountCreationContainer,
   ],
   entryComponents: [
-    EditAccountConfigurationComponent
+    EditAccountConfigurationComponent,
+    AccountCreationContainer
   ],
   exports: [
     AccountPageComponent

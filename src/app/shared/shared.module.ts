@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
   MatIconModule,
@@ -20,8 +21,7 @@ import {
   MatSnackBarModule,
   MatTableModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatButtonToggleModule
+  MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -152,6 +152,8 @@ import { AccountDisableAction } from './actions/account-actions/actions/account-
 import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
 import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
 import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
+import { TimeZoneComponent } from './components/time-zone/time-zone.component';
+import { TimeZoneService } from './components/time-zone/time-zone.service';
 
 @NgModule({
   imports: [
@@ -238,6 +240,7 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     TemplateActionsComponent,
     MatAutocompleteModule,
     MatInputModule,
+    TimeZoneComponent,
     TopBarComponent,
     ViewValuePipe,
     VmStatisticsComponent
@@ -307,7 +310,8 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    TimeZoneComponent
   ],
   providers: [
     AccountService,
@@ -371,7 +375,8 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     VolumeService,
     VolumeTagService,
     ZoneService,
-    HypervisorService
+    HypervisorService,
+    TimeZoneService,
   ]
 })
 export class SharedModule {

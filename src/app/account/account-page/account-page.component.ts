@@ -5,12 +5,12 @@ import {
   Output
 } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
-import {
-  Account,
-  Domain,
-  Role
-} from '../../shared';
+import { Account } from '../../shared';
 import { AuthService } from '../../shared/services/auth.service';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 
 @Component({
   selector: 'cs-account-page',
@@ -20,28 +20,17 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class AccountPageComponent {
   @Input() public accounts: Array<Account> = [];
-  @Input() public domains: Array<Domain>;
-  @Input() public roles: Array<Role>;
-  @Input() public roleTypes: Array<string>;
-  @Input() public states: Array<string>;
   @Input() public groupings: Array<any>;
   @Input() public isLoading: boolean;
-  @Input() public selectedRoleTypes: string[] = [];
-  @Input() public selectedDomainIds: string[] = [];
-  @Input() public selectedRoleNames: string[] = [];
-  @Input() public selectedStates: string[] = [];
   @Input() public selectedGroupings: Array<any> = [];
 
-  @Output() public onDomainsChange = new EventEmitter();
-  @Output() public onRolesChange = new EventEmitter();
-  @Output() public onRoleTypesChange = new EventEmitter();
-  @Output() public onStatesChange = new EventEmitter();
   @Output() public onAccountChanged = new EventEmitter<Account>();
-  @Output() public onGroupingsChange = new EventEmitter();
 
   constructor(
     public listService: ListService,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   private updateList(account?: Account): void {
@@ -53,6 +42,13 @@ export class AccountPageComponent {
 
   public isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  public showCreationDialog(): void {
+    this.router.navigate(['./create'], {
+      queryParamsHandling: 'preserve',
+      relativeTo: this.activatedRoute
+    });
   }
 
 }

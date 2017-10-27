@@ -110,6 +110,12 @@ export function reducer(
       };
     }
 
+    case event.ACCOUNT_CREATE_SUCCESS: {
+      return {
+        ...adapter.addOne(action.payload, state),
+      };
+    }
+
 
     default: {
       return state;
