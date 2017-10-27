@@ -476,7 +476,7 @@
       "DISK_SIZE": "Disk size",
       "GROUP": "Group",
       "NO_GROUP": "No group",
-      "AFFINITY_GROUPS": "Affinity groups",
+      "AFFINITY_GROUP": "Affinity group",
       "SECURITY_GROUPS": "Firewall rules",
       "KEYBOARD_LAYOUT": "Keyboard layout",
       "KB_US": "Standard (US) keyboard",
