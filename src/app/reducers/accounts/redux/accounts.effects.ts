@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import * as accountActions from './accounts.actions';
 import { Action } from '@ngrx/store';
-import { AccountService } from '../../shared/services/account.service';
+import { AccountService } from '../../../shared/services/account.service';
 
 @Injectable()
 export class AccountsEffects {

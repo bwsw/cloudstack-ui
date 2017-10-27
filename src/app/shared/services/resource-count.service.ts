@@ -3,7 +3,6 @@ import { BaseBackendCachedService } from './base-backend-cached.service';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
-import { Account } from '../models/account.model';
 import { ResourceCount } from '../models/resource-count.model';
 
 
@@ -18,11 +17,8 @@ export class ResourceCountService extends BaseBackendCachedService<ResourceCount
   }
 
   public updateResourceCount(
-    account: Account
+    params: { [key: string]: string; }
   ): Observable<Array<ResourceCount>> {
-    return this.sendCommand('update', {
-      domainid: account.domainid,
-      account: account.name
-    }).map(response => this.formatGetListResponse(response).list);
+    return this.sendCommand('update', params).map(response => this.formatGetListResponse(response).list);
   }
 }

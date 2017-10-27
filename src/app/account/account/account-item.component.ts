@@ -9,7 +9,7 @@ export class AccountItemComponent {
   public isSelected: (account) => boolean;
   public onClick = new EventEmitter<Account>();
   public onAccountChanged = new EventEmitter<Account>();
-  public mdMenuTrigger: MatMenuTrigger;
+  public matMenuTrigger: MatMenuTrigger;
 
   readonly stateTranslations = stateTranslations;
 
@@ -18,7 +18,7 @@ export class AccountItemComponent {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger || !this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

@@ -20,7 +20,7 @@ export class AccountRowItemComponent extends AccountItemComponent{
   @Input() public isSelected: (account) => boolean;
   @Output() public onClick = new EventEmitter<Account>();
   @Output() public onAccountChanged = new EventEmitter<Account>();
-  @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   constructor(protected authService: AuthService) {
     super(authService);

@@ -1,7 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { BaseAccountAction } from './actions/base-account-action';
 import { AccountActionsService } from './account-actions.service';
-import { AccountService } from '../../services/account.service';
 import { Account } from '../../models/account.model';
 
 @Component({
@@ -15,14 +19,14 @@ export class AccountActionsComponent {
   public actions: Array<BaseAccountAction>;
 
   constructor(
-    private accountActionService: AccountActionsService,
-    private accountService: AccountService
+    private accountActionService: AccountActionsService
   ) {
     this.actions = this.accountActionService.actions;
     this.onAccountChanged = new EventEmitter<Account>();
-    this.accountService.onAccountUpdated.subscribe(
-      (account) => this.onAccountChanged.emit(account)
-    );
+  }
+
+  public activateAction(action: BaseAccountAction, account: Account) {
+    action.activate(account).subscribe(() => this.onAccountChanged.emit(account));
   }
 
 }

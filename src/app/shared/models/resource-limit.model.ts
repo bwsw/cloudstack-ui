@@ -1,5 +1,4 @@
 import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
 
 export const enum ResourceType {
   Instance, // Number of instances a user can create
@@ -16,11 +15,8 @@ export const enum ResourceType {
   SecondaryStorage // Total secondary storage space (in GiB) a user can use
 }
 
-@FieldMapper({
-  resourcetype: 'resourceType'
-})
 export class ResourceLimit extends BaseModel {
   public id: string;
   public max: number;
-  public resourceType: ResourceType;
+  public resourcetype: number;
 }

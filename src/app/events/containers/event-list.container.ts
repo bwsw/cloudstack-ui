@@ -5,7 +5,7 @@ import {
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import * as eventAction from '../redux/events.actions';
-import * as accountAction from '../../account/redux/accounts.actions';
+import * as accountAction from '../../reducers/accounts/redux/accounts.actions';
 import * as debounce from 'lodash/debounce';
 import { FilterService } from '../../shared/services/filter.service';
 import {
@@ -14,7 +14,7 @@ import {
 } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import * as fromEvents from '../redux/events.reducers';
-import * as fromAccounts from '../../account/redux/accounts.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { LanguageService } from '../../shared/services/language.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
@@ -46,7 +46,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
 
   readonly firstDayOfWeek$ = this.languageService.getFirstDayOfWeek();
   readonly events$ = this.store.select(fromEvents.selectFilteredEvents);
-  readonly accounts$ = this.store.select(fromAccounts.accounts);
+  readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly query$ = this.store.select(fromEvents.filterQuery);
   readonly loading$ = this.store.select(fromEvents.isLoading);
   readonly filters$ = this.store.select(fromEvents.filters);

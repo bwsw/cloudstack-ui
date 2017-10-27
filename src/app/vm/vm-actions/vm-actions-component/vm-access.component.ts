@@ -15,7 +15,7 @@ import { VirtualMachine } from '../../shared/vm.model';
 })
 export class VmAccessComponent {
   public vm: VirtualMachine;
-  public title = 'VM_PAGE.COMMANDS.VM_ACCESS_TITLE';
+  public title = 'VM_PAGE.COMMANDS.VM_ACCESS';
 
   constructor(
     public dialogRef: MatDialogRef<VmAccessComponent>,

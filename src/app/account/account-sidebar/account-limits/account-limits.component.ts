@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -13,6 +14,7 @@ import {
 @Component({
   selector: 'cs-account-limits',
   templateUrl: 'account-limits.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['account-limits.component.scss']
 })
 export class AccountLimitsComponent {
@@ -20,6 +22,8 @@ export class AccountLimitsComponent {
   @Input() public isAdmin: boolean;
   @Output() public onLimitsEdit: EventEmitter<Array<ResourceLimit>>;
   public isEdit: boolean = false;
+
+  public localLimits = [];
 
   public limitLabels = {
     [ResourceType.Instance]: 'ACCOUNT_PAGE.CONFIGURATION.VM_LIMIT',
@@ -41,8 +45,13 @@ export class AccountLimitsComponent {
   }
 
   public onSave(): void {
-    this.onLimitsEdit.emit(this.limits);
+    this.onLimitsEdit.emit(this.localLimits);
     this.isEdit = false;
+  }
+
+  public editLimits() {
+    this.localLimits =  this.limits.map(limit => ({resourcetype: limit.resourcetype, max: limit.max}));
+    this.isEdit = !this.isEdit;
   }
 
 }

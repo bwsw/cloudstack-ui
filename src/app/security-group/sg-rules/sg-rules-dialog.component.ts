@@ -53,7 +53,8 @@ export class SecurityGroupRulesDialogComponent {
   }
 
   private loadEntity(id: string): Observable<SecurityGroup> {
-    return this.entityService.get(id);
+    const entity = this.entityService.getPredefinedTemplates().find(item => item.id === id);
+    return entity ? Observable.of(entity) : this.entityService.get(id);
   }
 
   private onError(error: any): void {
