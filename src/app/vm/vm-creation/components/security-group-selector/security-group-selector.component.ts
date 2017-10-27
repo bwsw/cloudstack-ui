@@ -17,34 +17,40 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
 })
 export class SecurityGroupSelectorComponent implements ControlValueAccessor {
   @Input() public securityGroups: Array<SecurityGroup>;
-  public _securityGroup: SecurityGroup;
+  public _selectedSecurityGroups: SecurityGroup[] = [];
 
   @Input()
-  public get securityGroup(): SecurityGroup {
-    return this._securityGroup;
+  public get selectedSecurityGroups(): SecurityGroup[] {
+    return this._selectedSecurityGroups;
   }
 
-  public set securityGroup(value: SecurityGroup) {
+  public writeValue(value: SecurityGroup[]): void {
     if (value) {
-      this._securityGroup = value;
-      this.propagateChange(this.securityGroup);
+      this._selectedSecurityGroups = value;
     }
   }
 
-  public writeValue(value: SecurityGroup): void {
-    if (value) {
-      this.securityGroup = value;
-    }
-  }
+  public propagateChange: any = () => {
+  };
 
-  public propagateChange: any = () => {};
-  public registerOnTouched(): any {}
+  public registerOnTouched(): any {
+  }
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;
   }
 
   public selectSecurityGroup(securityGroup: SecurityGroup): void {
-    this.securityGroup = securityGroup;
+    if (this.checkSelectedSG(securityGroup.id)) {
+      const index = this.selectedSecurityGroups.findIndex(_ => _.id === securityGroup.id);
+      this.selectedSecurityGroups.splice(index, 1);
+    } else {
+      this.selectedSecurityGroups.push(securityGroup);
+    }
+  }
+
+  public checkSelectedSG(securityGroupId: string) {
+    const isSelectedItem = this.selectedSecurityGroups.find(securityGroup => securityGroup.id === securityGroupId);
+    return !!isSelectedItem;
   }
 }

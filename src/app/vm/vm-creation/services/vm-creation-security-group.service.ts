@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { Observable } from 'rxjs/Observable';
-import { SecurityGroup } from '../../../security-group/sg.model';
 import { VmCreationSecurityGroupMode } from '../security-group/vm-creation-security-group-mode';
 import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
@@ -13,13 +12,13 @@ import { Utils } from '../../../shared/services/utils/utils.service';
 export class VmCreationSecurityGroupService {
   constructor(private securityGroupService: SecurityGroupService) {}
 
-  public getSecurityGroupCreationRequest(securityGroupData: VmCreationSecurityGroupData): Observable<SecurityGroup> {
+  public getSecurityGroupCreationRequest(securityGroupData: VmCreationSecurityGroupData): Observable<any> {
     if (securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
       const data = this.securityGroupCreationData;
       const rules = this.getSecurityGroupCreationRules(securityGroupData.rules);
       return this.securityGroupService.createPrivate(data, rules);
     } else {
-      return Observable.of(securityGroupData.securityGroup);
+      return Observable.of(securityGroupData.securityGroups);
     }
   }
 

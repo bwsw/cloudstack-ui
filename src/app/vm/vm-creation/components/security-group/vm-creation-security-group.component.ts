@@ -27,7 +27,9 @@ export class VmCreationSecurityGroupComponent implements OnInit {
     this.securityGroupService.getSharedGroups()
       .subscribe(groups => {
         this.sharedGroups = groups;
-        this.savedData.securityGroup = this.sharedGroups[0];
+        if (!this.savedData.securityGroups) {
+          this.savedData.securityGroups = [this.sharedGroups[0]];
+        }
       });
   }
 
@@ -67,6 +69,7 @@ export class VmCreationSecurityGroupComponent implements OnInit {
   }
 
   public onSave(): void {
+    console.log('SAVED DATA', this.savedData);
     this.dialogRef.close(this.savedData);
   }
 

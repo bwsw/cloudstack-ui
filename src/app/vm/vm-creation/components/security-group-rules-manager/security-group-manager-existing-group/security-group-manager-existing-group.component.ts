@@ -8,5 +8,16 @@ import { SecurityGroup } from '../../../../../security-group/sg.model';
   styleUrls: ['security-group-manager-existing-group.component.scss']
 })
 export class SecurityGroupManagerExistingGroupComponent {
-  @Input() public securityGroup: SecurityGroup;
+  @Input() public securityGroups: Array<SecurityGroup>;
+
+  public get securityGroupsLine(): string {
+    if (this.securityGroups) {
+      return this.securityGroups.map(securityGroup => {
+        return securityGroup.name;
+      })
+        .join(', ');
+    } else {
+      return '';
+    }
+  }
 }

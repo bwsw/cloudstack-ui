@@ -7,7 +7,7 @@
       *ngFor="let sg of securityGroups"
       lines="2"
       (click)="$event.stopPropagation(); selectSecurityGroup(sg)"
-      [class.selected-security-group]="securityGroup?.id === sg?.id"
+      [class.selected-security-group]="checkSelectedSG(sg?.id)"
     >
       <h4 matLine>
         <span>{{ sg.name }}</span>
@@ -19,7 +19,8 @@
         {{ sg.description }}
       </p>
       <span>
-        <mat-radio-button [checked]="sg?.id === securityGroup?.id"></mat-radio-button>
+        <mat-checkbox
+          [checked]="checkSelectedSG(sg?.id)"></mat-checkbox>
       </span>
     </mat-list-item>
   </mat-list>

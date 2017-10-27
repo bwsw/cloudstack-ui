@@ -69,7 +69,7 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
         this.savedData.rules &&
         this.savedData.rules.templates &&
         !!this.savedData.rules.templates.length) ||
-      (this.isModeExisting && this.savedData && !!this.savedData.securityGroup)
+      (this.isModeExisting && this.savedData && !!this.savedData.securityGroups)
     );
   }
 
