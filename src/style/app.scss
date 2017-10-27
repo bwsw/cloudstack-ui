@@ -356,6 +356,18 @@ mat-card-actions {
   }
 }
 
+.state-row-icon {
+  display: block;
+  /* border-radius: 50%; */
+  position: relative;
+  left: -15px;
+  width: 15px;
+  height: 100%;
+  /* margin-left: 8px; */
+  margin-right: 8px;
+  box-shadow: 0 0 0px 1px white;
+}
+
 .running, .enabled {
   background-color: #388E3C;
 }

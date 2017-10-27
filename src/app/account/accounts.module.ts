@@ -14,7 +14,7 @@ import {
   MatTabsModule,
   MatTooltipModule
 } from '@angular/material';
-import { AccountItemComponent } from './account/account-item.component';
+import { AccountCardItemComponent } from './account/card-item/account-card-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AccountStatisticsComponent } from './account-sidebar/account-statistic/account-statistics.component';
 import { AccountLimitsComponent } from './account-sidebar/account-limits/account-limits.component';
@@ -34,12 +34,13 @@ import { accountReducers } from './redux/accounts.reducers';
 import { domainReducers } from '../domains/redux/domains.reducers'
 import { roleReducers } from '../roles/redux/roles.reducers';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+import { AccountRowItemComponent } from './account/row-item/account-row-item.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([AccountItemComponent]),
+    DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
     FormsModule,
     MatMenuModule,
     MatTooltipModule,
@@ -60,7 +61,8 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
     AccountPageComponent,
     AccountListComponent,
     AccountListFilterComponent,
-    AccountItemComponent,
+    AccountCardItemComponent,
+    AccountRowItemComponent,
     AccountSettingsComponent,
     AccountLimitsComponent,
     AccountStatisticsComponent,

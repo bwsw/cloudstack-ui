@@ -11,6 +11,7 @@ import {
   Role
 } from '../../shared';
 import { AuthService } from '../../shared/services/auth.service';
+import { ViewMode } from '../../shared/components/filter/filter-panel.component';
 
 @Component({
   selector: 'cs-account-page',
@@ -39,6 +40,8 @@ export class AccountPageComponent {
   @Output() public onAccountChanged = new EventEmitter<Account>();
   @Output() public onGroupingsChange = new EventEmitter();
 
+  public mode = ViewMode.BOX;
+
   constructor(
     public listService: ListService,
     public authService: AuthService
@@ -53,6 +56,10 @@ export class AccountPageComponent {
 
   public isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 
 }

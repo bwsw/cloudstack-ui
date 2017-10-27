@@ -1,7 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AccountItemComponent } from '../account/account-item.component';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+import { AccountCardItemComponent } from '../account/card-item/account-card-item.component';
 import { Account } from '../../shared/models/account.model';
 import { ListService } from '../../shared/components/list/list.service';
+import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { AccountRowItemComponent } from '../account/row-item/account-row-item.component';
 
 @Component({
   selector: 'cs-account-list',
@@ -10,13 +17,15 @@ import { ListService } from '../../shared/components/list/list.service';
 export class AccountListComponent {
   @Input() public accounts: Array<Account>;
   @Input() public groupings: Array<any>;
+  @Input() public mode: ViewMode;
   @Output() public viewModeChange = new EventEmitter();
   @Output() public onAccountChanged = new EventEmitter<Account>();
 
   public inputs;
   public outputs;
 
-  public AccountItemComponent = AccountItemComponent;
+  public AccountCardItemComponent = AccountCardItemComponent;
+  public AccountRowItemComponent = AccountRowItemComponent;
 
   constructor(public listService: ListService) {
     this.inputs = {
