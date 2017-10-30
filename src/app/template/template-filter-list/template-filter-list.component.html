@@ -6,8 +6,6 @@
       (filters)="filterResults($event)"
       (displayMode)="changeViewMode($event)"
       [showIso]="viewMode === 'Iso'"
-      [showDelimiter]="showDelimiter"
-      [searchPanelWhite]="selectedGroupings?.length"
       [availableGroupings]="groupings"
     ></cs-template-filters>
     <cs-view-mode-switch

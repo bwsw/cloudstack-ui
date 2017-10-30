@@ -1,4 +1,7 @@
-<div class="filter-wrapper">
+<div
+  class="filter-wrapper"
+  *ngIf="!dialogMode"
+>
   <mat-button-toggle-group
     (change)="setMode($event.value)"
     *ngIf="showIsoSwitch"
@@ -65,7 +68,6 @@
       <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <cs-divider-vertical></cs-divider-vertical>
   <mat-form-field *ngIf="zones">
     <mat-select
       multiple="true"
@@ -81,8 +83,7 @@
 </div>
 
 <div
-  class="options-panel filter-wrapper"
-  [class.delimiter]="showDelimiter"
+  class="filter-wrapper"
   *ngIf="dialogMode"
 >
   <mat-button-toggle-group
@@ -130,7 +131,7 @@
 
 </div>
 
-<div [class.search-bar-white]="searchPanelWhite">
+<div class="filter-wrapper">
   <cs-search
     [(ngModel)]="query"
     (ngModelChange)="updateFilters()"

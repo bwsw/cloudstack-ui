@@ -63,6 +63,7 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
 
   public ngOnInit(): void {
     this.store.dispatch(new accountActions.LoadAccountsRequest());
+    this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)
@@ -77,7 +78,7 @@ export class SshKeyListContainerComponent extends WithUnsubscribe() implements O
     this.store.dispatch(new sshKeyActions.RemoveSshKeyPair(sshKeyPair));
   }
 
-  public update(selectedGroupings) {
+  public onGroupingsChange(selectedGroupings) {
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
   }
 

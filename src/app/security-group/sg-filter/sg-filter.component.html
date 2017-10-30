@@ -8,4 +8,7 @@
     </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
-<cs-search [(ngModel)]="query" (ngModelChange)="update()"></cs-search>
+<div class="filter-wrapper">
+  <cs-search [(ngModel)]="query" (ngModelChange)="update()"></cs-search>
+</div>
+

@@ -29,7 +29,6 @@ export class TemplateFilterListComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
 
-  @Input() public showDelimiter = true;
   @Input() public viewMode: string;
   @Input() public zoneId: string;
   @Output() public deleteTemplate = new EventEmitter();

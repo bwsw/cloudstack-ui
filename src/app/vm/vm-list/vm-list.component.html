@@ -22,6 +22,7 @@
 
   <ng-container *loading="fetching" cs-list>
     <cs-grouped-list
+      class="padding"
       [list]="visibleVmList"
       [groupings]="selectedGroupings"
       [component]="itemComponent"

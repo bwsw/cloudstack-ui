@@ -43,7 +43,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <cs-divider-vertical></cs-divider-vertical>
   <mat-form-field *ngIf="zones">
     <cs-draggable-select
       multiple="true"
@@ -58,11 +57,9 @@
     </cs-draggable-select>
   </mat-form-field>
 </div>
-
-<div [class.search-bar-white]="searchPanelWhite">
+<div class="filter-wrapper">
   <cs-search
     [(ngModel)]="query"
     (ngModelChange)="update()"
   ></cs-search>
 </div>
-

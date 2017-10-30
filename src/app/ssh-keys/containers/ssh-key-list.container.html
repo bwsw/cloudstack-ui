@@ -5,6 +5,6 @@
   [selectedAccountIds]="selectedAccountIds$ | async"
   [selectedGroupings]="selectedGroupings$ | async"
   (onAccountsChange)="onAccountsChange($event)"
-  (onGroupingsChange)="update($event)"
+  (onGroupingsChange)="onGroupingsChange($event)"
   (onKeyRemove)="removeSshKeyPair($event)"
 ></cs-ssh-keys-page>

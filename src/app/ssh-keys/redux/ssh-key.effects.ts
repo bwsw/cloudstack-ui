@@ -13,10 +13,10 @@ import { sshKeyId } from './ssh-key.reducers';
 
 @Injectable()
 export class SshKeyEffects {
-  @Effect()
-  loadFilterSshKeysByGroupings$: Observable<Action> = this.actions$
-    .ofType(sshKey.SSH_KEY_FILTER_UPDATE)
-    .map((action: sshKey.SshKeyFilterUpdate) => new sshKey.LoadSshKeyRequest());
+  // @Effect()
+  // loadFilterSshKeysByGroupings$: Observable<Action> = this.actions$
+  //   .ofType(sshKey.SSH_KEY_FILTER_UPDATE)
+  //   .map((action: sshKey.SshKeyFilterUpdate) => new sshKey.LoadSshKeyRequest());
 
   @Effect()
   loadSshKeys$: Observable<Action> = this.actions$
