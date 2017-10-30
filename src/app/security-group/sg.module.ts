@@ -11,7 +11,8 @@ import {
   MatSelectModule,
   MatTabsModule,
   MatTooltipModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -59,7 +60,8 @@ import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.co
     MatIconModule,
     MatInputModule,
     MatTabsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     SecurityGroupListComponent

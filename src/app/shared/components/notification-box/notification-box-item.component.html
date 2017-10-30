@@ -9,6 +9,8 @@
       </mat-icon>
       <mat-spinner
         *ngSwitchCase="notificationStatus.Pending"
+        [diameter]="50"
+        [strokeWidth]="5"
       ></mat-spinner>
       <mat-icon
         *ngSwitchCase="notificationStatus.Failed"
