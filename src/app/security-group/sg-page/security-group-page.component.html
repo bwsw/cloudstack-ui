@@ -2,17 +2,15 @@
 
   <ng-container cs-panels>
     <cs-top-bar>
-      <div class="options-panel">
-        <cs-sg-filter
-          [viewMode]="viewMode"
-          (updateFilters)="updateFiltersAndFilter($event)"
-          cs-list
-        ></cs-sg-filter>
-        <cs-view-mode-switch
-          (onModeChange)="changeMode($event)"
-          [key]="key">
-        </cs-view-mode-switch>
-      </div>
+      <cs-sg-filter
+        [viewMode]="viewMode"
+        (updateFilters)="updateFiltersAndFilter($event)"
+        cs-list
+      ></cs-sg-filter>
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="key">
+      </cs-view-mode-switch>
     </cs-top-bar>
   </ng-container>
 

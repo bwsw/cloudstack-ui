@@ -1,11 +1,11 @@
 :host {
   cursor: pointer;
   z-index: -1;
+}
 
-  .info {
-    flex-grow: 2;
-    flex-basis: 100px;
-  }
+.info {
+  flex-grow: 2;
+  flex-basis: 100px;
 }
 
 .custom-row {
@@ -20,12 +20,4 @@
   &.light-background {
     color: rgba(0, 0, 0, 0.87) !important;
   }
-}
-
-.os-type {
-  margin-bottom: 5px;
-}
-
-.vm-ip-address {
-  display: inline-block;
 }

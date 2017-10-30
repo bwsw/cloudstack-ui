@@ -6,19 +6,17 @@
     <cs-top-bar>
       <cs-vm-statistics></cs-vm-statistics>
       <div class="top-border"></div>
-      <div class="options-panel">
-        <cs-vm-filter *ngIf="zones && groups  && accounts"
-          [zones]="zones"
-          [groups]="groups"
-          [accounts]="accounts"
-          [availableGroupings]="groupings"
-          (updateFilters)="updateFiltersAndFilter($event)"
-        ></cs-vm-filter>
-        <cs-view-mode-switch
-          (onModeChange)="changeMode($event)"
-          [key]="key">
-        </cs-view-mode-switch>
-      </div>
+      <cs-vm-filter *ngIf="zones && groups  && accounts"
+        [zones]="zones"
+        [groups]="groups"
+        [accounts]="accounts"
+        [availableGroupings]="groupings"
+        (updateFilters)="updateFiltersAndFilter($event)"
+      ></cs-vm-filter>
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="key">
+      </cs-view-mode-switch>
     </cs-top-bar>
   </ng-container>
 

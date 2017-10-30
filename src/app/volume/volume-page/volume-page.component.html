@@ -4,20 +4,18 @@
 >
   <ng-container cs-panels>
     <cs-top-bar>
-      <div class="options-panel">
-        <cs-volume-filter *ngIf="zones && accounts"
-          [zones]="zones"
-          [groupings]="groupings"
-          [accounts]="accounts"
-          [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
-          (updateFilters)="updateFiltersAndFilter($event)"
-          cs-list
-        ></cs-volume-filter>
-        <cs-view-mode-switch
-          (onModeChange)="changeMode($event)"
-          [key]="key">
-        </cs-view-mode-switch>
-      </div>
+      <cs-volume-filter *ngIf="zones && accounts"
+        [zones]="zones"
+        [groupings]="groupings"
+        [accounts]="accounts"
+        [searchPanelWhite]="selectedGroupings?.length && visibleVolumes?.length"
+        (updateFilters)="updateFiltersAndFilter($event)"
+        cs-list
+      ></cs-volume-filter>
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="key">
+      </cs-view-mode-switch>
     </cs-top-bar>
   </ng-container>
 

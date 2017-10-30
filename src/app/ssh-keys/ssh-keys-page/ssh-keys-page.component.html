@@ -4,21 +4,19 @@
 >
   <ng-container cs-panels>
     <cs-top-bar>
-      <div class="options-panel">
-        <cs-ssh-key-filter *ngIf="isAdmin()"
-          [groupings]="groupings"
-          [accounts]="accounts"
-          [selectedAccountIds]="selectedAccountIds"
-          [selectedGroupings]="selectedGroupings"
-          (onGroupingsChange)="onGroupingsChange.emit($event)"
-          (onAccountsChange)="onAccountsChange.emit($event)"
-          cs-list
-        ></cs-ssh-key-filter>
-        <cs-view-mode-switch
-          (onModeChange)="changeMode($event)"
-          [key]="key">
-        </cs-view-mode-switch>
-      </div>
+      <cs-ssh-key-filter *ngIf="isAdmin()"
+        [groupings]="groupings"
+        [accounts]="accounts"
+        [selectedAccountIds]="selectedAccountIds"
+        [selectedGroupings]="selectedGroupings"
+        (onGroupingsChange)="onGroupingsChange.emit($event)"
+        (onAccountsChange)="onAccountsChange.emit($event)"
+        cs-list
+      ></cs-ssh-key-filter>
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="key">
+      </cs-view-mode-switch>
     </cs-top-bar>
   </ng-container>
 

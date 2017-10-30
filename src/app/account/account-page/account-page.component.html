@@ -1,29 +1,27 @@
 <div class="detail-list margin-right">
   <cs-top-bar>
-    <div class="options-panel">
-      <cs-account-list-filter *ngIf="isAdmin()"
-        [domains]="domains"
-        [roles]="roles"
-        [roleTypes]="roleTypes"
-        [states]="states"
-        [groupings]="groupings"
-        [selectedDomainIds]="selectedDomainIds"
-        [selectedRoleNames]="selectedRoleNames"
-        [selectedRoleTypes]="selectedRoleTypes"
-        [selectedStates]="selectedStates"
-        [selectedGroupings]="selectedGroupings"
-        (onDomainsChange)="onDomainsChange.emit($event)"
-        (onRolesChange)="onRolesChange.emit($event)"
-        (onRoleTypesChange)="onRoleTypesChange.emit($event)"
-        (onStatesChange)="onStatesChange.emit($event)"
-        (onGroupingsChange)="onGroupingsChange.emit($event)"
-        cs-list
-      ></cs-account-list-filter>
-      <cs-view-mode-switch
-        (onModeChange)="changeMode($event)"
-        [key]="key">
-      </cs-view-mode-switch>
-    </div>
+    <cs-account-list-filter *ngIf="isAdmin()"
+      [domains]="domains"
+      [roles]="roles"
+      [roleTypes]="roleTypes"
+      [states]="states"
+      [groupings]="groupings"
+      [selectedDomainIds]="selectedDomainIds"
+      [selectedRoleNames]="selectedRoleNames"
+      [selectedRoleTypes]="selectedRoleTypes"
+      [selectedStates]="selectedStates"
+      [selectedGroupings]="selectedGroupings"
+      (onDomainsChange)="onDomainsChange.emit($event)"
+      (onRolesChange)="onRolesChange.emit($event)"
+      (onRoleTypesChange)="onRoleTypesChange.emit($event)"
+      (onStatesChange)="onStatesChange.emit($event)"
+      (onGroupingsChange)="onGroupingsChange.emit($event)"
+      cs-list
+    ></cs-account-list-filter>
+    <cs-view-mode-switch
+      (onModeChange)="changeMode($event)"
+      [key]="key">
+    </cs-view-mode-switch>
   </cs-top-bar>
   <cs-account-list
     *loading="isLoading"

@@ -76,7 +76,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
     };
   }
 
-  public get cardClass() {
+  public get itemClass() {
     const { state } = this.item;
     const error = state === VmState.Error;
     const destroyed =
