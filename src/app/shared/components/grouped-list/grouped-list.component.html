@@ -11,15 +11,13 @@
     ></cs-grouped-list>
   </div>
   <ng-template #leaf>
-    <div class="list-container">
-      <mat-list>
-        <ndc-dynamic
-          *ngFor="let item of child.items"
-          [ndcDynamicComponent]="component"
-          [ndcDynamicInputs]="leafInputs(item)"
-          [ndcDynamicOutputs]="dynamicOutputs"
-        ></ndc-dynamic>
-      </mat-list>
-    </div>
+    <mat-list>
+      <ndc-dynamic
+        *ngFor="let item of child.items"
+        [ndcDynamicComponent]="component"
+        [ndcDynamicInputs]="leafInputs(item)"
+        [ndcDynamicOutputs]="dynamicOutputs"
+      ></ndc-dynamic>
+    </mat-list>
   </ng-template>
 </ng-container>

@@ -1,9 +1,6 @@
 <ng-container cs-panels>
   <cs-top-bar>
-    <cs-filter
-      (onModeChange)="changeMode($event)"
-      [key]="key"
-    >
+    <div class="options-panel">
       <cs-template-filters
         class="options"
         (queries)="filterResults($event)"
@@ -14,7 +11,11 @@
         [searchPanelWhite]="selectedGroupings?.length"
         [availableGroupings]="groupings"
       ></cs-template-filters>
-    </cs-filter>
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="key">
+      </cs-view-mode-switch>
+    </div>
   </cs-top-bar>
 </ng-container>
 

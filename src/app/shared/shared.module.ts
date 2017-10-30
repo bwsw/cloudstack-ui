@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
   MatIconModule,
@@ -20,8 +21,7 @@ import {
   MatSnackBarModule,
   MatTableModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatButtonToggleModule
+  MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -152,13 +152,12 @@ import { AccountDisableAction } from './actions/account-actions/actions/account-
 import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
 import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
 import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
-import { FilterPanelComponent } from './components/filter/filter-panel.component';
-import { GroupedCardComponent } from './components/grouped-list/grouped-card.component';
+import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([GroupedListComponent, GroupedCardComponent]),
+    DynamicModule.withComponents([GroupedListComponent]),
     FormsModule,
     BadgeModule,
     CdkTableModule,
@@ -203,13 +202,12 @@ import { GroupedCardComponent } from './components/grouped-list/grouped-card.com
     FancySelectComponent,
     ForbiddenValuesDirective,
     GroupedListComponent,
-    GroupedCardComponent,
     HighLightPipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
-    FilterPanelComponent,
+    ViewModeSwitchComponent,
     LoadingDirective,
     MaxValueValidatorDirective,
     MatAutocompleteModule,
@@ -271,13 +269,12 @@ import { GroupedCardComponent } from './components/grouped-list/grouped-card.com
     FancySelectComponent,
     ForbiddenValuesDirective,
     GroupedListComponent,
-    GroupedCardComponent,
     HighLightPipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
-    FilterPanelComponent,
+    ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
     MaxValueValidatorDirective,
@@ -301,7 +298,6 @@ import { GroupedCardComponent } from './components/grouped-list/grouped-card.com
     LoadingDirective,
     LoaderComponent,
     GroupedListComponent,
-    GroupedCardComponent,
     TemplateActionsComponent,
     ProgressLoggerComponent,
     ProgressLoggerMessageComponent,

@@ -3,7 +3,7 @@ import {
   Input
 } from '@angular/core';
 import { SecurityGroup } from '../sg.model';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SecurityGroupCardItemComponent } from '../sg-list-item/card-item/security-group-card-item.component';
 import { SecurityGroupRowItemComponent } from '../sg-list-item/row-item/security-group-row-item.component';
 
@@ -22,12 +22,17 @@ export class SecurityGroupListComponent {
   public inputs;
   public outputs;
 
-  public SecurityGroupCardItemComponent = SecurityGroupCardItemComponent;
-  public SecurityGroupRowItemComponent = SecurityGroupRowItemComponent;
-
   constructor( ) {
     this.inputs = {
       searchQuery: () => this.query
+    }
+  }
+
+  public get itemComponent() {
+    if (this.mode === ViewMode.BOX) {
+      return SecurityGroupCardItemComponent;
+    } else {
+      return SecurityGroupRowItemComponent;
     }
   }
 }

@@ -7,7 +7,7 @@ import {
 import { AccountCardItemComponent } from '../account/card-item/account-card-item.component';
 import { Account } from '../../shared/models/account.model';
 import { ListService } from '../../shared/components/list/list.service';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { AccountRowItemComponent } from '../account/row-item/account-row-item.component';
 
 @Component({
@@ -24,9 +24,6 @@ export class AccountListComponent {
   public inputs;
   public outputs;
 
-  public AccountCardItemComponent = AccountCardItemComponent;
-  public AccountRowItemComponent = AccountRowItemComponent;
-
   constructor(public listService: ListService) {
     this.inputs = {
       isSelected: (item: Account) => this.listService.isSelected(item.id)
@@ -36,6 +33,14 @@ export class AccountListComponent {
       onClick: this.selectAccount.bind(this),
       onAccountChanged: this.changeAccount.bind(this)
     };
+  }
+
+  public get itemComponent() {
+    if (this.mode === ViewMode.BOX) {
+      return AccountCardItemComponent;
+    } else {
+      return AccountRowItemComponent;
+    }
   }
 
   public selectAccount(account: Account): void {

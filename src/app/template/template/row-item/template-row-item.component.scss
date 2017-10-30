@@ -6,23 +6,9 @@
   cursor: pointer;
 }
 
-.last {
-  margin-left: 20px;
-}
-
 .info {
   flex-grow: 1;
   flex-basis: 100px;
-}
-
-.template-header {
-  max-width: 235px !important;
-  margin-left: 5px;
-}
-
-mat-card-title {
-  display: flex;
-  align-items: center;
 }
 
 cs-template-os-icon {

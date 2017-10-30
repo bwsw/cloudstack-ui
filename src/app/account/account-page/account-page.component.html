@@ -1,10 +1,7 @@
 <div class="detail-list margin-right">
   <cs-top-bar>
-    <cs-filter *ngIf="isAdmin()"
-      (onModeChange)="changeMode($event)"
-      [key]="key"
-    >
-      <cs-account-list-filter
+    <div class="options-panel">
+      <cs-account-list-filter *ngIf="isAdmin()"
         [domains]="domains"
         [roles]="roles"
         [roleTypes]="roleTypes"
@@ -22,7 +19,11 @@
         (onGroupingsChange)="onGroupingsChange.emit($event)"
         cs-list
       ></cs-account-list-filter>
-    </cs-filter>
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="key">
+      </cs-view-mode-switch>
+    </div>
   </cs-top-bar>
   <cs-account-list
     *loading="isLoading"

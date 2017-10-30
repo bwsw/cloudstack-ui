@@ -13,11 +13,11 @@ export enum ViewMode {
 }
 
 @Component({
-  selector: 'cs-filter',
-  templateUrl: 'filter-panel.component.html',
-  styleUrls: ['filter-panel.component.scss']
+  selector: 'cs-view-mode-switch',
+  templateUrl: 'view-mode-switch.component.html',
+  styleUrls: ['view-mode-switch.component.scss']
 })
-export class FilterPanelComponent implements OnInit {
+export class ViewModeSwitchComponent implements OnInit {
   @Input() key: string;
   @Output() onModeChange = new EventEmitter();
 
@@ -32,7 +32,7 @@ export class FilterPanelComponent implements OnInit {
   }
 
   changeMode() {
-    this.mode = this.mode === 0 ? 1 : 0;
+    this.mode = this.mode === ViewMode.BOX ? ViewMode.LIST : ViewMode.BOX;
     this.storage.write(this.key, this.mode.toString());
     this.onModeChange.emit(this.mode);
   }

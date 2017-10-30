@@ -6,17 +6,6 @@
     flex-grow: 2;
     flex-basis: 100px;
   }
-
-  .table {
-    text-align: center;
-    flex-grow: 3;
-    flex-basis: 300px;
-    table {
-      table-layout: fixed;
-      width: 100%;
-      font-size: 14px;
-    }
-  }
 }
 
 .custom-row {
@@ -39,13 +28,4 @@
 
 .vm-ip-address {
   display: inline-block;
-}
-
-.vm-state {
-  float: right;
-}
-
-mat-divider {
-  flex: 1 0 100%;
-  margin: 10px 0;
 }

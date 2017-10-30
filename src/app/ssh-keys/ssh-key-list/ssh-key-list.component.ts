@@ -10,7 +10,7 @@ import {
   ActivatedRoute,
   Router
 } from '@angular/router';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SshKeyRowItemComponent } from '../ssh-key-list-item/row-item/ssh-key-row-item.component';
 
 
@@ -21,19 +21,24 @@ import { SshKeyRowItemComponent } from '../ssh-key-list-item/row-item/ssh-key-ro
 export class SshKeyListComponent {
   @Input() public keys: Array<SSHKeyPair>;
   @Input() public groupings: Array<any>;
-  @Input() public mode: ViewMode.BOX;
+  @Input() public mode: ViewMode;
   @Output() public onRemove = new EventEmitter<SSHKeyPair>();
   public inputs;
   public outputs;
-
-  public SshKeyCardItemComponent = SshKeyCardItemComponent;
-  public SshKeyRowItemComponent = SshKeyRowItemComponent;
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.outputs = {
       onClick: this.selectSshKeyPair.bind(this),
       onRemove: this.removeKeyPair.bind(this)
     };
+  }
+
+  public get itemComponent() {
+    if (this.mode === ViewMode.BOX) {
+      return SshKeyCardItemComponent;
+    } else {
+      return SshKeyRowItemComponent;
+    }
   }
 
   public selectSshKeyPair(sshKeyPair: SSHKeyPair): void {

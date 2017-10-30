@@ -1,16 +1,7 @@
 <cs-grouped-list
-  *ngIf="mode == 1"
   [list]="templateList"
   [groupings]="groupings"
-  [component]="TemplateRowComponent"
+  [component]="itemComponent"
   [dynamicInputs]="inputs"
   [dynamicOutputs]="outputs"
 ></cs-grouped-list>
-<cs-grouped-card
-  *ngIf="mode == 0"
-  [list]="templateList"
-  [groupings]="groupings"
-  [component]="TemplateCardComponent"
-  [dynamicInputs]="inputs"
-  [dynamicOutputs]="outputs"
-></cs-grouped-card>

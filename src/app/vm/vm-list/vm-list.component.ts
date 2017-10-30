@@ -38,6 +38,7 @@ import { Account } from '../../shared/models/account.model';
 import { AccountService } from '../../shared/services/account.service';
 import { VmListRowItemComponent } from '../vm-list-item/row-item/vm-list-row-item.component';
 import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-item.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 
 @Component({
@@ -79,9 +80,7 @@ export class VmListComponent implements OnInit {
     }
   ];
 
-  public VmListRowItemComponent = VmListRowItemComponent;
-  public VmListCardItemComponent = VmListCardItemComponent;
-  public mode;
+  public mode: ViewMode;
   public key = 'vm-page';
 
 
@@ -142,6 +141,14 @@ export class VmListComponent implements OnInit {
 
   public get noFilteringResults(): boolean {
     return !this.visibleVmList.length;
+  }
+
+  public get itemComponent() {
+    if (this.mode === ViewMode.BOX) {
+      return VmListCardItemComponent;
+    } else {
+      return VmListRowItemComponent;
+    }
   }
 
   public changeMode(mode) {

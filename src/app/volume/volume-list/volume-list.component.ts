@@ -6,7 +6,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { Volume } from '../../shared/models';
 import { VolumeCardItemComponent } from '../volume-item/card-item/volume-card-item.component';
 import { VolumeRowItemComponent } from '../volume-item/row-item/volume-row-item.component';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 
 @Component({
@@ -21,9 +21,6 @@ export class VolumeListComponent {
   public inputs;
   public outputs;
 
-  public VolumeCardItemComponent = VolumeCardItemComponent;
-  public VolumeRowItemComponent = VolumeRowItemComponent;
-
   constructor(public listService: ListService) {
     this.inputs = {
       searchQuery: () => this.query,
@@ -33,6 +30,14 @@ export class VolumeListComponent {
     this.outputs = {
       onClick: this.selectVolume.bind(this),
     };
+  }
+
+  public get itemComponent() {
+    if (this.mode === ViewMode.BOX) {
+      return VolumeCardItemComponent;
+    } else {
+      return VolumeRowItemComponent;
+    }
   }
 
   public selectVolume(volume: Volume): void {

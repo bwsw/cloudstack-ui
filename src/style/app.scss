@@ -45,11 +45,13 @@ body {
   @extend .text-overflow-tooltip-fix;
 }
 
-mat-list-item {
-  background-color: #fff;
+
+mat-list {
+  margin: 15px;
 }
 
 mat-list-item {
+  background-color: #fff;
   height: 60px;
   border-bottom: 1px solid #ccc;
 }
@@ -81,11 +83,10 @@ mat-list-item {
   justify-content: space-between;
 }
 
-
 mat-card {
   padding: 0 !important;
   width: 320px;
-  margin: 15px 0 0 15px;
+  margin: 0 15px 15px 0;
 }
 
 cs-sidebar mat-card {
@@ -314,15 +315,6 @@ mat-form-field.form-select-control {
   overflow: visible !important;
 }
 
-.card-list-container mat-card {
-  margin-top: 15px;
-  margin-left: 15px;
-}
-
-.card-list-container:last-child {
-  margin-bottom: 15px;
-}
-
 mat-card-actions {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding: 8px !important;
@@ -358,12 +350,10 @@ mat-card-actions {
 
 .state-row-icon {
   display: block;
-  /* border-radius: 50%; */
   position: relative;
   left: -15px;
   width: 15px;
   height: 100%;
-  /* margin-left: 8px; */
   margin-right: 8px;
   box-shadow: 0 0 0px 1px white;
 }

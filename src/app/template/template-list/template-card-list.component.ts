@@ -7,7 +7,7 @@ import {
 import { ListService } from '../../shared/components/list/list.service';
 import { Template } from '../shared';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { ViewMode } from '../../shared/components/filter/filter-panel.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { TemplateCardItemComponent } from '../template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from '../template/row-item/template-row-item.component';
 
@@ -24,7 +24,6 @@ export class TemplateCardListComponent {
   @Input() public mode: ViewMode;
   @Output() public deleteTemplate = new EventEmitter();
 
-  public TemplateCardComponent = TemplateCardItemComponent;
   public TemplateRowComponent = TemplateRowItemComponent;
   public inputs;
   public outputs;
@@ -41,6 +40,14 @@ export class TemplateCardListComponent {
       onClick: this.selectTemplate,
       deleteTemplate: this.removeTemplate
     };
+  }
+
+  public get itemComponent() {
+    if (this.mode === ViewMode.BOX) {
+      return TemplateCardItemComponent;
+    } else {
+      return TemplateRowItemComponent;
+    }
   }
 
   public selectTemplate(template: BaseTemplateModel): void {

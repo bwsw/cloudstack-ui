@@ -16,6 +16,7 @@ import {
   SecurityGroup,
   SecurityGroupType
 } from '../sg.model';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class SecurityGroupPageComponent implements OnInit {
   public query: string;
   public viewMode: SecurityGroupViewMode;
 
-  public mode;
+  public mode: ViewMode;
   public key = 'sg-page';
 
   constructor(

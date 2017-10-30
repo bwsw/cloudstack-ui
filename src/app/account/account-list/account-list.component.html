@@ -1,16 +1,7 @@
-<cs-grouped-card
-  *ngIf="mode == 0"
-  [list]="accounts"
-  [groupings]="groupings"
-  [component]="AccountCardItemComponent"
-  [dynamicInputs]="inputs"
-  [dynamicOutputs]="outputs"
-></cs-grouped-card>
 <cs-grouped-list
-  *ngIf="mode == 1"
   [list]="accounts"
   [groupings]="groupings"
-  [component]="AccountRowItemComponent"
+  [component]="itemComponent"
   [dynamicInputs]="inputs"
   [dynamicOutputs]="outputs"
 >

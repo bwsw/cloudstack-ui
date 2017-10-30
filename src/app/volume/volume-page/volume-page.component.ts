@@ -29,6 +29,7 @@ import { Domain } from '../../shared/models/domain.model';
 import { AccountService } from '../../shared/services/account.service';
 import { Account } from '../../shared/models/account.model';
 import { VmService } from '../../vm/shared/vm.service';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 
 export interface VolumeCreationData {
@@ -71,7 +72,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     }
   ];
   public query: string;
-  public mode;
+  public mode: ViewMode;
   public key = 'volume-page';
 
   public filterData: any;

@@ -4,10 +4,7 @@
 >
   <ng-container cs-panels>
     <cs-top-bar>
-      <cs-filter
-        (onModeChange)="changeMode($event)"
-        [key]="key"
-      >
+      <div class="options-panel">
         <cs-volume-filter *ngIf="zones && accounts"
           [zones]="zones"
           [groupings]="groupings"
@@ -16,7 +13,11 @@
           (updateFilters)="updateFiltersAndFilter($event)"
           cs-list
         ></cs-volume-filter>
-      </cs-filter>
+        <cs-view-mode-switch
+          (onModeChange)="changeMode($event)"
+          [key]="key">
+        </cs-view-mode-switch>
+      </div>
     </cs-top-bar>
   </ng-container>
 

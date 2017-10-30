@@ -4,8 +4,6 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
-
 
 @Component({
   selector: 'cs-ssh-key-filter',
@@ -19,10 +17,4 @@ export class ShhKeyFilterComponent {
   @Output() public onGroupingsChange = new EventEmitter<any>();
   @Output() public onAccountsChange = new EventEmitter<any>();
 
-  constructor(private authService: AuthService) {
-  }
-
-  public showAccountFilter(): boolean {
-    return this.authService.isAdmin();
-  }
 }
