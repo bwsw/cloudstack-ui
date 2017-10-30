@@ -215,6 +215,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
   public showConfirmationDialog() {
     return this.dialogService.confirm({
+      width: '466px',
       message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
       confirmText: 'COMMON.CONTINUE',
       declineText: 'COMMON.CANCEL'
