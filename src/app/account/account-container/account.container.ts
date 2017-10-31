@@ -30,7 +30,6 @@ export const stateTranslations = {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
-      (onAccountChanged)="onAccountChange($event)"
     ></cs-account-page>`
 })
 export class AccountPageContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
@@ -90,7 +89,4 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
     this.cd.detectChanges();
   }
 
-  public onAccountChange(event) {
-    this.store.dispatch(new accountActions.AccountFilterUpdate({}));
-  }
 }

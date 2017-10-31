@@ -1,8 +1,6 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  Output
+  Input
 } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Account } from '../../shared';
@@ -24,21 +22,12 @@ export class AccountPageComponent {
   @Input() public isLoading: boolean;
   @Input() public selectedGroupings: Array<any> = [];
 
-  @Output() public onAccountChanged = new EventEmitter<Account>();
-
   constructor(
     public listService: ListService,
     public authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
-
-  private updateList(account?: Account): void {
-    this.onAccountChanged.emit(account);
-    if (account && this.listService.isSelected(account.id)) {
-      this.listService.deselectItem();
-    }
-  }
+  ) { }
 
   public isAdmin() {
     return this.authService.isAdmin();

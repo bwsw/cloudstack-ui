@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 import { AccountItemComponent } from '../account/account-item.component';
 import { Account } from '../../shared/models/account.model';
 import { ListService } from '../../shared/components/list/list.service';
@@ -10,8 +13,6 @@ import { ListService } from '../../shared/components/list/list.service';
 export class AccountListComponent {
   @Input() public accounts: Array<Account>;
   @Input() public groupings: Array<any>;
-  @Output() public viewModeChange = new EventEmitter();
-  @Output() public onAccountChanged = new EventEmitter<Account>();
 
   public inputs;
   public outputs;
@@ -24,8 +25,7 @@ export class AccountListComponent {
     };
 
     this.outputs = {
-      onClick: this.selectAccount.bind(this),
-      onAccountChanged: this.changeAccount.bind(this)
+      onClick: this.selectAccount.bind(this)
     };
   }
 
@@ -33,7 +33,4 @@ export class AccountListComponent {
     this.listService.showDetails(account.id);
   }
 
-  public changeAccount(account: Account): void {
-    this.onAccountChanged.emit(account);
-  }
 }

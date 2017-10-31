@@ -14,7 +14,10 @@ import { Account } from '../../models/account.model';
 })
 export class AccountActionsComponent {
   @Input() public account: Account;
-  @Output() public onAccountChanged: EventEmitter<Account>;
+  @Output() public onAccountLock: EventEmitter<Account>;
+  @Output() public onAccountEnable: EventEmitter<Account>;
+  @Output() public onAccountDisable: EventEmitter<Account>;
+  @Output() public onAccountDelete: EventEmitter<Account>;
 
   public actions: Array<BaseAccountAction>;
 
@@ -22,11 +25,33 @@ export class AccountActionsComponent {
     private accountActionService: AccountActionsService
   ) {
     this.actions = this.accountActionService.actions;
-    this.onAccountChanged = new EventEmitter<Account>();
+    this.onAccountLock = new EventEmitter<Account>();
+    this.onAccountEnable = new EventEmitter<Account>();
+    this.onAccountDisable = new EventEmitter<Account>();
+    this.onAccountDelete = new EventEmitter<Account>();
   }
 
   public activateAction(action: BaseAccountAction, account: Account) {
-    action.activate(account).subscribe(() => this.onAccountChanged.emit(account));
+    action.activate().subscribe(() =>{
+      switch (action.command) {
+        case 'lock': {
+          this.onAccountLock.emit(account);
+          break;
+        }
+        case 'enable': {
+          this.onAccountEnable.emit(account);
+          break;
+        }
+        case 'disable': {
+          this.onAccountDisable.emit(account);
+          break;
+        }
+        case 'delete': {
+          this.onAccountDelete.emit(account);
+          break;
+        }
+      }
+    });
   }
 
 }

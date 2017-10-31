@@ -48,6 +48,7 @@ import { AccountCreationComponent } from './creation-form/account-creation.compo
 import { AccountCreationDialogComponent } from './creation-form/account-creation-dialog.component';
 import { AccountCreationContainerComponent } from './account-container/account-creation.container';
 import { AccountFilterContainerComponent } from './account-container/account-filter.container';
+import { AccountActionContainerComponent } from './account-container/account-action.container';
 
 @NgModule({
   imports: [
@@ -97,6 +98,7 @@ import { AccountFilterContainerComponent } from './account-container/account-fil
     AccountSidebarContainerComponent,
     AccountDetailsContainerComponent,
     AccountFilterContainerComponent,
+    AccountActionContainerComponent,
     EditAccountConfigurationComponent,
     AccountCreationComponent,
     AccountCreationDialogComponent,

@@ -9,8 +9,11 @@ import { Account } from '../../../models/account.model';
 @Injectable()
 export abstract class BaseAccountAction implements Action<Account> {
   public name: string;
+  public command: string;
   public icon?: string;
+  protected confirmMessage: string;
   protected successMessage: string;
+  protected progressMessage: string;
   protected failMessage: string;
 
   protected notificationId;
@@ -20,7 +23,12 @@ export abstract class BaseAccountAction implements Action<Account> {
     protected jobsNotificationService: JobsNotificationService
   ) {}
 
-  public abstract activate(account: Account, params?: {}): Observable<any>;
+
+  public activate(): Observable<any> {
+    return this.dialogService.confirm({ message: this.confirmMessage })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res));
+  }
 
   public canActivate(account: Account): boolean {
     return true;
@@ -31,7 +39,7 @@ export abstract class BaseAccountAction implements Action<Account> {
   }
 
   protected onSuccess(): void {
-    this.jobsNotificationService.finish({
+    this.jobsNotificationService.add({
       id: this.notificationId,
       message: this.successMessage,
     });

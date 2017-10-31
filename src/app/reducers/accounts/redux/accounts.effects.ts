@@ -8,6 +8,8 @@ import * as accountActions from './accounts.actions';
 import { Action } from '@ngrx/store';
 import { AccountService } from '../../../shared/services/account.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { Account } from '../../../shared/models/account.model';
+import { AsyncJobService } from '../../../shared/services/async-job.service';
 
 @Injectable()
 export class AccountsEffects {
@@ -29,6 +31,46 @@ export class AccountsEffects {
     });
 
   @Effect()
+  disableAccount$: Observable<Action> = this.actions$
+    .ofType(accountActions.DISABLE_ACCOUNT)
+    .switchMap((action: accountActions.DisableAccountRequest) => {
+      return this.accountService.disableAccount(action.payload)
+        .switchMap(job => {
+          return this.asyncJobService.queryJob(job, 'account', Account);
+        })
+        .map(updatedAccount => new accountActions.UpdateAccounts(updatedAccount))
+        .catch((error: Error) => {
+          return Observable.of(new accountActions.AccountUpdateError(error));
+        });
+    });
+
+  @Effect()
+  enableAccount$: Observable<Action> = this.actions$
+    .ofType(accountActions.ENABLE_ACCOUNT)
+    .switchMap((action: accountActions.EnableAccountRequest) => {
+      return this.accountService.enableAccount(action.payload)
+        .map(res => new accountActions.UpdateAccounts(res.account))
+        .catch((error: Error) => {
+          return Observable.of(new accountActions.AccountUpdateError(error));
+        });
+    });
+
+  @Effect()
+  lockAccount$: Observable<Action> = this.actions$
+    .ofType(accountActions.LOCK_ACCOUNT)
+    .switchMap((action: accountActions.LockAccountRequest) => {
+      return this.accountService.lockAccount(action.payload)
+        .switchMap(job => {
+          return this.asyncJobService.queryJob(job, 'account', Account);
+        })
+        .map(updatedAccount => new accountActions.UpdateAccounts(updatedAccount))
+        .catch((error: Error) => {
+          return Observable.of(new accountActions.AccountUpdateError(error));
+        });
+    });
+
+
+  @Effect()
   createAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.CREATE_ACCOUNT)
     .switchMap((action: accountActions.CreateAccount) => {
@@ -46,10 +88,18 @@ export class AccountsEffects {
       this.handleError(action.payload);
     });
 
+  @Effect({ dispatch: false })
+  updateError$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_UPDATE_ERROR)
+    .do((action: accountActions.AccountUpdateError) => {
+      this.handleError(action.payload);
+    });
+
   constructor(
     private actions$: Actions,
     private accountService: AccountService,
-    private dialogService: DialogService
+    private asyncJobService: AsyncJobService,
+    private dialogService: DialogService,
   ) {
   }
 

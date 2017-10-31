@@ -116,6 +116,18 @@ export function reducer(
       };
     }
 
+    case event.DELETE_ACCOUNT: {
+      return {
+        ...adapter.removeOne(action.payload.id, state),
+      };
+    }
+
+    case event.UPDATE_ACCOUNTS: {
+      return {
+        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
+      };
+    }
+
 
     default: {
       return state;

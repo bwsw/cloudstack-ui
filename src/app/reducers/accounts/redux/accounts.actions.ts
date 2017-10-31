@@ -8,6 +8,14 @@ export const CREATE_ACCOUNT = '[ACCOUNTS] CREATE_ACCOUNT';
 export const ACCOUNT_CREATE_SUCCESS = '[ACCOUNTS] CREATE_SUCCESS';
 export const ACCOUNT_CREATE_ERROR = '[ACCOUNTS] CREATE_ERROR';
 
+export const DISABLE_ACCOUNT = '[ACCOUNTS] DISABLE_ACCOUNT';
+export const ENABLE_ACCOUNT = '[ACCOUNTS] ENABLE_ACCOUNT';
+export const LOCK_ACCOUNT = '[ACCOUNTS] LOCK_ACCOUNT';
+export const DELETE_ACCOUNT = '[ACCOUNTS] DELETE_ACCOUNT';
+
+export const UPDATE_ACCOUNTS = '[ACCOUNTS] UPDATE_ACCOUNTS';
+export const ACCOUNT_UPDATE_ERROR = '[ACCOUNTS] ACCOUNT_UPDATE_ERROR';
+
 export class LoadAccountsRequest implements Action {
   type = LOAD_ACCOUNTS_REQUEST;
 
@@ -61,6 +69,49 @@ export class CreateError implements Action {
   }
 }
 
+export class UpdateAccounts implements Action {
+  readonly type = UPDATE_ACCOUNTS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class AccountUpdateError implements Action {
+  readonly type = ACCOUNT_UPDATE_ERROR;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class EnableAccountRequest implements Action {
+  readonly type = ENABLE_ACCOUNT;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DisableAccountRequest implements Action {
+  readonly type = DISABLE_ACCOUNT;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class LockAccountRequest implements Action {
+  readonly type = LOCK_ACCOUNT;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteAccountRequest implements Action {
+  readonly type = DELETE_ACCOUNT;
+
+  constructor(public payload: any) {
+  }
+}
+
+
 
 export type Actions = LoadAccountsRequest
   | LoadAccountsResponse
@@ -68,4 +119,10 @@ export type Actions = LoadAccountsRequest
   | LoadSelectedAccount
   | CreateAccount
   | CreateError
-  | CreateSuccess;
+  | CreateSuccess
+  | EnableAccountRequest
+  | DisableAccountRequest
+  | LoadAccountsRequest
+  | DeleteAccountRequest
+  | UpdateAccounts
+  | AccountUpdateError;
