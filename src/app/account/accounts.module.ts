@@ -46,7 +46,7 @@ import { ResourceCountsEffects } from '../reducers/resource-count/redux/resource
 import { resourceCountsReducers } from '../reducers/resource-count/redux/resource-counts.reducers';
 import { AccountCreationComponent } from './creation-form/account-creation.component';
 import { AccountCreationDialogComponent } from './creation-form/account-creation-dialog.component';
-import { AccountCreationContainer } from './account-container/account-creation.container';
+import { AccountCreationContainerComponent } from './account-container/account-creation.container';
 import { AccountFilterContainerComponent } from './account-container/account-filter.container';
 
 @NgModule({
@@ -100,11 +100,11 @@ import { AccountFilterContainerComponent } from './account-container/account-fil
     EditAccountConfigurationComponent,
     AccountCreationComponent,
     AccountCreationDialogComponent,
-    AccountCreationContainer,
+    AccountCreationContainerComponent,
   ],
   entryComponents: [
     EditAccountConfigurationComponent,
-    AccountCreationContainer
+    AccountCreationContainerComponent
   ],
   exports: [
     AccountPageComponent

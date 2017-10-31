@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   OnInit
@@ -32,7 +33,7 @@ export const stateTranslations = {
       (onAccountChanged)="onAccountChange($event)"
     ></cs-account-page>`
 })
-export class AccountPageContainerComponent extends WithUnsubscribe() implements OnInit {
+export class AccountPageContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
 
   readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
