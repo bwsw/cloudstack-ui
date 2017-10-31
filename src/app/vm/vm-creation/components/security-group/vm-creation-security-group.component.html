@@ -32,7 +32,10 @@
     {{ 'COMMON.CANCEL' | translate }}
   </button>
 
-  <button mat-button (click)="onSave()">
+  <button
+    mat-button
+    [disabled]="!savedData.securityGroups.length"
+    (click)="onSave()">
     {{ 'COMMON.SAVE' | translate }}
   </button>
 </div>

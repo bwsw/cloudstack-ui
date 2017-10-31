@@ -11,13 +11,9 @@ export class SecurityGroupManagerExistingGroupComponent {
   @Input() public securityGroups: Array<SecurityGroup>;
 
   public get securityGroupsLine(): string {
-    if (this.securityGroups) {
-      return this.securityGroups.map(securityGroup => {
-        return securityGroup.name;
-      })
-        .join(', ');
-    } else {
-      return '';
-    }
+    return this.securityGroups.map(securityGroup => {
+      return securityGroup.name;
+    })
+      .join(', ');
   }
 }

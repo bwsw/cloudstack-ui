@@ -60,7 +60,6 @@ export class VmDeploymentService {
 
   public deploy(state: VmCreationState): VmDeployObservables {
     const deployStatusObservable = new Subject<VmDeploymentMessage>();
-    console.log('11111 DEPLOY STATE', state);
     return {
       deployStatusObservable,
       deployObservable: this.deployObservable(deployStatusObservable, state)
@@ -108,8 +107,6 @@ export class VmDeploymentService {
         return this.getSecurityGroupCreationObservable(deployObservable, state)
       })
       .map(securityGroup => {
-        // state.securityGroupData.securityGroups.push(securityGroup); // @todo
-        console.log('DEPLOYMENT STATE', state);
         return state;
       });
   }

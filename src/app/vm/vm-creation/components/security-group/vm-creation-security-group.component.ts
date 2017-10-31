@@ -6,6 +6,7 @@ import { Rules } from '../../../../shared/components/security-group-builder/rule
 // tslint:disable-next-line
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 
 @Component({
@@ -16,19 +17,23 @@ import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-se
 export class VmCreationSecurityGroupComponent implements OnInit {
   public sharedGroups: Array<SecurityGroup>;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public savedData: VmCreationSecurityGroupData,
-    private dialogRef: MatDialogRef<VmCreationSecurityGroupComponent>,
-    private securityGroupService: SecurityGroupService
-  ) {
+  public get savedData(): VmCreationSecurityGroupData {
+    return this._savedData;
+  }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public _savedData: VmCreationSecurityGroupData,
+              private dialogRef: MatDialogRef<VmCreationSecurityGroupComponent>,
+              private securityGroupService: SecurityGroupService,
+              private authService: AuthService) {
   }
 
   public ngOnInit(): void {
+    const account = this.authService.user.username;
     this.securityGroupService.getSharedGroups()
       .subscribe(groups => {
-        this.sharedGroups = groups;
-        if (!this.savedData.securityGroups) {
-          this.savedData.securityGroups = [this.sharedGroups[0]];
+        this.sharedGroups = groups.filter(item => item.account === account);
+        if (!this._savedData.securityGroups) {
+          this._savedData.securityGroups = [this.sharedGroups[0]];
         }
       });
   }
@@ -38,7 +43,7 @@ export class VmCreationSecurityGroupComponent implements OnInit {
   }
 
   public get displayMode(): VmCreationSecurityGroupMode {
-    return this.savedData.mode;
+    return this._savedData.mode;
   }
 
   public set displayMode(value: VmCreationSecurityGroupMode) {
@@ -47,7 +52,7 @@ export class VmCreationSecurityGroupComponent implements OnInit {
       1: VmCreationSecurityGroupMode.Selector
     };
 
-    this.savedData.mode = map[value];
+    this._savedData.mode = map[value];
   }
 
   public get isModeBuilder(): boolean {
@@ -69,8 +74,7 @@ export class VmCreationSecurityGroupComponent implements OnInit {
   }
 
   public onSave(): void {
-    console.log('SAVED DATA', this.savedData);
-    this.dialogRef.close(this.savedData);
+    this.dialogRef.close(this._savedData);
   }
 
   public onCancel(): void {
@@ -78,6 +82,6 @@ export class VmCreationSecurityGroupComponent implements OnInit {
   }
 
   public onBuilderGroupChange(rules: Rules): void {
-    this.savedData.rules = rules;
+    this._savedData.rules = rules;
   }
 }
