@@ -1,0 +1,57 @@
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from '../../../reducers';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+
+import * as fromSshKeys from '../../redux/ssh-key.reducers';
+import * as sshKeyActions from '../../redux/ssh-key.actions';
+
+
+export const sshKeyGroupings = [
+  {
+    key: 'accounts',
+    label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
+    selector: (item: SSHKeyPair) => item.account,
+    name: (item: SSHKeyPair) => getGroupName(item)
+  }
+];
+
+
+const getGroupName = (sshKey: SSHKeyPair) => {
+  return sshKey.domain !== 'ROOT'
+    ? `${sshKey.domain}/${sshKey.account}`
+    : sshKey.account;
+};
+
+@Component({
+  selector: 'cs-ssh-key-page-container',
+  templateUrl: 'ssh-key-page.container.html'
+})
+export class SshKeyPageContainerComponent implements OnInit, AfterViewInit {
+  readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
+  readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
+
+  constructor(
+    private store: Store<State>,
+    private cd: ChangeDetectorRef
+  ) {
+  }
+
+
+  ngOnInit() {
+    this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
+  public removeSshKeyPair(sshKeyPair: SSHKeyPair) {
+    this.store.dispatch(new sshKeyActions.RemoveSshKeyPair(sshKeyPair));
+  }
+}

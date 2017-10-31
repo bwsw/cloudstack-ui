@@ -25,14 +25,27 @@ export interface ListState extends EntityState<SSHKeyPair> {
   }
 }
 
-const initialListState: ListState = {
-  ids: [],
-  entities: null,
+export const sshKeyId = (sshKey: SSHKeyPair) => {
+  return `${sshKey.domainid}-${sshKey.account}-${sshKey.name}`;
+};
+
+export const sortByName = (a: SSHKeyPair, b: SSHKeyPair) => {
+  return a.name.localeCompare(b.name);
+};
+
+
+export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
+  selectId: sshKeyId,
+  sortComparer: sortByName
+});
+
+const initialListState: ListState = adapter.getInitialState({
   filters: {
     selectedAccountIds: [],
     selectedGroupings: []
   }
-};
+});
+
 
 export interface FormState {
   loading: boolean,
@@ -55,18 +68,6 @@ export const sshKeyReducers = {
   form: formReducer
 };
 
-export const sshKeyId = (sshKey: SSHKeyPair) => {
-  return `${sshKey.domainid}-${sshKey.account}-${sshKey.name}`;
-};
-
-export const sortByName = (a: SSHKeyPair, b: SSHKeyPair) => {
-  return a.name.localeCompare(b.name);
-};
-
-export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
-  selectId: sshKeyId,
-  sortComparer: sortByName
-});
 
 export function listReducer(state = initialListState, action: sshKey.Actions): ListState {
   switch (action.type) {
@@ -194,16 +195,18 @@ export const filterSelectedAccountIds = createSelector(
 export const selectFilteredSshKeys = createSelector(
   selectAll,
   filterSelectedAccountIds,
-  fromAccounts.selectAll,
-  (sshKeys, selectedAccountIds, accounts) => {
+  fromAccounts.selectEntities,
+  (sshKeys, selectedAccountIds, accountEntities) => {
 
-    const selectedAccounts = accounts.filter(
-      account => selectedAccountIds.find(id => id === account.id));
-    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
-    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
+    const accountDomainMap = selectedAccountIds
+      .filter(id => accountEntities[id])
+      .reduce((m, id) => {
+        const acc = accountEntities[id];
+        return { ...m, [`${acc.name}_${acc.domainid}`]: acc };
+      }, {});
 
     const selectedAccountIdsFilter = sshKey => !selectedAccountIds.length ||
-      (accountsMap[sshKey.account] && domainsMap[sshKey.domainid]);
+      (accountDomainMap[`${sshKey.account}_${sshKey.domainid}`]);
 
     return sshKeys.filter(sshKey => selectedAccountIdsFilter(sshKey));
   }

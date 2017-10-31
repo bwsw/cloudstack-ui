@@ -2,15 +2,8 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-ssh-key-filter
-    [groupings]="groupings"
-    [accounts]="accounts"
-    [selectedAccountIds]="selectedAccountIds"
-    [selectedGroupings]="selectedGroupings"
-    (onGroupingsChange)="onGroupingsChange.emit($event)"
-    (onAccountsChange)="onAccountsChange.emit($event)"
-    cs-list
-  ></cs-ssh-key-filter>
+
+  <cs-ssh-key-filter-container cs-list></cs-ssh-key-filter-container>
 
   <cs-ssh-key-list
     *loading="!sshKeyList"
