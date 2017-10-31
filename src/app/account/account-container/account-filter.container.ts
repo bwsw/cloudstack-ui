@@ -39,7 +39,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       (onRolesChange)="onRolesChange($event)"
       (onRoleTypesChange)="onRoleTypesChange($event)"
       (onStatesChange)="onStatesChange($event)"
-      (onGroupingsChange)="update($event)"
+      (onGroupingsChange)="onGroupingsChange($event)"
     ></cs-account-list-filter>`
 })
 export class AccountFilterContainerComponent extends WithUnsubscribe() implements OnInit {
@@ -100,11 +100,8 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
     this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedStates }));
   }
 
-  public update(selectedGroupings) {
-    this.selectedGroupings = selectedGroupings;
-    this.onSelectedGroupingsChange.emit(selectedGroupings);
-    const selectedGroupingNames = this.selectedGroupings.map(g => g.key);
-    this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedGroupingNames }));
+  public onGroupingsChange(selectedGroupings) {
+    this.store.dispatch(new accountActions.AccountFilterUpdate({ selectedGroupings }));
   }
 
   private initFilters(): void {
@@ -115,7 +112,7 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
     const selectedStates = params['states'];
     const selectedRoleTypes = params['roleTypes'];
 
-    this.selectedGroupings = params['groupings'].reduce((acc, _) => {
+    const selectedGroupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
       if (grouping) {
         acc.push(grouping);
@@ -123,16 +120,12 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
       return acc;
     }, []);
 
-    this.onSelectedGroupingsChange.emit(this.selectedGroupings);
-
-    const selectedGroupingNames = this.selectedGroupings.map(g => g.key);
-
     this.store.dispatch(new accountActions.AccountFilterUpdate({
       selectedRoleTypes,
       selectedRoleNames,
       selectedDomainIds,
       selectedStates,
-      selectedGroupingNames
+      selectedGroupings
     }));
 
   }
@@ -149,7 +142,7 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
           'roles': filters.selectedRoleNames,
           'roleTypes': filters.selectedRoleTypes,
           'states': filters.selectedStates,
-          'groupings': filters.selectedGroupingNames
+          'groupings': filters.selectedGroupings.map(g => g.key)
         });
       });
   }

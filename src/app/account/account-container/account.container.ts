@@ -29,7 +29,7 @@ export const stateTranslations = {
       [accounts]="accounts$ | async"
       [isLoading]="loading$ | async"
       [groupings]="groupings"
-      [selectedGroupings]="selectedGroupings"
+      [selectedGroupings]="selectedGroupings$ | async"
       (onAccountChanged)="onAccountChange($event)"
     ></cs-account-page>`
 })
@@ -37,6 +37,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
 
   readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
+  readonly selectedGroupings$ = this.store.select(fromAccounts.filterSelectedGroupings);
 
   public groupings = [
     {
@@ -64,7 +65,6 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
       name: (item: Account) => this.stateTranslation(item.state),
     }
   ];
-  public selectedGroupings = [];
 
   constructor(
     private store: Store<State>,

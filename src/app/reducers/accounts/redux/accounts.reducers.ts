@@ -25,7 +25,7 @@ export interface State extends EntityState<Account> {
     selectedRoleNames: string[],
     selectedRoleTypes: string[],
     selectedStates: string[],
-    selectedGroupingNames: string[]
+    selectedGroupings: any[]
   }
 }
 
@@ -62,7 +62,7 @@ export const initialState: State = adapter.getInitialState({
     selectedRoleTypes: [],
     selectedRoleNames: [],
     selectedStates: [],
-    selectedGroupingNames: []
+    selectedGroupings: []
   }
 });
 
@@ -178,6 +178,11 @@ export const filterSelectedRoleNames = createSelector(
 export const filterSelectedStates = createSelector(
   filters,
   state => state.selectedStates
+);
+
+export const filterSelectedGroupings = createSelector(
+  filters,
+  state => state.selectedGroupings
 );
 
 export const selectFilteredAccounts = createSelector(
