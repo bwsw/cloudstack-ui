@@ -6,7 +6,8 @@ import {
 } from '@angular/forms';
 import {
   MatAutocompleteModule,
-  MatButtonModule, MatButtonToggleModule,
+  MatButtonModule,
+  MatButtonToggleModule,
   MatCheckboxModule,
   MatDialogModule,
   MatIconModule,

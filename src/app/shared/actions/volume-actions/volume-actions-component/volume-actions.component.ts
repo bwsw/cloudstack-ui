@@ -1,7 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { DiskOffering } from '../../../models/disk-offering.model';
 import { Volume } from '../../../models/volume.model';
-import { DiskOfferingService } from '../../../services/disk-offering.service';
 import { VolumeActionsService } from '../volume-actions.service';
 import { VolumeAction } from '../volume-action';
 
@@ -12,19 +17,51 @@ import { VolumeAction } from '../volume-action';
 })
 export class VolumeActionsComponent implements OnInit {
   @Input() public volume: Volume;
-  public diskOfferings: Array<DiskOffering>;
+  @Input() public maxSize: number;
+  @Input() public diskOfferings: Array<DiskOffering>;
+  @Output() public onVolumeDelete = new EventEmitter<Volume>();
+  @Output() public onVolumeResize = new EventEmitter<any>();
+  @Output() public onVolumeAttach = new EventEmitter<string>();
+  @Output() public onVolumeDetach = new EventEmitter<Volume>();
+  @Output() public onVolumeSnapshots = new EventEmitter<Volume>();
+  public actions: Array<VolumeAction>;
 
   constructor(
-    public volumeActionsService: VolumeActionsService,
-    private diskOfferingService: DiskOfferingService
-  ) {}
+    public volumeActionsService: VolumeActionsService
+  ) {
+    this.actions = this.volumeActionsService.actions;
+  }
 
   public ngOnInit(): void {
-    this.diskOfferingService.getList()
-      .subscribe(diskOfferings => this.diskOfferings = diskOfferings);
+    /*this.diskOfferingService.getList()
+      .subscribe(diskOfferings => this.diskOfferings = diskOfferings);*/
   }
 
   public onAction(action: VolumeAction, volume: Volume): void {
-    action.activate(volume, { diskOfferings: this.diskOfferings }).subscribe();
+    action.activate(volume, { diskOfferings: this.diskOfferings, maxSize: this.maxSize }).subscribe(
+      res => {
+        switch (action.command){
+          case 'delete': {
+            this.onVolumeDelete.emit(res);
+            break
+          }
+          case 'resize': {
+            this.onVolumeResize.emit(res);
+            break;
+          }
+          case 'attach': {
+            this.onVolumeAttach.emit(res);
+            break;
+          }
+          case 'detach': {
+            this.onVolumeDetach.emit(res);
+            break;
+          }
+          case 'snapshot': {
+            this.onVolumeSnapshots.emit(res);
+            break;
+          }
+        }
+      });
   }
 }

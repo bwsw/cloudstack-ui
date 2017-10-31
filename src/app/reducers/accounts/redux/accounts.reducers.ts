@@ -20,6 +20,8 @@ import { Account } from '../../../shared/models/account.model';
 export interface State extends EntityState<Account> {
   loading: boolean,
   selectedAccountId: string | null;
+  userAccount: string;
+  userDomainId: string;
   filters: {
     selectedDomainIds: string[],
     selectedRoleNames: string[],
@@ -57,6 +59,8 @@ export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({
 export const initialState: State = adapter.getInitialState({
   loading: false,
   selectedAccountId: null,
+  userAccount: '',
+  userDomainId: '',
   filters: {
     selectedDomainIds: [],
     selectedRoleTypes: [],
@@ -110,6 +114,14 @@ export function reducer(
       };
     }
 
+    case event.LOAD_USER_ACCOUNT: {
+      return {
+        ...state,
+        userAccount: action.payload.account,
+        userDomainId: action.payload.domainid
+      };
+    }
+
 
     default: {
       return state;
@@ -142,10 +154,28 @@ export const getSelectedId = createSelector(
   state => state.selectedAccountId
 );
 
+export const getUserAccountName = createSelector(
+  getAccountsEntitiesState,
+  state => state.userAccount
+);
+
+export const getUserDomainId = createSelector(
+  getAccountsEntitiesState,
+  state => state.userDomainId
+);
+
 export const getSelectedAccount = createSelector(
   getAccountsState,
   getSelectedId,
   (state, selectedId) => state.list.entities[selectedId]
+);
+
+export const getUserAccount = createSelector(
+  selectAll,
+  getUserDomainId,
+  getUserAccountName,
+  (accounts, domainId, accountName) =>
+    accounts.find(account => account.name === accountName && account.domainid === domainId)
 );
 
 export const filters = createSelector(

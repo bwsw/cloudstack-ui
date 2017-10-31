@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
   MatIconModule,
@@ -20,8 +21,7 @@ import {
   MatSnackBarModule,
   MatTableModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatButtonToggleModule
+  MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
@@ -152,6 +152,7 @@ import { AccountDisableAction } from './actions/account-actions/actions/account-
 import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
 import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
 import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
+import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 
 @NgModule({
   imports: [
@@ -240,7 +241,8 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     MatInputModule,
     TopBarComponent,
     ViewValuePipe,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    VolumeActionsContainerComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -307,7 +309,8 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    VolumeActionsContainerComponent,
   ],
   providers: [
     AccountService,
