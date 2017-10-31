@@ -18,11 +18,13 @@
       (onGroupingsChange)="onGroupingsChange.emit($event)"
       cs-list
     ></cs-account-list-filter>
+  </cs-top-bar>
+  <div class="switch-panel">
     <cs-view-mode-switch
       (onModeChange)="changeMode($event)"
       [key]="key">
     </cs-view-mode-switch>
-  </cs-top-bar>
+  </div>
   <cs-account-list
     *loading="isLoading"
     [groupings]="selectedGroupings"

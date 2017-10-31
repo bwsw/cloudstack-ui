@@ -27,6 +27,11 @@ body {
   margin: 0;
 }
 
+.switch-panel {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .disabled-link {
   cursor: pointer;
 }

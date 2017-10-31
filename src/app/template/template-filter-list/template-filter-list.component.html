@@ -8,14 +8,16 @@
       [showIso]="viewMode === 'Iso'"
       [availableGroupings]="groupings"
     ></cs-template-filters>
-    <cs-view-mode-switch
-      (onModeChange)="changeMode($event)"
-      [key]="key">
-    </cs-view-mode-switch>
   </cs-top-bar>
 </ng-container>
 
 <ng-container *loading="!templateList?.length" cs-list>
+  <div class="switch-panel">
+    <cs-view-mode-switch
+      (onModeChange)="changeMode($event)"
+      [key]="key">
+    </cs-view-mode-switch>
+  </div>
   <cs-template-card-list
     *loading="fetching"
     class="template-list"

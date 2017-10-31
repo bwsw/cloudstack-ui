@@ -13,21 +13,26 @@
         (onAccountsChange)="onAccountsChange.emit($event)"
         cs-list
       ></cs-ssh-key-filter>
+    </cs-top-bar>
+  </ng-container>
+
+  <ng-container cs-list>
+    <div class="switch-panel">
       <cs-view-mode-switch
         (onModeChange)="changeMode($event)"
         [key]="key">
       </cs-view-mode-switch>
-    </cs-top-bar>
-  </ng-container>
+    </div>
 
-  <cs-ssh-key-list
-    *loading="!sshKeyList"
-    [mode]="mode"
-    [keys]="sshKeyList"
-    [groupings]="selectedGroupings"
-    (onRemove)="removeKey($event)"
-    cs-list
-  ></cs-ssh-key-list>
+    <cs-ssh-key-list
+      *loading="!sshKeyList"
+      [mode]="mode"
+      [keys]="sshKeyList"
+      [groupings]="selectedGroupings"
+      (onRemove)="removeKey($event)"
+      cs-list
+    ></cs-ssh-key-list>
+  </ng-container>
 
   <ng-container cs-sidebar>
     <cs-sidebar [isOpen]="listService?.hasSelected()">

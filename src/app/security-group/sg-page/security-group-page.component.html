@@ -7,15 +7,17 @@
         (updateFilters)="updateFiltersAndFilter($event)"
         cs-list
       ></cs-sg-filter>
-      <cs-view-mode-switch
-        (onModeChange)="changeMode($event)"
-        [key]="key">
-      </cs-view-mode-switch>
     </cs-top-bar>
   </ng-container>
 
 
   <ng-container *loading="!loaded" cs-list>
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="key">
+      </cs-view-mode-switch>
+    </div>
     <ng-container *ngIf="isViewModeTemplates">
       <ng-container *ngIf="visiblePredefinedSecurityGroupList.length">
         <h4 class="section-header">{{ "SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS" | translate }}</h4>
