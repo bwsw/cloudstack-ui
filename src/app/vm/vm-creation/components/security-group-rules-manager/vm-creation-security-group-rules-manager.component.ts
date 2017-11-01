@@ -5,6 +5,7 @@ import { Rules } from '../../../../shared/components/security-group-builder/rule
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
 import { VmCreationSecurityGroupComponent } from '../security-group/vm-creation-security-group.component';
+import * as cloneDeep from 'lodash/cloneDeep';
 
 
 @Component({
@@ -74,9 +75,10 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
   }
 
   public showDialog(): void {
+    const data = cloneDeep(this.savedData);
     this.dialog.open(VmCreationSecurityGroupComponent, {
       width: '800px',
-      data: this.savedData
+      data
     })
       .afterClosed()
       .subscribe((data: any) => {

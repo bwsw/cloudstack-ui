@@ -17,14 +17,14 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
 })
 export class SecurityGroupSelectorComponent implements ControlValueAccessor {
   @Input() public securityGroups: Array<SecurityGroup>;
-  public _selectedSecurityGroups: SecurityGroup[] = [];
+  public _selectedSecurityGroups: Array<SecurityGroup> = [];
 
   @Input()
-  public get selectedSecurityGroups(): SecurityGroup[] {
+  public get selectedSecurityGroups(): Array<SecurityGroup> {
     return this._selectedSecurityGroups;
   }
 
-  public writeValue(value: SecurityGroup[]): void {
+  public writeValue(value: Array<SecurityGroup>): void {
     if (value) {
       this._selectedSecurityGroups = value;
     }
