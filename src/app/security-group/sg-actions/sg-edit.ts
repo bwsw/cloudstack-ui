@@ -13,7 +13,7 @@ export class SecurityGroupEditAction extends SecurityGroupAction {
 
   public activate(securityGroup: SecurityGroup, params?: {}): Observable<any> {
     return this.dialog.open(SgRulesComponent, <MatDialogConfig>{
-      width: '880px',
+      width: '910px',
       data: { securityGroup }
     })
       .afterClosed()
