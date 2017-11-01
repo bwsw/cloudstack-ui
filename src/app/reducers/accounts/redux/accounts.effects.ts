@@ -69,6 +69,20 @@ export class AccountsEffects {
         });
     });
 
+  @Effect()
+  deleteAccount$: Observable<Action> = this.actions$
+    .ofType(accountActions.DELETE_ACCOUNT)
+    .switchMap((action: accountActions.LockAccountRequest) => {
+      return this.accountService.removeAccount(action.payload)
+        .switchMap(job => {
+          return this.asyncJobService.queryJob(job, 'account', Account);
+        })
+        .map(() => new accountActions.DeleteSuccess(action.payload))
+        .catch((error: Error) => {
+          return Observable.of(new accountActions.AccountUpdateError(error));
+        });
+    });
+
 
   @Effect()
   createAccount$: Observable<Action> = this.actions$

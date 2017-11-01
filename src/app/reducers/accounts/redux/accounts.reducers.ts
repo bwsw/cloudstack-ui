@@ -116,7 +116,7 @@ export function reducer(
       };
     }
 
-    case event.DELETE_ACCOUNT: {
+    case event.ACCOUNT_DELETE_SUCCESS: {
       return {
         ...adapter.removeOne(action.payload.id, state),
       };

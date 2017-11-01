@@ -12,6 +12,7 @@ export const DISABLE_ACCOUNT = '[ACCOUNTS] DISABLE_ACCOUNT';
 export const ENABLE_ACCOUNT = '[ACCOUNTS] ENABLE_ACCOUNT';
 export const LOCK_ACCOUNT = '[ACCOUNTS] LOCK_ACCOUNT';
 export const DELETE_ACCOUNT = '[ACCOUNTS] DELETE_ACCOUNT';
+export const ACCOUNT_DELETE_SUCCESS = '[ACCOUNTS] ACCOUNT_DELETE_SUCCESS';
 
 export const UPDATE_ACCOUNTS = '[ACCOUNTS] UPDATE_ACCOUNTS';
 export const ACCOUNT_UPDATE_ERROR = '[ACCOUNTS] ACCOUNT_UPDATE_ERROR';
@@ -111,6 +112,13 @@ export class DeleteAccountRequest implements Action {
   }
 }
 
+export class DeleteSuccess implements Action {
+  readonly type = ACCOUNT_DELETE_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 
 
 export type Actions = LoadAccountsRequest
@@ -124,5 +132,6 @@ export type Actions = LoadAccountsRequest
   | DisableAccountRequest
   | LoadAccountsRequest
   | DeleteAccountRequest
+  | DeleteSuccess
   | UpdateAccounts
   | AccountUpdateError;
