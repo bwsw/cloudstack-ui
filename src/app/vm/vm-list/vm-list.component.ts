@@ -81,7 +81,7 @@ export class VmListComponent implements OnInit {
   ];
 
   public mode: ViewMode;
-  public key = 'vm-page';
+  public viewModeKey = 'vmPageViewMode';
 
 
   public groups: Array<InstanceGroup>;

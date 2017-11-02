@@ -35,7 +35,7 @@ export class TemplateFilterListComponent implements OnChanges {
   @Output() public viewModeChange = new EventEmitter();
 
   public mode: ViewMode;
-  public key = 'template-page';
+  public viewModeKey = 'templatePageViewMode';
 
   public fetching = false;
   public query: string;

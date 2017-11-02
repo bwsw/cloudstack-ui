@@ -41,7 +41,7 @@ export class AccountPageComponent {
   @Output() public onGroupingsChange = new EventEmitter();
 
   public mode: ViewMode;
-  public key = 'account-page';
+  public viewModeKey = 'accountPageViewMode';
 
   constructor(
     public listService: ListService,

@@ -73,7 +73,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   ];
   public query: string;
   public mode: ViewMode;
-  public key = 'volume-page';
+  public viewModeKey = 'volumePageViewMode';
 
   public filterData: any;
   public domainList: Array<Domain>;

@@ -39,7 +39,7 @@ export class SecurityGroupPageComponent implements OnInit {
   public viewMode: SecurityGroupViewMode;
 
   public mode: ViewMode;
-  public key = 'sg-page';
+  public viewModeKey = 'sgPageViewMode';
 
   constructor(
     private cd: ChangeDetectorRef,
