@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
-  MatButtonToggleModule,
   MatCheckboxModule,
   MatDialogModule,
   MatIconModule,
@@ -11,7 +10,9 @@ import {
   MatMenuModule,
   MatSelectModule,
   MatTabsModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatButtonToggleModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -63,7 +64,8 @@ import { SecurityGroupListComponent } from './sg-list/security-group-list.compon
     MatIconModule,
     MatInputModule,
     MatTabsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     SecurityGroupPageComponent

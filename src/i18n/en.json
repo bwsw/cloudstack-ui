@@ -71,7 +71,7 @@
     "VOLUME": {
       "CONFIRM_DELETION": "Are you sure you want to delete this volume?",
       "CONFIRM_DETACHMENT": "Are you sure you want to detach this volume?",
-      "CONFIRM_CREATION": "You have no VMs created. When a VM is created from a template, a disk is created automatically.<br>Are you sure you want to create an additional disk?"
+      "CONFIRM_CREATION": "You have no VMs created. When a VM is created from a template, a disk is created automatically.<br> <br>Are you sure you want to create an additional disk?"
     }
   },
   "ERRORS": {
@@ -476,7 +476,7 @@
       "DISK_SIZE": "Disk size",
       "GROUP": "Group",
       "NO_GROUP": "No group",
-      "AFFINITY_GROUPS": "Affinity groups",
+      "AFFINITY_GROUP": "Affinity group",
       "SECURITY_GROUPS": "Firewall rules",
       "KEYBOARD_LAYOUT": "Keyboard layout",
       "KB_US": "Standard (US) keyboard",

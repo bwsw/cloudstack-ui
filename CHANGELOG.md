@@ -1,3 +1,24 @@
+<a name="1.49.13"></a>
+## [1.49.13](https://github.com/bwsw/cloudstack-ui/compare/1.49.12...1.49.13) (2017-11-01)
+
+
+### Bug Fixes
+
+* **mat-spinner:** Spinner has a wrong size ([#642](https://github.com/bwsw/cloudstack-ui/issues/642)) ([f528bdb](https://github.com/bwsw/cloudstack-ui/commit/f528bdb))
+* **sg-rules:** System Firewall templates view mode bug ([#634](https://github.com/bwsw/cloudstack-ui/issues/634)) ([f1b34fc](https://github.com/bwsw/cloudstack-ui/commit/f1b34fc))
+* **vm-creation:** Check Template size before VM Creation ([#620](https://github.com/bwsw/cloudstack-ui/issues/620)) ([54e28a6](https://github.com/bwsw/cloudstack-ui/commit/54e28a6))
+* **vm-creation:** Error in VM creation when affinity group contains c… ([#633](https://github.com/bwsw/cloudstack-ui/issues/633)) ([47280ac](https://github.com/bwsw/cloudstack-ui/commit/47280ac))
+* **vm-dialogs:** "Access VM" and "Save password for all VMs" dialogs have incorrect header ([#626](https://github.com/bwsw/cloudstack-ui/issues/626)) ([6fb53c7](https://github.com/bwsw/cloudstack-ui/commit/6fb53c7))
+* **vm-list:** "Cannot read property 'tokens' of undefined" in production ([#640](https://github.com/bwsw/cloudstack-ui/issues/640)) ([9602998](https://github.com/bwsw/cloudstack-ui/commit/9602998))
+
+
+### Features
+
+* **activity log:** add account filter to activity log page  ([#610](https://github.com/bwsw/cloudstack-ui/issues/610)) ([10cb8ba](https://github.com/bwsw/cloudstack-ui/commit/10cb8ba))
+* **core:** Angular and Material2 versions updated ([3851b8e](https://github.com/bwsw/cloudstack-ui/commit/3851b8e))
+
+
+
 <a name="1.49.12"></a>
 ## [1.49.12](https://github.com/bwsw/cloudstack-ui/compare/1.49.11...1.49.12) (2017-10-18)
 

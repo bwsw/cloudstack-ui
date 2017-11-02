@@ -24,13 +24,14 @@ import { SshKeyListComponent } from './ssh-key-list/ssh-key-list.component';
 import { ShhKeyFilterComponent } from './ssh-key-filter/ssh-key-filter.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SshKeyListContainerComponent } from './containers/ssh-key-list.container';
+import { SshKeyPageContainerComponent } from './containers/ssh-key-page/ssh-key-page.container';
 import { StoreModule } from '@ngrx/store';
 import { sshKeyReducers } from './redux/ssh-key.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { SshKeyEffects } from './redux/ssh-key.effects';
 import { SShKeyCreationDialogContainerComponent } from './ssh-key-creation/containers/ssh-key-creation-dialog.container';
 import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
+import { ShhKeyFilterContainerComponent } from './containers/ssh-key-filter/ssh-key-filter.container';
 import { SshKeyRowItemComponent } from './ssh-key-list-item/row-item/ssh-key-row-item.component';
 
 @NgModule({
@@ -54,7 +55,8 @@ import { SshKeyRowItemComponent } from './ssh-key-list-item/row-item/ssh-key-row
     EffectsModule.forFeature([SshKeyEffects]),
   ],
   declarations: [
-    SshKeyListContainerComponent,
+    SshKeyPageContainerComponent,
+    ShhKeyFilterContainerComponent,
     SshKeyListComponent,
     SshKeyCardItemComponent,
     SshKeyRowItemComponent,

@@ -1,0 +1,7 @@
+<cs-ssh-key-filter
+  [accounts]="accounts$ | async"
+  [selectedAccountIds]="selectedAccountIds$ | async"
+  [selectedGroupings]="selectedGroupings$ | async"
+  (onGroupingsChange)="onGroupingsChange($event)"
+  (onAccountsChange)="onAccountsChange($event)"
+></cs-ssh-key-filter>

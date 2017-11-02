@@ -290,9 +290,11 @@ export class VmListComponent implements OnInit {
       observables.forEach(observable => {
         observable.subscribe(job => {
           const action = this.vmActionsService.getActionByName(job.cmd as any);
-          this.jobsNotificationService.finish({
-            message: action.tokens.successMessage
-          });
+          if (action) {
+            this.jobsNotificationService.finish({
+              message: action.tokens.successMessage
+            });
+          }
         });
       });
     });

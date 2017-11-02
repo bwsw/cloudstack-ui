@@ -13,11 +13,6 @@ import { sshKeyId } from './ssh-key.reducers';
 
 @Injectable()
 export class SshKeyEffects {
-  // @Effect()
-  // loadFilterSshKeysByGroupings$: Observable<Action> = this.actions$
-  //   .ofType(sshKey.SSH_KEY_FILTER_UPDATE)
-  //   .map((action: sshKey.SshKeyFilterUpdate) => new sshKey.LoadSshKeyRequest());
-
   @Effect()
   loadSshKeys$: Observable<Action> = this.actions$
     .ofType(sshKey.LOAD_SSH_KEYS_REQUEST)
@@ -63,7 +58,7 @@ export class SshKeyEffects {
     .ofType(sshKey.SSH_KEY_PAIR_CREATE_SUCCESS)
     .filter((action: sshKey.CreateSshKeyPairSuccessAction) => !!action.payload.privateKey)
     .do((action: sshKey.CreateSshKeyPairSuccessAction) => {
-        this.showPrivateKey(action.payload.privateKey);
+      this.showPrivateKey(action.payload.privateKey);
     });
 
   @Effect({ dispatch: false })

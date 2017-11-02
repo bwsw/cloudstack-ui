@@ -4,15 +4,7 @@
 >
   <ng-container cs-panels>
     <cs-top-bar>
-      <cs-ssh-key-filter *ngIf="isAdmin()"
-        [groupings]="groupings"
-        [accounts]="accounts"
-        [selectedAccountIds]="selectedAccountIds"
-        [selectedGroupings]="selectedGroupings"
-        (onGroupingsChange)="onGroupingsChange.emit($event)"
-        (onAccountsChange)="onAccountsChange.emit($event)"
-        cs-list
-      ></cs-ssh-key-filter>
+  <cs-ssh-key-filter-container cs-list></cs-ssh-key-filter-container>
     </cs-top-bar>
   </ng-container>
 
