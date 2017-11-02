@@ -22,7 +22,7 @@ import { Account } from '../../shared/models/account.model';
     >
     </cs-account-actions>`,
 })
-export class AccountActionContainerComponent {
+export class AccountActionsContainerComponent {
 
   @Input() public account: Account;
 

@@ -1,61 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Action } from '../../../interfaces/action.interface';
-import { JobsNotificationService } from '../../../services/jobs-notification.service';
-import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../models/account.model';
 
-
-@Injectable()
-export abstract class BaseAccountAction implements Action<Account> {
-  public name: string;
-  public command: string;
-  public icon?: string;
-  protected confirmMessage: string;
-  protected successMessage: string;
-  protected progressMessage: string;
-  protected failMessage: string;
-
-  protected notificationId;
-
-  constructor(
-    protected dialogService: DialogService,
-    protected jobsNotificationService: JobsNotificationService
-  ) {}
-
-
-  public activate(): Observable<any> {
-    return this.dialogService.confirm({ message: this.confirmMessage })
-      .onErrorResumeNext()
-      .filter(res => Boolean(res));
-  }
-
-  public canActivate(account: Account): boolean {
-    return true;
-  }
-
-  public hidden(account: Account): boolean {
-    return false;
-  }
-
-  protected onSuccess(): void {
-    this.jobsNotificationService.add({
-      id: this.notificationId,
-      message: this.successMessage,
-    });
-  }
-
-  protected onError(error: any): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
-    });
-
-    this.jobsNotificationService.fail({
-      id: this.notificationId,
-      message: this.failMessage,
-    });
-  }
+export interface BaseAccountAction {
+  name: string;
+  command: string;
+  icon?: string;
+  confirmMessage: string;
+  canActivate?: (account: Account) => boolean;
 }

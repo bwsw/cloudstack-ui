@@ -122,7 +122,7 @@ export function reducer(
       };
     }
 
-    case event.UPDATE_ACCOUNTS: {
+    case event.UPDATE_ACCOUNT: {
       return {
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
       };

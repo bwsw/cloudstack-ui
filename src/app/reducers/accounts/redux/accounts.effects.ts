@@ -38,7 +38,7 @@ export class AccountsEffects {
         .switchMap(job => {
           return this.asyncJobService.queryJob(job, 'account', Account);
         })
-        .map(updatedAccount => new accountActions.UpdateAccounts(updatedAccount))
+        .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
@@ -49,7 +49,7 @@ export class AccountsEffects {
     .ofType(accountActions.ENABLE_ACCOUNT)
     .switchMap((action: accountActions.EnableAccountRequest) => {
       return this.accountService.enableAccount(action.payload)
-        .map(res => new accountActions.UpdateAccounts(res.account))
+        .map(res => new accountActions.UpdateAccount(res.account))
         .catch((error: Error) => {
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
@@ -63,7 +63,7 @@ export class AccountsEffects {
         .switchMap(job => {
           return this.asyncJobService.queryJob(job, 'account', Account);
         })
-        .map(updatedAccount => new accountActions.UpdateAccounts(updatedAccount))
+        .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
