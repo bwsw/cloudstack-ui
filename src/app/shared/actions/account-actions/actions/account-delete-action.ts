@@ -9,4 +9,6 @@ export class AccountDeleteAction implements BaseAccountAction {
   public icon = 'delete';
 
   public confirmMessage = 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_DELETION';
+
+  public canActivate = (account: Account) => true;
 }

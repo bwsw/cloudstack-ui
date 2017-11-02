@@ -5,5 +5,5 @@ export interface BaseAccountAction {
   command: string;
   icon?: string;
   confirmMessage: string;
-  canActivate?: (account: Account) => boolean;
+  canActivate: (account: Account) => boolean;
 }
