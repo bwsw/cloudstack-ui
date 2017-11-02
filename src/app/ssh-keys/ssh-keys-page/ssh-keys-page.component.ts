@@ -36,7 +36,7 @@ export class SshKeysPageComponent {
   @Output() public onGroupingsChange = new EventEmitter();
 
   public mode: ViewMode;
-  public key = 'shhkey-page';
+  public key = 'sshkey-page';
 
   constructor(
     public listService: ListService,

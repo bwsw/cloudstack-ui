@@ -30,6 +30,11 @@ body {
 .switch-panel {
   display: flex;
   justify-content: flex-end;
+  button {
+    right: 10px;
+    align-self: flex-end;
+    margin-top: 10px;
+  }
 }
 
 .disabled-link {

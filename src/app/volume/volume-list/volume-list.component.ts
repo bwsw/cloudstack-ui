@@ -33,11 +33,7 @@ export class VolumeListComponent {
   }
 
   public get itemComponent() {
-    if (this.mode === ViewMode.BOX) {
-      return VolumeCardItemComponent;
-    } else {
-      return VolumeRowItemComponent;
-    }
+    return this.mode === ViewMode.BOX ? VolumeCardItemComponent : VolumeRowItemComponent;
   }
 
   public selectVolume(volume: Volume): void {

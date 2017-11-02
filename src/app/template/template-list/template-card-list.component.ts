@@ -43,11 +43,7 @@ export class TemplateCardListComponent {
   }
 
   public get itemComponent() {
-    if (this.mode === ViewMode.BOX) {
-      return TemplateCardItemComponent;
-    } else {
-      return TemplateRowItemComponent;
-    }
+    return this.mode === ViewMode.BOX ? TemplateCardItemComponent : TemplateRowItemComponent;
   }
 
   public selectTemplate(template: BaseTemplateModel): void {

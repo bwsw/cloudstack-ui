@@ -36,11 +36,7 @@ export class AccountListComponent {
   }
 
   public get itemComponent() {
-    if (this.mode === ViewMode.BOX) {
-      return AccountCardItemComponent;
-    } else {
-      return AccountRowItemComponent;
-    }
+    return this.mode === ViewMode.BOX ? AccountCardItemComponent : AccountRowItemComponent;
   }
 
   public selectAccount(account: Account): void {

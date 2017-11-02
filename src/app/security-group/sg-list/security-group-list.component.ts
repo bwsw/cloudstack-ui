@@ -29,10 +29,6 @@ export class SecurityGroupListComponent {
   }
 
   public get itemComponent() {
-    if (this.mode === ViewMode.BOX) {
-      return SecurityGroupCardItemComponent;
-    } else {
-      return SecurityGroupRowItemComponent;
-    }
+    return this.mode === ViewMode.BOX ? SecurityGroupCardItemComponent : SecurityGroupRowItemComponent;
   }
 }

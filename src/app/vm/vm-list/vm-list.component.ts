@@ -144,11 +144,7 @@ export class VmListComponent implements OnInit {
   }
 
   public get itemComponent() {
-    if (this.mode === ViewMode.BOX) {
-      return VmListCardItemComponent;
-    } else {
-      return VmListRowItemComponent;
-    }
+    return this.mode === ViewMode.BOX ? VmListCardItemComponent : VmListRowItemComponent;
   }
 
   public changeMode(mode) {

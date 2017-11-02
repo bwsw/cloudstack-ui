@@ -34,11 +34,7 @@ export class SshKeyListComponent {
   }
 
   public get itemComponent() {
-    if (this.mode === ViewMode.BOX) {
-      return SshKeyCardItemComponent;
-    } else {
-      return SshKeyRowItemComponent;
-    }
+    return this.mode === ViewMode.BOX ? SshKeyCardItemComponent : SshKeyRowItemComponent;
   }
 
   public selectSshKeyPair(sshKeyPair: SSHKeyPair): void {
