@@ -3,8 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { ListService } from '../../shared/components/list/list.service';
 import { OsType } from '../../shared/models/os-type.model';
-import { Zone } from '../../shared/models/zone.model';
-import { Domain } from '../../shared/models/domain.model';
 
 
 @Component({
@@ -14,29 +12,20 @@ import { Domain } from '../../shared/models/domain.model';
 })
 export class TemplatePageComponent implements OnInit {
   @Input() public templates: Array<BaseTemplateModel>;
-  @Input() public isLoading: boolean;
+  @Input() public fetching: boolean;
+
+  @Input() public query: string;
   @Input() public osTypes: Array<OsType>;
-  @Input() public zones: Array<Zone>;
   @Input() public viewMode: string;
   @Input() public groupings: object[];
-  @Input() public accounts: Account[];
-  @Input() public domains: Domain[];
-  @Input() public selectedAccountIds: Account[];
-  @Input() public selectedGroupings: any[];
+
   @Input() public selectedTypes: any[];
-  @Input() public selectedZones: any[];
+  @Input() public selectedAccountIds: Account[];
   @Input() public selectedOsFamilies: any[];
-  @Input() public query: string;
+  @Input() public selectedZones: any[];
+  @Input() public selectedGroupings: any[];
 
-  @Output() public onViewModeChange = new EventEmitter<string>();
   @Output() public updateList = new EventEmitter();
-  @Output() public onQueryChange = new EventEmitter();
-  @Output() public onSelectedAccountsChange = new EventEmitter();
-  @Output() public onSelectedGroupingsChange = new EventEmitter();
-  @Output() public onSelectedTypesChange = new EventEmitter();
-  @Output() public onSelectedOsFamiliesChange = new EventEmitter();
-  @Output() public onSelectedZonesChange = new EventEmitter();
-
   @Output() public onTemplateDelete = new EventEmitter();
 
   constructor(

@@ -1,27 +1,15 @@
 <cs-template-page
-  [viewMode]="selectedViewMode$ | async"
   [selectedTypes]="selectedTypes$ | async"
   [selectedAccountIds]="selectedAccountIds$ | async"
   [selectedOsFamilies]="selectedOsFamilies$ | async"
   [selectedZones]="selectedZones$ | async"
   [selectedGroupings]="selectedGroupings$ | async"
+
   [query]="query$ | async"
-
-  [domains]="domains$ | async"
-  [zones]="zones$ | async"
   [osTypes]="osTypes$ | async"
-  [accounts]="accounts$ | async"
-  [groupings]="groupings"
-
+  [groupings]="selectedGroupings$ | async"
   [templates]="templates$ | async"
-  [isLoading]="isLoading$ | async"
+  [fetching]="isLoading$ | async"
 
-  (onQueryChange)="onQueryChange($event)"
-  (onSelectedGroupingsChange)="onGroupingsChange($event)"
-  (onSelectedAccountsChange)="onAccountsChange($event)"
-  (onSelectedOsFamiliesChange)="onOsFamiliesChange($event)"
-  (onSelectedTypesChange)="onTypesChange($event)"
-  (onSelectedZonesChange)="onZonesChange($event)"
-  (onViewModeChange)="onViewModeChange($event)"
   (onTemplateDelete)="onTemplateDelete($event)"
 ></cs-template-page>

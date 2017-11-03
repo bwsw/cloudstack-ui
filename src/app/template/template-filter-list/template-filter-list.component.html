@@ -21,19 +21,5 @@
   (selectedTypesChange)="onSelectedTypesChange.emit($event)"
   (selectedZonesChange)="onSelectedZonesChange.emit($event)"
   (selectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
-  (displayMode)="changeViewMode($event)"
+  (displayMode)="viewModeChange.emit($event)"
 ></cs-template-filters>
-
-<ng-container *loading="!templates?.length && fetching" cs-list>
-  <cs-template-card-list
-    class="template-list"
-    [query]="query"
-    [templateList]="templates"
-    [groupings]="selectedGroupings"
-    [osTypes]="osTypes"
-    (deleteTemplate)="onTemplateDelete.emit($event)"
-  >
-  </cs-template-card-list>
-</ng-container>
-
-<cs-no-results *ngIf="!templates?.length && !fetching"></cs-no-results>

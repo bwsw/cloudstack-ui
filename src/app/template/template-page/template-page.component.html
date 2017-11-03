@@ -2,34 +2,24 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
+  {{ templates[0]?.name }}
 
-  <cs-template-filter-list
-    [viewMode]="viewMode"
-    [templates]="templates"
-    [groupings]="groupings"
-    [accounts]="accounts"
-    [domains]="domains"
-    [fetching]="isLoading"
-    [osTypes]="osTypes"
-    [zones]="zones"
+  <cs-template-filter-container cs-list></cs-template-filter-container>
 
-    [selectedAccountIds]="selectedAccountIds"
-    [selectedGroupings]="selectedGroupings"
-    [selectedZones]="selectedZones"
-    [selectedTypes]="selectedTypes"
-    [selectedOsFamilies]="selectedOsFamilies"
-    [query]="query"
+  <ng-container *loading="!templates?.length && fetching" cs-list>
+    <cs-template-card-list
+      class="template-list"
+      [query]="query"
+      [templateList]="templates"
+      [groupings]="selectedGroupings"
+      [osTypes]="osTypes"
+      (deleteTemplate)="onTemplateDelete.emit($event)"
+    >
+    </cs-template-card-list>
+  </ng-container>
 
-    (viewModeChange)="onViewModeChange.emit($event)"
-    (onSelectedAccountsChange)="onSelectedAccountsChange.emit($event)"
-    (onSelectedGroupingsChange)="onSelectedGroupingsChange.emit($event)"
-    (onSelectedTypesChange)="onSelectedTypesChange.emit($event)"
-    (onSelectedZonesChange)="onSelectedZonesChange.emit($event)"
-    (onSelectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
-    (onQueryChange)="onQueryChange.emit($event)"
-    (onTemplateDelete)="onTemplateDelete.emit($event)"
-    cs-list
-  ></cs-template-filter-list>
+  <cs-no-results *ngIf="!templates?.length && !fetching"></cs-no-results>
+
   <ng-container cs-sidebar>
     <cs-sidebar [isOpen]="listService?.hasSelected()">
       <router-outlet></router-outlet>

@@ -61,7 +61,10 @@ import { zoneReducers } from './redux/zone.reducers';
 import { ZoneEffects } from './redux/zone.effects';
 import { TemplatePageContainerComponent } from './containers/template-page.container';
 import { TemplateCreationContainerComponent } from './template-creation/containers/template-creation.container';
-import { TemplateActionsSidebarContainerComponent } from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
+import {
+  TemplateActionsSidebarContainerComponent
+} from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
+import { TemplateFilterContainerComponent } from './containers/template-filter.container';
 
 
 @NgModule({
@@ -108,6 +111,7 @@ import { TemplateActionsSidebarContainerComponent } from './template-sidebar/tem
     TemplateOsIconComponent,
     TemplateCardListComponent,
     TemplatePageContainerComponent,
+    TemplateFilterContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
     TemplatePageComponent,
