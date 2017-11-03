@@ -15,7 +15,8 @@ import {
   MatTooltipModule,
   MatInputModule
 } from '@angular/material';
-import { AccountItemComponent } from './account/account-item.component';
+import { AccountCardItemComponent } from './account/card-item/account-card-item.component';
+import { AccountRowItemComponent } from './account/row-item/account-row-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AccountStatisticsComponent } from './account-sidebar/account-statistic/account-statistics.component';
 import { AccountLimitsComponent } from './account-sidebar/account-limits/account-limits.component';
@@ -47,7 +48,7 @@ import { resourceCountsReducers } from '../reducers/resource-count/redux/resourc
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([AccountItemComponent]),
+    DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
     FormsModule,
     MatMenuModule,
     MatTooltipModule,
@@ -79,7 +80,8 @@ import { resourceCountsReducers } from '../reducers/resource-count/redux/resourc
     AccountPageComponent,
     AccountListComponent,
     AccountListFilterComponent,
-    AccountItemComponent,
+    AccountCardItemComponent,
+    AccountRowItemComponent,
     AccountSettingsComponent,
     AccountLimitsComponent,
     AccountStatisticsComponent,

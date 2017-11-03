@@ -39,15 +39,19 @@ import { SecurityGroupCreationSecurityGroupComponent } from './sg-creation/secur
 import { SecurityGroupCreationRulesManagerComponent } from './sg-creation/security-group-rules-manager/security-group-creation-rules-manager.component';
 import { SecurityGroupCreationDialogComponent } from './sg-creation/security-group-creation-dialog.component';
 import { SecurityGroupCreationComponent } from './sg-creation/security-group-creation.component';
-import { SecurityGroupListItemComponent } from './sg-list/security-group-list-item.component';
-import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
+import { SecurityGroupCardItemComponent } from './sg-list-item/card-item/security-group-card-item.component';
+import { SecurityGroupPageComponent } from './sg-page/security-group-page.component';
 import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
+import { SecurityGroupRowItemComponent } from './sg-list-item/row-item/security-group-row-item.component';
+import { DynamicModule } from 'ng-dynamic-component';
+import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    DynamicModule.withComponents([SecurityGroupCardItemComponent, SecurityGroupRowItemComponent]),
     RouterModule,
     TranslateModule,
     MatCheckboxModule,
@@ -64,13 +68,15 @@ import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.co
     MatProgressSpinnerModule
   ],
   exports: [
-    SecurityGroupListComponent
+    SecurityGroupPageComponent
   ],
   declarations: [
     SecurityGroupActionsComponent,
     SgFilterComponent,
     SecurityGroupListComponent,
-    SecurityGroupListItemComponent,
+    SecurityGroupPageComponent,
+    SecurityGroupCardItemComponent,
+    SecurityGroupRowItemComponent,
     SecurityGroupCreationComponent,
     SecurityGroupCreationDialogComponent,
     SecurityGroupRulesDialogComponent,

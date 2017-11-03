@@ -43,7 +43,6 @@ export class VolumeFilterComponent implements FilterComponent<VolumeFilter>, OnC
   @Input() public zones: Array<Zone>;
   @Input() public groupings: Array<any>;
   @Input() public accounts: Array<Account>;
-  @Input() public searchPanelWhite: boolean;
   @Output() public updateFilters: EventEmitter<VolumeFilter>;
 
   public types = [VolumeType.ROOT, VolumeType.DATADISK];

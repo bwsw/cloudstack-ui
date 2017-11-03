@@ -1,8 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Template } from '../shared';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { TemplateComponent } from '../template/template.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
+import { TemplateCardItemComponent } from '../template/card-item/template-card-item.component';
+import { TemplateRowItemComponent } from '../template/row-item/template-row-item.component';
 
 
 @Component({
@@ -14,9 +21,10 @@ export class TemplateCardListComponent {
   @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
   @Input() public groupings: string;
+  @Input() public mode: ViewMode;
   @Output() public deleteTemplate = new EventEmitter();
 
-  public TemplateComponent = TemplateComponent;
+  public TemplateRowComponent = TemplateRowItemComponent;
   public inputs;
   public outputs;
 
@@ -32,6 +40,10 @@ export class TemplateCardListComponent {
       onClick: this.selectTemplate,
       deleteTemplate: this.removeTemplate
     };
+  }
+
+  public get itemComponent() {
+    return this.mode === ViewMode.BOX ? TemplateCardItemComponent : TemplateRowItemComponent;
   }
 
   public selectTemplate(template: BaseTemplateModel): void {

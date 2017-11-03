@@ -12,7 +12,10 @@
   overflow: auto;
 }
 
-cs-date-picker,
+.filter {
+  justify-content: flex-start;
+}
+
 mat-select {
   margin: 0 15px;
 }

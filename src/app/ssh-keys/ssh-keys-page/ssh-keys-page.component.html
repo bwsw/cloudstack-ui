@@ -2,16 +2,29 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
+  <ng-container cs-panels>
+    <cs-top-bar>
+      <cs-ssh-key-filter-container cs-list></cs-ssh-key-filter-container>
+    </cs-top-bar>
+  </ng-container>
 
-  <cs-ssh-key-filter-container cs-list></cs-ssh-key-filter-container>
+  <ng-container cs-list>
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="viewModeKey">
+      </cs-view-mode-switch>
+    </div>
 
-  <cs-ssh-key-list
-    *loading="!sshKeyList"
-    [keys]="sshKeyList"
-    [groupings]="selectedGroupings"
-    (onRemove)="removeKey($event)"
-    cs-list
-  ></cs-ssh-key-list>
+    <cs-ssh-key-list
+      *loading="!sshKeyList"
+      [mode]="mode"
+      [keys]="sshKeyList"
+      [groupings]="selectedGroupings"
+      (onRemove)="removeKey($event)"
+      cs-list
+    ></cs-ssh-key-list>
+  </ng-container>
 
   <ng-container cs-sidebar>
     <cs-sidebar [isOpen]="listService?.hasSelected()">

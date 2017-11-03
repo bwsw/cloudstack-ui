@@ -1,12 +1,8 @@
 import {
-  Component,
   EventEmitter,
-  Input,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
-  ViewChild
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
@@ -37,16 +33,11 @@ const stateTranslations = {
   RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
 };
 
-@Component({
-  selector: 'cs-vm-list-item',
-  templateUrl: 'vm-list-item.component.html',
-  styleUrls: ['vm-list-item.component.scss']
-})
 export class VmListItemComponent implements OnInit, OnChanges {
-  @Input() public item: VirtualMachine;
-  @Input() public isSelected: (vm: VirtualMachine) => boolean;
-  @Output() public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
+  public item: VirtualMachine;
+  public isSelected: (vm: VirtualMachine) => boolean;
+  public onClick = new EventEmitter();
+  public matMenuTrigger: MatMenuTrigger;
 
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
@@ -85,7 +76,7 @@ export class VmListItemComponent implements OnInit, OnChanges {
     };
   }
 
-  public get cardClass() {
+  public get itemClass() {
     const { state } = this.item;
     const error = state === VmState.Error;
     const destroyed =

@@ -1,0 +1,36 @@
+<mat-list-item
+  [class.card-selected]="isSelected && isSelected(item)"
+  class="custom-row"
+  (click)="handleClick($event)"
+>
+  <cs-template-os-icon [template]="item"></cs-template-os-icon>
+  <h2
+    class="row-title"
+    [matTooltip]="item.name"
+    [innerHTML]="item.name | highlight:query"
+  ></h2>
+
+  <div class="info">
+    <span>{{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:</span>
+    <span
+      [matTooltip]="item.osTypeName"
+      matTooltipPosition="above"
+      [innerHTML]="item.osTypeName | highlight:query"
+    ></span>
+  </div>
+
+  <div class="info"
+       [matTooltip]="item.displayText"
+       matTooltipPosition="above"
+  >
+    <span [innerHTML]="item.displayText | highlight:query"></span>
+  </div>
+
+  <button *ngIf="isSelf" class="row-action" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-template-actions [template]="item"></cs-template-actions>
+  </mat-menu>
+</mat-list-item>
