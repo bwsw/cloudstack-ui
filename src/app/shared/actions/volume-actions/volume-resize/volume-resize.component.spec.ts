@@ -13,20 +13,20 @@ import {
   MatDialogRef
 } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { DiskOfferingComponent } from '../../../shared/components/disk-offering/disk-offering.component';
-import { OverlayLoadingComponent } from '../../../shared/components/overlay-loading/overlay-loading.component';
-import { SliderComponent } from '../../../shared/components/slider/slider.component';
+import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
+import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
+import { DiskOfferingComponent } from '../../../components/disk-offering/disk-offering.component';
+import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
+import { SliderComponent } from '../../../components/slider/slider.component';
 import {
   DiskOffering,
   Volume
-} from '../../../shared/models';
-import { VolumeType } from '../../../shared/models/volume.model';
-import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+} from '../../../models';
+import { VolumeType } from '../../../models/volume.model';
+import { DiskOfferingService } from '../../../services/disk-offering.service';
+import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { VolumeResizeComponent } from './volume-resize.component';
-import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
+import { ResourceUsageService } from '../../../services/resource-usage.service';
 
 
 @Injectable()

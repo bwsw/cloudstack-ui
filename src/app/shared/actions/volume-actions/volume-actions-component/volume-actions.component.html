@@ -3,7 +3,6 @@
     mat-menu-item
     *ngIf="!action.hidden(volume)"
     (click)="onAction(action, volume)"
-    [disabled]="!diskOfferings"
   >
     <mat-icon>{{ action.icon }}</mat-icon>
     <span>{{ action.name | translate }}</span>

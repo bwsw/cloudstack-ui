@@ -15,11 +15,6 @@ import { VolumeTagService } from '../../../shared/services/tags/volume-tag.servi
 export class VolumesEffects {
 
   @Effect()
-  loadFilteredVolumes: Observable<Action> = this.actions$
-    .ofType(volumeActions.VOLUME_FILTER_UPDATE)
-    .map((action: volumeActions.VolumeFilterUpdate) => new volumeActions.LoadVolumesRequest());
-
-  @Effect()
   loadVolumes$: Observable<Action> = this.actions$
     .ofType(volumeActions.LOAD_VOLUMES_REQUEST)
     .switchMap((action: volumeActions.LoadVolumesRequest) => {

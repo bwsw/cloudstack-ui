@@ -1,67 +1,65 @@
-<cs-top-bar>
-  <div class="options-panel filter-wrapper">
-    <mat-checkbox
-      name="volumeOnly"
-      [(ngModel)]="spareOnly"
-      (change)="onSpareOnlyChange.emit(spareOnly)"
+<div class="options-panel filter-wrapper">
+  <mat-checkbox
+    name="volumeOnly"
+    [(ngModel)]="spareOnly"
+    (change)="onSpareOnlyChange.emit(spareOnly)"
+  >
+    {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
+  </mat-checkbox>
+  <mat-form-field *ngIf="showAccountFilter()">
+    <mat-select
+      multiple="true"
+      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [(ngModel)]="selectedAccountIds" (change)="onAccountChange.emit($event.value)"
     >
-      {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
-    </mat-checkbox>
-    <mat-form-field *ngIf="showAccountFilter()">
-      <mat-select
-        multiple="true"
-        [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-        [(ngModel)]="selectedAccountIds" (change)="onAccountChange.emit($event.value)"
-      >
-        <mat-option
-          *ngFor="let account of accounts"
-          [value]="account.id"
-        >{{ account.fullDomain }}{{ account.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field
-      *ngIf="zones"
+      <mat-option
+        *ngFor="let account of accounts"
+        [value]="account.id"
+      >{{ account.fullDomain }}{{ account.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field
+    *ngIf="zones"
+  >
+    <mat-select
+      multiple="true"
+      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
+      [(ngModel)]="selectedZoneIds"
+      (change)="onZonesChange.emit($event.value)"
     >
-      <mat-select
-        multiple="true"
-        [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
-        [(ngModel)]="selectedZoneIds"
-        (change)="onZonesChange.emit($event.value)"
-      >
-        <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-select
-        multiple="true"
-        [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
-        [(ngModel)]="selectedTypes"
-        (change)="onTypesChange.emit($event.value)"
-      >
-        <mat-option *ngFor="let t of types" [value]="t">
-          {{ getVolumeTypeName(t) | translate }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <cs-divider-vertical></cs-divider-vertical>
-    <mat-form-field *ngIf="zones">
-      <cs-draggable-select
-        multiple="true"
-        [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
-        [(ngModel)]="selectedGroupingNames"
-        [dragItems]="groupings"
-        (change)="onGroupingsChange.emit($event.value)"
-      >
-        <mat-option *ngFor="let g of groupings" [value]="g">
-          {{ g.label | translate }}
-        </mat-option>
-      </cs-draggable-select>
-    </mat-form-field>
-  </div>
-</cs-top-bar>
+      <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
+      [(ngModel)]="selectedTypes"
+      (change)="onTypesChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let t of types" [value]="t">
+        {{ getVolumeTypeName(t) | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <cs-divider-vertical></cs-divider-vertical>
+  <mat-form-field *ngIf="zones">
+    <cs-draggable-select
+      multiple="true"
+      [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
+      [(ngModel)]="selectedGroupingNames"
+      [dragItems]="groupings"
+      (change)="onGroupingsChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let g of groupings" [value]="g">
+        {{ g.label | translate }}
+      </mat-option>
+    </cs-draggable-select>
+  </mat-form-field>
+</div>
 
-<div [class.search-bar-white]="searchPanelWhite">
+<div [class.search-bar-white]="searchPanelWhite" class="filter-wrapper">
   <cs-search
     [ngModel]="query"
     (ngModelChange)="onQueryChange.emit($event)"

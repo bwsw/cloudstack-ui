@@ -5,7 +5,6 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { DiskOffering } from '../../../models/disk-offering.model';
 import { Volume } from '../../../models/volume.model';
 import { VolumeActionsService } from '../volume-actions.service';
 import { VolumeAction } from '../volume-action';
@@ -17,8 +16,6 @@ import { VolumeAction } from '../volume-action';
 })
 export class VolumeActionsComponent implements OnInit {
   @Input() public volume: Volume;
-  @Input() public maxSize: number;
-  @Input() public diskOfferings: Array<DiskOffering>;
   @Output() public onVolumeDelete = new EventEmitter<Volume>();
   @Output() public onVolumeResize = new EventEmitter<any>();
   @Output() public onVolumeAttach = new EventEmitter<string>();
@@ -38,7 +35,7 @@ export class VolumeActionsComponent implements OnInit {
   }
 
   public onAction(action: VolumeAction, volume: Volume): void {
-    action.activate(volume, { diskOfferings: this.diskOfferings, maxSize: this.maxSize }).subscribe(
+    action.activate(volume).subscribe(
       res => {
         switch (action.command){
           case 'delete': {

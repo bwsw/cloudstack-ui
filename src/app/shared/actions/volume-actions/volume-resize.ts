@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { DiskOffering } from '../../models/disk-offering.model';
 import { Volume } from '../../models/volume.model';
-import { VolumeResizeComponent } from '../../../vm/vm-sidebar/volume-resize/volume-resize.component';
 import { VolumeAction } from './volume-action';
 import { MatDialog } from '@angular/material';
+import { VolumeResizeContainerComponent } from './volume-resize.container';
 
 
 @Injectable()
@@ -15,12 +14,10 @@ export class VolumeResizeAction implements VolumeAction {
 
   constructor( public dialog: MatDialog) { }
 
-  public activate(volume: Volume, params: { diskOfferings: Array<DiskOffering>, maxSize: number }): Observable<any> {
-    return this.dialog.open(VolumeResizeComponent, {
+  public activate(volume: Volume): Observable<any> {
+    return this.dialog.open(VolumeResizeContainerComponent, {
       data: {
-        volume,
-        diskOfferings: params.diskOfferings,
-        maxSize: params.maxSize
+        volume
       },
       width: '375px'
     })

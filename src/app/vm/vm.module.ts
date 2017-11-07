@@ -76,7 +76,6 @@ import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-templ
 import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
-import { VolumeResizeComponent } from './vm-sidebar/volume-resize/volume-resize.component';
 import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
@@ -155,7 +154,6 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     VmCreationTemplateComponent,
     VmTemplateDialogComponent,
     VolumeDetailsComponent,
-    VolumeResizeComponent,
     InstanceGroupComponent,
     InstanceGroupSelectorComponent,
     IsoComponent,
@@ -192,7 +190,6 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     VmCreationComponent,
     VmDestroyDialogComponent,
     VmTemplateDialogComponent,
-    VolumeResizeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
     VolumeAttachmentDialogComponent,

@@ -18,6 +18,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
 import { Zone } from '../../shared/models/zone.model';
+import { VolumeType } from '../../shared/models/volume.model';
 
 export class VolumeCreationData {
   public name: string;
@@ -58,6 +59,8 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public ngOnInit() {
+    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.store.dispatch(new accountActions.LoadUserAccount({
       account: this.authService.user.account,
       domainid: this.authService.user.domainid

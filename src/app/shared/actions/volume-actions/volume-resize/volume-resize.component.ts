@@ -1,15 +1,14 @@
 import {
   Component,
-  Inject,
-  OnInit
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
 } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
-import { DiskOffering } from '../../../shared/models';
-import { Volume } from '../../../shared/models/volume.model';
-import { VolumeResizeData } from '../../../shared/services/volume.service';
+import { MatDialogRef } from '@angular/material';
+import { DiskOffering } from '../../../models';
+import { Volume } from '../../../models/volume.model';
+import { VolumeResizeData } from '../../../services/volume.service';
 
 
 @Component({
@@ -19,21 +18,17 @@ import { VolumeResizeData } from '../../../shared/services/volume.service';
 })
 export class VolumeResizeComponent implements OnInit {
   public newSize: number;
-  public maxSize: number;
-  public volume: Volume;
+  public loading: boolean = false;
+  @Input() public maxSize: number;
+  @Input() public volume: Volume;
+  @Input() public diskOfferings: Array<DiskOffering>;
 
+  @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
   public diskOffering: DiskOffering;
-  public diskOfferings: Array<DiskOffering>;
-
-  public loading: boolean;
 
   constructor(
-    public dialogRef: MatDialogRef<VolumeResizeComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
+    public dialogRef: MatDialogRef<VolumeResizeComponent>
   ) {
-    this.volume = data.volume;
-    this.diskOfferings = data.diskOfferings;
-    this.maxSize = data.maxSize;
   }
 
   public ngOnInit(): void {
@@ -55,7 +50,6 @@ export class VolumeResizeComponent implements OnInit {
       this.newSize ? { size: this.newSize } : {},
       includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}
     );
-
-    this.dialogRef.close(params);
+    this.onDiskResized.emit(params);
   }
 }

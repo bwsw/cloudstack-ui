@@ -8,11 +8,8 @@ import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
-import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
-import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import {
   Volume,
-  VolumeType,
   volumeTypeNames
 } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
@@ -58,8 +55,6 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     this.store.dispatch(new volumeActions.LoadVolumesRequest());
-    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
   }
 
   constructor(

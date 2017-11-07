@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit
@@ -43,7 +45,7 @@ import * as debounce from 'lodash/debounce';
       (onGroupingsChange)="update($event)"
     ></cs-volume-filter>`
 })
-export class VolumeFilterContainerComponent extends WithUnsubscribe() implements OnInit {
+export class VolumeFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
 
   @Input() groupings: Array<any>;
   @Input() selectedGroupings: Array<any>;
@@ -77,13 +79,13 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
   );
 
   constructor(
+    private cd: ChangeDetectorRef,
     private store: Store<State>,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     super();
-
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
   }
 
@@ -156,5 +158,9 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
           accounts: filters.selectedAccountIds
         });
       });
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 }
