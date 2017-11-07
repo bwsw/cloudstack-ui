@@ -39,6 +39,10 @@ mat-form-field {
   text-align: left;
 }
 
+:host /deep/ .delete-button-cell {
+  text-align: right !important;
+}
+
 .rule-row {
   border-bottom: none !important;
 }
@@ -58,3 +62,8 @@ mat-form-field {
 mat-form-field {
   display: inline-block !important;
 }
+
+:host cs-grouped-list .mat-list {
+  display: table;
+}
+

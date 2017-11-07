@@ -17,6 +17,7 @@ export enum NetworkProtocol {
   icmptype: 'icmpType',
 })
 export class NetworkRule extends BaseModel {
+  public type?: string;
   public ruleId: string;
   public protocol: NetworkProtocol;
   public CIDR: string;

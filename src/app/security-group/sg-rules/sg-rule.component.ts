@@ -1,18 +1,30 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
-import { NetworkRuleType } from '../sg.model';
 import { TranslateService } from '@ngx-translate/core';
-import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../shared/icmp/icmp-types';
+import {
+  GetICMPCodeTranslationToken,
+  GetICMPTypeTranslationToken
+} from '../../shared/icmp/icmp-types';
 
 @Component({
   selector: 'cs-security-group-rule',
   templateUrl: 'sg-rule.component.html',
-  styles: [`:host { display: table-row }`],
+  styles: [
+      `:host {
+      display: table;
+      width: 100%;
+    }`
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SgRuleComponent {
-  @Input() public type: NetworkRuleType;
-  @Input() public rule: NetworkRule;
+  @Input() public item: NetworkRule;
   @Input() public canRemove: boolean;
   @Output() public onRemove = new EventEmitter();
 
@@ -25,7 +37,7 @@ export class SgRuleComponent {
       'EGRESS': 'SECURITY_GROUP_PAGE.RULES.EGRESS_DISPLAY'
     };
 
-    return typeTranslations[this.type.toUpperCase()];
+    return typeTranslations[this.item.type.toUpperCase()];
   }
 
   public get protocolTranslationToken(): string {
@@ -35,27 +47,27 @@ export class SgRuleComponent {
       'ICMP': 'SECURITY_GROUP_PAGE.RULES.ICMP'
     };
 
-    return protocolTranslations[this.rule.protocol.toUpperCase()];
+    return protocolTranslations[this.item.protocol.toUpperCase()];
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.rule.icmpType);
+    return GetICMPTypeTranslationToken(this.item.icmpType);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.rule.icmpType, this.rule.icmpCode);
+    return GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode);
   }
 
   public get ruleParams(): Object {
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.rule.CIDR,
+      cidr: this.item.CIDR,
     };
 
     let ruleParams;
 
-    if (this.rule.protocol === 'icmp') {
+    if (this.item.protocol === 'icmp') {
       let typeTranslation = this.translateService.instant(this.icmpTypeTranslationToken);
       if (typeTranslation === this.icmpTypeTranslationToken) {
         typeTranslation = null;
@@ -66,15 +78,15 @@ export class SgRuleComponent {
       }
 
       ruleParams = Object.assign({}, params, {
-        icmpType: this.rule.icmpType,
-        icmpCode: this.rule.icmpCode,
+        icmpType: this.item.icmpType,
+        icmpCode: this.item.icmpCode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
       ruleParams = Object.assign({}, params, {
-        startPort: this.rule.startPort,
-        endPort: this.rule.endPort
+        startPort: this.item.startPort,
+        endPort: this.item.endPort
       });
     }
 
@@ -88,6 +100,6 @@ export class SgRuleComponent {
     e.stopPropagation();
 
     this.deleting = true;
-    this.onRemove.emit({ type: this.type, id: this.rule.ruleId });
+    this.onRemove.emit({ type: this.item.type, id: this.item.ruleId });
   }
 }
