@@ -70,7 +70,7 @@ import { CreateUpdateDeleteDialogComponent } from './components/create-update-de
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
 import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
-import { GroupedCardListComponent } from './components/grouped-card-list/grouped-card-list.component';
+import { GroupedListComponent } from './components/grouped-list/grouped-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { InputGroupComponent } from './components/input-group/input-group.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -152,12 +152,14 @@ import { AccountDisableAction } from './actions/account-actions/actions/account-
 import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
 import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
 import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
+import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
 import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([GroupedCardListComponent]),
+    DynamicModule.withComponents([GroupedListComponent]),
     FormsModule,
     BadgeModule,
     CdkTableModule,
@@ -201,12 +203,13 @@ import { VolumeActionsContainerComponent } from './actions/volume-actions/volume
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
-    GroupedCardListComponent,
+    GroupedListComponent,
     HighLightPipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
+    ViewModeSwitchComponent,
     LoadingDirective,
     MaxValueValidatorDirective,
     MatAutocompleteModule,
@@ -268,12 +271,13 @@ import { VolumeActionsContainerComponent } from './actions/volume-actions/volume
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
-    GroupedCardListComponent,
+    GroupedListComponent,
     HighLightPipe,
     InlineEditComponent,
     InputGroupComponent,
     IntegerValidatorDirective,
     ListComponent,
+    ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
     MaxValueValidatorDirective,
@@ -296,14 +300,13 @@ import { VolumeActionsContainerComponent } from './actions/volume-actions/volume
     ViewValuePipe,
     LoadingDirective,
     LoaderComponent,
-    GroupedCardListComponent,
+    GroupedListComponent,
     TemplateActionsComponent,
     ProgressLoggerComponent,
     ProgressLoggerMessageComponent,
     AnimatedSlashComponent,
     LoadingDirective,
     LoaderComponent,
-    GroupedCardListComponent,
     VolumeActionsComponent,
     TemplateActionsComponent,
     SecurityGroupBuilderComponent,

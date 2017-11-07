@@ -18,7 +18,6 @@ import { DynamicModule } from 'ng-dynamic-component';
 // tslint:disable-next-line
 import { SharedModule } from '../shared/shared.module';
 import { VolumeFilterComponent } from './volume-filter/volume-filter.component';
-import { VolumeItemComponent } from './volume-item/volume-item.component';
 import { VolumeListComponent } from './volume-list/volume-list.component';
 import { VolumePageComponent } from './volume-page/volume-page.component';
 // tslint:disable-next-line
@@ -54,13 +53,15 @@ import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offer
 import { VolumeCreationComponent } from './volume-creation/volume-creation.component';
 import { VolumeCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
 import { VolumeCreationContainerComponent } from './container/volume-creation.container';
+import { VolumeCardItemComponent } from './volume-item/card-item/volume-card-item.component';
+import { VolumeRowItemComponent } from './volume-item/row-item/volume-row-item.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    DynamicModule.withComponents([VolumeItemComponent]),
+    DynamicModule.withComponents([VolumeCardItemComponent, VolumeRowItemComponent]),
     MatButtonModule,
     MatCheckboxModule,
     MatDialogModule,
@@ -99,8 +100,9 @@ import { VolumeCreationContainerComponent } from './container/volume-creation.co
     VolumeCreationContainerComponent,
     VolumeFilterComponent,
     VolumeCreationDialogComponent,
-    VolumeItemComponent,
-    VolumeListComponent,
+    VolumeCardItemComponent,
+    VolumeRowItemComponent,
+    VolumeListComponent
   ],
   exports: [
     VolumePageComponent

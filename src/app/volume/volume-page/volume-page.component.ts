@@ -13,6 +13,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VmService } from '../../vm/shared/vm.service';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 
 @Component({
@@ -25,6 +26,9 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   @Input() public isLoading: boolean;
   @Input() public groupings: Array<any>;
   @Input() public selectedGroupings: Array<any>;
+
+  public mode: ViewMode;
+  public viewModeKey = 'volumePageViewMode';
 
   constructor(
     public listService: ListService,
@@ -42,6 +46,9 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     }
   }
 
+  public changeMode(mode) {
+    this.mode = mode;
+  }
 
   public activate() {
     this.vmService.getListWithDetails()
@@ -57,6 +64,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
   public showConfirmationDialog() {
     return this.dialogService.confirm({
+      width: '466px',
       message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_CREATION',
       confirmText: 'COMMON.CONTINUE',
       declineText: 'COMMON.CANCEL'

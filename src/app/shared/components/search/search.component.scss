@@ -1,9 +1,12 @@
+:host {
+  display: block;
+}
+
 .search-bar {
   display: flex;
   max-width: 100%;
   white-space: nowrap;
   margin: 0;
-  padding: 0 15px;
 
   mat-icon {
     align-self: center;

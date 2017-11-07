@@ -27,6 +27,16 @@ body {
   margin: 0;
 }
 
+.switch-panel {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    right: 10px;
+    align-self: flex-end;
+    margin-top: 10px;
+  }
+}
+
 .disabled-link {
   cursor: pointer;
 }
@@ -45,10 +55,44 @@ body {
   @extend .text-overflow-tooltip-fix;
 }
 
+mat-list-item {
+  background-color: #fff;
+  height: 60px;
+  border-bottom: 1px solid #ccc;
+}
+
+.row-title {
+  margin: 0;
+  font-size: 16px;
+  line-height: normal;
+  flex-grow: 2;
+  flex-basis: 100px;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.row-action {
+  position: absolute !important;
+  right: 3px;
+}
+
+.mat-list-item-content {
+  z-index: 0;
+  line-height: normal;
+  height: 100% !important;
+  padding: 0 !important;
+  margin: 0 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 mat-card {
   padding: 0 !important;
   width: 320px;
-  margin: 15px 0 0 15px;
+  margin: 0 15px 15px 0;
 }
 
 cs-sidebar mat-card {
@@ -117,7 +161,9 @@ mat-card.custom-card {
     line-height: normal;
     height: 1.2em;
   }
+}
 
+.custom-card {
   & table {
     margin-top: 10px;
     width: 100%;
@@ -152,13 +198,10 @@ mat-card.custom-card {
 .options-panel {
   box-sizing: border-box;
   z-index: 1;
-  display: flex;
   background-color: #fff;
-  flex-direction: row !important;
   width: 100% !important;
   min-height: initial !important;
   overflow: visible !important;
-  flex-wrap: wrap;
   margin: 0 !important;
   position: relative;
   box-shadow: none !important;
@@ -237,13 +280,20 @@ mat-form-field.form-select-control {
 .filter-wrapper {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 10px;
+  padding-top: 20px;
   > * {
     margin-right: 20px;
     &:last-child {
       margin-right: 0;
     }
   }
+  + .filter-wrapper {
+    border-top: 1px solid #dedede;
+  }
+}
+
+.mat-dialog-content .filter-wrapper{
+  padding: 0;
 }
 
 .section-header {
@@ -272,15 +322,6 @@ mat-form-field.form-select-control {
 
 .dialog-overflow-visible {
   overflow: visible !important;
-}
-
-.card-list-container mat-card {
-  margin-top: 15px;
-  margin-left: 15px;
-}
-
-.card-list-container:last-child {
-  margin-bottom: 15px;
 }
 
 mat-card-actions {
@@ -314,6 +355,16 @@ mat-card-actions {
   &.destroyed {
     background-color: #212121;
   }
+}
+
+.state-row-icon {
+  display: block;
+  position: relative;
+  left: -15px;
+  width: 15px;
+  height: 100%;
+  margin-right: 8px;
+  box-shadow: 0 0 0px 1px white;
 }
 
 .running, .enabled {

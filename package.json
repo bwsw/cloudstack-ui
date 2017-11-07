@@ -1,6 +1,6 @@
 {
   "name": "cloudstack-ui",
-  "version": "1.49.12",
+  "version": "1.49.13",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",

@@ -31,10 +31,8 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TemplateFiltersComponent implements OnInit {
   @Input() public showIsoSwitch = true;
-  @Input() public showDelimiter = false;
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
-  @Input() public searchPanelWhite: boolean;
   @Input() public availableGroupings: Array<any> = [];
 
   @Output() public queries = new EventEmitter();

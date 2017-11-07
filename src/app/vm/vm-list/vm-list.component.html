@@ -5,25 +5,34 @@
   <ng-container cs-panels>
     <cs-top-bar>
       <cs-vm-statistics></cs-vm-statistics>
+      <div class="top-border"></div>
+      <cs-vm-filter *ngIf="zones && groups  && accounts"
+        [zones]="zones"
+        [groups]="groups"
+        [accounts]="accounts"
+        [availableGroupings]="groupings"
+        (updateFilters)="updateFiltersAndFilter($event)"
+      ></cs-vm-filter>
     </cs-top-bar>
-    <cs-vm-filter *ngIf="zones && groups && accounts"
-      [zones]="zones"
-      [groups]="groups"
-      [accounts]="accounts"
-      [availableGroupings]="groupings"
-      (updateFilters)="updateFiltersAndFilter($event)"
-    ></cs-vm-filter>
   </ng-container>
 
   <ng-container *loading="fetching" cs-list>
-    <cs-grouped-card-list
+
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="viewModeKey">
+      </cs-view-mode-switch>
+    </div>
+    <cs-grouped-list
+      class="padding"
       [list]="visibleVmList"
       [groupings]="selectedGroupings"
-      [component]="VmListItemComponent"
+      [component]="itemComponent"
       [dynamicInputs]="inputs"
       [dynamicOutputs]="outputs"
     >
-    </cs-grouped-card-list>
+    </cs-grouped-list>
     <cs-no-results *ngIf="noFilteringResults"></cs-no-results>
   </ng-container>
   <ng-container cs-sidebar>

@@ -31,7 +31,7 @@ export class SecurityGroupRulesDialogComponent {
     const editMode = !!this.route.snapshot.queryParams.hasOwnProperty('vm');
 
     this.dialog.open(SgRulesComponent, <MatDialogConfig>{
-      width: '880px',
+      width: '910px',
       data: { entity, editMode }
     })
       .afterClosed()

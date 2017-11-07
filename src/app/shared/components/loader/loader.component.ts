@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/
 
 @Component({
   selector: 'cs-loader',
-  template: '<mat-spinner class="spinner"></mat-spinner>',
+  template: '<mat-spinner class="spinner" [diameter]="50" [strokeWidth]="5"></mat-spinner>',
   styles: [`
     cs-loader {
       text-align: center;
