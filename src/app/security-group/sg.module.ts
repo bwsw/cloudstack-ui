@@ -51,7 +51,11 @@ import { SecurityGroupListComponent } from './sg-list/security-group-list.compon
   imports: [
     CommonModule,
     FormsModule,
-    DynamicModule.withComponents([SecurityGroupCardItemComponent, SecurityGroupRowItemComponent]),
+    DynamicModule.withComponents([
+      SecurityGroupCardItemComponent,
+      SecurityGroupRowItemComponent,
+      SgRuleComponent
+    ]),
     RouterModule,
     TranslateModule,
     MatCheckboxModule,
@@ -102,4 +106,5 @@ import { SecurityGroupListComponent } from './sg-list/security-group-list.compon
     SecurityGroupCreationSecurityGroupComponent
   ]
 })
-export class SecurityGroupModule { }
+export class SecurityGroupModule {
+}

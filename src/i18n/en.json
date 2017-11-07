@@ -644,7 +644,10 @@
   "SECURITY_GROUP_PAGE": {
     "FILTERS": {
       "TEMPLATES": "Firewall Templates",
-      "SHARED": "Shared Security Groups"
+      "SHARED": "Shared Security Groups",
+      "GROUP_BY": "Group by",
+      "PROTOCOLS": "Protocols",
+      "TYPES": "Types"
     },
 
     "LIST": {
