@@ -148,10 +148,10 @@ export class VmCreationState {
 
     if (
       this.securityGroupData &&
-      this.securityGroupData.securityGroup &&
-      this.securityGroupData.securityGroup.id
+      this.securityGroupData.securityGroups &&
+      this.securityGroupData.securityGroups[0].id
     ) {
-      params.securityGroupIds = this.securityGroupData.securityGroup.id;
+      params.securityGroupIds = this.securityGroupData.securityGroups.map(item => item.id).join(','); // @todo
     }
 
     if (this.serviceOffering.areCustomParamsSet) {

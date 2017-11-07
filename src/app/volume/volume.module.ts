@@ -20,7 +20,6 @@ import { SharedModule } from '../shared/shared.module';
 import { VolumeCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
 import { VolumeCreationComponent } from './volume-creation/volume-creation.component';
 import { VolumeFilterComponent } from './volume-filter/volume-filter.component';
-import { VolumeItemComponent } from './volume-item/volume-item.component';
 import { VolumeListComponent } from './volume-list/volume-list.component';
 import { VolumePageComponent } from './volume-page/volume-page.component';
 // tslint:disable-next-line
@@ -42,13 +41,15 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
 // tslint:disable-next-line
 // tslint:disable-next-line
 import { VolumeAttachmentComponent } from '../shared/actions/volume-actions/volume-attachment/volume-attachment.component';
+import { VolumeCardItemComponent } from './volume-item/card-item/volume-card-item.component';
+import { VolumeRowItemComponent } from './volume-item/row-item/volume-row-item.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    DynamicModule.withComponents([VolumeItemComponent]),
+    DynamicModule.withComponents([VolumeCardItemComponent, VolumeRowItemComponent]),
     MatButtonModule,
     MatCheckboxModule,
     MatDialogModule,
@@ -79,7 +80,8 @@ import { VolumeAttachmentComponent } from '../shared/actions/volume-actions/volu
     VolumeCreationComponent,
     VolumeFilterComponent,
     VolumeCreationDialogComponent,
-    VolumeItemComponent,
+    VolumeCardItemComponent,
+    VolumeRowItemComponent,
     VolumeListComponent
   ],
   exports: [

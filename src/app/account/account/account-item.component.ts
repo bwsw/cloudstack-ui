@@ -1,29 +1,19 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
 import { Account } from '../../shared/models/account.model';
 import { stateTranslations } from '../account-container/account.container';
 
-@Component({
-  selector: 'cs-account-item',
-  templateUrl: 'account-item.component.html',
-  styleUrls: ['account-item.component.scss']
-})
 export class AccountItemComponent {
-  @Input() public item: Account;
-  @Input() public isSelected: (account) => boolean;
-  @Output() public onClick = new EventEmitter<Account>();
-  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
+  public item: Account;
+  public isSelected: (account) => boolean;
+  public onClick = new EventEmitter<Account>();
+  public onAccountChanged = new EventEmitter<Account>();
+  public matMenuTrigger: MatMenuTrigger;
 
   readonly stateTranslations = stateTranslations;
 
-  constructor(private authService: AuthService) {
+  constructor(protected authService: AuthService) {
   }
 
   public handleClick(e: MouseEvent): void {

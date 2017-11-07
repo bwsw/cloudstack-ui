@@ -14,6 +14,8 @@ import { ListService } from '../../shared/components/list/list.service';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Account } from '../../shared/models/account.model';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -33,12 +35,20 @@ export class SshKeysPageComponent {
   @Output() public onAccountsChange = new EventEmitter<Account[]>();
   @Output() public onGroupingsChange = new EventEmitter();
 
+  public mode: ViewMode;
+  public viewModeKey = 'sshKeyPageViewMode';
+
   constructor(
     public listService: ListService,
     private dialogService: DialogService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) {
+  }
+
+  public isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
   public showCreationDialog(): void {
@@ -46,6 +56,10 @@ export class SshKeysPageComponent {
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 
   public removeKey(sshKeyPair: SSHKeyPair): void {

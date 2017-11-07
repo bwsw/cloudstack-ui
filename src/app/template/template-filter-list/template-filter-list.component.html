@@ -1,21 +1,30 @@
-<cs-template-filters
-  class="options"
-  (queries)="filterResults($event)"
-  (filters)="filterResults($event)"
-  (displayMode)="changeViewMode($event)"
-  [showIso]="viewMode === 'Iso'"
-  [showDelimiter]="showDelimiter"
-  [searchPanelWhite]="selectedGroupings?.length"
-  [availableGroupings]="groupings"
-></cs-template-filters>
+<ng-container cs-panels>
+  <cs-top-bar>
+    <cs-template-filters
+      class="options"
+      (queries)="filterResults($event)"
+      (filters)="filterResults($event)"
+      (displayMode)="changeViewMode($event)"
+      [showIso]="viewMode === 'Iso'"
+      [availableGroupings]="groupings"
+    ></cs-template-filters>
+  </cs-top-bar>
+</ng-container>
 
 <ng-container *loading="!templateList?.length" cs-list>
+  <div class="switch-panel">
+    <cs-view-mode-switch
+      (onModeChange)="changeMode($event)"
+      [key]="viewModeKey">
+    </cs-view-mode-switch>
+  </div>
   <cs-template-card-list
     *loading="fetching"
     class="template-list"
     [query]="query"
     [templateList]="visibleTemplateList"
     [groupings]="selectedGroupings"
+    [mode]="mode"
   >
   </cs-template-card-list>
 </ng-container>

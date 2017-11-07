@@ -7,10 +7,10 @@
     (change)="setMode($event.value)"
   >
     <mat-button-toggle value="0" [checked]="displayMode === 0">
-      {{ 'SECURITY_GROUP_SELECTOR.BUILD' | translate }}
+      {{ 'SECURITY_GROUP_SELECTOR.CREATE' | translate }}
     </mat-button-toggle>
     <mat-button-toggle value="1" [checked]="displayMode === 1">
-      {{ 'SECURITY_GROUP_SELECTOR.SELECT' | translate }}
+      {{ 'SECURITY_GROUP_SELECTOR.SELECT_SHARED' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
 
@@ -23,7 +23,7 @@
   <cs-security-group-selector
     *ngIf="isModeSelector && sharedGroups"
     [securityGroups]="sharedGroups"
-    [(ngModel)]="savedData.securityGroup"
+    [(ngModel)]="savedData.securityGroups"
   ></cs-security-group-selector>
 </div>
 
@@ -32,7 +32,10 @@
     {{ 'COMMON.CANCEL' | translate }}
   </button>
 
-  <button mat-button (click)="onSave()">
+  <button
+    mat-button
+    [disabled]="!savedData.securityGroups.length"
+    (click)="onSave()">
     {{ 'COMMON.SAVE' | translate }}
   </button>
 </div>

@@ -1,9 +1,7 @@
 import {
   Component,
-  EventEmitter,
   Input,
-  OnInit,
-  Output
+  OnInit
 } from '@angular/core';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
@@ -46,7 +44,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
 
   @Input() groupings: Array<any>;
   @Input() selectedGroupings: Array<any>;
-  @Output() onSelectedGroupingsChange = new EventEmitter<Array<any>>();
 
   readonly filters$ = this.store.select(fromAccounts.filters);
   readonly domains$ = this.store.select(fromDomains.selectAll);

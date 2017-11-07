@@ -1,0 +1,17 @@
+:host {
+  z-index: -1;
+}
+
+:host(.single-line) {
+  cursor: pointer;
+}
+
+.info {
+  flex-grow: 1;
+  flex-basis: 100px;
+}
+
+cs-template-os-icon {
+  flex-shrink: 1;
+  flex-basis: 50px;
+}

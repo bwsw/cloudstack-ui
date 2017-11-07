@@ -15,11 +15,6 @@ import { AsyncJobService } from '../../../shared/services/async-job.service';
 export class AccountsEffects {
 
   @Effect()
-  loadFilteredAccounts: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_FILTER_UPDATE)
-    .map((action: accountActions.AccountFilterUpdate) => new accountActions.LoadAccountsRequest());
-
-  @Effect()
   loadAccounts$: Observable<Action> = this.actions$
     .ofType(accountActions.LOAD_ACCOUNTS_REQUEST)
     .switchMap((action: accountActions.LoadAccountsRequest) => {

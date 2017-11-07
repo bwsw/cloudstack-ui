@@ -9,6 +9,7 @@ import {
   ActivatedRoute,
   Router
 } from '@angular/router';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 @Component({
   selector: 'cs-account-page',
@@ -21,6 +22,9 @@ export class AccountPageComponent {
   @Input() public groupings: Array<any>;
   @Input() public isLoading: boolean;
   @Input() public selectedGroupings: Array<any> = [];
+
+  public mode: ViewMode;
+  public viewModeKey = 'accountPageViewMode';
 
   constructor(
     public listService: ListService,
@@ -38,6 +42,10 @@ export class AccountPageComponent {
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 
 }

@@ -17,6 +17,7 @@ import { Template } from '../shared/template.model';
 import { Domain } from '../../shared/models/domain.model';
 import { DomainService } from '../../shared/services/domain.service';
 import { Account } from '../../shared/models/account.model';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 
 @Component({
@@ -28,11 +29,13 @@ export class TemplateFilterListComponent implements OnChanges {
   @Input() public templates: Array<Template>;
   @Input() public isos: Array<Iso>;
 
-  @Input() public showDelimiter = true;
   @Input() public viewMode: string;
   @Input() public zoneId: string;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
+
+  public mode: ViewMode;
+  public viewModeKey = 'templatePageViewMode';
 
   public fetching = false;
   public query: string;
@@ -76,6 +79,10 @@ export class TemplateFilterListComponent implements OnChanges {
 
   public get templateList(): Array<BaseTemplateModel> {
     return this.viewMode === 'Template' ? this.templates : this.isos;
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 
   public updateList(): void {

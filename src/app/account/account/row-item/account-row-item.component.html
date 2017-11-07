@@ -1,0 +1,38 @@
+<mat-list-item
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+>
+  <span
+    class="state-row-icon"
+    [matTooltip]="stateTranslations[item.state] | translate"
+    [ngClass]="item.state"
+  ></span>
+  <h2 class="row-title">
+    <span [matTooltip]="item.name"> {{ item.name }} </span>
+  </h2>
+
+  <div class="info">
+    {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.rolename}}
+  </div>
+
+  <div class="info">
+    {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
+  </div>
+
+  <div class="info">
+    {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
+  </div>
+
+  <button *ngIf="isAdmin()"
+          class="row-action"
+          mat-icon-button
+          [matMenuTriggerFor]="actionsMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu
+    #actionsMenu="matMenu"
+  >
+    <cs-account-actions [account]="item" (onAccountChanged)="onAccountChanged.emit($event)"></cs-account-actions>
+  </mat-menu>
+</mat-list-item>

@@ -38,6 +38,9 @@
     (click)="handleRemoveClicked($event)"
   >
     <mat-icon *ngIf="!deleting">delete</mat-icon>
-    <mat-spinner *ngIf="deleting"></mat-spinner>
+    <mat-spinner
+      *ngIf="deleting"
+      [diameter]="50"
+      [strokeWidth]="5"></mat-spinner>
   </button>
 </td>

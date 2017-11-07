@@ -16,7 +16,8 @@ import {
   MatTabsModule,
   MatTooltipModule
 } from '@angular/material';
-import { AccountItemComponent } from './account/account-item.component';
+import { AccountCardItemComponent } from './account/card-item/account-card-item.component';
+import { AccountRowItemComponent } from './account/row-item/account-row-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { AccountStatisticsComponent } from './account-sidebar/account-statistic/account-statistics.component';
 import { AccountLimitsComponent } from './account-sidebar/account-limits/account-limits.component';
@@ -53,7 +54,7 @@ import { AccountActionsContainerComponent } from './account-container/account-ac
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([AccountItemComponent]),
+    DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
     FormsModule,
     MatMenuModule,
     MatTooltipModule,
@@ -87,7 +88,8 @@ import { AccountActionsContainerComponent } from './account-container/account-ac
     AccountPageComponent,
     AccountListComponent,
     AccountListFilterComponent,
-    AccountItemComponent,
+    AccountCardItemComponent,
+    AccountRowItemComponent,
     AccountSettingsComponent,
     AccountLimitsComponent,
     AccountStatisticsComponent,

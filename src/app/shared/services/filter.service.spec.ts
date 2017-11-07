@@ -1,6 +1,18 @@
-import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FilterConfig, FilterService } from './filter.service';
+import {
+  async,
+  fakeAsync,
+  inject,
+  TestBed,
+  tick
+} from '@angular/core/testing';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
+import {
+  FilterConfig,
+  FilterService
+} from './filter.service';
 import { RouterUtilsService } from './router-utils.service';
 import { LocalStorageService } from './local-storage.service';
 import { TagService } from './tags/tag.service';
