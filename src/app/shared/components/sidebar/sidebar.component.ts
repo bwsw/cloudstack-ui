@@ -39,7 +39,7 @@ export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
     return (tabId === pathLastChild)
   }
 
-  private pluckId(): Observable<string> {
+  protected pluckId(): Observable<string> {
     return this.route.params.pluck('id').filter(id => !!id) as Observable<string>;
   }
 

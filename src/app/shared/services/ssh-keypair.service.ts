@@ -33,11 +33,9 @@ export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
     });
   }
 
-  public getByName(name: string): Observable<SSHKeyPair> {
-    return this.getList({ name }).map(sshKeys => {
-      const index = sshKeys.findIndex(item => item.account === this.account);
-      return sshKeys[index];
-    });
+  public getByName(name: string, account?: string): Observable<SSHKeyPair> {
+    const params = account ? { name, account } : { name };
+    return this.getList(params).map(sshKeys => sshKeys[0]);
   }
 
   public create(params: SshKeyCreationData): Observable<SSHKeyPair> {

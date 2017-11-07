@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
@@ -15,15 +15,22 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
 })
 export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> implements OnInit {
   public description: string;
+  public account: string;
 
-  constructor(
-    protected entityService: SSHKeyPairService,
-    protected notificationService: NotificationService,
-    protected route: ActivatedRoute,
-    protected router: Router,
-    protected userTagService: UserTagService
-  ) {
+  constructor(protected entityService: SSHKeyPairService,
+              protected notificationService: NotificationService,
+              protected route: ActivatedRoute,
+              protected router: Router,
+              protected userTagService: UserTagService) {
     super(entityService, notificationService, route, router);
+  }
+
+  public ngOnInit() {
+    this.getEntityAccount();
+
+    this.pluckId()
+      .switchMap(id => this.loadEntity(id, this.account))
+      .subscribe(entity => this.entity = entity);
   }
 
   public onDescriptionChange(description: string): void {
@@ -31,8 +38,8 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> impleme
     this.userTagService.setSshKeyDescription(this.entity, this.description).subscribe();
   }
 
-  protected loadEntity(name: string): Observable<SSHKeyPair> {
-    return this.entityService.getByName(name)
+  protected loadEntity(name: string, account?: string): Observable<SSHKeyPair> {
+    return this.entityService.getByName(name, account)
       .switchMap(sshKeyPair => {
         if (sshKeyPair) {
           return Observable.of(sshKeyPair);
@@ -50,5 +57,11 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> impleme
         this.description = description;
         return sshKeyPair;
       });
+  }
+
+  private getEntityAccount() {
+    this.route.queryParams.subscribe((params: Params) => {
+      this.account = params['account'];
+    });
   }
 }
