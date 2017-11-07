@@ -210,7 +210,7 @@ export class SgRulesComponent {
   }
 
   public filter(): void {
-    if (!this.securityGroup.ingressRules.length && !this.securityGroup.egressRules.length) {
+    if (!this.securityGroup || !this.securityGroup.ingressRules.length && !this.securityGroup.egressRules.length) {
       return;
     }
 
