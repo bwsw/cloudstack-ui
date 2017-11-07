@@ -1,46 +1,49 @@
-<td class="mat-cell" colspan="5">
-  <ng-template [ngIf]="rule.protocol === NetworkProtocols.ICMP">
-    <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
+<tr class="md-row rule-row">
+  <td class="mat-cell" colspan="5">
+    <ng-template [ngIf]="item.protocol === NetworkProtocols.ICMP">
+      <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
       <span
         [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_TEXT_ICMP_RULE' | translate: (ruleParams)"
       ></span>
-    </ng-template>
-    <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
+      </ng-template>
+      <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
       <span
         [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_CODE_ICMP_RULE' | translate: (ruleParams)"
       ></span>
-    </ng-template>
-    <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !!ruleParams['icmpCodeText']">
+      </ng-template>
+      <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !!ruleParams['icmpCodeText']">
       <span
         [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_ICMP_RULE' | translate: (ruleParams)"
       ></span>
+      </ng-template>
     </ng-template>
-  </ng-template>
-  <ng-template [ngIf]="rule.protocol !== NetworkProtocols.ICMP">
-    <ng-template [ngIf]="rule.startPort === rule.endPort">
+    <ng-template [ngIf]="item.protocol !== NetworkProtocols.ICMP">
+      <ng-template [ngIf]="item.startPort === item.endPort">
       <span
         [innerHTML]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE' | translate: (ruleParams)"
       ></span>
-    </ng-template>
-    <ng-template [ngIf]="rule.startPort !== rule.endPort">
+      </ng-template>
+      <ng-template [ngIf]="item.startPort !== item.endPort">
       <span
         [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE' | translate: (ruleParams)"
       ></span>
+      </ng-template>
     </ng-template>
-  </ng-template>
-</td>
-<td class="mat-cell">
-  <button
-    class="delete-rule-button"
-    mat-icon-button
-    disabled="{{ !canRemove || deleting }}"
-    *ngIf="canRemove"
-    (click)="handleRemoveClicked($event)"
-  >
-    <mat-icon *ngIf="!deleting">delete</mat-icon>
-    <mat-spinner
-      *ngIf="deleting"
-      [diameter]="50"
-      [strokeWidth]="5"></mat-spinner>
-  </button>
-</td>
+  </td>
+  <td class="mat-cell delete-button-cell">
+    <button
+      class="delete-rule-button"
+      mat-icon-button
+      disabled="{{ !canRemove || deleting }}"
+      *ngIf="canRemove"
+      (click)="handleRemoveClicked($event)"
+    >
+      <mat-icon *ngIf="!deleting">delete</mat-icon>
+      <mat-spinner
+        *ngIf="deleting"
+        [diameter]="50"
+        [strokeWidth]="5"
+      ></mat-spinner>
+    </button>
+  </td>
+</tr>
