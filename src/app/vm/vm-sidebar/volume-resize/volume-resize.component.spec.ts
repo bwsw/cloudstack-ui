@@ -1,18 +1,30 @@
-import { Injectable, Pipe, PipeTransform } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import {
+  Injectable,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
+import {
+  async,
+  TestBed
+} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { DiskOfferingComponent } from '../../../shared/components/disk-offering/disk-offering.component';
 import { OverlayLoadingComponent } from '../../../shared/components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../../shared/components/slider/slider.component';
-import { DiskOffering, Volume } from '../../../shared/models';
+import {
+  DiskOffering,
+  Volume
+} from '../../../shared/models';
 import { VolumeType } from '../../../shared/models/volume.model';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { VolumeService } from '../../../shared/services/volume.service';
 import { VolumeResizeComponent } from './volume-resize.component';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 
@@ -27,13 +39,6 @@ class MockResourceUsageService {
         primaryStorage: this.availableStorage
       }
     });
-  }
-}
-
-@Injectable()
-class MockVolumeService {
-  public resize(): Observable<Volume> {
-    return Observable.of(new Volume(''));
   }
 }
 
@@ -56,7 +61,6 @@ export class MockDivisionPipe implements PipeTransform {
 
 describe('volume resize for root disks', () => {
   let component: VolumeResizeComponent;
-  let volumeService;
 
   beforeEach(async(() => {
     let fixture;
@@ -88,7 +92,6 @@ describe('volume resize for root disks', () => {
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MatDialogRef, useValue: dialog },
-        { provide: VolumeService, useClass: MockVolumeService },
         { provide: MAT_DIALOG_DATA, useValue: { volume: testVolume } }
       ]
     });
@@ -99,13 +102,11 @@ describe('volume resize for root disks', () => {
       .overrideComponent(SliderComponent, { set: { template: '' }})
       .createComponent(VolumeResizeComponent);
 
-    volumeService = TestBed.get(VolumeService);
     component = fixture.componentInstance;
   }));
 
   it('should not send disk offerings when resizing root disks', () => {
     const newVolumeSize = 100;
-    spyOn(volumeService, 'resize').and.callThrough();
     component.newSize = newVolumeSize;
 
     const diskOffering = new DiskOffering();
@@ -113,7 +114,7 @@ describe('volume resize for root disks', () => {
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
-    expect(volumeService.resize).toHaveBeenCalledWith({
+    expect(component.dialogRef.close).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize
     });
@@ -122,7 +123,6 @@ describe('volume resize for root disks', () => {
 
 describe('volume resize for data disks', () => {
   let component: VolumeResizeComponent;
-  let volumeService;
 
   beforeEach(async(() => {
     let fixture;
@@ -154,7 +154,6 @@ describe('volume resize for data disks', () => {
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MatDialogRef, useValue: dialog },
-        { provide: VolumeService, useClass: MockVolumeService },
         { provide: MAT_DIALOG_DATA, useValue: { volume: testVolume } }
       ]
     });
@@ -165,13 +164,11 @@ describe('volume resize for data disks', () => {
       .overrideComponent(SliderComponent, { set: { template: '' }})
       .createComponent(VolumeResizeComponent);
 
-    volumeService = TestBed.get(VolumeService);
     component = fixture.componentInstance;
   }));
 
   it('should send disk offerings when resizing data disks', () => {
     const newVolumeSize = 100;
-    spyOn(volumeService, 'resize').and.callThrough();
     component.newSize = newVolumeSize;
 
     const diskOffering = new DiskOffering();
@@ -179,7 +176,7 @@ describe('volume resize for data disks', () => {
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
-    expect(volumeService.resize).toHaveBeenCalledWith({
+    expect(component.dialogRef.close).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
       diskOfferingId: diskOffering.id
