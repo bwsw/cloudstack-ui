@@ -31,7 +31,7 @@ export class SecurityGroupRulesDialogComponent {
     const editMode = !!this.route.snapshot.queryParams.hasOwnProperty('vm');
 
     this.dialog.open(SgRulesComponent, <MatDialogConfig>{
-      width: '880px',
+      width: '910px',
       data: { entity, editMode }
     })
       .afterClosed()
@@ -53,7 +53,8 @@ export class SecurityGroupRulesDialogComponent {
   }
 
   private loadEntity(id: string): Observable<SecurityGroup> {
-    return this.entityService.get(id);
+    const entity = this.entityService.getPredefinedTemplates().find(item => item.id === id);
+    return entity ? Observable.of(entity) : this.entityService.get(id);
   }
 
   private onError(error: any): void {

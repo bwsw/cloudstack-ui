@@ -1,11 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
-  OnInit
+  Output
 } from '@angular/core';
 import { ResourceCount } from '../../../shared/models/resource-count.model';
-import { Account } from '../../../shared/models/account.model';
-import { ResourceCountService } from '../../../shared/services/resource-count.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { ResourceType } from '../../../shared/models/resource-limit.model';
 
@@ -13,9 +12,9 @@ import { ResourceType } from '../../../shared/models/resource-limit.model';
   selector: 'cs-account-statistics',
   templateUrl: 'account-statistics.component.html'
 })
-export class AccountStatisticsComponent implements OnInit {
-  @Input() public account: Account;
-  public stats: Array<ResourceCount>;
+export class AccountStatisticsComponent {
+  @Input() public stats: Array<ResourceCount>;
+  @Output() public onStatsUpdate = new EventEmitter();
 
   public resourceLabels = {
     [ResourceType.Instance]: 'ACCOUNT_PAGE.CONFIGURATION.VM_COUNT',
@@ -33,18 +32,9 @@ export class AccountStatisticsComponent implements OnInit {
   };
 
   constructor(
-    private resourceCountService: ResourceCountService,
     private dialogService: DialogService
   ) { }
 
-  ngOnInit() {
-    this.updateStats();
-  }
-
-  public updateStats(){
-    this.resourceCountService.updateResourceCount(this.account)
-            .subscribe(stats => this.stats = stats);
-  }
 
   public confirmUpdateStats() {
     this.dialogService.confirm({
@@ -52,6 +42,6 @@ export class AccountStatisticsComponent implements OnInit {
     })
       .onErrorResumeNext()
       .filter(res => Boolean(res))
-      .subscribe(res => this.updateStats());
+      .subscribe(res => this.onStatsUpdate.emit(res));
   }
 }

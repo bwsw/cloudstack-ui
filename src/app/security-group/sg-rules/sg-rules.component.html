@@ -151,7 +151,10 @@
             disabled="{{ isPredefinedTemplate || adding || rulesForm.form.invalid }}"
           >
             <mat-icon *ngIf="!adding">add</mat-icon>
-            <mat-spinner *ngIf="adding"></mat-spinner>
+            <mat-spinner
+              *ngIf="adding"
+              [diameter]="50"
+              [strokeWidth]="5"></mat-spinner>
           </button>
         </td>
       </tr>

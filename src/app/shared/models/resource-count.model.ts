@@ -1,7 +1,6 @@
 import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
 
-export const enum ResourceType {
+/*export const enum ResourceType {
   Instance, // Number of instances a user can create
   IP, // Number of public IP addresses an account can own
   Volume, // Number of disk volumes an account can own
@@ -18,12 +17,12 @@ export const enum ResourceType {
 
 @FieldMapper({
   resourcetype: 'resourceType'
-})
+})*/
 
 export class ResourceCount extends BaseModel {
   public account: string;
   public domain: string;
   public domainid: string;
   public resourcecount: number;
-  public resourcetype: ResourceType;
+  public resourcetype: number;
 }

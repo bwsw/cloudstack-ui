@@ -1,0 +1,23 @@
+<ng-container *ngFor="let child of tree">
+  <div class="grouped-section" *ngIf="child.name; else leaf">
+    <h4>{{ child.name | translate }}</h4>
+    <cs-grouped-list
+      [component]="component"
+      [groupings]="groupings"
+      [level]="level + 1"
+      [list]="child.items"
+      [dynamicInputs]="dynamicInputs"
+      [dynamicOutputs]="dynamicOutputs"
+    ></cs-grouped-list>
+  </div>
+  <ng-template #leaf>
+    <mat-list>
+      <ndc-dynamic
+        *ngFor="let item of child.items"
+        [ndcDynamicComponent]="component"
+        [ndcDynamicInputs]="leafInputs(item)"
+        [ndcDynamicOutputs]="dynamicOutputs"
+      ></ndc-dynamic>
+    </mat-list>
+  </ng-template>
+</ng-container>

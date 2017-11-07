@@ -15,10 +15,8 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class TemplateFiltersComponent implements OnInit, OnChanges {
   @Input() public showIsoSwitch = true;
-  @Input() public showDelimiter = false;
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
-  @Input() public searchPanelWhite: boolean;
   @Input() public availableGroupings: Array<any> = [];
   @Input() public accounts: Array<Account> = [];
   @Input() public zones: Array<Zone>;

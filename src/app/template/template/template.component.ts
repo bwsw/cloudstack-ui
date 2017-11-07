@@ -4,9 +4,7 @@ import {
   HostBinding,
   Input,
   OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild
+  SimpleChanges
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
@@ -28,11 +26,17 @@ export class TemplateComponent implements OnChanges {
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger) public mdMenuTrigger: MatMenuTrigger;
+  // public singleLine = true;
+  // public item: BaseTemplateModel;
+  // public isSelected: (item: BaseTemplateModel) => boolean;
+  // public searchQuery: () => string;
+  // public deleteTemplate = new EventEmitter();
+  // public onClick = new EventEmitter();
+  // public matMenuTrigger: MatMenuTrigger;
 
   public query: string;
 
-  constructor(private authService: AuthService) {
-  }
+  constructor(protected authService: AuthService) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     const query = changes.searchQuery;
@@ -43,7 +47,7 @@ export class TemplateComponent implements OnChanges {
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
-    if (!this.mdMenuTrigger || !this.mdMenuTrigger.menuOpen) {
+    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
       this.onClick.emit(this.item);
     }
   }

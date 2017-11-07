@@ -4,7 +4,6 @@ import { Account } from '../models/account.model';
 import { BaseBackendService } from './base-backend.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 @BackendResource({
@@ -12,7 +11,6 @@ import { Subject } from 'rxjs/Subject';
   entityModel: Account
 })
 export class AccountService extends BaseBackendService<Account> {
-  public onAccountUpdated = new Subject<Account>();
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -29,7 +27,7 @@ export class AccountService extends BaseBackendService<Account> {
   public removeAccount(account: Account): Observable<any> {
     return this.sendCommand('delete', {
       id: account.id,
-    }).map(() => this.onAccountUpdated.next(account));
+    });
   }
 
   public disableAccount(account: Account): Observable<any> {
@@ -37,7 +35,7 @@ export class AccountService extends BaseBackendService<Account> {
       account: account.name,
       lock: false,
       domainid: account.domainid
-    }).map(() => this.onAccountUpdated.next(account));
+    });
   }
 
   public lockAccount(account: Account): Observable<any> {
@@ -45,13 +43,13 @@ export class AccountService extends BaseBackendService<Account> {
       account: account.name,
       lock: true,
       domainid: account.domainid
-    }).map(() => this.onAccountUpdated.next(account));
+    });
   }
 
   public enableAccount(account: Account): Observable<any> {
     return this.sendCommand('enable', {
       account: account.name,
       domainid: account.domainid
-    }).map(() => this.onAccountUpdated.next(account));
+    });
   }
 }

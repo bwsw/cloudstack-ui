@@ -1,5 +1,4 @@
 :host ::ng-deep .name {
-  font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -10,7 +9,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: default;
-  max-width: 34% !important;
   text-align: right;
   white-space: nowrap;
 }
@@ -22,11 +20,7 @@
 }
 
 :host ::ng-deep .left {
-  max-width: 66% !important;
-  min-width: 66% !important;
   margin-right: 15px;
-
-
   span {
     width: 100%;
   }
@@ -34,7 +28,6 @@
 
 :host ::ng-deep .buttons {
   display: none;
-  min-width: 68px;
   margin-left: 10px;
 }
 
@@ -49,5 +42,5 @@
 }
 
 :host ::ng-deep .container:hover .buttons {
-  display: inline-block;
+  display: flex;
 }

@@ -1,3 +1,8 @@
 <div class="mat-input-wrapper template-list">
-  <span class="ellipsis-overflow">{{ securityGroup?.name }}</span>
+  <span class="ellipsis-overflow" [matTooltip]="securityGroupsLine" *ngIf="securityGroups?.length; else noSG">
+    {{ securityGroupsLine }}
+  </span>
+  <ng-template #noSG>
+    {{ 'COMMON.NONE' | translate }}
+  </ng-template>
 </div>

@@ -12,11 +12,9 @@
 </div>
 
 <mat-menu #actionsMenu="matMenu">
-  <cs-account-actions  *ngIf="entity" [account]="entity" (onAccountChanged)="loadEntity($event.id)"></cs-account-actions>
+  <cs-account-actions  *ngIf="entity" [account]="entity" (onAccountChanged)="onAccountChanged.emit($event)"></cs-account-actions>
 </mat-menu>
 
 <router-outlet></router-outlet>
 
-<cs-no-results *ngIf="notFound" [text]="'ACCOUNT_NOT_FOUND'"></cs-no-results>
-
-<cs-overlay-loading [active]="!entity && !notFound"></cs-overlay-loading>
+<cs-overlay-loading [active]="!entity"></cs-overlay-loading>

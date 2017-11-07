@@ -84,8 +84,7 @@
 </cs-top-bar>
 
 <div
-  class="options-panel filter-wrapper"
-  [class.delimiter]="showDelimiter"
+  class="filter-wrapper"
   *ngIf="dialogMode"
 >
   <mat-button-toggle-group
@@ -133,7 +132,7 @@
 
 </div>
 
-<div [class.search-bar-white]="searchPanelWhite">
+<div class="filter-wrapper">
   <cs-search
     [(ngModel)]="query"
     (ngModelChange)="queryChange.emit(query)"

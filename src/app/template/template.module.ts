@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
+  MatButtonToggleModule,
   MatCheckboxModule,
   MatDialogModule,
   MatIconModule,
@@ -11,8 +12,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatButtonToggleModule
+  MatTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,7 +27,10 @@ import { TemplateActionsService } from '../shared/actions/template-actions/templ
 import { SharedModule } from '../shared/shared.module';
 import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
-import { IsoService, TemplateService } from './shared';
+import {
+  IsoService,
+  TemplateService
+} from './shared';
 import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
@@ -65,6 +68,8 @@ import {
   TemplateActionsSidebarContainerComponent
 } from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
 import { TemplateFilterContainerComponent } from './containers/template-filter.container';
+import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
+import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 
 
 @NgModule({
@@ -72,7 +77,7 @@ import { TemplateFilterContainerComponent } from './containers/template-filter.c
     CommonModule,
     FormsModule,
     ClipboardModule,
-    DynamicModule.withComponents([TemplateComponent]),
+    DynamicModule.withComponents([TemplateCardItemComponent, TemplateRowItemComponent]),
     MatButtonModule,
     MatCheckboxModule,
     MatDialogModule,
@@ -99,7 +104,8 @@ import { TemplateFilterContainerComponent } from './containers/template-filter.c
     IsoAttachmentComponent,
     TemplateActionsSidebarContainerComponent,
     TemplateActionsSidebarComponent,
-    TemplateComponent,
+    TemplateCardItemComponent,
+    TemplateRowItemComponent,
     TemplateCreationComponent,
     TemplateDescriptionComponent,
     TemplateCreationContainerComponent,

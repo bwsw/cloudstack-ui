@@ -6,7 +6,7 @@ import { Rules } from '../../../shared/components/security-group-builder/rules';
 export class VmCreationSecurityGroupData {
   public mode: VmCreationSecurityGroupMode;
   public rules: Rules;
-  public securityGroup: SecurityGroup;
+  public securityGroups: Array<SecurityGroup>;
 
   public static fromMode(mode: VmCreationSecurityGroupMode): VmCreationSecurityGroupData {
     return new VmCreationSecurityGroupData(mode);
@@ -16,14 +16,14 @@ export class VmCreationSecurityGroupData {
     return new VmCreationSecurityGroupData(VmCreationSecurityGroupMode.Builder, rules);
   }
 
-  public static fromSecurityGroup(securityGroup: SecurityGroup): VmCreationSecurityGroupData {
+  public static fromSecurityGroup(securityGroups: Array<SecurityGroup>): VmCreationSecurityGroupData {
     return new VmCreationSecurityGroupData(
-      VmCreationSecurityGroupMode.Selector, undefined, securityGroup);
+      VmCreationSecurityGroupMode.Selector, undefined, securityGroups);
   }
 
-  private constructor(mode?: VmCreationSecurityGroupMode, rules?: Rules, securityGroup?: SecurityGroup) {
+  private constructor(mode?: VmCreationSecurityGroupMode, rules?: Rules, securityGroups?: Array<SecurityGroup>) {
     this.mode = mode;
     this.rules = rules;
-    this.securityGroup = securityGroup;
+    this.securityGroups = securityGroups;
   }
 }

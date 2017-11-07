@@ -8,31 +8,46 @@
   </mat-card-header>
   <mat-card-content class="mat-card-content-with-actions">
     <div class="mat-card-content-container">
-      <div *ngFor="let limit of limits" class="height-container">
-        <div class="flex-container container">
-          <div class="flex-container left">
+
+      <div *ngIf="!isEdit">
+        <div *ngFor="let limit of limits; let i = index;" class="height-container">
+          <div class="flex-container container">
+            <div class="flex-container left">
+              <div
+                class="name"
+                [innerHTML]="limitLabels[limit.resourcetype] | translate"
+              ></div>
+            </div>
             <div
-              class="name"
-              [innerHTML]="limitLabels[limit.resourceType] | translate"
+              ngxClipboard
+              class="value"
+              [innerHTML]="limit.max"
             ></div>
-          </div>
-          <div *ngIf="!isEdit"
-            ngxClipboard
-            class="value"
-            [innerHTML]="limit.max"
-          ></div>
-          <div *ngIf="isEdit"
-            class="value"
-          ><mat-form-field class="full-width-input">
-            <input
-              matInput
-              name="vmlimit"
-              [(ngModel)]="limit.max"
-              required
-            ></mat-form-field>
           </div>
         </div>
       </div>
+
+      <div *ngIf="isEdit">
+        <div *ngFor="let limit of localLimits; let i = index" class="height-container">
+          <div class="flex-container container">
+            <div
+              class="name"
+              [innerHTML]="limitLabels[limit.resourcetype] | translate"
+            ></div>
+            <div class="value"
+            ><mat-form-field class="full-width-input">
+              <input
+                matInput
+                name="{{'vmlimit'+i}}"
+                [(ngModel)]="localLimits[i].max"
+                required
+              ></mat-form-field>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div *ngIf="isAdmin">
       <mat-card-actions *ngIf="!isEdit">
@@ -40,7 +55,7 @@
           mat-icon-button
           [matTooltip]="'COMMON.EDIT' | translate"
           matTooltipPosition="above"
-          (click)="isEdit=!isEdit"
+          (click)="editLimits()"
         >
           <mat-icon>edit</mat-icon>
         </button>

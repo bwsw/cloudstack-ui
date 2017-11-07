@@ -31,16 +31,20 @@ import {
   noGroup,
   VmFilter
 } from '../vm-filter/vm-filter.component';
-import { VmListItemComponent } from './vm-list-item.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { DomainService } from '../../shared/services/domain.service';
 import { Domain } from '../../shared/models/domain.model';
 import { Account } from '../../shared/models/account.model';
 import { AccountService } from '../../shared/services/account.service';
+import { VmListRowItemComponent } from '../vm-list-item/row-item/vm-list-row-item.component';
+import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-item.component';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
+
 
 @Component({
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html',
+  styleUrls: ['vm-list.component.scss'],
   providers: [ListService]
 })
 export class VmListComponent implements OnInit {
@@ -76,7 +80,9 @@ export class VmListComponent implements OnInit {
     }
   ];
 
-  public VmListItemComponent = VmListItemComponent;
+  public mode: ViewMode;
+  public viewModeKey = 'vmPageViewMode';
+
 
   public groups: Array<InstanceGroup>;
   public zones: Array<Zone>;
@@ -135,6 +141,14 @@ export class VmListComponent implements OnInit {
 
   public get noFilteringResults(): boolean {
     return !this.visibleVmList.length;
+  }
+
+  public get itemComponent() {
+    return this.mode === ViewMode.BOX ? VmListCardItemComponent : VmListRowItemComponent;
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 
   public updateFiltersAndFilter(filterData: VmFilter): void {
@@ -272,9 +286,11 @@ export class VmListComponent implements OnInit {
       observables.forEach(observable => {
         observable.subscribe(job => {
           const action = this.vmActionsService.getActionByName(job.cmd as any);
-          this.jobsNotificationService.finish({
-            message: action.tokens.successMessage
-          });
+          if (action) {
+            this.jobsNotificationService.finish({
+              message: action.tokens.successMessage
+            });
+          }
         });
       });
     });
