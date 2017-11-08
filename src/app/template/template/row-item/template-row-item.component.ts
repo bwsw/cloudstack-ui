@@ -17,7 +17,7 @@ import { TemplateComponent } from '../template.component';
   templateUrl: 'template-row-item.component.html',
   styleUrls: ['template-row-item.component.scss']
 })
-export class TemplateRowItemComponent extends TemplateComponent{
+export class TemplateRowItemComponent extends TemplateComponent {
   @HostBinding('class.single-line') @Input() public singleLine = true;
   @Input() public item: BaseTemplateModel;
   @Input() public isSelected: (item: BaseTemplateModel) => boolean;

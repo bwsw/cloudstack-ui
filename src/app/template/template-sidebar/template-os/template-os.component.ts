@@ -13,8 +13,6 @@ export class TemplateOsComponent implements OnInit {
   public templateOsType: OsType;
 
   public ngOnInit() {
-    const osTypesMap = this.osTypes.reduce((m, i) => ({ ...m, [i.id]: i }), {});
-
-    this.templateOsType = osTypesMap[this.template.osTypeId];
+    this.templateOsType = this.osTypes[this.template.osTypeId];
   }
 }

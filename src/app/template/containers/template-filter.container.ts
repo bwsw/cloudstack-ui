@@ -13,10 +13,10 @@ import * as fromOsTypes from '../redux/ostype.reducers';
 import * as osTypesActions from '../redux/ostype.actions';
 import * as zonesActions from '../redux/zone.actions';
 import * as fromZones from '../redux/zone.reducers';
-import * as accountsActions from '../../account/redux/accounts.actions';
-import * as fromAccounts from '../../account/redux/accounts.reducers';
-import * as domainActions from '../../domains/redux/domains.actions';
-import * as fromDomains from '../../domains/redux/domains.reducers';
+import * as accountsActions from '../../reducers/accounts/redux/accounts.actions';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as domainActions from '../../reducers/domains/redux/domains.actions';
+import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import { State } from '../../reducers/index';
 import { templateGroupings } from './template-page.container';
 
@@ -29,7 +29,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
   readonly filters$ = this.store.select(fromTemplates.filters);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
-  readonly domains$ = this.store.select(fromDomains.selectAll);
+  readonly domains$ = this.store.select(fromDomains.selectEntities);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly query$ = this.store.select(fromTemplates.filterQuery);
 

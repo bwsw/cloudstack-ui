@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { TemplateFilters } from '../shared/base-template.service';
@@ -13,14 +13,14 @@ import { AuthService } from '../../shared/services/auth.service';
   templateUrl: 'template-filters.component.html',
   styleUrls: ['template-filters.component.scss']
 })
-export class TemplateFiltersComponent implements OnInit, OnChanges {
+export class TemplateFiltersComponent implements OnInit {
   @Input() public showIsoSwitch = true;
   @Input() public showIso: boolean;
   @Input() public dialogMode = false;
   @Input() public availableGroupings: Array<any> = [];
   @Input() public accounts: Array<Account> = [];
   @Input() public zones: Array<Zone>;
-  @Input() public domains: Array<Domain>;
+  @Input() public domains: Dictionary<Domain>;
   @Input() public selectedAccountIds: string[];
   @Input() public selectedGroupings: any[];
   @Input() public selectedFilters: string[];
@@ -58,7 +58,6 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
 
   private templateTabIndex = 0;
   private isoTabIndex = 1;
-  private domainsMap: Dictionary<Domain>;
 
   constructor(private authService: AuthService) {
   }
@@ -74,14 +73,8 @@ export class TemplateFiltersComponent implements OnInit, OnChanges {
     return this.authService.isAdmin();
   }
 
-  public ngOnChanges(changes) {
-    if (changes.domains) {
-      this.domainsMap = this.domains.reduce((m, i) => ({ ...m, [i.id]: i }), {});
-    }
-  }
-
   public accountFullDomain(account) {
-    const domain = this.domainsMap[account.domainid];
+    const domain = this.domains[account.domainid];
     return domain ? domain.getPath() : '';
   }
 

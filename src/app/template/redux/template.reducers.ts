@@ -4,7 +4,7 @@ import { TemplateFilters } from '../shared/base-template.service';
 import * as fromOsTypes from './ostype.reducers';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { User } from '../../shared/models/user.model';
-import * as fromAccounts from '../../account/redux/accounts.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 
 import * as template from './template.actions';
 
@@ -53,10 +53,8 @@ export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<Bas
     sortComparer: false
   });
 
-export function listReducer(
-  state = initialListState,
-  action: template.Actions
-): ListState {
+export function listReducer(state = initialListState,
+                            action: template.Actions): ListState {
   switch (action.type) {
     case template.LOAD_TEMPLATE_REQUEST: {
       return {
@@ -171,20 +169,23 @@ export const currentUser = createSelector(
 export const selectByViewModeAndAccounts = createSelector(
   selectAll,
   filterSelectedViewMode,
-  fromAccounts.selectAll,
+  fromAccounts.selectEntities,
   filterSelectedAccountIds,
-  (templates, viewMode, accounts, selectedAccountIds) => {
+  (templates, viewMode, accountEntities, selectedAccountIds) => {
+    const viewModeStr = viewMode === 'Iso' ? viewMode.toUpperCase() : viewMode;
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
-      return viewMode.toLowerCase() === template.resourceType.toLowerCase();
+      return viewModeStr === template.resourceType;
     };
 
-    const selectedAccounts = accounts.filter(
-      account => selectedAccountIds.find(id => id === account.id));
-    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
-    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
+    const accountDomainMap = selectedAccountIds
+      .filter(id => accountEntities[id])
+      .reduce((m, id) => {
+        const acc = accountEntities[id];
+        return { ...m, [`${acc.name}_${acc.domainid}`]: acc };
+      }, {});
 
-    const selectedAccountIdsFilter = (template: BaseTemplateModel) => !selectedAccountIds.length ||
-      (accountsMap[template.account] && domainsMap[template.domainId]);
+    const selectedAccountIdsFilter = template => !selectedAccountIds.length ||
+      (accountDomainMap[`${template.account}_${template.domainId}`]);
 
     return templates.filter((template: BaseTemplateModel) => selectedViewModeFilter(
       template) && selectedAccountIdsFilter(template));
@@ -212,6 +213,7 @@ export const selectFilteredTemplates = createSelector(
     const osFamiliesMap = selectedOsFamilies.reduce((m, i) => ({ ...m, [i]: i }), {});
     const zonesMap = selectedZones.reduce((m, i) => ({ ...m, [i]: i }), {});
     const typesMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const queryLower = query && query.toLowerCase();
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const featuredFilter = !selectedTypes.length
@@ -234,14 +236,8 @@ export const selectFilteredTemplates = createSelector(
       return !selectedZones.length || !!zonesMap[template.zoneId];
     };
 
-    const queryFilter = (template: BaseTemplateModel) => {
-      if (query) {
-        const queryLower = query.toLowerCase();
-        return template.name.toLowerCase().includes(queryLower) ||
-          template.displayText.toLowerCase().includes(queryLower);
-      }
-      return true;
-    };
+    const queryFilter = (template: BaseTemplateModel) => !query || template.name.toLowerCase().includes(queryLower) ||
+      template.displayText.toLowerCase().includes(queryLower);
 
     return templates.filter(template => {
       return selectedZonesFilter(template)

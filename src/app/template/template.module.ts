@@ -70,6 +70,7 @@ import {
 import { TemplateFilterContainerComponent } from './containers/template-filter.container';
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
+import { TemplateOsIconContainerComponent } from './template-sidebar/template-os-icon/template-os-icon.container';
 
 
 @NgModule({
@@ -113,6 +114,7 @@ import { TemplateRowItemComponent } from './template/row-item/template-row-item.
     TemplateFiltersComponent,
     TemplateListComponent,
     TemplateOsContainerComponent,
+    TemplateOsIconContainerComponent,
     TemplateOsComponent,
     TemplateOsIconComponent,
     TemplateCardListComponent,

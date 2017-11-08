@@ -6,7 +6,6 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 
 import * as fromTemplates from '../redux/template.reducers';
 import * as templateActions from '../redux/template.actions';
-import * as fromOsTypes from '../redux/ostype.reducers';
 
 export const templateGroupings = [
   {
@@ -38,7 +37,6 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly filters$ = this.store.select(fromTemplates.filters);
 
-  readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly query$ = this.store.select(fromTemplates.filterQuery);
   readonly selectedAccountIds$ = this.store.select(fromTemplates.filterSelectedAccountIds);
   readonly selectedOsFamilies$ = this.store.select(fromTemplates.filterSelectedOsFamilies);

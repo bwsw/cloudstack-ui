@@ -2,8 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
-  OnInit
+  Output
 } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Template } from '../shared';
@@ -11,19 +10,18 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { TemplateCardItemComponent } from '../template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from '../template/row-item/template-row-item.component';
-import { OsType } from '../../shared/models/os-type.model';
 
 @Component({
   selector: 'cs-template-card-list',
   templateUrl: 'template-card-list.component.html',
   styleUrls: ['template-list.component.scss']
 })
-export class TemplateCardListComponent implements OnInit {
+export class TemplateCardListComponent {
   @Input() public templateList: Array<BaseTemplateModel>;
   @Input() public query: string;
   @Input() public groupings: string;
-  @Input() public osTypes: Array<OsType>;
   @Input() public mode: ViewMode;
+  @Input() public fetching: boolean;
   @Output() public deleteTemplate = new EventEmitter();
 
   public TemplateRowComponent = TemplateRowItemComponent;
@@ -33,13 +31,10 @@ export class TemplateCardListComponent implements OnInit {
   constructor(public listService: ListService) {
     this.selectTemplate = this.selectTemplate.bind(this);
     this.removeTemplate = this.removeTemplate.bind(this);
-  }
 
-  public ngOnInit() {
     this.inputs = {
       searchQuery: () => this.query,
       isSelected: (item: BaseTemplateModel) => this.listService.isSelected(item.id),
-      osTypes: this.osTypes
     };
     this.outputs = {
       onClick: this.selectTemplate,

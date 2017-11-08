@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { ListService } from '../../shared/components/list/list.service';
-import { OsType } from '../../shared/models/os-type.model';
+import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 
 @Component({
@@ -15,9 +15,11 @@ export class TemplatePageComponent implements OnInit {
   @Input() public fetching: boolean;
 
   @Input() public query: string;
-  @Input() public osTypes: Array<OsType>;
   @Input() public viewMode: string;
   @Input() public groupings: object[];
+
+  public mode: ViewMode;
+  public viewModeKey = 'templatePageViewMode';
 
   @Input() public selectedTypes: any[];
   @Input() public selectedAccountIds: Account[];
@@ -46,5 +48,9 @@ export class TemplatePageComponent implements OnInit {
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
+  }
+
+  public changeMode(mode) {
+    this.mode = mode;
   }
 }
