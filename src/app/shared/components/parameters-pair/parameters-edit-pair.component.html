@@ -6,15 +6,6 @@
         [innerHTML]="name | translate"
         [matTooltip]="name | translate"
       ></div>
-      <div *ngIf="isEdit" class="buttons">
-        <button
-          class="button-18px"
-          mat-icon-button
-          (click)="onButtonClicked.emit($event)"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-      </div>
     </div>
     <div class="value">
       <mat-form-field class="full-width-input">
