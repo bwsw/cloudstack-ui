@@ -1,0 +1,26 @@
+<div class="height-container">
+  <div class="flex-container container">
+    <div class="flex-container left">
+      <div
+        class="name"
+        [innerHTML]="name | translate"
+        [matTooltip]="name | translate"
+      ></div>
+      <div *ngIf="isEdit" class="buttons">
+        <button
+          class="button-18px"
+          mat-icon-button
+          (click)="onButtonClicked.emit($event)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div
+      ngxClipboard
+      class="value"
+      [innerHTML]="value"
+      [matTooltip]="value"
+    ></div>
+  </div>
+</div>

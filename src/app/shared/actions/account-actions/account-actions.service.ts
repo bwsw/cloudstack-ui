@@ -1,23 +1,42 @@
-import { Injectable } from '@angular/core';
-import { AccountDeleteAction } from './actions/account-delete-action';
-import { AccountDisableAction } from './actions/account-disable-action';
-import { AccountEnableAction } from './actions/account-enable-action';
-import { AccountLockAction } from './actions/account-lock-action';
+import { Account } from '../../models/account.model';
 
+const AccountDeleteAction = {
+  name: 'ACCOUNT_ACTION.DELETE',
+  command: 'delete',
+  icon: 'delete',
+  confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_DELETION',
+  canActivate: (account: Account) => true
+};
 
-@Injectable()
+const AccountDisableAction = {
+  name: 'ACCOUNT_ACTION.DISABLE',
+  command: 'disable',
+  icon: 'remove_circle',
+  confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_DISABLE',
+  canActivate: (account: Account) => account.state !== 'disabled'
+};
+
+const AccountEnableAction = {
+  name: 'ACCOUNT_ACTION.ENABLE',
+  command: 'enable',
+  icon: 'remove_circle_outline',
+  confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_ENABLE',
+  canActivate: (account: Account) => account.state !== 'enabled'
+};
+
+const AccountLockAction = {
+  name: 'ACCOUNT_ACTION.LOCK',
+  command: 'lock',
+  icon: 'block',
+  confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_LOCK',
+  canActivate: (account: Account) => account.state !== 'locked'
+};
+
 export class AccountActionsService {
   public actions = [
-    this.accountDisableAction,
-    this.accountEnableAction,
-    this.accountLockAction,
-    this.accountDeleteAction
+    AccountDisableAction,
+    AccountEnableAction,
+    AccountLockAction,
+    AccountDeleteAction
   ];
-
-  constructor(
-    public accountDeleteAction: AccountDeleteAction,
-    public accountDisableAction: AccountDisableAction,
-    public accountEnableAction: AccountEnableAction,
-    public accountLockAction: AccountLockAction
-  ) {}
 }

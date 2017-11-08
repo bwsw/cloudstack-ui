@@ -4,7 +4,6 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { BaseAccountAction } from './actions/base-account-action';
 import { AccountActionsService } from './account-actions.service';
 import { Account } from '../../models/account.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -20,16 +19,16 @@ export class AccountActionsComponent {
   @Output() public onAccountDisable: EventEmitter<Account> = new EventEmitter<Account>();
   @Output() public onAccountDelete: EventEmitter<Account> = new EventEmitter<Account>();
 
-  public actions: Array<BaseAccountAction>;
+  public actions: any[];
 
   constructor(
-    private accountActionService: AccountActionsService,
+    private accountActionsService: AccountActionsService,
     private dialogService: DialogService
   ) {
-    this.actions = this.accountActionService.actions;
+    this.actions = this.accountActionsService.actions;
   }
 
-  public activateAction(action: BaseAccountAction, account: Account) {
+  public activateAction(action, account: Account) {
     this.dialogService.confirm({ message: action.confirmMessage })
       .onErrorResumeNext()
       .filter(res => Boolean(res))
