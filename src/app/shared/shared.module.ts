@@ -155,6 +155,8 @@ import { AccountLockAction } from './actions/account-actions/actions/account-loc
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
+import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
+import { ParametersEditPairComponent } from './components/parameters-pair/parameters-edit-pair.component';
 
 
 @NgModule({
@@ -246,7 +248,9 @@ import { TimeZoneService } from './components/time-zone/time-zone.service';
     TimeZoneComponent,
     TopBarComponent,
     ViewValuePipe,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    ParametersPairComponent,
+    ParametersEditPairComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -314,7 +318,9 @@ import { TimeZoneService } from './components/time-zone/time-zone.service';
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
     VmStatisticsComponent,
-    TimeZoneComponent
+    TimeZoneComponent,
+    ParametersPairComponent,
+    ParametersEditPairComponent,
   ],
   providers: [
     AccountService,

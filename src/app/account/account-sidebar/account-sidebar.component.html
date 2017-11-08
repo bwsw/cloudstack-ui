@@ -12,7 +12,7 @@
 </div>
 
 <mat-menu #actionsMenu="matMenu">
-  <cs-account-action-container
+  <cs-account-action-container *ngIf="entity"
     [account]="entity"
   ></cs-account-action-container>
 </mat-menu>

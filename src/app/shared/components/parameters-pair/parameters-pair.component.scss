@@ -1,46 +1,51 @@
-:host ::ng-deep .name {
+.name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: default;
+  max-width: 170px;
 }
 
-:host ::ng-deep .value {
+.value {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: default;
   text-align: right;
   white-space: nowrap;
+
+  input {
+    text-align: end;
+  }
 }
 
-:host ::ng-deep .flex-container {
+.flex-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-:host ::ng-deep .left {
+.left {
   margin-right: 15px;
   span {
     width: 100%;
   }
 }
 
-:host ::ng-deep .buttons {
+.buttons {
   display: none;
   margin-left: 10px;
 }
 
-:host ::ng-deep .height-container {
+.height-container {
   display: flex;
   align-items: center;
   min-height: 32px;
 }
 
-:host ::ng-deep .container {
+.container {
   width: 100%;
 }
 
-:host ::ng-deep .container:hover .buttons {
+.container:hover .buttons {
   display: flex;
 }
