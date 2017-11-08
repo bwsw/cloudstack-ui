@@ -55,6 +55,8 @@ import { VolumeCreationDialogComponent } from './volume-creation/volume-creation
 import { VolumeCreationContainerComponent } from './container/volume-creation.container';
 import { VolumeCardItemComponent } from './volume-item/card-item/volume-card-item.component';
 import { VolumeRowItemComponent } from './volume-item/row-item/volume-row-item.component';
+import { userAccountReducers } from '../reducers/auth/redux/auth.reducers';
+import { UserAccountEffects } from '../reducers/auth/redux/auth.effects';
 
 
 @NgModule({
@@ -77,9 +79,10 @@ import { VolumeRowItemComponent } from './volume-item/row-item/volume-row-item.c
     MatDialogModule,
     DraggableSelectModule,
     StoreModule.forFeature('volumes', volumeReducers),
+    StoreModule.forFeature('userAccount', userAccountReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
-    EffectsModule.forFeature([VolumesEffects, ZonesEffects, DiskOfferingEffects]),
+    EffectsModule.forFeature([VolumesEffects, ZonesEffects, DiskOfferingEffects, UserAccountEffects]),
   ],
   declarations: [
     SnapshotActionsComponent,

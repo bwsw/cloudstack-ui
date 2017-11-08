@@ -8,10 +8,10 @@ import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
-import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as authActions from '../../reducers/auth/redux/auth.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as fromAuth from '../../reducers/auth/redux/auth.reducers';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import { AuthService } from '../../shared/services/auth.service';
@@ -46,7 +46,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   public loading$ = this.store.select(fromVolumes.isLoading);
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly account$ = this.store.select(fromAccounts.getUserAccount);
+  readonly account$ = this.store.select(fromAuth.getUserAccount);
 
   public maxSize: number = 2;
 
@@ -60,11 +60,11 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
-    this.store.dispatch(new accountActions.LoadUserAccount({
-      account: this.authService.user.account,
-      domainid: this.authService.user.domainid
+    this.store.dispatch(new authActions.LoadUserAccountRequest({
+      accountName: this.authService.user.account,
+      domainId: this.authService.user.domainid
     }));
+
     this.account$
       .takeUntil(this.unsubscribe$)
       .subscribe((account) => {

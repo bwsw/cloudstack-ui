@@ -7,8 +7,8 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 
-import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
-import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
+import * as authActions from '../../../reducers/auth/redux/auth.actions';
+import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
@@ -42,7 +42,7 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
   public loading$ = this.store.select(fromDiskOfferings.isLoading);
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zone$ = this.store.select(fromZones.getSelectedZone);
-  readonly account$ = this.store.select(fromAccounts.getUserAccount);
+  readonly account$ = this.store.select(fromAuth.getUserAccount);
 
   public volume: Volume;
 
@@ -61,13 +61,12 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
+    this.store.dispatch(new authActions.LoadUserAccountRequest({
+      accountName: this.authService.user.account,
+      domainId: this.authService.user.domainid
+    }));
     //this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneId));
-    this.store.dispatch(new accountActions.LoadUserAccount({
-      account: this.authService.user.account,
-      domainid: this.authService.user.domainid
-    }));
 
     this.zone$
       .takeUntil(this.unsubscribe$)
