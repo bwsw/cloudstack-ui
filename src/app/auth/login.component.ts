@@ -1,9 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ConfigService } from '../shared/services/config.service';
 import { NotificationService } from '../shared/services/notification.service';
+import { LocalStorageService } from '../shared/services/local-storage.service';
 
 @Component({
   selector: 'cs-login',
@@ -20,16 +28,20 @@ export class LoginComponent implements OnInit {
   public loading = true;
 
   public showDomain = false;
+  public key = 'showDomain';
 
   constructor(
     private auth: AuthService,
     private notification: NotificationService,
     private route: ActivatedRoute,
     private router: Router,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private storage: LocalStorageService
   ) {}
 
   public ngOnInit(): void {
+    const value = this.storage.read(this.key);
+    this.showDomain = value === 'true';
     const domainFromConfig = this.configService.get('defaultDomain');
     const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
     this.domain = domainFromQueryParams || domainFromConfig || '';
@@ -38,6 +50,7 @@ export class LoginComponent implements OnInit {
 
   public toggleDomain(): void {
     this.showDomain = !this.showDomain;
+    this.storage.write(this.key, this.showDomain.toString());
   }
 
   public onSubmit(): void {
