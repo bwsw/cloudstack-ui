@@ -7,142 +7,38 @@
     </mat-card-header>
     <mat-card-content class="mat-card-content-with-actions">
       <div class="mat-card-content-container">
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.ID' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.ID' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.id"
-              [matTooltip]="account.id"
-            ></div>
-          </div>
-        </div>
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.ROLE' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.ROLE' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.rolename"
-              [matTooltip]="account.rolename"
-            ></div>
-          </div>
-        </div>
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.ROLE_TYPE' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.ROLE_TYPE' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.roletype"
-              [matTooltip]="account.roletype"
-            ></div>
-          </div>
-        </div>
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.DOMAIN' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.DOMAIN' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.domain"
-              [matTooltip]="account.domain"
-            ></div>
-          </div>
-        </div>
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.VMS' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.VMS' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.vmtotal"
-              [matTooltip]="account.vmtotal"
-            ></div>
-          </div>
-        </div>
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.IPS' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.IPS' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.iptotal"
-              [matTooltip]="account.iptotal"
-            ></div>
-          </div>
-        </div>
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.R_BYTES' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.R_BYTES' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.receivedbytes"
-              [matTooltip]="account.receivedbytes"
-            ></div>
-          </div>
-        </div>
-        <div class="height-container">
-          <div class="flex-container container">
-            <div class="flex-container left">
-              <div
-                class="name"
-                [matTooltip]="'ACCOUNT_PAGE.DETAILS.S_BYTES' | translate"
-                [innerHTML]="'ACCOUNT_PAGE.DETAILS.S_BYTES' | translate"
-              ></div>
-            </div>
-            <div
-              ngxClipboard
-              class="value"
-              [innerHTML]="account.sentbytes"
-              [matTooltip]="account.sentbytes"
-            ></div>
-          </div>
-        </div>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.ID'"
+          [value]="account.id"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.ROLE'"
+          [value]="account.rolename"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.ROLE_TYPE'"
+          [value]="account.roletype"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.DOMAIN'"
+          [value]="account.domain"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.VMS'"
+          [value]="account.vmtotal"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.IPS'"
+          [value]="account.iptotal"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.R_BYTES'"
+          [value]="account.receivedbytes"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'ACCOUNT_PAGE.DETAILS.S_BYTES'"
+          [value]="account.sentbytes"
+        ></cs-parameters-pair>
       </div>
     </mat-card-content>
   </mat-card>
