@@ -1,68 +1,29 @@
 <cs-list (onAction)="showCreationDialog()">
-
   <ng-container cs-panels>
     <cs-top-bar>
-      <cs-sg-filter
-        [viewMode]="viewMode"
-        (updateFilters)="updateFiltersAndFilter($event)"
-        cs-list
-      ></cs-sg-filter>
+      <cs-sg-filter-container></cs-sg-filter-container>
     </cs-top-bar>
   </ng-container>
 
-
-  <ng-container *loading="!loaded" cs-list>
+  <ng-container *loading="isLoading" cs-list>
     <div class="switch-panel">
+
       <cs-view-mode-switch
         (onModeChange)="changeMode($event)"
-        [key]="viewModeKey">
+        [key]="viewModeKey"
+      >
       </cs-view-mode-switch>
     </div>
-    <ng-container *ngIf="isViewModeTemplates">
-      <ng-container *ngIf="visiblePredefinedSecurityGroupList.length">
-        <h4 class="section-header">{{ "SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS" | translate }}</h4>
-        <cs-security-group-list
-          *loading="!loaded"
-          [securityGroups]="visiblePredefinedSecurityGroupList"
-          [query]="query"
-          [mode]="mode"
-        ></cs-security-group-list>
-      </ng-container>
-
-      <ng-container *ngIf="visibleCustomSecurityGroupList">
-        <h4 class="section-header">{{ "SECURITY_GROUP_PAGE.LIST.CUSTOM_SECURITY_GROUPS" | translate }}</h4>
-        <div class="card-list-container">
-          <cs-security-group-list
-            *loading="!loaded"
-            [securityGroups]="visibleCustomSecurityGroupList"
-            [query]="query"
-            [mode]="mode"
-          ></cs-security-group-list>
-        </div>
-      </ng-container>
-
-      <cs-no-results
-        *ngIf="!templateSecurityGroupPageHasItems"
-      ></cs-no-results>
-    </ng-container>
-
-    <ng-container *ngIf="isViewModeShared">
-      <ng-container *ngIf="sharedSecurityGroupPageHasItems">
-        <div class="card-list-container">
-          <cs-security-group-list
-            *loading="!loaded"
-            [securityGroups]="visibleSharedSecurityGroupList"
-            [query]="query"
-            [mode]="mode"
-          ></cs-security-group-list>
-        </div>
-      </ng-container>
-
-      <cs-no-results *ngIf="! sharedSecurityGroupPageHasItems"></cs-no-results>
-    </ng-container>
+    <cs-security-group-list
+      *loading="isLoading"
+      [securityGroups]="securityGroups"
+      [query]="query"
+      [viewMode]="viewMode"
+      [mode]="mode"
+    ></cs-security-group-list>
   </ng-container>
 
-  <ng-container *loading="!loaded"></ng-container>
+  <ng-container *loading="isLoading"></ng-container>
 </cs-list>
 
 <router-outlet></router-outlet>

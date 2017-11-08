@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ListService } from '../../shared/components/list/list.service';
 import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { NotificationService } from '../../shared/services/notification.service';
-import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { SecurityGroupCreationComponent } from './security-group-creation.component';
+import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
 
 
 @Component({

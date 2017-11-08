@@ -45,6 +45,13 @@ import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.co
 import { SecurityGroupRowItemComponent } from './sg-list-item/row-item/security-group-row-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
+import { StoreModule } from '@ngrx/store';
+import { securityGroupReducers } from '../reducers/security-groups/redux/sg.reducers';
+import { SecurityGroupPageContainerComponent } from './sg-page/containers/security-group-page.container';
+import { EffectsModule } from '@ngrx/effects';
+import { SecurityGroupEffects } from '../reducers/security-groups/redux/sg.effects';
+import { SgFilterContainerComponent } from './sg-filter/containers/sg-filter.container';
+import { SecurityGroupRulesDialogContainerComponent } from './sg-rules/containers/sg-rules-dialog.container';
 
 
 @NgModule({
@@ -69,20 +76,26 @@ import { SecurityGroupListComponent } from './sg-list/security-group-list.compon
     MatInputModule,
     MatTabsModule,
     MatButtonToggleModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    StoreModule.forFeature('securityGroups', securityGroupReducers),
+    EffectsModule.forFeature([SecurityGroupEffects]),
   ],
   exports: [
+    SecurityGroupPageContainerComponent,
     SecurityGroupPageComponent
   ],
   declarations: [
     SecurityGroupActionsComponent,
+    SgFilterContainerComponent,
     SgFilterComponent,
     SecurityGroupListComponent,
+    SecurityGroupPageContainerComponent,
     SecurityGroupPageComponent,
     SecurityGroupCardItemComponent,
     SecurityGroupRowItemComponent,
     SecurityGroupCreationComponent,
     SecurityGroupCreationDialogComponent,
+    SecurityGroupRulesDialogContainerComponent,
     SecurityGroupRulesDialogComponent,
     SgRulesComponent,
     SgRuleComponent,
