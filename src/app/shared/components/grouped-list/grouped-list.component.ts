@@ -42,7 +42,5 @@ export class GroupedListComponent implements OnChanges {
     } else {
       this.tree = [{ items: this.list }];
     }
-
-    console.log('TREE', this.tree);
   }
 }
