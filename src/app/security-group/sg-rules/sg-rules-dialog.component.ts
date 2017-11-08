@@ -1,30 +1,32 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupService } from '../services/security-group.service';
 import { SecurityGroup } from '../sg.model';
-import { NotificationService } from '../../shared/services/notification.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SgRulesComponent } from './sg-rules.component';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'cs-sg-rules-dialog',
   template: ``
 })
-export class SecurityGroupRulesDialogComponent {
+export class SecurityGroupRulesDialogComponent implements OnChanges {
+  @Input() securityGroup: SecurityGroup;
+
   constructor(
     private entityService: SecurityGroupService,
-    private notificationService: NotificationService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
-    this.pluckId()
-      .switchMap(id => this.loadEntity(id))
-      .subscribe(
-        entity => this.showDialog(entity),
-        error => this.onError(error)
-      );
+  }
+
+  public ngOnChanges(changes) {
+    this.cd.detectChanges();
+
+    if (changes.securityGroup) {
+      this.showDialog(this.securityGroup);
+    }
   }
 
   private showDialog(entity: SecurityGroup) {
@@ -46,18 +48,5 @@ export class SecurityGroupRulesDialogComponent {
         { queryParamsHandling: 'preserve', relativeTo: this.route }
       );
     });
-  }
-
-  private pluckId(): Observable<string> {
-    return this.route.params.pluck('id').filter(id => !!id) as Observable<string>;
-  }
-
-  private loadEntity(id: string): Observable<SecurityGroup> {
-    const entity = this.entityService.getPredefinedTemplates().find(item => item.id === id);
-    return entity ? Observable.of(entity) : this.entityService.get(id);
-  }
-
-  private onError(error: any): void {
-    this.notificationService.error(error.message);
   }
 }

@@ -39,6 +39,8 @@ export class SgRulesComponent {
   public endPort: number;
   public cidr: string;
   public securityGroup: SecurityGroup;
+  public ingressRules: NetworkRule[] = [];
+  public egressRules: NetworkRule[] = [];
   public visibleRules: NetworkRule[] = [];
 
   public adding: boolean;
@@ -87,7 +89,6 @@ export class SgRulesComponent {
     private dialogService: DialogService,
     private router: Router
   ) {
-    console.log(data.entity);
     this.securityGroup = data.entity;
 
     if (data.vmId) {
@@ -111,6 +112,13 @@ export class SgRulesComponent {
     this.outputs = {
       onRemove: ({ type, id }) => this.removeRule({ type, id })
     };
+
+    if (data.entity) {
+      this.ingressRules = [...data.entity.ingressRules]
+        .map(rule => ({ ...rule, type: NetworkRuleType.Ingress }));
+      this.egressRules = [...data.entity.egressRules]
+        .map(rule => ({ ...rule, type: NetworkRuleType.Egress }));
+    }
 
     this.update();
   }
@@ -142,7 +150,6 @@ export class SgRulesComponent {
     this.networkRuleService.addRule(type, params)
       .subscribe(
         rule => {
-          console.log(rule);
           rule.type = type;
           this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
           this.resetForm();
@@ -214,8 +221,8 @@ export class SgRulesComponent {
       return;
     }
 
-    let filteredEgressRules = this.securityGroup.egressRules;
-    let filteredIngressRules = this.securityGroup.ingressRules;
+    let filteredEgressRules = this.egressRules;
+    let filteredIngressRules = this.ingressRules;
 
     if (this.selectedProtocols.length) {
       filteredEgressRules = filteredEgressRules.filter(_ =>
@@ -285,12 +292,6 @@ export class SgRulesComponent {
   }
 
   private update() {
-    if (this.securityGroup) {
-      this.securityGroup.egressRules.forEach(rule => rule.type = NetworkRuleType.Egress);
-      this.securityGroup.ingressRules.forEach(
-        rule => rule.type = NetworkRuleType.Ingress);
-    }
-
     this.filter();
   }
 
