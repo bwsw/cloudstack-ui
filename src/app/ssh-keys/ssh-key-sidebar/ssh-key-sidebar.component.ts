@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
@@ -13,7 +13,7 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
   selector: 'cs-ssh-key-sidebar',
   templateUrl: 'ssh-key-sidebar.component.html'
 })
-export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> implements OnInit {
+export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
   public account: string;
 
@@ -25,21 +25,16 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> impleme
     super(entityService, notificationService, route, router);
   }
 
-  public ngOnInit() {
-    this.getEntityAccount();
-
-    this.pluckId()
-      .switchMap(id => this.loadEntity(id, this.account))
-      .subscribe(entity => this.entity = entity);
-  }
-
   public onDescriptionChange(description: string): void {
     this.description = description;
     this.userTagService.setSshKeyDescription(this.entity, this.description).subscribe();
   }
 
-  protected loadEntity(name: string, account?: string): Observable<SSHKeyPair> {
-    return this.entityService.getByName(name, account)
+  protected loadEntity(name: string): Observable<SSHKeyPair> {
+    const account = this.route.snapshot.queryParams['account'];
+    const params = account ? { name, account } : { name };
+
+    return this.entityService.getByParams(params)
       .switchMap(sshKeyPair => {
         if (sshKeyPair) {
           return Observable.of(sshKeyPair);
@@ -57,11 +52,5 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> impleme
         this.description = description;
         return sshKeyPair;
       });
-  }
-
-  private getEntityAccount() {
-    this.route.queryParams.subscribe((params: Params) => {
-      this.account = params['account'];
-    });
   }
 }

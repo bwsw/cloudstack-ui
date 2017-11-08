@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { BackendResource } from '../decorators';
@@ -21,20 +21,12 @@ export interface SshKeyCreationData {
   entityModel: SSHKeyPair
 })
 export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
-  protected account: string;
-
   constructor(private asyncJobService: AsyncJobService,
-              protected http: HttpClient,
-              protected activatedRoute: ActivatedRoute) {
+              protected http: HttpClient) {
     super(http);
-
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
-      this.account = params['account'];
-    });
   }
 
-  public getByName(name: string, account?: string): Observable<SSHKeyPair> {
-    const params = account ? { name, account } : { name };
+  public getByParams(params): Observable<SSHKeyPair> {
     return this.getList(params).map(sshKeys => sshKeys[0]);
   }
 
