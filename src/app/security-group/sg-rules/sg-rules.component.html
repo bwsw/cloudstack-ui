@@ -10,7 +10,10 @@
     <form #rulesForm="ngForm" novalidate>
       <table class="mat-table">
         <tbody>
-        <tr class="mat-row rule-row table-form" *ngIf="!isPredefinedTemplate && editMode">
+        <tr
+          class="mat-row rule-row table-form"
+          *ngIf="!isPredefinedTemplate && editMode"
+        >
           <td class="mat-cell">
             <mat-form-field>
               <mat-select class="type" [(ngModel)]="type" name="type">
@@ -172,7 +175,8 @@
             [(ngModel)]="selectedTypes"
             (selectionChange)="filter()"
           >
-            <mat-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate }}
+            <mat-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate
+              }}
             </mat-option>
           </mat-select>
         </mat-form-field>

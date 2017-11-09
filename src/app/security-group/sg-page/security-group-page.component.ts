@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ListService } from '../../shared/components/list/list.service';
 import { SecurityGroup, } from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
@@ -10,7 +9,6 @@ import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.contain
   selector: 'cs-security-group-page',
   templateUrl: 'security-group-page.component.html',
   styleUrls: ['security-group-page.component.scss'],
-  providers: [ListService]
 })
 export class SecurityGroupPageComponent {
   @Input() public securityGroups: Array<SecurityGroup>;
