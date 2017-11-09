@@ -1,4 +1,4 @@
-<ng-container *ngIf="securityGroup">
+<ng-container *loading="!securityGroup">
   <h3
     class="mat-dialog-title"
     [innerHTML]="!editMode ?
@@ -193,17 +193,18 @@
         <cs-divider-vertical></cs-divider-vertical>
 
         <mat-form-field class="form-select-control">
-          <mat-select
+          <cs-draggable-select
+            name="groupBy"
             multiple="true"
             [placeholder]="'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY' | translate"
-            name="selectedGroupings"
             [(ngModel)]="selectedGroupings"
+            [dragItems]="groupings"
             (change)="update()"
           >
-            <mat-option *ngFor="let z of groupings" [value]="z">
-              {{ z.label | translate }}
+            <mat-option *ngFor="let g of groupings" [value]="g">
+              {{ g.label | translate }}
             </mat-option>
-          </mat-select>
+          </cs-draggable-select>
         </mat-form-field>
       </div>
       <table class="mat-table">
@@ -215,6 +216,7 @@
           [component]="ruleComponent"
           [dynamicInputs]="inputs"
           [dynamicOutputs]="outputs"
+          [isTable]="true"
         >
         </cs-grouped-list>
         <tr>

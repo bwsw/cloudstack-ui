@@ -3,7 +3,6 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
-import { SecurityGroup } from '../../../security-group/sg.model';
 
 import * as securityGroup from './sg.actions';
 

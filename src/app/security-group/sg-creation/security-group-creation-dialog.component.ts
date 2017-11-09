@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ListService } from '../../shared/components/list/list.service';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { SecurityGroupCreationComponent } from './security-group-creation.component';
@@ -14,13 +12,14 @@ import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.contain
   template: ``
 })
 export class SecurityGroupCreationDialogComponent {
+  @Input() viewMode: SecurityGroupViewMode;
+  @Output() securityGroupCreate = new EventEmitter();
+
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService,
-    private listService: ListService,
-    private storageService: LocalStorageService
+    private notificationService: NotificationService
   ) {
     this.dialog.open(SecurityGroupCreationComponent, <MatDialogConfig>{
       data: { mode: this.viewMode },
@@ -43,10 +42,6 @@ export class SecurityGroupCreationDialogComponent {
     }
   }
 
-  private get viewMode(): string {
-    return this.storageService.read('securityGroupDisplayMode') || SecurityGroupViewMode.Templates;
-  }
-
   private onCreationDialogClosed(securityGroup: SecurityGroup): void {
     if (securityGroup) {
       this.onSecurityGroupCreated(securityGroup);
@@ -56,7 +51,7 @@ export class SecurityGroupCreationDialogComponent {
   }
 
   private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
-    this.listService.onUpdate.emit(securityGroup);
+    this.securityGroupCreate.emit(securityGroup);
     this.notificationService.message({
       translationToken: this.getSuccessCreationToken(securityGroup),
       interpolateParams: { name: securityGroup.name }
