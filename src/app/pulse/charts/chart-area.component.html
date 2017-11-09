@@ -27,7 +27,7 @@
     </div>
     <canvas
       *ngIf="hasDatasets(chart) && hasData(chart)"
-      baseChart
+      csBaseChart
       [datasets]="chart.datasets"
       [chartType]="chart.chartType"
       [options]="chart.options"

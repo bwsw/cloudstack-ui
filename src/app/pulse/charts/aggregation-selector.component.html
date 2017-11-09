@@ -1,28 +1,32 @@
-<mat-select
-  class="aggregation-select"
-  [(ngModel)]="selectedScale"
-  (selectionChange)="handleScaleChange($event)"
-  [placeholder]="'PULSE.RANGE' | translate"
->
-  <mat-option *ngFor="let scale of permittedIntervals?.scales" [value]="scale">
-    {{ scale.range }}
-  </mat-option>
-</mat-select>
-<mat-select
-  class="aggregation-select"
-  multiple
-  [placeholder]="'PULSE.AGGREGATION' | translate"
-  [(ngModel)]="selectedAggregations"
-  #aggregationSelect="ngModel"
-  (selectionChange)="handleAggregationsChange($event)"
->
-  <mat-option
-    *ngFor="let aggregation of selectedScale?.aggregations"
-    [value]="aggregation"
+<mat-form-field class="aggregation-select">
+  <mat-select
+
+    [(ngModel)]="selectedScale"
+    (selectionChange)="handleScaleChange($event)"
+    [placeholder]="'PULSE.RANGE' | translate"
   >
-    {{ aggregation }}
-  </mat-option>
-</mat-select>
+    <mat-option *ngFor="let scale of permittedIntervals?.scales" [value]="scale">
+      {{ scale.range }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field class="aggregation-select">
+  <mat-select
+
+    multiple
+    [placeholder]="'PULSE.AGGREGATION' | translate"
+    [(ngModel)]="selectedAggregations"
+    #aggregationSelect="ngModel"
+    (selectionChange)="handleAggregationsChange($event)"
+  >
+    <mat-option
+      *ngFor="let aggregation of selectedScale?.aggregations"
+      [value]="aggregation"
+    >
+      {{ aggregation }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 <mat-form-field class="shift-input">
   <input
     [(ngModel)]="shiftAmount"
@@ -34,16 +38,17 @@
     (input)="handleShiftAmountChange($event)"
   >
 </mat-form-field>
-<mat-select
-  class="aggregation-select shift-select"
-  [(ngModel)]="selectedShift"
-  (selectionChange)="handleShiftChange($event)"
-  [placeholder]="'PULSE.SHIFT' | translate"
->
-  <mat-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
-    {{ shift }}
-  </mat-option>
-</mat-select>
+<mat-form-field class="aggregation-select shift-select">
+  <mat-select
+    [(ngModel)]="selectedShift"
+    (selectionChange)="handleShiftChange($event)"
+    [placeholder]="'PULSE.SHIFT' | translate"
+  >
+    <mat-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
+      {{ shift }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 <button class="refresh-button" mat-icon-button (click)="handleRefresh()">
   <mat-icon [matTooltip]="'COMMON.REFRESH' | translate">sync</mat-icon>
 </button>

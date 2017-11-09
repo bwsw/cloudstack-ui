@@ -1,14 +1,16 @@
 <div class="entity-select-container">
-  <mat-select
-    class="aggregation-select entity-select"
-    [placeholder]="'PULSE.DISK' | translate"
-    [(ngModel)]="selectedVolume"
-    (selectionChange)="volumeChange.emit()"
-  >
-    <mat-option *ngFor="let volume of availableVolumes" [value]="volume">
-      {{ volume.name }} ({{ volume.id }})
-    </mat-option>
-  </mat-select>
+  <mat-form-field class="aggregation-select entity-select">
+    <mat-select
+
+      [placeholder]="'PULSE.DISK' | translate"
+      [(ngModel)]="selectedVolume"
+      (selectionChange)="volumeChange.emit()"
+    >
+      <mat-option *ngFor="let volume of availableVolumes" [value]="volume">
+        {{ volume.name }} ({{ volume.id }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 <cs-chart-area-component
   [charts]="charts"
