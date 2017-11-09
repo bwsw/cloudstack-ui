@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
-import { TemplatePageComponent } from './template-page/template-page.component';
 import { IsoDetailsComponent } from './template-sidebar/details/iso-details.component';
 import { TemplateDetailsComponent } from './template-sidebar/details/template-details.component';
 import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
@@ -10,11 +8,13 @@ import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component'
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
+import { TemplatePageContainerComponent } from './containers/template-page.container';
+import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 
 export const templateRouting: Routes = [
   {
     path: 'templates',
-    component: TemplatePageComponent,
+    component: TemplatePageContainerComponent,
     canActivate: [AuthGuard],
     children: [
       {

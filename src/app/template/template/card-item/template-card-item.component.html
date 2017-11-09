@@ -5,7 +5,7 @@
 >
   <mat-card-header>
     <mat-card-title>
-      <cs-template-os-icon [template]="item"></cs-template-os-icon>
+      <cs-template-os-icon-container [template]="item"></cs-template-os-icon-container>
       <h2
         [matTooltip]="item.name"
         [innerHTML]="item.name | highlight:query"
@@ -51,6 +51,9 @@
     </div>
   </mat-card-content>
   <mat-menu #actionsMenu="matMenu">
-    <cs-template-actions [template]="item"></cs-template-actions>
+    <cs-template-actions
+      [template]="item"
+      (deleteTemplate)="deleteTemplate.emit($event)"
+    ></cs-template-actions>
   </mat-menu>
 </mat-card>
