@@ -16,8 +16,7 @@ export class SecurityGroupPageComponent {
   @Input() public securityGroups: Array<SecurityGroup>;
   @Input() public isLoading = false;
   @Input() public viewMode: SecurityGroupViewMode;
-
-  public query: string;
+  @Input() public query: string;
 
   public mode: ViewMode;
   public viewModeKey = 'sgPageViewMode';

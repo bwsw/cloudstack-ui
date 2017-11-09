@@ -25,7 +25,7 @@ export const sortByName = (a: SecurityGroup, b: SecurityGroup) => {
 
 export const adapter: EntityAdapter<SecurityGroup> = createEntityAdapter<SecurityGroup>({
   selectId: (item: SecurityGroup) => item.id,
-  sortComparer: false
+  sortComparer: sortByName
 });
 
 const initialListState: ListState = adapter.getInitialState({
@@ -97,6 +97,14 @@ export function listReducer(
         selectedSecurityGroupId: action.payload
       };
     }
+    case securityGroup.CREATE_SG_SUCCESS: {
+      return {
+        ...adapter.addOne(action.payload, state)
+      };
+    }
+    case securityGroup.REMOVE_SG_SUCCESS: {
+      return adapter.removeOne(action.payload.id, state);
+    }
     default: {
       return state;
     }
@@ -142,6 +150,11 @@ export const filters = createSelector(
 export const viewMode = createSelector(
   getSecurityGroupsEntitiesState,
   state => state.filters.viewMode
+);
+
+export const query = createSelector(
+  getSecurityGroupsEntitiesState,
+  state => state.filters.query
 );
 
 export const getSelectedId = createSelector(

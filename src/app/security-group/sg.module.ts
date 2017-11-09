@@ -47,11 +47,14 @@ import { DynamicModule } from 'ng-dynamic-component';
 import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
 import { StoreModule } from '@ngrx/store';
 import { securityGroupReducers } from '../reducers/security-groups/redux/sg.reducers';
-import { SecurityGroupPageContainerComponent } from './sg-page/containers/security-group-page.container';
+import { SecurityGroupPageContainerComponent } from './containers/security-group-page.container';
 import { EffectsModule } from '@ngrx/effects';
 import { SecurityGroupEffects } from '../reducers/security-groups/redux/sg.effects';
 import { SgFilterContainerComponent } from './sg-filter/containers/sg-filter.container';
-import { SecurityGroupRulesDialogContainerComponent } from './sg-rules/containers/sg-rules-dialog.container';
+import { SgRulesContainerComponent } from './containers/sg-rules.container';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+import { SecurityGroupCreationDialogContainerComponent } from './containers/security-group-creation-dialog.container';
+import { SecurityGroupActionsContainerComponent } from './containers/sg-actions.container';
 
 
 @NgModule({
@@ -77,6 +80,7 @@ import { SecurityGroupRulesDialogContainerComponent } from './sg-rules/container
     MatTabsModule,
     MatButtonToggleModule,
     MatProgressSpinnerModule,
+    DraggableSelectModule,
     StoreModule.forFeature('securityGroups', securityGroupReducers),
     EffectsModule.forFeature([SecurityGroupEffects]),
   ],
@@ -85,6 +89,7 @@ import { SecurityGroupRulesDialogContainerComponent } from './sg-rules/container
     SecurityGroupPageComponent
   ],
   declarations: [
+    SecurityGroupActionsContainerComponent,
     SecurityGroupActionsComponent,
     SgFilterContainerComponent,
     SgFilterComponent,
@@ -94,9 +99,10 @@ import { SecurityGroupRulesDialogContainerComponent } from './sg-rules/container
     SecurityGroupCardItemComponent,
     SecurityGroupRowItemComponent,
     SecurityGroupCreationComponent,
+    SecurityGroupCreationDialogContainerComponent,
     SecurityGroupCreationDialogComponent,
-    SecurityGroupRulesDialogContainerComponent,
     SecurityGroupRulesDialogComponent,
+    SgRulesContainerComponent,
     SgRulesComponent,
     SgRuleComponent,
     SecurityGroupCreationSecurityGroupComponent,
@@ -115,7 +121,7 @@ import { SecurityGroupRulesDialogContainerComponent } from './sg-rules/container
   ],
   entryComponents: [
     SecurityGroupCreationComponent,
-    SgRulesComponent,
+    SgRulesContainerComponent,
     SecurityGroupCreationSecurityGroupComponent
   ]
 })

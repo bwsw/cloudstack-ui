@@ -16,6 +16,7 @@ export class GroupedListComponent implements OnChanges {
   @Input() public list: Array<any>;
   @Input() public level = 0;
   @Input() public groupings: Array<any>;
+  @Input() public isTable = false;
   @Input() dynamicInputs: { [k: string]: any } = {};
   @Input() dynamicOutputs: { [k: string]: Function } = {};
 
