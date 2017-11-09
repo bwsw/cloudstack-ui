@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run build-themes && ng serve --proxy-config proxy.conf.js -o --port 8080",
+    "start": "npm run build-themes && ng serve --proxy-config proxy.conf.js --port 8080",
     "hmr": "npm run build-themes && ng serve --proxy-config proxy.conf.js --hmr -e=hmr --port 8080",
     "build-themes": "sh ./src/generate-themes.sh",
     "build": "npm run build-themes && ng build --prod",
@@ -42,7 +42,7 @@
     "ng-dynamic-component": "^2.0.3",
     "ng2-dragula": "1.5.0",
     "ngrx-store-freeze": "^0.2.0",
-    "ngx-clipboard": "^8.0.2",
+    "ngx-clipboard": "github:M-Adoo/ngx-clipboard#eaa06663f2437c563aa271a370dda1f5eb46df6a",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.5.2",
     "uuid": "^3.1.0",

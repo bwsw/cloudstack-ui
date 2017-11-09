@@ -10,7 +10,7 @@ import {
   MatCheckboxModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
-import { ClipboardModule } from 'ngx-clipboard/dist';
+import { ClipboardModule } from 'ngx-clipboard';
 import { SharedModule } from '../shared/shared.module';
 import { TagCategoryComponent } from './tag-category/tag-category.component';
 import { TagEditComponent } from './tag-edit/tag-edit.component';

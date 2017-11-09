@@ -26,13 +26,13 @@
     minimist "^1.2.0"
     rxjs "^5.5.2"
 
-"@angular/animations@^5.0.0":
+"@angular/animations@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-5.0.0.tgz#b5ad199c67f93f759544477effe6679e154991fb"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/cdk@^5.0.0-rc0":
+"@angular/cdk@5.0.0-rc0":
   version "5.0.0-rc0"
   resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-5.0.0-rc0.tgz#b7225af1d8d23c13ac14bbd3fe1c6b427eb71368"
   dependencies:
@@ -101,13 +101,13 @@
   optionalDependencies:
     node-sass "^4.3.0"
 
-"@angular/common@^5.0.0":
+"@angular/common@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/common/-/common-5.0.0.tgz#f96d66a517b995d1ba9b28309f15c2e359675825"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/compiler-cli@^5.0.0":
+"@angular/compiler-cli@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-5.0.0.tgz#0ecbb937d84a4f8dd94f0c2a47b07d2e4694c853"
   dependencies:
@@ -116,53 +116,53 @@
     reflect-metadata "^0.1.2"
     tsickle "^0.24.0"
 
-"@angular/compiler@^5.0.0":
+"@angular/compiler@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-5.0.0.tgz#b9ffbf18c8a39d8b7dacec473193a90e24cc2bc9"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@^5.0.0":
+"@angular/core@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-5.0.0.tgz#4f976a225f7dddf34992f2cad824c9543a46f4c8"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/forms@^5.0.0":
+"@angular/forms@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-5.0.0.tgz#c7fddfa35396759ae9852920a30cdda8c41ed1de"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/http@^5.0.0":
+"@angular/http@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/http/-/http-5.0.0.tgz#0728a2be0cfbb078727c5eb87d4c85d53fec9a51"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/language-service@^5.0.0":
+"@angular/language-service@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-5.0.0.tgz#6ccbb69f4757270dd04ec5857d37634b2f02c40c"
 
-"@angular/material@^5.0.0-rc0":
+"@angular/material@5.0.0-rc0":
   version "5.0.0-rc0"
   resolved "https://registry.yarnpkg.com/@angular/material/-/material-5.0.0-rc0.tgz#d37e104a284b41084f91e7613ac119cfb627c56d"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@^5.0.0":
+"@angular/platform-browser-dynamic@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.0.0.tgz#887e106c8b103b0415cf6156a425da6d83f4c89d"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@^5.0.0":
+"@angular/platform-browser@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-5.0.0.tgz#c7038f7cde80705b62014897231e182eec976fed"
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-server@^5.0.0":
+"@angular/platform-server@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-5.0.0.tgz#877d25ef814af92fffc7b0b523b971a6ff222018"
   dependencies:
@@ -170,7 +170,7 @@
     tslib "^1.7.1"
     xhr2 "^0.1.4"
 
-"@angular/router@^5.0.0":
+"@angular/router@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-5.0.0.tgz#fe4b521a6738408bce30f93a53499140c93a4f76"
   dependencies:
@@ -230,19 +230,9 @@
   dependencies:
     "@angular-devkit/core" "0.0.20"
 
-"@types/chart.js@2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.6.1.tgz#ebb7759403d8b71ceede9188985548896a2ac86f"
-  dependencies:
-    "@types/jquery" "*"
-
 "@types/jasmine@2.5.45":
   version "2.5.45"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.45.tgz#58928a621d014ce6ab59c5a9c41071f7328b0ca9"
-
-"@types/jquery@*":
-  version "3.2.12"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.2.12.tgz#f496823108c3874c97c9a822e675a3926ee64b46"
 
 "@types/node@^6.0.46":
   version "6.0.88"
@@ -3413,14 +3403,14 @@ karma-cli@~1.0.1:
   dependencies:
     resolve "^1.1.6"
 
-karma-coverage-istanbul-reporter@1.3.0, karma-coverage-istanbul-reporter@^1.2.1:
+karma-coverage-istanbul-reporter@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/karma-coverage-istanbul-reporter/-/karma-coverage-istanbul-reporter-1.3.0.tgz#d142cd9c55731c9e363ef7374e8ef1a31bebfadb"
   dependencies:
     istanbul-api "^1.1.8"
     minimatch "^3.0.4"
 
-karma-jasmine-html-reporter@0.2.2, karma-jasmine-html-reporter@^0.2.2:
+karma-jasmine-html-reporter@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-0.2.2.tgz#48a8e5ef18807617ee2b5e33c1194c35b439524c"
   dependencies:
@@ -3943,14 +3933,6 @@ ng-dynamic-component@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/ng-dynamic-component/-/ng-dynamic-component-2.0.3.tgz#fa4bbbe8a7658ff5ba9fdc8174c2e8a20cad9228"
 
-"ng2-charts@github:andrewbents/ng2-charts#v1.6.3-CSUI":
-  version "1.6.3-CSUI"
-  resolved "https://codeload.github.com/andrewbents/ng2-charts/tar.gz/7173e3824972a6b24727262559eb1392c0910528"
-  dependencies:
-    "@types/chart.js" "2.6.1"
-    karma-coverage-istanbul-reporter "1.3.0"
-    karma-jasmine-html-reporter "0.2.2"
-
 ng2-dragula@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/ng2-dragula/-/ng2-dragula-1.5.0.tgz#12a221d7a34fc629cc74dc98efb26448290eb6e5"
@@ -3963,15 +3945,15 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-ngx-clipboard@^8.0.2:
-  version "8.0.4"
-  resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-8.0.4.tgz#97cda30d788e7dc1d280e36a7728f86600c455fd"
+"ngx-clipboard@github:M-Adoo/ngx-clipboard#eaa06663f2437c563aa271a370dda1f5eb46df6a":
+  version "0.0.0"
+  resolved "https://codeload.github.com/M-Adoo/ngx-clipboard/tar.gz/eaa06663f2437c563aa271a370dda1f5eb46df6a"
   dependencies:
-    ngx-window-token "0.0.2"
+    ngx-window-token "0.0.3"
 
-ngx-window-token@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-0.0.2.tgz#680ee986bbe6f95d07daadf154c0ecf35e589920"
+ngx-window-token@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-0.0.3.tgz#43c67f04d387b6dc9fd41b2d2366779e5915b979"
 
 no-case@^2.2.0:
   version "2.3.2"
