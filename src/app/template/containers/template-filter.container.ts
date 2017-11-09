@@ -68,10 +68,12 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.activatedRoute
   );
 
-  constructor(private store: Store<State>,
-              private router: Router,
-              private sessionStorage: SessionStorageService,
-              private activatedRoute: ActivatedRoute) {
+  constructor(
+    private store: Store<State>,
+    private router: Router,
+    private sessionStorage: SessionStorageService,
+    private activatedRoute: ActivatedRoute
+  ) {
     super();
   }
 

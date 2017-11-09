@@ -53,8 +53,7 @@ export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<Bas
     sortComparer: false
   });
 
-export function listReducer(state = initialListState,
-                            action: template.Actions): ListState {
+export function listReducer(state = initialListState, action: template.Actions): ListState {
   switch (action.type) {
     case template.LOAD_TEMPLATE_REQUEST: {
       return {

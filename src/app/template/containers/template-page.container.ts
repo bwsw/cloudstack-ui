@@ -54,6 +54,7 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   public ngOnInit() {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
   }
+
   public ngAfterViewInit() {
     this.cd.detectChanges();
   }
