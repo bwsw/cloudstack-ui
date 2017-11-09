@@ -1,40 +1,31 @@
-import { ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroupService } from '../services/security-group.service';
-import { SecurityGroup } from '../sg.model';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { SgRulesComponent } from './sg-rules.component';
+import { SgRulesContainerComponent } from '../containers/sg-rules.container';
 
 @Component({
   selector: 'cs-sg-rules-dialog',
   template: ``
 })
-export class SecurityGroupRulesDialogComponent implements OnChanges {
-  @Input() securityGroup: SecurityGroup;
-
+export class SecurityGroupRulesDialogComponent {
   constructor(
     private entityService: SecurityGroupService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private activatedRoute: ActivatedRoute
   ) {
+    const params = this.activatedRoute.snapshot.params;
+    this.showDialog(params['id']);
   }
 
-  public ngOnChanges(changes) {
-    this.cd.detectChanges();
-
-    if (changes.securityGroup) {
-      this.showDialog(this.securityGroup);
-    }
-  }
-
-  private showDialog(entity: SecurityGroup) {
+  private showDialog(id: string) {
     const editMode = !!this.route.snapshot.queryParams.hasOwnProperty('vm');
 
-    this.dialog.open(SgRulesComponent, <MatDialogConfig>{
+    this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
       width: '910px',
-      data: { entity, editMode }
+      data: { id, editMode }
     })
       .afterClosed()
       .map(updatedGroup => {
@@ -49,4 +40,8 @@ export class SecurityGroupRulesDialogComponent implements OnChanges {
       );
     });
   }
+
+  // private onError(error: any): void {
+  //   this.notificationService.error(error.message);
+  // }
 }

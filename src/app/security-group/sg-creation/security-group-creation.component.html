@@ -1,3 +1,4 @@
+{{creationInProgress}}
 <cs-overlay-loading [active]="creationInProgress"></cs-overlay-loading>
 <div [hidden]="creationInProgress">
   <h3 *ngIf="isModeTemplates" class="mat-dialog-title">
@@ -23,7 +24,7 @@
           <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
         </mat-hint>
       </mat-form-field>
-      <br />
+      <br/>
       <mat-form-field class="full-width-input">
         <input
           matInput
@@ -39,7 +40,7 @@
           ></cs-character-count>
         </mat-hint>
       </mat-form-field>
-      <br />
+      <br/>
 
       <cs-security-group-creation-rules-manager
         class="basic-rules"

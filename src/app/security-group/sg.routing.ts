@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { SecurityGroupCreationDialogComponent } from './sg-creation/security-group-creation-dialog.component';
-import { SecurityGroupPageContainerComponent } from './sg-page/containers/security-group-page.container';
-import { SecurityGroupRulesDialogContainerComponent } from './sg-rules/containers/sg-rules-dialog.container';
+import { SecurityGroupPageContainerComponent } from './containers/security-group-page.container';
+import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
+import { SecurityGroupCreationDialogContainerComponent } from './containers/security-group-creation-dialog.container';
 
 export const sgRoutes: Routes = [
   {
@@ -12,10 +12,10 @@ export const sgRoutes: Routes = [
     children: [
       {
         path: 'create',
-        component: SecurityGroupCreationDialogComponent
+        component: SecurityGroupCreationDialogContainerComponent
       }, {
         path: ':id',
-        component: SecurityGroupRulesDialogContainerComponent
+        component: SecurityGroupRulesDialogComponent
       }
     ]
   }

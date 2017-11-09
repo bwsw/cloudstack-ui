@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SecurityGroup } from '../../sg.model';
 import { SecurityGroupAction } from '../sg-action';
 import { SecurityGroupActionsService } from '../sg-action.service';
@@ -10,10 +10,18 @@ import { SecurityGroupActionsService } from '../sg-action.service';
 })
 export class SecurityGroupActionsComponent {
   @Input() public securityGroup: SecurityGroup;
+  @Output() public onSecurityGroupDelete = new EventEmitter();
 
-  constructor(public securityGroupActionsService: SecurityGroupActionsService) {}
+  constructor(public securityGroupActionsService: SecurityGroupActionsService) {
+  }
 
   public onAction(action: SecurityGroupAction): void {
-    action.activate(this.securityGroup).subscribe();
+    action.activate(this.securityGroup).subscribe(() => {
+      switch (action.name) {
+        case 'COMMON.DELETE': {
+          this.onSecurityGroupDelete.emit(this.securityGroup);
+        }
+      }
+    });
   }
 }

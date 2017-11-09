@@ -1,6 +1,12 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
@@ -10,7 +16,7 @@ import {
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { NetworkRuleService } from '../services/network-rule.service';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import { NetworkRuleType, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
@@ -22,7 +28,12 @@ import { SgRuleComponent } from './sg-rule.component';
   templateUrl: 'sg-rules.component.html',
   styleUrls: ['sg-rules.component.scss']
 })
-export class SgRulesComponent {
+export class SgRulesComponent implements OnChanges {
+  @Input() public securityGroup: any;
+  @Input() public editMode = false;
+  @Input() public vmId: string;
+  @Output() public onCloseDialog = new EventEmitter();
+
   @ViewChild('rulesForm') public rulesForm: NgForm;
   public selectedType = '';
   public selectedCode = '';
@@ -38,14 +49,11 @@ export class SgRulesComponent {
   public icmpCodes: number[];
   public endPort: number;
   public cidr: string;
-  public securityGroup: SecurityGroup;
   public ingressRules: NetworkRule[] = [];
   public egressRules: NetworkRule[] = [];
   public visibleRules: NetworkRule[] = [];
 
   public adding: boolean;
-  public editMode = false;
-  public vmId: string;
 
   public NetworkProtocols = NetworkProtocol;
   public NetworkRuleTypes = NetworkRuleType;
@@ -81,24 +89,12 @@ export class SgRulesComponent {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<SgRulesComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
     private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router
   ) {
-    this.securityGroup = data.entity;
-
-    if (data.vmId) {
-      this.vmId = data.vmId;
-    }
-
-    if (data.editMode) {
-      this.editMode = data.editMode;
-    }
-
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
@@ -106,20 +102,16 @@ export class SgRulesComponent {
     this.adding = false;
     this.inputs = {
       type: item => item.type,
-      canRemove: this.editMode && !this.isPredefinedTemplate
+      canRemove: this.editMode && !this.isPredefinedTemplate,
+      isTable: true
     };
 
     this.outputs = {
       onRemove: ({ type, id }) => this.removeRule({ type, id })
     };
+  }
 
-    if (data.entity) {
-      this.ingressRules = [...data.entity.ingressRules]
-        .map(rule => ({ ...rule, type: NetworkRuleType.Ingress }));
-      this.egressRules = [...data.entity.egressRules]
-        .map(rule => ({ ...rule, type: NetworkRuleType.Egress }));
-    }
-
+  public ngOnChanges(changes) {
     this.update();
   }
 
@@ -151,7 +143,13 @@ export class SgRulesComponent {
       .subscribe(
         rule => {
           rule.type = type;
-          this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
+
+          if (type === NetworkRuleType.Ingress) {
+            this.ingressRules.push(rule);
+          } else {
+            this.egressRules.push(rule);
+          }
+
           this.resetForm();
           this.filter();
           this.adding = false;
@@ -166,7 +164,9 @@ export class SgRulesComponent {
   public removeRule({ type, id }): void {
     this.networkRuleService.removeRule(type, { id })
       .subscribe(() => {
-        const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
+        const rules = type === NetworkRuleType.Ingress
+          ? this.ingressRules
+          : this.egressRules;
         const ind = rules.findIndex(rule => rule.ruleId === id);
         if (ind === -1) {
           return;
@@ -217,7 +217,7 @@ export class SgRulesComponent {
   }
 
   public filter(): void {
-    if (!this.securityGroup || !this.securityGroup.ingressRules.length && !this.securityGroup.egressRules.length) {
+    if (!this.securityGroup) {
       return;
     }
 
@@ -274,7 +274,7 @@ export class SgRulesComponent {
               ], {
                 queryParams: { vm: this.vmId }
               });
-              this.dialogRef.close();
+              this.onCloseDialog.emit();
             } else {
               this.changeMode();
             }
@@ -292,6 +292,13 @@ export class SgRulesComponent {
   }
 
   private update() {
+    if (this.securityGroup) {
+      this.ingressRules = this.securityGroup.ingressRules
+        .map(rule => ({ ...rule, type: NetworkRuleType.Ingress }));
+      this.egressRules = this.securityGroup.egressRules
+        .map(rule => ({ ...rule, type: NetworkRuleType.Egress }));
+    }
+
     this.filter();
   }
 
