@@ -18,6 +18,7 @@ import { NetworkRule } from '../network-rule.model';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
+import { LoadingDirective } from '../../shared/directives/loading.directive';
 
 @Injectable()
 class MockRouter {
@@ -72,7 +73,7 @@ describe('Security group firewall rules component', () => {
 
     TestBed.configureTestingModule({
       imports: [FormsModule, MatAutocompleteModule],
-      declarations: [SgRulesComponent, MockTranslatePipe],
+      declarations: [SgRulesComponent, MockTranslatePipe, LoadingDirective],
       providers: [
         { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
         { provide: MatDialogRef, useValue: dialog },

@@ -40,8 +40,4 @@ export class SecurityGroupRulesDialogComponent {
       );
     });
   }
-
-  // private onError(error: any): void {
-  //   this.notificationService.error(error.message);
-  // }
 }
