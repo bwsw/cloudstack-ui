@@ -12,7 +12,9 @@
 </div>
 
 <mat-menu #actionsMenu="matMenu">
-  <cs-account-actions  *ngIf="entity" [account]="entity" (onAccountChanged)="onAccountChanged.emit($event)"></cs-account-actions>
+  <cs-account-action-container *ngIf="entity"
+    [account]="entity"
+  ></cs-account-action-container>
 </mat-menu>
 
 <router-outlet></router-outlet>

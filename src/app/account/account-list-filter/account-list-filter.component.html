@@ -50,7 +50,7 @@
       [placeholder]="'ACCOUNT_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupings"
       [dragItems]="groupings"
-      (change)="onGroupingsChange.emit($event.value)"
+      (ngModelChange)="onGroupingsChange.emit($event)"
     >
       <mat-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}

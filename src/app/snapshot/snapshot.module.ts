@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -26,9 +29,6 @@ import { RecurringSnapshotsComponent } from './recurring-snapshots/recurring-sna
 import { SnapshotPolicyService } from './recurring-snapshots/snapshot-policy.service';
 import { StoredNumberComponent } from './recurring-snapshots/stored-number/stored-number.component';
 import { TimePickerComponent } from './recurring-snapshots/time-picker/time-picker.component';
-import { TimeZoneComponent } from './recurring-snapshots/time-zone/time-zone.component';
-import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.service';
-
 
 @NgModule({
   imports: [
@@ -61,14 +61,12 @@ import { TimeZoneService } from './recurring-snapshots/time-zone/time-zone.servi
     PolicyListComponent,
     RecurringSnapshotsComponent,
     StoredNumberComponent,
-    TimeZoneComponent,
     TimePickerComponent,
     PolicyListComponent
   ],
   providers: [
     PolicyViewBuilderService,
-    SnapshotPolicyService,
-    TimeZoneService
+    SnapshotPolicyService
   ],
   entryComponents: [
     RecurringSnapshotsComponent

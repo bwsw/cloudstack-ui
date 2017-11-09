@@ -25,7 +25,7 @@ export interface State extends EntityState<Account> {
     selectedRoleNames: string[],
     selectedRoleTypes: string[],
     selectedStates: string[],
-    selectedGroupingNames: string[]
+    selectedGroupings: any[]
   }
 }
 
@@ -62,7 +62,7 @@ export const initialState: State = adapter.getInitialState({
     selectedRoleTypes: [],
     selectedRoleNames: [],
     selectedStates: [],
-    selectedGroupingNames: []
+    selectedGroupings: []
   }
 });
 
@@ -107,6 +107,24 @@ export function reducer(
       return {
         ...state,
         selectedAccountId: action.payload
+      };
+    }
+
+    case event.ACCOUNT_CREATE_SUCCESS: {
+      return {
+        ...adapter.addOne(action.payload, state),
+      };
+    }
+
+    case event.ACCOUNT_DELETE_SUCCESS: {
+      return {
+        ...adapter.removeOne(action.payload.id, state),
+      };
+    }
+
+    case event.UPDATE_ACCOUNT: {
+      return {
+        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
       };
     }
 
@@ -172,6 +190,11 @@ export const filterSelectedRoleNames = createSelector(
 export const filterSelectedStates = createSelector(
   filters,
   state => state.selectedStates
+);
+
+export const filterSelectedGroupings = createSelector(
+  filters,
+  state => state.selectedGroupings
 );
 
 export const selectFilteredAccounts = createSelector(

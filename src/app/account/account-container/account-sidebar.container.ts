@@ -13,7 +13,6 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
   template: `
     <cs-account-sidebar
       [entity]="account$ | async"
-      (onAccountChanged)="onAccountChange($event)"
     ></cs-account-sidebar>`
 })
 export class AccountSidebarContainerComponent implements OnInit {
@@ -25,10 +24,6 @@ export class AccountSidebarContainerComponent implements OnInit {
     private store: Store<State>,
     private activatedRoute: ActivatedRoute
   ) { }
-
-  public onAccountChange(id) {
-    this.store.dispatch(new accountEvent.LoadAccountsRequest());
-  }
 
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
