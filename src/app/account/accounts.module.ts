@@ -8,12 +8,13 @@ import { AccountListComponent } from './account-list/account-list.component';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
 import {
   MatButtonModule,
+  MatDialogModule,
   MatIconModule,
+  MatInputModule,
   MatMenuModule,
   MatSelectModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatInputModule
+  MatTooltipModule
 } from '@angular/material';
 import { AccountCardItemComponent } from './account/card-item/account-card-item.component';
 import { AccountRowItemComponent } from './account/row-item/account-row-item.component';
@@ -44,6 +45,11 @@ import { resourceLimitsReducers } from '../reducers/resource-limit/redux/resourc
 import { ResourceLimitsEffects } from '../reducers/resource-limit/redux/resource-limits.effects';
 import { ResourceCountsEffects } from '../reducers/resource-count/redux/resource-counts.effects';
 import { resourceCountsReducers } from '../reducers/resource-count/redux/resource-counts.reducers';
+import { AccountCreationComponent } from './creation-form/account-creation.component';
+import { AccountCreationDialogComponent } from './creation-form/account-creation-dialog.component';
+import { AccountCreationContainerComponent } from './account-container/account-creation.container';
+import { AccountFilterContainerComponent } from './account-container/account-filter.container';
+import { AccountActionsContainerComponent } from './account-container/account-actions.container';
 
 @NgModule({
   imports: [
@@ -54,6 +60,8 @@ import { resourceCountsReducers } from '../reducers/resource-count/redux/resourc
     MatTooltipModule,
     MatTabsModule,
     MatButtonModule,
+    MatSelectModule,
+    MatDialogModule,
     MatSelectModule,
     MatIconModule,
     MatInputModule,
@@ -91,10 +99,16 @@ import { resourceCountsReducers } from '../reducers/resource-count/redux/resourc
     AccountPageContainerComponent,
     AccountSidebarContainerComponent,
     AccountDetailsContainerComponent,
+    AccountFilterContainerComponent,
+    AccountActionsContainerComponent,
     EditAccountConfigurationComponent,
+    AccountCreationComponent,
+    AccountCreationDialogComponent,
+    AccountCreationContainerComponent,
   ],
   entryComponents: [
-    EditAccountConfigurationComponent
+    EditAccountConfigurationComponent,
+    AccountCreationContainerComponent
   ],
   exports: [
     AccountPageComponent

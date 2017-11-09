@@ -4,9 +4,9 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { BaseAccountAction } from './actions/base-account-action';
 import { AccountActionsService } from './account-actions.service';
 import { Account } from '../../models/account.model';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'cs-account-actions',
@@ -14,19 +14,44 @@ import { Account } from '../../models/account.model';
 })
 export class AccountActionsComponent {
   @Input() public account: Account;
-  @Output() public onAccountChanged: EventEmitter<Account>;
+  @Output() public onAccountLock: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output() public onAccountEnable: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output() public onAccountDisable: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output() public onAccountDelete: EventEmitter<Account> = new EventEmitter<Account>();
 
-  public actions: Array<BaseAccountAction>;
+  public actions: any[];
 
   constructor(
-    private accountActionService: AccountActionsService
+    private accountActionsService: AccountActionsService,
+    private dialogService: DialogService
   ) {
-    this.actions = this.accountActionService.actions;
-    this.onAccountChanged = new EventEmitter<Account>();
+    this.actions = this.accountActionsService.actions;
   }
 
-  public activateAction(action: BaseAccountAction, account: Account) {
-    action.activate(account).subscribe(() => this.onAccountChanged.emit(account));
+  public activateAction(action, account: Account) {
+    this.dialogService.confirm({ message: action.confirmMessage })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        switch (action.command) {
+          case 'lock': {
+            this.onAccountLock.emit(account);
+            break;
+          }
+          case 'enable': {
+            this.onAccountEnable.emit(account);
+            break;
+          }
+          case 'disable': {
+            this.onAccountDisable.emit(account);
+            break;
+          }
+          case 'delete': {
+            this.onAccountDelete.emit(account);
+            break;
+          }
+        }
+      });
   }
 
 }

@@ -48,9 +48,9 @@
     <cs-draggable-select
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupings"
+      [ngModel]="selectedGroupings"
       [dragItems]="groupings"
-      (selectionChange)="onGroupingsChange.emit($event.value)"
+      (selectionChange)="onGroupingsChange.emit($event)"
     >
       <mat-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}

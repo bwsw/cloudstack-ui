@@ -1,14 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { Account } from '../../shared/models/account.model';
-import { AccountService } from '../../shared/services/account.service';
 import { NotificationService } from '../../shared/services/notification.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-account-sidebar',
-  templateUrl: 'account-sidebar.component.html',
-  styleUrls: ['account-sidebar.component.scss']
+  templateUrl: 'account-sidebar.component.html'
 })
 export class AccountSidebarComponent {
 
@@ -16,7 +22,6 @@ export class AccountSidebarComponent {
   @Output() public onAccountChanged = new EventEmitter<Account>();
 
   constructor(
-    protected accountService: AccountService,
     protected notificationService: NotificationService,
     protected route: ActivatedRoute,
     protected router: Router,
