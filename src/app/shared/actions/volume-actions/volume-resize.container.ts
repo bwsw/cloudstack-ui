@@ -7,7 +7,6 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 
-import * as authActions from '../../../reducers/auth/redux/auth.actions';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
@@ -61,11 +60,6 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
-    this.store.dispatch(new authActions.LoadUserAccountRequest({
-      accountName: this.authService.user.account,
-      domainId: this.authService.user.domainid
-    }));
-    //this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneId));
 
     this.zone$

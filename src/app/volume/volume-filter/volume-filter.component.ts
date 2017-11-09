@@ -14,8 +14,7 @@ import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-volume-filter',
-  templateUrl: 'volume-filter.component.html',
-  styleUrls: ['volume-filter.component.scss']
+  templateUrl: 'volume-filter.component.html'
 })
 export class VolumeFilterComponent {
   @Input() public zones: Array<Zone>;
@@ -23,7 +22,6 @@ export class VolumeFilterComponent {
   @Input() public groupings: Array<any>;
   @Input() public selectedGroupings: Array<any>;
   @Input() public accounts: Array<Account>;
-  @Input() public searchPanelWhite: boolean;
   @Input() public query: string;
   @Input() public spareOnly: boolean;
   @Input() public selectedZoneIds: Array<string>;

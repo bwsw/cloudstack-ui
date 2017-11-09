@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
-import * as authActions from '../../reducers/auth/redux/auth.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromAuth from '../../reducers/auth/redux/auth.reducers';
@@ -60,10 +59,6 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
-    this.store.dispatch(new authActions.LoadUserAccountRequest({
-      accountName: this.authService.user.account,
-      domainId: this.authService.user.domainid
-    }));
 
     this.account$
       .takeUntil(this.unsubscribe$)

@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
@@ -43,13 +43,13 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
   }
 
   public ngOnInit() {
+    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.volume$
       .takeUntil(this.unsubscribe$)
       .subscribe(volume => {
         if (volume) {
           this.volume = new Volume(volume);
           this.description = this.volume.description;
-          this.store.dispatch(new diskOfferingActions.LoadSelectedOffering(volume.diskOfferingId));
         }
       })
   }

@@ -16,9 +16,8 @@ export class AccountService extends BaseBackendService<Account> {
     super(http);
   }
 
-  public getAccount(accountName: string, domainId: string): Observable<Account> {
-    return this.getList({domainid: domainId})
-      .map(accounts => accounts.find(account => account.name === accountName));
+  public getAccount(params: {}): Observable<Account> {
+    return this.getList(params).map(accounts => accounts[0]);
   }
 
   public updateAccount(

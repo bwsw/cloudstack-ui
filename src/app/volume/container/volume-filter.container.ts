@@ -27,7 +27,6 @@ import * as debounce from 'lodash/debounce';
   selector: 'cs-volume-filter-container',
   template: `
     <cs-volume-filter
-      [searchPanelWhite]="selectedGroupings?.length"
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
       [types]="types"

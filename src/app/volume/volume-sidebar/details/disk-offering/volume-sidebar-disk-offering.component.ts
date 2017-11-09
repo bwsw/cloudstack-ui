@@ -45,8 +45,4 @@ export class VolumeSidebarDiskOfferingComponent {
   public get diskIopsWriteRate(): string {
     return this.offering && (this.offering.diskBytesWriteRate || '').toString();
   }
-
-  /*public get offering(): Offering {
-    return this.volume.diskOffering || this.volume.serviceOffering;
-  }*/
 }

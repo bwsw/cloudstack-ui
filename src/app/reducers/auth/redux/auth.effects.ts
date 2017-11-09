@@ -15,7 +15,7 @@ export class UserAccountEffects {
   loadUserAccount$: Observable<Action> = this.actions$
     .ofType(authActions.LOAD_USER_ACCOUNT_REQUEST)
     .switchMap((action: authActions.LoadUserAccountRequest) => {
-      return this.accountService.getAccount(action.payload.accountName, action.payload.domainId)
+      return this.accountService.getAccount(action.payload)
         .map((account: Account) => {
           return new authActions.LoadUserAccountResponse(account);
         })

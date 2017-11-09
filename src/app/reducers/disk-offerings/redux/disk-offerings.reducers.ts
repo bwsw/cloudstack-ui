@@ -10,6 +10,8 @@ import {
 import * as event from './disk-offerings.actions';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
 
+import * as fromVolumes from '../../volumes/redux/volumes.reducers';
+
 /**
  * @ngrx/entity provides a predefined interface for handling
  * a structured dictionary of records. This interface
@@ -19,7 +21,6 @@ import { DiskOffering } from '../../../shared/models/disk-offering.model';
  */
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
-  selectedOfferingId: string
 }
 
 export interface OfferingsState {
@@ -49,7 +50,6 @@ export const adapter: EntityAdapter<DiskOffering> = createEntityAdapter<DiskOffe
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  selectedOfferingId: null
 });
 
 export function reducer(
@@ -80,14 +80,6 @@ export function reducer(
       };
     }
 
-    case event.LOAD_SELECTED_DISK_OFFERING: {
-      return {
-        ...state,
-        selectedOfferingId: action.payload
-      };
-    }
-
-
     default: {
       return state;
     }
@@ -114,15 +106,10 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const getSelectedId = createSelector(
-  getOfferingsEntitiesState,
-  state => state.selectedOfferingId
-);
-
 export const getSelectedOffering = createSelector(
-  getOfferingsState,
-  getSelectedId,
-  (state, selectedId) => state.list.entities[selectedId]
+  selectEntities,
+  fromVolumes.getSelectedVolume,
+  (entities, volume) => volume && entities[volume.diskOfferingId]
 );
 
 

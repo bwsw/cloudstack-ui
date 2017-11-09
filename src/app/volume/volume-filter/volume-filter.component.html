@@ -48,7 +48,7 @@
     <cs-draggable-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupingNames"
+      [(ngModel)]="selectedGroupings"
       [dragItems]="groupings"
       (change)="onGroupingsChange.emit($event.value)"
     >
@@ -59,7 +59,7 @@
   </mat-form-field>
 </div>
 
-<div [class.search-bar-white]="searchPanelWhite" class="filter-wrapper">
+<div class="filter-wrapper">
   <cs-search
     [ngModel]="query"
     (ngModelChange)="onQueryChange.emit($event)"
