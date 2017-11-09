@@ -1,6 +1,17 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TimeZone, TimeZoneService } from './time-zone.service';
+import {
+  Component,
+  forwardRef,
+  Input,
+  OnInit
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR
+} from '@angular/forms';
+import {
+  TimeZone,
+  TimeZoneService
+} from './time-zone.service';
 
 @Component({
   selector: 'cs-time-zone',

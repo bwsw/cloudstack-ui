@@ -40,6 +40,8 @@
   <mat-menu
     #actionsMenu="matMenu"
   >
-    <cs-account-actions [account]="item" (onAccountChanged)="onAccountChanged.emit($event)"></cs-account-actions>
+    <cs-account-action-container
+      [account]="item"
+    ></cs-account-action-container>
   </mat-menu>
 </mat-card>

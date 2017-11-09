@@ -149,11 +149,11 @@ import { ConfigurationService } from './services/configuration.service';
 import { ResourceCountService } from './services/resource-count.service';
 import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
 import { AccountActionsService } from './actions/account-actions/account-actions.service';
-import { AccountDisableAction } from './actions/account-actions/actions/account-disable-action';
-import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
-import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
-import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
+import { TimeZoneComponent } from './components/time-zone/time-zone.component';
+import { TimeZoneService } from './components/time-zone/time-zone.service';
+import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
+import { ParametersEditPairComponent } from './components/parameters-pair/parameters-edit-pair.component';
 import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
@@ -163,7 +163,6 @@ import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offer
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
 
 @NgModule({
   imports: [
@@ -255,9 +254,12 @@ import { EffectsModule } from '@ngrx/effects';
     TemplateActionsComponent,
     MatAutocompleteModule,
     MatInputModule,
+    TimeZoneComponent,
     TopBarComponent,
     ViewValuePipe,
     VmStatisticsComponent,
+    ParametersPairComponent,
+    ParametersEditPairComponent,
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
@@ -330,6 +332,9 @@ import { EffectsModule } from '@ngrx/effects';
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
     VmStatisticsComponent,
+    TimeZoneComponent,
+    ParametersPairComponent,
+    ParametersEditPairComponent,
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
@@ -337,10 +342,6 @@ import { EffectsModule } from '@ngrx/effects';
   providers: [
     AccountService,
     AccountActionsService,
-    AccountDisableAction,
-    AccountDeleteAction,
-    AccountEnableAction,
-    AccountLockAction,
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
@@ -396,7 +397,8 @@ import { EffectsModule } from '@ngrx/effects';
     VolumeService,
     VolumeTagService,
     ZoneService,
-    HypervisorService
+    HypervisorService,
+    TimeZoneService,
   ]
 })
 export class SharedModule {

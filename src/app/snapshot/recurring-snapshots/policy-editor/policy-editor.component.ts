@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { TimeFormat } from '../../../shared/services/language.service';
 import { PolicyType } from '../recurring-snapshots.component';
-import { TimeZone } from '../time-zone/time-zone.service';
+import { TimeZone } from '../../../shared/components/time-zone/time-zone.service';
 
 
 export type TimePolicy = any;

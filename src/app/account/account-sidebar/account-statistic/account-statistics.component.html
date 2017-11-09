@@ -18,20 +18,11 @@
   </mat-card-header>
   <mat-card-content class="mat-card-content-with-actions">
     <div class="mat-card-content-container">
-      <div *ngFor="let stat of stats" class="height-container">
-        <div class="flex-container container">
-          <div class="flex-container left">
-            <span
-              class="name"
-              [innerHTML]="resourceLabels[stat.resourcetype] | translate"
-            ></span>
-          </div>
-          <div
-               ngxClipboard
-               class="value | division:2:30:2"
-               [innerHTML]="stat.resourcecount"
-          ></div>
-        </div>
+      <div *ngFor="let stat of stats">
+        <cs-parameters-pair
+          [name]="resourceLabels[stat.resourcetype]"
+          [value]="stat.resourcecount"
+        ></cs-parameters-pair>
       </div>
     </div>
   </mat-card-content>
