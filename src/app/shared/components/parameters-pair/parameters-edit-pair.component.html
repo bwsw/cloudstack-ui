@@ -1,0 +1,22 @@
+<div class="height-container">
+  <div class="flex-container container">
+    <div class="flex-container left">
+      <div
+        class="name"
+        [innerHTML]="name | translate"
+        [matTooltip]="name | translate"
+      ></div>
+    </div>
+    <div class="value">
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="{{'vmlimit' + index}}"
+          [(ngModel)]="value"
+          (change)="valueChange.emit(value)"
+          required>
+      </mat-form-field>
+    </div>
+
+  </div>
+</div>

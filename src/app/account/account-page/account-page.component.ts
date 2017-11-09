@@ -1,16 +1,14 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  Output
+  Input
 } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
-import {
-  Account,
-  Domain,
-  Role
-} from '../../shared';
+import { Account } from '../../shared';
 import { AuthService } from '../../shared/services/auth.service';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 
 @Component({
@@ -21,42 +19,29 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 })
 export class AccountPageComponent {
   @Input() public accounts: Array<Account> = [];
-  @Input() public domains: Array<Domain>;
-  @Input() public roles: Array<Role>;
-  @Input() public roleTypes: Array<string>;
-  @Input() public states: Array<string>;
   @Input() public groupings: Array<any>;
   @Input() public isLoading: boolean;
-  @Input() public selectedRoleTypes: string[] = [];
-  @Input() public selectedDomainIds: string[] = [];
-  @Input() public selectedRoleNames: string[] = [];
-  @Input() public selectedStates: string[] = [];
   @Input() public selectedGroupings: Array<any> = [];
-
-  @Output() public onDomainsChange = new EventEmitter();
-  @Output() public onRolesChange = new EventEmitter();
-  @Output() public onRoleTypesChange = new EventEmitter();
-  @Output() public onStatesChange = new EventEmitter();
-  @Output() public onAccountChanged = new EventEmitter<Account>();
-  @Output() public onGroupingsChange = new EventEmitter();
 
   public mode: ViewMode;
   public viewModeKey = 'accountPageViewMode';
 
   constructor(
     public listService: ListService,
-    public authService: AuthService
-  ) {}
-
-  private updateList(account?: Account): void {
-    this.onAccountChanged.emit(account);
-    if (account && this.listService.isSelected(account.id)) {
-      this.listService.deselectItem();
-    }
-  }
+    public authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   public isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  public showCreationDialog(): void {
+    this.router.navigate(['./create'], {
+      queryParamsHandling: 'preserve',
+      relativeTo: this.activatedRoute
+    });
   }
 
   public changeMode(mode) {

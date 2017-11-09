@@ -50,7 +50,8 @@ export class AccountLimitsComponent {
   }
 
   public editLimits() {
-    this.localLimits =  this.limits.map(limit => ({resourcetype: limit.resourcetype, max: limit.max}));
+    this.localLimits =  Object.assign([], this.limits.map(
+      limit => ({resourcetype: limit.resourcetype, max: limit.max})));
     this.isEdit = !this.isEdit;
   }
 
