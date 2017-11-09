@@ -11,7 +11,7 @@ import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.red
     <cs-security-group-create-dialog
       [viewMode]="viewMode$ | async"
       (securityGroupCreate)="onSecurityGroupCreated($event)"
-      
+
     ></cs-security-group-create-dialog>`
 })
 export class SecurityGroupCreationDialogContainerComponent {
@@ -20,7 +20,7 @@ export class SecurityGroupCreationDialogContainerComponent {
   constructor(private store: Store<State>) {
   }
 
-  private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
+  public onSecurityGroupCreated(securityGroup: SecurityGroup): void {
     this.store.dispatch(new securityGroupActions.CreateSGSuccess(securityGroup));
   }
 }
