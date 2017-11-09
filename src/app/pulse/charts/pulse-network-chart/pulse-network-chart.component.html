@@ -3,7 +3,7 @@
     class="aggregation-select entity-select"
     [placeholder]="'NIC' | translate"
     [(ngModel)]="selectedNic"
-    (change)="nicChange.emit()"
+    (selectionChange)="nicChange.emit()"
   >
     <mat-option *ngFor="let nic of availableNics; index as i" [value]="nic">
       NIC{{ i + 1 }} ({{ nic.macAddress }})

@@ -18,7 +18,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
       [(ngModel)]="selectedAccountIds"
-      (change)="updateFilters()"
+      (selectionChange)="updateFilters()"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -32,7 +32,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
       [(ngModel)]="selectedOsFamilies"
-      (change)="updateFilters()"
+      (selectionChange)="updateFilters()"
     >
       <mat-option
         *ngFor="let family of osFamilies"
@@ -47,7 +47,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
       [(ngModel)]="selectedFilters"
-      (change)="updateFilters()"
+      (selectionChange)="updateFilters()"
     >
       <mat-option
         *ngFor="let f of categoryFilters"
@@ -63,7 +63,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
-      (change)="updateFilters()"
+      (selectionChange)="updateFilters()"
     >
       <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
     </mat-select>
@@ -73,7 +73,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupingNames"
-      (change)="updateFilters()"
+      (selectionChange)="updateFilters()"
     >
       <mat-option *ngFor="let g of availableGroupings" [value]="g">
         {{ g.label | translate }}
@@ -102,7 +102,7 @@
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
       [(ngModel)]="selectedOsFamilies"
-      (change)="updateFilters()"
+      (selectionChange)="updateFilters()"
     >
       <mat-option
         *ngFor="let family of osFamilies"
@@ -118,7 +118,7 @@
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
       [(ngModel)]="selectedFilters"
-      (change)="updateFilters()"
+      (selectionChange)="updateFilters()"
     >
       <mat-option
         *ngFor="let f of categoryFilters"

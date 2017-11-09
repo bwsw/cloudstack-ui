@@ -18,7 +18,7 @@ import {
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import {
   ErrorStateMatcher,
-  fadeInContent,
+  fadeInContent, MAT_OPTION_PARENT_COMPONENT,
   MAT_SELECT_SCROLL_STRATEGY, MatFormField, MatFormFieldControl,
   MatSelect,
   transformPanel
@@ -33,7 +33,10 @@ import * as uuid from 'uuid';
   styleUrls: ['draggable-select.component.scss'],
   inputs: ['color', 'disabled', 'tabIndex'], // tslint:disable-line
   encapsulation: ViewEncapsulation.None,
-  providers: [{ provide: MatFormFieldControl, useExisting: DraggableSelectComponent }],
+  providers: [
+    { provide: MatFormFieldControl, useExisting: DraggableSelectComponent },
+    { provide: MAT_OPTION_PARENT_COMPONENT, useExisting: DraggableSelectComponent }
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'role': 'listbox',

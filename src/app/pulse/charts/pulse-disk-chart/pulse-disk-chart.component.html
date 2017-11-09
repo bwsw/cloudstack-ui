@@ -3,7 +3,7 @@
     class="aggregation-select entity-select"
     [placeholder]="'PULSE.DISK' | translate"
     [(ngModel)]="selectedVolume"
-    (change)="volumeChange.emit()"
+    (selectionChange)="volumeChange.emit()"
   >
     <mat-option *ngFor="let volume of availableVolumes" [value]="volume">
       {{ volume.name }} ({{ volume.id }})

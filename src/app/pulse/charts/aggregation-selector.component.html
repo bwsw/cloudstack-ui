@@ -1,7 +1,7 @@
 <mat-select
   class="aggregation-select"
   [(ngModel)]="selectedScale"
-  (change)="handleScaleChange($event)"
+  (selectionChange)="handleScaleChange($event)"
   [placeholder]="'PULSE.RANGE' | translate"
 >
   <mat-option *ngFor="let scale of permittedIntervals?.scales" [value]="scale">
@@ -14,7 +14,7 @@
   [placeholder]="'PULSE.AGGREGATION' | translate"
   [(ngModel)]="selectedAggregations"
   #aggregationSelect="ngModel"
-  (change)="handleAggregationsChange($event)"
+  (selectionChange)="handleAggregationsChange($event)"
 >
   <mat-option
     *ngFor="let aggregation of selectedScale?.aggregations"
@@ -37,7 +37,7 @@
 <mat-select
   class="aggregation-select shift-select"
   [(ngModel)]="selectedShift"
-  (change)="handleShiftChange($event)"
+  (selectionChange)="handleShiftChange($event)"
   [placeholder]="'PULSE.SHIFT' | translate"
 >
   <mat-option *ngFor="let shift of permittedIntervals?.shifts" [value]="shift">
