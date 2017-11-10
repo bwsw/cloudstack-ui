@@ -1,10 +1,18 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { SecurityGroup, SecurityGroupType } from '../sg.model';
+import {
+  Component,
+  Input,
+  OnChanges
+} from '@angular/core';
+import {
+  SecurityGroup,
+  SecurityGroupType
+} from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SecurityGroupCardItemComponent } from '../sg-list-item/card-item/security-group-card-item.component';
 import { SecurityGroupRowItemComponent } from '../sg-list-item/row-item/security-group-row-item.component';
 import { TranslateService } from '@ngx-translate/core';
 import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
+import { ListService } from '../../shared/components/list/list.service';
 
 
 @Component({
@@ -21,9 +29,17 @@ export class SecurityGroupListComponent implements OnChanges {
   public inputs;
   public outputs;
 
-  constructor(private translateService: TranslateService) {
+  constructor(
+    private translateService: TranslateService,
+    public listService: ListService
+  ) {
     this.inputs = {
-      searchQuery: () => this.query
+      searchQuery: () => this.query,
+      isSelected: (item: SecurityGroup) => this.listService.isSelected(item.id)
+    };
+
+    this.outputs = {
+      onClick: this.selectSecurityGroup.bind(this),
     };
   }
 
@@ -53,5 +69,9 @@ export class SecurityGroupListComponent implements OnChanges {
     return this.mode === ViewMode.BOX
       ? SecurityGroupCardItemComponent
       : SecurityGroupRowItemComponent;
+  }
+
+  public selectSecurityGroup(securityGroup: SecurityGroup): void {
+    this.listService.showDetails(securityGroup.id);
   }
 }

@@ -1,4 +1,8 @@
-<mat-card class="custom-card">
+<mat-card
+  class="custom-card"
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+>
   <mat-card-header>
     <mat-card-title>
       <h2

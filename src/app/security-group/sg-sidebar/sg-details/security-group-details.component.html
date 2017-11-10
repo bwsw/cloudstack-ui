@@ -1,0 +1,29 @@
+<ng-container *ngIf="securityGroup">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">{{ 'SECURITY_GROUP_PAGE.DETAILS.TITLE' | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mat-card-content-with-actions">
+      <div class="mat-card-content-container">
+        <cs-parameters-pair
+          [name]="'SECURITY_GROUP_PAGE.DETAILS.ID'"
+          [value]="securityGroup.id"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'SECURITY_GROUP_PAGE.DETAILS.NAME'"
+          [value]="securityGroup.name"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'SECURITY_GROUP_PAGE.DETAILS.DESCRIPTION'"
+          [value]="securityGroup.description"
+        ></cs-parameters-pair>
+        <cs-parameters-pair
+          [name]="'SECURITY_GROUP_PAGE.DETAILS.TYPE'"
+          [value]="securityGroup.type"
+        ></cs-parameters-pair>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

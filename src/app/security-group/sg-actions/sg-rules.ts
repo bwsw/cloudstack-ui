@@ -10,8 +10,8 @@ import { SecurityGroupService } from '../services/security-group.service';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class SecurityGroupViewAction extends SecurityGroupAction {
-  public name = 'COMMON.VIEW';
+export class SecurityGroupRulesAction extends SecurityGroupAction {
+  public name = 'SECURITY_GROUP_PAGE.ACTION.RULES';
   public icon = 'visibility';
 
 
@@ -34,7 +34,7 @@ export class SecurityGroupViewAction extends SecurityGroupAction {
 
   public activate(securityGroup: SecurityGroup): Observable<any> {
     this.router.navigate(
-      [`security-group/${securityGroup.id}`],
+      [`security-group/${securityGroup.id}/rules`],
       { queryParamsHandling: 'preserve' }
     );
 

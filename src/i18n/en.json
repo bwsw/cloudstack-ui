@@ -642,6 +642,18 @@
     }
   },
   "SECURITY_GROUP_PAGE": {
+    "DETAILS": {
+      "TITLE": "Details",
+      "ID": "Id",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "TYPE": "Type",
+      "VM_LIST": "VMs using the group",
+      "EMPTY_VM_LIST": "No virtual machines"
+    },
+    "ACTION" : {
+      "RULES": "Rules"
+    },
     "FILTERS": {
       "TEMPLATES": "Firewall Templates",
       "SHARED": "Shared Security Groups",

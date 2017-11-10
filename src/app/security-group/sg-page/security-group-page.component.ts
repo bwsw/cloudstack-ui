@@ -1,14 +1,22 @@
-import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  Input
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SecurityGroup, } from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
+import { ListService } from '../../shared/components/list/list.service';
 
 
 @Component({
   selector: 'cs-security-group-page',
   templateUrl: 'security-group-page.component.html',
   styleUrls: ['security-group-page.component.scss'],
+  providers: [ListService]
 })
 export class SecurityGroupPageComponent {
   @Input() public securityGroups: Array<SecurityGroup>;
@@ -19,10 +27,9 @@ export class SecurityGroupPageComponent {
   public mode: ViewMode;
   public viewModeKey = 'sgPageViewMode';
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
+              public listService: ListService) {
   }
 
   public changeMode(mode) {
@@ -35,4 +42,9 @@ export class SecurityGroupPageComponent {
       relativeTo: this.activatedRoute
     });
   }
+
+  public isSelected() {
+    return this.router.url.includes('details');
+  }
+
 }

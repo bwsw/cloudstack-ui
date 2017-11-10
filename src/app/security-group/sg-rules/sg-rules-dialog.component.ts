@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SecurityGroupService } from '../services/security-group.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogConfig
+} from '@angular/material';
 import { SgRulesContainerComponent } from '../containers/sg-rules.container';
 
 @Component({
@@ -16,7 +22,7 @@ export class SecurityGroupRulesDialogComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    const params = this.activatedRoute.snapshot.params;
+    const params = this.activatedRoute.snapshot.parent.params;
     this.showDialog(params['id']);
   }
 
@@ -35,7 +41,7 @@ export class SecurityGroupRulesDialogComponent {
 
     this.dialog.afterAllClosed.subscribe(() => {
       this.router.navigate(
-        ['../'],
+        ['../../'],
         { queryParamsHandling: 'preserve', relativeTo: this.route }
       );
     });
