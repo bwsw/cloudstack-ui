@@ -4,13 +4,11 @@
 >
   <ng-container cs-panels>
     <cs-top-bar>
-      <cs-volume-filter *ngIf="zones && accounts"
-        [zones]="zones"
+      <cs-volume-filter-container
         [groupings]="groupings"
-        [accounts]="accounts"
-        (updateFilters)="updateFiltersAndFilter($event)"
+        [selectedGroupings]="selectedGroupings"
         cs-list
-      ></cs-volume-filter>
+      ></cs-volume-filter-container>
     </cs-top-bar>
   </ng-container>
 
@@ -22,10 +20,9 @@
         [key]="viewModeKey">
       </cs-view-mode-switch>
     </div>
-
     <cs-volume-list
-      *loading="!volumes"
-      [volumes]="visibleVolumes"
+      *loading="isLoading"
+      [volumes]="volumes"
       [groupings]="selectedGroupings"
       [query]="query"
       [mode]="mode"

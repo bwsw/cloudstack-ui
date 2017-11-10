@@ -6,6 +6,8 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { IsoService } from '../shared';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { State } from '../../reducers/index';
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -21,7 +23,8 @@ export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
     route: ActivatedRoute,
     router: Router,
     listService: ListService,
-    notificationService: NotificationService
+    notificationService: NotificationService,
+    store: Store<State>
   ) {
     super(
       service,
@@ -30,7 +33,8 @@ export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
       route,
       router,
       listService,
-      notificationService
+      notificationService,
+      store
     );
   }
 }

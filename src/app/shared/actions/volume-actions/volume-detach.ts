@@ -2,43 +2,22 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../models/volume.model';
 import { VolumeAction } from './volume-action';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 
 @Injectable()
-export class VolumeDetachAction extends VolumeAction {
+export class VolumeDetachAction implements VolumeAction {
   public name = 'VOLUME_ACTIONS.DETACH';
+  public command = 'detach';
   public icon = 'remove';
+
+  constructor (public dialogService: DialogService) { }
 
   public activate(volume: Volume): Observable<any> {
     return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DETACHMENT' })
       .onErrorResumeNext()
-      .switchMap(res => {
-        if (res) {
-          return this.onConfirm(volume);
-        } else {
-          return Observable.of(null);
-        }
-      });
-  }
-
-  public onConfirm(volume: Volume): Observable<any> {
-    const id = this.jobsNotificationService.add({
-      message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS'
-    });
-
-    return this.volumeService.detach(volume)
-      .do(() => this.jobsNotificationService.finish({
-        id,
-        message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-      }))
-      .catch(error => {
-        this.dialogService.alert(error);
-        this.jobsNotificationService.fail({
-
-          message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
-        });
-        return Observable.throw(error);
-      });
+      .filter(res => Boolean(res))
+      .map(res => volume);
   }
 
   public hidden(volume: Volume): boolean {

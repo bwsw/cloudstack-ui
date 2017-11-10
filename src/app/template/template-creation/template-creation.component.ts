@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
@@ -6,14 +6,12 @@ import { Hypervisor, OsType, Zone } from '../../shared';
 import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
 import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
 import { Snapshot } from '../../shared/models/snapshot.model';
-import { OsTypeService } from '../../shared/services/os-type.service';
-import { ZoneService } from '../../shared/services/zone.service';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 interface TemplateFormat {
   name: string;
-  hypervisors: string;
+  hypervisors: string[];
 }
 
 @Component({
@@ -22,7 +20,12 @@ interface TemplateFormat {
   styleUrls: ['template-creation.component.scss']
 })
 export class TemplateCreationComponent implements OnInit {
-  public mode: string;
+  @Input() public mode: string;
+  @Input() public osTypes: Array<OsType>;
+  @Input() public zones: Array<Zone>;
+
+  @Output() public onCreateTemplate = new EventEmitter<any>();
+
   public snapshot?: Snapshot;
   public name: string;
   public displayText: string;
@@ -41,60 +44,38 @@ export class TemplateCreationComponent implements OnInit {
   public passwordEnabled: boolean;
   public dynamicallyScalable: boolean;
 
-  public osTypes: Array<OsType>;
-  public zones: Array<Zone>;
+
   public hypervisors: Array<Hypervisor>;
 
   public formats: TemplateFormat[] = [
-    { name: 'VHD', hypervisors: 'XenServer,Hyperv,KVM' },
-    { name: 'OVA', hypervisors: 'VMware' },
-    { name: 'QCOW2', hypervisors: 'KVM' },
-    { name: 'RAW', hypervisors: 'KVM,Ovm' },
-    { name: 'VMDK', hypervisors: 'KVM' },
-    { name: 'BareMetal', hypervisors: 'BareMetal' },
-    { name: 'TAR', hypervisors: 'LXC' },
-    { name: 'VHDX', hypervisors: 'Hyperv' }
+    { name: 'VHD', hypervisors: ['XenServer', 'Hyperv', 'KVM'] },
+    { name: 'OVA', hypervisors: ['VMware'] },
+    { name: 'QCOW2', hypervisors: ['KVM'] },
+    { name: 'RAW', hypervisors: ['KVM', 'Ovm'] },
+    { name: 'VMDK', hypervisors: ['KVM'] },
+    { name: 'BareMetal', hypervisors: ['BareMetal'] },
+    { name: 'TAR', hypervisors: ['LXC'] },
+    { name: 'VHDX', hypervisors: ['Hyperv'] }
   ];
   public visibleFormats: TemplateFormat[];
 
   public loading: boolean;
-  public showAdditional: boolean = false;
+  public showAdditional = false;
 
   constructor(
     private dialogRef: MatDialogRef<TemplateCreationComponent>,
-    private osTypeService: OsTypeService,
     private isoCreationAction: IsoCreateAction,
     private templateCreationAction: TemplateCreateAction,
-    private zoneService: ZoneService,
     private hypervisorService: HypervisorService,
     private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
-    this.mode = data.mode;
     this.snapshot = data.snapshot;
     this.visibleFormats = this.formats;
   }
 
   public ngOnInit(): void {
     this.passwordEnabled = this.dynamicallyScalable = false;
-
-    this.osTypes = [];
-    this.osTypeService
-      .getList()
-      .subscribe(osTypes => {
-        this.osTypes = osTypes;
-        this.osTypeId = this.osTypes[0].id;
-      });
-
-    if (!this.snapshot) {
-      this.zones = [];
-      this.zoneService
-        .getList()
-        .subscribe(zones => {
-          this.zones = zones;
-          this.zoneId = this.zones[0].id;
-        });
-    }
     this.getHypervisors();
   }
 
@@ -109,7 +90,9 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public filterFormats(formats: TemplateFormat[], hypervisor: string) {
-    return hypervisor ? formats.filter(f => f.hypervisors.includes(hypervisor)): formats;
+    return hypervisor
+      ? formats.filter(f => f.hypervisors.find(h => h === hypervisor))
+      : formats;
   }
 
   public get modeTranslationToken(): string {
@@ -161,13 +144,17 @@ export class TemplateCreationComponent implements OnInit {
     this.getCreationAction(params)
       .finally(() => this.loading = false)
       .subscribe(
-        template => this.dialogRef.close(template),
-        () => {}
+        template => {
+          this.onCreateTemplate.emit(template);
+          this.dialogRef.close(template);
+        },
+        () => {
+        }
       );
   }
 
-  public isAdmin() {
-    return this.authService.isAdmin;
+  public isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
   private getCreationAction(params: any): Observable<void> {
