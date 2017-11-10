@@ -137,7 +137,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public templateChange(value: BaseTemplateModel) {
-    this.formState.state.template = value;
+    this.formState.state.template = value['template'];
+    if (value['agreement']) {
+      this.formState.state.agreement = true;
+    }
     this.updateFormState();
   }
 

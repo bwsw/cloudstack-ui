@@ -42,17 +42,15 @@ export class VmCreationTemplateComponent {
 
   public onClick(): void {
     this.showTemplateSelectionDialog()
-      .subscribe(template => {
-
-        if (template) {
-          this.template = template;
-          this.change.next(this.template);
+      .subscribe(result => {
+        if (result) {
+          this.template = result['template'];
+          this.change.next(result);
         }
       });
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   @Input()
   public get template(): BaseTemplateModel {
@@ -74,8 +72,7 @@ export class VmCreationTemplateComponent {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
     return this.dialog.open(VmTemplateDialogComponent, {

@@ -19,6 +19,7 @@ import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 export enum VmDeploymentStage {
   STARTED = 'STARTED',
@@ -55,7 +56,8 @@ export class VmDeploymentService {
     private tagService: TagService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmService: VmService,
-    private userTagService: UserTagService
+    private userTagService: UserTagService,
+    private vmTagService: VmTagService
   ) {}
 
   public deploy(state: VmCreationState): VmDeployObservables {
@@ -161,6 +163,13 @@ export class VmDeploymentService {
       })
       .switchMap(() => {
         return this.userTagService.getSavePasswordForAllVms();
+      })
+      .switchMap(() => {
+        if (state.agreement) {
+          return this.vmTagService.setAgreement(vm)
+        } else {
+          return Observable.of(null);
+        }
       })
       .switchMap((tag) => {
         if (tag) {

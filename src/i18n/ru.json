@@ -30,7 +30,8 @@
     "VIEW": "Просмотреть",
     "YES": "Да",
     "SEARCH": "Поиск",
-    "CONTINUE": "Продолжить"
+    "CONTINUE": "Продолжить",
+    "AGREE": "Я согласен"
   },
   "DIALOG_MESSAGES": {
     "ACCOUNT": {

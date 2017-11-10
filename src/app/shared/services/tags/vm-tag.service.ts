@@ -64,6 +64,20 @@ export class VmTagService implements EntityTagService {
     );
   }
 
+  public getAgreement(vm: VirtualMachine): Observable<boolean> {
+    return this.tagService.getTag(vm, this.keys.agreement)
+      .map(tag => this.tagService.getValueFromTag(tag));
+  }
+
+  public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {
+    return this.tagService.update(
+      vm,
+      vm.resourceType,
+      this.keys.agreement,
+      true
+    );
+  }
+
   private getColorFromColorTag(colorTag: Tag): Color {
     if (colorTag) {
       const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);

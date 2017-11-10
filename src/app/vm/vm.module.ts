@@ -94,6 +94,8 @@ import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-compone
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
 import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
+import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -124,7 +126,8 @@ import { VmTemplateDialogContainerComponent } from './vm-creation/template/conta
     TagsModule,
     TemplateModule,
     TranslateModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    HttpModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,
@@ -147,6 +150,7 @@ import { VmTemplateDialogContainerComponent } from './vm-creation/template/conta
     VmColorComponent,
     VmCreationComponent,
     VmCreationDialogComponent,
+    VmCreationAgreementComponent,
     VmListCardItemComponent,
     VmListRowItemComponent,
     VmDetailComponent,
@@ -192,6 +196,7 @@ import { VmTemplateDialogContainerComponent } from './vm-creation/template/conta
     VmCreationComponent,
     VmDestroyDialogComponent,
     VmTemplateDialogComponent,
+    VmCreationAgreementComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
     VolumeAttachmentDialogComponent,

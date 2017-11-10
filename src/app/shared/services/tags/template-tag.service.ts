@@ -51,4 +51,18 @@ export class TemplateTagService implements EntityTagService {
       'tags[0].key': tag.key
     });
   }
+
+  public getAgreement(template: BaseTemplateModel): Observable<string> {
+    return this.tagService.getTag(template, this.keys.agreement)
+      .map(tag => this.tagService.getValueFromTag(tag));
+  }
+
+  public setAgreement(template: BaseTemplateModel, filePath: string): Observable<BaseTemplateModel> {
+    return this.tagService.update(
+      template,
+      template.resourceType,
+      this.keys.agreement,
+      filePath
+    );
+  }
 }

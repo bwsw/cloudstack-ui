@@ -1,9 +1,14 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
+
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../shared/services/auth.service';
+import { VmCreationAgreementComponent } from './agreement/vm-creation-agreement.component';
+import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
+
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
@@ -12,6 +17,20 @@ import { AuthService } from '../../../shared/services/auth.service';
 export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
   @Input() public zoneId: string;
+
+  constructor(
+    translate: TranslateService,
+    authService: AuthService,
+    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
+    private dialog: MatDialog,
+    private templateTagService: TemplateTagService,
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
+    super(translate, authService);
+
+    this.zoneId = data.zoneId;
+    this.preselectedTemplate = data.template;
+  }
 
   @Input()
   public set preselectedTemplate(value: BaseTemplateModel) {
@@ -28,23 +47,34 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
     this._selectedTemplate = template;
   }
 
-  constructor(
-    translate: TranslateService,
-    authService: AuthService,
-    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
-  ) {
-    super(translate, authService);
+  public onOk(): void {
+    const dialogData = { template: this.selectedTemplate, agreement: false };
 
-    this.zoneId = data.zoneId;
-    this.preselectedTemplate = data.template;
-  }
-
-  public onOk(template): void {
-    this.dialogRef.close(template);
+    this.templateTagService.getAgreement(this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate)
+      .subscribe(res => {
+        if (res) {
+          this.showTemplateAgreementDialog()
+            .subscribe(item => {
+              if (item) {
+                dialogData.agreement = item;
+                this.dialogRef.close(dialogData);
+              }
+            });
+        } else {
+          this.dialogRef.close(dialogData);
+        }
+      });
   }
 
   public onCancel(): void {
     this.dialogRef.close(this.preselectedTemplate);
+  }
+
+  private showTemplateAgreementDialog(): Observable<any> {
+    return this.dialog.open(VmCreationAgreementComponent, {
+      width: '900px',
+      data: this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate
+    })
+      .afterClosed();
   }
 }
