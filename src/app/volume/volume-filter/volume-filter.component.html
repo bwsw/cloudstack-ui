@@ -1,7 +1,7 @@
 <div class="options-panel filter-wrapper">
   <mat-checkbox
     name="volumeOnly"
-    [(ngModel)]="spareOnly"
+    [ngModel]="spareOnly"
     (change)="onSpareOnlyChange.emit(spareOnly)"
   >
     {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
@@ -10,7 +10,7 @@
     <mat-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]="selectedAccountIds" (change)="onAccountChange.emit($event.value)"
+      [ngModel]="selectedAccountIds" (change)="onAccountsChange.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -25,7 +25,7 @@
     <mat-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
-      [(ngModel)]="selectedZoneIds"
+      [ngModel]="selectedZoneIds"
       (change)="onZonesChange.emit($event.value)"
     >
       <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
@@ -35,7 +35,7 @@
     <mat-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
-      [(ngModel)]="selectedTypes"
+      [ngModel]="selectedTypes"
       (change)="onTypesChange.emit($event.value)"
     >
       <mat-option *ngFor="let t of types" [value]="t">
@@ -48,7 +48,7 @@
     <cs-draggable-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupings"
+      [ngModel]="selectedGroupings"
       [dragItems]="groupings"
       (change)="onGroupingsChange.emit($event.value)"
     >
