@@ -1,7 +1,7 @@
 <div class="options-panel filter-wrapper">
   <mat-checkbox
     name="volumeOnly"
-    [ngModel]="spareOnly"
+    [(ngModel)]="spareOnly"
     (change)="onSpareOnlyChange.emit(spareOnly)"
   >
     {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
@@ -10,7 +10,8 @@
     <mat-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [ngModel]="selectedAccountIds" (change)="onAccountsChange.emit($event.value)"
+      [ngModel]="selectedAccountIds"
+      (change)="onAccountsChange.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"
