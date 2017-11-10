@@ -15,12 +15,7 @@ import {
 @Component({
   selector: 'cs-security-group-rule',
   templateUrl: 'sg-rule.component.html',
-  styles: [
-      `:host {
-      display: table;
-      width: 100%;
-    }`
-  ],
+  styleUrls: ['sg-rule.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SgRuleComponent {
