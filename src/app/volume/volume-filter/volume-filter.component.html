@@ -1,16 +1,16 @@
-<div class="filter-wrapper">
+<div class="options-panel filter-wrapper">
   <mat-checkbox
     name="volumeOnly"
     [(ngModel)]="spareOnly"
-    (change)="update()"
+    (change)="onSpareOnlyChange.emit(spareOnly)"
   >
     {{ 'VOLUME_PAGE.FILTERS.SPARE_DRIVES_ONLY' | translate }}
   </mat-checkbox>
-  <mat-form-field *ngIf="accounts.length">
+  <mat-form-field *ngIf="showAccountFilter()">
     <mat-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]="selectedAccountIds" (change)="update()"
+      [(ngModel)]="selectedAccountIds" (change)="onAccountChange.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -25,10 +25,10 @@
     <mat-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
-      [(ngModel)]="selectedZones"
-      (change)="update()"
+      [(ngModel)]="selectedZoneIds"
+      (change)="onZonesChange.emit($event.value)"
     >
-      <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
+      <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
@@ -36,20 +36,21 @@
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
       [(ngModel)]="selectedTypes"
-      (change)="update()"
+      (change)="onTypesChange.emit($event.value)"
     >
       <mat-option *ngFor="let t of types" [value]="t">
         {{ getVolumeTypeName(t) | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <cs-divider-vertical></cs-divider-vertical>
   <mat-form-field *ngIf="zones">
     <cs-draggable-select
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupingNames"
+      [(ngModel)]="selectedGroupings"
       [dragItems]="groupings"
-      (change)="update()"
+      (change)="onGroupingsChange.emit($event.value)"
     >
       <mat-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}
@@ -57,9 +58,10 @@
     </cs-draggable-select>
   </mat-form-field>
 </div>
+
 <div class="filter-wrapper">
   <cs-search
-    [(ngModel)]="query"
-    (ngModelChange)="update()"
+    [ngModel]="query"
+    (ngModelChange)="onQueryChange.emit($event)"
   ></cs-search>
 </div>

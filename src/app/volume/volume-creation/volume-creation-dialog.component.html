@@ -1,30 +1,31 @@
-<cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<div [hidden]="loading">
+<cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
+<div [hidden]="isLoading">
   <h3 class="mat-dialog-title">{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate
     }}</h3>
-  <form (ngSubmit)="onCreate()" #volumeCreationForm="ngForm" novalidate>
+  <form (ngSubmit)="onSubmit($event)" #volumeCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
       <mat-form-field class="full-width-input">
         <input
           matInput
           name="name"
-          [(ngModel)]="name"
+          [(ngModel)]="newVolume.name"
           [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.NAME' | translate"
           maxlength="255"
           autofocus
           required
         >
         <mat-hint align="end">
-          <cs-character-count [value]="name" [maxLength]="255"></cs-character-count>
+          <cs-character-count [value]="newVolume.name" [maxLength]="255"></cs-character-count>
         </mat-hint>
       </mat-form-field>
       <div>
         <h5>{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
         <mat-form-field class="full-width-input">
           <mat-select
-            [(ngModel)]="zoneId"
+            [(ngModel)]="newVolume.zoneId"
             id="zone"
             name="zone"
+            (change)="updateZone($event.value)"
           >
             <mat-option
               *ngFor="let z of zones"
@@ -51,7 +52,7 @@
           [label]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
           [units]="'UNITS.GB' | translate"
           name="diskSize"
-          [(ngModel)]="size"
+          [(ngModel)]="newVolume.size"
         ></cs-slider>
       </div>
     </div>

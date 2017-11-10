@@ -8,15 +8,15 @@
   </mat-card-header>
   <mat-card-content>
     <div class="grid grid-right">
-      <div class="row" *ngIf="volume.size">
+      <div class="row" *ngIf="volume">
         <div>{{ 'VOLUME_PAGE.DETAILS.SIZE' | translate }}</div>
         <div>{{ (volume.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</div>
       </div>
-      <div class="row" *ngIf="volume.created">
+      <div class="row" *ngIf="volume">
         <div>{{ 'VOLUME_PAGE.DETAILS.CREATED' | translate }}</div>
         <div>{{ volume.created | stringifyDate }}</div>
       </div>
-      <div class="row" *ngIf="volume.storageType">
+      <div class="row" *ngIf="volume">
         <div>{{ 'VOLUME_PAGE.DETAILS.STORAGE_TYPE' | translate }}</div>
         <div>{{ diskOfferingStorageType | translate }}</div>
       </div>

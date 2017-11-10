@@ -45,34 +45,38 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
+    let newEntity = Object.assign({}, entity);
+
     const createObs = this.create({
-      resourceIds: entity.id,
+      resourceIds: newEntity.id,
       resourceType: entityName,
       'tags[0].key': key,
       'tags[0].value': value,
     })
       .map(() => {
-        if (entity.tags) {
-          entity.tags.push(new Tag({
-            resourceId: entity.id,
+        if (newEntity.tags) {
+          let newTags = Object.assign([], newEntity.tags);
+          newTags.push(new Tag({
+            resourceId: newEntity.id,
             resourceType: entityName,
             key,
             value
           }));
+          return Object.assign({}, newEntity, { tags: newTags });
         }
-        return entity;
+        return newEntity;
       })
       .do(() => this.invalidateCache());
 
-    return this.getTag(entity, key)
+    return this.getTag(newEntity, key)
       .switchMap(tag => {
         return this.remove({
-          resourceIds: entity.id,
+          resourceIds: newEntity.id,
           resourceType: entityName,
           'tags[0].key': key,
           'tags[0].value': tag.value || ''
         })
-          .map(() => entity.tags = entity.tags.filter(t => tag.key !== t.key))
+          .map(() => newEntity.tags = newEntity.tags.filter(t => tag.key !== t.key))
           .switchMap(() => createObs);
       })
       .catch(() => createObs);
