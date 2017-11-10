@@ -43,8 +43,8 @@
       <mat-select
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
-        [(ngModel)]="selectedFilters"
-        (selectionChange)="selectedTypesChange.emit(selectedFilters)"
+        [(ngModel)]="selectedTypes"
+        (selectionChange)="selectedTypesChange.emit(selectedTypes)"
       >
         <mat-option
           *ngFor="let f of categoryFilters"
@@ -63,6 +63,24 @@
         (selectionChange)="selectedZonesChange.emit(selectedZones)"
       >
         <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select
+        multiple="true"
+        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_GROUPS' | translate"
+        [(ngModel)]="selectedGroups"
+        (change)="selectedGroupsChange.emit(selectedGroups)"
+      >
+        <mat-option [value]="'general'">{{ 'TEMPLATE_PAGE.FILTERS.GENERAL' | translate }}
+        </mat-option>
+
+        <mat-option
+          *ngFor="let g of groups"
+          [value]="g.id"
+        >
+          {{ g.translations[lang] }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
     <cs-divider-vertical></cs-divider-vertical>
@@ -98,7 +116,7 @@
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
-  <!--<mat-form-field>
+  <mat-form-field>
     <mat-select
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
@@ -128,13 +146,30 @@
         {{ filterTranslations[f] | translate }}
       </mat-option>
     </mat-select>
-  </mat-form-field>-->
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_GROUPS' | translate"
+      [(ngModel)]="selectedGroups"
+      (change)="selectedGroupsChange.emit(selectedGroups)"
+    >
+      <mat-option [value]="'general'">{{ 'TEMPLATE_PAGE.FILTERS.GENERAL' | translate }}
+      </mat-option>
 
+      <mat-option
+        *ngFor="let g of groups"
+        [value]="g.id"
+      >
+        {{ g.translations[lang] }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 
-<!--<div class="filter-wrapper">
+<div class="filter-wrapper">
   <cs-search
     [(ngModel)]="query"
     (ngModelChange)="queryChange.emit(query)"
   ></cs-search>
-</div>-->
+</div>

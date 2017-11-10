@@ -582,6 +582,7 @@
       "SELECT_OS_FAMILIES": "Выберите ОС",
       "SELECT_TYPES": "Выберите типы",
       "SELECT_ZONES": "Выберите зоны",
+      "SELECT_GROUPS": "Выберите группы",
       "GROUP_BY": "Группировать по",
       "GROUP_BY_ZONES": "Зонам",
       "GROUP_BY_ACCOUNTS": "Аккаунтам",
@@ -589,7 +590,8 @@
       "FEATURED": "Рекомендованные",
       "SELF": "Мои",
       "SELFEXECUTABLE": "Мои",
-      "ALL": "Все"
+      "ALL": "Все",
+      "GENERAL": "Общие"
     },
     "CARD": {
       "OS": "ОС"
@@ -597,7 +599,15 @@
     "SIDEBAR": {
       "TEMPLATE": "Шаблон",
       "ZONES": "Зоны",
-      "TAGS": "Теги"
+      "TAGS": "Теги",
+      "TEMPLATE_GROUP": {
+        "NAME": "Группа",
+        "NO_GROUP": "Без группы",
+        "CHANGE_TEMPLATE_GROUP": "Изменение группы",
+        "CHOOSE_EXISTING_GROUP": "Выбрать существующую",
+        "CHOOSE_GROUP": "Выберите группу",
+        "REMOVE_FROM_GROUP": "Удалить из группы \"{{ value }}\""
+      }
     },
     "TEMPLATE_DETAILS": {
       "OS": "ОС",
@@ -939,8 +949,8 @@
       "GROUP_BY_ACCOUNTS": "Аккаунтам"
     }
   },
-  "ACCOUNT_PAGE" : {
-    "CREATION" : {
+  "ACCOUNT_PAGE": {
+    "CREATION": {
       "CREATE_ACCOUNT": "Новый аккаунт",
       "USER_NAME": "Имя аккаунта",
       "EMAIL": "Email",
@@ -952,7 +962,7 @@
       "ACCOUNT": "Родительский аккаунт",
       "NETWORK_DOMAIN": "Сетевой домен"
     },
-    "FILTERS" : {
+    "FILTERS": {
       "SELECT_DOMAINS": "Выберите домены",
       "SELECT_ROLES": "Выберите роли",
       "SELECT_ROLE_TYPES": "Выберите типы ролей",

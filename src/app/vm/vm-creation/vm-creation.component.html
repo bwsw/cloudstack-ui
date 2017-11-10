@@ -61,7 +61,10 @@
                 {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
               </mat-error>
               <mat-hint align="end">
-                <cs-character-count [value]="formState.state.displayName" [maxLength]="maxEntityNameLength"></cs-character-count>
+                <cs-character-count
+                  [value]="formState.state.displayName"
+                  [maxLength]="maxEntityNameLength"
+                ></cs-character-count>
               </mat-hint>
             </mat-form-field>
           </div>
@@ -145,14 +148,14 @@
               >
             </mat-form-field>
             <!--<mat-form-field>-->
-              <mat-autocomplete #instanceGroups>
-                <mat-option
-                  *ngFor="let group of visibleInstanceGroups"
-                  [value]="group.name"
-                >
-                  {{ group.name }}
-                </mat-option>
-              </mat-autocomplete>
+            <mat-autocomplete #instanceGroups>
+              <mat-option
+                *ngFor="let group of visibleInstanceGroups"
+                [value]="group.name"
+              >
+                {{ group.name }}
+              </mat-option>
+            </mat-autocomplete>
             <!--</mat-form-field>-->
           </div>
 
@@ -170,7 +173,10 @@
                 (ngModelChange)="affinityGroupChange($event)"
               >
               <mat-hint align="end">
-                <cs-character-count [value]="formState.state.affinityGroup.name" [maxLength]="maxEntityNameLength"></cs-character-count>
+                <cs-character-count
+                  [value]="formState.state.affinityGroup.name"
+                  [maxLength]="maxEntityNameLength"
+                ></cs-character-count>
               </mat-hint>
             </mat-form-field>
             <mat-autocomplete #affinityGroups>

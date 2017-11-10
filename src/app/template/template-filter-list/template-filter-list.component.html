@@ -1,27 +1,7 @@
 <ng-container cs-panels>
   <cs-top-bar>
-    <cs-template-filters
-      class="options"
-      [showIso]="viewMode === 'Iso'"
+    <cs-template-filter-container
       [availableGroupings]="groupings"
-      [zones]="zones"
-      [accounts]="accounts"
-      [domains]="domains"
-
-      [selectedAccountIds]="selectedAccountIds"
-      [selectedGroupings]="selectedGroupings"
-      [selectedZones]="selectedZones"
-      [selectedFilters]="selectedTypes"
-      [selectedOsFamilies]="selectedOsFamilies"
-      [query]="query"
-
-      (queryChange)="onQueryChange.emit($event)"
-      (selectedAccountsChange)="onSelectedAccountsChange.emit($event)"
-      (selectedGroupingsChange)="onSelectedGroupingsChange.emit($event)"
-      (selectedTypesChange)="onSelectedTypesChange.emit($event)"
-      (selectedZonesChange)="onSelectedZonesChange.emit($event)"
-      (selectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
-      (displayMode)="viewModeChange.emit($event)"
-    ></cs-template-filters>
+    ></cs-template-filter-container>
   </cs-top-bar>
 </ng-container>

@@ -1,11 +1,16 @@
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
+import { State } from '../../reducers/index';
+import { templateGroupings } from './template-page.container';
+import { TemplateGroup } from '../../shared/models/template-group.model';
+import { TemplateGroupService } from '../../shared/services/template-group.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 import * as fromTemplates from '../redux/template.reducers';
 import * as templateActions from '../redux/template.actions';
@@ -17,8 +22,6 @@ import * as accountsActions from '../../reducers/accounts/redux/accounts.actions
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
-import { State } from '../../reducers/index';
-import { templateGroupings } from './template-page.container';
 
 
 @Component({
@@ -38,7 +41,14 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
   readonly selectedTypes$ = this.store.select(fromTemplates.filterSelectedTypes);
   readonly selectedZones$ = this.store.select(fromTemplates.filterSelectedZones);
   readonly selectedViewMode$ = this.store.select(fromTemplates.filterSelectedViewMode);
+  readonly selectedGroups$ = this.store.select(fromTemplates.filterSelectedGroups);
   readonly selectedGroupings$ = this.store.select(fromTemplates.filterSelectedGroupings);
+
+  @Input() public availableGroupings = [];
+  @Input() public dialogMode = false;
+  @Input() public showIsoSwitch = true;
+  @Input() public zoneId: string;
+  @Input() public viewMode: string;
 
   public osFamilies: Array<OsFamily> = [
     OsFamily.Linux,
@@ -52,6 +62,8 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     TemplateFilters.self
   ];
 
+  public groups: Array<TemplateGroup>;
+
   private filterService = new FilterService(
     {
       'viewMode': { type: 'string', defaultOption: 'Template' },
@@ -59,6 +71,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
       'osFamilies': { type: 'array', options: this.osFamilies, defaultOption: [] },
       'types': { type: 'array', options: this.categoryFilters, defaultOption: [] },
       'zones': { type: 'array', defaultOption: [] },
+      'groups': { type: 'array', defaultOption: [] },
       'groupings': { type: 'array', defaultOption: [] },
       'query': { type: 'string' }
     },
@@ -72,7 +85,9 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     private store: Store<State>,
     private router: Router,
     private sessionStorage: SessionStorageService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private templateGroupService: TemplateGroupService,
+    private auth: AuthService
   ) {
     super();
   }
@@ -82,6 +97,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
     this.store.dispatch(new accountsActions.LoadAccountsRequest());
     this.store.dispatch(new domainActions.LoadDomainsRequest());
+    this.loadGroups();
     this.initFilters();
   }
 
@@ -113,22 +129,28 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedViewMode }));
   }
 
+  public onGroupsChange(selectedGroups) {
+    this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedGroups }));
+  }
+
   public update(
     selectedViewMode,
-    selectedAccountIds,
     selectedOsFamilies,
     selectedTypes,
     selectedZones,
     selectedGroupings,
+    selectedGroups,
+    selectedAccountIds,
     query
   ) {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({
       selectedViewMode,
-      selectedAccountIds,
       selectedOsFamilies,
       selectedTypes,
       selectedZones,
       selectedGroupings,
+      selectedGroups,
+      selectedAccountIds,
       query
     }));
   }
@@ -143,35 +165,45 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
       return acc;
     }, []);
 
-    const selectedViewMode = params['viewMode'];
-    const selectedAccounts = params['accounts'];
     const selectedOsFamilies = params['osFamilies'];
     const selectedTypes = params['types'];
-    const selectedZones = params['zones'];
+    const selectedGroups = params['groups'];
     const query = params['query'];
+
+    const selectedViewMode = !this.dialogMode ? params['viewMode'] : this.viewMode.toLowerCase();
+    const selectedAccounts = !this.dialogMode ? params['accounts'] : [];
+    const selectedZones = !this.dialogMode ? params['zones'] : [this.zoneId];
 
     this.update(
       selectedViewMode,
-      selectedAccounts,
       selectedOsFamilies,
       selectedTypes,
       selectedZones,
       selectedGroupings,
+      selectedGroups,
+      selectedAccounts,
       query
     );
 
     this.filters$
       .takeUntil(this.unsubscribe$)
       .subscribe(filters => {
-        this.filterService.update({
-          'viewMode': filters.selectedViewMode,
-          'accounts': filters.selectedAccountIds,
-          'osFamilies': filters.selectedOsFamilies,
-          'types': filters.selectedTypes,
-          'zones': filters.selectedZones,
-          'groupings': filters.selectedGroupings.map(_ => _.key),
-          'query': filters.query,
-        });
+        if (!this.dialogMode) {
+          this.filterService.update({
+            'viewMode': filters.selectedViewMode,
+            'accounts': filters.selectedAccountIds,
+            'osFamilies': filters.selectedOsFamilies,
+            'types': filters.selectedTypes,
+            'zones': filters.selectedZones,
+            'groups': filters.selectedGroups,
+            'groupings': filters.selectedGroupings.map(_ => _.key),
+            'query': filters.query,
+          });
+        }
       });
+  }
+
+  private loadGroups(): void {
+    this.groups = this.templateGroupService.getList();
   }
 }

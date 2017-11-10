@@ -1,8 +1,13 @@
-<cs-template-filter-list
+<cs-template-filters
+  [dialogMode]="dialogMode"
+  [showIsoSwitch]="showIsoSwitch"
+
   [accounts]="accounts$ | async"
   [domains]="domains$ | async"
   [osTypes]="osTypes$ | async"
   [zones]="zones$ | async"
+  [groups]="groups"
+  [availableGroupings]="availableGroupings"
   [query]="query$ | async"
 
   [selectedAccountIds]="selectedAccountIds$ | async"
@@ -10,12 +15,16 @@
   [selectedZones]="selectedZones$ | async"
   [selectedTypes]="selectedTypes$ | async"
   [selectedOsFamilies]="selectedOsFamilies$ | async"
+  [selectedGroups]="selectedGroups$ | async"
 
   (viewModeChange)="onViewModeChange($event)"
-  (onSelectedAccountsChange)="onAccountsChange($event)"
-  (onSelectedGroupingsChange)="onGroupingsChange($event)"
-  (onSelectedTypesChange)="onTypesChange($event)"
-  (onSelectedZonesChange)="onZonesChange($event)"
-  (onSelectedOsFamiliesChange)="onOsFamiliesChange($event)"
-  (onQueryChange)="onQueryChange($event)"
-></cs-template-filter-list>
+  (selectedAccountsChange)="onAccountsChange($event)"
+  (selectedGroupingsChange)="onGroupingsChange($event)"
+  (selectedTypesChange)="onTypesChange($event)"
+  (selectedZonesChange)="onZonesChange($event)"
+  (selectedGroupsChange)="onGroupsChange($event)"
+  (selectedOsFamiliesChange)="onOsFamiliesChange($event)"
+  (queryChange)="onQueryChange($event)"
+></cs-template-filters>
+
+

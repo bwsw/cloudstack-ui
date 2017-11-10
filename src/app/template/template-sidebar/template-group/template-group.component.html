@@ -1,0 +1,27 @@
+<mat-card class="vm-card">
+  <mat-card-header>
+    <h2 class="mat-card-title-text">
+      {{ 'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.NAME' | translate }}
+    </h2>
+  </mat-card-header>
+  <mat-card-content class="overflow-card mat-card-content-with-actions">
+    <div class="mat-card-content-container">
+      <div *ngIf="groupName && !isInDefaultGroup">
+        {{ template.templateGroup.id }}
+      </div>
+      <div *ngIf="!groupName || isInDefaultGroup">
+        {{ 'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.NO_GROUP' | translate }}
+      </div>
+    </div>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        [matTooltip]="'COMMON.EDIT' | translate"
+        matTooltipPosition="above"
+        (click)="changeGroup()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

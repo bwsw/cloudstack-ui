@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
-import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from './base-template.model';
 import { Utils } from '../../shared/services/utils/utils.service';
@@ -74,7 +73,6 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   constructor(
     protected asyncJobService: AsyncJobService,
-    protected osTypeService: OsTypeService,
     protected templateTagService: TemplateTagService,
     protected http: HttpClient
   ) {

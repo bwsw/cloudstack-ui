@@ -50,7 +50,6 @@ import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component'
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
-import { TemplateComponent } from './template/template.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 import { StoreModule } from '@ngrx/store';
@@ -71,6 +70,9 @@ import { TemplateFilterContainerComponent } from './containers/template-filter.c
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 import { TemplateOsIconContainerComponent } from './template-sidebar/template-os-icon/template-os-icon.container';
+import { TemplateGroupService } from '../shared/services/template-group.service';
+import { TemplateGroupSelectorComponent } from './template-sidebar/template-group/template-group-selector/template-group-selector.component';
+import { TemplateGroupComponent } from './template-sidebar/template-group/template-group.component';
 
 
 @NgModule({
@@ -122,6 +124,8 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
     TemplateFilterContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
+    TemplateGroupSelectorComponent,
+    TemplateGroupComponent,
     TemplatePageComponent,
     TemplateTagsComponent,
     IsoTagsComponent,
@@ -132,11 +136,13 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
   ],
   exports: [
     TemplateFilterListSelectorComponent,
-    TemplateFilterListComponent
+    TemplateFilterListComponent,
+    TemplateGroupComponent
   ],
   providers: [
     IsoService,
     TemplateService,
+    TemplateGroupService,
     TemplateActionsService,
     IsoActionsService,
     TemplateCreateAction,
@@ -146,7 +152,8 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
   ],
   entryComponents: [
     IsoAttachmentComponent,
-    TemplateCreationContainerComponent
+    TemplateCreationContainerComponent,
+    TemplateGroupSelectorComponent,
   ]
 })
 export class TemplateModule {
