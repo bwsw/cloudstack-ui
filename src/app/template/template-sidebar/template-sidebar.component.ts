@@ -6,6 +6,8 @@ import { ListService } from '../../shared/components/list/list.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { State } from '../../reducers/index';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'cs-template-sidebar',
@@ -20,7 +22,8 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
     route: ActivatedRoute,
     router: Router,
     listService: ListService,
-    notificationService: NotificationService
+    notificationService: NotificationService,
+    store: Store<State>
   ) {
     super(
       service,
@@ -29,7 +32,8 @@ export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
       route,
       router,
       listService,
-      notificationService
+      notificationService,
+      store
     );
   }
 }

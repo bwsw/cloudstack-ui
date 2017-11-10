@@ -5,7 +5,10 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { ActionsService } from '../shared/interfaces/action-service.interface';
 import { Action } from '../shared/interfaces/action.interface';
-import { Snapshot, Volume } from '../shared/models';
+import {
+  Snapshot,
+  Volume
+} from '../shared/models';
 import { JobsNotificationService } from '../shared/services/jobs-notification.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { SnapshotService } from '../shared/services/snapshot.service';
@@ -64,11 +67,9 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
     return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .switchMap(() => {
-        snapshot['loading'] = true;
         notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
         return this.snapshotService.remove(snapshot.id);
       })
-      .finally(() => snapshot['loading'] = false)
       .map(() => {
         this.statsUpdateService.next();
         volume.snapshots = volume.snapshots.filter(_ => _.id !== snapshot.id);

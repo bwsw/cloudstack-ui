@@ -16,6 +16,10 @@ export class AccountService extends BaseBackendService<Account> {
     super(http);
   }
 
+  public getAccount(params: {}): Observable<Account> {
+    return this.getList(params).map(accounts => accounts[0]);
+  }
+
   public updateAccount(
     account: Account
   ): Observable<Account> {

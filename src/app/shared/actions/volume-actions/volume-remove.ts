@@ -2,50 +2,27 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../models/volume.model';
 import { VolumeAction } from './volume-action';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 
 @Injectable()
-export class VolumeRemoveAction extends VolumeAction {
+export class VolumeRemoveAction implements VolumeAction {
   public name = 'COMMON.DELETE';
+  public command = 'delete';
   public icon = 'delete';
+
+  constructor (
+    public dialogService: DialogService
+  ) {}
 
   public activate(volume: Volume): Observable<any> {
     return this.dialogService.confirm({
       message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
     })
       .onErrorResumeNext()
-      .switchMap(res => {
-        if (res) {
-          return this.onConfirm(volume);
-        } else {
-          return Observable.of(null);
-        }
-      });
+      .filter(res => Boolean(res))
+      .map(res => volume);
   }
 
-  public onConfirm(volume: Volume): Observable<any> {
-    const notificationId = this.jobsNotificationService.add({
-      message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS'
-    });
-
-    return this.volumeService.remove(volume)
-      .do(() => {
-        this.jobsNotificationService.finish({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
-        });
-      })
-      .catch(error => {
-        this.dialogService.alert(error);
-        this.jobsNotificationService.fail({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED'
-        });
-        return Observable.throw(error);
-      });
-  }
-
-  public hidden(volume: Volume): boolean {
-    return volume.isRoot;
-  }
+  public hidden = (volume: Volume) => volume.isRoot;
 }

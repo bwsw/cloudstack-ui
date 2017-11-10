@@ -1,6 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ConfigService } from '../shared/services/config.service';
 import { NotificationService } from '../shared/services/notification.service';

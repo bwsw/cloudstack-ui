@@ -2,16 +2,32 @@
   (onAction)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
-  <cs-template-filter-list
-    *ngIf="templates && isos"
-    [(viewMode)]="viewMode"
-    [templates]="templates"
-    [isos]="isos"
-    cs-list
-  ></cs-template-filter-list>
+
+  <cs-template-filter-container cs-panels></cs-template-filter-container>
+
+  <ng-container *loading="!templates?.length && fetching" cs-list>
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="viewModeKey">
+      </cs-view-mode-switch>
+    </div>
+    <cs-template-card-list
+      class="template-list"
+      [fetching]="fetching"
+      [query]="query"
+      [templateList]="templates"
+      [groupings]="selectedGroupings"
+      [mode]="mode"
+      (deleteTemplate)="onTemplateDelete.emit($event)"
+    >
+    </cs-template-card-list>
+  </ng-container>
+
   <ng-container cs-sidebar>
     <cs-sidebar [isOpen]="listService?.hasSelected()">
       <router-outlet></router-outlet>
     </cs-sidebar>
   </ng-container>
 </cs-list>
+

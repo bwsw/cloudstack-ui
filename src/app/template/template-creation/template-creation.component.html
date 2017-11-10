@@ -62,6 +62,7 @@
         <div [class.column]="!snapshot">
           <mat-form-field class="full-width-input">
             <mat-select
+              [required]="true"
               class="form-select-control"
               [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
               [(ngModel)]="osTypeId"
@@ -79,6 +80,7 @@
           <div *ngIf="!snapshot">
             <mat-form-field class="full-width-input">
               <mat-select
+                [required]="true"
                 class="form-select-control"
                 [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.ZONE' | translate"
                 [(ngModel)]="zoneId"
