@@ -102,8 +102,7 @@ export class SgRulesComponent implements OnChanges {
     this.adding = false;
     this.inputs = {
       type: item => item.type,
-      canRemove: this.editMode && !this.isPredefinedTemplate,
-      isTable: true
+      canRemove: this.editMode && !this.isPredefinedTemplate
     };
 
     this.outputs = {

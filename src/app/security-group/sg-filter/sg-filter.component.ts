@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SecurityGroupViewMode } from './containers/sg-filter.container';
 
 
@@ -14,23 +14,18 @@ export interface SecurityGroupFilter {
   templateUrl: 'sg-filter.component.html',
   styleUrls: ['sg-filter.component.scss']
 })
-export class SgFilterComponent implements OnChanges {
-  @Input() public filters: SecurityGroupFilter;
-
+export class SgFilterComponent {
   @Output() public viewModeChange = new EventEmitter<SecurityGroupViewMode>();
   @Output() public queryChange = new EventEmitter<string>();
   @Output() public vmChange = new EventEmitter<string>();
 
   public viewMode: SecurityGroupViewMode;
   public query: string;
-  public vm: string;
 
-  public ngOnChanges(changes) {
-    if (changes.filters) {
-      this.viewMode = this.filters.viewMode;
-      this.query = this.filters.query;
-      this.vm = this.filters.vm;
-    }
+  @Input()
+  public set filters(filter: SecurityGroupFilter) {
+    this.viewMode = filter.viewMode;
+    this.query = filter.query;
   }
 
   public get mode(): number {
