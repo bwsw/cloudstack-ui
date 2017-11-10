@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SecurityGroupAction } from './sg-action';
+import { SecurityGroupAction, SecurityGroupActionType } from './sg-action';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { Observable } from 'rxjs/Observable';
 import { SgRulesComponent } from '../sg-rules/sg-rules.component';
@@ -8,6 +8,7 @@ import { MatDialogConfig } from '@angular/material';
 
 @Injectable()
 export class SecurityGroupEditAction extends SecurityGroupAction {
+  public id = SecurityGroupActionType.Edit;
   public name = 'COMMON.EDIT';
   public icon = 'edit';
 

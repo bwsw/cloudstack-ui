@@ -31,7 +31,7 @@ export const adapter: EntityAdapter<SecurityGroup> = createEntityAdapter<Securit
 const initialListState: ListState = adapter.getInitialState({
   filters: {
     query: '',
-    viewMode: 'templates',
+    viewMode: SecurityGroupViewMode.Templates,
     vm: ''
   },
   loading: false,
@@ -148,13 +148,13 @@ export const filters = createSelector(
 );
 
 export const viewMode = createSelector(
-  getSecurityGroupsEntitiesState,
-  state => state.filters.viewMode
+  filters,
+  state => state.viewMode
 );
 
 export const query = createSelector(
-  getSecurityGroupsEntitiesState,
-  state => state.filters.query
+  filters,
+  state => state.query
 );
 
 export const getSelectedId = createSelector(

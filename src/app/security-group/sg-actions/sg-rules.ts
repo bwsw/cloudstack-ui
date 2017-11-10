@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SecurityGroupAction } from './sg-action';
+import { SecurityGroupAction, SecurityGroupActionType } from './sg-action';
 import { SecurityGroup } from '../sg.model';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class SecurityGroupRulesAction extends SecurityGroupAction {
+  public id = SecurityGroupActionType.View;
   public name = 'SECURITY_GROUP_PAGE.ACTION.RULES';
   public icon = 'visibility';
 
