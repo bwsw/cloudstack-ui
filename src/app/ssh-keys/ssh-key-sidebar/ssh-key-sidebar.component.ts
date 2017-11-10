@@ -15,7 +15,6 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
 })
 export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
-  public account: string;
 
   constructor(protected entityService: SSHKeyPairService,
               protected notificationService: NotificationService,
@@ -31,26 +30,30 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   }
 
   protected loadEntity(name: string): Observable<SSHKeyPair> {
-    const account = this.route.snapshot.queryParams['account'];
-    const params = account ? { name, account } : { name };
-
-    return this.entityService.getByParams(params)
-      .switchMap(sshKeyPair => {
-        if (sshKeyPair) {
-          return Observable.of(sshKeyPair);
-        } else {
-          return Observable.throw(new EntityDoesNotExistError());
+    return this.route.queryParams
+      .switchMap(value => {
+        const params = { name };
+        if (value.account) {
+          params['account'] = value.account;
         }
-      })
-      .switchMap(sshKeyPair => {
-        return Observable.forkJoin(
-          Observable.of(sshKeyPair),
-          this.userTagService.getSshKeyDescription(sshKeyPair)
-        );
-      })
-      .map(([sshKeyPair, description]) => {
-        this.description = description;
-        return sshKeyPair;
+        return this.entityService.getByParams(params)
+          .switchMap(sshKeyPair => {
+            if (sshKeyPair) {
+              return Observable.of(sshKeyPair);
+            } else {
+              return Observable.throw(new EntityDoesNotExistError());
+            }
+          })
+          .switchMap(sshKeyPair => {
+            return Observable.forkJoin(
+              Observable.of(sshKeyPair),
+              this.userTagService.getSshKeyDescription(sshKeyPair)
+            );
+          })
+          .map(([sshKeyPair, description]) => {
+            this.description = description;
+            return sshKeyPair;
+          });
       });
   }
 }

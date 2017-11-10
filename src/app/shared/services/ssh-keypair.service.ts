@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { BackendResource } from '../decorators';
@@ -21,8 +20,10 @@ export interface SshKeyCreationData {
   entityModel: SSHKeyPair
 })
 export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
-  constructor(private asyncJobService: AsyncJobService,
-              protected http: HttpClient) {
+  constructor(
+    private asyncJobService: AsyncJobService,
+    protected http: HttpClient
+  ) {
     super(http);
   }
 
