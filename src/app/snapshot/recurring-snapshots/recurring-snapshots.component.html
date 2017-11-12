@@ -14,7 +14,7 @@
 
   <mat-tab-group
     [selectedIndex]="policyMode"
-    (selectChange)="tabChanged($event)"
+    (selectedTabChange)="tabChanged($event)"
   >
     <mat-tab label="{{ 'SNAPSHOT_POLICIES.HOURLY' | translate }}"></mat-tab>
     <mat-tab label="{{ 'SNAPSHOT_POLICIES.DAILY' | translate }}"></mat-tab>

@@ -3,7 +3,8 @@
     <mat-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]=" selectedAccountIds" (change)="update()"
+      [(ngModel)]=" selectedAccountIds"
+      (selectionChange)="update()"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -17,7 +18,7 @@
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
       [(ngModel)]="selectedZones"
-      (change)="update()"
+      (selectionChange)="update()"
     >
       <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
     </mat-select>
@@ -27,7 +28,7 @@
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
       [(ngModel)]="selectedGroups"
-      (change)="update()"
+      (selectionChange)="update()"
     >
       <mat-option *ngIf="showNoGroupFilter" [value]="noGroup">
         <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
@@ -46,7 +47,7 @@
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_STATES' | translate"
       [(ngModel)]="selectedStates"
-      (change)="update()"
+      (selectionChange)="update()"
     >
       <mat-option *ngFor="let s of states" [value]="s.state">
         {{ s.name | translate }}
@@ -59,7 +60,7 @@
       [placeholder]="'VM_PAGE.FILTERS.GROUP_BY' | translate"
       [(ngModel)]="selectedGroupings"
       [dragItems]="availableGroupings"
-      (change)="update()"
+      (selectionChange)="update()"
     >
       <mat-option *ngFor="let g of availableGroupings" [value]="g">
         {{ g.label | translate }}

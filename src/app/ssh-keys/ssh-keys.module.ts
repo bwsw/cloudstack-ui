@@ -12,7 +12,7 @@ import {
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ClipboardModule } from 'ngx-clipboard/dist';
+import { ClipboardModule } from 'ngx-clipboard';
 import { SharedModule } from '../shared/shared.module';
 import { SshKeyCreationComponent } from './ssh-key-creation/ssh-key-creation.component';
 import { SshPrivateKeyDialogComponent } from './ssh-key-creation/ssh-private-key-dialog.component';

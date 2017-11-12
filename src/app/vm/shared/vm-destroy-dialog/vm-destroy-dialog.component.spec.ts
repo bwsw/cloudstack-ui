@@ -9,7 +9,7 @@ import {
   MatCheckbox,
   MatCheckboxModule,
   MatDialogModule,
-  MatDialogRef, MATERIAL_COMPATIBILITY_MODE
+  MatDialogRef
 } from '@angular/material';
 import { By } from '@angular/platform-browser';
 
@@ -29,7 +29,6 @@ describe('VmDestroyDialogComponent', () => {
         imports: [FormsModule, MatCheckboxModule, MatDialogModule],
         declarations: [MockTranslatePipe, VmDestroyDialogComponent],
         providers: [
-          { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
           {
             provide: MatDialogRef,
             useValue: dialog

@@ -11,7 +11,7 @@
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
       [ngModel]="selectedAccountIds"
-      (change)="onAccountsChange.emit($event.value)"
+      (selectionChange)="onAccountsChange.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -27,7 +27,7 @@
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_ZONES' | translate"
       [ngModel]="selectedZoneIds"
-      (change)="onZonesChange.emit($event.value)"
+      (selectionChange)="onZonesChange.emit($event.value)"
     >
       <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
     </mat-select>
@@ -37,7 +37,7 @@
       multiple="true"
       [placeholder]="'VOLUME_PAGE.FILTERS.SELECT_TYPES' | translate"
       [ngModel]="selectedTypes"
-      (change)="onTypesChange.emit($event.value)"
+      (selectionChange)="onTypesChange.emit($event.value)"
     >
       <mat-option *ngFor="let t of types" [value]="t">
         {{ getVolumeTypeName(t) | translate }}
@@ -51,7 +51,7 @@
       [placeholder]="'VOLUME_PAGE.FILTERS.GROUP_BY' | translate"
       [ngModel]="selectedGroupings"
       [dragItems]="groupings"
-      (change)="onGroupingsChange.emit($event.value)"
+      (selectionChange)="onGroupingsChange.emit($event.value)"
     >
       <mat-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}

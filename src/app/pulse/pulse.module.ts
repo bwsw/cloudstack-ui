@@ -13,7 +13,6 @@ import {
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ChartsModule } from 'ng2-charts/src/charts/charts';
 import { SharedModule } from '../shared/shared.module';
 import {
   PulseCpuRamChartComponent,
@@ -24,12 +23,12 @@ import { AggregationSelectorComponent } from './charts/aggregation-selector.comp
 import { ChartAreaComponent } from './charts/chart-area.component';
 import { PulseService } from './pulse.service';
 import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
+import { BaseChartDirective } from './charts/chart.directive';
 
 @NgModule({
   imports: [
     SharedModule,
     CommonModule,
-    ChartsModule,
     FormsModule,
     MatButtonModule,
     MatIconModule,
@@ -42,10 +41,12 @@ import { VmPulseComponent } from './vm-pulse/vm-pulse.component';
     TranslateModule
   ],
   exports: [
+    BaseChartDirective,
     VmPulseComponent
   ],
   providers: [PulseService],
   declarations: [
+    BaseChartDirective,
     AggregationSelectorComponent,
     ChartAreaComponent,
     PulseCpuRamChartComponent,

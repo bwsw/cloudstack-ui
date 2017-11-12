@@ -73,16 +73,16 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   ): Observable<void> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
-      .switchMap(res => this.getCapabilities().do(() => this.setLoggedIn(res)))
+      .do((res) => this.saveUserDataToLocalStorage(res))
+      .switchMap(res => this.getCapabilities())
+      .do(() => this.loggedIn.next(true))
       .catch(error => this.handleCommandError(error.error));
   }
 
   public logout(): Observable<void> {
     return this.postRequest('logout')
       .do(() => this.setLoggedOut())
-      .catch(error => {
-        return Observable.throw('Unable to log out.');
-      });
+      .catch(error => Observable.throw('Unable to log out.'));
   }
 
   public isLoggedIn(): Observable<boolean> {
@@ -113,10 +113,9 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.capabilities && this.capabilities.customdiskofferingmaxsize;
   }
 
-  private setLoggedIn(loginRes): void {
+  private saveUserDataToLocalStorage(loginRes): void {
     this._user = new User(loginRes);
     this.storage.write('user', JSON.stringify(this._user.serialize()));
-    this.loggedIn.next(true);
   }
 
   private setLoggedOut(): void {

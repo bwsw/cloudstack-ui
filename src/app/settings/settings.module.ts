@@ -13,7 +13,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
-import { ClipboardModule } from 'ngx-clipboard/dist';
+import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 import { SharedModule } from '../shared/shared.module';
 import { ApiInfoComponent } from './api-info/api-info.component';
 import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-timeout.component';
@@ -39,10 +39,15 @@ import { SettingsComponent } from './settings.component';
     SettingsComponent
   ],
 
+  providers: [
+    ClipboardService
+  ],
+
   declarations: [
     ApiInfoComponent,
     InactivityTimeoutComponent,
     SettingsComponent
   ]
 })
-export class SettingsModule { }
+export class SettingsModule {
+}
