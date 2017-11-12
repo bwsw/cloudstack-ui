@@ -1,21 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 import { Volume } from '../../../../shared/models/volume.model';
-import { VolumeService } from '../../../../shared/services/volume.service';
 
 
 @Component({
   selector: 'cs-volume-sidebar-volume',
   templateUrl: 'volume-sidebar-volume.component.html'
 })
-export class VolumeSidebarVolumeComponent implements OnInit {
+export class VolumeSidebarVolumeComponent {
   @Input() public volume: Volume;
-
-  constructor(private volumeService: VolumeService) {}
-
-  public ngOnInit(): void {
-    this.volumeService.onVolumeResized
-      .subscribe(volume => this.volume.size = volume.size);
-  }
 
   public get diskOfferingStorageType(): string {
     const storageTypeTranslations = {

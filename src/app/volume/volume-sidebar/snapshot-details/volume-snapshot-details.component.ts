@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Volume } from '../../../shared/models/volume.model';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { VolumeService } from '../../../shared/services/volume.service';
   selector: 'cs-volume-snapshot-details',
   templateUrl: 'volume-snapshot-details.component.html'
 })
-export class VolumeSnapshotDetailsComponent implements OnInit {
+export class VolumeSnapshotDetailsComponent {
   public volume: Volume;
 
   constructor(
@@ -23,11 +23,5 @@ export class VolumeSnapshotDetailsComponent implements OnInit {
       volume => {
         this.volume = volume;
       });
-  }
-
-  public ngOnInit(): void {
-    this.snapshotService.onSnapshotDeleted.subscribe(snapshot => {
-      this.volume.snapshots = this.volume.snapshots.filter(_ => _.id !== snapshot.id);
-    });
   }
 }

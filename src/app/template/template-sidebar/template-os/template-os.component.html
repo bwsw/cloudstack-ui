@@ -1,10 +1,10 @@
-<mat-card>
+<mat-card *ngIf="!!templateOsType">
   <mat-card-header>
     <mat-card-title>
       <h2 class="mat-card-title-text">{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.OS' | translate }}</h2>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    {{ template.osType.description }}
+    {{ templateOsType.description }}
   </mat-card-content>
 </mat-card>

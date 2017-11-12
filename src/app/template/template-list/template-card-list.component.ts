@@ -11,7 +11,6 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 import { TemplateCardItemComponent } from '../template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from '../template/row-item/template-row-item.component';
 
-
 @Component({
   selector: 'cs-template-card-list',
   templateUrl: 'template-card-list.component.html',
@@ -22,6 +21,7 @@ export class TemplateCardListComponent {
   @Input() public query: string;
   @Input() public groupings: string;
   @Input() public mode: ViewMode;
+  @Input() public fetching: boolean;
   @Output() public deleteTemplate = new EventEmitter();
 
   public TemplateRowComponent = TemplateRowItemComponent;
@@ -34,7 +34,7 @@ export class TemplateCardListComponent {
 
     this.inputs = {
       searchQuery: () => this.query,
-      isSelected: (item: BaseTemplateModel) => this.listService.isSelected(item.id)
+      isSelected: (item: BaseTemplateModel) => this.listService.isSelected(item.id),
     };
     this.outputs = {
       onClick: this.selectTemplate,

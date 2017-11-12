@@ -1,12 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { AuthService } from '../../../shared/services/auth.service';
 import { Template } from '../../../template/shared';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
-import { DomainService } from '../../../shared/services/domain.service';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
@@ -21,11 +19,9 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
-    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
-    authService: AuthService,
-    domainService: DomainService
+    private dialogRef: MatDialogRef<VmTemplateDialogComponent>
   ) {
-    super(authService, domainService);
+    super();
 
     this.preselectedTemplate = data.template;
     this.templates = data.templates;

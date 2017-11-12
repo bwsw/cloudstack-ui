@@ -8,6 +8,7 @@ import {
   MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
+  MatDialogModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
@@ -153,7 +154,15 @@ import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
 import { ParametersEditPairComponent } from './components/parameters-pair/parameters-edit-pair.component';
-
+import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
+import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
+import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
+import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
+import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offerings.reducers';
+import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
+import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -165,6 +174,7 @@ import { ParametersEditPairComponent } from './components/parameters-pair/parame
     DragulaModule,
     MatAutocompleteModule,
     MatButtonModule,
+    MatDialogModule,
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
@@ -186,7 +196,10 @@ import { ParametersEditPairComponent } from './components/parameters-pair/parame
     MatTabsModule,
     PopoverModule,
     TranslateModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    StoreModule.forFeature('zones', zoneReducers),
+    StoreModule.forFeature('disk-offerings', diskOfferingReducers),
+    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects]),
   ],
   exports: [
     CdkTableModule,
@@ -247,11 +260,16 @@ import { ParametersEditPairComponent } from './components/parameters-pair/parame
     VmStatisticsComponent,
     ParametersPairComponent,
     ParametersEditPairComponent,
+    VolumeActionsContainerComponent,
+    VolumeResizeContainerComponent,
+    VolumeResizeComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
     VolumeAttachmentComponent,
+    VolumeResizeContainerComponent,
+    VolumeResizeComponent,
     SecurityGroupBuilderComponent
   ],
   declarations: [
@@ -317,6 +335,9 @@ import { ParametersEditPairComponent } from './components/parameters-pair/parame
     TimeZoneComponent,
     ParametersPairComponent,
     ParametersEditPairComponent,
+    VolumeActionsContainerComponent,
+    VolumeResizeContainerComponent,
+    VolumeResizeComponent,
   ],
   providers: [
     AccountService,

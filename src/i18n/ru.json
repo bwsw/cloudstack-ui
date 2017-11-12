@@ -1026,7 +1026,7 @@
       "INACTIVITY_LIMITS": "От 0 до 300"
     },
     "VM": {
-      "SAVE_PASSWORD_FOR_ALL_VMS": "Сохранять пароли виртуальных машин по умолчанию"
+      "SAVE_PASSWORD_FOR_ALL_VMS": "Сохранять пароли ВМ по умолчанию"
     },
     "API_CONFIGURATION": {
       "TITLE": "Конфигурация API",

@@ -1,5 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  Component,
+  Inject,
+  OnInit
+} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 import * as moment from 'moment';
 
 import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
@@ -11,6 +18,7 @@ import {
 } from '../../../../../shared/services/resource-usage.service';
 import { SnapshotService } from '../../../../../shared/services/snapshot.service';
 import { StatsUpdateService } from '../../../../../shared/services/stats-update.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -50,34 +58,37 @@ export class SnapshotCreationComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.dialogRef.close();
-    this.takeSnapshot(this.volume.id, this.name, this.description);
+    const snapRequest = this.takeSnapshot(this.volume.id, this.name, this.description);
+    snapRequest.subscribe(newVolume => this.dialogRef.close(newVolume));
   }
 
-  public takeSnapshot(volumeId: string, name: string, description: string): void {
+  public takeSnapshot(volumeId: string, name: string, description: string): Observable<Volume> {
     const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
-    this.snapshotService.create(volumeId, name, description)
-      .subscribe(
-        (result: any) => {
-          this.statsUpdateService.next();
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
-          });
-          this.volume.snapshots.unshift(result);
-        },
-        e => {
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-          });
-
-          this.dialogService.alert({
-            message: {
-              translationToken: e.message,
-              interpolateParams: e.params
-            }
-          });
+    return this.snapshotService.create(volumeId, name, description)
+      .map((result: any) => {
+        this.statsUpdateService.next();
+        this.jobsNotificationService.finish({
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
         });
+        let newSnaps = Object.assign([], this.volume.snapshots);
+
+        newSnaps.unshift(result);
+        return Object.assign({}, this.volume, { snapshots: newSnaps });
+      })
+      .catch(e => {
+        this.jobsNotificationService.fail({
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
+        });
+
+        this.dialogService.alert({
+          message: {
+            translationToken: e.message,
+            interpolateParams: e.params
+          }
+        });
+        return Observable.of(this.volume);
+      });
   }
 }

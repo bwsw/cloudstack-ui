@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../shared/base-template.model';
 
 
@@ -9,4 +9,5 @@ import { BaseTemplateModel } from '../../shared/base-template.model';
 })
 export class TemplateActionsSidebarComponent {
   @Input() public template: BaseTemplateModel;
+  @Output() public deleteTemplate = new EventEmitter();
 }
