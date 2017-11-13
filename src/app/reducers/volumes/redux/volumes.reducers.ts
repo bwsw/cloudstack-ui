@@ -26,6 +26,7 @@ export interface State extends EntityState<Volume> {
     selectedTypes: string[],
     selectedAccountIds: string[],
     selectedGroupings: any[],
+    virtualMachineId: string,
     query: string,
     spareOnly: boolean,
   }
@@ -65,6 +66,7 @@ export const initialState: State = adapter.getInitialState({
     selectedAccountIds: [],
     selectedGroupings: [],
     query: '',
+    virtualMachineId: '',
     spareOnly: false
   }
 });
@@ -205,6 +207,16 @@ export const filterSpareOnly = createSelector(
   state => state.spareOnly
 );
 
+export const filterVirtualMachineId = createSelector(
+  filters,
+  state => state.virtualMachineId
+);
+
+export const selectSpareOnlyVolumes = createSelector(
+  selectAll,
+  (volumes) => volumes.filter(volume => volume.isSpare)
+);
+
 export const selectFilteredVolumes = createSelector(
   selectAll,
   filterQuery,
@@ -212,8 +224,14 @@ export const selectFilteredVolumes = createSelector(
   filterSelectedTypes,
   filterSelectedZoneIds,
   filterSelectedAccountIds,
+  filterVirtualMachineId,
   fromAccounts.selectAll,
-  (volumes, query, spareOnly, selectedTypes, selectedZoneIds, selectedAccountIds, accounts) => {
+  (
+    volumes, query,
+    spareOnly, selectedTypes,
+    selectedZoneIds, selectedAccountIds,
+    virtualMachineId, accounts
+  ) => {
     const queryLower = query && query.toLowerCase();
     const typesMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
     const zoneIdsMap = selectedZoneIds.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -229,6 +247,9 @@ export const selectFilteredVolumes = createSelector(
         .includes(queryLower) ||
       volume.description.toLowerCase().includes(queryLower);
 
+    const virtualMachineIdFilter = volume => !virtualMachineId ||
+      volume.virtualMachineId === virtualMachineId;
+
     const selectedTypesFilter = volume => !selectedTypes.length || !!typesMap[volume.type];
 
     const selectedZoneIdsFilter = volume => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneId];
@@ -241,7 +262,8 @@ export const selectFilteredVolumes = createSelector(
         && queryFilter(volume)
         && selectedZoneIdsFilter(volume)
         && selectedTypesFilter(volume)
-        && selectedAccountIdsFilter(volume);
+        && selectedAccountIdsFilter(volume)
+        && virtualMachineIdFilter(volume);
     });
   }
 );

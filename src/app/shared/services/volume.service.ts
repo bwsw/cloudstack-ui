@@ -115,25 +115,26 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public detach(volume: Volume): Observable<Volume> {
-    return this.sendCommand('detach', { id: volume.id }).switchMap(job =>
-      this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-    )
-      .do(jobResult => this.onVolumeAttachment.next({
+    return this.sendCommand('detach', { id: volume.id })
+      .switchMap(job =>
+        this.asyncJobService.queryJob(job, this.entity, this.entityModel)
+      );
+      /*.do(jobResult => this.onVolumeAttachment.next({
         volumeId: volume.id,
         event: VolumeAttachmentEventsTypes.DETACHED
-      }));
+      }));*/
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand('attach', data)
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      )
-      .do(jobResult => this.onVolumeAttachment.next({
+      );
+      /*.do(jobResult => this.onVolumeAttachment.next({
         volumeId: data.id,
         virtualMachineId: data.virtualMachineId,
         event: VolumeAttachmentEventsTypes.ATTACHED
-      }));
+      }));*/
   }
 
   public markForRemoval(volume: Volume): Observable<any> {

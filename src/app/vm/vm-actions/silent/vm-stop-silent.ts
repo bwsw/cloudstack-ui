@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class VmStopActionSilent extends VmStopAction {
-  public activate(vm: VirtualMachine): Observable<any> {
+  public activate(vm: VirtualMachine): Observable<VirtualMachine> {
     return this.vmService.command(vm, this);
   }
 }

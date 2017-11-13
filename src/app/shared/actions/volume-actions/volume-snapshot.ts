@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
+import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 import { Volume } from '../../models/volume.model';
 import { VolumeAction } from './volume-action';
 import { MatDialog } from '@angular/material';

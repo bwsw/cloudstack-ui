@@ -1,0 +1,133 @@
+<mat-card class="vm-card" *ngIf="offering">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="mat-card-title-text">{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.TITLE' | translate }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mat-card-content-with-actions">
+    <div class="grid service-offering mat-card-content-container" [class.open]="expandServiceOffering">
+
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.name' | translate }}</div>
+        <div>{{ offering.name }}</div>
+      </div>
+
+      <div class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.description' | translate }}</div>
+        <div>{{ offering.displayText }}</div>
+      </div>
+
+      <div *ngIf="offering?.cpuNumber != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.cpuNumber' | translate }}</div>
+        <div>{{ offering.cpuNumber }}</div>
+      </div>
+
+      <div *ngIf="offering?.cpuSpeed != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.cpuSpeed' | translate }}</div>
+        <div>{{ offering.cpuSpeed }}</div>
+      </div>
+
+      <div *ngIf="offering?.memory != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.memory' | translate }}</div>
+        <div>{{ offering.memory }}</div>
+      </div>
+
+      <div *ngIf="offering?.created" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.created' | translate }}</div>
+        <div>{{ offering.created | stringifyDate }}</div>
+      </div>
+
+      <div *ngIf="offering?.networkRate" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.networkRate' | translate }}</div>
+        <div>{{ offering.networkRate }}</div>
+      </div>
+
+      <div *ngIf="offering?.offerHa != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.offerHa' | translate }}</div>
+        <div>{{ offering.offerHa | viewValue | async }}</div>
+      </div>
+
+      <div *ngIf="offering?.limitCpu != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.limitCpu' | translate }}</div>
+        <div>{{ offering.limitCpu | viewValue | async }}</div>
+      </div>
+
+      <div *ngIf="offering?.isVolatile != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.isVolatile' | translate }}</div>
+        <div>{{ offering.isVolatile | viewValue | async }}</div>
+      </div>
+
+      <div *ngIf="offering?.isSystem != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.isSystem' | translate }}</div>
+        <div>{{ offering.isSystem | viewValue | async }}</div>
+      </div>
+
+      <div *ngIf="offering?.defaultUse != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.defaultUse' | translate }}</div>
+        <div>{{ offering.defaultUse | viewValue | async }}</div>
+      </div>
+
+      <div *ngIf="offering?.deploymentPlanner != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.deploymentPlanner' | translate }}</div>
+        <div>{{ offering.deploymentPlanner | viewValue | async }}</div>
+      </div>
+
+      <div *ngIf="offering?.domain" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.domain' | translate }}</div>
+        <div>{{ offering.domain }}</div>
+      </div>
+
+      <div *ngIf="offering?.diskBytesReadRate" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskBytesReadRate' | translate }}</div>
+        <div>{{ offering.diskBytesReadRate | division:10:6 }}</div>
+      </div>
+
+      <div *ngIf="offering?.diskIopsWriteRate != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskBytesWriteRate' | translate }}</div>
+        <div>{{ offering.diskBytesWriteRate | division:10:6 }}</div>
+      </div>
+
+      <div *ngIf="offering?.diskIopsReadRate != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskIopsReadRate' | translate }}</div>
+        <div>{{ offering.diskIopsReadRate }}</div>
+      </div>
+
+      <div *ngIf="offering?.diskIopsWriteRate != null" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.diskIopsWriteRate' | translate }}</div>
+        <div>{{ offering.diskIopsWriteRate }}</div>
+      </div>
+
+      <div *ngIf="offering?.provisioningType" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.provisioningType' | translate }}</div>
+        <div>{{ offering.provisioningType | translate }}</div>
+      </div>
+
+      <div *ngIf="offering?.storageType" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.storageType' | translate }}</div>
+        <div>{{ offering.storageType | translate }}</div>
+      </div>
+
+    </div>
+    <mat-card-actions>
+      <div class="card-left-button">
+        <button
+          [matTooltip]="'COMMON.CHANGE' | translate"
+          matTooltipPosition="above"
+          mat-icon-button
+          (click)="changeServiceOffering()"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <div class="card-right-button">
+        <button
+          mat-icon-button
+          (click)="toggleServiceOffering()"
+          [class.open]="expandServiceOffering"
+        >
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

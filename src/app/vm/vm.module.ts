@@ -52,31 +52,30 @@ import { VmListComponent } from './vm-list/vm-list.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
-import { InstanceGroupComponent } from './vm-sidebar/instance-group/instance-group.component';
+import { InstanceGroupComponent } from './vm-sidebar/vm-detail/instance-group/instance-group.component';
 // tslint:disable-next-line
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
 import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
 // tslint:disable-next-line
-import { ServiceOfferingDetailsComponent } from './vm-sidebar/service-offering-details/service-offering-details.component';
-import { SshKeypairResetComponent } from './vm-sidebar/ssh/ssh-keypair-reset.component';
+import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-offering-details/service-offering-details.component';
+import { SshKeypairResetComponent } from './vm-sidebar/ssh-selector/ssh-keypair-reset.component';
 import { StatisticsComponent } from './vm-sidebar/statistics/statistics.component';
-import { IsoComponent } from './vm-sidebar/storage-detail/iso.component';
+import { IsoComponent } from './vm-sidebar/storage-detail/iso/iso.component';
 // tslint:disable-next-line
 import { VolumeAttachmentDetailComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attachment-detail/volume-attachment-detail.component';
 // tslint:disable-next-line
 import { VolumeAttachmentDialogComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attchment-dialog/volume-attachment-dialog.component';
 import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
 // tslint:disable-next-line
-import { SnapshotCreationComponent } from './vm-sidebar/storage-detail/volume/snapshot-creation/snapshot-creation.component';
-import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshot-modal.component';
-import { SnapshotsComponent } from './vm-sidebar/storage-detail/volume/snapshot/snapshots.component';
-import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volume/volume-details/volume-details.component';
-import { VolumeComponent } from './vm-sidebar/storage-detail/volume/volume.component';
-import { VmDetailTemplateComponent } from './vm-sidebar/template/vm-detail-template.component';
+import { SnapshotCreationComponent } from './vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
+import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshot-modal.component';
+import { SnapshotsComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshots.component';
+import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volumes/volume-details/volume-details.component';
+import { VolumeComponent } from './vm-sidebar/storage-detail/volumes/volume/volume.component';
+import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
 import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
-import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
-import { VmDetailZoneComponent } from './vm-sidebar/zone/zone.component';
+import { VmDetailZoneComponent } from './vm-sidebar/vm-detail/zone/zone.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
 
@@ -93,6 +92,26 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
 import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
+import { VirtualMachinePageContainerComponent } from './container/vm.container';
+import { VmPageComponent } from './vm-page/vm-page.component';
+import { VMFilterContainerComponent } from './container/vm-filter.container';
+import { StoreModule } from '@ngrx/store';
+import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
+import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
+import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
+import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
+import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
+import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { VmSidebarContainerComponent } from './container/vm-sidebar.container';
+import { AffinityGroupComponent } from './vm-sidebar/vm-detail/affinity-group/affinity-group.component';
+import { SshKeypairComponent } from './vm-sidebar/vm-detail/ssh/ssh-keypair.component';
+import { VmDetailContainerComponent } from './container/vm-detail.container';
+import { serviceOfferingReducers } from '../reducers/service-offerings/redux/service-offerings.reducers';
+import { ServiceOfferingEffects } from '../reducers/service-offerings/redux/service-offerings.effects';
+import { VolumesComponent } from './vm-sidebar/storage-detail/volumes/volumes.component';
+import { StorageDetailContainerComponent } from './container/storage-detail.container';
+import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details.container';
 
 
 @NgModule({
@@ -123,9 +142,20 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     TagsModule,
     TemplateModule,
     TranslateModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    StoreModule.forFeature('virtualMachines', virtualMachineReducers),
+    StoreModule.forFeature('accounts', accountReducers),
+    StoreModule.forFeature('zones', zoneReducers),
+    StoreModule.forFeature('service-offerings', serviceOfferingReducers),
+    EffectsModule.forFeature([
+      VirtualMachinesEffects,
+      ZonesEffects,
+      AccountsEffects,
+      ServiceOfferingEffects
+    ]),
   ],
   declarations: [
+    AffinityGroupComponent,
     AffinityGroupSelectorComponent,
     KeyboardsComponent,
     FirewallRulesDetailComponent,
@@ -135,10 +165,14 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     VolumeAttachmentDetailComponent,
     VolumeAttachmentDialogComponent,
     StatisticsComponent,
+    StorageDetailContainerComponent,
     StorageDetailComponent,
+    SshKeypairComponent,
     SshKeypairResetComponent,
     VmDetailTemplateComponent,
     VmDetailZoneComponent,
+    VirtualMachinePageContainerComponent,
+    VmPageComponent,
     VmListComponent,
     VmActionsComponent,
     VmAccessComponent,
@@ -148,17 +182,21 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     VmCreationDialogComponent,
     VmListCardItemComponent,
     VmListRowItemComponent,
-    VmDetailComponent,
+    VmDetailContainerComponent,
+    VMFilterContainerComponent,
     VmFilterComponent,
+    VmSidebarContainerComponent,
     VmSidebarComponent,
     VmCreationTemplateComponent,
     VmTemplateDialogComponent,
+    VmVolumeDetailsContainerComponent,
     VolumeDetailsComponent,
     InstanceGroupComponent,
     InstanceGroupSelectorComponent,
     IsoComponent,
     VmTagsComponent,
     VmDestroyDialogComponent,
+    VolumesComponent,
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,

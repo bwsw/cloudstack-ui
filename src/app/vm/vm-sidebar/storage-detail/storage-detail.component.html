@@ -1,5 +1,5 @@
 <div *ngIf="vm">
-  <cs-volume
+  <!--cs-volume
     *ngFor="let volume of volumes"
     [volume]="volume"
     (onResize)="onVolumeChange($event)"
@@ -13,7 +13,6 @@
 
   <cs-iso
     [iso]="iso"
-    [isoOperationInProgress]="isoOperationInProgress"
     (onIsoAction)="handleIsoAction($event)"
-  ></cs-iso>
+  ></cs-iso-->
 </div>

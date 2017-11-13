@@ -1,4 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 
@@ -10,11 +15,13 @@ import { VmService } from '../../shared/vm.service';
 })
 export class StatisticsComponent {
   @Input() public vm: VirtualMachine;
+  @Output() public onStatsUpdate = new EventEmitter();
 
   constructor(private vmService: VmService) {}
 
   public updateStats(): void {
-    this.vmService.getWithDetails(this.vm.id)
+    this.onStatsUpdate.emit(this.vm);
+    /*this.vmService.getWithDetails(this.vm.id)
       .subscribe(vm => {
         this.vm.cpuUsed = vm.cpuUsed;
         this.vm.networkKbsRead = vm.networkKbsRead;
@@ -23,6 +30,6 @@ export class StatisticsComponent {
         this.vm.diskKbsWrite = vm.diskKbsWrite;
         this.vm.diskIoRead = vm.diskIoRead;
         this.vm.diskIoWrite = vm.diskIoWrite;
-      });
+      });*/
   }
 }

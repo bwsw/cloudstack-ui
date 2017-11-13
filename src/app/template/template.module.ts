@@ -50,23 +50,20 @@ import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component'
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
-import { TemplateComponent } from './template/template.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { TemplateEffects } from './redux/template.effects';
-import { templateReducers } from './redux/template.reducers';
-import { osTypeReducers } from './redux/ostype.reducers';
-import { OsTypeEffects } from './redux/ostype.effects';
+import { TemplateEffects } from '../reducers/templates/redux/template.effects';
+import { templateReducers } from '../reducers/templates/redux/template.reducers';
+import { osTypeReducers } from '../reducers/templates/redux/ostype.reducers';
+import { OsTypeEffects } from '../reducers/templates/redux/ostype.effects';
 import { TemplateOsContainerComponent } from './template-sidebar/template-os/template-os.container';
-import { zoneReducers } from './redux/zone.reducers';
-import { ZoneEffects } from './redux/zone.effects';
+import { zoneReducers } from '../reducers/templates/redux/zone.reducers';
+import { ZoneEffects } from '../reducers/templates/redux/zone.effects';
 import { TemplatePageContainerComponent } from './containers/template-page.container';
 import { TemplateCreationContainerComponent } from './template-creation/containers/template-creation.container';
-import {
-  TemplateActionsSidebarContainerComponent
-} from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
+import { TemplateActionsSidebarContainerComponent } from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
 import { TemplateFilterContainerComponent } from './containers/template-filter.container';
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';

@@ -4,7 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { SecurityGroup } from '../../security-group/sg.model';
 import { BackendResource } from '../../shared/decorators';
-import { AsyncJob, OsType, ServiceOffering, Volume } from '../../shared/models';
+import {
+  AsyncJob,
+  OsType,
+  ServiceOffering,
+  Volume
+} from '../../shared/models';
 import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
@@ -17,7 +22,10 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
 import { VmActions } from '../vm-actions/vm-action';
 import { IVirtualMachineCommand } from '../vm-actions/vm-command';
-import { VirtualMachine, VmState } from './vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from './vm.model';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 
@@ -124,12 +132,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     vm: VirtualMachine,
     command: IVirtualMachineCommand,
     params?: {}
-  ): Observable<any> {
+  ): Observable<VirtualMachine> {
     const initialState = vm.state;
 
     return this.commandInternal(vm, command, params)
       .switchMap(job => this.registerVmJob(job))
-      .do(() => this.vmUpdateObservable.next())
+      .do(jogResult => this.vmUpdateObservable.next())
       .catch(error => {
         this.setStateForVm(vm, initialState);
         return Observable.throw(error);

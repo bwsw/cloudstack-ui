@@ -45,7 +45,7 @@
             {{ 'UNITS.GB_VALUE' | translate:({ value: getMemoryInGb() }) }}
           </ng-container>
         </td>
-        <td>{{ 'UNITS.GB_VALUE' | translate:({ value: item.getDisksSize().toFixed(2) }) }}</td>
+        <td>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize().toFixed(2) }) }}</td>
       </tr>
     </table>
 

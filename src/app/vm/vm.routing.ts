@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
-import { VmListComponent } from './vm-list/vm-list.component';
 import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
-import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
-import { VmDetailComponent } from './vm-sidebar/vm-detail/vm-detail.component';
-import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-tags/vm-tags.component';
+import { VirtualMachinePageContainerComponent } from './container/vm.container';
+import { VmDetailContainerComponent } from './container/vm-detail.container';
+import { VmSidebarContainerComponent } from './container/vm-sidebar.container';
+import { StorageDetailContainerComponent } from './container/storage-detail.container';
 
 export const vmRoutes: Routes = [
   {
     path: 'instances',
-    component: VmListComponent,
+    component: VirtualMachinePageContainerComponent,
     canActivate: [AuthGuard],
     children: [
       {
@@ -20,7 +20,7 @@ export const vmRoutes: Routes = [
       },
       {
         path: ':id',
-        component: VmSidebarComponent,
+        component: VmSidebarContainerComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -29,11 +29,11 @@ export const vmRoutes: Routes = [
             pathMatch: 'full'
           }, {
             path: 'vm',
-            component: VmDetailComponent,
+            component: VmDetailContainerComponent,
             canActivate: [AuthGuard]
           }, {
             path: 'disks',
-            component: StorageDetailComponent,
+            component: StorageDetailContainerComponent,
             canActivate: [AuthGuard]
           }, {
             path: 'network',

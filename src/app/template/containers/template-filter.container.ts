@@ -1,18 +1,24 @@
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 
-import * as fromTemplates from '../redux/template.reducers';
-import * as templateActions from '../redux/template.actions';
-import * as fromOsTypes from '../redux/ostype.reducers';
-import * as osTypesActions from '../redux/ostype.actions';
-import * as zonesActions from '../redux/zone.actions';
-import * as fromZones from '../redux/zone.reducers';
+import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
+import * as templateActions from '../../reducers/templates/redux/template.actions';
+import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
+import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
+import * as zonesActions from '../../reducers/templates/redux/zone.actions';
+import * as fromZones from '../../reducers/templates/redux/zone.reducers';
 import * as accountsActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';

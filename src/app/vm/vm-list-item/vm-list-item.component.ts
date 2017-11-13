@@ -12,6 +12,7 @@ import {
   VmState
 } from '../shared/vm.model';
 import { Utils } from '../../shared/services/utils/utils.service';
+import { Volume } from '../../shared/models/volume.model';
 
 const stateTranslations = {
   RUNNING: 'VM_STATE.RUNNING',
@@ -105,6 +106,13 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public getMemoryInGb(): string {
     return (this.item.memory / this.gigabyte).toFixed(2);
+  }
+
+  public getDisksSize(): number {
+    const sizeInBytes = this.item.volumes && this.item.volumes.reduce((acc: number, volume: Volume) => {
+      return acc + volume.size;
+    }, 0) || 0;
+    return sizeInBytes / Math.pow(2, 30);
   }
 
   private updateColor(): void {

@@ -36,7 +36,7 @@
 
   <div class="info">
     <span>{{ 'VM_PAGE.CARD.DISKS' | translate }}: </span>
-    <span>{{ 'UNITS.GB_VALUE' | translate:({ value: item.getDisksSize().toFixed(2) }) }}</span>
+    <span>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize().toFixed(2) }) }}</span>
   </div>
 
   <div class="info">OS {{ item?.osType?.description }} </div>

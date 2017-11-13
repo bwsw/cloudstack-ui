@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
 
-import * as fromTemplates from '../../redux/template.reducers';
-import * as fromOsTypes from '../../redux/ostype.reducers';
-import * as fromZones from '../../redux/zone.reducers';
+import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
+import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
+import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
 
-import * as templateActions from '../../redux/template.actions';
+import * as templateActions from '../../../reducers/templates/redux/template.actions';
 
 
 @Component({

@@ -1,16 +1,22 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 import { Volume } from '../../../shared/models';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { IsoAttachmentComponent } from '../../../template/iso-attachment/iso-attachment.component';
-import { Iso, IsoService } from '../../../template/shared';
+import {
+  Iso,
+  IsoService
+} from '../../../template/shared';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import { IsoEvent } from './iso.component';
+import { IsoEvent } from './iso/iso.component';
 import { ActivatedRoute } from '@angular/router';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 
@@ -28,7 +34,7 @@ export class StorageDetailComponent extends WithUnsubscribe() implements OnChang
   constructor(
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private jobNotificationService: JobsNotificationService,
+    //private jobNotificationService: JobsNotificationService,
     private isoService: IsoService,
     private notificationService: NotificationService,
     private  vmService: VmService,
@@ -123,7 +129,7 @@ export class StorageDetailComponent extends WithUnsubscribe() implements OnChang
       .afterClosed()
       .subscribe((iso: Iso) => {
         if (iso) {
-          this.attachIso(iso);
+          //this.attachIso(iso);
         }
       });
   }
@@ -135,12 +141,12 @@ export class StorageDetailComponent extends WithUnsubscribe() implements OnChang
       .onErrorResumeNext()
       .subscribe((res) => {
         if (res) {
-          this.detachIso();
+          //this.detachIso();
         }
       });
   }
 
-  private attachIso(iso: Iso): void {
+  /*private attachIso(iso: Iso): void {
     const notificationId = this.jobNotificationService.add(
       'JOB_NOTIFICATIONS.ISO.ATTACHMENT_IN_PROGRESS');
     this.isoOperationInProgress = true;
@@ -187,5 +193,5 @@ export class StorageDetailComponent extends WithUnsubscribe() implements OnChang
           message: 'JOB_NOTIFICATIONS.ISO.DETACHMENT_FAILED'
         });
       });
-  }
+  }*/
 }

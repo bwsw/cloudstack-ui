@@ -1,4 +1,7 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ListService } from '../../shared/components/list/list.service';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
@@ -11,7 +14,7 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 
-import * as fromOsTypes from '../redux/ostype.reducers';
+import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
 
 export abstract class BaseTemplateSidebarComponent extends SidebarComponent<BaseTemplateModel> {
   private service: BaseTemplateService;

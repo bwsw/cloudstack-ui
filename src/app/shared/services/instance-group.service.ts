@@ -14,9 +14,9 @@ export class InstanceGroupService {
   }
 
   public add(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
-    vm.instanceGroup = group;
+    let newVm = Object.assign({}, vm, {instanceGroup: group});
     this.groupsUpdates.next();
-    return this.vmTagService.setGroup(vm, group)
+    return this.vmTagService.setGroup(newVm, group)
       .catch(() => Observable.of(vm));
   }
 }
