@@ -18,7 +18,6 @@ import { VolumeResizeData } from '../../../services/volume.service';
 })
 export class VolumeResizeComponent implements OnInit {
   public newSize: number;
-  public loading: boolean = false;
   @Input() public maxSize: number;
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
