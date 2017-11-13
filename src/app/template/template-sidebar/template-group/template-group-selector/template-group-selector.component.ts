@@ -6,6 +6,8 @@ import { TemplateGroupService } from '../../../../shared/services/template-group
 import { Mode } from '../../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { TemplateGroup } from '../../../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
+import { DefaultTemplateGroupId } from '../template-group.component';
+import { Language } from '../../../../shared/services/language.service';
 
 
 @Component({
@@ -14,41 +16,58 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['template-group-selector.component.scss']
 })
 export class TemplateGroupSelectorComponent implements OnInit {
-  public groups: Array<TemplateGroup>;
-  public groupNames: Array<string>;
+  public template: BaseTemplateModel;
+  public groups: any;
+  public groupNames: Array<string> = [];
   public groupNames$: Observable<Array<string>>;
   public loading: boolean;
   public modes = Mode;
-  public lang;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public template: BaseTemplateModel,
+    @Inject(MAT_DIALOG_DATA) public data: { template: BaseTemplateModel, groups: Array<TemplateGroup> },
     public dialogRef: MatDialogRef<TemplateGroupSelectorComponent>,
     private templateGroupService: TemplateGroupService,
-    private translateService: TranslateService
+    private translate: TranslateService
   ) {
-    this.lang = this.translateService.currentLang;
+    this.template = data.template;
+    this.groups = data.groups;
   }
 
-  public ngOnInit(): void {
+  public ngOnInit() {
     this.loadGroups();
   }
 
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
+  }
+
   public get groupName(): string {
-    return this.template.templateGroup && this.template.templateGroup.id;
+    const group = this.groups[this.template.templateGroupId];
+    return group && ((group.translations && group.translations[this.locale]) || group.id);
+  }
+
+  public get isInDefaultGroup(): boolean {
+    return this.template.templateGroupId === DefaultTemplateGroupId;
   }
 
   public changeGroup(translation): void {
     this.loading = true;
-    const templateGroup = this.groups.find(
-      group => group.translations[this.lang] === translation);
+    let templateGroup;
+    for (const key in this.groups) {
+      const group = this.groups[key];
+
+      if ((group.translations && group.translations[this.locale] === translation) || group.id === translation) {
+        templateGroup = group;
+        this.loading = false;
+      }
+    }
     this.templateGroupService.add(this.template, templateGroup)
       .finally(() => this.dialogRef.close())
       .subscribe();
   }
 
   public removeGroup(): void {
-    this.changeGroup('');
+    this.changeGroup(DefaultTemplateGroupId);
   }
 
   public onCancel(): void {
@@ -57,9 +76,15 @@ export class TemplateGroupSelectorComponent implements OnInit {
 
   private loadGroups(): void {
     this.loading = true;
-    this.groups = this.templateGroupService.getList();
-    this.groupNames = this.groups
-      .map((group) => group.translations[this.lang]);
+    for (const key in this.groups) {
+      const group = this.groups[key];
+
+      if (group.id !== DefaultTemplateGroupId) {
+        this.groupNames.push(group.translations
+          ? group.translations[this.locale]
+          : group.id);
+      }
+    }
     this.loading = false;
   }
 }

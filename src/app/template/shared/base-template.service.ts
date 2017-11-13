@@ -98,7 +98,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   public getList(
     params: RequestParams,
     customApiFormat?: {},
-    useCache = true
+    useCache = false
   ): Observable<Array<BaseTemplateModel>> {
     return this.getListWithDuplicates(params, useCache)
       .map(templates => this.distinctIds(templates))

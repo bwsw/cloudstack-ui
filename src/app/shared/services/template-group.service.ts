@@ -13,15 +13,14 @@ export class TemplateGroupService {
   ) {
   }
 
-  public getList(): Array<TemplateGroup> {
-    return this.configService.get('templateGroups');
+  public getList(): Observable<Array<TemplateGroup>> {
+    return Observable.of(this.configService.get('templateGroups'));
   }
 
   public add(
     template: BaseTemplateModel,
     group: TemplateGroup
   ): Observable<BaseTemplateModel> {
-    template.templateGroup = group;
     return this.templateTagService.setGroup(template, group)
       .catch(() => Observable.of(template));
   }

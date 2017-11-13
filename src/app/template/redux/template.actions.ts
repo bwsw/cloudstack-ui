@@ -6,6 +6,7 @@ export const LOAD_TEMPLATE_RESPONSE = '[Templates] LOAD_TEMPLATE_RESPONSE';
 export const TEMPLATE_FILTER_UPDATE = '[Templates] TEMPLATE_FILTER_UPDATE';
 export const TEMPLATE_CREATE_SUCCESS = '[Templates] TEMPLATE_CREATE_SUCCESS';
 export const TEMPLATE_REMOVE_SUCCESS = '[Templates] TEMPLATE_REMOVE_SUCCESS';
+export const LOAD_SELECTED_TEMPLATE = '[Templates] LOAD_SELECTED_TEMPLATE';
 
 export class LoadTemplatesRequest implements Action {
   readonly type = LOAD_TEMPLATE_REQUEST;
@@ -42,11 +43,19 @@ export class RemoveTemplateSuccess implements Action {
   }
 }
 
+export class LoadSelectedTemplate implements Action {
+  readonly type = LOAD_SELECTED_TEMPLATE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type Actions =
   LoadTemplatesRequest
   | LoadTemplatesResponse
   | TemplatesFilterUpdate
   | CreateTemplateSuccess
-  | RemoveTemplateSuccess;
+  | RemoveTemplateSuccess
+  | LoadSelectedTemplate;
 
 

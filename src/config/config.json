@@ -182,6 +182,9 @@
         "ru": "Высокий memory",
         "en": "High memory"
       }
+    },
+    {
+      "id": "test"
     }
   ]
 }

@@ -1,5 +1,11 @@
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
@@ -8,9 +14,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { State } from '../../reducers/index';
 import { templateGroupings } from './template-page.container';
-import { TemplateGroup } from '../../shared/models/template-group.model';
-import { TemplateGroupService } from '../../shared/services/template-group.service';
-import { AuthService } from '../../shared/services/auth.service';
 
 import * as fromTemplates from '../redux/template.reducers';
 import * as templateActions from '../redux/template.actions';
@@ -22,19 +25,22 @@ import * as accountsActions from '../../reducers/accounts/redux/accounts.actions
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
+import * as fromTemplateGroups from '../redux/template-group.reducers';
+import * as templateGroupActions from '../redux/template-group.actions';
 
 
 @Component({
   selector: 'cs-template-filter-container',
   templateUrl: 'template-filter.container.html'
 })
-export class TemplateFilterContainerComponent extends WithUnsubscribe() implements OnInit {
+export class TemplateFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   readonly filters$ = this.store.select(fromTemplates.filters);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly domains$ = this.store.select(fromDomains.selectEntities);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly query$ = this.store.select(fromTemplates.filterQuery);
+  readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
 
   readonly selectedAccountIds$ = this.store.select(fromTemplates.filterSelectedAccountIds);
   readonly selectedOsFamilies$ = this.store.select(fromTemplates.filterSelectedOsFamilies);
@@ -62,8 +68,6 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     TemplateFilters.self
   ];
 
-  public groups: Array<TemplateGroup>;
-
   private filterService = new FilterService(
     {
       'viewMode': { type: 'string', defaultOption: 'Template' },
@@ -86,8 +90,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     private router: Router,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
-    private templateGroupService: TemplateGroupService,
-    private auth: AuthService
+    private cd: ChangeDetectorRef
   ) {
     super();
   }
@@ -97,8 +100,12 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
     this.store.dispatch(new accountsActions.LoadAccountsRequest());
     this.store.dispatch(new domainActions.LoadDomainsRequest());
-    this.loadGroups();
+    this.store.dispatch(new templateGroupActions.LoadTemplateGroupsRequest());
     this.initFilters();
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   public onQueryChange(query) {
@@ -170,7 +177,9 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     const selectedGroups = params['groups'];
     const query = params['query'];
 
-    const selectedViewMode = !this.dialogMode ? params['viewMode'] : this.viewMode.toLowerCase();
+    const selectedViewMode = !this.dialogMode
+      ? params['viewMode']
+      : this.viewMode.toLowerCase();
     const selectedAccounts = !this.dialogMode ? params['accounts'] : [];
     const selectedZones = !this.dialogMode ? params['zones'] : [this.zoneId];
 
@@ -201,9 +210,5 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
           });
         }
       });
-  }
-
-  private loadGroups(): void {
-    this.groups = this.templateGroupService.getList();
   }
 }

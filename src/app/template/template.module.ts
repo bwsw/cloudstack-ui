@@ -73,6 +73,12 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
 import { TemplateGroupService } from '../shared/services/template-group.service';
 import { TemplateGroupSelectorComponent } from './template-sidebar/template-group/template-group-selector/template-group-selector.component';
 import { TemplateGroupComponent } from './template-sidebar/template-group/template-group.component';
+import { templateGroupReducers } from './redux/template-group.reducers';
+import { TemplateGroupEffects } from './redux/template-group.effects';
+import { TemplateGroupContainerComponent } from './template-sidebar/template-group/containers/template-group.container';
+import { TemplateSidebarContainerComponent } from './template-sidebar/containers/template-sidebar.container';
+import { IsoSidebarContainerComponent } from './template-sidebar/containers/iso-sidebar.container';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
 
 @NgModule({
@@ -80,6 +86,7 @@ import { TemplateGroupComponent } from './template-sidebar/template-group/templa
     CommonModule,
     FormsModule,
     ClipboardModule,
+    DraggableSelectModule,
     DynamicModule.withComponents([TemplateCardItemComponent, TemplateRowItemComponent]),
     MatButtonModule,
     MatCheckboxModule,
@@ -99,11 +106,19 @@ import { TemplateGroupComponent } from './template-sidebar/template-group/templa
     StoreModule.forFeature('templates', templateReducers),
     StoreModule.forFeature('osTypes', osTypeReducers),
     StoreModule.forFeature('zones', zoneReducers),
-    EffectsModule.forFeature([TemplateEffects, OsTypeEffects, ZoneEffects]),
+    StoreModule.forFeature('templateGroups', templateGroupReducers),
+    EffectsModule.forFeature([
+      TemplateEffects,
+      OsTypeEffects,
+      ZoneEffects,
+      TemplateGroupEffects
+    ]),
   ],
   declarations: [
     TemplateSidebarComponent,
+    TemplateSidebarContainerComponent,
     IsoSidebarComponent,
+    IsoSidebarContainerComponent,
     IsoAttachmentComponent,
     TemplateActionsSidebarContainerComponent,
     TemplateActionsSidebarComponent,
@@ -125,6 +140,7 @@ import { TemplateGroupComponent } from './template-sidebar/template-group/templa
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
     TemplateGroupSelectorComponent,
+    TemplateGroupContainerComponent,
     TemplateGroupComponent,
     TemplatePageComponent,
     TemplateTagsComponent,

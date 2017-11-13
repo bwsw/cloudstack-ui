@@ -1,4 +1,4 @@
-<mat-card class="vm-card">
+<mat-card class="vm-card" *ngIf="template">
   <mat-card-header>
     <h2 class="mat-card-title-text">
       {{ 'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.NAME' | translate }}
@@ -7,7 +7,7 @@
   <mat-card-content class="overflow-card mat-card-content-with-actions">
     <div class="mat-card-content-container">
       <div *ngIf="groupName && !isInDefaultGroup">
-        {{ template.templateGroup.id }}
+        {{ groupName }}
       </div>
       <div *ngIf="!groupName || isInDefaultGroup">
         {{ 'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.NO_GROUP' | translate }}

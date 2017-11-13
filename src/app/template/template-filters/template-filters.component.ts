@@ -8,6 +8,7 @@ import { Dictionary } from '@ngrx/entity/src/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
+import { Language } from '../../shared/services/language.service';
 
 
 @Component({
@@ -61,14 +62,12 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.self
   ];
 
-  public lang = 'en';
-
-  private templateTabIndex = 0;
+ private templateTabIndex = 0;
   private isoTabIndex = 1;
 
   constructor(
     private authService: AuthService,
-    private translateService: TranslateService
+    private translate: TranslateService
   ) {
   }
 
@@ -77,7 +76,10 @@ export class TemplateFiltersComponent implements OnInit {
       this.selectedOsFamilies = this.osFamilies.concat();
       this.selectedTypes = this.categoryFilters.concat();
     }
-    this.lang = this.translateService.currentLang;
+  }
+
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
   }
 
   public showAccountFilter(): boolean {

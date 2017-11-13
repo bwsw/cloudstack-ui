@@ -79,24 +79,23 @@
           *ngFor="let g of groups"
           [value]="g.id"
         >
-          {{ g.translations[lang] }}
+          {{ g.translations && g.translations[locale] || g.id }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <cs-divider-vertical></cs-divider-vertical>
-    <mat-form-field
-      *ngIf="zones"
-    >
-      <mat-select
+    <mat-form-field *ngIf="zones">
+      <cs-draggable-select
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
         [(ngModel)]="selectedGroupings"
+        [dragItems]="availableGroupings"
         (selectionChange)="updateSelectedGroupings($event.value)"
       >
         <mat-option *ngFor="let g of availableGroupings" [value]="g">
           {{ g.label | translate }}
         </mat-option>
-      </mat-select>
+      </cs-draggable-select>
     </mat-form-field>
   </div>
 </cs-top-bar>
@@ -136,8 +135,8 @@
     <mat-select
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
-      [ngModel]="selectedFilters"
-      (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
+      [ngModel]="selectedTypes"
+      (selectionChange)="selectedTypesChange.emit(selectedTypes)"
     >
       <mat-option
         *ngFor="let f of categoryFilters"
@@ -161,7 +160,7 @@
         *ngFor="let g of groups"
         [value]="g.id"
       >
-        {{ g.translations[lang] }}
+        {{ g.translations && g.translations[locale] || g.id }}
       </mat-option>
     </mat-select>
   </mat-form-field>

@@ -2,14 +2,14 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
 import { IsoDetailsComponent } from './template-sidebar/details/iso-details.component';
 import { TemplateDetailsComponent } from './template-sidebar/details/template-details.component';
-import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
-import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TemplatePageContainerComponent } from './containers/template-page.container';
 import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
+import { TemplateSidebarContainerComponent } from './template-sidebar/containers/template-sidebar.container';
+import { IsoSidebarContainerComponent } from './template-sidebar/containers/iso-sidebar.container';
 
 export const templateRouting: Routes = [
   {
@@ -23,7 +23,7 @@ export const templateRouting: Routes = [
       },
       {
         path: 'template/:id',
-        component: TemplateSidebarComponent,
+        component: TemplateSidebarContainerComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -47,7 +47,7 @@ export const templateRouting: Routes = [
       },
       {
         path: 'iso/:id',
-        component: IsoSidebarComponent,
+        component: IsoSidebarContainerComponent,
         canActivate: [AuthGuard],
         children: [
           {

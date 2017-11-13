@@ -6,8 +6,6 @@ import { OsType } from '../../shared/models/os-type.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { Utils } from '../../shared/services/utils/utils.service';
-import { TemplateGroup } from '../../shared/models/template-group.model';
-import { DefaultTemplateGroupId } from '../template-sidebar/template-group/template-group.component';
 
 
 @FieldMapper({
@@ -50,7 +48,6 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
   public zoneId: string;
   public zoneName: string;
 
-  public templateGroup?: TemplateGroup;
   public zones?: Array<Partial<BaseTemplateModel>>;
 
   constructor(json) {
@@ -58,8 +55,6 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
     this.created = moment(json.created).toDate();
     this.tags = this.tags ? this.tags.map(tag => new Tag(tag)) : [];
     this.size = this.size || 0;
-
-    this.initializeTemplateGroup();
   }
 
   public abstract get isTemplate(): boolean;
@@ -76,8 +71,10 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
     }
   }
 
-  protected initializeTemplateGroup(): void {
-    const group = this.tags.find(tag => tag.key === TemplateTagKeys.group);
-    this.templateGroup = new TemplateGroup(group ? group.value : DefaultTemplateGroupId);
+  public get templateGroupId(): string {
+    const tag = this.tags.find(_ => _.key === TemplateTagKeys.group);
+    if (tag) {
+      return tag.value;
+    }
   }
 }

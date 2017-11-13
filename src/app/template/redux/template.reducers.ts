@@ -12,6 +12,7 @@ import * as template from './template.actions';
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean,
+  selectedTemplateId: string | null;
   filters: {
     selectedViewMode: string,
     selectedTypes: string[],
@@ -28,6 +29,7 @@ const initialListState: ListState = {
   ids: [],
   entities: null,
   loading: false,
+  selectedTemplateId: null,
   filters: {
     selectedViewMode: 'Template',
     selectedTypes: [],
@@ -96,6 +98,13 @@ export function listReducer(
     case template.TEMPLATE_REMOVE_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
+    case template.LOAD_SELECTED_TEMPLATE: {
+      return {
+        ...state,
+        selectedTemplateId: action.payload
+      };
+    }
+
     default: {
       return state;
     }
@@ -124,6 +133,19 @@ export const isLoading = createSelector(
 export const filters = createSelector(
   getTemplatesEntitiesState,
   state => state.filters
+);
+
+export const getSelectedId = createSelector(
+  getTemplatesEntitiesState,
+  state => state.selectedTemplateId
+);
+
+export const getSelectedTemplate = createSelector(
+  getTemplatesState,
+  getSelectedId,
+  (state, selectedId) => selectedId && state.list.entities
+    ? state.list.entities[selectedId]
+    : null
 );
 
 export const filterSelectedViewMode = createSelector(
