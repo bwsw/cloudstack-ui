@@ -27,8 +27,8 @@ export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
     super(http);
   }
 
-  public getByName(name: string): Observable<SSHKeyPair> {
-    return this.getList({ name }).map(sshKeys => sshKeys[0]);
+  public getByParams(params): Observable<SSHKeyPair> {
+    return this.getList(params).map(sshKeys => sshKeys[0]);
   }
 
   public create(params: SshKeyCreationData): Observable<SSHKeyPair> {

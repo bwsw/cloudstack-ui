@@ -40,7 +40,7 @@ export class SshKeyListComponent {
   public selectSshKeyPair(sshKeyPair: SSHKeyPair): void {
     this.router.navigate(['view', sshKeyPair.name], {
       relativeTo: this.route,
-      queryParamsHandling: 'preserve'
+      queryParams: {account: sshKeyPair.account}
     });
   }
 
