@@ -45,7 +45,7 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
 
   public volume: Volume;
 
-  public maxSize: number = 2;
+  public maxSize = 2;
 
   constructor(
     public dialogService: DialogService,

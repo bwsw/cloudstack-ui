@@ -19,12 +19,13 @@
         </mat-hint>
       </mat-form-field>
       <div>
-        <h5>{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate }}</h5>
         <mat-form-field class="full-width-input">
           <mat-select
             [(ngModel)]="newVolume.zoneId"
+            [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate"
             id="zone"
             name="zone"
+            required
             (change)="updateZone($event.value)"
           >
             <mat-option
@@ -37,9 +38,10 @@
         </mat-form-field>
       </div>
       <div>
-        <h5>{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
           name="diskOffering"
+          [required]="true"
+          [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate"
           [ngModel]="diskOffering"
           [diskOfferingList]="diskOfferings"
           (change)="updateDiskOffering($event)"
