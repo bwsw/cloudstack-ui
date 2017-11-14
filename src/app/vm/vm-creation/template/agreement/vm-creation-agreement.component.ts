@@ -43,30 +43,16 @@ export class VmCreationAgreementComponent implements OnInit {
   }
 
   protected readFile() {
-    this.templateTagService.getAgreement(this.template).subscribe(path => {
-      let langPath;
-      if (this.lang !== 'en') {
-        langPath = `${path.substring(0, path.length - 3)}-${this.lang}.md`;
-      }
-
-      this.fileRequest(langPath ? langPath : path)
-        .catch(error => {
-          this.fileRequest(path)
-            .subscribe(agreement => this.agreement = agreement);
-          return Observable.throw(error);
+    this.templateTagService.getAgreement(this.template, this.lang).subscribe(path => {
+      return this.http.get(path)
+        .map(response => response.text())
+        .map(text => {
+          const converter = new Converter();
+          return converter.makeHtml(text);
         })
         .subscribe(agreement => {
           this.agreement = agreement;
         })
     });
-  }
-
-  private fileRequest(path): Observable<any> {
-    return this.http.get(path)
-      .map(response => response.text())
-      .map(text => {
-        const converter = new Converter();
-        return converter.makeHtml(text);
-      })
   }
 }

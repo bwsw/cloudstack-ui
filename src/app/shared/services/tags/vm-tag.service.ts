@@ -65,7 +65,7 @@ export class VmTagService implements EntityTagService {
   }
 
   public getAgreement(vm: VirtualMachine): Observable<boolean> {
-    return this.tagService.getTag(vm, this.keys.agreement)
+    return this.tagService.getTag(vm, this.keys.agreementAccepted)
       .map(tag => this.tagService.getValueFromTag(tag));
   }
 
@@ -73,7 +73,7 @@ export class VmTagService implements EntityTagService {
     return this.tagService.update(
       vm,
       vm.resourceType,
-      this.keys.agreement,
+      this.keys.agreementAccepted,
       true
     );
   }
