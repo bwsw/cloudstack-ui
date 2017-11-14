@@ -6,7 +6,9 @@
     class="form-select-control"
     name="selectedDiskOffering"
     [(ngModel)]="diskOffering"
-    (change)="updateDiskOffering($event)"
+    [placeholder]="placeholder"
+    [required]="required"
+    (selectionChange)="updateDiskOffering($event)"
   >
     <mat-option
       *ngFor="let offering of diskOfferingList"

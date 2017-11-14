@@ -8,6 +8,7 @@ import {
   MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
+  MatDialogModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
@@ -148,11 +149,20 @@ import { ConfigurationService } from './services/configuration.service';
 import { ResourceCountService } from './services/resource-count.service';
 import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
 import { AccountActionsService } from './actions/account-actions/account-actions.service';
-import { AccountDisableAction } from './actions/account-actions/actions/account-disable-action';
-import { AccountDeleteAction } from './actions/account-actions/actions/account-delete-action';
-import { AccountEnableAction } from './actions/account-actions/actions/account-enable-action';
-import { AccountLockAction } from './actions/account-actions/actions/account-lock-action';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
+import { TimeZoneComponent } from './components/time-zone/time-zone.component';
+import { TimeZoneService } from './components/time-zone/time-zone.service';
+import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
+import { ParametersEditPairComponent } from './components/parameters-pair/parameters-edit-pair.component';
+import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
+import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
+import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
+import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
+import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offerings.reducers';
+import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
+import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -164,6 +174,7 @@ import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode
     DragulaModule,
     MatAutocompleteModule,
     MatButtonModule,
+    MatDialogModule,
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
@@ -185,7 +196,10 @@ import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode
     MatTabsModule,
     PopoverModule,
     TranslateModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    StoreModule.forFeature('zones', zoneReducers),
+    StoreModule.forFeature('disk-offerings', diskOfferingReducers),
+    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects]),
   ],
   exports: [
     CdkTableModule,
@@ -240,14 +254,22 @@ import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode
     TemplateActionsComponent,
     MatAutocompleteModule,
     MatInputModule,
+    TimeZoneComponent,
     TopBarComponent,
     ViewValuePipe,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    ParametersPairComponent,
+    ParametersEditPairComponent,
+    VolumeActionsContainerComponent,
+    VolumeResizeContainerComponent,
+    VolumeResizeComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
     VolumeAttachmentComponent,
+    VolumeResizeContainerComponent,
+    VolumeResizeComponent,
     SecurityGroupBuilderComponent
   ],
   declarations: [
@@ -309,15 +331,17 @@ import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode
     SecurityGroupBuilderComponent,
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
-    VmStatisticsComponent
+    VmStatisticsComponent,
+    TimeZoneComponent,
+    ParametersPairComponent,
+    ParametersEditPairComponent,
+    VolumeActionsContainerComponent,
+    VolumeResizeContainerComponent,
+    VolumeResizeComponent,
   ],
   providers: [
     AccountService,
     AccountActionsService,
-    AccountDisableAction,
-    AccountDeleteAction,
-    AccountEnableAction,
-    AccountLockAction,
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
@@ -373,7 +397,8 @@ import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode
     VolumeService,
     VolumeTagService,
     ZoneService,
-    HypervisorService
+    HypervisorService,
+    TimeZoneService,
   ]
 })
 export class SharedModule {

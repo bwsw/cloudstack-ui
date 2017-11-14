@@ -2,31 +2,26 @@
   <cs-top-bar>
     <cs-template-filters
       class="options"
-      (queries)="filterResults($event)"
-      (filters)="filterResults($event)"
-      (displayMode)="changeViewMode($event)"
       [showIso]="viewMode === 'Iso'"
       [availableGroupings]="groupings"
+      [zones]="zones"
+      [accounts]="accounts"
+      [domains]="domains"
+
+      [selectedAccountIds]="selectedAccountIds"
+      [selectedGroupings]="selectedGroupings"
+      [selectedZones]="selectedZones"
+      [selectedFilters]="selectedTypes"
+      [selectedOsFamilies]="selectedOsFamilies"
+      [query]="query"
+
+      (queryChange)="onQueryChange.emit($event)"
+      (selectedAccountsChange)="onSelectedAccountsChange.emit($event)"
+      (selectedGroupingsChange)="onSelectedGroupingsChange.emit($event)"
+      (selectedTypesChange)="onSelectedTypesChange.emit($event)"
+      (selectedZonesChange)="onSelectedZonesChange.emit($event)"
+      (selectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
+      (displayMode)="viewModeChange.emit($event)"
     ></cs-template-filters>
   </cs-top-bar>
 </ng-container>
-
-<ng-container *loading="!templateList?.length" cs-list>
-  <div class="switch-panel">
-    <cs-view-mode-switch
-      (onModeChange)="changeMode($event)"
-      [key]="viewModeKey">
-    </cs-view-mode-switch>
-  </div>
-  <cs-template-card-list
-    *loading="fetching"
-    class="template-list"
-    [query]="query"
-    [templateList]="visibleTemplateList"
-    [groupings]="selectedGroupings"
-    [mode]="mode"
-  >
-  </cs-template-card-list>
-</ng-container>
-
-<cs-no-results *ngIf="!visibleTemplateList?.length && !fetching"></cs-no-results>

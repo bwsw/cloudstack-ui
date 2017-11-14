@@ -1,14 +1,16 @@
 <div class="entity-select-container">
-  <mat-select
-    class="aggregation-select entity-select"
-    [placeholder]="'NIC' | translate"
-    [(ngModel)]="selectedNic"
-    (change)="nicChange.emit()"
-  >
-    <mat-option *ngFor="let nic of availableNics; index as i" [value]="nic">
-      NIC{{ i + 1 }} ({{ nic.macAddress }})
-    </mat-option>
-  </mat-select>
+  <mat-form-field class="aggregation-select entity-select">
+    <mat-select
+
+      [placeholder]="'NIC' | translate"
+      [(ngModel)]="selectedNic"
+      (selectionChange)="nicChange.emit()"
+    >
+      <mat-option *ngFor="let nic of availableNics; index as i" [value]="nic">
+        NIC{{ i + 1 }} ({{ nic.macAddress }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 <cs-chart-area-component
   [charts]="charts"

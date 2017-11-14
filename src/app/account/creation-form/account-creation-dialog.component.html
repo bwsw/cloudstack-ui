@@ -1,0 +1,129 @@
+<cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
+<div *ngIf="!isLoading">
+  <h3 class="mat-dialog-title">{{ 'ACCOUNT_PAGE.CREATION.CREATE_ACCOUNT' | translate }}</h3>
+  <form
+    (ngSubmit)="onSubmit($event)"
+    #accountCreationForm="ngForm"
+    novalidate
+  >
+    <div class="mat-dialog-content">
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="name"
+          [(ngModel)]="newAccount.username"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.USER_NAME' | translate"
+          autofocus
+          required
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          type="email"
+          name="name"
+          [(ngModel)]="newAccount.email"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.EMAIL' | translate"
+          required
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="password"
+          [(ngModel)]="newAccount.password"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.PASSWORD' | translate"
+          required
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="firstname"
+          [(ngModel)]="newAccount.firstname"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.FIRST_NAME' | translate"
+          required
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="lastname"
+          [(ngModel)]="newAccount.lastname"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.LAST_NAME' | translate"
+          required
+        >
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <mat-select
+          class="form-select-control"
+          name="domain"
+          [(ngModel)]="newAccount.domainid"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.DOMAIN' | translate"
+          required
+        >
+          <mat-option
+            *ngFor="let domain of domains"
+            [value]="domain.id"
+          >
+            {{ domain.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <mat-select
+          class="form-select-control"
+          name="role"
+          [(ngModel)]="newAccount.roleid"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.ROLE' | translate"
+          required
+        >
+          <mat-option
+            *ngFor="let role of roles"
+            [value]="role.id"
+          >
+            {{ role.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="account"
+          [(ngModel)]="newAccount.account"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.ACCOUNT' | translate"
+        >
+      </mat-form-field>
+      <cs-time-zone
+        name="timezone"
+        [(ngModel)]="newAccount.timezone"
+      ></cs-time-zone>
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="networkdomain"
+          [(ngModel)]="newAccount.networkdomain"
+          [placeholder]="'ACCOUNT_PAGE.CREATION.NETWORK_DOMAIN' | translate"
+        >
+      </mat-form-field>
+    </div>
+    <div class="mat-dialog-actions">
+      <button
+        mat-button
+        color="primary"
+        matDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        mat-button
+        color="primary"
+        type="submit"
+        [disabled]="!accountCreationForm.valid"
+      >
+        {{ 'COMMON.CREATE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

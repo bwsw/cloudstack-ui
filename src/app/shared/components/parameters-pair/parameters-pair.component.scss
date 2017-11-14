@@ -1,0 +1,51 @@
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+  max-width: 170px;
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+  text-align: right;
+  white-space: nowrap;
+
+  input {
+    text-align: end;
+  }
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  margin-right: 15px;
+  span {
+    width: 100%;
+  }
+}
+
+.buttons {
+  display: none;
+  margin-left: 10px;
+}
+
+.height-container {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+.container {
+  width: 100%;
+}
+
+.container:hover .buttons {
+  display: flex;
+}

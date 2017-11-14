@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 import { Offering } from '../../../../shared/models/offering.model';
 import { Volume } from '../../../../shared/models/volume.model';
 
@@ -9,6 +12,7 @@ import { Volume } from '../../../../shared/models/volume.model';
 })
 export class VolumeSidebarDiskOfferingComponent {
   @Input() public volume: Volume;
+  @Input() public offering: Offering;
 
   public get name(): string {
     return this.offering && (this.offering.name || '').toString();
@@ -40,9 +44,5 @@ export class VolumeSidebarDiskOfferingComponent {
 
   public get diskIopsWriteRate(): string {
     return this.offering && (this.offering.diskBytesWriteRate || '').toString();
-  }
-
-  public get offering(): Offering {
-    return this.volume.diskOffering || this.volume.serviceOffering;
   }
 }

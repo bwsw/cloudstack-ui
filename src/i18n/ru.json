@@ -29,6 +29,7 @@
     "UPDATE": "Обновить",
     "VIEW": "Просмотреть",
     "YES": "Да",
+    "SEARCH": "Поиск",
     "CONTINUE": "Продолжить"
   },
   "DIALOG_MESSAGES": {
@@ -939,6 +940,18 @@
     }
   },
   "ACCOUNT_PAGE" : {
+    "CREATION" : {
+      "CREATE_ACCOUNT": "Новый аккаунт",
+      "USER_NAME": "Имя аккаунта",
+      "EMAIL": "Email",
+      "PASSWORD": "Пароль",
+      "FIRST_NAME": "Имя",
+      "LAST_NAME": "Фамилия",
+      "DOMAIN": "Домен",
+      "ROLE": "Роль",
+      "ACCOUNT": "Родительский аккаунт",
+      "NETWORK_DOMAIN": "Сетевой домен"
+    },
     "FILTERS" : {
       "SELECT_DOMAINS": "Выберите домены",
       "SELECT_ROLES": "Выберите роли",
@@ -1015,7 +1028,7 @@
       "INACTIVITY_LIMITS": "От 0 до 300"
     },
     "VM": {
-      "SAVE_PASSWORD_FOR_ALL_VMS": "Сохранять пароли виртуальных машин по умолчанию"
+      "SAVE_PASSWORD_FOR_ALL_VMS": "Сохранять пароли ВМ по умолчанию"
     },
     "API_CONFIGURATION": {
       "TITLE": "Конфигурация API",

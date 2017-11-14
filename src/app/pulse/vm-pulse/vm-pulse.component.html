@@ -12,7 +12,7 @@
   *ngIf="translations"
   [dynamicHeight]="true"
   [(selectedIndex)]="tabIndex"
-  (selectChange)="handleSelectChange($event)"
+  (selectedTabChange)="handleSelectChange($event)"
 >
   <mat-tab [label]="'PULSE.CPU_RAM' | translate">
     <ng-container *ngTemplateOutlet="selector"></ng-container>

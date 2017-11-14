@@ -29,6 +29,7 @@
     "UPDATE": "Update",
     "VIEW": "View",
     "YES": "Yes",
+    "SEARCH": "Search",
     "CONTINUE": "Continue"
   },
   "DIALOG_MESSAGES": {
@@ -939,6 +940,18 @@
     }
   },
   "ACCOUNT_PAGE" : {
+    "CREATION" : {
+      "CREATE_ACCOUNT": "New account",
+      "USER_NAME": "User name",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "DOMAIN": "Domain",
+      "ROLE": "Role",
+      "ACCOUNT": "Parent account",
+      "NETWORK_DOMAIN": "Network domain"
+    },
     "FILTERS" : {
       "SELECT_DOMAINS": "Select domains",
       "SELECT_ROLES": "Select roles",

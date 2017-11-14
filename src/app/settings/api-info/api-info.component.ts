@@ -19,6 +19,7 @@ interface ApiInfoTextField {
   value: string;
 }
 
+
 interface ApiInfoLinks {
   apiUrl: ApiInfoLink;
   apiDocLink: ApiInfoLink;

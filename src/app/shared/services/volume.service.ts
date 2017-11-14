@@ -3,7 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
-import { Snapshot, Volume } from '../models';
+import {
+  Snapshot,
+  Volume
+} from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { SnapshotService } from './snapshot.service';
@@ -97,7 +100,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   public remove(volume: Volume): Observable<any> {
     return super.remove({ id: volume.id }).map(response => {
       if (response['success'] === 'true') {
-        this.onVolumeRemoved.next(volume);
+        //this.onVolumeRemoved.next(volume);
         return Observable.of(null);
       }
       return Observable.throw(response);
@@ -107,11 +110,11 @@ export class VolumeService extends BaseBackendService<Volume> {
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-    )
-      .do(volume => this.onVolumeCreated.next(volume));
+    );
+      //.do(volume => this.onVolumeCreated.next(volume));
   }
 
-  public detach(volume: Volume): Observable<null> {
+  public detach(volume: Volume): Observable<Volume> {
     return this.sendCommand('detach', { id: volume.id }).switchMap(job =>
       this.asyncJobService.queryJob(job, this.entity, this.entityModel)
     )

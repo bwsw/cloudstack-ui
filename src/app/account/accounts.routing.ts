@@ -3,6 +3,7 @@ import { AuthGuard } from '../shared/services/auth-guard.service';
 import { AccountPageContainerComponent } from './account-container/account.container';
 import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
 import { AccountDetailsContainerComponent } from './account-container/account-details.container';
+import { AccountCreationComponent } from './creation-form/account-creation.component';
 
 export const accountsRoutes: Routes = [
   {
@@ -10,10 +11,11 @@ export const accountsRoutes: Routes = [
     component: AccountPageContainerComponent,
     canActivate: [AuthGuard],
     children: [
-      /*{
+      {
         path: 'create',
-        component: AccountCreationDialogComponent
-      },*/ {
+        component: AccountCreationComponent
+      },
+      {
         path: ':id',
         component: AccountSidebarContainerComponent,
         canActivate: [AuthGuard],

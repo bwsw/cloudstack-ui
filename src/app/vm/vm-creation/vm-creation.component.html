@@ -73,7 +73,7 @@
 
                 name="zone"
                 [ngModel]="formState.state.zone"
-                (change)="zoneChange($event)"
+                (selectionChange)="zoneChange($event)"
               >
                 <mat-option *ngFor="let z of formState.data.zones" [value]="z">
                   {{ z.name }}
@@ -209,7 +209,7 @@
 
                 name="ssh"
                 [ngModel]="formState.state.sshKeyPair"
-                (change)="sshKeyPairChange($event)"
+                (selectionChange)="sshKeyPairChange($event)"
               >
                 <mat-option
                   *ngFor="let keyPair of formState.data.sshKeyPairs"

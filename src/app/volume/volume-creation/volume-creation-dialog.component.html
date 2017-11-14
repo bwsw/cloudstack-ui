@@ -1,0 +1,80 @@
+<cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
+<div [hidden]="isLoading">
+  <h3 class="mat-dialog-title">{{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate
+    }}</h3>
+  <form (ngSubmit)="onSubmit($event)" #volumeCreationForm="ngForm" novalidate>
+    <div class="mat-dialog-content">
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="name"
+          [(ngModel)]="newVolume.name"
+          [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.NAME' | translate"
+          maxlength="255"
+          autofocus
+          required
+        >
+        <mat-hint align="end">
+          <cs-character-count [value]="newVolume.name" [maxLength]="255"></cs-character-count>
+        </mat-hint>
+      </mat-form-field>
+      <div>
+        <mat-form-field class="full-width-input">
+          <mat-select
+            [(ngModel)]="newVolume.zoneId"
+            [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.ZONE' | translate"
+            id="zone"
+            name="zone"
+            required
+            (change)="updateZone($event.value)"
+          >
+            <mat-option
+              *ngFor="let z of zones"
+              [value]="z.id"
+            >
+              {{ z.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <cs-disk-offering
+          name="diskOffering"
+          [required]="true"
+          [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate"
+          [ngModel]="diskOffering"
+          [diskOfferingList]="diskOfferings"
+          (change)="updateDiskOffering($event)"
+        ></cs-disk-offering>
+      </div>
+      <div *ngIf="showResizeSlider && minSize && maxSize">
+        <cs-slider
+          [min]="minSize"
+          [max]="maxSize"
+          [label]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
+          [units]="'UNITS.GB' | translate"
+          name="diskSize"
+          [(ngModel)]="newVolume.size"
+        ></cs-slider>
+      </div>
+    </div>
+    <div class="mat-dialog-actions">
+      <button
+        mat-button
+        color="primary"
+        matDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        mat-button
+        color="primary"
+        type="submit"
+        [disabled]="!volumeCreationForm.valid"
+      >
+        {{ 'COMMON.CREATE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

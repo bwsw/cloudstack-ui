@@ -1,0 +1,21 @@
+<cs-template-filter-list
+  [accounts]="accounts$ | async"
+  [domains]="domains$ | async"
+  [osTypes]="osTypes$ | async"
+  [zones]="zones$ | async"
+  [query]="query$ | async"
+
+  [selectedAccountIds]="selectedAccountIds$ | async"
+  [selectedGroupings]="selectedGroupings$ | async"
+  [selectedZones]="selectedZones$ | async"
+  [selectedTypes]="selectedTypes$ | async"
+  [selectedOsFamilies]="selectedOsFamilies$ | async"
+
+  (viewModeChange)="onViewModeChange($event)"
+  (onSelectedAccountsChange)="onAccountsChange($event)"
+  (onSelectedGroupingsChange)="onGroupingsChange($event)"
+  (onSelectedTypesChange)="onTypesChange($event)"
+  (onSelectedZonesChange)="onZonesChange($event)"
+  (onSelectedOsFamiliesChange)="onOsFamiliesChange($event)"
+  (onQueryChange)="onQueryChange($event)"
+></cs-template-filter-list>

@@ -1,23 +1,23 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { VolumeCreationDialogComponent } from './volume-creation/volume-creation-dialog.component';
-import { VolumePageComponent } from './volume-page/volume-page.component';
-import { VolumeDetailsComponent } from './volume-sidebar/details/volume-details.component';
+import { VolumeCreationComponent } from './volume-creation/volume-creation.component';
 import { VolumeSnapshotDetailsComponent } from './volume-sidebar/snapshot-details/volume-snapshot-details.component';
-import { VolumeSidebarComponent } from './volume-sidebar/volume-sidebar.component';
+import { VolumePageContainerComponent } from './container/volume.container';
+import { VolumeDetailsContainerComponent } from './container/volume-details.container';
+import { VolumeSidebarContainerComponent } from './container/volume-sidebar.container';
 
 export const volumeRoutes: Routes = [
   {
     path: 'storage',
-    component: VolumePageComponent,
+    component: VolumePageContainerComponent,
     canActivate: [AuthGuard],
     children: [
       {
         path: 'create',
-        component: VolumeCreationDialogComponent
+        component: VolumeCreationComponent
       }, {
         path: ':id',
-        component: VolumeSidebarComponent,
+        component: VolumeSidebarContainerComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -27,7 +27,7 @@ export const volumeRoutes: Routes = [
           },
           {
             path: 'volume',
-            component: VolumeDetailsComponent
+            component: VolumeDetailsContainerComponent
           },
           {
             path: 'snapshots',

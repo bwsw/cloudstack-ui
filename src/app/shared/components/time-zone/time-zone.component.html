@@ -1,0 +1,13 @@
+<mat-form-field class="full-width-input">
+  <mat-select
+    [placeholder]="'SNAPSHOT_POLICIES.TIME_ZONE' | translate"
+    [(ngModel)]="timeZone"
+  >
+    <mat-option
+      *ngFor="let tz of timeZones"
+      [value]="tz"
+    >
+      {{ timeZoneToString(tz) }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

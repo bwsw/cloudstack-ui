@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
-  MatDialogRef, MATERIAL_COMPATIBILITY_MODE,
+  MatDialogRef,
   MatInputModule
 } from '@angular/material';
 import { By } from '@angular/platform-browser';
@@ -65,7 +65,6 @@ describe('CustomServiceOfferingComponent', () => {
         MaxValueValidatorDirective
       ],
       providers: [
-        { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
         { provide: TranslateService, useClass: MockTranslateService },
         {
           provide: MAT_DIALOG_DATA,
