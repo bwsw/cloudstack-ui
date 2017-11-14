@@ -165,7 +165,7 @@
   "allowReorderingSidebar": false,
   "defaultServiceOfferingConfig": {},
   "extensions": {
-    "webShell": true,
-    "pulse": true
+    "webShell": false,
+    "pulse": false
   }
 }
