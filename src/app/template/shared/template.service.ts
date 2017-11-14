@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import * as cloneDeep from 'lodash/cloneDeep';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { Template } from './template.model';
@@ -20,11 +21,12 @@ export class TemplateService extends BaseTemplateService {
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
     // stub
-    params['hypervisor'] = 'KVM';
-    params['format'] = 'QCOW2';
-    params['requiresHvm'] = true;
+    const requestParams = cloneDeep(params);
+    requestParams['hypervisor'] = 'KVM';
+    requestParams['format'] = 'QCOW2';
+    requestParams['requiresHvm'] = true;
 
-    return <Observable<Template>>super.register(params)
+    return <Observable<Template>>super.register(requestParams)
       .do(() => this.invalidateCache());
   }
 }

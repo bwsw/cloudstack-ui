@@ -1,10 +1,7 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 
 import { Hypervisor, OsType, Zone } from '../../shared';
-import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
-import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -23,6 +20,7 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public mode: string;
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
+  @Input() public isLoading: boolean;
 
   @Output() public onCreateTemplate = new EventEmitter<any>();
 
@@ -59,13 +57,10 @@ export class TemplateCreationComponent implements OnInit {
   ];
   public visibleFormats: TemplateFormat[];
 
-  public loading: boolean;
   public showAdditional = false;
 
   constructor(
     private dialogRef: MatDialogRef<TemplateCreationComponent>,
-    private isoCreationAction: IsoCreateAction,
-    private templateCreationAction: TemplateCreateAction,
     private hypervisorService: HypervisorService,
     private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) data: any
@@ -139,29 +134,11 @@ export class TemplateCreationComponent implements OnInit {
       }
     }
 
-    this.loading = true;
-
-    this.getCreationAction(params)
-      .finally(() => this.loading = false)
-      .subscribe(
-        template => {
-          this.onCreateTemplate.emit(template);
-          this.dialogRef.close(template);
-        },
-        () => {
-        }
-      );
+    this.onCreateTemplate.emit(params);
+    this.dialogRef.close();
   }
 
   public isAdmin(): boolean {
     return this.authService.isAdmin();
-  }
-
-  private getCreationAction(params: any): Observable<void> {
-    if (this.mode === 'Iso') {
-      return this.isoCreationAction.activate(params);
-    } else {
-      return this.templateCreationAction.activate(params);
-    }
   }
 }
