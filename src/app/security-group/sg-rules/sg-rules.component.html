@@ -154,70 +154,78 @@
             <mat-spinner
               *ngIf="adding"
               [diameter]="50"
-              [strokeWidth]="5"></mat-spinner>
+              [strokeWidth]="5"
+            ></mat-spinner>
           </button>
         </td>
       </tr>
+      </tbody>
+    </table>
 
-      <tr class="mat-row rule-row" *ngIf="!editMode">
-        <mat-form-field class="form-select-control">
-          <mat-select
-            multiple="true"
-            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
-            name="selectedTypes"
-            [(ngModel)]="selectedTypes"
-            (selectionChange)="filter()"
-          >
-            <mat-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form-select-control">
-          <mat-select
-            multiple="true"
-            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
-            name="selectedProtocols"
-            [(ngModel)]="selectedProtocols"
-            (selectionChange)="filter()"
-          >
-            <mat-option *ngFor="let z of protocols" [value]="z.value">
-              {{ z.text | translate }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </tr>
+    <div *ngIf="!editMode">
+      <mat-form-field class="form-select-control">
+        <mat-select
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
+          name="selectedTypes"
+          [(ngModel)]="selectedTypes"
+          (selectionChange)="filter()"
+        >
+          <mat-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-select-control">
+        <mat-select
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
+          name="selectedProtocols"
+          [(ngModel)]="selectedProtocols"
+          (selectionChange)="filter()"
+        >
+          <mat-option *ngFor="let z of protocols" [value]="z.value">
+            {{ z.text | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <ng-container *ngIf="isSelectedType(NetworkRuleTypes.Ingress)">
-        <cs-security-group-rule
-          class="mat-row rule-row"
-          *ngFor="let rule of visibleIngressRules"
-          [type]="NetworkRuleTypes.Ingress"
-          [rule]="rule"
-          [canRemove]="!isPredefinedTemplate && editMode"
-          (onRemove)="removeRule($event)"
+      <cs-divider-vertical></cs-divider-vertical>
+
+      <mat-form-field class="form-select-control">
+        <mat-select
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY' | translate"
+          name="selectedGroupings"
+          [(ngModel)]="selectedGroupings"
+          (change)="update()"
         >
-        </cs-security-group-rule>
-      </ng-container>
-      <ng-container *ngIf="isSelectedType(NetworkRuleTypes.Egress)">
-        <cs-security-group-rule
-          class="mat-row rule-row"
-          *ngFor="let rule of visibleEgressRules"
-          [type]="NetworkRuleTypes.Egress"
-          [rule]="rule"
-          [canRemove]="!isPredefinedTemplate && editMode"
-          (onRemove)="removeRule($event)"
-        >
-        </cs-security-group-rule>
-      </ng-container>
-      <td
-        colspan="6"
-        *ngIf="(!visibleIngressRules && !visibleEgressRules) ||
-        (isSelectedType(NetworkRuleTypes.Ingress) && !visibleIngressRules.length && !isSelectedType(NetworkRuleTypes.Egress))
-        || (isSelectedType(NetworkRuleTypes.Egress) && !visibleEgressRules.length && !isSelectedType(NetworkRuleTypes.Ingress))"
+          <mat-option *ngFor="let z of groupings" [value]="z">
+            {{ z.label | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <table class="mat-table">
+      <tbody>
+      <cs-grouped-list
+        class="padding"
+        [list]="visibleRules"
+        [groupings]="selectedGroupings"
+        [component]="ruleComponent"
+        [dynamicInputs]="inputs"
+        [dynamicOutputs]="outputs"
       >
-        {{ 'SECURITY_GROUP_PAGE.RULES.' +
-        'NO_FIREWALL_RULES' | translate }}
-      </td>
+      </cs-grouped-list>
+      <tr>
+        <td
+          colspan="6"
+          *ngIf="!visibleRules || !visibleRules.length"
+        >
+          {{ 'SECURITY_GROUP_PAGE.RULES.' +
+          'NO_FIREWALL_RULES' | translate }}
+        </td>
+      </tr>
       </tbody>
     </table>
   </form>
