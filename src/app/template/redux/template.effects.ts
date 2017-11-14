@@ -11,6 +11,7 @@ import { Iso } from '../shared/iso.model';
 
 import * as template from './template.actions';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Injectable()
 export class TemplateEffects {
@@ -69,12 +70,18 @@ export class TemplateEffects {
       this.handleError(action.payload);
     });
 
+  @Effect({ dispatch: false })
+  removeTemplateSuccess$: Observable<Action> = this.actions$
+    .ofType(template.TEMPLATE_REMOVE_SUCCESS)
+    .do((action: template.RemoveTemplateSuccess) => {
+      this.onNotify(action.payload, this.successTemplateRemove);
+    });
+
   @Effect()
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
       const params = action.payload;
-      delete params.mode;
       if (action.payload.mode === 'Iso') {
         this.isoService.register(params);
       } else if (action.payload.snapshotId) {
@@ -95,13 +102,29 @@ export class TemplateEffects {
       this.handleError(action.payload);
     });
 
-  constructor(
-    private actions$: Actions,
-    private templateService: TemplateService,
-    private isoService: IsoService,
-    private authService: AuthService,
-    private dialogService: DialogService
-  ) {
+  @Effect({ dispatch: false })
+  createTemplateSuccess$: Observable<Action> = this.actions$
+    .ofType(template.TEMPLATE_CREATE_SUCCESS)
+    .do((action: template.CreateTemplateSuccess) => {
+      this.onNotify(action.payload, this.successTemplateCreate);
+    });
+
+  private successTemplateCreate = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
+  private successTemplateRemove = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED';
+
+  constructor(private actions$: Actions,
+              private templateService: TemplateService,
+              private isoService: IsoService,
+              private authService: AuthService,
+              private dialogService: DialogService,
+              private notificationService: NotificationService) {
+  }
+
+  private onNotify(template: any, message: string) {
+    this.notificationService.message({
+      translationToken: message,
+      interpolateParams: { name:  template.name}
+    });
   }
 
   private handleError(error: any): void {
