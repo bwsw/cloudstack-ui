@@ -60,6 +60,6 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   }
 
   public onTemplateDelete(template) {
-    this.store.dispatch(new templateActions.RemoveTemplateSuccess(template));
+    this.store.dispatch(new templateActions.RemoveTemplate(template));
   }
 }

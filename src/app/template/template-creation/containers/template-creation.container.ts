@@ -16,19 +16,21 @@ import * as templateActions from '../../redux/template.actions';
       [mode]="viewMode$ | async"
       [osTypes]="osTypes$ | async"
       [zones]="zones$ | async"
-      (onCreateTemplate)="templateCreated($event)"
+      [isLoading]="loading$ | async"
+      (onCreateTemplate)="onCreate($event)"
     ></cs-template-creation>`
 })
 export class TemplateCreationContainerComponent {
   readonly viewMode$ = this.store.select(fromTemplates.filterSelectedViewMode);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
+  readonly loading$ = this.store.select(fromTemplates.isLoading);
 
   constructor(private store: Store<State>) {
   }
 
-  public templateCreated(template) {
-    this.store.dispatch(new templateActions.CreateTemplateSuccess(template));
+  public onCreate(params) {
+    this.store.dispatch(new templateActions.CreateTemplate(params));
   }
 }
 
