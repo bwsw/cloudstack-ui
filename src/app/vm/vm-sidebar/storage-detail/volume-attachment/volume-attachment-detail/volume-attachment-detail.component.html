@@ -18,8 +18,8 @@
       </ng-container>
       <ng-container *ngIf="!volumes?.length">
         {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_1' | translate }}<a routerLink="/storage/create">{{
-        'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_2' | translate }}</a>
-        {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_3' | translate }}
+        'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_2' | translate }}</a>{{
+        'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_3' | translate }}
       </ng-container>
     </div>
     <mat-card-actions *ngIf="selectedVolume">
