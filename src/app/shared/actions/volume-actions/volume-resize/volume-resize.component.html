@@ -10,9 +10,11 @@
   >
     <div class="mat-dialog-content">
       <div *ngIf="!volume?.isRoot">
-        <h5>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate }}</h5>
         <cs-disk-offering
-          [diskOffering]="diskOffering"
+          [required]="true"
+          name="diskOffering"
+          [placeholder]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate"
+          [ngModel]="diskOffering"
           [diskOfferingList]="diskOfferings"
           (change)="updateDiskOffering($event)"
         ></cs-disk-offering>
