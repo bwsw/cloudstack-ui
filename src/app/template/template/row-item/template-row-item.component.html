@@ -31,6 +31,8 @@
   </button>
 
   <mat-menu #actionsMenu="matMenu">
-    <cs-template-actions [template]="item"></cs-template-actions>
+    <cs-template-actions [template]="item"
+                         (deleteTemplate)="deleteTemplate.emit($event)"
+    ></cs-template-actions>
   </mat-menu>
 </mat-list-item>
