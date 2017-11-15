@@ -17,9 +17,11 @@ export class TemplateActionsComponent implements OnInit {
   @Output() public deleteTemplate = new EventEmitter<BaseTemplateModel>();
   public actions: Array<BaseTemplateAction>;
 
-  constructor(private templateActionsService: TemplateActionsService,
-              private isoActionsService: IsoActionsService,
-              private dialogService: DialogService) {
+  constructor(
+    private templateActionsService: TemplateActionsService,
+    private isoActionsService: IsoActionsService,
+    private dialogService: DialogService
+  ) {
   }
 
   public ngOnInit(): void {

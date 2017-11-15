@@ -81,13 +81,12 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
-      const params = action.payload;
-      if (action.payload.mode === 'Iso') {
-        this.isoService.register(params);
+      if (action.payload.entity === 'Iso') {
+        this.isoService.register(action.payload);
       } else if (action.payload.snapshotId) {
-        return this.templateService.create(params);
+        return this.templateService.create(action.payload);
       } else {
-        return this.templateService.register(params);
+        return this.templateService.register(action.payload);
       }
     })
     .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
@@ -112,12 +111,14 @@ export class TemplateEffects {
   private successTemplateCreate = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
   private successTemplateRemove = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED';
 
-  constructor(private actions$: Actions,
-              private templateService: TemplateService,
-              private isoService: IsoService,
-              private authService: AuthService,
-              private dialogService: DialogService,
-              private notificationService: NotificationService) {
+  constructor(
+    private actions$: Actions,
+    private templateService: TemplateService,
+    private isoService: IsoService,
+    private authService: AuthService,
+    private dialogService: DialogService,
+    private notificationService: NotificationService
+  ) {
   }
 
   private onNotify(template: any, message: string) {
