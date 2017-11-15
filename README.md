@@ -182,8 +182,7 @@ It’s a simplified view for account activities. It lets you choose the date and
 |---------|--------|
 |npm test | use this command to execute tests via Karma|
 |npm run build| use this command to build the project, the build artifacts will be stored in the dist/ directory|
-|npm start| use this command to compile the application, it will be avaliable at URL - "localhost:8080".
- Run this command with argument '-- --proxy-config proxy-conf.js' if you use it |
+|npm start| use this command to compile the application, it will be avaliable at URL - "localhost:8080". Run this command with argument '-- --proxy-config proxy-conf.js' if you use it |
 
 ## Deployment
 
