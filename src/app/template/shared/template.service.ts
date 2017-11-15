@@ -23,13 +23,9 @@ export class TemplateService extends BaseTemplateService {
 
     const requestParams = Object.assign({}, params);
 
-    const hyprevisor = requestParams['hypervisor'];
-    const format = requestParams['format'];
-    const requiresHvm = requestParams['requiresHvm'];
-
-    requestParams['hypervisor'] = !hyprevisor ? 'KVM' : hyprevisor;
-    requestParams['format'] = !format ? 'QCOW2' : format;
-    requestParams['requiresHvm'] = !requiresHvm ? true : requiresHvm;
+    requestParams['hypervisor'] = requestParams['hypervisor'] || 'KVM';
+    requestParams['format'] = requestParams['format'] || 'QCOW2';
+    requestParams['requiresHvm'] = requestParams['requiresHvm'] || true;
 
     return <Observable<Template>>super.register(requestParams)
       .do(() => this.invalidateCache());

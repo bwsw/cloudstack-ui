@@ -1,5 +1,5 @@
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { TemplateFilters } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
@@ -19,13 +19,14 @@ import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import { State } from '../../reducers/index';
 import { templateGroupings } from './template-page.container';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 
 @Component({
-  selector: 'cs-template-filter-container',
-  templateUrl: 'template-filter.container.html'
+  selector: 'cs-template-filter-list-container',
+  templateUrl: 'template-filter-list.container.html'
 })
-export class TemplateFilterContainerComponent extends WithUnsubscribe() implements OnInit {
+export class TemplateFilterListContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   readonly filters$ = this.store.select(fromTemplates.filters);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
@@ -33,12 +34,15 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly query$ = this.store.select(fromTemplates.filterQuery);
 
-  readonly selectedAccountIds$ = this.store.select(fromTemplates.filterSelectedAccountIds);
+  readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplates);
+  readonly isLoading$ = this.store.select(fromTemplates.isLoading);
+
   readonly selectedOsFamilies$ = this.store.select(fromTemplates.filterSelectedOsFamilies);
   readonly selectedTypes$ = this.store.select(fromTemplates.filterSelectedTypes);
-  readonly selectedZones$ = this.store.select(fromTemplates.filterSelectedZones);
   readonly selectedViewMode$ = this.store.select(fromTemplates.filterSelectedViewMode);
-  readonly selectedGroupings$ = this.store.select(fromTemplates.filterSelectedGroupings);
+
+  @Output() public selectedTemplateChange = new EventEmitter();
+  public _selectedTemplate: BaseTemplateModel;
 
   public osFamilies: Array<OsFamily> = [
     OsFamily.Linux,
@@ -55,11 +59,8 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
   private filterService = new FilterService(
     {
       'viewMode': { type: 'string', defaultOption: 'Template' },
-      'accounts': { type: 'array', defaultOption: [] },
       'osFamilies': { type: 'array', options: this.osFamilies, defaultOption: [] },
       'types': { type: 'array', options: this.categoryFilters, defaultOption: [] },
-      'zones': { type: 'array', defaultOption: [] },
-      'groupings': { type: 'array', defaultOption: [] },
       'query': { type: 'string' }
     },
     this.router,
@@ -68,12 +69,22 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.activatedRoute
   );
 
-  constructor(
-    private store: Store<State>,
-    private router: Router,
-    private sessionStorage: SessionStorageService,
-    private activatedRoute: ActivatedRoute
-  ) {
+
+  public get selectedTemplate(): BaseTemplateModel {
+    return this._selectedTemplate;
+  }
+
+  @Input()
+  public set selectedTemplate(template: BaseTemplateModel) {
+    this._selectedTemplate = template;
+  }
+
+
+  constructor(private store: Store<State>,
+              private router: Router,
+              private sessionStorage: SessionStorageService,
+              private activatedRoute: ActivatedRoute,
+              private cd: ChangeDetectorRef) {
     super();
   }
 
@@ -82,16 +93,20 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
     this.store.dispatch(new accountsActions.LoadAccountsRequest());
     this.store.dispatch(new domainActions.LoadDomainsRequest());
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
     this.initFilters();
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
+  public selectTemplate(template: BaseTemplateModel): void {
+    this.selectedTemplate = template;
+    this.selectedTemplateChange.emit(this.selectedTemplate);
   }
 
   public onQueryChange(query) {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({ query }));
-  }
-
-  public onAccountsChange(selectedAccountIds) {
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedAccountIds }));
   }
 
   public onOsFamiliesChange(selectedOsFamilies) {
@@ -102,62 +117,35 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedTypes }));
   }
 
-  public onZonesChange(selectedZones) {
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedZones }));
-  }
-
-  public onGroupingsChange(selectedGroupings) {
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedGroupings }));
-  }
-
   public onViewModeChange(selectedViewMode) {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedViewMode }));
   }
 
   public update(
     selectedViewMode,
-    selectedAccountIds,
     selectedOsFamilies,
     selectedTypes,
-    selectedZones,
-    selectedGroupings,
     query
   ) {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({
       selectedViewMode,
-      selectedAccountIds,
       selectedOsFamilies,
       selectedTypes,
-      selectedZones,
-      selectedGroupings,
       query
     }));
   }
 
   private initFilters(): void {
     const params = this.filterService.getParams();
-    const selectedGroupings = params['groupings'].reduce((acc, _) => {
-      const grouping = templateGroupings.find(g => g.key === _);
-      if (grouping) {
-        acc.push(grouping);
-      }
-      return acc;
-    }, []);
-
     const selectedViewMode = params['viewMode'];
-    const selectedAccounts = params['accounts'];
     const selectedOsFamilies = params['osFamilies'];
     const selectedTypes = params['types'];
-    const selectedZones = params['zones'];
     const query = params['query'];
 
     this.update(
       selectedViewMode,
-      selectedAccounts,
       selectedOsFamilies,
       selectedTypes,
-      selectedZones,
-      selectedGroupings,
       query
     );
 
@@ -166,11 +154,8 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
       .subscribe(filters => {
         this.filterService.update({
           'viewMode': filters.selectedViewMode,
-          'accounts': filters.selectedAccountIds,
           'osFamilies': filters.selectedOsFamilies,
           'types': filters.selectedTypes,
-          'zones': filters.selectedZones,
-          'groupings': filters.selectedGroupings.map(_ => _.key),
           'query': filters.query,
         });
       });
