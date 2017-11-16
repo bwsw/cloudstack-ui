@@ -23,7 +23,7 @@
       <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <!--mat-form-field>
+  <mat-form-field>
     <mat-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
@@ -33,15 +33,14 @@
       <mat-option [value]="noGroup">
         <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
       </mat-option>
-
       <mat-option
-        *ngFor="let g of groups"
-        [value]="g.name"
+        *ngFor="let group of groups"
+        [value]="group.name"
       >
-        {{ g.name }}
+        {{ group.name }}
       </mat-option>
     </mat-select>
-  </mat-form-field-->
+  </mat-form-field>
   <mat-form-field>
     <mat-select
       multiple="true"
@@ -67,4 +66,11 @@
       </mat-option>
     </cs-draggable-select>
   </mat-form-field>
+</div>
+
+<div class="filter-wrapper">
+  <cs-search
+    [ngModel]="query"
+    (ngModelChange)="onQueryChange.emit($event)"
+  ></cs-search>
 </div>

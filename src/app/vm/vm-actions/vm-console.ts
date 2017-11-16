@@ -1,26 +1,16 @@
-import { VirtualMachineAction, VmActions } from './vm-action';
-import { VirtualMachine, VmState } from '../shared/vm.model';
-import { Observable } from 'rxjs/Observable';
-import { Injectable } from '@angular/core';
+import {
+  VirtualMachine,
+  VmState
+} from '../shared/vm.model';
 
-
-@Injectable()
-export class VmConsoleAction extends VirtualMachineAction {
-  public action = VmActions.CONSOLE;
-  public name = 'VM_PAGE.COMMANDS.CONSOLE';
-  public icon = 'computer';
-
-  public canActivate(vm: VirtualMachine): boolean {
-    return !!vm && vm.state === VmState.Running;
-  }
-
-  public activate(vm: VirtualMachine): Observable<void> {
+export const VmConsoleAction = {
+  name: 'VM_PAGE.COMMANDS.CONSOLE',
+  icon: 'computer',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running,
+  activate: (vm: VirtualMachine) =>
     window.open(
       `client/console?cmd=access&vm=${vm.id}`,
       vm.displayName,
       'resizable=0,width=820,height=640'
-    );
-
-    return Observable.of(null);
-  }
-}
+    )
+};

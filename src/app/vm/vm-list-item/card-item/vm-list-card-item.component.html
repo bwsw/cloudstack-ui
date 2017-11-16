@@ -13,7 +13,9 @@
           [ngClass]="statusClass"
           [matTooltip]="stateTranslationToken | translate"
         ></span>
-        <span [matTooltip]="item.name"> {{ item.name }} </span>
+        <span [matTooltip]="item.name" [innerHTML]="item.name | highlight:query">
+          {{ item.name }}
+        </span>
       </h2>
     </mat-card-title>
     <div class="mat-card-header-menu">
@@ -51,6 +53,6 @@
 
   </mat-card-content>
   <mat-menu #actionsMenu="matMenu">
-    <cs-vm-actions [vm]="item"></cs-vm-actions>
+    <cs-vm-actions-container [vm]="item"></cs-vm-actions-container>
   </mat-menu>
 </mat-card>

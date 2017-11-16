@@ -11,6 +11,7 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
+import { JobsNotificationService } from './jobs-notification.service';
 
 export interface Capabilities {
   securitygroupsenabled: boolean;
@@ -41,7 +42,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   constructor(
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
-    protected http: HttpClient
+    protected http: HttpClient,
+    protected jobsNotificationService: JobsNotificationService
   ) {
     super(http);
   }
@@ -56,6 +58,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.loggedIn = new BehaviorSubject<boolean>(
       !!(this._user && this._user.userId)
     );
+    this.jobsNotificationService.reset();
 
     return this._user.userId
       ? this.getCapabilities().toPromise()

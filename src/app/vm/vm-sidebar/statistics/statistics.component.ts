@@ -21,15 +21,5 @@ export class StatisticsComponent {
 
   public updateStats(): void {
     this.onStatsUpdate.emit(this.vm);
-    /*this.vmService.getWithDetails(this.vm.id)
-      .subscribe(vm => {
-        this.vm.cpuUsed = vm.cpuUsed;
-        this.vm.networkKbsRead = vm.networkKbsRead;
-        this.vm.networkKbsWrite = vm.networkKbsWrite;
-        this.vm.diskKbsRead = vm.diskKbsRead;
-        this.vm.diskKbsWrite = vm.diskKbsWrite;
-        this.vm.diskIoRead = vm.diskIoRead;
-        this.vm.diskIoWrite = vm.diskIoWrite;
-      });*/
   }
 }

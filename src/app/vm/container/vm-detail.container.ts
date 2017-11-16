@@ -9,7 +9,12 @@ import * as serviceOfferingActions from '../../reducers/service-offerings/redux/
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { VirtualMachine } from '../shared/vm.model';
+import {
+  VirtualMachine,
+  VmState
+} from '../shared/vm.model';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Observable } from 'rxjs/Observable';
 
 const vmDescriptionKey = 'csui.vm.description';
 
@@ -18,13 +23,17 @@ const vmDescriptionKey = 'csui.vm.description';
   template: `
     <cs-description
       [description]="description"
-      (descriptionChange)="changeDescription($event)"
-    ></cs-description>
+      (descriptionChange)="changeDescription($event)">
+    </cs-description>
     <cs-zone [vm]="vm$ | async"></cs-zone>
-    <cs-instance-group [vm]="vm$ | async"></cs-instance-group>
+    <cs-instance-group
+      [vm]="vm$ | async"
+      [groups]="groups$ | async"
+      (onGroupChange)=changeGroup($event)>      
+    </cs-instance-group>
     <cs-service-offering-details 
       [offering]="offering$ | async"
-      (onOfferingChange)="changeOffering($event)">      
+      [vm]="vm$ | async">
     </cs-service-offering-details>
     <cs-affinity-group 
       [vm]="vm$ | async" 
@@ -33,15 +42,15 @@ const vmDescriptionKey = 'csui.vm.description';
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>
     <cs-vm-ssh-keypair 
       [vm]="vm$ | async" 
-      (onSshKeyChange)="changeSshKey($event)"
-      (onVirtualMachineStop)="stopVirtualMachine($event)"
-    ></cs-vm-ssh-keypair>
+      (onSshKeyChange)="changeSshKey($event)">
+    </cs-vm-ssh-keypair>
     <cs-statistics [vm]="vm$ | async" (onStatsUpdate)="updateStats($event)"></cs-statistics>
   `
 })
 export class VmDetailContainerComponent extends WithUnsubscribe() implements OnInit {
 
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
+  readonly groups$ = this.store.select(fromVMs.selectVmGroups);
   readonly offering$ = this.store.select(fromServiceOfferings.getSelectedOffering);
   public description;
 
@@ -50,6 +59,7 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
 
   constructor(
     private store: Store<State>,
+    private dialogService: DialogService,
   ) {
     super();
   }
@@ -59,21 +69,31 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
     this.store.dispatch(new vmActions.ChangeDescription({ vm: v, description }));
   }
 
-  public changeOffering(offering) {
-    let vm = Object.assign({}, this.vm, { offering });
-    this.store.dispatch(new vmActions.UpdateVM(vm));
+  public changeGroup(group) {
+    this.store.dispatch(new vmActions.ChangeInstantGroup({
+      vm: this.vm,
+      group: group
+    }));
   }
 
-  public changeAffinityGroup(vm) {
-    this.store.dispatch(new vmActions.UpdateVM(vm));
+  public changeAffinityGroup(groupId) {
+    this.askToStopVM(this.vm, 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.STOP_MACHINE_FOR_AG')
+      .subscribe(() =>
+        this.store.dispatch(new vmActions.ChangeAffinityGroup({
+          vm: this.vm,
+          affinityGroupId: groupId
+        }))
+      );
   }
 
-  public changeSshKey(vm) {
-    this.store.dispatch(new vmActions.UpdateVM(vm));
-  }
-
-  public stopVirtualMachine(vm) {
-    //this.store.dispatch(new vmActions.StopVm(vm));
+  public changeSshKey(keypair) {
+    this.askToStopVM(this.vm, 'VM_PAGE.VM_DETAILS.SSH_KEY.STOP_MACHINE_FOR_SSH')
+      .subscribe(() =>
+        this.store.dispatch(new vmActions.ChangeSshKey({
+          vm: this.vm,
+          keypair
+        }))
+      );
   }
 
   public updateStats(vm) {
@@ -90,7 +110,21 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
           const descriptionTag = this.vm.tags.find(tag => tag.key === vmDescriptionKey);
           this.description = descriptionTag && descriptionTag.value;
         }
+      });
+  }
+
+  private askToStopVM(vm: VirtualMachine, message: string): Observable<any> {
+    if (vm.state === VmState.Stopped) {
+      return Observable.of(vm);
+    } else {
+      return this.dialogService.confirm({
+        message,
+        confirmText: 'COMMON.OK',
+        declineText: 'COMMON.CANCEL'
       })
+        .onErrorResumeNext()
+        .filter(res => Boolean(res));
+    }
   }
 
 }

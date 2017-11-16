@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatDialogRef, MatSelectChange } from '@angular/material';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  MatDialogRef,
+  MatSelectChange
+} from '@angular/material';
 import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
 
@@ -9,7 +14,11 @@ import {
   ProgressLoggerMessageStatus
 } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
+import {
+  AffinityGroup,
+  InstanceGroup,
+  ServiceOffering
+} from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
@@ -20,7 +29,11 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
+import {
+  VmDeploymentMessage,
+  VmDeploymentService,
+  VmDeploymentStage
+} from './services/vm-deployment.service';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
@@ -236,7 +249,7 @@ export class VmCreationComponent implements OnInit {
 
     this.progressLoggerController.addMessage({
       text: error.params ? {translationToken: error.message, interpolateParams: error.params}
-        :error.message ,
+        : error.message ,
       status: [ProgressLoggerMessageStatus.ErrorMessage]
     });
 

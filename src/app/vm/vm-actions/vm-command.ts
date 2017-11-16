@@ -16,6 +16,6 @@ export abstract class VirtualMachineCommand extends VirtualMachineAction
   public abstract vmStateOnAction: string;
 
   protected onActionConfirmed(vm: VirtualMachine): Observable<any> {
-    return this.addNotifications(this.vmService.command(vm, this));
+    return this.addNotifications(this.vmService.command(vm, 'this'));
   }
 }

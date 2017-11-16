@@ -1,10 +1,13 @@
 import {
   Component,
-  Input
+  EventEmitter,
+  Input,
+  Output
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { VirtualMachine } from '../../../shared/vm.model';
 import { InstanceGroupSelectorComponent } from '../../instance-group-selector/instance-group-selector.component';
+import { InstanceGroup } from '../../../../shared/models/instance-group.model';
 
 
 @Component({
@@ -14,6 +17,8 @@ import { InstanceGroupSelectorComponent } from '../../instance-group-selector/in
 })
 export class InstanceGroupComponent {
   @Input() public vm: VirtualMachine;
+  @Input() public groups: Array<InstanceGroup>;
+  @Output() public onGroupChange = new EventEmitter();
 
   constructor(private dialog: MatDialog) {}
 
@@ -22,9 +27,11 @@ export class InstanceGroupComponent {
   }
 
   public changeGroup(): void {
+    const groupNames = this.groups.map(group => group.name);
     this.dialog.open(InstanceGroupSelectorComponent, {
       width: '380px',
-      data: this.vm
-    });
+      data: { vm: this.vm, groups: groupNames }
+    }).afterClosed()
+      .subscribe(group => this.onGroupChange.emit(group));
   }
 }

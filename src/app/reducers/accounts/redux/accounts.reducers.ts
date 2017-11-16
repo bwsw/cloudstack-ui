@@ -9,6 +9,7 @@ import {
 } from '@ngrx/entity';
 import * as event from './accounts.actions';
 import { Account } from '../../../shared/models/account.model';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -224,6 +225,18 @@ export const selectFilteredAccounts = createSelector(
         && selectedStatesFilter(account)
         && selectedRoleTypesFilter(account)
         && selectedRoleNamesFilter(account);
+    });
+  }
+);
+
+export const selectDomainAccounts = createSelector(
+  selectAll,
+  fromAuth.getUserAccount,
+  (accounts, userAccount) => {
+    const userDomainFilter = account => !!userAccount && account.domainid === userAccount.domainid;
+
+    return accounts.filter(account => {
+      return userDomainFilter(account);
     });
   }
 );

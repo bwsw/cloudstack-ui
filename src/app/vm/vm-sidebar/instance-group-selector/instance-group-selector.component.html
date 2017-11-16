@@ -1,4 +1,4 @@
-<div *ngIf="groupNames$ | async as groupNames">
+<div *ngIf="groupNames">
   <ng-container *ngIf="!loading">
     <cs-create-update-delete-dialog
       [enableAssign]="groupNames?.length"
@@ -19,4 +19,4 @@
     ></cs-create-update-delete-dialog>
   </ng-container>
 </div>
-<div *loading="!groupNames$ || loading"></div>
+<div *loading="!groupNames || loading"></div>

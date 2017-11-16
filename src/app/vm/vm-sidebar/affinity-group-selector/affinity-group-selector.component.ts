@@ -1,9 +1,18 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  Component,
+  Inject,
+  OnInit
+} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
+import {
+  AffinityGroup,
+  AffinityGroupType
+} from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-
 import { VirtualMachine } from '../../shared/vm.model';
 
 
@@ -16,13 +25,16 @@ export class AffinityGroupSelectorComponent implements OnInit {
   public affinityGroups: Array<AffinityGroup>;
   public loading: boolean;
   public selectedAffinityGroupName: string;
+  public vm: VirtualMachine;
 
   constructor(
     private affinityGroupService: AffinityGroupService,
     private dialogRef: MatDialogRef<AffinityGroupSelectorComponent>,
     private dialogService: DialogService,
-    @Inject(MAT_DIALOG_DATA) public vm: VirtualMachine
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {
+    this.vm = data.vm;
+  }
 
   public ngOnInit(): void {
     this.loadGroups();
@@ -41,44 +53,24 @@ export class AffinityGroupSelectorComponent implements OnInit {
   }
 
   public createGroup(name: string): void {
-    this.loading = true;
     this.affinityGroupService
       .create({
         name,
         type: AffinityGroupType.hostAntiAffinity
       })
-      .switchMap(affinityGroup => {
-        return this.affinityGroupService
-          .updateForVm(this.vm, affinityGroup);
-      })
-      .finally(() => this.loading = false)
       .subscribe(
-        vm => this.dialogRef.close(vm.affinityGroup),
+        affinityGroup => this.dialogRef.close(affinityGroup.id),
         error => this.dialogService.alert({ message: error.message })
       );
   }
 
   public changeGroup(name: string): void {
-    this.loading = true;
     this.selectedAffinityGroupName = name;
-    this.affinityGroupService
-      .updateForVm(this.vm, this.selectedAffinityGroup)
-      .finally(() => this.loading = false)
-      .subscribe(
-        vm => this.dialogRef.close(vm.affinityGroup),
-        error => this.dialogService.alert({ message: error.message })
-      );
+    this.dialogRef.close(this.selectedAffinityGroup.id);
   }
 
   public removeGroup(): void {
-    this.loading = true;
-    this.affinityGroupService
-      .removeForVm(this.vm)
-      .finally(() => this.loading = false)
-      .subscribe(
-        vm => this.dialogRef.close(vm.affinityGroup),
-        error => this.dialogService.alert({ message: error.message })
-      );
+    this.dialogRef.close('');
   }
 
   public onCancel(): void {

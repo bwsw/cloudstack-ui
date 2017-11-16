@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
-import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
-import { VmTagsComponent } from './vm-tags/vm-tags.component';
 import { VirtualMachinePageContainerComponent } from './container/vm.container';
 import { VmDetailContainerComponent } from './container/vm-detail.container';
 import { VmSidebarContainerComponent } from './container/vm-sidebar.container';
 import { StorageDetailContainerComponent } from './container/storage-detail.container';
+import { NetworkDetailContainerComponent } from './container/network-detail.container';
+import { VmTagsContainerComponent } from './container/vm-tags.container';
 
 export const vmRoutes: Routes = [
   {
@@ -37,11 +37,11 @@ export const vmRoutes: Routes = [
             canActivate: [AuthGuard]
           }, {
             path: 'network',
-            component: NetworkDetailComponent,
+            component: NetworkDetailContainerComponent,
             canActivate: [AuthGuard]
           }, {
             path: 'tags',
-            component: VmTagsComponent,
+            component: VmTagsContainerComponent,
             canActivate: [AuthGuard]
           }
         ]

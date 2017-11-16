@@ -4,7 +4,7 @@
 >
   <ng-container cs-panels>
     <cs-top-bar>
-      <!--cs-vm-statistics></cs-vm-statistics-->
+      <cs-vm-statistics-container></cs-vm-statistics-container>
       <div class="top-border"></div>
       <cs-vm-filter-container
         [groupings]="groupings"
@@ -27,6 +27,7 @@
       [vms]="vms"
       [groupings]="selectedGroupings"
       [mode]="mode"
+      [query]="query"
       cs-list
     >
     </cs-vm-list>

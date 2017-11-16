@@ -68,11 +68,12 @@ export class VolumesEffects {
   detachVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DETACH_VOLUME)
     .switchMap((action: volumeActions.DetachVolume) => {
+      const virtualMachineId = action.payload.virtualMachineId;
       return this.volumeService
         .detach(action.payload)
-        .map(volume => {
-          //const updatedVolume = Object.assign({}, volume, { virtualMachineId: null });
-          return new volumeActions.UpdateVolume(new Volume(volume));
+        .switchMap(volume => {
+          return Observable.of(new volumeActions.UpdateVolume(new Volume(volume)),
+            new volumeActions.VolumeFilterUpdate({ virtualMachineId }));
         })
         .catch((error: Error) => {
           return Observable.of(new volumeActions.VolumeUpdateError(error));

@@ -13,6 +13,7 @@ import { VirtualMachine } from '../../../vm/shared/vm.model';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -30,6 +31,7 @@ export interface State extends EntityState<VirtualMachine> {
     selectedStates: string[],
     selectedAccountIds: string[],
     selectedGroupings: any[],
+    query: string,
   }
 }
 
@@ -67,6 +69,7 @@ export const initialState: State = adapter.getInitialState({
     selectedStates: [],
     selectedAccountIds: [],
     selectedGroupings: [],
+    query: '',
   }
 });
 
@@ -122,6 +125,18 @@ export function reducer(
       };
     }
 
+    case event.CREATE_VM_SUCCESS: {
+      return {
+        ...adapter.addOne(action.payload, state),
+      };
+    }
+
+    case event.EXPUNGE_VM_SUCCESS: {
+      return {
+        ...adapter.removeOne(action.payload.id, state),
+      };
+    }
+
     default: {
       return state;
     }
@@ -164,6 +179,12 @@ export const filters = createSelector(
   state => state.filters
 );
 
+export const filterQuery = createSelector(
+  filters,
+  state => state.query
+);
+
+
 export const filterSelectedZoneIds = createSelector(
   filters,
   state => state.selectedZoneIds
@@ -191,36 +212,45 @@ export const filterSelectedGroupings = createSelector(
 
 export const selectVmGroups = createSelector(
   selectAll,
-  (vms) => vms.reduce((groupsMap, vm) => {
-    const group = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+  (vms) => {
+    const groups = vms.reduce((groupsMap, vm) => {
+      const group = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
 
-    if (group && group.value && !groupsMap[group.value]) {
-      groupsMap[group.value] = new InstanceGroup(group.value);
-    }
-    return groupsMap;
-  }, {})
+      if (group && group.value && !groupsMap[group.value]) {
+        groupsMap[group.value] = new InstanceGroup(group.value);
+      }
+      return groupsMap;
+    }, {});
+    return groups ? Object.values(groups) : [];
+  }
 );
+
 
 export const selectFilteredVMs = createSelector(
   selectAll,
+  filterQuery,
   filterSelectedStates,
   filterSelectedGroupNames,
   filterSelectedZoneIds,
   filterSelectedAccountIds,
   fromAccounts.selectAll,
-  (vms, selectedStates, selectedGroupNames, selectedZoneIds, selectedAccountIds, accounts) => {
+  (vms, query, selectedStates, selectedGroupNames, selectedZoneIds, selectedAccountIds, accounts) => {
+    const queryLower = query && query.toLowerCase();
     const statesMap = selectedStates.reduce((m, i) => ({ ...m, [i]: i }), {});
     const zoneIdsMap = selectedZoneIds.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const groupNamesMap = selectedGroupNames.reduce((m, i) => ({ ...m, [i]: i }), {});
 
     const selectedAccounts = accounts.filter(
       account => selectedAccountIds.find(id => id === account.id));
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
+    const queryFilter = vm => !query || vm.name.toLowerCase().includes(queryLower);
 
     const selectedStatesFilter = vm => !selectedStates.length || !!statesMap[vm.state];
 
-    const selectedGroupNamesFilter = vm => !selectedGroupNames.length || !!statesMap[vm.instanceGroup.name];
+    const selectedGroupNamesFilter = vm => !selectedGroupNames.length ||
+      (!vm.instanceGroup && groupNamesMap[noGroup]) || (vm.instanceGroup && groupNamesMap[vm.instanceGroup.name]);
 
     const selectedZoneIdsFilter = vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneId];
 
@@ -229,6 +259,7 @@ export const selectFilteredVMs = createSelector(
 
     return vms.filter(vm => {
       return selectedStatesFilter(vm)
+        && queryFilter(vm)
         && selectedGroupNamesFilter(vm)
         && selectedZoneIdsFilter(vm)
         && selectedAccountIdsFilter(vm);

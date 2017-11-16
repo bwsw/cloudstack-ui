@@ -9,7 +9,6 @@ import {
   Zone
 } from '../../shared/models';
 import { VmState } from '../shared/vm.model';
-import { AuthService } from '../../shared/services/auth.service';
 import { Account } from '../../shared/models/account.model';
 
 export interface VmFilter {
@@ -34,11 +33,13 @@ export class VmFilterComponent {
   @Input() public groups: Array<any>;
   @Input() public states: Array<any>;
   @Input() public zones: Array<Zone>;
+  @Input() public query: string;
   @Input() public accounts: Array<Account>;
   @Input() public selectedZoneIds: Array<string>;
   @Input() public selectedGroupNames: Array<string>;
   @Input() public selectedAccountIds: Array<string>;
   @Input() public selectedStates: Array<any>;
+  @Output() public onQueryChange = new EventEmitter();
   @Output() public onGroupingsChange = new EventEmitter();
   @Output() public onZonesChange = new EventEmitter();
   @Output() public onGroupNamesChange = new EventEmitter();
@@ -46,14 +47,4 @@ export class VmFilterComponent {
   @Output() public onStatesChange = new EventEmitter();
 
   public noGroup = noGroup;
-
-  constructor(
-    private authService: AuthService
-  ) {
-  }
-
-  public showAccountFilter(): boolean {
-    return this.authService.isAdmin();
-  }
-
 }

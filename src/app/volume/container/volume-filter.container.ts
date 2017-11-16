@@ -74,7 +74,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
     },
     this.router,
     this.sessionStorage,
-    'accountListFilters',
+    'volumeListFilters',
     this.activatedRoute
   );
 

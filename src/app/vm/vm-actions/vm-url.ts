@@ -1,10 +1,7 @@
-import { VirtualMachineAction } from './vm-action';
-import { VirtualMachine, VmState } from '../shared/vm.model';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { VmService } from '../shared/vm.service';
-import { Observable } from 'rxjs/Observable';
-import { Injectable } from '@angular/core';
-import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
+import {
+  VirtualMachine,
+  VmState
+} from '../shared/vm.model';
 
 const AuthModeToken = 'csui.vm.auth-mode';
 const protocolToken = 'csui.vm.http.protocol';
@@ -17,21 +14,25 @@ enum AuthModeType {
   HTTP = 'http'
 }
 
-@Injectable()
-export class VmURLAction extends VirtualMachineAction {
+const getPort = (vm: VirtualMachine) => {
+  const portTag = vm.tags.find(tag => tag.key === portToken);
+  return portTag && portTag.value || '80';
+};
+const getPath = (vm: VirtualMachine) => {
+  const pathTag = vm.tags.find(tag => tag.key === pathToken);
+  return pathTag && pathTag.value;
+};
+const getProtocol = (vm: VirtualMachine) => {
+  const protocolTag = vm.tags.find(tag => tag.key === protocolToken);
+  return protocolTag && protocolTag.value || 'http';
+};
 
-  constructor(
-    protected dialogService: DialogService,
-    protected jobsNotificationService: JobsNotificationService,
-    protected vmService: VmService,
-  ) {
-    super(dialogService, jobsNotificationService, vmService);
-  }
+export const VmURLAction = {
 
-  public activate(vm: VirtualMachine): Observable<void> {
-    const protocol = this.getProtocol(vm);
-    const port = this.getPort(vm);
-    const path = this.getPath(vm);
+  activate: (vm: VirtualMachine) => {
+    const protocol = getProtocol(vm);
+    const port = getPort(vm);
+    const path = getPath(vm);
     const ip = vm.nic[0].ipAddress;
 
     const address = `${protocol}://${ip}:${port}${path}`;
@@ -40,38 +41,21 @@ export class VmURLAction extends VirtualMachineAction {
       vm.displayName,
       'resizable=0,width=820,height=640'
     );
-    return Observable.of(null);
-  }
-
-  public canActivate(vm: VirtualMachine): boolean {
+  },
+  canActivate: (vm: VirtualMachine) => {
     const authModeTag = vm.tags.find(tag => tag.key === AuthModeToken);
     const authMode = authModeTag && authModeTag.value;
     const mode = authMode && authMode.split(',').find(mode => mode === AuthModeType.HTTP);
     return mode && vm.state === VmState.Running;
-  }
+  },
 
-  public getLogin(vm: VirtualMachine): string {
+  getLogin: (vm: VirtualMachine) => {
     const loginTag = vm.tags.find(tag => tag.key === loginToken);
     return loginTag && loginTag.value;
-  }
+  },
 
-  public getPassword(vm: VirtualMachine): string {
+  getPassword: (vm: VirtualMachine) => {
     const passwordTag = vm.tags.find(tag => tag.key === passwordToken);
     return passwordTag && passwordTag.value;
   }
-
-  private getPort(vm: VirtualMachine): string {
-    const portTag = vm.tags.find(tag => tag.key === portToken);
-    return portTag && portTag.value || '80';
-  }
-
-  private getPath(vm: VirtualMachine): string {
-    const pathTag = vm.tags.find(tag => tag.key === pathToken);
-    return pathTag && pathTag.value;
-  }
-
-  private getProtocol(vm: VirtualMachine): string {
-    const protocolTag = vm.tags.find(tag => tag.key === protocolToken);
-    return protocolTag && protocolTag.value || 'http';
-  }
-}
+};

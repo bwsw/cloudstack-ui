@@ -55,7 +55,6 @@ import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-sele
 import { InstanceGroupComponent } from './vm-sidebar/vm-detail/instance-group/instance-group.component';
 // tslint:disable-next-line
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
-import { NetworkDetailComponent } from './vm-sidebar/network-detail/network-detail.component';
 // tslint:disable-next-line
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-offering-details/service-offering-details.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh-selector/ssh-keypair-reset.component';
@@ -65,7 +64,6 @@ import { IsoComponent } from './vm-sidebar/storage-detail/iso/iso.component';
 import { VolumeAttachmentDetailComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attachment-detail/volume-attachment-detail.component';
 // tslint:disable-next-line
 import { VolumeAttachmentDialogComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attchment-dialog/volume-attachment-dialog.component';
-import { StorageDetailComponent } from './vm-sidebar/storage-detail/storage-detail.component';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from './vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshot-modal.component';
@@ -73,10 +71,9 @@ import { SnapshotsComponent } from './vm-sidebar/storage-detail/volumes/snapshot
 import { VolumeDetailsComponent } from './vm-sidebar/storage-detail/volumes/volume-details/volume-details.component';
 import { VolumeComponent } from './vm-sidebar/storage-detail/volumes/volume/volume.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
-import { VmActionsSidebarComponent } from './vm-sidebar/vm-actions-sidebar/vm-actions-sidebar.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmDetailZoneComponent } from './vm-sidebar/vm-detail/zone/zone.component';
-import { VmTagsComponent } from './vm-tags/vm-tags.component';
+import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
 
 import { WebShellService } from './web-shell/web-shell.service';
@@ -112,6 +109,10 @@ import { ServiceOfferingEffects } from '../reducers/service-offerings/redux/serv
 import { VolumesComponent } from './vm-sidebar/storage-detail/volumes/volumes.component';
 import { StorageDetailContainerComponent } from './container/storage-detail.container';
 import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details.container';
+import { NetworkDetailContainerComponent } from './container/network-detail.container';
+import { VmTagsContainerComponent } from './container/vm-tags.container';
+import { VmActionsContainerComponent } from './container/vm-actions.container';
+import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
 
 
 @NgModule({
@@ -136,7 +137,6 @@ import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details
     ReactiveFormsModule,
     RouterModule,
     ServiceOfferingModule,
-    ServiceOfferingModule,
     SharedModule,
     SnapshotModule,
     TagsModule,
@@ -159,14 +159,14 @@ import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details
     AffinityGroupSelectorComponent,
     KeyboardsComponent,
     FirewallRulesDetailComponent,
-    NetworkDetailComponent,
+    NetworkDetailContainerComponent,
     ServiceOfferingDetailsComponent,
+    ServiceOfferingDialogContainerComponent,
     SnapshotsComponent,
     VolumeAttachmentDetailComponent,
     VolumeAttachmentDialogComponent,
     StatisticsComponent,
     StorageDetailContainerComponent,
-    StorageDetailComponent,
     SshKeypairComponent,
     SshKeypairResetComponent,
     VmDetailTemplateComponent,
@@ -175,8 +175,8 @@ import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details
     VmPageComponent,
     VmListComponent,
     VmActionsComponent,
+    VmActionsContainerComponent,
     VmAccessComponent,
-    VmActionsSidebarComponent,
     VmColorComponent,
     VmCreationComponent,
     VmCreationDialogComponent,
@@ -194,6 +194,7 @@ import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details
     InstanceGroupComponent,
     InstanceGroupSelectorComponent,
     IsoComponent,
+    VmTagsContainerComponent,
     VmTagsComponent,
     VmDestroyDialogComponent,
     VolumesComponent,
@@ -235,7 +236,8 @@ import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details
     VmCreationSecurityGroupComponent,
     PostdeploymentComponent,
     VmResetPasswordComponent,
-    VmAccessComponent
+    VmAccessComponent,
+    ServiceOfferingDialogContainerComponent
   ]
 })
 export class VmModule { }

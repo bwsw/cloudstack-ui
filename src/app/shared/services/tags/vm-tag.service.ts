@@ -8,6 +8,7 @@ import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { VirtualMachineTagKeys } from './vm-tag-keys';
+import { KeyValuePair } from '../../../tags/tags-view/tags-view.component';
 
 
 @Injectable()
@@ -48,6 +49,10 @@ export class VmTagService implements EntityTagService {
 
   public setDescription(vm: VirtualMachine, description: string): Observable<VirtualMachine> {
     return this.descriptionTagService.setDescription(vm, description, this) as Observable<VirtualMachine>;
+  }
+
+  public setPassword(vm: VirtualMachine, tag: KeyValuePair): Observable<VirtualMachine>  {
+    return this.tagService.update(vm, vm.resourceType, tag.key, tag.value);
   }
 
   public getGroup(vm: VirtualMachine): Observable<InstanceGroup> {

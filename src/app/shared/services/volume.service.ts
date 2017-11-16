@@ -31,17 +31,7 @@ export interface VolumeResizeData {
   size?: number;
 }
 
-export interface VolumeAttachmentEvent {
-  volumeId: string,
-  virtualMachineId?: string,
-  event: VolumeAttachmentEventType
-}
-
 export type VolumeAttachmentEventType = 'attached' | 'detached';
-export const VolumeAttachmentEventsTypes = {
-  ATTACHED: 'attached' as VolumeAttachmentEventType,
-  DETACHED: 'detached' as VolumeAttachmentEventType
-};
 
 @Injectable()
 @BackendResource({
@@ -49,11 +39,7 @@ export const VolumeAttachmentEventsTypes = {
   entityModel: Volume
 })
 export class VolumeService extends BaseBackendService<Volume> {
-  public onVolumeAttachment = new Subject<VolumeAttachmentEvent>();
-  public onVolumeCreated = new Subject<Volume>();
   public onVolumeResized = new Subject<Volume>();
-  public onVolumeRemoved = new Subject<Volume>();
-  public onVolumeTagsChanged = new Subject<Volume>();
 
   constructor(
     private asyncJobService: AsyncJobService,
@@ -100,7 +86,6 @@ export class VolumeService extends BaseBackendService<Volume> {
   public remove(volume: Volume): Observable<any> {
     return super.remove({ id: volume.id }).map(response => {
       if (response['success'] === 'true') {
-        //this.onVolumeRemoved.next(volume);
         return Observable.of(null);
       }
       return Observable.throw(response);
@@ -111,7 +96,6 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
     );
-      //.do(volume => this.onVolumeCreated.next(volume));
   }
 
   public detach(volume: Volume): Observable<Volume> {
@@ -119,10 +103,6 @@ export class VolumeService extends BaseBackendService<Volume> {
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
       );
-      /*.do(jobResult => this.onVolumeAttachment.next({
-        volumeId: volume.id,
-        event: VolumeAttachmentEventsTypes.DETACHED
-      }));*/
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
@@ -130,11 +110,6 @@ export class VolumeService extends BaseBackendService<Volume> {
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
       );
-      /*.do(jobResult => this.onVolumeAttachment.next({
-        volumeId: data.id,
-        virtualMachineId: data.virtualMachineId,
-        event: VolumeAttachmentEventsTypes.ATTACHED
-      }));*/
   }
 
   public markForRemoval(volume: Volume): Observable<any> {

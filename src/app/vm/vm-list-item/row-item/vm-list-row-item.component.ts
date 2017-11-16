@@ -17,6 +17,7 @@ import { VmListItemComponent } from '../vm-list-item.component';
 })
 export class VmListRowItemComponent extends VmListItemComponent {
   @Input() public item: VirtualMachine;
+  @Input() public searchQuery: () => string;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;

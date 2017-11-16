@@ -163,6 +163,7 @@ import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offer
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
 
 @NgModule({
   imports: [
@@ -258,6 +259,7 @@ import { EffectsModule } from '@ngrx/effects';
     TopBarComponent,
     ViewValuePipe,
     VmStatisticsComponent,
+    VmStatisticContainerComponent,
     ParametersPairComponent,
     ParametersEditPairComponent,
     VolumeActionsContainerComponent,
@@ -332,6 +334,7 @@ import { EffectsModule } from '@ngrx/effects';
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
     VmStatisticsComponent,
+    VmStatisticContainerComponent,
     TimeZoneComponent,
     ParametersPairComponent,
     ParametersEditPairComponent,

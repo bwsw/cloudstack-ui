@@ -45,17 +45,6 @@ export abstract class BaseTemplateTagsComponent extends TagsComponent<BaseTempla
       })
       .do(template => {
         this.entity = template;
-
-        this.tags$.next(this.entity.tags);
-
-        // todo: remove unsubscribe after migration to ngrx
-        this.tags$
-          .takeUntil(this.unsubscribe$)
-          .subscribe(tags => {
-            if (tags) {
-              this.entity.tags = tags;
-            }
-          });
       });
   }
 

@@ -41,15 +41,6 @@ export class VolumeAttachmentDetailComponent implements OnInit {
 
   public attachVolume(): void {
     this.onAttach.emit(this.selectedVolume);
-    /*this.volumeService.attach({
-      id: this.selectedVolume.id,
-      virtualMachineId: this.virtualMachine.id
-    })
-      .finally(() => setTimeout(() => this.loading = false))
-      .subscribe(() => {
-        this.onAttach.next(this.selectedVolume);
-        this.selectedVolume = undefined;
-      });*/
   }
 
 

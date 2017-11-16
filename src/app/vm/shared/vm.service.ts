@@ -20,8 +20,6 @@ import { ServiceOfferingService } from '../../shared/services/service-offering.s
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
-import { VmActions } from '../vm-actions/vm-action';
-import { IVirtualMachineCommand } from '../vm-actions/vm-command';
 import {
   VirtualMachine,
   VmState
@@ -128,33 +126,32 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
+
+
   public command(
     vm: VirtualMachine,
-    command: IVirtualMachineCommand,
+    command: string,
     params?: {}
   ): Observable<VirtualMachine> {
     const initialState = vm.state;
 
     return this.commandInternal(vm, command, params)
       .switchMap(job => this.registerVmJob(job))
-      .do(jogResult => this.vmUpdateObservable.next())
+      .do(jogResult => jogResult)
       .catch(error => {
-        this.setStateForVm(vm, initialState);
         return Observable.throw(error);
       });
   }
 
   public commandSync(
     vm: VirtualMachine,
-    command: IVirtualMachineCommand,
+    command: string,
     params?: {}
   ): Observable<any> {
-    const initialState = vm.state;
 
     return this.commandInternal(vm, command, params)
-      .do(() => this.vmUpdateObservable.next())
+      .do((res) => res)
       .catch(error => {
-        this.setStateForVm(vm, initialState);
         return Observable.throw(error);
       });
   }
@@ -219,11 +216,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   private commandInternal(
     vm: VirtualMachine,
-    command: IVirtualMachineCommand,
+    command: string,
     params?: {}
   ): Observable<any> {
-    const commandName = command.commandName as VmActions;
-    this.setStateForVm(vm, command.vmStateOnAction as VmState);
+    const commandName = command;
 
     return this.sendCommand(
       commandName,

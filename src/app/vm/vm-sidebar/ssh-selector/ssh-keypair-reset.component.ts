@@ -7,7 +7,6 @@ import {
   MAT_DIALOG_DATA,
   MatDialogRef
 } from '@angular/material';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 
@@ -22,7 +21,6 @@ export class SshKeypairResetComponent implements OnInit {
   public selectedSshKeyName: string;
 
   constructor(
-    private dialogService: DialogService,
     private dialogRef: MatDialogRef<SshKeypairResetComponent>,
     @Inject(MAT_DIALOG_DATA) private vm,
     private sshService: SSHKeyPairService
@@ -38,12 +36,6 @@ export class SshKeypairResetComponent implements OnInit {
   }
 
   public resetSshKey(): void {
-    this.resettingKeyInProgress = true;
-    this.sshService.reset({ id: this.vm.id, keypair: this.selectedSshKeyName })
-      .finally(() => this.resettingKeyInProgress = false)
-      .subscribe(
-        vm => this.dialogRef.close(vm.keyPair),
-        error => this.dialogService.alert({ message: error.message })
-      );
+    this.dialogRef.close(this.selectedSshKeyName);
   }
 }

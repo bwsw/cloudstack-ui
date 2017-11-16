@@ -1,6 +1,8 @@
 import {
   Component,
-  Input
+  EventEmitter,
+  Input,
+  Output
 } from '@angular/core';
 import {
   ActivatedRoute,
@@ -18,6 +20,7 @@ import { VmService } from '../shared/vm.service';
 })
 export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
   @Input() public entity: VirtualMachine;
+  @Output() public onColorChange = new EventEmitter();
 
   constructor(
     protected vmService: VmService,

@@ -21,11 +21,13 @@ export class VmListComponent {
   @Input() public vms: Array<VirtualMachine>;
   @Input() public groupings: Array<any>;
   @Input() public mode: ViewMode;
+  @Input() public query: string;
   public inputs;
   public outputs;
 
   constructor(public listService: ListService) {
     this.inputs = {
+      searchQuery: () => this.query,
       isSelected: item => this.listService.isSelected(item.id)
     };
 

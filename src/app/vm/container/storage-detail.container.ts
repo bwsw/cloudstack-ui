@@ -92,6 +92,7 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
           this.store.dispatch(new vmActions.DetachIso({
             virtualMachineId: this.vm.id
           }));
+          this.store.dispatch(new templateActions.LoadSelectedTemplate(''));
         }
       });
   }

@@ -15,7 +15,7 @@
         type="button"
         [matTooltip]="(vm.keyPair ? 'COMMON.EDIT': 'COMMON.ADD') | translate"
         matTooltipPosition="above"
-        (click)="resetSshKey()"
+        (click)="showSshKeypairResetDialog()"
       >
         <mat-icon *ngIf="vm.keyPair; else add">edit</mat-icon>
         <ng-template #add><mat-icon>add</mat-icon></ng-template>

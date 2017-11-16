@@ -36,6 +36,7 @@ const stateTranslations = {
 
 export class VmListItemComponent implements OnInit, OnChanges {
   public item: VirtualMachine;
+  public searchQuery: () => string;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;

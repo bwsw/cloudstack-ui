@@ -17,6 +17,7 @@ import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 })
 export class VmListCardItemComponent extends VmListItemComponent {
   @Input() public item: VirtualMachine;
+  @Input() public searchQuery: () => string;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;

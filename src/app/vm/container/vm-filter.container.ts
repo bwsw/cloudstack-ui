@@ -22,6 +22,7 @@ import {
 import { VmState } from '../shared/vm.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import * as debounce from 'lodash/debounce';
 
 
 @Component({
@@ -33,11 +34,13 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       [groups]="groups$ | async"
       [states]="states"
       [groupings]="groupings"
+      [query]="query$ | async"
       [selectedGroupings]="selectedGroupings"
       [selectedZoneIds]="selectedZoneIds$ | async"
       [selectedGroupNames]="selectedGroupNames$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedStates]="selectedStates$ | async"
+      (onQueryChange)="onQueryChange($event)"
       (onZonesChange)="onZonesChange($event)"
       (onGroupNamesChange)="onGroupNamesChange($event)"
       (onAccountsChange)="onAccountsChange($event)"
@@ -51,6 +54,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   @Input() selectedGroupings: Array<any>;
 
   readonly filters$ = this.store.select(fromVMs.filters);
+  readonly query$ = this.store.select(fromVMs.filterQuery);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly groups$ = this.store.select(fromVMs.selectVmGroups);
@@ -86,6 +90,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     zones: { type: 'array', defaultOption: [] },
     groups: { type: 'array', defaultOption: [] },
     groupings: { type: 'array', defaultOption: [] },
+    query: { type: 'string' },
     states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] },
     accounts: {type: 'array', defaultOption: [] }
   }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
@@ -99,9 +104,12 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     private authService: AuthService
   ) {
     super();
+    this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
   }
 
-
+  public onQueryChange(query) {
+    this.store.dispatch(new vmActions.VMFilterUpdate({ query }));
+  }
 
   public onZonesChange(selectedZoneIds) {
     this.store.dispatch(new vmActions.VMFilterUpdate({ selectedZoneIds }));
@@ -131,6 +139,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     const selectedStates = params['states'];
 
     const selectedZoneIds = params['zones'];
+    const query = params.query;
 
     const selectedGroupings = params['groupings'].reduce((acc, _) => {
       const grouping = this.groupings.find(g => g.key === _);
@@ -143,6 +152,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     const selectedAccountIds = params['accounts'];
 
     this.store.dispatch(new vmActions.VMFilterUpdate({
+      query,
       selectedStates,
       selectedGroupNames,
       selectedZoneIds,
@@ -164,6 +174,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
           groups: filters.selectedGroupNames,
           states: filters.selectedStates,
           groupings: filters.selectedGroupings.map(_ => _.key),
+          query: filters.query,
           accounts: filters.selectedAccountIds
         });
       });

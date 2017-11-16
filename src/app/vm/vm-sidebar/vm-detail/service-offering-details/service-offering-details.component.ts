@@ -1,16 +1,14 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  Output
+  Input
 } from '@angular/core';
 import {
   MatDialog,
   MatDialogConfig
 } from '@angular/material';
 import { ServiceOffering } from '../../../../shared/models/service-offering.model';
-import { ServiceOfferingService } from '../../../../shared/services/service-offering.service';
-import { ServiceOfferingDialogComponent } from '../../../../service-offering/service-offering-dialog/service-offering-dialog.component';
+import { ServiceOfferingDialogContainerComponent } from '../../../container/service-offering-dialog.container';
+import { VirtualMachine } from '../../../shared/vm.model';
 
 
 @Component({
@@ -20,28 +18,23 @@ import { ServiceOfferingDialogComponent } from '../../../../service-offering/ser
 })
 export class ServiceOfferingDetailsComponent {
   @Input() public offering: ServiceOffering;
-  @Output() public onOfferingChange = new EventEmitter();
+  @Input() public vm: VirtualMachine;
 
   public expandServiceOffering: boolean;
 
   constructor(
     private dialog: MatDialog,
-    private serviceOfferingService: ServiceOfferingService
   ) {
     this.expandServiceOffering = false;
   }
 
   public changeServiceOffering(): void {
-    this.dialog.open(ServiceOfferingDialogComponent, <MatDialogConfig>{
+    this.dialog.open(ServiceOfferingDialogContainerComponent, <MatDialogConfig>{
       width: '350px',
-      disableClose: true
+      disableClose: true,
+      data: { vm: this.vm }
     })
-      .afterClosed()
-      .subscribe((newOffering: ServiceOffering) => {
-        if (newOffering) {
-          this.onOfferingChange.emit(newOffering);
-        }
-      });
+      .afterClosed();
   }
 
   public toggleServiceOffering(): void {
