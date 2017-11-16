@@ -5,7 +5,6 @@ import { SecurityGroupViewMode } from './containers/sg-filter.container';
 export interface SecurityGroupFilter {
   viewMode: SecurityGroupViewMode;
   query: string;
-  vm: string;
 }
 
 
