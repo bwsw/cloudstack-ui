@@ -22,7 +22,7 @@ Table of Contents
          * [Spare Drives View](#spare-drives-view)
          * [Activity log view](#activity-log-view)
    * [Documentation](#documentation)   
-      * [Start Guide](#start-guide-for-developers)
+      * [Getting started guide](#getting-started-guide)
       * [Deployment](#deployment)
       * [Configuration Options](#configuration-options)
    * [Project Sponsors](#project-sponsors)
@@ -168,14 +168,13 @@ It’s a simplified view for account activities. It lets you choose the date and
 
 # Documentation
 
-## Start Guide for developers
+## Getting started guide
 
-1. Before you start, please, prepare Node development environment. Learn and setup Node.js or update your current node.js to latest stable version (We recomend Node.js v6.9.2).
-2. Learn and install Yarn Package Manager. 
-3. Clone the CSUI project from GitHub and open it.
-5. Use terminal to run "npm install" command. This command installs all depencies, which are used in the project. Also, you may use "yarn" command.
-6. Prepare your own proxy-conf.js file and set the API endpoint in this file, or set BACKEND_API_URL in environment.
-7. Use "scripts" section in package.json file to provide common project commands.
+1. Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version (We recomend Node.js v6.9.2).
+2. Clone the CSUI project from GitHub and open it.
+3. Use terminal to run "npm install" command. This command installs all depencies, which are used in the project. Also, you may use "yarn" command.
+4. Prepare your own proxy-conf.js file and set the API endpoint in this file, or set BACKEND_API_URL in environment.
+5. Use "scripts" section in package.json file to provide common project commands.
 
 ### Main commands
 
@@ -184,6 +183,18 @@ It’s a simplified view for account activities. It lets you choose the date and
 |npm test | use this command to execute tests via Karma|
 |npm run build| use this command to build the project, the build artifacts will be stored in the dist/ directory|
 |npm start| use this command to compile the application, it will be avaliable at URL - "localhost:8080". Run this command with argument '-- --proxy-config proxy-conf.js' if you use it |
+
+### Proxy-conf.js file example
+
+<pre>
+  {
+    context: [
+      "/client/api",
+    ],
+    target: "http://api.endpoint/",
+    secure: false
+  }
+</pre>
 
 ## Deployment
 
