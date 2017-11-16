@@ -20,12 +20,12 @@ export class SecurityGroupRulesDialogComponent {
     this.showDialog(params['id']);
   }
 
-  private showDialog(id: string) {
+  private showDialog(securityGroupId: string) {
     const editMode = !!this.route.snapshot.queryParams.hasOwnProperty('vm');
 
     this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
       width: '910px',
-      data: { id, editMode }
+      data: { securityGroupId, editMode }
     })
       .afterClosed()
       .map(updatedGroup => {

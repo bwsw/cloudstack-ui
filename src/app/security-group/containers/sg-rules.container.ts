@@ -36,16 +36,9 @@ export class SgRulesContainerComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) data,
     private cd: ChangeDetectorRef
   ) {
-    this.id = data.id;
-
-    if (data.vmId) {
-      this.store.dispatch(new securityGroupActions.LoadSGRequest());
-      this.vmId = data.vmId;
-    }
-
-    if (data.editMode) {
-      this.editMode = data.editMode;
-    }
+    this.id = data.securityGroupId;
+    this.vmId = data.vmId;
+    this.editMode = !!data.editMode;
   }
 
   public ngOnInit() {

@@ -27,22 +27,7 @@ export class SgFilterComponent {
     this.query = filter.query;
   }
 
-  public get mode(): number {
-    const modeIndices = {
-      [SecurityGroupViewMode.Templates]: 0,
-      [SecurityGroupViewMode.Shared]: 1
-    };
-
-    return modeIndices[this.viewMode] || 0;
-  }
-
-  public setMode(index: SecurityGroupViewMode): void {
-    const modes = {
-      0: SecurityGroupViewMode.Templates,
-      1: SecurityGroupViewMode.Shared
-    };
-
-    this.viewMode = modes[index];
-    this.viewModeChange.emit(this.viewMode);
+  public get SecurityGroupViewMode() {
+    return SecurityGroupViewMode;
   }
 }

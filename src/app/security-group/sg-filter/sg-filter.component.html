@@ -1,9 +1,13 @@
 <div class="filter-wrapper">
-  <mat-button-toggle-group (change)="setMode($event.value)">
-    <mat-button-toggle value="0" [checked]="mode === 0">
+  <mat-button-toggle-group
+    name="viewMode"
+    [(ngModel)]="viewMode"
+    (change)="viewModeChange.emit(this.viewMode)"
+  >
+    <mat-button-toggle [value]="SecurityGroupViewMode.Templates">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.TEMPLATES' | translate }}
     </mat-button-toggle>
-    <mat-button-toggle value="1" [checked]="mode === 1">
+    <mat-button-toggle [value]="SecurityGroupViewMode.Shared">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.SHARED' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
