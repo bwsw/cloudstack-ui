@@ -646,9 +646,11 @@
   "SECURITY_GROUP_PAGE": {
     "FILTERS": {
       "TEMPLATES": "Шаблоны брандмауэра",
-      "SHARED": "Разделяемые группы безопасности"
+      "SHARED": "Разделяемые группы безопасности",
+      "GROUP_BY": "Группировать по",
+      "PROTOCOLS": "Протоколы",
+      "TYPES": "Типы"
     },
-
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "Системные",
       "CUSTOM_SECURITY_GROUPS": "Пользовательские",

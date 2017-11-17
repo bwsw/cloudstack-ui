@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../shared/components/security-group-builder/rules';
 import { SecurityGroupService } from '../services/security-group.service';
-import { SecurityGroupViewMode } from '../sg-filter/sg-filter.component';
 import { SecurityGroup } from '../sg.model';
+import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
 
 
 @Component({

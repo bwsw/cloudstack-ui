@@ -77,6 +77,7 @@ export class FilterService {
         return memo;
       }
     }, {});
+
     this.router.navigate([], { queryParams })
       .then(() => this.storage.write(this.key, JSON.stringify(queryParams)));
   }
