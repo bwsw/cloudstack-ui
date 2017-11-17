@@ -20,11 +20,14 @@ export class TemplateService extends BaseTemplateService {
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
     // stub
-    params['hypervisor'] = 'KVM';
-    params['format'] = 'QCOW2';
-    params['requiresHvm'] = true;
 
-    return <Observable<Template>>super.register(params)
+    const requestParams = Object.assign({}, params);
+
+    requestParams['hypervisor'] = requestParams['hypervisor'] || 'KVM';
+    requestParams['format'] = requestParams['format'] || 'QCOW2';
+    requestParams['requiresHvm'] = requestParams['requiresHvm'] || true;
+
+    return <Observable<Template>>super.register(requestParams)
       .do(() => this.invalidateCache());
   }
 }

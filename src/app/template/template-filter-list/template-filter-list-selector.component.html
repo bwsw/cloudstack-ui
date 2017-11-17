@@ -1,23 +1,31 @@
 <cs-template-filters
   class="options"
-  (queries)="filterResults($event)"
-  (filters)="filterResults($event)"
-  (displayMode)="changeViewMode($event)"
   [showIso]="viewMode === 'Iso'"
+  [availableGroupings]="groupings"
   [showIsoSwitch]="showIsoSwitch"
   [dialogMode]="dialogMode"
-  [availableGroupings]="groupings"
-></cs-template-filters>
+  [selectedAccountIds]="selectedAccountIds"
+  [selectedGroupings]="selectedGroupings"
+  [selectedZones]="zoneId"
+  [selectedFilters]="selectedTypes"
+  [selectedOsFamilies]="selectedOsFamilies"
+  [query]="query"
 
+  (queryChange)="onQueryChange.emit($event)"
+  (selectedTypesChange)="onSelectedTypesChange.emit($event)"
+  (selectedOsFamiliesChange)="onSelectedOsFamiliesChange.emit($event)"
+  (displayMode)="viewModeChange.emit($event)"
+
+></cs-template-filters>
 <cs-template-list
   *loading="fetching"
   class="template-list"
   [selectedTemplate]="selectedTemplate"
   (selectedTemplateChange)="selectTemplate($event)"
-  [templateList]="visibleTemplateList"
+  [templateList]="templates"
   [query]="query"
   [radio]="dialogMode"
   [dialogMode]="dialogMode"
 ></cs-template-list>
 
-<cs-no-results *ngIf="!visibleTemplateList?.length && !fetching"></cs-no-results>
+<cs-no-results *ngIf="!templates?.length && !fetching"></cs-no-results>

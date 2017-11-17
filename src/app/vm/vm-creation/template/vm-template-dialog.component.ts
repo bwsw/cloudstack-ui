@@ -55,8 +55,8 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     this._selectedTemplate = template;
   }
 
-  public onOk(): void {
-    this.dialogRef.close(this.selectedTemplate);
+  public onOk(template): void {
+    this.dialogRef.close(template);
   }
 
   public onCancel(): void {

@@ -5,6 +5,7 @@ import { TemplateActionsService } from '../template-actions.service';
 import { BaseTemplateAction } from '../base-template-action';
 import { TemplateDeleteAction } from '../delete/template-delete';
 import { IsoDeleteAction } from '../delete/iso-delete';
+import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class TemplateActionsComponent implements OnInit {
 
   constructor(
     private templateActionsService: TemplateActionsService,
-    private isoActionsService: IsoActionsService
+    private isoActionsService: IsoActionsService,
+    private dialogService: DialogService
   ) {
   }
 
@@ -31,10 +33,14 @@ export class TemplateActionsComponent implements OnInit {
   }
 
   public activateAction(action) {
-    action.activate(this.template).subscribe(() => {
-      if (action instanceof TemplateDeleteAction || action instanceof IsoDeleteAction) {
-        this.deleteTemplate.emit(this.template);
-      }
-    });
+    this.dialogService.confirm({ message: action.confirmMessage })
+      .onErrorResumeNext()
+      .subscribe(() => {
+        switch (action.icon) {
+          case 'delete': {
+            this.deleteTemplate.emit(this.template);
+          }
+        }
+      });
   }
 }

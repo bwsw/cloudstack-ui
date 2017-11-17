@@ -71,6 +71,7 @@ import { TemplateFilterContainerComponent } from './containers/template-filter.c
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 import { TemplateOsIconContainerComponent } from './template-sidebar/template-os-icon/template-os-icon.container';
+import { TemplateFilterListContainerComponent } from './containers/template-filter-list.container';
 
 
 @NgModule({
@@ -120,6 +121,7 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
     TemplateCardListComponent,
     TemplatePageContainerComponent,
     TemplateFilterContainerComponent,
+    TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
     TemplatePageComponent,
@@ -131,7 +133,7 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
     IsoDetailsComponent
   ],
   exports: [
-    TemplateFilterListSelectorComponent,
+    TemplateFilterListContainerComponent,
     TemplateFilterListComponent
   ],
   providers: [

@@ -38,10 +38,6 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   readonly filters$ = this.store.select(fromTemplates.filters);
 
   readonly query$ = this.store.select(fromTemplates.filterQuery);
-  readonly selectedAccountIds$ = this.store.select(fromTemplates.filterSelectedAccountIds);
-  readonly selectedOsFamilies$ = this.store.select(fromTemplates.filterSelectedOsFamilies);
-  readonly selectedTypes$ = this.store.select(fromTemplates.filterSelectedTypes);
-  readonly selectedZones$ = this.store.select(fromTemplates.filterSelectedZones);
   readonly selectedGroupings$ = this.store.select(fromTemplates.filterSelectedGroupings);
 
   constructor(
@@ -60,6 +56,6 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   }
 
   public onTemplateDelete(template) {
-    this.store.dispatch(new templateActions.RemoveTemplateSuccess(template));
+    this.store.dispatch(new templateActions.RemoveTemplate(template));
   }
 }
