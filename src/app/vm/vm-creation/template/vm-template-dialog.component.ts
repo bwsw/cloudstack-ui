@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Template } from '../../../template/shared';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
@@ -10,34 +9,15 @@ import { TemplateFilterListComponent } from '../../../template/template-filter-l
   selector: 'cs-vm-creation-template-dialog',
   templateUrl: 'vm-template-dialog.component.html'
 })
-export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
+export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
-  public preselectedTemplate: Template;
-  public templates: Array<Template>;
-  public isos: Array<Iso>;
-  public zoneId: string;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data,
-    private dialogRef: MatDialogRef<VmTemplateDialogComponent>
-  ) {
-    super();
-
-    this.preselectedTemplate = data.template;
-    this.templates = data.templates;
-    this.isos = data.isos;
-    this.zoneId = data.zoneId;
-
-    this.preselectedTemplate = data.template;
-    this.templates = data.templates;
-    this.isos = data.isos;
-    this.zoneId = data.zoneId;
-  }
-
-  public ngOnInit(): void {
-    this.selectedTemplate = this.preselectedTemplate;
-  }
-
+  @Input() public templates: Array<BaseTemplateModel>;
+  @Input() public zoneId: string;
+  @Input() public set preselectedTemplate(value: BaseTemplateModel) {
+    this.selectedTemplate = value;
+  };
+  @Output() close = new EventEmitter();
   public get typeOfSelectedSource(): 'Iso' | 'Template' {
     if (this.selectedTemplate instanceof Iso) {
       return 'Iso';
@@ -56,10 +36,10 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   }
 
   public onOk(template): void {
-    this.dialogRef.close(template);
+    this.close.emit(template);
   }
 
   public onCancel(): void {
-    this.dialogRef.close(this.preselectedTemplate);
+    this.close.emit(this.preselectedTemplate);
   }
 }

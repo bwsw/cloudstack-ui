@@ -54,13 +54,11 @@ export class TemplateEffects {
   removeTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_REMOVE)
     .switchMap((action: template.RemoveTemplate) => {
-      return this.templateService.remove(action.payload)
-        .map(() => {
-          return new template.RemoveTemplateSuccess(action.payload);
-        })
-        .catch((error: Error) => {
-          return Observable.of(new template.RemoveTemplateError(action.payload));
-        })
+      return (action.payload.entity === 'Iso'
+        ? this.isoService.remove(action.payload)
+        : this.templateService.remove(action.payload))
+        .map(() => new template.RemoveTemplateSuccess(action.payload))
+        .catch((error: Error) => Observable.of(new template.RemoveTemplateError(error)));
     });
 
   @Effect({ dispatch: false })
@@ -82,7 +80,7 @@ export class TemplateEffects {
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
       if (action.payload.entity === 'Iso') {
-        this.isoService.register(action.payload);
+        return this.isoService.register(action.payload);
       } else if (action.payload.snapshotId) {
         return this.templateService.create(action.payload);
       } else {
@@ -90,9 +88,7 @@ export class TemplateEffects {
       }
     })
     .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
-    .catch((error: Error) => {
-      return Observable.of(new template.CreateTemplateError(error));
-    });
+    .catch((error: Error) => Observable.of(new template.CreateTemplateError(error)));
 
   @Effect({ dispatch: false })
   createTemplateError$: Observable<Action> = this.actions$
@@ -124,7 +120,7 @@ export class TemplateEffects {
   private onNotify(template: any, message: string) {
     this.notificationService.message({
       translationToken: message,
-      interpolateParams: { name:  template.name}
+      interpolateParams: { name: template.name }
     });
   }
 

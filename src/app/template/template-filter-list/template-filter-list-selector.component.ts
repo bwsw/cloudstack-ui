@@ -18,39 +18,51 @@ import { Template } from '../shared/template.model';
   styleUrls: ['template-filter-list-selector.component.scss']
 })
 export class TemplateFilterListSelectorComponent {
+  private _selectedTemplate: BaseTemplateModel;
   @Input() public templates: Array<Template>;
-  @Input() public selectedTemplate: BaseTemplateModel;
 
   @Input() public dialogMode = true;
   @Input() public showIsoSwitch = true;
   @Input() public viewMode: string;
+  @Input() public zoneId: string;
+  @Input() public groupings: any;
+  @Input() public groups: any;
 
   @Input() public fetching;
   @Input() public query: string;
   @Input() public selectedTypes: Array<string>;
   @Input() public selectedOsFamilies: Array<OsFamily>;
   @Input() public selectedZones: Array<Zone>;
+  @Input() public selectedGroups: Array<string>;
   @Input() public selectedGroupings;
-
 
   @Output() public selectedTemplateChange = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
   @Output() public onQueryChange = new EventEmitter();
   @Output() public onSelectedTypesChange = new EventEmitter();
+  @Output() public onSelectedGroupsChange = new EventEmitter();
   @Output() public onSelectedOsFamiliesChange = new EventEmitter();
 
-  public groupings = [
-    {
-      key: 'zones',
-      label: 'GROUP_BY_ZONES',
-      selector: (item: BaseTemplateModel) => item.zoneId || '',
-      name: (item: BaseTemplateModel) => item.zoneName || 'NO_ZONE'
-    }
-  ];
+  @Input()
+  public set selectedTemplate(template: BaseTemplateModel) {
+    this._selectedTemplate = template
+      ? template
+      : this.templates && this.templates.length
+        ? this.templates[0]
+        : null;
+  }
+
+  public get selectedTemplate(): BaseTemplateModel {
+    return this._selectedTemplate;
+  }
 
   constructor(protected authService: AuthService) {
   }
-
+//todo: what is here?
+  public changeViewMode(mode: string): void {
+    this.viewMode = mode;
+    this.viewModeChange.emit(this.viewMode);
+  }
 
   public selectTemplate(template: BaseTemplateModel): void {
     this.selectedTemplate = template;

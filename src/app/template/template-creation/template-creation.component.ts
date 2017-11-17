@@ -5,6 +5,9 @@ import { Hypervisor, OsType, Zone } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { TemplateGroup } from '../../shared/models/template-group.model';
+import { TranslateService } from '@ngx-translate/core';
+import { Language } from '../../shared/services/language.service';
 
 interface TemplateFormat {
   name: string;
@@ -21,6 +24,7 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
   @Input() public isLoading: boolean;
+  @Input() public groups: Array<TemplateGroup>;
 
   @Output() public onCreateTemplate = new EventEmitter<any>();
 
@@ -30,6 +34,7 @@ export class TemplateCreationComponent implements OnInit {
   public osTypeId: string;
   public url: string;
   public zoneId: string;
+  public templateGroup: TemplateGroup;
   public isExtractable: boolean;
   public hypervisor: string;
   public isPublic: boolean;
@@ -59,10 +64,15 @@ export class TemplateCreationComponent implements OnInit {
 
   public showAdditional = false;
 
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
+  }
+
   constructor(
     private dialogRef: MatDialogRef<TemplateCreationComponent>,
     private hypervisorService: HypervisorService,
     private authService: AuthService,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.snapshot = data.snapshot;
@@ -105,6 +115,10 @@ export class TemplateCreationComponent implements OnInit {
       displayText: this.displayText,
       osTypeId: this.osTypeId,
     };
+
+    if (this.templateGroup) {
+      params['groupId'] = this.templateGroup.id;
+    }
 
     if (!this.snapshot) {
       params['url'] = this.url;

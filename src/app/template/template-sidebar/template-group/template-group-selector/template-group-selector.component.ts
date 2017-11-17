@@ -67,7 +67,9 @@ export class TemplateGroupSelectorComponent implements OnInit {
   }
 
   public removeGroup(): void {
-    this.changeGroup(DefaultTemplateGroupId);
+    this.templateGroupService.add(this.template, { id: DefaultTemplateGroupId })
+      .finally(() => this.dialogRef.close())
+      .subscribe();
   }
 
   public onCancel(): void {

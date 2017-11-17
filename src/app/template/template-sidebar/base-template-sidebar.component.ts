@@ -1,10 +1,22 @@
 import { ActivatedRoute } from '@angular/router';
 import { BaseTemplateModel } from '../shared/base-template.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 export abstract class BaseTemplateSidebarComponent {
   public entity: BaseTemplateModel;
 
-  constructor(protected route: ActivatedRoute) {
+  public get notFound(): boolean {
+    return !this.entity;
+  };
+
+  public get isSelf(): boolean {
+    return (this.authService.user && this.authService.user.username === this.entity.account);
+  }
+
+  constructor(
+    protected route: ActivatedRoute,
+    protected authService: AuthService
+  ) {
   }
 
   public tabIsActive(tabId: string) {

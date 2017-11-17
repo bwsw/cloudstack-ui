@@ -96,6 +96,23 @@
               </mat-select>
             </mat-form-field>
           </div>
+          <mat-form-field class="full-width-input">
+            <mat-select
+              [required]="true"
+              class="form-select-control"
+              [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.GROUP' | translate"
+              [(ngModel)]="templateGroup"
+              id="templateGroup"
+              name="templateGroup"
+            >
+              <mat-option
+                *ngFor="let group of groups"
+                [value]="group"
+              >
+                {{ group.translations && group.translations[locale] || group.id }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <div class="additional">
             <mat-checkbox
               *ngIf="mode === 'Template'"

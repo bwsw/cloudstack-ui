@@ -77,9 +77,14 @@ import { TemplateGroupComponent } from './template-sidebar/template-group/templa
 import { templateGroupReducers } from './redux/template-group.reducers';
 import { TemplateGroupEffects } from './redux/template-group.effects';
 import { TemplateGroupContainerComponent } from './template-sidebar/template-group/containers/template-group.container';
-import { TemplateSidebarContainerComponent } from './template-sidebar/containers/template-sidebar.container';
-import { IsoSidebarContainerComponent } from './template-sidebar/containers/iso-sidebar.container';
+import { BaseTemplateSidebarContainerComponent } from './template-sidebar/containers/base-template-sidebar.container';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+import { TemplateFilterListContainerComponent } from './containers/template-filter-list.container';
+import { DetailsContainerComponent } from './template-sidebar/containers/details.container';
+import { TemplateZonesContainerComponent } from './template-sidebar/containers/template-zones.container';
+import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
+import { TemplateFilterListSelectorContainerComponent } from './containers/template-filter-selector.container';
+import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zones.container';
 
 
 @NgModule({
@@ -117,9 +122,8 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
   ],
   declarations: [
     TemplateSidebarComponent,
-    TemplateSidebarContainerComponent,
+    BaseTemplateSidebarContainerComponent,
     IsoSidebarComponent,
-    IsoSidebarContainerComponent,
     IsoAttachmentComponent,
     TemplateActionsSidebarContainerComponent,
     TemplateActionsSidebarComponent,
@@ -141,20 +145,28 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
     TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
+    TemplateFilterListSelectorContainerComponent,
     TemplateGroupSelectorComponent,
     TemplateGroupContainerComponent,
     TemplateGroupComponent,
     TemplatePageComponent,
     TemplateTagsComponent,
     IsoTagsComponent,
+    TagsContainerComponent,
     TemplateZonesComponent,
     IsoZonesComponent,
+    IsoZonesContainerComponent,
+    TemplateZonesContainerComponent,
     TemplateDetailsComponent,
-    IsoDetailsComponent
+    IsoDetailsComponent,
+    DetailsContainerComponent,
   ],
   exports: [
     TemplateFilterListContainerComponent,
+    TemplateFilterListSelectorContainerComponent,
+    TemplateFilterListSelectorComponent,
     TemplateFilterListComponent,
+    TemplateFiltersComponent,
     TemplateGroupComponent
   ],
   providers: [

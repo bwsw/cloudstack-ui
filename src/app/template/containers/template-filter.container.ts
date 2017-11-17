@@ -178,7 +178,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
 
     const selectedViewMode = !this.dialogMode
       ? params['viewMode']
-      : this.viewMode.toLowerCase();
+      : (this.viewMode && this.viewMode.toLowerCase());
     const selectedAccounts = !this.dialogMode ? params['accounts'] : [];
     const selectedZones = !this.dialogMode ? params['zones'] : [this.zoneId];
 
@@ -196,18 +196,18 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.filters$
       .takeUntil(this.unsubscribe$)
       .subscribe(filters => {
-        if (!this.dialogMode) {
-          this.filterService.update({
-            'viewMode': filters.selectedViewMode,
-            'accounts': filters.selectedAccountIds,
-            'osFamilies': filters.selectedOsFamilies,
-            'types': filters.selectedTypes,
-            'zones': filters.selectedZones,
-            'groups': filters.selectedGroups,
-            'groupings': filters.selectedGroupings.map(_ => _.key),
-            'query': filters.query,
-          });
-        }
+        // if (!this.dialogMode) {
+        //   this.filterService.update({
+        //     'viewMode': filters.selectedViewMode,
+        //     'accounts': filters.selectedAccountIds,
+        //     'osFamilies': filters.selectedOsFamilies,
+        //     'types': filters.selectedTypes,
+        //     'zones': filters.selectedZones,
+        //     'groups': filters.selectedGroups,
+        //     'groupings': filters.selectedGroupings.map(_ => _.key),
+        //     'query': filters.query,
+        //   });
+        // }
       });
   }
 }

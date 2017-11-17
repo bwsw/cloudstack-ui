@@ -93,6 +93,8 @@ import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fie
 import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
+import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
+import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
 
 
 @NgModule({
@@ -151,7 +153,9 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     VmDetailComponent,
     VmFilterComponent,
     VmSidebarComponent,
+    VmCreationTemplateContainerComponent,
     VmCreationTemplateComponent,
+    VmTemplateDialogContainerComponent,
     VmTemplateDialogComponent,
     VolumeDetailsComponent,
     InstanceGroupComponent,
@@ -189,7 +193,7 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmDestroyDialogComponent,
-    VmTemplateDialogComponent,
+    VmTemplateDialogContainerComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
     VolumeAttachmentDialogComponent,
@@ -200,4 +204,5 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
     VmAccessComponent
   ]
 })
-export class VmModule { }
+export class VmModule {
+}

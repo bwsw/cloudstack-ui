@@ -33,6 +33,7 @@ export class TemplateFiltersComponent implements OnInit {
   @Input() public selectedTypes: any[];
   @Input() public selectedOsFamilies: OsFamily[];
   @Input() public query: string;
+  @Input() public viewMode: string;
 
   @Output() public queries = new EventEmitter();
   @Output() public viewModeChange = new EventEmitter();
@@ -62,7 +63,7 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.self
   ];
 
- private templateTabIndex = 0;
+  private templateTabIndex = 0;
   private isoTabIndex = 1;
 
   constructor(
@@ -95,14 +96,16 @@ export class TemplateFiltersComponent implements OnInit {
     return this.showIso ? this.isoTabIndex : this.templateTabIndex;
   }
 
-  public setMode(index: number): void {
-    this.showIso = Number(index) === this.isoTabIndex;
-    this.updateDisplayMode();
+  public setMode(mode: string): void {
+    this.viewModeChange.emit(mode);
+
+    // this.showIso = Number(index) === this.isoTabIndex;
+    // this.updateDisplayMode();
   }
 
   public updateDisplayMode(): void {
-    const mode = this.showIso ? 'Iso' : 'Template';
-    this.viewModeChange.emit(mode);
+    // const mode = this.showIso ? 'Iso' : 'Template';
+    // this.viewModeChange.emit(mode);
   }
 
   public updateSelectedGroupings(selectedGroupings) {

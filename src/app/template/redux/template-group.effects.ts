@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
+import { Action, INIT } from '@ngrx/store';
 import { TemplateGroupService } from '../../shared/services/template-group.service';
 
 import * as actions from './template-group.actions';
@@ -11,7 +11,7 @@ import * as actions from './template-group.actions';
 export class TemplateGroupEffects {
   @Effect()
   loadTemplateGroups$: Observable<Action> = this.actions$
-    .ofType(actions.LOAD_TEMPLATE_GROUP_REQUEST)
+    .ofType(INIT)
     .switchMap((action: actions.LoadTemplateGroupsRequest) => {
       return this.templateGroupService.getList()
         .map(groupList => new actions.LoadTemplateGroupsResponse(groupList));

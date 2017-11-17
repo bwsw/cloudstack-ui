@@ -32,6 +32,7 @@ export interface RegisterTemplateBaseParams {
   url?: string;
   zoneId?: string;
   entity: 'Iso' | 'Template';
+  groupId?: string;
 }
 
 export class GroupedTemplates<T extends BaseTemplateModel> {
@@ -167,6 +168,11 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
     return this.sendCommand('register', params)
       .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
+      .switchMap(template => {
+        return this.templateTagService.setGroup(template, params.groupId)
+          .catch(() => Observable.of(null))
+          .do(tag => template.tags.push(tag));
+      })
       .switchMap(template => {
         return this.templateTagService.setDownloadUrl(template, params.url)
           .catch(() => Observable.of(null))

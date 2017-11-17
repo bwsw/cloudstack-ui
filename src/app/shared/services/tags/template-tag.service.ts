@@ -27,12 +27,11 @@ export class TemplateTagService implements EntityTagService {
     );
   }
 
-  public setGroup(template: BaseTemplateModel, group: TemplateGroup): Observable<BaseTemplateModel> {
+  public setGroup(template: BaseTemplateModel, groupId: string): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
       template.resourceType,
       this.keys.group,
-      group && group.id
-    );
+      groupId);
   }
 }

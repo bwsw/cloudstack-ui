@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 
 import * as fromTemplates from '../../redux/template.reducers';
 import * as fromOsTypes from '../../redux/ostype.reducers';
+import * as fromTemplateGroups from '../../redux/template-group.reducers';
 import * as fromZones from '../../redux/zone.reducers';
-
 import * as templateActions from '../../redux/template.actions';
 
 
@@ -18,6 +18,7 @@ import * as templateActions from '../../redux/template.actions';
       [zones]="zones$ | async"
       [isLoading]="loading$ | async"
       (onCreateTemplate)="onCreate($event)"
+      [groups]="groups$ | async"
     ></cs-template-creation>`
 })
 export class TemplateCreationContainerComponent {
@@ -25,6 +26,7 @@ export class TemplateCreationContainerComponent {
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly loading$ = this.store.select(fromTemplates.isLoading);
+  readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
 
   constructor(private store: Store<State>) {
   }

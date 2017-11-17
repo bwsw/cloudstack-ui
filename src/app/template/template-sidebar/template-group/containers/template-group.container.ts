@@ -16,18 +16,14 @@ import * as templateGroupActions from '../../../redux/template-group.actions';
       (groupChange)="onGroupChange()"
     ></cs-template-group>`
 })
-export class TemplateGroupContainerComponent implements OnInit {
+export class TemplateGroupContainerComponent  {
   readonly templateGroups$ = this.store.select(fromTemplateGroups.selectEntities);
   readonly template$ = this.store.select(fromTemplates.getSelectedTemplate);
 
   constructor(private store: Store<State>) {
   }
 
-  public ngOnInit() {
-    this.store.dispatch(new templateGroupActions.LoadTemplateGroupsRequest());
-  }
-
   public onGroupChange() {
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
+    // this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
   }
 }

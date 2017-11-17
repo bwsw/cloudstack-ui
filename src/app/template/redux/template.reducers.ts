@@ -4,9 +4,11 @@ import { TemplateFilters } from '../shared/base-template.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { getUserAccount } from '../../reducers/auth/redux/auth.reducers';
+import { DefaultTemplateGroupId } from '../template-sidebar/template-group/template-group.component';
 
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromOsTypes from './ostype.reducers';
+import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
 
 
@@ -25,9 +27,25 @@ export interface ListState extends EntityState<BaseTemplateModel> {
   }
 }
 
-const initialListState: ListState = {
-  ids: [],
-  entities: null,
+export interface VmCreationTemplatesState {
+  filters: {
+    selectedViewMode: string,
+    selectedTypes: string[],
+    selectedOsFamilies: string[],
+    selectedGroups: string[],
+    selectedZoneId: string,
+    query: string
+  }
+}
+
+export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<BaseTemplateModel>(
+  {
+    selectId: (item: BaseTemplateModel) => item.id,
+    sortComparer: false
+  });
+
+
+const initialListState: ListState = adapter.getInitialState({
   loading: false,
   selectedTemplateId: null,
   filters: {
@@ -40,21 +58,28 @@ const initialListState: ListState = {
     selectedAccountIds: [],
     query: ''
   }
+});
+
+const initialVmCreationTemplatesState: VmCreationTemplatesState = {
+  filters: {
+    selectedViewMode: 'Template',
+    selectedTypes: [],
+    selectedOsFamilies: [],
+    selectedGroups: [],
+    selectedZoneId: null,
+    query: ''
+  }
 };
 
 export interface TemplatesState {
-  list: ListState
+  list: ListState,
+  vmCreationList: VmCreationTemplatesState
 }
 
 export const templateReducers = {
-  list: listReducer
+  list: listReducer,
+  vmCreationList: vmCreationListReducer
 };
-
-export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<BaseTemplateModel>(
-  {
-    selectId: (item: BaseTemplateModel) => item.id,
-    sortComparer: false
-  });
 
 export function listReducer(
   state = initialListState,
@@ -104,7 +129,27 @@ export function listReducer(
         selectedTemplateId: action.payload
       };
     }
+    default: {
+      return state;
+    }
+  }
+}
 
+
+export function vmCreationListReducer(
+  state = initialVmCreationTemplatesState,
+  action: template.Actions
+): VmCreationTemplatesState {
+  switch (action.type) {
+    case template.DIALOG_TEMPLATE_FILTER_UPDATE: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          ...action.payload
+        }
+      };
+    }
     default: {
       return state;
     }
@@ -116,6 +161,11 @@ export const getTemplatesState = createFeatureSelector<TemplatesState>('template
 export const getTemplatesEntitiesState = createSelector(
   getTemplatesState,
   state => state.list
+);
+
+export const getVmCreationListState = createSelector(
+  getTemplatesState,
+  state => state.vmCreationList
 );
 
 export const {
@@ -143,9 +193,16 @@ export const getSelectedId = createSelector(
 export const getSelectedTemplate = createSelector(
   getTemplatesState,
   getSelectedId,
-  (state, selectedId) => selectedId && state.list.entities
-    ? state.list.entities[selectedId]
-    : null
+  (state, selectedId) => state.list.entities[selectedId]
+);
+
+export const getSelectedTemplateTags = createSelector(
+  getTemplatesState,
+  getSelectedId,
+  (
+    state,
+    selectedId
+  ) => state.list.entities[selectedId] && state.list.entities[selectedId].tags
 );
 
 export const filterSelectedViewMode = createSelector(
@@ -187,6 +244,36 @@ export const filterQuery = createSelector(
   state => state.query
 );
 
+export const vmCreationListFilters = createSelector(
+  getVmCreationListState,
+  state => state.filters
+);
+
+export const vmCreationListViewMode = createSelector(
+  vmCreationListFilters,
+  state => state.selectedViewMode
+);
+
+export const vmCreationListSelectedTypes = createSelector(
+  vmCreationListFilters,
+  state => state.selectedTypes
+);
+
+export const vmCreationListSelectedOsFamilies = createSelector(
+  vmCreationListFilters,
+  state => state.selectedOsFamilies
+);
+
+export const vmCreationListSelectedGroups = createSelector(
+  vmCreationListFilters,
+  state => state.selectedGroups
+);
+
+export const vmCreationListQuery = createSelector(
+  vmCreationListFilters,
+  state => state.query
+);
+
 export const selectByViewModeAndAccounts = createSelector(
   selectAll,
   filterSelectedViewMode,
@@ -216,53 +303,52 @@ export const selectByViewModeAndAccounts = createSelector(
 export const selectFilteredTemplates = createSelector(
   selectByViewModeAndAccounts,
   fromOsTypes.selectEntities,
-  filterSelectedOsFamilies,
-  filterSelectedZones,
-  filterSelectedGroups,
-  filterSelectedTypes,
+  filters,
   getUserAccount,
-  filterQuery,
+  fromTemplateGroups.selectEntities,
   (
     templates,
     osTypesEntities,
-    selectedOsFamilies,
-    selectedZones,
-    selectedGroups,
-    selectedTypes,
+    listFilters,
     user,
-    query
+    templateGroupEntities
   ) => {
 
-    const osFamiliesMap = selectedOsFamilies.reduce((m, i) => ({ ...m, [i]: i }), {});
-    const zonesMap = selectedZones.reduce((m, i) => ({ ...m, [i]: i }), {});
-    const typesMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
-    const groupsMap = selectedGroups.reduce((m, i) => ({ ...m, [i]: i }), {});
-    const queryLower = query && query.toLowerCase();
+    const osFamiliesMap = listFilters.selectedOsFamilies.reduce((m, i) => ({
+      ...m,
+      [i]: i
+    }), {});
+    const zonesMap = listFilters.selectedZones.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const typesMap = listFilters.selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const groupsMap = listFilters.selectedGroups.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const queryLower = listFilters.query && listFilters.query.toLowerCase();
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
       const selfFilter = !!typesMap[TemplateFilters.self] && (template.account === user.name);
-      return !selectedTypes.length || featuredFilter || selfFilter;
+      return !listFilters.selectedTypes.length || featuredFilter || selfFilter;
     });
 
     const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {
       const osFamily = osTypesEntities[template.osTypeId]
         ? osTypesEntities[template.osTypeId].osFamily
         : '';
-      return !selectedOsFamilies.length || !!osFamiliesMap[osFamily];
+      return !listFilters.selectedOsFamilies.length || !!osFamiliesMap[osFamily];
     };
 
     const selectedZonesFilter = (template: BaseTemplateModel) => {
-      return !selectedZones.length || !!zonesMap[template.zoneId];
+      return !listFilters.selectedZones.length || !!zonesMap[template.zoneId];
     };
 
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
       const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
       const group = tag && tag.value;
-      return !selectedGroups.length || !!groupsMap[group];
+      const showGeneral = listFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
+      return !listFilters.selectedGroups.length || !!groupsMap[group]
+        || (showGeneral && (!templateGroupEntities[group] || !group));
     };
 
-    const queryFilter = (template: BaseTemplateModel) => !query || template.name.toLowerCase()
+    const queryFilter = (template: BaseTemplateModel) => !listFilters.query || template.name.toLowerCase()
         .includes(queryLower) ||
       template.displayText.toLowerCase().includes(queryLower);
 
@@ -273,5 +359,69 @@ export const selectFilteredTemplates = createSelector(
         && selectedOsFamiliesFilter(template)
         && queryFilter(template);
     });
+  }
+);
+
+export const selectTemplatesForVmCreation = createSelector(
+  selectAll,
+  getUserAccount,
+  fromOsTypes.selectEntities,
+  vmCreationListFilters,
+  fromTemplateGroups.selectEntities,
+  (templates, user, osTypesEntities, vmFilters, templateGroupEntities) => {
+    const typesMap = vmFilters.selectedTypes
+      .reduce((m, i) => ({ ...m, [i]: i }), {});
+    const osFamiliesMap = vmFilters.selectedOsFamilies
+      .reduce((m, i) => ({ ...m, [i]: i }), {});
+    const groupsMap = vmFilters.selectedGroups
+      .reduce((m, i) => ({ ...m, [i]: i }), {});
+
+    const viewModeStr = vmFilters.selectedViewMode === 'Iso'
+      ? vmFilters.selectedViewMode.toUpperCase()
+      : vmFilters.selectedViewMode;
+    const selectedViewModeFilter = (template: BaseTemplateModel) => {
+      return viewModeStr === template.resourceType;
+    };
+
+    const selectedTypesFilter = ((template: BaseTemplateModel) => {
+      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
+      const selfFilter = !!typesMap[TemplateFilters.self]
+        && (template.account === user.name && template.domainId === user.domainid);
+      return !vmFilters.selectedTypes.length || featuredFilter || selfFilter;
+    });
+
+    const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {
+      const osFamily = osTypesEntities[template.osTypeId]
+        ? osTypesEntities[template.osTypeId].osFamily
+        : '';
+      return !vmFilters.selectedOsFamilies.length || !!osFamiliesMap[osFamily];
+    };
+
+    const selectedZoneFilter = (template: BaseTemplateModel) => {
+      return template.zoneId === vmFilters.selectedZoneId;
+    };
+
+    const selectedGroupsFilter = (template: BaseTemplateModel) => {
+      const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
+      const group = tag && tag.value;
+
+      const showGeneral = vmFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
+
+      return !vmFilters.selectedGroups.length || !!groupsMap[group]
+        || (showGeneral && (!templateGroupEntities[group] || !group));
+    };
+
+    const queryLower = vmFilters.query && vmFilters.query.toLowerCase();
+    const queryFilter = (template: BaseTemplateModel) => !vmFilters.query || template.name.toLowerCase()
+        .includes(queryLower) ||
+      template.displayText.toLowerCase().includes(queryLower);
+
+    return templates.filter((template) =>
+      selectedViewModeFilter(template)
+      && selectedTypesFilter(template)
+      && selectedOsFamiliesFilter(template)
+      && selectedZoneFilter(template)
+      && selectedGroupsFilter(template)
+      && queryFilter(template));
   }
 );

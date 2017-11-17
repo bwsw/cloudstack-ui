@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
 import { Template } from '../shared/template.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-template-sidebar',
@@ -11,7 +12,7 @@ import { Template } from '../shared/template.model';
 export class TemplateSidebarComponent extends BaseTemplateSidebarComponent {
   @Input() public entity: Template;
 
-  constructor(route: ActivatedRoute) {
-    super(route);
+  constructor(route: ActivatedRoute, authService: AuthService) {
+    super(route, authService);
   }
 }

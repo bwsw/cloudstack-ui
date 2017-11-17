@@ -21,7 +21,7 @@ export class TemplateGroupService {
     template: BaseTemplateModel,
     group: TemplateGroup
   ): Observable<BaseTemplateModel> {
-    return this.templateTagService.setGroup(template, group)
+    return this.templateTagService.setGroup(template, group.id)
       .catch(() => Observable.of(template));
   }
 }
