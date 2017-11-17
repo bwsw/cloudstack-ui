@@ -10,9 +10,9 @@ import { SecurityGroupService } from '../services/security-group.service';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class SecurityGroupRulesAction extends SecurityGroupAction {
+export class SecurityGroupViewAction extends SecurityGroupAction {
   public id = SecurityGroupActionType.View;
-  public name = 'SECURITY_GROUP_PAGE.ACTION.RULES';
+  public name = 'COMMON.VIEW';
   public icon = 'visibility';
 
 

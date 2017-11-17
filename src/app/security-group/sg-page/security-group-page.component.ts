@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroup, } from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
@@ -27,9 +21,11 @@ export class SecurityGroupPageComponent {
   public mode: ViewMode;
   public viewModeKey = 'sgPageViewMode';
 
-  constructor(private router: Router,
-              private activatedRoute: ActivatedRoute,
-              public listService: ListService) {
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    public listService: ListService
+  ) {
   }
 
   public changeMode(mode) {

@@ -17,7 +17,7 @@
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
         [(ngModel)]="selectedAccountIds"
-        (change)="selectedAccountsChange.emit(selectedAccountIds)"
+        (selectionChange)="selectedAccountsChange.emit(selectedAccountIds)"
       >
         <mat-option *ngFor="let account of accounts" [value]="account.id">
           {{ accountFullDomain(account) }}{{ account.name }}
@@ -29,7 +29,7 @@
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
         [(ngModel)]="selectedOsFamilies"
-        (change)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
+        (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
       >
         <mat-option
           *ngFor="let family of osFamilies"
@@ -44,7 +44,7 @@
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
         [(ngModel)]="selectedFilters"
-        (change)="selectedTypesChange.emit(selectedFilters)"
+        (selectionChange)="selectedTypesChange.emit(selectedFilters)"
       >
         <mat-option
           *ngFor="let f of categoryFilters"
@@ -60,7 +60,7 @@
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
         [(ngModel)]="selectedZones"
-        (change)="selectedZonesChange.emit(selectedZones)"
+        (selectionChange)="selectedZonesChange.emit(selectedZones)"
       >
         <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
       </mat-select>
@@ -73,7 +73,7 @@
         multiple="true"
         [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
         [(ngModel)]="selectedGroupings"
-        (change)="updateSelectedGroupings($event.value)"
+        (selectionChange)="updateSelectedGroupings($event.value)"
       >
         <mat-option *ngFor="let g of availableGroupings" [value]="g">
           {{ g.label | translate }}
@@ -98,12 +98,12 @@
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
-  <mat-form-field>
+  <!--<mat-form-field>
     <mat-select
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
-      [(ngModel)]="selectedOsFamilies"
-      (change)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
+      [ngModel]="selectedOsFamilies"
+      (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
     >
       <mat-option
         *ngFor="let family of osFamilies"
@@ -118,8 +118,8 @@
     <mat-select
       multiple="true"
       placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
-      [(ngModel)]="selectedFilters"
-      (change)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
+      [ngModel]="selectedFilters"
+      (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
     >
       <mat-option
         *ngFor="let f of categoryFilters"
@@ -128,13 +128,13 @@
         {{ filterTranslations[f] | translate }}
       </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field>-->
 
 </div>
 
-<div class="filter-wrapper">
+<!--<div class="filter-wrapper">
   <cs-search
     [(ngModel)]="query"
     (ngModelChange)="queryChange.emit(query)"
   ></cs-search>
-</div>
+</div>-->

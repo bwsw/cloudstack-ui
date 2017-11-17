@@ -29,6 +29,7 @@
     "UPDATE": "Обновить",
     "VIEW": "Просмотреть",
     "YES": "Да",
+    "SEARCH": "Поиск",
     "CONTINUE": "Продолжить"
   },
   "DIALOG_MESSAGES": {
@@ -424,7 +425,7 @@
       "SPARE_DRIVE_ATTACHMENT": {
         "ATTACH_VOLUME": "Прикрепление диска",
         "SELECT_VOLUME": "Выберите диск",
-        "NO_AVAILABLE_VOLUMES_1": "Нет доступных запасных дисков. Нажмите, если вы хотите",
+        "NO_AVAILABLE_VOLUMES_1": "Нет доступных запасных дисков. Нажмите, если вы хотите ",
         "NO_AVAILABLE_VOLUMES_2": "создать новый",
         "NO_AVAILABLE_VOLUMES_3": ", а не изменять размер одного из прикрепленных дисков",
         "ATTACH": "Прикрепить"

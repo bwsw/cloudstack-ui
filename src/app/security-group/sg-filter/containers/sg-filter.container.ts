@@ -23,7 +23,6 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
   public viewMode: SecurityGroupViewMode;
 
   public query: string;
-  public vm: string;
 
   private filtersKey = 'securityGroupFilters';
   private filterService = new FilterService(
@@ -34,10 +33,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
       },
       query: {
         type: 'string'
-      },
-      // vm: {
-      //   type: 'string'
-      // }
+      }
     },
     this.router,
     this.storageService,

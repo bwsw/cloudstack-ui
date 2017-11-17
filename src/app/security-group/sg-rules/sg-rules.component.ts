@@ -88,6 +88,9 @@ export class SgRulesComponent implements OnChanges {
     { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
+  public getIcmpTypeTranslationToken = GetICMPTypeTranslationToken;
+  public getIcmpCodeTranslationToken = GetICMPCodeTranslationToken;
+
   constructor(
     private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
@@ -180,14 +183,6 @@ export class SgRulesComponent implements OnChanges {
       });
   }
 
-  public getIcmpTypeTranslationToken(type: number): string {
-    return GetICMPTypeTranslationToken(type);
-  }
-
-  public getIcmpCodeTranslationToken(type: number, code: number): string {
-    return GetICMPCodeTranslationToken(type, code);
-  }
-
   public onCidrClick(): void {
     if (!this.cidr) {
       this.cidr = '0.0.0.0/0';
@@ -219,23 +214,8 @@ export class SgRulesComponent implements OnChanges {
     if (!this.securityGroup) {
       return;
     }
-
-    let filteredEgressRules = this.egressRules;
-    let filteredIngressRules = this.ingressRules;
-
-    if (this.selectedProtocols.length) {
-      filteredEgressRules = filteredEgressRules.filter(_ =>
-        this.selectedProtocols.find(protocol => protocol === _.protocol));
-      filteredIngressRules = filteredIngressRules.filter(_ =>
-        this.selectedProtocols.find(protocol => protocol === _.protocol));
-    }
-
-    if (this.selectedTypes.length) {
-      filteredEgressRules = filteredEgressRules.filter(
-        _ => this.selectedTypes.find(type => _.type === type));
-      filteredIngressRules = filteredIngressRules.filter(
-        _ => this.selectedTypes.find(type => _.type === type));
-    }
+    const filteredEgressRules = this.filterRules(this.egressRules);
+    const filteredIngressRules = this.filterRules(this.ingressRules);
 
     this.visibleRules = [...filteredIngressRules, ...filteredEgressRules];
   }
@@ -317,5 +297,14 @@ export class SgRulesComponent implements OnChanges {
     this.selectedTypes = [];
     this.selectedProtocols = [];
     this.filter();
+  }
+
+  private filterRules(rules: NetworkRule[]) {
+   return rules.filter((rule: NetworkRule) => {
+      return (!this.selectedProtocols.length
+        || this.selectedProtocols.find(protocol => protocol === rule.protocol))
+        && (!this.selectedTypes.length
+          || this.selectedTypes.find(type => rule.type === type));
+    });
   }
 }

@@ -1,6 +1,4 @@
-<p class="search-bar">
-  <mat-icon>search</mat-icon>
-  <mat-form-field>
-    <input matInput [(ngModel)]="query">
-  </mat-form-field>
-</p>
+<mat-form-field>
+  <mat-icon matPrefix>search</mat-icon>
+  <input matInput placeholder="{{'COMMON.SEARCH'|translate}}" [(ngModel)]="query">
+</mat-form-field>

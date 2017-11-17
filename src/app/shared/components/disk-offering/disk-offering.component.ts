@@ -18,6 +18,8 @@ import { DiskOffering } from '../../models/disk-offering.model';
 })
 export class DiskOfferingComponent implements ControlValueAccessor {
   @Input() public diskOfferingList: Array<DiskOffering>;
+  @Input() public placeholder: string;
+  @Input() public required = false;
   @Output() public change: EventEmitter<DiskOffering>;
 
   private _diskOffering: DiskOffering;

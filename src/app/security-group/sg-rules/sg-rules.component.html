@@ -173,7 +173,7 @@
             [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
             name="selectedTypes"
             [(ngModel)]="selectedTypes"
-            (change)="filter()"
+            (selectionChange)="filter()"
           >
             <mat-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate
               }}
@@ -186,7 +186,7 @@
             [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
             name="selectedProtocols"
             [(ngModel)]="selectedProtocols"
-            (change)="filter()"
+            (selectionChange)="filter()"
           >
             <mat-option *ngFor="let z of protocols" [value]="z.value">
               {{ z.text | translate }}

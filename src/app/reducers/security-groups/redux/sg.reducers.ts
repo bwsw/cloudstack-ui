@@ -12,8 +12,7 @@ export interface State {
 export interface ListState extends EntityState<SecurityGroup> {
   filters: {
     viewMode: string,
-    query: string,
-    vm: string
+    query: string
   },
   loading: boolean,
   selectedSecurityGroupId: string | null
@@ -31,8 +30,7 @@ export const adapter: EntityAdapter<SecurityGroup> = createEntityAdapter<Securit
 const initialListState: ListState = adapter.getInitialState({
   filters: {
     query: '',
-    viewMode: SecurityGroupViewMode.Templates,
-    vm: ''
+    viewMode: SecurityGroupViewMode.Templates
   },
   loading: false,
   selectedSecurityGroupId: null

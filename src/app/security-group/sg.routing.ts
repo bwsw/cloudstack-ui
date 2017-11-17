@@ -14,8 +14,7 @@ export const sgRoutes: Routes = [
       {
         path: 'create',
         component: SecurityGroupCreationDialogContainerComponent
-      },
-      {
+      }, {
         path: ':id',
         //component: SecurityGroupSidebarContainerComponent,
         children: [

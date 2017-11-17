@@ -3,7 +3,6 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  MATERIAL_COMPATIBILITY_MODE,
   MatButtonModule,
   MatCheckboxModule,
   MatDialog,
@@ -124,7 +123,6 @@ export function InitAppFactory(
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
-    { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,

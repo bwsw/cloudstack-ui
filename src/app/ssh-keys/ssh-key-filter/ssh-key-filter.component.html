@@ -4,7 +4,7 @@
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"
       [(ngModel)]="selectedAccountIds"
-      (change)="onAccountsChange.emit($event.value)"
+      (selectionChange)="onAccountsChange.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
-  MatDialog, MATERIAL_COMPATIBILITY_MODE,
+  MatDialog,
   MatTooltipModule
 } from '@angular/material';
 import { By } from '@angular/platform-browser';
@@ -16,7 +16,8 @@ import { VmCreationTemplateComponent } from './vm-creation-template.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../../testutils/mocks/mock-translate.service.spec';
 
-const templatesRaw = require('../../../../testutils/mocks/model-services/fixtures/templates.json');
+const templatesRaw = require(
+  '../../../../testutils/mocks/model-services/fixtures/templates.json');
 const isosRaw = require('../../../../testutils/mocks/model-services/fixtures/isos.json');
 
 const templates: Array<Template> = templatesRaw.map(t => new Template(t));
@@ -58,7 +59,7 @@ describe('VmCreationTemplateComponent', () => {
     open: jasmine.createSpy('open').and.callFake(() => {
       return {
         afterClosed: () => Observable.of(template)
-      }
+      };
     })
   };
 
@@ -74,12 +75,11 @@ describe('VmCreationTemplateComponent', () => {
         MockTranslatePipe
       ],
       providers: [
-        { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
         { provide: MatDialog, useValue: mockDialog },
         { provide: TranslateService, useClass: MockTranslateService }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   it('should support ngModel', async(async () => {

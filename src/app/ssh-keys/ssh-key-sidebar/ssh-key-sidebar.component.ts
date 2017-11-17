@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
@@ -13,16 +13,14 @@ import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-
   selector: 'cs-ssh-key-sidebar',
   templateUrl: 'ssh-key-sidebar.component.html'
 })
-export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> implements OnInit {
+export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
 
-  constructor(
-    protected entityService: SSHKeyPairService,
-    protected notificationService: NotificationService,
-    protected route: ActivatedRoute,
-    protected router: Router,
-    protected userTagService: UserTagService
-  ) {
+  constructor(protected entityService: SSHKeyPairService,
+              protected notificationService: NotificationService,
+              protected route: ActivatedRoute,
+              protected router: Router,
+              protected userTagService: UserTagService) {
     super(entityService, notificationService, route, router);
   }
 
@@ -32,23 +30,30 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> impleme
   }
 
   protected loadEntity(name: string): Observable<SSHKeyPair> {
-    return this.entityService.getByName(name)
-      .switchMap(sshKeyPair => {
-        if (sshKeyPair) {
-          return Observable.of(sshKeyPair);
-        } else {
-          return Observable.throw(new EntityDoesNotExistError());
+    return this.route.queryParams
+      .switchMap(value => {
+        const params = { name };
+        if (value.account) {
+          params['account'] = value.account;
         }
-      })
-      .switchMap(sshKeyPair => {
-        return Observable.forkJoin(
-          Observable.of(sshKeyPair),
-          this.userTagService.getSshKeyDescription(sshKeyPair)
-        );
-      })
-      .map(([sshKeyPair, description]) => {
-        this.description = description;
-        return sshKeyPair;
+        return this.entityService.getByParams(params)
+          .switchMap(sshKeyPair => {
+            if (sshKeyPair) {
+              return Observable.of(sshKeyPair);
+            } else {
+              return Observable.throw(new EntityDoesNotExistError());
+            }
+          })
+          .switchMap(sshKeyPair => {
+            return Observable.forkJoin(
+              Observable.of(sshKeyPair),
+              this.userTagService.getSshKeyDescription(sshKeyPair)
+            );
+          })
+          .map(([sshKeyPair, description]) => {
+            this.description = description;
+            return sshKeyPair;
+          });
       });
   }
 }

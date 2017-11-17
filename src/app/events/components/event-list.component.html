@@ -14,7 +14,7 @@
         <mat-select
           class="level-selector"
           [ngModel]="selectedLevels"
-          (change)="onSelectedLevelsChange.emit($event.value)"
+          (selectionChange)="onSelectedLevelsChange.emit($event.value)"
           multiple="true"
           [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
         >
@@ -29,7 +29,7 @@
       <mat-form-field>
         <mat-select
           [ngModel]="selectedTypes"
-          (change)="onEventTypesChange.emit($event.value)"
+          (selectionChange)="onEventTypesChange.emit($event.value)"
           multiple="true"
           [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
         >
@@ -46,7 +46,7 @@
           multiple="true"
           [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
           [(ngModel)]="selectedAccountIds"
-          (change)="onAccountChange.emit($event.value)"
+          (selectionChange)="onAccountChange.emit($event.value)"
         >
           <mat-option
             *ngFor="let account of accounts"

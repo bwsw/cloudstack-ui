@@ -11,6 +11,7 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import { VolumeType } from '../../shared/models/volume.model';
 import { FilterService } from '../../shared/services/filter.service';
@@ -144,6 +145,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
     this.filters$
       .takeUntil(this.unsubscribe$)

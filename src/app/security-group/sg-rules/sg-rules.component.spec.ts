@@ -2,8 +2,7 @@ import { Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
-  MAT_DIALOG_DATA, MatAutocompleteModule, MatDialogRef,
-  MATERIAL_COMPATIBILITY_MODE
+  MAT_DIALOG_DATA, MatAutocompleteModule, MatDialogRef
 } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -75,7 +74,6 @@ describe('Security group firewall rules component', () => {
       imports: [FormsModule, MatAutocompleteModule],
       declarations: [SgRulesComponent, MockTranslatePipe, LoadingDirective],
       providers: [
-        { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
         { provide: MatDialogRef, useValue: dialog },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: MAT_DIALOG_DATA, useValue: { securityGroup: mockSecurityGroup } },

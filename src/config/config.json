@@ -7,7 +7,7 @@
       "preselected": true,
       "ingressRules": [
         {
-          "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
+          "ruleId": "templateTCP-rule-ingress",
           "protocol": "tcp",
           "startPort": 1,
           "endPort": 65535,
@@ -16,7 +16,7 @@
       ],
       "egressRules": [
         {
-          "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
+          "ruleId": "templateTCP-rule-egress",
           "protocol": "tcp",
           "startPort": 1,
           "endPort": 65535,
@@ -31,7 +31,7 @@
       "preselected": true,
       "ingressRules": [
         {
-          "ruleId": "871aa876-a9cd-4a14-b5d6-1eed4078ee20",
+          "ruleId": "templateUDP-rule-ingress",
           "protocol": "udp",
           "startPort": 1,
           "endPort": 65535,
@@ -40,7 +40,7 @@
       ],
       "egressRules": [
         {
-          "ruleId": "070a8ec4-14a0-4a02-be8e-79cd699fd1a4",
+          "ruleId": "templateUDP-rule-egress",
           "protocol": "udp",
           "startPort": 1,
           "endPort": 65535,
@@ -55,7 +55,7 @@
       "preselected": true,
       "ingressRules": [
         {
-          "ruleId": "e1826579-d4b2-415b-833f-24f0c4094074",
+          "ruleId": "templateICMP-rule-ingress",
           "icmpCode": -1,
           "icmpType": -1,
           "protocol": "icmp",
@@ -64,7 +64,7 @@
       ],
       "egressRules": [
         {
-          "ruleId": "d0a0125a-b719-424b-80d3-41a695fa1219",
+          "ruleId": "templateICMP-rule-egress",
           "icmpCode": -1,
           "icmpType": -1,
           "protocol": "icmp",
@@ -155,76 +155,17 @@
   ],
   "defaultThemeName": "blue-red",
   "offeringAvailability": {
-    "filterOfferings": true,
-    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
-      "serviceOfferings": [
-        "4fbec0f2-e03a-4135-8f0e-a13abca3c2e2",
-        "89fa6342-d64a-4ba4-a410-ce309ea948df",
-        "d0e8ce1c-5112-4fe0-95ac-29b39551ff16",
-        "3890f81e-62aa-4a50-971a-f066223d623d"
-      ],
-      "diskOfferings": [
-        "b785e23e-5159-4968-ba6e-3ddb9fa1d58e",
-        "f26bce86-c32a-4792-8697-5d69307205d7"
-      ]
-    },
-    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
-      "serviceOfferings": [
-        "9b6c8c2c-7a4f-4bf3-9944-619cc239fdd3",
-        "206f4b51-48b5-4173-84d5-167bebd21dd2"
-      ],
-      "diskOfferings": [
-        "6d135a79-cf3b-4eae-86c5-89884255c90d",
-        "c201d261-16bb-46ba-b831-e1715e5238e3"
-      ]
-    }
+    "filterOfferings": false
   },
-  "customOfferingRestrictions": {
-    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
-      "cpuNumber": {
-        "min": 1,
-        "max": 4
-      },
-      "cpuSpeed": {
-        "min": 1000,
-        "max": 2000
-      },
-      "memory": {
-        "min": 32,
-        "max": 8192
-      }
-    },
-    "3fcdb37c-1c0b-4728-b62f-970c765c3fbc": {
-      "cpuNumber": {
-        "min": 1,
-        "max": 4
-      },
-      "cpuSpeed": {
-        "min": 1000,
-        "max": 2000
-      },
-      "memory": {
-        "min": 32,
-        "max": 8192
-      }
-    }
-  },
+  "customOfferingRestrictions": {},
+  "defaultDomain": "",
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
   "sessionRefreshInterval": 60,
   "sessionTimeout": 30,
   "allowReorderingSidebar": false,
-  "defaultServiceOfferingConfig": {
-    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
-      "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
-      "customOfferingParams": {
-        "cpuNumber": 2,
-        "cpuSpeed": 1000,
-        "memory": 1024
-      }
-    }
-  },
+  "defaultServiceOfferingConfig": {},
   "extensions": {
-    "webShell": true,
-    "pulse": true
+    "webShell": false,
+    "pulse": false
   }
 }
