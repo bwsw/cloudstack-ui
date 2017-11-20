@@ -8,7 +8,7 @@ import { AccountListComponent } from './account-list/account-list.component';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
 import {
   MatButtonModule,
-  MatDialogModule,
+  MatDialogModule, MatExpansionModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule,
@@ -50,6 +50,9 @@ import { AccountCreationDialogComponent } from './creation-form/account-creation
 import { AccountCreationContainerComponent } from './account-container/account-creation.container';
 import { AccountFilterContainerComponent } from './account-container/account-filter.container';
 import { AccountActionsContainerComponent } from './account-container/account-actions.container';
+import { AccountUsersContainerComponent } from './account-container/account-users.container';
+import { AccountUsersComponent } from './account-sidebar/account-users/account-users.component';
+import { AccountUserCardComponent } from './account-sidebar/account-users/account-user-card.component';
 
 @NgModule({
   imports: [
@@ -60,6 +63,7 @@ import { AccountActionsContainerComponent } from './account-container/account-ac
     MatTooltipModule,
     MatTabsModule,
     MatButtonModule,
+    MatExpansionModule,
     MatSelectModule,
     MatDialogModule,
     MatSelectModule,
@@ -105,6 +109,9 @@ import { AccountActionsContainerComponent } from './account-container/account-ac
     AccountCreationComponent,
     AccountCreationDialogComponent,
     AccountCreationContainerComponent,
+    AccountUsersContainerComponent,
+    AccountUsersComponent,
+    AccountUserCardComponent
   ],
   entryComponents: [
     EditAccountConfigurationComponent,

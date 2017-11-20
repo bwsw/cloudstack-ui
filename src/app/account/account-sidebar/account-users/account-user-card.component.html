@@ -1,0 +1,18 @@
+<ng-container *ngIf="user">
+  <cs-parameters-pair
+    [name]="'ACCOUNT_PAGE.USER.FIRST_NAME'"
+    [value]="user.firstname"
+  ></cs-parameters-pair>
+  <cs-parameters-pair
+    [name]="'ACCOUNT_PAGE.USER.LAST_NAME'"
+    [value]="user.lastname"
+  ></cs-parameters-pair>
+  <cs-parameters-pair
+    [name]="'ACCOUNT_PAGE.USER.TIMEZONE'"
+    [value]="user.timezone"
+  ></cs-parameters-pair>
+  <cs-parameters-pair
+    [name]="'ACCOUNT_PAGE.USER.EMAIL'"
+    [value]="user.email"
+  ></cs-parameters-pair>
+</ng-container>

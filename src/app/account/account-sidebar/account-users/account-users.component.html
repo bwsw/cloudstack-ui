@@ -1,0 +1,16 @@
+<mat-accordion *ngIf="!!account">
+  <mat-expansion-panel
+    *ngFor="let user of account.user"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ user.firstname }} {{ user.lastname }}
+      </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <cs-account-user-card [user]="user"></cs-account-user-card>
+
+  </mat-expansion-panel>
+</mat-accordion>

@@ -4,6 +4,7 @@ import { AccountPageContainerComponent } from './account-container/account.conta
 import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
 import { AccountDetailsContainerComponent } from './account-container/account-details.container';
 import { AccountCreationComponent } from './creation-form/account-creation.component';
+import { AccountUsersContainerComponent } from './account-container/account-users.container';
 
 export const accountsRoutes: Routes = [
   {
@@ -29,6 +30,10 @@ export const accountsRoutes: Routes = [
             path: 'account',
             component: AccountDetailsContainerComponent
           },
+          {
+            path: 'users',
+            component: AccountUsersContainerComponent
+          }
         ]
       }
     ]
