@@ -20,11 +20,10 @@ export class TagsContainerComponent {
   readonly template$ = this.store.select(fromTemplates.getSelectedTemplate);
   readonly templateTags$ = this.store.select(fromTemplates.getSelectedTemplateTags);
 
-  constructor(    private store: Store<State>  ) {
+  constructor(private store: Store<State>) {
   }
 
   public update() {
-    // todo: check it
-    this.store.dispatch(new templateActions.LoadTemplatesRequest());
+    this.store.dispatch(new templateActions.LoadTemplatesRequest())
   }
 }

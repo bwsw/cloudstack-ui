@@ -7,7 +7,7 @@ import {
   OnInit
 } from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
-import { TemplateFilters } from '../shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -70,7 +70,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
 
   private filterService = new FilterService(
     {
-      'viewMode': { type: 'string', defaultOption: 'Template' },
+      'viewMode': { type: 'string', defaultOption: TemplateResourceType.template },
       'accounts': { type: 'array', defaultOption: [] },
       'osFamilies': { type: 'array', options: this.osFamilies, defaultOption: [] },
       'types': { type: 'array', options: this.categoryFilters, defaultOption: [] },
@@ -196,18 +196,18 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.filters$
       .takeUntil(this.unsubscribe$)
       .subscribe(filters => {
-        // if (!this.dialogMode) {
-        //   this.filterService.update({
-        //     'viewMode': filters.selectedViewMode,
-        //     'accounts': filters.selectedAccountIds,
-        //     'osFamilies': filters.selectedOsFamilies,
-        //     'types': filters.selectedTypes,
-        //     'zones': filters.selectedZones,
-        //     'groups': filters.selectedGroups,
-        //     'groupings': filters.selectedGroupings.map(_ => _.key),
-        //     'query': filters.query,
-        //   });
-        // }
+        if (!this.dialogMode) {
+          this.filterService.update({
+            'viewMode': filters.selectedViewMode,
+            'accounts': filters.selectedAccountIds,
+            'osFamilies': filters.selectedOsFamilies,
+            'types': filters.selectedTypes,
+            'zones': filters.selectedZones,
+            'groups': filters.selectedGroups,
+            'groupings': filters.selectedGroupings.map(_ => _.key),
+            'query': filters.query,
+          });
+        }
       });
   }
 }

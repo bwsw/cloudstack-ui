@@ -3,12 +3,15 @@ import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { Template } from './template.model';
-import { BaseTemplateService, RegisterTemplateBaseParams } from './base-template.service';
+import {
+  BaseTemplateService, RegisterTemplateBaseParams,
+  TemplateResourceType
+} from './base-template.service';
 
 
 @Injectable()
 @BackendResource({
-  entity: 'Template',
+  entity: TemplateResourceType.template,
   entityModel: Template
 })
 export class TemplateService extends BaseTemplateService {

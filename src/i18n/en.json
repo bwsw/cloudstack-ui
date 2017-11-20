@@ -638,6 +638,7 @@
       "INVALID_URL": "Invalid URL (only http or https)",
       "OS_TYPE": "OS type",
       "ZONE": "Zone",
+      "GROUP": "Group",
       "PASSWORD_ENABLED": "Password enabled",
       "DYNAMICALLY_SCALABLE": "Dynamically scalable",
       "HYPERVISOR": "Hypervisor",

@@ -19,6 +19,11 @@ export const TemplateFilters = {
   all: 'all'
 };
 
+export const TemplateResourceType = {
+  template: 'Template',
+  iso: 'Iso'
+};
+
 export interface RequestParams {
   filter: string;
 

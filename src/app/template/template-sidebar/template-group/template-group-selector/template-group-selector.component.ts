@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { BaseTemplateModel } from '../../../shared/base-template.model';
@@ -19,9 +19,9 @@ export class TemplateGroupSelectorComponent implements OnInit {
   public template: BaseTemplateModel;
   public groups: any;
   public groupNames: Array<string> = [];
-  public groupNames$: Observable<Array<string>>;
   public loading: boolean;
   public modes = Mode;
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { template: BaseTemplateModel, groups: Array<TemplateGroup> },
@@ -61,15 +61,13 @@ export class TemplateGroupSelectorComponent implements OnInit {
         this.loading = false;
       }
     }
-    this.templateGroupService.add(this.template, templateGroup)
-      .finally(() => this.dialogRef.close())
-      .subscribe();
+    this.templateGroupService.setGroup(this.template, templateGroup)
+      .subscribe((template) => this.dialogRef.close(template));
   }
 
   public removeGroup(): void {
-    this.templateGroupService.add(this.template, { id: DefaultTemplateGroupId })
-      .finally(() => this.dialogRef.close())
-      .subscribe();
+    this.templateGroupService.setGroup(this.template, { id: DefaultTemplateGroupId })
+      .subscribe((template) => this.dialogRef.close(template));
   }
 
   public onCancel(): void {

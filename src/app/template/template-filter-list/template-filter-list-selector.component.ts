@@ -58,11 +58,6 @@ export class TemplateFilterListSelectorComponent {
 
   constructor(protected authService: AuthService) {
   }
-//todo: what is here?
-  public changeViewMode(mode: string): void {
-    this.viewMode = mode;
-    this.viewModeChange.emit(this.viewMode);
-  }
 
   public selectTemplate(template: BaseTemplateModel): void {
     this.selectedTemplate = template;

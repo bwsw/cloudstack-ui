@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 
@@ -11,16 +11,9 @@ import * as fromTemplates from '../../redux/template.reducers';
       [entity]="template$ | async"
     ></cs-template-zones>`
 })
-export class TemplateZonesContainerComponent implements AfterViewInit {
+export class TemplateZonesContainerComponent {
   public template$ = this.store.select(fromTemplates.getSelectedTemplate);
 
-  constructor(
-    private store: Store<State>,
-    private cd: ChangeDetectorRef
-  ) {
-  }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
+  constructor(private store: Store<State>) {
   }
 }

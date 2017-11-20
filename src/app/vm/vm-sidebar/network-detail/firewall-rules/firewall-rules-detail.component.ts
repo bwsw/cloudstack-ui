@@ -24,7 +24,7 @@ export class FirewallRulesDetailComponent {
 
     this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
       width: '880px',
-      data: { id: entity.id, vmId }
+      data: { securityGroupId: entity.id, vmId }
     })
       .afterClosed()
       .map(updatedGroup => {

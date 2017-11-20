@@ -1,19 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
+import { BaseTemplateModel } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
-import { VmTemplateDialogContainerComponent } from './containers/vm-template-dialog.container';
 
 
 @Component({
@@ -55,7 +46,6 @@ export class VmCreationTemplateComponent {
 
         if (template) {
           this.template = template;
-          console.log('from dialog ', template);
           this.change.next(this.template);
         }
       });
@@ -88,9 +78,12 @@ export class VmCreationTemplateComponent {
   }
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
-    return this.dialog.open(VmTemplateDialogContainerComponent, {
+    return this.dialog.open(VmTemplateDialogComponent, {
       width: '780px',
-      data: { zoneId: this.zoneId },
+      data: {
+        zoneId: this.zoneId,
+        template: this.template
+      },
     })
       .afterClosed();
   }

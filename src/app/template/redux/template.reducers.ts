@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { TemplateFilters } from '../shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { getUserAccount } from '../../reducers/auth/redux/auth.reducers';
@@ -10,6 +10,7 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
+import { logWarnings } from 'protractor/built/driverProviders';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -49,7 +50,7 @@ const initialListState: ListState = adapter.getInitialState({
   loading: false,
   selectedTemplateId: null,
   filters: {
-    selectedViewMode: 'Template',
+    selectedViewMode: TemplateResourceType.template,
     selectedTypes: [],
     selectedOsFamilies: [],
     selectedZones: [],
@@ -62,7 +63,7 @@ const initialListState: ListState = adapter.getInitialState({
 
 const initialVmCreationTemplatesState: VmCreationTemplatesState = {
   filters: {
-    selectedViewMode: 'Template',
+    selectedViewMode: TemplateResourceType.template,
     selectedTypes: [],
     selectedOsFamilies: [],
     selectedGroups: [],
@@ -129,6 +130,11 @@ export function listReducer(
         selectedTemplateId: action.payload
       };
     }
+    case template.UPDATE_TEMPLATE: {
+      return {
+        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
+      };
+    }
     default: {
       return state;
     }
@@ -147,6 +153,15 @@ export function vmCreationListReducer(
         filters: {
           ...state.filters,
           ...action.payload
+        }
+      };
+    }
+    case template.DIALOG_LOAD_TEMPLATE_REQUEST: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          selectedZoneId: action.payload
         }
       };
     }
@@ -280,7 +295,9 @@ export const selectByViewModeAndAccounts = createSelector(
   fromAccounts.selectEntities,
   filterSelectedAccountIds,
   (templates, viewMode, accountEntities, selectedAccountIds) => {
-    const viewModeStr = viewMode === 'Iso' ? viewMode.toUpperCase() : viewMode;
+    const viewModeStr = viewMode === TemplateResourceType.iso
+      ? viewMode.toUpperCase()
+      : viewMode;
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
       return viewModeStr === template.resourceType;
     };
@@ -376,7 +393,7 @@ export const selectTemplatesForVmCreation = createSelector(
     const groupsMap = vmFilters.selectedGroups
       .reduce((m, i) => ({ ...m, [i]: i }), {});
 
-    const viewModeStr = vmFilters.selectedViewMode === 'Iso'
+    const viewModeStr = vmFilters.selectedViewMode === TemplateResourceType.iso
       ? vmFilters.selectedViewMode.toUpperCase()
       : vmFilters.selectedViewMode;
     const selectedViewModeFilter = (template: BaseTemplateModel) => {

@@ -23,7 +23,7 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
       (onCloseDialog)="closeDialog()"
     ></cs-security-group-rules>`
 })
-export class SgRulesContainerComponent implements OnInit, AfterViewInit {
+export class SgRulesContainerComponent implements OnInit {
   readonly securityGroup$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
 
   public id: string;
@@ -33,20 +33,20 @@ export class SgRulesContainerComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<State>,
     public dialogRef: MatDialogRef<SgRulesContainerComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
-    private cd: ChangeDetectorRef
+    @Inject(MAT_DIALOG_DATA) data
   ) {
     this.id = data.securityGroupId;
-    this.vmId = data.vmId;
+
+    if (data.vmId) {
+      this.vmId = data.vmId;
+      this.store.dispatch(new securityGroupActions.LoadSGRequest());
+    }
+
     this.editMode = !!data.editMode;
   }
 
   public ngOnInit() {
     this.store.dispatch(new securityGroupActions.LoadSelectedSG(this.id));
-  }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
   }
 
   public closeDialog() {

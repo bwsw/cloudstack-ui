@@ -10,8 +10,8 @@ import * as actions from './template-group.actions';
 @Injectable()
 export class TemplateGroupEffects {
   @Effect()
-  loadTemplateGroups$: Observable<Action> = this.actions$
-    .ofType(INIT)
+  loadTemplateGroups$ = this.actions$
+    .ofType(actions.LOAD_TEMPLATE_GROUP_REQUEST)
     .switchMap((action: actions.LoadTemplateGroupsRequest) => {
       return this.templateGroupService.getList()
         .map(groupList => new actions.LoadTemplateGroupsResponse(groupList));

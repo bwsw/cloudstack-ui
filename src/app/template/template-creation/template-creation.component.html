@@ -115,7 +115,7 @@
           </mat-form-field>
           <div class="additional">
             <mat-checkbox
-              *ngIf="mode === 'Template'"
+              *ngIf="mode === TemplateResourceType.template"
               name="pass"
               [(ngModel)]="passwordEnabled"
             >
@@ -124,7 +124,7 @@
             <mat-checkbox
               name="scalable"
               [(ngModel)]="dynamicallyScalable"
-              *ngIf="mode === 'Template'"
+              *ngIf="mode === TemplateResourceType.template"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
             </mat-checkbox>
@@ -141,7 +141,7 @@
 
       <div *ngIf="showAdditional" class="additional">
         <div class="flex-dialog-content">
-          <div class="column" *ngIf="mode === 'Template'">
+          <div class="column" *ngIf="mode === TemplateResourceType.template">
             <mat-form-field class="full-width-input">
               <mat-select
                 class="form-select-control"
@@ -169,7 +169,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div [class.column]="mode === 'Template'" class="additional">
+          <div [class.column]="mode === TemplateResourceType.template" class="additional">
             <mat-checkbox
               name="extract"
               [(ngModel)]="isExtractable"
@@ -200,12 +200,12 @@
             <mat-checkbox
               name="hvm"
               [(ngModel)]="requiresHvm"
-              *ngIf="mode === 'Template'"
+              *ngIf="mode === TemplateResourceType.template"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
             </mat-checkbox>
             <mat-checkbox
-              *ngIf="mode === 'Iso'"
+              *ngIf="mode === TemplateResourceType.iso"
               name="bootable"
               [(ngModel)]="bootable"
             >

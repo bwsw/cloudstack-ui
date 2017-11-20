@@ -639,6 +639,7 @@
       "INVALID_URL": "Неподдерживаемый URL (только http or https)",
       "OS_TYPE": "Тип ОС",
       "ZONE": "Зона",
+      "GROUP": "Группа",
       "PASSWORD_ENABLED": "Пароль включен",
       "DYNAMICALLY_SCALABLE": "Динамическое масштабирование",
       "HYPERVISOR": "Гипервизор",

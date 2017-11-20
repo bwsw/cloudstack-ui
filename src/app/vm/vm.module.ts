@@ -193,7 +193,7 @@ import { VmCreationTemplateContainerComponent } from './vm-creation/template/con
     InstanceGroupSelectorComponent,
     VmCreationComponent,
     VmDestroyDialogComponent,
-    VmTemplateDialogContainerComponent,
+    VmTemplateDialogComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
     VolumeAttachmentDialogComponent,

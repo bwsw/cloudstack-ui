@@ -70,7 +70,6 @@ import { TemplateFilterContainerComponent } from './containers/template-filter.c
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 import { TemplateOsIconContainerComponent } from './template-sidebar/template-os-icon/template-os-icon.container';
-import { TemplateFilterListContainerComponent } from './containers/template-filter-list.container';
 import { TemplateGroupService } from '../shared/services/template-group.service';
 import { TemplateGroupSelectorComponent } from './template-sidebar/template-group/template-group-selector/template-group-selector.component';
 import { TemplateGroupComponent } from './template-sidebar/template-group/template-group.component';
@@ -79,7 +78,6 @@ import { TemplateGroupEffects } from './redux/template-group.effects';
 import { TemplateGroupContainerComponent } from './template-sidebar/template-group/containers/template-group.container';
 import { BaseTemplateSidebarContainerComponent } from './template-sidebar/containers/base-template-sidebar.container';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { TemplateFilterListContainerComponent } from './containers/template-filter-list.container';
 import { DetailsContainerComponent } from './template-sidebar/containers/details.container';
 import { TemplateZonesContainerComponent } from './template-sidebar/containers/template-zones.container';
 import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
@@ -142,7 +140,6 @@ import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zo
     TemplateCardListComponent,
     TemplatePageContainerComponent,
     TemplateFilterContainerComponent,
-    TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
     TemplateFilterListSelectorContainerComponent,
@@ -162,7 +159,6 @@ import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zo
     DetailsContainerComponent,
   ],
   exports: [
-    TemplateFilterListContainerComponent,
     TemplateFilterListSelectorContainerComponent,
     TemplateFilterListSelectorComponent,
     TemplateFilterListComponent,

@@ -1,6 +1,7 @@
 import { FieldMapper } from '../../shared/decorators/';
 import { BaseTemplateModel } from './base-template.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
+import { TemplateResourceType } from './base-template.service';
 
 
 @FieldMapper({
@@ -8,7 +9,7 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
   templatetype: 'type'
 })
 export class Template extends BaseTemplateModel implements Taggable {
-  public resourceType = 'Template';
+  public resourceType = TemplateResourceType.template;
   public path = 'template';
 
   public format: string;

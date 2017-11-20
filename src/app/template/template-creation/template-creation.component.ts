@@ -8,6 +8,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
+import { TemplateResourceType } from '../shared/base-template.service';
 
 interface TemplateFormat {
   name: string;
@@ -68,6 +69,10 @@ export class TemplateCreationComponent implements OnInit {
     return this.translate.currentLang as Language;
   }
 
+  public get TemplateResourceType() {
+    return TemplateResourceType;
+  }
+
   constructor(
     private dialogRef: MatDialogRef<TemplateCreationComponent>,
     private hypervisorService: HypervisorService,
@@ -124,12 +129,12 @@ export class TemplateCreationComponent implements OnInit {
       params['url'] = this.url;
       params['zoneId'] = this.zoneId;
 
-      if (this.mode === 'Template') {
+      if (this.mode === TemplateResourceType.template) {
         params['passwordEnabled'] = this.passwordEnabled;
         params['isDynamicallyScalable'] = this.dynamicallyScalable;
-        params['entity'] = 'Template';
+        params['entity'] = TemplateResourceType.template;
       } else {
-        params['entity'] = 'Iso';
+        params['entity'] = TemplateResourceType.iso;
       }
     } else {
       params['snapshotId'] = this.snapshot.id;

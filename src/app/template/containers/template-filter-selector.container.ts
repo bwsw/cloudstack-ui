@@ -1,6 +1,5 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef, Component, EventEmitter, Input, OnInit,
+  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit,
   Output
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -10,6 +9,8 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import * as fromTemplates from '../redux/template.reducers';
 import * as fromTemplateGroups from '../redux/template-group.reducers';
 import * as templateActions from '../redux/template.actions';
+import * as osTypeActions from '../redux/ostype.actions';
+import { TemplateResourceType } from '../shared/base-template.service';
 
 @Component({
   selector: 'cs-template-filter-list-selector-container',
@@ -45,16 +46,6 @@ export class TemplateFilterListSelectorContainerComponent implements OnInit, Aft
   @Input() public dialogMode = true;
   @Input() public showIsoSwitch = true;
   @Input() public selectedTemplate: BaseTemplateModel;
-  @Input() public zoneId: string;
-
-
-  //todo: !!!
-  @Input()
-  public set viewMode(value: string) {
-    if (value) {
-      // this.store.dispatch(new templateActions.DialogTemplatesFilterUpdate({ selectedViewMode: value }));
-    }
-  }
 
   @Output() public selectedTemplateChange = new EventEmitter<BaseTemplateModel>();
 
@@ -67,6 +58,16 @@ export class TemplateFilterListSelectorContainerComponent implements OnInit, Aft
     }
   ];
 
+  @Input()
+  public set viewMode(value: string) {
+    this.onViewModeChange(value);
+  }
+
+  @Input()
+  public set zoneId(value: string) {
+    this.store.dispatch(new templateActions.DialogLoadTemplatesRequest(value));
+  }
+
   constructor(
     private store: Store<State>,
     private cd: ChangeDetectorRef
@@ -74,7 +75,7 @@ export class TemplateFilterListSelectorContainerComponent implements OnInit, Aft
   }
 
   public ngOnInit() {
-    // this.store.dispatch(new templateActions.LoadTemplatesRequest());
+    this.store.dispatch(new osTypeActions.LoadOsTypesRequest());
   }
 
   public ngAfterViewInit() {

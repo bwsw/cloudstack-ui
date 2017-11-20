@@ -17,7 +17,7 @@ export class TemplateGroupService {
     return Observable.of(this.configService.get('templateGroups'));
   }
 
-  public add(
+  public setGroup(
     template: BaseTemplateModel,
     group: TemplateGroup
   ): Observable<BaseTemplateModel> {

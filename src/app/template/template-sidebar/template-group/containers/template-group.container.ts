@@ -6,6 +6,7 @@ import * as templateActions from '../../../redux/template.actions';
 import * as fromTemplates from '../../../redux/template.reducers';
 import * as fromTemplateGroups from '../../../redux/template-group.reducers';
 import * as templateGroupActions from '../../../redux/template-group.actions';
+import { BaseTemplateModel } from '../../../shared/base-template.model';
 
 @Component({
   selector: 'cs-template-group-container',
@@ -13,17 +14,18 @@ import * as templateGroupActions from '../../../redux/template-group.actions';
     <cs-template-group
       [template]="template$ | async"
       [groups]="templateGroups$ | async"
-      (groupChange)="onGroupChange()"
+      (groupChange)="onGroupChange($event)"
     ></cs-template-group>`
 })
-export class TemplateGroupContainerComponent  {
+export class TemplateGroupContainerComponent {
   readonly templateGroups$ = this.store.select(fromTemplateGroups.selectEntities);
   readonly template$ = this.store.select(fromTemplates.getSelectedTemplate);
 
   constructor(private store: Store<State>) {
   }
 
-  public onGroupChange() {
+  public onGroupChange(template: BaseTemplateModel) {
+    this.store.dispatch(new templateActions.UpdateTemplate(template));
     // this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
   }
 }

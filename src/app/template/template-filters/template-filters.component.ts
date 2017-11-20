@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OsFamily, OsType } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
-import { TemplateFilters } from '../shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
 import { Domain } from '../../shared/models/domain.model';
 import { Dictionary } from '@ngrx/entity/src/models';
@@ -81,6 +81,10 @@ export class TemplateFiltersComponent implements OnInit {
 
   public get locale(): Language {
     return this.translate.currentLang as Language;
+  }
+
+  public get TemplateResourceType() {
+    return TemplateResourceType;
   }
 
   public showAccountFilter(): boolean {
