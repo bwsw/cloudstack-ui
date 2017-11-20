@@ -63,9 +63,6 @@ export class TemplateFiltersComponent implements OnInit {
     TemplateFilters.self
   ];
 
-  private templateTabIndex = 0;
-  private isoTabIndex = 1;
-
   constructor(
     private authService: AuthService,
     private translate: TranslateService
@@ -96,24 +93,11 @@ export class TemplateFiltersComponent implements OnInit {
     return domain ? domain.getPath() : '';
   }
 
-  public get templateSwitchPosition(): number {
-    return this.showIso ? this.isoTabIndex : this.templateTabIndex;
-  }
-
   public setMode(mode: string): void {
     this.viewModeChange.emit(mode);
-
-    // this.showIso = Number(index) === this.isoTabIndex;
-    // this.updateDisplayMode();
-  }
-
-  public updateDisplayMode(): void {
-    // const mode = this.showIso ? 'Iso' : 'Template';
-    // this.viewModeChange.emit(mode);
   }
 
   public updateSelectedGroupings(selectedGroupings) {
     this.selectedGroupingsChange.emit(selectedGroupings);
   }
-
 }

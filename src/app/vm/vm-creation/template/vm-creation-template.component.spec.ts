@@ -20,15 +20,15 @@ const templatesRaw = require(
   '../../../../testutils/mocks/model-services/fixtures/templates.json');
 const isosRaw = require('../../../../testutils/mocks/model-services/fixtures/isos.json');
 
-const templates: Array<Template> = templatesRaw.map(t => new Template(t));
-const isos: Array<Iso> = isosRaw.map(i => new Iso(i));
+const templates: Array<Template> = [
+  ...templatesRaw.map(t => new Template(t)),
+  ...isosRaw.map(i => new Iso(i))
+];
 
 @Component({
   selector: 'cs-test',
   template: `
     <cs-vm-creation-template
-      [templates]="templates"
-      [isos]="isos"
       [(ngModel)]="template"
     ></cs-vm-creation-template>
   `
@@ -37,7 +37,6 @@ class TestComponent {
   @ViewChild(VmCreationTemplateComponent) public vmTemplateComponent: VmCreationTemplateComponent;
   public template: BaseTemplateModel;
   public templates: Array<Template>;
-  public isos: Array<Iso>;
 }
 
 describe('VmCreationTemplateComponent', () => {
@@ -49,7 +48,6 @@ describe('VmCreationTemplateComponent', () => {
     const f = TestBed.createComponent(TestComponent);
     const testComponent = f.componentInstance;
     testComponent.templates = templates;
-    testComponent.isos = isos;
     testComponent.template = templates[0];
 
     return { f, testComponent };
@@ -92,22 +90,6 @@ describe('VmCreationTemplateComponent', () => {
     expect(testComponent.vmTemplateComponent.template).toEqual(templates[0]);
   }));
 
-  it('should reset model if template and iso list are empty', async(async () => {
-    const { f, testComponent } = createTestComponent();
-    f.detectChanges();
-
-    await f.whenStable();
-    f.detectChanges();
-    expect(testComponent.vmTemplateComponent.template).toEqual(templates[0]);
-
-    testComponent.templates = [];
-    testComponent.isos = [];
-
-    await f.whenStable();
-    f.detectChanges();
-    expect(testComponent.vmTemplateComponent.template).toBe(null);
-  }));
-
   it('should display selectedTemplate name', async(async () => {
     const { f } = createTestComponent();
     f.detectChanges();
@@ -141,8 +123,6 @@ describe('VmCreationTemplateComponent', () => {
 
     component.zoneId = 'someId';
     component.template = templates[0];
-    component.templates = templates;
-    component.isos = isos;
     const button = fixture.debugElement.query(By.css('button'));
 
     button.nativeElement.click();
@@ -155,8 +135,6 @@ describe('VmCreationTemplateComponent', () => {
       width: '780px',
       data: {
         template: templates[0],
-        templates: templates,
-        isos: isos,
         zoneId: 'someId'
       }
     });
@@ -169,8 +147,6 @@ describe('VmCreationTemplateComponent', () => {
 
     spyOn(component.change, 'next');
     component.zoneId = 'someId';
-    component.templates = templates;
-    component.isos = isos;
     const button = fixture.debugElement.query(By.css('button'));
 
     button.nativeElement.click();
