@@ -15,6 +15,7 @@ import { BaseTemplateModel } from '../../../shared/base-template.model';
       [template]="template$ | async"
       [groups]="templateGroups$ | async"
       (groupChange)="onGroupChange($event)"
+      (groupReset)="onGroupReset()"
     ></cs-template-group>`
 })
 export class TemplateGroupContainerComponent {
@@ -26,6 +27,9 @@ export class TemplateGroupContainerComponent {
 
   public onGroupChange(template: BaseTemplateModel) {
     this.store.dispatch(new templateActions.UpdateTemplate(template));
-    // this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
+  }
+
+  public onGroupReset() {
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 }

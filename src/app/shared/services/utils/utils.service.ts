@@ -36,7 +36,7 @@ export class Utils {
   }
 
   public static matchLower(string: string, subString: string): boolean {
-    return string.toLowerCase().includes(subString.toLowerCase());
+    return string && string.toLowerCase().includes(subString && subString.toLowerCase());
   }
 
   public static getRouteWithoutQueryParams(routerState: RouterState): string {

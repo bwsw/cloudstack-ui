@@ -13,7 +13,6 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { State } from '../../reducers/index';
-import { templateGroupings } from './template-page.container';
 
 import * as fromTemplates from '../redux/template.reducers';
 import * as templateActions from '../redux/template.actions';
@@ -26,7 +25,7 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromTemplateGroups from '../redux/template-group.reducers';
-import * as templateGroupActions from '../redux/template-group.actions';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -90,6 +89,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     private router: Router,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     private cd: ChangeDetectorRef
   ) {
     super();
@@ -100,6 +100,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
     this.store.dispatch(new accountsActions.LoadAccountsRequest());
     this.store.dispatch(new domainActions.LoadDomainsRequest());
+
     this.initFilters();
   }
 
@@ -164,7 +165,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
   private initFilters(): void {
     const params = this.filterService.getParams();
     const selectedGroupings = params['groupings'].reduce((acc, _) => {
-      const grouping = templateGroupings.find(g => g.key === _);
+      const grouping = this.availableGroupings.find(g => g.key === _);
       if (grouping) {
         acc.push(grouping);
       }

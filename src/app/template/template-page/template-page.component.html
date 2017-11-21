@@ -3,7 +3,7 @@
   [isOpen]="listService?.hasSelected()"
 >
 
-  <cs-template-filter-list cs-panels></cs-template-filter-list>
+  <cs-template-filter-list-container cs-panels></cs-template-filter-list-container>
 
   <ng-container *loading="!templates?.length && fetching" cs-list>
     <div class="switch-panel">

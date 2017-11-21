@@ -19,20 +19,24 @@
     ></span>
   </div>
 
-  <div class="info"
-       [matTooltip]="item.displayText"
-       matTooltipPosition="above"
+  <div
+    class="info"
+    [matTooltip]="item.displayText"
+    matTooltipPosition="above"
   >
     <span [innerHTML]="item.displayText | highlight:query"></span>
   </div>
 
-  <button *ngIf="isSelf" class="row-action" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+  <button
+    *ngIf="isSelf"
+    class="row-action"
+    mat-icon-button
+    [matMenuTriggerFor]="actionsMenu"
+  >
     <mat-icon>more_vert</mat-icon>
   </button>
 
   <mat-menu #actionsMenu="matMenu">
-    <cs-template-actions [template]="item"
-                         (deleteTemplate)="deleteTemplate.emit($event)"
-    ></cs-template-actions>
+    <cs-template-actions-container [template]="item"></cs-template-actions-container>
   </mat-menu>
 </mat-list-item>

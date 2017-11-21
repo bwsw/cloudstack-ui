@@ -174,9 +174,11 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     return this.sendCommand('register', params)
       .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
       .switchMap(template => {
-        return this.templateTagService.setGroup(template, params.groupId)
-          .catch(() => Observable.of(null))
-          .do(tag => template.tags.push(tag));
+        if (params.groupId) {
+          return this.templateTagService.setGroup(template, { id: params.groupId });
+        } else {
+          return Observable.of(template);
+        }
       })
       .switchMap(template => {
         return this.templateTagService.setDownloadUrl(template, params.url)

@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { BaseTemplateModel } from '../shared/base-template.model';
+import { TemplateGroup } from '../../shared/models/template-group.model';
 
 export const LOAD_TEMPLATE_REQUEST = '[Templates] LOAD_TEMPLATE_REQUEST';
 export const LOAD_TEMPLATE_RESPONSE = '[Templates] LOAD_TEMPLATE_RESPONSE';
@@ -14,6 +15,10 @@ export const LOAD_SELECTED_TEMPLATE = '[Templates] LOAD_SELECTED_TEMPLATE';
 export const DIALOG_LOAD_TEMPLATE_REQUEST = '[Templates] DIALOG_LOAD_TEMPLATE_REQUEST';
 export const DIALOG_TEMPLATE_FILTER_UPDATE = '[Templates] DIALOG_TEMPLATE_FILTER_UPDATE';
 export const UPDATE_TEMPLATE = '[Templates] UPDATE_TEMPLATE';
+export const SET_TEMPLATE_GROUP = '[Templates] SET_TEMPLATE_GROUP';
+export const SET_TEMPLATE_GROUP_SUCCESS = '[Templates] SET_TEMPLATE_GROUP_SUCCESS';
+export const RESET_TEMPLATE_GROUP = '[Templates] RESET_TEMPLATE_GROUP';
+export const RESET_TEMPLATE_GROUP_SUCCESS = '[Templates] RESET_TEMPLATE_GROUP_SUCCESS';
 
 
 export class LoadTemplatesRequest implements Action {
@@ -43,6 +48,7 @@ export class DialogLoadTemplatesRequest implements Action {
   constructor(public payload: string) {
   }
 }
+
 export class DialogTemplatesFilterUpdate implements Action {
   readonly type = DIALOG_TEMPLATE_FILTER_UPDATE;
 
@@ -76,7 +82,6 @@ export class CreateTemplateError implements Action {
 export class RemoveTemplate implements Action {
   readonly type = TEMPLATE_REMOVE;
 
-
   constructor(public payload: any) {
   }
 }
@@ -100,10 +105,40 @@ export class LoadSelectedTemplate implements Action {
 
   constructor(public payload: any) {
   }
-}export class UpdateTemplate implements Action {
+}
+
+export class UpdateTemplate implements Action {
   readonly type = UPDATE_TEMPLATE;
 
   constructor(public payload: any) {
+  }
+}
+
+export class SetTemplateGroup implements Action {
+  readonly type = SET_TEMPLATE_GROUP;
+
+  constructor(public payload: { template: BaseTemplateModel, templateGroup: TemplateGroup }) {
+  }
+}
+
+export class SetTemplateGroupSuccess implements Action {
+  readonly type = SET_TEMPLATE_GROUP_SUCCESS;
+
+  constructor(public payload: BaseTemplateModel) {
+  }
+}
+
+export class ResetTemplateGroup implements Action {
+  readonly type = RESET_TEMPLATE_GROUP;
+
+  constructor(public payload: BaseTemplateModel) {
+  }
+}
+
+export class ResetTemplateGroupSuccess implements Action {
+  readonly type = RESET_TEMPLATE_GROUP_SUCCESS;
+
+  constructor(public payload: BaseTemplateModel) {
   }
 }
 
@@ -120,6 +155,10 @@ export type Actions =
   | CreateTemplateSuccess
   | CreateTemplateError
   | LoadSelectedTemplate
-  | UpdateTemplate;
+  | UpdateTemplate
+  | SetTemplateGroup
+  | SetTemplateGroupSuccess
+  | ResetTemplateGroup
+  | ResetTemplateGroupSuccess;
 
 

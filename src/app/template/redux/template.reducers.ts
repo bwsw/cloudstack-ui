@@ -131,9 +131,23 @@ export function listReducer(
       };
     }
     case template.UPDATE_TEMPLATE: {
-      return {
-        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
-      };
+      return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
+    }
+    case template.SET_TEMPLATE_GROUP_SUCCESS: {
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: {
+          tags: action.payload.tags
+        }
+      }, state);
+    }
+    case template.RESET_TEMPLATE_GROUP_SUCCESS: {
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: {
+          tags: action.payload.tags.filter(_ => _.key !== TemplateTagKeys.group)
+        }
+      }, state);
     }
     default: {
       return state;
@@ -206,9 +220,9 @@ export const getSelectedId = createSelector(
 );
 
 export const getSelectedTemplate = createSelector(
-  getTemplatesState,
+  selectEntities,
   getSelectedId,
-  (state, selectedId) => state.list.entities[selectedId]
+  (entities, selectedId) => entities[selectedId]
 );
 
 export const getSelectedTemplateTags = createSelector(

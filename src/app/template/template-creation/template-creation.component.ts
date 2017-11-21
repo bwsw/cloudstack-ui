@@ -26,10 +26,10 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public zones: Array<Zone>;
   @Input() public isLoading: boolean;
   @Input() public groups: Array<TemplateGroup>;
+  @Input() public snapshot?: Snapshot;
 
   @Output() public onCreateTemplate = new EventEmitter<any>();
 
-  public snapshot?: Snapshot;
   public name: string;
   public displayText: string;
   public osTypeId: string;
@@ -74,13 +74,10 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   constructor(
-    private dialogRef: MatDialogRef<TemplateCreationComponent>,
     private hypervisorService: HypervisorService,
     private authService: AuthService,
     private translate: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data: any
   ) {
-    this.snapshot = data.snapshot;
     this.visibleFormats = this.formats;
   }
 
@@ -154,7 +151,6 @@ export class TemplateCreationComponent implements OnInit {
     }
 
     this.onCreateTemplate.emit(params);
-    this.dialogRef.close();
   }
 
   public isAdmin(): boolean {

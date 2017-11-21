@@ -16,7 +16,6 @@ import * as fromOsTypes from '../../redux/ostype.reducers';
 export class TemplateOsIconContainerComponent {
   public osTypes$ = this.store.select(fromOsTypes.selectEntities);
   @Input() public template: BaseTemplateModel;
-  @Input() public dialogMode = false;
 
   constructor(private store: Store<State>) {
   }

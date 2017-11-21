@@ -83,6 +83,8 @@ import { TemplateZonesContainerComponent } from './template-sidebar/containers/t
 import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
 import { TemplateFilterListSelectorContainerComponent } from './containers/template-filter-selector.container';
 import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zones.container';
+import { TemplateFilterListContainerComponent } from './template-filter-list/containers/template-filter-list.container';
+import { TemplateGroupSelectorContainerComponent } from './template-sidebar/template-group/containers/template-group-selector.container';
 
 
 @NgModule({
@@ -140,9 +142,11 @@ import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zo
     TemplateCardListComponent,
     TemplatePageContainerComponent,
     TemplateFilterContainerComponent,
+    TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
     TemplateFilterListSelectorContainerComponent,
+    TemplateGroupSelectorContainerComponent,
     TemplateGroupSelectorComponent,
     TemplateGroupContainerComponent,
     TemplateGroupComponent,
@@ -161,6 +165,7 @@ import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zo
   exports: [
     TemplateFilterListSelectorContainerComponent,
     TemplateFilterListSelectorComponent,
+    TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFiltersComponent,
     TemplateGroupComponent
@@ -179,7 +184,7 @@ import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zo
   entryComponents: [
     IsoAttachmentComponent,
     TemplateCreationContainerComponent,
-    TemplateGroupSelectorComponent,
+    TemplateGroupSelectorContainerComponent,
   ]
 })
 export class TemplateModule {

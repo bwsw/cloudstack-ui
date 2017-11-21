@@ -10,12 +10,13 @@ import { Template } from '../shared/template.model';
 import { Iso } from '../shared/iso.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { State } from '../../reducers/index';
+import { TemplateGroup } from '../../shared/models/template-group.model';
+import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
-import { State } from '../../reducers/index';
-import { TemplateGroup } from '../../shared/models/template-group.model';
 
 @Injectable()
 export class TemplateEffects {
@@ -34,7 +35,8 @@ export class TemplateEffects {
 
       if (this.authService.isAdmin()) {
         filters = [TemplateFilters.all];
-      } else if (action.payload.selectedTypes && action.payload.selectedTypes.length) {
+      } else if (action.payload && action.payload.selectedTypes
+        && action.payload.selectedTypes.length) {
         filters = action.payload.selectedTypes;
       }
 
@@ -62,9 +64,7 @@ export class TemplateEffects {
   removeTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_REMOVE)
     .switchMap((action: template.RemoveTemplate) => {
-      return (action.payload.entity === TemplateResourceType.iso
-        ? this.isoService.remove(action.payload)
-        : this.templateService.remove(action.payload))
+      return this.confirmDeletion(action.payload)
         .map(() => new template.RemoveTemplateSuccess(action.payload))
         .catch((error: Error) => Observable.of(new template.RemoveTemplateError(error)));
     });
@@ -112,6 +112,22 @@ export class TemplateEffects {
       this.onNotify(action.payload, this.successTemplateCreate);
     });
 
+  @Effect()
+  setTemplateGroup$: Observable<Action> = this.actions$
+    .ofType(template.SET_TEMPLATE_GROUP)
+    .switchMap((action: template.SetTemplateGroup) => this.templateTagService.setGroup(
+      action.payload.template,
+      action.payload.templateGroup
+    )
+      .map(temp => new template.SetTemplateGroupSuccess(temp)));
+
+  @Effect()
+  resetTemplateGroup$: Observable<Action> = this.actions$
+    .ofType(template.RESET_TEMPLATE_GROUP)
+    .switchMap((action: template.ResetTemplateGroup) =>
+      this.templateTagService.resetGroup(action.payload)
+        .map(temp => new template.ResetTemplateGroupSuccess(action.payload)));
+
   private successTemplateCreate = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
   private successTemplateRemove = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED';
 
@@ -122,7 +138,8 @@ export class TemplateEffects {
     private authService: AuthService,
     private dialogService: DialogService,
     private notificationService: NotificationService,
-    private store: Store<State>
+    private store: Store<State>,
+    private templateTagService: TemplateTagService
   ) {
   }
 
@@ -148,5 +165,16 @@ export class TemplateEffects {
         this.store.dispatch(new templateGroup.LoadTemplateGroupsRequest());
       }
     });
+  }
+
+  private confirmDeletion(template) {
+    const confirmMessage = 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';
+    return this.dialogService.confirm(({ message: confirmMessage }))
+      .onErrorResumeNext()
+      .map(() => {
+        return (template === TemplateResourceType.iso
+          ? this.isoService.remove(template)
+          : this.templateService.remove(template));
+      });
   }
 }

@@ -6,6 +6,8 @@ import { TemplateGroupService } from '../../../shared/services/template-group.se
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../../shared/services/language.service';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
+import { TemplateGroupSelectorContainerComponent } from './containers/template-group-selector.container';
+import { TemplateGroup } from '../../../shared/models/template-group.model';
 
 export const DefaultTemplateGroupId = 'general';
 
@@ -16,8 +18,9 @@ export const DefaultTemplateGroupId = 'general';
 })
 export class TemplateGroupComponent {
   @Input() public template: BaseTemplateModel;
-  @Input() public groups: any;
+  @Input() public groups: TemplateGroup[];
   @Output() public groupChange = new EventEmitter<BaseTemplateModel>();
+  @Output() public groupReset = new EventEmitter();
 
   constructor(
     private dialog: MatDialog,
@@ -31,25 +34,14 @@ export class TemplateGroupComponent {
     return group && ((group.translations && group.translations[this.locale]) || group.id);
   }
 
-  public get isInDefaultGroup(): boolean {
-    return this.template.templateGroupId && this.template.templateGroupId === DefaultTemplateGroupId;
-  }
-
   public get locale(): Language {
     return this.translate.currentLang as Language;
   }
 
   public changeGroup(): void {
-    this.dialog.open(TemplateGroupSelectorComponent, {
+    this.dialog.open(TemplateGroupSelectorContainerComponent, {
       width: '380px',
-      data: {
-        template: this.template,
-        groups: this.groups
-      }
-    }).afterClosed().subscribe((template) => {
-      if (template) {
-        this.groupChange.emit(template);
-      }
+      data: {}
     });
   }
 }

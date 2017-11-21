@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
 
@@ -7,6 +7,8 @@ import * as fromOsTypes from '../../redux/ostype.reducers';
 import * as fromTemplateGroups from '../../redux/template-group.reducers';
 import * as fromZones from '../../redux/zone.reducers';
 import * as templateActions from '../../redux/template.actions';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Snapshot } from '../../../shared/models/snapshot.model';
 
 
 @Component({
@@ -17,8 +19,9 @@ import * as templateActions from '../../redux/template.actions';
       [osTypes]="osTypes$ | async"
       [zones]="zones$ | async"
       [isLoading]="loading$ | async"
-      (onCreateTemplate)="onCreate($event)"
       [groups]="groups$ | async"
+      [snapshot]="snapshot"
+      (onCreateTemplate)="onCreate($event)"
     ></cs-template-creation>`
 })
 export class TemplateCreationContainerComponent {
@@ -28,11 +31,19 @@ export class TemplateCreationContainerComponent {
   readonly loading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
 
-  constructor(private store: Store<State>) {
+  public snapshot: Snapshot;
+
+  constructor(
+    private store: Store<State>,
+    private dialogRef: MatDialogRef<TemplateCreationContainerComponent>,
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
+    this.snapshot = data.snapshot;
   }
 
   public onCreate(params) {
     this.store.dispatch(new templateActions.CreateTemplate(params));
+    this.dialogRef.close();
   }
 }
 

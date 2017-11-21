@@ -70,11 +70,4 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
       return tag.value;
     }
   }
-
-  public get templateGroupId(): string {
-    const tag = this.tags.find(_ => _.key === TemplateTagKeys.group);
-    if (tag) {
-      return tag.value;
-    }
-  }
 }

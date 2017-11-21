@@ -7,26 +7,6 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import * as fromTemplates from '../redux/template.reducers';
 import * as templateActions from '../redux/template.actions';
 
-export const templateGroupings = [
-  {
-    key: 'zones',
-    label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
-    selector: (item: BaseTemplateModel) => item.zoneId || '',
-    name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
-  },
-  {
-    key: 'accounts',
-    label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-    selector: (item: BaseTemplateModel) => item.account,
-    name: (item: BaseTemplateModel) => this.getGroupName(item),
-  }
-];
-
-export const getGroupName = (template: BaseTemplateModel) => {
-  return template.domain !== 'ROOT'
-    ? `${template.domain}/${template.account}`
-    : template.account;
-};
 
 @Component({
   selector: 'cs-template-page-container',
