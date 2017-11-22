@@ -14,7 +14,7 @@ import { MatMenuTrigger } from '@angular/material';
   templateUrl: 'security-group-row-item.component.html',
   styleUrls: ['security-group-row-item.component.scss']
 })
-export class SecurityGroupRowItemComponent extends SecurityGroupListItemComponent{
+export class SecurityGroupRowItemComponent extends SecurityGroupListItemComponent {
   @Input() public item: SecurityGroup;
   @Input() public searchQuery: () => string;
   @Input() public isSelected: (securityGroup) => boolean;

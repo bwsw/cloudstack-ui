@@ -5,12 +5,16 @@ import {
 } from './sg-action';
 import { SecurityGroup } from '../sg.model';
 import { Observable } from 'rxjs/Observable';
-import { MatDialog } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogConfig
+} from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../services/security-group.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { SgRulesContainerComponent } from '../containers/sg-rules.container';
 
 @Injectable()
 export class SecurityGroupRulesAction extends SecurityGroupAction {
@@ -25,7 +29,7 @@ export class SecurityGroupRulesAction extends SecurityGroupAction {
     jobsNotificationService: JobsNotificationService,
     notificationService: NotificationService,
     securityGroupService: SecurityGroupService,
-    private router: Router
+    private activatedRoute: ActivatedRoute
   ) {
     super(
       dialog,
@@ -37,11 +41,17 @@ export class SecurityGroupRulesAction extends SecurityGroupAction {
   }
 
   public activate(securityGroup: SecurityGroup): Observable<any> {
-    this.router.navigate(
-      [`security-group/${securityGroup.id}/rules`],
-      { queryParamsHandling: 'preserve' }
-    );
+    const editMode = !!this.activatedRoute.snapshot.queryParams.hasOwnProperty('vm');
 
-    return Observable.of(securityGroup);
+    return this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
+      width: '910px',
+      data: { securityGroupId: securityGroup.id, editMode }
+    })
+      .afterClosed()
+      .map(updatedGroup => {
+        return (<SecurityGroupService>this.securityGroupService).onSecurityGroupUpdate.next(
+          updatedGroup);
+        //return Observable.of(securityGroup);
+      });
   }
 }

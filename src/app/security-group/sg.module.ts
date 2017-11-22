@@ -41,7 +41,6 @@ import { SecurityGroupCreationDialogComponent } from './sg-creation/security-gro
 import { SecurityGroupCreationComponent } from './sg-creation/security-group-creation.component';
 import { SecurityGroupCardItemComponent } from './sg-list-item/card-item/security-group-card-item.component';
 import { SecurityGroupPageComponent } from './sg-page/security-group-page.component';
-import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
 import { SecurityGroupRowItemComponent } from './sg-list-item/row-item/security-group-row-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
@@ -111,7 +110,6 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
     SecurityGroupCreationComponent,
     SecurityGroupCreationDialogContainerComponent,
     SecurityGroupCreationDialogComponent,
-    SecurityGroupRulesDialogComponent,
     SgRulesContainerComponent,
     SgRulesComponent,
     SgRuleComponent,

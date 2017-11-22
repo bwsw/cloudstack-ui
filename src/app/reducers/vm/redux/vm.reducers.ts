@@ -106,7 +106,7 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const getUsingSGVolume = createSelector(
+export const getUsingSGVMs = createSelector(
   selectAll,
   fromSGroup.getSelectedId,
   (vms, sGroupId) => {
