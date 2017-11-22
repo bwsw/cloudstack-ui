@@ -14,13 +14,14 @@ Table of Contents
       * [Far Away To Do's](#far-away-to-dos)
       * [Screenshots and Features descriptions](#screenshots--features-descriptions)
          * [Login view](#login-view)
-         * [Virtual machines view](#virtual-machines-view)
+         * [Virtual machines](#virtual-machines-view)
          * [New virtual machine form](#new-virtual-machine-form)
          * [Resource usage bar](#resource-usage-bar)
-         * [Templates and ISOs view](#templates--isos-view)
-         * [Firewall Templates View](#firewall-templates-view)
-         * [Spare Drives View](#spare-drives-view)
-         * [Activity log view](#activity-log-view)
+         * [Storage](#storage)
+         * [Images](#images)
+         * [Firewall](#firewall)
+         * [Activity log](#activity-log)
+         * [Accounts](#accounts)
    * [Documentation](#documentation)
       * [Deployment](#deployment)
       * [Configuration Options](#configuration-options)
@@ -42,7 +43,7 @@ The project is developed by Bitworks Software Frontend Division within the educa
 
 ## Implementation Details
 
-* Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.9 and hasn't tested for the previous versions of CS
+* Designed compatible with [Apache CloudStack](http://cloudstack.apache.org/) 4.10 and has been tested for the previous version of CS (4.9).
 * Powered by [Angular](https://angular.io/) and [Material 2](https://material.angular.io/).
 * Tested and works fine in next modern browsers
    * Google Chrome 60.0.3112.78
@@ -157,9 +158,9 @@ You also can see that the interface is in chocolate and blue colors. It’s beca
 
 This panel displays existing drives. Root disks are visually distinguished from data disks. In addition, there is an option to display only spare disks, which allows saving user's time in certain cases. Each drive has a detailed sidebar with two tabs (Volume and Snapshots). When a virtual machine is removed, attached drives are automatically removed. Also, we don’t allow the user to create additional disks on a virtual machine creation because it leads to confusion when the virtual machine is created from a template – the user doesn’t realize that they add an “additional” drive and it’s not a root one.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/spareDrivesView3.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView3_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView3.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView3_mini.png)</a>
 
 #### Images
 
