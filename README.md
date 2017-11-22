@@ -157,9 +157,9 @@ You also can see that the interface is in chocolate and blue colors. It’s beca
 
 This panel displays existing drives. Root disks are visually distinguished from data disks. In addition, there is an option to display only spare disks, which allows saving user's time in certain cases. Each drive has a detailed sidebar with two tabs (Volume and Snapshots). When a virtual machine is removed, attached drives are automatically removed. Also, we don’t allow the user to create additional disks on a virtual machine creation because it leads to confusion when the virtual machine is created from a template – the user doesn’t realize that they add an “additional” drive and it’s not a root one.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView3.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView3_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/spareDrivesView3.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView3_mini.png)</a>
 
 #### Images
 
