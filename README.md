@@ -121,7 +121,7 @@ We intensively use features like projects in our own CloudStackcloud to manage r
 
 The login screen has a nice preloader which can be used to brand it for specific company. By default it shows Apache CloudStack banner. There are three possible ways to use domain (the form presented on the screen like in native UI, default domain in settings or am URL-based scheme).
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
 #### Virtual machines view
 
