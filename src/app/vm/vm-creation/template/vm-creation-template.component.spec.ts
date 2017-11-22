@@ -132,7 +132,7 @@ describe('VmCreationTemplateComponent', () => {
     const args = mockDialog.open.calls.mostRecent().args;
     expect(args[0]).toBe(VmTemplateDialogComponent);
     expect(args[1]).toEqual({
-      width: '780px',
+      width: '840px',
       data: {
         template: templates[0],
         zoneId: 'someId'
