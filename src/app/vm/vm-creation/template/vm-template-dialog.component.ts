@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
@@ -27,10 +28,11 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   }
 
   constructor(
+    translate: TranslateService,
     private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data
   ) {
-    super();
+    super(translate);
 
     this.zoneId = data.zoneId;
     this.preselectedTemplate = data.template;

@@ -64,11 +64,6 @@ export class VmCreationComponent implements OnInit {
   public visibleAffinityGroups: Array<AffinityGroup>;
   public visibleInstanceGroups: Array<InstanceGroup>;
 
-  // @Input()
-  // public set templates(list: BaseTemplateModel[]) {
-  //   this.data.templates = list;
-  // }
-
   constructor(
     public dialogRef: MatDialogRef<VmCreationComponent>,
     private formNormalizationService: VmCreationFormNormalizationService,
