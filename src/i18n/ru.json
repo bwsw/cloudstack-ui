@@ -206,6 +206,7 @@
     "TEMPLATE": {
       "CUSTOM_TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
       "CUSTOM_TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",
+      "TEMPLATE_GROUP_SET_ERROR": "Произошла ошибка, попробуйте еще раз",
       "SHARED_GROUP_CREATED": "Разделяемая группа {{ name }} успешно создана",
       "SHARED_GROUP_DELETED": "Разделяемая группа {{ name }} успешно удалена"
     }

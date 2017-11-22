@@ -1,6 +1,6 @@
 <div *ngIf="groupNames && !loading">
   <cs-create-update-delete-dialog
-    [enableAssign]="groups?.length"
+    [enableAssign]="groupNames?.length"
     [enableCreate]="false"
     [enableRemove]="!!groupName"
     [defaultValue]="groupName"

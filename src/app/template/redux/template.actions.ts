@@ -17,6 +17,7 @@ export const DIALOG_TEMPLATE_FILTER_UPDATE = '[Templates] DIALOG_TEMPLATE_FILTER
 export const UPDATE_TEMPLATE = '[Templates] UPDATE_TEMPLATE';
 export const SET_TEMPLATE_GROUP = '[Templates] SET_TEMPLATE_GROUP';
 export const SET_TEMPLATE_GROUP_SUCCESS = '[Templates] SET_TEMPLATE_GROUP_SUCCESS';
+export const SET_TEMPLATE_GROUP_ERROR = '[Templates] SET_TEMPLATE_GROUP_ERROR';
 export const RESET_TEMPLATE_GROUP = '[Templates] RESET_TEMPLATE_GROUP';
 export const RESET_TEMPLATE_GROUP_SUCCESS = '[Templates] RESET_TEMPLATE_GROUP_SUCCESS';
 
@@ -127,6 +128,12 @@ export class SetTemplateGroupSuccess implements Action {
   constructor(public payload: BaseTemplateModel) {
   }
 }
+export class SetTemplateGroupError implements Action {
+  readonly type = SET_TEMPLATE_GROUP_ERROR;
+
+  constructor(public payload: any) {
+  }
+}
 
 export class ResetTemplateGroup implements Action {
   readonly type = RESET_TEMPLATE_GROUP;
@@ -158,6 +165,7 @@ export type Actions =
   | UpdateTemplate
   | SetTemplateGroup
   | SetTemplateGroupSuccess
+  | SetTemplateGroupError
   | ResetTemplateGroup
   | ResetTemplateGroupSuccess;
 

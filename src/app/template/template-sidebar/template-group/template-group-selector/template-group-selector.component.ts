@@ -29,10 +29,7 @@ export class TemplateGroupSelectorComponent implements OnInit {
   @Output() public groupReset = new EventEmitter();
   @Output() public cancel = new EventEmitter();
 
-  constructor(
-    private templateGroupService: TemplateGroupService,
-    private translate: TranslateService
-  ) {
+  constructor(private translate: TranslateService) {
   }
 
   public ngOnInit() {

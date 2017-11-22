@@ -206,6 +206,7 @@
     "TEMPLATE": {
       "CUSTOM_TEMPLATE_CREATED": "Template {{ name }} created successfully",
       "CUSTOM_TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
+      "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
       "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
       "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully"
     }

@@ -119,17 +119,28 @@ export class TemplateEffects {
       action.payload.template,
       action.payload.templateGroup
     )
-      .map(temp => new template.SetTemplateGroupSuccess(temp)));
+      .map(temp => new template.SetTemplateGroupSuccess(temp))
+      .catch(error => Observable.of(new template.SetTemplateGroupError(error))));
 
   @Effect()
   resetTemplateGroup$: Observable<Action> = this.actions$
     .ofType(template.RESET_TEMPLATE_GROUP)
     .switchMap((action: template.ResetTemplateGroup) =>
       this.templateTagService.resetGroup(action.payload)
-        .map(temp => new template.ResetTemplateGroupSuccess(action.payload)));
+        .map(temp => new template.ResetTemplateGroupSuccess(action.payload))
+        .catch(error => Observable.of(new template.SetTemplateGroupError(error))));
+
+  @Effect({ dispatch: false })
+  setTemplateGroupError$: Observable<Action> = this.actions$
+    .ofType(template.SET_TEMPLATE_GROUP_ERROR)
+    .do((action: template.SetTemplateGroupError) => {
+      this.onErrorNotify(this.errorTemplateGroupSet);
+    });
+
 
   private successTemplateCreate = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
   private successTemplateRemove = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED';
+  private errorTemplateGroupSet = 'NOTIFICATIONS.TEMPLATE.TEMPLATE_GROUP_SET_ERROR';
 
   constructor(
     private actions$: Actions,
@@ -148,6 +159,10 @@ export class TemplateEffects {
       translationToken: message,
       interpolateParams: { name: template.name }
     });
+  }
+
+  private onErrorNotify(message: string) {
+    this.notificationService.error(message);
   }
 
   private handleError(error: any): void {
