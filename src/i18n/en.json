@@ -602,7 +602,7 @@
       "ZONES": "Zones",
       "TAGS": "Tags",
       "TEMPLATE_GROUP": {
-        "NAME": "Name",
+        "NAME": "Group",
         "NO_GROUP": "No group",
         "CHANGE_TEMPLATE_GROUP": "Change template group",
         "CHOOSE_EXISTING_GROUP": "Choose an existing group",

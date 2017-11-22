@@ -79,7 +79,7 @@ export class VmCreationTemplateComponent {
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
     return this.dialog.open(VmTemplateDialogComponent, {
-      width: '780px',
+      width: '840px',
       data: {
         zoneId: this.zoneId,
         template: this.template

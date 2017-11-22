@@ -98,13 +98,13 @@
           </div>
 
           <div class="dialog-select-wrapper">
-            <cs-vm-creation-template-container
+            <cs-vm-creation-template
               name="template"
               class="template-select"
+              [ngModel]="formState.state.template"
               [zoneId]="formState.state.zone.id"
-              [template]="formState.state.template"
               (change)="templateChange($event)"
-            ></cs-vm-creation-template-container>
+            ></cs-vm-creation-template>
           </div>
 
           <div *ngIf="formState.state.diskOfferingsAreAllowed">

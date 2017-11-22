@@ -94,7 +94,6 @@ import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-compone
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
 import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
-import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
 
 
 @NgModule({
@@ -153,7 +152,6 @@ import { VmCreationTemplateContainerComponent } from './vm-creation/template/con
     VmDetailComponent,
     VmFilterComponent,
     VmSidebarComponent,
-    VmCreationTemplateContainerComponent,
     VmCreationTemplateComponent,
     VmTemplateDialogContainerComponent,
     VmTemplateDialogComponent,
