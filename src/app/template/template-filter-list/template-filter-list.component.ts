@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { Language } from '../../shared/services/language.service';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
+import { AuthService } from '../../shared/services/auth.service';
 
 export const getGroupName = (template: BaseTemplateModel) => {
   return template.domain !== 'ROOT'
@@ -52,6 +53,16 @@ export class TemplateFilterListComponent {
     return this.translate.currentLang as Language;
   }
 
-  constructor(private translate: TranslateService) {
+  public get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  constructor(
+    private translate: TranslateService,
+    private authService: AuthService
+  ) {
+    if (!this.isAdmin) {
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+    }
   }
 }
