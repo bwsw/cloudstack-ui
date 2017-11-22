@@ -435,10 +435,10 @@ export const selectTemplatesForVmCreation = createSelector(
     };
 
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
-      if (listFilters.selectedGroups.length) {
+      if (vmFilters.selectedGroups.length) {
         const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
         const group = tag && tag.value;
-        const showGeneral = listFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
+        const showGeneral = vmFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
         return !!groupsMap[group]
           || (showGeneral && (!templateGroupEntities[group] || !group));
       }
