@@ -37,7 +37,8 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
   }
 
   public remove(params?: {}): Observable<any> {
-    return super.remove(params).do(() => this.invalidateCache());
+    return super.remove(params)
+      .do(() => this.invalidateCache());
   }
 
   public invalidateCache(): void {

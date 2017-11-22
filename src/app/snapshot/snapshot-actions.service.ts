@@ -14,6 +14,7 @@ import { NotificationService } from '../shared/services/notification.service';
 import { SnapshotService } from '../shared/services/snapshot.service';
 import { StatsUpdateService } from '../shared/services/stats-update.service';
 import { TemplateCreationComponent } from '../template/template-creation/template-creation.component';
+import { TemplateResourceType } from '../template/shared/base-template.service';
 
 
 export interface SnapshotAction extends Action<Snapshot> {
@@ -55,7 +56,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
       width: '330px',
       panelClass: 'template-creation-dialog-snapshot',
       data: {
-        mode: 'Template',
+        mode: TemplateResourceType.template,
         snapshot
       }
     })

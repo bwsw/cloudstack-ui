@@ -3,7 +3,7 @@
   [isOpen]="listService?.hasSelected()"
 >
 
-  <cs-template-filter-container cs-panels></cs-template-filter-container>
+  <cs-template-filter-list-container cs-panels></cs-template-filter-list-container>
 
   <ng-container *loading="!templates?.length && fetching" cs-list>
     <div class="switch-panel">
@@ -17,7 +17,7 @@
       [fetching]="fetching"
       [query]="query"
       [templateList]="templates"
-      [groupings]="selectedGroupings"
+      [groupings]="groupings"
       [mode]="mode"
       (deleteTemplate)="onTemplateDelete.emit($event)"
     >

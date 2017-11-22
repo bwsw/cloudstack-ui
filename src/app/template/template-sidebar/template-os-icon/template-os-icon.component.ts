@@ -10,12 +10,11 @@ import { Dictionary } from '@ngrx/entity/src/models';
   templateUrl: 'template-os-icon.component.html',
   styleUrls: ['template-os-icon.component.scss']
 })
-export class TemplateOsIconComponent implements OnInit {
+export class TemplateOsIconComponent {
   @Input() public template: BaseTemplateModel;
   @Input() public osTypes: Dictionary<OsType>;
-  public templateOsType: any;
 
-  public ngOnInit() {
-    this.templateOsType = this.osTypes[this.template.osTypeId];
+  public get templateOsType(): any {
+    return this.osTypes[this.template.osTypeId];
   }
 }

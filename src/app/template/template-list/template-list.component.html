@@ -30,3 +30,6 @@
     </mat-list-item>
   </mat-list>
 </div>
+
+<cs-no-results *ngIf="!templateList?.length && !isLoading"></cs-no-results>
+

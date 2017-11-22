@@ -1,6 +1,6 @@
 <div *ngIf="entity">
   <cs-tags-view
-    [tags]="tags$ | async"
+    [tags]="tags"
     [hasPermissions]="hasPermissions"
     (onTagAdd)="onTagAdd($event)"
     (onTagEdit)="onTagEdit($event)"

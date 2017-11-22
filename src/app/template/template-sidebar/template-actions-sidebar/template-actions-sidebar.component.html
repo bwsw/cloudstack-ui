@@ -9,8 +9,5 @@
 </div>
 
 <mat-menu #actionsMenu="matMenu">
-  <cs-template-actions
-    [template]="template"
-    (deleteTemplate)="deleteTemplate.emit($event)"
-  ></cs-template-actions>
+  <cs-template-actions-container [template]="template"></cs-template-actions-container>
 </mat-menu>

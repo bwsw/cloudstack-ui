@@ -24,7 +24,6 @@ export class TemplateCardListComponent {
   @Input() public fetching: boolean;
   @Output() public deleteTemplate = new EventEmitter();
 
-  public TemplateRowComponent = TemplateRowItemComponent;
   public inputs;
   public outputs;
 

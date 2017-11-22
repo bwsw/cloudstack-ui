@@ -8,12 +8,15 @@ import * as fromOsTypes from '../../redux/ostype.reducers';
 @Component({
   selector: 'cs-template-os-icon-container',
   template: `
-    <cs-template-os-icon [template]="template" [osTypes]="osTypes$ | async"></cs-template-os-icon>`
+    <cs-template-os-icon
+      [template]="template"
+      [osTypes]="osTypes$ | async"
+    ></cs-template-os-icon>`
 })
 export class TemplateOsIconContainerComponent {
   public osTypes$ = this.store.select(fromOsTypes.selectEntities);
   @Input() public template: BaseTemplateModel;
 
-  constructor(public store: Store<State>) {
+  constructor(private store: Store<State>) {
   }
 }

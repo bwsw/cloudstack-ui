@@ -61,7 +61,10 @@
                 {{ 'VM_PAGE.VM_CREATION.THIS_NAME_IS_TAKEN' | translate }}
               </mat-error>
               <mat-hint align="end">
-                <cs-character-count [value]="formState.state.displayName" [maxLength]="maxEntityNameLength"></cs-character-count>
+                <cs-character-count
+                  [value]="formState.state.displayName"
+                  [maxLength]="maxEntityNameLength"
+                ></cs-character-count>
               </mat-hint>
             </mat-form-field>
           </div>
@@ -98,10 +101,8 @@
             <cs-vm-creation-template
               name="template"
               class="template-select"
-              [templates]="formState.data.templates"
-              [isos]="formState.data.isos"
-              [zoneId]="formState.state.zone.id"
               [ngModel]="formState.state.template"
+              [zoneId]="formState.state.zone.id"
               (change)="templateChange($event)"
             ></cs-vm-creation-template>
           </div>
@@ -145,14 +146,14 @@
               >
             </mat-form-field>
             <!--<mat-form-field>-->
-              <mat-autocomplete #instanceGroups>
-                <mat-option
-                  *ngFor="let group of visibleInstanceGroups"
-                  [value]="group.name"
-                >
-                  {{ group.name }}
-                </mat-option>
-              </mat-autocomplete>
+            <mat-autocomplete #instanceGroups>
+              <mat-option
+                *ngFor="let group of visibleInstanceGroups"
+                [value]="group.name"
+              >
+                {{ group.name }}
+              </mat-option>
+            </mat-autocomplete>
             <!--</mat-form-field>-->
           </div>
 
@@ -170,7 +171,10 @@
                 (ngModelChange)="affinityGroupChange($event)"
               >
               <mat-hint align="end">
-                <cs-character-count [value]="formState.state.affinityGroup.name" [maxLength]="maxEntityNameLength"></cs-character-count>
+                <cs-character-count
+                  [value]="formState.state.affinityGroup.name"
+                  [maxLength]="maxEntityNameLength"
+                ></cs-character-count>
               </mat-hint>
             </mat-form-field>
             <mat-autocomplete #affinityGroups>
