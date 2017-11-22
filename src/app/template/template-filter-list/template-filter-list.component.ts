@@ -3,7 +3,6 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import { TranslateService } from '@ngx-translate/core';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { Language } from '../../shared/services/language.service';
-import { DefaultTemplateGroupId } from '../template-sidebar/template-group/template-group.component';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 
 export const getGroupName = (template: BaseTemplateModel) => {

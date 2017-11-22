@@ -1,15 +1,9 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../../shared/base-template.model';
-import { TemplateGroupService } from '../../../../shared/services/template-group.service';
 import { Mode } from '../../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { TemplateGroup } from '../../../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
-import { DefaultTemplateGroupId } from '../template-group.component';
 import { Language } from '../../../../shared/services/language.service';
-import { TemplateTagKeys } from '../../../../shared/services/tags/template-tag-keys';
-import { Tag } from '../../../../shared/models/tag.model';
-import { Observable } from 'rxjs/Observable';
 import { getTemplateGroupId } from '../../../template-filter-list/template-filter-list.component';
 
 

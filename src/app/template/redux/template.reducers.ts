@@ -10,7 +10,6 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
-import { logWarnings } from 'protractor/built/driverProviders';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -372,11 +371,14 @@ export const selectFilteredTemplates = createSelector(
     };
 
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
-      const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
-      const group = tag && tag.value;
-      const showGeneral = listFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
-      return !listFilters.selectedGroups.length || !!groupsMap[group]
-        || (showGeneral && (!templateGroupEntities[group] || !group));
+      if (listFilters.selectedGroups.length) {
+        const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
+        const group = tag && tag.value;
+        const showGeneral = listFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
+        return !!groupsMap[group]
+          || (showGeneral && (!templateGroupEntities[group] || !group));
+      }
+      return true;
     };
 
     const queryFilter = (template: BaseTemplateModel) => !listFilters.query || template.name.toLowerCase()
@@ -433,13 +435,14 @@ export const selectTemplatesForVmCreation = createSelector(
     };
 
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
-      const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
-      const group = tag && tag.value;
-
-      const showGeneral = vmFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
-
-      return !vmFilters.selectedGroups.length || !!groupsMap[group]
-        || (showGeneral && (!templateGroupEntities[group] || !group));
+      if (listFilters.selectedGroups.length) {
+        const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
+        const group = tag && tag.value;
+        const showGeneral = listFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
+        return !!groupsMap[group]
+          || (showGeneral && (!templateGroupEntities[group] || !group));
+      }
+      return true;
     };
 
     const queryLower = vmFilters.query && vmFilters.query.toLowerCase();
