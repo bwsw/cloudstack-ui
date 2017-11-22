@@ -131,9 +131,9 @@ Also we moved most of VM information to the sidebar, which now has four tabs - G
 From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones.
 An important introduction is the possibility to change data representation between the "card" and "table" view. Each section contains a switch and this improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView1.png" target="_blank">![Virtual Machine View screen 1](./screens/vmView1_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView2.png" target="_blank">![Virtual Machine View screen 2](./screens/vmView2_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/vmView3.png" target="_blank">![Virtual Machine View screen 3](./screens/vmView3_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView1.png" target="_blank">![Virtual Machine View screen 1](./screens/VMView1_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView2.png" target="_blank">![Virtual Machine View screen 2](./screens/VMView2_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView3.png" target="_blank">![Virtual Machine View screen 3](./screens/VMView3_mini.png)</a>
 
 #### New virtual machine form
 
@@ -144,6 +144,7 @@ Our team has made a big contribution to the improvement of UX when creating a vi
 - Access via HTTP if VM has a csui.vm.auth-mode tag with HTTP value. To configure access to VM via HTTP, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags).
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView2.png" target="_blank">![New Virtual Machine View](./screens/newVMView2_mini.png)</a>
 
 #### Resource usage bar
 
@@ -158,6 +159,7 @@ This panel displays existing drives. Root disks are visually distinguished from 
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView3.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView3_mini.png)</a>
 
 #### Images
 
@@ -181,6 +183,13 @@ The second way is to use shared security group - the group that is used by other
 It’s a simplified view for account activities. It lets you choose the date and levels and see all of them. It’s close to the same screen in the ACS native UI, but we believe that the user is interested in the events of specific date and scrolling a huge event log back to find something is not productive. Sometimes the HelpDesk service just wants to show the user that something had happened on a specific date, and thus the interface allows you to find information easier.  
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/activityLog.png" target="_blank">![Activity Log screen](./screens/activityLog_mini.png)</a>
+
+#### Accounts
+
+Here domain administrators can manage existing accounts, create new accounts and apply filtering and grouping as in other sections. There is also an access to details sidebar of each account with a possibility of editing settings and resource restrictions. In addition to this, an administrator can apply filtering by accounts in other sections, thus narrowing a context and working with a data that he needs at the moment.
+
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/accounts1.png" target="_blank">![Activity Log screen](./screens/accounts1_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/accounts2.png" target="_blank">![Activity Log screen](./screens/accounts2_mini.png)</a>
 
 # Documentation
 
