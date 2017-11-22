@@ -38,7 +38,7 @@ export class SgRulesContainerComponent implements OnInit, AfterViewInit {
   ) {
     this.id = data.securityGroupId;
     this.vmId = data.vmId;
-    this.editMode = !!data.editMode;
+    this.editMode = data.editMode;
   }
 
   public ngOnInit() {
