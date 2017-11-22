@@ -7,5 +7,5 @@ import { AccountUser } from '../../../shared/models/account-user.model';
 
 })
 export class AccountUserCardComponent {
-  @Input() public user;
+  @Input() public user: AccountUser;
 }

@@ -1,0 +1,79 @@
+<cs-overlay-loading [active]="loading"></cs-overlay-loading>
+<h3 *ngIf="!loading" class="mat-dialog-title">
+  {{ (title || 'ACCOUNT_PAGE.USER.EDIT_USER') | translate }}
+</h3>
+<form (ngSubmit)="onUserUpdate()" #userForm="ngForm">
+  <div class="mat-dialog-content">
+    <mat-form-field class="full-width-input">
+      <input
+        matInput
+        name="username"
+        [(ngModel)]="username"
+        [placeholder]="'ACCOUNT_PAGE.USER.USERNAME' | translate"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
+      <input
+        matInput
+        required
+        name="password"
+        [(ngModel)]="password"
+        [placeholder]="'ACCOUNT_PAGE.USER.PASSWORD' | translate"
+        [type]="hide ? 'password' : 'text'"
+      >
+      <mat-icon
+        matSuffix
+        (click)="hide = !hide"
+        [innerHTML]="hide ? 'visibility' : 'visibility_off'"
+      >
+      </mat-icon>
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
+      <input
+        matInput
+        name="firstName"
+        [(ngModel)]="firstName"
+        [placeholder]="'ACCOUNT_PAGE.USER.FIRST_NAME' | translate"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
+      <input
+        matInput
+        name="lastName"
+        [(ngModel)]="lastName"
+        [placeholder]="'ACCOUNT_PAGE.USER.LAST_NAME' | translate"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
+      <input
+        matInput
+        name="email"
+        [(ngModel)]="email"
+        [placeholder]="'ACCOUNT_PAGE.USER.EMAIL' | translate"
+        required
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="mat-dialog-actions">
+    <button
+      mat-button
+      color="primary"
+      matDialogClose
+      type="button"
+    >
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      mat-button
+      color="primary"
+      type="submit"
+      [disabled]="!userForm.valid"
+    >
+      {{ (confirmButtonText || 'COMMON.EDIT') | translate }}
+    </button>
+  </div>
+</form>

@@ -127,7 +127,39 @@ export function reducer(
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
       };
     }
+    case event.ACCOUNT_USER_CREATE_SUCCESS: {
+      if (state.entities[action.payload.accountid]) {
+        const users = [...state.entities[action.payload.accountid].user, action.payload];
+        return adapter.updateOne(
+          { id: action.payload.accountid, changes: { user: users } },
+          state
+        );
+      } else {
+        return adapter.addOne(action.payload, state);
+      }
+    }
+    case event.ACCOUNT_USER_UPDATE_SUCCESS: {
+      const users = [
+        ...state.entities[action.payload.accountid].user
+          .filter(_ => _.id !== action.payload.id),
+        action.payload
+      ];
 
+      return adapter.updateOne(
+        { id: action.payload.accountid, changes: { user: users } },
+        state
+      );
+    }
+    case event.ACCOUNT_USER_DELETE_SUCCESS: {
+      const users = [
+        ...state.entities[action.payload.accountid].user
+          .filter(_ => _.id !== action.payload.id)
+      ];
+      return adapter.updateOne(
+        { id: action.payload.accountid, changes: { user: users } },
+        state
+      );
+    }
 
     default: {
       return state;
@@ -210,13 +242,17 @@ export const selectFilteredAccounts = createSelector(
     const statesMap = selectedStates.reduce((m, i) => ({ ...m, [i]: i }), {});
 
 
-    const selectedRoleTypesFilter = account => !selectedRoleTypes.length || !!roleTypeMap[account.roletype];
+    const selectedRoleTypesFilter =
+      account => !selectedRoleTypes.length || !!roleTypeMap[account.roletype];
 
-    const selectedRoleNamesFilter = account => !selectedRoleNames.length || !!roleNamesMap[account.rolename];
+    const selectedRoleNamesFilter =
+      account => !selectedRoleNames.length || !!roleNamesMap[account.rolename];
 
-    const selectedDomainIdsFilter = account => !selectedDomainIds.length || !!domainIdsMap[account.domainid];
+    const selectedDomainIdsFilter =
+      account => !selectedDomainIds.length || !!domainIdsMap[account.domainid];
 
-    const selectedStatesFilter = account => !selectedStates.length || !!statesMap[account.state];
+    const selectedStatesFilter =
+      account => !selectedStates.length || !!statesMap[account.state];
 
 
     return accounts.filter(account => {

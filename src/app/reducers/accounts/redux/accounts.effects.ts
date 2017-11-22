@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import * as accountActions from './accounts.actions';
 import { Action } from '@ngrx/store';
 import { AccountService } from '../../../shared/services/account.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models/account.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
+import { AccountUserService } from '../../../shared/services/account-user.service';
+
+import * as accountActions from './accounts.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -104,9 +103,34 @@ export class AccountsEffects {
       this.handleError(action.payload);
     });
 
+  @Effect()
+  userDelete$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_USER_DELETE)
+    .switchMap((action: accountActions.AccountUserDelete) =>
+      this.accountUserService.removeUser(action.payload)
+        .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
+        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+
+  @Effect()
+  userCreate$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_USER_CREATE)
+    .switchMap((action: accountActions.AccountUserCreate) =>
+      this.accountUserService.createUser(action.payload)
+        .map((res) => new accountActions.AccountUserCreateSuccess(res.user))
+        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+
+  @Effect()
+  userUpdate$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_USER_UPDATE)
+    .switchMap((action: accountActions.AccountUserUpdate) =>
+      this.accountUserService.updateUser(action.payload)
+        .map((res) => new accountActions.AccountUserUpdateSuccess(res.user))
+        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+
   constructor(
     private actions$: Actions,
     private accountService: AccountService,
+    private accountUserService: AccountUserService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
   ) {

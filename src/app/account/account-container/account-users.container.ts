@@ -1,19 +1,20 @@
-import {  Component,  OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { AuthService } from '../../shared/services/auth.service';
-import { Account } from '../../shared/models/account.model';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 @Component({
   selector: 'cs-account-users-container',
   template: `
-    <cs-account-users [account]="account$ | async"></cs-account-users>`
+    <cs-account-users
+      [account]="account$ | async"
+      (onUserDelete)="deleteUser($event)"
+    ></cs-account-users>`
 })
-export class AccountUsersContainerComponent implements OnInit {
+export class AccountUsersContainerComponent {
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
-  public account: Account;
-
 
   constructor(
     private store: Store<State>,
@@ -21,12 +22,11 @@ export class AccountUsersContainerComponent implements OnInit {
   ) {
   }
 
-  public ngOnInit() {
-  }
-
-
   public isAdmin() {
     return this.authService.isAdmin();
   }
 
+  public deleteUser(account) {
+    this.store.dispatch(new accountActions.AccountUserDelete(account))
+  }
 }
