@@ -28,6 +28,7 @@ import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
 import { UserTagService } from './tags/user-tag.service';
 import { UserService } from './user.service';
+import { JobsNotificationService } from './jobs-notification.service';
 
 
 @Component({
@@ -112,6 +113,7 @@ const testBedConfig = {
     MockBackend,
     BaseRequestOptions,
     AuthService,
+    JobsNotificationService,
     { provide: AsyncJobService, useClass: MockAsyncJobService },
     { provide: CacheService, useClass: MockCacheService },
     { provide: ConfigService, useClass: MockConfigService },

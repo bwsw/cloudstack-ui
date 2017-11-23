@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
-import { async, inject, TestBed } from '@angular/core/testing';
+import {
+  async,
+  inject,
+  TestBed
+} from '@angular/core/testing';
 import { Subject } from 'rxjs/Subject';
 import { AuthService } from './auth.service';
-import { INotificationStatus, JobsNotificationService } from './jobs-notification.service';
+import {
+  INotificationStatus,
+  JobsNotificationService
+} from './jobs-notification.service';
 
 
 @Injectable()
@@ -21,6 +28,7 @@ describe('Jobs notification service', () => {
   }));
 
   it('should add new notification', inject([JobsNotificationService], jobsNotificationService => {
+    jobsNotificationService.reset();
     jobsNotificationService.add('new job');
     expect(jobsNotificationService.notifications.length).toBe(1);
     expect(jobsNotificationService.notifications[0].message).toBe('new job');
@@ -32,6 +40,7 @@ describe('Jobs notification service', () => {
   }));
 
   it('should modify existing notification', inject([JobsNotificationService], jobsNotificationService => {
+    jobsNotificationService.reset();
     jobsNotificationService.add({ id: '0', message: 'new job'});
     jobsNotificationService.add({ id: '1', message: 'another job'});
 
@@ -42,6 +51,7 @@ describe('Jobs notification service', () => {
   }));
 
   it('should update the status to "finished"', inject([JobsNotificationService], jobsNotifications => {
+    jobsNotifications.reset();
     const id = jobsNotifications.add('new job');
 
     jobsNotifications.finish({ id });
@@ -49,6 +59,7 @@ describe('Jobs notification service', () => {
   }));
 
   it('should update the status to "failed"', inject([JobsNotificationService], jobsNotifications => {
+    jobsNotifications.reset();
     const id = jobsNotifications.add('new job');
 
     jobsNotifications.fail({ id });
@@ -56,6 +67,7 @@ describe('Jobs notification service', () => {
   }));
 
   it('should remove notification by id', inject([JobsNotificationService], jobsNotificationService => {
+    jobsNotificationService.reset();
     jobsNotificationService.add({ id: '0', message: 'new job'});
     jobsNotificationService.add({ id: '1', message: 'another job'});
 
@@ -71,6 +83,7 @@ describe('Jobs notification service', () => {
   }));
 
   it('should remove all finished jobs', inject([JobsNotificationService], jobsNotificationService => {
+    jobsNotificationService.reset();
     const id1 = jobsNotificationService.add('new job');
     const id2 = jobsNotificationService.add('another job');
     jobsNotificationService.add('another one');
