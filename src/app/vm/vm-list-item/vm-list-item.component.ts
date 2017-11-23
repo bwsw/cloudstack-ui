@@ -41,6 +41,8 @@ export class VmListItemComponent implements OnInit, OnChanges {
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;
 
+  public query: string;
+
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
@@ -54,6 +56,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
     for (const propName in changes) {
       if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
         this.isSelected = changes[propName].currentValue;
+      }
+      if (propName === 'searchQuery') {
+        this.query = this.searchQuery();
       }
     }
   }
