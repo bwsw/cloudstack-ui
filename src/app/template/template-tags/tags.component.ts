@@ -1,18 +1,20 @@
-import { Observable } from 'rxjs/Observable';
 import { Tag } from '../../shared/models';
-import { TagService } from '../../shared/services/tags/tag.service';
-import { TagsComponent } from '../../tags/tags.component';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { BaseTemplateService } from '../shared/base-template.service';
-import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { OnInit } from '@angular/core';
-import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
+import { EventEmitter, Input, Output } from '@angular/core';
 import { AuthService } from '../../shared/services/auth.service';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { TagService } from '../../shared/services/tags/tag.service';
+import { BaseTemplateService } from '../shared/base-template.service';
+import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
 
 
-export abstract class BaseTemplateTagsComponent extends TagsComponent<BaseTemplateModel> implements OnInit {
-  public entity: BaseTemplateModel;
+export abstract class BaseTemplateTagsComponent {
+  @Input() public entity: BaseTemplateModel;
+  @Input() public tags: Array<Tag>;
+  @Output() public onTagAdded = new EventEmitter<KeyValuePair>();
+  @Output() public onTagRemoved = new EventEmitter<Tag>();
+  @Output() public onTagEdited = new EventEmitter<TagEditAction>();
 
   public get hasPermissions(): boolean {
     return this.entity.account === this.authService.user.username || this.authService.isAdmin();
@@ -20,36 +22,76 @@ export abstract class BaseTemplateTagsComponent extends TagsComponent<BaseTempla
 
   constructor(
     protected service: BaseTemplateService,
-    protected route: ActivatedRoute,
     protected dialogService: DialogService,
     protected tagService: TagService,
     protected authService: AuthService
   ) {
-    super(dialogService, tagService);
   }
 
-  public ngOnInit(): void {
-    const params = this.route.snapshot.parent.params;
-    this.loadEntity(params.id)
-      .subscribe(entity => this.entity = entity);
+  public onTagAdd(tag: KeyValuePair): void {
+    if (!tag) {
+      return;
+    }
+
+    this.tagService.create({
+      resourceIds: this.entity.id,
+      resourceType: this.entity.resourceType,
+      'tags[0].key': tag.key,
+      'tags[0].value': tag.value
+    })
+      .subscribe(
+        tags => this.onTagAdded.emit(tag),
+        error => this.onError(error)
+      );
   }
 
-  protected loadEntity(id: string): Observable<BaseTemplateModel> {
-    return this.service.getWithGroupedZones(id)
-      .switchMap(template => {
-        if (template) {
-          return Observable.of(template);
-        } else {
-          return Observable.throw(new EntityDoesNotExistError());
-        }
+  public onTagEdit(tagEditAction: TagEditAction): void {
+    if (!tagEditAction) {
+      return;
+    }
+
+    Observable.of(null)
+      .switchMap(() => {
+        return this.tagService.remove({
+          resourceIds: tagEditAction.oldTag.resourceId,
+          resourceType: tagEditAction.oldTag.resourceType,
+          'tags[0].key': tagEditAction.oldTag.key,
+          'tags[0].value': tagEditAction.oldTag.value
+        });
       })
-      .do(template => {
-        this.entity = template;
-      });
+      .switchMap(() => {
+        return this.tagService.create({
+          resourceIds: tagEditAction.oldTag.resourceId,
+          resourceType: tagEditAction.oldTag.resourceType,
+          'tags[0].key': tagEditAction.newTag.key,
+          'tags[0].value': tagEditAction.newTag.value
+        });
+      })
+      .subscribe(
+        tags => this.onTagEdited.emit(tagEditAction),
+        error => this.onError(error)
+      );
+
   }
 
-  protected get entityTags(): Observable<Array<Tag>> {
-    this.service.invalidateCache();
-    return this.service.get(this.entity.id).map(_ => _.tags);
+  public onTagDelete(tag: Tag): void {
+    this.tagService.remove({
+      resourceIds: tag.resourceId,
+      resourceType: tag.resourceType,
+      'tags[0].key': tag.key
+    })
+      .subscribe(
+        tags => this.onTagRemoved.emit(tag),
+        error => this.onError(event)
+      );
+  }
+
+  protected onError(error: any): void {
+    this.dialogService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

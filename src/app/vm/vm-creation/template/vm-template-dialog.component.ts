@@ -1,51 +1,24 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-
-import { Template } from '../../../template/shared';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
-import { Iso } from '../../../template/shared/iso.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
   templateUrl: 'vm-template-dialog.component.html'
 })
-export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
+export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
-  public preselectedTemplate: Template;
-  public templates: Array<Template>;
-  public isos: Array<Iso>;
-  public zoneId: string;
+  @Input() public zoneId: string;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data,
-    private dialogRef: MatDialogRef<VmTemplateDialogComponent>
-  ) {
-    super();
+  @Input()
+  public set preselectedTemplate(value: BaseTemplateModel) {
+    this.selectedTemplate = value;
+  };
 
-    this.preselectedTemplate = data.template;
-    this.templates = data.templates;
-    this.isos = data.isos;
-    this.zoneId = data.zoneId;
-
-    this.preselectedTemplate = data.template;
-    this.templates = data.templates;
-    this.isos = data.isos;
-    this.zoneId = data.zoneId;
-  }
-
-  public ngOnInit(): void {
-    this.selectedTemplate = this.preselectedTemplate;
-  }
-
-  public get typeOfSelectedSource(): 'Iso' | 'Template' {
-    if (this.selectedTemplate instanceof Iso) {
-      return 'Iso';
-    }
-    if (this.selectedTemplate instanceof Template) {
-      return 'Template';
-    }
-  }
+  @Output() close = new EventEmitter();
 
   public get selectedTemplate(): BaseTemplateModel {
     return this._selectedTemplate;
@@ -55,8 +28,20 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     this._selectedTemplate = template;
   }
 
-  public onOk(): void {
-    this.dialogRef.close(this.selectedTemplate);
+  constructor(
+    translate: TranslateService,
+    authService: AuthService,
+    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
+    super(translate, authService);
+
+    this.zoneId = data.zoneId;
+    this.preselectedTemplate = data.template;
+  }
+
+  public onOk(template): void {
+    this.dialogRef.close(template);
   }
 
   public onCancel(): void {

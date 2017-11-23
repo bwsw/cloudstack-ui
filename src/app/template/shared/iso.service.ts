@@ -3,13 +3,12 @@ import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { Iso } from './iso.model';
-import { BaseTemplateService } from './base-template.service';
+import { BaseTemplateService, TemplateResourceType } from './base-template.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
-
 
 @Injectable()
 @BackendResource({
-  entity: 'Iso',
+  entity: TemplateResourceType.iso,
   entityModel: Iso
 })
 export class IsoService extends BaseTemplateService {

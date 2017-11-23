@@ -21,12 +21,6 @@ export class TemplatePageComponent implements OnInit {
   public mode: ViewMode;
   public viewModeKey = 'templatePageViewMode';
 
-  @Input() public selectedTypes: any[];
-  @Input() public selectedAccountIds: Account[];
-  @Input() public selectedOsFamilies: any[];
-  @Input() public selectedZones: any[];
-  @Input() public selectedGroupings: any[];
-
   @Output() public updateList = new EventEmitter();
   @Output() public onTemplateDelete = new EventEmitter();
 

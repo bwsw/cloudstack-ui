@@ -1,0 +1,19 @@
+<div *ngIf="groupNames && !loading">
+  <cs-create-update-delete-dialog
+    [enableAssign]="groupNames?.length"
+    [enableCreate]="false"
+    [enableRemove]="!!groupName"
+    [defaultValue]="groupName"
+    [options]="groupNames"
+    [assignLabel]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.CHOOSE_EXISTING_GROUP'"
+    [maxLength]="255"
+    [removeLabel]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.REMOVE_FROM_GROUP'"
+    [selectPlaceholder]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.CHOOSE_GROUP'"
+    [title]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.CHANGE_TEMPLATE_GROUP'"
+    (onAssigned)="changeGroup($event)"
+    (onCancel)="onCancel()"
+    (onRemoved)="resetGroup()"
+  ></cs-create-update-delete-dialog>
+</div>
+<div *loading="!groupNames || loading"></div>
+

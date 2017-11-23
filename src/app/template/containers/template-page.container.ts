@@ -12,26 +12,6 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
 
-export const templateGroupings = [
-  {
-    key: 'zones',
-    label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
-    selector: (item: BaseTemplateModel) => item.zoneId || '',
-    name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
-  },
-  {
-    key: 'accounts',
-    label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
-    selector: (item: BaseTemplateModel) => item.account,
-    name: (item: BaseTemplateModel) => this.getGroupName(item),
-  }
-];
-
-export const getGroupName = (template: BaseTemplateModel) => {
-  return template.domain !== 'ROOT'
-    ? `${template.domain}/${template.account}`
-    : template.account;
-};
 
 @Component({
   selector: 'cs-template-page-container',
@@ -43,10 +23,6 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   readonly filters$ = this.store.select(fromTemplates.filters);
 
   readonly query$ = this.store.select(fromTemplates.filterQuery);
-  readonly selectedAccountIds$ = this.store.select(fromTemplates.filterSelectedAccountIds);
-  readonly selectedOsFamilies$ = this.store.select(fromTemplates.filterSelectedOsFamilies);
-  readonly selectedTypes$ = this.store.select(fromTemplates.filterSelectedTypes);
-  readonly selectedZones$ = this.store.select(fromTemplates.filterSelectedZones);
   readonly selectedGroupings$ = this.store.select(fromTemplates.filterSelectedGroupings);
 
   constructor(
@@ -57,7 +33,7 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   }
 
   public ngOnInit() {
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 
   public ngAfterViewInit() {
@@ -65,6 +41,6 @@ export class TemplatePageContainerComponent extends WithUnsubscribe() implements
   }
 
   public onTemplateDelete(template) {
-    this.store.dispatch(new templateActions.RemoveTemplateSuccess(template));
+    this.store.dispatch(new templateActions.RemoveTemplate(template));
   }
 }

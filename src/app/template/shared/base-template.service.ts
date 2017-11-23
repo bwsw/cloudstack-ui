@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
-import { OsTypeService } from '../../shared/services/os-type.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from './base-template.model';
 import { Utils } from '../../shared/services/utils/utils.service';
@@ -20,6 +19,11 @@ export const TemplateFilters = {
   all: 'all'
 };
 
+export const TemplateResourceType = {
+  template: 'Template',
+  iso: 'Iso'
+};
+
 export interface RequestParams {
   filter: string;
 
@@ -33,6 +37,7 @@ export interface RegisterTemplateBaseParams {
   url?: string;
   zoneId?: string;
   entity: 'Iso' | 'Template';
+  groupId?: string;
 }
 
 export class GroupedTemplates<T extends BaseTemplateModel> {
@@ -74,7 +79,6 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   constructor(
     protected asyncJobService: AsyncJobService,
-    protected osTypeService: OsTypeService,
     protected templateTagService: TemplateTagService,
     protected http: HttpClient
   ) {
@@ -100,7 +104,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   public getList(
     params: RequestParams,
     customApiFormat?: {},
-    useCache = true
+    useCache = false
   ): Observable<Array<BaseTemplateModel>> {
     return this.getListWithDuplicates(params, useCache)
       .map(templates => this.distinctIds(templates))
@@ -169,6 +173,13 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
     return this.sendCommand('register', params)
       .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
+      .switchMap(template => {
+        if (params.groupId) {
+          return this.templateTagService.setGroup(template, { id: params.groupId });
+        } else {
+          return Observable.of(template);
+        }
+      })
       .switchMap(template => {
         return this.templateTagService.setDownloadUrl(template, params.url)
           .catch(() => Observable.of(null))

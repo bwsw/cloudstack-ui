@@ -8,9 +8,15 @@ import { SecurityGroup } from '../sg.model';
 import { Action } from '../../shared/interfaces/action.interface';
 import { NotificationService } from '../../shared/services/notification.service';
 
+export enum SecurityGroupActionType {
+  View = 'view',
+  Delete = 'delete',
+  Edit = 'edit',
+}
 
 @Injectable()
 export abstract class SecurityGroupAction implements Action<SecurityGroup> {
+  public id: string;
   public name: string;
   public icon?: string;
 

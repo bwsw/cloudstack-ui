@@ -163,6 +163,7 @@ import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offer
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
 import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
 
 @NgModule({
@@ -265,6 +266,7 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    TemplateActionsContainerComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -341,6 +343,7 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    TemplateActionsContainerComponent
   ],
   providers: [
     AccountService,

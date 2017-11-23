@@ -130,7 +130,7 @@ export class ChangeVmColor implements Action {
 export class UpdateVM implements Action {
   readonly type = UPDATE_VM;
 
-  constructor(public payload: VirtualMachine, public notification: INotification) {
+  constructor(public payload: VirtualMachine, public notification?: INotification) {
   }
 }
 

@@ -1,5 +1,7 @@
 <ng-container *ngFor="let action of actions">
-  <button mat-menu-item (click)="activateAction(action)">
+  <button *ngIf="action.canActivate(template)"
+          mat-menu-item
+          (click)="activateAction(action)">
     <mat-icon>{{ action.icon }}</mat-icon>
     <span>{{ action.name | translate }}</span>
   </button>

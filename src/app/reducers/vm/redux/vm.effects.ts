@@ -251,6 +251,7 @@ export class VirtualMachinesEffects {
     .ofType(vmActions.STOP_VM)
     .switchMap((action: vmActions.StopVm) => {
       const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
+      this.update(action.payload);
       return this.vmService.command(action.payload, 'stop')
         .map(vm => {
           return new vmActions.UpdateVM(new VirtualMachine(vm), {
@@ -278,6 +279,7 @@ export class VirtualMachinesEffects {
     .ofType(vmActions.DESTROY_VM)
     .switchMap((action: vmActions.DestroyVm) => {
       const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DESTROY_IN_PROGRESS');
+      this.update(action.payload);
       return this.vmService.command(action.payload, 'destroy')
         .map(vm => new vmActions.UpdateVM(new VirtualMachine(vm), {
           id: notificationId,
@@ -296,6 +298,7 @@ export class VirtualMachinesEffects {
     .ofType(vmActions.REBOOT_VM)
     .switchMap((action: vmActions.RebootVm) => {
       const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.REBOOT_IN_PROGRESS');
+      this.update(action.payload);
       return this.vmService.command(action.payload, 'reboot')
         .map(vm => new vmActions.UpdateVM(new VirtualMachine(vm), {
           id: notificationId,
@@ -314,6 +317,7 @@ export class VirtualMachinesEffects {
     .ofType(vmActions.RECOVER_VM)
     .switchMap((action: vmActions.RecoverVm) => {
       const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.RECOVER_IN_PROGRESS');
+      this.update(action.payload);
       return this.vmService.commandSync(action.payload, 'recover')
         .map(vm => new vmActions.UpdateVM(new VirtualMachine(vm.virtualmachine), {
           id: notificationId,
@@ -491,7 +495,9 @@ export class VirtualMachinesEffects {
   updateVm$: Observable<Action> = this.actions$
     .ofType(vmActions.UPDATE_VM)
     .do((action: vmActions.UpdateVM) => {
-      this.jobsNotificationService.finish(action.notification);
+      if (action.notification) {
+        this.jobsNotificationService.finish(action.notification);
+      }
     });
 
   @Effect({ dispatch: false })
@@ -550,6 +556,7 @@ export class VirtualMachinesEffects {
 
   private start(vm) {
     const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.START_IN_PROGRESS');
+    this.update(vm);
     return this.vmService.command(vm, 'start')
       .map((newVm) => new vmActions.UpdateVM(new VirtualMachine(
         Object.assign({}, vm, newVm)), {
@@ -566,6 +573,7 @@ export class VirtualMachinesEffects {
 
   private stop(vm) {
     const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
+    this.update(vm);
     return this.vmService.command(vm, 'stop')
       .do((newVm) => this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(newVm), {
         id: notificationId,
@@ -577,6 +585,14 @@ export class VirtualMachinesEffects {
           message: 'JOB_NOTIFICATIONS.VM.STOP_FAILED'
         }));
       });
+  }
+
+  private update(vm) {
+    this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(Object.assign(
+      {},
+      vm,
+      { state: VmState.InProgress }
+    ))));
   }
 
 }

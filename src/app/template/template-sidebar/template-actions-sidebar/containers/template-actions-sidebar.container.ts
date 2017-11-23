@@ -24,6 +24,6 @@ export class TemplateActionsSidebarContainerComponent {
   }
 
   public onTemplateDelete(template) {
-    this.store.dispatch(new templateActions.RemoveTemplateSuccess(template));
+    this.store.dispatch(new templateActions.RemoveTemplate(template));
   }
 }

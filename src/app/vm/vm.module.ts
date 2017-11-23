@@ -113,6 +113,7 @@ import { NetworkDetailContainerComponent } from './container/network-detail.cont
 import { VmTagsContainerComponent } from './container/vm-tags.container';
 import { VmActionsContainerComponent } from './container/vm-actions.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
+import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
 
 
 @NgModule({
@@ -188,6 +189,7 @@ import { ServiceOfferingDialogContainerComponent } from './container/service-off
     VmSidebarContainerComponent,
     VmSidebarComponent,
     VmCreationTemplateComponent,
+    VmTemplateDialogContainerComponent,
     VmTemplateDialogComponent,
     VmVolumeDetailsContainerComponent,
     VolumeDetailsComponent,

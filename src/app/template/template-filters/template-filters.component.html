@@ -1,108 +1,35 @@
-<cs-top-bar *ngIf="!dialogMode">
-  <div class="options-panel filter-wrapper">
-    <mat-button-toggle-group
-      (change)="setMode($event.value)"
-      *ngIf="showIsoSwitch"
-    >
-      <mat-button-toggle value="0" [checked]="templateSwitchPosition === 0">
-        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
-      </mat-button-toggle>
-      <mat-button-toggle value="1" [checked]="templateSwitchPosition === 1">
-        {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
-      </mat-button-toggle>
-    </mat-button-toggle-group>
-
-    <mat-form-field *ngIf="showAccountFilter() && accounts?.length">
-      <mat-select
-        multiple="true"
-        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-        [(ngModel)]="selectedAccountIds"
-        (selectionChange)="selectedAccountsChange.emit(selectedAccountIds)"
-      >
-        <mat-option *ngFor="let account of accounts" [value]="account.id">
-          {{ accountFullDomain(account) }}{{ account.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-select
-        multiple="true"
-        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
-        [(ngModel)]="selectedOsFamilies"
-        (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
-      >
-        <mat-option
-          *ngFor="let family of osFamilies"
-          [value]="family"
-        >
-          {{ family }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-select
-        multiple="true"
-        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
-        [(ngModel)]="selectedFilters"
-        (selectionChange)="selectedTypesChange.emit(selectedFilters)"
-      >
-        <mat-option
-          *ngFor="let f of categoryFilters"
-          [value]="f"
-        >
-          {{ filterTranslations[f] | translate}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field *ngIf="zones">
-      <mat-select
-        multiple="true"
-        [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
-        [(ngModel)]="selectedZones"
-        (selectionChange)="selectedZonesChange.emit(selectedZones)"
-      >
-        <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <cs-divider-vertical></cs-divider-vertical>
-    <mat-form-field
-      *ngIf="zones"
-    >
-      <mat-select
-        multiple="true"
-        [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
-        [(ngModel)]="selectedGroupings"
-        (selectionChange)="updateSelectedGroupings($event.value)"
-      >
-        <mat-option *ngFor="let g of availableGroupings" [value]="g">
-          {{ g.label | translate }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</cs-top-bar>
-
-<div
-  class="filter-wrapper"
-  *ngIf="dialogMode"
->
+<div class="options-panel filter-wrapper">
   <mat-button-toggle-group
     (change)="setMode($event.value)"
+    name="viewMode"
+    [(ngModel)]="viewMode"
     *ngIf="showIsoSwitch"
   >
-    <mat-button-toggle value="0" [checked]="templateSwitchPosition === 0">
+    <mat-button-toggle [value]="TemplateResourceType.template">
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
     </mat-button-toggle>
-    <mat-button-toggle value="1" [checked]="templateSwitchPosition === 1">
+    <mat-button-toggle [value]="TemplateResourceType.iso">
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
-  <mat-form-field>
+
+  <mat-form-field *ngIf="showAccountFilter() && accounts?.length">
     <mat-select
       multiple="true"
-      placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate }}"
-      [ngModel]="selectedOsFamilies"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [(ngModel)]="selectedAccountIds"
+      (selectionChange)="selectedAccountsChange.emit(selectedAccountIds)"
+    >
+      <mat-option *ngFor="let account of accounts" [value]="account.id">
+        {{ accountFullDomain(account) }}{{ account.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="osFamilies?.length">
+    <mat-select
+      multiple="true"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_OS_FAMILIES' | translate"
+      [(ngModel)]="selectedOsFamilies"
       (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
     >
       <mat-option
@@ -113,23 +40,64 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <mat-form-field>
+  <mat-form-field *ngIf="categoryFilters?.length">
     <mat-select
       multiple="true"
-      placeholder="{{ 'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate }}"
-      [ngModel]="selectedFilters"
-      (selectionChange)="selectedOsFamiliesChange.emit(selectedOsFamilies)"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_TYPES' | translate"
+      [(ngModel)]="selectedTypes"
+      (selectionChange)="selectedTypesChange.emit(selectedTypes)"
     >
       <mat-option
         *ngFor="let f of categoryFilters"
         [value]="f"
       >
-        {{ filterTranslations[f] | translate }}
+        {{ filterTranslations[f] | translate}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field *ngIf="zones?.length">
+    <mat-select
+      multiple="true"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_ZONES' | translate"
+      [(ngModel)]="selectedZones"
+      (selectionChange)="selectedZonesChange.emit(selectedZones)"
+    >
+      <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="groups?.length">
+    <mat-select
+      multiple="true"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_GROUPS' | translate"
+      [(ngModel)]="selectedGroups"
+      (change)="selectedGroupsChange.emit(selectedGroups)"
+    >
+      <mat-option [value]="'general'">{{ 'TEMPLATE_PAGE.FILTERS.GENERAL' | translate }}
+      </mat-option>
+
+      <mat-option
+        *ngFor="let g of groups"
+        [value]="g.id"
+      >
+        {{ g.translations && g.translations[locale] || g.id }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <cs-divider-vertical *ngIf="availableGroupings?.length"></cs-divider-vertical>
+  <mat-form-field *ngIf="availableGroupings?.length">
+    <cs-draggable-select
+      multiple="true"
+      [placeholder]="'TEMPLATE_PAGE.FILTERS.GROUP_BY' | translate"
+      [(ngModel)]="selectedGroupings"
+      [dragItems]="availableGroupings"
+      (selectionChange)="updateSelectedGroupings($event.value)"
+    >
+      <mat-option *ngFor="let g of availableGroupings" [value]="g">
+        {{ g.label | translate }}
+      </mat-option>
+    </cs-draggable-select>
+  </mat-form-field>
 </div>
 
 <div class="filter-wrapper">

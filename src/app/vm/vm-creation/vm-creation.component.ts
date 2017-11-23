@@ -1,11 +1,5 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  MatDialogRef,
-  MatSelectChange
-} from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MatSelectChange } from '@angular/material';
 import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
 
@@ -14,11 +8,7 @@ import {
   ProgressLoggerMessageStatus
 } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import {
-  AffinityGroup,
-  InstanceGroup,
-  ServiceOffering
-} from '../../shared/models';
+import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
@@ -94,7 +84,8 @@ export class VmCreationComponent implements OnInit {
       .subscribe(resourceUsage => {
         // TODO check ips
         Object.keys(resourceUsage.available)
-          .filter(key => key !== 'snapshots' && key !== 'secondaryStorage' && key !== 'ips')
+          .filter(
+            key => key !== 'snapshots' && key !== 'secondaryStorage' && key !== 'ips')
           .forEach(key => {
             const available = resourceUsage.available[key];
             if (available === 0) {
@@ -102,11 +93,11 @@ export class VmCreationComponent implements OnInit {
             }
           });
 
-      this.enoughResources = !this.insufficientResources.length;
+        this.enoughResources = !this.insufficientResources.length;
 
         if (this.enoughResources) {
           // TODO fix me (requests cancellation because of share())
-        setTimeout(() => this.loadData());
+          setTimeout(() => this.loadData());
         } else {
           this.fetching = false;
         }
@@ -169,7 +160,8 @@ export class VmCreationComponent implements OnInit {
     );
 
     const existingGroup = this.formState.data.getInstanceGroup(groupName);
-    this.formState.state.instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
+    this.formState.state.instanceGroup = clone(existingGroup) || new InstanceGroup(
+      groupName);
     this.updateFormState();
   }
 
@@ -248,8 +240,12 @@ export class VmCreationComponent implements OnInit {
     this.deploymentStopped = false;
 
     this.progressLoggerController.addMessage({
-      text: error.params ? {translationToken: error.message, interpolateParams: error.params}
-        : error.message ,
+      text: error.params
+        ? {
+          translationToken: error.message,
+          interpolateParams: error.params
+        }
+        : error.message,
       status: [ProgressLoggerMessageStatus.ErrorMessage]
     });
 
@@ -385,7 +381,7 @@ export class VmCreationComponent implements OnInit {
     this.updateLoggerMessage(
       'VM_PAGE.VM_CREATION.CREATING_SG',
       [ProgressLoggerMessageStatus.Done]
-    )
+    );
   }
 
   private onVmCreationInProgress(): void {

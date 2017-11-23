@@ -68,13 +68,14 @@ export class VmListItemComponent implements OnInit, OnChanges {
     const stopped = state === VmState.Stopped;
     const error = state === VmState.Error;
     const destroyed = state === VmState.Destroyed;
+    const inProgress = state === VmState.InProgress;
 
     return {
       running,
       stopped,
       error,
       destroyed,
-      'in-progress': !running && !stopped && !destroyed
+      'in-progress': inProgress
     };
   }
 

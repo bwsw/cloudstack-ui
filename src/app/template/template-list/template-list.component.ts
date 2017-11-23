@@ -13,6 +13,7 @@ export class TemplateListComponent {
   @Input() public query: string;
   @Input() public selectedTemplate: BaseTemplateModel;
   @Input() public dialogMode: boolean;
+  @Input() public isLoading = false;
   @Output() public deleteTemplate = new EventEmitter();
   @Output() public selectedTemplateChange = new EventEmitter();
 

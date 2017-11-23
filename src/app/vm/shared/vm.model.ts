@@ -24,7 +24,7 @@ export enum VmState {
   Error = 'Error',
   Destroyed = 'Destroyed',
   Expunged = 'Expunged',
-
+  InProgress = 'In-progress',
   // custom states
   Deploying = 'Deploying',
   Expunging = 'Expunging'

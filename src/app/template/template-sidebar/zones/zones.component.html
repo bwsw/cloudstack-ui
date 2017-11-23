@@ -20,3 +20,5 @@
     </mat-card-content>
   </mat-card>
 </div>
+
+<cs-no-results *ngIf="!entity" [text]="'TEMPLATE_NOT_FOUND'"></cs-no-results>
