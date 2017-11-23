@@ -1,6 +1,6 @@
 <cs-list
   (onAction)="showCreationDialog()"
-  [isOpen]="isSelected()"
+  [isOpen]="listService.hasSelected()"
 >
   <ng-container cs-panels>
     <cs-top-bar>
@@ -28,7 +28,7 @@
 
 
   <ng-container cs-sidebar>
-    <cs-sidebar [isOpen]="isSelected()">
+    <cs-sidebar [isOpen]="listService.hasSelected()">
       <router-outlet></router-outlet>
     </cs-sidebar>
   </ng-container>

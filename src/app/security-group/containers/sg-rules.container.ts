@@ -7,7 +7,10 @@ import {
 } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
@@ -36,7 +39,7 @@ export class SgRulesContainerComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) data,
     private cd: ChangeDetectorRef
   ) {
-    this.id = data.securityGroupId;
+    this.id = data.id;
     this.vmId = data.vmId;
     this.editMode = data.editMode;
   }

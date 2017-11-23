@@ -14,6 +14,7 @@ import { JobsNotificationService } from '../../shared/services/jobs-notification
 import { NotificationService } from '../../shared/services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { SgRulesContainerComponent } from '../containers/sg-rules.container';
+import { SecurityGroupService } from '../services/security-group.service';
 
 @Injectable()
 export class SecurityGroupRulesAction extends SecurityGroupAction {
@@ -27,13 +28,15 @@ export class SecurityGroupRulesAction extends SecurityGroupAction {
     dialogService: DialogService,
     jobsNotificationService: JobsNotificationService,
     notificationService: NotificationService,
-    private activatedRoute: ActivatedRoute
+    securityGroupService: SecurityGroupService,
+    private activatedRoute: ActivatedRoute,
   ) {
     super(
       dialog,
       dialogService,
       jobsNotificationService,
-      notificationService
+      notificationService,
+      securityGroupService
     );
   }
 
