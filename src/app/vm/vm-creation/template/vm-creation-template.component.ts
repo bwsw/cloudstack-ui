@@ -43,6 +43,7 @@ export class VmCreationTemplateComponent {
   public onClick(): void {
     this.showTemplateSelectionDialog()
       .subscribe(result => {
+
         if (result) {
           this.template = result['template'];
           this.change.next(result);

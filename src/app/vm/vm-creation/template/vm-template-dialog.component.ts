@@ -54,16 +54,14 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
       .subscribe(res => {
         if (res) {
           this.showTemplateAgreementDialog()
+            .finally(() => this.dialogRef.close(dialogData))
             .subscribe(item => {
-              if (item) {
-                dialogData.agreement = true;
-                this.dialogRef.close(dialogData);
-              }
-            });
-          } else {
-          this.dialogRef.close(dialogData);
+            if (item) {
+              dialogData.agreement = true;
+            }
+          })
         }
-        });
+      });
   }
 
   public onCancel(): void {

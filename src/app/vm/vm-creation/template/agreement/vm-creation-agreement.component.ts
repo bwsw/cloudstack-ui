@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 
 import { Converter } from 'showdown';
 import { TemplateTagService } from '../../../../shared/services/tags/template-tag.service';
