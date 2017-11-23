@@ -1,25 +1,36 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { Account } from '../../../shared/models/account.model';
 import { AccountUser } from '../../../shared/models/account-user.model';
 import { MatDialog } from '@angular/material';
 import { AccountUserEditContainerComponent } from '../../account-container/account-user-edit.container';
+import { AccountUserPasswordFormContainerComponent } from '../../account-container/account-user-password.container';
 
 @Component({
   selector: 'cs-account-users',
   templateUrl: 'account-users.component.html',
 })
-export class AccountUsersComponent {
+export class AccountUsersComponent implements OnChanges {
   @Input() public account: Account;
+
   @Output() public onUserDelete = new EventEmitter<any>();
+  @Output() public onUserRegenerateKey = new EventEmitter<any>();
 
-  public query: string;
-
-  public get sortedUsers() {
-    return this.account && this.account.user && [...this.account.user]
-      .sort((u1, u2) => u1.firstname < u2.firstname ? -1 : 1);
-  }
+  public step: string;
 
   constructor(private dialog: MatDialog) {
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.account && !changes.account.previousValue) {
+      this.setStep(this.account && this.account.user && this.account.user[0].id);
+    }
   }
 
   public addUser() {
@@ -34,10 +45,17 @@ export class AccountUsersComponent {
     this.openUserFormDialog(user);
   }
 
-  public onUserRegenerateKey(user) {
+  public onUserChangePassword(user) {
+    this.dialog.open(AccountUserPasswordFormContainerComponent, {
+      width: '375px',
+      data: {
+        userId: user.id
+      }
+    });
   }
 
-  public onUserChangePassword(user) {
+  public setStep(userId) {
+    this.step = userId;
   }
 
   private openUserFormDialog(user?: AccountUser) {

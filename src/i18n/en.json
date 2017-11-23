@@ -214,6 +214,11 @@
       "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
       "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
       "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully"
+    },
+    "ACCOUNT": {
+      "USER_CREATED": "User {{ username }} created successfully",
+      "USER_UPDATED": "User {{ username }} updated successfully",
+      "USER_DELETED": "User {{ username }} deleted successfully"
     }
   },
   "AUTH": {
@@ -1046,8 +1051,11 @@
     "USER": {
       "CREATE_USER": "New user",
       "EDIT_USER": "Edit user",
+      "CHANGE_PASSWORD": "Change password",
+      "CONFIRM_PASSWORD_ERROR": "Password does not match the confirm password",
       "USERNAME": "Username",
       "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm password",
       "FIRST_NAME": "First name",
       "LAST_NAME": "Last name",
       "TIMEZONE": "Timezone",

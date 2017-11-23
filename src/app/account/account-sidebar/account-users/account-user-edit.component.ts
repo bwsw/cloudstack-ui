@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccountUser } from '../../../shared/models/account-user.model';
+import { TimeZone } from '../../../shared/components/time-zone/time-zone.service';
 
 @Component({
   selector: 'cs-account-user-edit',
@@ -14,7 +15,7 @@ export class AccountUserEditComponent {
   @Input() public lastName: string;
   @Input() public email: string;
   @Input() public password: string;
-  @Input() public timezone: string;
+  @Input() public timezone: TimeZone;
 
   @Output() public updateUser = new EventEmitter<AccountUser>();
 
@@ -28,6 +29,7 @@ export class AccountUserEditComponent {
       lastname: this.lastName,
       email: this.email,
       password: this.password,
+      timezone: this.timezone.geo
     });
 
     this.updateUser.emit(newUser);

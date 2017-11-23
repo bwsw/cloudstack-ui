@@ -13,7 +13,7 @@
         required
       >
     </mat-form-field>
-    <mat-form-field class="full-width-input">
+    <mat-form-field *ngIf="!!title" class="full-width-input">
       <input
         matInput
         required
@@ -56,6 +56,10 @@
         required
       >
     </mat-form-field>
+    <cs-time-zone
+      name="timezone"
+      [(ngModel)]="timezone"
+    ></cs-time-zone>
   </div>
 
   <div class="mat-dialog-actions">

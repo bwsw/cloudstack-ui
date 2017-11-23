@@ -1,18 +1,14 @@
-<div class="flex-container">
+<div class="tab-action-container">
   <button mat-mini-fab (click)="addUser()">
     <mat-icon>add</mat-icon>
   </button>
-
-  <cs-search
-    [(ngModel)]="query"
-    (ngModelChange)="updateFilterResults()"
-  ></cs-search>
-
 </div>
 
 <mat-accordion *ngIf="!!account">
   <mat-expansion-panel
-    *ngFor="let user of sortedUsers"
+    *ngFor="let user of account.user"
+    [expanded]="step === user.id"
+    (opened)="setStep(user.id)"
   >
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -39,7 +35,7 @@
         (onUserDelete)="deleteUser($event)"
         (onUserEdit)="editUser($event)"
         (onUserChangePassword)="onUserChangePassword($event)"
-        (onUserRegenerateKey)="onUserRegenerateKey($event)"
+        (onUserRegenerateKey)="onUserRegenerateKey.emit($event)"
       >
       </cs-account-user-actions>
     </mat-menu>

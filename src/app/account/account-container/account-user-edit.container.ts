@@ -14,10 +14,11 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
       [title]="title"
       [confirmButtonText]="confirmButtonText"
 
-      [username]="username"
-      [firstName]="firstName"
-      [lastName]="lastName"
-      [email]="email"
+      [username]="user?.username"
+      [firstName]="user?.firstname"
+      [lastName]="user?.lastname"
+      [email]="user?.email"
+      [timezone]="user?.timezone"
 
       (updateUser)="updateUser($event)"
     ></cs-account-user-edit>`
@@ -25,13 +26,6 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
 export class AccountUserEditContainerComponent {
   public account: Account;
   public user: AccountUser;
-
-  public username: string;
-  public firstName: string;
-  public lastName: string;
-  public email: string;
-  public timezone: string;
-
   public title: string;
   public confirmButtonText: string;
 
@@ -42,15 +36,6 @@ export class AccountUserEditContainerComponent {
   ) {
     this.title = data.title;
     this.user = new AccountUser(data.user);
-
-    if (this.user) {
-      this.username = this.user.username;
-      this.firstName = this.user.firstname;
-      this.lastName = this.user.lastname;
-      this.email = this.user.email;
-      this.timezone = this.user.timezone;
-    }
-
     this.account = data.account;
     this.confirmButtonText = data.confirmButtonText;
   }
@@ -69,6 +54,7 @@ export class AccountUserEditContainerComponent {
       this.user.firstname = user.firstname;
       this.user.lastname = user.lastname;
       this.user.email = user.email;
+      this.user.timezone = user.timezone;
       this.store.dispatch(new accountActions.AccountUserUpdate(this.user));
     }
 

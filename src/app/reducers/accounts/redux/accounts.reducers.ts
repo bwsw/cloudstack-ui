@@ -1,14 +1,9 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './accounts.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Account } from '../../../shared/models/account.model';
+import { AccountUser } from '../../../shared/models/account-user.model';
+
+import * as event from './accounts.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -137,6 +132,22 @@ export function reducer(
       } else {
         return adapter.addOne(action.payload, state);
       }
+    }
+    case event.ACCOUNT_USER_GENERATE_KEYS_SUCCESS: {
+      const updatedUser = new AccountUser(action.payload.user);
+      updatedUser.secretkey = action.payload.userKeys.secretkey;
+      updatedUser.apikey = action.payload.userKeys.apikey;
+
+      const users = [
+        ...state.entities[action.payload.user.accountid].user
+          .filter(_ => _.id !== action.payload.user.id),
+        updatedUser
+      ];
+
+      return adapter.updateOne(
+        { id: action.payload.user.accountid, changes: { user: users } },
+        state
+      );
     }
     case event.ACCOUNT_USER_UPDATE_SUCCESS: {
       const users = [

@@ -28,4 +28,10 @@ export class AccountUserService extends BaseBackendService<AccountUser> {
       id: user.id,
     });
   }
+
+  public generateKeys(user: AccountUser): Observable<any> {
+    return this.sendCommand('register', {
+      id: user.id
+    }, 'UserKeys');
+  }
 }

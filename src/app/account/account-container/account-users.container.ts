@@ -10,6 +10,7 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
   template: `
     <cs-account-users
       [account]="account$ | async"
+      (onUserRegenerateKey)="generateUserKeys($event)"
       (onUserDelete)="deleteUser($event)"
     ></cs-account-users>`
 })
@@ -26,7 +27,11 @@ export class AccountUsersContainerComponent {
     return this.authService.isAdmin();
   }
 
+  public generateUserKeys(user) {
+    this.store.dispatch(new accountActions.AccountUserGenerateKey(user));
+  }
+
   public deleteUser(account) {
-    this.store.dispatch(new accountActions.AccountUserDelete(account))
+    this.store.dispatch(new accountActions.AccountUserDelete(account));
   }
 }

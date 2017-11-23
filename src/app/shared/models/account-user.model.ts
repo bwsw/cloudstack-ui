@@ -6,6 +6,7 @@ export class AccountUser extends BaseModel {
   public firstname: string;
   public lastname: string;
   public email: string;
+  public password?: string;
   public created: string;
   public state: string;
   public account: string;
@@ -19,4 +20,6 @@ export class AccountUser extends BaseModel {
   public accountid: string;
   public iscallerchilddomain: boolean;
   public isdefault: boolean;
+  public secretkey: boolean;
+  public apikey: boolean;
 }

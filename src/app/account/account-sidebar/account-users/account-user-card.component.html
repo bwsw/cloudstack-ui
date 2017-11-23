@@ -16,6 +16,7 @@
     [value]="user.email"
   ></cs-parameters-pair>
   <cs-parameters-pair
+    *ngIf="user.secretkey"
     [name]="'ACCOUNT_PAGE.USER.SECRET_KEY'"
     [value]="user.secretkey"
   ></cs-parameters-pair>

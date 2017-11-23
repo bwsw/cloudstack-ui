@@ -7,6 +7,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models/account.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AccountUserService } from '../../../shared/services/account-user.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 import * as accountActions from './accounts.actions';
 
@@ -111,6 +112,14 @@ export class AccountsEffects {
         .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
+  @Effect({ dispatch: false })
+  userDeleteSuccess$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_USER_DELETE_SUCCESS)
+    .do((action: accountActions.AccountUserDeleteSuccess) => this.onNotify(
+      action.payload,
+      this.successAccountUserRemoveMessage
+    ));
+
   @Effect()
   userCreate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE)
@@ -118,6 +127,14 @@ export class AccountsEffects {
       this.accountUserService.createUser(action.payload)
         .map((res) => new accountActions.AccountUserCreateSuccess(res.user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+
+  @Effect({ dispatch: false })
+  userCreateSuccess$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS)
+    .do((action: accountActions.AccountUserCreateSuccess) => this.onNotify(
+      action.payload,
+      this.successAccountUserCreateMessage
+    ));
 
   @Effect()
   userUpdate$: Observable<Action> = this.actions$
@@ -127,13 +144,44 @@ export class AccountsEffects {
         .map((res) => new accountActions.AccountUserUpdateSuccess(res.user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
+  @Effect({ dispatch: false })
+  userUpdateSuccess$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_USER_UPDATE_SUCCESS)
+    .do((action: accountActions.AccountUserUpdateSuccess) => this.onNotify(
+      action.payload,
+      this.successAccountUserUpdateMessage
+    ));
+
+  @Effect()
+  userGenerateKeys$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_USER_GENERATE_KEYS)
+    .switchMap((action: accountActions.AccountUserGenerateKey) =>
+      this.accountUserService.generateKeys(action.payload)
+        .map(res => new accountActions.AccountUserGenerateKeySuccess({
+          user: action.payload,
+          userKeys: res.userkeys
+        }))
+        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+
+  private successAccountUserCreateMessage = 'NOTIFICATIONS.ACCOUNT.USER_CREATED';
+  private successAccountUserRemoveMessage = 'NOTIFICATIONS.ACCOUNT.USER_DELETED';
+  private successAccountUserUpdateMessage = 'NOTIFICATIONS.ACCOUNT.USER_UPDATED';
+
   constructor(
     private actions$: Actions,
     private accountService: AccountService,
     private accountUserService: AccountUserService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
+    private notificationService: NotificationService
   ) {
+  }
+
+  private onNotify(user, message) {
+    this.notificationService.message({
+      translationToken: message,
+      interpolateParams: { username: user.username }
+    });
   }
 
   private handleError(error): void {

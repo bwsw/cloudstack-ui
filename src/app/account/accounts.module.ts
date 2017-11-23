@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AccountListComponent } from './account-list/account-list.component';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatDialogModule, MatExpansionModule,
   MatIconModule,
@@ -55,12 +56,15 @@ import { AccountUsersComponent } from './account-sidebar/account-users/account-u
 import { AccountUserCardComponent } from './account-sidebar/account-users/account-user-card.component';
 import { AccountUserEditComponent } from './account-sidebar/account-users/account-user-edit.component';
 import { AccountUserEditContainerComponent } from './account-container/account-user-edit.container';
+import { AccountUserPasswordFormComponent } from './account-sidebar/account-users/account-user-password.component';
+import { AccountUserPasswordFormContainerComponent } from './account-container/account-user-password.container';
 
 @NgModule({
   imports: [
     CommonModule,
     DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
     FormsModule,
+    MatAutocompleteModule,
     MatMenuModule,
     MatTooltipModule,
     MatTabsModule,
@@ -115,12 +119,15 @@ import { AccountUserEditContainerComponent } from './account-container/account-u
     AccountUsersComponent,
     AccountUserCardComponent,
     AccountUserEditComponent,
-    AccountUserEditContainerComponent
+    AccountUserEditContainerComponent,
+    AccountUserPasswordFormComponent,
+    AccountUserPasswordFormContainerComponent
   ],
   entryComponents: [
     EditAccountConfigurationComponent,
     AccountCreationContainerComponent,
-    AccountUserEditContainerComponent
+    AccountUserEditContainerComponent,
+    AccountUserPasswordFormContainerComponent
   ],
   exports: [
     AccountPageComponent

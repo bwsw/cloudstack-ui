@@ -25,6 +25,8 @@ export const ACCOUNT_USER_UPDATE = '[ACCOUNTS] ACCOUNT_USER_UPDATE';
 export const ACCOUNT_USER_UPDATE_SUCCESS = '[ACCOUNTS] ACCOUNT_USER_UPDATE_SUCCESS';
 export const ACCOUNT_USER_DELETE = '[ACCOUNTS] ACCOUNT_USER_DELETE';
 export const ACCOUNT_USER_DELETE_SUCCESS = '[ACCOUNTS] ACCOUNT_USER_DELETE_SUCCESS';
+export const ACCOUNT_USER_GENERATE_KEYS = '[ACCOUNTS] ACCOUNT_USER_GENERATE_KEYS';
+export const ACCOUNT_USER_GENERATE_KEYS_SUCCESS = '[ACCOUNTS] ACCOUNT_USER_GENERATE_KEYS_SUCCESS';
 
 export class LoadAccountsRequest implements Action {
   type = LOAD_ACCOUNTS_REQUEST;
@@ -166,6 +168,20 @@ export class AccountUserDeleteSuccess implements Action {
   }
 }
 
+export class AccountUserGenerateKey implements Action {
+  readonly type = ACCOUNT_USER_GENERATE_KEYS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class AccountUserGenerateKeySuccess implements Action {
+  readonly type = ACCOUNT_USER_GENERATE_KEYS_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
 
 export type Actions = LoadAccountsRequest
   | LoadAccountsResponse
@@ -186,4 +202,6 @@ export type Actions = LoadAccountsRequest
   | AccountUserUpdate
   | AccountUserUpdateSuccess
   | AccountUserDelete
-  | AccountUserDeleteSuccess;
+  | AccountUserDeleteSuccess
+  | AccountUserGenerateKey
+  | AccountUserGenerateKeySuccess;
