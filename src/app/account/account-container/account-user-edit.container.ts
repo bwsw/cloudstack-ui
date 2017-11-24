@@ -41,7 +41,7 @@ export class AccountUserEditContainerComponent {
   }
 
   public updateUser(user: AccountUser) {
-    if (!this.user) {
+    if (!this.user.id) {
       user.account = this.account && this.account.name || user.username;
 
       if (this.account) {

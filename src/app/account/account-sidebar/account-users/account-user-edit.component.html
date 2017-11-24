@@ -10,6 +10,7 @@
         name="username"
         [(ngModel)]="username"
         [placeholder]="'ACCOUNT_PAGE.USER.USERNAME' | translate"
+        autocomplete="new-username"
         required
       >
     </mat-form-field>
@@ -20,6 +21,7 @@
         name="password"
         [(ngModel)]="password"
         [placeholder]="'ACCOUNT_PAGE.USER.PASSWORD' | translate"
+        autocomplete="new-password"
         [type]="hide ? 'password' : 'text'"
       >
       <mat-icon
