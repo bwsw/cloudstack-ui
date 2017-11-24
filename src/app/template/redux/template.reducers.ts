@@ -450,8 +450,11 @@ export const selectTemplatesForVmCreation = createSelector(
         .includes(queryLower) ||
       template.displayText.toLowerCase().includes(queryLower);
 
+    const availableTemplatesFilter = (template: BaseTemplateModel) => template.isReady;
+
     return templates.filter((template) =>
-      selectedViewModeFilter(template)
+      availableTemplatesFilter(template)
+      && selectedViewModeFilter(template)
       && selectedTypesFilter(template)
       && selectedOsFamiliesFilter(template)
       && selectedZoneFilter(template)
