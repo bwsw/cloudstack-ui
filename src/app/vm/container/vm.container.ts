@@ -67,7 +67,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
   ];
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.LoadVMsRequest());
+    this.store.dispatch(new vmActions.LoadVMsDetailsRequest());
   }
 
   constructor(

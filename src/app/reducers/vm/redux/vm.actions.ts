@@ -3,6 +3,7 @@ import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { INotification } from '../../../shared/services/jobs-notification.service';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
+export const LOAD_VMS_DETAILS_REQUEST = '[VM] LOAD_VMS_DETAILS_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
 export const LOAD_VMS_RESPONSE = '[VM] LOAD_VMS_RESPONSE';
 export const VM_FILTER_UPDATE = '[VM] VM_FILTER_UPDATE';
@@ -32,6 +33,14 @@ export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
+
+export class LoadVMsDetailsRequest implements Action {
+  type = LOAD_VMS_DETAILS_REQUEST;
+
+  constructor(public payload?: any) {
+  }
+
+}
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -258,6 +267,7 @@ export class VMUpdateError implements Action {
 }
 
 export type Actions = LoadVMsRequest
+  | LoadVMsDetailsRequest
   | LoadVMsResponse
   | LoadVMRequest
   | VMFilterUpdate

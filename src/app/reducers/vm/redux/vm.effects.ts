@@ -24,6 +24,7 @@ import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-passwo
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { OsTypeService } from '../../../shared/services/os-type.service';
 
 
 @Injectable()
@@ -35,6 +36,17 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.LoadVMsRequest) => {
       return this.vmService.getList(action.payload)
         .map((vms: VirtualMachine[]) => new vmActions.LoadVMsResponse(vms))
+        .catch(() => Observable.of(new vmActions.LoadVMsResponse([])));
+    });
+
+  @Effect()
+  loadVMsWithDetails$: Observable<Action> = this.actions$
+    .ofType(vmActions.LOAD_VMS_DETAILS_REQUEST)
+    .switchMap((action: vmActions.LoadVMsDetailsRequest) => {
+      return this.vmService.getListWithDetails(action.payload)
+        .map((vms: VirtualMachine[]) => {
+          return new vmActions.LoadVMsResponse(vms)
+        })
         .catch(() => Observable.of(new vmActions.LoadVMsResponse([])));
     });
 
@@ -554,6 +566,7 @@ export class VirtualMachinesEffects {
     private store: Store<State>,
     private actions$: Actions,
     private vmService: VmService,
+    private osTypesService: OsTypeService,
     private vmTagService: VmTagService,
     private userTagService: UserTagService,
     private affinityGroupService: AffinityGroupService,
