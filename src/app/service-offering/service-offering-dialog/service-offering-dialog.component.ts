@@ -68,7 +68,8 @@ export class ServiceOfferingDialogComponent implements OnInit {
   private fetchData(zone: Zone): Observable<ServiceOffering[]> {
     const offeringAvailability = this.configService.get('offeringAvailability');
     const defaultParams =
-      this.configService.get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
+      this.configService.get<DefaultServiceOfferingConfigurationByZone>(
+        'defaultServiceOfferingConfig');
     const customOfferingRestrictions = this.configService.get('customOfferingRestrictions');
 
     return Observable.forkJoin(
@@ -87,8 +88,12 @@ export class ServiceOfferingDialogComponent implements OnInit {
         resourceUsage,
         zone
       ).sort((a: ServiceOffering, b: ServiceOffering) => {
-        if (!a.isCustomized && b.isCustomized) { return -1; }
-        if (a.isCustomized && !b.isCustomized) { return 1; }
+        if (!a.isCustomized && b.isCustomized) {
+          return -1;
+        }
+        if (a.isCustomized && !b.isCustomized) {
+          return 1;
+        }
         return 0;
       });
 
@@ -97,14 +102,15 @@ export class ServiceOfferingDialogComponent implements OnInit {
           offering =>
             offering.id !== this.virtualMachine.serviceOffering.id)
         : availableOfferings).map((offering) => {
-            return !offering.isCustomized ? offering :
-              this.customServiceOfferingService.getCustomOfferingWithSetParams(
-              offering,
-              defaultParams[zone.id].customOfferingParams,
-              customOfferingRestrictions[zone.id],
-              resourceUsage
-            )
-          });
+        return !offering.isCustomized
+          ? offering
+          : this.customServiceOfferingService.getCustomOfferingWithSetParams(
+            offering,
+            defaultParams[zone.id] && defaultParams[zone.id].customOfferingParams,
+            customOfferingRestrictions[zone.id],
+            resourceUsage
+          );
+      });
     });
   }
 
