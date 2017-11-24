@@ -172,9 +172,8 @@ It’s a simplified view for account activities. It lets you choose the date and
 
 1. Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version (We recomend Node.js v6.9.2).
 2. Clone the CSUI project from GitHub and open it.
-3. Use terminal to run "npm install" command. This command installs all depencies, which are used in the project. Also, you may use "yarn" command.
-4. Prepare your own proxy-conf.js file and set the API endpoint in this file, or set BACKEND_API_URL in environment.
-5. Use "scripts" section in package.json file to provide common project commands.
+3. Run "npm install" command. This command installs all dependencies, which are used in the project. Also, you may use "yarn" command.
+4. Prepare your own proxy-conf.js file and set the API endpoint in this file.
 
 ### Main commands
 
@@ -182,7 +181,7 @@ It’s a simplified view for account activities. It lets you choose the date and
 |---------|--------|
 |npm test | use this command to execute tests via Karma|
 |npm run build| use this command to build the project, the build artifacts will be stored in the dist/ directory|
-|npm start| use this command to compile the application, it will be avaliable at URL - "localhost:8080". Run this command with argument '-- --proxy-config proxy-conf.js' if you use it |
+|npm start| use this command to compile the application, it will be available at URL - "localhost:8080". Run this command with argument '-- --proxy-config proxy-conf.js' |
 
 ### Proxy-conf.js file example
 
