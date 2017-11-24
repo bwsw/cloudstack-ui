@@ -9,6 +9,7 @@ import { Volume } from '../../models/volume.model';
 import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../services/auth.service';
+import { ISnapshotData } from './volume-snapshot';
 
 
 @Component({
@@ -47,8 +48,12 @@ export class VolumeActionsContainerComponent extends WithUnsubscribe() {
     this.store.dispatch(new volumeActions.DetachVolume(volume));
   }
 
-  public onVolumeSnapshots(volume: Volume): void {
-    this.store.dispatch(new volumeActions.UpdateVolume(volume));
+  public onVolumeSnapshots(snapshotData: ISnapshotData): void {
+    this.store.dispatch(new volumeActions.AddSnapshot({
+      volume: this.volume,
+      name: snapshotData.name,
+      description: snapshotData.desc
+    }));
   }
 
 }

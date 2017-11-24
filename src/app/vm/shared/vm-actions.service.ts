@@ -88,34 +88,3 @@ export class VmActionsService {
     VmRecoverAction
   ]
 }
-
-  /*constructor(
-    public vmStartAction: VmStartAction,
-    public vmStartActionSilent: VmStartActionSilent,
-    public vmStopAction: VmStopAction,
-    public vmStopActionSilent: VmStopActionSilent,
-    public vmRebootAction: VmRebootAction,
-    public vmRestoreAction: VmRestoreAction,
-    public vmDestroyAction: VmDestroyAction,
-    public vmResetPasswordAction: VmResetPasswordAction,
-    public vmConsoleAction: VmConsoleAction,
-    public vmWebShellAction: VmWebShellAction,
-    public vmPulseAction: VmPulseAction,
-    public vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
-    public vmAccessAction: VmAccessAction
-  ) {}
-
-  public getActionByName(name: VmActions): VirtualMachineAction {
-    const actions = {
-      [VmActions.START]: this.vmStartAction,
-      [VmActions.STOP]: this.vmStopAction,
-      [VmActions.REBOOT]: this.vmRebootAction,
-      [VmActions.RESTORE]: this.vmRestoreAction,
-      [VmActions.DESTROY]: this.vmDestroyAction,
-      [VmActions.RESET_PASSWORD]: this.vmResetPasswordAction,
-      [VmActions.PULSE]: this.vmWebShellAction,
-      [VmActions.ACCESS]: this.vmAccessAction
-    };
-
-    return actions[name];
-  */

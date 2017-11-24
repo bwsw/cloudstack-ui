@@ -9,7 +9,7 @@ import {
   Action,
   Store
 } from '@ngrx/store';
-import { State } from '../../../reducers/index';
+import { State } from '../../../reducers';
 import { VmService } from '../../../vm/shared/vm.service';
 import {
   VirtualMachine,
@@ -70,6 +70,25 @@ export class VirtualMachinesEffects {
           return Observable.of(new vmActions.VMUpdateError(error, {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VM.CHANGE_DESCRIPTION_FAILED'
+          }));
+        });
+    });
+
+  @Effect()
+  removeDescription$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_REMOVE_DESCRIPTION)
+    .switchMap((action: vmActions.RemoveDescription) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.REMOVE_DESCRIPTION_IN_PROGRESS');
+      return this.vmTagService
+        .removeDescription(action.payload.vm)
+        .map(vm => new vmActions.UpdateVM(vm, {
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VM.REMOVE_DESCRIPTION_DONE'
+        }))
+        .catch((error: Error) => {
+          return Observable.of(new vmActions.VMUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.REMOVE_DESCRIPTION_FAILED'
           }));
         });
     });
@@ -177,6 +196,29 @@ export class VirtualMachinesEffects {
           return Observable.of(new vmActions.VMUpdateError(error,  {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VM.CHANGE_INSTANT_GROUP_FAILED'
+          }));
+        });
+    });
+
+  @Effect()
+  removeInstantGroup$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_REMOVE_INSTANT_GROUP)
+    .switchMap((action: vmActions.RemoveInstantGroup) => {
+      let newVm = Object.assign(
+        {},
+        action.payload.vm,
+        {instanceGroup: action.payload.group});
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_IN_PROGRESS');
+
+      return this.vmTagService.removeGroup(newVm)
+        .map(vm => new vmActions.UpdateVM(vm, {
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_DONE'
+        }))
+        .catch((error: Error) => {
+          return Observable.of(new vmActions.VMUpdateError(error,  {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_FAILED'
           }));
         });
     });
@@ -362,7 +404,7 @@ export class VirtualMachinesEffects {
         .catch((error: Error) => {
           return Observable.of(new vmActions.VMUpdateError(error, {
             id: notificationId,
-            message: 'JOB_NOTIFICATIONS.VM.ATTACHMENT_FAILED'
+            message: 'JOB_NOTIFICATIONS.ISO.ATTACHMENT_FAILED'
           }));
         });
     });

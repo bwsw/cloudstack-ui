@@ -26,4 +26,23 @@ export class DescriptionTagService {
       description
     );
   }
+
+  public removeDescription(
+    entity: Taggable,
+    entityTagService: EntityTagService
+  ): Observable<Taggable> {
+    let newEntity = Object.assign({}, entity);
+    return this.tagService.remove({
+      resourceIds: entity.id,
+      resourceType: entity.resourceType,
+      'tags[0].key': entityTagService.keys.description,
+      'tags[0].value': ''
+    })
+    .map(() => {
+      newEntity.tags = newEntity.tags.filter(t =>
+        entityTagService.keys.description !== t.key
+      );
+      return newEntity;
+    });
+  }
 }

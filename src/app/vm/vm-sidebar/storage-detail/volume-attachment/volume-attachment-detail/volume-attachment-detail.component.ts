@@ -41,6 +41,7 @@ export class VolumeAttachmentDetailComponent implements OnInit {
 
   public attachVolume(): void {
     this.onAttach.emit(this.selectedVolume);
+    this.selectedVolume = null;
   }
 
 

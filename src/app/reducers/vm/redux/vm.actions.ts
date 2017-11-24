@@ -8,9 +8,11 @@ export const LOAD_VMS_RESPONSE = '[VM] LOAD_VMS_RESPONSE';
 export const VM_FILTER_UPDATE = '[VM] VM_FILTER_UPDATE';
 export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
+export const VM_REMOVE_DESCRIPTION = '[VM] VM_REMOVE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
 export const VM_CHANGE_INSTANT_GROUP = '[VM] VM_CHANGE_INSTANT_GROUP';
+export const VM_REMOVE_INSTANT_GROUP = '[VM] VM_REMOVE_INSTANT_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
 export const VM_CHANGE_COLOR = '[VM] VM_CHANGE_COLOR';
@@ -79,6 +81,14 @@ export class ChangeDescription implements Action {
 
 }
 
+export class RemoveDescription implements Action {
+  type = VM_REMOVE_DESCRIPTION;
+
+  constructor(public payload: any) {
+  }
+
+}
+
 export class ChangeServiceOffering implements Action {
   type = VM_CHANGE_SERVICE_OFFERING;
 
@@ -97,6 +107,14 @@ export class ChangeAffinityGroup implements Action {
 
 export class ChangeInstantGroup implements Action {
   type = VM_CHANGE_INSTANT_GROUP;
+
+  constructor(public payload: any) {
+  }
+
+}
+
+export class RemoveInstantGroup implements Action {
+  type = VM_REMOVE_INSTANT_GROUP;
 
   constructor(public payload: any) {
   }
@@ -245,9 +263,11 @@ export type Actions = LoadVMsRequest
   | VMFilterUpdate
   | LoadSelectedVM
   | ChangeDescription
+  | RemoveDescription
   | ChangeServiceOffering
   | ChangeAffinityGroup
   | ChangeInstantGroup
+  | RemoveInstantGroup
   | AddSecondaryIp
   | RemoveSecondaryIp
   | ChangeVmColor

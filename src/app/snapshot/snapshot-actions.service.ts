@@ -13,13 +13,14 @@ import { JobsNotificationService } from '../shared/services/jobs-notification.se
 import { NotificationService } from '../shared/services/notification.service';
 import { SnapshotService } from '../shared/services/snapshot.service';
 import { StatsUpdateService } from '../shared/services/stats-update.service';
-import { TemplateCreationComponent } from '../template/template-creation/template-creation.component';
 import { TemplateResourceType } from '../template/shared/base-template.service';
+import { TemplateCreationContainerComponent } from '../template/template-creation/containers/template-creation.container';
 
 
 export interface SnapshotAction extends Action<Snapshot> {
   name: string;
   icon: string;
+  command: string;
   activate(snapshot: Snapshot, volume?: Volume): Observable<void>;
 }
 
@@ -29,6 +30,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
     {
       name: 'VM_PAGE.STORAGE_DETAILS.SNAPSHOT_ACTIONS.CREATE_TEMPLATE',
       icon: 'add',
+      command: 'add',
       activate: (snapshot, volume) => this.showCreationDialog(snapshot),
       canActivate: (snapshot) => true,
       hidden: (snapshot) => false
@@ -36,6 +38,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
     {
       name: 'COMMON.DELETE',
       icon: 'delete',
+      command: 'delete',
       activate: (snapshot, volume) => this.handleSnapshotDelete(snapshot, volume),
       canActivate: (snapshot) => true,
       hidden: (snapshot) => false
@@ -51,8 +54,8 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
     private statsUpdateService: StatsUpdateService
   ) { }
 
-  public showCreationDialog(snapshot: Snapshot): Observable<void> {
-    return this.dialog.open(TemplateCreationComponent, {
+  public showCreationDialog(snapshot: Snapshot): Observable<any> {
+    return this.dialog.open(TemplateCreationContainerComponent, {
       width: '330px',
       panelClass: 'template-creation-dialog-snapshot',
       data: {
@@ -63,7 +66,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
       .afterClosed();
   }
 
-  public handleSnapshotDelete(snapshot: Snapshot, volume): Observable<void> {
+  public handleSnapshotDelete(snapshot: Snapshot, volume): Observable<Volume> {
     let notificationId: string;
 
     return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
@@ -73,14 +76,13 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
       })
       .map(() => {
         this.statsUpdateService.next();
-        volume.snapshots = volume.snapshots.filter(_ => _.id !== snapshot.id);
+        let newSnapshots = volume.snapshots.filter(_ => _.id !== snapshot.id);
+        let newVolume = Object.assign({}, volume, { snapshots: newSnapshots });
         this.jobNotificationService.finish({
           id: notificationId,
           message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
         });
-
-        this.snapshotService.onSnapshotDeleted.next(snapshot);
-        return Observable.of(null);
+        return newVolume;
       })
       .catch(error => {
         this.notificationService.error(error);

@@ -49,7 +49,7 @@ export class TemplateCreationContainerComponent {
 
   public onCreate(params) {
     this.store.dispatch(new templateActions.CreateTemplate(params));
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 }
 

@@ -66,14 +66,25 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
 
   public changeDescription(description) {
     let v = Object.assign({}, this.vm);
-    this.store.dispatch(new vmActions.ChangeDescription({ vm: v, description }));
+    if (description !== '') {
+      this.store.dispatch(new vmActions.ChangeDescription({ vm: v, description }));
+    } else {
+      this.store.dispatch(new vmActions.RemoveDescription({ vm: v, description }));
+    }
   }
 
   public changeGroup(group) {
-    this.store.dispatch(new vmActions.ChangeInstantGroup({
-      vm: this.vm,
-      group: group
-    }));
+    if( group.name !== '') {
+      this.store.dispatch(new vmActions.ChangeInstantGroup({
+        vm: this.vm,
+        group: group
+      }));
+    } else {
+      this.store.dispatch(new vmActions.RemoveInstantGroup({
+        vm: this.vm,
+        group: group
+      }));
+    }
   }
 
   public changeAffinityGroup(groupId) {

@@ -39,7 +39,11 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
 
   public changeDescription(description) {
     let v = Object.assign({}, this.volume);
-    this.store.dispatch(new volumeActions.ChangeDescription({ volume: v, description }));
+    if (description !== '') {
+      this.store.dispatch(new volumeActions.ChangeDescription({ volume: v, description }));
+    } else {
+      this.store.dispatch(new volumeActions.RemoveDescription({ volume: v, description }));
+    }
   }
 
   public ngOnInit() {

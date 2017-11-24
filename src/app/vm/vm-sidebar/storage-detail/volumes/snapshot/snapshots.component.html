@@ -15,12 +15,12 @@
       </div>
       <div style="width: 30%;">
         <button
-          *ngFor="let action of snapshotActionsService.actions"
+          *ngFor="let action of actions"
           mat-icon-button
           class="button-18px"
           [matTooltip]="action.name | translate"
           matTooltipPosition="above"
-          (click)="action.activate(volume.snapshots[0], volume).subscribe()"
+          (click)="onAction(action, volume.snapshots[0])"
           [disabled]="volume.snapshots[0]['loading']"
         >
           <mat-icon>{{ action.icon }}</mat-icon>

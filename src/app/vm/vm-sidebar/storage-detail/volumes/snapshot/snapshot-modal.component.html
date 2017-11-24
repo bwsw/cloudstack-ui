@@ -28,7 +28,7 @@
           *ngFor="let action of snapshotActionsService.actions"
           mat-icon-button
           class="button-18px"
-          (click)="action.activate(row, volume).subscribe()"
+          (click)="onAction(action, row)"
           [disabled]="row['loading']"
         >
           <mat-icon>{{ action.icon }}</mat-icon>
@@ -44,7 +44,7 @@
   </div>
 </div>
 <div class="mat-dialog-actions">
-  <button mat-button color="primary" matDialogClose>
+  <button mat-button color="primary" (click)="onClose()">
     {{ 'COMMON.CLOSE' | translate }}
   </button>
 </div>

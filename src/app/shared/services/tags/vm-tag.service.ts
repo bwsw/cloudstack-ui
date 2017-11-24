@@ -51,6 +51,10 @@ export class VmTagService implements EntityTagService {
     return this.descriptionTagService.setDescription(vm, description, this) as Observable<VirtualMachine>;
   }
 
+  public removeDescription(vm: VirtualMachine): Observable<VirtualMachine> {
+    return this.descriptionTagService.removeDescription(vm, this) as Observable<VirtualMachine>;
+  }
+
   public setPassword(vm: VirtualMachine, tag: KeyValuePair): Observable<VirtualMachine>  {
     return this.tagService.update(vm, vm.resourceType, tag.key, tag.value);
   }
@@ -67,6 +71,20 @@ export class VmTagService implements EntityTagService {
       this.keys.group,
       group && group.name
     );
+  }
+
+  public removeGroup(vm: VirtualMachine): Observable<VirtualMachine> {
+    let newVm = Object.assign({}, vm);
+    return this.tagService.remove({
+        resourceIds: vm.id,
+        resourceType: vm.resourceType,
+        'tags[0].key': this.keys.group,
+        'tags[0].value': ''
+      })
+      .map(() => {
+        newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
+        return newVm;
+      });
   }
 
   private getColorFromColorTag(colorTag: Tag): Color {

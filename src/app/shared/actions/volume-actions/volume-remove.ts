@@ -24,5 +24,9 @@ export class VolumeRemoveAction implements VolumeAction {
       .map(res => volume);
   }
 
+  public canActivate(volume: Volume): boolean {
+    return true;
+  }
+
   public hidden = (volume: Volume) => volume.isRoot;
 }

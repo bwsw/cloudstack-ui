@@ -120,6 +120,13 @@ export function reducer(
       };
     }
 
+    case event.REPLACE_VOLUME: {
+      let newState = adapter.removeOne(action.payload.id, state);
+      return {
+        ...adapter.addOne(action.payload, newState),
+      };
+    }
+
     case event.VOLUME_DELETE_SUCCESS: {
       return {
         ...adapter.removeOne(action.payload.id, state),

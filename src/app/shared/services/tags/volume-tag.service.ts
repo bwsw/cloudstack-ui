@@ -25,6 +25,10 @@ export class VolumeTagService {
     return this.descriptionTagService.setDescription(volume, description, this) as Observable<Volume>;
   }
 
+  public removeDescription(volume: Volume): Observable<Volume> {
+    return this.descriptionTagService.removeDescription(volume, this) as Observable<Volume>;
+  }
+
   public markForRemoval(volume: Volume): Observable<Volume> {
     return this.markForRemovalService.markForRemoval(volume) as Observable<Volume>;
   }

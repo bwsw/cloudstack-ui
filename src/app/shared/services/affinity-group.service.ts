@@ -29,11 +29,6 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
     super(http);
   }
 
-  public getTypes(params?: {}): Observable<Array<AffinityGroupType>> {
-    return this.sendCommand('list;Types', params)
-      .map(result => result[`affinityGroupType`] || []);
-  }
-
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
     return super.create(params)
       .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
@@ -50,10 +45,5 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
       .switchMap(
         job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
   }
-
-  /*public removeForVm(vm: VirtualMachine): Observable<VirtualMachine> {
-    return this.updateForVm(vm);
-  }*/
-
 
 }

@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { Volume } from '../../../shared/models/volume.model';
-import { SnapshotService } from '../../../shared/services/snapshot.service';
-import { ActivatedRoute } from '@angular/router';
-import { VolumeService } from '../../../shared/services/volume.service';
+import { ISnapshotData } from '../../../shared/actions/volume-actions/volume-snapshot';
 
 
 @Component({
@@ -10,18 +13,7 @@ import { VolumeService } from '../../../shared/services/volume.service';
   templateUrl: 'volume-snapshot-details.component.html'
 })
 export class VolumeSnapshotDetailsComponent {
-  public volume: Volume;
+  @Input() public volume: Volume;
+  @Output() public onVolumeSnapshots = new EventEmitter<ISnapshotData>();
 
-  constructor(
-    private volumeService: VolumeService,
-    private snapshotService: SnapshotService,
-    private activatedRoute: ActivatedRoute
-  ) {
-    const params = this.activatedRoute.snapshot.parent.params;
-
-    this.volumeService.get(params.id).subscribe(
-      volume => {
-        this.volume = volume;
-      });
-  }
 }

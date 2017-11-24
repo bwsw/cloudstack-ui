@@ -10,6 +10,8 @@ import { VolumeService } from '../../../shared/services/volume.service';
 import { Volume } from '../../../shared/models/volume.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
+import { SnapshotService } from '../../../shared/services/snapshot.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 
 @Injectable()
 export class VolumesEffects {
@@ -40,11 +42,38 @@ export class VolumesEffects {
   changeDescription$: Observable<Action> = this.actions$
     .ofType(volumeActions.VOLUME_CHANGE_DESCRIPTION)
     .switchMap((action: volumeActions.ChangeDescription) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_IN_PROGRESS');
+
       return this.volumeTagService
         .setDescription(action.payload.volume, action.payload.description)
-        .map(volume => new volumeActions.UpdateVolume(new Volume(volume)))
+        .map(volume => new volumeActions.UpdateVolume(new Volume(volume), {
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
+        }))
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error));
+          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED'
+          }));
+        });
+    });
+
+  @Effect()
+  removeDescription$: Observable<Action> = this.actions$
+    .ofType(volumeActions.VOLUME_REMOVE_DESCRIPTION)
+    .switchMap((action: volumeActions.RemoveDescription) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.REMOVE_DESCRIPTION_IN_PROGRESS');
+      return this.volumeTagService
+        .removeDescription(action.payload.vm)
+        .map(vm => new volumeActions.UpdateVolume(vm, {
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VOLUME.REMOVE_DESCRIPTION_DONE'
+        }))
+        .catch((error: Error) => {
+          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.REMOVE_DESCRIPTION_FAILED'
+          }));
         });
     });
 
@@ -52,15 +81,23 @@ export class VolumesEffects {
   attachVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.ATTACH_VOLUME)
     .switchMap((action: volumeActions.AttachVolume) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
+
       const params = {
         id: action.payload.volumeId,
         virtualMachineId: action.payload.virtualMachineId
       };
       return this.volumeService
         .attach(params)
-        .map(volume => new volumeActions.UpdateVolume(new Volume(volume)))
+        .map(volume => new volumeActions.UpdateVolume(new Volume(volume), {
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
+        }))
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error));
+          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
+          }));
         });
     });
 
@@ -68,15 +105,23 @@ export class VolumesEffects {
   detachVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DETACH_VOLUME)
     .switchMap((action: volumeActions.DetachVolume) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS');
+
       const virtualMachineId = action.payload.virtualMachineId;
       return this.volumeService
         .detach(action.payload)
         .switchMap(volume => {
-          return Observable.of(new volumeActions.UpdateVolume(new Volume(volume)),
+          return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume), {
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
+            }),
             new volumeActions.VolumeFilterUpdate({ virtualMachineId }));
         })
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error));
+          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
+          }));
         });
     });
 
@@ -84,13 +129,49 @@ export class VolumesEffects {
   resizeVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.RESIZE_VOLUME)
     .switchMap((action: volumeActions.ResizeVolume) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
       return this.volumeService
         .resize(action.payload)
         .map(volume => {
-          return new volumeActions.UpdateVolume(new Volume(volume));
+          return new volumeActions.UpdateVolume(new Volume(volume), {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
+          });
         })
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error));
+          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
+          }));
+        });
+    });
+
+  @Effect()
+  addSnapshot$: Observable<Action> = this.actions$
+    .ofType(volumeActions.ADD_SNAPSHOT)
+    .switchMap((action: volumeActions.AddSnapshot) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+
+      return this.snapshotService.create(
+          action.payload.volume.id,
+          action.payload.name,
+          action.payload.description
+        )
+        .map(snapshot => {
+          let newSnaps = Object.assign([], action.payload.volume.snapshots);
+
+          newSnaps.unshift(snapshot);
+          let newVolume = Object.assign({}, action.payload.volume, { snapshots: newSnaps });
+          return new volumeActions.UpdateVolume(new Volume(newVolume), {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
+          });
+        })
+        .catch((error: Error) => {
+          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
+          }));
         });
     });
 
@@ -113,9 +194,19 @@ export class VolumesEffects {
     });
 
   @Effect({ dispatch: false })
+  updateVolume$: Observable<Action> = this.actions$
+    .ofType(volumeActions.UPDATE_VOLUME, volumeActions.REPLACE_VOLUME)
+    .do((action: volumeActions.UpdateVolume | volumeActions.ReplaceVolume) => {
+      if (action.notification) {
+        this.jobsNotificationService.finish(action.notification);
+      }
+    });
+
+  @Effect({ dispatch: false })
   updateError$: Observable<Action> = this.actions$
     .ofType(volumeActions.VOLUME_UPDATE_ERROR)
     .do((action: volumeActions.VolumeUpdateError) => {
+      this.jobsNotificationService.fail(action.notification);
       this.handleError(action.payload);
     });
 
@@ -123,7 +214,9 @@ export class VolumesEffects {
     private actions$: Actions,
     private dialogService: DialogService,
     private volumeService: VolumeService,
-    private volumeTagService: VolumeTagService
+    private volumeTagService: VolumeTagService,
+    private snapshotService: SnapshotService,
+    private jobsNotificationService: JobsNotificationService,
   ) {
   }
 

@@ -37,7 +37,6 @@ import { VolumeSidebarComponent } from './volume-sidebar/volume-sidebar.componen
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 // tslint:disable-next-line
 // tslint:disable-next-line
-import { VolumeAttachmentComponent } from '../shared/actions/volume-actions/volume-attachment/volume-attachment.component';
 import { volumeReducers } from '../reducers/volumes/redux/volumes.reducers';
 import { StoreModule } from '@ngrx/store';
 import { VolumePageContainerComponent } from './container/volume.container';
@@ -57,6 +56,8 @@ import { VolumeCardItemComponent } from './volume-item/card-item/volume-card-ite
 import { VolumeRowItemComponent } from './volume-item/row-item/volume-row-item.component';
 import { userAccountReducers } from '../reducers/auth/redux/auth.reducers';
 import { UserAccountEffects } from '../reducers/auth/redux/auth.effects';
+import { VolumeSnapshotDetailsContainerComponent } from './container/volume-snapshot-details.container';
+import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { UserAccountEffects } from '../reducers/auth/redux/auth.effects';
     MatDialogModule,
     DraggableSelectModule,
     StoreModule.forFeature('volumes', volumeReducers),
+    StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('userAccount', userAccountReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
@@ -89,6 +91,7 @@ import { UserAccountEffects } from '../reducers/auth/redux/auth.effects';
     VolumeSnapshotComponent,
     VolumeSnapshotCreationComponent,
     VolumeSnapshotDetailsComponent,
+    VolumeSnapshotDetailsContainerComponent,
     VolumeActionsSidebarComponent,
     VolumePageComponent,
     VolumePageContainerComponent,
@@ -98,7 +101,6 @@ import { UserAccountEffects } from '../reducers/auth/redux/auth.effects';
     VolumeSidebarComponent,
     VolumeSidebarDiskOfferingComponent,
     VolumeSidebarVolumeComponent,
-    VolumeAttachmentComponent,
     VolumeCreationComponent,
     VolumeCreationContainerComponent,
     VolumeFilterComponent,

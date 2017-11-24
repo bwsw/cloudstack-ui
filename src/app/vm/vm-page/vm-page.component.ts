@@ -48,43 +48,12 @@ export class VmPageComponent implements OnInit {
     this.mode = mode;
   }
 
-  /*public updateStats(): void {
-    this.vmStats.updateStats();
-  }
-
-  public showDetail(vm: VirtualMachine): void {
-    if (vm.state !== VmState.Error && vm.state !== VmState.Deploying) {
-      this.listService.showDetails(vm.id);
-    }
-  }*/
-
   public showVmCreationDialog(): void {
     this.router.navigate(['./create'], {
       queryParamsHandling: 'preserve',
       relativeTo: this.activatedRoute
     });
   }
-
-  /*private subscribeToStatsUpdates(): void {
-    this.statsUpdateService.subscribe(() => {
-      this.updateStats();
-    });
-  }
-
-  private resubscribeToJobs(): void {
-    this.vmService.resubscribe().subscribe(observables => {
-      observables.forEach(observable => {
-        observable.subscribe(job => {
-          const action = this.vmActionsService.getActionByName(job.cmd as any);
-          if (action) {
-            this.jobsNotificationService.finish({
-              message: action.tokens.successMessage
-            });
-          }
-        });
-      });
-    });
-  }*/
 
   private get shouldShowSuggestionDialog(): boolean {
     return !this.vms.length && !this.isCreateVmInUrl;
