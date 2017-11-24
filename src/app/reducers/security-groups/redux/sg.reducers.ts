@@ -103,6 +103,15 @@ export function listReducer(
     case securityGroup.REMOVE_SG_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
+    case securityGroup.UPDATE_SECURITY_GROUP: {
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [action.payload.id]: action.payload
+        }
+      };
+    }
     default: {
       return state;
     }

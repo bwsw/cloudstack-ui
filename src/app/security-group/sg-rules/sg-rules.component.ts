@@ -16,7 +16,7 @@ import {
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { NetworkRuleService } from '../services/network-rule.service';
-import { NetworkRuleType, SecurityGroupType } from '../sg.model';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
@@ -33,6 +33,7 @@ export class SgRulesComponent implements OnChanges {
   @Input() public editMode = false;
   @Input() public vmId: string;
   @Output() public onCloseDialog = new EventEmitter();
+  @Output() public onFirewallRulesChange = new EventEmitter<SecurityGroup>();
 
   @ViewChild('rulesForm') public rulesForm: NgForm;
   public selectedType = '';
@@ -152,6 +153,7 @@ export class SgRulesComponent implements OnChanges {
             this.egressRules.push(rule);
           }
 
+          this.emitChanges();
           this.resetForm();
           this.filter();
           this.adding = false;
@@ -174,6 +176,7 @@ export class SgRulesComponent implements OnChanges {
           return;
         }
         rules.splice(ind, 1);
+        this.emitChanges();
         this.filter();
       }, () => {
         this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
@@ -300,11 +303,18 @@ export class SgRulesComponent implements OnChanges {
   }
 
   private filterRules(rules: NetworkRule[]) {
-   return rules.filter((rule: NetworkRule) => {
+    return rules.filter((rule: NetworkRule) => {
       return (!this.selectedProtocols.length
         || this.selectedProtocols.find(protocol => protocol === rule.protocol))
         && (!this.selectedTypes.length
           || this.selectedTypes.find(type => rule.type === type));
     });
+  }
+
+  private emitChanges() {
+    const updatedSecurityGroup = new SecurityGroup(this.securityGroup);
+    updatedSecurityGroup.ingressRules = this.ingressRules;
+    updatedSecurityGroup.egressRules = this.egressRules;
+    this.onFirewallRulesChange.emit(updatedSecurityGroup);
   }
 }
