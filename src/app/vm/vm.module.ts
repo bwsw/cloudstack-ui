@@ -114,6 +114,7 @@ import { VmTagsContainerComponent } from './container/vm-tags.container';
 import { VmActionsContainerComponent } from './container/vm-actions.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
 import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
+import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.container';
 
 
 @NgModule({
@@ -160,6 +161,7 @@ import { VmTemplateDialogContainerComponent } from './vm-creation/template/conta
     AffinityGroupSelectorComponent,
     KeyboardsComponent,
     FirewallRulesDetailComponent,
+    FirewallRulesDetailContainerComponent,
     NetworkDetailContainerComponent,
     ServiceOfferingDetailsComponent,
     ServiceOfferingDialogContainerComponent,

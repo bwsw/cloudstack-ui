@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
-import * as fromZones from '../../reducers/zones/redux/zones.reducers'
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VirtualMachine } from '../shared/vm.model';
 
@@ -19,15 +18,14 @@ import { VirtualMachine } from '../shared/vm.model';
       (onSecondaryIpAdd)="addSecondaryIp($event)"
       (onSecondaryIpRemove)="removeSecondaryIp($event)"
     ></cs-nic-list>
-    <cs-firewall-rules-detail
+    <cs-firewall-rules-detail-container
       [vm]="vm$ | async"
-    ></cs-firewall-rules-detail>
+    ></cs-firewall-rules-detail-container>
   `
 })
 export class NetworkDetailContainerComponent extends WithUnsubscribe() implements OnInit {
 
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
-  readonly zone$ = this.store.select(fromZones.getSelectedZone);
 
   public vm: VirtualMachine;
 
