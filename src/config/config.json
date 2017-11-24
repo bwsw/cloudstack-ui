@@ -167,5 +167,24 @@
   "extensions": {
     "webShell": false,
     "pulse": false
-  }
+  },
+  "templateGroups": [
+    {
+      "id": "highCPU",
+      "translations": {
+        "ru": "Высокий ЦПУ",
+        "en": "High CPU"
+      }
+    },
+    {
+      "id": "highMemory",
+      "translations": {
+        "ru": "Высокий memory",
+        "en": "High memory"
+      }
+    },
+    {
+      "id": "test"
+    }
+  ]
 }

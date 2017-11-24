@@ -1,16 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { BaseTemplateModel, Iso, Template } from '../../../template/shared';
+import { BaseTemplateModel } from '../../../template/shared';
 import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -27,9 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
     }
   ]
 })
-export class VmCreationTemplateComponent implements OnChanges {
-  @Input() public templates: Array<Template>;
-  @Input() public isos: Array<Iso>;
+export class VmCreationTemplateComponent {
   @Input() public zoneId: string;
   @Output() public change: EventEmitter<BaseTemplateModel>;
 
@@ -37,14 +27,6 @@ export class VmCreationTemplateComponent implements OnChanges {
 
   constructor(private dialog: MatDialog, private translateService: TranslateService) {
     this.change = new EventEmitter();
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.templates || changes.isos) {
-      if (!this.templates.length && !this.isos.length) {
-        this.template = null;
-      }
-    }
   }
 
   public get templateName(): Observable<string> {
@@ -61,6 +43,7 @@ export class VmCreationTemplateComponent implements OnChanges {
   public onClick(): void {
     this.showTemplateSelectionDialog()
       .subscribe(template => {
+
         if (template) {
           this.template = template;
           this.change.next(this.template);
@@ -68,7 +51,8 @@ export class VmCreationTemplateComponent implements OnChanges {
       });
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   @Input()
   public get template(): BaseTemplateModel {
@@ -90,16 +74,15 @@ export class VmCreationTemplateComponent implements OnChanges {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {}
+  public registerOnTouched(): void {
+  }
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
     return this.dialog.open(VmTemplateDialogComponent, {
-      width: '780px',
+      width: '840px',
       data: {
-        template: this.template,
-        templates: this.templates,
-        isos: this.isos,
-        zoneId: this.zoneId
+        zoneId: this.zoneId,
+        template: this.template
       },
     })
       .afterClosed();

@@ -1,3 +1,23 @@
+<a name="1.49.14"></a>
+## [1.49.14](https://github.com/bwsw/cloudstack-ui/compare/1.49.13...1.49.14) (2017-11-16)
+
+
+### Bug Fixes
+
+* **ssh-keys-sidebar:** SSH keys sidebar loads invalid key if multiple keys with the same names are listed ([#653](https://github.com/bwsw/cloudstack-ui/issues/653)) ([7227296](https://github.com/bwsw/cloudstack-ui/commit/7227296))
+* **storage-filer:** Fix account filter for storage ([#663](https://github.com/bwsw/cloudstack-ui/issues/663)) ([91ff650](https://github.com/bwsw/cloudstack-ui/commit/91ff650))
+* **vm-volume:** Missing space in the VM volume info russian translation  ([ef48233](https://github.com/bwsw/cloudstack-ui/commit/ef48233))
+
+
+### Features
+
+* **core:** Angular update to version 5.0.0 ([b73d983](https://github.com/bwsw/cloudstack-ui/commit/b73d983))
+* **list-box-view:** add list/box view switch ([#639](https://github.com/bwsw/cloudstack-ui/issues/639)) ([dcc4e97](https://github.com/bwsw/cloudstack-ui/commit/dcc4e97))
+* **storage-ngrx:** use ngrx for storage ([#655](https://github.com/bwsw/cloudstack-ui/issues/655)) ([447d835](https://github.com/bwsw/cloudstack-ui/commit/447d835))
+* **vm-creation:** Improve shared SGs - Support assigning of many groups to a VM ([#641](https://github.com/bwsw/cloudstack-ui/issues/641)) ([a139904](https://github.com/bwsw/cloudstack-ui/commit/a139904))
+
+
+
 <a name="1.49.13"></a>
 ## [1.49.13](https://github.com/bwsw/cloudstack-ui/compare/1.49.12...1.49.13) (2017-11-01)
 

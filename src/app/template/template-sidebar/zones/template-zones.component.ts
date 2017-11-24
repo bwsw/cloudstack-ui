@@ -10,11 +10,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
   styleUrls: ['./zones.component.scss']
 })
 export class TemplateZonesComponent extends BaseTemplateZonesComponent {
-  constructor(
-    service: TemplateService,
-    route: ActivatedRoute,
-    dialogService: DialogService
-  ) {
-    super(service, route, dialogService);
+  constructor(service: TemplateService, dialogService: DialogService) {
+    super(service, dialogService);
   }
 }

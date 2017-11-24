@@ -1,6 +1,12 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
@@ -10,10 +16,11 @@ import {
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { NetworkRuleService } from '../services/network-rule.service';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
-import { NetworkProtocol } from '../network-rule.model';
+import { NetworkRuleType, SecurityGroupType } from '../sg.model';
+import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
+import { SgRuleComponent } from './sg-rule.component';
 
 
 @Component({
@@ -21,7 +28,12 @@ import { Router } from '@angular/router';
   templateUrl: 'sg-rules.component.html',
   styleUrls: ['sg-rules.component.scss']
 })
-export class SgRulesComponent {
+export class SgRulesComponent implements OnChanges {
+  @Input() public securityGroup: any;
+  @Input() public editMode = false;
+  @Input() public vmId: string;
+  @Output() public onCloseDialog = new EventEmitter();
+
   @ViewChild('rulesForm') public rulesForm: NgForm;
   public selectedType = '';
   public selectedCode = '';
@@ -37,16 +49,33 @@ export class SgRulesComponent {
   public icmpCodes: number[];
   public endPort: number;
   public cidr: string;
-  public securityGroup: SecurityGroup;
-  public visibleIngressRules: any[];
-  public visibleEgressRules: any[];
+  public ingressRules: NetworkRule[] = [];
+  public egressRules: NetworkRule[] = [];
+  public visibleRules: NetworkRule[] = [];
 
   public adding: boolean;
-  public editMode = false;
-  public vmId: string;
 
   public NetworkProtocols = NetworkProtocol;
   public NetworkRuleTypes = NetworkRuleType;
+
+  public inputs;
+  public outputs;
+  public ruleComponent = SgRuleComponent;
+
+  public selectedGroupings = [];
+  public groupings = [
+    {
+      key: 'types',
+      label: 'SECURITY_GROUP_PAGE.FILTERS.TYPES',
+      selector: (item: NetworkRule) => item.type,
+      name: (item: NetworkRule) => `SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`
+    }, {
+      key: 'protocols',
+      label: 'SECURITY_GROUP_PAGE.FILTERS.PROTOCOLS',
+      selector: (item: NetworkRule) => item.protocol,
+      name: (item: NetworkRule) => 'SECURITY_GROUP_PAGE.RULES.' + item.protocol.toUpperCase()
+    }
+  ];
 
   public types = [
     { value: NetworkRuleType.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
@@ -59,34 +88,33 @@ export class SgRulesComponent {
     { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
+  public getIcmpTypeTranslationToken = GetICMPTypeTranslationToken;
+  public getIcmpCodeTranslationToken = GetICMPCodeTranslationToken;
+
   constructor(
-    public dialogRef: MatDialogRef<SgRulesComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
     private networkRuleService: NetworkRuleService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router
   ) {
-    this.securityGroup = data.entity;
-
-    if (data.vmId) {
-      this.vmId = data.vmId;
-    }
-
-    if (data.editMode) {
-      this.editMode = data.editMode;
-    }
-
     this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
 
     this.adding = false;
+    this.inputs = {
+      type: item => item.type,
+      canRemove: this.editMode && !this.isPredefinedTemplate
+    };
 
-    if (this.securityGroup) {
-      this.filter();
-    }
+    this.outputs = {
+      onRemove: ({ type, id }) => this.removeRule({ type, id })
+    };
+  }
+
+  public ngOnChanges(changes) {
+    this.update();
   }
 
   public get isPredefinedTemplate(): boolean {
@@ -116,8 +144,16 @@ export class SgRulesComponent {
     this.networkRuleService.addRule(type, params)
       .subscribe(
         rule => {
-          this.securityGroup[`${type.toLowerCase()}Rules`].push(rule);
+          rule.type = type;
+
+          if (type === NetworkRuleType.Ingress) {
+            this.ingressRules.push(rule);
+          } else {
+            this.egressRules.push(rule);
+          }
+
           this.resetForm();
+          this.filter();
           this.adding = false;
         },
         () => {
@@ -127,35 +163,30 @@ export class SgRulesComponent {
       );
   }
 
-  public getIcmpTypeTranslationToken(type: number): string {
-    return GetICMPTypeTranslationToken(type);
-  }
-
-  public getIcmpCodeTranslationToken(type: number, code: number): string {
-    return GetICMPCodeTranslationToken(type, code);
-  }
-
-  public onCidrClick(): void {
-    if (!this.cidr) {
-      this.cidr = '0.0.0.0/0';
-    }
-  }
-
   public removeRule({ type, id }): void {
     this.networkRuleService.removeRule(type, { id })
       .subscribe(() => {
-        const rules = this.securityGroup[`${type.toLowerCase()}Rules`];
+        const rules = type === NetworkRuleType.Ingress
+          ? this.ingressRules
+          : this.egressRules;
         const ind = rules.findIndex(rule => rule.ruleId === id);
         if (ind === -1) {
           return;
         }
         rules.splice(ind, 1);
+        this.filter();
       }, () => {
         this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
           .subscribe((translations) => {
             this.notificationService.message(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
           });
       });
+  }
+
+  public onCidrClick(): void {
+    if (!this.cidr) {
+      this.cidr = '0.0.0.0/0';
+    }
   }
 
   public setIcmpTypes(value: ICMPType[]) {
@@ -180,25 +211,13 @@ export class SgRulesComponent {
   }
 
   public filter(): void {
-    if (!this.securityGroup.ingressRules.length || !this.securityGroup.egressRules.length) {
+    if (!this.securityGroup) {
       return;
     }
+    const filteredEgressRules = this.filterRules(this.egressRules);
+    const filteredIngressRules = this.filterRules(this.ingressRules);
 
-    if (!this.selectedProtocols.length) {
-      this.visibleEgressRules = this.securityGroup.egressRules;
-      this.visibleIngressRules = this.securityGroup.ingressRules;
-      return;
-    }
-
-    this.visibleEgressRules = this.securityGroup.egressRules.filter(_ =>
-      this.selectedProtocols.find(protocol => protocol === _.protocol));
-
-    this.visibleIngressRules = this.securityGroup.ingressRules.filter(_ =>
-      this.selectedProtocols.find(protocol => protocol === _.protocol));
-  }
-
-  public isSelectedType(type: string) {
-    return !this.selectedTypes.length || this.selectedTypes.includes(type);
+    this.visibleRules = [...filteredIngressRules, ...filteredEgressRules];
   }
 
   public filterTypes(val: number | string) {
@@ -234,7 +253,7 @@ export class SgRulesComponent {
               ], {
                 queryParams: { vm: this.vmId }
               });
-              this.dialogRef.close();
+              this.onCloseDialog.emit();
             } else {
               this.changeMode();
             }
@@ -248,6 +267,18 @@ export class SgRulesComponent {
   private changeMode() {
     this.resetFilters();
     this.editMode = !this.editMode;
+    this.inputs.canRemove = this.editMode;
+  }
+
+  private update() {
+    if (this.securityGroup) {
+      this.ingressRules = this.securityGroup.ingressRules
+        .map(rule => ({ ...rule, type: NetworkRuleType.Ingress }));
+      this.egressRules = this.securityGroup.egressRules
+        .map(rule => ({ ...rule, type: NetworkRuleType.Egress }));
+    }
+
+    this.filter();
   }
 
   private resetForm(): void {
@@ -266,5 +297,14 @@ export class SgRulesComponent {
     this.selectedTypes = [];
     this.selectedProtocols = [];
     this.filter();
+  }
+
+  private filterRules(rules: NetworkRule[]) {
+   return rules.filter((rule: NetworkRule) => {
+      return (!this.selectedProtocols.length
+        || this.selectedProtocols.find(protocol => protocol === rule.protocol))
+        && (!this.selectedTypes.length
+          || this.selectedTypes.find(type => rule.type === type));
+    });
   }
 }

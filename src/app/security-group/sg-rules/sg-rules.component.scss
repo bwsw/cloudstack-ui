@@ -39,8 +39,8 @@ mat-form-field {
   text-align: left;
 }
 
-.rule-row {
-  border-bottom: none !important;
+:host /deep/ .delete-button-cell {
+  text-align: right !important;
 }
 
 .mat-row:hover {

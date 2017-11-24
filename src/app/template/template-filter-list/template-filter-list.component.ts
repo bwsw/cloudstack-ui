@@ -1,11 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { OsType } from '../../shared/models/os-type.model';
-import { Zone } from '../../shared/models/zone.model';
-import { Account } from '../../shared/models/account.model';
+import { Component, Input } from '@angular/core';
+import { BaseTemplateModel } from '../shared/base-template.model';
+import { TranslateService } from '@ngx-translate/core';
+import { TemplateGroup } from '../../shared/models/template-group.model';
+import { Language } from '../../shared/services/language.service';
+import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
+import { AuthService } from '../../shared/services/auth.service';
 
-import { Domain } from '../../shared/models/domain.model';
-import { templateGroupings } from '../containers/template-page.container';
-import { Dictionary } from '@ngrx/entity/src/models';
+export const getGroupName = (template: BaseTemplateModel) => {
+  return template.domain !== 'ROOT'
+    ? `${template.domain}/${template.account}`
+    : template.account;
+};
+
+export const getTemplateGroupId = (item: BaseTemplateModel) => {
+  const tag = item.tags.find(
+    _ => _.key === TemplateTagKeys.group);
+  return tag && tag.value;
+};
 
 @Component({
   selector: 'cs-template-filter-list',
@@ -13,28 +24,45 @@ import { Dictionary } from '@ngrx/entity/src/models';
   styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent {
-  @Input() public showDelimiter = true;
-  @Input() public viewMode: string;
-  @Input() public accounts: Account[];
-  @Input() public domains: Dictionary<Domain>;
-  @Input() public osTypes: OsType[];
-  @Input() public zoneId: string;
-  @Input() public zones: Array<Zone>;
-  @Input() public query: string;
+  @Input() public groups: TemplateGroup[] = [];
+  public groupings = [
+    {
+      key: 'zones',
+      label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
+      selector: (item: BaseTemplateModel) => item.zoneId || '',
+      name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
+    },
+    {
+      key: 'accounts',
+      label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
+      selector: (item: BaseTemplateModel) => item.account,
+      name: (item: BaseTemplateModel) => getGroupName(item),
+    },
+    {
+      key: 'groups',
+      label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_GROUPS',
+      selector: getTemplateGroupId,
+      name: (item: BaseTemplateModel) => this.groups[getTemplateGroupId(item)]
+        && this.groups[getTemplateGroupId(item)].translations
+        && this.groups[getTemplateGroupId(item)].translations[this.locale]
+        || getTemplateGroupId(item) || 'TEMPLATE_PAGE.FILTERS.GENERAL'
+    }
+  ];
 
-  @Input() public selectedAccountIds: string;
-  @Input() public selectedGroupings: any[];
-  @Input() public selectedTypes: any[];
-  @Input() public selectedZones: any[];
-  @Input() public selectedOsFamilies: any[];
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
+  }
 
-  @Output() public viewModeChange = new EventEmitter<any>();
-  @Output() public onQueryChange = new EventEmitter<any>();
-  @Output() public onSelectedAccountsChange = new EventEmitter<any>();
-  @Output() public onSelectedGroupingsChange = new EventEmitter<any>();
-  @Output() public onSelectedTypesChange = new EventEmitter<any>();
-  @Output() public onSelectedOsFamiliesChange = new EventEmitter<any>();
-  @Output() public onSelectedZonesChange = new EventEmitter<any>();
+  public get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
 
-  readonly groupings = templateGroupings;
+  constructor(
+    private translate: TranslateService,
+    private authService: AuthService
+  ) {
+    if (!this.isAdmin) {
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+    }
+  }
 }

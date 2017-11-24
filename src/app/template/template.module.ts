@@ -50,7 +50,6 @@ import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component'
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
 import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
-import { TemplateComponent } from './template/template.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 import { StoreModule } from '@ngrx/store';
@@ -71,6 +70,21 @@ import { TemplateFilterContainerComponent } from './containers/template-filter.c
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 import { TemplateOsIconContainerComponent } from './template-sidebar/template-os-icon/template-os-icon.container';
+import { TemplateGroupService } from '../shared/services/template-group.service';
+import { TemplateGroupSelectorComponent } from './template-sidebar/template-group/template-group-selector/template-group-selector.component';
+import { TemplateGroupComponent } from './template-sidebar/template-group/template-group.component';
+import { templateGroupReducers } from './redux/template-group.reducers';
+import { TemplateGroupEffects } from './redux/template-group.effects';
+import { TemplateGroupContainerComponent } from './template-sidebar/template-group/containers/template-group.container';
+import { BaseTemplateSidebarContainerComponent } from './template-sidebar/containers/base-template-sidebar.container';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+import { DetailsContainerComponent } from './template-sidebar/containers/details.container';
+import { TemplateZonesContainerComponent } from './template-sidebar/containers/template-zones.container';
+import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
+import { TemplateFilterListSelectorContainerComponent } from './containers/template-filter-selector.container';
+import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zones.container';
+import { TemplateFilterListContainerComponent } from './template-filter-list/containers/template-filter-list.container';
+import { TemplateGroupSelectorContainerComponent } from './template-sidebar/template-group/containers/template-group-selector.container';
 
 
 @NgModule({
@@ -78,6 +92,7 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
     CommonModule,
     FormsModule,
     ClipboardModule,
+    DraggableSelectModule,
     DynamicModule.withComponents([TemplateCardItemComponent, TemplateRowItemComponent]),
     MatButtonModule,
     MatCheckboxModule,
@@ -97,10 +112,17 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
     StoreModule.forFeature('templates', templateReducers),
     StoreModule.forFeature('osTypes', osTypeReducers),
     StoreModule.forFeature('zones', zoneReducers),
-    EffectsModule.forFeature([TemplateEffects, OsTypeEffects, ZoneEffects]),
+    StoreModule.forFeature('templateGroups', templateGroupReducers),
+    EffectsModule.forFeature([
+      TemplateEffects,
+      OsTypeEffects,
+      ZoneEffects,
+      TemplateGroupEffects
+    ]),
   ],
   declarations: [
     TemplateSidebarComponent,
+    BaseTemplateSidebarContainerComponent,
     IsoSidebarComponent,
     IsoAttachmentComponent,
     TemplateActionsSidebarContainerComponent,
@@ -120,23 +142,38 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
     TemplateCardListComponent,
     TemplatePageContainerComponent,
     TemplateFilterContainerComponent,
+    TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
+    TemplateFilterListSelectorContainerComponent,
+    TemplateGroupSelectorContainerComponent,
+    TemplateGroupSelectorComponent,
+    TemplateGroupContainerComponent,
+    TemplateGroupComponent,
     TemplatePageComponent,
     TemplateTagsComponent,
     IsoTagsComponent,
+    TagsContainerComponent,
     TemplateZonesComponent,
     IsoZonesComponent,
+    IsoZonesContainerComponent,
+    TemplateZonesContainerComponent,
     TemplateDetailsComponent,
-    IsoDetailsComponent
+    IsoDetailsComponent,
+    DetailsContainerComponent,
   ],
   exports: [
+    TemplateFilterListSelectorContainerComponent,
     TemplateFilterListSelectorComponent,
-    TemplateFilterListComponent
+    TemplateFilterListContainerComponent,
+    TemplateFilterListComponent,
+    TemplateFiltersComponent,
+    TemplateGroupComponent
   ],
   providers: [
     IsoService,
     TemplateService,
+    TemplateGroupService,
     TemplateActionsService,
     IsoActionsService,
     TemplateCreateAction,
@@ -146,7 +183,8 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
   ],
   entryComponents: [
     IsoAttachmentComponent,
-    TemplateCreationContainerComponent
+    TemplateCreationContainerComponent,
+    TemplateGroupSelectorContainerComponent,
   ]
 })
 export class TemplateModule {

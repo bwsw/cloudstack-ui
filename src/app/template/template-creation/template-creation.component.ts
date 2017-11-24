@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 
 import { Hypervisor, OsType, Zone } from '../../shared';
-import { IsoCreateAction } from '../../shared/actions/template-actions/create/iso-create';
-import { TemplateCreateAction } from '../../shared/actions/template-actions/create/template-create';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { TemplateGroup } from '../../shared/models/template-group.model';
+import { TranslateService } from '@ngx-translate/core';
+import { Language } from '../../shared/services/language.service';
+import { TemplateResourceType } from '../shared/base-template.service';
 
 interface TemplateFormat {
   name: string;
@@ -23,15 +24,18 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public mode: string;
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
+  @Input() public isLoading: boolean;
+  @Input() public groups: Array<TemplateGroup>;
+  @Input() public snapshot?: Snapshot;
 
   @Output() public onCreateTemplate = new EventEmitter<any>();
 
-  public snapshot?: Snapshot;
   public name: string;
   public displayText: string;
   public osTypeId: string;
   public url: string;
   public zoneId: string;
+  public templateGroup: TemplateGroup;
   public isExtractable: boolean;
   public hypervisor: string;
   public isPublic: boolean;
@@ -59,18 +63,21 @@ export class TemplateCreationComponent implements OnInit {
   ];
   public visibleFormats: TemplateFormat[];
 
-  public loading: boolean;
   public showAdditional = false;
 
+  public get locale(): Language {
+    return this.translate.currentLang as Language;
+  }
+
+  public get TemplateResourceType() {
+    return TemplateResourceType;
+  }
+
   constructor(
-    private dialogRef: MatDialogRef<TemplateCreationComponent>,
-    private isoCreationAction: IsoCreateAction,
-    private templateCreationAction: TemplateCreateAction,
     private hypervisorService: HypervisorService,
     private authService: AuthService,
-    @Inject(MAT_DIALOG_DATA) data: any
+    private translate: TranslateService,
   ) {
-    this.snapshot = data.snapshot;
     this.visibleFormats = this.formats;
   }
 
@@ -111,16 +118,20 @@ export class TemplateCreationComponent implements OnInit {
       osTypeId: this.osTypeId,
     };
 
+    if (this.templateGroup) {
+      params['groupId'] = this.templateGroup.id;
+    }
+
     if (!this.snapshot) {
       params['url'] = this.url;
       params['zoneId'] = this.zoneId;
 
-      if (this.mode === 'Template') {
+      if (this.mode === TemplateResourceType.template) {
         params['passwordEnabled'] = this.passwordEnabled;
         params['isDynamicallyScalable'] = this.dynamicallyScalable;
-        params['entity'] = 'Template';
+        params['entity'] = TemplateResourceType.template;
       } else {
-        params['entity'] = 'Iso';
+        params['entity'] = TemplateResourceType.iso;
       }
     } else {
       params['snapshotId'] = this.snapshot.id;
@@ -139,29 +150,10 @@ export class TemplateCreationComponent implements OnInit {
       }
     }
 
-    this.loading = true;
-
-    this.getCreationAction(params)
-      .finally(() => this.loading = false)
-      .subscribe(
-        template => {
-          this.onCreateTemplate.emit(template);
-          this.dialogRef.close(template);
-        },
-        () => {
-        }
-      );
+    this.onCreateTemplate.emit(params);
   }
 
   public isAdmin(): boolean {
     return this.authService.isAdmin();
-  }
-
-  private getCreationAction(params: any): Observable<void> {
-    if (this.mode === 'Iso') {
-      return this.isoCreationAction.activate(params);
-    } else {
-      return this.templateCreationAction.activate(params);
-    }
   }
 }
