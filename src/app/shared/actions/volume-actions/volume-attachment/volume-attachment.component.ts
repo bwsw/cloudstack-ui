@@ -19,6 +19,7 @@ export class VolumeAttachmentComponent {
   @Input() public virtualMachines: Array<VirtualMachine>;
   @Input() public volume: Volume;
   @Input() public zoneId: string;
+  @Input() public loading: boolean;
   @Output() public onVirtualMachineId = new EventEmitter();
 
 

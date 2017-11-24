@@ -18,6 +18,7 @@ import { Volume } from '../../../models/volume.model';
   selector: 'cs-volume-actions-container',
   template: `
     <cs-volume-attachment
+      [loading]="loading$ | async"
       [volume]="volume"
       [zoneId]="zoneId"
       [virtualMachines]="vms$ | async"
@@ -31,6 +32,7 @@ export class VolumeAttachmentContainerComponent implements OnInit {
   public zoneId: string;
 
   readonly vms$ = this.store.select(fromVMs.selectAll);
+  readonly loading$ = this.store.select(fromVMs.isLoading);
 
   constructor(
     private store: Store<State>,

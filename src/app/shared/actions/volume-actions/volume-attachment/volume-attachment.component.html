@@ -5,7 +5,7 @@
       'VOLUME_PAGE.ATTACHMENT.CHOOSE_VIRTUAL_MACHINE' | translate }}</h3>
     <h3 *ngIf="!virtualMachines.length" class="mat-dialog-title">{{
       'VOLUME_PAGE.ATTACHMENT.NO_VMS' | translate }}</h3>
-    <form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm" novalidate>
+    <form (ngSubmit)="attach()" #volumeAttachmentForm="ngForm" novalidate>
       <div class="mat-dialog-content">
         <div>
           <mat-form-field
