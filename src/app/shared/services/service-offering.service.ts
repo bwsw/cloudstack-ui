@@ -39,10 +39,12 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
         let enoughMemory;
 
         if (offering.isCustomized) {
-          enoughCpus = offeringRestrictions[zone.id] && offeringRestrictions[zone.id].cpuNumber.min
-            || DefaultCustomServiceOfferingRestrictions.cpuNumber.min < resourceUsage.available.cpus;
-          enoughMemory = offeringRestrictions[zone.id] && offeringRestrictions[zone.id].memory.min
-            || DefaultCustomServiceOfferingRestrictions.memory.min < resourceUsage.available.memory;
+          const restrictions = offeringRestrictions[zone.id]
+            ? offeringRestrictions[zone.id]
+            : DefaultCustomServiceOfferingRestrictions;
+
+          enoughCpus = restrictions.cpuNumber && restrictions.cpuNumber.min < resourceUsage.available.cpus;
+          enoughMemory = restrictions.memory && restrictions.memory.min < resourceUsage.available.memory;
         } else {
           enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
           enoughMemory = resourceUsage.available.memory >= offering.memory;
