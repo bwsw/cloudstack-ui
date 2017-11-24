@@ -37,6 +37,11 @@ export class AccountUsersComponent {
     this.openUserFormDialog(user);
   }
 
+  public regenerateKeys(user) {
+    this.onUserRegenerateKey.emit(user);
+    this.setStep(user.id)
+  }
+
   public onUserChangePassword(user) {
     this.dialog.open(AccountUserPasswordFormContainerComponent, {
       width: '375px',
