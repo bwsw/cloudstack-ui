@@ -18,20 +18,6 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
   @Input() public zoneId: string;
 
-  constructor(
-    translate: TranslateService,
-    authService: AuthService,
-    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
-    private dialog: MatDialog,
-    private templateTagService: TemplateTagService,
-    @Inject(MAT_DIALOG_DATA) data
-  ) {
-    super(translate, authService);
-
-    this.zoneId = data.zoneId;
-    this.preselectedTemplate = data.template;
-  }
-
   @Input()
   public set preselectedTemplate(value: BaseTemplateModel) {
     this.selectedTemplate = value;
@@ -46,20 +32,36 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public set selectedTemplate(template: BaseTemplateModel) {
     this._selectedTemplate = template;
   }
+  constructor(
+    translate: TranslateService,
+    authService: AuthService,
+    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
+    private dialog: MatDialog,
+    private templateTagService: TemplateTagService,
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
+    super(translate, authService);
 
-  public onOk(): void {
-    const dialogData = { template: this.selectedTemplate, agreement: false };
+    this.zoneId = data.zoneId;
+    this.preselectedTemplate = data.template;
+  }
 
-    this.templateTagService.getAgreement(this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate)
-      .subscribe(res => {
+
+  public onOk() {
+    const data = Object.assign({} , this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate);
+
+    this.templateTagService.getAgreement(data)
+      .finally(() => this.dialogRef.close(data))
+      .switchMap(res => {
         if (res) {
-          this.showTemplateAgreementDialog()
-            .finally(() => this.dialogRef.close(dialogData))
-            .subscribe(item => {
-            if (item) {
-              dialogData.agreement = true;
-            }
-          })
+          return this.showTemplateAgreementDialog()
+        } else {
+          return Observable.of(null);
+        }
+      })
+      .subscribe(item => {
+        if (item) {
+          data.agreementAccepted = true;
         }
       });
   }

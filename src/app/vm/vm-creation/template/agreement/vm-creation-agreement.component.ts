@@ -42,16 +42,15 @@ export class VmCreationAgreementComponent implements OnInit {
   }
 
   protected readFile() {
-    this.templateTagService.getAgreement(this.template, this.lang).subscribe(path => {
-      return this.http.get(path)
-        .map(response => response.text())
-        .map(text => {
-          const converter = new Converter();
-          return converter.makeHtml(text);
-        })
-        .subscribe(agreement => {
-          this.agreement = agreement;
-        })
-    });
+    this.templateTagService.getAgreement(this.template, this.lang)
+      .switchMap(path => this.http.get(path))
+      .map(response => response.text())
+      .map(text => {
+        const converter = new Converter();
+        return converter.makeHtml(text);
+      })
+      .subscribe(agreement => {
+        this.agreement = agreement;
+      });
   }
 }

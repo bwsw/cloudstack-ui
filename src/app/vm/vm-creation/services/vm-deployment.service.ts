@@ -165,7 +165,7 @@ export class VmDeploymentService {
         return this.userTagService.getSavePasswordForAllVms();
       })
       .switchMap(() => {
-        if (state.agreement) {
+        if (state.template.agreementAccepted) {
           return this.vmTagService.setAgreement(vm)
         } else {
           return Observable.of(null);

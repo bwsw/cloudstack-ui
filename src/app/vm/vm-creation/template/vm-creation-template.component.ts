@@ -42,11 +42,11 @@ export class VmCreationTemplateComponent {
 
   public onClick(): void {
     this.showTemplateSelectionDialog()
-      .subscribe(result => {
+      .subscribe(template => {
 
-        if (result) {
-          this.template = result['template'];
-          this.change.next(result);
+        if (template) {
+          this.template = template;
+          this.change.next(this.template);
         }
       });
   }
