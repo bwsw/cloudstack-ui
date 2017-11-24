@@ -157,13 +157,37 @@
   "offeringAvailability": {
     "filterOfferings": false
   },
-  "customOfferingRestrictions": {},
+  "customOfferingRestrictions": {
+    "d477bb3f-3592-4503-8f2a-da3d878dd476": {
+      "cpuNumber": {
+        "min": 1,
+        "max": 4
+      },
+      "cpuSpeed": {
+        "min": 1000,
+        "max": 2000
+      },
+      "memory": {
+        "min": 32,
+        "max": 8192
+      }
+    }
+  },
   "defaultDomain": "",
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
   "sessionRefreshInterval": 60,
   "sessionTimeout": 30,
   "allowReorderingSidebar": false,
-  "defaultServiceOfferingConfig": {},
+  "defaultServiceOfferingConfig": {
+    "d477bb3f-3592-4503-8f2a-da3d878dd476": {
+      "offering": "d31fc9fe-6ac2-4d86-a27d-58d5621dd834",
+      "customOfferingParams": {
+        "cpuNumber": 2,
+        "cpuSpeed": 1000,
+        "memory": 1024
+      }
+    }
+  },
   "extensions": {
     "webShell": false,
     "pulse": false
