@@ -206,6 +206,7 @@
     "TEMPLATE": {
       "CUSTOM_TEMPLATE_CREATED": "Template {{ name }} created successfully",
       "CUSTOM_TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
+      "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
       "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
       "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully"
     }
@@ -581,14 +582,17 @@
       "SELECT_OS_FAMILIES": "Select OS families",
       "SELECT_TYPES": "Select types",
       "SELECT_ZONES": "Select zones",
+      "SELECT_GROUPS": "Select groups",
       "GROUP_BY": "Group by",
       "GROUP_BY_ZONES": "Zones",
       "GROUP_BY_ACCOUNTS": "Accounts",
+      "GROUP_BY_GROUPS": "Groups",
       "NO_ZONE": "No zone",
       "FEATURED": "Featured",
       "SELF": "My",
       "SELFEXECUTABLE": "My",
-      "ALL": "All"
+      "ALL": "All",
+      "GENERAL": "General"
     },
     "CARD": {
       "OS": "OS"
@@ -596,7 +600,15 @@
     "SIDEBAR": {
       "TEMPLATE": "Template",
       "ZONES": "Zones",
-      "TAGS": "Tags"
+      "TAGS": "Tags",
+      "TEMPLATE_GROUP": {
+        "NAME": "Group",
+        "NO_GROUP": "No group",
+        "CHANGE_TEMPLATE_GROUP": "Change template group",
+        "CHOOSE_EXISTING_GROUP": "Choose an existing group",
+        "CHOOSE_GROUP": "Choose a group",
+        "REMOVE_FROM_GROUP": "Remove from the group \"{{ value }}\""
+      }
     },
     "TEMPLATE_DETAILS": {
       "OS": "OS",
@@ -628,6 +640,7 @@
       "INVALID_URL": "Invalid URL (only http or https)",
       "OS_TYPE": "OS type",
       "ZONE": "Zone",
+      "GROUP": "Group",
       "PASSWORD_ENABLED": "Password enabled",
       "DYNAMICALLY_SCALABLE": "Dynamically scalable",
       "HYPERVISOR": "Hypervisor",
@@ -951,8 +964,8 @@
       "GROUP_BY_ACCOUNTS": "Accounts"
     }
   },
-  "ACCOUNT_PAGE" : {
-    "CREATION" : {
+  "ACCOUNT_PAGE": {
+    "CREATION": {
       "CREATE_ACCOUNT": "New account",
       "USER_NAME": "User name",
       "EMAIL": "Email",
@@ -964,7 +977,7 @@
       "ACCOUNT": "Parent account",
       "NETWORK_DOMAIN": "Network domain"
     },
-    "FILTERS" : {
+    "FILTERS": {
       "SELECT_DOMAINS": "Select domains",
       "SELECT_ROLES": "Select roles",
       "SELECT_ROLE_TYPES": "Select role types",

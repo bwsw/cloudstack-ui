@@ -163,6 +163,7 @@ import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offer
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
 
 @NgModule({
   imports: [
@@ -263,6 +264,7 @@ import { EffectsModule } from '@ngrx/effects';
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    TemplateActionsContainerComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -338,6 +340,7 @@ import { EffectsModule } from '@ngrx/effects';
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    TemplateActionsContainerComponent
   ],
   providers: [
     AccountService,

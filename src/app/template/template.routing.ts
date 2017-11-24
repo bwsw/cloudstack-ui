@@ -1,15 +1,12 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { IsoDetailsComponent } from './template-sidebar/details/iso-details.component';
-import { TemplateDetailsComponent } from './template-sidebar/details/template-details.component';
-import { IsoSidebarComponent } from './template-sidebar/iso-sidebar.component';
-import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
-import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
-import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
-import { IsoTagsComponent } from './template-tags/iso-tags.component';
-import { TemplateTagsComponent } from './template-tags/template-tags.component';
 import { TemplatePageContainerComponent } from './containers/template-page.container';
 import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
+import { BaseTemplateSidebarContainerComponent } from './template-sidebar/containers/base-template-sidebar.container';
+import { DetailsContainerComponent } from './template-sidebar/containers/details.container';
+import { TemplateZonesContainerComponent } from './template-sidebar/containers/template-zones.container';
+import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
+import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zones.container';
 
 export const templateRouting: Routes = [
   {
@@ -23,7 +20,7 @@ export const templateRouting: Routes = [
       },
       {
         path: 'template/:id',
-        component: TemplateSidebarComponent,
+        component: BaseTemplateSidebarContainerComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -32,22 +29,22 @@ export const templateRouting: Routes = [
             pathMatch: 'full'
           }, {
             path: 'details',
-            component: TemplateDetailsComponent,
+            component: DetailsContainerComponent,
             canActivate: [AuthGuard]
           }, {
             path: 'zones',
-            component: TemplateZonesComponent,
+            component: TemplateZonesContainerComponent,
             canActivate: [AuthGuard]
           }, {
             path: 'tags',
-            component: TemplateTagsComponent,
+            component: TagsContainerComponent,
             canActivate: [AuthGuard]
           }
         ]
       },
       {
         path: 'iso/:id',
-        component: IsoSidebarComponent,
+        component: BaseTemplateSidebarContainerComponent,
         canActivate: [AuthGuard],
         children: [
           {
@@ -56,15 +53,15 @@ export const templateRouting: Routes = [
             pathMatch: 'full'
           }, {
             path: 'details',
-            component: IsoDetailsComponent,
+            component: DetailsContainerComponent,
             canActivate: [AuthGuard]
           }, {
             path: 'zones',
-            component: IsoZonesComponent,
+            component: IsoZonesContainerComponent,
             canActivate: [AuthGuard]
           }, {
             path: 'tags',
-            component: IsoTagsComponent,
+            component: TagsContainerComponent,
             canActivate: [AuthGuard]
           }
         ]

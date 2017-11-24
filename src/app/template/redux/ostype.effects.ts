@@ -10,15 +10,12 @@ import * as osTypesActions from './ostype.actions';
 
 @Injectable()
 export class OsTypeEffects {
-
   @Effect()
   loadOsTypes$: Observable<Action> = this.actions$
     .ofType(osTypesActions.LOAD_OS_TYPES_REQUEST)
     .switchMap((action: osTypesActions.LoadOsTypesRequest) => {
       return this.osTypesService.getList(action.payload)
-        .map((osTypes: OsType[]) => {
-          return new osTypesActions.LoadOsTypesResponse(osTypes);
-        })
+        .map((osTypes: OsType[]) =>  new osTypesActions.LoadOsTypesResponse(osTypes))
         .catch(() => Observable.of(new osTypesActions.LoadOsTypesResponse([])));
     });
 

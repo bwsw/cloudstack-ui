@@ -51,9 +51,6 @@
     </div>
   </mat-card-content>
   <mat-menu #actionsMenu="matMenu">
-    <cs-template-actions
-      [template]="item"
-      (deleteTemplate)="deleteTemplate.emit($event)"
-    ></cs-template-actions>
+    <cs-template-actions-container [template]="item"></cs-template-actions-container>
   </mat-menu>
 </mat-card>

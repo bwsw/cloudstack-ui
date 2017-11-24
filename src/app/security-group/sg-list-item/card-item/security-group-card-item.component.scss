@@ -1,6 +1,8 @@
 :host {
   display: inline-flex;
-  cursor: pointer;
+  mat-card {
+    cursor: pointer;
+  }
 }
 
 .description,

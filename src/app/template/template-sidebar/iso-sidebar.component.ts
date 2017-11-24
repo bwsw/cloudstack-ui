@@ -1,14 +1,8 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ListService } from '../../shared/components/list/list.service';
-import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
-import { NotificationService } from '../../shared/services/notification.service';
-import { IsoService } from '../shared';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BaseTemplateSidebarComponent } from './base-template-sidebar.component';
+import { Iso } from '../shared/iso.model';
 import { AuthService } from '../../shared/services/auth.service';
-import { State } from '../../reducers/index';
-import { Store } from '@ngrx/store';
-
 
 @Component({
   selector: 'cs-iso-sidebar',
@@ -16,25 +10,9 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./base-template-sidebar.component.scss']
 })
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
-  constructor(
-    service: IsoService,
-    authService: AuthService,
-    dateTimeFormatterService: DateTimeFormatterService,
-    route: ActivatedRoute,
-    router: Router,
-    listService: ListService,
-    notificationService: NotificationService,
-    store: Store<State>
-  ) {
-    super(
-      service,
-      authService,
-      dateTimeFormatterService,
-      route,
-      router,
-      listService,
-      notificationService,
-      store
-    );
+  @Input() public entity: Iso;
+
+  constructor(route: ActivatedRoute, authService: AuthService) {
+    super(route, authService);
   }
 }

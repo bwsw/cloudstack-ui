@@ -169,7 +169,11 @@ export abstract class BaseBackendService<M extends BaseModel> {
       'Content-Type',
       'application/x-www-form-urlencoded'
     );
-    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers });
+    return this.http.post(
+      BACKEND_API_URL,
+      this.buildParams(command, params),
+      { headers }
+    );
   }
 
   protected sendCommand(
