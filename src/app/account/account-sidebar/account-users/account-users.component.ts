@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Account } from '../../../shared/models/account.model';
 import { AccountUser } from '../../../shared/models/account-user.model';
 import { MatDialog } from '@angular/material';
@@ -16,7 +9,7 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
   selector: 'cs-account-users',
   templateUrl: 'account-users.component.html',
 })
-export class AccountUsersComponent implements OnChanges {
+export class AccountUsersComponent {
   @Input() public account: Account;
 
   @Output() public onUserDelete = new EventEmitter<any>();
@@ -24,13 +17,12 @@ export class AccountUsersComponent implements OnChanges {
 
   public step: string;
 
-  constructor(private dialog: MatDialog) {
+  public get sortedUsers(): Array<AccountUser> {
+    return this.account && [...this.account.user]
+      .sort((u1, u2) => u1.firstname.localeCompare(u2.firstname));
   }
 
-  public ngOnChanges(changes: SimpleChanges) {
-    if (changes.account && !changes.account.previousValue) {
-      this.setStep(this.account && this.account.user && this.account.user[0].id);
-    }
+  constructor(private dialog: MatDialog) {
   }
 
   public addUser() {
@@ -51,7 +43,9 @@ export class AccountUsersComponent implements OnChanges {
       data: {
         userId: user.id
       }
-    });
+    })
+      .afterClosed()
+      .subscribe(() => this.setStep(user.id));
   }
 
   public setStep(userId) {
@@ -62,11 +56,17 @@ export class AccountUsersComponent implements OnChanges {
     this.dialog.open(AccountUserEditContainerComponent, {
       width: '375px',
       data: {
-        title: !user ? 'ACCOUNT_PAGE.CREATION.CREATE_USER' : null,
+        title: !user ? 'ACCOUNT_PAGE.USER.CREATE_USER' : null,
         confirmButtonText: !user ? 'COMMON.CREATE' : null,
         account: this.account,
         user
       }
-    });
+    })
+      .afterClosed()
+      .subscribe(updatedUser => {
+        if (updatedUser) {
+          this.setStep(updatedUser.id);
+        }
+      });
   }
 }

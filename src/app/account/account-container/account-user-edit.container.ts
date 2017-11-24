@@ -58,6 +58,6 @@ export class AccountUserEditContainerComponent {
       this.store.dispatch(new accountActions.AccountUserUpdate(this.user));
     }
 
-    this.dialogRef.close();
+    this.dialogRef.close(this.user);
   }
 }

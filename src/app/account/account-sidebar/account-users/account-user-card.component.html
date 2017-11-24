@@ -1,5 +1,9 @@
 <ng-container *ngIf="user">
   <cs-parameters-pair
+    [name]="'ACCOUNT_PAGE.USER.USERNAME'"
+    [value]="user.username"
+  ></cs-parameters-pair>
+  <cs-parameters-pair
     [name]="'ACCOUNT_PAGE.USER.FIRST_NAME'"
     [value]="user.firstname"
   ></cs-parameters-pair>

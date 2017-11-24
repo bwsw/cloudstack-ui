@@ -6,7 +6,7 @@
 
 <mat-accordion *ngIf="!!account">
   <mat-expansion-panel
-    *ngFor="let user of account.user"
+    *ngFor="let user of sortedUsers"
     [expanded]="step === user.id"
     (opened)="setStep(user.id)"
   >
