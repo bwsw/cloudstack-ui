@@ -44,8 +44,8 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
             DefaultCustomServiceOfferingRestrictions,
             offeringRestrictions && offeringRestrictions[zone.id]
           );
-          enoughCpus = restrictions.cpuNumber && restrictions.cpuNumber.min < resourceUsage.available.cpus;
-          enoughMemory = restrictions.memory && restrictions.memory.min < resourceUsage.available.memory;
+          enoughCpus = !restrictions.cpuNumber || restrictions.cpuNumber.min < resourceUsage.available.cpus;
+          enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
         } else {
           enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
           enoughMemory = resourceUsage.available.memory >= offering.memory;
