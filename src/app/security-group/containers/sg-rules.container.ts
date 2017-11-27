@@ -1,14 +1,8 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { SecurityGroup } from '../sg.model';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
@@ -21,6 +15,7 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
       [securityGroup]="securityGroup$ | async"
       [vmId]="vmId"
       [editMode]="editMode"
+      (onFirewallRulesChange)="onFirewallRulesChange($event)"
       (onCloseDialog)="closeDialog()"
     ></cs-security-group-rules>`
 })
@@ -48,6 +43,10 @@ export class SgRulesContainerComponent implements OnInit {
 
   public ngOnInit() {
     this.store.dispatch(new securityGroupActions.LoadSelectedSG(this.id));
+  }
+
+  public onFirewallRulesChange(securityGroup: SecurityGroup) {
+    this.store.dispatch(new securityGroupActions.UpdateSecurityGroup(securityGroup));
   }
 
   public closeDialog() {

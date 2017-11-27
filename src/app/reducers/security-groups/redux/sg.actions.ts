@@ -7,6 +7,7 @@ export const SG_FILTER_UPDATE = '[SecurityGroups] SG_FILTER_UPDATE';
 export const LOAD_SELECTED_SG = '[SecurityGroups] LOAD_SELECTED_SG';
 export const CREATE_SG_SUCCESS = '[SecurityGroups] CREATE_SG_SUCCESS';
 export const REMOVE_SG_SUCCESS = '[SecurityGroups] REMOVE_SG_SUCCESS';
+export const UPDATE_SECURITY_GROUP = '[SecurityGroups] UPDATE_SECURITY_GROUP';
 
 export class LoadSGRequest implements Action {
   readonly type = LOAD_SG_REQUEST;
@@ -50,10 +51,18 @@ export class RemoveSGSuccess implements Action {
   }
 }
 
+export class UpdateSecurityGroup implements Action {
+  type = UPDATE_SECURITY_GROUP;
+
+  constructor(public payload: SecurityGroup) {
+  }
+}
+
 export type Actions =
   LoadSGRequest
   | LoadSGResponse
   | SGFilterUpdate
   | LoadSelectedSG
   | CreateSGSuccess
-  | RemoveSGSuccess;
+  | RemoveSGSuccess
+  | UpdateSecurityGroup;

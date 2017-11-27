@@ -25,6 +25,7 @@ import { TemplateResourceType } from '../shared/base-template.service';
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [groups]="groups$ | async"
+      [fetching]="isLoading$ | async"
       [(selectedTemplate)]="selectedTemplate"
       (selectedTemplateChange)="selectedTemplateChange.emit($event)"
       (viewModeChange)="onViewModeChange($event)"
@@ -36,6 +37,7 @@ import { TemplateResourceType } from '../shared/base-template.service';
 })
 export class TemplateFilterListSelectorContainerComponent implements OnInit, AfterViewInit {
   readonly templates$ = this.store.select(fromTemplates.selectTemplatesForVmCreation);
+  readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
   readonly viewMode$ = this.store.select(fromTemplates.vmCreationListViewMode);
   readonly selectedTypes$ = this.store.select(fromTemplates.vmCreationListSelectedTypes);
