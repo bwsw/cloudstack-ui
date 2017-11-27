@@ -7,8 +7,11 @@ import { Store } from '@ngrx/store';
 
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
+import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
 import * as fromTemplateGroups from '../../../reducers/templates/redux/template-group.reducers';
+import * as templateGroupActions from '../../../reducers/templates/redux/template-group.actions';
 import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
+import * as zoneActions from '../../../reducers/templates/redux/zone.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
 import {
   MAT_DIALOG_DATA,
@@ -45,6 +48,16 @@ export class TemplateCreationContainerComponent {
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.snapshot = data.snapshot;
+
+    if (data.snapshot) {
+      this.store.dispatch(new osTypeActions.LoadOsTypesRequest());
+      this.store.dispatch(new zoneActions.LoadZonesRequest());
+      this.store.dispatch(new templateGroupActions.LoadTemplateGroupsRequest());
+    }
+
+    if (data.mode) {
+      this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedViewMode: data.mode }));
+    }
   }
 
   public onCreate(params) {

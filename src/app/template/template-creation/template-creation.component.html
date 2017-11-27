@@ -3,8 +3,8 @@
   <h3 class="mat-dialog-title">{{ modeTranslationToken | translate }}</h3>
   <form (ngSubmit)="onCreate()" #templateCreationForm="ngForm" novalidate>
     <div class="mat-dialog-content">
-      <div [class.flex-dialog-content]="!snapshot">
-        <div [class.column]="!snapshot">
+      <div class="flex-dialog-content">
+        <div class="column">
           <mat-form-field class="full-width-input">
             <input
               matInput
@@ -59,7 +59,7 @@
             </mat-hint>
           </mat-form-field>
         </div>
-        <div [class.column]="!snapshot">
+        <div class="column">
           <mat-form-field class="full-width-input">
             <mat-select
               [required]="true"

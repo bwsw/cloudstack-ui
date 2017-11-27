@@ -257,6 +257,8 @@ mat-card.custom-card {
   0 3px 14px 2px rgba(0, 0, 0, 0.12),
   0 5px 5px -3px rgba(0, 0, 0, 0.2) !important;
   transition: 0.25s, box-shadow 0.25s;
+  z-index: 1;
+  position: relative;
 }
 
 .padding {

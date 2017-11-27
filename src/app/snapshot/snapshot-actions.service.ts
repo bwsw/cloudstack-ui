@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { ActionsService } from '../shared/interfaces/action-service.interface';
 import { Action } from '../shared/interfaces/action.interface';
-import {
-  Snapshot,
-  Volume
-} from '../shared/models';
+import { Snapshot, Volume } from '../shared/models';
 import { JobsNotificationService } from '../shared/services/jobs-notification.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { SnapshotService } from '../shared/services/snapshot.service';
 import { StatsUpdateService } from '../shared/services/stats-update.service';
+import {
+  TemplateCreationContainerComponent
+} from '../template/template-creation/containers/template-creation.container';
 import { TemplateResourceType } from '../template/shared/base-template.service';
-import { TemplateCreationContainerComponent } from '../template/template-creation/containers/template-creation.container';
 
 
 export interface SnapshotAction extends Action<Snapshot> {
@@ -56,7 +54,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
   public showCreationDialog(snapshot: Snapshot): Observable<any> {
     return this.dialog.open(TemplateCreationContainerComponent, {
-      width: '330px',
+      width: '720px',
       panelClass: 'template-creation-dialog-snapshot',
       data: {
         mode: TemplateResourceType.template,
@@ -71,7 +69,8 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
     return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .switchMap(() => {
-        notificationId = this.jobNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
+        notificationId = this.jobNotificationService.add(
+          'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
         return this.snapshotService.remove(snapshot.id);
       })
       .map(() => {

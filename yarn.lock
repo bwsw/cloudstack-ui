@@ -180,25 +180,25 @@
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@angularclass/hmr/-/hmr-2.1.3.tgz#34e658ed3da37f23b0a200e2da5a89be92bb209f"
 
-"@ngrx/effects@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-4.0.5.tgz#1224763800621b7305f9b18bc17ee09b25c861d1"
+"@ngrx/effects@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-4.1.1.tgz#cb758b8527964b258ea41951f59aa144e3ef9fae"
 
 "@ngrx/entity@ngrx/entity-builds":
   version "4.0.2"
   resolved "https://codeload.github.com/ngrx/entity-builds/tar.gz/4ad8b2786f017ce1e19e469619290793027f9e1f"
 
-"@ngrx/router-store@^4.0.4":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-4.0.4.tgz#ab59f35aae93465088384faf009e21b22edd456a"
+"@ngrx/router-store@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-4.1.1.tgz#17fac7c0f5ffddef8b75e9a74ed2cb09074f3bca"
 
-"@ngrx/store-devtools@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-4.0.0.tgz#b79c24773217df7fd9735ad21f9cbf2533c96e04"
+"@ngrx/store-devtools@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-4.1.1.tgz#20745c39c7560fdc05fa4f22638442a7ec7dd676"
 
-"@ngrx/store@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-4.0.3.tgz#36abacdfa19bfb8506e40de80bae06050a1e15e9"
+"@ngrx/store@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-4.1.1.tgz#680e34df2775e8852754ed777ffac95bd81b7de0"
 
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
