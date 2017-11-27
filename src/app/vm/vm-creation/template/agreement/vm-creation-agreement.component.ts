@@ -13,9 +13,13 @@ import { UserTagService } from '../../../../shared/services/tags/user-tag.servic
   templateUrl: 'vm-creation-agreement.component.html'
 })
 export class VmCreationAgreementComponent implements OnInit {
-  private agreement: string;
+  private _agreement: string;
   private template: BaseTemplateModel;
   private lang: string;
+
+  public get agreement(): string {
+    return this._agreement;
+  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -50,7 +54,7 @@ export class VmCreationAgreementComponent implements OnInit {
         return converter.makeHtml(text);
       })
       .subscribe(agreement => {
-        this.agreement = agreement;
+        this._agreement = agreement;
       });
   }
 }

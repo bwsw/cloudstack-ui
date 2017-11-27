@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Inject, Input, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -12,7 +13,14 @@ import { TemplateTagService } from '../../../shared/services/tags/template-tag.s
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
-  templateUrl: 'vm-template-dialog.component.html'
+  templateUrl: 'vm-template-dialog.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => VmCreationAgreementComponent),
+      multi: true
+    }
+  ]
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
@@ -32,6 +40,7 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public set selectedTemplate(template: BaseTemplateModel) {
     this._selectedTemplate = template;
   }
+
   constructor(
     translate: TranslateService,
     authService: AuthService,
