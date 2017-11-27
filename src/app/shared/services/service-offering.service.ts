@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  ICustomOfferingRestrictionsByZone
-} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { ICustomOfferingRestrictionsByZone } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
-import { OfferingAvailability, OfferingService } from './offering.service';
+import {
+  OfferingAvailability,
+  OfferingService
+} from './offering.service';
 import { ResourceStats } from './resource-usage.service';
 
 
@@ -36,8 +37,8 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
         let enoughMemory;
 
         if (offering.isCustomized) {
-          enoughCpus = offeringRestrictions[zone.id].cpuNumber.min < resourceUsage.available.cpus;
-          enoughMemory = offeringRestrictions[zone.id].memory.min < resourceUsage.available.memory;
+          enoughCpus =  offeringRestrictions[zone.id] && offeringRestrictions[zone.id].cpuNumber.min < resourceUsage.available.cpus;
+          enoughMemory =  offeringRestrictions[zone.id] && offeringRestrictions[zone.id].memory.min < resourceUsage.available.memory;
         } else {
           enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
           enoughMemory = resourceUsage.available.memory >= offering.memory;

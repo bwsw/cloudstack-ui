@@ -87,16 +87,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return Observable.forkJoin(
       this.getList(params),
       this.volumeService.getList(),
-      this.osTypesService.getList(),
-      this.serviceOfferingService.getList(),
-      this.securityGroupService.getList()
+      this.osTypesService.getList()
     )
-      .map(([vmList, volumes, osTypes, serviceOfferings, securityGroups]) => {
+      .map(([vmList, volumes, osTypes]) => {
         vmList.forEach((currentVm, index, vms) => {
           currentVm = this.addVolumes(currentVm, volumes);
           currentVm = this.addOsType(currentVm, osTypes);
-          currentVm = this.addServiceOffering(currentVm, serviceOfferings);
-          currentVm = this.addSecurityGroups(currentVm, securityGroups);
           vms[index] = currentVm;
         });
         return vmList;
