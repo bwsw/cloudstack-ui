@@ -10,6 +10,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
+import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
 
 import * as securityGroup from './sg.actions';
 
@@ -52,7 +53,7 @@ export class SecurityGroupEffects {
   deleteSecurityGroup$: Observable<Action> = this.actions$
     .ofType(securityGroup.DELETE_SECURITY_GROUP)
     .switchMap((action: securityGroup.DeleteSecurityGroup) => {
-      return this.deleteSecurityGroup(action.payload)
+      return this.onDeleteConfirmation(action.payload)
         .map(result => new securityGroup.DeleteSecurityGroupSuccess(action.payload))
         .catch(error => Observable.of(new securityGroup.DeleteSecurityGroupError(error)));
     });
@@ -61,6 +62,16 @@ export class SecurityGroupEffects {
   deleteSecurityGroupError$: Observable<Action> = this.actions$
     .ofType(securityGroup.DELETE_SECURITY_GROUP_ERROR)
     .do((action: securityGroup.DeleteSecurityGroupError) => this.handleError(action.payload));
+
+  private createSuccessMessage = {
+    [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED',
+    [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_CREATED'
+  };
+
+  private deleteSuccessMessage = {
+    [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED',
+    [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED'
+  };
 
   constructor(
     private actions$: Actions,
@@ -72,11 +83,9 @@ export class SecurityGroupEffects {
   ) {
   }
 
-  public createSecurityGroup({ mode, data, rules }): Observable<SecurityGroup> {
+  public createSecurityGroup({ mode, data, rules }: SecurityGroupCreationParams): Observable<SecurityGroup> {
     return this.getSecurityGroupCreationRequest(mode, data, rules)
-      .switchMap(securityGroup => rules
-        ? this.securiryGroupService.get(securityGroup.id)
-        : Observable.of(securityGroup));
+      .switchMap(securityGroup => this.securiryGroupService.get(securityGroup.id));
   }
 
   private getSecurityGroupCreationRequest(
@@ -102,7 +111,7 @@ export class SecurityGroupEffects {
 
   private onNotify(securityGroup: SecurityGroup) {
     this.notificationService.message({
-      translationToken: this.getSuccessCreationToken(securityGroup),
+      translationToken: this.createSuccessMessage[securityGroup.type],
       interpolateParams: { name: securityGroup.name }
     });
   }
@@ -115,45 +124,13 @@ export class SecurityGroupEffects {
     });
   }
 
-  private deleteSecurityGroup(securityGroup: SecurityGroup): Observable<any> {
-    return this.dialogService.confirm({message: 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION'})
-      .onErrorResumeNext()
-      .switchMap((res) => {
-        if (res) {
-          return this.onDeleteConfirmation(securityGroup);
-        } else {
-          return Observable.of(null);
-        }
-      });
-  }
-
   public onDeleteConfirmation(securityGroup: SecurityGroup): Observable<any> {
     return this.securiryGroupService.deleteGroup(securityGroup)
       .map(() => {
         this.notificationService.message({
-          translationToken: this.getSuccessDeletionToken(securityGroup),
-          interpolateParams: {name: securityGroup.name}
+          translationToken: this.deleteSuccessMessage[securityGroup.type],
+          interpolateParams: { name: securityGroup.name }
         });
       });
-  }
-
-  private getSuccessDeletionToken(securityGroup: SecurityGroup): string {
-    if (securityGroup.type === SecurityGroupType.CustomTemplate) {
-      return 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED';
-    }
-
-    if (securityGroup.type === SecurityGroupType.Shared) {
-      return 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED';
-    }
-  }
-
-  private getSuccessCreationToken(securityGroup: SecurityGroup): string {
-    if (securityGroup.type === SecurityGroupType.CustomTemplate) {
-      return 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
-    }
-
-    if (securityGroup.type === SecurityGroupType.Shared) {
-      return 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_CREATED';
-    }
   }
 }

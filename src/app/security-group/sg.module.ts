@@ -25,11 +25,8 @@ import { SharedSecurityGroupCreationService } from './services/creation-services
 import { TemplateSecurityGroupCreationService } from './services/creation-services/template-security-group-creation.service';
 import { NetworkRuleService } from './services/network-rule.service';
 import { SecurityGroupService } from './services/security-group.service';
-import { SecurityGroupActionsService } from './sg-actions/sg-action.service';
+import { SecurityGroupActionService } from './sg-actions/sg-action.service';
 import { SecurityGroupActionsComponent } from './sg-actions/sg-actions-component/sg-actions.component';
-import { SecurityGroupEditAction } from './sg-actions/sg-edit';
-import { SecurityGroupRemoveAction } from './sg-actions/sg-remove';
-import { SecurityGroupRulesAction } from './sg-actions/sg-rules';
 import { SgFilterComponent } from './sg-filter/sg-filter.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
@@ -124,10 +121,7 @@ import { SecurityGroupCreationContainerComponent } from './containers/security-g
   providers: [
     NetworkRuleService,
     SecurityGroupService,
-    SecurityGroupActionsService,
-    SecurityGroupRulesAction,
-    SecurityGroupEditAction,
-    SecurityGroupRemoveAction,
+    SecurityGroupActionService,
     PrivateSecurityGroupCreationService,
     SharedSecurityGroupCreationService,
     TemplateSecurityGroupCreationService

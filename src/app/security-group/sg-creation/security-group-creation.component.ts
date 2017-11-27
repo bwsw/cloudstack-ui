@@ -1,15 +1,22 @@
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Inject,
-  Input, Output
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../shared/components/security-group-builder/rules';
-import { SecurityGroupService } from '../services/security-group.service';
-import { SecurityGroup } from '../sg.model';
 import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
 
+export interface SecurityGroupCreationParams {
+  mode: SecurityGroupViewMode;
+  data: {
+    name: string,
+    description: string
+  };
+  rules?: Rules
+}
 
 @Component({
   selector: 'cs-security-group-creation',
@@ -21,17 +28,13 @@ export class SecurityGroupCreationComponent {
   @Input() public creationInProgress = false;
   @Input() public mode: SecurityGroupViewMode;
   @Output() public cancel = new EventEmitter();
-  @Output() public createSecurityGroup = new EventEmitter<any>();
+  @Output() public createSecurityGroup = new EventEmitter<SecurityGroupCreationParams>();
 
   public name = '';
   public description = '';
   public securityRules: Rules;
 
-  constructor(
-
-    public dialogService: DialogService,
-    private sgService: SecurityGroupService,
-  ) {
+  constructor(public dialogService: DialogService) {
   }
 
   public get isModeTemplates(): boolean {
@@ -47,7 +50,7 @@ export class SecurityGroupCreationComponent {
     this.createSecurityGroup.emit(this.securityGroupCreationParams);
   }
 
-  private get securityGroupCreationParams(): any {
+  private get securityGroupCreationParams(): SecurityGroupCreationParams {
     return {
       mode: this.mode,
       data: {

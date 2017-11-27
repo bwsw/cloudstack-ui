@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { NetworkRule } from '../../../security-group/network-rule.model';
+import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
 
 export const LOAD_SECURITY_GROUP_REQUEST = '[SecurityGroups] LOAD_SECURITY_GROUP_REQUEST';
 export const LOAD_SECURITY_GROUP_RESPONSE = '[SecurityGroups] LOAD_SECURITY_GROUP_RESPONSE';
@@ -45,7 +45,7 @@ export class LoadSelectedSecurityGroup implements Action {
 export class CreateSecurityGroup implements Action {
   type = CREATE_SECURITY_GROUP;
 
-  constructor(public payload: any) {
+  constructor(public payload: SecurityGroupCreationParams) {
   }
 }
 

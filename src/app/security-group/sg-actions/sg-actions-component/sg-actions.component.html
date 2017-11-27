@@ -1,7 +1,7 @@
-<ng-container *ngFor="let action of securityGroupActionsService.actions">
+<ng-container *ngFor="let action of securityGroupActionService.actions">
   <button
     mat-menu-item
-    *ngIf="!action.hidden(securityGroup)"
+    *ngIf="action.canActivate(securityGroup)"
     (click)="onAction(action)"
   >
     <mat-icon>{{ action.icon }}</mat-icon>
