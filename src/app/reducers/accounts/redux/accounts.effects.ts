@@ -125,7 +125,7 @@ export class AccountsEffects {
     .ofType(accountActions.ACCOUNT_USER_CREATE)
     .switchMap((action: accountActions.AccountUserCreate) =>
       this.accountUserService.createUser(action.payload)
-        .map((res) => new accountActions.AccountUserCreateSuccess(res.user))
+        .map((user) => new accountActions.AccountUserCreateSuccess(user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
   @Effect({ dispatch: false })
@@ -141,7 +141,7 @@ export class AccountsEffects {
     .ofType(accountActions.ACCOUNT_USER_UPDATE)
     .switchMap((action: accountActions.AccountUserUpdate) =>
       this.accountUserService.updateUser(action.payload)
-        .map((res) => new accountActions.AccountUserUpdateSuccess(res.user))
+        .map((user) => new accountActions.AccountUserUpdateSuccess(user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
   @Effect({ dispatch: false })

@@ -21,12 +21,14 @@ export class AccountUserService extends BaseBackendService<AccountUser> {
     return res as AccountUser;
   }
 
-  public createUser(user: AccountUser): Observable<{ user: AccountUser }> {
-    return this.sendCommand('create', user);
+  public createUser(user: AccountUser): Observable<AccountUser> {
+    return this.sendCommand('create', user)
+      .map(res => res.user);
   }
 
-  public updateUser(user: AccountUser): Observable<{ user: AccountUser }> {
-    return this.sendCommand('update', user);
+  public updateUser(user: AccountUser): Observable<AccountUser> {
+    return this.sendCommand('update', user)
+      .map(res => res.user);
   }
 
   public removeUser(user: AccountUser): Observable<any> {
