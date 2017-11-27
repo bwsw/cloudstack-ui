@@ -1,4 +1,4 @@
 <cs-volume
-  *ngFor="let volume of volumes"
+  *ngFor="let volume of (volumes | volumesSort)"
   [volume]="volume"
 ></cs-volume>

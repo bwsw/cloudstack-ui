@@ -250,7 +250,7 @@ export class VirtualMachinesEffects {
             { nic: [ newNic ] }
           );
           return new vmActions.UpdateVM(newVm,{
-            message: 'JOB_NOTIFICATIONS.VM.ADD_SECONDARY_ID_DONE'
+            message: 'JOB_NOTIFICATIONS.VM.ADD_SECONDARY_IP_DONE'
           });
         })
         .catch((error: Error) => {

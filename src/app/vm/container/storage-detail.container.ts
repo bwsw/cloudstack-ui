@@ -39,7 +39,7 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
 
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
   readonly allVolumes$ = this.store.select(fromVolumes.selectSpareOnlyVolumes);
-  readonly volumes$ = this.store.select(fromVolumes.selectFilteredVolumes);
+  readonly volumes$ = this.store.select(fromVolumes.selectVmVolumes);
   readonly iso$ = this.store.select(fromTemplates.getSelectedTemplate);
 
   public vm: VirtualMachine;
@@ -69,7 +69,7 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
   private attachIsoDialog(): void {
     this.dialog.open(IsoAttachmentComponent, {
       width: '720px',
-      data: this.vm.zoneId
+      data: { zoneId: this.vm.zoneId }
     })
       .afterClosed()
       .subscribe((iso: Iso) => {

@@ -92,7 +92,8 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
-  ViewValuePipe
+  ViewValuePipe,
+  VolumeSortPipe
 } from './pipes';
 import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
 import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
@@ -215,6 +216,7 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     DiskOfferingComponent,
     DividerVerticalComponent,
     DivisionPipe,
+    VolumeSortPipe,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
@@ -292,6 +294,7 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     DiskOfferingComponent,
     DividerVerticalComponent,
     DivisionPipe,
+    VolumeSortPipe,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,

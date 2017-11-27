@@ -224,6 +224,20 @@ export const selectSpareOnlyVolumes = createSelector(
   (volumes) => volumes.filter(volume => volume.isSpare)
 );
 
+export const selectVmVolumes = createSelector(
+  selectAll,
+  filterVirtualMachineId,
+  (volumes, virtualMachineId) => {
+
+    const virtualMachineIdFilter = volume => !virtualMachineId ||
+      volume.virtualMachineId === virtualMachineId;
+
+    return volumes.filter(volume => {
+      return virtualMachineIdFilter(volume);
+    });
+  }
+);
+
 export const selectFilteredVolumes = createSelector(
   selectAll,
   filterQuery,
@@ -231,13 +245,12 @@ export const selectFilteredVolumes = createSelector(
   filterSelectedTypes,
   filterSelectedZoneIds,
   filterSelectedAccountIds,
-  filterVirtualMachineId,
   fromAccounts.selectAll,
   (
     volumes, query,
     spareOnly, selectedTypes,
     selectedZoneIds, selectedAccountIds,
-    virtualMachineId, accounts
+    accounts
   ) => {
     const queryLower = query && query.toLowerCase();
     const typesMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -254,9 +267,6 @@ export const selectFilteredVolumes = createSelector(
         .includes(queryLower) ||
       volume.description.toLowerCase().includes(queryLower);
 
-    const virtualMachineIdFilter = volume => !virtualMachineId ||
-      volume.virtualMachineId === virtualMachineId;
-
     const selectedTypesFilter = volume => !selectedTypes.length || !!typesMap[volume.type];
 
     const selectedZoneIdsFilter = volume => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneId];
@@ -264,13 +274,13 @@ export const selectFilteredVolumes = createSelector(
     const selectedAccountIdsFilter = volume => !selectedAccountIds.length ||
       (accountsMap[volume.account] && domainsMap[volume.domainid]);
 
+
     return volumes.filter(volume => {
       return spareOnlyFilter(volume)
         && queryFilter(volume)
         && selectedZoneIdsFilter(volume)
         && selectedTypesFilter(volume)
-        && selectedAccountIdsFilter(volume)
-        && virtualMachineIdFilter(volume);
+        && selectedAccountIdsFilter(volume);
     });
   }
 );
