@@ -3,15 +3,15 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
-
-import * as securityGroup from './sg.actions';
 import { SecurityGroupViewMode } from '../../../security-group/sg-filter/containers/sg-filter.container';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
+
+import * as securityGroup from './sg.actions';
 
 @Injectable()
 export class SecurityGroupEffects {
@@ -107,7 +107,6 @@ export class SecurityGroupEffects {
     });
   }
 
-
   private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
     this.onNotify(securityGroup);
     this.dialog.closeAll();
@@ -147,6 +146,7 @@ export class SecurityGroupEffects {
       return 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED';
     }
   }
+
   private getSuccessCreationToken(securityGroup: SecurityGroup): string {
     if (securityGroup.type === SecurityGroupType.CustomTemplate) {
       return 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
@@ -156,5 +156,4 @@ export class SecurityGroupEffects {
       return 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_CREATED';
     }
   }
-
 }

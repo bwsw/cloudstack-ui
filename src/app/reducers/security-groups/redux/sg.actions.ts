@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { SecurityGroup } from '../../../security-group/sg.model';
+import { NetworkRule } from '../../../security-group/network-rule.model';
 
 export const LOAD_SECURITY_GROUP_REQUEST = '[SecurityGroups] LOAD_SECURITY_GROUP_REQUEST';
 export const LOAD_SECURITY_GROUP_RESPONSE = '[SecurityGroups] LOAD_SECURITY_GROUP_RESPONSE';
@@ -23,7 +24,7 @@ export class LoadSecurityGroupRequest implements Action {
 export class LoadSecurityGroupResponse implements Action {
   readonly type = LOAD_SECURITY_GROUP_RESPONSE;
 
-  constructor(public payload: any) {
+  constructor(public payload: SecurityGroup[]) {
   }
 }
 
