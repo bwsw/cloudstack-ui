@@ -5,6 +5,7 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
 import { ActivatedRoute } from '@angular/router';
 import { SgRulesContainerComponent } from './sg-rules.container';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'cs-security-group-actions-container',
@@ -29,7 +30,7 @@ export class SecurityGroupActionsContainerComponent {
     this.store.dispatch(new securityGroupActions.DeleteSecurityGroup(securityGroup));
   }
 
-  public onViewSecurityGroup(securityGroup) {
+  public onViewSecurityGroup(securityGroup): Observable<any> {
     const editMode = this.activatedRoute.snapshot.queryParams.hasOwnProperty('vm');
 
     return this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{

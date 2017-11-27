@@ -34,9 +34,6 @@ export class SecurityGroupCreationComponent {
   public description = '';
   public securityRules: Rules;
 
-  constructor(public dialogService: DialogService) {
-  }
-
   public get isModeTemplates(): boolean {
     return this.mode === SecurityGroupViewMode.Templates;
   }

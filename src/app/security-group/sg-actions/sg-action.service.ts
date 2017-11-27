@@ -1,4 +1,5 @@
 import { SecurityGroup } from '../sg.model';
+import { Action } from '../../shared/models/action.model';
 
 export enum SecurityGroupActionType {
   View = 'view',
@@ -20,7 +21,7 @@ const SecurityGroupShowRulesAction = {
 };
 
 export class SecurityGroupActionService {
-  public actions = [
+  public actions: Array<Action<SecurityGroup>> = [
     SecurityGroupShowRulesAction,
     SecurityGroupDeleteAction
   ];
