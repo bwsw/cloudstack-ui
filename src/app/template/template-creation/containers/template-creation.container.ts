@@ -1,15 +1,17 @@
 import { Component, Inject } from '@angular/core';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Snapshot } from '../../../shared/models/snapshot.model';
 
 import * as fromTemplates from '../../redux/template.reducers';
 import * as fromOsTypes from '../../redux/ostype.reducers';
 import * as fromTemplateGroups from '../../redux/template-group.reducers';
 import * as fromZones from '../../redux/zone.reducers';
 import * as templateActions from '../../redux/template.actions';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Snapshot } from '../../../shared/models/snapshot.model';
-
+import * as osTypeActions from '../../redux/ostype.actions';
+import * as zoneActions from '../../redux/zone.actions';
+import * as templateGroupActions from '../../redux/template-group.actions';
 
 @Component({
   selector: 'cs-template-create-dialog-container',
@@ -39,6 +41,12 @@ export class TemplateCreationContainerComponent {
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.snapshot = data.snapshot;
+
+    if (data.snapshot) {
+      this.store.dispatch(new osTypeActions.LoadOsTypesRequest());
+      this.store.dispatch(new zoneActions.LoadZonesRequest());
+      this.store.dispatch(new templateGroupActions.LoadTemplateGroupsRequest());
+    }
   }
 
   public onCreate(params) {
