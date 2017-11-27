@@ -7,14 +7,14 @@
       *ngIf="serviceOfferings?.length"
       class="service-offering-selector"
       [serviceOfferings]="serviceOfferings"
-      [customOfferingRestrictions]="restrictions$ | async"
+      [customOfferingRestrictions]="restrictions"
       [zoneId]="zoneId"
       [ngModel]="serviceOffering"
       (change)="updateOffering($event)"
     ></cs-service-offering-selector>
     <div
       class="message warning"
-      *ngIf="virtualMachine?.state !== 'Stopped' && serviceOffering.id !== serviceOfferingId"
+      *ngIf="serviceOffering.id !== serviceOfferingId"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
     <div
