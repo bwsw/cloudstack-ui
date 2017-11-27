@@ -62,8 +62,8 @@ export class TemplateTagService implements EntityTagService {
       }
     }
 
-    return this.tagService.getTag(template, tagKey)
-      .map(tag => this.tagService.getValueFromTag(tag))
+    const templateTags = template.tags.find(item => item.key === tagKey);
+    return Observable.of(templateTags ? templateTags.value : null);
   }
 
   public setAgreement(template: BaseTemplateModel, filePath: string): Observable<BaseTemplateModel> {

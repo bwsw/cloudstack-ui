@@ -60,17 +60,18 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
     const data = Object.assign({} , this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate);
 
     this.templateTagService.getAgreement(data)
-      .finally(() => this.dialogRef.close(data))
       .switchMap(res => {
         if (res) {
           return this.showTemplateAgreementDialog()
         } else {
+          this.dialogRef.close(data);
           return Observable.of(null);
         }
       })
       .subscribe(item => {
         if (item) {
           data.agreementAccepted = true;
+          this.dialogRef.close(data);
         }
       });
   }
@@ -79,7 +80,7 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
     this.dialogRef.close(this.preselectedTemplate);
   }
 
-  private showTemplateAgreementDialog(): Observable<any> {
+  private showTemplateAgreementDialog(): Observable<BaseTemplateModel> {
     return this.dialog.open(VmCreationAgreementComponent, {
       width: '900px',
       data: this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate
