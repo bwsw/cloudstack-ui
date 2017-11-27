@@ -52,7 +52,6 @@ import { SecurityGroupEffects } from '../reducers/security-groups/redux/sg.effec
 import { SgFilterContainerComponent } from './sg-filter/containers/sg-filter.container';
 import { SgRulesContainerComponent } from './containers/sg-rules.container';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SecurityGroupCreationDialogContainerComponent } from './containers/security-group-creation-dialog.container';
 import { SecurityGroupActionsContainerComponent } from './containers/sg-actions.container';
 import { SecurityGroupSidebarContainerComponent } from './containers/security-group-sidebar.container';
 import { SecurityGroupDetailsContainerComponent } from './containers/security-group-details.container';
@@ -61,6 +60,7 @@ import { SecurityGroupDetailsComponent } from './sg-sidebar/sg-details/security-
 import { SecurityGroupVmListComponent } from './sg-sidebar/sg-vm-list/security-group-vm-list.component';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
+import { SecurityGroupCreationContainerComponent } from './containers/security-group-creation.container';
 
 
 @NgModule({
@@ -107,8 +107,8 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
     SecurityGroupPageComponent,
     SecurityGroupCardItemComponent,
     SecurityGroupRowItemComponent,
+    SecurityGroupCreationContainerComponent,
     SecurityGroupCreationComponent,
-    SecurityGroupCreationDialogContainerComponent,
     SecurityGroupCreationDialogComponent,
     SgRulesContainerComponent,
     SgRulesComponent,
@@ -133,7 +133,7 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
     TemplateSecurityGroupCreationService
   ],
   entryComponents: [
-    SecurityGroupCreationComponent,
+    SecurityGroupCreationContainerComponent,
     SgRulesContainerComponent,
     SecurityGroupCreationSecurityGroupComponent
   ]

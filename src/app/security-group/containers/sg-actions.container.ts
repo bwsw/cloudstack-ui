@@ -18,6 +18,6 @@ export class SecurityGroupActionsContainerComponent {
   }
 
   public onDeleteSecurityGroup(securityGroup) {
-    this.store.dispatch(new securityGroupActions.RemoveSGSuccess(securityGroup));
+    this.store.dispatch(new securityGroupActions.DeleteSecurityGroup(securityGroup));
   }
 }

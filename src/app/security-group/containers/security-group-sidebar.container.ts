@@ -27,6 +27,6 @@ export class SecurityGroupSidebarContainerComponent implements OnInit {
 
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
-    this.store.dispatch(new securityGroupActions.LoadSelectedSG(params['id']));
+    this.store.dispatch(new securityGroupActions.LoadSelectedSecurityGroup(params['id']));
   }
 }
