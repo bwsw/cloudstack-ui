@@ -163,6 +163,9 @@ import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offer
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
+import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
+import { AccountUserService } from './services/account-user.service';
 import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
 
 @NgModule({
@@ -264,6 +267,7 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    AccountUserActionsComponent,
     TemplateActionsContainerComponent
   ],
   entryComponents: [
@@ -340,6 +344,7 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    AccountUserActionsComponent,
     TemplateActionsContainerComponent
   ],
   providers: [
@@ -402,6 +407,8 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     ZoneService,
     HypervisorService,
     TimeZoneService,
+    AccountUserActionsService,
+    AccountUserService
   ]
 })
 export class SharedModule {

@@ -1,7 +1,8 @@
 <div *ngIf="entity">
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
-    <button *ngIf="isAdmin()"
+    <button
+      *ngIf="isAdmin()"
       mat-icon-button
       [matMenuTriggerFor]="actionsMenu"
     >
@@ -9,10 +10,40 @@
     </button>
   </div>
 
+
+  <nav mat-tab-nav-bar>
+    <a
+      matTabLink
+      [routerLink]="['./account']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('account')"
+    >
+      <div
+        [matTooltip]="'ACCOUNT_PAGE.SIDEBAR.GENERAL' | translate"
+        class="mat-tab-tooltip"
+      >
+        <mat-icon>public</mat-icon>
+      </div>
+    </a>
+    <a
+      matTabLink
+      [routerLink]="['./users']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('users')"
+    >
+      <div
+        [matTooltip]="'ACCOUNT_PAGE.SIDEBAR.USERS' | translate"
+        class="mat-tab-tooltip"
+      >
+        <mat-icon>person</mat-icon>
+      </div>
+    </a>
+  </nav>
 </div>
 
 <mat-menu #actionsMenu="matMenu">
-  <cs-account-action-container *ngIf="entity"
+  <cs-account-action-container
+    *ngIf="entity"
     [account]="entity"
   ></cs-account-action-container>
 </mat-menu>
@@ -20,3 +51,4 @@
 <router-outlet></router-outlet>
 
 <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
+

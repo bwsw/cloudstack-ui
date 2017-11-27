@@ -39,6 +39,12 @@
       "CONFIRM_ENABLE": "Are you sure you want to enable this account?",
       "CONFIRM_LOCK": "Are you sure you want to lock this account?"
     },
+    "ACCOUNT_USER": {
+      "CONFIRM_DELETION": "Are you sure you want to delete this user?",
+      "CONFIRM_EDIT": "Are you sure you want to edit this user?",
+      "CONFIRM_CHANGE_PASSWORD": "Are you sure you want to change password for this user?",
+      "CONFIRM_REGENERATE_KEY": "Are you sure you want to regenerate key for this user?"
+    },
     "ISO": {
       "CONFIRM_DETACHMENT": "Are you sure you want ot detach this ISO?",
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
@@ -148,7 +154,6 @@
       "REGISTER_IN_PROGRESS": "Registering a template",
       "REGISTER_DONE": "Template registered",
       "REGISTER_FAILED": "Template register failed",
-
       "DELETION_IN_PROGRESS": "Deleting a template",
       "DELETION_DONE": "Template deleted",
       "DELETION_FAILED": "Failed to delete an template"
@@ -210,6 +215,11 @@
       "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
       "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
       "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully"
+    },
+    "ACCOUNT": {
+      "USER_CREATED": "User {{ username }} created successfully",
+      "USER_UPDATED": "User {{ username }} updated successfully",
+      "USER_DELETED": "User {{ username }} deleted successfully"
     }
   },
   "AUTH": {
@@ -506,7 +516,6 @@
       "NO_TEMPLATES": "No templates available"
     }
   },
-
   "VM_POST_ACTION": {
     "TITLE": "Virtual Machine Successfully Created",
     "OPEN_VNC_CONSOLE": "Open VNC Console",
@@ -518,7 +527,6 @@
     "VM": "Virtual machine name",
     "VM_IP": "IP"
   },
-
   "VOLUME_PAGE": {
     "FILTERS": {
       "SELECT_ACCOUNTS": "Select accounts",
@@ -676,7 +684,6 @@
       "PROTOCOLS": "Protocols",
       "TYPES": "Types"
     },
-
     "LIST": {
       "SYSTEM_SECURITY_GROUPS": "System",
       "CUSTOM_SECURITY_GROUPS": "Custom",
@@ -968,7 +975,7 @@
   "ACCOUNT_PAGE": {
     "CREATION": {
       "CREATE_ACCOUNT": "New account",
-      "USER_NAME": "User name",
+      "USER_NAME": "Username",
       "EMAIL": "Email",
       "PASSWORD": "Password",
       "FIRST_NAME": "First name",
@@ -1041,6 +1048,21 @@
       "EDIT": "Edit",
       "NAME": "Name",
       "VALUE": "Value"
+    },
+    "USER": {
+      "CREATE_USER": "New user",
+      "EDIT_USER": "Edit user",
+      "CHANGE_PASSWORD": "Change password",
+      "CONFIRM_PASSWORD_ERROR": "Password does not match the confirm password",
+      "USERNAME": "Username",
+      "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm password",
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "TIMEZONE": "Timezone",
+      "EMAIL": "Email",
+      "API_KEY": "API key",
+      "SECRET_KEY": "Secret key"
     }
   },
   "SETTINGS": {
@@ -1265,6 +1287,12 @@
     "DISABLE": "Disable account",
     "ENABLE": "Enable account",
     "LOCK": "Lock account"
+  },
+  "ACCOUNT_USER_ACTION": {
+    "DELETE": "Delete user",
+    "EDIT": "Edit user",
+    "REGENERATE_KEY": "Regenerate key",
+    "CHANGE_PASSWORD": "Change password"
   },
   "ACCOUNT_STATE": {
     "DISABLED": "Disabled",
