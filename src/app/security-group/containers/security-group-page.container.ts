@@ -30,7 +30,7 @@ export class SecurityGroupPageContainerComponent implements OnInit, AfterViewIni
   }
 
   public ngOnInit() {
-    this.store.dispatch(new securityGroupActions.LoadSGRequest());
+    this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new vmActions.LoadVMRequest());
   }
 

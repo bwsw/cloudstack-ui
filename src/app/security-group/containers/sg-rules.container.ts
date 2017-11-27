@@ -35,14 +35,14 @@ export class SgRulesContainerComponent implements OnInit {
 
     if (data.vmId) {
       this.vmId = data.vmId;
-      this.store.dispatch(new securityGroupActions.LoadSGRequest());
+      this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     }
 
     this.editMode = !!data.editMode;
   }
 
   public ngOnInit() {
-    this.store.dispatch(new securityGroupActions.LoadSelectedSG(this.id));
+    this.store.dispatch(new securityGroupActions.LoadSelectedSecurityGroup(this.id));
   }
 
   public onFirewallRulesChange(securityGroup: SecurityGroup) {

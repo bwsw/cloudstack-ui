@@ -1,4 +1,5 @@
 import { Account } from '../../models/account.model';
+import { Action } from '../../models/action.model';
 
 const AccountDeleteAction = {
   name: 'ACCOUNT_ACTION.DELETE',
@@ -33,7 +34,7 @@ const AccountLockAction = {
 };
 
 export class AccountActionsService {
-  public actions = [
+  public actions: Array<Action<Account>> = [
     AccountDisableAction,
     AccountEnableAction,
     AccountLockAction,

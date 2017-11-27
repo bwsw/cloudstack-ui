@@ -13,7 +13,6 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { State } from '../../reducers/index';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
-import { BaseTemplateModel } from '../shared/base-template.model';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
@@ -64,9 +63,13 @@ export class TemplateEffects {
   @Effect()
   removeTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_REMOVE)
-    .switchMap((action: template.RemoveTemplate) => this.confirmDeletion(action.payload))
-    .map((removedTemplate) => new template.RemoveTemplateSuccess(removedTemplate))
-    .catch((error: Error) => Observable.of(new template.RemoveTemplateError(error)));
+    .switchMap((action: template.RemoveTemplate) => {
+      return (action.payload.resourceType === TemplateResourceType.iso.toUpperCase()
+        ? this.isoService.remove(action.payload)
+        : this.templateService.remove(action.payload))
+        .map((removedTemplate) => new template.RemoveTemplateSuccess(removedTemplate))
+        .catch((error: Error) => Observable.of(new template.RemoveTemplateError(error)));
+    });
 
   @Effect({ dispatch: false })
   removeTemplateError$: Observable<Action> = this.actions$
@@ -179,16 +182,5 @@ export class TemplateEffects {
         this.store.dispatch(new templateGroup.LoadTemplateGroupsRequest());
       }
     });
-  }
-
-  private confirmDeletion(template): Observable<BaseTemplateModel> {
-    const confirmMessage = 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';
-    return this.dialogService.confirm(({ message: confirmMessage }))
-      .onErrorResumeNext()
-      .switchMap(() => {
-        return (template.resourceType === TemplateResourceType.iso.toUpperCase()
-          ? this.isoService.remove(template)
-          : this.templateService.remove(template));
-      });
   }
 }
