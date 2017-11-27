@@ -12,8 +12,8 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
 export class AccountUsersComponent {
   @Input() public account: Account;
 
-  @Output() public onUserDelete = new EventEmitter<any>();
-  @Output() public onUserRegenerateKey = new EventEmitter<any>();
+  @Output() public onUserDelete = new EventEmitter<AccountUser>();
+  @Output() public onUserRegenerateKey = new EventEmitter<AccountUser>();
 
   public step: string;
 

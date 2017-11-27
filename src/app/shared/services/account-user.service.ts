@@ -7,19 +7,25 @@ import { AccountUser } from '../models/account-user.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'User',
-  entityModel: AccountUser
+  entity: 'User'
 })
 export class AccountUserService extends BaseBackendService<AccountUser> {
   constructor(protected http: HttpClient) {
     super(http);
   }
 
-  public createUser(user: AccountUser): Observable<any> {
+  protected prepareModel(res, entityModel?): AccountUser {
+    if (entityModel) {
+      return entityModel(res) as AccountUser;
+    }
+    return res as AccountUser;
+  }
+
+  public createUser(user: AccountUser): Observable<{ user: AccountUser }> {
     return this.sendCommand('create', user);
   }
 
-  public updateUser(user: AccountUser): Observable<any> {
+  public updateUser(user: AccountUser): Observable<{ user: AccountUser }> {
     return this.sendCommand('update', user);
   }
 
@@ -29,7 +35,7 @@ export class AccountUserService extends BaseBackendService<AccountUser> {
     });
   }
 
-  public generateKeys(user: AccountUser): Observable<any> {
+  public generateKeys(user: AccountUser): Observable<{ userkeys: object }> {
     return this.sendCommand('register', {
       id: user.id
     }, 'UserKeys');

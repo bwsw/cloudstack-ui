@@ -35,13 +35,13 @@ export class AccountUserEditContainerComponent {
     private store: Store<State>
   ) {
     this.title = data.title;
-    this.user = new AccountUser(data.user);
+    this.user = { ...data.user };
     this.account = data.account;
     this.confirmButtonText = data.confirmButtonText;
   }
 
   public updateUser(user: AccountUser) {
-    if (!this.user.id) {
+    if (!this.user || !this.user.id) {
       user.account = this.account && this.account.name || user.username;
 
       if (this.account) {

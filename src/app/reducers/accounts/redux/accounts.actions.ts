@@ -129,7 +129,7 @@ export class DeleteSuccess implements Action {
 export class AccountUserCreate implements Action {
   readonly type = ACCOUNT_USER_CREATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: AccountUser) {
   }
 }
 
@@ -143,7 +143,7 @@ export class AccountUserCreateSuccess implements Action {
 export class AccountUserUpdate implements Action {
   readonly type = ACCOUNT_USER_UPDATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: AccountUser) {
   }
 }
 
@@ -157,28 +157,28 @@ export class AccountUserUpdateSuccess implements Action {
 export class AccountUserDelete implements Action {
   readonly type = ACCOUNT_USER_DELETE;
 
-  constructor(public payload: any) {
+  constructor(public payload: AccountUser) {
   }
 }
 
 export class AccountUserDeleteSuccess implements Action {
   readonly type = ACCOUNT_USER_DELETE_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: AccountUser) {
   }
 }
 
 export class AccountUserGenerateKey implements Action {
   readonly type = ACCOUNT_USER_GENERATE_KEYS;
 
-  constructor(public payload: any) {
+  constructor(public payload: AccountUser) {
   }
 }
 
 export class AccountUserGenerateKeySuccess implements Action {
   readonly type = ACCOUNT_USER_GENERATE_KEYS_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: { user: AccountUser, userKeys: object }) {
   }
 }
 

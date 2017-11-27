@@ -23,14 +23,14 @@ export class AccountUserEditComponent {
   public hide = true;
 
   public onUserUpdate() {
-    const newUser = new AccountUser({
+    const newUser: AccountUser = {
       username: this.username,
       firstname: this.firstName,
       lastname: this.lastName,
       email: this.email,
       password: this.password,
       timezone: this.timezone.geo
-    });
+    };
 
     this.updateUser.emit(newUser);
   }
