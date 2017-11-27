@@ -3,18 +3,18 @@ import { ActionsService } from '../../shared/interfaces/action-service.interface
 import { SecurityGroup } from '../sg.model';
 import { SecurityGroupAction } from './sg-action';
 import { SecurityGroupRemoveAction } from './sg-remove';
-import { SecurityGroupViewAction } from './sg-view';
+import { SecurityGroupRulesAction } from './sg-rules';
 
 
 @Injectable()
 export class SecurityGroupActionsService implements ActionsService<SecurityGroup, SecurityGroupAction> {
   public actions = [
-    this.securityGroupViewAction,
+    this.securityGroupRulesAction,
     this.securityGroupRemoveAction
   ];
 
   constructor(
-    public securityGroupViewAction: SecurityGroupViewAction,
+    public securityGroupRulesAction: SecurityGroupRulesAction,
     public securityGroupRemoveAction: SecurityGroupRemoveAction
   ) {}
 }

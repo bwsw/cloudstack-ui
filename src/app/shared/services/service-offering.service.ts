@@ -7,6 +7,10 @@ import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
 import { OfferingAvailability, OfferingService } from './offering.service';
 import { ResourceStats } from './resource-usage.service';
+import {
+  DefaultCustomServiceOfferingRestrictions
+} from '../../service-offering/custom-service-offering/custom-service-offering.component';
+import * as merge from 'lodash/merge';
 
 
 @Injectable()
@@ -36,8 +40,12 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
         let enoughMemory;
 
         if (offering.isCustomized) {
-          enoughCpus = offeringRestrictions[zone.id].cpuNumber.min < resourceUsage.available.cpus;
-          enoughMemory = offeringRestrictions[zone.id].memory.min < resourceUsage.available.memory;
+          const restrictions = merge(
+            DefaultCustomServiceOfferingRestrictions,
+            offeringRestrictions && offeringRestrictions[zone.id]
+          );
+          enoughCpus = !restrictions.cpuNumber || restrictions.cpuNumber.min < resourceUsage.available.cpus;
+          enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
         } else {
           enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
           enoughMemory = resourceUsage.available.memory >= offering.memory;

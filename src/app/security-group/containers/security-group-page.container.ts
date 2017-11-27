@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
 @Component({
   selector: 'cs-security-group-page-container',
@@ -30,6 +31,7 @@ export class SecurityGroupPageContainerComponent implements OnInit, AfterViewIni
 
   public ngOnInit() {
     this.store.dispatch(new securityGroupActions.LoadSGRequest());
+    this.store.dispatch(new vmActions.LoadVMRequest());
   }
 
   public ngAfterViewInit() {

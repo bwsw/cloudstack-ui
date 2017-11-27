@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
-import { SecurityGroupAction, SecurityGroupActionType } from './sg-action';
+import {
+  SecurityGroupAction,
+  SecurityGroupActionType
+} from './sg-action';
 import { SecurityGroup } from '../sg.model';
 import { Observable } from 'rxjs/Observable';
-import { MatDialog } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogConfig
+} from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../shared/services/notification.service';
+import { ActivatedRoute } from '@angular/router';
+import { SgRulesContainerComponent } from '../containers/sg-rules.container';
 import { SecurityGroupService } from '../services/security-group.service';
-import { Router } from '@angular/router';
 
 @Injectable()
-export class SecurityGroupViewAction extends SecurityGroupAction {
+export class SecurityGroupRulesAction extends SecurityGroupAction {
   public id = SecurityGroupActionType.View;
-  public name = 'COMMON.VIEW';
+  public name = 'SECURITY_GROUP_PAGE.ACTION.RULES';
   public icon = 'visibility';
 
 
@@ -22,7 +29,7 @@ export class SecurityGroupViewAction extends SecurityGroupAction {
     jobsNotificationService: JobsNotificationService,
     notificationService: NotificationService,
     securityGroupService: SecurityGroupService,
-    private router: Router
+    private activatedRoute: ActivatedRoute,
   ) {
     super(
       dialog,
@@ -34,11 +41,12 @@ export class SecurityGroupViewAction extends SecurityGroupAction {
   }
 
   public activate(securityGroup: SecurityGroup): Observable<any> {
-    this.router.navigate(
-      [`security-group/${securityGroup.id}`],
-      { queryParamsHandling: 'preserve' }
-    );
+    const editMode = this.activatedRoute.snapshot.queryParams.hasOwnProperty('vm');
 
-    return Observable.of(securityGroup);
+    return this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
+      width: '910px',
+      data: { securityGroupId: securityGroup.id, editMode }
+    })
+      .afterClosed();
   }
 }

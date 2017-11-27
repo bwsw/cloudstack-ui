@@ -1,13 +1,14 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
   Inject,
   OnInit
 } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';

@@ -94,6 +94,7 @@ import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-compone
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
 import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
+import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.container';
 import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
 import { HttpModule } from '@angular/http';
 
@@ -133,6 +134,7 @@ import { HttpModule } from '@angular/http';
     AffinityGroupSelectorComponent,
     KeyboardsComponent,
     FirewallRulesDetailComponent,
+    FirewallRulesDetailContainerComponent,
     NetworkDetailComponent,
     ServiceOfferingDetailsComponent,
     SnapshotsComponent,
