@@ -26,6 +26,7 @@ import { TemplateTagService } from '../../../shared/services/tags/template-tag.s
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
+import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 
 @Injectable()
 export class TemplateEffects {
