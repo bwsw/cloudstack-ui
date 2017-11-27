@@ -10,7 +10,23 @@ import {
 import * as event from './service-offerings.actions';
 
 import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromAuths from '../../auth/redux/auth.reducers';
+import * as fromZones from '../../zones/redux/zones.reducers';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import {
+  CustomServiceOffering,
+  ICustomServiceOffering
+} from '../../../service-offering/custom-service-offering/custom-service-offering';
+import {
+  ICustomOfferingRestrictions,
+  ICustomOfferingRestrictionsByZone
+} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import { Zone } from '../../../shared/models/zone.model';
+import * as merge from 'lodash/merge';
+import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-service-offering.component';
+import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -21,6 +37,9 @@ import { ServiceOffering } from '../../../shared/models/service-offering.model';
  */
 export interface State extends EntityState<ServiceOffering> {
   loading: boolean;
+  offeringAvailability: OfferingAvailability;
+  defaultParams: ICustomServiceOffering;
+  customOfferingRestrictions: ICustomOfferingRestrictionsByZone;
 }
 
 export interface OfferingsState {
@@ -50,6 +69,9 @@ export const adapter: EntityAdapter<ServiceOffering> = createEntityAdapter<Servi
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  offeringAvailability: {},
+  defaultParams: {},
+  customOfferingRestrictions: {}
 });
 
 export function reducer(
@@ -80,6 +102,27 @@ export function reducer(
       };
     }
 
+    case event.LOAD_OFFERING_AVAILABILITY_RESPONSE: {
+      return {
+        ...state,
+        offeringAvailability: action.payload
+      };
+    }
+
+    case event.LOAD_CUSTOM_RESTRICTION_RESPONSE: {
+      return {
+        ...state,
+        customOfferingRestrictions: action.payload
+      };
+    }
+
+    case event.LOAD_DEFAULT_PARAMS_RESPONSE: {
+      return {
+        ...state,
+        defaultParams: action.payload
+      };
+    }
+
     default: {
       return state;
     }
@@ -106,10 +149,253 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
+export const offeringAvailability = createSelector(
+  getOfferingsEntitiesState,
+  state => state.offeringAvailability
+);
+
+export const defaultParams = createSelector(
+  getOfferingsEntitiesState,
+  state => state.defaultParams
+);
+
+export const customOfferingRestrictions = createSelector(
+  getOfferingsEntitiesState,
+  state => state.customOfferingRestrictions
+);
+
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVMs.getSelectedVM,
   (entities, vm) => vm && entities[vm.serviceOfferingId]
 );
 
+export const getAvailableOfferings = createSelector(
+  selectAll,
+  offeringAvailability,
+  defaultParams,
+  customOfferingRestrictions,
+  fromZones.getSelectedZone,
+  fromAuths.getUserAccount,
+  (
+    serviceOfferings, offeringAvailability,
+    defaultParams, customOfferingRestrictions,
+    zone, user
+  ) => {
+    if (zone && user) {
+      const availableOfferings = getAvailableByResourcesSync(
+        serviceOfferings,
+        offeringAvailability,
+        customOfferingRestrictions,
+        ResourceStats.fromAccount([user]),
+        zone
+      ).sort((a: ServiceOffering, b: ServiceOffering) => {
+        if (!a.isCustomized && b.isCustomized) {
+          return -1;
+        }
+        if (a.isCustomized && !b.isCustomized) {
+          return 1;
+        }
+        return 0;
+      });
+      return availableOfferings.map((offering) => {
+        return !offering.isCustomized
+          ? offering
+          : getCustomOfferingWithSetParams(
+            offering,
+            defaultParams[zone.id] && defaultParams[zone.id].customOfferingParams,
+            customOfferingRestrictions[zone.id],
+            ResourceStats.fromAccount([user])
+          );
+      });
+    }
+  }
+);
 
+const getOfferingsAvailableInZone = (
+  offeringList: Array<ServiceOffering>,
+  offeringAvailability: OfferingAvailability,
+  zone: Zone
+) => {
+  if (!offeringAvailability.filterOfferings) {
+    return offeringList;
+  }
+
+  return offeringList
+    .filter(offering => {
+      const offeringAvailableInZone = this.isOfferingAvailableInZone(
+        offering,
+        offeringAvailability,
+        zone
+      );
+      const localStorageCompatibility = zone.localStorageEnabled || !offering.isLocal;
+      return offeringAvailableInZone && localStorageCompatibility;
+    });
+};
+
+const getAvailableByResourcesSync = (
+  serviceOfferings: Array<ServiceOffering>,
+  offeringAvailability: OfferingAvailability,
+  offeringRestrictions: ICustomOfferingRestrictionsByZone,
+  resourceUsage: ResourceStats,
+  zone: Zone
+) => {
+  const availableInZone = getOfferingsAvailableInZone(
+      serviceOfferings,
+      offeringAvailability,
+      zone
+    );
+
+  return availableInZone
+    .filter(offering => {
+      let enoughCpus;
+      let enoughMemory;
+
+      if (offering.isCustomized) {
+        const restrictions = merge(
+          DefaultCustomServiceOfferingRestrictions,
+          offeringRestrictions && offeringRestrictions[zone.id]
+        );
+        enoughCpus = !restrictions.cpuNumber || restrictions.cpuNumber.min < resourceUsage.available.cpus;
+        enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
+      } else {
+        enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
+        enoughMemory = resourceUsage.available.memory >= offering.memory;
+      }
+
+      return enoughCpus && enoughMemory;
+    });
+};
+
+const getCustomOfferingWithSetParams = (
+  serviceOffering: CustomServiceOffering,
+  defaultParams: ICustomServiceOffering,
+  customRestrictions: ICustomOfferingRestrictions,
+  resourceStats: ResourceStats
+) => {
+  const cpuNumber =
+    serviceOffering.cpuNumber
+    || defaultParams && defaultParams.cpuNumber
+    || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
+    || customServiceOfferingFallbackParams.cpuNumber;
+
+  const cpuSpeed =
+    serviceOffering.cpuSpeed
+    || defaultParams && defaultParams.cpuSpeed
+    || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
+    || customServiceOfferingFallbackParams.cpuSpeed;
+
+  const memory =
+    serviceOffering.memory
+    || defaultParams && defaultParams.memory
+    || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
+    || customServiceOfferingFallbackParams.memory;
+
+  const restrictions = getRestrictionIntersection(
+    customRestrictions,
+    resourceStats
+  );
+
+  if (!restrictionsAreCompatible(restrictions)) {
+    return undefined;
+  }
+
+  const normalizedParams = clipOfferingParamsToRestrictions(
+    { cpuNumber, cpuSpeed, memory },
+    restrictions
+  );
+
+  return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
+};
+
+const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
+  return Object.keys(restrictions).reduce((acc, key) => {
+    return (
+      acc &&
+      (restrictions[key] == null ||
+        restrictions[key].min == null ||
+        restrictions[key].max == null ||
+        restrictions[key].min < restrictions[key].max)
+    );
+  }, true);
+};
+
+const clipOfferingParamsToRestrictions = (
+  offeringParams: ICustomServiceOffering,
+  restrictions: ICustomOfferingRestrictions
+) => {
+  return Object.keys(offeringParams).reduce((acc, key) => {
+    if (!restrictions[key]) {
+      return Object.assign(acc, { [key]: offeringParams[key] });
+    }
+
+    if (offeringParams[key] > restrictions[key].max) {
+      return Object.assign(acc, { [key]: restrictions[key].max });
+    }
+
+    if (offeringParams[key] < restrictions[key].min) {
+      return Object.assign(acc, { [key]: restrictions[key].min });
+    }
+
+    return Object.assign(acc, { [key]: offeringParams[key] });
+  }, {});
+};
+
+
+const getRestrictionIntersection = (
+  customRestrictions: ICustomOfferingRestrictions,
+  resourceStats: ResourceStats
+) => {
+  const result = {
+    cpuNumber: {
+      max: resourceStats.available.cpus
+    },
+    memory: {
+      max: resourceStats.available.memory
+    }
+  };
+
+  if (customRestrictions == null) {
+    return result;
+  }
+
+  if (customRestrictions.cpuNumber != null) {
+    if (customRestrictions.cpuNumber.min != null) {
+      result.cpuNumber['min'] = customRestrictions.cpuNumber.min;
+    }
+
+    if (customRestrictions.cpuNumber.max != null) {
+      result.cpuNumber['max'] = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max)
+    }
+  }
+
+  if (customRestrictions.cpuSpeed != null) {
+    if (customRestrictions.cpuSpeed.min != null) {
+      if (!result['cpuSpeed']) {
+        result['cpuSpeed'] = {};
+      }
+
+      result['cpuSpeed']['min'] = customRestrictions.cpuSpeed.min;
+    }
+
+    if (customRestrictions.cpuSpeed.max != null) {
+      if (!result['cpuSpeed']) {
+        result['cpuSpeed'] = {};
+      }
+
+      result['cpuSpeed']['max'] = customRestrictions.cpuSpeed.max;
+    }
+  }
+
+  if (customRestrictions.memory != null) {
+    if (customRestrictions.memory.min != null) {
+      result.memory['min'] = customRestrictions.memory.min;
+    }
+
+    if (customRestrictions.memory.max != null) {
+      result.memory['max'] = Math.min(customRestrictions.memory.max, result.memory.max);
+    }
+  }
+
+  return result;
+}

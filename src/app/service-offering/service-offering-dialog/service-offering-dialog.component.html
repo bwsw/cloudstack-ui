@@ -2,7 +2,7 @@
   {{ 'SERVICE_OFFERING.CHOOSE_SERVICE_OFFERING' | translate }}
 </h3>
 <div *loading="loading">
-  <div class="mat-dialog-content" *loading="!serviceOffering || !serviceOfferings">
+  <div class="mat-dialog-content" *loading="!serviceOfferings">
     <cs-service-offering-selector
       *ngIf="serviceOfferings?.length"
       class="service-offering-selector"
@@ -14,7 +14,7 @@
     ></cs-service-offering-selector>
     <div
       class="message warning"
-      *ngIf="serviceOffering.id !== serviceOfferingId"
+      *ngIf="serviceOffering?.id !== serviceOfferingId"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
     <div

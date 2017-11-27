@@ -29,9 +29,10 @@ export class InstanceGroupComponent {
   public changeGroup(): void {
     const groupNames = this.groups.map(group => group.name);
     this.dialog.open(InstanceGroupSelectorComponent, {
-      width: '380px',
+      width: '400px',
       data: { vm: this.vm, groups: groupNames }
     }).afterClosed()
+      .filter(res => Boolean(res))
       .subscribe(group => this.onGroupChange.emit(group));
   }
 }

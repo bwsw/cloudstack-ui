@@ -11,14 +11,9 @@ import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import { ConfigService } from '../../shared/services/config.service';
+import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import { Observable } from 'rxjs/Observable';
-import {
-  CustomServiceOfferingService,
-  DefaultServiceOfferingConfigurationByZone
-} from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
+import { CustomServiceOfferingService, } from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { VirtualMachine } from '../shared/vm.model';
 import {
   MAT_DIALOG_DATA,
@@ -34,7 +29,7 @@ import { Account } from '../../shared/models/account.model';
   selector: 'cs-service-offering-dialog-container',
   template: `
     <cs-service-offering-dialog
-      [serviceOfferings]="fetchData() | async"
+      [serviceOfferings]="offerings$ | async"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="getRestrictions() | async"
       [zoneId]="virtualMachine.zoneId"
@@ -43,7 +38,7 @@ import { Account } from '../../shared/models/account.model';
     </cs-service-offering-dialog>`,
 })
 export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly offerings$ = this.store.select(fromServiceOfferings.selectAll);
+  readonly offerings$ = this.store.select(fromServiceOfferings.getAvailableOfferings);
   readonly user$ = this.store.select(fromAuths.getUserAccount);
   readonly zone$ = this.store.select(fromZones.getSelectedZone);
 
@@ -54,8 +49,6 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
     @Inject(MAT_DIALOG_DATA) data,
     public dialogService: DialogService,
     public dialogRef: MatDialogRef<ServiceOfferingDialogContainerComponent>,
-    private configService: ConfigService,
-    private serviceOfferingService: ServiceOfferingService,
     private customServiceOfferingService: CustomServiceOfferingService,
     private store: Store<State>,
   ) {
@@ -68,11 +61,13 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
           this.user = user;
         }
       });
-
   }
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneId));
+    this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
+    this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
+    this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
   }
 
   public changeServiceOffering(serviceOffering) {
@@ -88,40 +83,4 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
       .getCustomOfferingRestrictionsByZone(ResourceStats.fromAccount([this.user]))
       .map(restrictions => restrictions[this.virtualMachine.zoneId]);
   }
-
-  public fetchData(): Observable<ServiceOffering[]> {
-    const offeringAvailability = this.configService.get('offeringAvailability');
-    const defaultParams =
-      this.configService.get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
-    const customOfferingRestrictions = this.configService.get('customOfferingRestrictions');
-
-    return Observable.combineLatest(this.offerings$, this.user$, this.zone$, (serviceOfferings, user, zone) => {
-      const availableOfferings = this.serviceOfferingService.getAvailableByResourcesSync(
-        serviceOfferings,
-        offeringAvailability,
-        customOfferingRestrictions,
-        ResourceStats.fromAccount([user]),
-        zone
-      ).sort((a: ServiceOffering, b: ServiceOffering) => {
-        if (!a.isCustomized && b.isCustomized) { return -1; }
-        if (a.isCustomized && !b.isCustomized) { return 1; }
-        return 0;
-      });
-
-      return (!!this.virtualMachine.serviceOffering
-        ? availableOfferings.filter(
-          offering =>
-            offering.id !== this.virtualMachine.serviceOffering.id)
-        : availableOfferings).map((offering) => {
-        return !offering.isCustomized ? offering :
-          this.customServiceOfferingService.getCustomOfferingWithSetParams(
-            offering,
-            defaultParams[zone.id].customOfferingParams,
-            customOfferingRestrictions[zone.id],
-            ResourceStats.fromAccount([user])
-          )
-      });
-    });
-  }
-
 }
