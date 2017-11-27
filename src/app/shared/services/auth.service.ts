@@ -11,6 +11,9 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
+import { Store } from '@ngrx/store';
+import { State } from '../../reducers/index';
+import * as authActions from '../../reducers/auth/redux/auth.actions';
 import { JobsNotificationService } from './jobs-notification.service';
 
 export interface Capabilities {
@@ -43,6 +46,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
     protected http: HttpClient,
+    private store: Store<State>,
     protected jobsNotificationService: JobsNotificationService
   ) {
     super(http);
@@ -122,6 +126,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private setLoggedOut(): void {
+    this.store.dispatch(new authActions.LogOutUserAccount());
     this._user = null;
     this.storage.remove('user');
     this.loggedIn.next(false);

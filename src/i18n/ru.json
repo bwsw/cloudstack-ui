@@ -695,6 +695,18 @@
     }
   },
   "SECURITY_GROUP_PAGE": {
+    "DETAILS": {
+      "TITLE": "Детали",
+      "ID": "Id",
+      "NAME": "Имя",
+      "DESCRIPTION": "Описание",
+      "TYPE": "Тип",
+      "VM_LIST": "ВМ, использующие группу",
+      "EMPTY_VM_LIST": "Нет виртуальных машин"
+    },
+    "ACTION" : {
+      "RULES": "Правила"
+    },
     "FILTERS": {
       "TEMPLATES": "Шаблоны брандмауэра",
       "SHARED": "Разделяемые группы безопасности",

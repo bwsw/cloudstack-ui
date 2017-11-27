@@ -1,0 +1,8 @@
+<div *ngIf="vm">
+  <cs-nic-list [vm]="vm"></cs-nic-list>
+
+  <cs-firewall-rules-detail-container
+    *ngIf="!disableSecurityGroup"
+    [vm]="vm"
+  ></cs-firewall-rules-detail-container>
+</div>

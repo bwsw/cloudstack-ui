@@ -11,6 +11,7 @@ import * as event from './vm.actions';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
@@ -225,6 +226,14 @@ export const selectVmGroups = createSelector(
   }
 );
 
+export const getUsingSGVMs = createSelector(
+  selectAll,
+  fromSGroup.getSelectedId,
+  (vms, sGroupId) => {
+    const sGroupFilter = vm => vm.securityGroup.find(group => group.id === sGroupId);
+    return vms.filter(vm => sGroupFilter(vm));
+  }
+);
 
 export const selectFilteredVMs = createSelector(
   selectAll,

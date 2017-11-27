@@ -28,6 +28,7 @@ import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
 import { UserTagService } from './tags/user-tag.service';
 import { UserService } from './user.service';
+import { Store } from '@ngrx/store';
 import { JobsNotificationService } from './jobs-notification.service';
 
 
@@ -63,6 +64,9 @@ class MockStorageService {
   public resetInMemoryStorage(): void {
     this.storage = {};
   }
+}
+
+class MockStore<T> {
 }
 
 const configStorage = {};
@@ -121,7 +125,8 @@ const testBedConfig = {
     { provide: UserTagService, useClass: MockUserTagService },
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
-    { provide: LocalStorageService, useClass: MockStorageService }
+    { provide: LocalStorageService, useClass: MockStorageService },
+    { provide: Store, useClass: MockStore }
   ],
   imports: [
     HttpClientTestingModule

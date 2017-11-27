@@ -50,11 +50,22 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
   };
 }
 
+// clear store if user logs out
+export function logout(reducer: ActionReducer<State>) {
+  return function(state: State, action: any): State {
+    if (action.type === '[USER ACCOUNT] LOG_OUT_USER_ACCOUNT') {
+      state = undefined;
+    }
+
+    return reducer(state, action);
+  }
+}
+
 /**
  * By default, @ngrx/store uses combineReducers with the reducer map to compose
  * the root meta-reducer. To add more meta-reducers, provide an array of meta-reducers
  * that will be composed to form the root meta-reducer.
  */
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? [logger, storeFreeze]
-  : [];
+  ? [logger, logout, storeFreeze]
+  : [logout];

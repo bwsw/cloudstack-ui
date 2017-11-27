@@ -53,7 +53,7 @@ export class LoadVMsRequest implements Action {
 export class LoadVMRequest implements Action {
   type = LOAD_VM_REQUEST;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 
 }

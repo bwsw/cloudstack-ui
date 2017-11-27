@@ -1,4 +1,7 @@
-<mat-list-item>
+<mat-list-item
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+>
   <h2
     class="row-title"
     [matTooltip]="item.name"

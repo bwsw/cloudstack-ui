@@ -29,6 +29,7 @@ import * as osTypeActions from '../../reducers/templates/redux/ostype.actions';
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [groups]="groups$ | async"
+      [fetching]="isLoading$ | async"
       [(selectedTemplate)]="selectedTemplate"
       (selectedTemplateChange)="selectedTemplateChange.emit($event)"
       (viewModeChange)="onViewModeChange($event)"
@@ -40,6 +41,7 @@ import * as osTypeActions from '../../reducers/templates/redux/ostype.actions';
 })
 export class TemplateFilterListSelectorContainerComponent implements OnInit, AfterViewInit {
   readonly templates$ = this.store.select(fromTemplates.selectTemplatesForVmCreation);
+  readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
   readonly viewMode$ = this.store.select(fromTemplates.vmCreationListViewMode);
   readonly selectedTypes$ = this.store.select(fromTemplates.vmCreationListSelectedTypes);
