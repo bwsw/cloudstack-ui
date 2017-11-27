@@ -61,7 +61,7 @@ export class VmTagsContainerComponent extends WithUnsubscribe() implements OnIni
 
   public addTag(keyValuePair: KeyValuePair) {
     const newTag = {
-      resourceIds: this.vm.id,
+      resourceId: this.vm.id,
       resourceType: this.vm.resourceType,
       key: keyValuePair.key,
       value: keyValuePair.value
