@@ -120,17 +120,16 @@ We intensively use features like projects in our own CloudStackcloud to manage r
 
 #### Login view
 
-The login screen has a nice preloader which can be used to brand it for specific company. By default it shows Apache CloudStack banner. There are three possible ways to use domain (the form presented on the screen like in native UI, default domain in settings or am URL-based scheme).
+The login screen has a nice preloader which can be used to brand it for specific company. By default it shows Apache CloudStack banner. There are three possible ways to use domain (the form presented on the screen like in native UI, default domain in settings or an URL-based scheme).
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/readme-update/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
 #### Virtual machines view
 
 This screen was rethought greatly. First of all, we implemented the “one step” approach everywhere, and we also made it work without moving from view to view, like ACS native interface does. Thus, all actions on VM instances are managed from the same screen. Also, the interface allows to view several zones immediately, group virtual machines by zones, by logical groups (e.g. Databases, WWW), and by colors.
 We added a feature to brush a virtual machine with a specific color to make it look unique and meaningful to users from a certain perspective.
 Also we moved most of VM information to the sidebar, which now has four tabs - General view, Storage (disks, snapshots, and ISO), Network (NICs configuration, Firewall rules) and Tags.
-From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones.
-An important introduction is the possibility to change data representation between the "card" and "table" view. Each section contains a switch and this improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
+From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones. The data representation can be changed between the "card" and "table" view. Each section contains a switch and this improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView1.png" target="_blank">![Virtual Machine View screen 1](./screens/VMView1_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView2.png" target="_blank">![Virtual Machine View screen 2](./screens/VMView2_mini.png)</a>&nbsp;&nbsp;
@@ -138,8 +137,8 @@ An important introduction is the possibility to change data representation betwe
 
 #### New virtual machine form
 
-We changed the new virtual machine screen a lot. Now it’s one-step and it allows to select everything from one screen without additional steps and so on. We believe it’s much better for a regular user than the one which is used in the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form immediately checks that the user has the required amount of resources to create the virtual machine, and thus it doesn’t allow them to launch creation of impossible things which will fail for sure.
-Our team has made a big contribution to the improvement of UX when creating a virtual machine. First of all, a user now has an access to the list of all creation steps. Depending on the installation source (ISO or a Template), the system allows getting not only login, password and IP of the machine, but also an access to VM interaction interface. Currently supported:
+We changed a new virtual machine screen a lot. Now it’s a one-step dialog and it allows selecting everything from one screen without additional steps. We believe it’s much better for a regular user than the one who is used with the native UI. It also generates meaningful VM names from usernames like `vm-<username>-<counter>`. Another important thing is that the form checks that a user has a required amount of resources to create the virtual machine immediately and thus it doesn’t allow him launching creation that will fail for sure.
+Our team has made a big contribution to the improvement of UX when creating a virtual machine. First of all, a user now has an access to the list of all creation steps. Depending on installation source (ISO or a Template) system allows getting not only login, password and IP of the machine, but also an access to VM interaction interface. Currently supported:
 - VNC console,
 - WebShell if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
 - Access via HTTP if VM has a csui.vm.auth-mode tag with HTTP value. To configure access to VM via HTTP, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags).
@@ -149,8 +148,7 @@ Our team has made a big contribution to the improvement of UX when creating a vi
 
 #### Resource usage bar
 
-We also decided to place resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. Resource usage bar allows switching between "used" and "free" presentations to help users understanding capabilities in a better way. Domain administrators can also choose between Account and Domain view. 
-You also can see that the interface is in chocolate and blue colors. It’s because we enabled instant theme changing in the settings area. Material Design allows doing it natively, default theme colors can be specified in configuration json file.
+We also decided to place resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. A resource usage bar allows switching between "used" and "free" presentations to help users understanding capabilities in a better way. Domain administrators can also choose between Account and Domain view. 
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resourceUsageBar.png" target="_blank">![New Virtual Machine View](./screens/resourceUsageBar_mini.png)</a>
 
