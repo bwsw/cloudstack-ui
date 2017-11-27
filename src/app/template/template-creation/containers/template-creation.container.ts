@@ -47,6 +47,10 @@ export class TemplateCreationContainerComponent {
       this.store.dispatch(new zoneActions.LoadZonesRequest());
       this.store.dispatch(new templateGroupActions.LoadTemplateGroupsRequest());
     }
+
+    if (data.mode) {
+      this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedViewMode: data.mode }));
+    }
   }
 
   public onCreate(params) {

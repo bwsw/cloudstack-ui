@@ -12,6 +12,7 @@ import { StatsUpdateService } from '../shared/services/stats-update.service';
 import {
   TemplateCreationContainerComponent
 } from '../template/template-creation/containers/template-creation.container';
+import { TemplateResourceType } from '../template/shared/base-template.service';
 
 
 export interface SnapshotAction extends Action<Snapshot> {
@@ -54,7 +55,10 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
     return this.dialog.open(TemplateCreationContainerComponent, {
       width: '720px',
       panelClass: 'template-creation-dialog-snapshot',
-      data: { snapshot }
+      data: {
+        mode: TemplateResourceType.template,
+        snapshot
+      }
     })
       .afterClosed();
   }
