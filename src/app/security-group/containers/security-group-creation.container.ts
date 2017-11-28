@@ -30,7 +30,7 @@ export class SecurityGroupCreationContainerComponent {
     this.store.dispatch(new securityGroupActions.CreateSecurityGroup(creationParams));
   }
 
-  private onCancel(): void {
+  public onCancel(): void {
     this.router.navigate(['../security-group'], {
       queryParamsHandling: 'preserve'
     });
