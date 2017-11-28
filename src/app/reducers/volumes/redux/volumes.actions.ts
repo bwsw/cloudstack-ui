@@ -119,7 +119,7 @@ export class CreateSuccess implements Action {
 export class DeleteSuccess implements Action {
   readonly type = VOLUME_DELETE_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: any, public notification?: INotification) {
   }
 }
 

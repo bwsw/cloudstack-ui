@@ -179,11 +179,47 @@ export class VolumesEffects {
   deleteVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUME)
     .switchMap((action: volumeActions.DeleteVolume) => {
-      return this.volumeService.remove(action.payload)
-        .map(() => new volumeActions.DeleteSuccess(action.payload))
-        .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error));
-        });
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS');
+
+      const remove = (action) => {
+        return this.volumeService.remove(action.payload)
+          .map(() => new volumeActions.DeleteSuccess(action.payload, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
+          }))
+          .catch((error: Error) => {
+            return Observable.of(new volumeActions.VolumeUpdateError(error, {
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED'
+            }));
+          });
+      };
+
+      const detach = (action) => {
+        const virtualMachineId = action.payload.virtualMachineId;
+        return this.volumeService
+          .detach(action.payload)
+          .do(volume => {
+            return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume), {
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
+              }),
+              new volumeActions.VolumeFilterUpdate({ virtualMachineId }));
+          })
+          .catch((error: Error) => {
+            return Observable.of(new volumeActions.VolumeUpdateError(error, {
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
+            }));
+          });
+      };
+
+      if (action.payload.virtualMachineId) {
+        return detach(action)
+          .switchMap(() => remove(action));
+      } else {
+        return remove(action);
+      }
     });
 
   @Effect({ dispatch: false })
@@ -197,6 +233,15 @@ export class VolumesEffects {
   updateVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.UPDATE_VOLUME, volumeActions.REPLACE_VOLUME)
     .do((action: volumeActions.UpdateVolume | volumeActions.ReplaceVolume) => {
+      if (action.notification) {
+        this.jobsNotificationService.finish(action.notification);
+      }
+    });
+
+  @Effect({ dispatch: false })
+  deleteVolumeSuccess$: Observable<Action> = this.actions$
+    .ofType(volumeActions.VOLUME_DELETE_SUCCESS)
+    .do((action: volumeActions.DeleteSuccess) => {
       if (action.notification) {
         this.jobsNotificationService.finish(action.notification);
       }
