@@ -49,6 +49,7 @@ describe('Virtual machine creation form normalization service', () => {
     const instanceGroups = [];
     const resourceUsage: ResourceStats = fixture.resourceUsage[0];
     const rootDiskSizeLimit = 1000;
+    const rootDiskMinSize = 1;
 
     vmCreationData = new VmCreationData(
       mockEntityData.affinityGroups,
@@ -65,7 +66,8 @@ describe('Virtual machine creation form normalization service', () => {
       mockEntityData.sshKeyPairs,
       mockEntityData.templates,
       mockEntityData.isos,
-      mockEntityData.zones
+      mockEntityData.zones,
+      rootDiskMinSize
     );
     vmCreationState = vmCreationData.getInitialState();
   }
