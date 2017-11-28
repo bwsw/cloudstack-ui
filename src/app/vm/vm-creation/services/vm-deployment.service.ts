@@ -172,7 +172,7 @@ export class VmDeploymentService {
         }
       })
       .switchMap(() => {
-        if (state.template.agreementAccepted) {
+        if (state.agreement) {
           return this.vmTagService.setAgreement(vm)
         } else {
           return Observable.of(null);

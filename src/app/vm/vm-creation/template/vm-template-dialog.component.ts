@@ -1,26 +1,14 @@
-import { Component, EventEmitter, forwardRef, Inject, Input, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { AuthService } from '../../../shared/services/auth.service';
-import { VmCreationAgreementComponent } from './agreement/vm-creation-agreement.component';
-import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
-  templateUrl: 'vm-template-dialog.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VmCreationAgreementComponent),
-      multi: true
-    }
-  ]
+  templateUrl: 'vm-template-dialog.component.html'
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
@@ -45,8 +33,6 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
     translate: TranslateService,
     authService: AuthService,
     private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
-    private dialog: MatDialog,
-    private templateTagService: TemplateTagService,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     super(translate, authService);
@@ -59,32 +45,10 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public onOk() {
     const data = Object.assign({} , this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate);
 
-    this.templateTagService.getAgreement(data)
-      .switchMap(res => {
-        if (res) {
-          return this.showTemplateAgreementDialog()
-        } else {
-          this.dialogRef.close(data);
-          return Observable.of(null);
-        }
-      })
-      .subscribe(item => {
-        if (item) {
-          data.agreementAccepted = true;
-          this.dialogRef.close(data);
-        }
-      });
+    this.dialogRef.close(data);
   }
 
   public onCancel(): void {
     this.dialogRef.close(this.preselectedTemplate);
-  }
-
-  private showTemplateAgreementDialog(): Observable<BaseTemplateModel> {
-    return this.dialog.open(VmCreationAgreementComponent, {
-      width: '900px',
-      data: this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate
-    })
-      .afterClosed();
   }
 }
