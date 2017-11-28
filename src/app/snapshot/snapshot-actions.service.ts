@@ -4,14 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { ActionsService } from '../shared/interfaces/action-service.interface';
 import { Action } from '../shared/interfaces/action.interface';
-import { Snapshot, Volume } from '../shared/models';
+import {
+  Snapshot,
+  Volume
+} from '../shared/models';
 import { JobsNotificationService } from '../shared/services/jobs-notification.service';
 import { NotificationService } from '../shared/services/notification.service';
 import { SnapshotService } from '../shared/services/snapshot.service';
 import { StatsUpdateService } from '../shared/services/stats-update.service';
-import {
-  TemplateCreationContainerComponent
-} from '../template/template-creation/containers/template-creation.container';
+import { TemplateCreationContainerComponent } from '../template/template-creation/containers/template-creation.container';
 import { TemplateResourceType } from '../template/shared/base-template.service';
 
 
@@ -68,6 +69,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
     let notificationId: string;
 
     return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+      .filter(res => Boolean(res))
       .switchMap(() => {
         notificationId = this.jobNotificationService.add(
           'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');

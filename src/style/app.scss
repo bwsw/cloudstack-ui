@@ -506,6 +506,10 @@ mat-table mat-header-cell,
   text-transform: uppercase;
 }
 
+.mat-radio-label {
+  white-space: initial !important;
+}
+
 .mat-dialog-content {
   &.notification {
     color: rgba(0, 0, 0, .54);
