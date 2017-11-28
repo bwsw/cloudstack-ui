@@ -438,7 +438,7 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.AttachIso) => {
       const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.ISO.DETACHMENT_IN_PROGRESS');
       return this.isoService.detach(action.payload)
-        .map((vm) => new vmActions.UpdateVM(new VirtualMachine(vm), {
+        .map((vm) => new vmActions.ReplaceVM(new VirtualMachine(vm), {
           id: notificationId,
           message: 'JOB_NOTIFICATIONS.ISO.DETACHMENT_DONE'
         }))
@@ -558,8 +558,8 @@ export class VirtualMachinesEffects {
 
   @Effect({ dispatch: false })
   updateVm$: Observable<Action> = this.actions$
-    .ofType(vmActions.UPDATE_VM)
-    .do((action: vmActions.UpdateVM) => {
+    .ofType(vmActions.UPDATE_VM, vmActions.REPLACE_VM)
+    .do((action: vmActions.UpdateVM | vmActions.ReplaceVM) => {
       if (action.notification) {
         this.jobsNotificationService.finish(action.notification);
       }

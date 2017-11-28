@@ -126,6 +126,13 @@ export function reducer(
       };
     }
 
+    case event.REPLACE_VM: {
+      let newState = adapter.removeOne(action.payload.id, state);
+      return {
+        ...adapter.addOne(action.payload, newState),
+      };
+    }
+
     case event.CREATE_VM_SUCCESS: {
       return {
         ...adapter.addOne(action.payload, state),
