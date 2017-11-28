@@ -1,18 +1,17 @@
 import {
   Component,
-  Input
+  EventEmitter,
+  Input,
+  Output
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { State } from '../../../../../reducers/index';
-import { Store } from '@ngrx/store';
 import { Volume } from '../../../../../shared/models';
 import {
   SnapshotAction,
   SnapshotActionsService
 } from '../../../../../snapshot/snapshot-actions.service';
-import { SnapshotModalComponent } from './snapshot-modal.component';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
-import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+import { SnapshotModalContainerComponent } from './snapshot-modal.container';
 
 
 @Component({
@@ -22,29 +21,28 @@ import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.ac
 })
 export class SnapshotsComponent {
   @Input() public volume: Volume;
+  @Output() public onSnapshotDelete = new EventEmitter();
   public actions: Array<SnapshotAction>;
 
   constructor(
     public snapshotActionsService: SnapshotActionsService,
     private dialog: MatDialog,
-    private store: Store<State>,
   ) {
     this.actions = snapshotActionsService.actions;
   }
 
   public showSnapshots(): void {
-    this.dialog.open(SnapshotModalComponent, {
+    this.dialog.open(SnapshotModalContainerComponent, {
       data: { volume: this.volume },
       width: '700px'
-    }).afterClosed()
-      .subscribe(volume => this.store.dispatch(new volumeActions.UpdateVolume(volume)));
+    }).afterClosed();
   }
 
   public onAction(action: SnapshotAction, snapshot: Snapshot) {
     action.activate(snapshot, this.volume).subscribe(
       res => {
         if (action.command === 'delete') {
-          this.store.dispatch(new volumeActions.UpdateVolume(new Volume(res)));
+          this.onSnapshotDelete.emit(new Volume(res));
         }
       });
   }

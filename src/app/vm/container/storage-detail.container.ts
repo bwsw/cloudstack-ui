@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   OnInit
 } from '@angular/core';
@@ -35,7 +37,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
     ></cs-iso>
   `
 })
-export class StorageDetailContainerComponent extends WithUnsubscribe() implements OnInit {
+export class StorageDetailContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
 
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
   readonly allVolumes$ = this.store.select(fromVolumes.selectSpareOnlyVolumes);
@@ -49,6 +51,7 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
     private store: Store<State>,
     private dialog: MatDialog,
     private dialogService: DialogService,
+    private cd: ChangeDetectorRef
   ) {
     super();
   }
@@ -109,6 +112,10 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
           this.store.dispatch(new templateActions.LoadSelectedTemplate(this.vm.isoId));
         }
       })
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
 }

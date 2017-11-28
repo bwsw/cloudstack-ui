@@ -115,6 +115,8 @@ import { VmActionsContainerComponent } from './container/vm-actions.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
 import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
 import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.container';
+import { SnapshotModalContainerComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshot-modal.container';
+import { SnapshotsContainerComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshots.container';
 
 
 @NgModule({
@@ -166,6 +168,7 @@ import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-deta
     ServiceOfferingDetailsComponent,
     ServiceOfferingDialogContainerComponent,
     SnapshotsComponent,
+    SnapshotsContainerComponent,
     VolumeAttachmentDetailComponent,
     VolumeAttachmentDialogComponent,
     StatisticsComponent,
@@ -205,6 +208,7 @@ import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-deta
     VolumeComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
+    SnapshotModalContainerComponent,
     VmCreationSecurityGroupComponent,
     SecurityGroupManagerExistingGroupComponent,
     VmCreationSecurityGroupRulesManagerComponent,
@@ -234,7 +238,7 @@ import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-deta
     VmDestroyDialogComponent,
     VmTemplateDialogComponent,
     SnapshotCreationComponent,
-    SnapshotModalComponent,
+    SnapshotModalContainerComponent,
     VolumeAttachmentDialogComponent,
     SshKeypairResetComponent,
     VmCreationSecurityGroupComponent,

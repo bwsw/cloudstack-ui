@@ -1,12 +1,9 @@
 import {
   Component,
-  Inject,
-  OnInit
+  EventEmitter,
+  Input,
+  Output
 } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
 
 import {
   TableDatabase,
@@ -24,40 +21,23 @@ import { Snapshot } from '../../../../../shared/models/snapshot.model';
   templateUrl: 'snapshot-modal.component.html',
   styleUrls: ['snapshot-modal.component.scss']
 })
-export class SnapshotModalComponent implements OnInit {
+export class SnapshotModalComponent {
   public displayedColumns = ['name', 'date', 'actions'];
-  public dataBase: TableDatabase;
-  public dataSource: TableDataSource | null;
-  public volume: Volume;
+  @Input() public dataBase: TableDatabase;
+  @Input() public dataSource: TableDataSource | null;
+  @Input() public volume: Volume;
+  @Output() public onSnapshotDelete = new EventEmitter();
 
   constructor(
     public snapshotActionsService: SnapshotActionsService,
-    public dialogRef: MatDialogRef<SnapshotModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data
-  ) {
-    this.volume = data.volume;
-  }
-
-  public ngOnInit() {
-    this.update();
-  }
-
-  public update() {
-    this.dataBase = new TableDatabase(this.volume.snapshots);
-    this.dataSource = new TableDataSource(this.dataBase);
-  }
+  ) { }
 
   public onAction(action: SnapshotAction, snapshot: Snapshot) {
     action.activate(snapshot, this.volume).subscribe(
       res => {
         if (action.command === 'delete') {
-          this.volume = new Volume(res);
-          this.update();
+          this.onSnapshotDelete.emit(new Volume(res));
         }
       });
-  }
-
-  public onClose() {
-    this.dialogRef.close(this.volume);
   }
 }
