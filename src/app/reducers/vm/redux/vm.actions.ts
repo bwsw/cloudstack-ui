@@ -220,7 +220,7 @@ export class RebootVm implements Action {
 export class DestroyVm implements Action {
   readonly type = DESTROY_VM;
 
-  constructor(public payload: VirtualMachine) {
+  constructor(public payload: any) {
   }
 }
 

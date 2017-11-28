@@ -333,12 +333,21 @@ export class VirtualMachinesEffects {
     .ofType(vmActions.DESTROY_VM)
     .switchMap((action: vmActions.DestroyVm) => {
       const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DESTROY_IN_PROGRESS');
-      this.update(action.payload);
-      return this.vmService.command(action.payload, 'destroy')
-        .map(vm => new vmActions.UpdateVM(new VirtualMachine(vm), {
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE'
-        }))
+      this.update(action.payload.vm);
+      return this.vmService.command(action.payload.vm, 'destroy', action.payload.params)
+        .map(vm => {
+          if (action.payload.params.expunge) {
+            return new vmActions.ExpungeVmSuccess(new VirtualMachine(action.payload.vm), {
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
+            });
+          } else {
+            return new vmActions.UpdateVM(new VirtualMachine(vm), {
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE'
+            });
+          }
+        })
         .catch((error: Error) => {
           return Observable.of(new vmActions.VMUpdateError(error, {
             id: notificationId,

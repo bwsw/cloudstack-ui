@@ -44,8 +44,8 @@ export class VmActionsContainerComponent {
     this.store.dispatch(new vmActions.ExpungeVm(vm));
   }
 
-  public onVmDestroy(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.DestroyVm(vm));
+  public onVmDestroy(event): void {
+    this.store.dispatch(new vmActions.DestroyVm(event));
   }
 
   public onVmReboot(vm: VirtualMachine): void {

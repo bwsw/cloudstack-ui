@@ -15,15 +15,16 @@ import * as vmActions from '../../../../reducers/vm/redux/vm.actions';
 import { Volume } from '../../../models/volume.model';
 
 @Component({
-  selector: 'cs-volume-actions-container',
+  selector: 'cs-volume-attachment-container',
   template: `
-    <cs-volume-attachment
-      [loading]="loading$ | async"
+    <cs-overlay-loading [active]="loading$ | async"></cs-overlay-loading>
+    <cs-volume-attachment 
+      *loading="loading$ | async"
       [volume]="volume"
       [zoneId]="zoneId"
       [virtualMachines]="vms$ | async"
       (onVirtualMachineId)="attachVolume($event)"
-    >
+      >
     </cs-volume-attachment>`,
 })
 export class VolumeAttachmentContainerComponent implements OnInit {

@@ -20,7 +20,7 @@
     <div class="mat-dialog-actions">
         <span *ngFor="let act of actions">
         <button mat-button color="primary"
-                *ngIf="act.action.canActivate(vm)"
+                *ngIf="!act.action.hidden()"
                 (click)="act.action.activate(vm)">{{ act.key | translate }}</button>
         </span>
       <button mat-button color="primary"

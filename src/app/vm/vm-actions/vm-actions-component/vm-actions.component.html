@@ -22,6 +22,7 @@
   <ng-container>
     <button
       mat-menu-item
+      *ngIf="!vmPulseAction.hidden()"
       [disabled]="!vmPulseAction.canActivate(vm)"
       (click)="vmPulseAction.activate(vm)"
     >

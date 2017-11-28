@@ -48,6 +48,7 @@ export const VmURLAction = {
     const mode = authMode && authMode.split(',').find(mode => mode === AuthModeType.HTTP);
     return mode && vm.state === VmState.Running;
   },
+  hidden: () => false,
 
   getLogin: (vm: VirtualMachine) => {
     const loginTag = vm.tags.find(tag => tag.key === loginToken);

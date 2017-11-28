@@ -4,6 +4,7 @@ import {
   Input,
   Output
 } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { VmActionsService } from '../../shared/vm-actions.service';
 import {
   VirtualMachine,
@@ -13,6 +14,7 @@ import { VmAccessAction } from '../vm-access';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VmPulseAction } from '../vm-pulse';
+import { VmDestroyDialogComponent } from '../../shared/vm-destroy-dialog/vm-destroy-dialog.component';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class VmActionsComponent {
     public vmPulseAction: VmPulseAction,
     private vmActionsService: VmActionsService,
     private dialogService: DialogService,
+    private dialog: MatDialog,
     private authService: AuthService,
   ) {
     this.vmActions = this.vmActionsService.actions;
@@ -45,45 +48,56 @@ export class VmActionsComponent {
   }
 
   public onAction(action, vm: VirtualMachine): void {
-    this.dialogService.confirm({ message: action.confirmMessage })
-      .onErrorResumeNext()
+    if (action.command === 'delete') {
+      this.dialog.open(VmDestroyDialogComponent, {
+            data: this.authService.canExpungeOrRecoverVm()
+        })
+      .afterClosed()
       .filter(res => Boolean(res))
-      .subscribe(() => {
-        switch (action.command) {
-          case 'start': {
-            this.onVmStart.emit(vm);
-            break;
-          }
-          case 'stop': {
-            this.onVmStop.emit(vm);
-            break;
-          }
-          case 'reboot': {
-            this.onVmReboot.emit(vm);
-            break;
-          }
-          case 'restore': {
-            this.onVmRestore.emit(vm);
-            break;
-          }
-          case 'resetPasswordFor': {
-            this.onVmResetPassword.emit(vm);
-            break;
-          }
-          case 'delete': {
-            this.onVmDestroy.emit(vm);
-            break;
-          }
-          case 'expunge': {
-            this.onVmExpunge.emit(vm);
-            break;
-          }
-          case 'recover': {
-            this.onVmRecover.emit(vm);
-            break;
-          }
-        }
+      .subscribe((params) => {
+        this.onVmDestroy.emit({ vm, params });
       });
+    } else {
+      this.dialogService.confirm({ message: action.confirmMessage })
+        .onErrorResumeNext()
+        .filter(res => Boolean(res))
+        .subscribe(() => {
+          switch (action.command) {
+            case 'start': {
+              this.onVmStart.emit(vm);
+              break;
+            }
+            case 'stop': {
+              this.onVmStop.emit(vm);
+              break;
+            }
+            case 'reboot': {
+              this.onVmReboot.emit(vm);
+              break;
+            }
+            case 'restore': {
+              this.onVmRestore.emit(vm);
+              break;
+            }
+            case 'resetPasswordFor': {
+              this.onVmResetPassword.emit(vm);
+              break;
+            }
+            case 'delete': {
+              this.onVmDestroy.emit(vm);
+              break;
+            }
+            case 'expunge': {
+              this.onVmExpunge.emit(vm);
+              break;
+            }
+            case 'recover': {
+              this.onVmRecover.emit(vm);
+              break;
+            }
+          }
+        });
+    }
   }
 
   public get vmIsDestroyed(): boolean {

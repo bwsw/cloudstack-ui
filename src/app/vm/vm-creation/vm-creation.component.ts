@@ -1,14 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatSelectChange } from '@angular/material';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  MatDialogRef,
+  MatSelectChange
+} from '@angular/material';
 import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
+
+import { Store } from '@ngrx/store';
+import { State } from '../../reducers/index';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
 import {
   ProgressLoggerMessage,
   ProgressLoggerMessageStatus
 } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
+import {
+  AffinityGroup,
+  InstanceGroup,
+  ServiceOffering
+} from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
@@ -70,7 +84,8 @@ export class VmCreationComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
     private vmCreationService: VmCreationService,
-    private vmDeploymentService: VmDeploymentService
+    private vmDeploymentService: VmDeploymentService,
+    private store: Store<State>
   ) {
     this.updateFormState = throttle(this.updateFormState, 500, {
       leading: true,
@@ -441,6 +456,8 @@ export class VmCreationComponent implements OnInit {
   ): void {
     this.deploymentStopped = false;
     this.deployedVm = deploymentMessage.vm;
+    // add to store
+    this.store.dispatch(new vmActions.CreateVmSuccess(this.deployedVm));
     this.notifyOnDeployDone(notificationId);
     this.progressLoggerController.addMessage({
       text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',

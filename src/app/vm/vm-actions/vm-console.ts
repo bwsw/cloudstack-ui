@@ -12,5 +12,6 @@ export const VmConsoleAction = {
       `client/console?cmd=access&vm=${vm.id}`,
       vm.displayName,
       'resizable=0,width=820,height=640'
-    )
+    ),
+  hidden: () => false
 };

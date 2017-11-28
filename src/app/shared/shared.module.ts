@@ -269,7 +269,8 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
-    TemplateActionsContainerComponent
+    TemplateActionsContainerComponent,
+    VolumeAttachmentComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,

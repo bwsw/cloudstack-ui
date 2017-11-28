@@ -28,4 +28,8 @@ export class VmWebShellAction  {
   public canActivate(vm: VirtualMachine): boolean {
     return this.webShellService.isWebShellEnabledForVm(vm);
   }
+
+  public hidden(vm: VirtualMachine): boolean {
+    return !this.webShellService.isWebShellEnabled;
+  }
 }
