@@ -1,15 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  NgForm,
-  Validators
-} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
@@ -20,10 +10,7 @@ import {
   TimeFormat
 } from '../shared/services/language.service';
 import { NotificationService } from '../shared/services/notification.service';
-import {
-  StyleService,
-  themes
-} from '../shared/services/style.service';
+import { StyleService, themes } from '../shared/services/style.service';
 import { UserTagService } from '../shared/services/tags/user-tag.service';
 import { UserService } from '../shared/services/user.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
@@ -49,7 +36,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public updatingFirstDayOfWeek = false;
   public updatingTimeFormat = false;
   // public dayTranslations: {};
-  public loading = false;
+  public isLoading = false;
 
   public primaryColorControl = new FormControl();
 
@@ -108,8 +95,10 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public changeLanguage(change: MatSelectChange): void {
-    this.languageService.setLanguage(change.value).subscribe();
-    this.setLoading();
+    this.isLoading = true;
+    this.languageService.setLanguage(change.value)
+      .finally(() => this.isLoading = false)
+      .subscribe();
   }
 
   public changeTimeFormat(change: MatSelectChange): void {
@@ -158,8 +147,8 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private setLoading(): void {
-    this.loading = true;
-    setTimeout(() => (this.loading = false), 0);
+    this.isLoading = true;
+    setTimeout(() => (this.isLoading = false), 0);
   }
 
   private loadSaveVmPassword(): void {

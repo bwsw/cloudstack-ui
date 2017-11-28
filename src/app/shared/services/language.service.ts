@@ -21,12 +21,14 @@ export enum TimeFormat {
 
 @Injectable()
 export class LanguageService {
-
   constructor(
     private storage: LocalStorageService,
     private translate: TranslateService,
     private userTagService: UserTagService
   ) {
+    if (!translate.defaultLang) {
+      translate.setDefaultLang('en');
+    }
   }
 
   public getLanguage(): Observable<Language> {
