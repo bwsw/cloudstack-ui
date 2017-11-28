@@ -13,8 +13,8 @@
       </cs-view-mode-switch>
     </div>
     <cs-template-card-list
+      *loading="fetching"
       class="template-list"
-      [fetching]="fetching"
       [query]="query"
       [templateList]="templates"
       [groupings]="groupings"
@@ -22,6 +22,8 @@
       (deleteTemplate)="onTemplateDelete.emit($event)"
     >
     </cs-template-card-list>
+
+    <cs-no-results *ngIf="!templates?.length && !fetching"></cs-no-results>
   </ng-container>
 
   <ng-container cs-sidebar>

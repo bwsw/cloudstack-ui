@@ -1,8 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import {
+  Component,
+  Input,
+} from '@angular/core';
+import {
+  MatDialog,
+  MatDialogConfig
+} from '@angular/material';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VirtualMachine } from '../../../shared/vm.model';
-import { SecurityGroupService } from '../../../../security-group/services/security-group.service';
 import { SgRulesContainerComponent } from '../../../../security-group/containers/sg-rules.container';
 
 
@@ -14,10 +19,8 @@ export class FirewallRulesDetailComponent {
   @Input() public vm: VirtualMachine;
 
   constructor(
-    private dialog: MatDialog,
-    private securityGroupService: SecurityGroupService
-  ) {
-  }
+    private dialog: MatDialog
+  ) { }
 
   public showRulesDialog(entity: SecurityGroup) {
     const vmId = this.vm.id;
@@ -26,9 +29,6 @@ export class FirewallRulesDetailComponent {
       width: '880px',
       data: { securityGroupId: entity.id, vmId }
     })
-      .afterClosed()
-      .map(updatedGroup => {
-        return this.securityGroupService.onSecurityGroupUpdate.next(updatedGroup);
-      });
+      .afterClosed();
   }
 }

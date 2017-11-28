@@ -1,4 +1,7 @@
-<cs-list (onAction)="showCreationDialog()">
+<cs-list
+  (onAction)="showCreationDialog()"
+  [isOpen]="listService.hasSelected()"
+>
   <ng-container cs-panels>
     <cs-top-bar>
       <cs-sg-filter-container></cs-sg-filter-container>
@@ -7,7 +10,6 @@
 
   <ng-container *loading="isLoading" cs-list>
     <div class="switch-panel">
-
       <cs-view-mode-switch
         (onModeChange)="changeMode($event)"
         [key]="viewModeKey"
@@ -20,10 +22,15 @@
       [query]="query"
       [viewMode]="viewMode"
       [mode]="mode"
+      cs-list
     ></cs-security-group-list>
   </ng-container>
 
-  <ng-container *loading="isLoading"></ng-container>
+
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
 </cs-list>
 
-<router-outlet></router-outlet>

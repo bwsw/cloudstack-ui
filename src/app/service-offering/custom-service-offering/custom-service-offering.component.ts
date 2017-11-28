@@ -6,6 +6,21 @@ import { ICustomOfferingRestrictions } from './custom-offering-restrictions';
 import { CustomServiceOffering } from './custom-service-offering';
 
 
+export const DefaultCustomServiceOfferingRestrictions: ICustomOfferingRestrictions = {
+  cpuNumber: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  },
+  cpuSpeed: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  },
+  memory: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  }
+};
+
 @Component({
   selector: 'cs-custom-service-offering',
   templateUrl: 'custom-service-offering.component.html',
@@ -28,13 +43,13 @@ export class CustomServiceOfferingComponent implements OnInit {
       memory: offering.memory,
       serviceOffering: offering
     });
-    this.restrictions = restriction;
+    this.restrictions = restriction || DefaultCustomServiceOfferingRestrictions;
     this.zoneId = zoneId;
   }
 
   public ngOnInit(): void {
     if (this.zoneId == null) {
-        throw new Error('Attribute \'zoneId\' is required');
+      throw new Error('Attribute \'zoneId\' is required');
     }
   }
 
@@ -48,21 +63,24 @@ export class CustomServiceOfferingComponent implements OnInit {
         {
           lowerLimit,
           upperLimit
-        });
+        }
+      );
     }
     if (!lowerBound && upperBound) {
       return this.translateService.get(
         'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.UP_TO',
         {
           upperLimit
-        });
+        }
+      );
     }
     if (lowerBound && !upperBound) {
       return this.translateService.get(
         'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.FROM',
         {
           lowerLimit
-        });
+        }
+      );
     }
   }
 

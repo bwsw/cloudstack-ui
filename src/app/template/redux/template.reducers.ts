@@ -95,7 +95,6 @@ export function listReducer(
     case template.TEMPLATE_FILTER_UPDATE: {
       return {
         ...state,
-        loading: false,
         filters: {
           ...state.filters,
           ...action.payload
@@ -112,7 +111,7 @@ export function listReducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll([...action.payload], state),
-        loading: false,
+        loading: false
       };
     }
     case template.TEMPLATE_CREATE_SUCCESS: {

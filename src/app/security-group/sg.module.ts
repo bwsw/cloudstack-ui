@@ -3,16 +3,16 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
+  MatButtonToggleModule,
   MatCheckboxModule,
   MatDialogModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
   MatTabsModule,
-  MatTooltipModule,
-  MatButtonToggleModule,
-  MatProgressSpinnerModule
+  MatTooltipModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,11 +25,8 @@ import { SharedSecurityGroupCreationService } from './services/creation-services
 import { TemplateSecurityGroupCreationService } from './services/creation-services/template-security-group-creation.service';
 import { NetworkRuleService } from './services/network-rule.service';
 import { SecurityGroupService } from './services/security-group.service';
-import { SecurityGroupActionsService } from './sg-actions/sg-action.service';
+import { SecurityGroupActionService } from './sg-actions/sg-action.service';
 import { SecurityGroupActionsComponent } from './sg-actions/sg-actions-component/sg-actions.component';
-import { SecurityGroupEditAction } from './sg-actions/sg-edit';
-import { SecurityGroupRemoveAction } from './sg-actions/sg-remove';
-import { SecurityGroupViewAction } from './sg-actions/sg-view';
 import { SgFilterComponent } from './sg-filter/sg-filter.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
@@ -41,7 +38,6 @@ import { SecurityGroupCreationDialogComponent } from './sg-creation/security-gro
 import { SecurityGroupCreationComponent } from './sg-creation/security-group-creation.component';
 import { SecurityGroupCardItemComponent } from './sg-list-item/card-item/security-group-card-item.component';
 import { SecurityGroupPageComponent } from './sg-page/security-group-page.component';
-import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
 import { SecurityGroupRowItemComponent } from './sg-list-item/row-item/security-group-row-item.component';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
@@ -53,8 +49,15 @@ import { SecurityGroupEffects } from '../reducers/security-groups/redux/sg.effec
 import { SgFilterContainerComponent } from './sg-filter/containers/sg-filter.container';
 import { SgRulesContainerComponent } from './containers/sg-rules.container';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SecurityGroupCreationDialogContainerComponent } from './containers/security-group-creation-dialog.container';
 import { SecurityGroupActionsContainerComponent } from './containers/sg-actions.container';
+import { SecurityGroupSidebarContainerComponent } from './containers/security-group-sidebar.container';
+import { SecurityGroupDetailsContainerComponent } from './containers/security-group-details.container';
+import { SecurityGroupSidebarComponent } from './sg-sidebar/security-group-sidebar.component';
+import { SecurityGroupDetailsComponent } from './sg-sidebar/sg-details/security-group-details.component';
+import { SecurityGroupVmListComponent } from './sg-sidebar/sg-vm-list/security-group-vm-list.component';
+import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
+import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
+import { SecurityGroupCreationContainerComponent } from './containers/security-group-creation.container';
 
 
 @NgModule({
@@ -82,11 +85,14 @@ import { SecurityGroupActionsContainerComponent } from './containers/sg-actions.
     MatProgressSpinnerModule,
     DraggableSelectModule,
     StoreModule.forFeature('securityGroups', securityGroupReducers),
-    EffectsModule.forFeature([SecurityGroupEffects]),
+    StoreModule.forFeature('virtualMachines', virtualMachineReducers),
+    EffectsModule.forFeature([SecurityGroupEffects, VirtualMachinesEffects]),
   ],
   exports: [
     SecurityGroupPageContainerComponent,
-    SecurityGroupPageComponent
+    SecurityGroupPageComponent,
+    SecurityGroupSidebarContainerComponent,
+    SecurityGroupDetailsContainerComponent
   ],
   declarations: [
     SecurityGroupActionsContainerComponent,
@@ -98,29 +104,30 @@ import { SecurityGroupActionsContainerComponent } from './containers/sg-actions.
     SecurityGroupPageComponent,
     SecurityGroupCardItemComponent,
     SecurityGroupRowItemComponent,
+    SecurityGroupCreationContainerComponent,
     SecurityGroupCreationComponent,
-    SecurityGroupCreationDialogContainerComponent,
     SecurityGroupCreationDialogComponent,
-    SecurityGroupRulesDialogComponent,
     SgRulesContainerComponent,
     SgRulesComponent,
     SgRuleComponent,
     SecurityGroupCreationSecurityGroupComponent,
-    SecurityGroupCreationRulesManagerComponent
+    SecurityGroupCreationRulesManagerComponent,
+    SecurityGroupSidebarContainerComponent,
+    SecurityGroupDetailsContainerComponent,
+    SecurityGroupDetailsComponent,
+    SecurityGroupVmListComponent,
+    SecurityGroupSidebarComponent
   ],
   providers: [
     NetworkRuleService,
     SecurityGroupService,
-    SecurityGroupActionsService,
-    SecurityGroupViewAction,
-    SecurityGroupEditAction,
-    SecurityGroupRemoveAction,
+    SecurityGroupActionService,
     PrivateSecurityGroupCreationService,
     SharedSecurityGroupCreationService,
     TemplateSecurityGroupCreationService
   ],
   entryComponents: [
-    SecurityGroupCreationComponent,
+    SecurityGroupCreationContainerComponent,
     SgRulesContainerComponent,
     SecurityGroupCreationSecurityGroupComponent
   ]

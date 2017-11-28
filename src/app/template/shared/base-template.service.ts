@@ -187,14 +187,17 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       });
   }
 
-  public remove(template: BaseTemplateModel): Observable<any> {
+  public remove(template: BaseTemplateModel): Observable<BaseTemplateModel> {
     this.invalidateCache();
     return this.sendCommand('delete', {
       id: template.id,
       zoneId: template.zoneId
     })
       .switchMap(job => this.asyncJobService.queryJob(job.jobid))
-      .map(() => this.onTemplateRemoved.next(template));
+      .map(() => {
+        this.onTemplateRemoved.next(template);
+        return template;
+      });
   }
 
   public getGroupedTemplates<T extends BaseTemplateModel>(

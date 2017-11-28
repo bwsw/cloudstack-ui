@@ -1,4 +1,5 @@
 import { BaseModel } from './base.model';
+import { AccountUser } from './account-user.model';
 
 export const enum AccountType {
   User = 0,
@@ -51,6 +52,7 @@ export class Account extends BaseModel {
   public templateavailable: number;
   public templatelimit: number;
   public templatetotal: number;
+  public user: Array<AccountUser>;
   public vmavailable: number;
   public vmlimit: number;
   public vmrunning: number;
