@@ -216,17 +216,19 @@ export class VirtualMachinesEffects {
   removeInstantGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_REMOVE_INSTANT_GROUP)
     .switchMap((action: vmActions.RemoveInstantGroup) => {
-      let newVm = Object.assign(
-        {},
-        action.payload.vm,
-        {instanceGroup: action.payload.group});
       const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_IN_PROGRESS');
 
-      return this.vmTagService.removeGroup(newVm)
-        .map(vm => new vmActions.UpdateVM(vm, {
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_DONE'
-        }))
+      return this.vmTagService.removeGroup(action.payload.vm)
+        .map(vm => {
+          let newVm = Object.assign(
+            {},
+            vm,
+            {instanceGroup: undefined });
+          return new vmActions.UpdateVM(newVm, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_DONE'
+          });
+        })
         .catch((error: Error) => {
           return Observable.of(new vmActions.VMUpdateError(error,  {
             id: notificationId,

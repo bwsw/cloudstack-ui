@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Volume } from '../../models/volume.model';
+import {
+  Volume,
+  VolumeType
+} from '../../models/volume.model';
 import { VolumeAction } from './volume-action';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
@@ -28,5 +31,5 @@ export class VolumeRemoveAction implements VolumeAction {
     return true;
   }
 
-  public hidden = (volume: Volume) => volume.isRoot;
+  public hidden = (volume: Volume) => volume.type === VolumeType.ROOT;
 }

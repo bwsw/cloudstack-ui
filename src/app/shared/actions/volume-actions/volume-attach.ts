@@ -31,6 +31,6 @@ export class VolumeAttachAction implements VolumeAction {
   }
 
   public hidden(volume: Volume): boolean {
-    return !volume.isSpare;
+    return !!volume.virtualMachineId;
   }
 }

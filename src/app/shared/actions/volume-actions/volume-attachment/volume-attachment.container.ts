@@ -17,7 +17,6 @@ import { Volume } from '../../../models/volume.model';
 @Component({
   selector: 'cs-volume-attachment-container',
   template: `
-    <cs-overlay-loading [active]="loading$ | async"></cs-overlay-loading>
     <cs-volume-attachment 
       *loading="loading$ | async"
       [volume]="volume"

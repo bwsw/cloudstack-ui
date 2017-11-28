@@ -79,7 +79,7 @@ export class VmTagService implements EntityTagService {
         resourceIds: vm.id,
         resourceType: vm.resourceType,
         'tags[0].key': this.keys.group,
-        'tags[0].value': ''
+        'tags[0].value': vm.instanceGroup.name
       })
       .map(() => {
         newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
