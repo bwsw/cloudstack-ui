@@ -23,6 +23,7 @@ Table of Contents
          * [Activity log](#activity-log)
          * [Accounts](#accounts)
    * [Documentation](#documentation)
+      * [Getting started guide](#getting-started-guide)
       * [Deployment](#deployment)
       * [Configuration Options](#configuration-options)
    * [Project Sponsors](#project-sponsors)
@@ -191,6 +192,33 @@ Here domain administrators can manage existing accounts, create new accounts and
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/accounts2.png" target="_blank">![Activity Log screen](./screens/accounts2_mini.png)</a>
 
 # Documentation
+
+## Getting started guide
+
+1. Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version (We recomend Node.js v6.9.2).
+2. Clone the CSUI project from GitHub.
+3. Run "npm install" command. This command installs all dependencies, which are used in the project. Also, you may use "yarn" command.
+4. Prepare your own proxy-conf.js file and set the API endpoint in this file.
+
+### Main commands
+
+| command | action |
+|---------|--------|
+|npm test | use this command to execute tests via Karma|
+|npm run build| use this command to build the project, the build artifacts will be stored in the dist/ directory|
+|npm start| use this command to compile the application, it will be available at URL - "localhost:8080". Run this command with argument '-- --proxy-config proxy-conf.js' |
+
+### Proxy-conf.js file example
+
+<pre>
+  {
+    context: [
+      "/client/api",
+    ],
+    target: "http://api.endpoint/",
+    secure: false
+  }
+</pre>
 
 ## Deployment
 

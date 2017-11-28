@@ -163,6 +163,9 @@ import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offer
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
+import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
+import { AccountUserService } from './services/account-user.service';
 import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
 import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
@@ -271,6 +274,7 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     VolumeResizeComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentComponent,
+    AccountUserActionsComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -350,7 +354,8 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     VolumeResizeComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentContainerComponent,
-    VolumeAttachmentComponent
+    VolumeAttachmentComponent,
+    AccountUserActionsComponent,
   ],
   providers: [
     AccountService,
@@ -412,6 +417,8 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     ZoneService,
     HypervisorService,
     TimeZoneService,
+    AccountUserActionsService,
+    AccountUserService
   ]
 })
 export class SharedModule {

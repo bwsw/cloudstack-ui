@@ -62,13 +62,13 @@ export function listReducer(
   action: securityGroup.Actions
 ): ListState {
   switch (action.type) {
-    case securityGroup.LOAD_SG_REQUEST: {
+    case securityGroup.LOAD_SECURITY_GROUP_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case securityGroup.SG_FILTER_UPDATE: {
+    case securityGroup.SECURITY_GROUP_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -77,7 +77,7 @@ export function listReducer(
         }
       };
     }
-    case securityGroup.LOAD_SG_RESPONSE: {
+    case securityGroup.LOAD_SECURITY_GROUP_RESPONSE: {
       return {
         /**
          * The addMany function provided by the created adapter
@@ -89,18 +89,18 @@ export function listReducer(
         ...adapter.addAll([...action.payload], { ...state, loading: false }),
       };
     }
-    case securityGroup.LOAD_SELECTED_SG: {
+    case securityGroup.LOAD_SELECTED_SECURITY_GROUP: {
       return {
         ...state,
         selectedSecurityGroupId: action.payload
       };
     }
-    case securityGroup.CREATE_SG_SUCCESS: {
+    case securityGroup.CREATE_SECURITY_GROUP_SUCCESS: {
       return {
         ...adapter.addOne(action.payload, state)
       };
     }
-    case securityGroup.REMOVE_SG_SUCCESS: {
+    case securityGroup.DELETE_SECURITY_GROUP_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
     case securityGroup.UPDATE_SECURITY_GROUP: {
@@ -123,6 +123,22 @@ export function formReducer(
   action: securityGroup.Actions
 ): FormState {
   switch (action.type) {
+    case securityGroup.CREATE_SECURITY_GROUP:
+    case securityGroup.DELETE_SECURITY_GROUP: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case securityGroup.CREATE_SECURITY_GROUP_SUCCESS:
+    case securityGroup.CREATE_SECURITY_GROUP_ERROR:
+    case securityGroup.DELETE_SECURITY_GROUP_SUCCESS:
+    case securityGroup.DELETE_SECURITY_GROUP_ERROR: {
+      return {
+        ...state,
+        loading: false
+      };
+    }
     default: {
       return state;
     }

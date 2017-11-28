@@ -1,0 +1,43 @@
+<div class="tab-action-container">
+  <button mat-mini-fab (click)="addUser()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<mat-accordion *ngIf="!!account">
+  <mat-expansion-panel
+    *ngFor="let user of sortedUsers"
+    [expanded]="step === user.id"
+    (opened)="setStep(user.id)"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ user.firstname }} {{ user.lastname }}
+      </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <cs-account-user-card [user]="user"></cs-account-user-card>
+
+    <mat-action-row>
+      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-action-row>
+
+    <mat-menu
+      #actionsMenu="matMenu"
+      [style.width.px]="300"
+    >
+      <cs-account-user-actions
+        [user]="user"
+        (onUserDelete)="deleteUser($event)"
+        (onUserEdit)="editUser($event)"
+        (onUserChangePassword)="onUserChangePassword($event)"
+        (onUserRegenerateKey)="regenerateKeys($event)"
+      >
+      </cs-account-user-actions>
+    </mat-menu>
+  </mat-expansion-panel>
+</mat-accordion>

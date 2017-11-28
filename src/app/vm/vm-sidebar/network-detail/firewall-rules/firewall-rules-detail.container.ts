@@ -23,6 +23,6 @@ export class FirewallRulesDetailContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new securityGroupActions.LoadSGRequest());
+    this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
   }
 }

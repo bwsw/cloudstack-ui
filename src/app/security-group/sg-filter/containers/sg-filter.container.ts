@@ -68,7 +68,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     const viewMode = params.viewMode || SecurityGroupViewMode.Templates;
     const query = params.query;
 
-    this.store.dispatch(new securityGroupActions.SGFilterUpdate({
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({
       viewMode,
       query
     }));
@@ -82,10 +82,10 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   public onViewModeChange(viewMode) {
-    this.store.dispatch(new securityGroupActions.SGFilterUpdate({ viewMode }));
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ viewMode }));
   }
 
   public onQueryChange(query) {
-    this.store.dispatch(new securityGroupActions.SGFilterUpdate({ query }));
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ query }));
   }
 }

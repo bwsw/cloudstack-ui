@@ -2,8 +2,11 @@ interface IFieldMapper {
   [key: string]: string;
 }
 
+export interface BaseModelInterface {
+  id?: string;
+}
 
-export abstract class BaseModel {
+export abstract class BaseModel implements BaseModelInterface {
   public id: string;
   protected _mapper: IFieldMapper;
 

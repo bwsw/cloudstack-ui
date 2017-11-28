@@ -10,6 +10,7 @@ import { BaseModel } from '../models';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
+import { BaseModelInterface } from '../models/base.model';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -27,9 +28,9 @@ export interface FormattedResponse<M> {
   }
 }
 
-export abstract class BaseBackendService<M extends BaseModel> {
+export abstract class BaseBackendService<M extends BaseModelInterface> {
   protected entity: string;
-  protected entityModel: { new (params?): M };
+  protected entityModel?: { new (params?): M };
 
   protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
@@ -112,8 +113,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
   protected prepareModel(res, entityModel?): M {
     if (entityModel) {
       return new entityModel(res);
+    } else if (this.entityModel) {
+      return new this.entityModel(res);
     }
-    return new this.entityModel(res);
+    return res;
   }
 
   protected buildParams(command: string, params?: {}, entity?: string): HttpParams {

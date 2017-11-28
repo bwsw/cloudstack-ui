@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
+import { DialogLoadTemplatesRequest } from '../../../../template/redux/template.actions';
+import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 
 
 @Component({
@@ -12,10 +14,19 @@ export class TemplateActionsComponent {
   @Input() public actions: Array<BaseTemplateAction>;
   @Output() public deleteTemplate = new EventEmitter<BaseTemplateModel>();
 
+  constructor(private dialogService: DialogService) {
+  }
+
   public activateAction(action) {
     switch (action.icon) {
       case 'delete': {
-        this.deleteTemplate.emit(this.template);
+        const confirmMessage = 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';
+        this.dialogService.confirm(({ message: confirmMessage }))
+          .subscribe((res) => {
+            if (res) {
+              this.deleteTemplate.emit(this.template);
+            }
+          });
       }
     }
   }
