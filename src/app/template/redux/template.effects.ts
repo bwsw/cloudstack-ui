@@ -64,8 +64,10 @@ export class TemplateEffects {
   removeTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_REMOVE)
     .switchMap((action: template.RemoveTemplate) => {
-      return this.confirmDeletion(action.payload)
-        .map(() => new template.RemoveTemplateSuccess(action.payload))
+      return (action.payload.resourceType === TemplateResourceType.iso.toUpperCase()
+        ? this.isoService.remove(action.payload)
+        : this.templateService.remove(action.payload))
+        .map((removedTemplate) => new template.RemoveTemplateSuccess(removedTemplate))
         .catch((error: Error) => Observable.of(new template.RemoveTemplateError(error)));
     });
 
@@ -180,16 +182,5 @@ export class TemplateEffects {
         this.store.dispatch(new templateGroup.LoadTemplateGroupsRequest());
       }
     });
-  }
-
-  private confirmDeletion(template) {
-    const confirmMessage = 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';
-    return this.dialogService.confirm(({ message: confirmMessage }))
-      .onErrorResumeNext()
-      .map(() => {
-        return (template === TemplateResourceType.iso
-          ? this.isoService.remove(template)
-          : this.templateService.remove(template));
-      });
   }
 }

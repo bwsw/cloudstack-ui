@@ -1,59 +1,105 @@
 import { Action } from '@ngrx/store';
 import { SecurityGroup } from '../../../security-group/sg.model';
+import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
 
-export const LOAD_SG_REQUEST = '[SecurityGroups] LOAD_SG_REQUEST';
-export const LOAD_SG_RESPONSE = '[SecurityGroups] LOAD_SG_RESPONSE';
-export const SG_FILTER_UPDATE = '[SecurityGroups] SG_FILTER_UPDATE';
-export const LOAD_SELECTED_SG = '[SecurityGroups] LOAD_SELECTED_SG';
-export const CREATE_SG_SUCCESS = '[SecurityGroups] CREATE_SG_SUCCESS';
-export const REMOVE_SG_SUCCESS = '[SecurityGroups] REMOVE_SG_SUCCESS';
+export const LOAD_SECURITY_GROUP_REQUEST = '[SecurityGroups] LOAD_SECURITY_GROUP_REQUEST';
+export const LOAD_SECURITY_GROUP_RESPONSE = '[SecurityGroups] LOAD_SECURITY_GROUP_RESPONSE';
+export const SECURITY_GROUP_FILTER_UPDATE = '[SecurityGroups] SECURITY_GROUP_FILTER_UPDATE';
+export const LOAD_SELECTED_SECURITY_GROUP = '[SecurityGroups] LOAD_SELECTED_SECURITY_GROUP';
+export const CREATE_SECURITY_GROUP = '[SecurityGroups] CREATE_SECURITY_GROUP';
+export const CREATE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] CREATE_SECURITY_GROUP_SUCCESS';
+export const CREATE_SECURITY_GROUP_ERROR = '[SecurityGroups] CREATE_SECURITY_GROUP_ERROR';
+export const UPDATE_SECURITY_GROUP = '[SecurityGroups] UPDATE_SECURITY_GROUP';
+export const DELETE_SECURITY_GROUP = '[SecurityGroups] DELETE_SECURITY_GROUP';
+export const DELETE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] DELETE_SECURITY_GROUP_SUCCESS';
+export const DELETE_SECURITY_GROUP_ERROR = '[SecurityGroups] DELETE_SECURITY_GROUP_ERROR';
 
-export class LoadSGRequest implements Action {
-  readonly type = LOAD_SG_REQUEST;
-
-  constructor(public payload?: any) {
-  }
-}
-
-export class LoadSGResponse implements Action {
-  readonly type = LOAD_SG_RESPONSE;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class SGFilterUpdate implements Action {
-  readonly type = SG_FILTER_UPDATE;
+export class LoadSecurityGroupRequest implements Action {
+  readonly type = LOAD_SECURITY_GROUP_REQUEST;
 
   constructor(public payload?: any) {
   }
 }
 
-export class LoadSelectedSG implements Action {
-  type = LOAD_SELECTED_SG;
+export class LoadSecurityGroupResponse implements Action {
+  readonly type = LOAD_SECURITY_GROUP_RESPONSE;
+
+  constructor(public payload: SecurityGroup[]) {
+  }
+}
+
+export class SecurityGroupFilterUpdate implements Action {
+  readonly type = SECURITY_GROUP_FILTER_UPDATE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class LoadSelectedSecurityGroup implements Action {
+  type = LOAD_SELECTED_SECURITY_GROUP;
 
   constructor(public payload: string) {
   }
 }
 
-export class CreateSGSuccess implements Action {
-  type = CREATE_SG_SUCCESS;
+export class CreateSecurityGroup implements Action {
+  type = CREATE_SECURITY_GROUP;
+
+  constructor(public payload: SecurityGroupCreationParams) {
+  }
+}
+
+export class CreateSecurityGroupSuccess implements Action {
+  type = CREATE_SECURITY_GROUP_SUCCESS;
 
   constructor(public payload: SecurityGroup) {
   }
 }
 
-export class RemoveSGSuccess implements Action {
-  type = REMOVE_SG_SUCCESS;
+export class CreateSecurityGroupError implements Action {
+  type = CREATE_SECURITY_GROUP_ERROR;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateSecurityGroup implements Action {
+  type = UPDATE_SECURITY_GROUP;
 
   constructor(public payload: SecurityGroup) {
+  }
+}
+
+export class DeleteSecurityGroup implements Action {
+  type = DELETE_SECURITY_GROUP;
+
+  constructor(public payload: SecurityGroup) {
+  }
+}
+
+export class DeleteSecurityGroupSuccess implements Action {
+  type = DELETE_SECURITY_GROUP_SUCCESS;
+
+  constructor(public payload: SecurityGroup) {
+  }
+}
+
+export class DeleteSecurityGroupError implements Action {
+  type = DELETE_SECURITY_GROUP_ERROR;
+
+  constructor(public payload: any) {
   }
 }
 
 export type Actions =
-  LoadSGRequest
-  | LoadSGResponse
-  | SGFilterUpdate
-  | LoadSelectedSG
-  | CreateSGSuccess
-  | RemoveSGSuccess;
+  LoadSecurityGroupRequest
+  | LoadSecurityGroupResponse
+  | SecurityGroupFilterUpdate
+  | LoadSelectedSecurityGroup
+  | CreateSecurityGroup
+  | CreateSecurityGroupSuccess
+  | CreateSecurityGroupError
+  | UpdateSecurityGroup
+  | DeleteSecurityGroup
+  | DeleteSecurityGroupSuccess
+  | DeleteSecurityGroupError;

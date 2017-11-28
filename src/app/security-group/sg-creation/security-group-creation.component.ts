@@ -1,12 +1,22 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../shared/components/security-group-builder/rules';
-import { SecurityGroupService } from '../services/security-group.service';
-import { SecurityGroup } from '../sg.model';
 import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
 
+export interface SecurityGroupCreationParams {
+  mode: SecurityGroupViewMode;
+  data: {
+    name: string,
+    description: string
+  };
+  rules?: Rules
+}
 
 @Component({
   selector: 'cs-security-group-creation',
@@ -15,18 +25,14 @@ import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.contain
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SecurityGroupCreationComponent {
+  @Input() public creationInProgress = false;
+  @Input() public mode: SecurityGroupViewMode;
+  @Output() public cancel = new EventEmitter();
+  @Output() public createSecurityGroup = new EventEmitter<SecurityGroupCreationParams>();
+
   public name = '';
   public description = '';
   public securityRules: Rules;
-
-  public creationInProgress = false;
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<SecurityGroupCreationComponent>,
-    public dialogService: DialogService,
-    private sgService: SecurityGroupService,
-  ) { }
 
   public get isModeTemplates(): boolean {
     return this.mode === SecurityGroupViewMode.Templates;
@@ -38,48 +44,17 @@ export class SecurityGroupCreationComponent {
 
   public onSubmit(e: Event): void {
     e.preventDefault();
-    this.createSecurityGroup(this.securityGroupCreationParams);
+    this.createSecurityGroup.emit(this.securityGroupCreationParams);
   }
 
-  public createSecurityGroup({ data, rules }): void {
-    this.creationInProgress = true;
-    this.getSecurityGroupCreationRequest(data, rules)
-      .switchMap(template => rules ? this.sgService.get(template.id) : Observable.of(template))
-      .finally(() => this.creationInProgress = false)
-      .subscribe(
-        template => this.dialogRef.close(template),
-        error => this.handleError(error)
-      );
-  }
-
-  private get mode(): SecurityGroupViewMode {
-    return this.data.mode;
-  }
-
-  private get securityGroupCreationParams(): any {
+  private get securityGroupCreationParams(): SecurityGroupCreationParams {
     return {
+      mode: this.mode,
       data: {
         name: this.name,
         description: this.description
       },
       rules: this.securityRules
     };
-  }
-
-  private getSecurityGroupCreationRequest(data: any, rules: Rules): Observable<SecurityGroup> {
-    if (this.mode === SecurityGroupViewMode.Templates) {
-      return this.sgService.createTemplate(data, rules);
-    } else {
-      return this.sgService.createShared(data, rules);
-    }
-  }
-
-  private handleError(error): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
-    });
   }
 }

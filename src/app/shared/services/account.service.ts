@@ -24,7 +24,8 @@ export class AccountService extends BaseBackendService<Account> {
     account: Account
   ): Observable<Account> {
     return this.sendCommand('update', {
-      accountid: account.id
+      id: account.id,
+      newname: account.name,
     });
   }
 

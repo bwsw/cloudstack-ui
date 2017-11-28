@@ -1,6 +1,6 @@
 interface EntityDecoratorData<M> {
   entity: string;
-  entityModel: { new(params?): M };
+  entityModel?: { new(params?): M };
 }
 
 export function BackendResource<T>(data: EntityDecoratorData<T>): ClassDecorator {

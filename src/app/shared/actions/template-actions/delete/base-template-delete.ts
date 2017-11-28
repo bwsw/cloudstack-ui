@@ -57,5 +57,5 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
     });
   }
 
-  protected abstract remove(template: BaseTemplateModel): Observable<void>;
+  protected abstract remove(template: BaseTemplateModel): Observable<any>;
 }

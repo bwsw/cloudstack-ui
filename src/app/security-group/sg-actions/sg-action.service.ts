@@ -1,20 +1,28 @@
-import { Injectable } from '@angular/core';
-import { ActionsService } from '../../shared/interfaces/action-service.interface';
 import { SecurityGroup } from '../sg.model';
-import { SecurityGroupAction } from './sg-action';
-import { SecurityGroupRemoveAction } from './sg-remove';
-import { SecurityGroupRulesAction } from './sg-rules';
+import { Action } from '../../shared/models/action.model';
 
+export enum SecurityGroupActionType {
+  View = 'view',
+  Delete = 'delete',
+}
 
-@Injectable()
-export class SecurityGroupActionsService implements ActionsService<SecurityGroup, SecurityGroupAction> {
-  public actions = [
-    this.securityGroupRulesAction,
-    this.securityGroupRemoveAction
+const SecurityGroupDeleteAction = {
+  name: 'COMMON.DELETE',
+  command: SecurityGroupActionType.Delete,
+  icon: 'delete',
+  canActivate: (securityGroup: SecurityGroup) => true
+};
+
+const SecurityGroupShowRulesAction = {
+  name: 'SECURITY_GROUP_PAGE.ACTION.RULES',
+  command: SecurityGroupActionType.View,
+  icon: 'visibility',
+  canActivate: (securityGroup: SecurityGroup) => true
+};
+
+export class SecurityGroupActionService {
+  public actions: Array<Action<SecurityGroup>> = [
+    SecurityGroupShowRulesAction,
+    SecurityGroupDeleteAction
   ];
-
-  constructor(
-    public securityGroupRulesAction: SecurityGroupRulesAction,
-    public securityGroupRemoveAction: SecurityGroupRemoveAction
-  ) {}
 }

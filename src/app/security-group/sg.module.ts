@@ -25,11 +25,8 @@ import { SharedSecurityGroupCreationService } from './services/creation-services
 import { TemplateSecurityGroupCreationService } from './services/creation-services/template-security-group-creation.service';
 import { NetworkRuleService } from './services/network-rule.service';
 import { SecurityGroupService } from './services/security-group.service';
-import { SecurityGroupActionsService } from './sg-actions/sg-action.service';
+import { SecurityGroupActionService } from './sg-actions/sg-action.service';
 import { SecurityGroupActionsComponent } from './sg-actions/sg-actions-component/sg-actions.component';
-import { SecurityGroupEditAction } from './sg-actions/sg-edit';
-import { SecurityGroupRemoveAction } from './sg-actions/sg-remove';
-import { SecurityGroupRulesAction } from './sg-actions/sg-rules';
 import { SgFilterComponent } from './sg-filter/sg-filter.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
@@ -52,7 +49,6 @@ import { SecurityGroupEffects } from '../reducers/security-groups/redux/sg.effec
 import { SgFilterContainerComponent } from './sg-filter/containers/sg-filter.container';
 import { SgRulesContainerComponent } from './containers/sg-rules.container';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SecurityGroupCreationDialogContainerComponent } from './containers/security-group-creation-dialog.container';
 import { SecurityGroupActionsContainerComponent } from './containers/sg-actions.container';
 import { SecurityGroupSidebarContainerComponent } from './containers/security-group-sidebar.container';
 import { SecurityGroupDetailsContainerComponent } from './containers/security-group-details.container';
@@ -61,6 +57,7 @@ import { SecurityGroupDetailsComponent } from './sg-sidebar/sg-details/security-
 import { SecurityGroupVmListComponent } from './sg-sidebar/sg-vm-list/security-group-vm-list.component';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
+import { SecurityGroupCreationContainerComponent } from './containers/security-group-creation.container';
 
 
 @NgModule({
@@ -107,8 +104,8 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
     SecurityGroupPageComponent,
     SecurityGroupCardItemComponent,
     SecurityGroupRowItemComponent,
+    SecurityGroupCreationContainerComponent,
     SecurityGroupCreationComponent,
-    SecurityGroupCreationDialogContainerComponent,
     SecurityGroupCreationDialogComponent,
     SgRulesContainerComponent,
     SgRulesComponent,
@@ -124,16 +121,13 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
   providers: [
     NetworkRuleService,
     SecurityGroupService,
-    SecurityGroupActionsService,
-    SecurityGroupRulesAction,
-    SecurityGroupEditAction,
-    SecurityGroupRemoveAction,
+    SecurityGroupActionService,
     PrivateSecurityGroupCreationService,
     SharedSecurityGroupCreationService,
     TemplateSecurityGroupCreationService
   ],
   entryComponents: [
-    SecurityGroupCreationComponent,
+    SecurityGroupCreationContainerComponent,
     SgRulesContainerComponent,
     SecurityGroupCreationSecurityGroupComponent
   ]

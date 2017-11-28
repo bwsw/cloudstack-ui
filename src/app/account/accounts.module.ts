@@ -7,8 +7,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AccountListComponent } from './account-list/account-list.component';
 import { AccountListFilterComponent } from './account-list-filter/account-list-filter.component';
 import {
+  MatAutocompleteModule,
   MatButtonModule,
-  MatDialogModule,
+  MatDialogModule, MatExpansionModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule,
@@ -34,7 +35,7 @@ import { RolesEffects } from '../reducers/roles/redux/roles.effects';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
-import { domainReducers } from '../reducers/domains/redux/domains.reducers'
+import { domainReducers } from '../reducers/domains/redux/domains.reducers';
 import { roleReducers } from '../reducers/roles/redux/roles.reducers';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
@@ -50,16 +51,25 @@ import { AccountCreationDialogComponent } from './creation-form/account-creation
 import { AccountCreationContainerComponent } from './account-container/account-creation.container';
 import { AccountFilterContainerComponent } from './account-container/account-filter.container';
 import { AccountActionsContainerComponent } from './account-container/account-actions.container';
+import { AccountUsersContainerComponent } from './account-container/account-users.container';
+import { AccountUsersComponent } from './account-sidebar/account-users/account-users.component';
+import { AccountUserCardComponent } from './account-sidebar/account-users/account-user-card.component';
+import { AccountUserEditComponent } from './account-sidebar/account-users/account-user-edit.component';
+import { AccountUserEditContainerComponent } from './account-container/account-user-edit.container';
+import { AccountUserPasswordFormComponent } from './account-sidebar/account-users/account-user-password.component';
+import { AccountUserPasswordFormContainerComponent } from './account-container/account-user-password.container';
 
 @NgModule({
   imports: [
     CommonModule,
     DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
     FormsModule,
+    MatAutocompleteModule,
     MatMenuModule,
     MatTooltipModule,
     MatTabsModule,
     MatButtonModule,
+    MatExpansionModule,
     MatSelectModule,
     MatDialogModule,
     MatSelectModule,
@@ -105,13 +115,23 @@ import { AccountActionsContainerComponent } from './account-container/account-ac
     AccountCreationComponent,
     AccountCreationDialogComponent,
     AccountCreationContainerComponent,
+    AccountUsersContainerComponent,
+    AccountUsersComponent,
+    AccountUserCardComponent,
+    AccountUserEditComponent,
+    AccountUserEditContainerComponent,
+    AccountUserPasswordFormComponent,
+    AccountUserPasswordFormContainerComponent
   ],
   entryComponents: [
     EditAccountConfigurationComponent,
-    AccountCreationContainerComponent
+    AccountCreationContainerComponent,
+    AccountUserEditContainerComponent,
+    AccountUserPasswordFormContainerComponent
   ],
   exports: [
     AccountPageComponent
   ]
 })
-export class AccountModule {}
+export class AccountModule {
+}

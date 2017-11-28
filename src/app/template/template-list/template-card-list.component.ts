@@ -21,7 +21,6 @@ export class TemplateCardListComponent {
   @Input() public query: string;
   @Input() public groupings: string;
   @Input() public mode: ViewMode;
-  @Input() public fetching: boolean;
   @Output() public deleteTemplate = new EventEmitter();
 
   public inputs;

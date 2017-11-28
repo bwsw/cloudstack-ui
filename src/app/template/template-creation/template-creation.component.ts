@@ -1,6 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Hypervisor, OsType, Zone } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';

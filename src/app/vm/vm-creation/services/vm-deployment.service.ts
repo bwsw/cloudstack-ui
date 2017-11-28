@@ -164,16 +164,16 @@ export class VmDeploymentService {
       .switchMap(() => {
         return this.userTagService.getSavePasswordForAllVms();
       })
-      .switchMap(() => {
-        if (state.template.agreementAccepted) {
-          return this.vmTagService.setAgreement(vm)
+      .switchMap((tag) => {
+        if (tag) {
+          return this.tagService.update(vm, vm.resourceType, 'csui.vm.password', vm.password);
         } else {
           return Observable.of(null);
         }
       })
-      .switchMap((tag) => {
-        if (tag) {
-          return this.tagService.update(vm, vm.resourceType, 'csui.vm.password', vm.password);
+      .switchMap(() => {
+        if (state.template.agreementAccepted) {
+          return this.vmTagService.setAgreement(vm)
         } else {
           return Observable.of(null);
         }
