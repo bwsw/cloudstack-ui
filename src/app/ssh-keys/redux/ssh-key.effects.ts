@@ -35,9 +35,10 @@ export class SshKeyEffects {
         account: action.payload.account,
         domainid: action.payload.domainid
       })
-        .map(() => {
-          return new sshKey.RemoveSshKeyPairSuccessAction(sshKeyId(action.payload));
-        })
+        .concatMap(() => [
+          new sshKey.RemoveSshKeyPairSuccessAction(sshKeyId(action.payload)),
+          new sshKey.RemoveSshKeyPairSuccessNavigation(action.payload),
+        ])
         .catch((error: Error) => {
           return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
         });
@@ -45,13 +46,15 @@ export class SshKeyEffects {
 
   @Effect({ dispatch: false })
   removeSshKeyPairSuccessNavigate$: Observable<Action> = this.actions$
-    .ofType(sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS)
-    .map((action: sshKey.RemoveSshKeyPairSuccessAction) => action.payload)
-    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
-    .do(() => {
-      this.router.navigate(['./ssh-keys'], {
-        queryParamsHandling: 'preserve'
-      });
+    .ofType(sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS_NAVIGATION)
+    .map((action: sshKey.RemoveSshKeyPairSuccessNavigation) => action.payload)
+    .do((res) => {
+      const route = Utils.deepestActivatedRoute(this.router);
+      if (route.snapshot.params.id === res.name && route.snapshot.queryParams.account === res.account) {
+        this.router.navigate(['./ssh-keys'], {
+          queryParamsHandling: 'preserve'
+        });
+      }
     });
 
   @Effect()

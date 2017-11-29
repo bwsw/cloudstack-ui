@@ -94,7 +94,7 @@ export class Utils {
       route = route.firstChild;
     }
 
-    return route.snapshot.parent.params.id;
+    return route.snapshot.parent.params.id || route;
   }
 }
 

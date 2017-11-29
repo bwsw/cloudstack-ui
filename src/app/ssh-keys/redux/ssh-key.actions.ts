@@ -7,6 +7,7 @@ export const SSH_KEY_FILTER_UPDATE = '[SshKeys] SSH_KEY_FILTER_UPDATE';
 export const SSH_KEY_PAIR_REMOVE = '[SshKeys] SSH_KEY_PAIR_REMOVE';
 export const SSH_KEY_PAIR_REMOVE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_REMOVE_SUCCESS';
 export const SSH_KEY_PAIR_REMOVE_ERROR = '[SshKeys] SSH_KEY_PAIR_REMOVE_ERROR';
+export const SSH_KEY_PAIR_REMOVE_SUCCESS_NAVIGATION = '[SshKeys] SSH_KEY_PAIR_REMOVE_SUCCESS_NAVIGATION';
 export const SSH_KEY_PAIR_CREATE = '[SshKeys] SSH_KEY_PAIR_CREATE';
 export const SSH_KEY_PAIR_CREATE_SUCCESS = '[SshKeys] SSH_KEY_PAIR_CREATE_SUCCESS';
 export const SSH_KEY_PAIR_CREATE_ERROR = '[SshKeys] SSH_KEY_PAIR_CREATE_ERROR';
@@ -46,6 +47,14 @@ export class RemoveSshKeyPairSuccessAction implements Action {
   }
 }
 
+export class RemoveSshKeyPairSuccessNavigation implements Action {
+  readonly type = SSH_KEY_PAIR_REMOVE_SUCCESS_NAVIGATION;
+
+  constructor(public payload?: any) {
+  }
+}
+
+
 export class RemoveSshKeyPairErrorAction implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE_ERROR;
 
@@ -81,6 +90,7 @@ export type Actions =
   | SshKeyFilterUpdate
   | RemoveSshKeyPair
   | RemoveSshKeyPairSuccessAction
+  | RemoveSshKeyPairSuccessNavigation
   | RemoveSshKeyPairErrorAction
   | CreateSshKeyPair
   | CreateSshKeyPairSuccessAction

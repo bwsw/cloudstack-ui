@@ -19,7 +19,6 @@ import { Utils } from 'app/shared/services/utils/utils.service';
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
-import 'rxjs/add/operator/concatMap';
 
 @Injectable()
 export class TemplateEffects {
@@ -70,10 +69,7 @@ export class TemplateEffects {
       return (action.payload.resourceType === TemplateResourceType.iso.toUpperCase()
         ? this.isoService.remove(action.payload)
         : this.templateService.remove(action.payload))
-        .concatMap(removedTemplate => [
-          new template.RemoveTemplateSuccess(removedTemplate),
-          new template.RemoveTemplateSuccessNavigation(action.payload)
-        ])
+        .map(removedTemplate => new template.RemoveTemplateSuccess(removedTemplate))
         .catch((error: Error) => Observable.of(new template.RemoveTemplateError(error)));
     });
 
@@ -89,12 +85,8 @@ export class TemplateEffects {
     .ofType(template.TEMPLATE_REMOVE_SUCCESS)
     .do((action: template.RemoveTemplateSuccess) => {
       this.onNotify(action.payload, this.successTemplateRemove);
-    });
-
-  @Effect({ dispatch: false })
-  removeTemplateSuccessNavigation$: Observable<Action> = this.actions$
-    .ofType(template.TEMPLATE_REMOVE_SUCCESS_NAVIGATION)
-    .map((action: template.RemoveTemplateSuccessNavigation) => action.payload)
+    })
+    .map((action: template.RemoveTemplateSuccess) => action.payload)
     .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
     .do(() => {
       this.router.navigate(['./templates'], {
