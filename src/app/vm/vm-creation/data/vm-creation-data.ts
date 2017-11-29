@@ -28,7 +28,8 @@ export class VmCreationData {
     public sshKeyPairs: Array<SSHKeyPair>,
     public templates: Array<Template>,
     public isos: Array<Iso>,
-    public zones: Array<Zone>
+    public zones: Array<Zone>,
+    public rootDiskMinSize: number
   ) {}
 
   public getDefaultServiceOffering(zone: Zone): ServiceOffering {
