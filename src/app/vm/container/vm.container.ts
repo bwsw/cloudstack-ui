@@ -29,6 +29,7 @@ const getGroupName = (vm: VirtualMachine) => {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
+      (onHide)="deselectVm()"
     ></cs-vm-page>`
 })
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
@@ -83,6 +84,10 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
 
   public isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  public deselectVm() {
+    this.store.dispatch(new vmActions.LoadSelectedVM(null));
   }
 
   public ngAfterViewInit() {

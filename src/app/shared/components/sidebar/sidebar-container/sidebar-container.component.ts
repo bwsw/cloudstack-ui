@@ -1,5 +1,14 @@
-import { Component, HostBinding, Input, } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 
 
 @Component({
@@ -9,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SidebarContainerComponent {
   @Input() @HostBinding('class.open') public isOpen;
+  @Output() public onHide = new EventEmitter();
 
   constructor(
     private route: ActivatedRoute,
@@ -19,5 +29,6 @@ export class SidebarContainerComponent {
     this.router.navigate([this.route.parent.snapshot.url], {
       queryParamsHandling: 'preserve'
     });
+    this.onHide.emit();
   }
 }

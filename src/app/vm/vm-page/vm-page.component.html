@@ -33,7 +33,7 @@
     </cs-vm-list>
   </ng-container>
   <ng-container cs-sidebar>
-    <cs-sidebar [isOpen]="listService?.hasSelected()">
+    <cs-sidebar [isOpen]="listService?.hasSelected()" (onHide)="onHide.emit()">
       <router-outlet></router-outlet>
     </cs-sidebar>
   </ng-container>

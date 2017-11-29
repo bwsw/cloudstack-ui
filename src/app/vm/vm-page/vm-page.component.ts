@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
 import {
   ActivatedRoute,
@@ -25,6 +27,7 @@ export class VmPageComponent implements OnInit {
   @Input() public isLoading: boolean;
   @Input() public groupings: Array<any>;
   @Input() public selectedGroupings: Array<any>;
+  @Output() public onHide = new EventEmitter();
 
   public mode: ViewMode;
   public viewModeKey = 'vmPageViewMode';
