@@ -13,6 +13,7 @@ export const DETACH_VOLUME = '[VOLUMES] DETACH_VOLUME';
 export const RESIZE_VOLUME = '[VOLUMES] RESIZE_VOLUME';
 export const VOLUME_CREATE_SUCCESS = '[VOLUMES] VOLUME_CREATE_SUCCESS';
 export const VOLUME_DELETE_SUCCESS = '[VOLUMES] VOLUME_DELETE_SUCCESS';
+export const VOLUME_DELETE_SUCCESS_NAVIGATE = '[VOLUMES] VOLUME_DELETE_SUCCESS_NAVIGATE';
 export const VOLUME_CREATE_ERROR = '[VOLUMES] VOLUME_CREATE_ERROR';
 export const VOLUME_UPDATE_ERROR = '[VOLUMES] VOLUME_UPDATE_ERROR';
 export const VOLUME_CHANGE_DESCRIPTION = '[VOLUMES] VOLUME_CHANGE_DESCRIPTION';
@@ -93,6 +94,13 @@ export class ResizeVolume implements Action {
 
 export class CreateSuccess implements Action {
   readonly type = VOLUME_CREATE_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeleteSuccessNavigate implements Action {
+  readonly type = VOLUME_DELETE_SUCCESS_NAVIGATE;
 
   constructor(public payload: any) {
   }

@@ -3,6 +3,7 @@ import {
   Actions,
   Effect
 } from '@ngrx/effects';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as volumeActions from './volumes.actions';
 import { Action } from '@ngrx/store';
@@ -10,6 +11,7 @@ import { VolumeService } from '../../../shared/services/volume.service';
 import { Volume } from '../../../shared/models/volume.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
+import 'rxjs/add/operator/concatMap';
 
 @Injectable()
 export class VolumesEffects {
@@ -97,11 +99,25 @@ export class VolumesEffects {
   deleteVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUME)
     .switchMap((action: volumeActions.DeleteVolume) => {
-      return this.volumeService.remove(action.payload)
-        .map(() => new volumeActions.DeleteSuccess(action.payload))
+      return this.volumeService.remove(action.payload.volume)
+        .concatMap(() => [
+          new volumeActions.DeleteSuccess(action.payload.volume),
+          new volumeActions.DeleteSuccessNavigate(action.payload)
+        ])
         .catch((error: Error) => {
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
+    });
+
+  @Effect({ dispatch: false })
+  deleteVolumeSuccessNavigate$: Observable<Action> = this.actions$
+    .ofType(volumeActions.VOLUME_DELETE_SUCCESS_NAVIGATE)
+    .do((action: volumeActions.DeleteSuccessNavigate) => {
+      if (action.payload.volume.id === action.payload.route) {
+        this.router.navigate(['./storage'], {
+          queryParamsHandling: 'preserve'
+        });
+      }
     });
 
   @Effect({ dispatch: false })
@@ -122,7 +138,8 @@ export class VolumesEffects {
     private actions$: Actions,
     private dialogService: DialogService,
     private volumeService: VolumeService,
-    private volumeTagService: VolumeTagService
+    private volumeTagService: VolumeTagService,
+    private router: Router
   ) {
   }
 

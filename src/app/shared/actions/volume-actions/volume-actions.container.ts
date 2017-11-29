@@ -2,6 +2,7 @@ import {
   Component,
   Input
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
@@ -31,12 +32,14 @@ export class VolumeActionsContainerComponent extends WithUnsubscribe() {
     public dialogService: DialogService,
     public authService: AuthService,
     private store: Store<State>,
+    private route: ActivatedRoute
   ) {
     super();
   }
 
   public onVolumeDelete(volume: Volume): void {
-    this.store.dispatch(new volumeActions.DeleteVolume(volume));
+    const payload = { volume: volume, route: this.route.snapshot.params.id };
+    this.store.dispatch(new volumeActions.DeleteVolume(payload));
   }
 
   public onVolumeAttach(vmId: string): void {
