@@ -229,15 +229,9 @@ export class VmCreationComponent implements OnInit {
 
   public deploy(): void {
     this.templateTagService.getAgreement(this.formState.state.template)
-      .switchMap(res => {
+      .switchMap(res => res ? this.showTemplateAgreementDialog() : Observable.of(true))
+      .subscribe(res => {
         if (res) {
-          return this.showTemplateAgreementDialog()
-        } else {
-          this.deployRequest();
-        }
-      })
-      .subscribe(item => {
-        if (item) {
           this.formState.state.agreement = true;
           this.deployRequest();
         }

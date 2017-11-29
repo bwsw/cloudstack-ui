@@ -15,7 +15,6 @@ import { UserTagService } from '../../../../shared/services/tags/user-tag.servic
 export class VmCreationAgreementComponent implements OnInit {
   private _agreement: string;
   private template: BaseTemplateModel;
-  private lang: string;
 
   public get agreement(): string {
     return this._agreement;
@@ -33,7 +32,6 @@ export class VmCreationAgreementComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.userTagService.getLang().subscribe(res => this.lang = res);
     this.readFile();
   }
 
@@ -46,7 +44,8 @@ export class VmCreationAgreementComponent implements OnInit {
   }
 
   protected readFile() {
-    this.templateTagService.getAgreement(this.template, this.lang)
+    this.userTagService.getLang()
+      .switchMap(res => this.templateTagService.getAgreement(this.template, res))
       .switchMap(path => this.http.get(path))
       .map(response => response.text())
       .map(text => {

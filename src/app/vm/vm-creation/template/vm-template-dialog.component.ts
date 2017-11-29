@@ -42,10 +42,8 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   }
 
 
-  public onOk() {
-    const data = Object.assign({} , this.selectedTemplate ? this.selectedTemplate : this.preselectedTemplate);
-
-    this.dialogRef.close(data);
+  public onOk(template) {
+    this.dialogRef.close(template);
   }
 
   public onCancel(): void {
