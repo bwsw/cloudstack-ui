@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
@@ -13,10 +14,12 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { State } from '../../reducers/index';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
+import { Utils } from 'app/shared/services/utils/utils.service';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
+import 'rxjs/add/operator/concatMap';
 
 @Injectable()
 export class TemplateEffects {
@@ -67,7 +70,10 @@ export class TemplateEffects {
       return (action.payload.resourceType === TemplateResourceType.iso.toUpperCase()
         ? this.isoService.remove(action.payload)
         : this.templateService.remove(action.payload))
-        .map((removedTemplate) => new template.RemoveTemplateSuccess(removedTemplate))
+        .concatMap(removedTemplate => [
+          new template.RemoveTemplateSuccess(removedTemplate),
+          new template.RemoveTemplateSuccessNavigation(action.payload)
+        ])
         .catch((error: Error) => Observable.of(new template.RemoveTemplateError(error)));
     });
 
@@ -83,6 +89,17 @@ export class TemplateEffects {
     .ofType(template.TEMPLATE_REMOVE_SUCCESS)
     .do((action: template.RemoveTemplateSuccess) => {
       this.onNotify(action.payload, this.successTemplateRemove);
+    });
+
+  @Effect({ dispatch: false })
+  removeTemplateSuccessNavigation$: Observable<Action> = this.actions$
+    .ofType(template.TEMPLATE_REMOVE_SUCCESS_NAVIGATION)
+    .map((action: template.RemoveTemplateSuccessNavigation) => action.payload)
+    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
+    .do(() => {
+      this.router.navigate(['./templates'], {
+        queryParamsHandling: 'preserve'
+      });
     });
 
   @Effect()
@@ -152,7 +169,8 @@ export class TemplateEffects {
     private dialogService: DialogService,
     private notificationService: NotificationService,
     private store: Store<State>,
-    private templateTagService: TemplateTagService
+    private templateTagService: TemplateTagService,
+    private router: Router
   ) {
   }
 

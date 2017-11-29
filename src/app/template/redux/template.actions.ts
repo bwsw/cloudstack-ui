@@ -10,6 +10,7 @@ export const TEMPLATE_CREATE_SUCCESS = '[Templates] TEMPLATE_CREATE_SUCCESS';
 export const TEMPLATE_CREATE_ERROR = '[Templates] TEMPLATE_CREATE_ERROR';
 export const TEMPLATE_REMOVE = '[Templates] TEMPLATE_REMOVE';
 export const TEMPLATE_REMOVE_SUCCESS = '[Templates] TEMPLATE_REMOVE_SUCCESS';
+export const TEMPLATE_REMOVE_SUCCESS_NAVIGATION = '[Templates] TEMPLATE_REMOVE_SUCCESS_NAVIGATION';
 export const TEMPLATE_REMOVE_ERROR = '[Templates] TEMPLATE_REMOVE_ERROR';
 export const LOAD_SELECTED_TEMPLATE = '[Templates] LOAD_SELECTED_TEMPLATE';
 export const DIALOG_LOAD_TEMPLATE_REQUEST = '[Templates] DIALOG_LOAD_TEMPLATE_REQUEST';
@@ -94,6 +95,13 @@ export class RemoveTemplateSuccess implements Action {
   }
 }
 
+export class RemoveTemplateSuccessNavigation implements Action {
+  readonly type = TEMPLATE_REMOVE_SUCCESS_NAVIGATION;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export class RemoveTemplateError implements Action {
   readonly type = TEMPLATE_REMOVE_ERROR;
 
@@ -158,6 +166,7 @@ export type Actions =
   | RemoveTemplate
   | RemoveTemplateError
   | RemoveTemplateSuccess
+  | RemoveTemplateSuccessNavigation
   | CreateTemplate
   | CreateTemplateSuccess
   | CreateTemplateError

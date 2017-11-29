@@ -11,6 +11,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as securityGroup from './sg.actions';
 
@@ -56,6 +57,17 @@ export class SecurityGroupEffects {
       return this.onDeleteConfirmation(action.payload)
         .map(result => new securityGroup.DeleteSecurityGroupSuccess(action.payload))
         .catch(error => Observable.of(new securityGroup.DeleteSecurityGroupError(error)));
+    });
+
+  @Effect({ dispatch: false })
+  deleteSecurityGroupSuccessNavigate$: Observable<Action> = this.actions$
+    .ofType(securityGroup.DELETE_SECURITY_GROUP_SUCCESS)
+    .map((action: securityGroup.DeleteSecurityGroupSuccess) => action.payload)
+    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
+    .do(() => {
+      this.router.navigate(['./security-group'], {
+        queryParamsHandling: 'preserve'
+      });
     });
 
   @Effect({ dispatch: false })

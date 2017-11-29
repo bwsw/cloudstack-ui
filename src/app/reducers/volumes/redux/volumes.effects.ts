@@ -11,7 +11,7 @@ import { VolumeService } from '../../../shared/services/volume.service';
 import { Volume } from '../../../shared/models/volume.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
-import 'rxjs/add/operator/concatMap';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 @Injectable()
 export class VolumesEffects {
@@ -99,11 +99,8 @@ export class VolumesEffects {
   deleteVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUME)
     .switchMap((action: volumeActions.DeleteVolume) => {
-      return this.volumeService.remove(action.payload.volume)
-        .concatMap(() => [
-          new volumeActions.DeleteSuccess(action.payload.volume),
-          new volumeActions.DeleteSuccessNavigate(action.payload)
-        ])
+      return this.volumeService.remove(action.payload)
+        .map(() => new volumeActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
@@ -111,13 +108,13 @@ export class VolumesEffects {
 
   @Effect({ dispatch: false })
   deleteVolumeSuccessNavigate$: Observable<Action> = this.actions$
-    .ofType(volumeActions.VOLUME_DELETE_SUCCESS_NAVIGATE)
-    .do((action: volumeActions.DeleteSuccessNavigate) => {
-      if (action.payload.volume.id === action.payload.route) {
-        this.router.navigate(['./storage'], {
-          queryParamsHandling: 'preserve'
-        });
-      }
+    .ofType(volumeActions.VOLUME_DELETE_SUCCESS)
+    .map((action: volumeActions.DeleteSuccess) => action.payload)
+    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
+    .do(() => {
+      this.router.navigate(['./storage'], {
+        queryParamsHandling: 'preserve'
+      });
     });
 
   @Effect({ dispatch: false })

@@ -7,9 +7,12 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { SshPrivateKeyDialogComponent } from '../ssh-key-creation/ssh-private-key-dialog.component';
 import { MatDialog } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { sshKeyId } from './ssh-key.reducers';
+import { Router } from '@angular/router';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 import * as sshKey from './ssh-key.actions';
-import { sshKeyId } from './ssh-key.reducers';
+
 
 @Injectable()
 export class SshKeyEffects {
@@ -38,6 +41,17 @@ export class SshKeyEffects {
         .catch((error: Error) => {
           return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
         });
+    });
+
+  @Effect({ dispatch: false })
+  removeSshKeyPairSuccessNavigate$: Observable<Action> = this.actions$
+    .ofType(sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS)
+    .map((action: sshKey.RemoveSshKeyPairSuccessAction) => action.payload)
+    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
+    .do(() => {
+      this.router.navigate(['./ssh-keys'], {
+        queryParamsHandling: 'preserve'
+      });
     });
 
   @Effect()
@@ -79,7 +93,8 @@ export class SshKeyEffects {
     private actions$: Actions,
     private sshKeyService: SSHKeyPairService,
     private dialog: MatDialog,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {
   }
 

@@ -9,7 +9,7 @@ import { Account } from '../../../shared/models/account.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AccountUserService } from '../../../shared/services/account-user.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import 'rxjs/add/operator/concatMap';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as accountActions from './accounts.actions';
 
@@ -74,10 +74,7 @@ export class AccountsEffects {
         .switchMap(job => {
           return this.asyncJobService.queryJob(job, 'account', Account);
         })
-        .concatMap(() => [
-          new accountActions.DeleteSuccess(action.payload),
-          new accountActions.DeleteSuccessNavigate(action.payload)
-        ])
+        .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
@@ -97,7 +94,9 @@ export class AccountsEffects {
 
   @Effect({ dispatch: false })
   deleteSuccessNavigate$ =  this.actions$
-    .ofType(accountActions.ACCOUNT_DELETE_SUCCESS_NAVIGATE)
+    .ofType(accountActions.ACCOUNT_DELETE_SUCCESS)
+    .map((action: accountActions.DeleteSuccess) => action.payload)
+    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
     .do(() => {
       this.router.navigate(['./accounts'], {
         queryParamsHandling: 'preserve'
