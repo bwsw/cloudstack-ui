@@ -221,7 +221,7 @@ export const selectSpareOnlyVolumes = createSelector(
   fromVMs.getSelectedVM,
   (volumes, vm) => {
     const zoneFilter = (volume) => volume.zoneId === vm.zoneId;
-    const spareOnlyFilter = volume => volume.isSpare;
+    const spareOnlyFilter = volume => !volume.virtualMachineId;
 
     return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume));
   }
@@ -264,7 +264,7 @@ export const selectFilteredVolumes = createSelector(
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
-    const spareOnlyFilter = volume => spareOnly ? volume.isSpare : true;
+    const spareOnlyFilter = volume => spareOnly ? !volume.virtualMachineId : true;
 
     const queryFilter = volume => !query || volume.name.toLowerCase()
         .includes(queryLower) ||
