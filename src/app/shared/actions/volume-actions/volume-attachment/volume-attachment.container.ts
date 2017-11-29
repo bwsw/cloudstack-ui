@@ -31,7 +31,7 @@ export class VolumeAttachmentContainerComponent implements OnInit {
   public volume: Volume;
   public zoneId: string;
 
-  readonly vms$ = this.store.select(fromVMs.selectAll);
+  readonly vms$ = this.store.select(fromVMs.getAttachmentVMs);
   readonly loading$ = this.store.select(fromVMs.isLoading);
 
   constructor(
@@ -44,7 +44,7 @@ export class VolumeAttachmentContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.LoadVMsRequest({ zoneId: this.zoneId }));
+    this.store.dispatch(new vmActions.LoadVMsRequest());
   }
 
   public attachVolume(virtualMachineId: string) {

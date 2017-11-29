@@ -11,6 +11,7 @@ import * as event from './vm.actions';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
@@ -239,6 +240,16 @@ export const getUsingSGVMs = createSelector(
   (vms, sGroupId) => {
     const sGroupFilter = vm => vm.securityGroup.find(group => group.id === sGroupId);
     return vms.filter(vm => sGroupFilter(vm));
+  }
+);
+
+export const getAttachmentVMs = createSelector(
+  selectAll,
+  fromAuth.getUserAccount,
+  (vms, account) => {
+    const accountFilter = vm => (vm.account === account.name && vm.domainid === account.domainid);
+
+    return vms.filter(vm => accountFilter(vm));
   }
 );
 

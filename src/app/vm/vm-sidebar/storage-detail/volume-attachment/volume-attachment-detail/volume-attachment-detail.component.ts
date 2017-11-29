@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -15,7 +14,7 @@ import { VolumeAttachmentDialogComponent } from '../volume-attchment-dialog/volu
   templateUrl: 'volume-attachment-detail.component.html',
   styleUrls: ['volume-attachment-detail.component.scss']
 })
-export class VolumeAttachmentDetailComponent implements OnInit {
+export class VolumeAttachmentDetailComponent {
   @Input() public volumes: Array<Volume>;
   @Output() public onAttach = new EventEmitter();
 
@@ -26,10 +25,6 @@ export class VolumeAttachmentDetailComponent implements OnInit {
      private dialog: MatDialog
   ) {}
 
-  public ngOnInit(): void {
-
-
-  }
 
   public showDialog(): void {
     this.dialog.open(VolumeAttachmentDialogComponent, {

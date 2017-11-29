@@ -42,7 +42,7 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
   readonly allVolumes$ = this.store.select(fromVolumes.selectSpareOnlyVolumes);
   readonly volumes$ = this.store.select(fromVolumes.selectVmVolumes);
-  readonly iso$ = this.store.select(fromTemplates.getSelectedTemplate);
+  readonly iso$ = this.store.select(fromTemplates.getVMTemplate);
 
   public vm: VirtualMachine;
 
@@ -102,16 +102,14 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
 
   public ngOnInit() {
     this.store.dispatch(new templateActions.TemplatesFilterUpdate({}));
+    this.store.dispatch(new volumeActions.LoadVolumesRequest());
     this.vm$
       .takeUntil(this.unsubscribe$)
       .subscribe(vm => {
         if (vm) {
           this.vm = new VirtualMachine(vm);
-          this.store.dispatch(new volumeActions.LoadVolumesRequest({ zoneId: this.vm.zoneId }));
-          this.store.dispatch(new volumeActions.VmVolumeFilterUpdate({ virtualMachineId: this.vm.id }));
-          this.store.dispatch(new templateActions.LoadSelectedTemplate(this.vm.isoId));
         }
-      })
+      });
   }
 
   public ngAfterViewInit() {

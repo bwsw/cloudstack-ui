@@ -10,6 +10,7 @@ import {
 import * as event from './volumes.actions';
 import { Volume } from '../../../shared/models/volume.model';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -28,8 +29,7 @@ export interface State extends EntityState<Volume> {
     selectedGroupings: any[],
     query: string,
     spareOnly: boolean,
-  },
-  virtualMachineId: string
+  }
 }
 
 export interface VolumesState {
@@ -67,8 +67,7 @@ export const initialState: State = adapter.getInitialState({
     selectedGroupings: [],
     query: '',
     spareOnly: false
-  },
-  virtualMachineId: ''
+  }
 });
 
 export function reducer(
@@ -90,13 +89,6 @@ export function reducer(
           ...state.filters,
           ...action.payload
         }
-      };
-    }
-
-    case event.VM_VOLUME_FILTER_UPDATE: {
-      return {
-        ...state,
-        virtualMachineId: action.payload
       };
     }
 
@@ -223,19 +215,21 @@ export const filterSpareOnly = createSelector(
   state => state.spareOnly
 );
 
-export const filterVirtualMachineId = createSelector(
-  getVolumesEntitiesState,
-  state => state.virtualMachineId
-);
 
 export const selectSpareOnlyVolumes = createSelector(
   selectAll,
-  (volumes) => volumes.filter(volume => volume.isSpare)
+  fromVMs.getSelectedVM,
+  (volumes, vm) => {
+    const zoneFilter = (volume) => volume.zoneId === vm.zoneId;
+    const spareOnlyFilter = volume => volume.isSpare;
+
+    return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume));
+  }
 );
 
 export const selectVmVolumes = createSelector(
   selectAll,
-  filterVirtualMachineId,
+  fromVMs.getSelectedId,
   (volumes, virtualMachineId) => {
 
     const virtualMachineIdFilter = volume => !virtualMachineId ||

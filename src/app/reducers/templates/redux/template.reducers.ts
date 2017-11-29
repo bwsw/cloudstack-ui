@@ -17,6 +17,7 @@ import { getUserAccount } from '../../auth/redux/auth.reducers';
 import { DefaultTemplateGroupId } from '../../../template/template-sidebar/template-group/template-group.component';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
@@ -237,6 +238,12 @@ export const getSelectedTemplate = createSelector(
   selectEntities,
   getSelectedId,
   (entities, selectedId) => entities[selectedId]
+);
+
+export const getVMTemplate = createSelector(
+  selectEntities,
+  fromVMs.getSelectedVM,
+  (entities, vm) => entities[vm.isoId]
 );
 
 export const getSelectedTemplateTags = createSelector(
