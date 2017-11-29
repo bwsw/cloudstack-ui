@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { ICustomOfferingRestrictionsByZone } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+import {
+  ICustomOfferingRestrictionsByZone
+} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
   CustomServiceOfferingService,
   DefaultServiceOfferingConfigurationByZone
@@ -112,6 +114,8 @@ export class VmCreationService {
           this.authService.getCustomDiskOfferingMaxSize()
         );
 
+        const rootDiskMinSize = this.authService.getCustomDiskOfferingMinSize();
+
         return new VmCreationData(
           affinityGroupList,
           configurationData,
@@ -127,7 +131,8 @@ export class VmCreationService {
           sshKeysWithNoKeyOption,
           templates,
           isos,
-          zones
+          zones,
+          rootDiskMinSize
         );
       }
     );

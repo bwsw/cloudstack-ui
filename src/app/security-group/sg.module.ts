@@ -58,6 +58,7 @@ import { SecurityGroupVmListComponent } from './sg-sidebar/sg-vm-list/security-g
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
 import { SecurityGroupCreationContainerComponent } from './containers/security-group-creation.container';
+import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
 
 
 @NgModule({
@@ -116,7 +117,8 @@ import { SecurityGroupCreationContainerComponent } from './containers/security-g
     SecurityGroupDetailsContainerComponent,
     SecurityGroupDetailsComponent,
     SecurityGroupVmListComponent,
-    SecurityGroupSidebarComponent
+    SecurityGroupSidebarComponent,
+    SecurityGroupRulesDialogComponent,
   ],
   providers: [
     NetworkRuleService,

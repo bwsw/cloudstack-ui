@@ -90,6 +90,7 @@
                 [(ngModel)]="startPort"
                 [minValue]="0"
                 [maxValue]="65536"
+                [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
                 integerValue
                 required
                 #startPortField="ngModel"
@@ -137,6 +138,7 @@
                 [(ngModel)]="endPort"
                 [minValue]="0"
                 [maxValue]="65536"
+                [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
                 integerValue
                 required
                 #endPortField="ngModel"
