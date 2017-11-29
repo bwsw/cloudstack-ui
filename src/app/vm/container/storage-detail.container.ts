@@ -108,7 +108,7 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
         if (vm) {
           this.vm = new VirtualMachine(vm);
           this.store.dispatch(new volumeActions.LoadVolumesRequest({ zoneId: this.vm.zoneId }));
-          this.store.dispatch(new volumeActions.VolumeFilterUpdate({ virtualMachineId: this.vm.id }));
+          this.store.dispatch(new volumeActions.VmVolumeFilterUpdate({ virtualMachineId: this.vm.id }));
           this.store.dispatch(new templateActions.LoadSelectedTemplate(this.vm.isoId));
         }
       })

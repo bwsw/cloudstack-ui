@@ -26,10 +26,10 @@ export interface State extends EntityState<Volume> {
     selectedTypes: string[],
     selectedAccountIds: string[],
     selectedGroupings: any[],
-    virtualMachineId: string,
     query: string,
     spareOnly: boolean,
-  }
+  },
+  virtualMachineId: string
 }
 
 export interface VolumesState {
@@ -66,9 +66,9 @@ export const initialState: State = adapter.getInitialState({
     selectedAccountIds: [],
     selectedGroupings: [],
     query: '',
-    virtualMachineId: '',
     spareOnly: false
-  }
+  },
+  virtualMachineId: ''
 });
 
 export function reducer(
@@ -82,6 +82,7 @@ export function reducer(
         loading: true
       };
     }
+
     case event.VOLUME_FILTER_UPDATE: {
       return {
         ...state,
@@ -91,6 +92,14 @@ export function reducer(
         }
       };
     }
+
+    case event.VM_VOLUME_FILTER_UPDATE: {
+      return {
+        ...state,
+        virtualMachineId: action.payload
+      };
+    }
+
     case event.LOAD_VOLUMES_RESPONSE: {
 
       const volumes = action.payload;
@@ -215,7 +224,7 @@ export const filterSpareOnly = createSelector(
 );
 
 export const filterVirtualMachineId = createSelector(
-  filters,
+  getVolumesEntitiesState,
   state => state.virtualMachineId
 );
 
