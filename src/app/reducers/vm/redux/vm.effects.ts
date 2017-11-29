@@ -378,6 +378,26 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
+  restoreVm$: Observable<Action> = this.actions$
+    .ofType(vmActions.RESTORE_VM)
+    .switchMap((action: vmActions.RestoreVm) => {
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.RESTORE_IN_PROGRESS');
+      this.update(action.payload);
+
+      return this.vmService.command(action.payload, 'restore')
+        .map(newVm => new vmActions.UpdateVM(new VirtualMachine(newVm), {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.RESTORE_DONE'
+          }))
+        .catch((error: Error) => {
+          return Observable.of(new vmActions.VMUpdateError(error, {
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.RESTORE_FAILED'
+          }));
+        });
+    });
+
+  @Effect()
   recoverVm$: Observable<Action> = this.actions$
     .ofType(vmActions.RECOVER_VM)
     .switchMap((action: vmActions.RecoverVm) => {
@@ -512,14 +532,14 @@ export class VirtualMachinesEffects {
             }
             return Observable.of(new vmActions.UpdateVM(new VirtualMachine(newVm), {
               id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_FAILED'
+              message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE'
             }));
           })
           .do((action) => this.showPasswordDialog(action.payload))
           .catch((error: Error) => {
             return Observable.of(new vmActions.VMUpdateError(error, {
               id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VM.FETCH_STATISTICS_FAILED'
+              message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_FAILED'
             }));
           });
       };
