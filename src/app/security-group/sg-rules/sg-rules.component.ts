@@ -252,7 +252,7 @@ export class SgRulesComponent implements OnChanges {
           if (res) {
             if (this.vmId) {
               this.router.navigate([
-                `security-group/${this.securityGroup.id}`
+                'security-group', this.securityGroup.id, 'rules'
               ], {
                 queryParams: { vm: this.vmId }
               });

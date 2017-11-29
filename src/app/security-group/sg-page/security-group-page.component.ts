@@ -1,16 +1,9 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SecurityGroup, } from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
 import { ListService } from '../../shared/components/list/list.service';
-
 
 @Component({
   selector: 'cs-security-group-page',
@@ -32,6 +25,10 @@ export class SecurityGroupPageComponent {
     private activatedRoute: ActivatedRoute,
     public listService: ListService
   ) {
+  }
+
+  public get showSidebarDetails(): boolean {
+    return this.activatedRoute.snapshot.firstChild.firstChild.routeConfig.path === 'details';
   }
 
   public changeMode(mode) {
