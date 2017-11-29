@@ -59,7 +59,7 @@ export class CreateVolume implements Action {
 export class DeleteVolume implements Action {
   readonly type = DELETE_VOLUME;
 
-  constructor(public payload: any) {
+  constructor(public payload: Volume) {
   }
 }
 
@@ -101,7 +101,7 @@ export class CreateSuccess implements Action {
 export class DeleteSuccess implements Action {
   readonly type = VOLUME_DELETE_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: Volume) {
   }
 }
 

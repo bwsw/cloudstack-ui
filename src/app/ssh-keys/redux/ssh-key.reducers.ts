@@ -19,6 +19,7 @@ export interface State {
 }
 
 export interface ListState extends EntityState<SSHKeyPair> {
+  loading: boolean,
   filters: {
     selectedGroupings: any[],
     selectedAccountIds: string[]
@@ -40,6 +41,7 @@ export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair
 });
 
 const initialListState: ListState = adapter.getInitialState({
+  loading: false,
   filters: {
     selectedAccountIds: [],
     selectedGroupings: []
@@ -73,7 +75,8 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
   switch (action.type) {
     case sshKey.LOAD_SSH_KEYS_REQUEST: {
       return {
-        ...state
+        ...state,
+        loading: true,
       };
     }
     case sshKey.SSH_KEY_FILTER_UPDATE: {
@@ -95,6 +98,7 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll([...action.payload], state),
+        loading: false
       };
     }
 
@@ -105,7 +109,7 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
       };
     }
     case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
-      return adapter.removeOne(action.payload, state);
+      return adapter.removeOne(sshKeyId(action.payload), state);
     }
     default: {
       return state;
@@ -178,6 +182,11 @@ export const filters = createSelector(
 );
 
 export const isLoading = createSelector(
+  getSshKeysEntitiesState,
+  state => state.loading
+);
+
+export const isFormLoading = createSelector(
   getSshKeysFormState,
   state => state.loading
 );

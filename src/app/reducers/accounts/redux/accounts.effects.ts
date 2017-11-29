@@ -9,7 +9,6 @@ import { Account } from '../../../shared/models/account.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AccountUserService } from '../../../shared/services/account-user.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as accountActions from './accounts.actions';
 
@@ -93,10 +92,12 @@ export class AccountsEffects {
     });
 
   @Effect({ dispatch: false })
-  deleteSuccessNavigate$ =  this.actions$
+  deleteSuccessNavigate$: Observable<Account> = this.actions$
     .ofType(accountActions.ACCOUNT_DELETE_SUCCESS)
     .map((action: accountActions.DeleteSuccess) => action.payload)
-    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
+    .filter((account: Account) => {
+      return this.router.isActive(`/accounts/${account.id}`, false);
+    })
     .do(() => {
       this.router.navigate(['./accounts'], {
         queryParamsHandling: 'preserve'

@@ -14,11 +14,11 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { State } from '../../reducers/index';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
-import { Utils } from 'app/shared/services/utils/utils.service';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
+import { BaseTemplateModel } from '../shared/base-template.model';
 
 @Injectable()
 export class TemplateEffects {
@@ -81,13 +81,15 @@ export class TemplateEffects {
     });
 
   @Effect({ dispatch: false })
-  removeTemplateSuccess$: Observable<Action> = this.actions$
+  removeTemplateSuccess$: Observable<BaseTemplateModel> = this.actions$
     .ofType(template.TEMPLATE_REMOVE_SUCCESS)
     .do((action: template.RemoveTemplateSuccess) => {
       this.onNotify(action.payload, this.successTemplateRemove);
     })
     .map((action: template.RemoveTemplateSuccess) => action.payload)
-    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
+    .filter((template: BaseTemplateModel) => {
+      return this.router.isActive(`/templates/${template.path}/${template.id}`, false);
+    })
     .do(() => {
       this.router.navigate(['./templates'], {
         queryParamsHandling: 'preserve'

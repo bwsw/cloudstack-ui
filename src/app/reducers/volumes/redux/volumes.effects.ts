@@ -107,10 +107,12 @@ export class VolumesEffects {
     });
 
   @Effect({ dispatch: false })
-  deleteVolumeSuccessNavigate$: Observable<Action> = this.actions$
+  deleteVolumeSuccessNavigate$: Observable<Volume> = this.actions$
     .ofType(volumeActions.VOLUME_DELETE_SUCCESS)
     .map((action: volumeActions.DeleteSuccess) => action.payload)
-    .filter(res => res.id === Utils.deepestActivatedRoute(this.router))
+    .filter((volume: Volume) => {
+      return this.router.isActive(`/storage/${volume.id}`, false);
+    })
     .do(() => {
       this.router.navigate(['./storage'], {
         queryParamsHandling: 'preserve'

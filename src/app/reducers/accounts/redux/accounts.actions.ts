@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { AccountUser } from '../../../shared/models/account-user.model';
+import { Account } from '../../../shared/models/account.model';
 
 export const LOAD_ACCOUNTS_REQUEST = '[ACCOUNTS] LOAD_ACCOUNTS_REQUEST';
 export const LOAD_ACCOUNTS_RESPONSE = '[ACCOUNTS] LOAD_ACCOUNTS_RESPONSE';
@@ -94,35 +95,35 @@ export class AccountUpdateError implements Action {
 export class EnableAccountRequest implements Action {
   readonly type = ENABLE_ACCOUNT;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account) {
   }
 }
 
 export class DisableAccountRequest implements Action {
   readonly type = DISABLE_ACCOUNT;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account) {
   }
 }
 
 export class LockAccountRequest implements Action {
   readonly type = LOCK_ACCOUNT;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account) {
   }
 }
 
 export class DeleteAccountRequest implements Action {
   readonly type = DELETE_ACCOUNT;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account) {
   }
 }
 
 export class DeleteSuccess implements Action {
   readonly type = ACCOUNT_DELETE_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account) {
   }
 }
 

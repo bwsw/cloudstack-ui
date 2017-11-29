@@ -86,16 +86,6 @@ export class Utils {
 
     return darkness > 0.5;
   }
-
-  public static deepestActivatedRoute(router) {
-    let route = router.routerState.root.firstChild;
-
-    while (route.firstChild) {
-      route = route.firstChild;
-    }
-
-    return route.snapshot.parent.params.id || route;
-  }
 }
 
 
