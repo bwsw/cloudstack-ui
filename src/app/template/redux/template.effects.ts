@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { Action, Store } from '@ngrx/store';
+import {
+  Action,
+  Store
+} from '@ngrx/store';
 import { TemplateService } from '../shared/template.service';
-import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
+import {
+  TemplateFilters,
+  TemplateResourceType
+} from '../shared/base-template.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { IsoService } from '../shared/iso.service';
 import { Template } from '../shared/template.model';
@@ -89,16 +98,71 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
+      const groupId = action.payload.groupId;
+     
+      const setGroup = (temp, groupId) => {
+        return this.templateTagService.setGroup(temp, { id: groupId })
+          .switchMap(newTemplate =>{
+            this.store.dispatch(new template.SetTemplateGroupSuccess(newTemplate));
+            return Observable.of(newTemplate);
+          })
+          .catch(error => Observable.of(new template.SetTemplateGroupError(error)));
+      };
+
       if (action.payload.entity === TemplateResourceType.iso) {
         return this.isoService.register(action.payload);
       } else if (action.payload.snapshotId) {
-        return this.templateService.create(action.payload);
+        return this.templateService.create(action.payload)
+          .switchMap(newTemplate => setGroup(newTemplate, groupId));
       } else {
         return this.templateService.register(action.payload);
       }
     })
     .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
     .catch((error: Error) => Observable.of(new template.CreateTemplateError(error)));
+
+  /*
+  * @Effect()
+  changeServiceOffering$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_CHANGE_SERVICE_OFFERING)
+    .switchMap((action: vmActions.ChangeServiceOffering) => {
+      const vmState = action.payload.vm.state;
+
+      const change = (action) => {
+        const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_IN_PROGRESS');
+
+        return this.vmService
+          .changeServiceOffering(action.payload.offering, action.payload.vm)
+          .switchMap((newVm) => {
+            if (vmState === VmState.Running) {
+              this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(newVm), {
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE'
+              }));
+              return this.start(newVm);
+            }
+            return Observable.of(new vmActions.UpdateVM(new VirtualMachine(newVm), {
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE'
+            }));
+          })
+          .catch((error: Error) => {
+            return Observable.of(new vmActions.VMUpdateError(error,  {
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED'
+            }));
+          });
+      };
+
+      if (!this.isVMStopped(action.payload.vm)) {
+        return this.stop(action.payload.vm)
+          .switchMap(() => change(action));
+      } else {
+        return change(action);
+      }
+
+    });
+  * */
 
   @Effect({ dispatch: false })
   createTemplateError$: Observable<Action> = this.actions$

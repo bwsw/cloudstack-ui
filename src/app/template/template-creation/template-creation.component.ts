@@ -1,5 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Hypervisor, OsType, Zone } from '../../shared';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  Hypervisor,
+  OsType,
+  Zone
+} from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -123,16 +133,16 @@ export class TemplateCreationComponent implements OnInit {
     if (!this.snapshot) {
       params['url'] = this.url;
       params['zoneId'] = this.zoneId;
-
-      if (this.mode === TemplateResourceType.template) {
-        params['passwordEnabled'] = this.passwordEnabled;
-        params['isDynamicallyScalable'] = this.dynamicallyScalable;
-        params['entity'] = TemplateResourceType.template;
-      } else {
-        params['entity'] = TemplateResourceType.iso;
-      }
     } else {
       params['snapshotId'] = this.snapshot.id;
+    }
+
+    if (this.mode === TemplateResourceType.template) {
+      params['passwordEnabled'] = this.passwordEnabled;
+      params['isDynamicallyScalable'] = this.dynamicallyScalable;
+      params['entity'] = TemplateResourceType.template;
+    } else {
+      params['entity'] = TemplateResourceType.iso;
     }
 
     if (this.showAdditional) {
