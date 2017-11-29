@@ -27,7 +27,7 @@ export class LanguageService {
     private userTagService: UserTagService
   ) {
     if (!translate.defaultLang) {
-      translate.setDefaultLang('en');
+      translate.setDefaultLang(DEFAULT_LANGUAGE);
     }
   }
 

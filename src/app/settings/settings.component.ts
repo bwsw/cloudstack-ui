@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
 import {
@@ -13,14 +12,13 @@ import { NotificationService } from '../shared/services/notification.service';
 import { StyleService, themes } from '../shared/services/style.service';
 import { UserTagService } from '../shared/services/tags/user-tag.service';
 import { UserService } from '../shared/services/user.service';
-import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 @Component({
   selector: 'cs-settings',
   templateUrl: 'settings.component.html',
   styleUrls: ['settings.component.scss']
 })
-export class SettingsComponent extends WithUnsubscribe() implements OnInit {
+export class SettingsComponent implements OnInit {
   @ViewChild('passwordForm') public passwordForm: NgForm;
 
   public userId: string;
@@ -36,7 +34,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   public updatingFirstDayOfWeek = false;
   public updatingTimeFormat = false;
   // public dayTranslations: {};
-  public isLoading = false;
+  public settingLanguage = false;
 
   public primaryColorControl = new FormControl();
 
@@ -59,11 +57,9 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     private languageService: LanguageService,
     private notificationService: NotificationService,
     private styleService: StyleService,
-    private translateService: TranslateService,
     private userService: UserService,
     private userTagService: UserTagService
   ) {
-    super();
     this.userId = this.authService.user.userId;
   }
 
@@ -73,11 +69,7 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
     this.loadColors();
     this.loadFirstDayOfWeek();
     this.buildForm();
-    this.setLoading();
     this.loadTimeFormat();
-    this.translateService.onLangChange
-      .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.setLoading());
   }
 
   public getTimeFormatTranslationToken(format: TimeFormat): string {
@@ -95,9 +87,9 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public changeLanguage(change: MatSelectChange): void {
-    this.isLoading = true;
+    this.settingLanguage = true;
     this.languageService.setLanguage(change.value)
-      .finally(() => this.isLoading = false)
+      .finally(() => this.settingLanguage = false)
       .subscribe();
   }
 
@@ -144,11 +136,6 @@ export class SettingsComponent extends WithUnsubscribe() implements OnInit {
 
   private get password(): string {
     return this.passwordUpdateForm.controls['password'].value;
-  }
-
-  private setLoading(): void {
-    this.isLoading = true;
-    setTimeout(() => (this.isLoading = false), 0);
   }
 
   private loadSaveVmPassword(): void {

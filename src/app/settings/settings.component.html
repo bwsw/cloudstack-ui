@@ -64,7 +64,7 @@
       <div *ngIf="language" class="settings-control">
         <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.LANGUAGE' | translate }}</h5>
         <mat-form-field
-          *loading="isLoading"
+          *loading="settingLanguage"
           class="form-select-control"
         >
           <mat-select
@@ -84,7 +84,7 @@
         <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate
           }}</h5>
         <mat-form-field
-          *loading="isLoading"
+          *loading="settingLanguage"
           class="form-select-control"
         >
           <mat-select
@@ -104,7 +104,7 @@
       <div class="settings-control">
         <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.TIME_FORMAT' | translate }}</h5>
         <mat-form-field
-          *loading="isLoading"
+          *loading="settingLanguage"
           class="form-select-control"
         >
           <mat-select
