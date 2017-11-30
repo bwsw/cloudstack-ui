@@ -5,6 +5,7 @@ import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TemplateTagKeys } from './template-tag-keys';
 import { TemplateGroup } from '../../models/template-group.model';
+import { Tag } from '../../models/tag.model';
 
 
 @Injectable()
@@ -62,8 +63,8 @@ export class TemplateTagService implements EntityTagService {
       }
     }
 
-    const templateTags = template.tags.find(item => item.key === key);
-    return Observable.of(templateTags ? templateTags.value : null);
+    return this.tagService.getList({ key, resourceId: template.id })
+      .map((res: Array<Tag>) => res[0].value);
   }
 
   public setAgreement(template: BaseTemplateModel, filePath: string): Observable<BaseTemplateModel> {
