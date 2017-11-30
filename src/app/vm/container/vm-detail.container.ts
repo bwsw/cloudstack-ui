@@ -9,12 +9,8 @@ import * as serviceOfferingActions from '../../reducers/service-offerings/redux/
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import {
-  VirtualMachine,
-  VmState
-} from '../shared/vm.model';
+import { VirtualMachine } from '../shared/vm.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { Observable } from 'rxjs/Observable';
 
 const vmDescriptionKey = 'csui.vm.description';
 
@@ -83,31 +79,22 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
         group: group
       }));
     } else {
-      this.store.dispatch(new vmActions.RemoveInstantGroup({
-        vm: this.vm,
-        group: group
-      }));
+      this.store.dispatch(new vmActions.RemoveInstantGroup(this.vm));
     }
   }
 
   public changeAffinityGroup(groupId) {
-    this.askToStopVM(this.vm, 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.STOP_MACHINE_FOR_AG')
-      .subscribe(() =>
-        this.store.dispatch(new vmActions.ChangeAffinityGroup({
-          vm: this.vm,
-          affinityGroupId: groupId
-        }))
-      );
+   this.store.dispatch(new vmActions.ChangeAffinityGroup({
+      vm: this.vm,
+      affinityGroupId: groupId
+    }));
   }
 
   public changeSshKey(keypair) {
-    this.askToStopVM(this.vm, 'VM_PAGE.VM_DETAILS.SSH_KEY.STOP_MACHINE_FOR_SSH')
-      .subscribe(() =>
-        this.store.dispatch(new vmActions.ChangeSshKey({
-          vm: this.vm,
-          keypair
-        }))
-      );
+    this.store.dispatch(new vmActions.ChangeSshKey({
+      vm: this.vm,
+      keypair
+    }));
   }
 
   public updateStats(vm) {
@@ -125,20 +112,6 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
           this.description = descriptionTag && descriptionTag.value;
         }
       });
-  }
-
-  private askToStopVM(vm: VirtualMachine, message: string): Observable<any> {
-    if (vm.state === VmState.Stopped) {
-      return Observable.of(vm);
-    } else {
-      return this.dialogService.confirm({
-        message,
-        confirmText: 'COMMON.OK',
-        declineText: 'COMMON.CANCEL'
-      })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res));
-    }
   }
 
 }

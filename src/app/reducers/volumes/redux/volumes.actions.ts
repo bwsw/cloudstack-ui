@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Volume } from '../../../shared/models/volume.model';
-import { INotification } from '../../../shared/services/jobs-notification.service';
+import { VolumeCreationData } from '../../../volume/container/volume-creation.container';
+import { VolumeResizeData } from '../../../shared/services/volume.service';
 
 export const LOAD_VOLUMES_REQUEST = '[VOLUMES] LOAD_VOLUMES_REQUEST';
 export const LOAD_VOLUMES_RESPONSE = '[VOLUMES] LOAD_VOLUMES_RESPONSE';
@@ -32,7 +33,7 @@ export class LoadVolumesRequest implements Action {
 export class LoadVolumesResponse implements Action {
   type = LOAD_VOLUMES_RESPONSE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Volume[]) {
   }
 
 }
@@ -64,7 +65,7 @@ export class VmVolumeFilterUpdate implements Action {
 export class CreateVolume implements Action {
   readonly type = CREATE_VOLUME;
 
-  constructor(public payload: any) {
+  constructor(public payload: VolumeCreationData) {
   }
 }
 
@@ -78,70 +79,77 @@ export class DeleteVolume implements Action {
 export class UpdateVolume implements Action {
   readonly type = UPDATE_VOLUME;
 
-  constructor(public payload: Volume, public notification?: INotification) {
+  constructor(public payload: Volume) {
   }
 }
 
 export class ReplaceVolume implements Action {
   readonly type = REPLACE_VOLUME;
 
-  constructor(public payload: Volume, public notification?: INotification) {
+  constructor(public payload: Volume) {
   }
 }
 
 export class AttachVolume implements Action {
   readonly type = ATTACH_VOLUME;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    volumeId: string,
+    virtualMachineId: string
+  }) {
   }
 }
 
 export class DetachVolume implements Action {
   readonly type = DETACH_VOLUME;
 
-  constructor(public payload: any) {
+  constructor(public payload: Volume) {
   }
 }
 
 export class ResizeVolume implements Action {
   readonly type = RESIZE_VOLUME;
 
-  constructor(public payload: any) {
+  constructor(public payload: VolumeResizeData) {
   }
 }
 
 export class AddSnapshot implements Action {
   readonly type = ADD_SNAPSHOT;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    volume: Volume,
+    name: string,
+    description: string
+  }) {
   }
 }
 
 export class CreateSuccess implements Action {
   readonly type = VOLUME_CREATE_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: Volume) {
   }
 }
 
 export class DeleteSuccess implements Action {
   readonly type = VOLUME_DELETE_SUCCESS;
 
-  constructor(public payload: any, public notification?: INotification) {
+  constructor(public payload: Volume) {
   }
 }
 
 export class VolumeUpdateError implements Action {
   readonly type = VOLUME_UPDATE_ERROR;
 
-  constructor(public payload: any, public notification?: INotification) {
+  constructor(public payload: Error) {
   }
 }
 
 export class CreateError implements Action {
   readonly type = VOLUME_CREATE_ERROR;
 
-  constructor(public payload: any) {
+  constructor(public payload: Error) {
   }
 }
 

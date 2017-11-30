@@ -9,6 +9,8 @@ import {
 import { VirtualMachine } from '../../shared/vm.model';
 import { MatMenuTrigger } from '@angular/material';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { OsType } from '../../../shared/models/os-type.model';
+import { Volume } from '../../../shared/models/volume.model';
 
 @Component({
   selector: 'cs-vm-card-list-item',
@@ -17,6 +19,8 @@ import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 })
 export class VmListCardItemComponent extends VmListItemComponent {
   @Input() public item: VirtualMachine;
+  @Input() public getVolumes: () => Array<Volume>;
+  @Input() public getOsTypesMap: () => { [key: string]: OsType };
   @Input() public searchQuery: () => string;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();

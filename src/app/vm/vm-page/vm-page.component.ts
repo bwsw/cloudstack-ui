@@ -12,6 +12,8 @@ import { ListService } from '../../shared/components/list/list.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
+import { OsType } from '../../shared/models/os-type.model';
+import { Volume } from '../../shared/models/volume.model';
 
 
 @Component({
@@ -22,6 +24,8 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 })
 export class VmPageComponent implements OnInit {
   @Input() public vms: Array<VirtualMachine>;
+  @Input() public volumes: Array<Volume>;
+  @Input() public osTypesMap: { [key: string]: OsType };
   @Input() public isLoading: boolean;
   @Input() public groupings: Array<any>;
   @Input() public selectedGroupings: Array<any>;

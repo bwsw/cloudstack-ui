@@ -11,7 +11,6 @@ import { VolumeService } from '../../../shared/services/volume.service';
 import { Volume } from '../../../shared/models/volume.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
-import { Utils } from '../../../shared/services/utils/utils.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 
@@ -52,15 +51,19 @@ export class VolumesEffects {
           .setDescription(action.payload.volume, action.payload.description)
         : this.volumeTagService
           .removeDescription(action.payload.volume))
-        .map(volume => new volumeActions.UpdateVolume(new Volume(volume), {
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
-        }))
+        .map(volume => {
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
+          });
+          return new volumeActions.UpdateVolume(new Volume(volume));
+        })
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+          this.jobsNotificationService.fail({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED'
-          }));
+          });
+          return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
 
@@ -78,15 +81,19 @@ export class VolumesEffects {
       };
       return this.volumeService
         .attach(params)
-        .map(volume => new volumeActions.UpdateVolume(new Volume(volume), {
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
-        }))
+        .map(volume => {
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
+          });
+          return new volumeActions.UpdateVolume(new Volume(volume))
+        })
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+          this.jobsNotificationService.fail({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
-          }));
+          });
+          return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
 
@@ -101,19 +108,18 @@ export class VolumesEffects {
       return this.volumeService
         .detach(action.payload)
         .switchMap(volume => {
-          return Observable.of(
-            new volumeActions.ReplaceVolume(new Volume(volume), {
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-            }),
-            new volumeActions.VolumeFilterUpdate({ virtualMachineId })
-          );
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
+          });
+          return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
         })
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+          this.jobsNotificationService.fail({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
-          }));
+          });
+          return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
 
@@ -126,16 +132,18 @@ export class VolumesEffects {
       return this.volumeService
         .resize(action.payload)
         .map(volume => {
-          return new volumeActions.UpdateVolume(new Volume(volume), {
+          this.jobsNotificationService.finish({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
           });
+          return new volumeActions.UpdateVolume(new Volume(volume));
         })
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+          this.jobsNotificationService.fail({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
-          }));
+          });
+          return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
 
@@ -160,16 +168,18 @@ export class VolumesEffects {
             action.payload.volume,
             { snapshots: newSnaps }
           );
-          return new volumeActions.UpdateVolume(new Volume(newVolume), {
+          this.jobsNotificationService.finish({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
           });
+          return new volumeActions.UpdateVolume(new Volume(newVolume));
         })
         .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error, {
+          this.jobsNotificationService.fail({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-          }));
+          });
+          return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
 
@@ -182,15 +192,19 @@ export class VolumesEffects {
 
       const remove = (removeAction) => {
         return this.volumeService.remove(removeAction.payload)
-          .map(() => new volumeActions.DeleteSuccess(removeAction.payload, {
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
-          }))
+          .map(() => {
+            this.jobsNotificationService.finish({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
+            });
+            return new volumeActions.DeleteSuccess(removeAction.payload);
+          })
           .catch((error: Error) => {
-            return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            this.jobsNotificationService.fail({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED'
-            }));
+            });
+            return Observable.of(new volumeActions.VolumeUpdateError(error));
           });
       };
 
@@ -199,19 +213,18 @@ export class VolumesEffects {
         return this.volumeService
           .detach(detachAction.payload)
           .do(volume => {
-            return Observable.of(
-              new volumeActions.ReplaceVolume(new Volume(volume), {
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-              }),
-              new volumeActions.VolumeFilterUpdate({ virtualMachineId })
-            );
+            this.jobsNotificationService.finish({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
+            });
+            return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
           })
           .catch((error: Error) => {
-            return Observable.of(new volumeActions.VolumeUpdateError(error, {
+            this.jobsNotificationService.fail({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
-            }));
+            });
+            return Observable.of(new volumeActions.VolumeUpdateError(error));
           });
       };
 
@@ -244,20 +257,9 @@ export class VolumesEffects {
     });
 
   @Effect({ dispatch: false })
-  updateVolume$: Observable<Action> = this.actions$
-    .ofType(volumeActions.UPDATE_VOLUME, volumeActions.REPLACE_VOLUME)
-    .do((action: volumeActions.UpdateVolume | volumeActions.ReplaceVolume) => {
-      if (action.notification) {
-        this.jobsNotificationService.finish(action.notification);
-      }
-    });
-
-
-  @Effect({ dispatch: false })
   updateError$: Observable<Action> = this.actions$
     .ofType(volumeActions.VOLUME_UPDATE_ERROR)
     .do((action: volumeActions.VolumeUpdateError) => {
-      this.jobsNotificationService.fail(action.notification);
       this.handleError(action.payload);
     });
 

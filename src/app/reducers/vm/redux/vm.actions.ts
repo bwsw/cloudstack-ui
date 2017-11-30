@@ -1,15 +1,16 @@
 import { Action } from '@ngrx/store';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { INotification } from '../../../shared/services/jobs-notification.service';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { Color } from '../../../shared/models/color.model';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
-export const LOAD_VMS_DETAILS_REQUEST = '[VM] LOAD_VMS_DETAILS_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
 export const LOAD_VMS_RESPONSE = '[VM] LOAD_VMS_RESPONSE';
 export const VM_FILTER_UPDATE = '[VM] VM_FILTER_UPDATE';
 export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
-export const VM_REMOVE_DESCRIPTION = '[VM] VM_REMOVE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
 export const VM_CHANGE_INSTANT_GROUP = '[VM] VM_CHANGE_INSTANT_GROUP';
@@ -34,14 +35,6 @@ export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
-
-export class LoadVMsDetailsRequest implements Action {
-  type = LOAD_VMS_DETAILS_REQUEST;
-
-  constructor(public payload?: any) {
-  }
-
-}
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -94,18 +87,13 @@ export class ChangeDescription implements Action {
 
 }
 
-export class RemoveDescription implements Action {
-  type = VM_REMOVE_DESCRIPTION;
-
-  constructor(public payload: any) {
-  }
-
-}
-
 export class ChangeServiceOffering implements Action {
   type = VM_CHANGE_SERVICE_OFFERING;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    offering: ServiceOffering
+  }) {
   }
 
 }
@@ -113,7 +101,10 @@ export class ChangeServiceOffering implements Action {
 export class ChangeAffinityGroup implements Action {
   type = VM_CHANGE_AFFINITY_GROUP;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    affinityGroupId: string
+  }) {
   }
 
 }
@@ -121,7 +112,10 @@ export class ChangeAffinityGroup implements Action {
 export class ChangeInstantGroup implements Action {
   type = VM_CHANGE_INSTANT_GROUP;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    group: InstanceGroup
+  }) {
   }
 
 }
@@ -129,7 +123,7 @@ export class ChangeInstantGroup implements Action {
 export class RemoveInstantGroup implements Action {
   type = VM_REMOVE_INSTANT_GROUP;
 
-  constructor(public payload: any) {
+  constructor(public payload: VirtualMachine) {
   }
 
 }
@@ -137,7 +131,10 @@ export class RemoveInstantGroup implements Action {
 export class AddSecondaryIp implements Action {
   type = VM_ADD_SECONDARY_IP;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    nicId: string
+  }) {
   }
 
 }
@@ -145,7 +142,10 @@ export class AddSecondaryIp implements Action {
 export class RemoveSecondaryIp implements Action {
   type = VM_REMOVE_SECONDARY_IP;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    id: string
+  }) {
   }
 
 }
@@ -153,7 +153,10 @@ export class RemoveSecondaryIp implements Action {
 export class ChangeVmColor implements Action {
   type = VM_CHANGE_COLOR;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    color: Color
+  }) {
   }
 
 }
@@ -161,28 +164,33 @@ export class ChangeVmColor implements Action {
 export class UpdateVM implements Action {
   readonly type = UPDATE_VM;
 
-  constructor(public payload: VirtualMachine, public notification?: INotification) {
+  constructor(public payload: VirtualMachine) {
   }
 }
 
 export class ReplaceVM implements Action {
   readonly type = REPLACE_VM;
 
-  constructor(public payload: VirtualMachine, public notification?: INotification) {
+  constructor(public payload: VirtualMachine) {
   }
 }
 
 export class AttachIso implements Action {
   readonly type = ATTACH_ISO;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    id: string,
+    virtualMachineId: string
+  }) {
   }
 }
 
 export class DetachIso implements Action {
   readonly type = DETACH_ISO;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    virtualMachineId: string
+  }) {
   }
 }
 
@@ -217,7 +225,10 @@ export class ResetPasswordVm implements Action {
 export class SaveNewPassword implements Action {
   readonly type = SAVE_NEW_VM_PASSWORD;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    tag: { key: string, value: string }
+  }) {
   }
 }
 
@@ -231,7 +242,7 @@ export class RebootVm implements Action {
 export class DestroyVm implements Action {
   readonly type = DESTROY_VM;
 
-  constructor(public payload: any) {
+  constructor(public payload: VirtualMachine) {
   }
 }
 
@@ -252,7 +263,7 @@ export class ExpungeVm implements Action {
 export class ExpungeVmSuccess implements Action {
   readonly type = EXPUNGE_VM_SUCCESS;
 
-  constructor(public payload: VirtualMachine, public notification: INotification) {
+  constructor(public payload: VirtualMachine) {
   }
 }
 
@@ -266,25 +277,26 @@ export class CreateVmSuccess implements Action {
 export class ChangeSshKey implements Action {
   readonly type = CHANGE_SSH_KEY;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    keypair: SSHKeyPair
+  }) {
   }
 }
 
 export class VMUpdateError implements Action {
   readonly type = VM_UPDATE_ERROR;
 
-  constructor(public payload: any, public notification: INotification) {
+  constructor(public payload: Error) {
   }
 }
 
 export type Actions = LoadVMsRequest
-  | LoadVMsDetailsRequest
   | LoadVMsResponse
   | LoadVMRequest
   | VMFilterUpdate
   | LoadSelectedVM
   | ChangeDescription
-  | RemoveDescription
   | ChangeServiceOffering
   | ChangeAffinityGroup
   | ChangeInstantGroup

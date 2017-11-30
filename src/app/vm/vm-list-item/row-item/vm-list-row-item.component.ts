@@ -9,6 +9,8 @@ import { VirtualMachine } from '../../shared/vm.model';
 import { MatMenuTrigger } from '@angular/material';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { VmListItemComponent } from '../vm-list-item.component';
+import { Volume } from '../../../shared/models/volume.model';
+import { OsType } from '../../../shared/models/os-type.model';
 
 @Component({
   selector: 'cs-vm-row-list-item',
@@ -17,6 +19,8 @@ import { VmListItemComponent } from '../vm-list-item.component';
 })
 export class VmListRowItemComponent extends VmListItemComponent {
   @Input() public item: VirtualMachine;
+  @Input() public getVolumes: () => Array<Volume>;
+  @Input() public getOsTypesMap: () => { [key: string]: OsType };
   @Input() public searchQuery: () => string;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();

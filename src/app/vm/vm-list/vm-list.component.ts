@@ -11,6 +11,8 @@ import {
 import { VmListRowItemComponent } from '../vm-list-item/row-item/vm-list-row-item.component';
 import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-item.component';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
+import { OsType } from '../../shared/models/os-type.model';
+import { Volume } from '../../shared/models/volume.model';
 
 
 @Component({
@@ -19,6 +21,8 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 })
 export class VmListComponent {
   @Input() public vms: Array<VirtualMachine>;
+  @Input() public volumes: Array<Volume>;
+  @Input() public osTypesMap: { [key: string]: OsType };
   @Input() public groupings: Array<any>;
   @Input() public mode: ViewMode;
   @Input() public query: string;
@@ -28,7 +32,9 @@ export class VmListComponent {
   constructor(public listService: ListService) {
     this.inputs = {
       searchQuery: () => this.query,
-      isSelected: item => this.listService.isSelected(item.id)
+      isSelected: item => this.listService.isSelected(item.id),
+      getVolumes: () => this.volumes,
+      getOsTypesMap: () => this.osTypesMap
     };
 
     this.outputs = {

@@ -37,10 +37,10 @@
 
   <div class="info">
     <span>{{ 'VM_PAGE.CARD.DISKS' | translate }}: </span>
-    <span>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize().toFixed(2) }) }}</span>
+    <span>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) }) }}</span>
   </div>
 
-  <div class="info">OS {{ item?.osType?.description }} </div>
+  <div class="info">OS {{ osTypesMap[item?.guestOsId]?.description }} </div>
 
   <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
     <mat-icon>more_vert</mat-icon>

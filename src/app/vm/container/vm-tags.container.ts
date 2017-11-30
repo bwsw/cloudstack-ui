@@ -47,16 +47,12 @@ export class VmTagsContainerComponent extends WithUnsubscribe() implements OnIni
     };
     const newTags = Object.assign([], this.vm.tags).filter(t => tagEditAction.oldTag.key !== t.key);
     newTags.push(new Tag(newTag));
-    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags }), {
-      message: 'JOB_NOTIFICATIONS.VM.TAG_EDIT_DONE'
-    }));
+    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags })));
   }
 
   public deleteTag(tag: Tag) {
     const newTags = Object.assign([], this.vm.tags).filter(t => tag.key !== t.key);
-    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags }), {
-      message: 'JOB_NOTIFICATIONS.VM.TAG_REMOVE_DONE'
-    }));
+    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags })));
   }
 
   public addTag(keyValuePair: KeyValuePair) {
@@ -68,9 +64,7 @@ export class VmTagsContainerComponent extends WithUnsubscribe() implements OnIni
     };
     const newTags = Object.assign([], this.vm.tags);
     newTags.push(new Tag(newTag));
-    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags }), {
-      message: 'JOB_NOTIFICATIONS.VM.TAG_ADD_DONE'
-    }));
+    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags })));
   }
 
   public ngOnInit() {

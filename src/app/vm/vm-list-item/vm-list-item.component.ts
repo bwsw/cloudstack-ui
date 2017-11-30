@@ -13,6 +13,7 @@ import {
 } from '../shared/vm.model';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Volume } from '../../shared/models/volume.model';
+import { OsType } from '../../shared/models/os-type.model';
 
 const stateTranslations = {
   RUNNING: 'VM_STATE.RUNNING',
@@ -36,12 +37,16 @@ const stateTranslations = {
 
 export class VmListItemComponent implements OnInit, OnChanges {
   public item: VirtualMachine;
+  public getVolumes: () => Array<Volume>;
+  public getOsTypesMap: () => { [key: string]: OsType };
   public searchQuery: () => string;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;
 
   public query: string;
+  public volumes: Array<Volume>;
+  public osTypesMap: { [key: string]: OsType };
 
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
@@ -56,6 +61,12 @@ export class VmListItemComponent implements OnInit, OnChanges {
     for (const propName in changes) {
       if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
         this.isSelected = changes[propName].currentValue;
+      }
+      if (propName === 'getOsTypesMap') {
+        this.osTypesMap = this.getOsTypesMap();
+      }
+      if (propName === 'getVolumes') {
+        this.volumes = this.getVolumes();
       }
       if (propName === 'searchQuery') {
         this.query = this.searchQuery();
@@ -115,8 +126,9 @@ export class VmListItemComponent implements OnInit, OnChanges {
     return (this.item.memory / this.gigabyte).toFixed(2);
   }
 
-  public getDisksSize(): number {
-    const sizeInBytes = this.item.volumes && this.item.volumes.reduce((acc: number, volume: Volume) => {
+  public get getDisksSize(): number {
+    const filteredVolumes = this.volumes && this.volumes.filter((volume: Volume) => volume.virtualMachineId === this.item.id);
+    const sizeInBytes = filteredVolumes && filteredVolumes.reduce((acc: number, volume: Volume) => {
       return acc + volume.size;
     }, 0) || 0;
     return sizeInBytes / Math.pow(2, 30);

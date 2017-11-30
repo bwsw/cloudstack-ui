@@ -7,7 +7,11 @@ import {
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
+import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
+import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
 import { AuthService } from '../../shared/services/auth.service';
 import { VirtualMachine } from '../shared/vm.model';
 
@@ -26,7 +30,9 @@ const getGroupName = (vm: VirtualMachine) => {
   template: `
     <cs-vm-page
       [vms]="vms$ | async"
-      [isLoading]="loading$ | async"
+      [volumes]="volumes$ | async" 
+      [osTypesMap]="osTypesMap$ | async" 
+      [isLoading]="(loading1$ && loading2$ && loading3$) | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
     ></cs-vm-page>`
@@ -34,7 +40,11 @@ const getGroupName = (vm: VirtualMachine) => {
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
 
   readonly vms$ = this.store.select(fromVMs.selectFilteredVMs);
-  readonly loading$ = this.store.select(fromVMs.isLoading);
+  readonly volumes$ = this.store.select(fromVolumes.selectAll);
+  readonly osTypesMap$ = this.store.select(fromOsTypes.selectEntities);
+  readonly loading1$ = this.store.select(fromVMs.isLoading);
+  readonly loading2$ = this.store.select(fromVolumes.isLoading);
+  readonly loading3$ = this.store.select(fromOsTypes.isLoading);
   readonly selectedGroupings$ = this.store.select(fromVMs.filterSelectedGroupings);
 
   public groupings = [
@@ -67,7 +77,9 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
   ];
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.LoadVMsDetailsRequest());
+    this.store.dispatch(new vmActions.LoadVMsRequest());
+    this.store.dispatch(new volumeActions.LoadVolumesRequest());
+    this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
   }
 
   constructor(
