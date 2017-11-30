@@ -3,6 +3,7 @@ import {
   Actions,
   Effect
 } from '@ngrx/effects';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as volumeActions from './volumes.actions';
 import { Action } from '@ngrx/store';
@@ -10,6 +11,7 @@ import { VolumeService } from '../../../shared/services/volume.service';
 import { Volume } from '../../../shared/models/volume.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 @Injectable()
 export class VolumesEffects {
@@ -105,6 +107,19 @@ export class VolumesEffects {
     });
 
   @Effect({ dispatch: false })
+  deleteVolumeSuccessNavigate$: Observable<Volume> = this.actions$
+    .ofType(volumeActions.VOLUME_DELETE_SUCCESS)
+    .map((action: volumeActions.DeleteSuccess) => action.payload)
+    .filter((volume: Volume) => {
+      return this.router.isActive(`/storage/${volume.id}`, false);
+    })
+    .do(() => {
+      this.router.navigate(['./storage'], {
+        queryParamsHandling: 'preserve'
+      });
+    });
+
+  @Effect({ dispatch: false })
   createError$: Observable<Action> = this.actions$
     .ofType(volumeActions.VOLUME_CREATE_ERROR)
     .do((action: volumeActions.CreateError) => {
@@ -122,7 +137,8 @@ export class VolumesEffects {
     private actions$: Actions,
     private dialogService: DialogService,
     private volumeService: VolumeService,
-    private volumeTagService: VolumeTagService
+    private volumeTagService: VolumeTagService,
+    private router: Router
   ) {
   }
 

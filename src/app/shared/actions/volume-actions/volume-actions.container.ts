@@ -30,7 +30,7 @@ export class VolumeActionsContainerComponent extends WithUnsubscribe() {
   constructor(
     public dialogService: DialogService,
     public authService: AuthService,
-    private store: Store<State>,
+    private store: Store<State>
   ) {
     super();
   }

@@ -83,14 +83,14 @@ export class CreateTemplateError implements Action {
 export class RemoveTemplate implements Action {
   readonly type = TEMPLATE_REMOVE;
 
-  constructor(public payload: any) {
+  constructor(public payload: BaseTemplateModel) {
   }
 }
 
 export class RemoveTemplateSuccess implements Action {
   readonly type = TEMPLATE_REMOVE_SUCCESS;
 
-  constructor(public payload?: any) {
+  constructor(public payload: BaseTemplateModel) {
   }
 }
 
