@@ -12,11 +12,11 @@ import {
 } from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { AuthService } from '../../shared/services/auth.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
 import { TemplateResourceType } from '../shared/base-template.service';
+import { Account } from '../../shared/models/account.model';
 
 interface TemplateFormat {
   name: string;
@@ -30,6 +30,7 @@ interface TemplateFormat {
 })
 export class TemplateCreationComponent implements OnInit {
   @Input() public mode: string;
+  @Input() public account: Account;
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
   @Input() public isLoading: boolean;
@@ -83,7 +84,6 @@ export class TemplateCreationComponent implements OnInit {
 
   constructor(
     private hypervisorService: HypervisorService,
-    private authService: AuthService,
     private translate: TranslateService,
   ) {
     this.visibleFormats = this.formats;
@@ -150,18 +150,18 @@ export class TemplateCreationComponent implements OnInit {
       params['bootable'] = this.bootable;
       params['format'] = this.format;
       params['requireshvm'] = this.requiresHvm;
-      params['ispublic'] = this.isPublic;
       params['hypervisor'] = this.hypervisor;
-      if (this.isAdmin()) {
+      if (this.isRootAdmin()) {
         params['isrouting'] = this.isRouting;
         params['isfeatured'] = this.isFeatured;
+        params['ispublic'] = this.isPublic;
       }
     }
 
     this.onCreateTemplate.emit(params);
   }
 
-  public isAdmin(): boolean {
-    return this.authService.isAdmin();
+  public isRootAdmin(): boolean {
+    return this.account.isRootAdmin;
   }
 }

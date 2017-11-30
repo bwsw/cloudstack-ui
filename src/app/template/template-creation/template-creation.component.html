@@ -178,13 +178,14 @@
             <mat-checkbox
               name="public"
               [(ngModel)]="isPublic"
+              *ngIf="isRootAdmin()"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
             </mat-checkbox>
             <mat-checkbox
               name="feature"
               [(ngModel)]="isFeatured"
-              *ngIf="isAdmin()"
+              *ngIf="isRootAdmin()"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
             </mat-checkbox>
@@ -192,7 +193,7 @@
             <mat-checkbox
               name="routing"
               [(ngModel)]="isRouting"
-              *ngIf="isAdmin()"
+              *ngIf="isRootAdmin()"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
             </mat-checkbox>

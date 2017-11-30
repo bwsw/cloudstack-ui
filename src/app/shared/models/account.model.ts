@@ -3,8 +3,8 @@ import { AccountUser } from './account-user.model';
 
 export const enum AccountType {
   User = 0,
-  Admin,
-  DomainAdmin
+  RootAdmin = 1,
+  DomainAdmin = 2
 }
 
 export const AccountState = {
@@ -87,5 +87,9 @@ export class Account extends BaseModel {
 
   public get isAdmin() {
     return this.accounttype !== AccountType.User;
+  }
+
+  public get isRootAdmin() {
+    return this.accounttype === AccountType.RootAdmin;
   }
 }
