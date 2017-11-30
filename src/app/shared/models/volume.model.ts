@@ -5,9 +5,18 @@ import { VolumeTagKeys } from '../services/tags/volume-tag-keys';
 import { BaseModel } from './base.model';
 import { DiskOffering } from './disk-offering.model';
 import { Snapshot } from './snapshot.model';
-import { DeletionMark, Tag } from './tag.model';
+import {
+  DeletionMark,
+  Tag
+} from './tag.model';
 import { ServiceOffering } from './service-offering.model';
 
+export class VolumeCreationData {
+  public name: string;
+  public zoneId: string;
+  public diskOfferingId: string;
+  public size?: number;
+}
 
 export enum VolumeType {
   ROOT = 'ROOT',

@@ -1,15 +1,25 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  TemplateFilters,
+  TemplateResourceType
+} from '../shared/base-template.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { getUserAccount } from '../../reducers/auth/redux/auth.reducers';
-import { DefaultTemplateGroupId } from '../template-sidebar/template-group/template-group.component';
 
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
+import { DefaultTemplateGroupId } from '../../shared/models/template-group.model';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {

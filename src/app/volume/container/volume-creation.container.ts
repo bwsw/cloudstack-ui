@@ -17,14 +17,11 @@ import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
 import { Zone } from '../../shared/models/zone.model';
-import { VolumeType } from '../../shared/models/volume.model';
+import {
+  VolumeCreationData,
+  VolumeType
+} from '../../shared/models/volume.model';
 
-export class VolumeCreationData {
-  public name: string;
-  public zoneId: string;
-  public diskOfferingId: string;
-  public size?: number;
-}
 
 @Component({
   selector: 'cs-volume-creation-container',

@@ -1,8 +1,19 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
 import * as securityGroup from './sg.actions';
-import { SecurityGroupViewMode } from '../../../security-group/sg-filter/containers/sg-filter.container';
+import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
+
 
 export interface State {
   list: ListState,

@@ -1,5 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SecurityGroupViewMode } from './containers/sg-filter.container';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+import { SecurityGroupViewMode } from '../sg-view-mode';
 
 
 export interface SecurityGroupFilter {

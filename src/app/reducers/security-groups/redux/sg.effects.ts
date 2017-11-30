@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
-import { SecurityGroupViewMode } from '../../../security-group/sg-filter/containers/sg-filter.container';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
@@ -13,6 +18,7 @@ import { MatDialog } from '@angular/material';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
 
 import * as securityGroup from './sg.actions';
+import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 
 @Injectable()
 export class SecurityGroupEffects {

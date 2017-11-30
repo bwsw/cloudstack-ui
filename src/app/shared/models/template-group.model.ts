@@ -5,3 +5,5 @@ export class TemplateGroup {
   constructor(id: string) {
   }
 }
+
+export const DefaultTemplateGroupId = 'general';

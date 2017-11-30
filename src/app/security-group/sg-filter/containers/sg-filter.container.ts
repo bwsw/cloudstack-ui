@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { FilterService } from '../../../shared/services/filter.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
@@ -8,11 +14,8 @@ import { State } from '../../../reducers/index';
 
 import * as  securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
 import * as  fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
+import { SecurityGroupViewMode } from '../../sg-view-mode';
 
-export enum SecurityGroupViewMode {
-  Templates = 'templates',
-  Shared = 'shared'
-}
 
 @Component({
   selector: 'cs-sg-filter-container',
