@@ -17,13 +17,13 @@ import { Volume } from '../../../models/volume.model';
 @Component({
   selector: 'cs-volume-attachment-container',
   template: `
-    <cs-volume-attachment 
+    <cs-volume-attachment
       *loading="loading$ | async"
       [volume]="volume"
       [zoneId]="zoneId"
       [virtualMachines]="vms$ | async"
       (onVirtualMachineId)="attachVolume($event)"
-      >
+    >
     </cs-volume-attachment>`,
 })
 export class VolumeAttachmentContainerComponent implements OnInit {

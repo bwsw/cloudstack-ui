@@ -122,7 +122,7 @@ export function reducer(
     }
 
     case event.REPLACE_VOLUME: {
-      let newState = adapter.removeOne(action.payload.id, state);
+      const newState = adapter.removeOne(action.payload.id, state);
       return {
         ...adapter.addOne(action.payload, newState),
       };

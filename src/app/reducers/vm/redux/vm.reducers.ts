@@ -128,7 +128,7 @@ export function reducer(
     }
 
     case event.REPLACE_VM: {
-      let newState = adapter.removeOne(action.payload.id, state);
+      const newState = adapter.removeOne(action.payload.id, state);
       return {
         ...adapter.addOne(action.payload, newState),
       };

@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { SecurityGroup } from '../../security-group/sg.model';
 import { BackendResource } from '../../shared/decorators';
 import {
-  AsyncJob,
   OsType,
   ServiceOffering,
   Volume
@@ -15,14 +12,11 @@ import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { SecurityGroupService } from '../../security-group/services/security-group.service';
-import { ServiceOfferingService } from '../../shared/services/service-offering.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
 import {
-  VirtualMachine,
-  VmState
+  VirtualMachine
 } from './vm.model';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
@@ -35,13 +29,10 @@ export const VirtualMachineEntityName = 'VirtualMachine';
   entityModel: VirtualMachine
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
-  public vmUpdateObservable = new Subject<VirtualMachine>();
 
   constructor(
     private asyncJobService: AsyncJobService,
     private osTypesService: OsTypeService,
-    private serviceOfferingService: ServiceOfferingService,
-    private securityGroupService: SecurityGroupService,
     private userTagService: UserTagService,
     private volumeService: VolumeService,
     http: HttpClient
@@ -64,10 +55,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public incrementNumberOfVms(): Observable<number> {
     return this.getNumberOfVms()
       .switchMap(numberOfVms => this.userTagService.setLastVmId(numberOfVms + 1));
-  }
-
-  public updateVmInfo(vm: VirtualMachine): void {
-    this.vmUpdateObservable.next(vm);
   }
 
   public getWithDetails(id: string): Observable<VirtualMachine> {
@@ -115,13 +102,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand('deploy', params);
   }
 
-  public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
-    return this.asyncJobService.getList().map(jobs => {
-      return jobs.filter(job => !job.status && job.cmd)
-        .map(job => this.registerVmJob(job));
-    });
-  }
-
+  /* public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
+     return this.asyncJobService.getList().map(jobs => {
+       return jobs.filter(job => !job.status && job.cmd)
+         .map(job => this.registerVmJob(job));
+     });
+   }*/
 
 
   public command(
@@ -129,8 +115,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     command: string,
     params?: {}
   ): Observable<VirtualMachine> {
-    const initialState = vm.state;
-
     return this.commandInternal(vm, command, params)
       .switchMap(job => this.registerVmJob(job))
       .do(jogResult => jogResult)
@@ -191,15 +175,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
 
     return this.sendCommand('changeServiceFor', params)
-      .map(result => this.prepareModel(result['virtualmachine']))
-      .do(result => this.updateVmInfo(result));
+      .map(result => this.prepareModel(result['virtualmachine']));
   }
 
-  public setStateForVm(vm: VirtualMachine, state: VmState): void {
-    vm.state = state;
-  }
-
-  public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
+  /*public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
     // instanceof check is needed because API response for
     // VM restore doesn't contain the instanceType field
 
@@ -208,7 +187,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       (job.instanceType === VirtualMachineEntityName ||
         job.result instanceof VirtualMachine)
     );
-  }
+  }*/
 
   private commandInternal(
     vm: VirtualMachine,
@@ -257,26 +236,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   private addOsType(vm: VirtualMachine, osTypes: Array<OsType>): VirtualMachine {
     vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
-    return vm;
-  }
-
-  private addServiceOffering(
-    vm: VirtualMachine,
-    offerings: Array<ServiceOffering>
-  ): VirtualMachine {
-    vm.serviceOffering = offerings.find((serviceOffering: ServiceOffering) => {
-      return serviceOffering.id === vm.serviceOfferingId;
-    });
-    return vm;
-  }
-
-  private addSecurityGroups(
-    vm: VirtualMachine,
-    groups: Array<SecurityGroup>
-  ): VirtualMachine {
-    vm.securityGroup.forEach((group, index) => {
-      vm.securityGroup[index] = groups.find(sg => sg.id === group.id);
-    });
     return vm;
   }
 }

@@ -23,28 +23,36 @@ const vmDescriptionKey = 'csui.vm.description';
   template: `
     <cs-description
       [description]="description"
-      (descriptionChange)="changeDescription($event)">
+      (descriptionChange)="changeDescription($event)"
+    >
     </cs-description>
     <cs-zone [vm]="vm$ | async"></cs-zone>
     <cs-instance-group
       [vm]="vm$ | async"
       [groups]="groups$ | async"
-      (onGroupChange)=changeGroup($event)>      
+      (onGroupChange)=changeGroup($event)
+    >
     </cs-instance-group>
-    <cs-service-offering-details 
+    <cs-service-offering-details
       [offering]="offering$ | async"
-      [vm]="vm$ | async">
+      [vm]="vm$ | async"
+    >
     </cs-service-offering-details>
-    <cs-affinity-group 
-      [vm]="vm$ | async" 
-      (onAffinityGroupChange)="changeAffinityGroup($event)">
+    <cs-affinity-group
+      [vm]="vm$ | async"
+      (onAffinityGroupChange)="changeAffinityGroup($event)"
+    >
     </cs-affinity-group>
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>
-    <cs-vm-ssh-keypair 
-      [vm]="vm$ | async" 
-      (onSshKeyChange)="changeSshKey($event)">
+    <cs-vm-ssh-keypair
+      [vm]="vm$ | async"
+      (onSshKeyChange)="changeSshKey($event)"
+    >
     </cs-vm-ssh-keypair>
-    <cs-statistics [vm]="vm$ | async" (onStatsUpdate)="updateStats($event)"></cs-statistics>
+    <cs-statistics
+      [vm]="vm$ | async"
+      (onStatsUpdate)="updateStats($event)"
+    ></cs-statistics>
   `
 })
 export class VmDetailContainerComponent extends WithUnsubscribe() implements OnInit {
@@ -65,16 +73,11 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   public changeDescription(description) {
-    let v = Object.assign({}, this.vm);
-    if (description !== '') {
-      this.store.dispatch(new vmActions.ChangeDescription({ vm: v, description }));
-    } else {
-      this.store.dispatch(new vmActions.RemoveDescription({ vm: v, description }));
-    }
+    this.store.dispatch(new vmActions.ChangeDescription({ vm: this.vm, description }));
   }
 
   public changeGroup(group) {
-    if( group.name !== '') {
+    if (group.name !== '') {
       this.store.dispatch(new vmActions.ChangeInstantGroup({
         vm: this.vm,
         group: group

@@ -62,7 +62,7 @@ export class LoadVMRequest implements Action {
 export class LoadVMsResponse implements Action {
   type = LOAD_VMS_RESPONSE;
 
-  constructor(public payload: any ) {
+  constructor(public payload: VirtualMachine[]) {
   }
 
 }
@@ -86,7 +86,10 @@ export class LoadSelectedVM implements Action {
 export class ChangeDescription implements Action {
   type = VM_CHANGE_DESCRIPTION;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    description: string
+  }) {
   }
 
 }

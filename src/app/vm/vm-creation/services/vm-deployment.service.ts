@@ -8,9 +8,7 @@ import {
 } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { GROUP_POSTFIX } from '../../../security-group/services/security-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
-import { Utils } from '../../../shared/services/utils/utils.service';
 import {
   VirtualMachine,
   VmState
@@ -39,6 +37,7 @@ export enum VmDeploymentStage {
 
 export interface VmDeploymentMessage {
   stage: VmDeploymentStage;
+
   [key: string]: any;
 }
 
@@ -56,14 +55,15 @@ export class VmDeploymentService {
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmService: VmService,
     private userTagService: UserTagService
-  ) {}
+  ) {
+  }
 
   public deploy(state: VmCreationState): VmDeployObservables {
     const deployStatusObservable = new Subject<VmDeploymentMessage>();
     return {
       deployStatusObservable,
       deployObservable: this.deployObservable(deployStatusObservable, state)
-    }
+    };
   }
 
   private deployObservable(deployObservable, state): Observable<any> {
@@ -92,7 +92,7 @@ export class VmDeploymentService {
       .catch(error => {
         this.handleFailedDeployment(error, tempVm, deployObservable);
         return Observable.of(null);
-      })
+      });
   }
 
   private getPreDeployActions(
@@ -101,14 +101,12 @@ export class VmDeploymentService {
   ): Observable<VmCreationState> {
     return Observable.of(null)
       .switchMap(() => {
-        return this.getAffinityGroupCreationObservable(deployObservable, state)
+        return this.getAffinityGroupCreationObservable(deployObservable, state);
       })
       .switchMap(() => {
-        return this.getSecurityGroupCreationObservable(deployObservable, state)
+        return this.getSecurityGroupCreationObservable(deployObservable, state);
       })
-      .map(securityGroup => {
-        return state;
-      });
+      .map(() => state);
   }
 
   private getPostDeployActions(
@@ -154,7 +152,7 @@ export class VmDeploymentService {
       .do(() => {
         deployObservable.next({
           stage: VmDeploymentStage.TAG_COPYING
-        })
+        });
       })
       .switchMap(() => {
         return this.tagService.copyTagsToEntity(state.template.tags, vm);
@@ -164,7 +162,12 @@ export class VmDeploymentService {
       })
       .switchMap((tag) => {
         if (tag) {
-          return this.tagService.update(vm, vm.resourceType, 'csui.vm.password', vm.password);
+          return this.tagService.update(
+            vm,
+            vm.resourceType,
+            'csui.vm.password',
+            vm.password
+          );
         } else {
           return Observable.of(null);
         }
@@ -172,7 +175,7 @@ export class VmDeploymentService {
       .do(() => {
         deployObservable.next({
           stage: VmDeploymentStage.TAG_COPYING_FINISHED
-        })
+        });
       });
   }
 
@@ -211,7 +214,6 @@ export class VmDeploymentService {
       return Observable.of(null);
     }
 
-    const name = Utils.getUniqueId() + GROUP_POSTFIX;
     return Observable.of(null)
       .do(() => {
         deployObservable.next({
@@ -226,8 +228,8 @@ export class VmDeploymentService {
       .do(() => {
         deployObservable.next({
           stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
-        })
-      })
+        });
+      });
   }
 
   private sendDeployRequest(
@@ -266,14 +268,12 @@ export class VmDeploymentService {
       stage: VmDeploymentStage.TEMP_VM,
       vm: temporaryVm
     });
-    this.vmService.updateVmInfo(temporaryVm);
   }
 
   private handleSuccessfulDeployment(
     vm: VirtualMachine,
     deployObservable: Subject<VmDeploymentMessage>
   ): void {
-    this.vmService.updateVmInfo(vm);
     deployObservable.next({
       stage: VmDeploymentStage.FINISHED,
       vm
@@ -287,7 +287,6 @@ export class VmDeploymentService {
   ): void {
     if (temporaryVm) {
       temporaryVm.state = VmState.Error;
-      this.vmService.updateVmInfo(temporaryVm);
     }
 
     deployObservable.next({

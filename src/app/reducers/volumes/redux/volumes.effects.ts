@@ -44,10 +44,14 @@ export class VolumesEffects {
   changeDescription$: Observable<Action> = this.actions$
     .ofType(volumeActions.VOLUME_CHANGE_DESCRIPTION)
     .switchMap((action: volumeActions.ChangeDescription) => {
-      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_IN_PROGRESS');
 
-      return this.volumeTagService
-        .setDescription(action.payload.volume, action.payload.description)
+      return (action.payload.description
+        ? this.volumeTagService
+          .setDescription(action.payload.volume, action.payload.description)
+        : this.volumeTagService
+          .removeDescription(action.payload.volume))
         .map(volume => new volumeActions.UpdateVolume(new Volume(volume), {
           id: notificationId,
           message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
@@ -60,30 +64,13 @@ export class VolumesEffects {
         });
     });
 
-  @Effect()
-  removeDescription$: Observable<Action> = this.actions$
-    .ofType(volumeActions.VOLUME_REMOVE_DESCRIPTION)
-    .switchMap((action: volumeActions.RemoveDescription) => {
-      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.REMOVE_DESCRIPTION_IN_PROGRESS');
-      return this.volumeTagService
-        .removeDescription(action.payload.vm)
-        .map(vm => new volumeActions.UpdateVolume(vm, {
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VOLUME.REMOVE_DESCRIPTION_DONE'
-        }))
-        .catch((error: Error) => {
-          return Observable.of(new volumeActions.VolumeUpdateError(error, {
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.VOLUME.REMOVE_DESCRIPTION_FAILED'
-          }));
-        });
-    });
 
   @Effect()
   attachVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.ATTACH_VOLUME)
     .switchMap((action: volumeActions.AttachVolume) => {
-      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
 
       const params = {
         id: action.payload.volumeId,
@@ -107,17 +94,20 @@ export class VolumesEffects {
   detachVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DETACH_VOLUME)
     .switchMap((action: volumeActions.DetachVolume) => {
-      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS');
 
       const virtualMachineId = action.payload.virtualMachineId;
       return this.volumeService
         .detach(action.payload)
         .switchMap(volume => {
-          return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume), {
+          return Observable.of(
+            new volumeActions.ReplaceVolume(new Volume(volume), {
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
             }),
-            new volumeActions.VolumeFilterUpdate({ virtualMachineId }));
+            new volumeActions.VolumeFilterUpdate({ virtualMachineId })
+          );
         })
         .catch((error: Error) => {
           return Observable.of(new volumeActions.VolumeUpdateError(error, {
@@ -131,7 +121,8 @@ export class VolumesEffects {
   resizeVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.RESIZE_VOLUME)
     .switchMap((action: volumeActions.ResizeVolume) => {
-      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
       return this.volumeService
         .resize(action.payload)
         .map(volume => {
@@ -152,18 +143,23 @@ export class VolumesEffects {
   addSnapshot$: Observable<Action> = this.actions$
     .ofType(volumeActions.ADD_SNAPSHOT)
     .switchMap((action: volumeActions.AddSnapshot) => {
-      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
 
       return this.snapshotService.create(
-          action.payload.volume.id,
-          action.payload.name,
-          action.payload.description
-        )
+        action.payload.volume.id,
+        action.payload.name,
+        action.payload.description
+      )
         .map(snapshot => {
-          let newSnaps = Object.assign([], action.payload.volume.snapshots);
+          const newSnaps = Object.assign([], action.payload.volume.snapshots);
 
           newSnaps.unshift(snapshot);
-          let newVolume = Object.assign({}, action.payload.volume, { snapshots: newSnaps });
+          const newVolume = Object.assign(
+            {},
+            action.payload.volume,
+            { snapshots: newSnaps }
+          );
           return new volumeActions.UpdateVolume(new Volume(newVolume), {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
@@ -181,11 +177,12 @@ export class VolumesEffects {
   deleteVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUME)
     .switchMap((action: volumeActions.DeleteVolume) => {
-      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS');
 
-      const remove = (action) => {
-        return this.volumeService.remove(action.payload)
-          .map(() => new volumeActions.DeleteSuccess(action.payload, {
+      const remove = (removeAction) => {
+        return this.volumeService.remove(removeAction.payload)
+          .map(() => new volumeActions.DeleteSuccess(removeAction.payload, {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
           }))
@@ -197,16 +194,18 @@ export class VolumesEffects {
           });
       };
 
-      const detach = (action) => {
-        const virtualMachineId = action.payload.virtualMachineId;
+      const detach = (detachAction) => {
+        const virtualMachineId = detachAction.payload.virtualMachineId;
         return this.volumeService
-          .detach(action.payload)
+          .detach(detachAction.payload)
           .do(volume => {
-            return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume), {
+            return Observable.of(
+              new volumeActions.ReplaceVolume(new Volume(volume), {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
               }),
-              new volumeActions.VolumeFilterUpdate({ virtualMachineId }));
+              new volumeActions.VolumeFilterUpdate({ virtualMachineId })
+            );
           })
           .catch((error: Error) => {
             return Observable.of(new volumeActions.VolumeUpdateError(error, {

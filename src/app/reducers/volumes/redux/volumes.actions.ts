@@ -20,7 +20,6 @@ export const VOLUME_DELETE_SUCCESS = '[VOLUMES] VOLUME_DELETE_SUCCESS';
 export const VOLUME_CREATE_ERROR = '[VOLUMES] VOLUME_CREATE_ERROR';
 export const VOLUME_UPDATE_ERROR = '[VOLUMES] VOLUME_UPDATE_ERROR';
 export const VOLUME_CHANGE_DESCRIPTION = '[VOLUMES] VOLUME_CHANGE_DESCRIPTION';
-export const VOLUME_REMOVE_DESCRIPTION = '[VOLUMES] VOLUME_REMOVE_DESCRIPTION';
 
 export class LoadVolumesRequest implements Action {
   type = LOAD_VOLUMES_REQUEST;
@@ -33,7 +32,7 @@ export class LoadVolumesRequest implements Action {
 export class LoadVolumesResponse implements Action {
   type = LOAD_VOLUMES_RESPONSE;
 
-  constructor(public payload: any ) {
+  constructor(public payload: any) {
   }
 
 }
@@ -149,14 +148,10 @@ export class CreateError implements Action {
 export class ChangeDescription implements Action {
   readonly type = VOLUME_CHANGE_DESCRIPTION;
 
-  constructor(public payload: any) {
-  }
-}
-
-export class RemoveDescription implements Action {
-  readonly type = VOLUME_REMOVE_DESCRIPTION;
-
-  constructor(public payload: any) {
+  constructor(public payload: {
+    volume: Volume,
+    description: string
+  }) {
   }
 }
 
@@ -174,5 +169,4 @@ export type Actions = LoadVolumesRequest
   | AttachVolume
   | DetachVolume
   | ResizeVolume
-  | ChangeDescription
-  | RemoveDescription;
+  | ChangeDescription;
