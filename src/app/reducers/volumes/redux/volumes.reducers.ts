@@ -220,7 +220,7 @@ export const selectSpareOnlyVolumes = createSelector(
   selectAll,
   fromVMs.getSelectedVM,
   (volumes, vm) => {
-    const zoneFilter = (volume) => volume.zoneId === vm.zoneId;
+    const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
     const spareOnlyFilter = volume => !volume.virtualMachineId;
 
     return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume));
