@@ -7,9 +7,10 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { SshPrivateKeyDialogComponent } from '../ssh-key-creation/ssh-private-key-dialog.component';
 import { MatDialog } from '@angular/material';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { Router } from '@angular/router';
 
 import * as sshKey from './ssh-key.actions';
-import { sshKeyId } from './ssh-key.reducers';
+
 
 @Injectable()
 export class SshKeyEffects {
@@ -27,17 +28,34 @@ export class SshKeyEffects {
   removeSshKeyPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_REMOVE)
     .switchMap((action: sshKey.RemoveSshKeyPair) => {
-      return this.sshKeyService.remove({
-        name: action.payload.name,
-        account: action.payload.account,
-        domainid: action.payload.domainid
-      })
-        .map(() => {
-          return new sshKey.RemoveSshKeyPairSuccessAction(sshKeyId(action.payload));
-        })
-        .catch((error: Error) => {
-          return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
+      return this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY' })
+        .onErrorResumeNext()
+        .filter(res => !!res)
+        .switchMap(() => {
+          return this.sshKeyService.remove({
+            name: action.payload.name,
+            account: action.payload.account,
+            domainid: action.payload.domainid
+          })
+            .map(() => new sshKey.RemoveSshKeyPairSuccessAction(action.payload))
+            .catch((error: Error) => {
+              return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
+            });
         });
+    });
+
+  @Effect({ dispatch: false })
+  removeSshKeyPairSuccessNavigate$: Observable<SSHKeyPair> = this.actions$
+    .ofType(sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS)
+    .map((action: sshKey.RemoveSshKeyPairSuccessAction) => action.payload)
+    .filter((sshKey: SSHKeyPair) => {
+      return this.router.isActive(`/ssh-keys/view/${sshKey.name}`, false)
+        && this.router.routerState.root.snapshot.queryParams.account === sshKey.account;
+    })
+    .do(() => {
+      this.router.navigate(['./ssh-keys'], {
+        queryParamsHandling: 'preserve'
+      });
     });
 
   @Effect()
@@ -79,7 +97,8 @@ export class SshKeyEffects {
     private actions$: Actions,
     private sshKeyService: SSHKeyPairService,
     private dialog: MatDialog,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {
   }
 

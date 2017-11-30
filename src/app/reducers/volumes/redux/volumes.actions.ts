@@ -72,7 +72,7 @@ export class CreateVolume implements Action {
 export class DeleteVolume implements Action {
   readonly type = DELETE_VOLUME;
 
-  constructor(public payload: any) {
+  constructor(public payload: Volume) {
   }
 }
 

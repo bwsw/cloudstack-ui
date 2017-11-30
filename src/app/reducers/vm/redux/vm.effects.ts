@@ -24,7 +24,7 @@ import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-passwo
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { OsTypeService } from '../../../shared/services/os-type.service';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -586,10 +586,19 @@ export class VirtualMachinesEffects {
     });
 
   @Effect({ dispatch: false })
-  expungeSuccess$: Observable<Action> = this.actions$
+  expungeSuccess$: Observable<VirtualMachine> = this.actions$
     .ofType(vmActions.EXPUNGE_VM_SUCCESS)
-    .do((action: vmActions.ExpungeVmSuccess) => {
+    .map((action: vmActions.ExpungeVmSuccess) => {
       this.jobsNotificationService.finish(action.notification);
+      return action.payload
+    })
+    .filter((vm: VirtualMachine) => {
+      return this.router.isActive(`/instances/${vm.id}`, false);
+    })
+    .do(() => {
+      this.router.navigate(['./instances'], {
+        queryParamsHandling: 'preserve'
+      });
     });
 
 
@@ -597,7 +606,6 @@ export class VirtualMachinesEffects {
     private store: Store<State>,
     private actions$: Actions,
     private vmService: VmService,
-    private osTypesService: OsTypeService,
     private vmTagService: VmTagService,
     private userTagService: UserTagService,
     private affinityGroupService: AffinityGroupService,
@@ -605,7 +613,8 @@ export class VirtualMachinesEffects {
     private isoService: IsoService,
     private jobsNotificationService: JobsNotificationService,
     private dialogService: DialogService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
   }
 

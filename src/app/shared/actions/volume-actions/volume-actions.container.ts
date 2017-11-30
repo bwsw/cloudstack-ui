@@ -1,6 +1,4 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
   Input
 } from '@angular/core';
@@ -25,19 +23,15 @@ import { ISnapshotData } from './volume-snapshot';
     >
     </cs-volume-actions>`,
 })
-export class VolumeActionsContainerComponent implements AfterViewInit {
+export class VolumeActionsContainerComponent {
 
   @Input() public volume: Volume;
 
   constructor(
     public dialogService: DialogService,
     public authService: AuthService,
-    private store: Store<State>,
-    private cd: ChangeDetectorRef
-  ) { }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
+    private store: Store<State>
+  ) {
   }
 
   public onVolumeDelete(volume: Volume): void {

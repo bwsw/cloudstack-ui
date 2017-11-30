@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
@@ -91,6 +92,20 @@ export class AccountsEffects {
     });
 
   @Effect({ dispatch: false })
+  deleteSuccessNavigate$: Observable<Account> = this.actions$
+    .ofType(accountActions.ACCOUNT_DELETE_SUCCESS)
+    .map((action: accountActions.DeleteSuccess) => action.payload)
+    .filter((account: Account) => {
+      return this.router.isActive(`/accounts/${account.id}`, false);
+    })
+    .do(() => {
+      this.router.navigate(['./accounts'], {
+        queryParamsHandling: 'preserve'
+      });
+    });
+
+
+  @Effect({ dispatch: false })
   createError$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_CREATE_ERROR)
     .do((action: accountActions.CreateError) => {
@@ -173,7 +188,8 @@ export class AccountsEffects {
     private accountUserService: AccountUserService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {
   }
 
