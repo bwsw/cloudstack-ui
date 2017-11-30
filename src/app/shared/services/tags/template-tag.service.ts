@@ -55,16 +55,18 @@ export class TemplateTagService implements EntityTagService {
 
   public getAgreement(template: BaseTemplateModel, lang?: string): Observable<string> {
     const defaultAgreement = this.keys.agreementDefault;
-    let langKey;
+    let agreement;
 
     if (lang) {
-       langKey = `${defaultAgreement}.${lang}`;
+       const langKey = `${defaultAgreement}.${lang}`;
+       agreement = template.tags.find(item => item.key === langKey)
     }
 
-    const tagValue = this.tagService.getValueFromTag(template.tags
-      .find(item => item.key === (langKey || defaultAgreement)));
+    if (!agreement) {
+      agreement = template.tags.find(item => item.key === defaultAgreement);
+    }
 
-    return Observable.of(tagValue || null);
+    return Observable.of(this.tagService.getValueFromTag(agreement) || null);
   }
 
   public setAgreement(template: BaseTemplateModel, filePath: string): Observable<BaseTemplateModel> {
