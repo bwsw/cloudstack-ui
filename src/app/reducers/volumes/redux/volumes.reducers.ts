@@ -10,6 +10,7 @@ import {
 import * as event from './volumes.actions';
 import { Volume } from '../../../shared/models/volume.model';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 
 /**
@@ -222,11 +223,13 @@ export const filterSpareOnly = createSelector(
 export const selectSpareOnlyVolumes = createSelector(
   selectAll,
   fromVMs.getSelectedVM,
-  (volumes, vm) => {
+  fromAuth.getUserAccount,
+  (volumes, vm, account) => {
     const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
     const spareOnlyFilter = volume => !volume.virtualMachineId;
+    const accountFilter = volume => account && (volume.account === account.name && volume.domainid === account.domainid);
 
-    return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume));
+    return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume));
   }
 );
 

@@ -107,10 +107,10 @@ export class VirtualMachinesEffects {
               message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE'
             });
             if (vmState === VmState.Running) {
-              this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(newVm), ));
+              this.store.dispatch(new vmActions.UpdateVM(newVm));
               return this.start(newVm);
             } else {
-              return Observable.of(new vmActions.UpdateVM(new VirtualMachine(newVm)));
+              return Observable.of(new vmActions.UpdateVM(newVm));
             }
           })
           .catch((error: Error) => {
@@ -153,10 +153,10 @@ export class VirtualMachinesEffects {
                   message: 'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_DONE'
                 });
                 if (vmState === VmState.Running) {
-                  this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(newVm)));
+                  this.store.dispatch(new vmActions.UpdateVM(newVm));
                   return this.start(newVm);
                 } else {
-                  return Observable.of(new vmActions.UpdateVM(new VirtualMachine(newVm)));
+                  return Observable.of(new vmActions.UpdateVM(newVm));
                 }
               })
               .catch((error: Error) => {
@@ -164,7 +164,7 @@ export class VirtualMachinesEffects {
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_FAILED'
                 });
-                return Observable.of(new vmActions.VMUpdateError(error,));
+                return Observable.of(new vmActions.VMUpdateError(error));
               });
           };
 
@@ -306,7 +306,7 @@ export class VirtualMachinesEffects {
           this.jobsNotificationService.finish({
             message: 'JOB_NOTIFICATIONS.VM.COLOR_CHANGE_DONE'
           });
-          return new vmActions.UpdateVM(new VirtualMachine(vm));
+          return new vmActions.UpdateVM(vm);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -333,14 +333,14 @@ export class VirtualMachinesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.STOP_DONE'
               });
-              return new vmActions.UpdateVM(new VirtualMachine(vm));
+              return new vmActions.UpdateVM(vm);
             })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.STOP_FAILED'
               });
-              return Observable.of(new vmActions.VMUpdateError(error,));
+              return Observable.of(new vmActions.VMUpdateError(error));
             });
         });
     });
@@ -376,13 +376,13 @@ export class VirtualMachinesEffects {
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
                 });
-                return new vmActions.ExpungeVmSuccess(new VirtualMachine(action.payload));
+                return new vmActions.ExpungeVmSuccess(action.payload);
               } else {
                 this.jobsNotificationService.finish({
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE'
                 });
-                return new vmActions.UpdateVM(new VirtualMachine(vm));
+                return new vmActions.UpdateVM(vm);
               }
             })
             .catch((error: Error) => {
@@ -412,7 +412,7 @@ export class VirtualMachinesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.REBOOT_DONE'
               });
-              return new vmActions.UpdateVM(new VirtualMachine(vm));
+              return new vmActions.UpdateVM(vm);
             })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -442,7 +442,7 @@ export class VirtualMachinesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.RESTORE_DONE'
               });
-              return new vmActions.UpdateVM(new VirtualMachine(newVm));
+              return new vmActions.UpdateVM(newVm);
             })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -471,7 +471,7 @@ export class VirtualMachinesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.RECOVER_DONE'
               });
-              return new vmActions.UpdateVM(new VirtualMachine(res.virtualmachine));
+              return new vmActions.UpdateVM(res.virtualmachine);
             })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -499,7 +499,7 @@ export class VirtualMachinesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
               });
-              return new vmActions.ExpungeVmSuccess(new VirtualMachine(action.payload));
+              return new vmActions.ExpungeVmSuccess(action.payload);
             })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -523,7 +523,7 @@ export class VirtualMachinesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.ISO.ATTACHMENT_DONE'
           });
-          return new vmActions.UpdateVM(new VirtualMachine(vm));
+          return new vmActions.UpdateVM(vm);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -546,7 +546,7 @@ export class VirtualMachinesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.ISO.DETACHMENT_DONE'
           });
-          return new vmActions.ReplaceVM(new VirtualMachine(vm));
+          return new vmActions.ReplaceVM(vm);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -579,10 +579,10 @@ export class VirtualMachinesEffects {
                   message: 'JOB_NOTIFICATIONS.VM.CHANGE_SSH_DONE'
                 });
                 if (vmState === VmState.Running) {
-                  this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(newVm)));
+                  this.store.dispatch(new vmActions.UpdateVM(newVm));
                   return this.start(newVm);
                 } else {
-                  return Observable.of(new vmActions.UpdateVM(new VirtualMachine(newVm)));
+                  return Observable.of(new vmActions.UpdateVM(newVm));
                 }
               })
               .catch((error: Error) => {
@@ -624,12 +624,12 @@ export class VirtualMachinesEffects {
                   message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE'
                 });
                 if (vmState === VmState.Running) {
-                  this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(newVm),));
+                  this.store.dispatch(new vmActions.UpdateVM(newVm));
                   return this.start(newVm)
                     .do(() => this.showPasswordDialog(newVm));
                 }
                 this.showPasswordDialog(newVm);
-                return Observable.of(new vmActions.UpdateVM(new VirtualMachine(newVm)));
+                return Observable.of(new vmActions.UpdateVM(newVm));
               })
               .catch((error: Error) => {
                 this.jobsNotificationService.fail({
@@ -659,13 +659,13 @@ export class VirtualMachinesEffects {
             this.jobsNotificationService.finish({
               message: 'JOB_NOTIFICATIONS.VM.SAVE_PASSWORD_DONE'
             });
-            return new vmActions.UpdateVM(new VirtualMachine(vm));
+            return new vmActions.UpdateVM(vm);
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
               message: 'JOB_NOTIFICATIONS.VM.SAVE_PASSWORD_FAILED'
             });
-            return Observable.of(new vmActions.VMUpdateError(error, ));
+            return Observable.of(new vmActions.VMUpdateError(error));
           }));
     });
 
@@ -771,8 +771,7 @@ export class VirtualMachinesEffects {
           id: notificationId,
           message: 'JOB_NOTIFICATIONS.VM.STOP_DONE'
         });
-        return this.store.dispatch(new vmActions.UpdateVM(
-          new VirtualMachine(newVm)));
+        return this.store.dispatch(new vmActions.UpdateVM(newVm));
       })
       .catch((error: Error) => {
         this.jobsNotificationService.fail({
