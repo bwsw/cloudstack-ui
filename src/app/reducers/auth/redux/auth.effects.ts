@@ -22,21 +22,6 @@ export class UserAccountEffects {
         .catch(() => Observable.of(new authActions.LoadUserAccountResponse({})));
     });
 
-  /*@Effect()
-  updateUserAccount$: Observable<Action> = this.actions$
-    .ofType(
-      vmActions.CREATE_VM_SUCCESS,
-      vmActions.EXPUNGE_VM_SUCCESS,
-      volumeActions.VOLUME_DELETE_SUCCESS,
-      volumeActions.VOLUME_CREATE_SUCCESS,
-      volumeActions.ADD_SNAPSHOT_SUCCESS,
-      volumeActions.DELETE_SNAPSHOT_SUCCESS,
-      volumeActions.RESIZE_VOLUME_SUCCESS
-    )
-    .map(() => {
-      return new authActions.LoadUserAccountRequest();
-    });*/
-
   constructor(
     private actions$: Actions,
     private accountService: AccountService
