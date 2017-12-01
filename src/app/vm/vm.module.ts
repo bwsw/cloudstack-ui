@@ -95,6 +95,8 @@ import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.c
 import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item.component';
 import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
 import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.container';
+import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
@@ -125,7 +127,8 @@ import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-deta
     TagsModule,
     TemplateModule,
     TranslateModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    HttpModule
   ],
   declarations: [
     AffinityGroupSelectorComponent,
@@ -149,6 +152,7 @@ import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-deta
     VmColorComponent,
     VmCreationComponent,
     VmCreationDialogComponent,
+    VmCreationAgreementComponent,
     VmListCardItemComponent,
     VmListRowItemComponent,
     VmDetailComponent,
@@ -194,6 +198,7 @@ import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-deta
     VmCreationComponent,
     VmDestroyDialogComponent,
     VmTemplateDialogComponent,
+    VmCreationAgreementComponent,
     SnapshotCreationComponent,
     SnapshotModalComponent,
     VolumeAttachmentDialogComponent,

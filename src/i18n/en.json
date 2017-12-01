@@ -30,7 +30,8 @@
     "VIEW": "View",
     "YES": "Yes",
     "SEARCH": "Search",
-    "CONTINUE": "Continue"
+    "CONTINUE": "Continue",
+    "AGREE": "I agree"
   },
   "DIALOG_MESSAGES": {
     "ACCOUNT": {

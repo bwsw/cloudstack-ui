@@ -5,6 +5,7 @@ import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TemplateTagKeys } from './template-tag-keys';
 import { TemplateGroup } from '../../models/template-group.model';
+import { Tag } from '../../models/tag.model';
 
 
 @Injectable()
@@ -50,5 +51,30 @@ export class TemplateTagService implements EntityTagService {
       resourceType: tag.resourceType,
       'tags[0].key': tag.key
     });
+  }
+
+  public getAgreement(template: BaseTemplateModel, lang?: string): Observable<string> {
+    const defaultAgreement = this.keys.agreementDefault;
+    let agreement;
+
+    if (lang) {
+       const langKey = `${defaultAgreement}.${lang}`;
+       agreement = template.tags.find(item => item.key === langKey)
+    }
+
+    if (!agreement) {
+      agreement = template.tags.find(item => item.key === defaultAgreement);
+    }
+
+    return Observable.of(this.tagService.getValueFromTag(agreement) || null);
+  }
+
+  public setAgreement(template: BaseTemplateModel, filePath: string): Observable<BaseTemplateModel> {
+    return this.tagService.update(
+      template,
+      template.resourceType,
+      this.keys.agreementDefault,
+      filePath
+    );
   }
 }

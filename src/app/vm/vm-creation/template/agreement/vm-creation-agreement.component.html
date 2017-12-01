@@ -1,0 +1,19 @@
+<div [innerHTML]="agreement"></div>
+
+<div class="mat-dialog-actions">
+  <button
+    mat-button
+    color="primary"
+    (click)="onCancel()"
+  >
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+
+  <button
+    mat-button
+    color="primary"
+    (click)="onAgree()"
+  >
+    {{ 'COMMON.AGREE' | translate }}
+  </button>
+</div>
