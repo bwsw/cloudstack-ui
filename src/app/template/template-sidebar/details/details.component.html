@@ -58,7 +58,7 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <mat-card *ngIf="templateDownloadUrl">
+  <mat-card *ngIf="entity?.downloadUrl">
     <mat-card-header>
       <mat-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></mat-card-title>
     </mat-card-header>
@@ -71,7 +71,7 @@
           mat-icon-button
           cs-input-group-button
           ngxClipboard
-          [cbContent]="templateDownloadUrl"
+          [cbContent]="entity?.downloadUrl"
           (cbOnSuccess)="onCopySuccess()"
           (cbOnError)="onCopyFail()"
         >
