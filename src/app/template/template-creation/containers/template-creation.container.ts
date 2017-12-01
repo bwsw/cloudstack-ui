@@ -1,17 +1,24 @@
-import { Component, Inject } from '@angular/core';
+import {
+  Component,
+  Inject
+} from '@angular/core';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
+import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
+import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
+import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
+import * as fromTemplateGroups from '../../../reducers/templates/redux/template-group.reducers';
+import * as templateGroupActions from '../../../reducers/templates/redux/template-group.actions';
+import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
+import * as zoneActions from '../../../reducers/templates/redux/zone.actions';
+import * as templateActions from '../../../reducers/templates/redux/template.actions';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 import { Snapshot } from '../../../shared/models/snapshot.model';
 
-import * as fromTemplates from '../../redux/template.reducers';
-import * as fromOsTypes from '../../redux/ostype.reducers';
-import * as fromTemplateGroups from '../../redux/template-group.reducers';
-import * as fromZones from '../../redux/zone.reducers';
-import * as templateActions from '../../redux/template.actions';
-import * as osTypeActions from '../../redux/ostype.actions';
-import * as zoneActions from '../../redux/zone.actions';
-import * as templateGroupActions from '../../redux/template-group.actions';
 
 @Component({
   selector: 'cs-template-create-dialog-container',
@@ -55,7 +62,7 @@ export class TemplateCreationContainerComponent {
 
   public onCreate(params) {
     this.store.dispatch(new templateActions.CreateTemplate(params));
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 }
 

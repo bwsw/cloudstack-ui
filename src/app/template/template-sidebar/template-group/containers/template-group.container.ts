@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../reducers/index';
 
-import * as templateActions from '../../../redux/template.actions';
-import * as fromTemplates from '../../../redux/template.reducers';
-import * as fromTemplateGroups from '../../../redux/template-group.reducers';
-import * as templateGroupActions from '../../../redux/template-group.actions';
+import * as templateActions from '../../../../reducers/templates/redux/template.actions';
+import * as fromTemplates from '../../../../reducers/templates/redux/template.reducers';
+import * as fromTemplateGroups from '../../../../reducers/templates/redux/template-group.reducers';
 import { BaseTemplateModel } from '../../../shared/base-template.model';
 
 @Component({

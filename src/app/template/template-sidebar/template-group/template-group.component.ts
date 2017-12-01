@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { BaseTemplateModel } from '../../shared/base-template.model';
-import { TemplateGroupSelectorComponent } from './template-group-selector/template-group-selector.component';
-import { TemplateGroupService } from '../../../shared/services/template-group.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../../shared/services/language.service';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';

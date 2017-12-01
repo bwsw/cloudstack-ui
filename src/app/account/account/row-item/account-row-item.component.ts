@@ -15,7 +15,7 @@ import { AuthService } from '../../../shared/services/auth.service';
   templateUrl: 'account-row-item.component.html',
   styleUrls: ['account-row-item.component.scss']
 })
-export class AccountRowItemComponent extends AccountItemComponent{
+export class AccountRowItemComponent extends AccountItemComponent {
   @Input() public item: Account;
   @Input() public isSelected: (account) => boolean;
   @Output() public onClick = new EventEmitter<Account>();

@@ -1,0 +1,42 @@
+<cs-list
+  (onAction)="showVmCreationDialog()"
+  [isOpen]="listService?.hasSelected()"
+>
+  <ng-container cs-panels>
+    <cs-top-bar>
+      <cs-vm-statistics-container></cs-vm-statistics-container>
+      <div class="top-border"></div>
+      <cs-vm-filter-container
+        [groupings]="groupings"
+        [selectedGroupings]="selectedGroupings"
+        cs-list
+      ></cs-vm-filter-container>
+    </cs-top-bar>
+  </ng-container>
+
+  <ng-container cs-list>
+
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="viewModeKey">
+      </cs-view-mode-switch>
+    </div>
+    <cs-vm-list
+      *loading="isLoading"
+      [vms]="vms"
+      [volumes]="volumes"
+      [osTypesMap]="osTypesMap"
+      [groupings]="selectedGroupings"
+      [mode]="mode"
+      [query]="query"
+      cs-list
+    >
+    </cs-vm-list>
+  </ng-container>
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
+</cs-list>

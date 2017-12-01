@@ -3,8 +3,8 @@
     <mat-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]=" selectedAccountIds"
-      (selectionChange)="update()"
+      [ngModel]=" selectedAccountIds"
+      (selectionChange)="onAccountsChange.emit($event.value)"
     >
       <mat-option
         *ngFor="let account of accounts"
@@ -17,28 +17,27 @@
     <mat-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_ZONES' | translate"
-      [(ngModel)]="selectedZones"
-      (selectionChange)="update()"
+      [ngModel]="selectedZoneIds"
+      (selectionChange)="onZonesChange.emit($event.value)"
     >
-      <mat-option *ngFor="let z of zones" [value]="z">{{ z.name }}</mat-option>
+      <mat-option *ngFor="let z of zones" [value]="z.id">{{ z.name }}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
     <mat-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_GROUPS' | translate"
-      [(ngModel)]="selectedGroups"
-      (selectionChange)="update()"
+      [ngModel]="selectedGroupNames"
+      (selectionChange)="onGroupNamesChange.emit($event.value)"
     >
-      <mat-option *ngIf="showNoGroupFilter" [value]="noGroup">
+      <mat-option [value]="noGroup">
         <em>{{ 'VM_PAGE.FILTERS.NO_GROUP' | translate }}</em>
       </mat-option>
-
       <mat-option
-        *ngFor="let g of groups"
-        [value]="g"
+        *ngFor="let group of groups"
+        [value]="group.name"
       >
-        {{ g.name }}
+        {{ group.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -46,8 +45,8 @@
     <mat-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.SELECT_STATES' | translate"
-      [(ngModel)]="selectedStates"
-      (selectionChange)="update()"
+      [ngModel]="selectedStates"
+      (selectionChange)="onStatesChange.emit($event.value)"
     >
       <mat-option *ngFor="let s of states" [value]="s.state">
         {{ s.name | translate }}
@@ -58,13 +57,20 @@
     <cs-draggable-select
       multiple="true"
       [placeholder]="'VM_PAGE.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupings"
-      [dragItems]="availableGroupings"
-      (selectionChange)="update()"
+      [ngModel]="selectedGroupings"
+      [dragItems]="groupings"
+      (selectionChange)="onGroupingsChange.emit($event.value)"
     >
-      <mat-option *ngFor="let g of availableGroupings" [value]="g">
+      <mat-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}
       </mat-option>
     </cs-draggable-select>
   </mat-form-field>
+</div>
+
+<div class="filter-wrapper">
+  <cs-search
+    [ngModel]="query"
+    (ngModelChange)="onQueryChange.emit($event)"
+  ></cs-search>
 </div>

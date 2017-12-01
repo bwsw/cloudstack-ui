@@ -15,10 +15,7 @@ export class SnapshotTagService implements EntityTagService {
   constructor(
     protected descriptionTagService: DescriptionTagService,
     protected tagService: TagService
-  ) {}
-
-  public getDescription(snapshot: Snapshot): Observable<string> {
-    return this.descriptionTagService.getDescription(snapshot, this);
+  ) {
   }
 
   public setDescription(snapshot: Snapshot, description: string): Observable<Taggable> {

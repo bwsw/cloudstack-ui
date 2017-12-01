@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 
-import * as fromTemplates from '../../redux/template.reducers';
+import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 
 @Component({
   selector: 'cs-template-details-container',

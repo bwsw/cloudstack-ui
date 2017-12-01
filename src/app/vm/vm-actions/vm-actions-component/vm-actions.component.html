@@ -1,7 +1,22 @@
-<ng-template #menuItems let-actions>
-  <ng-container *ngFor="let action of actions">
+<ng-container *ngIf="!vmIsDestroyed">
+  <ng-container
+    *ngFor="let action of vmActions"
+  >
+    <ng-container *ngIf="!action.hidden || !action.hidden(vm)">
+      <button
+        mat-menu-item
+        [disabled]="!action.canActivate(vm)"
+        (click)="onAction(action, vm)"
+      >
+        <mat-icon>{{ action.icon }}</mat-icon>
+        <span>{{ action.name | translate }}</span>
+      </button>
+    </ng-container>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="vmIsDestroyed && canExpungeOrRecoverVm">
+  <ng-container *ngFor="let action of destroyedVmActions">
     <button
-      *ngIf="!action.hidden(vm)"
       mat-menu-item
       [disabled]="!action.canActivate(vm)"
       (click)="onAction(action, vm)"
@@ -10,16 +25,4 @@
       <span>{{ action.name | translate }}</span>
     </button>
   </ng-container>
-</ng-template>
-
-<ng-container *ngIf="!vmIsDestroyed; else ExpungeRecoverActions">
-  <ng-container *ngTemplateOutlet="menuItems; context: vmActionsContext">
-  </ng-container>
-</ng-container>
-<ng-template #ExpungeRecoverActions>
-  <ng-container *ngTemplateOutlet="menuItems; context: destroyedVmActionsContext">
-  </ng-container>
-</ng-template>
-<mat-divider *ngIf="hasPrimaryActions"></mat-divider>
-<ng-container *ngTemplateOutlet="menuItems; context: pluginActionsContext ">
 </ng-container>

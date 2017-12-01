@@ -36,7 +36,6 @@ import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
 import { VolumeAttachAction } from './actions/volume-actions/volume-attach';
 // tslint:disable-next-line
-import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
 import { VolumeDetachAction } from './actions/volume-actions/volume-detach';
 import { VolumeRecurringSnapshotsAction } from './actions/volume-actions/volume-recurring-snapshots';
 import { VolumeRemoveAction } from './actions/volume-actions/volume-remove';
@@ -70,13 +69,13 @@ import { CharacterCountComponent } from './components/character-count-textfield/
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
-import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
+import { FancySelectComponent } from './components';
 import { GroupedListComponent } from './components/grouped-list/grouped-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
-import { InputGroupComponent } from './components/input-group/input-group.component';
+import { InputGroupComponent } from './components';
 import { LoaderComponent } from './components/loader/loader.component';
-import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
-import { PopoverModule } from './components/popover/index';
+import { OverlayLoadingComponent } from './components';
+import { PopoverModule } from './components/popover';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
 // tslint:disable-next-line
@@ -93,10 +92,11 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
-  ViewValuePipe
+  ViewValuePipe,
+  StringifyDatePipe,
+  StringifyTimePipe,
+  VolumeSortPipe
 } from './pipes';
-import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
-import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
@@ -122,7 +122,6 @@ import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
 import { SnapshotService } from './services/snapshot.service';
 import { SSHKeyPairService } from './services/ssh-keypair.service';
-import { StatsUpdateService } from './services/stats-update.service';
 import { StyleService } from './services/style.service';
 import { DescriptionTagService } from './services/tags/description-tag.service';
 import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
@@ -134,7 +133,6 @@ import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
-import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
@@ -166,7 +164,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
 import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
 import { AccountUserService } from './services/account-user.service';
-import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
+import {
+  TemplateActionsContainerComponent
+} from './actions/template-actions/template-actions-component/template-actions.container';
+import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
+import {
+  VolumeAttachmentContainerComponent
+} from './actions/volume-actions/volume-attachment/volume-attachment.container';
+import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
 
 @NgModule({
   imports: [
@@ -216,6 +221,7 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     DiskOfferingComponent,
     DividerVerticalComponent,
     DivisionPipe,
+    VolumeSortPipe,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
@@ -262,18 +268,20 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     TopBarComponent,
     ViewValuePipe,
     VmStatisticsComponent,
+    VmStatisticContainerComponent,
     ParametersPairComponent,
     ParametersEditPairComponent,
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    TemplateActionsContainerComponent,
+    VolumeAttachmentComponent,
     AccountUserActionsComponent,
-    TemplateActionsContainerComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
     LoaderComponent,
-    VolumeAttachmentComponent,
+    VolumeAttachmentContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
     SecurityGroupBuilderComponent
@@ -293,6 +301,7 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     DiskOfferingComponent,
     DividerVerticalComponent,
     DivisionPipe,
+    VolumeSortPipe,
     FabComponent,
     FancySelectComponent,
     ForbiddenValuesDirective,
@@ -338,14 +347,17 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
     VmStatisticsComponent,
+    VmStatisticContainerComponent,
     TimeZoneComponent,
     ParametersPairComponent,
     ParametersEditPairComponent,
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    TemplateActionsContainerComponent,
+    VolumeAttachmentContainerComponent,
+    VolumeAttachmentComponent,
     AccountUserActionsComponent,
-    TemplateActionsContainerComponent
   ],
   providers: [
     AccountService,
@@ -391,7 +403,6 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     VolumeRemoveAction,
     VolumeResizeAction,
     VolumeSnapshotAction,
-    StatsUpdateService,
     StyleService,
     TagService,
     TemplateActionsService,
@@ -399,7 +410,6 @@ import { TemplateActionsContainerComponent } from './actions/template-actions/te
     UserService,
     UserTagService,
     VmTagService,
-    VolumeOfferingService,
     ZoneService,
     VmCreationSecurityGroupService,
     VolumeService,

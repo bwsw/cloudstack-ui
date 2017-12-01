@@ -1,10 +1,10 @@
 :host {
   display: inline-flex;
-  cursor: pointer;
   z-index: -1;
 
   & mat-card {
     z-index: 0;
+    cursor: pointer;
     line-height: normal;
   }
 }

@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Snapshot } from '../models/snapshot.model';
+import { BackendResource } from '../decorators';
+import { Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { SnapshotTagService } from './tags/snapshot-tag.service';
@@ -15,7 +14,6 @@ import { SnapshotTagService } from './tags/snapshot-tag.service';
   entityModel: Snapshot
 })
 export class SnapshotService extends BaseBackendCachedService<Snapshot> {
-  public onSnapshotDeleted = new Subject<Snapshot>();
 
   constructor(
     private asyncJobService: AsyncJobService,
@@ -25,7 +23,11 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     super(http);
   }
 
-  public create(volumeId: string, name?: string, description?: string): Observable<Snapshot> {
+  public create(
+    volumeId: string,
+    name?: string,
+    description?: string
+  ): Observable<Snapshot> {
     this.invalidateCache();
 
     const params = this.getSnapshotCreationParams(volumeId, name);

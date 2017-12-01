@@ -14,6 +14,7 @@ import { Utils } from './utils/utils.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import * as authActions from '../../reducers/auth/redux/auth.actions';
+import { JobsNotificationService } from './jobs-notification.service';
 
 export interface Capabilities {
   securitygroupsenabled: boolean;
@@ -45,7 +46,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
     protected http: HttpClient,
-    private store: Store<State>
+    private store: Store<State>,
+    protected jobsNotificationService: JobsNotificationService
   ) {
     super(http);
   }
@@ -60,6 +62,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     this.loggedIn = new BehaviorSubject<boolean>(
       !!(this._user && this._user.userId)
     );
+    this.jobsNotificationService.reset();
 
     return this._user.userId
       ? this.getCapabilities().toPromise()
