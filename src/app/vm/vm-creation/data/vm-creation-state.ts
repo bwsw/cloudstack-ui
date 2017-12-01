@@ -41,7 +41,7 @@ export class VmCreationState {
   public zone: Zone;
   public agreement: boolean;
 
-  public rootDiskSizeMin: number;
+  private _rootDiskSizeMin: number;
 
   private affinityGroupNames: Array<string>; // we need to know whether the group already exists
   private defaultName: string; // to get default name if the name is empty
@@ -52,6 +52,17 @@ export class VmCreationState {
 
   public get affinityGroupExists(): boolean {
     return this.affinityGroupNames.includes(this.affinityGroup.name);
+  }
+
+  public get rootDiskSizeMin(): number {
+    return this._rootDiskSizeMin;
+  }
+
+  public set rootDiskSizeMin(value: number) {
+    this._rootDiskSizeMin = value;
+    if (this.rootDiskSize < this.rootDiskSizeMin) {
+      this.rootDiskSize = this.rootDiskSizeMin;
+    }
   }
 
   public get showRootDiskResize(): boolean {
@@ -95,11 +106,6 @@ export class VmCreationState {
     this.doStartVm = true;
     this.instanceGroup = new InstanceGroup('');
     this.keyboard = KeyboardLayout.us;
-    this.rootDiskSizeMin = data.rootDiskMinSize;
-
-    if (!this.rootDiskSize || this.rootDiskSize < this.rootDiskSizeMin) {
-      this.rootDiskSize = this.rootDiskSizeMin;
-    }
 
     if (data.defaultTemplate) {
       this.template = data.defaultTemplate;
