@@ -212,7 +212,7 @@
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
       "COLOR_CHANGE_FAILED": "Не удалось изменить цвет ВМ",
       "CHANGE_SSH_IN_PROGRESS": "Изменение ssh-ключа",
-      "CHANGE_SSH_DONE": "Ssh-ключ изменен",
+      "CHANGE_SSH_DONE": "SSH-ключ изменен",
       "CHANGE_SSH_FAILED": "Не удалось изменить ssh-ключ"
     },
     "VOLUME": {

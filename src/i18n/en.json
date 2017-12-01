@@ -217,7 +217,7 @@
       "COLOR_CHANGE_DONE": "VM color changed",
       "COLOR_CHANGE_FAILED": "Failed to cahnge VM color",
       "CHANGE_SSH_IN_PROGRESS": "Changing ssh-key",
-      "CHANGE_SSH_DONE": "Ssh-key changed",
+      "CHANGE_SSH_DONE": "SSH-key changed",
       "CHANGE_SSH_FAILED": "Failed to cahnge ssh-key"
     },
     "VOLUME": {

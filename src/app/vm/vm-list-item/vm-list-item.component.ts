@@ -12,6 +12,7 @@ import {
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Volume } from '../../shared/models/volume.model';
 import { OsType } from '../../shared/models/os-type.model';
+import { Dictionary } from '@ngrx/entity/src/models';
 
 const stateTranslations = {
   RUNNING: 'VM_STATE.RUNNING',
@@ -36,7 +37,7 @@ const stateTranslations = {
 export class VmListItemComponent implements OnInit {
   public item: VirtualMachine;
   public volumes: Array<Volume>;
-  public osTypesMap: { [key: string]: OsType };
+  public osTypesMap: Dictionary<OsType>;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;

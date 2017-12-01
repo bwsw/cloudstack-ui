@@ -14,6 +14,7 @@ import { VirtualMachine } from '../shared/vm.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { OsType } from '../../shared/models/os-type.model';
 import { Volume } from '../../shared/models/volume.model';
+import { Dictionary } from '@ngrx/entity/src/models';
 
 
 @Component({
@@ -25,7 +26,7 @@ import { Volume } from '../../shared/models/volume.model';
 export class VmPageComponent implements OnInit {
   @Input() public vms: Array<VirtualMachine>;
   @Input() public volumes: Array<Volume>;
-  @Input() public osTypesMap: { [key: string]: OsType };
+  @Input() public osTypesMap: Dictionary<OsType>;
   @Input() public isLoading: boolean;
   @Input() public groupings: Array<any>;
   @Input() public selectedGroupings: Array<any>;

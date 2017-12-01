@@ -15,6 +15,7 @@ import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { OsType } from '../../shared/models/os-type.model';
 import { Volume } from '../../shared/models/volume.model';
+import { Dictionary } from '@ngrx/entity/src/models';
 
 
 @Component({
@@ -24,7 +25,7 @@ import { Volume } from '../../shared/models/volume.model';
 export class VmListComponent implements OnChanges {
   @Input() public vms: Array<VirtualMachine>;
   @Input() public volumes: Array<Volume>;
-  @Input() public osTypesMap: { [key: string]: OsType };
+  @Input() public osTypesMap: Dictionary<OsType>;
   @Input() public groupings: Array<any>;
   @Input() public mode: ViewMode;
   @Input() public query: string;
