@@ -1,7 +1,6 @@
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Input } from '@angular/core';
-import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 
 
 export abstract class BaseTemplateDetailsComponent {
