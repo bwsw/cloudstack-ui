@@ -49,10 +49,10 @@ interface StatsBar {
   styleUrls: ['vm-statistics.component.scss']
 })
 export class VmStatisticsComponent implements OnInit, OnChanges {
+  @Input() public fetching = false;
   @Input() public accounts: Array<Account>;
   @Input() public user: Account;
 
-  public fetching = false;
   public resourceUsage: ResourceStats;
   public isOpen = true;
   public mode = StatsMode.Used;
@@ -245,8 +245,9 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
 
   public getStats(): void {
     const forDomain = this.statsType === StatsType.Domain;
-    this.resourceUsage = forDomain ?
-      ResourceStats.fromAccount(this.accounts) : ResourceStats.fromAccount([this.user]);
+    this.resourceUsage = forDomain
+      ? ResourceStats.fromAccount(this.accounts)
+      : ResourceStats.fromAccount(this.user ? [this.user] : []);
   }
 
   private getProgress(consumed: number, max: number): number {

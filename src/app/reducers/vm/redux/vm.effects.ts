@@ -5,6 +5,7 @@ import {
 } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import * as vmActions from './vm.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
 import {
   Action,
   Store
@@ -20,7 +21,9 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { MatDialog } from '@angular/material';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
+import {
+  VmResetPasswordComponent
+} from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
@@ -49,10 +52,10 @@ export class VirtualMachinesEffects {
         'JOB_NOTIFICATIONS.VM.FETCH_STATISTICS_IN_PROGRESS');
       return this.vmService.getList(action.payload)
         .map((vms: VirtualMachine[]) => {
-        this.jobsNotificationService.finish({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.VM.FETCH_STATISTICS_DONE'
-        });
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.FETCH_STATISTICS_DONE'
+          });
           return new vmActions.UpdateVM(vms[0]);
         })
         .catch((error) => {
@@ -60,7 +63,7 @@ export class VirtualMachinesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VM.FETCH_STATISTICS_FAILED'
           });
-          return Observable.of(new vmActions.VMUpdateError(error))
+          return Observable.of(new vmActions.VMUpdateError(error));
         });
     });
 
@@ -135,7 +138,10 @@ export class VirtualMachinesEffects {
   changeAffinityGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_AFFINITY_GROUP)
     .switchMap((action: vmActions.ChangeAffinityGroup) => {
-      return  this.askToStopVM(action.payload.vm, 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.STOP_MACHINE_FOR_AG')
+      return this.askToStopVM(
+        action.payload.vm,
+        'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.STOP_MACHINE_FOR_AG'
+      )
         .switchMap(() => {
           const vmState = action.payload.vm.state;
 
@@ -561,7 +567,10 @@ export class VirtualMachinesEffects {
   changeSshKey$: Observable<Action> = this.actions$
     .ofType(vmActions.CHANGE_SSH_KEY)
     .switchMap((action: vmActions.ChangeSshKey) => {
-      return this.askToStopVM(action.payload.vm, 'VM_PAGE.VM_DETAILS.SSH_KEY.STOP_MACHINE_FOR_SSH')
+      return this.askToStopVM(
+        action.payload.vm,
+        'VM_PAGE.VM_DETAILS.SSH_KEY.STOP_MACHINE_FOR_SSH'
+      )
         .switchMap(() => {
           const vmState = action.payload.vm.state;
 
@@ -691,6 +700,11 @@ export class VirtualMachinesEffects {
       });
     });
 
+  @Effect()
+  vmCreateSuccessLoadVolumes$: Observable<Action> = this.actions$
+    .ofType(vmActions.CREATE_VM_SUCCESS)
+    .map(() => new volumeActions.LoadVolumesRequest());
+
 
   constructor(
     private store: Store<State>,
@@ -750,7 +764,7 @@ export class VirtualMachinesEffects {
           message: 'JOB_NOTIFICATIONS.VM.START_DONE'
         });
         return new vmActions.UpdateVM(new VirtualMachine(
-          Object.assign({}, vm, newVm)))
+          Object.assign({}, vm, newVm)));
       })
       .catch((error: Error) => {
         this.jobsNotificationService.fail({

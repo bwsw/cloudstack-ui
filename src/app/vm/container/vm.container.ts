@@ -4,7 +4,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
@@ -30,9 +30,9 @@ const getGroupName = (vm: VirtualMachine) => {
   template: `
     <cs-vm-page
       [vms]="vms$ | async"
-      [volumes]="volumes$ | async" 
-      [osTypesMap]="osTypesMap$ | async" 
-      [isLoading]="(loading1$ && loading2$ && loading3$) | async"
+      [volumes]="volumes$ | async"
+      [osTypesMap]="osTypesMap$ | async"
+      [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
     ></cs-vm-page>`
@@ -42,9 +42,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
   readonly vms$ = this.store.select(fromVMs.selectFilteredVMs);
   readonly volumes$ = this.store.select(fromVolumes.selectAll);
   readonly osTypesMap$ = this.store.select(fromOsTypes.selectEntities);
-  readonly loading1$ = this.store.select(fromVMs.isLoading);
-  readonly loading2$ = this.store.select(fromVolumes.isLoading);
-  readonly loading3$ = this.store.select(fromOsTypes.isLoading);
+  readonly loading$ = this.store.select(fromVMs.isLoading);
   readonly selectedGroupings$ = this.store.select(fromVMs.filterSelectedGroupings);
 
   public groupings = [
@@ -89,7 +87,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     private cd: ChangeDetectorRef
   ) {
     if (!this.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }
   }
 

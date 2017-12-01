@@ -8,7 +8,7 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
   selector: 'cs-vm-statistics-container',
   template: `
     <cs-vm-statistics
-      *loading="loading$ | async"
+      [fetching]="loading$ | async"
       [accounts]="accounts$ | async"
       [user]="user$ | async"
     ></cs-vm-statistics>`

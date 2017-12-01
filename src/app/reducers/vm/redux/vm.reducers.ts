@@ -8,13 +8,13 @@ import {
   EntityState
 } from '@ngrx/entity';
 import * as event from './vm.actions';
-import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { VirtualMachine } from '../../../vm';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { InstanceGroup } from '../../../shared/models';
 import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 
 /**
@@ -53,10 +53,11 @@ export const virtualMachineReducers = {
  * a sortComparer option which is set to a compare
  * function if the records are to be sorted.
  */
-export const adapter: EntityAdapter<VirtualMachine> = createEntityAdapter<VirtualMachine>({
-  selectId: (item: VirtualMachine) => item.id,
-  sortComparer: false
-});
+export const adapter: EntityAdapter<VirtualMachine> = createEntityAdapter<VirtualMachine>(
+  {
+    selectId: (item: VirtualMachine) => item.id,
+    sortComparer: false
+  });
 
 /** getInitialState returns the default initial state
  * for the generated entity state. Initial state
@@ -247,7 +248,8 @@ export const getAttachmentVMs = createSelector(
   selectAll,
   fromAuth.getUserAccount,
   (vms, account) => {
-    const accountFilter = vm => (vm.account === account.name && vm.domainid === account.domainid);
+    const accountFilter =
+      vm => (vm.account === account.name && vm.domainid === account.domainid);
 
     return vms.filter(vm => accountFilter(vm));
   }
@@ -261,7 +263,15 @@ export const selectFilteredVMs = createSelector(
   filterSelectedZoneIds,
   filterSelectedAccountIds,
   fromAccounts.selectAll,
-  (vms, query, selectedStates, selectedGroupNames, selectedZoneIds, selectedAccountIds, accounts) => {
+  (
+    vms,
+    query,
+    selectedStates,
+    selectedGroupNames,
+    selectedZoneIds,
+    selectedAccountIds,
+    accounts
+  ) => {
     const queryLower = query && query.toLowerCase();
     const statesMap = selectedStates.reduce((m, i) => ({ ...m, [i]: i }), {});
     const zoneIdsMap = selectedZoneIds.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -279,7 +289,8 @@ export const selectFilteredVMs = createSelector(
     const selectedGroupNamesFilter = vm => !selectedGroupNames.length ||
       (!vm.instanceGroup && groupNamesMap[noGroup]) || (vm.instanceGroup && groupNamesMap[vm.instanceGroup.name]);
 
-    const selectedZoneIdsFilter = vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneId];
+    const selectedZoneIdsFilter =
+      vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneId];
 
     const selectedAccountIdsFilter = vm => !selectedAccountIds.length ||
       (accountsMap[vm.account] && domainsMap[vm.domainid]);

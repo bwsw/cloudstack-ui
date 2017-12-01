@@ -11,9 +11,9 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
     <cs-template-tags
       [entity]="template$ | async"
       [tags]="templateTags$ | async"
-      (onTagAdded)="update()"
-      (onTagRemoved)="update()"
-      (onTagEdited)="update()"
+      (onTagAdd)="update()"
+      (onTagDelete)="update()"
+      (onTagEdit)="update()"
     ></cs-template-tags>`
 })
 export class TagsContainerComponent {

@@ -48,7 +48,6 @@ import { TemplateOsComponent } from './template-sidebar/template-os/template-os.
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
-import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
@@ -150,7 +149,6 @@ import { TemplateGroupSelectorContainerComponent } from './template-sidebar/temp
     TemplateGroupComponent,
     TemplatePageComponent,
     TemplateTagsComponent,
-    IsoTagsComponent,
     TagsContainerComponent,
     TemplateZonesComponent,
     IsoZonesComponent,

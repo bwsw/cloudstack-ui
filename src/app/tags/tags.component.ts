@@ -7,21 +7,22 @@ import {
   KeyValuePair,
   TagEditAction
 } from './tags-view/tags-view.component';
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 
 
 export abstract class TagsComponent<T extends Taggable> {
   public abstract entity: Taggable;
-  public onTagAdd = new EventEmitter<KeyValuePair>();
-  public onTagEdit = new EventEmitter<TagEditAction>();
-  public onTagDelete = new EventEmitter<Tag>();
+  @Output() public onTagAdd = new EventEmitter<KeyValuePair>();
+  @Output() public onTagDelete = new EventEmitter<Tag>();
+  @Output() public onTagEdit = new EventEmitter<TagEditAction>();
 
   public tags: Array<Tag>;
 
   constructor(
     protected dialogService: DialogService,
     protected tagService: TagService,
-  ) { }
+  ) {
+  }
 
 
   public addTag(tag: KeyValuePair): void {

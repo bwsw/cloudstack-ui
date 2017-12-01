@@ -69,13 +69,13 @@ import { CharacterCountComponent } from './components/character-count-textfield/
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
-import { FancySelectComponent } from './components/fancy-select/fancy-select.component';
+import { FancySelectComponent } from './components';
 import { GroupedListComponent } from './components/grouped-list/grouped-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
-import { InputGroupComponent } from './components/input-group/input-group.component';
+import { InputGroupComponent } from './components';
 import { LoaderComponent } from './components/loader/loader.component';
-import { OverlayLoadingComponent } from './components/overlay-loading/overlay-loading.component';
-import { PopoverModule } from './components/popover/index';
+import { OverlayLoadingComponent } from './components';
+import { PopoverModule } from './components/popover';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
 // tslint:disable-next-line
@@ -93,10 +93,10 @@ import {
   DivisionPipe,
   HighLightPipe,
   ViewValuePipe,
+  StringifyDatePipe,
+  StringifyTimePipe,
   VolumeSortPipe
 } from './pipes';
-import { StringifyDatePipe } from './pipes/stringifyDate.pipe';
-import { StringifyTimePipe } from './pipes/stringifyTime.pipe';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
@@ -134,7 +134,6 @@ import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
-import { VolumeOfferingService } from './services/volume-offering.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
@@ -166,9 +165,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
 import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
 import { AccountUserService } from './services/account-user.service';
-import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
+import {
+  TemplateActionsContainerComponent
+} from './actions/template-actions/template-actions-component/template-actions.container';
 import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
-import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
+import {
+  VolumeAttachmentContainerComponent
+} from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
 
 @NgModule({
@@ -409,7 +412,6 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     UserService,
     UserTagService,
     VmTagService,
-    VolumeOfferingService,
     ZoneService,
     VmCreationSecurityGroupService,
     VolumeService,

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import {
   ResourceLimit,
-  ResourceType
-} from '../models/resource-limit.model';
-import { Account } from '../models/account.model';
+  ResourceType,
+  Account
+} from '../models';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 

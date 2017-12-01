@@ -2,13 +2,12 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import { ActivatedRoute } from '@angular/router';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import { VirtualMachine } from '../shared/vm.model';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
 @Component({
   selector: 'cs-vm-sidebar-container',
@@ -18,36 +17,26 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       (onColorChange)="changeColor($event)"
     ></cs-vm-sidebar>`
 })
-export class VmSidebarContainerComponent extends WithUnsubscribe() implements OnInit {
+export class VmSidebarContainerComponent implements OnInit {
 
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
-  public vm: VirtualMachine;
 
   constructor(
     private store: Store<State>,
     private activatedRoute: ActivatedRoute
   ) {
-    super();
   }
 
   public changeColor(color) {
-    this.store.dispatch(new vmActions.ChangeVmColor({
-      color,
-      vm: this.vm
-    }));
+    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+      this.store.dispatch(new vmActions.ChangeVmColor({ color, vm }));
+    });
   }
 
 
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.params;
     this.store.dispatch(new vmActions.LoadSelectedVM(params['id']));
-    this.vm$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(vm => {
-        if (vm) {
-          this.vm = new VirtualMachine(vm);
-        }
-      });
   }
 
 }

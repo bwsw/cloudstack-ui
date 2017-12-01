@@ -34,7 +34,7 @@ const stateTranslations = {
   RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
 };
 
-export class VmListItemComponent implements OnInit {
+export abstract class VmListItemComponent implements OnInit {
   public item: VirtualMachine;
   public volumes: Array<Volume>;
   public osTypesMap: Dictionary<OsType>;
@@ -46,7 +46,8 @@ export class VmListItemComponent implements OnInit {
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
-  constructor(private vmTagService: VmTagService) {}
+  constructor(private vmTagService: VmTagService) {
+  }
 
   public ngOnInit(): void {
     this.updateColor();
@@ -82,7 +83,7 @@ export class VmListItemComponent implements OnInit {
     return {
       'card-selected': this.isSelected(this.item),
       'has-text-color': !!this.color && !!this.color.textColor,
-      'dark-background':  !!this.color && Utils.isColorDark(this.color.value),
+      'dark-background': !!this.color && Utils.isColorDark(this.color.value),
       'light-background': !this.color || !Utils.isColorDark(this.color.value),
       error,
       destroyed
@@ -105,15 +106,19 @@ export class VmListItemComponent implements OnInit {
   }
 
   public get getDisksSize(): number {
-    const filteredVolumes = this.volumes && this.volumes.filter((volume: Volume) => volume.virtualMachineId === this.item.id);
-    const sizeInBytes = filteredVolumes && filteredVolumes.reduce((acc: number, volume: Volume) => {
+    const filteredVolumes = this.volumes && this.volumes
+      .filter((volume: Volume) => volume.virtualMachineId === this.item.id);
+    const sizeInBytes = filteredVolumes && filteredVolumes.reduce((
+      acc: number,
+      volume: Volume
+    ) => {
       return acc + volume.size;
     }, 0) || 0;
     return sizeInBytes / Math.pow(2, 30);
   }
 
   public get getOsDescription(): string {
-    return this.osTypesMap && this.osTypesMap[this.item.guestOsId].description;
+    return this.osTypesMap && this.osTypesMap[this.item.guestOsId] && this.osTypesMap[this.item.guestOsId].description;
   }
 
   private updateColor(): void {

@@ -2,13 +2,13 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VirtualMachine } from '../shared/vm.model';
-import { Tag } from '../../shared/models/tag.model';
+import { Tag } from '../../shared/models';
 import {
   KeyValuePair,
   TagEditAction
@@ -45,14 +45,23 @@ export class VmTagsContainerComponent extends WithUnsubscribe() implements OnIni
       key: tagEditAction.newTag.key,
       value: tagEditAction.newTag.value
     };
-    const newTags = Object.assign([], this.vm.tags).filter(t => tagEditAction.oldTag.key !== t.key);
+    const newTags = Object.assign([], this.vm.tags)
+      .filter(t => tagEditAction.oldTag.key !== t.key);
     newTags.push(new Tag(newTag));
-    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags })));
+    this.store.dispatch(new vmActions.UpdateVM(Object.assign(
+      {},
+      this.vm,
+      { tags: newTags }
+    )));
   }
 
   public deleteTag(tag: Tag) {
     const newTags = Object.assign([], this.vm.tags).filter(t => tag.key !== t.key);
-    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags })));
+    this.store.dispatch(new vmActions.UpdateVM(Object.assign(
+      {},
+      this.vm,
+      { tags: newTags }
+    )));
   }
 
   public addTag(keyValuePair: KeyValuePair) {
@@ -64,7 +73,11 @@ export class VmTagsContainerComponent extends WithUnsubscribe() implements OnIni
     };
     const newTags = Object.assign([], this.vm.tags);
     newTags.push(new Tag(newTag));
-    this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, this.vm, { tags: newTags })));
+    this.store.dispatch(new vmActions.UpdateVM(Object.assign(
+      {},
+      this.vm,
+      { tags: newTags }
+    )));
   }
 
   public ngOnInit() {

@@ -1,9 +1,11 @@
 import { Action } from '@ngrx/store';
-import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
-import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
-import { Color } from '../../../shared/models/color.model';
+import { VirtualMachine } from '../../../vm';
+import {
+  ServiceOffering,
+  InstanceGroup,
+  SSHKeyPair,
+  Color
+} from '../../../shared/models';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';

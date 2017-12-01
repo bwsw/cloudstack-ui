@@ -2,7 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
@@ -84,7 +84,7 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   public changeAffinityGroup(groupId) {
-   this.store.dispatch(new vmActions.ChangeAffinityGroup({
+    this.store.dispatch(new vmActions.ChangeAffinityGroup({
       vm: this.vm,
       affinityGroupId: groupId
     }));

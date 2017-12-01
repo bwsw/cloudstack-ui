@@ -22,9 +22,6 @@ import {
 })
 export class VmTagsComponent extends TagsComponent<VirtualMachine> implements OnChanges {
   @Input() public entity: VirtualMachine;
-  @Output() public onTagAdd = new EventEmitter<KeyValuePair>();
-  @Output() public onTagEdit = new EventEmitter<TagEditAction>();
-  @Output() public onTagDelete = new EventEmitter<Tag>();
 
   constructor(
     protected dialogService: DialogService,
