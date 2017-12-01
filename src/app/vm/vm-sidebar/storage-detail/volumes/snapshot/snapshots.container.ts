@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/index';
 import { Volume } from '../../../../../shared/models/volume.model';
 import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+import { Snapshot } from '../../../../../shared/models/snapshot.model';
 
 
 @Component({
@@ -24,8 +25,10 @@ export class SnapshotsContainerComponent {
     private store: Store<State>,
   ) { }
 
-  public snapshotDeleted(volume: Volume) {
-    this.volume = volume;
-    this.store.dispatch(new volumeActions.UpdateVolume(this.volume));
+  public snapshotDeleted(snapshot: Snapshot) {
+    this.store.dispatch(new volumeActions.DeleteSnapshot({
+      volume: this.volume,
+      snapshot
+    }));
   }
 }

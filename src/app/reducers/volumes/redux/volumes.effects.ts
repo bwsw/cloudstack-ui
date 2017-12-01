@@ -104,7 +104,6 @@ export class VolumesEffects {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS');
 
-      const virtualMachineId = action.payload.virtualMachineId;
       return this.volumeService
         .detach(action.payload)
         .switchMap(volume => {
@@ -136,7 +135,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
           });
-          return new volumeActions.UpdateVolume(new Volume(volume));
+          return new volumeActions.ResizeVolumeSuccess(new Volume(volume));
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -172,7 +171,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
           });
-          return new volumeActions.UpdateVolume(new Volume(newVolume));
+          return new volumeActions.AddSnapshotSuccess(new Volume(newVolume));
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -182,6 +181,41 @@ export class VolumesEffects {
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
+
+  @Effect()
+  deleteSnapshot$: Observable<Action> = this.actions$
+    .ofType(volumeActions.DELETE_SNAPSHOT)
+    .switchMap((action: volumeActions.DeleteSnapshot) => {
+
+      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+        .onErrorResumeNext()
+        .filter(res => Boolean(res))
+        .switchMap(() => {
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
+          return this.snapshotService.remove(action.payload.snapshot.id)
+            .map(() => {
+              let newSnapshots = action.payload.volume.snapshots.filter(
+                _ => _.id !== action.payload.snapshot.id);
+              let newVolume = Object.assign({}, action.payload.volume, {snapshots: newSnapshots});
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
+              });
+              return new volumeActions.DeleteSnapshotSuccess(new Volume(newVolume));
+            })
+            .catch(error => {
+              this.jobsNotificationService.fail({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
+              });
+
+              return Observable.throw(error);
+            });
+        });
+    });
+
+
 
   @Effect()
   deleteVolume$: Observable<Action> = this.actions$
@@ -209,7 +243,6 @@ export class VolumesEffects {
       };
 
       const detach = (detachAction) => {
-        const virtualMachineId = detachAction.payload.virtualMachineId;
         return this.volumeService
           .detach(detachAction.payload)
           .do(volume => {

@@ -29,6 +29,7 @@ import * as debounce from 'lodash/debounce';
   selector: 'cs-vm-filter-container',
   template: `
     <cs-vm-filter
+      *loading="loading$ | async"
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
       [groups]="groups$ | async"

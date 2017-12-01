@@ -28,12 +28,14 @@ export class SnapshotActionsComponent {
 
   public onAction(action: SnapshotAction): void {
     this.actionInProgress = true;
-    action.activate(this.snapshot, this.volume)
-      .subscribe((res) => {
+    action.activate(this.snapshot)
+      .subscribe(() => {
         this.actionInProgress = false;
         if (action.command === 'delete') {
-          debugger
-          this.store.dispatch(new volumeActions.UpdateVolume(new Volume(res)));
+          this.store.dispatch(new volumeActions.DeleteSnapshot({
+            volume: this.volume,
+            snapshot: this.snapshot
+          }));
         }
       });
   }

@@ -11,6 +11,7 @@ import { AccountUser } from '../../../shared/models/account-user.model';
 import { Account } from '../../../shared/models/account.model';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as account from './accounts.actions';
+
 /**
  * @ngrx/entity provides a predefined interface for handling
  * a structured dictionary of records. This interface
@@ -244,6 +245,12 @@ export const filterSelectedStates = createSelector(
 export const filterSelectedGroupings = createSelector(
   filters,
   state => state.selectedGroupings
+);
+
+export const selectUserAccount = createSelector(
+  selectEntities,
+  fromAuth.getUserAccountId,
+  (accountsMap, accountId) => accountsMap[accountId]
 );
 
 export const selectFilteredAccounts = createSelector(

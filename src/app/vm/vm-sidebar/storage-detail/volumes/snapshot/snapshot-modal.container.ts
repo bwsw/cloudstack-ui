@@ -15,6 +15,7 @@ import {
   TableDataSource
 } from '../../../../../shared/components/table/table';
 import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+import { Snapshot } from '../../../../../shared/models/snapshot.model';
 
 
 @Component({
@@ -50,9 +51,16 @@ export class SnapshotModalContainerComponent implements OnInit {
     this.dataSource = new TableDataSource(this.dataBase);
   }
 
-  public snapshotDeleted(volume: Volume) {
-    this.volume = volume;
-    this.store.dispatch(new volumeActions.UpdateVolume(this.volume));
+  public snapshotDeleted(snapshot: Snapshot) {
+    this.store.dispatch(new volumeActions.DeleteSnapshot({
+      volume: this.volume,
+      snapshot
+    }));
+    this.volume = Object.assign(
+      {},
+      this.volume,
+      { snapshots: this.volume.snapshots.filter( _ => _.id !== snapshot.id) }
+    );
     this.update();
   }
 }

@@ -21,7 +21,7 @@ import { SnapshotModalContainerComponent } from './snapshot-modal.container';
 })
 export class SnapshotsComponent {
   @Input() public volume: Volume;
-  @Output() public onSnapshotDelete = new EventEmitter();
+  @Output() public onSnapshotDelete = new EventEmitter<Snapshot>();
   public actions: Array<SnapshotAction>;
 
   constructor(
@@ -39,10 +39,10 @@ export class SnapshotsComponent {
   }
 
   public onAction(action: SnapshotAction, snapshot: Snapshot) {
-    action.activate(snapshot, this.volume).subscribe(
-      res => {
+    action.activate(snapshot).subscribe(
+      () => {
         if (action.command === 'delete') {
-          this.onSnapshotDelete.emit(new Volume(res));
+          this.onSnapshotDelete.emit(snapshot);
         }
       });
   }

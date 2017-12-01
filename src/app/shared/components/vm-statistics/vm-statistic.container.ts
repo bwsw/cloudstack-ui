@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
 
@@ -16,7 +15,7 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
 })
 export class VmStatisticContainerComponent {
 
-  readonly user$ = this.store.select(fromAuth.getUserAccount);
+  readonly user$ = this.store.select(fromAccounts.selectUserAccount);
   readonly accounts$ = this.store.select(fromAccounts.selectDomainAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
 

@@ -1,7 +1,9 @@
 import {
   Component,
   Input,
-  OnInit
+  OnChanges,
+  OnInit,
+  SimpleChanges
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -46,7 +48,7 @@ interface StatsBar {
   templateUrl: 'vm-statistics.component.html',
   styleUrls: ['vm-statistics.component.scss']
 })
-export class VmStatisticsComponent implements OnInit {
+export class VmStatisticsComponent implements OnInit, OnChanges {
   @Input() public accounts: Array<Account>;
   @Input() public user: Account;
 
@@ -147,6 +149,10 @@ export class VmStatisticsComponent implements OnInit {
       default:
         this.mode = StatsMode.Used;
     }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.getStats();
   }
 
   public get isAdmin(): boolean {

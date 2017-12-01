@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { AccountService } from '../../../shared/services/account.service';
@@ -11,6 +14,8 @@ import { AccountUserService } from '../../../shared/services/account-user.servic
 import { NotificationService } from '../../../shared/services/notification.service';
 
 import * as accountActions from './accounts.actions';
+import * as vmActions from '../../vm/redux/vm.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -24,6 +29,21 @@ export class AccountsEffects {
           return new accountActions.LoadAccountsResponse(accounts);
         })
         .catch(() => Observable.of(new accountActions.LoadAccountsResponse([])));
+    });
+
+  @Effect()
+  updateAccounts$: Observable<Action> = this.actions$
+    .ofType(
+      vmActions.CREATE_VM_SUCCESS,
+      vmActions.EXPUNGE_VM_SUCCESS,
+      volumeActions.VOLUME_DELETE_SUCCESS,
+      volumeActions.VOLUME_CREATE_SUCCESS,
+      volumeActions.ADD_SNAPSHOT_SUCCESS,
+      volumeActions.DELETE_SNAPSHOT_SUCCESS,
+      volumeActions.RESIZE_VOLUME_SUCCESS
+    )
+    .map(() => {
+      return new accountActions.LoadAccountsRequest();
     });
 
   @Effect()

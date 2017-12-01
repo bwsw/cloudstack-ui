@@ -115,6 +115,9 @@ export function reducer(
       };
     }
 
+    case event.ADD_SNAPSHOT_SUCCESS:
+    case event.DELETE_SNAPSHOT_SUCCESS:
+    case event.RESIZE_VOLUME_SUCCESS:
     case event.UPDATE_VOLUME: {
       return {
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),

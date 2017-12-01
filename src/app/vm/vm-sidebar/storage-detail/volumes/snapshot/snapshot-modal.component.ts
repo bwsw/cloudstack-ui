@@ -26,17 +26,17 @@ export class SnapshotModalComponent {
   @Input() public dataBase: TableDatabase;
   @Input() public dataSource: TableDataSource | null;
   @Input() public volume: Volume;
-  @Output() public onSnapshotDelete = new EventEmitter();
+  @Output() public onSnapshotDelete = new EventEmitter<Snapshot>();
 
   constructor(
     public snapshotActionsService: SnapshotActionsService,
   ) { }
 
   public onAction(action: SnapshotAction, snapshot: Snapshot) {
-    action.activate(snapshot, this.volume).subscribe(
-      res => {
+    action.activate(snapshot).subscribe(
+      () => {
         if (action.command === 'delete') {
-          this.onSnapshotDelete.emit(new Volume(res));
+          this.onSnapshotDelete.emit(snapshot);
         }
       });
   }
