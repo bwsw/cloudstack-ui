@@ -17,6 +17,7 @@ import { VmService } from '../../shared/vm.service';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 export enum VmDeploymentStage {
   STARTED = 'STARTED',
@@ -37,7 +38,6 @@ export enum VmDeploymentStage {
 
 export interface VmDeploymentMessage {
   stage: VmDeploymentStage;
-
   [key: string]: any;
 }
 
@@ -54,9 +54,9 @@ export class VmDeploymentService {
     private tagService: TagService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private vmService: VmService,
-    private userTagService: UserTagService
-  ) {
-  }
+    private userTagService: UserTagService,
+    private vmTagService: VmTagService,
+  ) { }
 
   public deploy(state: VmCreationState): VmDeployObservables {
     const deployStatusObservable = new Subject<VmDeploymentMessage>();
@@ -168,6 +168,13 @@ export class VmDeploymentService {
             'csui.vm.password',
             vm.password
           );
+        } else {
+          return Observable.of(null);
+        }
+      })
+      .switchMap(() => {
+        if (state.agreement) {
+          return this.vmTagService.setAgreement(vm)
         } else {
           return Observable.of(null);
         }

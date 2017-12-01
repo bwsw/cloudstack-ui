@@ -5,7 +5,6 @@ import { Input } from '@angular/core';
 
 export abstract class BaseTemplateDetailsComponent {
   @Input() public entity: BaseTemplateModel;
-  public templateDownloadUrl: string;
 
   constructor(private notificationService: NotificationService) {
   }
