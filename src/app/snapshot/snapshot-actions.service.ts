@@ -7,7 +7,9 @@ import {
   Snapshot,
   Volume
 } from '../shared/models';
-import { TemplateCreationContainerComponent } from '../template/template-creation/containers/template-creation.container';
+import {
+  TemplateCreationContainerComponent
+} from '../template/template-creation/containers/template-creation.container';
 import { TemplateResourceType } from '../template/shared/base-template.service';
 
 
@@ -15,6 +17,7 @@ export interface SnapshotAction extends Action<Snapshot> {
   name: string;
   icon: string;
   command: string;
+
   activate(snapshot: Snapshot, volume?: Volume): Observable<void>;
 }
 
@@ -41,7 +44,8 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
   constructor(
     private dialog: MatDialog
-  ) { }
+  ) {
+  }
 
   public showCreationDialog(snapshot: Snapshot): Observable<any> {
     return this.dialog.open(TemplateCreationContainerComponent, {

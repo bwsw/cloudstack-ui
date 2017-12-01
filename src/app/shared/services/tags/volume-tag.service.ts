@@ -15,18 +15,22 @@ export class VolumeTagService {
     protected descriptionTagService: DescriptionTagService,
     protected markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
-  ) {}
-
-  public getDescription(volume: Volume): Observable<string> {
-    return this.descriptionTagService.getDescription(volume, this);
+  ) {
   }
 
   public setDescription(volume: Volume, description: string): Observable<Volume> {
-    return this.descriptionTagService.setDescription(volume, description, this) as Observable<Volume>;
+    return this.descriptionTagService.setDescription(
+      volume,
+      description,
+      this
+    ) as Observable<Volume>;
   }
 
   public removeDescription(volume: Volume): Observable<Volume> {
-    return this.descriptionTagService.removeDescription(volume, this) as Observable<Volume>;
+    return this.descriptionTagService.removeDescription(
+      volume,
+      this
+    ) as Observable<Volume>;
   }
 
   public markForRemoval(volume: Volume): Observable<Volume> {

@@ -31,8 +31,6 @@ export interface VolumeResizeData {
   size?: number;
 }
 
-export type VolumeAttachmentEventType = 'attached' | 'detached';
-
 @Injectable()
 @BackendResource({
   entity: 'Volume',
@@ -65,14 +63,6 @@ export class VolumeService extends BaseBackendService<Volume> {
       });
       return volumes.filter(volume => !volume.isDeleted);
     });
-  }
-
-  public getSpareList(params?: {}): Observable<Array<Volume>> {
-    return this.getList(params).map(volumes => this.getSpareListSync(volumes));
-  }
-
-  public getSpareListSync(volumes: Array<Volume>): Array<Volume> {
-    return volumes.filter(volume => volume.isSpare);
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {
@@ -113,7 +103,11 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public markForRemoval(volume: Volume): Observable<any> {
-    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(snapshot));
-    return Observable.forkJoin(...observers, this.volumeTagService.markForRemoval(volume));
+    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(
+      snapshot));
+    return Observable.forkJoin(
+      ...observers,
+      this.volumeTagService.markForRemoval(volume)
+    );
   }
 }

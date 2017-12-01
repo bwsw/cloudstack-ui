@@ -18,11 +18,7 @@ export class VmTagService implements EntityTagService {
   constructor(
     protected descriptionTagService: DescriptionTagService,
     protected tagService: TagService
-  ) {}
-
-  public getColor(vm: VirtualMachine): Observable<Color> {
-    return this.tagService.getTag(vm, this.keys.color)
-      .map(tag => this.getColorFromColorTag(tag));
+  ) {
   }
 
   public getColorSync(vm: VirtualMachine): Color {
@@ -43,25 +39,26 @@ export class VmTagService implements EntityTagService {
     );
   }
 
-  public getDescription(vm: VirtualMachine): Observable<string> {
-    return this.descriptionTagService.getDescription(vm, this);
-  }
-
-  public setDescription(vm: VirtualMachine, description: string): Observable<VirtualMachine> {
-    return this.descriptionTagService.setDescription(vm, description, this) as Observable<VirtualMachine>;
+  public setDescription(
+    vm: VirtualMachine,
+    description: string
+  ): Observable<VirtualMachine> {
+    return this.descriptionTagService.setDescription(
+      vm,
+      description,
+      this
+    ) as Observable<VirtualMachine>;
   }
 
   public removeDescription(vm: VirtualMachine): Observable<VirtualMachine> {
-    return this.descriptionTagService.removeDescription(vm, this) as Observable<VirtualMachine>;
+    return this.descriptionTagService.removeDescription(
+      vm,
+      this
+    ) as Observable<VirtualMachine>;
   }
 
-  public setPassword(vm: VirtualMachine, tag: KeyValuePair): Observable<VirtualMachine>  {
+  public setPassword(vm: VirtualMachine, tag: KeyValuePair): Observable<VirtualMachine> {
     return this.tagService.update(vm, vm.resourceType, tag.key, tag.value);
-  }
-
-  public getGroup(vm: VirtualMachine): Observable<InstanceGroup> {
-    return this.tagService.getTag(vm, this.keys.group)
-      .map(tag => this.getGroupFromTag(tag));
   }
 
   public setGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
@@ -74,23 +71,17 @@ export class VmTagService implements EntityTagService {
   }
 
   public removeGroup(vm: VirtualMachine): Observable<VirtualMachine> {
-    let newVm = Object.assign({}, vm);
+    const newVm = Object.assign({}, vm);
     return this.tagService.remove({
-        resourceIds: vm.id,
-        resourceType: vm.resourceType,
-        'tags[0].key': this.keys.group,
-        'tags[0].value': vm.instanceGroup.name
-      })
+      resourceIds: vm.id,
+      resourceType: vm.resourceType,
+      'tags[0].key': this.keys.group,
+      'tags[0].value': vm.instanceGroup.name
+    })
       .map(() => {
         newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
         return newVm;
       });
-  }
-
-  public getAgreement(vm: VirtualMachine): Observable<boolean> {
-    return Observable.of(
-      this.tagService.getValueFromTag(vm.tags.find(tag => tag.key === this.keys.agreementAccepted))
-    );
   }
 
   public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {
@@ -107,14 +98,6 @@ export class VmTagService implements EntityTagService {
       const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
       return new Color(backgroundColor, backgroundColor, textColor || '');
     }
-
     return new Color('white', '#FFFFFF', '');
-
-  }
-
-  private getGroupFromTag(groupTag: Tag): InstanceGroup {
-    if (groupTag) {
-      return new InstanceGroup(groupTag.value);
-    }
   }
 }

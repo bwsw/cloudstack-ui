@@ -26,6 +26,7 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   public color: Color;
   public colorList: Array<Color>;
 
+  // todo set inProgress while color is updating
   public colorUpdateInProgress: boolean;
   private colorSubject = new Subject<Color>();
 

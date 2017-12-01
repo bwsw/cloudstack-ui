@@ -4,6 +4,9 @@ import {
   Effect
 } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
+import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
+import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
+import { WebShellService } from '../../../vm/web-shell/web-shell.service';
 import * as vmActions from './vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import {
@@ -14,12 +17,13 @@ import { State } from '../../index';
 import { VmService } from '../../../vm/shared/vm.service';
 import {
   VirtualMachine,
-  VmState
+  VmState,
+  getPath, getPort, getProtocol
 } from '../../../vm/shared/vm.model';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { IsoService } from '../../../template/shared/iso.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 import {
   VmResetPasswordComponent
@@ -704,6 +708,68 @@ export class VirtualMachinesEffects {
   vmCreateSuccessLoadVolumes$: Observable<Action> = this.actions$
     .ofType(vmActions.CREATE_VM_SUCCESS)
     .map(() => new volumeActions.LoadVolumesRequest());
+
+  @Effect({ dispatch: false })
+  vmAccess$: Observable<VirtualMachine> = this.actions$
+    .ofType(vmActions.ACCESS_VM)
+    .map((action: vmActions.AccessVm) => action.payload)
+    .do((vm: VirtualMachine) => {
+      return this.dialog.open(VmAccessComponent, <MatDialogConfig>{
+        width: '550px',
+        data: vm
+      });
+    });
+
+  @Effect({ dispatch: false })
+  vmPulse$: Observable<VirtualMachine> = this.actions$
+    .ofType(vmActions.PULSE_VM)
+    .map((action: vmActions.PulseVm) => action.payload)
+    .do((vm: VirtualMachine) => {
+      return this.dialog.open(VmPulseComponent, { data: vm.id });
+    });
+
+  @Effect({ dispatch: false })
+  vmWebShell$: Observable<VirtualMachine> = this.actions$
+    .ofType(vmActions.WEB_SHELL_VM)
+    .map((action: vmActions.WebShellVm) => action.payload)
+    .do((vm: VirtualMachine) => {
+      const address = WebShellService.getWebShellAddress(vm);
+      window.open(
+        address,
+        vm.displayName,
+        'resizable=0,width=820,height=640'
+      );
+    });
+
+  @Effect({ dispatch: false })
+  vmConsole$: Observable<VirtualMachine> = this.actions$
+    .ofType(vmActions.CONSOLE_VM)
+    .map((action: vmActions.ConsoleVm) => action.payload)
+    .do((vm: VirtualMachine) => {
+      window.open(
+        `client/console?cmd=access&vm=${vm.id}`,
+        vm.displayName,
+        'resizable=0,width=820,height=640'
+      );
+    });
+
+  @Effect({ dispatch: false })
+  vmUrlAction$: Observable<VirtualMachine> = this.actions$
+    .ofType(vmActions.OPEN_URL_VM)
+    .map((action: vmActions.OpenUrlVm) => action.payload)
+    .do((vm: VirtualMachine) => {
+      const protocol = getProtocol(vm);
+      const port = getPort(vm);
+      const path = getPath(vm);
+      const ip = vm.nic[0].ipAddress;
+
+      const address = `${protocol}://${ip}:${port}/${path}`;
+      window.open(
+        address,
+        vm.displayName,
+        'resizable=0,width=820,height=640'
+      );
+    });
 
 
   constructor(

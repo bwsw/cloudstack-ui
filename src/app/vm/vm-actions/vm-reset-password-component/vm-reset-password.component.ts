@@ -8,6 +8,7 @@ import {
 } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
+import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { VirtualMachine } from '../../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -59,7 +60,7 @@ export class VmResetPasswordComponent {
     this.store.dispatch(new vmActions.SaveNewPassword({
       vm: this.vm,
       tag: {
-        key: 'csui.vm.password',
+        key: VirtualMachineTagKeys.passwordTag,
         value: this.vm.password
       }
     }));

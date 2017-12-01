@@ -35,7 +35,6 @@ import { VmDestroyDialogComponent } from './shared/vm-destroy-dialog/vm-destroy-
 import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
-import { VmActionProviders } from './vm-actions/index';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
 import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
@@ -232,7 +231,6 @@ import { HttpModule } from '@angular/http';
     VmService,
     WebShellService,
     SnapshotActionsService,
-    ...VmActionProviders,
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,

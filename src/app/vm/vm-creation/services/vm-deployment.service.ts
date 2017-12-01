@@ -9,6 +9,7 @@ import {
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
+import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import {
   VirtualMachine,
   VmState
@@ -38,6 +39,7 @@ export enum VmDeploymentStage {
 
 export interface VmDeploymentMessage {
   stage: VmDeploymentStage;
+
   [key: string]: any;
 }
 
@@ -56,7 +58,8 @@ export class VmDeploymentService {
     private vmService: VmService,
     private userTagService: UserTagService,
     private vmTagService: VmTagService,
-  ) { }
+  ) {
+  }
 
   public deploy(state: VmCreationState): VmDeployObservables {
     const deployStatusObservable = new Subject<VmDeploymentMessage>();
@@ -165,7 +168,7 @@ export class VmDeploymentService {
           return this.tagService.update(
             vm,
             vm.resourceType,
-            'csui.vm.password',
+            VirtualMachineTagKeys.passwordTag,
             vm.password
           );
         } else {
@@ -174,7 +177,7 @@ export class VmDeploymentService {
       })
       .switchMap(() => {
         if (state.agreement) {
-          return this.vmTagService.setAgreement(vm)
+          return this.vmTagService.setAgreement(vm);
         } else {
           return Observable.of(null);
         }

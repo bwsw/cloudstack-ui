@@ -5,8 +5,6 @@ import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.mod
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { SecurityGroupTagKeys } from './security-group-tag-keys';
-import { Utils } from '../utils/utils.service';
-
 
 @Injectable()
 export class SecurityGroupTagService implements EntityTagService {

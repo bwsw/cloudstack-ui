@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Offering } from '../models/offering.model';
-import { Zone } from '../models/zone.model';
+import { Zone } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 

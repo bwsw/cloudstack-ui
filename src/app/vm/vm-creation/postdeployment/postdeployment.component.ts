@@ -3,13 +3,18 @@ import {
   Input
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { VirtualMachine } from '../../shared/vm.model';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { getLogin, getPassword, isHttpAuthMode } from '../../';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { State } from '../../../reducers/vm/redux/vm.reducers';
+import { TagService } from '../../../shared/services/tags/tag.service';
+import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
+import { VirtualMachine, VmState } from '../../shared/vm.model';
+import { WebShellService } from '../../web-shell/web-shell.service';
 import { VmCreationComponent } from '../vm-creation.component';
-import { VmConsoleAction } from '../../vm-actions/vm-console';
-import { VmWebShellAction } from '../../vm-actions/vm-webshell';
-import { VmURLAction } from '../../vm-actions/vm-url';
-import { VmSavePasswordAction } from '../../vm-actions/vm-save-password';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
 @Component({
   selector: 'cs-postdeployment-dialog',
@@ -21,24 +26,37 @@ export class PostdeploymentComponent {
   @Input() public dialogRef: MatDialogRef<VmCreationComponent>;
   @Input() public title: string;
 
-  private passwordToken = 'csui.vm.password';
-
   public canSavePassword: boolean;
-  public disableButton: boolean = false;
-
-  public vmURL = VmURLAction;
-  public vmConsole = VmConsoleAction;
+  public disableButton = false;
 
   public actions: any[] = [
-    { key: 'VM_POST_ACTION.OPEN_VNC_CONSOLE', action: this.vmConsole },
-    { key: 'VM_POST_ACTION.OPEN_SHELL_CONSOLE', action: this.vmWebShellConsole },
-    { key: 'VM_POST_ACTION.OPEN_URL', action: this.vmURL}
+    {
+      name: 'VM_POST_ACTION.OPEN_VNC_CONSOLE',
+      hidden: (vm) => !vm || vm.state !== VmState.Running,
+      activate: (vm) => this.store.dispatch(new vmActions.ConsoleVm(vm))
+    },
+    {
+      name: 'VM_POST_ACTION.OPEN_SHELL_CONSOLE',
+      hidden: (vm) => {
+        return !vm
+          || !this.webShellService.isWebShellEnabled
+          || !WebShellService.isWebShellEnabledForVm(vm);
+      },
+      activate: (vm) => this.store.dispatch(new vmActions.WebShellVm(vm))
+    },
+    {
+      name: 'VM_POST_ACTION.OPEN_URL',
+      hidden: (vm) => !vm || !isHttpAuthMode(vm),
+      activate: (vm) => this.store.dispatch(new vmActions.OpenUrlVm(vm))
+    }
   ];
 
 
   constructor(
-    private vmWebShellConsole: VmWebShellAction,
-    private vmSavePassword: VmSavePasswordAction,
+    private store: Store<State>,
+    private webShellService: WebShellService,
+    private dialogService: DialogService,
+    private tagService: TagService,
     private userTagService: UserTagService
   ) {
     this.userTagService.getSavePasswordForAllVms().subscribe(tag => {
@@ -47,27 +65,41 @@ export class PostdeploymentComponent {
   }
 
   public getPassword() {
-    const passwordTag = this.vm.tags.find(tag => tag.key === this.passwordToken);
-    return this.vm.password || passwordTag && passwordTag.value;
+    const pass = this.vm.tags.find(tag => tag.key === VirtualMachineTagKeys.passwordTag);
+    return this.vm.password || pass && pass.value;
   }
 
   public isHttpAuthMode(vm): boolean {
-    return this.vmURL.canActivate(vm);
+    return isHttpAuthMode(vm);
   }
 
   public getUrlLogin(vm) {
-    return this.vmURL.getLogin(vm);
+    return getLogin(vm);
   }
 
   public getUrlPassword(vm) {
-    return this.vmURL.getPassword(vm);
+    return getPassword(vm);
   }
 
   public savePassword() {
     this.disableButton = true;
-    this.vmSavePassword.activate(this.vm, { key: 'csui.vm.password', value: this.vm.password }).subscribe(() => {
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_SAVE_PASSWORD' })
+      .onErrorResumeNext()
+      .switchMap((res) => {
+        if (res) {
+          return this.userTagService.setSavePasswordForAllVms(true);
+        }
+        return Observable.of(null);
+      })
+      .switchMap(() =>
+        this.tagService.update(
+          this.vm,
+          this.vm.resourceType,
+          VirtualMachineTagKeys.passwordTag,
+          this.vm.password
+        )
+      ).subscribe(() => {
       this.canSavePassword = false;
     });
   }
-
 }

@@ -122,7 +122,6 @@ import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
 import { SnapshotService } from './services/snapshot.service';
 import { SSHKeyPairService } from './services/ssh-keypair.service';
-import { StatsUpdateService } from './services/stats-update.service';
 import { StyleService } from './services/style.service';
 import { DescriptionTagService } from './services/tags/description-tag.service';
 import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
@@ -404,7 +403,6 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     VolumeRemoveAction,
     VolumeResizeAction,
     VolumeSnapshotAction,
-    StatsUpdateService,
     StyleService,
     TagService,
     TemplateActionsService,

@@ -4,14 +4,14 @@ import {
   Input,
   Output
 } from '@angular/core';
+import { ConfigService } from '../../../shared/services/config.service';
 import { VmActionsService } from '../../shared/vm-actions.service';
 import {
   VirtualMachine,
   VmState
 } from '../../shared/vm.model';
-import { VmAccessAction } from '../vm-access';
 import { AuthService } from '../../../shared/services/auth.service';
-import { VmPulseAction } from '../vm-pulse';
+import { VmActions } from '../vm-action';
 
 
 @Component({
@@ -28,51 +28,63 @@ export class VmActionsComponent {
   @Output() public onVmResetPassword = new EventEmitter<VirtualMachine>();
   @Output() public onVmExpunge = new EventEmitter<VirtualMachine>();
   @Output() public onVmRecover = new EventEmitter<VirtualMachine>();
+  @Output() public onVmAccess = new EventEmitter<VirtualMachine>();
+  @Output() public onVmPulse = new EventEmitter<VirtualMachine>();
 
   public vmActions: Array<any>;
   public destroyedVmActions: Array<any>;
 
   constructor(
-    public accessVmAction: VmAccessAction,
-    public vmPulseAction: VmPulseAction,
+    private configService: ConfigService,
     private vmActionsService: VmActionsService,
     private authService: AuthService,
   ) {
-    this.vmActions = this.vmActionsService.actions;
+    this.vmActions = this.vmActionsService.actions.filter((action) => {
+      const extensions = this.configService.get('extensions');
+      return action.command !== VmActions.PULSE || extensions && extensions.pulse;
+    });
     this.destroyedVmActions = this.vmActionsService.destroyedActions;
   }
 
   public onAction(action, vm: VirtualMachine): void {
     switch (action.command) {
-      case 'start': {
+      case VmActions.START: {
         this.onVmStart.emit(vm);
         break;
       }
-      case 'stop': {
+      case VmActions.ACCESS: {
+        this.onVmAccess.emit(vm);
+        break;
+      }
+      case VmActions.PULSE: {
+        this.onVmPulse.emit(vm);
+        break;
+      }
+      case VmActions.STOP: {
         this.onVmStop.emit(vm);
         break;
       }
-      case 'reboot': {
+      case VmActions.REBOOT: {
         this.onVmReboot.emit(vm);
         break;
       }
-      case 'restore': {
+      case VmActions.RESTORE: {
         this.onVmRestore.emit(vm);
         break;
       }
-      case 'resetPasswordFor': {
+      case VmActions.RESET_PASSWORD: {
         this.onVmResetPassword.emit(vm);
         break;
       }
-      case 'delete': {
+      case VmActions.DESTROY: {
         this.onVmDestroy.emit(vm);
         break;
       }
-      case 'expunge': {
+      case VmActions.EXPUNGE: {
         this.onVmExpunge.emit(vm);
         break;
       }
-      case 'recover': {
+      case VmActions.RECOVER: {
         this.onVmRecover.emit(vm);
         break;
       }

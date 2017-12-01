@@ -32,6 +32,11 @@ export const SAVE_NEW_VM_PASSWORD = '[VM] SAVE_NEW_VM_PASSWORD';
 export const REBOOT_VM = '[VM] REBOOT_VM';
 export const DESTROY_VM = '[VM] DESTROY_VM';
 export const RECOVER_VM = '[VM] RECOVER_VM';
+export const WEB_SHELL_VM = '[VM] WEB_SHELL_VM';
+export const ACCESS_VM = '[VM] ACCESS_VM';
+export const PULSE_VM = '[VM] PULSE_VM';
+export const CONSOLE_VM = '[VM] CONSOLE_VM';
+export const OPEN_URL_VM = '[VM] OPEN_URL_VM';
 export const EXPUNGE_VM = '[VM] EXPUNGE_VM';
 export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
@@ -255,6 +260,41 @@ export class RecoverVm implements Action {
   }
 }
 
+export class AccessVm implements Action {
+  readonly type = ACCESS_VM;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
+export class WebShellVm implements Action {
+  readonly type = WEB_SHELL_VM;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
+export class PulseVm implements Action {
+  readonly type = PULSE_VM;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
+export class ConsoleVm implements Action {
+  readonly type = CONSOLE_VM;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
+export class OpenUrlVm implements Action {
+  readonly type = OPEN_URL_VM;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
 export class ExpungeVm implements Action {
   readonly type = EXPUNGE_VM;
 
@@ -295,6 +335,10 @@ export class VMUpdateError implements Action {
 
 export type Actions = LoadVMsRequest
   | LoadVMsResponse
+  | AccessVm
+  | PulseVm
+  | ConsoleVm
+  | OpenUrlVm
   | LoadVMRequest
   | VMFilterUpdate
   | LoadSelectedVM

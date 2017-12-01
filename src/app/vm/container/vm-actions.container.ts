@@ -23,6 +23,8 @@ import { VirtualMachine } from '../shared/vm.model';
       (onVmStop)="onVmStop($event)"
       (onVmExpunge)="onVmExpunge($event)"
       (onVmRecover)="onVmRecover($event)"
+      (onVmAccess)="onVmAccess($event)"
+      (onVmPulse)="onVmPulse($event)"
     >
     </cs-vm-actions>`,
 })
@@ -38,6 +40,14 @@ export class VmActionsContainerComponent {
 
   public onVmRecover(vm: VirtualMachine): void {
     this.store.dispatch(new vmActions.RecoverVm(vm));
+  }
+
+  public onVmAccess(vm: VirtualMachine): void {
+    this.store.dispatch(new vmActions.AccessVm(vm));
+  }
+
+  public onVmPulse(vm: VirtualMachine): void {
+    this.store.dispatch(new vmActions.PulseVm(vm));
   }
 
   public onVmExpunge(vm: VirtualMachine): void {
