@@ -121,7 +121,7 @@
             <cs-slider
               name="rds"
               *ngIf="showResizeSlider"
-              [min]="formState.data.rootDiskMinSize"
+              [min]="formState.state.rootDiskSizeMin"
               [max]="formState.data.rootDiskSizeLimit"
               [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
               [ngModel]="formState.state.rootDiskSize"

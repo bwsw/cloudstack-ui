@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CustomServiceOfferingService } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { VmCreationData } from '../data/vm-creation-data';
 import { VmCreationState } from '../data/vm-creation-state';
 import { VmCreationFormState } from '../vm-creation.component';
-
+import {
+  CustomServiceOfferingService
+} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 
 @Injectable()
 export class VmCreationFormNormalizationService {
@@ -14,7 +15,8 @@ export class VmCreationFormNormalizationService {
     private auth: AuthService,
     private customServiceOfferingService: CustomServiceOfferingService,
     private serviceOfferingService: ServiceOfferingService
-  ) {}
+  ) {
+  }
 
   public normalize(formState: VmCreationFormState): VmCreationFormState {
     return this.filterZones(this.clone(formState));
@@ -102,7 +104,7 @@ export class VmCreationFormNormalizationService {
     });
 
     formState.data.templates = filteredTemplates;
-    formState.data.isos  = filteredIsos;
+    formState.data.isos = filteredIsos;
 
     const templateStillAvailable = !!formState
       .data.installationSources.find(template => {
@@ -154,10 +156,12 @@ export class VmCreationFormNormalizationService {
     if (!state.showRootDiskResize || !state.template) {
       return formState;
     }
+    const templateSize = Math.ceil(Utils.convertToGb(state.template.size));
+    // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
 
     const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-    const minSize = Math.ceil(Utils.convertToGb(state.template.size)) || defaultDiskSize;
-    // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
+    const minSize = defaultDiskSize > templateSize ? defaultDiskSize : templateSize;
+
     formState.state.rootDiskSizeMin = minSize;
     if (
       state.rootDiskSize == null ||
