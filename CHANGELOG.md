@@ -1,3 +1,26 @@
+<a name="1.410.15"></a>
+## [1.410.15](https://github.com/bwsw/cloudstack-ui/compare/1.49.14...1.410.15) (2017-12-01)
+
+
+### Bug Fixes
+
+* **account-creation:** Both name and email are highlighted when creating an Account ([#686](https://github.com/bwsw/cloudstack-ui/issues/686)) ([720f8f9](https://github.com/bwsw/cloudstack-ui/commit/720f8f9))
+* **lists:** Selected item on listing pages is more visible now ([#677](https://github.com/bwsw/cloudstack-ui/issues/677)) ([610a7b1](https://github.com/bwsw/cloudstack-ui/commit/610a7b1))
+* **ngrx:** NGRX library updated not to show warning for angular5 ([#695](https://github.com/bwsw/cloudstack-ui/issues/695)) ([900b8f1](https://github.com/bwsw/cloudstack-ui/commit/900b8f1))
+* **sidebar-actions:** Sidebar does not close if an entity(account/vol… ([#709](https://github.com/bwsw/cloudstack-ui/issues/709)) ([fc273ee](https://github.com/bwsw/cloudstack-ui/commit/fc273ee))
+* **vm-creation:** Check iso size before vm creation ([#706](https://github.com/bwsw/cloudstack-ui/issues/706)) ([2d73591](https://github.com/bwsw/cloudstack-ui/commit/2d73591))
+
+
+### Features
+
+* **ngrx-auth:** Clear NGRX Store if user logs out ([#685](https://github.com/bwsw/cloudstack-ui/issues/685)) ([9d2ce34](https://github.com/bwsw/cloudstack-ui/commit/9d2ce34))
+* **sg:** Use ngrx for firewall security groups (closes [#632](https://github.com/bwsw/cloudstack-ui/issues/632)) ([#658](https://github.com/bwsw/cloudstack-ui/issues/658)) ([a1f3f71](https://github.com/bwsw/cloudstack-ui/commit/a1f3f71))
+* **sg-sidebar:** add sidebar details for security groups ([#672](https://github.com/bwsw/cloudstack-ui/issues/672)) ([4b05a20](https://github.com/bwsw/cloudstack-ui/commit/4b05a20))
+* **vm:** Virtual Machine list and sidebar now use NGRX store ([#678](https://github.com/bwsw/cloudstack-ui/issues/678)) ([dec1a10](https://github.com/bwsw/cloudstack-ui/commit/dec1a10))
+* **vm-creation-agreement:** Template/ISO Terms and Conditions Agreement ([#659](https://github.com/bwsw/cloudstack-ui/issues/659)) ([bf039fc](https://github.com/bwsw/cloudstack-ui/commit/bf039fc))
+
+
+
 <a name="1.49.14"></a>
 ## [1.49.14](https://github.com/bwsw/cloudstack-ui/compare/1.49.13...1.49.14) (2017-11-16)
 
