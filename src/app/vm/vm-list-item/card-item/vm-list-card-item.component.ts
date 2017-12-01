@@ -19,9 +19,9 @@ import { Volume } from '../../../shared/models/volume.model';
 })
 export class VmListCardItemComponent extends VmListItemComponent {
   @Input() public item: VirtualMachine;
-  @Input() public getVolumes: () => Array<Volume>;
-  @Input() public getOsTypesMap: () => { [key: string]: OsType };
-  @Input() public searchQuery: () => string;
+  @Input() public volumes: Array<Volume>;
+  @Input() public osTypesMap: { [key: string]: OsType };
+  @Input() public query: string;
   @Input() public isSelected: (vm: VirtualMachine) => boolean;
   @Output() public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;

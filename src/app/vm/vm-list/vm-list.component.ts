@@ -1,6 +1,8 @@
 import {
   Component,
   Input,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 
 import { ListService } from '../../shared/components/list/list.service';
@@ -19,7 +21,7 @@ import { Volume } from '../../shared/models/volume.model';
   selector: 'cs-vm-list',
   templateUrl: 'vm-list.component.html'
 })
-export class VmListComponent {
+export class VmListComponent implements OnChanges {
   @Input() public vms: Array<VirtualMachine>;
   @Input() public volumes: Array<Volume>;
   @Input() public osTypesMap: { [key: string]: OsType };
@@ -31,15 +33,32 @@ export class VmListComponent {
 
   constructor(public listService: ListService) {
     this.inputs = {
-      searchQuery: () => this.query,
+      query: this.query,
       isSelected: item => this.listService.isSelected(item.id),
-      getVolumes: () => this.volumes,
-      getOsTypesMap: () => this.osTypesMap
+      volumes: this.volumes,
+      osTypesMap: this.osTypesMap
     };
 
     this.outputs = {
       onClick: this.selectVirtualMachine.bind(this),
     };
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    for (const propName in changes) {
+      if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
+        this.inputs.isSelected = changes[propName].currentValue;
+      }
+      if (propName === 'volumes') {
+        this.inputs.volumes = this.volumes;
+      }
+      if (propName === 'osTypesMap') {
+        this.inputs.osTypesMap = this.osTypesMap;
+      }
+      if (propName === 'query') {
+        this.inputs.query = this.query;
+      }
+    }
   }
 
   public get itemComponent() {

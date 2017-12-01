@@ -40,7 +40,7 @@
     <span>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) }) }}</span>
   </div>
 
-  <div class="info">OS {{ osTypesMap[item?.guestOsId]?.description }} </div>
+  <div class="info">OS {{ getOsDescription }} </div>
 
   <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
     <mat-icon>more_vert</mat-icon>

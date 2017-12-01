@@ -1,8 +1,6 @@
 import {
   EventEmitter,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
+  OnInit
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
@@ -35,18 +33,14 @@ const stateTranslations = {
   RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
 };
 
-export class VmListItemComponent implements OnInit, OnChanges {
+export class VmListItemComponent implements OnInit {
   public item: VirtualMachine;
-  public getVolumes: () => Array<Volume>;
-  public getOsTypesMap: () => { [key: string]: OsType };
-  public searchQuery: () => string;
+  public volumes: Array<Volume>;
+  public osTypesMap: { [key: string]: OsType };
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;
-
   public query: string;
-  public volumes: Array<Volume>;
-  public osTypesMap: { [key: string]: OsType };
 
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
@@ -55,23 +49,6 @@ export class VmListItemComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.updateColor();
-  }
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    for (const propName in changes) {
-      if (changes.hasOwnProperty(propName) && propName === 'isSelected') {
-        this.isSelected = changes[propName].currentValue;
-      }
-      if (propName === 'getOsTypesMap') {
-        this.osTypesMap = this.getOsTypesMap();
-      }
-      if (propName === 'getVolumes') {
-        this.volumes = this.getVolumes();
-      }
-      if (propName === 'searchQuery') {
-        this.query = this.searchQuery();
-      }
-    }
   }
 
   public get stateTranslationToken(): string {
@@ -132,6 +109,10 @@ export class VmListItemComponent implements OnInit, OnChanges {
       return acc + volume.size;
     }, 0) || 0;
     return sizeInBytes / Math.pow(2, 30);
+  }
+
+  public get getOsDescription(): string {
+    return this.osTypesMap && this.osTypesMap[this.item.guestOsId].description;
   }
 
   private updateColor(): void {
