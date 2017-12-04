@@ -23,7 +23,7 @@
     {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
   </div>
 
-  <button *ngIf="isAdmin()"
+  <button *ngIf="isAdmin() && !isSelf"
           class="row-action"
           mat-icon-button
           [matMenuTriggerFor]="actionsMenu">

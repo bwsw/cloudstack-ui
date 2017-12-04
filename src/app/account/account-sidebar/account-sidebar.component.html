@@ -2,7 +2,7 @@
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
     <button
-      *ngIf="isAdmin()"
+      *ngIf="isAdmin() && !isSelf"
       mat-icon-button
       [matMenuTriggerFor]="actionsMenu"
     >

@@ -13,6 +13,10 @@ export class AccountItemComponent {
 
   readonly stateTranslations = stateTranslations;
 
+  public get isSelf() {
+    return this.authService.user.username === this.item.name;
+  }
+
   constructor(protected authService: AuthService) {
   }
 

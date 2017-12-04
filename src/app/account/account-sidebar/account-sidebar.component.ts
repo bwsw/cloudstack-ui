@@ -10,8 +10,12 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['account-sidebar.component.scss']
 })
 export class AccountSidebarComponent {
-  @Input() public entity: any;
+  @Input() public entity: Account;
   @Output() public onAccountChanged = new EventEmitter<Account>();
+
+  public get isSelf() {
+    return this.authService.user.username === this.entity.name;
+  }
 
   constructor(
     protected notificationService: NotificationService,
@@ -30,5 +34,4 @@ export class AccountSidebarComponent {
   public isAdmin() {
     return this.authService.isAdmin();
   }
-
 }
