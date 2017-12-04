@@ -28,6 +28,7 @@ export class AccountData {
 })
 export class AccountCreationDialogComponent {
   public newAccount = new AccountData();
+  public hide = true;
 
   @Input() public isLoading: boolean;
   @Input() public domains: Domain[];

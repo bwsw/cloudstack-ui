@@ -11,6 +11,7 @@
         <input
           matInput
           name="name"
+          autocomplete="new-name"
           [(ngModel)]="newAccount.username"
           [placeholder]="'ACCOUNT_PAGE.CREATION.USER_NAME' | translate"
           autofocus
@@ -20,6 +21,7 @@
       <mat-form-field class="full-width-input">
         <input
           matInput
+          pattern=".+@.+\..+"
           type="email"
           name="email"
           [(ngModel)]="newAccount.email"
@@ -30,11 +32,19 @@
       <mat-form-field class="full-width-input">
         <input
           matInput
+          [type]="hide ? 'password' : 'text'"
           name="password"
+          autocomplete="new-password"
           [(ngModel)]="newAccount.password"
           [placeholder]="'ACCOUNT_PAGE.CREATION.PASSWORD' | translate"
           required
         >
+        <mat-icon
+          matSuffix
+          (click)="hide = !hide"
+          [innerHTML]="hide ? 'visibility' : 'visibility_off'"
+        >
+        </mat-icon>
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <input

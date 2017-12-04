@@ -53,6 +53,7 @@
       <input
         matInput
         name="email"
+        pattern=".+@.+\..+"
         [(ngModel)]="email"
         [placeholder]="'ACCOUNT_PAGE.USER.EMAIL' | translate"
         required
