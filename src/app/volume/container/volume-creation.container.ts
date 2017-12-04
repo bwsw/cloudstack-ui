@@ -47,7 +47,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly account$ = this.store.select(fromAuth.getUserAccount);
 
-  public maxSize: number = 2;
+  public maxSize = 2;
 
   constructor(
     public dialogService: DialogService,

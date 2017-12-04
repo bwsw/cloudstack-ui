@@ -16,7 +16,7 @@ export class SshKeyCreationComponent {
   ) {
     this.dialog.open(SShKeyCreationDialogContainerComponent, {
       disableClose: true,
-      width: '400px',
+      width: '360px',
     })
       .afterClosed()
       .subscribe(() => this.router.navigate(['../'], {

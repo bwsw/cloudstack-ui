@@ -77,7 +77,7 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
   public showDialog(): void {
     const data = cloneDeep(this.savedData);
     this.dialog.open(VmCreationSecurityGroupComponent, {
-      width: '800px',
+      width: '720px',
       data
     })
       .afterClosed()
