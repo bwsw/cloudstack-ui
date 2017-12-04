@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '../../../reducers/index';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { State } from '../../../reducers';
+import { ServiceOffering } from '../../../shared/models';
 
 import * as fromSO from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as fromVM from '../../../reducers/vm/redux/vm.reducers';
-import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
 @Component({
   selector: 'cs-service-offering-selector-container',
@@ -22,7 +21,7 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 })
 export class ServiceOfferingSelectorContainerComponent implements OnInit {
   readonly isLoading$ = this.store.select(fromSO.isLoading);
-  readonly serviceOfferings$ = this.store.select(fromSO.selectAll);
+  readonly serviceOfferings$ = this.store.select(fromSO.getAvailableOfferings);
   readonly customOfferingRestrictions$ = this.store.select(fromSO.customOfferingRestrictions);
   readonly zoneId$ = this.store.select(fromVM.getVmCreationZoneId);
   @Input() public serviceOffering: ServiceOffering;

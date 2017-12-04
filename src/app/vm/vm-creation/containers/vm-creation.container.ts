@@ -75,7 +75,6 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public onDisplayNameChange(displayName: string) {
-    console.log('displayName', displayName);
     this.store.dispatch(new vmActions.VmFormUpdate({ displayName }));
   }
 

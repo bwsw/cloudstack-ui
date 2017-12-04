@@ -3,8 +3,10 @@ import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { InstanceGroup } from '../../../shared/models';
+import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
@@ -338,7 +340,7 @@ export const initialFormState: FormState = {
     keyboard: null,
     rootDiskSize: 0,
     rootDiskMinSize: 0,
-    securityGroupData: null,
+    securityGroupData: VmCreationSecurityGroupData.fromMode(VmCreationSecurityGroupMode.Builder),
     serviceOffering: null,
     sshKeyPair: null,
     template: null,

@@ -17,12 +17,12 @@
   <span class="fancy-select-content">
     <cs-security-group-manager-base-templates
       *ngIf="isModeNew"
-      [securityGroups]="savedData?.rules?.templates"
+      [securityGroups]="securityGroupRulesManagerData?.rules?.templates"
     ></cs-security-group-manager-base-templates>
 
     <cs-security-group-manager-existing-group
       *ngIf="isModeExisting"
-      [securityGroups]="savedData?.securityGroups"
+      [securityGroups]="securityGroupRulesManagerData?.securityGroups"
     ></cs-security-group-manager-existing-group>
   </span>
 </cs-fancy-select>

@@ -3,8 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange, MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-
-import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { ServiceOffering } from '../../shared/models';
 import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';

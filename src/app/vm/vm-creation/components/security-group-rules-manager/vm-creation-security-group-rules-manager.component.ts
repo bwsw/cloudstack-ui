@@ -9,7 +9,6 @@ import { VmCreationSecurityGroupContainerComponent } from '../security-group/con
 
 import * as cloneDeep from 'lodash/cloneDeep';
 
-
 @Component({
   selector: 'cs-vm-creation-security-group-rules-manager',
   templateUrl: 'vm-creation-security-group-rules-manager.component.html',
@@ -56,11 +55,13 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
   }
 
   public get isModeNew(): boolean {
-    return this.savedData && this.savedData.mode === VmCreationSecurityGroupMode.Builder;
+    return this.securityGroupRulesManagerData
+      && this.securityGroupRulesManagerData.mode === VmCreationSecurityGroupMode.Builder;
   }
 
   public get isModeExisting(): boolean {
-    return this.savedData && this.savedData.mode === VmCreationSecurityGroupMode.Selector;
+    return this.securityGroupRulesManagerData
+      && this.securityGroupRulesManagerData.mode === VmCreationSecurityGroupMode.Selector;
   }
 
   public get showAddButton(): boolean {
@@ -70,11 +71,14 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
   public get showEditButton(): boolean {
     return (
       (this.isModeNew &&
-        this.savedData &&
-        this.savedData.rules &&
-        this.savedData.rules.templates &&
-        !!this.savedData.rules.templates.length) ||
-      (this.isModeExisting && this.savedData && !!this.savedData.securityGroups)
+        this.securityGroupRulesManagerData &&
+        this.securityGroupRulesManagerData.rules &&
+        this.securityGroupRulesManagerData.rules.templates &&
+        !!this.securityGroupRulesManagerData.rules.templates.length) ||
+      (this.isModeExisting &&
+        this.securityGroupRulesManagerData &&
+        this.securityGroupRulesManagerData.securityGroups &&
+        !!this.securityGroupRulesManagerData.securityGroups.length)
     );
   }
 
@@ -93,8 +97,7 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
   }
 
   private updateData(data: VmCreationSecurityGroupData): void {
-    this.savedData = data;
-    this.securityGroupRulesManagerData = this.savedData;
+    this.securityGroupRulesManagerData = data;
   }
 }
 
