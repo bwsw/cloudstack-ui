@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
+import { AffinityGroup, InstanceGroup, ResourceType, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
 import { DiskOffering, Account } from '../../shared/models';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
@@ -25,9 +25,9 @@ import {
   ProgressLoggerMessage,
   ProgressLoggerMessageStatus
 } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { VmCreationContainerComponent } from './containers/vm-creation.container';
 
 import * as clone from 'lodash/clone';
-import { VmCreationContainerComponent } from './containers/vm-creation.container';
 
 @Component({
   selector: 'cs-vm-create',
@@ -66,6 +66,7 @@ export class VmCreationComponent implements OnInit {
   @Output() public zoneChange = new EventEmitter<Zone>();
   @Output() public agreementChange = new EventEmitter<boolean>();
   @Output() public onVmDeploymentFinish = new EventEmitter<VirtualMachine>();
+  @Output() public onVmDeploymentFailed = new EventEmitter();
 
   public deployedVm: VirtualMachine;
 
@@ -96,8 +97,7 @@ export class VmCreationComponent implements OnInit {
   }
 
   public get diskOfferingsAreAllowed(): boolean {
-    return this.vmCreationState
-      && this.vmCreationState.state.template
+    return this.vmCreationState.state.template
       && !this.vmCreationState.state.template.isTemplate;
   }
 
@@ -294,6 +294,8 @@ export class VmCreationComponent implements OnInit {
       id: notificationId,
       message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
+
+    this.onVmDeploymentFailed.emit();
   }
 
   private handleDeploymentMessages(

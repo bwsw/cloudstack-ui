@@ -4,7 +4,6 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
 
 import * as fromDO from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
-import * as doActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 
 @Component({
   selector: 'cs-disk-offering-container',
@@ -30,8 +29,6 @@ export class DiskOfferingContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new doActions.LoadOfferingsRequest());
-
     this.diskOfferings$.subscribe(offerings => {
       if (!!offerings.length && !this.diskOffering) {
         this.diskOfferingChange.emit(offerings[0]);

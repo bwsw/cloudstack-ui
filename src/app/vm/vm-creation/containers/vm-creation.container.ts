@@ -10,6 +10,8 @@ import { VmCreationSecurityGroupData } from '../security-group/vm-creation-secur
 import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VirtualMachine } from '../../';
 import { NotSelected } from '../data/vm-creation-state';
+import { initialFormState } from '../../../reducers/vm/redux/vm.reducers';
+import { MatDialogRef } from '@angular/material';
 
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
@@ -19,6 +21,7 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
+import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 
 @Component({
@@ -45,6 +48,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
+      (onVmDeploymentFailed)="onCancel($event)"
       (onVmDeploymentFinish)="onVmDeploymentFinished($event)"
     ></cs-vm-create>`
 })
@@ -59,15 +63,19 @@ export class VmCreationContainerComponent implements OnInit {
   constructor(
     private store: Store<State>,
     private virtualMachineService: VmService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogRef: MatDialogRef<VmCreationContainerComponent>
   ) {
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
+    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
+
+    this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
 
   public ngOnInit() {
@@ -131,12 +139,16 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new vmActions.VmFormUpdate({ doStartVm }));
   }
 
+  public onAgreementChange(agreement: boolean) {
+    this.store.dispatch(new vmActions.VmFormUpdate({ agreement }));
+  }
+
   public onVmDeploymentFinished(vm: VirtualMachine) {
     this.store.dispatch(new vmActions.CreateVmSuccess(vm));
   }
 
-  public onAgreementChange(agreement: boolean) {
-    this.store.dispatch(new vmActions.VmFormUpdate({ agreement }));
+  public onCancel() {
+    this.store.dispatch(new vmActions.VmFormUpdate(initialFormState.state));
   }
 
   private getDefaultVmName(): Observable<string> {

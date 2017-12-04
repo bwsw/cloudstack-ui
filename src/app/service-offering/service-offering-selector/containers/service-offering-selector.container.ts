@@ -21,7 +21,7 @@ import * as fromVM from '../../../reducers/vm/redux/vm.reducers';
 })
 export class ServiceOfferingSelectorContainerComponent implements OnInit {
   readonly isLoading$ = this.store.select(fromSO.isLoading);
-  readonly serviceOfferings$ = this.store.select(fromSO.getAvailableOfferings);
+  readonly serviceOfferings$ = this.store.select(fromSO.selectAll);
   readonly customOfferingRestrictions$ = this.store.select(fromSO.customOfferingRestrictions);
   readonly zoneId$ = this.store.select(fromVM.getVmCreationZoneId);
   @Input() public serviceOffering: ServiceOffering;
