@@ -78,16 +78,10 @@ export class CustomServiceOfferingService {
     return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
   }
 
-  public getCustomOfferingRestrictionsByZone(): Observable<ICustomOfferingRestrictionsByZone> {
+  public getCustomOfferingRestrictionsByZone(resourceStats: ResourceStats): Observable<ICustomOfferingRestrictionsByZone> {
     const restrictions = this.configService.get<ICustomOfferingRestrictionsByZone>('customOfferingRestrictions');
 
-    return this.resourceUsageService.getResourceUsage()
-      .map(resourceStats => {
-        return this.getCustomOfferingRestrictionsByZoneSync(
-          restrictions,
-          resourceStats
-        );
-      });
+   return Observable.of(this.getCustomOfferingRestrictionsByZoneSync(restrictions, resourceStats));
   }
 
   public getCustomOfferingRestrictionsByZoneSync(

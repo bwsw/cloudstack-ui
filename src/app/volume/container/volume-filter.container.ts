@@ -33,6 +33,7 @@ import * as debounce from 'lodash/debounce';
       [types]="types"
       [query]="query$ | async"
       [groupings]="groupings"
+      [spareOnly]="spareOnly$ | async" 
       [selectedGroupings]="selectedGroupings"
       [selectedZoneIds]="selectedZoneIds$ | async"
       [selectedTypes]="selectedTypes$ | async"
@@ -52,6 +53,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
 
   readonly filters$ = this.store.select(fromVolumes.filters);
   readonly query$ = this.store.select(fromVolumes.filterQuery);
+  readonly spareOnly$ = this.store.select(fromVolumes.filterSpareOnly);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly loading$ = this.store.select(fromVolumes.isLoading);
@@ -74,7 +76,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
     },
     this.router,
     this.sessionStorage,
-    'accountListFilters',
+    'volumeListFilters',
     this.activatedRoute
   );
 

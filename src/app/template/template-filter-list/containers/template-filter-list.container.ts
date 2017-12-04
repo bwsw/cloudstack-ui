@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as templateGroups from '../../redux/template-group.reducers';
+import * as templateGroups from '../../../reducers/templates/redux/template-group.reducers';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
 

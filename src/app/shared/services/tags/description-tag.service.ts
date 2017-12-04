@@ -7,11 +7,7 @@ import { TagService } from './tag.service';
 
 @Injectable()
 export class DescriptionTagService {
-  constructor(private tagService: TagService) {}
-
-  public getDescription(entity: Taggable, entityTagService: EntityTagService): Observable<string> {
-    return this.tagService.getTag(entity, entityTagService.keys.description)
-      .map(tag => this.tagService.getValueFromTag(tag));
+  constructor(private tagService: TagService) {
   }
 
   public setDescription(
@@ -25,5 +21,24 @@ export class DescriptionTagService {
       entityTagService.keys.description,
       description
     );
+  }
+
+  public removeDescription(
+    entity: Taggable,
+    entityTagService: EntityTagService
+  ): Observable<Taggable> {
+    const newEntity = Object.assign({}, entity);
+    return this.tagService.remove({
+      resourceIds: entity.id,
+      resourceType: entity.resourceType,
+      'tags[0].key': entityTagService.keys.description,
+      'tags[0].value': ''
+    })
+      .map(() => {
+        newEntity.tags = newEntity.tags.filter(t =>
+          entityTagService.keys.description !== t.key
+        );
+        return newEntity;
+      });
   }
 }

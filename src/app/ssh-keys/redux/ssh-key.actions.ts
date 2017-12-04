@@ -35,16 +35,17 @@ export class SshKeyFilterUpdate implements Action {
 export class RemoveSshKeyPair implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE;
 
-  constructor(public payload: any) {
+  constructor(public payload: SSHKeyPair) {
   }
 }
 
 export class RemoveSshKeyPairSuccessAction implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE_SUCCESS;
 
-  constructor(public payload?: any) {
+  constructor(public payload: SSHKeyPair) {
   }
 }
+
 
 export class RemoveSshKeyPairErrorAction implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE_ERROR;

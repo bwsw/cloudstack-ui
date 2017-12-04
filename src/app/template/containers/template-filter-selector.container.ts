@@ -1,16 +1,20 @@
 import {
-  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
   Output
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { BaseTemplateModel } from '../shared/base-template.model';
 
-import * as fromTemplates from '../redux/template.reducers';
-import * as fromTemplateGroups from '../redux/template-group.reducers';
-import * as templateActions from '../redux/template.actions';
-import * as osTypeActions from '../redux/ostype.actions';
-import { TemplateResourceType } from '../shared/base-template.service';
+import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
+import * as fromTemplateGroups from '../../reducers/templates/redux/template-group.reducers';
+import * as templateActions from '../../reducers/templates/redux/template.actions';
+import * as osTypeActions from '../../reducers/templates/redux/ostype.actions';
 
 @Component({
   selector: 'cs-template-filter-list-selector-container',

@@ -48,24 +48,21 @@ import { TemplateOsComponent } from './template-sidebar/template-os/template-os.
 import { TemplateSidebarComponent } from './template-sidebar/template-sidebar.component';
 import { IsoZonesComponent } from './template-sidebar/zones/iso-zones.component';
 import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.component';
-import { IsoTagsComponent } from './template-tags/iso-tags.component';
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { TemplateEffects } from './redux/template.effects';
-import { templateReducers } from './redux/template.reducers';
-import { osTypeReducers } from './redux/ostype.reducers';
-import { OsTypeEffects } from './redux/ostype.effects';
+import { TemplateEffects } from '../reducers/templates/redux/template.effects';
+import { templateReducers } from '../reducers/templates/redux/template.reducers';
+import { osTypeReducers } from '../reducers/templates/redux/ostype.reducers';
+import { OsTypeEffects } from '../reducers/templates/redux/ostype.effects';
 import { TemplateOsContainerComponent } from './template-sidebar/template-os/template-os.container';
-import { zoneReducers } from './redux/zone.reducers';
-import { ZoneEffects } from './redux/zone.effects';
+import { zoneReducers } from '../reducers/templates/redux/zone.reducers';
+import { ZoneEffects } from '../reducers/templates/redux/zone.effects';
 import { TemplatePageContainerComponent } from './containers/template-page.container';
 import { TemplateCreationContainerComponent } from './template-creation/containers/template-creation.container';
-import {
-  TemplateActionsSidebarContainerComponent
-} from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
+import { TemplateActionsSidebarContainerComponent } from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
 import { TemplateFilterContainerComponent } from './containers/template-filter.container';
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
@@ -73,8 +70,8 @@ import { TemplateOsIconContainerComponent } from './template-sidebar/template-os
 import { TemplateGroupService } from '../shared/services/template-group.service';
 import { TemplateGroupSelectorComponent } from './template-sidebar/template-group/template-group-selector/template-group-selector.component';
 import { TemplateGroupComponent } from './template-sidebar/template-group/template-group.component';
-import { templateGroupReducers } from './redux/template-group.reducers';
-import { TemplateGroupEffects } from './redux/template-group.effects';
+import { templateGroupReducers } from '../reducers/templates/redux/template-group.reducers';
+import { TemplateGroupEffects } from '../reducers/templates/redux/template-group.effects';
 import { TemplateGroupContainerComponent } from './template-sidebar/template-group/containers/template-group.container';
 import { BaseTemplateSidebarContainerComponent } from './template-sidebar/containers/base-template-sidebar.container';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
@@ -152,7 +149,6 @@ import { TemplateGroupSelectorContainerComponent } from './template-sidebar/temp
     TemplateGroupComponent,
     TemplatePageComponent,
     TemplateTagsComponent,
-    IsoTagsComponent,
     TagsContainerComponent,
     TemplateZonesComponent,
     IsoZonesComponent,

@@ -39,6 +39,7 @@ export class VmCreationState {
   public sshKeyPair: SSHKeyPair | NotSelected;
   public template: BaseTemplateModel;
   public zone: Zone;
+  public agreement: boolean;
 
   private _rootDiskSizeMin: number;
 

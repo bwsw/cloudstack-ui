@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 
 
 @Component({
@@ -7,14 +12,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class DescriptionComponent {
   @Input() public description: string;
-  @Output() public descriptionChange: EventEmitter<string>;
+  @Output() public descriptionChange = new EventEmitter<string>();
 
   public maxLength = 255;
   public rows = 1;
-
-  constructor() {
-    this.descriptionChange = new EventEmitter<string>();
-  }
 
   public updateDescription(newDescription: string): void {
     this.descriptionChange.next(newDescription);

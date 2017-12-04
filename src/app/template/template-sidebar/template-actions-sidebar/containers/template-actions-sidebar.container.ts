@@ -1,9 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 import { BaseTemplateModel } from '../../../shared/base-template.model';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../reducers/index';
 
-import * as templateActions from '../../../redux/template.actions';
+import * as templateActions from '../../../../reducers/templates/redux/template.actions';
 
 
 @Component({

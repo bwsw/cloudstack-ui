@@ -30,7 +30,10 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
     <div class="stat-list-container">
-      <mat-card *ngFor="let stat of statsList" class="stat-card-md">
+      <mat-card
+        *ngFor="let stat of statsList"
+        class="stat-card-md"
+      >
         <mat-card-header>
           <mat-card-title>
             <h2 class="mat-card-title-text">{{ stat.header | translate }}</h2>

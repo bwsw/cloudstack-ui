@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../decorators';
-import { OsFamily, OsType } from '../models/os-type.model';
+import { OsFamily, OsType } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { HttpClient } from '@angular/common/http';
 

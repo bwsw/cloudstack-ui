@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { ICustomOfferingRestrictionsByZone } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+import {
+  ICustomOfferingRestrictionsByZone
+} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
   CustomServiceOfferingService,
   DefaultServiceOfferingConfigurationByZone

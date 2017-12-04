@@ -1,14 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatSelectChange } from '@angular/material';
+import {
+  Component,
+  forwardRef,
+  Inject,
+  OnInit
+} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+  MatSelectChange
+} from '@angular/material';
 import * as clone from 'lodash/clone';
 import * as throttle from 'lodash/throttle';
+
+import { Store } from '@ngrx/store';
+import { State } from '../../reducers/index';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
 import {
   ProgressLoggerMessage,
   ProgressLoggerMessageStatus
 } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
+import {
+  AffinityGroup,
+  InstanceGroup,
+  ServiceOffering
+} from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
@@ -26,6 +44,10 @@ import {
 } from './services/vm-deployment.service';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
+import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
+import { Observable } from 'rxjs/Observable';
+import { VmCreationAgreementComponent } from './template/agreement/vm-creation-agreement.component';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -35,7 +57,14 @@ export interface VmCreationFormState {
 @Component({
   selector: 'cs-vm-create',
   templateUrl: 'vm-creation.component.html',
-  styleUrls: ['vm-creation.component.scss']
+  styleUrls: ['vm-creation.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => VmCreationAgreementComponent),
+      multi: true
+    }
+  ]
 })
 export class VmCreationComponent implements OnInit {
   public data: VmCreationData;
@@ -70,7 +99,11 @@ export class VmCreationComponent implements OnInit {
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
     private vmCreationService: VmCreationService,
-    private vmDeploymentService: VmDeploymentService
+    private vmDeploymentService: VmDeploymentService,
+    private store: Store<State>,
+    private templateTagService: TemplateTagService,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) data
   ) {
     this.updateFormState = throttle(this.updateFormState, 500, {
       leading: true,
@@ -138,6 +171,9 @@ export class VmCreationComponent implements OnInit {
 
   public templateChange(value: BaseTemplateModel) {
     this.formState.state.template = value;
+    if (value.agreementAccepted) {
+      this.formState.state.agreement = true;
+    }
     this.updateFormState();
   }
 
@@ -211,6 +247,16 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
+    this.templateTagService.getAgreement(this.formState.state.template)
+      .switchMap(res => res ? this.showTemplateAgreementDialog() : Observable.of(true))
+      .filter(res => !!res)
+      .subscribe(() => {
+        this.formState.state.agreement = true;
+        this.deployRequest();
+      });
+  }
+
+  private deployRequest() {
     const notificationId = this.jobsNotificationService.add(
       'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
     );
@@ -227,6 +273,15 @@ export class VmCreationComponent implements OnInit {
       this.handleDeploymentMessages(deploymentMessage, notificationId);
     });
     deployObservable.subscribe();
+  }
+
+
+  private showTemplateAgreementDialog(): Observable<BaseTemplateModel> {
+    return this.dialog.open(VmCreationAgreementComponent, {
+      width: '900px',
+      data: this.formState.state.template
+    })
+      .afterClosed();
   }
 
   public notifyOnDeployDone(notificationId: string): void {
@@ -441,6 +496,8 @@ export class VmCreationComponent implements OnInit {
   ): void {
     this.deploymentStopped = false;
     this.deployedVm = deploymentMessage.vm;
+    // add to store
+    this.store.dispatch(new vmActions.CreateVmSuccess(this.deployedVm));
     this.notifyOnDeployDone(notificationId);
     this.progressLoggerController.addMessage({
       text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',

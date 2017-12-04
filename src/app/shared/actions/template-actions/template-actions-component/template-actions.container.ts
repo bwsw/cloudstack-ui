@@ -1,10 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
 import { State } from '../../../../reducers/index';
 import { Store } from '@ngrx/store';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
 
-import * as templateActions from '../../../../template/redux/template.actions';
+import * as templateActions from '../../../../reducers/templates/redux/template.actions';
 import { TemplateActionsService } from '../template-actions.service';
 import { IsoActionsService } from '../iso-actions.service';
 

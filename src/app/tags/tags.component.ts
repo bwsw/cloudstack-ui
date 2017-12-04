@@ -1,36 +1,31 @@
-import { OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models';
-import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { TagService } from '../shared/services/tags/tag.service';
-import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
+import {
+  KeyValuePair,
+  TagEditAction
+} from './tags-view/tags-view.component';
+import { EventEmitter, Output } from '@angular/core';
 
 
-export abstract class TagsComponent<T extends Taggable> extends WithUnsubscribe() implements OnInit {
+export abstract class TagsComponent<T extends Taggable> {
   public abstract entity: Taggable;
+  @Output() public onTagAdd = new EventEmitter<KeyValuePair>();
+  @Output() public onTagDelete = new EventEmitter<Tag>();
+  @Output() public onTagEdit = new EventEmitter<TagEditAction>();
 
-  public tags$: BehaviorSubject<Array<Tag>>;
+  public tags: Array<Tag>;
 
   constructor(
     protected dialogService: DialogService,
     protected tagService: TagService,
   ) {
-    super();
-    this.tags$ = new BehaviorSubject<Array<Tag>>([]);
   }
 
-  public ngOnInit(): void {
-    // todo: remove unsubscribe after migration to ngrx
-    this.tags$.next(this.entity.tags);
-    this.tags$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(tags => this.entity.tags = tags);
-  }
 
-  public onTagAdd(tag: KeyValuePair): void {
+  public addTag(tag: KeyValuePair): void {
     if (!tag) {
       return;
     }
@@ -41,14 +36,13 @@ export abstract class TagsComponent<T extends Taggable> extends WithUnsubscribe(
       'tags[0].key': tag.key,
       'tags[0].value': tag.value
     })
-      .switchMap(() => this.entityTags)
       .subscribe(
-        tags => this.tags$.next(tags),
+        res => this.onTagAdd.emit(tag),
         error => this.onError(error)
       );
   }
 
-  public onTagEdit(tagEditAction: TagEditAction): void {
+  public editTag(tagEditAction: TagEditAction): void {
     if (!tagEditAction) {
       return;
     }
@@ -70,23 +64,21 @@ export abstract class TagsComponent<T extends Taggable> extends WithUnsubscribe(
           'tags[0].value': tagEditAction.newTag.value
         });
       })
-      .switchMap(() => this.entityTags)
       .subscribe(
-        tags => this.tags$.next(tags),
+        res => this.onTagEdit.emit(tagEditAction),
         error => this.onError(error)
       );
 
   }
 
-  public onTagDelete(tag: Tag): void {
+  public deleteTag(tag: Tag): void {
     this.tagService.remove({
       resourceIds: tag.resourceId,
       resourceType: tag.resourceType,
       'tags[0].key': tag.key
     })
-      .switchMap(() => this.entityTags)
       .subscribe(
-        tags => this.tags$.next(tags),
+        res => this.onTagDelete.emit(tag),
         error => this.onError(event)
       );
   }
@@ -99,6 +91,4 @@ export abstract class TagsComponent<T extends Taggable> extends WithUnsubscribe(
       }
     });
   }
-
-  protected abstract get entityTags(): Observable<Array<Tag>>;
 }

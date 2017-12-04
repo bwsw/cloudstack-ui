@@ -1,71 +1,114 @@
-import { Injectable } from '@angular/core';
-import { ActionsService } from '../../shared/interfaces/action-service.interface';
+import { VmActions } from '../vm-actions/vm-action';
 import {
-  VmConsoleAction,
-  VmDestroyAction,
-  VmPulseAction,
-  VmRebootAction,
-  VmResetPasswordAction,
-  VmRestoreAction,
-  VmStartAction,
-  VmStopAction,
-  VmWebShellAction
-} from '../vm-actions';
-import { VmStartActionSilent } from '../vm-actions/silent/vm-start-silent';
-import { VmStopActionSilent } from '../vm-actions/silent/vm-stop-silent';
-import {
-  VirtualMachineAction,
-  VmActions
-} from '../vm-actions/vm-action';
-import { VmChangeServiceOfferingAction } from '../vm-actions/vm-change-service-offering';
-import { VirtualMachine } from './vm.model';
-import { VmAccessAction } from '../vm-actions/vm-access';
+  VirtualMachine,
+  VmState
+} from './vm.model';
 
+const isIpAvailable = (vm) => {
+  return vm.nic.length && !!vm.nic[0].ipAddress;
+};
 
-@Injectable()
-export class VmActionsService implements ActionsService<VirtualMachine, VirtualMachineAction> {
+const VmStartAction = {
+  name: 'VM_PAGE.COMMANDS.START',
+  command: VmActions.START,
+  icon: 'play_arrow',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_START',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Stopped
+};
+
+const VmStopAction = {
+  name: 'VM_PAGE.COMMANDS.STOP',
+  command: VmActions.STOP,
+  icon: 'stop',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_STOP',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+};
+
+const VmRebootAction = {
+  name: 'VM_PAGE.COMMANDS.REBOOT',
+  command: VmActions.REBOOT,
+  icon: 'replay',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_REBOOT',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+};
+
+const VmRestoreAction = {
+  name: 'VM_PAGE.COMMANDS.RESTORE',
+  command: VmActions.RESTORE,
+  icon: 'settings_backup_restore',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE',
+  canActivate: (vm: VirtualMachine) => !!vm && [
+    VmState.Running,
+    VmState.Stopped
+  ].includes(vm.state)
+};
+
+const VmDestroyAction = {
+  name: 'VM_PAGE.COMMANDS.DESTROY',
+  command: VmActions.DESTROY,
+  icon: 'delete',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_DESTROY',
+  canActivate: (vm: VirtualMachine) => !!vm && [
+    VmState.Running, VmState.Stopped,
+    VmState.Error
+  ].includes(vm.state)
+};
+
+const VmResetPasswordAction = {
+  name: 'VM_PAGE.COMMANDS.RESET_PASSWORD',
+  command: VmActions.RESET_PASSWORD,
+  icon: 'vpn_key',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
+  canActivate: (vm: VirtualMachine) => !!vm
+    && [VmState.Running, VmState.Stopped].includes(vm.state)
+    && vm.passwordEnabled
+    && isIpAvailable(vm)
+};
+
+const VmExpungeAction = {
+  name: 'VM_PAGE.COMMANDS.EXPUNGE',
+  command: VmActions.EXPUNGE,
+  icon: 'delete_forever',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_EXPUNGE',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Destroyed
+};
+
+const VmRecoverAction = {
+  name: 'VM_PAGE.COMMANDS.RECOVER',
+  command: VmActions.RECOVER,
+  icon: 'restore',
+  confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RECOVER',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Destroyed
+};
+
+export const VmAccessAction = {
+  name: 'VM_PAGE.COMMANDS.VM_ACCESS',
+  command: VmActions.ACCESS,
+  icon: 'computer',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+};
+
+export const VmPulseAction = {
+
+  name: 'PULSE.PULSE',
+  command: VmActions.PULSE,
+  icon: 'timeline',
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+};
+
+export class VmActionsService {
   public actions = [
-    this.vmStartAction,
-    this.vmStopAction,
-    this.vmRebootAction,
-    this.vmRestoreAction,
-    this.vmDestroyAction,
-    this.vmResetPasswordAction,
-    this.vmAccessAction
+    VmStartAction,
+    VmStopAction,
+    VmRebootAction,
+    VmRestoreAction,
+    VmDestroyAction,
+    VmResetPasswordAction,
+    VmAccessAction,
+    VmPulseAction
   ];
-
-  public pluginActions = [
-    this.vmPulseAction,
+  public destroyedActions = [
+    VmExpungeAction,
+    VmRecoverAction
   ];
-
-  constructor(
-    public vmStartAction: VmStartAction,
-    public vmStartActionSilent: VmStartActionSilent,
-    public vmStopAction: VmStopAction,
-    public vmStopActionSilent: VmStopActionSilent,
-    public vmRebootAction: VmRebootAction,
-    public vmRestoreAction: VmRestoreAction,
-    public vmDestroyAction: VmDestroyAction,
-    public vmResetPasswordAction: VmResetPasswordAction,
-    public vmConsoleAction: VmConsoleAction,
-    public vmWebShellAction: VmWebShellAction,
-    public vmPulseAction: VmPulseAction,
-    public vmChangeServiceOfferingAction: VmChangeServiceOfferingAction,
-    public vmAccessAction: VmAccessAction
-  ) {}
-
-  public getActionByName(name: VmActions): VirtualMachineAction {
-    const actions = {
-      [VmActions.START]: this.vmStartAction,
-      [VmActions.STOP]: this.vmStopAction,
-      [VmActions.REBOOT]: this.vmRebootAction,
-      [VmActions.RESTORE]: this.vmRestoreAction,
-      [VmActions.DESTROY]: this.vmDestroyAction,
-      [VmActions.RESET_PASSWORD]: this.vmResetPasswordAction,
-      [VmActions.PULSE]: this.vmWebShellAction,
-      [VmActions.ACCESS]: this.vmAccessAction
-    };
-
-    return actions[name];
-  }
 }

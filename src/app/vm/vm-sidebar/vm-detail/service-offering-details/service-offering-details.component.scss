@@ -1,0 +1,14 @@
+@import '../../../../../style/_variables';
+
+.service-offering .row > div:nth-child(2n) {
+  text-align: right;
+}
+
+.grid.service-offering {
+  overflow: hidden;
+  height: 5 * $sidebar-card-line-height;
+
+  &.open {
+    height: auto;
+  }
+}

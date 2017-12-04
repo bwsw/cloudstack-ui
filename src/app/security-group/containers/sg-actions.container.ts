@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
-import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
-import { ActivatedRoute } from '@angular/router';
-import { SgRulesContainerComponent } from './sg-rules.container';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+
+import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 
 @Component({
   selector: 'cs-security-group-actions-container',
@@ -21,8 +20,7 @@ export class SecurityGroupActionsContainerComponent {
 
   constructor(
     private store: Store<State>,
-    private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog
+    private router: Router
   ) {
   }
 
@@ -31,12 +29,11 @@ export class SecurityGroupActionsContainerComponent {
   }
 
   public onViewSecurityGroup(securityGroup): Observable<any> {
-    const editMode = this.activatedRoute.snapshot.queryParams.hasOwnProperty('vm');
+    this.router.navigate(
+      ['security-group', securityGroup.id, 'rules'],
+      { queryParamsHandling: 'preserve' }
+    );
 
-    return this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
-      width: '910px',
-      data: { securityGroupId: securityGroup.id, editMode }
-    })
-      .afterClosed();
+    return Observable.of(securityGroup);
   }
 }

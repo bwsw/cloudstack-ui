@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 
-import * as fromTemplates from '../../redux/template.reducers';
-import * as templateActions from '../../redux/template.actions';
+import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
+import * as templateActions from '../../../reducers/templates/redux/template.actions';
 
 @Component({
   selector: 'cs-template-tags-container',
@@ -11,9 +11,9 @@ import * as templateActions from '../../redux/template.actions';
     <cs-template-tags
       [entity]="template$ | async"
       [tags]="templateTags$ | async"
-      (onTagAdded)="update()"
-      (onTagRemoved)="update()"
-      (onTagEdited)="update()"
+      (onTagAdd)="update()"
+      (onTagDelete)="update()"
+      (onTagEdit)="update()"
     ></cs-template-tags>`
 })
 export class TagsContainerComponent {

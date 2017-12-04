@@ -1,7 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 import { NIC } from '../../../../../shared/models/nic.model';
-import { VmService } from '../../../../shared/vm.service';
 import { IpAddress } from '../../../../../shared/models/ip-address.model';
 
 
@@ -12,10 +16,11 @@ import { IpAddress } from '../../../../../shared/models/ip-address.model';
 })
 export class SecondaryIpListComponent {
   @Input() public nic: NIC;
+  @Output() public onSecondaryIpAdd = new EventEmitter();
+  @Output() public onSecondaryIpRemove = new EventEmitter();
 
   constructor(
-    private dialogService: DialogService,
-    private vmService: VmService
+    private dialogService: DialogService
   ) {}
 
   public confirmAddSecondaryIp(): void {
@@ -43,35 +48,10 @@ export class SecondaryIpListComponent {
   }
 
   private addSecondaryIp(): void {
-    this.vmService.addIpToNic(this.nic.id)
-      .subscribe(
-        result => this.onAdded(result),
-        error => this.onError(error)
-      );
-  }
-
-  private onAdded(result: any): void {
-    const ip = result.result.nicsecondaryip;
-    this.nic.secondaryIp.push(ip);
+    this.onSecondaryIpAdd.emit(this.nic.id)
   }
 
   private removeSecondaryIp(secondaryIp: IpAddress): void {
-    this.vmService.removeIpFromNic(secondaryIp.id)
-      .subscribe(
-        () => this.onRemoved(secondaryIp.id),
-        error => this.onError(error)
-      );
-  }
-
-  private onRemoved(secondaryIpId: string): void {
-    this.nic.secondaryIp = this.nic.secondaryIp.filter(ip => {
-      return ip.id !== secondaryIpId;
-    });
-  }
-
-  private onError(error: any): void {
-    this.dialogService.alert({
-      message: error.errortext
-    });
+    this.onSecondaryIpRemove.emit(secondaryIp);
   }
 }

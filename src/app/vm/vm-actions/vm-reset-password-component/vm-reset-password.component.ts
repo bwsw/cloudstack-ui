@@ -6,11 +6,14 @@ import {
   MAT_DIALOG_DATA,
   MatDialogRef
 } from '@angular/material';
-import { VmSavePasswordAction } from '../vm-save-password';
+import { Store } from '@ngrx/store';
+import { State } from '../../../reducers/index';
+import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { VirtualMachine } from '../../shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
 @Component({
   selector: 'cs-vm-reset-password',
@@ -21,13 +24,13 @@ export class VmResetPasswordComponent {
   public message;
   public vm: VirtualMachine;
   public showSaveButton: boolean;
-  public disableButton: boolean = false;
+  public disableButton = false;
 
   constructor(
     public dialogRef: MatDialogRef<VmResetPasswordComponent>,
-    private vmSavePassword: VmSavePasswordAction,
     private translateService: TranslateService,
     private userTagService: UserTagService,
+    private store: Store<State>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.vm = data;
@@ -54,9 +57,14 @@ export class VmResetPasswordComponent {
 
   public savePassword() {
     this.disableButton = true;
-    this.vmSavePassword.activate(this.vm, { key: 'csui.vm.password', value: this.vm.password }).subscribe(() => {
-      this.showSaveButton = false;
-    });
+    this.store.dispatch(new vmActions.SaveNewPassword({
+      vm: this.vm,
+      tag: {
+        key: VirtualMachineTagKeys.passwordTag,
+        value: this.vm.password
+      }
+    }));
+    this.showSaveButton = false;
   }
 
 }

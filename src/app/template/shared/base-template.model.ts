@@ -47,6 +47,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
   public tags: Array<Tag>;
   public zoneId: string;
   public zoneName: string;
+  public agreementAccepted?: boolean;
 
   public zones?: Array<Partial<BaseTemplateModel>>;
 

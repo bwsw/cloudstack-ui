@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Volume } from '../../models/volume.model';
-import { VolumeAttachmentComponent } from './volume-attachment/volume-attachment.component';
 import { VolumeAction } from './volume-action';
 import { MatDialog } from '@angular/material';
+import { VolumeAttachmentContainerComponent } from './volume-attachment/volume-attachment.container';
 
 
 @Injectable()
@@ -15,17 +15,22 @@ export class VolumeAttachAction implements VolumeAction {
   constructor( public dialog: MatDialog) { }
 
   public activate(volume: Volume): Observable<any> {
-    return this.dialog.open(VolumeAttachmentComponent, {
+    return this.dialog.open(VolumeAttachmentContainerComponent, {
       data: {
         volume,
         zoneId: volume.zoneId
       },
       width: '375px'
     })
-      .afterClosed();
+      .afterClosed()
+      .filter(res => Boolean(res));
+  }
+
+  public canActivate(volume: Volume): boolean {
+    return true;
   }
 
   public hidden(volume: Volume): boolean {
-    return !volume.isSpare;
+    return !!volume.virtualMachineId;
   }
 }

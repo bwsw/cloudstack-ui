@@ -1,4 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { VirtualMachine } from '../../../../shared/vm.model';
 
 
@@ -8,4 +13,6 @@ import { VirtualMachine } from '../../../../shared/vm.model';
 })
 export class NicListComponent {
   @Input() public vm: VirtualMachine;
+  @Output() public onSecondaryIpAdd = new EventEmitter();
+  @Output() public onSecondaryIpRemove = new EventEmitter();
 }

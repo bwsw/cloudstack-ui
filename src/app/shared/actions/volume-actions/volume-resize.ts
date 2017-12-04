@@ -23,6 +23,9 @@ export class VolumeResizeAction implements VolumeAction {
     })
       .afterClosed();
   }
+  public canActivate(volume: Volume): boolean {
+    return true;
+  }
 
   public hidden = (volume: Volume) => false;
 }

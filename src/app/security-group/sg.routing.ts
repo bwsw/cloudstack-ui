@@ -3,6 +3,7 @@ import { AuthGuard } from '../shared/services/auth-guard.service';
 import { SecurityGroupPageContainerComponent } from './containers/security-group-page.container';
 import { SecurityGroupSidebarContainerComponent } from './containers/security-group-sidebar.container';
 import { SecurityGroupCreationDialogComponent } from './sg-creation/security-group-creation-dialog.component';
+import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
 
 export const sgRoutes: Routes = [
   {
@@ -24,6 +25,10 @@ export const sgRoutes: Routes = [
           {
             path: 'details',
             component: SecurityGroupSidebarContainerComponent
+          },
+          {
+            path: 'rules',
+            component: SecurityGroupRulesDialogComponent
           }
         ]
       }
