@@ -1,27 +1,20 @@
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  TemplateFilters,
-  TemplateResourceType
-} from '../../../template/shared/base-template.service';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
+import { DefaultTemplateGroupId } from '../../../template/template-sidebar/template-group/template-group.component';
+import { getVmCreationZoneId } from '../../vm/redux/vm.reducers';
+import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
-import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
-import { Utils } from '../../../shared/services/utils/utils.service';
+
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean,
@@ -410,7 +403,7 @@ export const selectFilteredTemplates = createSelector(
   }
 );
 
-export const selectTemplatesForVmCreation = createSelector(
+export const selectTemplatesForAction = createSelector(
   selectAll,
   getUserAccount,
   fromOsTypes.selectEntities,
@@ -445,10 +438,6 @@ export const selectTemplatesForVmCreation = createSelector(
       return !vmFilters.selectedOsFamilies.length || !!osFamiliesMap[osFamily];
     };
 
-    const selectedZoneFilter = (template: BaseTemplateModel) => {
-      return template.zoneId === vmFilters.selectedZoneId;
-    };
-
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
       if (vmFilters.selectedGroups.length) {
         const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
@@ -472,8 +461,26 @@ export const selectTemplatesForVmCreation = createSelector(
       && selectedViewModeFilter(template)
       && selectedTypesFilter(template)
       && selectedOsFamiliesFilter(template)
-      && selectedZoneFilter(template)
       && selectedGroupsFilter(template)
       && queryFilter(template));
+  }
+);
+
+export const selectTemplatesForIsoAttachment = createSelector(selectTemplatesForAction, vmCreationListFilters,
+  (templates, vmFilters) => {
+    const selectedZoneFilter = (template: BaseTemplateModel) => {
+      return template.zoneId === vmFilters.selectedZoneId || template.crossZones;
+    };
+
+    return templates.filter(template => selectedZoneFilter(template));
+  }
+);
+export const selectTemplatesForVmCreation = createSelector(selectTemplatesForAction, getVmCreationZoneId,
+  (templates, zoneId) => {
+    const selectedZoneFilter = (template: BaseTemplateModel) => {
+      return template.zoneId === zoneId || template.crossZones;
+    };
+
+    return templates.filter(template => selectedZoneFilter(template));
   }
 );

@@ -9,12 +9,30 @@ import { TagService } from '../../../shared/services/tags/tag.service';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import { VmCreationParams, VmCreationState } from '../data/vm-creation-state';
+import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
-import { VmCreationSecurityGroupMode } from '../security-group/vm-creation-security-group-mode';
-import { NotSelected } from './vm-creation.service';
+import { NetworkRule } from '../../../security-group/network-rule.model';
+
+interface VmCreationParams {
+  affinityGroupNames?: string;
+  details?: Array<any>;
+  diskofferingid?: string;
+  startVm?: string;
+  hypervisor?: string;
+  ingress?: Array<NetworkRule>;
+  egress?: Array<NetworkRule>;
+  keyboard?: string;
+  keyPair?: string;
+  name?: string;
+  securityGroupIds?: string;
+  serviceOfferingId?: string;
+  rootDiskSize?: number;
+  size?: number;
+  templateId?: string;
+  zoneId?: string;
+}
 
 export enum VmDeploymentStage {
   STARTED = 'STARTED',
@@ -125,7 +143,7 @@ export class VmDeploymentService {
     state: VmCreationState,
     vm: VirtualMachine
   ): Observable<any> {
-    if (!state.doCreateInstanceGroup) {
+    if (!(state.instanceGroup && state.instanceGroup.name)) {
       return Observable.of(null);
     }
 
@@ -192,7 +210,8 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<AffinityGroup> {
-    if (!state.doCreateAffinityGroup) {
+    if (!(state.affinityGroup && state.affinityGroup.name) ||
+      state.affinityGroupNames.includes(state.affinityGroup.name)) {
       return Observable.of(null);
     }
 
@@ -219,7 +238,7 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<SecurityGroup[]> {
-    if (!state.doCreateSecurityGroup) {
+    if (!(state.zone && !state.zone.networkTypeIsBasic)) {
       return Observable.of(null);
     }
 
@@ -246,7 +265,6 @@ export class VmDeploymentService {
     state: VmCreationState
   ): Observable<{ deployResponse: any, temporaryVm: VirtualMachine }> {
     const params = this.getVmCreationParams(state);
-
     let deployResponse;
     let temporaryVm;
 
@@ -305,13 +323,14 @@ export class VmDeploymentService {
     });
   }
 
-  private getVmCreationParams(state: VmCreationState): VmCreationParams {
+  private getVmCreationParams(state) {
     const params: VmCreationParams = {};
 
-    params.affinityGroupNames = state.affinityGroup && state.affinityGroup.name;
-    if (!state.doStartVm) {
-      params.startVm = 'false';
+    if (state.affinityGroup) {
+      params.affinityGroupNames = state.affinityGroup.name;
     }
+
+    params.startVm = state.doStartVm;
     params.keyboard = state.keyboard;
     params.name = state.displayName || state.defaultName;
     params.serviceOfferingId = state.serviceOffering.id;
@@ -330,6 +349,7 @@ export class VmDeploymentService {
     if (
       state.securityGroupData &&
       state.securityGroupData.securityGroups &&
+      state.securityGroupData.securityGroups.length &&
       state.securityGroupData.securityGroups[0].id
     ) {
       params.securityGroupIds = state.securityGroupData.securityGroups.map(item => item.id).join(',');
@@ -345,10 +365,8 @@ export class VmDeploymentService {
       ];
     }
 
-    if (
-      (state.rootDiskSize != null && state.template.isTemplate) ||
-      state.showRootDiskResize
-    ) {
+    if ((state.rootDiskSize != null && state.template.isTemplate) ||
+      (state.diskOffering && state.diskOffering.isCustomized)) {
       if (state.template.isTemplate) {
         params.rootDiskSize = state.rootDiskSize;
       } else {

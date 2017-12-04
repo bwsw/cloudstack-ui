@@ -9,14 +9,14 @@
 </div>
 
 <div class="mat-input-wrapper template-list">
-  <ng-container *ngIf="template; else noTemplates">
+  <ng-container *ngIf="template">
     <span class="ellipsis-overflow" [matTooltip]="templateName | async">
       {{ templateName | async }}
     </span>
   </ng-container>
-  <ng-template #noTemplates>
+  <ng-container *ngIf="!templates.length">
     <span class="no-templates">
       {{ 'VM_PAGE.VM_CREATION.NO_TEMPLATES' | translate }}
     </span>
-  </ng-template>
+  </ng-container>
 </div>

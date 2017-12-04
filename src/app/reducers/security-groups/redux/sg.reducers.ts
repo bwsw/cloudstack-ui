@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as securityGroup from './sg.actions';

@@ -1,21 +1,16 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './vm.actions';
-import { VirtualMachine } from '../../../vm';
+import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
+import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as vmActions from './vm.actions';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { InstanceGroup } from '../../../shared/models';
-import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
-import { Utils } from '../../../shared/services/utils/utils.service';
+import * as affinityGroupActions from '../../affinity-groups/redux/affinity-groups.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -41,12 +36,19 @@ export interface State extends EntityState<VirtualMachine> {
   }
 }
 
+export interface FormState {
+  loading: boolean,
+  state: VmCreationState
+}
+
 export interface VirtualMachineState {
   list: State;
+  form: FormState;
 }
 
 export const virtualMachineReducers = {
-  list: reducer,
+  list: listReducer,
+  form: formReducer
 };
 
 /**
@@ -67,7 +69,7 @@ export const adapter: EntityAdapter<VirtualMachine> = createEntityAdapter<Virtua
  * for the generated entity state. Initial state
  * additional properties can also be defined.
  */
-export const initialState: State = adapter.getInitialState({
+export const initialListState: State = adapter.getInitialState({
   loading: false,
   selectedVMId: null,
   filters: {
@@ -84,19 +86,19 @@ export const initialState: State = adapter.getInitialState({
   }
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
+export function listReducer(
+  state = initialListState,
+  action: vmActions.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_VMS_REQUEST: {
+    case vmActions.LOAD_VMS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
 
-    case event.VM_FILTER_UPDATE: {
+    case vmActions.VM_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -106,7 +108,7 @@ export function reducer(
       };
     }
 
-    case event.VM_ATTACHMENT_FILTER_UPDATE: {
+    case vmActions.VM_ATTACHMENT_FILTER_UPDATE: {
       return {
         ...state,
         attachmentFilters: {
@@ -116,17 +118,14 @@ export function reducer(
       };
     }
 
-    case event.LOAD_SELECTED_VM: {
+    case vmActions.LOAD_SELECTED_VM: {
       return {
         ...state,
         selectedVMId: action.payload
       };
     }
 
-    case event.LOAD_VMS_RESPONSE: {
-
-      const vms = action.payload;
-
+    case vmActions.LOAD_VMS_RESPONSE: {
       return {
         /**
          * The addMany function provided by the created adapter
@@ -135,31 +134,31 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll([...vms], state),
+        ...adapter.addAll([...action.payload], state),
         loading: false
       };
     }
 
-    case event.UPDATE_VM: {
+    case vmActions.UPDATE_VM: {
       return {
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
       };
     }
 
-    case event.REPLACE_VM: {
+    case vmActions.REPLACE_VM: {
       const newState = adapter.removeOne(action.payload.id, state);
       return {
         ...adapter.addOne(action.payload, newState),
       };
     }
 
-    case event.CREATE_VM_SUCCESS: {
+    case vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS: {
       return {
         ...adapter.addOne(action.payload, state),
       };
     }
 
-    case event.EXPUNGE_VM_SUCCESS: {
+    case vmActions.EXPUNGE_VM_SUCCESS: {
       return {
         ...adapter.removeOne(action.payload.id, state),
       };
@@ -170,7 +169,6 @@ export function reducer(
     }
   }
 }
-
 
 export const getVMsState = createFeatureSelector<VirtualMachineState>('virtualMachines');
 
@@ -328,4 +326,57 @@ export const selectFilteredVMs = createSelector(
   }
 );
 
+export const initialFormState: FormState = {
+  loading: false,
+  state: {
+    affinityGroup: null,
+    affinityGroupNames: [],
+    diskOffering: null,
+    displayName: '',
+    doStartVm: false,
+    instanceGroup: null,
+    keyboard: null,
+    rootDiskSize: 0,
+    rootDiskMinSize: 0,
+    securityGroupData: null,
+    serviceOffering: null,
+    sshKeyPair: null,
+    template: null,
+    zone: null,
+    agreement: false
+  }
+};
+
+export function formReducer(
+  state = initialFormState,
+  action: vmActions.Actions | affinityGroupActions.Actions
+): FormState {
+  switch (action.type) {
+    case vmActions.VM_FORM_UPDATE: {
+      return { ...state, state: { ...state.state, ...action.payload } };
+    }
+    case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
+      const names = action.payload.map(_ => _.name);
+      return { ...state, state: { ...state.state, affinityGroupNames: names } };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+export const getVmFormState = createSelector(
+  getVMsState,
+  state => state.form
+);
+
+export const formIsLoading = createSelector(
+  getVmFormState,
+  state => state.loading
+);
+
+export const getVmCreationZoneId = createSelector(
+  getVmFormState,
+  state => state.state.zone && state.state.zone.id
+);
 

@@ -1,29 +1,34 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as merge from 'lodash/merge';
-import {
-  ICustomOfferingRestrictions,
-  ICustomOfferingRestrictionsByZone
-} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import { Zone } from '../../../shared/models/zone.model';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import {
   CustomServiceOffering,
   ICustomServiceOffering
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
+import {
+  ICustomOfferingRestrictions,
+  ICustomOfferingRestrictionsByZone
+} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+// tslint:disable-next-line
 import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-service-offering.component';
+// tslint:disable-next-line
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { Zone } from '../../../shared/models/zone.model';
 import {
   OfferingAvailability,
   OfferingCompatibilityPolicy,
   OfferingPolicy
 } from '../../../shared/services/offering.service';
-import { ResourceStats } from '../../../shared/services/resource-usage.service';
+
+
+import * as serviceOfferingActions from './service-offerings.actions';
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
+import * as merge from 'lodash/merge';
 
-import * as event from './service-offerings.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -78,16 +83,16 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: event.Actions
+  action: serviceOfferingActions.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_SERVICE_OFFERINGS_REQUEST: {
+    case serviceOfferingActions.LOAD_SERVICE_OFFERINGS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case event.LOAD_SERVICE_OFFERINGS_RESPONSE: {
+    case serviceOfferingActions.LOAD_SERVICE_OFFERINGS_RESPONSE: {
 
       const offerings = action.payload;
 
@@ -104,28 +109,28 @@ export function reducer(
       };
     }
 
-    case event.LOAD_OFFERING_AVAILABILITY_RESPONSE: {
+    case serviceOfferingActions.LOAD_OFFERING_AVAILABILITY_RESPONSE: {
       return {
         ...state,
         offeringAvailability: action.payload
       };
     }
 
-    case event.LOAD_CUSTOM_RESTRICTION_RESPONSE: {
+    case serviceOfferingActions.LOAD_CUSTOM_RESTRICTION_RESPONSE: {
       return {
         ...state,
         customOfferingRestrictions: action.payload
       };
     }
 
-    case event.LOAD_DEFAULT_PARAMS_RESPONSE: {
+    case serviceOfferingActions.LOAD_DEFAULT_PARAMS_RESPONSE: {
       return {
         ...state,
         defaultParams: action.payload
       };
     }
 
-    case event.LOAD_COMPATIBILITY_POLICY_RESPONSE: {
+    case serviceOfferingActions.LOAD_COMPATIBILITY_POLICY_RESPONSE: {
       return {
         ...state,
         offeringCompatibilityPolicy: {
@@ -237,7 +242,7 @@ export const getAvailableOfferings = createSelector(
           ? offering
           : getCustomOfferingWithSetParams(
             offering,
-            defaultParams[zone.id] && defaultParams[zone.id].customOfferingParams,
+            defaults[zone.id] && defaults[zone.id].customOfferingParams,
             customOfferingRestrictions[zone.id],
             ResourceStats.fromAccount([user])
           );
@@ -449,14 +454,14 @@ export const getRestrictionIntersection = (
 export const matchHostTags = (
   oldTags: Array<string>,
   newTags: Array<string>,
-  offeringCompatibilityPolicy: OfferingCompatibilityPolicy
+  compatibilityPolicy: OfferingCompatibilityPolicy
 ) => {
-  const ignoreTags = offeringCompatibilityPolicy.offeringChangePolicyIgnoreTags;
+  const ignoreTags = compatibilityPolicy.offeringChangePolicyIgnoreTags;
   if (ignoreTags) {
     oldTags = filterTags(oldTags, ignoreTags);
     newTags = filterTags(newTags, ignoreTags);
   }
-  switch (offeringCompatibilityPolicy.offeringChangePolicy) {
+  switch (compatibilityPolicy.offeringChangePolicy) {
     case OfferingPolicy.CONTAINS_ALL: {
       return includeTags(oldTags, newTags);
     }

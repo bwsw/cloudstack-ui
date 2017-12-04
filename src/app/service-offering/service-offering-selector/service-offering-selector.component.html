@@ -1,7 +1,10 @@
-<mat-form-field class="form-select-control">
+<mat-form-field
+  *loading="isLoading"
+  class="form-select-control"
+>
   <mat-select
     [ngModel]="serviceOffering"
-    (change)="changeOffering($event)"
+    (selectionChange)="changeOffering($event)"
   >
     <mat-option *ngFor="let so of serviceOfferings" [value]="so">
       {{ so.name }}

@@ -38,12 +38,14 @@ export class CustomServiceOfferingComponent implements OnInit {
   ) {
     const { offering, restriction, zoneId } = data;
     this.offering = new CustomServiceOffering({
-      cpuNumber: offering.cpuNumber,
-      cpuSpeed: offering.cpuSpeed,
-      memory: offering.memory,
+      cpuNumber: offering.cpuNumber || 1,
+      cpuSpeed: offering.cpuSpeed || 1000,
+      memory: offering.memory || 512,
       serviceOffering: offering
     });
-    this.restrictions = restriction || DefaultCustomServiceOfferingRestrictions;
+
+    this.restrictions = Object.keys(restriction).length && restriction || DefaultCustomServiceOfferingRestrictions;
+
     this.zoneId = zoneId;
   }
 

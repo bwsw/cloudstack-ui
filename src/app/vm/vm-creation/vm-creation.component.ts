@@ -1,49 +1,33 @@
-import { Component, forwardRef, Inject, OnInit } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-  MatSelectChange
-} from '@angular/material';
+import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
-import { DiskOffering } from '../../shared/models/disk-offering.model';
+import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
+import { DiskOffering, Account } from '../../shared/models';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
-import { VmCreationData } from './data/vm-creation-data';
-import { VmCreationState } from './data/vm-creation-state';
-import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
-import { KeyboardLayout } from './keyboards/keyboards.component';
-import { VmCreationService } from './services/vm-creation.service';
+import { NotSelected } from '../../vm/vm-creation/data/vm-creation-state';
+import { VmDeploymentMessage, VmDeploymentService, VmDeploymentStage } from './services/vm-deployment.service';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { Observable } from 'rxjs/Observable';
 import { VmCreationAgreementComponent } from './template/agreement/vm-creation-agreement.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AuthService } from '../../shared/services/auth.service';
+import {
+  ICustomOfferingRestrictions
+} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
   ProgressLoggerMessage,
   ProgressLoggerMessageStatus
 } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import {
-  VmDeploymentMessage,
-  VmDeploymentService,
-  VmDeploymentStage
-} from './services/vm-deployment.service';
 
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as clone from 'lodash/clone';
-import * as throttle from 'lodash/throttle';
-
-export interface VmCreationFormState {
-  data: VmCreationData;
-  state: VmCreationState;
-}
+import { VmCreationContainerComponent } from './containers/vm-creation.container';
 
 @Component({
   selector: 'cs-vm-create',
@@ -58,8 +42,31 @@ export interface VmCreationFormState {
   ]
 })
 export class VmCreationComponent implements OnInit {
-  public data: VmCreationData;
-  public formState: VmCreationFormState;
+  @Input() public account: Account;
+  @Input() public vmCreationState: any;
+  @Input() public isLoading = false;
+  @Input() public instanceGroupList: InstanceGroup[];
+  @Input() public affinityGroupList: AffinityGroup[];
+  @Input() public zones: Zone[];
+  @Input() public serviceOfferings: ServiceOffering[];
+  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
+
+  @Output() public displayNameChange = new EventEmitter<string>();
+  @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
+  @Output() public diskOfferingChange = new EventEmitter<DiskOffering>();
+  @Output() public rootDiskSizeMinChange = new EventEmitter<number>();
+  @Output() public rootDiskSizeChange = new EventEmitter<number>();
+  @Output() public affinityGroupChange = new EventEmitter<AffinityGroup>();
+  @Output() public instanceGroupChange = new EventEmitter<InstanceGroup>();
+  @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
+  @Output() public keyboardChange = new EventEmitter<VmCreationSecurityGroupData>();
+  @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
+  @Output() public sshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
+  @Output() public doStartVmChange = new EventEmitter<boolean>();
+  @Output() public zoneChange = new EventEmitter<Zone>();
+  @Output() public agreementChange = new EventEmitter<boolean>();
+  @Output() public onVmDeploymentFinish = new EventEmitter<VirtualMachine>();
+
   public deployedVm: VirtualMachine;
 
   public fetching: boolean;
@@ -84,23 +91,58 @@ export class VmCreationComponent implements OnInit {
   public visibleAffinityGroups: Array<AffinityGroup>;
   public visibleInstanceGroups: Array<InstanceGroup>;
 
+  public get nameIsTaken(): boolean {
+    return !!this.vmCreationState && this.vmCreationState.state.displayName === this.takenName;
+  }
+
+  public get diskOfferingsAreAllowed(): boolean {
+    return this.vmCreationState
+      && this.vmCreationState.state.template
+      && !this.vmCreationState.state.template.isTemplate;
+  }
+
+  public get rootDiskSizeLimit(): number {
+    return this.account && this.account.primarystorageavailable;
+  }
+
+  public get showRootDiskResize(): boolean {
+    return this.vmCreationState.state.diskOffering && this.vmCreationState.state.diskOffering.isCustomized;
+  }
+
+  public get securityGroupsAreAllowed(): boolean {
+    return this.vmCreationState.state.zone && !this.vmCreationState.state.zone.networkTypeIsBasic;
+  }
+
+  public get doCreateAffinityGroup(): boolean {
+    return (
+      this.vmCreationState.state.affinityGroup &&
+      this.vmCreationState.state.affinityGroup.name &&
+      !this.affinityGroupExists
+    );
+  }
+
+  public get affinityGroupExists(): boolean {
+    return this.vmCreationState.state.affinityGroupNames.includes(this.vmCreationState.state.affinityGroup.name);
+  }
+
+  public get doCreateInstanceGroup(): boolean {
+    return this.vmCreationState.state.instanceGroup && !!this.vmCreationState.state.instanceGroup.name;
+  }
+
+  public get doCopyTags(): boolean {
+    return true;
+  }
+
   constructor(
-    public dialogRef: MatDialogRef<VmCreationComponent>,
-    private formNormalizationService: VmCreationFormNormalizationService,
+    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
     private jobsNotificationService: JobsNotificationService,
     private resourceUsageService: ResourceUsageService,
-    private vmCreationService: VmCreationService,
     private vmDeploymentService: VmDeploymentService,
     private store: Store<State>,
     private templateTagService: TemplateTagService,
-    private dialog: MatDialog,
     private auth: AuthService,
-    @Inject(MAT_DIALOG_DATA) data
+    private dialog: MatDialog
   ) {
-    this.updateFormState = throttle(this.updateFormState, 500, {
-      leading: true,
-      trailing: false
-    });
   }
 
   public ngOnInit(): void {
@@ -121,124 +163,59 @@ export class VmCreationComponent implements OnInit {
         this.enoughResources = !this.insufficientResources.length;
 
         if (this.enoughResources) {
-          // TODO fix me (requests cancellation because of share())
-          setTimeout(() => this.loadData());
-        } else {
-          this.fetching = false;
+          this.visibleInstanceGroups = this.instanceGroupList;
+          this.visibleAffinityGroups = this.affinityGroupList;
         }
+        this.fetching = false;
       });
   }
 
-  public get nameIsTaken(): boolean {
-    return !!this.formState && this.formState.state.displayName === this.takenName;
-  }
 
   public get showResizeSlider(): boolean {
-    return !!this.formState.state.template
-      && !this.formState.state.template.isTemplate
-      && this.formState.state.showRootDiskResize
-      && !!this.formState.state.rootDiskSizeMin;
+    return !!this.vmCreationState.state.template
+      && !this.vmCreationState.state.template.isTemplate
+      && this.vmCreationState.state.showRootDiskResize
+      && !!this.vmCreationState.state.rootDiskSizeMin;
   }
 
   public get showSecurityGroups(): boolean {
-    return !!this.formState.state.zone
-      && this.formState.state.zone.securitygroupsenabled
+    return !!this.vmCreationState.state.zone
+      && this.vmCreationState.state.zone.securitygroupsenabled
       && this.auth.isSecurityGroupEnabled();
   }
 
-  public displayNameChange(value: string): void {
-    this.formState.state.displayName = value;
-    this.updateFormState();
+  public changeTemplate(value: BaseTemplateModel) {
+    this.agreementChange.emit(value.agreementAccepted);
+    this.templateChange.emit(value);
   }
 
-  public zoneChange(change: MatSelectChange) {
-    this.formState.state.zone = change.value;
-    this.updateFormState();
-  }
-
-  public serviceOfferingChange(offering: ServiceOffering) {
-    this.formState.state.serviceOffering = offering;
-    if (offering.areCustomParamsSet) {
-      this.data.serviceOfferings = this.data.serviceOfferings.map(
-        _ => (_.id === offering.id ? offering : _)
-      );
-    }
-    this.updateFormState();
-  }
-
-  public templateChange(value: BaseTemplateModel) {
-    this.formState.state.template = value;
-    if (value.agreementAccepted) {
-      this.formState.state.agreement = true;
-    }
-    this.updateFormState();
-  }
-
-  public diskOfferingChange(change: MatSelectChange) {
-    if (change) {
-      const diskOffering = change.value as DiskOffering;
-      this.formState.state.diskOffering = diskOffering;
-    }
-    this.updateFormState();
-  }
-
-  public rootDiskSizeChange($event) {
-    if (!isNaN($event)) {
-      this.formState.state.rootDiskSize = $event;
-      this.updateFormState();
-    }
-  }
-
-  public instanceGroupChange(groupName: string): void {
+  public changeInstanceGroup(groupName: string): void {
     const val = groupName.toLowerCase();
-    this.visibleInstanceGroups = this.formState.data.instanceGroups.filter(
+    this.visibleInstanceGroups = this.instanceGroupList.filter(
       g => g.name.toLowerCase().indexOf(val) === 0
     );
 
-    const existingGroup = this.formState.data.getInstanceGroup(groupName);
-    this.formState.state.instanceGroup = clone(existingGroup) || new InstanceGroup(
-      groupName);
-    this.updateFormState();
+    const existingGroup = this.getInstanceGroup(groupName);
+    const instanceGroup = clone(existingGroup) || new InstanceGroup(groupName);
+    this.instanceGroupChange.emit(instanceGroup);
   }
 
-  public affinityGroupChange(groupName: string): void {
+  public getInstanceGroup(name: string): InstanceGroup {
+    return this.instanceGroupList.find(group => group.name === name);
+  }
+
+  public changeAffinityGroup(groupName: string): void {
     const val = groupName.toLowerCase();
-    this.visibleAffinityGroups = this.formState.data.affinityGroupList.filter(
+    this.visibleAffinityGroups = this.affinityGroupList.filter(
       g => g.name.toLowerCase().indexOf(val) === 0
     );
-    const existingGroup = this.formState.data.getAffinityGroup(groupName);
+    const existingGroup = this.getAffinityGroup(groupName);
 
-    this.formState.state.affinityGroup =
-      clone(existingGroup) || { name: groupName };
-    this.updateFormState();
+    this.affinityGroupChange.emit(clone(existingGroup) || new AffinityGroup({ name: groupName }));
   }
 
-  public securityRulesChange(value: VmCreationSecurityGroupData) {
-    this.formState.state.securityGroupData = value;
-    this.updateFormState();
-  }
-
-  public keyboardChange(value: KeyboardLayout) {
-    this.formState.state.keyboard = value;
-  }
-
-  public sshKeyPairChange(change: MatSelectChange) {
-    this.formState.state.sshKeyPair = change.value;
-    this.updateFormState();
-  }
-
-  public doStartVmChange(value: boolean) {
-    this.formState.state.doStartVm = value;
-    this.updateFormState();
-  }
-
-  public updateFormState(): void {
-    const state =
-      (this.formState && this.formState.state) || this.data.getInitialState();
-    this.formState = this.formNormalizationService.normalize({
-      data: this.data,
-      state
-    });
+  public getAffinityGroup(name: string): AffinityGroup {
+    return this.affinityGroupList.find(group => group.name === name);
   }
 
   public onVmCreationSubmit(e: any): void {
@@ -247,11 +224,11 @@ export class VmCreationComponent implements OnInit {
   }
 
   public deploy(): void {
-    this.templateTagService.getAgreement(this.formState.state.template)
+    this.templateTagService.getAgreement(this.vmCreationState.state.template)
       .switchMap(res => res ? this.showTemplateAgreementDialog() : Observable.of(true))
       .filter(res => !!res)
       .subscribe(() => {
-        this.formState.state.agreement = true;
+        this.agreementChange.emit(true);
         this.deployRequest();
       });
   }
@@ -265,7 +242,7 @@ export class VmCreationComponent implements OnInit {
       deployStatusObservable,
       deployObservable
     } = this.vmDeploymentService.deploy(
-      this.formState.state);
+      this.vmCreationState.state);
 
     this.initializeDeploymentActionList();
 
@@ -279,7 +256,7 @@ export class VmCreationComponent implements OnInit {
   private showTemplateAgreementDialog(): Observable<boolean> {
     return this.dialog.open(VmCreationAgreementComponent, {
       width: '900px',
-      data: this.formState.state.template
+      data: this.vmCreationState.state.template
     })
       .afterClosed();
   }
@@ -318,10 +295,6 @@ export class VmCreationComponent implements OnInit {
       message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
   }
-
-  // public vmNameErrorMatcher(control: FormControl): boolean {
-  //   return control.invalid || this.nameIsTaken;
-  // }
 
   private handleDeploymentMessages(
     deploymentMessage: VmDeploymentMessage,
@@ -370,17 +343,6 @@ export class VmCreationComponent implements OnInit {
     }
   }
 
-  private loadData(): void {
-    this.fetching = true;
-    this.vmCreationService.getData().subscribe(vmCreationData => {
-      this.data = vmCreationData;
-      this.visibleInstanceGroups = vmCreationData.instanceGroups;
-      this.visibleAffinityGroups = vmCreationData.affinityGroupList;
-      this.updateFormState();
-      this.fetching = false;
-    });
-  }
-
   private initializeDeploymentActionList(): void {
     const translations = {
       'AG_GROUP_CREATION': 'VM_PAGE.VM_CREATION.CREATING_AG',
@@ -390,7 +352,7 @@ export class VmCreationComponent implements OnInit {
       'TAG_COPYING': 'VM_PAGE.VM_CREATION.TAG_COPYING'
     };
 
-    this.formState.state.deploymentActionList
+    this.deploymentActionList
       .forEach(actionName => {
         return this.progressLoggerController.addMessage({
           text: translations[actionName]
@@ -398,6 +360,18 @@ export class VmCreationComponent implements OnInit {
       });
 
     this.loggerStageList = this.progressLoggerController.messages;
+  }
+
+
+  public get deploymentActionList(): Array<VmDeploymentStage> {
+    return [
+      this.doCreateAffinityGroup ? VmDeploymentStage.AG_GROUP_CREATION : null,
+      this.securityGroupsAreAllowed ? VmDeploymentStage.SG_GROUP_CREATION : null,
+      VmDeploymentStage.VM_CREATION_IN_PROGRESS,
+      this.doCreateInstanceGroup ? VmDeploymentStage.INSTANCE_GROUP_CREATION : null,
+      this.doCopyTags ? VmDeploymentStage.TAG_COPYING : null
+    ]
+      .filter(_ => _);
   }
 
   private onVmDeploymentStarted(): void {
@@ -496,8 +470,7 @@ export class VmCreationComponent implements OnInit {
   ): void {
     this.deploymentStopped = false;
     this.deployedVm = deploymentMessage.vm;
-    // add to store
-    this.store.dispatch(new vmActions.CreateVmSuccess(this.deployedVm));
+    this.onVmDeploymentFinish.emit(this.deployedVm);
     this.notifyOnDeployDone(notificationId);
     this.progressLoggerController.addMessage({
       text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',

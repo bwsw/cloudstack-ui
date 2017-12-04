@@ -20,7 +20,6 @@ export enum KeyboardLayout {
   ]
 })
 export class KeyboardsComponent implements ControlValueAccessor {
-
   private _keyboardLayout: KeyboardLayout;
   public keyboardLayouts = [
     {
@@ -47,23 +46,21 @@ export class KeyboardsComponent implements ControlValueAccessor {
   }
 
   public set keyboardLayout(layout: KeyboardLayout) {
-    if (layout) {
-      this._keyboardLayout = layout;
-      this.propagateChange(this.keyboardLayout);
-    }
+    this._keyboardLayout = layout || this.keyboardLayouts[0].value;
+    this.propagateChange(this.keyboardLayout);
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   public writeValue(value): void {
-    if (value) {
-      this.keyboardLayout = value;
-    }
+    this.keyboardLayout = value;
   }
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {}
+  public registerOnTouched(): void {
+  }
 }

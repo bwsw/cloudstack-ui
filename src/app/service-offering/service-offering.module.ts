@@ -13,6 +13,8 @@ import { CustomServiceOfferingComponent } from './custom-service-offering/custom
 import { CustomServiceOfferingService } from './custom-service-offering/service/custom-service-offering.service';
 import { ServiceOfferingDialogComponent } from './service-offering-dialog/service-offering-dialog.component';
 import { ServiceOfferingSelectorComponent } from './service-offering-selector/service-offering-selector.component';
+// tslint:disable-next-line
+import { ServiceOfferingSelectorContainerComponent } from './service-offering-selector/containers/service-offering-selector.container';
 
 @NgModule({
   imports: [
@@ -31,20 +33,23 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
   exports: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
+    ServiceOfferingSelectorContainerComponent,
     ServiceOfferingSelectorComponent
   ],
   declarations: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
+    ServiceOfferingSelectorContainerComponent,
     ServiceOfferingSelectorComponent
   ],
   entryComponents: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
-    ServiceOfferingSelectorComponent
+    ServiceOfferingSelectorContainerComponent
   ],
   providers: [
     CustomServiceOfferingService
   ]
 })
-export class ServiceOfferingModule { }
+export class ServiceOfferingModule {
+}

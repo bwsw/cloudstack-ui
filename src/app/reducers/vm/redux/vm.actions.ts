@@ -1,11 +1,6 @@
 import { Action } from '@ngrx/store';
-import {
-  Color,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair
-} from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
+import { ServiceOffering, InstanceGroup, SSHKeyPair, Color } from '../../../shared/models';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -43,6 +38,8 @@ export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
+
+export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -342,6 +339,13 @@ export class VMUpdateError implements Action {
   }
 }
 
+export class VmFormUpdate implements Action {
+  type = VM_FORM_UPDATE;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type Actions = LoadVMsRequest
   | LoadVMsResponse
   | AccessVm
@@ -376,4 +380,5 @@ export type Actions = LoadVMsRequest
   | ExpungeVmSuccess
   | CreateVmSuccess
   | ChangeSshKey
-  | VMUpdateError;
+  | VMUpdateError
+  | VmFormUpdate;

@@ -26,6 +26,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Input() public zoneId: string;
+  @Input() public isLoading = false;
   @Output() public change: EventEmitter<ServiceOffering>;
 
   private _serviceOffering: ServiceOffering;
@@ -83,9 +84,11 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {}
+  public registerOnTouched(): void {
+  }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   public writeValue(serviceOffering: ServiceOffering): void {
     if (serviceOffering) {

@@ -21,6 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class VmCreationTemplateComponent {
   @Input() public zoneId: string;
+  @Input() public templates: BaseTemplateModel[];
   @Output() public change: EventEmitter<BaseTemplateModel>;
 
   private _template: BaseTemplateModel | null;
