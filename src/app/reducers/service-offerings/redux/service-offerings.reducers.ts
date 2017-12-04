@@ -123,6 +123,24 @@ export function reducer(
       };
     }
 
+    case event.SET_SERVICE_OFFERING_GROUP_SUCCESS: {
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: {
+          tags: action.payload.tags
+        }
+      }, state);
+    }
+
+    case event.RESET_SERVICE_OFFERING_GROUP_SUCCESS: {
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: {
+          tags: action.payload.tags.filter(_ => _.key !== 'csui.service-offering.group')
+        }
+      }, state);
+    }
+
     default: {
       return state;
     }

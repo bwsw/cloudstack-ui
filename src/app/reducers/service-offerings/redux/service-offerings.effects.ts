@@ -10,6 +10,8 @@ import { ServiceOfferingService } from '../../../shared/services/service-offerin
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { ConfigService } from '../../../shared/services/config.service';
 import { DefaultServiceOfferingConfigurationByZone } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { ServiceOfferingTagService } from '../../../shared/services/tags/service-offering-tag.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class ServiceOfferingEffects {
@@ -53,9 +55,46 @@ export class ServiceOfferingEffects {
       );
     });
 
+  @Effect()
+  setOfferingGroup$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.SET_SERVICE_OFFERING_GROUP)
+    .switchMap((action: serviceOfferingActions.SetServiceOfferingGroup) =>
+        this.serviceOfferingTagService.setGroup(
+        action.payload.serviceOffering,
+        action.payload.serviceOfferingGroup
+      )
+      .map(temp => new serviceOfferingActions.SetServiceOfferingGroupSuccess(temp))
+      .catch(error => Observable.of(new serviceOfferingActions.SetServiceOfferingGroupError(error))));
+
+  @Effect()
+  resetOfferingGroup$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.RESET_SERVICE_OFFERING_GROUP)
+    .switchMap((action: serviceOfferingActions.ResetServiceOfferingGroup) =>
+      this.serviceOfferingTagService.resetGroup(action.payload)
+        .map(temp => new serviceOfferingActions.ResetServiceOfferingGroupSuccess(action.payload))
+        .catch(error => Observable.of(new serviceOfferingActions.SetServiceOfferingGroupError(error))));
+
+  @Effect({ dispatch: false })
+  setOfferingGroupError$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.SET_SERVICE_OFFERING_GROUP_ERROR)
+    .do((action: serviceOfferingActions.SetServiceOfferingGroupError) => {
+      this.handleError(action.payload);
+    });
+
   constructor(
     private actions$: Actions,
     private offeringService: ServiceOfferingService,
-    private configService: ConfigService
+    private serviceOfferingTagService: ServiceOfferingTagService,
+    private configService: ConfigService,
+    private dialogService: DialogService
   ) { }
+
+  private handleError(error: any): void {
+    this.dialogService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
+  }
 }

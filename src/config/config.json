@@ -186,5 +186,14 @@
     {
       "id": "test"
     }
+  ],
+  "serviceOfferingGroups": [
+    {
+      "id": "testGroup",
+      "translations": {
+        "ru": "Тестовая группа",
+        "en": "Test group"
+      }
+    }
   ]
 }

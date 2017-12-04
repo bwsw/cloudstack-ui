@@ -55,10 +55,13 @@ import {
   DatePickerDialogComponent,
   DiskOfferingComponent,
   FabComponent,
+  FancySelectComponent,
+  InputGroupComponent,
   ListComponent,
   NoResultsComponent,
   NotificationBoxComponent,
   NotificationBoxItemComponent,
+  OverlayLoadingComponent,
   SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
@@ -69,12 +72,9 @@ import { CharacterCountComponent } from './components/character-count-textfield/
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
-import { FancySelectComponent } from './components';
 import { GroupedListComponent } from './components/grouped-list/grouped-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
-import { InputGroupComponent } from './components';
 import { LoaderComponent } from './components/loader/loader.component';
-import { OverlayLoadingComponent } from './components';
 import { PopoverModule } from './components/popover';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
@@ -92,9 +92,9 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
-  ViewValuePipe,
   StringifyDatePipe,
   StringifyTimePipe,
+  ViewValuePipe,
   VolumeSortPipe
 } from './pipes';
 import { AccountService } from './services/account.service';
@@ -164,14 +164,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
 import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
 import { AccountUserService } from './services/account-user.service';
-import {
-  TemplateActionsContainerComponent
-} from './actions/template-actions/template-actions-component/template-actions.container';
+import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
 import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
-import {
-  VolumeAttachmentContainerComponent
-} from './actions/volume-actions/volume-attachment/volume-attachment.container';
+import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
+import { ServiceOfferingTagService } from './services/tags/service-offering-tag.service';
 
 @NgModule({
   imports: [
@@ -393,6 +390,7 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     SecurityGroupService,
     SecurityGroupTagService,
     ServiceOfferingService,
+    ServiceOfferingTagService,
     SessionStorageService,
     SnapshotService,
     SnapshotTagService,
