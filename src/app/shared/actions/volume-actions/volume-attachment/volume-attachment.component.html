@@ -1,58 +1,47 @@
-<cs-overlay-loading [active]="loading"></cs-overlay-loading>
-<div [hidden]="loading">
-  <ng-container *loading="!virtualMachines">
-    <h3 *ngIf="virtualMachineId" class="mat-dialog-title">{{
-      'VOLUME_PAGE.ATTACHMENT.CHOOSE_VIRTUAL_MACHINE' | translate }}</h3>
-    <h3 *ngIf="!virtualMachineId" class="mat-dialog-title">{{
-      'VOLUME_PAGE.ATTACHMENT.NO_VMS' | translate }}</h3>
-    <form (ngSubmit)="attach($event)" #volumeAttachmentForm="ngForm" novalidate>
-      <div class="mat-dialog-content">
-        <div>
-          <mat-form-field
-            class="full-width-input"
-            *ngIf="virtualMachineId"
+<ng-container>
+  <h3 *ngIf="virtualMachines" class="mat-dialog-title">{{
+    'VOLUME_PAGE.ATTACHMENT.CHOOSE_VIRTUAL_MACHINE' | translate }}</h3>
+  <h3 *ngIf="!virtualMachines.length" class="mat-dialog-title">{{
+    'VOLUME_PAGE.ATTACHMENT.NO_VMS' | translate }}</h3>
+  <form (ngSubmit)="attach()" #volumeAttachmentForm="ngForm" novalidate>
+    <div class="mat-dialog-content">
+      <div>
+        <mat-form-field
+          class="full-width-input"
+        >
+          <mat-select
+            [(ngModel)]="virtualMachineId"
+            id="vm"
+            name="vm"
           >
-            <mat-select
-
-              [(ngModel)]="virtualMachineId"
-              id="vm"
-              name="vm"
+            <mat-option
+              *ngFor="let vm of virtualMachines"
+              [value]="vm.id"
             >
-              <mat-option
-                *ngFor="let vm of virtualMachines"
-                [value]="vm.id"
-              >
-                {{ vm.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div *ngIf="!virtualMachineId">
-          {{ 'VOLUME_PAGE.ATTACHMENT.NO_VMS_IN_ZONE' | translate }}
-        </div>
+              {{ vm.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="mat-dialog-actions">
 
-        <button
-          *ngIf="virtualMachineId"
-          mat-button
-          color="primary"
-          matDialogClose
-          type="button"
-        >
-          {{ 'COMMON.CANCEL' | translate }}
-        </button>
-        <button
-          *ngIf="virtualMachines"
-          mat-button
-          color="primary"
-          type="submit"
-        >
-          {{ (virtualMachineId ? 'VOLUME_PAGE.ATTACHMENT.ATTACH' : 'COMMON.OK') |
-          translate }}
-        </button>
-      </div>
-    </form>
-  </ng-container>
-</div>
+    </div>
+    <div class="mat-dialog-actions">
+      <button
+        mat-button
+        color="primary"
+        matDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        [disabled]="!virtualMachineId"
+        mat-button
+        color="primary"
+        type="submit"
+      >
+        {{ 'VOLUME_PAGE.ATTACHMENT.ATTACH' | translate }}
+      </button>
+    </div>
+  </form>
+</ng-container>

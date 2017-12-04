@@ -10,7 +10,11 @@
   <mat-card-content class="mat-card-content">
     <div class="expanded-panel grid">
       <cs-nic-fields [nic]="nic"></cs-nic-fields>
-      <cs-secondary-ip-list [nic]="nic"></cs-secondary-ip-list>
+      <cs-secondary-ip-list
+        [nic]="nic"
+        (onSecondaryIpAdd)="onSecondaryIpAdd.emit($event)"
+        (onSecondaryIpRemove)="onSecondaryIpRemove.emit($event)">
+      </cs-secondary-ip-list>
     </div>
   </mat-card-content>
 </mat-card>

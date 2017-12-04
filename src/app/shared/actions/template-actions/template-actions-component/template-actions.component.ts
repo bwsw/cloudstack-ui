@@ -1,7 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
-import { DialogLoadTemplatesRequest } from '../../../../template/redux/template.actions';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 
 

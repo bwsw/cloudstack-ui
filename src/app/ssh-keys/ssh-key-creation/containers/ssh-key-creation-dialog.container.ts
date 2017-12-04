@@ -17,7 +17,7 @@ import * as fromSshKeys from '../../redux/ssh-key.reducers';
     </cs-ssh-key-creation>`,
 })
 export class SShKeyCreationDialogContainerComponent {
-  public loading$ = this.store.select(fromSshKeys.isLoading);
+  public loading$ = this.store.select(fromSshKeys.isFormLoading);
 
   constructor(
     public dialogService: DialogService,

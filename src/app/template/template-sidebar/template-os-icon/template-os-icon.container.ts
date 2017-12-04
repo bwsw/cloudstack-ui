@@ -1,9 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
 
-import * as fromOsTypes from '../../redux/ostype.reducers';
+import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
 
 @Component({
   selector: 'cs-template-os-icon-container',

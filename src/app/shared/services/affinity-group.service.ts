@@ -29,29 +29,21 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
     super(http);
   }
 
-  public getTypes(params?: {}): Observable<Array<AffinityGroupType>> {
-    return this.sendCommand('list;Types', params)
-      .map(result => result[`affinityGroupType`] || []);
-  }
-
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
     return super.create(params)
       .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
   }
 
   public updateForVm(
-    vm: VirtualMachine,
-    affinityGroup?: AffinityGroup
+    vmId: string,
+    affinityGroupId: string
   ): Observable<VirtualMachine> {
     return this.sendCommand('updateVM', {
-      id: vm.id,
-      affinityGroupIds: affinityGroup && affinityGroup.id || ''
+      id: vmId,
+      affinityGroupIds: affinityGroupId
     })
       .switchMap(
         job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
   }
 
-  public removeForVm(vm: VirtualMachine): Observable<VirtualMachine> {
-    return this.updateForVm(vm);
-  }
 }

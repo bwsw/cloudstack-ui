@@ -10,6 +10,8 @@ import {
 import * as event from './volumes.actions';
 import { Volume } from '../../../shared/models/volume.model';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromAuth from '../../auth/redux/auth.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -80,6 +82,7 @@ export function reducer(
         loading: true
       };
     }
+
     case event.VOLUME_FILTER_UPDATE: {
       return {
         ...state,
@@ -89,6 +92,7 @@ export function reducer(
         }
       };
     }
+
     case event.LOAD_VOLUMES_RESPONSE: {
 
       const volumes = action.payload;
@@ -112,9 +116,19 @@ export function reducer(
       };
     }
 
+    case event.ADD_SNAPSHOT_SUCCESS:
+    case event.DELETE_SNAPSHOT_SUCCESS:
+    case event.RESIZE_VOLUME_SUCCESS:
     case event.UPDATE_VOLUME: {
       return {
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
+      };
+    }
+
+    case event.REPLACE_VOLUME: {
+      const newState = adapter.removeOne(action.payload.id, state);
+      return {
+        ...adapter.addOne(action.payload, newState),
       };
     }
 
@@ -205,6 +219,34 @@ export const filterSpareOnly = createSelector(
   state => state.spareOnly
 );
 
+
+export const selectSpareOnlyVolumes = createSelector(
+  selectAll,
+  fromVMs.getSelectedVM,
+  fromAuth.getUserAccount,
+  (volumes, vm, account) => {
+    const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
+    const spareOnlyFilter = volume => !volume.virtualMachineId;
+    const accountFilter = volume => account && (volume.account === account.name && volume.domainid === account.domainid);
+
+    return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume));
+  }
+);
+
+export const selectVmVolumes = createSelector(
+  selectAll,
+  fromVMs.getSelectedId,
+  (volumes, virtualMachineId) => {
+
+    const virtualMachineIdFilter = volume => !virtualMachineId ||
+      volume.virtualMachineId === virtualMachineId;
+
+    return volumes.filter(volume => {
+      return virtualMachineIdFilter(volume);
+    });
+  }
+);
+
 export const selectFilteredVolumes = createSelector(
   selectAll,
   filterQuery,
@@ -213,7 +255,12 @@ export const selectFilteredVolumes = createSelector(
   filterSelectedZoneIds,
   filterSelectedAccountIds,
   fromAccounts.selectAll,
-  (volumes, query, spareOnly, selectedTypes, selectedZoneIds, selectedAccountIds, accounts) => {
+  (
+    volumes, query,
+    spareOnly, selectedTypes,
+    selectedZoneIds, selectedAccountIds,
+    accounts
+  ) => {
     const queryLower = query && query.toLowerCase();
     const typesMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
     const zoneIdsMap = selectedZoneIds.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -223,7 +270,7 @@ export const selectFilteredVolumes = createSelector(
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
-    const spareOnlyFilter = volume => spareOnly ? volume.isSpare : true;
+    const spareOnlyFilter = volume => spareOnly ? !volume.virtualMachineId : true;
 
     const queryFilter = volume => !query || volume.name.toLowerCase()
         .includes(queryLower) ||
@@ -235,6 +282,7 @@ export const selectFilteredVolumes = createSelector(
 
     const selectedAccountIdsFilter = volume => !selectedAccountIds.length ||
       (accountsMap[volume.account] && domainsMap[volume.domainid]);
+
 
     return volumes.filter(volume => {
       return spareOnlyFilter(volume)

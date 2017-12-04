@@ -49,6 +49,6 @@ export class Domain extends BaseModel {
   public vpctotal: number;
 
   public getPath(): string {
-    return this.path === 'ROOT' ? '' : this.path.replace('ROOT/','') + '/';
+    return this.path === 'ROOT' ? '' : this.path.replace('ROOT/', '') + '/';
   }
 }

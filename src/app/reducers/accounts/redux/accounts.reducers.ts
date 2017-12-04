@@ -1,8 +1,15 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Account } from '../../../shared/models/account.model';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
 import { AccountUser } from '../../../shared/models/account-user.model';
-
+import { Account } from '../../../shared/models/account.model';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as account from './accounts.actions';
 
 /**
@@ -240,6 +247,12 @@ export const filterSelectedGroupings = createSelector(
   state => state.selectedGroupings
 );
 
+export const selectUserAccount = createSelector(
+  selectEntities,
+  fromAuth.getUserAccountId,
+  (accountsMap, accountId) => accountsMap[accountId]
+);
+
 export const selectFilteredAccounts = createSelector(
   selectAll,
   filterSelectedRoleTypes,
@@ -271,6 +284,18 @@ export const selectFilteredAccounts = createSelector(
         && selectedStatesFilter(account)
         && selectedRoleTypesFilter(account)
         && selectedRoleNamesFilter(account);
+    });
+  }
+);
+
+export const selectDomainAccounts = createSelector(
+  selectAll,
+  fromAuth.getUserAccount,
+  (accounts, userAccount) => {
+    const userDomainFilter = account => !!userAccount && account.domainid === userAccount.domainid;
+
+    return accounts.filter(account => {
+      return userDomainFilter(account);
     });
   }
 );

@@ -1,5 +1,12 @@
-import { Component, HostBinding, Input, } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 
 
 @Component({

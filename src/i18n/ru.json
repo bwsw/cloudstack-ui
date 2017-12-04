@@ -30,7 +30,8 @@
     "VIEW": "Просмотреть",
     "YES": "Да",
     "SEARCH": "Поиск",
-    "CONTINUE": "Продолжить"
+    "CONTINUE": "Продолжить",
+    "AGREE": "Принимаю"
   },
   "DIALOG_MESSAGES": {
     "ACCOUNT": {
@@ -154,12 +155,21 @@
       "DELETION_FAILED": "Не удалось удалить шаблон"
     },
     "VM": {
+      "TAG_EDIT_DONE": "Тег ВМ отредактирован",
+      "TAG_ADD_DONE": "Добавлен тег ВМ",
+      "TAG_REMOVE_DONE": "Удален тег ВМ",
       "START_IN_PROGRESS": "Запуск ВМ",
       "START_DONE": "ВМ была запущена",
       "START_FAILED": "Не удалось запустить ВМ",
       "STOP_IN_PROGRESS": "Остановка ВМ",
       "STOP_DONE": "ВМ была остановлена",
       "STOP_FAILED": "Не удалось остановить ВМ",
+      "FETCH_STATISTICS_IN_PROGRESS": "Получение статистики",
+      "FETCH_STATISTICS_DONE": "Статистика получена",
+      "FETCH_STATISTICS_FAILED": "Не удалось получить статистику",
+      "CHANGE_DESCRIPTION_IN_PROGRESS": "Изменение описания",
+      "CHANGE_DESCRIPTION_DONE": "Описание изменено",
+      "CHANGE_DESCRIPTION_FAILED": "Не удалось изменить описание",
       "REBOOT_IN_PROGRESS": "Перезапуск ВМ",
       "REBOOT_DONE": "ВМ была перезапущена",
       "REBOOT_FAILED": "Не удалось перезапустить ВМ",
@@ -169,6 +179,8 @@
       "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
       "RESET_PASSWORD_DONE": "Пароль сброшен",
       "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
+      "SAVE_PASSWORD_DONE": "Password saved",
+      "SAVE_PASSWORD_FAILED": "Failed to save password",
       "DESTROY_IN_PROGRESS": "Удаление ВМ",
       "DESTROY_DONE": "ВМ была удалена",
       "DESTROY_FAILED": "Не удалось удалить ВМ",
@@ -183,7 +195,25 @@
       "DEPLOY_FAILED": "Не удалось развернуть ВМ",
       "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
       "CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
-      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение"
+      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение",
+      "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Изменение аффинитентной группы",
+      "CHANGE_AFFINITY_GROUP_DONE": "Аффинитентная группа изменена",
+      "CHANGE_AFFINITY_GROUP_FAILED": "Не удалось изменить аффинитентную группу",
+      "CHANGE_INSTANT_GROUP_IN_PROGRESS": "Изменение группы",
+      "CHANGE_INSTANT_GROUP_DONE": "Группа изменена",
+      "CHANGE_INSTANT_GROUP_FAILED": "Не удалось изменить группу",
+      "REMOVE_INSTANT_GROUP_IN_PROGRESS": "Удаление группы",
+      "REMOVE_INSTANT_GROUP_DONE": "Группа удалена",
+      "REMOVE_INSTANT_GROUP_FAILED": "Не удалось удалить группу",
+      "ADD_SECONDARY_IP_DONE": "Дополнительный IP добавлен",
+      "ADD_SECONDARY_IP_FAILED": "Не удалось добавить дополнительный IP",
+      "REMOVE_SECONDARY_IP_DONE": "Дополнительный IP удален",
+      "REMOVE_SECONDARY_IP_FAILED": "Не удалось удалить дополнительный IP",
+      "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
+      "COLOR_CHANGE_FAILED": "Не удалось изменить цвет ВМ",
+      "CHANGE_SSH_IN_PROGRESS": "Изменение ssh-ключа",
+      "CHANGE_SSH_DONE": "SSH-ключ изменен",
+      "CHANGE_SSH_FAILED": "Не удалось изменить ssh-ключ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
@@ -198,6 +228,9 @@
       "ATTACHMENT_IN_PROGRESS": "Прикрепление диска",
       "ATTACHMENT_DONE": "Диск прикреплен",
       "ATTACHMENT_FAILED": "Не удалось прикрепить диск",
+      "CHANGE_DESCRIPTION_IN_PROGRESS": "Изменение описания",
+      "CHANGE_DESCRIPTION_DONE": "Описание изменено",
+      "CHANGE_DESCRIPTION_FAILED": "Не удалось изменить описание",
       "CREATION_IN_PROGRESS": "Создание диска",
       "CREATION_DONE": "Диск создан",
       "CREATION_FAILED": "Не удалось создать диск"

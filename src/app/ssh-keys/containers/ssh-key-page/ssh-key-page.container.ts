@@ -30,9 +30,15 @@ const getGroupName = (sshKey: SSHKeyPair) => {
 
 @Component({
   selector: 'cs-ssh-key-page-container',
-  templateUrl: 'ssh-key-page.container.html'
+  template: `<cs-ssh-keys-page
+    [sshKeyList]="sshKeyList$ | async"
+    [isLoading]="isLoading$ | async"
+    [selectedGroupings]="selectedGroupings$ | async"
+    (onKeyRemove)="removeSshKeyPair($event)"
+  ></cs-ssh-keys-page>`
 })
 export class SshKeyPageContainerComponent implements OnInit, AfterViewInit {
+  readonly isLoading$ = this.store.select(fromSshKeys.isLoading);
   readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
 

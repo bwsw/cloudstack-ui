@@ -1,6 +1,11 @@
 <div *ngIf="entity">
   <div class="title-container">
     <h4 class="details-header">{{ entity?.name }}</h4>
+    <button mat-icon-button
+            [matMenuTriggerFor]="actionsMenu"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
   </div>
 
   <cs-description
@@ -10,6 +15,13 @@
 
   <cs-ssh-key-fingerprint [sshKeyPair]="entity"></cs-ssh-key-fingerprint>
 </div>
+
+<mat-menu #actionsMenu="matMenu">
+  <button mat-menu-item (click)="onRemoveClicked(entity)">
+    <mat-icon>delete</mat-icon>
+    <span>{{ 'COMMON.DELETE' | translate }}</span>
+  </button>
+</mat-menu>
 
 <router-outlet></router-outlet>
 

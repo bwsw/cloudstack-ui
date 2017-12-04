@@ -3,4 +3,6 @@
   [name]="'VM_PAGE.NETWORK_DETAILS.NIC_NAME' | translate:{ value: i + 1 }"
   [nic]="nic"
   [vm]="vm"
+  (onSecondaryIpAdd)="onSecondaryIpAdd.emit($event)"
+  (onSecondaryIpRemove)="onSecondaryIpRemove.emit($event)"
 ></cs-nic>

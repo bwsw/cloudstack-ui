@@ -1,14 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import {
   ResourcesData,
-  ResourceStats,
-  ResourceUsageService
+  ResourceStats
 } from '../../services/resource-usage.service';
 import { Utils } from '../../services/utils/utils.service';
+import { Account } from '../../models/account.model';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
@@ -42,8 +48,11 @@ interface StatsBar {
   templateUrl: 'vm-statistics.component.html',
   styleUrls: ['vm-statistics.component.scss']
 })
-export class VmStatisticsComponent implements OnInit {
-  public fetching = false;
+export class VmStatisticsComponent implements OnInit, OnChanges {
+  @Input() public fetching = false;
+  @Input() public accounts: Array<Account>;
+  @Input() public user: Account;
+
   public resourceUsage: ResourceStats;
   public isOpen = true;
   public mode = StatsMode.Used;
@@ -113,8 +122,7 @@ export class VmStatisticsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private translateService: TranslateService,
-    private storageService: LocalStorageService,
-    private resourceUsageService: ResourceUsageService
+    private storageService: LocalStorageService
   ) {
     this.resourceUsage = new ResourceStats();
   }
@@ -123,12 +131,12 @@ export class VmStatisticsComponent implements OnInit {
     const shouldShowStatistics = this.storageService.read(showStatistics);
     // no such key in the local storage, just show the stats
     if (!shouldShowStatistics) {
-      this.updateStats();
+      this.getStats();
     } else {
       this.isOpen = shouldShowStatistics === 'true';
       if (this.isOpen) {
         this.wasOpened = true;
-        this.updateStats();
+        this.getStats();
       }
     }
 
@@ -141,6 +149,10 @@ export class VmStatisticsComponent implements OnInit {
       default:
         this.mode = StatsMode.Used;
     }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.getStats();
   }
 
   public get isAdmin(): boolean {
@@ -158,7 +170,7 @@ export class VmStatisticsComponent implements OnInit {
       : StatsType.Account;
     this.storageService.write(statisticsType, this.statsType.toString());
 
-    this.updateStats();
+    this.getStats();
   }
 
   public getPercents(value: number, max: number): string {
@@ -225,21 +237,17 @@ export class VmStatisticsComponent implements OnInit {
 
     if (this.isOpen && !this.wasOpened) {
       this.wasOpened = true;
-      this.updateStats();
+      this.getStats();
     }
 
     this.storageService.write(showStatistics, this.isOpen.toString());
   }
 
-  public updateStats(): void {
+  public getStats(): void {
     const forDomain = this.statsType === StatsType.Domain;
-
-    this.fetching = true;
-    this.resourceUsageService.getResourceUsage(forDomain).subscribe(result => {
-      // to keep progress bar animation
-      setTimeout(() => (this.resourceUsage = result));
-      this.fetching = false;
-    });
+    this.resourceUsage = forDomain
+      ? ResourceStats.fromAccount(this.accounts)
+      : ResourceStats.fromAccount(this.user ? [this.user] : []);
   }
 
   private getProgress(consumed: number, max: number): number {

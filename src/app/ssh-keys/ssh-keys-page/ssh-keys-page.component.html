@@ -17,7 +17,7 @@
     </div>
 
     <cs-ssh-key-list
-      *loading="!sshKeyList"
+      *loading="isLoading"
       [mode]="mode"
       [keys]="sshKeyList"
       [groupings]="selectedGroupings"

@@ -6,7 +6,7 @@ export interface VolumeAction {
   name: string;
   command: string;
   icon?: string;
-
+  canActivate: (volume: Volume) => boolean;
   activate: (volume: Volume) => Observable<any>;
   hidden: (volume: Volume) => boolean;
 }

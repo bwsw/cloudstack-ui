@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 import { Volume } from '../../models/volume.model';
 import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
-import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../services/auth.service';
+import { ISnapshotData } from './volume-snapshot';
 
 
 @Component({
@@ -23,16 +23,15 @@ import { AuthService } from '../../services/auth.service';
     >
     </cs-volume-actions>`,
 })
-export class VolumeActionsContainerComponent extends WithUnsubscribe() {
+export class VolumeActionsContainerComponent {
 
   @Input() public volume: Volume;
 
   constructor(
     public dialogService: DialogService,
     public authService: AuthService,
-    private store: Store<State>,
+    private store: Store<State>
   ) {
-    super();
   }
 
   public onVolumeDelete(volume: Volume): void {
@@ -47,8 +46,12 @@ export class VolumeActionsContainerComponent extends WithUnsubscribe() {
     this.store.dispatch(new volumeActions.DetachVolume(volume));
   }
 
-  public onVolumeSnapshots(volume: Volume): void {
-    this.store.dispatch(new volumeActions.UpdateVolume(volume));
+  public onVolumeSnapshots(snapshotData: ISnapshotData): void {
+    this.store.dispatch(new volumeActions.AddSnapshot({
+      volume: this.volume,
+      name: snapshotData.name,
+      description: snapshotData.desc
+    }));
   }
 
 }

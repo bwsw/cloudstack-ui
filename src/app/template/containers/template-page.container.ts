@@ -1,11 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { BaseTemplateModel } from '../shared/base-template.model';
 
-import * as fromTemplates from '../redux/template.reducers';
-import * as templateActions from '../redux/template.actions';
+import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
+import * as templateActions from '../../reducers/templates/redux/template.actions';
 
 
 @Component({

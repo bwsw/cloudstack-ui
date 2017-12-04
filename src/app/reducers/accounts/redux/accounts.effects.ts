@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Router } from '@angular/router';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { AccountService } from '../../../shared/services/account.service';
@@ -10,6 +14,8 @@ import { AccountUserService } from '../../../shared/services/account-user.servic
 import { NotificationService } from '../../../shared/services/notification.service';
 
 import * as accountActions from './accounts.actions';
+import * as vmActions from '../../vm/redux/vm.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -23,6 +29,21 @@ export class AccountsEffects {
           return new accountActions.LoadAccountsResponse(accounts);
         })
         .catch(() => Observable.of(new accountActions.LoadAccountsResponse([])));
+    });
+
+  @Effect()
+  updateAccounts$: Observable<Action> = this.actions$
+    .ofType(
+      vmActions.CREATE_VM_SUCCESS,
+      vmActions.EXPUNGE_VM_SUCCESS,
+      volumeActions.VOLUME_DELETE_SUCCESS,
+      volumeActions.VOLUME_CREATE_SUCCESS,
+      volumeActions.ADD_SNAPSHOT_SUCCESS,
+      volumeActions.DELETE_SNAPSHOT_SUCCESS,
+      volumeActions.RESIZE_VOLUME_SUCCESS
+    )
+    .map(() => {
+      return new accountActions.LoadAccountsRequest();
     });
 
   @Effect()
@@ -89,6 +110,20 @@ export class AccountsEffects {
           return Observable.of(new accountActions.CreateError(error));
         });
     });
+
+  @Effect({ dispatch: false })
+  deleteSuccessNavigate$: Observable<Account> = this.actions$
+    .ofType(accountActions.ACCOUNT_DELETE_SUCCESS)
+    .map((action: accountActions.DeleteSuccess) => action.payload)
+    .filter((account: Account) => {
+      return this.router.isActive(`/accounts/${account.id}`, false);
+    })
+    .do(() => {
+      this.router.navigate(['./accounts'], {
+        queryParamsHandling: 'preserve'
+      });
+    });
+
 
   @Effect({ dispatch: false })
   createError$: Observable<Action> = this.actions$
@@ -173,7 +208,8 @@ export class AccountsEffects {
     private accountUserService: AccountUserService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {
   }
 

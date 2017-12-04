@@ -2,19 +2,19 @@
   {{ 'SERVICE_OFFERING.CHOOSE_SERVICE_OFFERING' | translate }}
 </h3>
 <div *loading="loading">
-  <div class="mat-dialog-content" *loading="!serviceOffering || !serviceOfferings">
+  <div class="mat-dialog-content" *loading="!serviceOfferings">
     <cs-service-offering-selector
       *ngIf="serviceOfferings?.length"
       class="service-offering-selector"
       [serviceOfferings]="serviceOfferings"
-      [customOfferingRestrictions]="restrictions$ | async"
-      [zoneId]="virtualMachine.zoneId"
+      [customOfferingRestrictions]="restrictions"
+      [zoneId]="zoneId"
       [ngModel]="serviceOffering"
       (change)="updateOffering($event)"
     ></cs-service-offering-selector>
     <div
       class="message warning"
-      *ngIf="virtualMachine?.state !== 'Stopped' && serviceOffering.id !== virtualMachine.serviceOfferingId"
+      *ngIf="serviceOffering?.id !== serviceOfferingId"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
     <div
@@ -30,7 +30,7 @@
       *ngIf="serviceOfferings?.length"
       mat-button
       color="primary"
-      [disabled]="serviceOffering?.id === virtualMachine.serviceOfferingId"
+      [disabled]="serviceOffering?.id === serviceOfferingId"
       (click)="onChange()"
     >
       {{ 'COMMON.CHANGE' | translate }}

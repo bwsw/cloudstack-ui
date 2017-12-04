@@ -1,9 +1,16 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Color } from '../../../shared/models';
 import { ConfigService } from '../../../shared/services/config.service';
 import { VirtualMachine } from '../../shared/vm.model';
-import { VmService } from '../../shared/vm.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 
 
@@ -14,16 +21,17 @@ import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 })
 export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   @Input() public vm: VirtualMachine;
+  @Output() public onColorChange = new EventEmitter();
 
   public color: Color;
   public colorList: Array<Color>;
 
+  // todo set inProgress while color is updating
   public colorUpdateInProgress: boolean;
   private colorSubject = new Subject<Color>();
 
   constructor(
     private configService: ConfigService,
-    private vmService: VmService,
     private vmTagService: VmTagService
   ) {}
 
@@ -32,15 +40,9 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
 
     this.colorSubject
       .debounceTime(1000)
-      .switchMap(color => {
-        this.colorUpdateInProgress = true;
-        return this.vmTagService.setColor(this.vm, color);
-      })
-      .subscribe(vm => {
-        this.colorUpdateInProgress = false;
-        this.vm = vm;
-        this.vmService.updateVmInfo(this.vm);
-      }, () => this.colorUpdateInProgress = false);
+      .subscribe(color => {
+        this.onColorChange.emit(color);
+      });
   }
 
   public ngOnChanges(): void {

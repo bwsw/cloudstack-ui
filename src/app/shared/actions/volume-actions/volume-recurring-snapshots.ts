@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Volume } from '../../models/volume.model';
+import {
+  Volume,
+  VolumeState
+} from '../../models/volume.model';
 import { VolumeAction } from './volume-action';
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 import { MatDialog } from '@angular/material';
@@ -19,6 +22,10 @@ export class VolumeRecurringSnapshotsAction implements VolumeAction {
       data: volume
     })
       .afterClosed();
+  }
+
+  public canActivate(volume: Volume): boolean {
+    return volume.state === VolumeState.Ready;
   }
 
   public hidden = (volume: Volume) => false;

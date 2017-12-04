@@ -5,12 +5,16 @@ import {
 } from './custom-service-offering.service';
 import { ConfigService } from '../../../shared/services/config.service';
 import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
-import { ResourceStats, ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import {
-  MockResourceUsageService
-} from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
+  ResourceStats,
+  ResourceUsageService
+} from '../../../shared/services/resource-usage.service';
+import { MockResourceUsageService } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
 import { ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
-import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering';
+import {
+  CustomServiceOffering,
+  ICustomServiceOffering
+} from '../custom-service-offering';
 import * as isEqual from 'lodash/isEqual';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
@@ -118,6 +122,8 @@ describe('Custom service offering service', () => {
   }
 
   function areRestrictionsCorrect(key: string, restrictions: ICustomOfferingRestrictionsByZone): boolean {
+    //expect(restrictions).toBe('');
+    //expect(fixture.restrictionsTests[key].expected).toBe('');
     return isEqual(restrictions, fixture.restrictionsTests[key].expected);
   }
 
@@ -164,13 +170,16 @@ describe('Custom service offering service', () => {
     const key = 'restrictionsAsync';
     const config = fixture.restrictionsTests[key].config;
     const resources = fixture.restrictionsTests[key].resources;
+    const resourceStats = <ResourceStats>{
+      available: { cpus: 1, memory: 512 }
+    };
 
     configureTestBed({
       mockConfigServiceConfig: config,
       mockResourceUsageServiceConfig: resources
     });
 
-    return customServiceOfferingService.getCustomOfferingRestrictionsByZone()
+    return customServiceOfferingService.getCustomOfferingRestrictionsByZone(resourceStats)
       .subscribe(restrictions => {
         expect(areRestrictionsCorrect(key, restrictions)).toBeTruthy();
         done();

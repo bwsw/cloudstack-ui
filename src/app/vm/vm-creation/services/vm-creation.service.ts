@@ -114,8 +114,6 @@ export class VmCreationService {
           this.authService.getCustomDiskOfferingMaxSize()
         );
 
-        const rootDiskMinSize = this.authService.getCustomDiskOfferingMinSize();
-
         return new VmCreationData(
           affinityGroupList,
           configurationData,
@@ -131,8 +129,7 @@ export class VmCreationService {
           sshKeysWithNoKeyOption,
           templates,
           isos,
-          zones,
-          rootDiskMinSize
+          zones
         );
       }
     );

@@ -2,36 +2,31 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output
 } from '@angular/core';
 import { Volume } from '../../../models/volume.model';
 import { VolumeActionsService } from '../volume-actions.service';
 import { VolumeAction } from '../volume-action';
+import { ISnapshotData } from '../volume-snapshot';
 
 
 @Component({
   selector: 'cs-volume-actions',
   templateUrl: 'volume-actions.component.html'
 })
-export class VolumeActionsComponent implements OnInit {
+export class VolumeActionsComponent {
   @Input() public volume: Volume;
   @Output() public onVolumeDelete = new EventEmitter<Volume>();
   @Output() public onVolumeResize = new EventEmitter<any>();
   @Output() public onVolumeAttach = new EventEmitter<string>();
   @Output() public onVolumeDetach = new EventEmitter<Volume>();
-  @Output() public onVolumeSnapshots = new EventEmitter<Volume>();
+  @Output() public onVolumeSnapshots = new EventEmitter<ISnapshotData>();
   public actions: Array<VolumeAction>;
 
   constructor(
     public volumeActionsService: VolumeActionsService
   ) {
     this.actions = this.volumeActionsService.actions;
-  }
-
-  public ngOnInit(): void {
-    /*this.diskOfferingService.getList()
-      .subscribe(diskOfferings => this.diskOfferings = diskOfferings);*/
   }
 
   public onAction(action: VolumeAction, volume: Volume): void {

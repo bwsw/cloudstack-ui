@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ResourceLimit, ResourceType } from '../models/resource-limit.model';
-import { Account } from '../models/account.model';
+import {
+  ResourceLimit,
+  ResourceType,
+  Account
+} from '../models';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 
@@ -34,12 +37,12 @@ export class ResourceStats {
   public consumed: ResourcesData;
   public max: ResourcesData;
 
-  public static fromAccount(account: Account | Array<Account>): ResourceStats {
+  public static fromAccount(accounts: Array<Account>): ResourceStats {
     const consumedResources = new ResourcesData();
     const maxResources = new ResourcesData();
     const availableResources = new ResourcesData();
 
-    (Array.isArray(account) ? account : [account]).forEach(a => {
+    accounts.forEach(a => {
       consumedResources.instances += +a.vmtotal;
       consumedResources.cpus += +a.cputotal;
       consumedResources.ips += +a.iptotal;

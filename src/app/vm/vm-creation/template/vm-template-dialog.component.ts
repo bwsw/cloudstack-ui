@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
-import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+
+import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
@@ -40,7 +41,8 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
     this.preselectedTemplate = data.template;
   }
 
-  public onOk(template): void {
+
+  public onOk(template) {
     this.dialogRef.close(template);
   }
 

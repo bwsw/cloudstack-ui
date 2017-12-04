@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { AuthService } from './auth.service';
 import { Utils } from './utils/utils.service';
 
 
@@ -23,10 +22,7 @@ export class JobsNotificationService {
   private _pendingJobsCount: number;
   private _unseenJobs: Subject<number>;
 
-  constructor(private authService: AuthService) {
-    this.reset();
-    this.authService.loggedIn.subscribe(() => this.reset());
-  }
+  constructor() { }
 
   public get pendingJobsCount(): number {
     return this._pendingJobsCount;
@@ -107,7 +103,7 @@ export class JobsNotificationService {
     this._pendingJobsCount = this.notifications.length;
   }
 
-  private reset(): void {
+  public reset(): void {
     this.notifications = [];
     this._pendingJobsCount = 0;
     this._unseenJobs = new Subject<number>();

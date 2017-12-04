@@ -16,6 +16,7 @@ import { Account } from '../../../shared/models/account.model';
 export interface State {
   loading: boolean,
   account: Account;
+  accountId: string
 }
 
 export interface UserAccountState {
@@ -24,7 +25,8 @@ export interface UserAccountState {
 
 const initialUserAccountState: State = {
   loading: false,
-  account: null
+  account: null,
+  accountId: ''
 };
 
 export const userAccountReducers = {
@@ -43,6 +45,7 @@ export function reducer(state = initialUserAccountState, action: event.Actions):
       return {
         ...state,
         account: action.payload,
+        accountId : action.payload.id,
         loading: false
       };
     }
@@ -63,4 +66,9 @@ export const getUserAccountEntity = createSelector(
 export const getUserAccount = createSelector(
   getUserAccountEntity,
   state => state.account
+);
+
+export const getUserAccountId = createSelector(
+  getUserAccountEntity,
+  state => state.accountId
 );

@@ -65,6 +65,19 @@ export class SecurityGroupEffects {
     });
 
   @Effect({ dispatch: false })
+  deleteSecurityGroupSuccessNavigate$: Observable<Action> = this.actions$
+    .ofType(securityGroup.DELETE_SECURITY_GROUP_SUCCESS)
+    .map((action: securityGroup.DeleteSecurityGroupSuccess) => action.payload)
+    .filter((sg: SecurityGroup) => {
+      return this.router.isActive(`/security-group/${sg.id}`, false);
+    })
+    .do(() => {
+      this.router.navigate(['./security-group'], {
+        queryParamsHandling: 'preserve'
+      });
+    });
+
+  @Effect({ dispatch: false })
   deleteSecurityGroupError$: Observable<Action> = this.actions$
     .ofType(securityGroup.DELETE_SECURITY_GROUP_ERROR)
     .do((action: securityGroup.DeleteSecurityGroupError) => this.handleError(action.payload));
