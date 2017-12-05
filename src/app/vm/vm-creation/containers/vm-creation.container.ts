@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '../../../reducers/index';
-import { VmService } from '../../shared/vm.service';
+import { State } from '../../../reducers';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Observable } from 'rxjs/Observable';
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
-import { VirtualMachine } from '../../';
+import { VirtualMachine, VmService } from '../../';
 import { NotSelected } from '../data/vm-creation-state';
 import { initialFormState } from '../../../reducers/vm/redux/vm.reducers';
 import { MatDialogRef } from '@angular/material';
@@ -48,7 +47,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
-      (onVmDeploymentFailed)="onCancel($event)"
+      (onVmDeploymentFailed)="onCancel()"
       (onVmDeploymentFinish)="onVmDeploymentFinished($event)"
     ></cs-vm-create>`
 })
