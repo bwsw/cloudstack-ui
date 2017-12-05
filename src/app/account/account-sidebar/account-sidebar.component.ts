@@ -14,7 +14,8 @@ export class AccountSidebarComponent {
   @Output() public onAccountChanged = new EventEmitter<Account>();
 
   public get isSelf() {
-    return this.authService.user.username === this.entity.name;
+    return this.authService.user.username === this.entity.name
+      && this.authService.user.domainid === this.entity.domainid;
   }
 
   constructor(
