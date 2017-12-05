@@ -7,7 +7,6 @@ import { Snapshot } from '../../../shared/models/snapshot.model';
 export const LOAD_VOLUMES_REQUEST = '[VOLUMES] LOAD_VOLUMES_REQUEST';
 export const LOAD_VOLUMES_RESPONSE = '[VOLUMES] LOAD_VOLUMES_RESPONSE';
 export const VOLUME_FILTER_UPDATE = '[VOLUMES] VOLUME_FILTER_UPDATE';
-export const VM_VOLUME_FILTER_UPDATE = '[VOLUMES] VM_VOLUME_FILTER_UPDATE';
 export const LOAD_SELECTED_VOLUME = '[VOLUMES] LOAD_SELECTED_VOLUME';
 export const CREATE_VOLUME = '[VOLUMES] CREATE_VOLUME';
 export const DELETE_VOLUME = '[VOLUMES] DELETE_VOLUME';
@@ -53,14 +52,6 @@ export class LoadSelectedVolume implements Action {
 
 export class VolumeFilterUpdate implements Action {
   type = VOLUME_FILTER_UPDATE;
-
-  constructor(public payload: { [key: string]: any }) {
-  }
-
-}
-
-export class VmVolumeFilterUpdate implements Action {
-  type = VM_VOLUME_FILTER_UPDATE;
 
   constructor(public payload: { [key: string]: any }) {
   }
@@ -203,7 +194,6 @@ export class ChangeDescription implements Action {
 export type Actions = LoadVolumesRequest
   | LoadVolumesResponse
   | VolumeFilterUpdate
-  | VmVolumeFilterUpdate
   | LoadSelectedVolume
   | CreateVolume
   | CreateSuccess

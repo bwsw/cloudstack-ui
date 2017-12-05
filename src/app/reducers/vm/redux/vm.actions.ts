@@ -1,16 +1,17 @@
 import { Action } from '@ngrx/store';
 import { VirtualMachine } from '../../../vm';
 import {
-  ServiceOffering,
+  Color,
   InstanceGroup,
-  SSHKeyPair,
-  Color
+  ServiceOffering,
+  SSHKeyPair
 } from '../../../shared/models';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
 export const LOAD_VMS_RESPONSE = '[VM] LOAD_VMS_RESPONSE';
 export const VM_FILTER_UPDATE = '[VM] VM_FILTER_UPDATE';
+export const VM_ATTACHMENT_FILTER_UPDATE = '[VM] VM_ATTACHMENT_FILTER_UPDATE';
 export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
@@ -69,6 +70,14 @@ export class LoadVMsResponse implements Action {
 
 export class VMFilterUpdate implements Action {
   type = VM_FILTER_UPDATE;
+
+  constructor(public payload: { [key: string]: any }) {
+  }
+
+}
+
+export class VMAttachmentFilterUpdate implements Action {
+  type = VM_ATTACHMENT_FILTER_UPDATE;
 
   constructor(public payload: { [key: string]: any }) {
   }
@@ -341,6 +350,7 @@ export type Actions = LoadVMsRequest
   | OpenUrlVm
   | LoadVMRequest
   | VMFilterUpdate
+  | VMAttachmentFilterUpdate
   | LoadSelectedVM
   | ChangeDescription
   | ChangeServiceOffering
