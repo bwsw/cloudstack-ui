@@ -126,6 +126,7 @@ describe('Sg Rules manager component', () => {
 
     expect(dialog.open).toHaveBeenCalled();
   });
+
 // todo: fix tests
   // it('updates rules', () => {
   //   const emptyRules = new Rules();
