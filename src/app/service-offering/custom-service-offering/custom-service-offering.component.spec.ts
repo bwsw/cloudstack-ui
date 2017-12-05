@@ -81,27 +81,25 @@ describe('CustomServiceOfferingComponent', () => {
     component = fixture.componentInstance;
   }
 
-// todo: fix tests
+  it(
+    'requires zone id to work',
+    async(async () => {
+      const offering = new CustomServiceOffering({
+        serviceOffering: new ServiceOffering({
+          cpuSpeed: 0,
+          cpuNumber: 0,
+          memory: 0,
+          created: new Date()
+        })
+      });
+      await configureTestBed({ offering });
 
-  // it(
-  //   'requires zone id to work',
-  //   async(async () => {
-  //     const offering = new CustomServiceOffering({
-  //       serviceOffering: new ServiceOffering({
-  //         cpuSpeed: 0,
-  //         cpuNumber: 0,
-  //         memory: 0,
-  //         created: new Date()
-  //       })
-  //     });
-  //     await configureTestBed({ offering });
-  //
-  //     expect(() => fixture.detectChanges()).toThrow(
-  //       new Error('Attribute \'zoneId\' is required')
-  //     );
-  //     expect(component).toBeTruthy();
-  //   })
-  // );
+      expect(() => fixture.detectChanges()).toThrow(
+        new Error('Attribute \'zoneId\' is required')
+      );
+      expect(component).toBeTruthy();
+    })
+  );
 
   it(
     'should keep input service offering immutable',

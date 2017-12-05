@@ -44,7 +44,7 @@ export class CustomServiceOfferingComponent implements OnInit {
       serviceOffering: offering
     });
 
-    this.restrictions = restriction[zoneId] || DefaultCustomServiceOfferingRestrictions;
+    this.restrictions = restriction && restriction[zoneId] || DefaultCustomServiceOfferingRestrictions;
     this.zoneId = zoneId;
   }
 
