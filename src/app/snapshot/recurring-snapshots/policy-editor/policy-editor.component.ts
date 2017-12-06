@@ -6,8 +6,8 @@ import {
   Output
 } from '@angular/core';
 import { TimeFormat } from '../../../shared/services/language.service';
-import { PolicyType } from '../recurring-snapshots.component';
 import { TimeZone } from '../../../shared/components/time-zone/time-zone.service';
+import { PolicyType } from '../snapshot-policy-type';
 
 
 export type TimePolicy = any;

@@ -10,9 +10,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../../shared/services/language.service';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { TemplateGroupSelectorContainerComponent } from './containers/template-group-selector.container';
-import { TemplateGroup } from '../../../shared/models/template-group.model';
+import {
+  DefaultTemplateGroupId,
+  TemplateGroup
+} from '../../../shared/models/template-group.model';
 
-export const DefaultTemplateGroupId = 'general';
 
 @Component({
   selector: 'cs-template-group',

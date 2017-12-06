@@ -13,7 +13,9 @@ import {
 } from '../../../security-group/sg.model';
 import * as securityGroup from './sg.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
-import { SecurityGroupViewMode } from '../../../security-group/sg-filter/containers/sg-filter.container';
+
+import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
+
 
 export interface State {
   list: ListState,

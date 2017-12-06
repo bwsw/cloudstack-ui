@@ -14,13 +14,13 @@ import {
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
-import { DefaultTemplateGroupId } from '../../../template/template-sidebar/template-group/template-group.component';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
+import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {

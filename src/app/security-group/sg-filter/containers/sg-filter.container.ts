@@ -16,11 +16,8 @@ import * as  securityGroupActions from '../../../reducers/security-groups/redux/
 import * as  fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
+import { SecurityGroupViewMode } from '../../sg-view-mode';
 
-export enum SecurityGroupViewMode {
-  Templates = 'templates',
-  Shared = 'shared'
-}
 
 @Component({
   selector: 'cs-sg-filter-container',

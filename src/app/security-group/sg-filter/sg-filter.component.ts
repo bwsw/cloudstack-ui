@@ -4,8 +4,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { SecurityGroupViewMode } from './containers/sg-filter.container';
-
+import { SecurityGroupViewMode } from '../sg-view-mode';
 
 export interface SecurityGroupFilter {
   viewMode: SecurityGroupViewMode;
