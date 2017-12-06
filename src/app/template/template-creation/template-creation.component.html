@@ -140,7 +140,7 @@
 
       <div *ngIf="showAdditional" class="additional">
         <div class="flex-dialog-content">
-          <div class="column" *ngIf="mode === TemplateResourceType.template">
+          <div class="column" *ngIf="mode === TemplateResourceType.template && !snapshot">
             <mat-form-field class="full-width-input">
               <mat-select
                 class="form-select-control"
@@ -169,7 +169,7 @@
             </mat-form-field>
           </div>
           <div [class.column]="mode === TemplateResourceType.template" class="additional">
-            <mat-checkbox
+            <mat-checkbox *ngIf="!snapshot"
               name="extract"
               [(ngModel)]="isExtractable"
             >
@@ -178,14 +178,14 @@
             <mat-checkbox
               name="public"
               [(ngModel)]="isPublic"
-              *ngIf="isRootAdmin()"
+              *ngIf="isRootAdmin"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
             </mat-checkbox>
             <mat-checkbox
               name="feature"
               [(ngModel)]="isFeatured"
-              *ngIf="isRootAdmin()"
+              *ngIf="isRootAdmin"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
             </mat-checkbox>
@@ -193,7 +193,7 @@
             <mat-checkbox
               name="routing"
               [(ngModel)]="isRouting"
-              *ngIf="isRootAdmin()"
+              *ngIf="isRootAdmin && !snapshot"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
             </mat-checkbox>
@@ -205,7 +205,7 @@
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
             </mat-checkbox>
             <mat-checkbox
-              *ngIf="mode === TemplateResourceType.iso"
+              *ngIf="mode === TemplateResourceType.iso && !snapshot"
               name="bootable"
               [(ngModel)]="bootable"
             >

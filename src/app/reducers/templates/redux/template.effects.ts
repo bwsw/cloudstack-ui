@@ -109,22 +109,11 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
-      const groupId = action.payload.groupId;
-
-      const setGroup = (temp, groupId) => {
-        return this.templateTagService.setGroup(temp, { id: groupId })
-          .switchMap(newTemplate =>{
-            this.store.dispatch(new template.SetTemplateGroupSuccess(newTemplate));
-            return Observable.of(newTemplate);
-          })
-          .catch(error => Observable.of(new template.SetTemplateGroupError(error)));
-      };
 
       if (action.payload.entity === TemplateResourceType.iso) {
         return this.isoService.register(action.payload);
       } else if (action.payload.snapshotId) {
-        return this.templateService.create(action.payload)
-          .switchMap(newTemplate => setGroup(newTemplate, groupId));
+        return this.templateService.create(action.payload);
       } else {
         return this.templateService.register(action.payload);
       }

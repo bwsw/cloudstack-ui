@@ -151,7 +151,7 @@ export class TemplateCreationComponent implements OnInit {
       params['format'] = this.format;
       params['requireshvm'] = this.requiresHvm;
       params['hypervisor'] = this.hypervisor;
-      if (this.isRootAdmin()) {
+      if (this.isRootAdmin) {
         params['isrouting'] = this.isRouting;
         params['isfeatured'] = this.isFeatured;
         params['ispublic'] = this.isPublic;
@@ -161,7 +161,7 @@ export class TemplateCreationComponent implements OnInit {
     this.onCreateTemplate.emit(params);
   }
 
-  public isRootAdmin(): boolean {
+  public get isRootAdmin(): boolean {
     return this.account.isRootAdmin;
   }
 }
