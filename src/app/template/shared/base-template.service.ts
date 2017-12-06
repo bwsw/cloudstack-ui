@@ -40,6 +40,15 @@ export interface RegisterTemplateBaseParams {
   groupId?: string;
 }
 
+export interface CreateTemplateBaseParams {
+  displayText: string;
+  name: string;
+  osTypeId: string;
+  snapshotId: string;
+  groupId?: string;
+  [propName: string]: any;
+}
+
 export class GroupedTemplates<T extends BaseTemplateModel> {
   public community: Array<T>;
   public executable: Array<T>;

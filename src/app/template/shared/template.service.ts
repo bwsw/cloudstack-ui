@@ -5,6 +5,7 @@ import { BackendResource } from '../../shared/decorators/backend-resource.decora
 import { Template } from './template.model';
 import {
   BaseTemplateService,
+  CreateTemplateBaseParams,
   RegisterTemplateBaseParams,
   TemplateResourceType
 } from './base-template.service';
@@ -16,7 +17,7 @@ import {
   entityModel: Template
 })
 export class TemplateService extends BaseTemplateService {
-  public create(params: any): Observable<Template> {
+  public create(params: CreateTemplateBaseParams): Observable<Template> {
     return this.sendCommand('create', params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
       .switchMap(template => {
