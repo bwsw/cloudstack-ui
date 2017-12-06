@@ -14,6 +14,7 @@ import { VmCreationSecurityGroupService } from './vm-creation-security-group.ser
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
+import { FormState } from '../../../reducers/vm/redux/vm.reducers';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -75,11 +76,11 @@ export class VmDeploymentService {
   ) {
   }
 
-  public deploy(state: VmCreationState): VmDeployObservables {
+  public deploy(state: FormState): VmDeployObservables {
     const deployStatusObservable = new Subject<VmDeploymentMessage>();
     return {
       deployStatusObservable,
-      deployObservable: this.deployObservable(deployStatusObservable, state)
+      deployObservable: this.deployObservable(deployStatusObservable, state.state)
     };
   }
 

@@ -46,7 +46,7 @@ export class KeyboardsComponent implements ControlValueAccessor {
   }
 
   public set keyboardLayout(layout: KeyboardLayout) {
-    this._keyboardLayout = layout || this.keyboardLayouts[0].value;
+    this._keyboardLayout = layout;
     this.propagateChange(this.keyboardLayout);
   }
 
@@ -54,7 +54,9 @@ export class KeyboardsComponent implements ControlValueAccessor {
   };
 
   public writeValue(value): void {
-    this.keyboardLayout = value;
+    if (value) {
+      this.keyboardLayout = value;
+    }
   }
 
   public registerOnChange(fn): void {

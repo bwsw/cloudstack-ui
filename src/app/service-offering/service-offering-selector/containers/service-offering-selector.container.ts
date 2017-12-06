@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 import { ServiceOffering } from '../../../shared/models';
@@ -16,29 +16,21 @@ import * as fromVM from '../../../reducers/vm/redux/vm.reducers';
       [customOfferingRestrictions]="customOfferingRestrictions$ | async"
       [zoneId]="zoneId$ | async"
       [ngModel]="serviceOffering"
-      (change)="onServiceOfferingChange($event)"
+      (change)="serviceOfferingChange.emit($event)"
     ></cs-service-offering-selector>`
 })
-export class ServiceOfferingSelectorContainerComponent implements OnInit {
+export class ServiceOfferingSelectorContainerComponent implements AfterViewInit {
   readonly isLoading$ = this.store.select(fromSO.isLoading);
-  readonly serviceOfferings$ = this.store.select(fromSO.selectAll);
+  readonly serviceOfferings$ = this.store.select(fromSO.getAvailableOfferingsForVmCreation);
   readonly customOfferingRestrictions$ = this.store.select(fromSO.customOfferingRestrictions);
   readonly zoneId$ = this.store.select(fromVM.getVmCreationZoneId);
   @Input() public serviceOffering: ServiceOffering;
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {
   }
 
-  public ngOnInit() {
-    this.serviceOfferings$.subscribe(offerings => {
-      if (!this.serviceOffering) {
-        this.onServiceOfferingChange(offerings[0]);
-      }
-    });
-  }
-
-  public onServiceOfferingChange(offering: ServiceOffering) {
-    this.serviceOfferingChange.emit(offering);
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 }

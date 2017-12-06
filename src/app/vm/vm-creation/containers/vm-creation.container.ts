@@ -7,9 +7,9 @@ import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
-import { VirtualMachine, VmService } from '../../';
+import { VirtualMachine } from '../../shared/vm.model';
+import { VmService } from '../../shared/vm.service';
 import { NotSelected } from '../data/vm-creation-state';
-import { initialFormState } from '../../../reducers/vm/redux/vm.reducers';
 import { MatDialogRef } from '@angular/material';
 
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
@@ -22,6 +22,7 @@ import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
+import { FormState } from '../../../reducers/vm/redux/vm.reducers';
 
 @Component({
   selector: 'cs-vm-create-container',
@@ -29,10 +30,15 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
     <cs-vm-create
       [account]="account$ | async"
       [vmCreationState]="vmFormState$ | async"
-      [isLoading]="isLoading$ | async"
+      [fetching]="isLoading$ | async"
       [instanceGroupList]="instanceGroups$ | async"
       [affinityGroupList]="affinityGroups$ | async"
       [zones]="zones$ | async"
+      [showOverlay]="showOverlay$ | async"
+      [deploymentStopped]="deploymentStopped$ | async"
+      [enoughResources]="enoughResources$ | async"
+      [insufficientResources]="insufficientResources$ | async"
+      [loggerStageList]="loggerStageList$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
@@ -47,6 +53,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
+      (deploy)="onDeploy($event)"
       (onVmDeploymentFailed)="onCancel()"
       (onVmDeploymentFinish)="onVmDeploymentFinished($event)"
     ></cs-vm-create>`
@@ -54,6 +61,11 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
 export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
   readonly isLoading$ = this.store.select(fromVMs.formIsLoading);
+  readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
+  readonly deploymentStopped$ = this.store.select(fromVMs.deploymentStopped);
+  readonly enoughResources$ = this.store.select(fromVMs.enoughResources);
+  readonly insufficientResources$ = this.store.select(fromVMs.insufficientResources);
+  readonly loggerStageList$ = this.store.select(fromVMs.loggerStageList);
   readonly instanceGroups$ = this.store.select(fromVMs.selectVmGroups);
   readonly affinityGroups$ = this.store.select(fromAffinityGroups.selectAll);
   readonly account$ = this.store.select(fromAuth.getUserAccount);
@@ -78,7 +90,7 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.zones$.subscribe(zones => this.onZoneChange(zones[0]));
+    this.store.dispatch(new vmActions.VmCreationFormInit());
   }
 
   public onDisplayNameChange(displayName: string) {
@@ -102,12 +114,7 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public onTemplateChange(template: BaseTemplateModel) {
-    if (template.isTemplate) {
-      const rootDiskSize = template.sizeInGB;
-      this.store.dispatch(new vmActions.VmFormUpdate({ template, rootDiskSize }));
-    } else {
-      this.store.dispatch(new vmActions.VmFormUpdate({ template }));
-    }
+    this.store.dispatch(new vmActions.VmFormUpdate({ template }));
   }
 
   public onInstanceGroupChange(instanceGroup: InstanceGroup) {
@@ -146,8 +153,12 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new vmActions.CreateVmSuccess(vm));
   }
 
+  public onDeploy(state: FormState) {
+    this.store.dispatch(new vmActions.DeployVm(state));
+  }
+
   public onCancel() {
-    this.store.dispatch(new vmActions.VmFormUpdate(initialFormState.state));
+    this.store.dispatch(new vmActions.VmFormUpdate(fromVMs.initialFormState.state));
   }
 
   private getDefaultVmName(): Observable<string> {

@@ -8,6 +8,10 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { Utils } from '../../../shared/services/utils/utils.service';
+import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
+import { SecurityGroup } from '../../../security-group/sg.model';
+// tslint:disable-next-line
+import { ProgressLoggerMessage } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as vmActions from './vm.actions';
@@ -40,6 +44,11 @@ export interface State extends EntityState<VirtualMachine> {
 
 export interface FormState {
   loading: boolean,
+  showOverlay: boolean,
+  deploymentStopped: boolean,
+  enoughResources: boolean,
+  insufficientResources: Array<string>,
+  loggerStageList: Array<ProgressLoggerMessage>,
   state: VmCreationState
 }
 
@@ -270,9 +279,9 @@ export const getUsingSGVMs = createSelector(
 export const getAttachmentVMs = createSelector(
   selectAll,
   attachmentFilters,
-  (vms, filters) => {
+  (vms, filter) => {
     const accountFilter =
-      vm => (vm.account === filters.account && vm.domainid === filters.domainId);
+      vm => (vm.account === filter.account && vm.domainid === filter.domainId);
 
     return vms.filter(vm => accountFilter(vm));
   }
@@ -330,14 +339,19 @@ export const selectFilteredVMs = createSelector(
 
 export const initialFormState: FormState = {
   loading: false,
+  showOverlay: false,
+  deploymentStopped: false,
+  enoughResources: false,
+  insufficientResources: [],
+  loggerStageList: [],
   state: {
     affinityGroup: null,
     affinityGroupNames: [],
     diskOffering: null,
     displayName: '',
-    doStartVm: false,
+    doStartVm: true,
     instanceGroup: null,
-    keyboard: null,
+    keyboard: KeyboardLayout.us,
     rootDiskSize: 0,
     rootDiskMinSize: 0,
     securityGroupData: VmCreationSecurityGroupData.fromMode(VmCreationSecurityGroupMode.Builder),
@@ -354,8 +368,14 @@ export function formReducer(
   action: vmActions.Actions | affinityGroupActions.Actions
 ): FormState {
   switch (action.type) {
+    case vmActions.VM_FORM_INIT: {
+      return { ...state, loading: true };
+    }
     case vmActions.VM_FORM_UPDATE: {
       return { ...state, state: { ...state.state, ...action.payload } };
+    }
+    case vmActions.VM_CREATION_STATE_UPDATE: {
+      return { ...state, ...action.payload, loading: false };
     }
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
       const names = action.payload.map(_ => _.name);
@@ -375,6 +395,31 @@ export const getVmFormState = createSelector(
 export const formIsLoading = createSelector(
   getVmFormState,
   state => state.loading
+);
+
+export const enoughResources = createSelector(
+  getVmFormState,
+  state => state.enoughResources
+);
+
+export const insufficientResources = createSelector(
+  getVmFormState,
+  state => state.insufficientResources
+);
+
+export const deploymentStopped = createSelector(
+  getVmFormState,
+  state => state.deploymentStopped
+);
+
+export const loggerStageList = createSelector(
+  getVmFormState,
+  state => state.loggerStageList
+);
+
+export const showOverlay = createSelector(
+  getVmFormState,
+  state => state.showOverlay
 );
 
 export const getVmCreationZoneId = createSelector(

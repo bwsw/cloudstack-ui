@@ -1,5 +1,5 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { OfferingAvailability } from '../../../shared/services/offering.service';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import { Zone } from '../../../shared/models/zone.model';
@@ -24,8 +24,8 @@ import {
 
 
 import * as serviceOfferingActions from './service-offerings.actions';
-import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as merge from 'lodash/merge';
 
@@ -250,6 +250,49 @@ export const getAvailableOfferings = createSelector(
     }
   }
 );
+
+export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
+  offeringAvailability,
+  defaultParams,
+  customOfferingRestrictions,
+  fromVMs.getVmCreationZoneId,
+  fromZones.selectEntities,
+  fromAuths.getUserAccount,
+  (
+    serviceOfferings, availability,
+    defaults, customRestrictions,
+    zoneId, zones, user
+  ) => {
+    const zone = zones && zones[zoneId];
+    if (zone && user) {
+      const availableOfferings = getAvailableByResourcesSync(
+        serviceOfferings,
+        availability,
+        customRestrictions,
+        ResourceStats.fromAccount([user]),
+        zone
+      ).sort((a: ServiceOffering, b: ServiceOffering) => {
+        if (!a.isCustomized && b.isCustomized) {
+          return -1;
+        }
+        if (a.isCustomized && !b.isCustomized) {
+          return 1;
+        }
+        return 0;
+      });
+
+      return availableOfferings.map((offering) => {
+        return !offering.isCustomized
+          ? offering
+          : getCustomOfferingWithSetParams(
+            offering,
+            defaults[zone.id] && defaults[zone.id].customOfferingParams,
+            customOfferingRestrictions[zone.id],
+            ResourceStats.fromAccount([user])
+          );
+      });
+    }
+  });
 
 export const getOfferingsAvailableInZone = (
   offeringList: Array<ServiceOffering>,

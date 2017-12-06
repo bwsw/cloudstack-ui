@@ -5,7 +5,7 @@ import { VmCreationContainerComponent } from './containers/vm-creation.container
 
 @Component({
   selector: 'cs-vm-create-dialog',
-  template: ``
+  template: `<ng-template></ng-template>`
 })
 export class VmCreationDialogComponent {
   constructor(

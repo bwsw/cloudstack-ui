@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 import { VirtualMachine } from '../../../vm';
 import { ServiceOffering, InstanceGroup, SSHKeyPair, Color } from '../../../shared/models';
+import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { FormState } from './vm.reducers';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -39,7 +41,11 @@ export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
 
+export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
 export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
+export const VM_FORM_UPDATE_SUCCESS = '[VM creation] VM_FORM_UPDATE_SUCCESS';
+export const DEPLOY_VM = '[VM creation] DEPLOY_VM';
+export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -346,6 +352,34 @@ export class VmFormUpdate implements Action {
   }
 }
 
+export class VmCreationStateUpdate implements Action {
+  type = VM_CREATION_STATE_UPDATE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VmFormUpdateSuccess implements Action {
+  type = VM_FORM_UPDATE_SUCCESS;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class DeployVm implements Action {
+  type = DEPLOY_VM;
+
+  constructor(public payload: FormState) {
+  }
+}
+
+export class VmCreationFormInit implements Action {
+  type = VM_FORM_INIT;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type Actions = LoadVMsRequest
   | LoadVMsResponse
   | AccessVm
@@ -381,4 +415,7 @@ export type Actions = LoadVMsRequest
   | CreateVmSuccess
   | ChangeSshKey
   | VMUpdateError
-  | VmFormUpdate;
+  | VmCreationStateUpdate
+  | VmFormUpdate
+  | VmFormUpdateSuccess
+  | DeployVm;
