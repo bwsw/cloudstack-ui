@@ -33,7 +33,7 @@ export class TemplateGroupComponent {
   public get groupName(): string {
     const tag = this.template.tags.find(_ => _.key === TemplateTagKeys.group);
     const group = tag && this.groups[tag.value];
-    return group && ((group.translations && group.translations[this.locale]) || group.id);
+    return group && ((group.translations && group.translations[this.locale]) || group.id) || DefaultTemplateGroupId;
   }
 
   public get locale(): Language {
