@@ -1,6 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { AccountUser } from '../../../shared/models/account-user.model';
 import { TimeZone } from '../../../shared/components/time-zone/time-zone.service';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 
 @Component({
   selector: 'cs-account-user-edit',
@@ -19,19 +29,36 @@ export class AccountUserEditComponent {
 
   @Output() public updateUser = new EventEmitter<AccountUser>();
 
+  public userForm: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder
+  ) {
+    this.userForm = this.formBuilder.group({
+      username: this.formBuilder.control('', [ Validators.required ]),
+      email: this.formBuilder.control('', [ Validators.required, Validators.email ]),
+      password: this.formBuilder.control('', [ Validators.required ]),
+      firstname: this.formBuilder.control('', [ Validators.required ]),
+      lastname: this.formBuilder.control('', [ Validators.required ]),
+      timezone: this.formBuilder.control(null),
+    });
+  }
+
   public loading = false;
   public hide = true;
 
   public onUserUpdate() {
-    const newUser: AccountUser = {
-      username: this.username,
-      firstname: this.firstName,
-      lastname: this.lastName,
-      email: this.email,
-      password: this.password,
-      timezone: this.timezone.geo
-    };
-
+    const newUser = this.prepareData(this.userForm.value);
     this.updateUser.emit(newUser);
+  }
+
+  public prepareData(data: {}): AccountUser {
+    let result: AccountUser = new AccountUser();
+    for (const key in data) {
+      if (data[key] && data[key] !== '') {
+        result[key] = data[key];
+      }
+    }
+    return result;
   }
 }
