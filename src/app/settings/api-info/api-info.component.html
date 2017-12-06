@@ -15,7 +15,7 @@
     <div class="settings-control">
       <div *loading="loading">
         <div *ngIf="inputFields.apiKey.value">
-          <h5 [translate]="inputFields.apiKey.title"></h5>
+          <h3 [translate]="inputFields.apiKey.title"></h3>
           <cs-input-group>
             <mat-form-field cs-input-group-textbox class="full-width-input">
               <input
@@ -43,7 +43,7 @@
         </div>
 
         <div *ngIf="inputFields.apiSecretKey.value">
-          <h5 [translate]="inputFields.apiSecretKey.title"></h5>
+          <h3 [translate]="inputFields.apiSecretKey.title"></h3>
           <cs-input-group>
             <mat-form-field cs-input-group-textbox class="full-width-input">
               <input
@@ -70,14 +70,14 @@
           </cs-input-group>
         </div>
         <div>
-          <h5 [translate]="linkFields.apiUrl.title"></h5>
+          <h3 [translate]="linkFields.apiUrl.title"></h3>
           <a target="_blank" [href]="linkFields.apiUrl.href">
             {{ linkFields.apiUrl.href }}
           </a>
         </div>
 
         <div *ngIf="linkFields.apiDocLink.href">
-          <h5 [translate]="linkFields.apiDocLink.title"></h5>
+          <h3 [translate]="linkFields.apiDocLink.title"></h3>
           <a target="_blank" [href]="linkFields.apiDocLink.href">
             {{ linkFields.apiDocLink.href }}
           </a>

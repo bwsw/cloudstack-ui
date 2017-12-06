@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { PolicyType } from '../recurring-snapshots.component';
-import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
+import {
+  Policy,
+  TimePolicy
+} from '../policy-editor/policy-editor.component';
 import { DayOfWeek } from '../../../shared/types/day-of-week';
+import { PolicyType } from '../snapshot-policy-type';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 

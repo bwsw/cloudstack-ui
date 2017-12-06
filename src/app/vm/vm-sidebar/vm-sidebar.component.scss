@@ -2,10 +2,11 @@ mat-icon {
   line-height: 48px;
 }
 
-h4 {
+h3 {
   max-width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px !important;
 }
 
 :host /deep/ .mat-tab-links {

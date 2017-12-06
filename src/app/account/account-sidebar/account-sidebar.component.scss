@@ -13,3 +13,7 @@
 :host /deep/ .mat-expansion-panel-content {
   color: rgba(0, 0, 0, 0.54)
 }
+
+:host /deep/ .mat-tab-link {
+  min-width: 147px !important;
+}

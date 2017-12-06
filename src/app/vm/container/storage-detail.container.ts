@@ -71,7 +71,7 @@ export class StorageDetailContainerComponent extends WithUnsubscribe() implement
 
   private attachIsoDialog(): void {
     this.dialog.open(IsoAttachmentComponent, {
-      width: '720px',
+      width: '650px',
       data: { zoneId: this.vm.zoneId }
     })
       .afterClosed()

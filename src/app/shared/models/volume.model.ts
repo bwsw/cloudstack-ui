@@ -11,6 +11,12 @@ import {
 } from './tag.model';
 import { ServiceOffering } from './service-offering.model';
 
+export class VolumeCreationData {
+  public name: string;
+  public zoneId: string;
+  public diskOfferingId: string;
+  public size?: number;
+}
 
 export enum VolumeType {
   ROOT = 'ROOT',

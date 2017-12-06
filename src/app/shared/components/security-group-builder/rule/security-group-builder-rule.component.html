@@ -1,5 +1,5 @@
 <mat-list-item class="flex-container">
-  <h4 matLine>
+  <h5 matLine>
     <ng-template [ngIf]="item.rule.protocol === NetworkProtocols.ICMP">
       <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
       <span
@@ -35,7 +35,7 @@
       ></span>
       </ng-template>
     </ng-template>
-  </h4>
+  </h5>
   <span>
     <mat-checkbox
       name="rule-checkbox"

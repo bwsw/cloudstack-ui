@@ -19,6 +19,14 @@
   padding: 14px 0 !important;
 }
 
+/deep/ .mat-mini-fab {
+  width: 36px;
+  height: 36px;
+}
+
+/deep/ .mat-mini-fab .mat-button-wrapper {
+  padding: 7px 0 !important;
+}
 
 :host.open .fab {
   margin-right: $sidebar-width;
