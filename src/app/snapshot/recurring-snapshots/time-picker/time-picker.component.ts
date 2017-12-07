@@ -1,5 +1,14 @@
-import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  forwardRef,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR
+} from '@angular/forms';
 import { MatInput } from '@angular/material';
 import { TimeFormat } from '../../../shared/services/language.service';
 import { padStart } from '../../../shared/utils/padStart';
@@ -144,7 +153,9 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   public set time(value: Time) {
     this.hour = (value.hour || this.minHourValue).toString();
     this.minute = (value.minute || this.minMinuteValue).toString();
-    this.period = value.period;
+    if (value.period) {
+      this.period = value.period;
+    }
 
     this.propagateChange(this.time);
   }
