@@ -70,7 +70,7 @@ export class AccountCreationDialogComponent {
     let result: AccountData = new AccountData();
     for (const key in data) {
       if (data[key] && data[key] !== '') {
-        result[key] = data[key];
+        result[key] = key === 'timezone' ? data[key].geo : data[key];
       }
     }
     return result;

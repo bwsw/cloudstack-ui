@@ -711,6 +711,7 @@
       "RULES": "Rules"
     },
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "TEMPLATES": "Firewall Templates",
       "SHARED": "Shared Security Groups",
       "GROUP_BY": "Group by",

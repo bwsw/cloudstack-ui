@@ -59,6 +59,8 @@ import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
 import { SecurityGroupCreationContainerComponent } from './containers/security-group-creation.container';
 import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
+import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
+import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 
 
 @NgModule({
@@ -87,7 +89,8 @@ import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.co
     DraggableSelectModule,
     StoreModule.forFeature('securityGroups', securityGroupReducers),
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
-    EffectsModule.forFeature([SecurityGroupEffects, VirtualMachinesEffects]),
+    StoreModule.forFeature('accounts', accountReducers),
+    EffectsModule.forFeature([SecurityGroupEffects, VirtualMachinesEffects, AccountsEffects]),
   ],
   exports: [
     SecurityGroupPageContainerComponent,

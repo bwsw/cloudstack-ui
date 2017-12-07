@@ -1,6 +1,6 @@
 import { FieldMapper } from '../../shared/decorators';
 import { BaseModel } from '../../shared/models';
-import { PolicyType } from './recurring-snapshots.component';
+import { PolicyType } from './snapshot-policy-type';
 
 
 @FieldMapper({

@@ -18,6 +18,9 @@ export const getTemplateGroupId = (item: BaseTemplateModel) => {
   return tag && tag.value;
 };
 
+export type noGroup = '-1';
+export const noGroup: noGroup = '-1';
+
 @Component({
   selector: 'cs-template-filter-list',
   templateUrl: 'template-filter-list.component.html',
@@ -41,11 +44,8 @@ export class TemplateFilterListComponent {
     {
       key: 'groups',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_GROUPS',
-      selector: getTemplateGroupId,
-      name: (item: BaseTemplateModel) => this.groups[getTemplateGroupId(item)]
-        && this.groups[getTemplateGroupId(item)].translations
-        && this.groups[getTemplateGroupId(item)].translations[this.locale]
-        || getTemplateGroupId(item) || 'TEMPLATE_PAGE.FILTERS.GENERAL'
+      selector: (item: BaseTemplateModel) => this.getGroup(item) || noGroup,
+      name: (item: BaseTemplateModel) => this.getGroup(item) || 'TEMPLATE_PAGE.FILTERS.GENERAL'
     }
   ];
 
@@ -64,5 +64,11 @@ export class TemplateFilterListComponent {
     if (!this.isAdmin) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }
+  }
+
+  private getGroup(item: BaseTemplateModel): string {
+    return this.groups[getTemplateGroupId(item)]
+      && this.groups[getTemplateGroupId(item)].translations
+      && this.groups[getTemplateGroupId(item)].translations[this.locale];
   }
 }

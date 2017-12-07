@@ -5,12 +5,17 @@ import {
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { getLogin, getPassword, isHttpAuthMode } from '../../';
+import {
+  getLogin,
+  getPassword,
+  isHttpAuthMode,
+  VirtualMachine,
+  VmState
+} from '../../shared/vm.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { WebShellService } from '../../web-shell/web-shell.service';
 import { VmCreationComponent } from '../vm-creation.component';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';

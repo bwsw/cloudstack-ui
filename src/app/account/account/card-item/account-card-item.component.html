@@ -18,7 +18,7 @@
         > {{ item.name }} </span>
       </h2>
     </mat-card-title>
-    <div class="mat-card-header-menu" *ngIf="isAdmin()">
+    <div class="mat-card-header-menu" *ngIf="isAdmin() && !isSelf">
       <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
