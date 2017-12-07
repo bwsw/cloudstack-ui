@@ -2,7 +2,7 @@
   <div class="overlay mat-dialog-content">
     <div class="message">
       <cs-progress-logger
-        [controller]="progressLoggerController"
+        [messages]="loggerStageList"
       ></cs-progress-logger>
 
       <mat-progress-bar
@@ -26,6 +26,7 @@
       type="button"
       color="primary"
       *ngIf="!deploymentStopped && !deployedVm"
+      (click)="cancel.emit()"
       matDialogClose
     >
       {{ 'COMMON.CLOSE' | translate }}
@@ -244,6 +245,7 @@
         color="primary"
         matDialogClose
         type="button"
+        (click)="cancel.emit()"
       >
         {{ 'COMMON.CANCEL' | translate }}
       </button>

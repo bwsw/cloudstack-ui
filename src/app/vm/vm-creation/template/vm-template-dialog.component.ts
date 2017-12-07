@@ -12,14 +12,11 @@ import { AuthService } from '../../../shared/services/auth.service';
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
-  @Input() public zoneId: string;
+  public zoneId: string;
 
-  @Input()
   public set preselectedTemplate(value: BaseTemplateModel) {
     this.selectedTemplate = value;
   };
-
-  @Output() close = new EventEmitter();
 
   public get selectedTemplate(): BaseTemplateModel {
     return this._selectedTemplate;

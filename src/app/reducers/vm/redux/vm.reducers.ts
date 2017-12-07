@@ -6,12 +6,13 @@ import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { InstanceGroup } from '../../../shared/models';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
 import { SecurityGroup } from '../../../security-group/sg.model';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as vmActions from './vm.actions';
@@ -49,6 +50,7 @@ export interface FormState {
   enoughResources: boolean,
   insufficientResources: Array<string>,
   loggerStageList: Array<ProgressLoggerMessage>,
+  deployedVm: VirtualMachine,
   state: VmCreationState
 }
 
@@ -344,6 +346,7 @@ export const initialFormState: FormState = {
   enoughResources: false,
   insufficientResources: [],
   loggerStageList: [],
+  deployedVm: null,
   state: {
     affinityGroup: null,
     affinityGroupNames: [],
@@ -354,7 +357,7 @@ export const initialFormState: FormState = {
     keyboard: KeyboardLayout.us,
     rootDiskSize: 0,
     rootDiskMinSize: 0,
-    securityGroupData: VmCreationSecurityGroupData.fromMode(VmCreationSecurityGroupMode.Builder),
+    securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules()),
     serviceOffering: null,
     sshKeyPair: null,
     template: null,
@@ -371,11 +374,33 @@ export function formReducer(
     case vmActions.VM_FORM_INIT: {
       return { ...state, loading: true };
     }
+    case vmActions.VM_FORM_CLEAN: {
+      return { ...initialFormState };
+    }
     case vmActions.VM_FORM_UPDATE: {
       return { ...state, state: { ...state.state, ...action.payload } };
     }
     case vmActions.VM_CREATION_STATE_UPDATE: {
       return { ...state, ...action.payload, loading: false };
+    }
+    case vmActions.VM_DEPLOYMENT_ADD_LOGGER_MESSAGE: {
+      return { ...state, loggerStageList: [...state.loggerStageList, action.payload] };
+    }
+    case vmActions.VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE: {
+      const messages = [...state.loggerStageList].map(message => {
+        if (message.id != null && message.id === action.payload.id) {
+          return Object.assign(message, action.payload.data);
+        } else {
+          return message;
+        }
+      });
+      return { ...state, loggerStageList: messages };
+    }
+    case vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        deployedVm: action.payload
+      };
     }
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
       const names = action.payload.map(_ => _.name);

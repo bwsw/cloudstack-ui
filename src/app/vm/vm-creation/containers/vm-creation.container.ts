@@ -11,6 +11,7 @@ import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
 import { NotSelected } from '../data/vm-creation-state';
 import { MatDialogRef } from '@angular/material';
+import { FormState } from '../../../reducers/vm/redux/vm.reducers';
 
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
@@ -22,7 +23,6 @@ import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
-import { FormState } from '../../../reducers/vm/redux/vm.reducers';
 
 @Component({
   selector: 'cs-vm-create-container',
@@ -53,6 +53,7 @@ import { FormState } from '../../../reducers/vm/redux/vm.reducers';
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
+      (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
       (onVmDeploymentFailed)="onCancel()"
       (onVmDeploymentFinish)="onVmDeploymentFinished($event)"
@@ -79,10 +80,11 @@ export class VmCreationContainerComponent implements OnInit {
   ) {
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
+    this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
+    this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
+
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
 
@@ -158,7 +160,7 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public onCancel() {
-    this.store.dispatch(new vmActions.VmFormUpdate(fromVMs.initialFormState.state));
+    this.store.dispatch(new vmActions.VmCreationFormClean());
   }
 
   private getDefaultVmName(): Observable<string> {

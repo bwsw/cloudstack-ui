@@ -21,14 +21,6 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { FormState } from './vm.reducers';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-
-import * as vmActions from './vm.actions';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
-import * as fromVMs from '../../vm/redux/vm.reducers';
-import * as fromZones from '../../zones/redux/zones.reducers';
-import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
-import * as fromTemplates from '../../templates/redux/template.reducers';
-import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import { BaseTemplateModel } from '../../../template/shared';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import {
@@ -42,6 +34,15 @@ import { ProgressLoggerController } from '../../../shared/components/progress-lo
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { Effect } from '@ngrx/effects';
+
+import * as vmActions from './vm.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromZones from '../../zones/redux/zones.reducers';
+import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
+import * as fromTemplates from '../../templates/redux/template.reducers';
+import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
+
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -828,8 +829,6 @@ export class VirtualMachinesEffects {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         } else {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-
-          console.log(this.auth.getCustomDiskOfferingMinSize());
           const minSize = Math.ceil(Utils.convertToGb(vmCreationState.state.template.size)) || defaultDiskSize;
           // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
           let updates = Object.assign({}, { rootDiskMinSize: minSize });
@@ -841,19 +840,79 @@ export class VirtualMachinesEffects {
         }
       }
 
+      if (vmCreationState.state.zone) {
+        if (!vmCreationState.state.serviceOffering && serviceOfferings) {
+          return new vmActions.VmFormUpdate({ serviceOffering: serviceOfferings[0] });
+        }
+
+        if (!vmCreationState.state.template && templates) {
+          return new vmActions.VmFormUpdate({ template: templates[0] });
+        }
+      }
+
       return new vmActions.VmFormUpdateSuccess();
     });
 
 
-  //todo: fix deployment effect!!!
-  @Effect({ dispatch: false })
-  deployVm$: Observable<Action> = this.actions$
+  @Effect()
+  deployVm$ = this.actions$
     .ofType(vmActions.DEPLOY_VM)
     .switchMap((action: vmActions.DeployVm) => {
       return this.templateTagService.getAgreement(action.payload.state.template)
         .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload.state) : Observable.of(true))
         .filter(res => !!res)
-        .do(() => this.vmDeploymentService.deploy(action.payload).deployObservable);
+        .switchMap(() => {
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
+          );
+
+          this.initializeDeploymentActionList(action.payload);
+
+          return this.vmDeploymentService.deploy()
+            .map((observables: VmDeployObservables) => {
+              observables.deployStatusObservable.subscribe(deploymentMessage => {
+                this.handleDeploymentMessages(action.payload, deploymentMessage, notificationId);
+              });
+
+              return new vmActions.DeployActiomVm(observables.deployStatusObservable);
+            });
+        });
+    });
+
+  @Effect()
+  startDeployVm$ = this.actions$
+    .ofType(vmActions.DEPLOY_ACTION_VM)
+    .withLatestFrom(this.store.select(fromVMs.getVmFormState))
+    .switchMap(([action, state]: [vmActions.DeployActiomVm, FormState]) => {
+      let deployedVm;
+      let tempVm;
+      return Observable.of(null)
+        .do(() => {
+          action.payload.next({
+            stage: VmDeploymentStage.STARTED
+          });
+        })
+        .switchMap(() => this.vmDeploymentService.getPreDeployActions(action.payload, state.state))
+        .switchMap(modifiedState => this.vmDeploymentService.sendDeployRequest(action.payload, modifiedState))
+        .switchMap(({ deployResponse, temporaryVm }) => {
+          tempVm = temporaryVm;
+          return this.vmService.registerVmJob(deployResponse);
+        })
+        .switchMap(vm => {
+          deployedVm = vm;
+          action.payload.next({
+            stage: VmDeploymentStage.VM_DEPLOYED
+          });
+          return this.vmDeploymentService.getPostDeployActions(action.payload, state.state, vm);
+        })
+        .map(() => {
+          this.vmDeploymentService.handleSuccessfulDeployment(deployedVm, action.payload);
+          return new vmActions.CreateVmSuccess(deployedVm);
+        })
+        .catch((error) => {
+          this.vmDeploymentService.handleFailedDeployment(error, tempVm, action.payload);
+          return Observable.of(new vmActions.CreateVmError(error));
+        });
     });
 
   @Effect()
@@ -876,10 +935,6 @@ export class VirtualMachinesEffects {
         const enoughResources = !insufficientResources.length;
         return Observable.of(new vmActions.VmCreationStateUpdate({ enoughResources }));
       }));
-
-
-  public progressLoggerController = new ProgressLoggerController();
-  public deploymentStopped = false;
 
   constructor(
     private store: Store<State>,
@@ -997,25 +1052,6 @@ export class VirtualMachinesEffects {
     }
   }
 
-  private deployRequest(state: FormState) {
-    const notificationId = this.jobsNotificationService.add(
-      'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
-    );
-
-    const {
-      deployStatusObservable,
-      deployObservable
-    } = this.vmDeploymentService.deploy(state);
-
-    this.initializeDeploymentActionList(state);
-
-    deployStatusObservable.subscribe(deploymentMessage => {
-      this.handleDeploymentMessages(state, deploymentMessage, notificationId);
-    });
-    return deployObservable;
-  }
-
-
   private showTemplateAgreementDialog(state: VmCreationState): Observable<BaseTemplateModel> {
     return this.dialog.open(VmCreationAgreementComponent, {
       width: '900px',
@@ -1034,8 +1070,7 @@ export class VirtualMachinesEffects {
 
   public notifyOnDeployFailed(error: any, notificationId: string, state: FormState): void {
     this.store.dispatch(new vmActions.VmCreationStateUpdate({ deploymentStopped: false }));
-
-    this.progressLoggerController.addMessage({
+    this.store.dispatch(new vmActions.DeploymentAddLoggerMessage({
       text: error.params
         ? {
           translationToken: error.message,
@@ -1043,9 +1078,9 @@ export class VirtualMachinesEffects {
         }
         : error.message,
       status: [ProgressLoggerMessageStatus.ErrorMessage]
-    });
+    }));
 
-    const inProgressMessage = this.progressLoggerController.messages.find(message => {
+    const inProgressMessage = state.loggerStageList.find(message => {
       return message.status && message.status.includes(ProgressLoggerMessageStatus.InProgress);
     });
 
@@ -1059,8 +1094,6 @@ export class VirtualMachinesEffects {
       id: notificationId,
       message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
     });
-
-    // this.onVmDeploymentFailed.emit();
   }
 
   private handleDeploymentMessages(
@@ -1088,7 +1121,7 @@ export class VirtualMachinesEffects {
         this.onVmCreationInProgress(state);
         break;
       case VmDeploymentStage.FINISHED:
-        this.onVmDeploymentFinished(deploymentMessage, notificationId);
+        this.onVmDeploymentFinished(notificationId);
         break;
       case VmDeploymentStage.ERROR:
         this.notifyOnDeployFailed(deploymentMessage.error, notificationId, state);
@@ -1137,13 +1170,14 @@ export class VirtualMachinesEffects {
       'TAG_COPYING': 'VM_PAGE.VM_CREATION.TAG_COPYING'
     };
 
-    const loggerStageList = this.getDeploymentActionList(state.state).forEach(actionName => {
-      return this.progressLoggerController.addMessage({
-        text: translations[actionName]
-      });
+    const loggerStageList = [];
+
+    this.getDeploymentActionList(state.state).forEach(actionName => {
+      loggerStageList.push({ text: translations[actionName] });
     });
 
     this.store.dispatch(new vmActions.VmCreationStateUpdate({ loggerStageList }));
+
   }
 
   private onVmDeploymentStarted(state: FormState): void {
@@ -1245,17 +1279,13 @@ export class VirtualMachinesEffects {
     );
   }
 
-  private onVmDeploymentFinished(
-    deploymentMessage: VmDeploymentMessage,
-    notificationId: string
-  ): void {
-    this.deploymentStopped = false;
-    this.store.dispatch(new vmActions.CreateVmSuccess(deploymentMessage.vm));
+  private onVmDeploymentFinished(notificationId: string): void {
+    this.store.dispatch(new vmActions.VmCreationStateUpdate({ deploymentStopped: false }));
     this.notifyOnDeployDone(notificationId);
-    this.progressLoggerController.addMessage({
+    this.store.dispatch(new vmActions.DeploymentAddLoggerMessage({
       text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',
       status: [ProgressLoggerMessageStatus.Highlighted]
-    });
+    }));
   }
 
   private updateLoggerMessage(
@@ -1268,6 +1298,6 @@ export class VirtualMachinesEffects {
       return message.text === messageText;
     });
     const id = updatedMessage && updatedMessage.id;
-    this.progressLoggerController.updateMessage(id, { status });
+    this.store.dispatch(new vmActions.DeploymentUpdateLoggerMessage({ id, data: { status } }));
   }
 }

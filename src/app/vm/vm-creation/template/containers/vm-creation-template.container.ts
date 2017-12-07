@@ -12,21 +12,13 @@ import * as templateActions from '../../../../reducers/templates/redux/template.
     <cs-vm-creation-template
       name="template"
       class="template-select"
-      [templates]="templates$ | async"
       [ngModel]="template"
       (change)="change.emit($event)"
     ></cs-vm-creation-template>`
 })
 export class VmCreationTemplateContainerComponent {
-  readonly templates$ = this.store.select(fromTemplates.selectTemplatesForVmCreation);
-
+  // readonly templates$ = this.store.select(fromTemplates.selectTemplatesForVmCreation);
   @Input() public template: BaseTemplateModel;
-
-  @Input()
-  public set zoneId(value: string) {
-    this.store.dispatch(new templateActions.DialogLoadTemplatesRequest(value));
-  }
-
   @Output() public change = new EventEmitter<BaseTemplateModel>();
 
   constructor(private store: Store<State>) {

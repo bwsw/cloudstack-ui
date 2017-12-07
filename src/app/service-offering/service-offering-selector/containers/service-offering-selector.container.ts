@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 import { ServiceOffering } from '../../../shared/models';
@@ -19,7 +19,7 @@ import * as fromVM from '../../../reducers/vm/redux/vm.reducers';
       (change)="serviceOfferingChange.emit($event)"
     ></cs-service-offering-selector>`
 })
-export class ServiceOfferingSelectorContainerComponent implements AfterViewInit {
+export class ServiceOfferingSelectorContainerComponent {
   readonly isLoading$ = this.store.select(fromSO.isLoading);
   readonly serviceOfferings$ = this.store.select(fromSO.getAvailableOfferingsForVmCreation);
   readonly customOfferingRestrictions$ = this.store.select(fromSO.customOfferingRestrictions);
@@ -27,10 +27,6 @@ export class ServiceOfferingSelectorContainerComponent implements AfterViewInit 
   @Input() public serviceOffering: ServiceOffering;
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
 
-  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {
-  }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
+  constructor(private store: Store<State>) {
   }
 }

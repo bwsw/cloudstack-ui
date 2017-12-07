@@ -14,6 +14,7 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
+import * as vm from '../../vm/redux/vm.actions';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -160,7 +161,7 @@ export function listReducer(
 
 export function vmCreationListReducer(
   state = initialVmCreationTemplatesState,
-  action: template.Actions
+  action: template.Actions | vm.Actions
 ): VmCreationTemplatesState {
   switch (action.type) {
     case template.DIALOG_TEMPLATE_FILTER_UPDATE: {
@@ -173,6 +174,15 @@ export function vmCreationListReducer(
       };
     }
     case template.DIALOG_LOAD_TEMPLATE_REQUEST: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          selectedZoneId: action.payload
+        }
+      };
+    }
+    case vm.VM_FORM_UPDATE: {
       return {
         ...state,
         filters: {

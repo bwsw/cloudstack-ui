@@ -3,6 +3,10 @@ import { VirtualMachine } from '../../../vm';
 import { ServiceOffering, InstanceGroup, SSHKeyPair, Color } from '../../../shared/models';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { FormState } from './vm.reducers';
+import {
+  ProgressLoggerMessage,
+  ProgressLoggerMessageData
+} from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -38,14 +42,19 @@ export const OPEN_URL_VM = '[VM] OPEN_URL_VM';
 export const EXPUNGE_VM = '[VM] EXPUNGE_VM';
 export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
 export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
+export const CREATE_VM_ERROR = '[VM] CREATE_VM_ERROR';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
 
 export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
+export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
 export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
 export const VM_FORM_UPDATE_SUCCESS = '[VM creation] VM_FORM_UPDATE_SUCCESS';
 export const DEPLOY_VM = '[VM creation] DEPLOY_VM';
+export const DEPLOY_ACTION_VM = '[VM creation] DEPLOY_ACTION_VM';
 export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
+export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM creation] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
+export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM creation] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -328,6 +337,13 @@ export class CreateVmSuccess implements Action {
   }
 }
 
+export class CreateVmError implements Action {
+  readonly type = CREATE_VM_ERROR;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class ChangeSshKey implements Action {
   readonly type = CHANGE_SSH_KEY;
 
@@ -373,10 +389,38 @@ export class DeployVm implements Action {
   }
 }
 
+export class DeployActiomVm implements Action {
+  type = DEPLOY_ACTION_VM;
+
+  constructor(public payload: any) {
+  }
+}
+
 export class VmCreationFormInit implements Action {
   type = VM_FORM_INIT;
 
   constructor(public payload?: any) {
+  }
+}
+
+export class VmCreationFormClean implements Action {
+  type = VM_FORM_CLEAN;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class DeploymentAddLoggerMessage implements Action {
+  type = VM_DEPLOYMENT_ADD_LOGGER_MESSAGE;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class DeploymentUpdateLoggerMessage implements Action {
+  type = VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE;
+
+  constructor(public payload: { id: string, data: Partial<ProgressLoggerMessageData> }) {
   }
 }
 
@@ -416,6 +460,11 @@ export type Actions = LoadVMsRequest
   | ChangeSshKey
   | VMUpdateError
   | VmCreationStateUpdate
+  | VmCreationFormInit
+  | VmCreationFormClean
   | VmFormUpdate
   | VmFormUpdateSuccess
-  | DeployVm;
+  | DeployVm
+  | DeployActiomVm
+  | DeploymentAddLoggerMessage
+  | DeploymentUpdateLoggerMessage;

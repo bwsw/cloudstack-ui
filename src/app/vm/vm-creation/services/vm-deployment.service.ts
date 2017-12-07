@@ -14,7 +14,6 @@ import { VmCreationSecurityGroupService } from './vm-creation-security-group.ser
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
-import { FormState } from '../../../reducers/vm/redux/vm.reducers';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -76,44 +75,19 @@ export class VmDeploymentService {
   ) {
   }
 
-  public deploy(state: FormState): VmDeployObservables {
+  public deploy(): Observable<VmDeployObservables> {
     const deployStatusObservable = new Subject<VmDeploymentMessage>();
-    return {
+    return Observable.of({
       deployStatusObservable,
-      deployObservable: this.deployObservable(deployStatusObservable, state.state)
-    };
+      deployObservable: this.deployObservable(deployStatusObservable)
+    });
   }
 
-  private deployObservable(deployObservable, state): Observable<any> {
-    let deployedVm;
-    let tempVm;
-    return Observable.of(null)
-      .do(() => {
-        deployObservable.next({
-          stage: VmDeploymentStage.STARTED
-        });
-      })
-      .switchMap(() => this.getPreDeployActions(deployObservable, state))
-      .switchMap(modifiedState => this.sendDeployRequest(deployObservable, modifiedState))
-      .switchMap(({ deployResponse, temporaryVm }) => {
-        tempVm = temporaryVm;
-        return this.vmService.registerVmJob(deployResponse);
-      })
-      .switchMap(vm => {
-        deployedVm = vm;
-        deployObservable.next({
-          stage: VmDeploymentStage.VM_DEPLOYED
-        });
-        return this.getPostDeployActions(deployObservable, state, vm);
-      })
-      .map(() => this.handleSuccessfulDeployment(deployedVm, deployObservable))
-      .catch(error => {
-        this.handleFailedDeployment(error, tempVm, deployObservable);
-        return Observable.of(null);
-      });
+  private deployObservable(deployObservable): Observable<any> {
+    return Observable.of(null);
   }
 
-  private getPreDeployActions(
+  public getPreDeployActions(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<VmCreationState> {
@@ -130,7 +104,7 @@ export class VmDeploymentService {
       });
   }
 
-  private getPostDeployActions(
+  public getPostDeployActions(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState,
     vm: VirtualMachine
@@ -261,7 +235,7 @@ export class VmDeploymentService {
       });
   }
 
-  private sendDeployRequest(
+  public sendDeployRequest(
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<{ deployResponse: any, temporaryVm: VirtualMachine }> {
@@ -299,7 +273,7 @@ export class VmDeploymentService {
     });
   }
 
-  private handleSuccessfulDeployment(
+  public handleSuccessfulDeployment(
     vm: VirtualMachine,
     deployObservable: Subject<VmDeploymentMessage>
   ): void {
@@ -309,7 +283,7 @@ export class VmDeploymentService {
     });
   }
 
-  private handleFailedDeployment(
+  public handleFailedDeployment(
     error: any,
     temporaryVm: VirtualMachine,
     deployObservable: Subject<VmDeploymentMessage>
