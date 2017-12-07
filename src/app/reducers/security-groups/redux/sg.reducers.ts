@@ -1,8 +1,21 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState
+} from '@ngrx/entity';
+import {
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
+import {
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
 import * as securityGroup from './sg.actions';
-import { SecurityGroupViewMode } from '../../../security-group/sg-filter/containers/sg-filter.container';
+import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+
+import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
+
 
 export interface State {
   list: ListState,
@@ -12,6 +25,7 @@ export interface State {
 export interface ListState extends EntityState<SecurityGroup> {
   filters: {
     viewMode: string,
+    selectedAccountIds: string[],
     query: string
   },
   loading: boolean,
@@ -30,6 +44,7 @@ export const adapter: EntityAdapter<SecurityGroup> = createEntityAdapter<Securit
 const initialListState: ListState = adapter.getInitialState({
   filters: {
     query: '',
+    selectedAccountIds: [],
     viewMode: SecurityGroupViewMode.Templates
   },
   loading: false,
@@ -180,6 +195,11 @@ export const query = createSelector(
   state => state.query
 );
 
+export const filterSelectedAccountIds = createSelector(
+  filters,
+  state => state.selectedAccountIds
+);
+
 export const getSelectedId = createSelector(
   getSecurityGroupsEntitiesState,
   state => state.selectedSecurityGroupId
@@ -204,10 +224,20 @@ export const isFormLoading = createSelector(
 export const selectFilteredSecurityGroups = createSelector(
   selectAll,
   filters,
-  (securityGroups, filter) => {
+  fromAccounts.selectAll,
+  (securityGroups, filter, accounts) => {
     const queryLower = filter.query ? filter.query.toLowerCase() : '';
     const queryFilter = (group: SecurityGroup) => !queryLower || group.name.toLowerCase()
       .includes(queryLower);
+
+    const selectedAccounts = accounts.filter(
+      account => filter.selectedAccountIds.find(id => id === account.id));
+    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
+    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
+
+    const selectedAccountIdsFilter = group => !filter.selectedAccountIds.length ||
+      (accountsMap[group.account] && domainsMap[group.domainid]);
+
 
     const mode = filter.viewMode;
     const viewModeFilter = (group: SecurityGroup) => {
@@ -218,7 +248,8 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    return securityGroups.filter(group => queryFilter(group) && viewModeFilter(group));
+    return securityGroups.filter(group => queryFilter(group)
+      && viewModeFilter(group) && selectedAccountIdsFilter(group));
   }
 );
 

@@ -7,7 +7,7 @@ import {
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { Zone } from '../../shared/models';
-import { VolumeCreationData } from '../container/volume-creation.container';
+import { VolumeCreationData } from '../../shared/models/volume.model';
 
 
 @Component({

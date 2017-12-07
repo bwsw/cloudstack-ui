@@ -3,7 +3,7 @@ import {
   Input
 } from '@angular/core';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { SecurityGroupViewMode } from '../../sg-filter/containers/sg-filter.container';
+import { SecurityGroupViewMode } from '../../sg-view-mode';
 
 
 @Component({

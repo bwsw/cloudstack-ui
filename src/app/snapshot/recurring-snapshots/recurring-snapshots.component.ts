@@ -1,20 +1,25 @@
-import { Component, forwardRef, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Inject,
+  OnInit
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../shared/models';
-import { LanguageService, TimeFormat } from '../../shared/services/language.service';
-import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
+import {
+  LanguageService,
+  TimeFormat
+} from '../../shared/services/language.service';
+import {
+  Policy,
+  TimePolicy
+} from './policy-editor/policy-editor.component';
 import { SnapshotPolicyService } from './snapshot-policy.service';
+import { PolicyType } from './snapshot-policy-type';
 
-
-export enum PolicyType {
-  Hourly,
-  Daily,
-  Weekly,
-  Monthly
-}
 
 @Component({
   selector: 'cs-recurring-snapshots',

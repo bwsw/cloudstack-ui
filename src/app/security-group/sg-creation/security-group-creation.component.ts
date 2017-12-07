@@ -5,9 +5,8 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Rules } from '../../shared/components/security-group-builder/rules';
-import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
+import { SecurityGroupViewMode } from '../sg-view-mode';
 
 export interface SecurityGroupCreationParams {
   mode: SecurityGroupViewMode;
