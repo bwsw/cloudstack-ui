@@ -11,6 +11,7 @@ import { AccountUser } from '../../../shared/models/account-user.model';
 import { Account } from '../../../shared/models/account.model';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as account from './accounts.actions';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -49,7 +50,7 @@ export const accountReducers = {
  */
 export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({
   selectId: (item: Account) => item.id,
-  sortComparer: false
+  sortComparer: Utils.sortByName
 });
 
 /** getInitialState returns the default initial state

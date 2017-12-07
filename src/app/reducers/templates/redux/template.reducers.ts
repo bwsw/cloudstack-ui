@@ -21,6 +21,7 @@ import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -52,7 +53,7 @@ export interface VmCreationTemplatesState {
 export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<BaseTemplateModel>(
   {
     selectId: (item: BaseTemplateModel) => item.id,
-    sortComparer: false
+    sortComparer: Utils.sortByName
   });
 
 

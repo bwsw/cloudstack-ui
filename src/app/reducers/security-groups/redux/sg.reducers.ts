@@ -15,6 +15,7 @@ import * as securityGroup from './sg.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 
 export interface State {
@@ -32,13 +33,9 @@ export interface ListState extends EntityState<SecurityGroup> {
   selectedSecurityGroupId: string | null
 }
 
-export const sortByName = (a: SecurityGroup, b: SecurityGroup) => {
-  return a.name.localeCompare(b.name);
-};
-
 export const adapter: EntityAdapter<SecurityGroup> = createEntityAdapter<SecurityGroup>({
   selectId: (item: SecurityGroup) => item.id,
-  sortComparer: sortByName
+  sortComparer: Utils.sortByName
 });
 
 const initialListState: ListState = adapter.getInitialState({

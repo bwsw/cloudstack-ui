@@ -12,6 +12,7 @@ import { Volume } from '../../../shared/models/volume.model';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -51,7 +52,7 @@ export const volumeReducers = {
  */
 export const adapter: EntityAdapter<Volume> = createEntityAdapter<Volume>({
   selectId: (item: Volume) => item.id,
-  sortComparer: false
+  sortComparer: Utils.sortByName
 });
 
 /** getInitialState returns the default initial state

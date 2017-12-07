@@ -12,6 +12,7 @@ import {
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 
 import * as sshKey from './ssh-key.actions';
+import { Utils } from '../../shared/services/utils/utils.service';
 
 export interface State {
   list: ListState,
@@ -30,14 +31,9 @@ export const sshKeyId = (sshKey: SSHKeyPair) => {
   return `${sshKey.domainid}-${sshKey.account}-${sshKey.name}`;
 };
 
-export const sortByName = (a: SSHKeyPair, b: SSHKeyPair) => {
-  return a.name.localeCompare(b.name);
-};
-
-
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
   selectId: sshKeyId,
-  sortComparer: sortByName
+  sortComparer: Utils.sortByName
 });
 
 const initialListState: ListState = adapter.getInitialState({
