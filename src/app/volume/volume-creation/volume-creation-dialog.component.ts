@@ -8,6 +8,7 @@ import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { Zone } from '../../shared/models';
 import { VolumeCreationData } from '../../shared/models/volume.model';
+import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -34,7 +35,10 @@ export class VolumeCreationDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
-  ) { }
+    public authService: AuthService
+  ) {
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+  }
 
   public onSubmit(e): void {
     e.preventDefault();
