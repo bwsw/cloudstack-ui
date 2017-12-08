@@ -11,7 +11,6 @@ import * as fromRouter from '@ngrx/router-store';
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
-import { storeFreeze } from 'ngrx-store-freeze';
 import { RouterStateUrl } from '../shared/services/utils/utils.service';
 
 /**
@@ -67,5 +66,5 @@ export function logout(reducer: ActionReducer<State>) {
  * that will be composed to form the root meta-reducer.
  */
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? [logger, logout, storeFreeze]
+  ? [logger, logout]
   : [logout];
