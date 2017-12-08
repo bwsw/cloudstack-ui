@@ -10,21 +10,18 @@ import { State } from '../../reducers/index';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
-import * as fromAuth from '../../reducers/auth/redux/auth.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
 import { Zone } from '../../shared/models/zone.model';
-import { VolumeType } from '../../shared/models/volume.model';
+import {
+  VolumeCreationData,
+  VolumeType
+} from '../../shared/models/volume.model';
 
-export class VolumeCreationData {
-  public name: string;
-  public zoneId: string;
-  public diskOfferingId: string;
-  public size?: number;
-}
 
 @Component({
   selector: 'cs-volume-creation-container',
@@ -45,7 +42,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   public loading$ = this.store.select(fromVolumes.isLoading);
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly account$ = this.store.select(fromAuth.getUserAccount);
+  readonly account$ = this.store.select(fromAccounts.selectUserAccount);
 
   public maxSize: number = 2;
 

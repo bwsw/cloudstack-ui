@@ -1,9 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  Input
+} from '@angular/core';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SecurityGroup, } from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
-import { SecurityGroupViewMode } from '../sg-filter/containers/sg-filter.container';
 import { ListService } from '../../shared/components/list/list.service';
+import { SecurityGroupViewMode } from '../sg-view-mode';
 
 @Component({
   selector: 'cs-security-group-page',

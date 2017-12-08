@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
-import { Volume } from '../../../shared/models/volume.model';
-import { VolumeCreationData } from '../../../volume/container/volume-creation.container';
+import {
+  Volume,
+  VolumeCreationData
+} from '../../../shared/models/volume.model';
 import { VolumeResizeData } from '../../../shared/services/volume.service';
 import { Snapshot } from '../../../shared/models/snapshot.model';
 
