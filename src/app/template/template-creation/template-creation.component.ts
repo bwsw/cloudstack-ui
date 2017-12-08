@@ -15,7 +15,10 @@ import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
-import { TemplateResourceType } from '../shared/base-template.service';
+import {
+  CreateTemplateBaseParams,
+  TemplateResourceType
+} from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
 
 interface TemplateFormat {
@@ -37,7 +40,7 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public groups: Array<TemplateGroup>;
   @Input() public snapshot?: Snapshot;
 
-  @Output() public onCreateTemplate = new EventEmitter<any>();
+  @Output() public onCreateTemplate = new EventEmitter<CreateTemplateBaseParams>();
 
   public name: string;
   public displayText: string;
@@ -100,7 +103,7 @@ export class TemplateCreationComponent implements OnInit {
     });
   }
 
-  public changeHypervisor(hypervisor: string) {
+  public changeHypervisor() {
     this.visibleFormats = this.filterFormats(this.formats, this.hypervisor);
   }
 

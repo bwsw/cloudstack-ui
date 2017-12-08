@@ -44,7 +44,7 @@ export interface CreateTemplateBaseParams {
   displayText: string;
   name: string;
   osTypeId: string;
-  snapshotId: string;
+  snapshotId?: string;
   groupId?: string;
   [propName: string]: any;
 }
