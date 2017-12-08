@@ -14,10 +14,7 @@ export class ZoneService extends BaseBackendCachedService<Zone> {
     super(http);
   }
 
-  protected prepareModel(res, entityModel?): Zone {
-    if (entityModel) {
-      return entityModel(res) as Zone;
-    }
+  protected prepareModel(res): Zone {
     return res as Zone;
   }
 }
