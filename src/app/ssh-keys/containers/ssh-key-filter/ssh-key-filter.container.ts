@@ -9,7 +9,10 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
 import { FilterService } from '../../../shared/services/filter.service';
 import * as accountAction from '../../../reducers/accounts/redux/accounts.actions';
 import * as sshKeyActions from '../../redux/ssh-key.actions';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { sshKeyGroupings } from '../ssh-key-page/ssh-key-page.container';
@@ -22,6 +25,8 @@ export const sshKeyListFilters = 'sshKeyListFilters';
   templateUrl: 'ssh-key-filter.container.html'
 })
 export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements OnInit {
+
+  public groupings: Array<any> = sshKeyGroupings;
 
   private filters$ = this.store.select(fromSshKeys.filters);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
@@ -60,6 +65,9 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
   }
 
   public ngOnInit(): void {
+    if (!this.authService.isAdmin()) {
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
+    }
     this.store.dispatch(new accountAction.LoadAccountsRequest());
     this.initFilters();
   }
@@ -67,10 +75,7 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
   private initFilters(): void {
     const params = this.filterService.getParams();
     const selectedGroupings = params['groupings'].reduce((acc, group) => {
-      const grouping = sshKeyGroupings.find(g => {
-        if (g.key === 'accounts' === group) {
-          return this.authService.isAdmin();
-        }
+      const grouping = this.groupings.find(g => {
         return g.key === group;
       });
       if (grouping) {

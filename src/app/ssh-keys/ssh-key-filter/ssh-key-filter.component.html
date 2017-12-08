@@ -1,5 +1,5 @@
 <div class="filter-wrapper">
-  <mat-form-field *ngIf="accounts.length">
+  <mat-form-field *ngIf="accounts.length > 1">
     <mat-select
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"
@@ -13,7 +13,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field  *ngIf="groupings.length">
     <cs-draggable-select
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
