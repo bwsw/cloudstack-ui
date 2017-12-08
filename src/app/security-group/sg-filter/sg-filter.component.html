@@ -7,7 +7,9 @@
     <mat-button-toggle [value]="SecurityGroupViewMode.Templates">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.TEMPLATES' | translate }}
     </mat-button-toggle>
-    <mat-button-toggle [value]="SecurityGroupViewMode.Shared">
+    <mat-button-toggle
+      [value]="SecurityGroupViewMode.Shared"
+      [attr.cdkFocusRegionStart]="viewMode === SecurityGroupViewMode.Shared">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.SHARED' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>

@@ -3949,15 +3949,15 @@ ngrx-store-freeze@^0.2.0:
   dependencies:
     deep-freeze-strict "^1.1.1"
 
-"ngx-clipboard@github:M-Adoo/ngx-clipboard#eaa06663f2437c563aa271a370dda1f5eb46df6a":
-  version "0.0.0"
-  resolved "https://codeload.github.com/M-Adoo/ngx-clipboard/tar.gz/eaa06663f2437c563aa271a370dda1f5eb46df6a"
+ngx-clipboard@^8.1.3:
+  version "8.1.3"
+  resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-8.1.3.tgz#2bd2d5dda17d395a11a91c00dc02151b88fcc77a"
   dependencies:
-    ngx-window-token "0.0.3"
+    ngx-window-token "0.0.4"
 
-ngx-window-token@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-0.0.3.tgz#43c67f04d387b6dc9fd41b2d2366779e5915b979"
+ngx-window-token@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/ngx-window-token/-/ngx-window-token-0.0.4.tgz#47e7aaa465411c4ab5f7ba17601bc593c956c736"
 
 no-case@^2.2.0:
   version "2.3.2"
@@ -5357,6 +5357,12 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
+showdown@^1.8.1:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/showdown/-/showdown-1.8.3.tgz#644dd3c8f9432c7744c49b45e9a198a01719435e"
+  dependencies:
+    yargs "^10.0.3"
+
 signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
@@ -6481,6 +6487,29 @@ yargs-parser@^7.0.0:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-7.0.0.tgz#8d0ac42f16ea55debd332caf4c4038b3e3f5dfd9"
   dependencies:
     camelcase "^4.1.0"
+
+yargs-parser@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-8.0.0.tgz#21d476330e5a82279a4b881345bf066102e219c6"
+  dependencies:
+    camelcase "^4.1.0"
+
+yargs@^10.0.3:
+  version "10.0.3"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-10.0.3.tgz#6542debd9080ad517ec5048fb454efe9e4d4aaae"
+  dependencies:
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    find-up "^2.1.0"
+    get-caller-file "^1.0.1"
+    os-locale "^2.0.0"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^2.0.0"
+    which-module "^2.0.0"
+    y18n "^3.2.1"
+    yargs-parser "^8.0.0"
 
 yargs@^6.6.0:
   version "6.6.0"
