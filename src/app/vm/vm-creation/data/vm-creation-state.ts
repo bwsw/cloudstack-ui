@@ -69,10 +69,6 @@ export class VmCreationState {
     return this.diskOffering && this.diskOffering.isCustomized;
   }
 
-  public get showSecurityGroups(): boolean {
-    return !this.zone.networkTypeIsBasic;
-  }
-
   public get diskOfferingsAreAllowed(): boolean {
     return !!this.template && !this.template.isTemplate;
   }
@@ -86,7 +82,7 @@ export class VmCreationState {
   }
 
   public get doCreateSecurityGroup(): boolean {
-    return !this.zone.networkTypeIsBasic;
+    return this.zone.securityGroupsEnabled;
   }
 
   public get doCreateInstanceGroup(): boolean {
