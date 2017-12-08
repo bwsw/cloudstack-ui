@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { BaseModel } from '../models';
+import { BaseModelInterface } from '../models';
 import { ApiFormat, BaseBackendService } from './base-backend.service';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 
 
-export abstract class BaseBackendCachedService<M extends BaseModel> extends BaseBackendService<M> {
+export abstract class BaseBackendCachedService<M extends BaseModelInterface> extends BaseBackendService<M> {
   private cache: Cache<Array<M>>;
 
   constructor(http: HttpClient) {

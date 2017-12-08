@@ -1,18 +1,9 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './service-offerings.actions';
-
-import * as fromVMs from '../../vm/redux/vm.reducers';
-import * as fromAuths from '../../auth/redux/auth.reducers';
-import * as fromZones from '../../zones/redux/zones.reducers';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import { Zone } from '../../../shared/models/zone.model';
 import {
   CustomServiceOffering,
   ICustomServiceOffering
@@ -21,12 +12,18 @@ import {
   ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
 } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
-import { OfferingAvailability } from '../../../shared/services/offering.service';
-import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import { Zone } from '../../../shared/models/zone.model';
+import {
+  DefaultCustomServiceOfferingRestrictions
+} from '../../../service-offering/custom-service-offering/custom-service-offering.component';
+import {
+  customServiceOfferingFallbackParams
+} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+
+import * as event from './service-offerings.actions';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromAuths from '../../auth/redux/auth.reducers';
+import * as fromZones from '../../zones/redux/zones.reducers';
 import * as merge from 'lodash/merge';
-import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-service-offering.component';
-import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -178,15 +175,15 @@ export const getAvailableOfferings = createSelector(
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
   (
-    serviceOfferings, offeringAvailability,
-    defaultParams, customOfferingRestrictions,
+    serviceOfferings, availability,
+    defaults, customRestrictions,
     zone, user
   ) => {
     if (zone && user) {
       const availableOfferings = getAvailableByResourcesSync(
         serviceOfferings,
-        offeringAvailability,
-        customOfferingRestrictions,
+        availability,
+        customRestrictions,
         ResourceStats.fromAccount([user]),
         zone
       ).sort((a: ServiceOffering, b: ServiceOffering) => {
@@ -214,10 +211,10 @@ export const getAvailableOfferings = createSelector(
 
 const getOfferingsAvailableInZone = (
   offeringList: Array<ServiceOffering>,
-  offeringAvailability: OfferingAvailability,
+  availability: OfferingAvailability,
   zone: Zone
 ) => {
-  if (!offeringAvailability.filterOfferings) {
+  if (!availability.filterOfferings) {
     return offeringList;
   }
 
@@ -225,26 +222,26 @@ const getOfferingsAvailableInZone = (
     .filter(offering => {
       const offeringAvailableInZone = this.isOfferingAvailableInZone(
         offering,
-        offeringAvailability,
+        availability,
         zone
       );
-      const localStorageCompatibility = zone.localStorageEnabled || !offering.isLocal;
+      const localStorageCompatibility = zone.localstorageenabled || !offering.isLocal;
       return offeringAvailableInZone && localStorageCompatibility;
     });
 };
 
 const getAvailableByResourcesSync = (
   serviceOfferings: Array<ServiceOffering>,
-  offeringAvailability: OfferingAvailability,
+  availability: OfferingAvailability,
   offeringRestrictions: ICustomOfferingRestrictionsByZone,
   resourceUsage: ResourceStats,
   zone: Zone
 ) => {
   const availableInZone = getOfferingsAvailableInZone(
-      serviceOfferings,
-      offeringAvailability,
-      zone
-    );
+    serviceOfferings,
+    availability,
+    zone
+  );
 
   return availableInZone
     .filter(offering => {
@@ -269,25 +266,25 @@ const getAvailableByResourcesSync = (
 
 const getCustomOfferingWithSetParams = (
   serviceOffering: CustomServiceOffering,
-  defaultParams: ICustomServiceOffering,
+  defaults: ICustomServiceOffering,
   customRestrictions: ICustomOfferingRestrictions,
   resourceStats: ResourceStats
 ) => {
   const cpuNumber =
     serviceOffering.cpuNumber
-    || defaultParams && defaultParams.cpuNumber
+    || defaultParams && defaults.cpuNumber
     || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
     || customServiceOfferingFallbackParams.cpuNumber;
 
   const cpuSpeed =
     serviceOffering.cpuSpeed
-    || defaultParams && defaultParams.cpuSpeed
+    || defaultParams && defaults.cpuSpeed
     || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
     || customServiceOfferingFallbackParams.cpuSpeed;
 
   const memory =
     serviceOffering.memory
-    || defaultParams && defaultParams.memory
+    || defaultParams && defaults.memory
     || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
     || customServiceOfferingFallbackParams.memory;
 
@@ -365,7 +362,7 @@ const getRestrictionIntersection = (
     }
 
     if (customRestrictions.cpuNumber.max != null) {
-      result.cpuNumber['max'] = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max)
+      result.cpuNumber['max'] = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max);
     }
   }
 
@@ -398,4 +395,4 @@ const getRestrictionIntersection = (
   }
 
   return result;
-}
+};

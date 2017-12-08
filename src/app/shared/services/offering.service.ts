@@ -64,7 +64,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
           offeringAvailability,
           zone
         );
-        const localStorageCompatibility = zone.localStorageEnabled || !offering.isLocal;
+        const localStorageCompatibility = zone.localstorageenabled || !offering.isLocal;
         return offeringAvailableInZone && localStorageCompatibility;
       });
   }
