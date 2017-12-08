@@ -8,6 +8,6 @@ const zones: Array<Object> = require('../fixtures/zones.json');
 @Injectable()
 export class MockZoneService {
   public getList(): Observable<Array<Zone>> {
-    return Observable.of(zones.map(json => new Zone(json)));
+    return Observable.of(zones).map(zoneList => zoneList as Zone[]);
   }
 }
