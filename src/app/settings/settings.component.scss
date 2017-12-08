@@ -1,4 +1,4 @@
-$section-width: 320px;
+$section-width: 280px;
 $section-padding: 20px;
 
 :host {
@@ -20,6 +20,10 @@ $section-padding: 20px;
       h5 {
         margin: 8px 0;
         font-size: 1.25em;
+      }
+
+      h3 {
+        margin: 0;
       }
     }
 
