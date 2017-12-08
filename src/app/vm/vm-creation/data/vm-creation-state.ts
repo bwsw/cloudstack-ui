@@ -82,7 +82,7 @@ export class VmCreationState {
   }
 
   public get doCreateSecurityGroup(): boolean {
-    return this.zone.securityGroupsEnabled;
+    return this.zone.securitygroupsenabled;
   }
 
   public get doCreateInstanceGroup(): boolean {
