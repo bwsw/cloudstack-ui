@@ -28,7 +28,8 @@ export class SshKeypairComponent {
   }
 
   public showSshKeypairResetDialog(): void {
-    this.dialog.open( SshKeypairResetComponent,<MatDialogConfig>{
+    this.dialog.open( SshKeypairResetComponent, <MatDialogConfig>{
+      data: { sshKeyName: this.vm.keyPair},
       width: '350px' ,
       disableClose: true
     }).afterClosed()

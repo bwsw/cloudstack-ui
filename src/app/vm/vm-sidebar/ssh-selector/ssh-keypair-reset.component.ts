@@ -19,18 +19,21 @@ export class SshKeypairResetComponent implements OnInit {
   public resettingKeyInProgress = false;
   public sshKeyList: Array<SSHKeyPair>;
   public selectedSshKeyName: string;
+  public preselectedSshKeyName: string;
 
   constructor(
     private dialogRef: MatDialogRef<SshKeypairResetComponent>,
     @Inject(MAT_DIALOG_DATA) private vm,
     private sshService: SSHKeyPairService
-  ) { }
+  ) {
+    this.preselectedSshKeyName = vm.sshKeyName;
+  }
 
   public ngOnInit(): void {
     this.sshService.getList().subscribe(keys => {
       this.sshKeyList = keys;
       if (this.sshKeyList.length) {
-        this.selectedSshKeyName = this.sshKeyList[0].name;
+        this.selectedSshKeyName = this.preselectedSshKeyName || this.sshKeyList[0].name;
       }
     });
   }

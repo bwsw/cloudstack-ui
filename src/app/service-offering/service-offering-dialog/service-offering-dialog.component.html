@@ -6,6 +6,7 @@
     <cs-service-offering-selector
       *ngIf="serviceOfferings?.length"
       class="service-offering-selector"
+      [selectedServiceOfferingId]="serviceOfferingId"
       [serviceOfferings]="serviceOfferings"
       [customOfferingRestrictions]="restrictions"
       [zoneId]="zoneId"

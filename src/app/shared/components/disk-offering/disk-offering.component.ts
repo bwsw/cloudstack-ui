@@ -20,6 +20,7 @@ export class DiskOfferingComponent implements ControlValueAccessor {
   @Input() public diskOfferingList: Array<DiskOffering>;
   @Input() public placeholder: string;
   @Input() public required = false;
+  @Input() public selectedDiskOfferingId: string;
   @Output() public change: EventEmitter<DiskOffering>;
 
   private _diskOffering: DiskOffering;
@@ -31,14 +32,13 @@ export class DiskOfferingComponent implements ControlValueAccessor {
   public updateDiskOffering(change: MatSelectChange): void {
     const diskOffering = change.value as DiskOffering;
     if (diskOffering) {
-      this.diskOffering = diskOffering;
-      this.change.next(this.diskOffering);
+      this._diskOffering = diskOffering;
+      this.change.next(this._diskOffering);
     }
   }
 
-  @Input()
   public get diskOffering(): DiskOffering {
-    return this._diskOffering;
+    return this.diskOfferingList.find(_ => _.id === this.selectedDiskOfferingId) || this.diskOfferingList[0];
   }
 
   public set diskOffering(diskOffering: DiskOffering) {
