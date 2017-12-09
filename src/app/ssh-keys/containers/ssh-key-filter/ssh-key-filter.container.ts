@@ -17,16 +17,25 @@ import { SessionStorageService } from '../../../shared/services/session-storage.
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { sshKeyGroupings } from '../ssh-key-page/ssh-key-page.container';
 import { AuthService } from '../../../shared/services/auth.service';
+import { Grouping } from '../../../shared/models/grouping.model';
 
 export const sshKeyListFilters = 'sshKeyListFilters';
 
 @Component({
   selector: 'cs-ssh-key-filter-container',
-  templateUrl: 'ssh-key-filter.container.html'
+  template: `
+    <cs-ssh-key-filter
+      [accounts]="accounts$ | async"
+      [selectedAccountIds]="selectedAccountIds$ | async"
+      [selectedGroupings]="selectedGroupings$ | async"
+      [groupings]="groupings"
+      (onGroupingsChange)="onGroupingsChange($event)"
+      (onAccountsChange)="onAccountsChange($event)"
+    ></cs-ssh-key-filter>`
 })
 export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements OnInit {
 
-  public groupings: Array<any> = sshKeyGroupings;
+  public groupings: Array<Grouping> = sshKeyGroupings;
 
   private filters$ = this.store.select(fromSshKeys.filters);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
@@ -56,11 +65,11 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     super();
   }
 
-  public onGroupingsChange(selectedGroupings) {
+  public onGroupingsChange(selectedGroupings: Array<Grouping>) {
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
   }
 
-  public onAccountsChange(selectedAccountIds) {
+  public onAccountsChange(selectedAccountIds: Array<string>) {
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccountIds }));
   }
 

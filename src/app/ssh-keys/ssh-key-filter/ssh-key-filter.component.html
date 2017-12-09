@@ -3,7 +3,7 @@
     <mat-select
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.SELECT_ACCOUNTS' | translate"
-      [(ngModel)]="selectedAccountIds"
+      [ngModel]="selectedAccountIds"
       (selectionChange)="onAccountsChange.emit($event.value)"
     >
       <mat-option
@@ -17,7 +17,7 @@
     <cs-draggable-select
       multiple="true"
       [placeholder]="'SSH_KEYS.FILTERS.GROUP_BY' | translate"
-      [(ngModel)]="selectedGroupings"
+      [ngModel]="selectedGroupings"
       [dragItems]="groupings"
       (ngModelChange)="onGroupingsChange.emit($event)"
     >
