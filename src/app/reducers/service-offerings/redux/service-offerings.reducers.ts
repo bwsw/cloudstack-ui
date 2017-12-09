@@ -55,10 +55,11 @@ export const serviceOfferingReducers = {
  * a sortComparer option which is set to a compare
  * function if the records are to be sorted.
  */
-export const adapter: EntityAdapter<ServiceOffering> = createEntityAdapter<ServiceOffering>({
-  selectId: (item: ServiceOffering) => item.id,
-  sortComparer: false
-});
+export const adapter: EntityAdapter<ServiceOffering> = createEntityAdapter<ServiceOffering>(
+  {
+    selectId: (item: ServiceOffering) => item.id,
+    sortComparer: false
+  });
 
 /** getInitialState returns the default initial state
  * for the generated entity state. Initial state
@@ -270,23 +271,17 @@ const getCustomOfferingWithSetParams = (
   customRestrictions: ICustomOfferingRestrictions,
   resourceStats: ResourceStats
 ) => {
-  const cpuNumber =
-    serviceOffering.cpuNumber
-    || defaultParams && defaults.cpuNumber
-    || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
-    || customServiceOfferingFallbackParams.cpuNumber;
 
-  const cpuSpeed =
-    serviceOffering.cpuSpeed
-    || defaultParams && defaults.cpuSpeed
-    || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
-    || customServiceOfferingFallbackParams.cpuSpeed;
+  const getServiceOfferingRestriction = (param) => {
+    return serviceOffering[param]
+      || defaults && defaults[param]
+      || customRestrictions && customRestrictions[param] && customRestrictions[param].min
+      || customServiceOfferingFallbackParams[param];
+  };
 
-  const memory =
-    serviceOffering.memory
-    || defaultParams && defaults.memory
-    || customRestrictions && customRestrictions.memory && customRestrictions.memory.min
-    || customServiceOfferingFallbackParams.memory;
+  const cpuNumber = getServiceOfferingRestriction('cpuNumber');
+  const cpuSpeed = getServiceOfferingRestriction('cpuSpeed');
+  const memory = getServiceOfferingRestriction('memory');
 
   const restrictions = getRestrictionIntersection(
     customRestrictions,
@@ -362,7 +357,10 @@ const getRestrictionIntersection = (
     }
 
     if (customRestrictions.cpuNumber.max != null) {
-      result.cpuNumber['max'] = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max);
+      result.cpuNumber['max'] = Math.min(
+        customRestrictions.cpuNumber.max,
+        result.cpuNumber.max
+      );
     }
   }
 
@@ -390,7 +388,10 @@ const getRestrictionIntersection = (
     }
 
     if (customRestrictions.memory.max != null) {
-      result.memory['max'] = Math.min(customRestrictions.memory.max, result.memory.max);
+      result.memory['max'] = Math.min(
+        customRestrictions.memory.max,
+        result.memory.max
+      );
     }
   }
 
