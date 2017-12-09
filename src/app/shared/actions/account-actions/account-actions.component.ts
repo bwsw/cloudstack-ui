@@ -10,7 +10,16 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'cs-account-actions',
-  templateUrl: 'account-actions.component.html'
+  template: `
+    <ng-container *ngFor="let action of actions">
+      <button
+        *ngIf="action.canActivate(account)"
+        mat-menu-item (click)="activateAction(action, account)"
+      >
+        <mat-icon>{{ action.icon }}</mat-icon>
+        <span>{{ action.name | translate }}</span>
+      </button>
+    </ng-container>`
 })
 export class AccountActionsComponent {
   @Input() public account: Account;

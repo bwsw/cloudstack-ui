@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
-import { AccountData } from '../creation-form/account-creation-dialog.component';
 
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
+import { AccountData } from '../../shared/models/account.model';
 
 
 @Component({

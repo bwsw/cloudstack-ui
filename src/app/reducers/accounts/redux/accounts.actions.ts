@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { AccountUser } from '../../../shared/models/account-user.model';
-import { Account } from '../../../shared/models/account.model';
+import { Account, AccountData } from '../../../shared/models/account.model';
 
 export const LOAD_ACCOUNTS_REQUEST = '[ACCOUNTS] LOAD_ACCOUNTS_REQUEST';
 export const LOAD_ACCOUNTS_RESPONSE = '[ACCOUNTS] LOAD_ACCOUNTS_RESPONSE';
@@ -39,7 +39,7 @@ export class LoadAccountsRequest implements Action {
 export class LoadAccountsResponse implements Action {
   type = LOAD_ACCOUNTS_RESPONSE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account[]) {
   }
 }
 
@@ -60,35 +60,35 @@ export class AccountFilterUpdate implements Action {
 export class CreateAccount implements Action {
   readonly type = CREATE_ACCOUNT;
 
-  constructor(public payload: any) {
+  constructor(public payload: AccountData) {
   }
 }
 
 export class CreateSuccess implements Action {
   readonly type = ACCOUNT_CREATE_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account) {
   }
 }
 
 export class CreateError implements Action {
   readonly type = ACCOUNT_CREATE_ERROR;
 
-  constructor(public payload: any) {
+  constructor(public payload: Error) {
   }
 }
 
 export class UpdateAccount implements Action {
   readonly type = UPDATE_ACCOUNT;
 
-  constructor(public payload: any) {
+  constructor(public payload: Account) {
   }
 }
 
 export class AccountUpdateError implements Action {
   readonly type = ACCOUNT_UPDATE_ERROR;
 
-  constructor(public payload: any) {
+  constructor(public payload: Error) {
   }
 }
 
