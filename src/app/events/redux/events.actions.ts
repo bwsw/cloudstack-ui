@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Event } from '../event.model';
 
 export const LOAD_EVENTS_REQUEST = '[Events] LOAD_EVENTS_REQUEST';
 export const LOAD_EVENTS_RESPONSE = '[Events] LOAD_EVENTS_RESPONSE';
@@ -15,7 +16,7 @@ export class LoadEventsRequest implements Action {
 export class LoadEventsResponse implements Action {
   type = LOAD_EVENTS_RESPONSE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Array<Event>) {
   }
 
 }

@@ -205,7 +205,7 @@ export const getAvailableOfferings = createSelector(
             customOfferingRestrictions[zone.id],
             ResourceStats.fromAccount([user])
           );
-      });
+      }).filter(item => item);
     }
   }
 );
