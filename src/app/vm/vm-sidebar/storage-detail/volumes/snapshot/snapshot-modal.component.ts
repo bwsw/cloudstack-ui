@@ -30,15 +30,13 @@ export class SnapshotModalComponent implements OnChanges {
 
   constructor(
     public snapshotActionsService: SnapshotActionsService,
-  ) { }
-
-  public ngOnChanges() {
-    this.update();
+  ) {
+    this.dataBase = new TableDatabase();
+    this.dataSource = new TableDataSource(this.dataBase);
   }
 
-  public update() {
-    this.dataBase = new TableDatabase(this.volume.snapshots);
-    this.dataSource = new TableDataSource(this.dataBase);
+  public ngOnChanges() {
+    this.dataBase.update(this.volume.snapshots);
   }
 
   public onAction(action: SnapshotAction, snapshot: Snapshot) {

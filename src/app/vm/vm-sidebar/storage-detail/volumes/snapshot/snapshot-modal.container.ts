@@ -20,7 +20,7 @@ import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
   selector: 'cs-snapshot-modal-container',
   template: `
     <cs-snapshot-modal
-      [volume]="volume$ | async" 
+      [volume]="volume$ | async"
       (onSnapshotDelete)="snapshotDeleted($event)"
     >
     </cs-snapshot-modal>`,
@@ -42,12 +42,12 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   public ngOnInit() {
     this.volume$
       .takeUntil(this.unsubscribe$)
+      .filter(volume => !!volume)
       .subscribe(volume => {
-        if (volume) {
-          this.volume = new Volume(volume);
-          if (!this.volume.snapshots.length) {
-            this.dialogRef.close();
-          }
+        // todo remove model
+        this.volume = new Volume(volume);
+        if (!this.volume.snapshots.length) {
+          this.dialogRef.close();
         }
       });
   }
