@@ -45,6 +45,7 @@ import { ServiceOfferingSelectorContainerComponent } from './service-offering-se
   entryComponents: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
+    ServiceOfferingSelectorComponent,
     ServiceOfferingSelectorContainerComponent
   ],
   providers: [

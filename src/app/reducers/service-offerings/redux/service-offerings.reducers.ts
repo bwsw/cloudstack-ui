@@ -1,6 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { Zone } from '../../../shared/models/zone.model';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
 import {
   CustomServiceOffering,
   ICustomServiceOffering
@@ -295,9 +298,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
             customOfferingRestrictions[zone.id],
             ResourceStats.fromAccount([user])
           );
-      });
-    } else {
-      return []
+      }).filter(item => item);
     }
   });
 

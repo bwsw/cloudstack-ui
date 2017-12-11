@@ -3,14 +3,14 @@
 </h3>
 <div *loading="loading">
   <div class="mat-dialog-content" *loading="!serviceOfferings">
-    <cs-service-offering-selector
-      *ngIf="serviceOfferings?.length"
-      class="service-offering-selector"
-      [serviceOfferings]="serviceOfferings"
-      [customOfferingRestrictions]="restrictions"
-      [ngModel]="serviceOffering"
-      (change)="updateOffering($event)"
-    ></cs-service-offering-selector>
+    <!--<cs-service-offering-selector-->
+      <!--*ngIf="serviceOfferings?.length"-->
+      <!--class="service-offering-selector"-->
+      <!--[serviceOfferings]="serviceOfferings"-->
+      <!--[customOfferingRestrictions]="restrictions"-->
+      <!--[ngModel]="serviceOffering"-->
+      <!--(change)="updateOffering($event)"-->
+    <!--&gt;</cs-service-offering-selector>-->
     <div
       *ngIf="!serviceOfferings?.length"
     >{{ "SERVICE_OFFERING.NO_AVAILABLE_OFFERINGS" | translate }}

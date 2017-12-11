@@ -85,7 +85,7 @@
             </mat-form-field>
           </div>
 
-          <div *ngIf="vmCreationState.state.zone && serviceOfferings.length">
+          <div *ngIf="vmCreationState.state.zone && serviceOfferings?.length">
             <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
             <!--<cs-service-offering-selector-container
               [serviceOffering]="vmCreationState.state.serviceOffering"
@@ -235,7 +235,7 @@
         </div>
         <div *ngIf="!enoughResources">
           {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
-          <div *ngIf="insufficientResources.length">
+          <div *ngIf="insufficientResources?.length">
             {{ 'VM_PAGE.VM_CREATION.YOU_RAN_OUT_OF' | translate }}
             <ng-container *ngFor="let resource of insufficientResources; let l = last">
               {{ insufficientResourcesErrorMap[resource] | translate }}

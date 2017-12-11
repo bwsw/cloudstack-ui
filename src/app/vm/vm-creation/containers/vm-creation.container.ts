@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -72,7 +72,7 @@ export class VmCreationContainerComponent implements OnInit {
       this.store.select(fromAuth.isLoading)
     )
     .map((loadings: boolean[]) => loadings.find(loading => loading));
-  readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation).filter(list => !!list.length);
+  readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
   readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.customOfferingRestrictions);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
   readonly deploymentStopped$ = this.store.select(fromVMs.deploymentStopped);
