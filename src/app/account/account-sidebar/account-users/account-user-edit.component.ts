@@ -6,7 +6,6 @@ import {
   Output
 } from '@angular/core';
 import { AccountUser } from '../../../shared/models/account-user.model';
-import { TimeZone } from '../../../shared/components/time-zone/time-zone.service';
 import {
   FormBuilder,
   FormGroup,
@@ -20,13 +19,7 @@ import {
 export class AccountUserEditComponent implements OnInit {
   @Input() public title: string;
   @Input() public confirmButtonText: string;
-
-  @Input() public username: string;
-  @Input() public firstName: string;
-  @Input() public lastName: string;
-  @Input() public email: string;
-  @Input() public password: string;
-  @Input() public timezone: TimeZone;
+  @Input() public user: AccountUser;
 
   @Output() public updateUser = new EventEmitter<AccountUser>();
 
@@ -48,21 +41,14 @@ export class AccountUserEditComponent implements OnInit {
   ngOnInit() {
     if (this.title) {
       this.userForm.addControl('password', this.formBuilder.control('', [ Validators.required ]));
-    }
-    if (!this.title) {
-      this.userForm.setValue({
-        username: this.username,
-        email: this.email,
-        firstname: this.firstName,
-        lastname: this.lastName,
-        timezone: this.timezone,
-      });
+    } else {
+      this.userForm.patchValue(this.user);
     }
   }
 
 
   public loading = false;
-  public hide = true;
+  public showPassword = true;
 
   public onUserUpdate() {
     const newUser = this.prepareData(this.userForm.value);

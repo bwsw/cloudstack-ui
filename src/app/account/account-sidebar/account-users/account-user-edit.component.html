@@ -19,13 +19,13 @@
         name="password"
         [placeholder]="'ACCOUNT_PAGE.USER.PASSWORD' | translate"
         autocomplete="new-password"
-        [type]="hide ? 'password' : 'text'"
+        [type]="showPassword ? 'password' : 'text'"
         formControlName="password"
       >
       <mat-icon
         matSuffix
-        (click)="hide = !hide"
-        [innerHTML]="hide ? 'visibility' : 'visibility_off'"
+        (click)="showPassword = !showPassword"
+        [innerHTML]="showPassword ? 'visibility' : 'visibility_off'"
       >
       </mat-icon>
     </mat-form-field>

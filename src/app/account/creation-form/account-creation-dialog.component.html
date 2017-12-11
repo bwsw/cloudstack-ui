@@ -29,7 +29,7 @@
       <mat-form-field class="full-width-input">
         <input
           matInput
-          [type]="hide ? 'password' : 'text'"
+          [type]="showPassword ? 'password' : 'text'"
           name="password"
           autocomplete="new-password"
           [placeholder]="'ACCOUNT_PAGE.CREATION.PASSWORD' | translate"
@@ -37,8 +37,8 @@
         >
         <mat-icon
           matSuffix
-          (click)="hide = !hide"
-          [innerHTML]="hide ? 'visibility' : 'visibility_off'"
+          (click)="showPassword = !showPassword"
+          [innerHTML]="showPassword ? 'visibility' : 'visibility_off'"
         >
         </mat-icon>
       </mat-form-field>
