@@ -15,7 +15,7 @@ export class TemplateGroupEffects {
     .ofType(actions.LOAD_TEMPLATE_GROUP_REQUEST)
     .switchMap((action: actions.LoadTemplateGroupsRequest) => {
       return this.templateGroupService.getList()
-        .map(groupList => new actions.LoadTemplateGroupsResponse(groupList));
+        .map(groupList => new actions.LoadTemplateGroupsResponse(groupList ? groupList : []));
     });
 
   constructor(
