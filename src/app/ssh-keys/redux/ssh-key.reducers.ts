@@ -12,6 +12,7 @@ import {
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 
 import * as sshKey from './ssh-key.actions';
+import { Grouping } from '../../shared/models/grouping.model';
 
 export interface State {
   list: ListState,
@@ -21,7 +22,7 @@ export interface State {
 export interface ListState extends EntityState<SSHKeyPair> {
   loading: boolean,
   filters: {
-    selectedGroupings: any[],
+    selectedGroupings: Grouping[],
     selectedAccountIds: string[]
   }
 }

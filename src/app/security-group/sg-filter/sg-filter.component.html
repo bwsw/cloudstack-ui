@@ -7,29 +7,16 @@
     <mat-button-toggle [value]="SecurityGroupViewMode.Templates">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.TEMPLATES' | translate }}
     </mat-button-toggle>
-    <mat-button-toggle [value]="SecurityGroupViewMode.Shared">
+    <mat-button-toggle
+      [value]="SecurityGroupViewMode.Shared"
+      [attr.cdkFocusRegionStart]="viewMode === SecurityGroupViewMode.Shared">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.SHARED' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
-<!--div class="options-panel filter-wrapper">
 
-  <mat-form-field>
-    <cs-draggable-select
-      multiple="true"
-      [placeholder]="'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY' | translate"
-      [ngModel]="selectedGroupings"
-      [dragItems]="groupings"
-      (selectionChange)="onGroupingsChange.emit($event.value)"
-    >
-      <mat-option *ngFor="let g of groupings" [value]="g">
-        {{ g.label | translate }}
-      </mat-option>
-    </cs-draggable-select>
-  </mat-form-field>
-</div-->
 <div class="filter-wrapper">
-  <mat-form-field *ngIf="accounts.length">
+  <mat-form-field *ngIf="accounts.length > 1">
     <mat-select
       multiple="true"
       [placeholder]="'SECURITY_GROUP_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"

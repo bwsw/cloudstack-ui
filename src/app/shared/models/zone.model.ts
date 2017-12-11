@@ -1,20 +1,9 @@
-import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { BaseModelInterface } from './base.model';
 
-
-@FieldMapper({
-  securitygroupsenabled: 'securityGroupsEnabled',
-  networktype: 'networkType',
-  localstorageenabled: 'localStorageEnabled'
-})
-export class Zone extends BaseModel {
-  public id: string;
-  public name: string;
-  public securityGroupsEnabled: boolean;
-  public networkType: string;
-  public localStorageEnabled: boolean;
-
-  public get networkTypeIsBasic(): boolean {
-    return this.localStorageEnabled;
-  }
+export class Zone implements BaseModelInterface {
+  id: string;
+  name: string;
+  securitygroupsenabled: boolean;
+  networktype: string;
+  localstorageenabled: boolean;
 }

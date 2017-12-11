@@ -1,10 +1,11 @@
 import { BaseModel } from './base.model';
 import { AccountUser } from './account-user.model';
+import { TimeZone } from '../components/time-zone/time-zone.service';
 
 export const enum AccountType {
   User = 0,
-  Admin,
-  DomainAdmin
+  RootAdmin = 1,
+  DomainAdmin = 2
 }
 
 export const AccountState = {
@@ -12,6 +13,19 @@ export const AccountState = {
   disabled: 'disabled',
   locked: 'locked',
 };
+
+export class AccountData {
+  username: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  password: string;
+  domainid: string;
+  account: string;
+  roleid: string;
+  timezone: TimeZone;
+  networkdomain: string;
+}
 
 export class Account extends BaseModel {
   public accounttype: AccountType;
@@ -87,5 +101,9 @@ export class Account extends BaseModel {
 
   public get isAdmin() {
     return this.accounttype !== AccountType.User;
+  }
+
+  public get isRootAdmin() {
+    return this.accounttype === AccountType.RootAdmin;
   }
 }
