@@ -8,10 +8,9 @@ import {
   Component,
   ElementRef,
   Inject,
-  Input, NgZone,
-  OnDestroy,
+  Input,
+  NgZone,
   Optional,
-  Renderer2,
   Self,
   ViewEncapsulation
 } from '@angular/core';
@@ -24,15 +23,15 @@ import {
   transformPanel
 } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs/Subscription';
 import * as uuid from 'uuid';
 
 @Component({
   selector: 'cs-draggable-select',
   templateUrl: 'draggable-select.component.html',
   styleUrls: ['draggable-select.component.scss'],
-  inputs: ['color', 'disabled', 'tabIndex'], // tslint:disable-line
+  inputs: ['disabled', 'disableRipple', 'tabIndex'],
   encapsulation: ViewEncapsulation.None,
+  preserveWhitespaces: false,
   providers: [
     { provide: MatFormFieldControl, useExisting: DraggableSelectComponent },
     { provide: MAT_OPTION_PARENT_COMPONENT, useExisting: DraggableSelectComponent }
@@ -64,12 +63,10 @@ import * as uuid from 'uuid';
     fadeInContent
   ]
 })
-export class DraggableSelectComponent extends MatSelect implements AfterContentInit, OnDestroy,
+export class DraggableSelectComponent extends MatSelect implements AfterContentInit,
   MatFormFieldControl<any> {
   @Input() public dragItems: Array<any>;
   public bagId: string = uuid.v4();
-
-  private onDrop: Subscription;
 
   constructor(
     private dragula: DragulaService,
@@ -77,7 +74,6 @@ export class DraggableSelectComponent extends MatSelect implements AfterContentI
     _changeDetectorRef: ChangeDetectorRef,
     _ngZone: NgZone,
     _defaultErrorStateMatcher: ErrorStateMatcher,
-    renderer: Renderer2,
     elementRef: ElementRef,
     @Optional() _dir: Directionality,
     @Optional() _parentForm: NgForm,
@@ -92,7 +88,6 @@ export class DraggableSelectComponent extends MatSelect implements AfterContentI
       _changeDetectorRef,
       _ngZone,
       _defaultErrorStateMatcher,
-      renderer,
       elementRef,
       _dir,
       _parentForm,
@@ -109,11 +104,5 @@ export class DraggableSelectComponent extends MatSelect implements AfterContentI
     this.dragula.dropModel.subscribe(() =>
       setTimeout(() => (this as any)._propagateChanges())
     );
-  }
-
-  public ngOnDestroy(): void {
-    if (this.onDrop) {
-      this.onDrop.unsubscribe();
-    }
   }
 }
