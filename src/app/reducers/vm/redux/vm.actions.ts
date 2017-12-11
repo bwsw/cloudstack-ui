@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
-import { VirtualMachine } from '../../../vm';
 import {
   Color,
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair
 } from '../../../shared/models';
+import { VirtualMachine } from '../../../vm';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -330,7 +330,9 @@ export class ChangeSshKey implements Action {
 
   constructor(public payload: {
     vm: VirtualMachine,
-    keypair: SSHKeyPair
+    keypair: SSHKeyPair,
+    account: string,
+    domainid: string
   }) {
   }
 }
