@@ -102,7 +102,7 @@ cs-sidebar mat-card {
 }
 
 mat-card mat-card-header {
-  padding: 16px;
+  padding: 13px;
 }
 
 mat-card mat-card-title,
@@ -288,7 +288,7 @@ mat-form-field.form-select-control {
 .filter-wrapper {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 20px;
+  padding-top: 15px;
   > * {
     margin-right: 20px;
     &:last-child {
@@ -500,6 +500,10 @@ mat-table mat-header-cell,
   max-height: 95vh !important;
 }
 
+mat-dialog-title {
+  margin: 0 0 8px !important;
+}
+
 .mat-dialog-actions {
   justify-content: flex-end;
 
@@ -533,8 +537,11 @@ mat-table mat-header-cell,
   line-height: 32px !important;
 }
 
-.mat-menu-item {
-  font-size: 15px;
+/deep/ button {
+  &.mat-menu-item {
+    font-size: 15px;
+    height: 43px;
+  }
 }
 
 .button-18px {
