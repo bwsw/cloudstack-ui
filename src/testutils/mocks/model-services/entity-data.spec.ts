@@ -30,6 +30,6 @@ export class MockEntityData {
     this.serviceOfferings = serviceOfferings.map(json => new ServiceOffering(json));
     this.sshKeyPairs = sshKeyPairs.map(json => new SSHKeyPair(json));
     this.templates = templates.map(json => new Template(json));
-    this.zones = zones.map(json => new Zone(json));
+    this.zones = zones.map(json => json as Zone);
   }
 }

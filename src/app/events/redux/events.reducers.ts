@@ -179,8 +179,8 @@ export const selectFilteredEvents = createSelector(
   filterSelectedTypes,
   filterSelectedLevels,
   filterSelectedAccountIds,
-  fromAccounts.selectAll,
-  (events, query, selectedTypes, selectedLevels, selectedAccountIds, accounts) => {
+  fromAccounts.selectEntities,
+  (events, query, selectedTypes, selectedLevels, selectedAccountIds, accountEntities) => {
     const queryLower = query && query.toLowerCase();
     const typeMap = selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
     const levelsMap = selectedLevels.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -198,13 +198,17 @@ export const selectFilteredEvents = createSelector(
         !!levelsMap[event.level];
     };
 
-    const selectedAccounts = accounts.filter(
-      account => selectedAccountIds.find(id => id === account.id));
-    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
-    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
+    const accountsMap = selectedAccountIds
+      .reduce((memo, id) => {
+        const account = accountEntities[id];
+        if (account) {
+          return { ...memo, [`${account.name}_${account.domain}`]: account };
+        }
+        return memo;
+      }, {});
 
     const selectedAccountIdsFilter = event => !selectedAccountIds.length ||
-      (accountsMap[event.account] && domainsMap[event.domainId]);
+      accountsMap[`${event.account}_${event.domain}`];
 
     return events.filter(event => {
       return queryFilter(event)

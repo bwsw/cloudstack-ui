@@ -46,7 +46,7 @@ describe('Service-offering service', () => {
           serviceOfferings: []
         }
       },
-      new Zone({ id: '1' })
+      <Zone>{ id: '1' }
     );
     expect(result).toBe(false);
 
@@ -59,7 +59,7 @@ describe('Service-offering service', () => {
           serviceOfferings: ['1']
         }
       },
-      new Zone({ id: '1' })
+      <Zone>{ id: '1' }
     );
     expect(result).toBe(true);
 
@@ -72,7 +72,7 @@ describe('Service-offering service', () => {
           serviceOfferings: []
         }
       },
-      new Zone({ id: '1' })
+      <Zone>{ id: '1' }
     );
     expect(result).toBe(true);
   });
@@ -96,7 +96,7 @@ describe('Service-offering service', () => {
       },
       undefined,
       resourceUsage,
-      new Zone({ id: '1' })
+      <Zone>{ id: '1' }
     );
     expect(result).toEqual(availableOfferings);
   });
@@ -126,7 +126,7 @@ describe('Service-offering service', () => {
       },
       { '1': { cpuNumber: { min: 1 }, memory: { min: 1 } } },
       resourceUsage,
-      new Zone({ id: '1' })
+      <Zone>{ id: '1' }
     );
     expect(result).toEqual([]);
 
@@ -143,7 +143,7 @@ describe('Service-offering service', () => {
       },
       { '1': { cpuNumber: { min: 1 }, memory: { min: 1 } } },
       resourceUsage,
-      new Zone({ id: '1' })
+      <Zone>{ id: '1' }
     );
     expect(result).toEqual(availableOfferings);
   });

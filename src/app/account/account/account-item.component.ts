@@ -8,7 +8,6 @@ export class AccountItemComponent {
   public item: Account;
   public isSelected: (account) => boolean;
   public onClick = new EventEmitter<Account>();
-  public onAccountChanged = new EventEmitter<Account>();
   public matMenuTrigger: MatMenuTrigger;
 
   readonly stateTranslations = stateTranslations;

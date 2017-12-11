@@ -4,7 +4,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { sshKeyGroupings } from '../containers/ssh-key-page/ssh-key-page.container';
+import { Grouping } from '../../shared/models/grouping.model';
 
 
 @Component({
@@ -14,9 +14,8 @@ import { sshKeyGroupings } from '../containers/ssh-key-page/ssh-key-page.contain
 export class ShhKeyFilterComponent {
   @Input() public accounts: Array<Account>;
   @Input() public selectedAccountIds: Array<string> = [];
-  @Input() public selectedGroupings: Array<any> = [];
-  @Output() public onGroupingsChange = new EventEmitter<any>();
-  @Output() public onAccountsChange = new EventEmitter<any>();
-
-  readonly groupings = sshKeyGroupings;
+  @Input() public selectedGroupings: Array<Grouping> = [];
+  @Input() public groupings: Array<Grouping>;
+  @Output() public onGroupingsChange = new EventEmitter<Array<Grouping>>();
+  @Output() public onAccountsChange = new EventEmitter<Array<string>>();
 }
