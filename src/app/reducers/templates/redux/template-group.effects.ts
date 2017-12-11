@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { TemplateGroupService } from '../../../shared/services/template-group.service';
 
 import * as actions from './template-group.actions';
