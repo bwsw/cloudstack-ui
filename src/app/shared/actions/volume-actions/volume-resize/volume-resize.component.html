@@ -14,8 +14,7 @@
           [required]="true"
           name="diskOffering"
           [placeholder]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate"
-          [ngModel]="diskOffering"
-          [selectedDiskOfferingId]="volume.diskOfferingId"
+          [ngModel]="volume.diskOfferingId"
           [diskOfferingList]="diskOfferings"
           (change)="updateDiskOffering($event)"
         ></cs-disk-offering>

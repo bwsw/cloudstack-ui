@@ -42,7 +42,7 @@
           name="diskOffering"
           [required]="true"
           [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate"
-          [ngModel]="diskOffering"
+          [ngModel]="diskOffering.id"
           [diskOfferingList]="diskOfferings"
           (change)="updateDiskOffering($event)"
         ></cs-disk-offering>
