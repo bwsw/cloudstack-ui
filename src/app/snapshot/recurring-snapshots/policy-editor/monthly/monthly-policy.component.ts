@@ -1,5 +1,12 @@
-import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  forwardRef,
+  Input
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR
+} from '@angular/forms';
 import * as isEqual from 'lodash/isEqual';
 import * as range from 'lodash/range';
 import { TimeFormat } from '../../../../shared/services/language.service';
@@ -48,15 +55,16 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
   }
 
   public set policy(value: MonthlyPolicy) {
-    if (!!value.hour && !!value.minute && !!value.period && !!value.dayOfMonth) {
-      this.time = {
-        hour: value.hour,
-        minute: value.minute,
-        period: value.period
-      };
+    this.time = {
+      hour: value.hour,
+      minute: value.minute,
+      period: value.period
+    };
+    if (value.dayOfMonth) {
       this.dayOfMonth = value.dayOfMonth;
-      this.propagateChange(this.policy);
     }
+
+    this.propagateChange(this.policy);
   }
 
   public registerOnChange(fn): void {

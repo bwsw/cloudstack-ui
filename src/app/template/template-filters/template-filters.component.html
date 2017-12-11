@@ -8,7 +8,9 @@
     <mat-button-toggle [value]="TemplateResourceType.template">
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.TEMPLATES' | translate }}
     </mat-button-toggle>
-    <mat-button-toggle [value]="TemplateResourceType.iso">
+    <mat-button-toggle
+      [value]="TemplateResourceType.iso"
+      [attr.cdkFocusRegionStart]="viewMode === TemplateResourceType.iso">
       {{ 'TEMPLATE_PAGE.DISPLAY_MODES.ISO' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>

@@ -12,6 +12,7 @@ import {
 } from '@angular/router';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SshKeyRowItemComponent } from '../ssh-key-list-item/row-item/ssh-key-row-item.component';
+import { Grouping } from '../../shared/models/grouping.model';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { SshKeyRowItemComponent } from '../ssh-key-list-item/row-item/ssh-key-ro
 })
 export class SshKeyListComponent {
   @Input() public keys: Array<SSHKeyPair>;
-  @Input() public groupings: Array<any>;
+  @Input() public groupings: Array<Grouping>;
   @Input() public mode: ViewMode;
   @Output() public onRemove = new EventEmitter<SSHKeyPair>();
   public inputs;
