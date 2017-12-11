@@ -24,13 +24,13 @@ import { TemplateTagService } from '../../../shared/services/tags/template-tag.s
 import { BaseTemplateModel } from '../../../template/shared';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import {
-  VmDeploymentMessage, VmDeploymentService,
+  VmDeploymentMessage,
+  VmDeploymentService,
   VmDeploymentStage
 } from '../../../vm/vm-creation/services/vm-deployment.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
-import { ProgressLoggerController } from '../../../shared/components/progress-logger/progress-logger.service';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { Effect } from '@ngrx/effects';
@@ -43,6 +43,7 @@ import * as fromServiceOfferings from '../../service-offerings/redux/service-off
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import { Subject } from 'rxjs/Subject';
+import { TemplateResourceType } from '../../../template/shared/base-template.service';
 
 
 @Injectable()
@@ -816,44 +817,43 @@ export class VirtualMachinesEffects {
 
         if (!selectedTemplateStillAvailable) {
           updates = { ...updates, template: templates[0] };
-
-
           return new vmActions.VmFormUpdate(updates);
         }
+      }
 
-        if (action.payload.template) {
-          if (action.payload.template.isTemplate) {
-            return new vmActions.VmFormUpdate({ rootDiskSize: action.payload.template.sizeInGB });
-          } else if (!vmCreationState.state.diskOffering) {
-            return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
+      if (action.payload.template) {
+        if (action.payload.template.resourceType === TemplateResourceType.template) {
+          const rootDiskSize = Utils.convertToGb(action.payload.template.size);
+          return new vmActions.VmFormUpdate({ rootDiskSize });
+        } else if (!vmCreationState.state.diskOffering) {
+          return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
+        }
+      }
+
+      if (action.payload.diskOffering) {
+        if (!action.payload.diskOffering.isCustomized || !vmCreationState.state.template) {
+          return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
+        } else {
+          const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
+          const minSize = Math.ceil(Utils.convertToGb(vmCreationState.state.template.size)) || defaultDiskSize;
+          // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
+          const upd = { rootDiskMinSize: minSize };
+
+          if (!vmCreationState.state.rootDiskSize
+            || vmCreationState.state.rootDiskSize < vmCreationState.state.rootDiskMinSize) {
+            return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
           }
+          return new vmActions.VmFormUpdate(upd);
+        }
+      }
+
+      if (vmCreationState.state.zone) {
+        if (!vmCreationState.state.serviceOffering && serviceOfferings.length) {
+          return new vmActions.VmFormUpdate({ serviceOffering: serviceOfferings[0] });
         }
 
-        if (action.payload.diskOffering) {
-          if (!action.payload.diskOffering.isCustomized || !vmCreationState.state.template) {
-            return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
-          } else {
-            const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-            const minSize = Math.ceil(Utils.convertToGb(vmCreationState.state.template.size)) || defaultDiskSize;
-            // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
-            const upd = { rootDiskMinSize: minSize };
-
-            if (!vmCreationState.state.rootDiskSize
-              || vmCreationState.state.rootDiskSize < vmCreationState.state.rootDiskMinSize) {
-              return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
-            }
-            return new vmActions.VmFormUpdate(upd);
-          }
-        }
-
-        if (vmCreationState.state.zone) {
-          if (!vmCreationState.state.serviceOffering && serviceOfferings.length) {
-            return new vmActions.VmFormUpdate({ serviceOffering: serviceOfferings[0] });
-          }
-
-          if (!vmCreationState.state.template && templates.length) {
-            return new vmActions.VmFormUpdate({ template: templates[0] });
-          }
+        if (!vmCreationState.state.template && templates.length) {
+          return new vmActions.VmFormUpdate({ template: templates[0] });
         }
       }
 
@@ -887,40 +887,29 @@ export class VirtualMachinesEffects {
 
           return Observable.of(
             new vmActions.DeploymentInitActionList(loggerStageList),
-            new vmActions.DeploymentTest(deploymentMessageObservable),
-            new vmActions.DeployActionVm(deploymentMessageObservable)
+            new vmActions.DeployActionVm(deploymentMessageObservable),
+            new vmActions.OnVmDeploymentMessageChange(deploymentMessageObservable),
           );
-
-          // return this.vmDeploymentService.deploy()
-          //   .map((observables: Subject<VmDeploymentMessage>) => {
-          //     observables.subscribe(deploymentMessage => {
-          //       this.store.dispatch(new vmActions.DeploymentChangeStatus({ deploymentMessage, notificationId }));
-          //     });
-          //
-          //     return new vmActions.DeployActionVm(observables);
-          //   });
-          // });
         });
     });
+
+  @Effect()
+  deploymentMessageChange$ = this.actions$
+    .ofType(vmActions.VM_DEPLOYMENT_ON_MESSAGE_CHANGE)
+    .switchMap((action: vmActions.OnVmDeploymentMessageChange) => action.payload)
+    .map((deploymentMessage: VmDeploymentMessage) => {
+      return new vmActions.DeploymentChangeStatus(deploymentMessage);
+    });
+
   @Effect({ dispatch: false })
   changeStatusOfDeployment$ = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_CHANGE_STATUS)
     .withLatestFrom(this.store.select(fromVMs.getVmFormState))
     .do(([action, state]: [vmActions.DeploymentChangeStatus, FormState]) => {
-      this.handleDeploymentMessages(state, action.payload.deploymentMessage, action.payload.notificationId);
+      const notificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+
+      this.handleDeploymentMessages(state, action.payload, notificationId);
     });
-
-  @Effect()
-  deploymentTest$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_TEST)
-    .switchMap((action: vmActions.DeploymentTest) => action.payload
-      .map((deploymentMessage: VmDeploymentMessage) => {
-        const notificationId = this.jobsNotificationService.add(
-          'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
-        );
-
-        return Observable.of(new vmActions.DeploymentChangeStatus({ deploymentMessage, notificationId }));
-      }));
 
   @Effect()
   startDeployVm$ = this.actions$

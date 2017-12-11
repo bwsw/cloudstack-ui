@@ -159,7 +159,7 @@ export function listReducer(
 
 export function vmCreationListReducer(
   state = initialVmCreationTemplatesState,
-  action: template.Actions | vm.Actions
+  action: template.Actions
 ): VmCreationTemplatesState {
   switch (action.type) {
     case template.DIALOG_TEMPLATE_FILTER_UPDATE: {
@@ -172,15 +172,6 @@ export function vmCreationListReducer(
       };
     }
     case template.DIALOG_LOAD_TEMPLATE_REQUEST: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          selectedZoneId: action.payload
-        }
-      };
-    }
-    case vm.VM_FORM_UPDATE: {
       return {
         ...state,
         filters: {

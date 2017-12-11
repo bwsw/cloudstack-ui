@@ -59,7 +59,7 @@ export const VM_DEPLOYMENT_CHANGE_STATUS = '[VM deployment] VM_DEPLOYMENT_CHANGE
 export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
-export const VM_DEPLOYMENT_TEST = '[VM deployment] VM_DEPLOYMENT_TEST';
+export const VM_DEPLOYMENT_ON_MESSAGE_CHANGE = '[VM deployment] VM_DEPLOYMENT_ON_MESSAGE_CHANGE';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -418,7 +418,7 @@ export class DeploymentAddLoggerMessage implements Action {
 export class DeploymentChangeStatus implements Action {
   type = VM_DEPLOYMENT_CHANGE_STATUS;
 
-  constructor(public payload?: any) {
+  constructor(public payload?: VmDeploymentMessage) {
   }
 }
 
@@ -435,8 +435,8 @@ export class DeploymentInitActionList implements Action {
   constructor(public payload: any) {
   }
 }
-export class DeploymentTest implements Action {
-  type = VM_DEPLOYMENT_TEST;
+export class OnVmDeploymentMessageChange implements Action {
+  type = VM_DEPLOYMENT_ON_MESSAGE_CHANGE;
 
   constructor(public payload?: any) {
   }
@@ -487,4 +487,4 @@ export type Actions = LoadVMsRequest
   | DeploymentAddLoggerMessage
   | DeploymentUpdateLoggerMessage
   | DeploymentInitActionList
-  | DeploymentTest;
+  | OnVmDeploymentMessageChange;

@@ -53,13 +53,7 @@ export enum VmDeploymentStage {
 
 export interface VmDeploymentMessage {
   stage: VmDeploymentStage;
-
   [key: string]: any;
-}
-
-export interface VmDeployObservables {
-  deployStatusObservable: Observable<VmDeploymentMessage>;
-  deployObservable: Observable<any>;
 }
 
 @Injectable()
@@ -73,11 +67,6 @@ export class VmDeploymentService {
     private userTagService: UserTagService,
     private vmTagService: VmTagService,
   ) {
-  }
-
-  public deploy(): Observable<Subject<VmDeploymentMessage>> {
-    const deployStatusObservable = new Subject<VmDeploymentMessage>();
-    return Observable.of(deployStatusObservable);
   }
 
   public getPreDeployActions(

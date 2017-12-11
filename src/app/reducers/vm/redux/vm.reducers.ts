@@ -390,20 +390,22 @@ export function formReducer(
         deploymentStopped: true
       };
     }
+    case vmActions.VM_DEPLOYMENT_INIT_ACTION_LIST: {
+      return { ...state, loggerStageList: [...action.payload] };
+    }
     case vmActions.VM_DEPLOYMENT_ADD_LOGGER_MESSAGE: {
       return { ...state, loggerStageList: [...state.loggerStageList, action.payload] };
     }
     case vmActions.VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE: {
-      // const messages = [...state.loggerStageList].map(message => {
-      //   if (message.text != null && message.text === action.payload.messageText) {
-      //     return Object.assign({}, message, action.payload.data);
-      //   } else {
-      //     return message;
-      //   }
-      // });
-      //
-      // return { ...state, loggerStageList: messages };
-    return { ...state }
+      const messages = [...state.loggerStageList].map(message => {
+        if (message.text != null && message.text === action.payload.messageText) {
+          return Object.assign({}, message, action.payload.data);
+        } else {
+          return message;
+        }
+      });
+
+      return { ...state, loggerStageList: [...messages] };
     }
     case vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS: {
       return {
@@ -461,6 +463,11 @@ export const loggerStageList = createSelector(
 export const showOverlay = createSelector(
   getVmFormState,
   state => state.showOverlay
+);
+
+export const getDeployedVM = createSelector(
+  getVmFormState,
+  state => state.deployedVm
 );
 
 export const getVmCreationZoneId = createSelector(

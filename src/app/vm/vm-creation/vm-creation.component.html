@@ -9,7 +9,6 @@
         mode="indeterminate"
         [class.progress-hidden]="!deploymentStopped"
       ></mat-progress-bar>
-
       <cs-postdeployment-dialog
         *ngIf="!deploymentStopped && deployedVm"
         [vm]="deployedVm"
