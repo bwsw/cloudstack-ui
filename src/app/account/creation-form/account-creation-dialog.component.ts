@@ -1,18 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import { Role } from '../../shared/models/role.model';
-import { Domain } from '../../shared/models/domain.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
 import { AccountData } from '../../shared/models/account.model';
+import { Domain } from '../../shared/models/domain.model';
+import { Role } from '../../shared/models/role.model';
 
 @Component({
   selector: 'cs-account-creation-dialog',
@@ -54,11 +45,23 @@ export class AccountCreationDialogComponent {
 
   public prepareData(data: {}): AccountData {
     let result: AccountData = new AccountData();
-    for (const key in data) {
-      if (data[key] && data[key] !== '') {
-        result[key] = key === 'timezone' ? data[key].geo : data[key];
-      }
+    result.username = data['username'];
+    result.email = data['email'];
+    result.password = data['password'];
+    result.firstname = data['firstname'];
+    result.lastname = data['lastname'];
+    result.roleid = data['roleid'];
+    result.domainid = data['domainid'];
+    if (data['timezone']) {
+      result.timezone = data['timezone'].geo;
     }
+    if (data['account']) {
+      result.account = data['account'];
+    }
+    if (data['networkdomain']) {
+      result.networkdomain = data['networkdomain'];
+    }
+
     return result;
   }
 }

@@ -1,6 +1,6 @@
-import { BaseModel } from './base.model';
-import { AccountUser } from './account-user.model';
 import { TimeZone } from '../components/time-zone/time-zone.service';
+import { AccountUser } from './account-user.model';
+import { BaseModel } from './base.model';
 
 export const enum AccountType {
   User = 0,
@@ -21,10 +21,10 @@ export class AccountData {
   lastname: string;
   password: string;
   domainid: string;
-  account: string;
+  account?: string;
   roleid: string;
-  timezone: TimeZone;
-  networkdomain: string;
+  timezone?: TimeZone;
+  networkdomain?: string;
 }
 
 export class Account extends BaseModel {
