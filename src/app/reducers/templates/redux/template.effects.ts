@@ -44,12 +44,13 @@ export class TemplateEffects {
         this.isoService.getGroupedTemplates<Iso>({}, filters, true)
           .map(_ => _.toArray())
       )
-        .map(([templates, isos]) => {
-          return new template.LoadTemplatesResponse([
-            ...templates,
-            ...isos
+        .withLatestFrom(this.store.select(fromTemplateGroups.selectAll))
+        .switchMap(([[templates, isos], groups]) => groups && groups.length
+          ? Observable.of(new template.LoadTemplatesResponse([...templates, ...isos]))
+          : [
+            new template.LoadTemplatesResponse([...templates, ...isos]),
+            new templateGroup.LoadTemplateGroupsRequest()
           ]);
-        });
     });
 
   @Effect()
