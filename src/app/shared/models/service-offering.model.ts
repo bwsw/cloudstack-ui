@@ -2,6 +2,7 @@ import * as moment from 'moment';
 
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 import { Offering } from './offering.model';
+import { Tag } from './tag.model';
 
 
 export const ServiceOfferingFields = {
@@ -40,6 +41,8 @@ export const ServiceOfferingFields = {
   defaultuse: 'defaultUse'
 })
 export class ServiceOffering extends Offering {
+  public resourceType = 'ServiceOffering';
+
   public created: Date;
   public cpuNumber: number;
   public cpuSpeed: number;
@@ -52,6 +55,7 @@ export class ServiceOffering extends Offering {
   public defaultUse: boolean;
   public deploymentPlanner: string;
   public domain: string;
+  public tags: Array<Tag>;
 
   constructor(params: any | ServiceOffering) {
     super(params);
@@ -64,3 +68,14 @@ export class ServiceOffering extends Offering {
     return false;
   }
 }
+
+export class ServiceOfferingGroup {
+  public id: string;
+  public translations?: string;
+
+  constructor(id: string) {
+    this.id = id;
+  }
+}
+
+export const ServiceOfferingGroupKey = 'csui.service-offering.group';
