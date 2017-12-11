@@ -34,7 +34,7 @@
 
   <button
     mat-button
-    [disabled]="!savedData.securityGroups.length"
+    [disabled]="!savedData.securityGroups?.length"
     (click)="onSave()">
     {{ 'COMMON.SAVE' | translate }}
   </button>

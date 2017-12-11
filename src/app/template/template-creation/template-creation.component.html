@@ -23,7 +23,7 @@
           <mat-form-field class="full-width-input">
             <input
               matInput
-              name="description"
+              name="displayText"
               [(ngModel)]="displayText"
               [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.DESCRIPTION' | translate"
               maxlength="255"
@@ -67,7 +67,8 @@
               [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.OS_TYPE' | translate"
               [(ngModel)]="osTypeId"
               id="osType"
-              name="osType"
+              name="osTypeId"
+              ngDefaultControl
             >
               <mat-option
                 *ngFor="let osType of osTypes"
@@ -84,8 +85,9 @@
                 class="form-select-control"
                 [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.ZONE' | translate"
                 [(ngModel)]="zoneId"
-                id="serviceOffering"
-                name="serviceOffering"
+                id="zoneId"
+                name="zoneId"
+                ngDefaultControl
               >
                 <mat-option
                   *ngFor="let zone of zones"
@@ -103,6 +105,7 @@
               [(ngModel)]="templateGroup"
               id="templateGroup"
               name="templateGroup"
+              ngDefaultControl
             >
               <mat-option
                 *ngFor="let group of groups"
@@ -115,15 +118,17 @@
           <div class="additional">
             <mat-checkbox
               *ngIf="mode === TemplateResourceType.template"
-              name="pass"
+              name="passwordEnabled"
               [(ngModel)]="passwordEnabled"
+              ngDefaultControl
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.PASSWORD_ENABLED' | translate }}
             </mat-checkbox>
             <mat-checkbox
-              name="scalable"
+              name="dynamicallyScalable"
               [(ngModel)]="dynamicallyScalable"
               *ngIf="mode === TemplateResourceType.template"
+              ngDefaultControl
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
             </mat-checkbox>
@@ -140,7 +145,7 @@
 
       <div *ngIf="showAdditional" class="additional">
         <div class="flex-dialog-content">
-          <div class="column" *ngIf="mode === TemplateResourceType.template">
+          <div class="column" *ngIf="mode === TemplateResourceType.template && !snapshot">
             <mat-form-field class="full-width-input">
               <mat-select
                 class="form-select-control"
@@ -169,7 +174,7 @@
             </mat-form-field>
           </div>
           <div [class.column]="mode === TemplateResourceType.template" class="additional">
-            <mat-checkbox
+            <mat-checkbox *ngIf="!snapshot"
               name="extract"
               [(ngModel)]="isExtractable"
             >
@@ -178,13 +183,14 @@
             <mat-checkbox
               name="public"
               [(ngModel)]="isPublic"
+              *ngIf="isRootAdmin"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_PUBLIC' | translate }}
             </mat-checkbox>
             <mat-checkbox
               name="feature"
               [(ngModel)]="isFeatured"
-              *ngIf="isAdmin()"
+              *ngIf="isRootAdmin"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_FEATURED' | translate }}
             </mat-checkbox>
@@ -192,7 +198,7 @@
             <mat-checkbox
               name="routing"
               [(ngModel)]="isRouting"
-              *ngIf="isAdmin()"
+              *ngIf="isRootAdmin && !snapshot"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_ROUTING' | translate }}
             </mat-checkbox>
@@ -204,7 +210,7 @@
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.REQUIRES_HVM' | translate }}
             </mat-checkbox>
             <mat-checkbox
-              *ngIf="mode === TemplateResourceType.iso"
+              *ngIf="mode === TemplateResourceType.iso && !snapshot"
               name="bootable"
               [(ngModel)]="bootable"
             >

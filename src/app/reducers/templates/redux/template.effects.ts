@@ -109,6 +109,7 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
+
       if (action.payload.entity === TemplateResourceType.iso) {
         return this.isoService.register(action.payload);
       } else if (action.payload.snapshotId) {

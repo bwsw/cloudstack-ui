@@ -1,32 +1,9 @@
-import {
-  Component,
-  forwardRef,
-  Inject,
-  OnInit
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-  MatSelectChange
-} from '@angular/material';
-import * as clone from 'lodash/clone';
-import * as throttle from 'lodash/throttle';
-
+import { Component, forwardRef, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSelectChange } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
-
-import {
-  ProgressLoggerMessage,
-  ProgressLoggerMessageStatus
-} from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
-import {
-  AffinityGroup,
-  InstanceGroup,
-  ServiceOffering
-} from '../../shared/models';
+import { AffinityGroup, InstanceGroup, ServiceOffering } from '../../shared/models';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { JobsNotificationService } from '../../shared/services/jobs-notification.service';
 import { ResourceUsageService } from '../../shared/services/resource-usage.service';
@@ -37,17 +14,26 @@ import { VmCreationState } from './data/vm-creation-state';
 import { VmCreationFormNormalizationService } from './form-normalization/form-normalization.service';
 import { KeyboardLayout } from './keyboards/keyboards.component';
 import { VmCreationService } from './services/vm-creation.service';
-import {
-  VmDeploymentMessage,
-  VmDeploymentService,
-  VmDeploymentStage
-} from './services/vm-deployment.service';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { Observable } from 'rxjs/Observable';
 import { VmCreationAgreementComponent } from './template/agreement/vm-creation-agreement.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AuthService } from '../../shared/services/auth.service';
+import {
+  ProgressLoggerMessage,
+  ProgressLoggerMessageStatus
+} from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import {
+  VmDeploymentMessage,
+  VmDeploymentService,
+  VmDeploymentStage
+} from './services/vm-deployment.service';
+
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as clone from 'lodash/clone';
+import * as throttle from 'lodash/throttle';
 
 export interface VmCreationFormState {
   data: VmCreationData;
@@ -103,6 +89,7 @@ export class VmCreationComponent implements OnInit {
     private store: Store<State>,
     private templateTagService: TemplateTagService,
     private dialog: MatDialog,
+    private auth: AuthService,
     @Inject(MAT_DIALOG_DATA) data
   ) {
     this.updateFormState = throttle(this.updateFormState, 500, {
@@ -147,6 +134,12 @@ export class VmCreationComponent implements OnInit {
       (this.formState.state.template.isTemplate ||
         this.formState.state.showRootDiskResize)
     );
+  }
+
+  public get showSecurityGroups(): boolean {
+    return !!this.formState.state.zone
+      && this.formState.state.zone.securitygroupsenabled
+      && this.auth.isSecurityGroupEnabled();
   }
 
   public displayNameChange(value: string): void {

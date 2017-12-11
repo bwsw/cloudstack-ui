@@ -31,11 +31,11 @@ export class EventListComponent {
   @Input() public accounts: Account[] = [];
   @Input() public selectedAccountIds: string[] = [];
   @Input() public isAdmin: boolean;
-  @Output() public onDateChange = new EventEmitter();
-  @Output() public onQueryChange = new EventEmitter();
-  @Output() public onEventTypesChange = new EventEmitter();
-  @Output() public onSelectedLevelsChange = new EventEmitter();
-  @Output() public onAccountChange = new EventEmitter();
+  @Output() public onDateChange = new EventEmitter<Date>();
+  @Output() public onQueryChange = new EventEmitter<string>();
+  @Output() public onEventTypesChange = new EventEmitter<Array<string>>();
+  @Output() public onSelectedLevelsChange = new EventEmitter<Array<string>>();
+  @Output() public onAccountChange = new EventEmitter<Array<string>>();
 
   public tableColumns = ['description', 'level', 'type', 'time'];
 

@@ -94,23 +94,23 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     return this.authService.isAdmin();
   }
 
-  public onQueryChange(query) {
+  public onQueryChange(query: string) {
     this.store.dispatch(new eventAction.EventFilterUpdate({ query }));
   }
 
-  public onEventTypesChange(selectedTypes) {
+  public onEventTypesChange(selectedTypes: Array<string>) {
     this.store.dispatch(new eventAction.EventFilterUpdate({ selectedTypes }));
   }
 
-  public onSelectedLevelsChange(selectedLevels) {
+  public onSelectedLevelsChange(selectedLevels: Array<string>) {
     this.store.dispatch(new eventAction.EventFilterUpdate({ selectedLevels }));
   }
 
-  public onAccountChange(selectedAccountIds) {
-    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccountIds }))
+  public onAccountChange(selectedAccountIds: Array<string>) {
+    this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccountIds }));
   }
 
-  public onDateChange(date) {
+  public onDateChange(date: Date) {
     this.store.dispatch(new eventAction.EventFilterUpdate({ date }));
   }
 

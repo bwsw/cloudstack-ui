@@ -1,12 +1,25 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Hypervisor, OsType, Zone } from '../../shared';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  Hypervisor,
+  OsType,
+  Zone
+} from '../../shared';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { AuthService } from '../../shared/services/auth.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
-import { TemplateResourceType } from '../shared/base-template.service';
+import {
+  CreateTemplateBaseParams,
+  TemplateResourceType
+} from '../shared/base-template.service';
+import { Account } from '../../shared/models/account.model';
 
 interface TemplateFormat {
   name: string;
@@ -20,13 +33,14 @@ interface TemplateFormat {
 })
 export class TemplateCreationComponent implements OnInit {
   @Input() public mode: string;
+  @Input() public account: Account;
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
   @Input() public isLoading: boolean;
   @Input() public groups: Array<TemplateGroup>;
   @Input() public snapshot?: Snapshot;
 
-  @Output() public onCreateTemplate = new EventEmitter<any>();
+  @Output() public onCreateTemplate = new EventEmitter<CreateTemplateBaseParams>();
 
   public name: string;
   public displayText: string;
@@ -73,7 +87,6 @@ export class TemplateCreationComponent implements OnInit {
 
   constructor(
     private hypervisorService: HypervisorService,
-    private authService: AuthService,
     private translate: TranslateService,
   ) {
     this.visibleFormats = this.formats;
@@ -90,7 +103,7 @@ export class TemplateCreationComponent implements OnInit {
     });
   }
 
-  public changeHypervisor(hypervisor: string) {
+  public changeHypervisor() {
     this.visibleFormats = this.filterFormats(this.formats, this.hypervisor);
   }
 
@@ -123,16 +136,16 @@ export class TemplateCreationComponent implements OnInit {
     if (!this.snapshot) {
       params['url'] = this.url;
       params['zoneId'] = this.zoneId;
-
-      if (this.mode === TemplateResourceType.template) {
-        params['passwordEnabled'] = this.passwordEnabled;
-        params['isDynamicallyScalable'] = this.dynamicallyScalable;
-        params['entity'] = TemplateResourceType.template;
-      } else {
-        params['entity'] = TemplateResourceType.iso;
-      }
     } else {
       params['snapshotId'] = this.snapshot.id;
+    }
+
+    if (this.mode === TemplateResourceType.template) {
+      params['passwordEnabled'] = this.passwordEnabled;
+      params['isDynamicallyScalable'] = this.dynamicallyScalable;
+      params['entity'] = TemplateResourceType.template;
+    } else {
+      params['entity'] = TemplateResourceType.iso;
     }
 
     if (this.showAdditional) {
@@ -140,18 +153,18 @@ export class TemplateCreationComponent implements OnInit {
       params['bootable'] = this.bootable;
       params['format'] = this.format;
       params['requireshvm'] = this.requiresHvm;
-      params['ispublic'] = this.isPublic;
       params['hypervisor'] = this.hypervisor;
-      if (this.isAdmin()) {
+      if (this.isRootAdmin) {
         params['isrouting'] = this.isRouting;
         params['isfeatured'] = this.isFeatured;
+        params['ispublic'] = this.isPublic;
       }
     }
 
     this.onCreateTemplate.emit(params);
   }
 
-  public isAdmin(): boolean {
-    return this.authService.isAdmin();
+  public get isRootAdmin(): boolean {
+    return this.account.isRootAdmin;
   }
 }

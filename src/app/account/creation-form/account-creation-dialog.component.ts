@@ -13,26 +13,13 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-
-export class AccountData {
-  username: string;
-  email: string;
-  firstname: string;
-  lastname: string;
-  password: string;
-  domainid: string;
-  account?: string;
-  roleid: string;
-  timezone?: TimeZone;
-  networkdomain?: string;
-}
+import { AccountData } from '../../shared/models/account.model';
 
 @Component({
   selector: 'cs-account-creation-dialog',
   templateUrl: 'account-creation-dialog.component.html'
 })
 export class AccountCreationDialogComponent {
-  //public newAccount = new AccountData();
   public hide = true;
   public accountForm: FormGroup;
 

@@ -1,26 +1,15 @@
-import { BaseModel } from '../shared/models';
-import { FieldMapper } from '../shared/decorators';
-import * as moment from 'moment';
+import { BaseModelInterface } from '../shared/models/base.model';
 
-@FieldMapper({
-  domainid: 'domainId',
-  parentid: 'parentId'
-})
-export class Event extends BaseModel {
-  public id: string;
-  public type: string;
-  public time: string;
-  public level: string;
-  public description: string;
-  public account: string;
-  public domainId: string;
-  public domain: string;
-  public created: Date;
-  public state: string;
-  public parentId: string;
-
-  constructor(json: any) {
-    super(json);
-    this.created = moment(json.created).toDate();
-  }
+export interface Event extends BaseModelInterface {
+  id: string;
+  type: string;
+  time: string;
+  level: string;
+  description: string;
+  account: string;
+  domainid: string;
+  domain: string;
+  created: Date;
+  state: string;
+  parentid: string;
 }
