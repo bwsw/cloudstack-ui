@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -18,6 +18,7 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
+import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
@@ -39,6 +40,9 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       [enoughResources]="enoughResources$ | async"
       [insufficientResources]="insufficientResources$ | async"
       [loggerStageList]="loggerStageList$ | async"
+      [serviceOfferings]="serviceOfferings$ | async"
+      [customOfferingRestrictions]="customOfferingRestrictions$ | async"
+
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
@@ -61,7 +65,15 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
 })
 export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
-  readonly isLoading$ = this.store.select(fromVMs.formIsLoading);
+  readonly isLoading$ = this.store.select(fromVMs.formIsLoading)
+    .withLatestFrom(
+      this.store.select(fromZones.isLoading),
+      this.store.select(fromServiceOfferings.isLoading),
+      this.store.select(fromAuth.isLoading)
+    )
+    .map((loadings: boolean[]) => loadings.find(loading => loading));
+  readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation).filter(list => !!list.length);
+  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.customOfferingRestrictions);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
   readonly deploymentStopped$ = this.store.select(fromVMs.deploymentStopped);
   readonly enoughResources$ = this.store.select(fromVMs.enoughResources);

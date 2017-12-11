@@ -383,23 +383,39 @@ export function formReducer(
     case vmActions.VM_CREATION_STATE_UPDATE: {
       return { ...state, ...action.payload, loading: false };
     }
+    case vmActions.DEPLOY_VM: {
+      return {
+        ...state,
+        showOverlay: true,
+        deploymentStopped: true
+      };
+    }
     case vmActions.VM_DEPLOYMENT_ADD_LOGGER_MESSAGE: {
       return { ...state, loggerStageList: [...state.loggerStageList, action.payload] };
     }
     case vmActions.VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE: {
-      const messages = [...state.loggerStageList].map(message => {
-        if (message.id != null && message.id === action.payload.id) {
-          return Object.assign(message, action.payload.data);
-        } else {
-          return message;
-        }
-      });
-      return { ...state, loggerStageList: messages };
+      // const messages = [...state.loggerStageList].map(message => {
+      //   if (message.text != null && message.text === action.payload.messageText) {
+      //     return Object.assign({}, message, action.payload.data);
+      //   } else {
+      //     return message;
+      //   }
+      // });
+      //
+      // return { ...state, loggerStageList: messages };
+    return { ...state }
     }
     case vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS: {
       return {
         ...state,
-        deployedVm: action.payload
+        deployedVm: action.payload,
+        deploymentStopped: false
+      };
+    }
+    case vmActions.CREATE_VM_ERROR: {
+      return {
+        ...state,
+        deploymentStopped: false
       };
     }
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {

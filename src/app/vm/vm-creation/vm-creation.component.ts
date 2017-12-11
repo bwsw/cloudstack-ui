@@ -15,6 +15,7 @@ import { ICustomOfferingRestrictions } from '../../service-offering/custom-servi
 import { ProgressLoggerMessage, } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
 import { FormState } from '../../reducers/vm/redux/vm.reducers';
+import { AuthService } from '../../shared/services/auth.service';
 
 import * as clone from 'lodash/clone';
 
@@ -33,7 +34,6 @@ import * as clone from 'lodash/clone';
 export class VmCreationComponent {
   @Input() public account: Account;
   @Input() public vmCreationState: FormState;
-  @Input() public isLoading = false;
   @Input() public instanceGroupList: InstanceGroup[];
   @Input() public affinityGroupList: AffinityGroup[];
   @Input() public zones: Zone[];
@@ -102,11 +102,16 @@ export class VmCreationComponent {
     return this.vmCreationState.state.diskOffering && this.vmCreationState.state.diskOffering.isCustomized;
   }
 
-  public get securityGroupsAreAllowed(): boolean {
-    return this.vmCreationState.state.zone && !this.vmCreationState.state.zone.networkTypeIsBasic;
+  public get showSecurityGroups(): boolean {
+    return this.vmCreationState.state.zone
+      && this.vmCreationState.state.zone.securitygroupsenabled
+      && this.auth.isSecurityGroupEnabled();
   }
 
-  constructor(public dialogRef: MatDialogRef<VmCreationContainerComponent>) {
+  constructor(
+    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private auth: AuthService
+  ) {
   }
 
   public changeTemplate(value: BaseTemplateModel) {

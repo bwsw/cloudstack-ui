@@ -75,16 +75,9 @@ export class VmDeploymentService {
   ) {
   }
 
-  public deploy(): Observable<VmDeployObservables> {
+  public deploy(): Observable<Subject<VmDeploymentMessage>> {
     const deployStatusObservable = new Subject<VmDeploymentMessage>();
-    return Observable.of({
-      deployStatusObservable,
-      deployObservable: this.deployObservable(deployStatusObservable)
-    });
-  }
-
-  private deployObservable(deployObservable): Observable<any> {
-    return Observable.of(null);
+    return Observable.of(deployStatusObservable);
   }
 
   public getPreDeployActions(
@@ -213,7 +206,7 @@ export class VmDeploymentService {
     deployObservable: Subject<VmDeploymentMessage>,
     state: VmCreationState
   ): Observable<SecurityGroup[]> {
-    if (!(state.zone && !state.zone.networkTypeIsBasic)) {
+    if (!(state.zone && state.zone.securitygroupsenabled)) {
       return Observable.of(null);
     }
 

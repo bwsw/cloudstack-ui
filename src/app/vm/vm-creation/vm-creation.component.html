@@ -85,12 +85,19 @@
             </mat-form-field>
           </div>
 
-          <div>
+          <div *ngIf="vmCreationState.state.zone && serviceOfferings.length">
             <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
-            <cs-service-offering-selector-container
+            <!--<cs-service-offering-selector-container
               [serviceOffering]="vmCreationState.state.serviceOffering"
               (serviceOfferingChange)="serviceOfferingChange.emit($event)"
-            ></cs-service-offering-selector-container>
+            ></cs-service-offering-selector-container>-->
+            <cs-service-offering-selector
+              name="serviceOffering"
+              [serviceOfferings]="serviceOfferings"
+              [customOfferingRestrictions]="customOfferingRestrictions"
+              [ngModel]="vmCreationState.state.serviceOffering"
+              (change)="serviceOfferingChange.emit($event)"
+            ></cs-service-offering-selector>
           </div>
 
           <div class="dialog-select-wrapper">

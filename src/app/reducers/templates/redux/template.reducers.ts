@@ -4,8 +4,6 @@ import { TemplateFilters, TemplateResourceType } from '../../../template/shared/
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
-import { DefaultTemplateGroupId } from '../../../template/template-sidebar/template-group/template-group.component';
-import { getVmCreationZoneId } from '../../vm/redux/vm.reducers';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
@@ -485,7 +483,7 @@ export const selectTemplatesForIsoAttachment = createSelector(selectTemplatesFor
     return templates.filter(template => selectedZoneFilter(template));
   }
 );
-export const selectTemplatesForVmCreation = createSelector(selectTemplatesForAction, getVmCreationZoneId,
+export const selectTemplatesForVmCreation = createSelector(selectTemplatesForAction, fromVMs.getVmCreationZoneId,
   (templates, zoneId) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
       return template.zoneId === zoneId || template.crossZones;

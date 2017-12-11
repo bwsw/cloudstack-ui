@@ -7,6 +7,8 @@ import {
   ProgressLoggerMessage,
   ProgressLoggerMessageData
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { VmDeploymentMessage } from '../../../vm/vm-creation/services/vm-deployment.service';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -49,12 +51,15 @@ export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
 export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
 export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
 export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
-export const VM_FORM_UPDATE_SUCCESS = '[VM creation] VM_FORM_UPDATE_SUCCESS';
-export const DEPLOY_VM = '[VM creation] DEPLOY_VM';
-export const DEPLOY_ACTION_VM = '[VM creation] DEPLOY_ACTION_VM';
 export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
-export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM creation] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
-export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM creation] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
+
+export const DEPLOY_VM = '[VM deployment] DEPLOY_VM';
+export const DEPLOY_ACTION_VM = '[VM deployment] DEPLOY_ACTION_VM';
+export const VM_DEPLOYMENT_CHANGE_STATUS = '[VM deployment] VM_DEPLOYMENT_CHANGE_STATUS';
+export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
+export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
+export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
+export const VM_DEPLOYMENT_TEST = '[VM deployment] VM_DEPLOYMENT_TEST';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -364,7 +369,7 @@ export class VMUpdateError implements Action {
 export class VmFormUpdate implements Action {
   type = VM_FORM_UPDATE;
 
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 }
 
@@ -375,13 +380,6 @@ export class VmCreationStateUpdate implements Action {
   }
 }
 
-export class VmFormUpdateSuccess implements Action {
-  type = VM_FORM_UPDATE_SUCCESS;
-
-  constructor(public payload?: any) {
-  }
-}
-
 export class DeployVm implements Action {
   type = DEPLOY_VM;
 
@@ -389,7 +387,7 @@ export class DeployVm implements Action {
   }
 }
 
-export class DeployActiomVm implements Action {
+export class DeployActionVm implements Action {
   type = DEPLOY_ACTION_VM;
 
   constructor(public payload: any) {
@@ -417,10 +415,30 @@ export class DeploymentAddLoggerMessage implements Action {
   }
 }
 
+export class DeploymentChangeStatus implements Action {
+  type = VM_DEPLOYMENT_CHANGE_STATUS;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export class DeploymentUpdateLoggerMessage implements Action {
   type = VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE;
 
-  constructor(public payload: { id: string, data: Partial<ProgressLoggerMessageData> }) {
+  constructor(public payload: { messageText: string | ParametrizedTranslation, data: Partial<ProgressLoggerMessageData> }) {
+  }
+}
+
+export class DeploymentInitActionList implements Action {
+  type = VM_DEPLOYMENT_INIT_ACTION_LIST;
+
+  constructor(public payload: any) {
+  }
+}
+export class DeploymentTest implements Action {
+  type = VM_DEPLOYMENT_TEST;
+
+  constructor(public payload?: any) {
   }
 }
 
@@ -463,8 +481,10 @@ export type Actions = LoadVMsRequest
   | VmCreationFormInit
   | VmCreationFormClean
   | VmFormUpdate
-  | VmFormUpdateSuccess
   | DeployVm
-  | DeployActiomVm
+  | DeployActionVm
+  | DeploymentChangeStatus
   | DeploymentAddLoggerMessage
-  | DeploymentUpdateLoggerMessage;
+  | DeploymentUpdateLoggerMessage
+  | DeploymentInitActionList
+  | DeploymentTest;

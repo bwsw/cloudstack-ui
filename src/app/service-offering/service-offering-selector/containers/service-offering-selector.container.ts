@@ -10,23 +10,23 @@ import * as fromVM from '../../../reducers/vm/redux/vm.reducers';
   selector: 'cs-service-offering-selector-container',
   template: `
     <cs-service-offering-selector
+      *loading="isLoading$ | async"
       name="serviceOffering"
-      [isLoading]="isLoading$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [customOfferingRestrictions]="customOfferingRestrictions$ | async"
-      [zoneId]="zoneId$ | async"
       [ngModel]="serviceOffering"
       (change)="serviceOfferingChange.emit($event)"
     ></cs-service-offering-selector>`
 })
 export class ServiceOfferingSelectorContainerComponent {
   readonly isLoading$ = this.store.select(fromSO.isLoading);
-  readonly serviceOfferings$ = this.store.select(fromSO.getAvailableOfferingsForVmCreation);
+  readonly serviceOfferings$ = this.store.select(fromSO.getAvailableOfferingsForVmCreation).filter(items => !!items.length);
   readonly customOfferingRestrictions$ = this.store.select(fromSO.customOfferingRestrictions);
-  readonly zoneId$ = this.store.select(fromVM.getVmCreationZoneId);
+  // readonly zoneId$ = '';
   @Input() public serviceOffering: ServiceOffering;
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
 
   constructor(private store: Store<State>) {
+    this.serviceOfferings$.subscribe(console.log)
   }
 }
