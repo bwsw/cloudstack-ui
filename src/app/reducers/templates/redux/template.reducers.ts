@@ -22,7 +22,7 @@ import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
-
+import * as uniq from 'lodash/uniq';
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean,
@@ -128,7 +128,7 @@ export function listReducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(action.payload, state),
+        ...adapter.addAll([...action.payload], state),
         loading: false
       };
     }
@@ -348,8 +348,8 @@ export const selectByViewModeAndAccounts = createSelector(
     const selectedAccountIdsFilter = template => !selectedAccountIds.length ||
       (accountDomainMap[`${template.account}_${template.domainId}`]);
 
-    return templates.filter((template: BaseTemplateModel) => selectedViewModeFilter(
-      template) && selectedAccountIdsFilter(template));
+    return uniq(templates.filter((template: BaseTemplateModel) => selectedViewModeFilter(
+      template) && selectedAccountIdsFilter(template)));
   }
 );
 
@@ -408,13 +408,12 @@ export const selectFilteredTemplates = createSelector(
         .includes(queryLower) ||
       template.displayText.toLowerCase().includes(queryLower);
 
-    return templates.filter(template => {
-      return selectedZonesFilter(template)
+    return uniq(templates.filter(template =>
+      selectedZonesFilter(template)
         && selectedTypesFilter(template)
         && selectedGroupsFilter(template)
         && selectedOsFamiliesFilter(template)
-        && queryFilter(template);
-    });
+        && queryFilter(template)));
   }
 );
 
@@ -475,13 +474,13 @@ export const selectTemplatesForVmCreation = createSelector(
 
     const availableTemplatesFilter = (template: BaseTemplateModel) => template.isReady;
 
-    return templates.filter((template) =>
+    return uniq(templates.filter((template) =>
       availableTemplatesFilter(template)
       && selectedViewModeFilter(template)
       && selectedTypesFilter(template)
       && selectedOsFamiliesFilter(template)
       && selectedZoneFilter(template)
       && selectedGroupsFilter(template)
-      && queryFilter(template));
+      && queryFilter(template)));
   }
 );
