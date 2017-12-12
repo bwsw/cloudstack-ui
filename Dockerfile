@@ -7,9 +7,7 @@ COPY . /tmp/cloudstackui
 WORKDIR /tmp/cloudstackui
 
 RUN yarn \
-    && yarn run build:aot \
-    && yarn cache clean \
-    && rm -rf node_modules
+    && yarn run build:aot
 
 FROM nginx:stable-alpine
 
