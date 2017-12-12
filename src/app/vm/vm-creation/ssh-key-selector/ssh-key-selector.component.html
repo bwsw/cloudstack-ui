@@ -4,6 +4,9 @@
     [ngModel]="sshKeyPair"
     (selectionChange)="sshKeyPairChange.emit($event.value)"
   >
+    <mat-option [value]="sshKeyNotSelected">
+      {{ sshKeyNotSelected.name | translate }}
+    </mat-option>
     <mat-option
       *ngFor="let keyPair of sshKeyPairs"
       [value]="keyPair"

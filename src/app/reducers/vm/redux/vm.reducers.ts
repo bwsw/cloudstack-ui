@@ -10,6 +10,8 @@ import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
+import { NotSelectedSshKey, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
@@ -359,7 +361,7 @@ export const initialFormState: FormState = {
     rootDiskMinSize: 0,
     securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules()),
     serviceOffering: null,
-    sshKeyPair: null,
+    sshKeyPair: NotSelectedSshKey,
     template: null,
     zone: null,
     agreement: false
@@ -381,7 +383,10 @@ export function formReducer(
       return { ...state, state: { ...state.state, ...action.payload } };
     }
     case vmActions.VM_CREATION_STATE_UPDATE: {
-      return { ...state, ...action.payload, loading: false };
+      return { ...state, ...action.payload };
+    }
+    case vmActions.VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE: {
+      return { ...state, enoughResources: action.payload, loading: false };
     }
     case vmActions.DEPLOY_VM: {
       return {

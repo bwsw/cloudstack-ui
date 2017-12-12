@@ -25,8 +25,7 @@
       type="button"
       color="primary"
       *ngIf="!deploymentStopped && !deployedVm"
-      (click)="cancel.emit()"
-      matDialogClose
+      (click)="onVmDeploymentFailed.emit()"
     >
       {{ 'COMMON.CLOSE' | translate }}
     </button>
@@ -86,10 +85,6 @@
 
           <div *ngIf="vmCreationState.state.zone && serviceOfferings?.length">
             <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
-            <!--<cs-service-offering-selector-container
-              [serviceOffering]="vmCreationState.state.serviceOffering"
-              (serviceOfferingChange)="serviceOfferingChange.emit($event)"
-            ></cs-service-offering-selector-container>-->
             <cs-service-offering-selector
               name="serviceOffering"
               [serviceOfferings]="serviceOfferings"
@@ -156,7 +151,7 @@
             </mat-form-field>
             <mat-autocomplete #instanceGroups>
               <mat-option
-                *ngFor="let group of visibleInstanceGroups"
+                *ngFor="let group of (visibleInstanceGroups || instanceGroupList)"
                 [value]="group.name"
               >
                 {{ group.name }}
@@ -186,7 +181,7 @@
             </mat-form-field>
             <mat-autocomplete #affinityGroups>
               <mat-option
-                *ngFor="let group of visibleAffinityGroups"
+                *ngFor="let group of (visibleAffinityGroups || affinityGroupList)"
                 [value]="group.name"
               >
                 {{ group.name }}

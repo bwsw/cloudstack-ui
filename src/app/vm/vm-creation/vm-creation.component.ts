@@ -67,6 +67,7 @@ export class VmCreationComponent {
   @Output() public onVmDeploymentFailed = new EventEmitter();
   @Output() public deploy = new EventEmitter<FormState>();
   @Output() public cancel = new EventEmitter();
+  @Output() public onError = new EventEmitter();
 
 
   public insufficientResourcesErrorMap = {

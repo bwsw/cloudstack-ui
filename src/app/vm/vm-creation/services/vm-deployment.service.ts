@@ -53,6 +53,7 @@ export enum VmDeploymentStage {
 
 export interface VmDeploymentMessage {
   stage: VmDeploymentStage;
+
   [key: string]: any;
 }
 

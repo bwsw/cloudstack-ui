@@ -121,6 +121,7 @@ import { VmCreationSshKeySelectorContainerComponent } from './vm-creation/ssh-ke
 import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
+import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.effects';
 
 @NgModule({
   imports: [
@@ -157,6 +158,7 @@ import { VmCreationSecurityGroupContainerComponent } from './vm-creation/compone
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
     EffectsModule.forFeature([
       VirtualMachinesEffects,
+      VirtualMachineCreationEffects,
       ZonesEffects,
       AccountsEffects,
       ServiceOfferingEffects

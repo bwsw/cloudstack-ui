@@ -8,6 +8,11 @@ export interface NotSelected {
   ignore: true;
 }
 
+export const NotSelectedSshKey: NotSelected =  {
+  name: 'VM_PAGE.VM_CREATION.NO_SSH_KEY',
+  ignore: true
+};
+
 export interface VmCreationState {
   affinityGroup: AffinityGroup;
   affinityGroupNames: string[];

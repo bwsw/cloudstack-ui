@@ -64,7 +64,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   public changeOffering(change: MatSelectChange): void {
-    const newOffering = change.value as ServiceOffering;
+    const newOffering = this.serviceOfferings.find(_ => _.id === change.value);
     this.saveOffering();
     this.serviceOffering = newOffering;
     if (newOffering.isCustomized) {

@@ -60,7 +60,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       (agreementChange)="onAgreementChange($event)"
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
-      (onVmDeploymentFailed)="onCancel()"
+      (onVmDeploymentFailed)="showOverlayChange()"
       (onVmDeploymentFinish)="onVmDeploymentFinished($event)"
     ></cs-vm-create>`
 })
@@ -70,7 +70,8 @@ export class VmCreationContainerComponent implements OnInit {
     .withLatestFrom(
       this.store.select(fromZones.isLoading),
       this.store.select(fromServiceOfferings.isLoading),
-      this.store.select(fromAuth.isLoading)
+      this.store.select(fromAuth.isLoading),
+      this.store.select(fromAffinityGroups.isLoading)
     )
     .map((loadings: boolean[]) => loadings.find(loading => loading));
   readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
@@ -175,6 +176,10 @@ export class VmCreationContainerComponent implements OnInit {
 
   public onCancel() {
     this.store.dispatch(new vmActions.VmCreationFormClean());
+  }
+
+  public showOverlayChange() {
+    this.store.dispatch(new vmActions.VmCreationStateUpdate({ showOverlay: false }));
   }
 
   private getDefaultVmName(): Observable<string> {
