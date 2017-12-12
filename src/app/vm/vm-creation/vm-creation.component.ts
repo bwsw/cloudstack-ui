@@ -39,7 +39,6 @@ export class VmCreationComponent {
   @Input() public zones: Zone[];
   @Input() public serviceOfferings: ServiceOffering[];
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
-  @Input() public serviceOfferingsAreLoading: boolean;
 
   @Input() public fetching: boolean;
   @Input() public showOverlay: boolean;

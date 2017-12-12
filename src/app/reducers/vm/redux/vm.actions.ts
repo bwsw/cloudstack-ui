@@ -62,8 +62,10 @@ export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INI
 export const VM_DEPLOYMENT_CREATE_AFFINITY_GROUP = '[VM deployment] VM_DEPLOYMENT_CREATE_AFFINITY_GROUP';
 export const VM_DEPLOYMENT_CREATE_SECURITY_GROUP = '[VM deployment] VM_DEPLOYMENT_CREATE_SECURITY_GROUP';
 export const VM_DEPLOYMENT_CREATE_INSTANCE_GROUP = '[VM deployment] VM_DEPLOYMENT_CREATE_INSTANCE_GROUP';
-
-// export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
+export const VM_DEPLOYMENT_REQUEST = '[VM deployment] VM_DEPLOYMENT_REQUEST';
+export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
+export const VM_DEPLOYMENT_RESPONSE = '[VM deployment] VM_DEPLOYMENT_RESPONSE';
+export const VM_DEPLOYMENT_ERROR = '[VM deployment] VM_DEPLOYMENT_ERROR';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -440,7 +442,7 @@ export class DeploymentInitActionList implements Action {
 export class DeploymentCreateAffinityGroup implements Action {
   type = VM_DEPLOYMENT_CREATE_AFFINITY_GROUP;
 
-  constructor(public payload: any) {
+  constructor(public payload: VmCreationState) {
   }
 }
 
@@ -453,6 +455,34 @@ export class DeploymentCreateSecurityGroup implements Action {
 
 export class DeploymentCreateInstanceGroup implements Action {
   type = VM_DEPLOYMENT_CREATE_INSTANCE_GROUP;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeploymentRequest implements Action {
+  type = VM_DEPLOYMENT_REQUEST;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeploymentCopyTags implements Action {
+  type = VM_DEPLOYMENT_COPY_TAGS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeploymentResponse implements Action {
+  type = VM_DEPLOYMENT_RESPONSE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class DeploymentError implements Action {
+  type = VM_DEPLOYMENT_ERROR;
 
   constructor(public payload: any) {
   }
@@ -506,4 +536,8 @@ export type Actions = LoadVMsRequest
   | DeploymentInitActionList
   | DeploymentCreateAffinityGroup
   | DeploymentCreateSecurityGroup
-  | DeploymentCreateInstanceGroup;
+  | DeploymentCreateInstanceGroup
+  | DeploymentRequest
+  | DeploymentCopyTags
+  | DeploymentResponse
+  | DeploymentError;

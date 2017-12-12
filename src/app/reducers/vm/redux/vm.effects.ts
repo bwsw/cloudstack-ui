@@ -785,7 +785,6 @@ export class VirtualMachinesEffects {
     private isoService: IsoService,
     private jobsNotificationService: JobsNotificationService,
     private dialogService: DialogService,
-    private templateTagService: TemplateTagService,
     private dialog: MatDialog,
     private router: Router
   ) {
