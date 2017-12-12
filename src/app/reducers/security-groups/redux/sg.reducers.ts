@@ -1,20 +1,10 @@
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  SecurityGroup,
-  SecurityGroupType
-} from '../../../security-group/sg.model';
-import * as securityGroup from './sg.actions';
-import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
+import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as securityGroup from './sg.actions';
 
 
 export interface State {
@@ -226,6 +216,7 @@ export const selectFilteredSecurityGroups = createSelector(
   filters,
   fromAccounts.selectAll,
   (securityGroups, filter, accounts) => {
+    const mode = filter.viewMode;
     const queryLower = filter.query ? filter.query.toLowerCase() : '';
     const queryFilter = (group: SecurityGroup) => !queryLower || group.name.toLowerCase()
       .includes(queryLower);
@@ -236,10 +227,9 @@ export const selectFilteredSecurityGroups = createSelector(
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
     const selectedAccountIdsFilter = group => !filter.selectedAccountIds.length ||
+      group.type === SecurityGroupType.PredefinedTemplate ||
       (accountsMap[group.account] && domainsMap[group.domainid]);
 
-
-    const mode = filter.viewMode;
     const viewModeFilter = (group: SecurityGroup) => {
       if (mode === SecurityGroupViewMode.Templates) {
         return group.type === SecurityGroupType.PredefinedTemplate || group.type === SecurityGroupType.CustomTemplate;
