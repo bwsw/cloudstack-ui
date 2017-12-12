@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { State } from '../../reducers/index';
+
+import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
+import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
-import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
-import { State } from '../../reducers/index';
-
-import * as sshKeyActions from '../redux/ssh-key.actions';
 
 @Component({
   selector: 'cs-ssh-key-sidebar',

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { SshKeyCreationData } from '../../../shared/services/ssh-keypair.service';
 import { Store } from '@ngrx/store';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/index';
 
-import * as sshKeyActions from '../../redux/ssh-key.actions';
-import * as fromSshKeys from '../../redux/ssh-key.reducers';
+import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
+import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
+import { SshKeyCreationData } from '../../../shared/services/ssh-keypair.service';
 
 @Component({
   selector: 'cs-ssh-key-creation-dialog-container',
