@@ -19,7 +19,6 @@ export class AccountListComponent {
   @Input() public groupings: Array<any>;
   @Input() public mode: ViewMode;
   @Output() public viewModeChange = new EventEmitter();
-  @Output() public onAccountChanged = new EventEmitter<Account>();
 
   public inputs;
   public outputs;
@@ -30,8 +29,7 @@ export class AccountListComponent {
     };
 
     this.outputs = {
-      onClick: this.selectAccount.bind(this),
-      onAccountChanged: this.changeAccount.bind(this)
+      onClick: this.selectAccount.bind(this)
     };
   }
 
@@ -41,9 +39,5 @@ export class AccountListComponent {
 
   public selectAccount(account: Account): void {
     this.listService.showDetails(account.id);
-  }
-
-  public changeAccount(account: Account): void {
-    this.onAccountChanged.emit(account);
   }
 }

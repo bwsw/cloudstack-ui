@@ -1,19 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import {
-  Action,
-  Store
-} from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { TemplateService } from '../../../template/shared/template.service';
-import {
-  TemplateFilters,
-  TemplateResourceType
-} from '../../../template/shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { Template } from '../../../template/shared/template.model';
@@ -23,22 +14,18 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { State } from '../../../reducers/index';
 import { TemplateGroup } from '../../../shared/models/template-group.model';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
+import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 
 @Injectable()
 export class TemplateEffects {
-  private templateGroups$ = this.store.select(fromTemplateGroups.selectAll);
-
   @Effect()
   loadTemplates$: Observable<Action> = this.actions$
     .ofType(template.LOAD_TEMPLATE_REQUEST)
     .switchMap((action: template.LoadTemplatesRequest) => {
-      this.loadTemplateGroups();
-
       let filters = [
         TemplateFilters.featured,
         TemplateFilters.self
@@ -57,12 +44,13 @@ export class TemplateEffects {
         this.isoService.getGroupedTemplates<Iso>({}, filters, true)
           .map(_ => _.toArray())
       )
-        .map(([templates, isos]) => {
-          return new template.LoadTemplatesResponse([
-            ...templates,
-            ...isos
+        .withLatestFrom(this.store.select(fromTemplateGroups.selectAll))
+        .switchMap(([[templates, isos], groups]) => groups && groups.length
+          ? Observable.of(new template.LoadTemplatesResponse([...templates, ...isos]))
+          : [
+            new template.LoadTemplatesResponse([...templates, ...isos]),
+            new templateGroup.LoadTemplateGroupsRequest()
           ]);
-        });
     });
 
   @Effect()
@@ -109,6 +97,7 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
+
       if (action.payload.entity === TemplateResourceType.iso) {
         return this.isoService.register(action.payload);
       } else if (action.payload.snapshotId) {
@@ -193,14 +182,6 @@ export class TemplateEffects {
       message: {
         translationToken: error.message,
         interpolateParams: error.params
-      }
-    });
-  }
-
-  private loadTemplateGroups() {
-    this.templateGroups$.subscribe((templates: TemplateGroup[]) => {
-      if (!templates.length) {
-        this.store.dispatch(new templateGroup.LoadTemplateGroupsRequest());
       }
     });
   }

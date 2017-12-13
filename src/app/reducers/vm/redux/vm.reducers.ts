@@ -11,7 +11,6 @@ import * as event from './vm.actions';
 import { VirtualMachine } from '../../../vm';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
-import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { InstanceGroup } from '../../../shared/models';
@@ -35,6 +34,10 @@ export interface State extends EntityState<VirtualMachine> {
     selectedAccountIds: string[],
     selectedGroupings: any[],
     query: string,
+  },
+  attachmentFilters: {
+    account: string,
+    domainId: string,
   }
 }
 
@@ -74,6 +77,10 @@ export const initialState: State = adapter.getInitialState({
     selectedAccountIds: [],
     selectedGroupings: [],
     query: '',
+  },
+  attachmentFilters: {
+    account: '',
+    domainId: '',
   }
 });
 
@@ -94,6 +101,16 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
+          ...action.payload
+        }
+      };
+    }
+
+    case event.VM_ATTACHMENT_FILTER_UPDATE: {
+      return {
+        ...state,
+        attachmentFilters: {
+          ...state.attachmentFilters,
           ...action.payload
         }
       };
@@ -190,6 +207,11 @@ export const filters = createSelector(
   state => state.filters
 );
 
+export const attachmentFilters = createSelector(
+  getVMsEntitiesState,
+  state => state.attachmentFilters
+);
+
 export const filterQuery = createSelector(
   filters,
   state => state.query
@@ -247,10 +269,10 @@ export const getUsingSGVMs = createSelector(
 
 export const getAttachmentVMs = createSelector(
   selectAll,
-  fromAuth.getUserAccount,
-  (vms, account) => {
+  attachmentFilters,
+  (vms, filters) => {
     const accountFilter =
-      vm => (vm.account === account.name && vm.domainid === account.domainid);
+      vm => (vm.account === filters.account && vm.domainid === filters.domainId);
 
     return vms.filter(vm => accountFilter(vm));
   }

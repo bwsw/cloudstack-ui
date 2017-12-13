@@ -14,6 +14,7 @@ import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { Account } from '../../shared/models/account.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { AuthService } from '../../shared/services/auth.service';
+import { Grouping } from '../../shared/models/grouping.model';
 
 
 @Component({
@@ -23,13 +24,12 @@ import { AuthService } from '../../shared/services/auth.service';
   providers: [ListService]
 })
 export class SshKeysPageComponent {
-  @HostBinding('class.detail-list-container') public detailListContainer = true;
   @Input() public isLoading = false;
   @Input() public sshKeyList: Array<SSHKeyPair>;
-  @Input() public groupings;
+  @Input() public groupings: Array<Grouping>;
   @Input() public accounts: Array<Account>;
   @Input() public selectedAccountIds = [];
-  @Input() public selectedGroupings = [];
+  @Input() public selectedGroupings: Array<Grouping> = [];
   @Output() public onKeyRemove = new EventEmitter<SSHKeyPair>();
   @Output() public onAccountsChange = new EventEmitter<Account[]>();
   @Output() public onGroupingsChange = new EventEmitter();

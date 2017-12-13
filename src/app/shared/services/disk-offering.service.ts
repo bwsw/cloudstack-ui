@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { DiskOffering } from '../models/disk-offering.model';
-import {
-  OfferingAvailability,
-  OfferingService
-} from './offering.service';
+import { OfferingAvailability, OfferingService } from './offering.service';
 import { Observable } from 'rxjs/Observable';
 import { Zone } from '../models/zone.model';
 import { Volume } from '../models/volume.model';
@@ -30,7 +27,7 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
   }
 
   public isOfferingAvailableForVolume(diskOffering: DiskOffering, volume: Volume, zone: Zone): boolean {
-    return !diskOffering.isLocal || zone.localStorageEnabled &&
+    return !diskOffering.isLocal || zone.localstorageenabled &&
       (diskOffering.isCustomized || diskOffering.id !== volume.diskOfferingId);
   }
 

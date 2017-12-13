@@ -20,41 +20,29 @@ export class AccountService extends BaseBackendService<Account> {
     return this.getList(params).map(accounts => accounts[0]);
   }
 
-  public updateAccount(
-    account: Account
-  ): Observable<Account> {
-    return this.sendCommand('update', {
-      id: account.id,
-      newname: account.name,
-    });
-  }
-
-  public removeAccount(account: Account): Observable<any> {
+  public removeAccount(account: Account): Observable<{ jobid: string }> {
     return this.sendCommand('delete', {
       id: account.id,
     });
   }
 
-  public disableAccount(account: Account): Observable<any> {
+  public disableAccount(account: Account): Observable<{ jobid: string }> {
     return this.sendCommand('disable', {
-      account: account.name,
-      lock: false,
-      domainid: account.domainid
+      id: account.id,
+      lock: false
     });
   }
 
-  public lockAccount(account: Account): Observable<any> {
+  public lockAccount(account: Account): Observable<{ jobid: string }> {
     return this.sendCommand('disable', {
-      account: account.name,
-      lock: true,
-      domainid: account.domainid
+      id: account.id,
+      lock: true
     });
   }
 
-  public enableAccount(account: Account): Observable<any> {
+  public enableAccount(account: Account): Observable<{ account: Account }> {
     return this.sendCommand('enable', {
-      account: account.name,
-      domainid: account.domainid
+      id: account.id
     });
   }
 }

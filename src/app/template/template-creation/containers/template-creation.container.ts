@@ -10,6 +10,7 @@ import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers'
 import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
 import * as fromTemplateGroups from '../../../reducers/templates/redux/template-group.reducers';
 import * as templateGroupActions from '../../../reducers/templates/redux/template-group.actions';
+import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
 import * as zoneActions from '../../../reducers/templates/redux/zone.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
@@ -30,11 +31,13 @@ import { Snapshot } from '../../../shared/models/snapshot.model';
       [isLoading]="loading$ | async"
       [groups]="groups$ | async"
       [snapshot]="snapshot"
+      [account]="account$ | async"
       (onCreateTemplate)="onCreate($event)"
     ></cs-template-creation>`
 })
 export class TemplateCreationContainerComponent {
   readonly viewMode$ = this.store.select(fromTemplates.filterSelectedViewMode);
+  readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly loading$ = this.store.select(fromTemplates.isLoading);

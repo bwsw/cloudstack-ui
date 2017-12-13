@@ -13,4 +13,8 @@ export class ZoneService extends BaseBackendCachedService<Zone> {
   constructor(protected http: HttpClient) {
     super(http);
   }
+
+  protected prepareModel(res): Zone {
+    return res as Zone;
+  }
 }

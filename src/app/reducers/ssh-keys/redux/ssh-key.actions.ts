@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
-import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
+import { Grouping } from '../../../shared/models/grouping.model';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { SshKeyCreationData } from '../../../shared/services/ssh-keypair.service';
 
 export const LOAD_SSH_KEYS_REQUEST = '[SshKeys] LOAD_SSH_KEYS_REQUEST';
 export const LOAD_SSH_KEYS_RESPONSE = '[SshKeys] LOAD_SSH_KEYS_RESPONSE';
@@ -21,14 +23,17 @@ export class LoadSshKeyRequest implements Action {
 export class LoadSshKeyResponse implements Action {
   readonly type = LOAD_SSH_KEYS_RESPONSE;
 
-  constructor(public payload: any) {
+  constructor(public payload: SSHKeyPair[]) {
   }
 }
 
 export class SshKeyFilterUpdate implements Action {
   readonly type = SSH_KEY_FILTER_UPDATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: {
+    selectedGroupings?: Grouping[],
+    selectedAccountIds?: string[]
+  }) {
   }
 }
 
@@ -50,14 +55,14 @@ export class RemoveSshKeyPairSuccessAction implements Action {
 export class RemoveSshKeyPairErrorAction implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE_ERROR;
 
-  constructor(public payload?: any) {
+  constructor(public payload?: Error) {
   }
 }
 
 export class CreateSshKeyPair implements Action {
   readonly type = SSH_KEY_PAIR_CREATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: SshKeyCreationData) {
   }
 }
 

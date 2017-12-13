@@ -1,39 +1,33 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
-import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
-import { WebShellService } from '../../../vm/web-shell/web-shell.service';
-import * as vmActions from './vm.actions';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
-import {
-  Action,
-  Store
-} from '@ngrx/store';
-import { State } from '../../index';
-import { VmService } from '../../../vm/shared/vm.service';
-import {
-  VirtualMachine,
-  VmState,
-  getPath, getPort, getProtocol
-} from '../../../vm/shared/vm.model';
-import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { IsoService } from '../../../template/shared/iso.service';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import {
-  VmResetPasswordComponent
-} from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
-import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { Router } from '@angular/router';
-import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import { Actions, Effect } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { AuthService } from '../../../shared/services/auth.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { IsoService } from '../../../template/shared/iso.service';
+import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import {
+  getPath,
+  getPort,
+  getProtocol,
+  VirtualMachine,
+  VmState
+} from '../../../vm/shared/vm.model';
+import { VmService } from '../../../vm/shared/vm.service';
+import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
+import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
+import { WebShellService } from '../../../vm/web-shell/web-shell.service';
+import { State } from '../../index';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as vmActions from './vm.actions';
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -584,7 +578,9 @@ export class VirtualMachinesEffects {
 
             return this.sshService.reset({
               keypair: changeAction.payload.keypair,
-              id: changeAction.payload.vm.id
+              id: changeAction.payload.vm.id,
+              account: changeAction.payload.account,
+              domainid: changeAction.payload.domainid
             })
               .switchMap((newVm) => {
                 this.jobsNotificationService.finish({

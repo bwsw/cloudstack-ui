@@ -5,7 +5,6 @@ import * as event from './events.actions';
 import { Action } from '@ngrx/store';
 import { EventService } from '../event.service';
 import { Event } from '../event.model';
-import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
 import { formatIso } from '../../shared/components/date-picker/dateUtils';
 
 @Injectable()
@@ -28,18 +27,13 @@ export class EventsEffects {
       return this.eventService
         .getListAll(action.payload)
         .map((events: Event[]) => {
-          return new event.LoadEventsResponse(events.map(e => {
-            return Object.assign({}, e, {
-              time: this.dateTimeFormatterService.stringifyToTime(e.created),
-            });
-          }));
+          return new event.LoadEventsResponse(events);
         })
         .catch(() => Observable.of(new event.LoadEventsResponse([])));
     });
 
   constructor(
     private actions$: Actions,
-    private dateTimeFormatterService: DateTimeFormatterService,
     private eventService: EventService
   ) {
   }

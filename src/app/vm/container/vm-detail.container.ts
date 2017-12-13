@@ -1,16 +1,14 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import { State } from '../../reducers';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import { State } from '../../reducers';
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
-import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
+import * as fromSshKeys from '../../reducers/ssh-keys/redux/ssh-key.reducers';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VirtualMachine } from '../shared/vm.model';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 const vmDescriptionKey = 'csui.vm.description';
 
@@ -42,6 +40,7 @@ const vmDescriptionKey = 'csui.vm.description';
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>
     <cs-vm-ssh-keypair
       [vm]="vm$ | async"
+      [keys]="sshKeys$ | async"
       (onSshKeyChange)="changeSshKey($event)"
     >
     </cs-vm-ssh-keypair>
@@ -56,14 +55,14 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
   readonly groups$ = this.store.select(fromVMs.selectVmGroups);
   readonly offering$ = this.store.select(fromServiceOfferings.getSelectedOffering);
+  readonly sshKeys$ = this.store.select(fromSshKeys.selectSSHKeys);
   public description;
 
   public vm: VirtualMachine;
 
 
   constructor(
-    private store: Store<State>,
-    private dialogService: DialogService,
+    private store: Store<State>
   ) {
     super();
   }
@@ -93,7 +92,9 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
   public changeSshKey(keypair) {
     this.store.dispatch(new vmActions.ChangeSshKey({
       vm: this.vm,
-      keypair
+      keypair,
+      account: this.vm.account,
+      domainid: this.vm.domainid
     }));
   }
 
@@ -103,6 +104,7 @@ export class VmDetailContainerComponent extends WithUnsubscribe() implements OnI
 
   public ngOnInit() {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
+    this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.vm$
       .takeUntil(this.unsubscribe$)
       .subscribe(vm => {

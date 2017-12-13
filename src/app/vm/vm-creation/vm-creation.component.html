@@ -191,7 +191,7 @@
             <cs-vm-creation-security-group-rules-manager
               name="sgm"
               class="sg-rules-manager"
-              *ngIf="formState.state.showSecurityGroups"
+              *ngIf="showSecurityGroups"
               [ngModel]="formState.state.securityGroupData"
               (ngModelChange)="securityRulesChange($event)"
             ></cs-vm-creation-security-group-rules-manager>
