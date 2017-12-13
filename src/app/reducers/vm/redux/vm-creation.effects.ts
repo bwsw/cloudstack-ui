@@ -35,6 +35,7 @@ import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { VirtualMachine } from '../../../vm';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -42,36 +43,52 @@ import * as fromServiceOfferings from '../../service-offerings/redux/service-off
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import { IScheduler } from 'rxjs/Scheduler';
 
 @Injectable()
 export class VirtualMachineCreationEffects {
   private deploymentNotificationId: string;
 
   @Effect()
-  initVmCreation$: Observable<Action> = this.actions$
+  initVmCreation$ = this.actions$
     .ofType(vmActions.VM_FORM_INIT)
-    .switchMap((action: vmActions.VmCreationFormInit) => this.resourceUsageService.getResourceUsage()
-      .switchMap(resourceUsage => {
-        const insufficientResources = [];
+    .withLatestFrom(this.store.select(fromVMs.getVmFormState), this.store.select(fromZones.selectAll))
+    .switchMap(([action, form, zones]: [vmActions.VmCreationFormInit, FormState, Zone[]]) =>
+      this.resourceUsageService.getResourceUsage()
+        .map(resourceUsage => {
+          const insufficientResources = [];
 
-        Object.keys(resourceUsage.available)
-          .filter(
-            key => key !== 'snapshots' && key !== 'secondaryStorage' && key !== 'ips')
-          .forEach(key => {
-            const available = resourceUsage.available[key];
-            if (available === 0) {
-              insufficientResources.push(key);
-            }
-          });
+          Object.keys(resourceUsage.available)
+            .filter(key => ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].includes(key))
+            .forEach(key => {
+              const available = resourceUsage.available[key];
+              if (available === 0) {
+                insufficientResources.push(key);
+              }
+            });
 
-        const enoughResources = !insufficientResources.length;
-        return Observable.of(new vmActions.VmCreationEnoughResourceUpdateState(enoughResources));
-      }));
+          const enoughResources = !insufficientResources.length;
+          // if (form.state && !form.state.zone && zones.length) {
+          //   return Observable.of(
+          //     new vmActions.VmFormUpdate({ zone: zones[0] }),
+          //     new vmActions.VmCreationEnoughResourceUpdateState(enoughResources));
+          // }
+
+          return new vmActions.VmCreationEnoughResourceUpdateState(enoughResources);
+        }));
 
   @Effect()
   vmCreationFormUpdate$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_FORM_UPDATE)
-    .filter((action: vmActions.VmFormUpdate) => !!action.payload && !!Object.entries(action.payload).length)
+    .filter((action: vmActions.VmFormUpdate) => !!action.payload &&
+      !!(action.payload.zone || action.payload.template || action.payload.diskOffering))
+    .map((action: vmActions.VmFormUpdate) => {
+      return new vmActions.VmFormAdjust(action.payload);
+    });
+
+  @Effect()
+  vmCreationFormAdjust$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_FORM_ADJUST)
     .withLatestFrom(
       this.store.select(fromVMs.getVmFormState),
       this.store.select(fromZones.selectAll),
@@ -83,11 +100,8 @@ export class VirtualMachineCreationEffects {
       [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings]: [
         vmActions.VmFormUpdate, FormState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
         ]) => {
-      if (vmCreationState.state && !vmCreationState.state.zone && zones.length) {
-        return new vmActions.VmFormUpdate({ zone: zones[0] });
-      }
 
-      if (!!action.payload.zone) {
+      if (action.payload.zone) {
         let updates = {};
 
         const selectedServiceOfferingStillAvailable = vmCreationState.state.serviceOffering
@@ -144,7 +158,6 @@ export class VirtualMachineCreationEffects {
       return new vmActions.VmFormUpdate();
     });
 
-
   @Effect()
   preparingForDeploy$ = this.actions$
     .ofType(vmActions.DEPLOY_VM)
@@ -154,13 +167,75 @@ export class VirtualMachineCreationEffects {
         .filter(res => !!res)
         .switchMap(() => {
           this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+          this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
 
           return Observable.of(
             new vmActions.DeploymentInitActionList(this.initializeDeploymentActionList(action.payload)),
-            new vmActions.DeployActionVm()
+            new vmActions.PrepareForDeployment(),
+            new vmActions.DeploymentRequest()
           );
         });
     });
+
+  @Effect()
+  deploymentCreateAffinityGroup$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_PREPARE_FOR_DEPLOYMENT)
+    .withLatestFrom(this.store.select(fromVMs.getVmFormState))
+    .filter(([action, form]: [vmActions.PrepareForDeployment, FormState]) => form.state.affinityGroup
+      && form.state.affinityGroup.name && !form.state.affinityGroupNames.includes(form.state.affinityGroup.name))
+    .switchMap(([action, form]: [vmActions.PrepareForDeployment, FormState]) => {
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.AG_GROUP_CREATION });
+
+      return this.affinityGroupService.create({
+        name: form.state.affinityGroup.name,
+        type: AffinityGroupType.hostAntiAffinity
+      })
+        .map(() => new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED }));
+    });
+
+  @Effect()
+  deploymentCreateSecurityGroup$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_PREPARE_FOR_DEPLOYMENT)
+    .withLatestFrom(this.store.select(fromVMs.getVmFormState))
+    .filter(([action, form]: [vmActions.PrepareForDeployment, FormState]) => form.state.zone
+      && form.state.zone.securitygroupsenabled)
+    .switchMap(([action, form]: [vmActions.PrepareForDeployment, FormState]) => {
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION }, this.deploymentNotificationId);
+
+      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(form.state.securityGroupData)
+        .map(() => new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED }));
+    });
+
+  @Effect()
+  requestDeployment$: any = this.actions$
+    .ofType(vmActions.VM_DEPLOYMENT_REQUEST)
+    .withLatestFrom(this.store.select(fromVMs.getVmFormState))
+    .switchMap(([action, form]: [vmActions.DeploymentRequest, FormState]) => {
+      let temporaryVm;
+
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
+      const params = this.vmDeploymentService.getVmCreationParams(form.state);
+
+      return this.vmService.deploy(params)
+        .switchMap(response => this.vmService.get(response.id))
+        .switchMap(vm => {
+          temporaryVm = vm;
+
+          if (form.state.instanceGroup && form.state.instanceGroup.name) {
+            temporaryVm.instanceGroup = form.state.instanceGroup;
+          }
+
+          this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM }, this.deploymentNotificationId);
+          return this.vmService.incrementNumberOfVms();
+        })
+        .switchMap(() => Observable.of(
+          new vmActions.CreateVm(temporaryVm),
+          new vmActions.CreateVmSuccess(temporaryVm),
+          new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.VM_DEPLOYED })
+        ))
+        .catch((error) => Observable.of(new vmActions.DeploymentError(error)));
+    });
+
 
   @Effect({ dispatch: false })
   changeStatusOfDeployment$ = this.actions$
@@ -173,7 +248,7 @@ export class VirtualMachineCreationEffects {
   deploymentError$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_ERROR)
     .map((action: vmActions.DeploymentError) => {
-        this.jobsNotificationService.fail({
+      this.jobsNotificationService.fail({
         id: this.deploymentNotificationId,
         message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
       });
@@ -190,126 +265,47 @@ export class VirtualMachineCreationEffects {
     });
 
   @Effect()
-  startDeployVm$ = this.actions$
-    .ofType(vmActions.DEPLOY_ACTION_VM)
+  deploymentCreateInstanceGroup$ = this.actions$
+    .ofType(vmActions.CREATE_VM)
     .withLatestFrom(this.store.select(fromVMs.getVmFormState))
-    .switchMap(([action, form]: [vmActions.DeployActionVm, FormState]) => {
-      return Observable.of(null)
-        .do(() => {
-          this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED }, this.deploymentNotificationId);
-        })
-        .switchMap(() => Observable.of(
-          new vmActions.DeploymentCreateAffinityGroup(form.state),
-          new vmActions.DeploymentCreateSecurityGroup(form.state),
-          new vmActions.DeploymentRequest(form.state)));
-    });
+    .filter(([action, form]: [vmActions.CreateVm, FormState]) =>
+      form.state.instanceGroup && !!form.state.instanceGroup.name)
+    .switchMap(([action, form]: [vmActions.CreateVm, FormState]) => {
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION });
 
-  @Effect()
-  deploymentCreateAffinityGroup$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_CREATE_AFFINITY_GROUP)
-    .filter((action: vmActions.DeploymentCreateAffinityGroup) => action.payload.affinityGroup
-      && action.payload.affinityGroup.name
-      && action.payload.affinityGroupNames.includes(action.payload.affinityGroup.name))
-    .switchMap((action: vmActions.DeploymentCreateAffinityGroup) => {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.AG_GROUP_CREATION }, this.deploymentNotificationId);
-
-      return this.affinityGroupService.create({
-        name: action.payload.affinityGroup.name,
-        type: AffinityGroupType.hostAntiAffinity
-      })
-        .map(() => new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED }));
-    });
-
-  @Effect()
-  deploymentCreateSecurityGroup$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_CREATE_SECURITY_GROUP)
-    .filter((action: vmActions.DeploymentCreateSecurityGroup) => action.payload.zone
-      && action.payload.zone.securitygroupsenabled)
-    .switchMap((action: vmActions.DeploymentCreateSecurityGroup) => {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION }, this.deploymentNotificationId);
-
-      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(action.payload.securityGroupData)
-        .map(() => new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED }));
-    });
-
-  @Effect()
-  requestDeployment$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_REQUEST)
-    .switchMap((action: vmActions.DeploymentRequest) => {
-      let deployResponse;
-      let temporaryVm;
-
-      this.handleDeploymentMessages({
-        stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS
-      }, this.deploymentNotificationId);
-      const params = this.vmDeploymentService.getVmCreationParams(action.payload);
-
-      return this.vmService.deploy(params)
-        .switchMap(response => {
-          deployResponse = response;
-          return this.vmService.get(deployResponse.id);
-        })
-        .switchMap(vm => {
-          temporaryVm = vm;
-          temporaryVm.state = VmState.Deploying;
-          this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM }, this.deploymentNotificationId);
-          return this.vmService.incrementNumberOfVms();
-        })
-        .switchMap(() => Observable.of(
-          new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.VM_DEPLOYED }),
-          new vmActions.DeploymentResponse({ deployResponse, temporaryVm })))
-        .catch((error) => Observable.of(new vmActions.DeploymentError(error)));
-    });
-
-  @Effect()
-  postDeployActions$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_RESPONSE)
-    .withLatestFrom(this.store.select(fromVMs.getVmFormState))
-    .switchMap(([action, form]: [vmActions.DeploymentResponse, FormState]) => Observable.of(
-      new vmActions.DeploymentCreateInstanceGroup({ state: form.state, vm: action.payload.temporaryVm }),
-      new vmActions.DeploymentCopyTags({ state: form.state, vm: action.payload.temporaryVm })));
-
-  @Effect()
-  deploymentCreateInstanceGroup$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_CREATE_INSTANCE_GROUP)
-    .filter((action: vmActions.DeploymentCreateInstanceGroup) => action.payload.state.instanceGroup
-      && action.payload.state.instanceGroup.name)
-    .switchMap((action: vmActions.DeploymentCreateInstanceGroup) => {
-      this.handleDeploymentMessages({
-        stage: VmDeploymentStage.INSTANCE_GROUP_CREATION
-      }, this.deploymentNotificationId);
-
-      return this.instanceGroupService.add(action.payload.vm, action.payload.state.instanceGroup)
-        .map(() => new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED }));
+      return this.instanceGroupService.add(action.payload, form.state.instanceGroup)
+        .map((vm) =>
+          new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED }));
     });
 
   @Effect()
   deploymentCopyTags$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_COPY_TAGS)
-    .switchMap((action: vmActions.DeploymentCopyTags) => {
+    .ofType(vmActions.CREATE_VM)
+    .withLatestFrom(this.store.select(fromVMs.getVmFormState))
+    .switchMap(([action, form]: [vmActions.CreateVm, FormState]) => {
       this.handleDeploymentMessages({
         stage: VmDeploymentStage.TAG_COPYING
       }, this.deploymentNotificationId);
 
-      return this.tagService.copyTagsToEntity(action.payload.state.template.tags, action.payload.vm)
+      return this.tagService.copyTagsToEntity(form.state.template.tags, action.payload)
         .switchMap(() => {
           return this.userTagService.getSavePasswordForAllVms();
         })
         .switchMap((tag) => {
           if (tag) {
             return this.tagService.update(
-              action.payload.vm,
-              action.payload.vm.resourceType,
+              action.payload,
+              action.payload.resourceType,
               VirtualMachineTagKeys.passwordTag,
-              action.payload.vm.password
+              action.payload.password
             );
           } else {
             return Observable.of(null);
           }
         })
         .switchMap(() => {
-          if (action.payload.state.agreement) {
-            return this.vmTagService.setAgreement(action.payload.vm);
+          if (form.state.agreement) {
+            return this.vmTagService.setAgreement(action.payload);
           } else {
             return Observable.of(null);
           }
@@ -336,39 +332,6 @@ export class VirtualMachineCreationEffects {
   ) {
   }
 
-  public notifyOnDeployDone(notificationId: string): void {
-    this.jobsNotificationService.finish({
-      id: notificationId,
-      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
-    });
-  }
-
-  public notifyOnDeployFailed(error: any, notificationId: string, state?: FormState): void {
-    this.store.dispatch(new vmActions.DeploymentAddLoggerMessage({
-      text: error.params
-        ? {
-          translationToken: error.message,
-          interpolateParams: error.params
-        }
-        : error.message,
-      status: [ProgressLoggerMessageStatus.ErrorMessage]
-    }));
-
-    const inProgressMessage = state.loggerStageList.find(message => {
-      return message.status && message.status.includes(ProgressLoggerMessageStatus.InProgress);
-    });
-
-    this.updateLoggerMessage(
-      inProgressMessage && inProgressMessage.text,
-      [ProgressLoggerMessageStatus.Error]
-    );
-
-    this.jobsNotificationService.fail({
-      id: notificationId,
-      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
-    });
-  }
-
   private handleDeploymentMessages(
     deploymentMessage: VmDeploymentMessage,
     notificationId?: string
@@ -390,7 +353,7 @@ export class VirtualMachineCreationEffects {
         this.onVmCreationInProgress();
         break;
       case VmDeploymentStage.FINISHED:
-        this.onVmDeploymentFinished(notificationId);
+        this.onDeployDone(notificationId);
         break;
       case VmDeploymentStage.INSTANCE_GROUP_CREATION:
         this.onInstanceGroupCreation();
@@ -429,11 +392,11 @@ export class VirtualMachineCreationEffects {
 
   private initializeDeploymentActionList(state: FormState): ProgressLoggerMessageData[] {
     const translations = {
-      'AG_GROUP_CREATION': 'VM_PAGE.VM_CREATION.CREATING_AG',
-      'SG_GROUP_CREATION': 'VM_PAGE.VM_CREATION.CREATING_SG',
-      'VM_CREATION_IN_PROGRESS': 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
-      'INSTANCE_GROUP_CREATION': 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
-      'TAG_COPYING': 'VM_PAGE.VM_CREATION.TAG_COPYING'
+      [VmDeploymentStage.AG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_AG',
+      [VmDeploymentStage.SG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_SG',
+      [VmDeploymentStage.VM_CREATION_IN_PROGRESS]: 'VM_PAGE.VM_CREATION.DEPLOYING_VM',
+      [VmDeploymentStage.INSTANCE_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_INSTANCE_GROUP',
+      [VmDeploymentStage.TAG_COPYING]: 'VM_PAGE.VM_CREATION.TAG_COPYING'
     };
 
     const loggerStageList = [];
@@ -531,15 +494,18 @@ export class VirtualMachineCreationEffects {
     );
   }
 
-  private onVmDeploymentFinished(notificationId: string): void {
-    this.notifyOnDeployDone(notificationId);
+  public onDeployDone(notificationId: string): void {
+    this.jobsNotificationService.finish({
+      id: notificationId,
+      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
+    });
   }
+
 
   private updateLoggerMessage(
     messageText: string | ParametrizedTranslation,
     status?: Array<ProgressLoggerMessageStatus>
   ): void {
-    // todo: ???
     this.store.dispatch(new vmActions.DeploymentUpdateLoggerMessage({ messageText, data: { status } }));
   }
 

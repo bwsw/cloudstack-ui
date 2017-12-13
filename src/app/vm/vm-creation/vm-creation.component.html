@@ -89,12 +89,13 @@
               name="serviceOffering"
               [serviceOfferings]="serviceOfferings"
               [customOfferingRestrictions]="customOfferingRestrictions"
+              [zoneId]="vmCreationState.state.zone && vmCreationState.state.zone.id"
               [ngModel]="vmCreationState.state.serviceOffering"
               (change)="serviceOfferingChange.emit($event)"
             ></cs-service-offering-selector>
           </div>
 
-          <div class="dialog-select-wrapper">
+          <div class="dialog-select-wrapper" *ngIf="vmCreationState.state.zone">
             <cs-vm-creation-template-container
               [template]="vmCreationState.state.template"
               (change)="changeTemplate($event)"

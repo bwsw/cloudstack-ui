@@ -61,7 +61,6 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
       (onVmDeploymentFailed)="showOverlayChange()"
-      (onVmDeploymentFinish)="onVmDeploymentFinished($event)"
     ></cs-vm-create>`
 })
 export class VmCreationContainerComponent implements OnInit {
@@ -164,10 +163,6 @@ export class VmCreationContainerComponent implements OnInit {
 
   public onAgreementChange(agreement: boolean) {
     this.store.dispatch(new vmActions.VmFormUpdate({ agreement }));
-  }
-
-  public onVmDeploymentFinished(vm: VirtualMachine) {
-    this.store.dispatch(new vmActions.CreateVmSuccess(vm));
   }
 
   public onDeploy(state: FormState) {

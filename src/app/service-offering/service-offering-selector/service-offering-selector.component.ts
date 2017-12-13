@@ -24,7 +24,7 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
 export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
   @Input() public serviceOfferings: Array<ServiceOffering>;
-  // @Input() public zoneId: string;
+  @Input() public zoneId: string;
   @Output() public change: EventEmitter<ServiceOffering>;
 
   private _serviceOffering: ServiceOffering;
@@ -118,7 +118,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     return this.dialog.open(CustomServiceOfferingComponent, {
       width: '370px',
       data: {
-        // zoneId: this.zoneId,
+        zoneId: this.zoneId,
         offering: this.serviceOffering,
         restriction: this.customOfferingRestrictions
       }

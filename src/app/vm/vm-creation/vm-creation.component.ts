@@ -62,7 +62,6 @@ export class VmCreationComponent {
   @Output() public doStartVmChange = new EventEmitter<boolean>();
   @Output() public zoneChange = new EventEmitter<Zone>();
   @Output() public agreementChange = new EventEmitter<boolean>();
-  @Output() public onVmDeploymentFinish = new EventEmitter<VirtualMachine>();
   @Output() public onVmDeploymentFailed = new EventEmitter();
   @Output() public deploy = new EventEmitter<FormState>();
   @Output() public cancel = new EventEmitter();

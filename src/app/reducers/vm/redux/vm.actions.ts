@@ -42,6 +42,7 @@ export const CONSOLE_VM = '[VM] CONSOLE_VM';
 export const OPEN_URL_VM = '[VM] OPEN_URL_VM';
 export const EXPUNGE_VM = '[VM] EXPUNGE_VM';
 export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
+export const CREATE_VM = '[VM] CREATE_VM';
 export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
 export const CREATE_VM_ERROR = '[VM] CREATE_VM_ERROR';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
@@ -50,20 +51,18 @@ export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
 export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
 export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
 export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
+export const VM_FORM_ADJUST = '[VM creation] VM_FORM_ADJUST';
 export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
 export const VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE = '[VM creation] VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE';
 
 export const DEPLOY_VM = '[VM deployment] DEPLOY_VM';
-export const DEPLOY_ACTION_VM = '[VM deployment] DEPLOY_ACTION_VM';
+export const START_DEPLOYMENT = '[VM deployment] START_DEPLOYMENT';
+export const VM_PREPARE_FOR_DEPLOYMENT = '[VM deployment] VM_PREPARE_FOR_DEPLOYMENT';
 export const VM_DEPLOYMENT_CHANGE_STATUS = '[VM deployment] VM_DEPLOYMENT_CHANGE_STATUS';
 export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
-export const VM_DEPLOYMENT_CREATE_AFFINITY_GROUP = '[VM deployment] VM_DEPLOYMENT_CREATE_AFFINITY_GROUP';
-export const VM_DEPLOYMENT_CREATE_SECURITY_GROUP = '[VM deployment] VM_DEPLOYMENT_CREATE_SECURITY_GROUP';
-export const VM_DEPLOYMENT_CREATE_INSTANCE_GROUP = '[VM deployment] VM_DEPLOYMENT_CREATE_INSTANCE_GROUP';
 export const VM_DEPLOYMENT_REQUEST = '[VM deployment] VM_DEPLOYMENT_REQUEST';
-export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
 export const VM_DEPLOYMENT_RESPONSE = '[VM deployment] VM_DEPLOYMENT_RESPONSE';
 export const VM_DEPLOYMENT_ERROR = '[VM deployment] VM_DEPLOYMENT_ERROR';
 
@@ -328,6 +327,13 @@ export class ExpungeVmSuccess implements Action {
   }
 }
 
+export class CreateVm implements Action {
+  readonly type = CREATE_VM;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
 export class CreateVmSuccess implements Action {
   readonly type = CREATE_VM_SUCCESS;
 
@@ -365,6 +371,12 @@ export class VmFormUpdate implements Action {
   constructor(public payload?: Partial<VmCreationState>) {
   }
 }
+export class VmFormAdjust implements Action {
+  type = VM_FORM_ADJUST;
+
+  constructor(public payload?: Partial<VmCreationState>) {
+  }
+}
 
 export class VmCreationStateUpdate implements Action {
   type = VM_CREATION_STATE_UPDATE;
@@ -387,8 +399,8 @@ export class DeployVm implements Action {
   }
 }
 
-export class DeployActionVm implements Action {
-  type = DEPLOY_ACTION_VM;
+export class StartDeployment implements Action {
+  type = START_DEPLOYMENT;
 
   constructor(public payload?: any) {
   }
@@ -439,38 +451,10 @@ export class DeploymentInitActionList implements Action {
   }
 }
 
-export class DeploymentCreateAffinityGroup implements Action {
-  type = VM_DEPLOYMENT_CREATE_AFFINITY_GROUP;
-
-  constructor(public payload: VmCreationState) {
-  }
-}
-
-export class DeploymentCreateSecurityGroup implements Action {
-  type = VM_DEPLOYMENT_CREATE_SECURITY_GROUP;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class DeploymentCreateInstanceGroup implements Action {
-  type = VM_DEPLOYMENT_CREATE_INSTANCE_GROUP;
-
-  constructor(public payload: any) {
-  }
-}
-
 export class DeploymentRequest implements Action {
   type = VM_DEPLOYMENT_REQUEST;
 
-  constructor(public payload: any) {
-  }
-}
-
-export class DeploymentCopyTags implements Action {
-  type = VM_DEPLOYMENT_COPY_TAGS;
-
-  constructor(public payload: any) {
+  constructor(public payload?: any) {
   }
 }
 
@@ -485,6 +469,12 @@ export class DeploymentError implements Action {
   type = VM_DEPLOYMENT_ERROR;
 
   constructor(public payload: any) {
+  }
+}
+export class PrepareForDeployment implements Action {
+  type = VM_PREPARE_FOR_DEPLOYMENT;
+
+  constructor(public payload?: any) {
   }
 }
 
@@ -520,6 +510,7 @@ export type Actions = LoadVMsRequest
   | RecoverVm
   | ExpungeVm
   | ExpungeVmSuccess
+  | CreateVm
   | CreateVmSuccess
   | ChangeSshKey
   | VMUpdateError
@@ -528,16 +519,14 @@ export type Actions = LoadVMsRequest
   | VmCreationFormInit
   | VmCreationFormClean
   | VmFormUpdate
+  | VmFormAdjust
   | DeployVm
-  | DeployActionVm
+  | StartDeployment
+  | PrepareForDeployment
   | DeploymentChangeStatus
   | DeploymentAddLoggerMessage
   | DeploymentUpdateLoggerMessage
   | DeploymentInitActionList
-  | DeploymentCreateAffinityGroup
-  | DeploymentCreateSecurityGroup
-  | DeploymentCreateInstanceGroup
   | DeploymentRequest
-  | DeploymentCopyTags
   | DeploymentResponse
   | DeploymentError;
