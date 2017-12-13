@@ -1,14 +1,6 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
-import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 
 @Component({
   selector: 'cs-ssh-keypair-reset',
@@ -22,17 +14,13 @@ export class SshKeypairResetComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<SshKeypairResetComponent>,
-    @Inject(MAT_DIALOG_DATA) private vm,
-    private sshService: SSHKeyPairService
-  ) { }
+    @Inject(MAT_DIALOG_DATA) private data
+  ) {
+    this.sshKeyList = data.keys;
+  }
 
   public ngOnInit(): void {
-    this.sshService.getList().subscribe(keys => {
-      this.sshKeyList = keys;
-      if (this.sshKeyList.length) {
-        this.selectedSshKeyName = this.sshKeyList[0].name;
-      }
-    });
+    this.selectedSshKeyName = this.sshKeyList[0].name;
   }
 
   public resetSshKey(): void {

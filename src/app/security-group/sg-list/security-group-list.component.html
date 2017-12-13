@@ -7,6 +7,6 @@
   [dynamicOutputs]="outputs"
 >
 </cs-grouped-list>
-<ng-container *ngIf="!securityGroups.length">
+<div class="padding" *ngIf="!securityGroups.length">
   {{ 'COMMON.NO_RESULTS' | translate }}
-</ng-container>
+</div>

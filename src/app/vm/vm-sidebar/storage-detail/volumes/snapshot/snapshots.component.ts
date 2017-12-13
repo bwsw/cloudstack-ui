@@ -33,7 +33,7 @@ export class SnapshotsComponent {
 
   public showSnapshots(): void {
     this.dialog.open(SnapshotModalContainerComponent, {
-      data: { volume: this.volume },
+      data: { volumeId: this.volume.id },
       width: '700px'
     }).afterClosed();
   }
