@@ -52,6 +52,7 @@ export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
 export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
 export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
 export const VM_FORM_ADJUST = '[VM creation] VM_FORM_ADJUST';
+export const VM_INITIAL_ZONE_SELECT = '[VM creation] VM_INITIAL_ZONE_SELECT';
 export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
 export const VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE = '[VM creation] VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE';
 
@@ -371,6 +372,7 @@ export class VmFormUpdate implements Action {
   constructor(public payload?: Partial<VmCreationState>) {
   }
 }
+
 export class VmFormAdjust implements Action {
   type = VM_FORM_ADJUST;
 
@@ -389,6 +391,13 @@ export class VmCreationEnoughResourceUpdateState implements Action {
   type = VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE;
 
   constructor(public payload: boolean) {
+  }
+}
+
+export class VmInitialZoneSelect implements Action {
+  type = VM_INITIAL_ZONE_SELECT;
+
+  constructor(public payload?: boolean) {
   }
 }
 
@@ -471,6 +480,7 @@ export class DeploymentError implements Action {
   constructor(public payload: any) {
   }
 }
+
 export class PrepareForDeployment implements Action {
   type = VM_PREPARE_FOR_DEPLOYMENT;
 
@@ -520,6 +530,7 @@ export type Actions = LoadVMsRequest
   | VmCreationFormClean
   | VmFormUpdate
   | VmFormAdjust
+  | VmInitialZoneSelect
   | DeployVm
   | StartDeployment
   | PrepareForDeployment

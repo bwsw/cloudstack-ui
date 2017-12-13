@@ -17,8 +17,9 @@ import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
-import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
+import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
@@ -92,6 +93,8 @@ export class VmCreationContainerComponent implements OnInit {
     private authService: AuthService,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>
   ) {
+    this.store.dispatch(new zoneActions.LoadZonesRequest());
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());

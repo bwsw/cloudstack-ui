@@ -29,13 +29,11 @@ import { TemplateTagService } from '../../../shared/services/tags/template-tag.s
 import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
-import { VmState } from '../../../vm/shared/vm.model';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
-import { VirtualMachine } from '../../../vm';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -43,7 +41,6 @@ import * as fromServiceOfferings from '../../service-offerings/redux/service-off
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
-import { IScheduler } from 'rxjs/Scheduler';
 
 @Injectable()
 export class VirtualMachineCreationEffects {
@@ -52,10 +49,9 @@ export class VirtualMachineCreationEffects {
   @Effect()
   initVmCreation$ = this.actions$
     .ofType(vmActions.VM_FORM_INIT)
-    .withLatestFrom(this.store.select(fromVMs.getVmFormState), this.store.select(fromZones.selectAll))
-    .switchMap(([action, form, zones]: [vmActions.VmCreationFormInit, FormState, Zone[]]) =>
+    .switchMap((action: vmActions.VmCreationFormInit) =>
       this.resourceUsageService.getResourceUsage()
-        .map(resourceUsage => {
+        .switchMap(resourceUsage => {
           const insufficientResources = [];
 
           Object.keys(resourceUsage.available)
@@ -68,20 +64,24 @@ export class VirtualMachineCreationEffects {
             });
 
           const enoughResources = !insufficientResources.length;
-          // if (form.state && !form.state.zone && zones.length) {
-          //   return Observable.of(
-          //     new vmActions.VmFormUpdate({ zone: zones[0] }),
-          //     new vmActions.VmCreationEnoughResourceUpdateState(enoughResources));
-          // }
 
-          return new vmActions.VmCreationEnoughResourceUpdateState(enoughResources);
+          return Observable.of(
+            new vmActions.VmCreationEnoughResourceUpdateState(enoughResources),
+            new vmActions.VmInitialZoneSelect());
         }));
+
+  @Effect()
+  vmSelectInitialZone$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_INITIAL_ZONE_SELECT)
+    .withLatestFrom(this.store.select(fromZones.selectAll).filter(zones => !!zones.length))
+    .map(([action, zones]: [vmActions.VmInitialZoneSelect, Zone[]]) =>
+      new vmActions.VmFormUpdate({ zone: zones[0] }));
 
   @Effect()
   vmCreationFormUpdate$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_FORM_UPDATE)
-    .filter((action: vmActions.VmFormUpdate) => !!action.payload &&
-      !!(action.payload.zone || action.payload.template || action.payload.diskOffering))
+    .filter((action: vmActions.VmFormUpdate) => !!action.payload
+      && !!(action.payload.zone || action.payload.template || action.payload.diskOffering))
     .map((action: vmActions.VmFormUpdate) => {
       return new vmActions.VmFormAdjust(action.payload);
     });
@@ -228,7 +228,7 @@ export class VirtualMachineCreationEffects {
           this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM }, this.deploymentNotificationId);
           return this.vmService.incrementNumberOfVms();
         })
-        .switchMap(() => Observable.of(
+        .switchMap(() => Observable.of<any>(
           new vmActions.CreateVm(temporaryVm),
           new vmActions.CreateVmSuccess(temporaryVm),
           new vmActions.DeploymentChangeStatus({ stage: VmDeploymentStage.VM_DEPLOYED })
