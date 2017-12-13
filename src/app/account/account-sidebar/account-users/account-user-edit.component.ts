@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AccountUser } from '../../../shared/models/account-user.model';
+import { AccountUser, AccountUserForm } from '../../../shared/models/account-user.model';
 
 @Component({
   selector: 'cs-account-user-edit',
@@ -45,17 +45,17 @@ export class AccountUserEditComponent implements OnInit {
     this.updateUser.emit(newUser);
   }
 
-  public prepareData(data: {}): AccountUser {
+  public prepareData(data: AccountUserForm): AccountUser {
     let result: AccountUser = new AccountUser();
-    result.username = data['username'];
-    result.email = data['email'];
-    if (data['password']) {
-      result.password = data['password'];
+    result.username = data.username;
+    result.email = data.email;
+    if (data.password) {
+      result.password = data.password;
     }
-    result.firstname = data['firstname'];
-    result.lastname = data['lastname'];
-    if (data['timezone']) {
-      result.timezone = data['timezone'].geo;
+    result.firstname = data.firstname;
+    result.lastname = data.lastname;
+    if (data.timezone) {
+      result.timezone = data.timezone.geo;
     }
     return result;
   }

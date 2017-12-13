@@ -14,7 +14,7 @@ export const AccountState = {
   locked: 'locked',
 };
 
-export class AccountData {
+export interface AccountForm {
   username: string;
   email: string;
   firstname: string;
@@ -24,6 +24,19 @@ export class AccountData {
   account?: string;
   roleid: string;
   timezone?: TimeZone;
+  networkdomain?: string;
+}
+
+export class AccountData {
+  username: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  password: string;
+  domainid: string;
+  account?: string;
+  roleid: string;
+  timezone?: string;
   networkdomain?: string;
 }
 

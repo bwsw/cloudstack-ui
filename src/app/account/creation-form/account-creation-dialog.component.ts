@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { AccountData } from '../../shared/models/account.model';
+import { AccountData, AccountForm } from '../../shared/models/account.model';
 import { Domain } from '../../shared/models/domain.model';
 import { Role } from '../../shared/models/role.model';
 
@@ -43,23 +43,23 @@ export class AccountCreationDialogComponent {
     this.dialogRef.close();
   }
 
-  public prepareData(data: {}): AccountData {
+  public prepareData(data: AccountForm): AccountData {
     let result: AccountData = new AccountData();
-    result.username = data['username'];
-    result.email = data['email'];
-    result.password = data['password'];
-    result.firstname = data['firstname'];
-    result.lastname = data['lastname'];
-    result.roleid = data['roleid'];
-    result.domainid = data['domainid'];
-    if (data['timezone']) {
-      result.timezone = data['timezone'].geo;
+    result.username = data.username;
+    result.email = data.email;
+    result.password = data.password;
+    result.firstname = data.firstname;
+    result.lastname = data.lastname;
+    result.roleid = data.roleid;
+    result.domainid = data.domainid;
+    if (data.timezone) {
+      result.timezone = data.timezone.geo;
     }
-    if (data['account']) {
-      result.account = data['account'];
+    if (data.account) {
+      result.account = data.account;
     }
-    if (data['networkdomain']) {
-      result.networkdomain = data['networkdomain'];
+    if (data.networkdomain) {
+      result.networkdomain = data.networkdomain;
     }
 
     return result;
