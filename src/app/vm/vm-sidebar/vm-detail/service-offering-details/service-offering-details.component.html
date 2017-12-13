@@ -107,6 +107,11 @@
         <div>{{ offering.storageType | translate }}</div>
       </div>
 
+      <div *ngIf="offering?.hosttags" class="row">
+        <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.hosttags' | translate }}</div>
+        <div>{{ offering.hosttags }}</div>
+      </div>
+
     </div>
     <mat-card-actions>
       <div class="card-left-button">

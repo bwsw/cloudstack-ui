@@ -1,29 +1,25 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { OfferingAvailability } from '../../../shared/services/offering.service';
-import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import { Zone } from '../../../shared/models/zone.model';
-import {
-  CustomServiceOffering,
-  ICustomServiceOffering
-} from '../../../service-offering/custom-service-offering/custom-service-offering';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as merge from 'lodash/merge';
 import {
   ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
 } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
-  DefaultCustomServiceOfferingRestrictions
-} from '../../../service-offering/custom-service-offering/custom-service-offering.component';
-import {
-  customServiceOfferingFallbackParams
-} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+  CustomServiceOffering,
+  ICustomServiceOffering
+} from '../../../service-offering/custom-service-offering/custom-service-offering';
+import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-service-offering.component';
+import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { Zone } from '../../../shared/models/zone.model';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import * as fromAuths from '../../auth/redux/auth.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromZones from '../../zones/redux/zones.reducers';
 
 import * as event from './service-offerings.actions';
-import * as fromVMs from '../../vm/redux/vm.reducers';
-import * as fromAuths from '../../auth/redux/auth.reducers';
-import * as fromZones from '../../zones/redux/zones.reducers';
-import * as merge from 'lodash/merge';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -37,6 +33,11 @@ export interface State extends EntityState<ServiceOffering> {
   offeringAvailability: OfferingAvailability;
   defaultParams: ICustomServiceOffering;
   customOfferingRestrictions: ICustomOfferingRestrictionsByZone;
+  offeringCompatibilityPolicy: {
+    offeringChangePolicy: string,
+    offeringChangePolicyIgnoreTags: string[],
+    defaultPolicy: string
+  }
 }
 
 export interface OfferingsState {
@@ -69,7 +70,12 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   offeringAvailability: {},
   defaultParams: {},
-  customOfferingRestrictions: {}
+  customOfferingRestrictions: {},
+  offeringCompatibilityPolicy: {
+    offeringChangePolicy: '',
+    offeringChangePolicyIgnoreTags: [],
+    defaultPolicy: ''
+  }
 });
 
 export function reducer(
@@ -121,6 +127,15 @@ export function reducer(
       };
     }
 
+    case event.LOAD_COMPATIBILITY_POLICY_RESPONSE: {
+      return {
+        ...state,
+        offeringCompatibilityPolicy: {
+          ...action.payload
+        }
+      };
+    }
+
     default: {
       return state;
     }
@@ -162,6 +177,11 @@ export const customOfferingRestrictions = createSelector(
   state => state.customOfferingRestrictions
 );
 
+export const offeringCompatibilityPolicy = createSelector(
+  getOfferingsEntitiesState,
+  state => state.offeringCompatibilityPolicy
+);
+
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVMs.getSelectedVM,
@@ -170,14 +190,16 @@ export const getSelectedOffering = createSelector(
 
 export const getAvailableOfferings = createSelector(
   selectAll,
+  getSelectedOffering,
   offeringAvailability,
   defaultParams,
   customOfferingRestrictions,
+  offeringCompatibilityPolicy,
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
   (
-    serviceOfferings, availability,
-    defaults, customRestrictions,
+    serviceOfferings, currentOffering, availability,
+    defaults, customRestrictions, compatibilityPolicy,
     zone, user
   ) => {
     if (zone && user) {
@@ -196,6 +218,17 @@ export const getAvailableOfferings = createSelector(
         }
         return 0;
       });
+
+      const filterByCompatibilityPolicy = (offering) => {
+        if (compatibilityPolicy) {
+          const oldTags = currentOffering.hosttags ? currentOffering.hosttags.split(',') : [];
+          const newTags = offering.hosttags ? offering.hosttags.split(',') : [];
+          return matchHostTags(oldTags, newTags, compatibilityPolicy);
+        }
+      };
+
+      const filterStorageType = (offering) => offering.storageType === currentOffering.storageType;
+
       return availableOfferings.map((offering) => {
         return !offering.isCustomized
           ? offering
@@ -205,23 +238,23 @@ export const getAvailableOfferings = createSelector(
             customOfferingRestrictions[zone.id],
             ResourceStats.fromAccount([user])
           );
-      }).filter(item => item);
+      }).filter(item => filterByCompatibilityPolicy(item) && filterStorageType(item));
     }
   }
 );
 
-const getOfferingsAvailableInZone = (
+export const getOfferingsAvailableInZone = (
   offeringList: Array<ServiceOffering>,
   availability: OfferingAvailability,
   zone: Zone
 ) => {
-  if (!availability.filterOfferings) {
+  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
     return offeringList;
   }
 
   return offeringList
     .filter(offering => {
-      const offeringAvailableInZone = this.isOfferingAvailableInZone(
+      const offeringAvailableInZone = isOfferingAvailableInZone(
         offering,
         availability,
         zone
@@ -231,7 +264,18 @@ const getOfferingsAvailableInZone = (
     });
 };
 
-const getAvailableByResourcesSync = (
+export const isOfferingAvailableInZone = (
+  offering: ServiceOffering,
+  availability: OfferingAvailability,
+  zone: Zone
+) => {
+  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
+    return true;
+  }
+  return availability[zone.id].serviceOfferings.includes(offering.id);
+};
+
+export const getAvailableByResourcesSync = (
   serviceOfferings: Array<ServiceOffering>,
   availability: OfferingAvailability,
   offeringRestrictions: ICustomOfferingRestrictionsByZone,
@@ -265,7 +309,7 @@ const getAvailableByResourcesSync = (
     });
 };
 
-const getCustomOfferingWithSetParams = (
+export const getCustomOfferingWithSetParams = (
   serviceOffering: CustomServiceOffering,
   defaults: ICustomServiceOffering,
   customRestrictions: ICustomOfferingRestrictions,
@@ -300,7 +344,7 @@ const getCustomOfferingWithSetParams = (
   return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
 };
 
-const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
+export const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
   return Object.keys(restrictions).reduce((acc, key) => {
     return (
       acc &&
@@ -312,7 +356,7 @@ const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) =>
   }, true);
 };
 
-const clipOfferingParamsToRestrictions = (
+export const clipOfferingParamsToRestrictions = (
   offeringParams: ICustomServiceOffering,
   restrictions: ICustomOfferingRestrictions
 ) => {
@@ -334,7 +378,7 @@ const clipOfferingParamsToRestrictions = (
 };
 
 
-const getRestrictionIntersection = (
+export const getRestrictionIntersection = (
   customRestrictions: ICustomOfferingRestrictions,
   resourceStats: ResourceStats
 ) => {
@@ -396,4 +440,39 @@ const getRestrictionIntersection = (
   }
 
   return result;
+};
+
+
+export const matchHostTags = (
+  oldTags: Array<string>,
+  newTags: Array<string>,
+  offeringCompatibilityPolicy
+) => {
+  switch (offeringCompatibilityPolicy.offeringChangePolicy || offeringCompatibilityPolicy.defaultPolicy) {
+    case 'contains-all': {
+      return compareTags(oldTags, newTags);
+    }
+    case 'exactly-match': {
+      const ignoreTags = offeringCompatibilityPolicy.offeringChangePolicyIgnoreTags;
+      return oldTags.length === newTags.length ?
+        compareTags(oldTags, newTags) : ignoreTags ?
+          compareTags(oldTags.filter(t1 => ignoreTags.indexOf(t1) === -1), newTags) : false;
+    }
+    case 'no-restrictions':
+    default: {
+      return true;
+    }
+  }
+};
+
+export const compareTags = (
+  oldTags: Array<string>,
+  newTags: Array<string>
+) => {
+  for (const tag of oldTags) {
+    if (newTags.indexOf(tag) < 0) {
+      return false;
+    }
+  }
+  return true;
 };

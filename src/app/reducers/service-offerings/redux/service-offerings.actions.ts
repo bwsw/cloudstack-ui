@@ -8,13 +8,14 @@ export const LOAD_DEFAULT_PARAMS_REQUEST = '[OFFERINGS] LOAD_DEFAULT_PARAMS_REQU
 export const LOAD_DEFAULT_PARAMS_RESPONSE = '[OFFERINGS] LOAD_DEFAULT_PARAMS_RESPONSE';
 export const LOAD_CUSTOM_RESTRICTION_REQUEST = '[OFFERINGS] LOAD_CUSTOM_RESTRICTION_REQUEST';
 export const LOAD_CUSTOM_RESTRICTION_RESPONSE = '[OFFERINGS] LOAD_CUSTOM_RESTRICTION_RESPONSE';
+export const LOAD_COMPATIBILITY_POLICY_REQUEST = '[OFFERINGS] LOAD_COMPABILITY_POLICY_REQUEST';
+export const LOAD_COMPATIBILITY_POLICY_RESPONSE = '[OFFERINGS] LOAD_COMPABILITY_POLICY_RESPONSE';
 
 export class LoadOfferingsRequest implements Action {
   type = LOAD_SERVICE_OFFERINGS_REQUEST;
   constructor(public payload?: any) {
   }
 }
-
 export class LoadOfferingsResponse implements Action {
   type = LOAD_SERVICE_OFFERINGS_RESPONSE;
   constructor(public payload:  any ) {
@@ -25,7 +26,6 @@ export class LoadOfferingAvailabilityRequest implements Action {
   constructor(public payload?: any) {
   }
 }
-
 export class LoadOfferingAvailabilityResponse implements Action {
   type = LOAD_OFFERING_AVAILABILITY_RESPONSE;
   constructor(public payload:  any ) {
@@ -36,7 +36,6 @@ export class LoadDefaultParamsRequest implements Action {
   constructor(public payload?: any) {
   }
 }
-
 export class LoadDefaultParamsResponse implements Action {
   type = LOAD_DEFAULT_PARAMS_RESPONSE;
   constructor(public payload:  any ) {
@@ -47,9 +46,18 @@ export class LoadCustomRestrictionsRequest implements Action {
   constructor(public payload?: any) {
   }
 }
-
 export class LoadCustomRestrictionsResponse implements Action {
   type = LOAD_CUSTOM_RESTRICTION_RESPONSE;
+  constructor(public payload:  any ) {
+  }
+}
+export class LoadCompatibilityPolicyRequest implements Action {
+  type = LOAD_COMPATIBILITY_POLICY_REQUEST;
+  constructor(public payload?: any) {
+  }
+}
+export class LoadCompatibilityPolicyResponse implements Action {
+  type = LOAD_COMPATIBILITY_POLICY_RESPONSE;
   constructor(public payload:  any ) {
   }
 }
