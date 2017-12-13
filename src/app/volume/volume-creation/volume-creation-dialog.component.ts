@@ -48,7 +48,6 @@ export class VolumeCreationDialogComponent {
       { diskOfferingId: this.diskOffering.id }
       );
     this.onVolumeCreate.emit(volumeCreationParams);
-    this.dialogRef.close();
   }
 
   public updateDiskOffering(offering: DiskOffering): void {

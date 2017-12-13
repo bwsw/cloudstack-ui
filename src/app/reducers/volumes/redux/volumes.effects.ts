@@ -13,6 +13,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { MatDialog } from '@angular/material';
 
 @Injectable()
 export class VolumesEffects {
@@ -33,7 +34,10 @@ export class VolumesEffects {
     .ofType(volumeActions.CREATE_VOLUME)
     .switchMap((action: volumeActions.CreateVolume) => {
       return this.volumeService.create(action.payload)
-        .map(createdVolume => new volumeActions.CreateSuccess(createdVolume))
+        .map(createdVolume => {
+          this.dialog.closeAll();
+          return new volumeActions.CreateSuccess(createdVolume);
+        })
         .catch((error: Error) => {
           return Observable.of(new volumeActions.CreateError(error));
         });
@@ -135,6 +139,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
           });
+          this.dialog.closeAll();
           return new volumeActions.ResizeVolumeSuccess(new Volume(volume));
         })
         .catch((error: Error) => {
@@ -304,6 +309,7 @@ export class VolumesEffects {
     private router: Router,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
+    private dialog: MatDialog
   ) {
   }
 

@@ -20,10 +20,7 @@ import {
   VolumeType
 } from '../../models/volume.model';
 import { VolumeResizeData } from '../../services/volume.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'cs-volume-resize-container',
@@ -51,7 +48,6 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
     public dialogService: DialogService,
     public authService: AuthService,
     private store: Store<State>,
-    public dialogRef: MatDialogRef<VolumeResizeContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data,
   ) {
     super();
@@ -83,7 +79,6 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
 
   public onDiskResized(params: VolumeResizeData): void {
     this.store.dispatch(new volumeActions.ResizeVolume(params));
-    this.dialogRef.close();
   }
 
 }

@@ -12,9 +12,9 @@ import { Iso } from '../../../template/shared/iso.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { State } from '../../../reducers/index';
-import { TemplateGroup } from '../../../shared/models/template-group.model';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { MatDialog } from '@angular/material';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
@@ -97,17 +97,12 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
-
-      if (action.payload.entity === TemplateResourceType.iso) {
-        return this.isoService.register(action.payload);
-      } else if (action.payload.snapshotId) {
-        return this.templateService.create(action.payload);
-      } else {
-        return this.templateService.register(action.payload);
-      }
-    })
-    .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
-    .catch((error: Error) => Observable.of(new template.CreateTemplateError(error)));
+      return (action.payload.entity === TemplateResourceType.iso ? this.isoService.register(action.payload)
+        : action.payload.snapshotId ? this.templateService.create(action.payload)
+        : this.templateService.register(action.payload))
+          .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
+          .catch((error: Error) => Observable.of(new template.CreateTemplateError(error)));
+    });
 
   @Effect({ dispatch: false })
   createTemplateError$: Observable<Action> = this.actions$
@@ -121,6 +116,7 @@ export class TemplateEffects {
     .ofType(template.TEMPLATE_CREATE_SUCCESS)
     .do((action: template.CreateTemplateSuccess) => {
       this.onNotify(action.payload, this.successTemplateCreate);
+      this.dialog.closeAll();
     });
 
   @Effect()
@@ -162,7 +158,8 @@ export class TemplateEffects {
     private notificationService: NotificationService,
     private store: Store<State>,
     private templateTagService: TemplateTagService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
   }
 
