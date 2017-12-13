@@ -1,3 +1,32 @@
+<a name="1.410.16"></a>
+## [1.410.16](https://github.com/bwsw/cloudstack-ui/compare/1.410.15...1.410.16) (2017-12-12)
+
+
+### Bug Fixes
+
+* **account-actions:** Remove action box in the card of account user ([#726](https://github.com/bwsw/cloudstack-ui/issues/726)) ([542df61](https://github.com/bwsw/cloudstack-ui/commit/542df61))
+* **firewall:** Account filter added to Firewall section ([#750](https://github.com/bwsw/cloudstack-ui/issues/750)) ([6a6977d](https://github.com/bwsw/cloudstack-ui/commit/6a6977d))
+* **core:**  fix compilation warnings ([#713](https://github.com/bwsw/cloudstack-ui/issues/713)) ([667088d](https://github.com/bwsw/cloudstack-ui/commit/667088d))
+* **core:** ngx-clipboard version updated ([#723](https://github.com/bwsw/cloudstack-ui/issues/723)) ([c75827c](https://github.com/bwsw/cloudstack-ui/commit/c75827c))
+* **service-offering:** Service offering selection fix ([3dc97a6](https://github.com/bwsw/cloudstack-ui/commit/3dc97a6))
+* **firewall:** Remove delete button for system firewall templates ([#754](https://github.com/bwsw/cloudstack-ui/issues/754)) ([ca45c7b](https://github.com/bwsw/cloudstack-ui/commit/ca45c7b))
+* **firewall:** Fix filter by account ([1588f2d](https://github.com/bwsw/cloudstack-ui/commit/1588f2d))
+* **snapshots:** Fix snapshot modal window bugs ([#755](https://github.com/bwsw/cloudstack-ui/issues/755)) ([50d6394](https://github.com/bwsw/cloudstack-ui/commit/50d6394))
+* **snapshot:** Fix time set conditions ([8e12f7b](https://github.com/bwsw/cloudstack-ui/commit/8e12f7b))
+* **vm:** Template/ISO switcher in VM creation wrong behaviour ([#737](https://github.com/bwsw/cloudstack-ui/issues/737)) ([12a8274](https://github.com/bwsw/cloudstack-ui/commit/12a8274))
+* **template:** Template creation fixed (closes [#705](https://github.com/bwsw/cloudstack-ui/issues/705)) ([#710](https://github.com/bwsw/cloudstack-ui/issues/710)) ([ad481f2](https://github.com/bwsw/cloudstack-ui/commit/ad481f2))
+* **template:** "Group by" wrong behaviour when changing group tag of a template ([#725](https://github.com/bwsw/cloudstack-ui/issues/725)) ([d62c04f](https://github.com/bwsw/cloudstack-ui/commit/d62c04f))
+* **vm-creation:** change the condition to show firewall rule selector (closes [#746](https://github.com/bwsw/cloudstack-ui/issues/746)) ([#749](https://github.com/bwsw/cloudstack-ui/issues/749)) ([9a07942](https://github.com/bwsw/cloudstack-ui/commit/9a07942))
+* **vm-volume-attachment:** filter volumes and vms by entity account ([#729](https://github.com/bwsw/cloudstack-ui/issues/729)) ([eefc8f2](https://github.com/bwsw/cloudstack-ui/commit/eefc8f2))
+
+
+### Features
+
+* **core:** Angular and Material updated ([#753](https://github.com/bwsw/cloudstack-ui/issues/753)) ([8172076](https://github.com/bwsw/cloudstack-ui/commit/8172076))
+* **firewall:** add filter by account for security group page ([abe52d0](https://github.com/bwsw/cloudstack-ui/commit/abe52d0))
+
+
+
 <a name="1.410.15"></a>
 ## [1.410.15](https://github.com/bwsw/cloudstack-ui/compare/1.49.14...1.410.15) (2017-12-01)
 

@@ -9,7 +9,6 @@ import * as serviceOfferingActions from '../../reducers/service-offerings/redux/
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
-import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import { ICustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { CustomServiceOfferingService, } from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { Account } from '../../shared/models/account.model';
@@ -33,7 +32,6 @@ import { VirtualMachine } from '../shared/vm.model';
 export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly offerings$ = this.store.select(fromServiceOfferings.getAvailableOfferings);
   readonly user$ = this.store.select(fromAuths.getUserAccount);
-  readonly zone$ = this.store.select(fromZones.getSelectedZone);
 
   public virtualMachine: VirtualMachine;
   public user: Account;
