@@ -38,14 +38,25 @@
         </mat-form-field>
       </div>
       <div>
-        <cs-disk-offering
-          name="diskOffering"
-          [required]="true"
-          [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate"
-          [ngModel]="diskOffering.id"
-          [diskOfferingList]="diskOfferings"
-          (change)="updateDiskOffering($event)"
-        ></cs-disk-offering>
+        <mat-form-field
+          class="full-width-input"
+        >
+          <mat-select
+            class="form-select-control"
+            name="diskOffering"
+            [(ngModel)]="diskOffering"
+            [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate"
+            [required]="true"
+            (selectionChange)="updateDiskOffering($event)"
+          >
+            <mat-option
+              *ngFor="let offering of diskOfferings"
+              [value]="offering"
+            >
+              {{ offering.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div *ngIf="showResizeSlider && minSize && maxSize">
         <cs-slider

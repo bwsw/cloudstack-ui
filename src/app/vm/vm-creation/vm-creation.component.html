@@ -109,12 +109,24 @@
 
           <div *ngIf="formState.state.diskOfferingsAreAllowed">
             <h5>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h5>
-            <cs-disk-offering
-              name="diskOfferingSelector"
-              [diskOfferingList]="formState.data.diskOfferings"
-              [ngModel]="formState.state.diskOffering.id"
-              (change)="diskOfferingChange($event)"
-            ></cs-disk-offering>
+            <mat-form-field
+              class="full-width-input"
+            >
+              <mat-select
+                class="form-select-control"
+                name="diskOfferingSelector"
+                [(ngModel)]="formState.state.diskOffering"
+                (selectionChange)="diskOfferingChange($event)"
+              >
+                <mat-option
+                  *ngFor="let offering of formState.data.diskOfferings"
+                  [value]="offering"
+                >
+                  {{ offering.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
           </div>
 
           <div *ngIf="formState.state.rootDiskSizeMin">
