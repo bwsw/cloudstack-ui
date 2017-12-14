@@ -1,11 +1,12 @@
 FROM node:8-alpine as builder
 
-COPY . /tmp/cloudstackui
-
 WORKDIR /tmp/cloudstackui
 
-RUN yarn install --verbose \
-    && yarn run build:aot
+COPY package.json yarn.lock /tmp/cloudstackui/
+RUN yarn install
+
+COPY . /tmp/cloudstackui
+RUN yarn run build:aot
 
 FROM nginx:stable-alpine
 
