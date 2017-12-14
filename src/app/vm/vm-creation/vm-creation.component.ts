@@ -36,11 +36,13 @@ export class VmCreationComponent {
   @Input() public vmCreationState: FormState;
   @Input() public instanceGroupList: InstanceGroup[];
   @Input() public affinityGroupList: AffinityGroup[];
+  @Input() public diskOfferings: DiskOffering[];
   @Input() public zones: Zone[];
   @Input() public serviceOfferings: ServiceOffering[];
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
 
   @Input() public fetching: boolean;
+  @Input() public diskOfferingsAreLoading: boolean;
   @Input() public showOverlay: boolean;
   @Input() public deploymentStopped: boolean;
   @Input() public loggerStageList: Array<ProgressLoggerMessage>;

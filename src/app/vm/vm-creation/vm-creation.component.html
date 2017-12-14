@@ -106,6 +106,7 @@
             <h4>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
             <mat-form-field
               class="full-width-input"
+              *loading="diskOfferingsAreLoading"
             >
               <mat-select
                 class="form-select-control"

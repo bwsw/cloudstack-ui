@@ -35,7 +35,6 @@ import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions
 // tslint:disable-next-line
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
-import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmCreationTemplateComponent } from './vm-creation/template/vm-creation-template.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
@@ -115,7 +114,6 @@ import { VmCreationAgreementComponent } from './vm-creation/template/agreement/v
 import { HttpModule } from '@angular/http';
 import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
 import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
-import { DiskOfferingContainerComponent } from './vm-creation/containers/disk-offering.container';
 // tslint:disable-next-line
 import { VmCreationSshKeySelectorContainerComponent } from './vm-creation/ssh-key-selector/containers/ssh-key-selector.container';
 import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
@@ -167,7 +165,6 @@ import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.
   declarations: [
     AffinityGroupComponent,
     AffinityGroupSelectorComponent,
-    DiskOfferingContainerComponent,
     KeyboardsComponent,
     FirewallRulesDetailComponent,
     FirewallRulesDetailContainerComponent,
@@ -235,7 +232,6 @@ import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.
   ],
   providers: [
     VmActionsService,
-    VmDeploymentService,
     VmEntityDeletionService,
     VmService,
     WebShellService,

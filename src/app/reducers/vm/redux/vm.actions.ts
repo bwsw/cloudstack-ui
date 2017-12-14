@@ -5,9 +5,8 @@ import { FormState } from './vm.reducers';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
-import { VmDeploymentMessage } from '../../../vm/vm-creation/services/vm-deployment.service';
-import { Subject } from 'rxjs/Subject';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { VmDeploymentMessage } from './vm-creation.effects';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -42,9 +41,6 @@ export const CONSOLE_VM = '[VM] CONSOLE_VM';
 export const OPEN_URL_VM = '[VM] OPEN_URL_VM';
 export const EXPUNGE_VM = '[VM] EXPUNGE_VM';
 export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
-export const CREATE_VM = '[VM] CREATE_VM';
-export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
-export const CREATE_VM_ERROR = '[VM] CREATE_VM_ERROR';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
 
@@ -57,15 +53,13 @@ export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE'
 export const VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE = '[VM creation] VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE';
 
 export const DEPLOY_VM = '[VM deployment] DEPLOY_VM';
-export const START_DEPLOYMENT = '[VM deployment] START_DEPLOYMENT';
-export const VM_PREPARE_FOR_DEPLOYMENT = '[VM deployment] VM_PREPARE_FOR_DEPLOYMENT';
+export const VM_DEPLOYMENT_REQUEST = '[VM deployment] VM_DEPLOYMENT_REQUEST';
+export const VM_DEPLOYMENT_REQUEST_SUCCESS = '[VM deployment] VM_DEPLOYMENT_REQUEST_SUCCESS';
+export const VM_DEPLOYMENT_REQUEST_ERROR = '[VM deployment] VM_DEPLOYMENT_REQUEST_ERROR';
 export const VM_DEPLOYMENT_CHANGE_STATUS = '[VM deployment] VM_DEPLOYMENT_CHANGE_STATUS';
 export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
-export const VM_DEPLOYMENT_REQUEST = '[VM deployment] VM_DEPLOYMENT_REQUEST';
-export const VM_DEPLOYMENT_RESPONSE = '[VM deployment] VM_DEPLOYMENT_RESPONSE';
-export const VM_DEPLOYMENT_ERROR = '[VM deployment] VM_DEPLOYMENT_ERROR';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -328,24 +322,10 @@ export class ExpungeVmSuccess implements Action {
   }
 }
 
-export class CreateVm implements Action {
-  readonly type = CREATE_VM;
+export class DeploymentRequestSuccess implements Action {
+  readonly type = VM_DEPLOYMENT_REQUEST_SUCCESS;
 
   constructor(public payload: VirtualMachine) {
-  }
-}
-
-export class CreateVmSuccess implements Action {
-  readonly type = CREATE_VM_SUCCESS;
-
-  constructor(public payload: VirtualMachine) {
-  }
-}
-
-export class CreateVmError implements Action {
-  readonly type = CREATE_VM_ERROR;
-
-  constructor(public payload: any) {
   }
 }
 
@@ -408,13 +388,6 @@ export class DeployVm implements Action {
   }
 }
 
-export class StartDeployment implements Action {
-  type = START_DEPLOYMENT;
-
-  constructor(public payload?: any) {
-  }
-}
-
 export class VmCreationFormInit implements Action {
   type = VM_FORM_INIT;
 
@@ -463,28 +436,14 @@ export class DeploymentInitActionList implements Action {
 export class DeploymentRequest implements Action {
   type = VM_DEPLOYMENT_REQUEST;
 
-  constructor(public payload?: any) {
+  constructor(public payload: FormState) {
   }
 }
 
-export class DeploymentResponse implements Action {
-  type = VM_DEPLOYMENT_RESPONSE;
+export class DeploymentRequestError implements Action {
+  type = VM_DEPLOYMENT_REQUEST_ERROR;
 
   constructor(public payload: any) {
-  }
-}
-
-export class DeploymentError implements Action {
-  type = VM_DEPLOYMENT_ERROR;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class PrepareForDeployment implements Action {
-  type = VM_PREPARE_FOR_DEPLOYMENT;
-
-  constructor(public payload?: any) {
   }
 }
 
@@ -520,8 +479,6 @@ export type Actions = LoadVMsRequest
   | RecoverVm
   | ExpungeVm
   | ExpungeVmSuccess
-  | CreateVm
-  | CreateVmSuccess
   | ChangeSshKey
   | VMUpdateError
   | VmCreationStateUpdate
@@ -532,12 +489,10 @@ export type Actions = LoadVMsRequest
   | VmFormAdjust
   | VmInitialZoneSelect
   | DeployVm
-  | StartDeployment
-  | PrepareForDeployment
   | DeploymentChangeStatus
   | DeploymentAddLoggerMessage
   | DeploymentUpdateLoggerMessage
   | DeploymentInitActionList
   | DeploymentRequest
-  | DeploymentResponse
-  | DeploymentError;
+  | DeploymentRequestSuccess
+  | DeploymentRequestError;

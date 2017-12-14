@@ -18,6 +18,7 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
@@ -35,6 +36,8 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       [fetching]="isLoading$ | async"
       [instanceGroupList]="instanceGroups$ | async"
       [affinityGroupList]="affinityGroups$ | async"
+      [diskOfferings]="diskOfferings$ | async"
+      [diskOfferingsAreLoading]="diskOfferingsAreLoading$ | async"
       [zones]="zones$ | async"
       [showOverlay]="showOverlay$ | async"
       [deploymentStopped]="deploymentStopped$ | async"
@@ -78,6 +81,8 @@ export class VmCreationContainerComponent implements OnInit {
   readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.customOfferingRestrictions);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
   readonly deploymentStopped$ = this.store.select(fromVMs.deploymentStopped);
+  readonly diskOfferings$ = this.store.select(fromDiskOfferings.selectAll);
+  readonly diskOfferingsAreLoading$ = this.store.select(fromDiskOfferings.isLoading);
   readonly deployedVm$ = this.store.select(fromVMs.getDeployedVM);
   readonly enoughResources$ = this.store.select(fromVMs.enoughResources);
   readonly insufficientResources$ = this.store.select(fromVMs.insufficientResources);

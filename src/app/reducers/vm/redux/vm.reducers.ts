@@ -417,7 +417,7 @@ export function formReducer(
         deploymentStopped: false
       };
     }
-    case vmActions.VM_DEPLOYMENT_ERROR: {
+    case vmActions.VM_DEPLOYMENT_REQUEST_ERROR: {
       const messages = [...state.loggerStageList].map(message => {
         if (message.status && message.status.includes(ProgressLoggerMessageStatus.InProgress)) {
           return Object.assign({}, message, { status: [ProgressLoggerMessageStatus.Error] });
@@ -428,7 +428,7 @@ export function formReducer(
 
       return { ...state, loggerStageList: [...messages], deploymentStopped: false };
     }
-    case vmActions.CREATE_VM_ERROR: {
+    case vmActions.VM_DEPLOYMENT_REQUEST_ERROR: {
       return {
         ...state,
         deploymentStopped: false

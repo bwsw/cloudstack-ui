@@ -702,10 +702,9 @@ export class VirtualMachinesEffects {
 
   @Effect()
   vmCreateSuccessLoadVolumes$: Observable<Action> = this.actions$
-    .ofType(vmActions.CREATE_VM_SUCCESS)
+    .ofType(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
     .switchMap(() => Observable.of(
       new volumeActions.LoadVolumesRequest(),
-      new vmActions.VmCreationStateUpdate({ deploymentStopped: false }),
       new vmActions.DeploymentAddLoggerMessage({
         text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',
         status: [ProgressLoggerMessageStatus.Highlighted]
