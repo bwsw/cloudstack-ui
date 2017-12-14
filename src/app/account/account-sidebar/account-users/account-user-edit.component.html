@@ -13,7 +13,7 @@
         formControlName="username"
       >
     </mat-form-field>
-    <mat-form-field *ngIf="!!title" class="full-width-input">
+    <mat-form-field *ngIf="!(user && user.id)" class="full-width-input">
       <input
         matInput
         name="password"

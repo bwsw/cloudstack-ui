@@ -29,10 +29,10 @@ export class AccountUserEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.title) {
-      this.userForm.addControl('password', this.formBuilder.control('', [ Validators.required ]));
-    } else {
+    if (this.user && this.user.id) {
       this.userForm.patchValue(this.user);
+    } else {
+      this.userForm.addControl('password', this.formBuilder.control('', [ Validators.required ]));
     }
   }
 
