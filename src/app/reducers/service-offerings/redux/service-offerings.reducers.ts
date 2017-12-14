@@ -13,7 +13,11 @@ import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offer
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
-import { OfferingAvailability } from '../../../shared/services/offering.service';
+import {
+  OfferingAvailability,
+  OfferingCompatibilityPolicy,
+  OfferingPolicy
+} from '../../../shared/services/offering.service';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
@@ -33,11 +37,7 @@ export interface State extends EntityState<ServiceOffering> {
   offeringAvailability: OfferingAvailability;
   defaultParams: ICustomServiceOffering;
   customOfferingRestrictions: ICustomOfferingRestrictionsByZone;
-  offeringCompatibilityPolicy: {
-    offeringChangePolicy: string,
-    offeringChangePolicyIgnoreTags: string[],
-    defaultPolicy: string
-  }
+  offeringCompatibilityPolicy: OfferingCompatibilityPolicy
 }
 
 export interface OfferingsState {
@@ -72,9 +72,7 @@ export const initialState: State = adapter.getInitialState({
   defaultParams: {},
   customOfferingRestrictions: {},
   offeringCompatibilityPolicy: {
-    offeringChangePolicy: '',
-    offeringChangePolicyIgnoreTags: [],
-    defaultPolicy: ''
+    defaultPolicy: OfferingPolicy.NO_RESTRICTION
   }
 });
 
@@ -130,9 +128,7 @@ export function reducer(
     case event.LOAD_COMPATIBILITY_POLICY_RESPONSE: {
       return {
         ...state,
-        offeringCompatibilityPolicy: {
-          ...action.payload
-        }
+        offeringCompatibilityPolicy: action.payload
       };
     }
 
@@ -224,6 +220,8 @@ export const getAvailableOfferings = createSelector(
           const oldTags = currentOffering.hosttags ? currentOffering.hosttags.split(',') : [];
           const newTags = offering.hosttags ? offering.hosttags.split(',') : [];
           return matchHostTags(oldTags, newTags, compatibilityPolicy);
+        } else {
+          return true;
         }
       };
 
@@ -446,20 +444,21 @@ export const getRestrictionIntersection = (
 export const matchHostTags = (
   oldTags: Array<string>,
   newTags: Array<string>,
-  offeringCompatibilityPolicy
+  offeringCompatibilityPolicy: OfferingCompatibilityPolicy
 ) => {
+  const ignoreTags = offeringCompatibilityPolicy.offeringChangePolicyIgnoreTags;
+  if (ignoreTags) {
+    oldTags = oldTags.filter(t1 => ignoreTags.indexOf(t1) === -1);
+    newTags = newTags.filter(t1 => ignoreTags.indexOf(t1) === -1)
+  }
   switch (offeringCompatibilityPolicy.offeringChangePolicy || offeringCompatibilityPolicy.defaultPolicy) {
-    case 'contains-all': {
+    case OfferingPolicy.CONTAINS_ALL: {
       return compareTags(oldTags, newTags);
     }
-    case 'exactly-match': {
-      const ignoreTags = offeringCompatibilityPolicy.offeringChangePolicyIgnoreTags;
-      return oldTags.length === newTags.length ?
-        compareTags(oldTags, newTags) : ignoreTags ?
-          compareTags(oldTags.filter(t1 => ignoreTags.indexOf(t1) === -1), newTags) : false;
+    case OfferingPolicy.EXACTLY_MATCH: {
+      return oldTags.length === newTags.length ? compareTags(oldTags, newTags) : false;
     }
-    case 'no-restrictions':
-    default: {
+    case OfferingPolicy.NO_RESTRICTION: {
       return true;
     }
   }
@@ -469,10 +468,5 @@ export const compareTags = (
   oldTags: Array<string>,
   newTags: Array<string>
 ) => {
-  for (const tag of oldTags) {
-    if (newTags.indexOf(tag) < 0) {
-      return false;
-    }
-  }
-  return true;
+  return !oldTags.find(tag => newTags.indexOf(tag) === -1);
 };

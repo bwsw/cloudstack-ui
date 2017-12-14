@@ -59,7 +59,6 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
     this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadCompatibilityPolicyRequest());
   }
 
   public changeServiceOffering(serviceOffering) {

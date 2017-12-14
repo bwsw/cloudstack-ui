@@ -157,11 +157,6 @@
   "offeringAvailability": {
     "filterOfferings": false
   },
-  "offeringCompatibilityPolicy": {
-    "offeringChangePolicy": "exactly-match",
-    "offeringChangePolicyIgnoreTags": ["t1"],
-    "defaultPolicy": "no-restrictions"
-  },
   "customOfferingRestrictions": {},
   "defaultDomain": "",
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",

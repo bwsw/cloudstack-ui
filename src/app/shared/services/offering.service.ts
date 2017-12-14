@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Offering } from '../models/offering.model';
 import { Zone } from '../models';
+import { Offering } from '../models/offering.model';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 
@@ -13,6 +13,18 @@ export interface OfferingAvailability {
     diskOfferings: Array<string>;
     serviceOfferings: Array<string>;
   };
+}
+
+export interface OfferingCompatibilityPolicy {
+  offeringChangePolicy?: string,
+  offeringChangePolicyIgnoreTags?: string[],
+  defaultPolicy: string
+}
+
+export enum OfferingPolicy {
+  CONTAINS_ALL = 'contains-all',
+  EXACTLY_MATCH = 'exactly-match',
+  NO_RESTRICTION = 'no-restrictions'
 }
 
 @Injectable()
