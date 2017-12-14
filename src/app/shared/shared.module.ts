@@ -24,26 +24,43 @@ import {
   MatTabsModule,
   MatTooltipModule
 } from '@angular/material';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
+import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
+import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offerings.reducers';
+import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
+import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
+import { SecurityGroupService } from '../security-group/services/security-group.service';
 // tslint:disable-next-line
 import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
+import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
+import { AccountActionsService } from './actions/account-actions/account-actions.service';
+import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
+import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
+// tslint:disable-next-line
+import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
+import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
+import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-component/volume-actions.component';
+import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
 import { VolumeAttachAction } from './actions/volume-actions/volume-attach';
+import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
+import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 // tslint:disable-next-line
 import { VolumeDetachAction } from './actions/volume-actions/volume-detach';
 import { VolumeRecurringSnapshotsAction } from './actions/volume-actions/volume-recurring-snapshots';
 import { VolumeRemoveAction } from './actions/volume-actions/volume-remove';
 import { VolumeResizeAction } from './actions/volume-actions/volume-resize';
+import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
+import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
 import { VolumeSnapshotAction } from './actions/volume-actions/volume-snapshot';
-// tslint:disable-next-line
-import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
-import { TemplateActionsService } from './actions/template-actions/template-actions.service';
 import { BadgeModule } from './badge/';
 import {
   CalendarComponent,
@@ -55,10 +72,13 @@ import {
   DatePickerDialogComponent,
   DiskOfferingComponent,
   FabComponent,
+  FancySelectComponent,
+  InputGroupComponent,
   ListComponent,
   NoResultsComponent,
   NotificationBoxComponent,
   NotificationBoxItemComponent,
+  OverlayLoadingComponent,
   SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
@@ -69,13 +89,16 @@ import { CharacterCountComponent } from './components/character-count-textfield/
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
-import { FancySelectComponent } from './components';
 import { GroupedListComponent } from './components/grouped-list/grouped-list.component';
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
-import { InputGroupComponent } from './components';
 import { LoaderComponent } from './components/loader/loader.component';
-import { OverlayLoadingComponent } from './components';
+import { ParametersEditPairComponent } from './components/parameters-pair/parameters-edit-pair.component';
+import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
 import { PopoverModule } from './components/popover';
+import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
+// tslint:disable-next-line
+import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
+import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
 // tslint:disable-next-line
@@ -84,6 +107,10 @@ import { SecurityGroupBuilderComponent } from './components/security-group-build
 // tslint:disable-next-line
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
 import { TableComponent } from './components/table/table.component';
+import { TimeZoneComponent } from './components/time-zone/time-zone.component';
+import { TimeZoneService } from './components/time-zone/time-zone.service';
+import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
+import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
@@ -92,21 +119,26 @@ import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
-  ViewValuePipe,
   StringifyDatePipe,
   StringifyTimePipe,
+  ViewValuePipe,
   VolumeSortPipe
 } from './pipes';
+import { AccountUserService } from './services/account-user.service';
 import { AccountService } from './services/account.service';
+import { AdminGuard } from './services/admin-guard';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CacheService } from './services/cache.service';
 import { ConfigService } from './services/config.service';
+import { ConfigurationService } from './services/configuration.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
+import { DomainService } from './services/domain.service';
 import { ErrorService } from './services/error.service';
+import { HypervisorService } from './services/hypervisor.service';
 import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
 import { LanguageService } from './services/language.service';
@@ -115,8 +147,10 @@ import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
 import { NotificationService } from './services/notification.service';
 import { OsTypeService } from './services/os-type.service';
+import { ResourceCountService } from './services/resource-count.service';
 import { ResourceLimitService } from './services/resource-limit.service';
 import { ResourceUsageService } from './services/resource-usage.service';
+import { RoleService } from './services/role.service';
 import { RouterUtilsService } from './services/router-utils.service';
 import { ServiceOfferingService } from './services/service-offering.service';
 import { SessionStorageService } from './services/session-storage.service';
@@ -135,43 +169,6 @@ import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
-// tslint:disable-next-line
-import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
-import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
-import { SecurityGroupService } from '../security-group/services/security-group.service';
-import { HypervisorService } from './services/hypervisor.service';
-import { DomainService } from './services/domain.service';
-import { RoleService } from './services/role.service';
-import { ConfigurationService } from './services/configuration.service';
-import { ResourceCountService } from './services/resource-count.service';
-import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
-import { AccountActionsService } from './actions/account-actions/account-actions.service';
-import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
-import { TimeZoneComponent } from './components/time-zone/time-zone.component';
-import { TimeZoneService } from './components/time-zone/time-zone.service';
-import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
-import { ParametersEditPairComponent } from './components/parameters-pair/parameters-edit-pair.component';
-import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
-import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
-import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
-import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
-import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offerings.reducers';
-import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
-import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
-import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
-import { AccountUserService } from './services/account-user.service';
-import {
-  TemplateActionsContainerComponent
-} from './actions/template-actions/template-actions-component/template-actions.container';
-import { VmStatisticContainerComponent } from './components/vm-statistics/vm-statistic.container';
-import {
-  VolumeAttachmentContainerComponent
-} from './actions/volume-actions/volume-attachment/volume-attachment.container';
-import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
 
 @NgModule({
   imports: [
@@ -365,6 +362,7 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
+    AdminGuard,
     AuthService,
     CacheService,
     ConfigService,

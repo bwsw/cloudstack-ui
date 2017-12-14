@@ -11,7 +11,7 @@
   </div>
 
 
-  <nav mat-tab-nav-bar>
+  <nav mat-tab-nav-bar *ngIf="isAdmin()">
     <a
       matTabLink
       [routerLink]="['./account']"
