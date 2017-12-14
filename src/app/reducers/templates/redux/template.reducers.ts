@@ -22,7 +22,6 @@ import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
-import * as uniq from 'lodash/uniq';
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean,
@@ -348,8 +347,8 @@ export const selectByViewModeAndAccounts = createSelector(
     const selectedAccountIdsFilter = template => !selectedAccountIds.length ||
       (accountDomainMap[`${template.account}_${template.domainId}`]);
 
-    return uniq(templates.filter((template: BaseTemplateModel) => selectedViewModeFilter(
-      template) && selectedAccountIdsFilter(template)));
+    return templates.filter((template: BaseTemplateModel) => selectedViewModeFilter(
+      template) && selectedAccountIdsFilter(template));
   }
 );
 
@@ -408,12 +407,12 @@ export const selectFilteredTemplates = createSelector(
         .includes(queryLower) ||
       template.displayText.toLowerCase().includes(queryLower);
 
-    return uniq(templates.filter(template =>
+    return templates.filter(template =>
       selectedZonesFilter(template)
         && selectedTypesFilter(template)
         && selectedGroupsFilter(template)
         && selectedOsFamiliesFilter(template)
-        && queryFilter(template)));
+        && queryFilter(template));
   }
 );
 
@@ -474,13 +473,13 @@ export const selectTemplatesForVmCreation = createSelector(
 
     const availableTemplatesFilter = (template: BaseTemplateModel) => template.isReady;
 
-    return uniq(templates.filter((template) =>
+    return templates.filter((template) =>
       availableTemplatesFilter(template)
       && selectedViewModeFilter(template)
       && selectedTypesFilter(template)
       && selectedOsFamiliesFilter(template)
       && selectedZoneFilter(template)
       && selectedGroupsFilter(template)
-      && queryFilter(template)));
+      && queryFilter(template));
   }
 );

@@ -2,12 +2,12 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Grouping } from '../../../shared/models/grouping.model';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
-
 import * as sshKey from './ssh-key.actions';
-import { Utils } from '../../shared/services/utils/utils.service';
+
 
 export interface State {
   list: ListState,

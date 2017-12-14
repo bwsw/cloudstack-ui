@@ -12,9 +12,9 @@ import { Iso } from '../../../template/shared/iso.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { State } from '../../../reducers/index';
-import { TemplateGroup } from '../../../shared/models/template-group.model';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import * as uniqBy from 'lodash/uniqBy';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
@@ -45,6 +45,8 @@ export class TemplateEffects {
           .map(_ => _.toArray())
       )
         .withLatestFrom(this.store.select(fromTemplateGroups.selectAll))
+        .map(([[templates, isos], groups]) =>
+          [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups])
         .switchMap(([[templates, isos], groups]) => groups && groups.length
           ? Observable.of(new template.LoadTemplatesResponse([...templates, ...isos]))
           : [
