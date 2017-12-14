@@ -29,7 +29,7 @@ describe('Test service offering reducer', () => {
         defaultParams: {},
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restriction'
+          defaultPolicy: 'no-restrictions'
         }
       });
   });
@@ -45,7 +45,7 @@ describe('Test service offering reducer', () => {
         defaultParams: {},
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restriction'
+          defaultPolicy: 'no-restrictions'
         }
       });
   });
@@ -64,7 +64,7 @@ describe('Test service offering reducer', () => {
         defaultParams: {},
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restriction'
+          defaultPolicy: 'no-restrictions'
         }
       });
   });
@@ -83,7 +83,7 @@ describe('Test service offering reducer', () => {
         defaultParams: {},
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restriction'
+          defaultPolicy: 'no-restrictions'
         }
       });
 
@@ -101,7 +101,7 @@ describe('Test service offering reducer', () => {
         defaultParams: {},
         customOfferingRestrictions: { 'custom': 'r1' },
         offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restriction'
+          defaultPolicy: 'no-restrictions'
         }
       });
 
@@ -119,7 +119,7 @@ describe('Test service offering reducer', () => {
         defaultParams: { 'default': 'd1' },
         customOfferingRestrictions: { 'custom': 'r1' },
         offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restriction'
+          defaultPolicy: 'no-restrictions'
         }
       });
 
@@ -160,7 +160,7 @@ describe('Test service offering reducer', () => {
         defaultParams: {},
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restriction'
+          defaultPolicy: 'no-restrictions'
         }
       });
     expect(fromSOs.getOfferingsEntitiesState.projector({list: state})).toBe(state);
