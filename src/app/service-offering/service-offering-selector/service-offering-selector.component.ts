@@ -41,8 +41,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
 
   @Input()
   public get serviceOffering(): ServiceOffering {
-    return this._serviceOffering ?
-      this.serviceOfferings.find(_ => _.id === this._serviceOffering.id) : this.serviceOfferings[0];
+    return this._serviceOffering;
   }
 
   public set serviceOffering(serviceOffering: ServiceOffering) {
@@ -88,9 +87,9 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
 
   public propagateChange: any = () => {};
 
-  public writeValue(serviceOffering: string): void {
+  public writeValue(serviceOffering: ServiceOffering): void {
     if (serviceOffering) {
-      this.serviceOffering = this.serviceOfferings.find(_ => _.id === serviceOffering) || this.serviceOfferings[0];
+      this.serviceOffering = serviceOffering;
     }
   }
 

@@ -17,13 +17,12 @@ import { VolumeResizeData } from '../../../services/volume.service';
   styleUrls: ['volume-resize.component.scss']
 })
 export class VolumeResizeComponent implements OnInit {
-  public newSize: number;
   @Input() public maxSize: number;
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
-
   @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
   public diskOffering: DiskOffering;
+  public newSize: number;
 
   constructor(
     public dialogRef: MatDialogRef<VolumeResizeComponent>

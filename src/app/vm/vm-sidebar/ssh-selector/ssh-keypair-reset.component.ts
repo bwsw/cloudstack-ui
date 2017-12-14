@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 
@@ -7,7 +7,7 @@ import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
   templateUrl: 'ssh-keypair-reset.component.html',
   styleUrls: ['ssh-keypair-reset.component.scss']
 })
-export class SshKeypairResetComponent implements OnInit {
+export class SshKeypairResetComponent {
   public resettingKeyInProgress = false;
   public sshKeyList: Array<SSHKeyPair>;
   public selectedSshKeyName: string;
@@ -19,10 +19,7 @@ export class SshKeypairResetComponent implements OnInit {
   ) {
     this.sshKeyList = data.keys;
     this.preselectedSshKeyName = data.sshKeyName;
-  }
-
-  public ngOnInit(): void {
-    this.selectedSshKeyName = this.sshKeyList[0].name;
+    this.selectedSshKeyName = this.preselectedSshKeyName;
   }
 
   public resetSshKey(): void {

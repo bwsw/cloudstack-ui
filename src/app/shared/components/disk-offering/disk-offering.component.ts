@@ -50,7 +50,7 @@ export class DiskOfferingComponent implements ControlValueAccessor {
 
   public writeValue(diskOffering: string): void {
     if (diskOffering) {
-      this.diskOffering = this.diskOfferingList.find(_ => _.id === diskOffering) || this.diskOfferingList[0];
+      this._diskOffering = this.diskOfferingList.find(_ => _.id === diskOffering);
     }
   }
 
