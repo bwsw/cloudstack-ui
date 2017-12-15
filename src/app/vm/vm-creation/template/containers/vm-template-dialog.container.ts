@@ -1,5 +1,3 @@
-import { Store } from '@ngrx/store';
-import { State } from '../../../../reducers/index';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
-import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { SshKeyCreationData } from '../../shared/services/ssh-keypair.service';
-import { Grouping } from '../../shared/models/grouping.model';
+import { Grouping } from '../../../shared/models/grouping.model';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { SshKeyCreationData } from '../../../shared/services/ssh-keypair.service';
 
 export const LOAD_SSH_KEYS_REQUEST = '[SshKeys] LOAD_SSH_KEYS_REQUEST';
 export const LOAD_SSH_KEYS_RESPONSE = '[SshKeys] LOAD_SSH_KEYS_RESPONSE';

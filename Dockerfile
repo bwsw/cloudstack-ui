@@ -1,15 +1,12 @@
-FROM node:alpine as builder
-
-LABEL "csui-builder-image"=1
-
-COPY . /tmp/cloudstackui
+FROM node:8-alpine as builder
 
 WORKDIR /tmp/cloudstackui
 
-RUN yarn \
-    && yarn run build:aot \
-    && yarn cache clean \
-    && rm -rf node_modules
+COPY package.json yarn.lock /tmp/cloudstackui/
+RUN yarn install
+
+COPY . /tmp/cloudstackui
+RUN yarn run build:aot
 
 FROM nginx:stable-alpine
 

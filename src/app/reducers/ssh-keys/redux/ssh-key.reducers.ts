@@ -1,18 +1,13 @@
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { Grouping } from '../../../shared/models/grouping.model';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-
+import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as sshKey from './ssh-key.actions';
-import { Grouping } from '../../shared/models/grouping.model';
+
 
 export interface State {
   list: ListState,
@@ -31,14 +26,9 @@ export const sshKeyId = (sshKey: SSHKeyPair) => {
   return `${sshKey.domainid}-${sshKey.account}-${sshKey.name}`;
 };
 
-export const sortByName = (a: SSHKeyPair, b: SSHKeyPair) => {
-  return a.name.localeCompare(b.name);
-};
-
-
 export const adapter: EntityAdapter<SSHKeyPair> = createEntityAdapter<SSHKeyPair>({
   selectId: sshKeyId,
-  sortComparer: sortByName
+  sortComparer: Utils.sortByName
 });
 
 const initialListState: ListState = adapter.getInitialState({
@@ -219,5 +209,17 @@ export const selectFilteredSshKeys = createSelector(
       (accountDomainMap[`${sshKey.account}_${sshKey.domainid}`]);
 
     return sshKeys.filter(sshKey => selectedAccountIdsFilter(sshKey));
+  }
+);
+
+export const selectSSHKeys = createSelector(
+  selectAll,
+  fromVMs.getSelectedVM,
+  (sshKeys, vm) => {
+
+    const selectedVMFilter = sshKey => vm &&
+      vm.account === sshKey.account && vm.domainid === sshKey.domainid;
+
+    return sshKeys.filter(sshKey => selectedVMFilter(sshKey));
   }
 );

@@ -45,7 +45,7 @@
       <div class="container">
         <div *ngIf="enoughResources && formState?.state" class="left-column">
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h5>
+            <h4>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h4>
             <mat-form-field floatPlaceholder="never" class="full-width-input">
               <input
                 matInput
@@ -70,7 +70,7 @@
           </div>
 
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h5>
+            <h4>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h4>
             <mat-form-field class="form-select-control">
               <mat-select
 
@@ -86,7 +86,7 @@
           </div>
 
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h5>
+            <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
             <cs-service-offering-selector
               name="serviceOffering"
               [serviceOfferings]="formState.data.serviceOfferings"
@@ -108,13 +108,25 @@
           </div>
 
           <div *ngIf="formState.state.diskOfferingsAreAllowed">
-            <h5>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h5>
-            <cs-disk-offering
-              name="diskOfferingSelector"
-              [diskOfferingList]="formState.data.diskOfferings"
-              [ngModel]="formState.state.diskOffering"
-              (change)="diskOfferingChange($event)"
-            ></cs-disk-offering>
+            <h4>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
+            <mat-form-field
+              class="full-width-input"
+            >
+              <mat-select
+                class="form-select-control"
+                name="diskOfferingSelector"
+                [(ngModel)]="formState.state.diskOffering"
+                (selectionChange)="diskOfferingChange($event)"
+              >
+                <mat-option
+                  *ngFor="let offering of formState.data.diskOfferings"
+                  [value]="offering"
+                >
+                  {{ offering.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
           </div>
 
           <div *ngIf="formState.state.rootDiskSizeMin">
@@ -134,7 +146,7 @@
 
         <div *ngIf="enoughResources && formState?.state" class="right-column">
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h5>
+            <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
             <mat-form-field floatPlaceholder="never">
               <input
                 name="group"
@@ -158,7 +170,7 @@
           </div>
 
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h5>
+            <h4>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h4>
             <mat-form-field floatPlaceholder="never">
               <input
                 name="group"
@@ -198,7 +210,7 @@
           </div>
 
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h5>
+            <h4>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h4>
             <cs-keyboards
               name="keyboard"
               [ngModel]="formState.state.keyboard"
@@ -207,7 +219,7 @@
           </div>
 
           <div>
-            <h5>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h5>
+            <h4>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h4>
             <mat-form-field class="form-select-control">
               <mat-select
 

@@ -19,10 +19,11 @@ if [ -z $CLIENT_ENDPOINT ]; then
 fi
 
 
-API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 10 $CLIENT_ENDPOINT/api)
-CONSOLE_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 10 $CLIENT_ENDPOINT/console)
+API_STATUS=$(curl -k -s -o /dev/null -w "%{http_code}" --connect-timeout 10 $CLIENT_ENDPOINT/api) || true
+CONSOLE_STATUS=$(curl -k -s -o /dev/null -w "%{http_code}" --connect-timeout 10 $CLIENT_ENDPOINT/console) || true
 if [ $API_STATUS -ne "404" ] && [ $CONSOLE_STATUS -ne "404" ] && [ $API_STATUS -ne "000" ] && [ $CONSOLE_STATUS -ne "000" ] ; then
     nginx -g 'daemon off;'
 else
     echo "Backend server is not available"
+    exit 1
 fi

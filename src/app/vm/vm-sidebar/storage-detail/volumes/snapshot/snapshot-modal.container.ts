@@ -10,45 +10,46 @@ import {
   MatDialogRef
 } from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
-import {
-  TableDatabase,
-  TableDataSource
-} from '../../../../../shared/components/table/table';
 import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.reducers';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
+import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
 
 
 @Component({
   selector: 'cs-snapshot-modal-container',
   template: `
     <cs-snapshot-modal
-      [volume]="volume"
-      [dataBase]="dataBase"
-      [dataSource]="dataSource"
+      [volume]="volume$ | async"
       (onSnapshotDelete)="snapshotDeleted($event)"
     >
     </cs-snapshot-modal>`,
 })
-export class SnapshotModalContainerComponent implements OnInit {
+export class SnapshotModalContainerComponent extends WithUnsubscribe() implements OnInit {
+  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
+
   public volume: Volume;
-  public dataBase: TableDatabase;
-  public dataSource: TableDataSource | null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<SnapshotModalContainerComponent>,
     private store: Store<State>,
   ) {
-    this.volume = data.volume;
+    super();
+    this.store.dispatch(new volumeActions.LoadSelectedVolume(data.volumeId));
   }
 
   public ngOnInit() {
-    this.update();
-  }
-
-  public update() {
-    this.dataBase = new TableDatabase(this.volume.snapshots);
-    this.dataSource = new TableDataSource(this.dataBase);
+    this.volume$
+      .takeUntil(this.unsubscribe$)
+      .filter(volume => !!volume)
+      .subscribe(volume => {
+        // todo remove model
+        this.volume = new Volume(volume);
+        if (!this.volume.snapshots.length) {
+          this.dialogRef.close();
+        }
+      });
   }
 
   public snapshotDeleted(snapshot: Snapshot) {
@@ -56,11 +57,5 @@ export class SnapshotModalContainerComponent implements OnInit {
       volume: this.volume,
       snapshot
     }));
-    this.volume = Object.assign(
-      {},
-      this.volume,
-      { snapshots: this.volume.snapshots.filter( _ => _.id !== snapshot.id) }
-    );
-    this.update();
   }
 }

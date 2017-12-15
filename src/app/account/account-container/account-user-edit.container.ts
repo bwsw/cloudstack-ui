@@ -1,9 +1,15 @@
-import { Component, Inject } from '@angular/core';
+import {
+  Component,
+  Inject
+} from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import { Account } from '../../shared/models/account.model';
 import { AccountUser } from '../../shared/models/account-user.model';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
@@ -13,13 +19,7 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
     <cs-account-user-edit
       [title]="title"
       [confirmButtonText]="confirmButtonText"
-
-      [username]="user?.username"
-      [firstName]="user?.firstname"
-      [lastName]="user?.lastname"
-      [email]="user?.email"
-      [timezone]="user?.timezone"
-
+      [user]="user"
       (updateUser)="updateUser($event)"
     ></cs-account-user-edit>`
 })

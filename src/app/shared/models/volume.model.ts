@@ -93,10 +93,6 @@ export class Volume extends BaseModel {
     return this.type === VolumeType.ROOT;
   }
 
-  public get isSpare(): boolean {
-    return !this.virtualMachineId;
-  }
-
   public get isDeleted(): boolean {
     return !!this.tags.find(
       tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE
