@@ -101,7 +101,7 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(accounts, state),
+        ...adapter.addAll([...accounts], state),
         loading: false
       };
     }
