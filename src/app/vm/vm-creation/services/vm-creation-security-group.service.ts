@@ -10,7 +10,8 @@ import { Utils } from '../../../shared/services/utils/utils.service';
 
 @Injectable()
 export class VmCreationSecurityGroupService {
-  constructor(private securityGroupService: SecurityGroupService) {}
+  constructor(private securityGroupService: SecurityGroupService) {
+  }
 
   public getSecurityGroupCreationRequest(securityGroupData: VmCreationSecurityGroupData): Observable<any> {
     if (securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
@@ -36,6 +37,6 @@ export class VmCreationSecurityGroupService {
     return {
       ingress: rules.ingress,
       egress: rules.egress
-    }
+    };
   }
 }
