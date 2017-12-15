@@ -1,19 +1,35 @@
-<div class="row">
-  <div>{{ 'VM_PAGE.NETWORK_DETAILS.ipAddress' | translate }}</div>
-  <div>{{ ipWithSuffix | translate }}</div>
-</div>
+<cs-parameters-pair
+  [name]="'VM_PAGE.NETWORK_DETAILS.ipAddress'"
+  [value]="ipWithSuffix | translate"
+></cs-parameters-pair>
+<cs-parameters-pair
+  *ngIf="nic?.macAddress"
+  [name]="'VM_PAGE.NETWORK_DETAILS.macAddress'"
+  [value]="nic?.macAddress"
+></cs-parameters-pair>
+<cs-parameters-pair
+  *ngIf="nic?.gateway"
+  [name]="'VM_PAGE.NETWORK_DETAILS.gateway'"
+  [value]="nic?.gateway"
+></cs-parameters-pair>
+<cs-parameters-pair
+  *ngIf="nic?.type"
+  [name]="'VM_PAGE.NETWORK_DETAILS.type'"
+  [value]="nic?.type"
+></cs-parameters-pair>
 
-<div class="row">
-  <div>{{ 'VM_PAGE.NETWORK_DETAILS.macAddress' | translate }}</div>
-  <div>{{ nic?.macAddress }}</div>
-</div>
-
-<div class="row">
-  <div>{{ 'VM_PAGE.NETWORK_DETAILS.gateway' | translate }}</div>
-  <div>{{ nic?.gateway }}</div>
-</div>
-
-<div class="row">
-  <div>{{ 'VM_PAGE.NETWORK_DETAILS.type' | translate }}</div>
-  <div>{{ nic?.type }}</div>
-</div>
+<cs-parameters-pair
+  *ngIf="nic?.ip6Address"
+  [name]="'VM_PAGE.NETWORK_DETAILS.ip6Address'"
+  [value]="nic?.ip6Address"
+></cs-parameters-pair>
+<cs-parameters-pair
+  *ngIf="nic?.ip6Cidr"
+  [name]="'VM_PAGE.NETWORK_DETAILS.ip6Cidr'"
+  [value]="nic?.ip6Cidr"
+></cs-parameters-pair>
+<cs-parameters-pair
+  *ngIf="nic?.ip6Gateway"
+  [name]="'VM_PAGE.NETWORK_DETAILS.ip6Gateway'"
+  [value]="nic?.ip6Gateway"
+></cs-parameters-pair>
