@@ -28,8 +28,8 @@ export class VmCreationSecurityGroupContainerComponent {
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
   }
 
-  public onSave(): void {
-    this.dialogRef.close(this.savedData);
+  public onSave(savedData: VmCreationSecurityGroupData): void {
+    this.dialogRef.close(savedData);
   }
 
   public onCancel(): void {
