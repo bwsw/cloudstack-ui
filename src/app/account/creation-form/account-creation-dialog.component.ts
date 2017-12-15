@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
 import { AccountData, AccountForm } from '../../shared/models/account.model';
 import { Domain } from '../../shared/models/domain.model';
 import { Role } from '../../shared/models/role.model';
@@ -19,7 +18,6 @@ export class AccountCreationDialogComponent {
   @Output() public onAccountCreate = new EventEmitter<AccountData>();
 
   constructor(
-    private dialogRef: MatDialogRef<AccountCreationDialogComponent>,
     private formBuilder: FormBuilder
   ) {
     this.accountForm = this.formBuilder.group({
@@ -40,11 +38,10 @@ export class AccountCreationDialogComponent {
     e.preventDefault();
     const accountCreationParams = this.prepareData(this.accountForm.value);
     this.onAccountCreate.emit(accountCreationParams);
-    this.dialogRef.close();
   }
 
   public prepareData(data: AccountForm): AccountData {
-    let result: AccountData = new AccountData();
+    const result: AccountData = new AccountData();
     result.username = data.username;
     result.email = data.email;
     result.password = data.password;
