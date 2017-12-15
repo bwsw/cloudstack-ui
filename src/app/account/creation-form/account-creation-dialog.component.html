@@ -3,18 +3,18 @@
   <h3 class="mat-dialog-title">{{ 'ACCOUNT_PAGE.CREATION.CREATE_ACCOUNT' | translate }}</h3>
   <form
     (ngSubmit)="onSubmit($event)"
-    #accountCreationForm="ngForm"
+    [formGroup]="accountForm"
     novalidate
   >
     <div class="mat-dialog-content">
       <mat-form-field class="full-width-input">
         <input
           matInput
-          name="name"
-          [(ngModel)]="newAccount.username"
+          name="username"
+          autocomplete="new-username"
           [placeholder]="'ACCOUNT_PAGE.CREATION.USER_NAME' | translate"
           autofocus
-          required
+          formControlName="username"
         >
       </mat-form-field>
       <mat-form-field class="full-width-input">
@@ -22,45 +22,49 @@
           matInput
           type="email"
           name="email"
-          [(ngModel)]="newAccount.email"
           [placeholder]="'ACCOUNT_PAGE.CREATION.EMAIL' | translate"
-          required
+          formControlName="email"
         >
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <input
           matInput
+          [type]="showPassword ? 'password' : 'text'"
           name="password"
-          [(ngModel)]="newAccount.password"
+          autocomplete="new-password"
           [placeholder]="'ACCOUNT_PAGE.CREATION.PASSWORD' | translate"
-          required
+          formControlName="password"
         >
+        <mat-icon
+          matSuffix
+          (click)="showPassword = !showPassword"
+          [innerHTML]="showPassword ? 'visibility' : 'visibility_off'"
+        >
+        </mat-icon>
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <input
           matInput
           name="firstname"
-          [(ngModel)]="newAccount.firstname"
           [placeholder]="'ACCOUNT_PAGE.CREATION.FIRST_NAME' | translate"
-          required
+          formControlName="firstname"
         >
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <input
           matInput
           name="lastname"
-          [(ngModel)]="newAccount.lastname"
           [placeholder]="'ACCOUNT_PAGE.CREATION.LAST_NAME' | translate"
-          required
+          formControlName="lastname"
+          [formGroup]="accountForm"
         >
       </mat-form-field>
       <mat-form-field class="full-width-input">
         <mat-select
           class="form-select-control"
-          name="domain"
-          [(ngModel)]="newAccount.domainid"
+          name="domainid"
           [placeholder]="'ACCOUNT_PAGE.CREATION.DOMAIN' | translate"
-          required
+          formControlName="domainid"
         >
           <mat-option
             *ngFor="let domain of domains"
@@ -73,10 +77,9 @@
       <mat-form-field class="full-width-input">
         <mat-select
           class="form-select-control"
-          name="role"
-          [(ngModel)]="newAccount.roleid"
+          name="roleid"
           [placeholder]="'ACCOUNT_PAGE.CREATION.ROLE' | translate"
-          required
+          formControlName="roleid"
         >
           <mat-option
             *ngFor="let role of roles"
@@ -90,20 +93,20 @@
         <input
           matInput
           name="account"
-          [(ngModel)]="newAccount.account"
           [placeholder]="'ACCOUNT_PAGE.CREATION.ACCOUNT' | translate"
+          formControlName="account"
         >
       </mat-form-field>
       <cs-time-zone
         name="timezone"
-        [(ngModel)]="newAccount.timezone"
+        formControlName="timezone"
       ></cs-time-zone>
       <mat-form-field class="full-width-input">
         <input
           matInput
           name="networkdomain"
-          [(ngModel)]="newAccount.networkdomain"
           [placeholder]="'ACCOUNT_PAGE.CREATION.NETWORK_DOMAIN' | translate"
+          formControlName="networkdomain"
         >
       </mat-form-field>
     </div>
@@ -120,7 +123,7 @@
         mat-button
         color="primary"
         type="submit"
-        [disabled]="!accountCreationForm.valid"
+        [disabled]="!accountForm.valid"
       >
         {{ 'COMMON.CREATE' | translate }}
       </button>

@@ -34,8 +34,6 @@ import { MAT_DIALOG_DATA } from '@angular/material';
     </cs-volume-resize>`,
 })
 export class VolumeResizeContainerComponent extends WithUnsubscribe() implements OnInit {
-
-  public loading$ = this.store.select(fromDiskOfferings.isLoading);
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zone$ = this.store.select(fromZones.getSelectedZone);
   readonly account$ = this.store.select(fromAuth.getUserAccount);

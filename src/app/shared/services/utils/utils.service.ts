@@ -86,6 +86,10 @@ export class Utils {
 
     return darkness > 0.5;
   }
+
+  public static sortByName = (a, b) => {
+    return a.name.localeCompare(b.name);
+  };
 }
 
 

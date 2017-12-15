@@ -10,14 +10,25 @@
   >
     <div class="mat-dialog-content">
       <div *ngIf="!volume?.isRoot">
-        <cs-disk-offering
-          [required]="true"
-          name="diskOffering"
-          [placeholder]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate"
-          [ngModel]="diskOffering"
-          [diskOfferingList]="diskOfferings"
-          (change)="updateDiskOffering($event)"
-        ></cs-disk-offering>
+        <mat-form-field
+          class="full-width-input"
+        >
+          <mat-select
+            class="form-select-control"
+            name="diskOffering"
+            [(ngModel)]="volume.diskOfferingId"
+            [placeholder]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate"
+            required
+            (selectionChange)="updateDiskOffering($event)"
+          >
+            <mat-option
+              *ngFor="let offering of diskOfferings"
+              [value]="offering.id"
+            >
+              {{ offering.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <cs-slider
         *ngIf="diskOffering?.isCustomized || volume?.isRoot"

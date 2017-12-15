@@ -1,37 +1,62 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AccountUser } from '../../../shared/models/account-user.model';
-import { TimeZone } from '../../../shared/components/time-zone/time-zone.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AccountUser, AccountUserForm } from '../../../shared/models/account-user.model';
 
 @Component({
   selector: 'cs-account-user-edit',
   templateUrl: 'account-user-edit.component.html'
 })
-export class AccountUserEditComponent {
+export class AccountUserEditComponent implements OnInit {
   @Input() public title: string;
   @Input() public confirmButtonText: string;
-
-  @Input() public username: string;
-  @Input() public firstName: string;
-  @Input() public lastName: string;
-  @Input() public email: string;
-  @Input() public password: string;
-  @Input() public timezone: TimeZone;
+  @Input() public user: AccountUser;
 
   @Output() public updateUser = new EventEmitter<AccountUser>();
 
+  public userForm: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder
+  ) {
+    this.userForm = this.formBuilder.group({
+      username: this.formBuilder.control('', [ Validators.required ]),
+      email: this.formBuilder.control('', [ Validators.required, Validators.email ]),
+      firstname: this.formBuilder.control('', [ Validators.required ]),
+      lastname: this.formBuilder.control('', [ Validators.required ]),
+      timezone: this.formBuilder.control(null),
+    });
+
+  }
+
+  ngOnInit() {
+    if (this.user && this.user.id) {
+      this.userForm.patchValue(this.user);
+    } else {
+      this.userForm.addControl('password', this.formBuilder.control('', [ Validators.required ]));
+    }
+  }
+
+
   public loading = false;
-  public hide = true;
+  public showPassword = true;
 
   public onUserUpdate() {
-    const newUser: AccountUser = {
-      username: this.username,
-      firstname: this.firstName,
-      lastname: this.lastName,
-      email: this.email,
-      password: this.password,
-      timezone: this.timezone.geo
-    };
-
+    const newUser = this.prepareData(this.userForm.value);
     this.updateUser.emit(newUser);
+  }
+
+  public prepareData(data: AccountUserForm): AccountUser {
+    let result: AccountUser = new AccountUser();
+    result.username = data.username;
+    result.email = data.email;
+    if (data.password) {
+      result.password = data.password;
+    }
+    result.firstname = data.firstname;
+    result.lastname = data.lastname;
+    if (data.timezone) {
+      result.timezone = data.timezone.geo;
+    }
+    return result;
   }
 }

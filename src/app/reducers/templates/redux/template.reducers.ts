@@ -21,7 +21,7 @@ import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
-
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 export interface ListState extends EntityState<BaseTemplateModel> {
   loading: boolean,
@@ -52,7 +52,7 @@ export interface VmCreationTemplatesState {
 export const adapter: EntityAdapter<BaseTemplateModel> = createEntityAdapter<BaseTemplateModel>(
   {
     selectId: (item: BaseTemplateModel) => item.id,
-    sortComparer: false
+    sortComparer: Utils.sortByName
   });
 
 
@@ -407,13 +407,12 @@ export const selectFilteredTemplates = createSelector(
         .includes(queryLower) ||
       template.displayText.toLowerCase().includes(queryLower);
 
-    return templates.filter(template => {
-      return selectedZonesFilter(template)
+    return templates.filter(template =>
+      selectedZonesFilter(template)
         && selectedTypesFilter(template)
         && selectedGroupsFilter(template)
         && selectedOsFamiliesFilter(template)
-        && queryFilter(template);
-    });
+        && queryFilter(template));
   }
 );
 

@@ -15,6 +15,7 @@ import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { MatDialog } from '@angular/material';
+import * as uniqBy from 'lodash/uniqBy';
 
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
@@ -45,6 +46,8 @@ export class TemplateEffects {
           .map(_ => _.toArray())
       )
         .withLatestFrom(this.store.select(fromTemplateGroups.selectAll))
+        .map(([[templates, isos], groups]) =>
+          [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups])
         .switchMap(([[templates, isos], groups]) => groups && groups.length
           ? Observable.of(new template.LoadTemplatesResponse([...templates, ...isos]))
           : [
