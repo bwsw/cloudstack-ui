@@ -71,7 +71,9 @@ export const initialState: State = adapter.getInitialState({
   offeringAvailability: {},
   defaultParams: {},
   customOfferingRestrictions: {},
-  offeringCompatibilityPolicy: { }
+  offeringCompatibilityPolicy: {
+    offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+  }
 });
 
 export function reducer(
@@ -126,7 +128,10 @@ export function reducer(
     case event.LOAD_COMPATIBILITY_POLICY_RESPONSE: {
       return {
         ...state,
-        offeringCompatibilityPolicy: action.payload
+        offeringCompatibilityPolicy: {
+          ...state.offeringCompatibilityPolicy,
+          ...action.payload
+        }
       };
     }
 
@@ -215,7 +220,9 @@ export const getAvailableOfferings = createSelector(
 
       const filterByCompatibilityPolicy = (offering) => {
         if (compatibilityPolicy) {
-          const oldTags = currentOffering.hosttags ? currentOffering.hosttags.split(',') : [];
+          const oldTags = currentOffering.hosttags
+            ? currentOffering.hosttags.split(',')
+            : [];
           const newTags = offering.hosttags ? offering.hosttags.split(',') : [];
           return matchHostTags(oldTags, newTags, compatibilityPolicy);
         } else {
@@ -446,15 +453,16 @@ export const matchHostTags = (
 ) => {
   const ignoreTags = offeringCompatibilityPolicy.offeringChangePolicyIgnoreTags;
   if (ignoreTags) {
+    //todo: get rid
     oldTags = oldTags.filter(t1 => ignoreTags.indexOf(t1) === -1);
-    newTags = newTags.filter(t1 => ignoreTags.indexOf(t1) === -1)
+    newTags = newTags.filter(t1 => ignoreTags.indexOf(t1) === -1);
   }
   switch (offeringCompatibilityPolicy.offeringChangePolicy) {
     case OfferingPolicy.CONTAINS_ALL: {
-      return compareTags(oldTags, newTags);
+      return includeTags(oldTags, newTags);
     }
     case OfferingPolicy.EXACTLY_MATCH: {
-      return oldTags.length === newTags.length ? compareTags(oldTags, newTags) : false;
+      return oldTags.length === newTags.length ? includeTags(oldTags, newTags) : false;
     }
     case OfferingPolicy.NO_RESTRICTIONS:
     default: {
@@ -463,7 +471,7 @@ export const matchHostTags = (
   }
 };
 
-export const compareTags = (
+export const includeTags = (
   oldTags: Array<string>,
   newTags: Array<string>
 ) => {

@@ -16,7 +16,7 @@ export interface OfferingAvailability {
 }
 
 export interface OfferingCompatibilityPolicy {
-  offeringChangePolicy?: string,
+  offeringChangePolicy?: OfferingPolicy,
   offeringChangePolicyIgnoreTags?: string[]
 }
 
