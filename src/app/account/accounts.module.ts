@@ -9,7 +9,8 @@ import { AccountListFilterComponent } from './account-list-filter/account-list-f
 import {
   MatAutocompleteModule,
   MatButtonModule,
-  MatDialogModule, MatExpansionModule,
+  MatDialogModule,
+  MatExpansionModule,
   MatIconModule,
   MatInputModule,
   MatMenuModule,
@@ -24,7 +25,10 @@ import { AccountStatisticsComponent } from './account-sidebar/account-statistic/
 import { AccountLimitsComponent } from './account-sidebar/account-limits/account-limits.component';
 import { AccountSettingsComponent } from './account-sidebar/account-settings/account-settings.component';
 import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { AccountDetailsComponent } from './account-sidebar/account-details/account-details.component';
 import { AccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/account-configuration.component';
 import { EditAccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/edit-account-configuration.component';
@@ -64,6 +68,7 @@ import { AccountUserPasswordFormContainerComponent } from './account-container/a
     CommonModule,
     DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
     FormsModule,
+    ReactiveFormsModule,
     MatAutocompleteModule,
     MatMenuModule,
     MatTooltipModule,

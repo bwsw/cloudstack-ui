@@ -2,32 +2,30 @@
 <h3 *ngIf="!loading" class="mat-dialog-title">
   {{ (title || 'ACCOUNT_PAGE.USER.EDIT_USER') | translate }}
 </h3>
-<form (ngSubmit)="onUserUpdate()" #userForm="ngForm">
+<form (ngSubmit)="onUserUpdate()" [formGroup]="userForm">
   <div class="mat-dialog-content">
     <mat-form-field class="full-width-input">
       <input
         matInput
         name="username"
-        [(ngModel)]="username"
         [placeholder]="'ACCOUNT_PAGE.USER.USERNAME' | translate"
         autocomplete="new-username"
-        required
+        formControlName="username"
       >
     </mat-form-field>
-    <mat-form-field *ngIf="!!title" class="full-width-input">
+    <mat-form-field *ngIf="!(user && user.id)" class="full-width-input">
       <input
         matInput
-        required
         name="password"
-        [(ngModel)]="password"
         [placeholder]="'ACCOUNT_PAGE.USER.PASSWORD' | translate"
         autocomplete="new-password"
-        [type]="hide ? 'password' : 'text'"
+        [type]="showPassword ? 'password' : 'text'"
+        formControlName="password"
       >
       <mat-icon
         matSuffix
-        (click)="hide = !hide"
-        [innerHTML]="hide ? 'visibility' : 'visibility_off'"
+        (click)="showPassword = !showPassword"
+        [innerHTML]="showPassword ? 'visibility' : 'visibility_off'"
       >
       </mat-icon>
     </mat-form-field>
@@ -35,32 +33,30 @@
       <input
         matInput
         name="firstName"
-        [(ngModel)]="firstName"
+        formControlName="firstname"
         [placeholder]="'ACCOUNT_PAGE.USER.FIRST_NAME' | translate"
-        required
       >
     </mat-form-field>
     <mat-form-field class="full-width-input">
       <input
         matInput
         name="lastName"
-        [(ngModel)]="lastName"
+        formControlName="lastname"
         [placeholder]="'ACCOUNT_PAGE.USER.LAST_NAME' | translate"
-        required
       >
     </mat-form-field>
     <mat-form-field class="full-width-input">
       <input
         matInput
         name="email"
-        [(ngModel)]="email"
+        formControlName="email"
         [placeholder]="'ACCOUNT_PAGE.USER.EMAIL' | translate"
         required
       >
     </mat-form-field>
     <cs-time-zone
       name="timezone"
-      [(ngModel)]="timezone"
+      formControlName="timezone"
     ></cs-time-zone>
   </div>
 

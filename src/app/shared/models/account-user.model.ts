@@ -1,3 +1,4 @@
+import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountType } from './account.model';
 import { BaseModelInterface } from './base.model';
 
@@ -23,4 +24,13 @@ export class AccountUser implements BaseModelInterface {
   public isdefault?: boolean;
   public secretkey?: boolean;
   public apikey?: boolean;
+}
+
+export interface AccountUserForm {
+  username?: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  password?: string;
+  timezone?: TimeZone;
 }

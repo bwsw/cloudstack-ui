@@ -1,6 +1,6 @@
-import { BaseModel } from './base.model';
-import { AccountUser } from './account-user.model';
 import { TimeZone } from '../components/time-zone/time-zone.service';
+import { AccountUser } from './account-user.model';
+import { BaseModel } from './base.model';
 
 export const enum AccountType {
   User = 0,
@@ -14,6 +14,19 @@ export const AccountState = {
   locked: 'locked',
 };
 
+export interface AccountForm {
+  username: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  password: string;
+  domainid: string;
+  account?: string;
+  roleid: string;
+  timezone?: TimeZone;
+  networkdomain?: string;
+}
+
 export class AccountData {
   username: string;
   email: string;
@@ -21,10 +34,10 @@ export class AccountData {
   lastname: string;
   password: string;
   domainid: string;
-  account: string;
+  account?: string;
   roleid: string;
-  timezone: TimeZone;
-  networkdomain: string;
+  timezone?: string;
+  networkdomain?: string;
 }
 
 export class Account extends BaseModel {
