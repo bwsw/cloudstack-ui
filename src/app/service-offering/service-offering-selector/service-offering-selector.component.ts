@@ -114,14 +114,14 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   private showCustomOfferingDialog(): Observable<CustomServiceOffering> {
-     return this.dialog.open(CustomServiceOfferingComponent, {
-       width: '370px',
-       data: {
-         zoneId: this.zoneId,
-         offering: this.serviceOffering,
-         restriction: this.customOfferingRestrictions
-       }
-     }).afterClosed();
+    return this.dialog.open(CustomServiceOfferingComponent, {
+      width: '370px',
+      data: {
+        zoneId: this.zoneId,
+        offering: this.serviceOffering,
+        restriction: this.customOfferingRestrictions
+      }
+    }).afterClosed();
 
   }
 
