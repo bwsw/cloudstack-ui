@@ -135,7 +135,7 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(vms, state),
+        ...adapter.addAll([...vms], state),
         loading: false
       };
     }

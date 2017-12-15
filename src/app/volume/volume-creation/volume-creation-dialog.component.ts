@@ -38,17 +38,23 @@ export class VolumeCreationDialogComponent {
     public authService: AuthService
   ) {
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.newVolume.size = this.minSize;
   }
 
   public onSubmit(e): void {
     e.preventDefault();
+
+    if (!this.diskOffering.isCustomized) {
+      delete this.newVolume.size;
+    }
+
     const volumeCreationParams = Object.assign(
       {},
       this.newVolume,
       { diskOfferingId: this.diskOffering.id }
       );
+
     this.onVolumeCreate.emit(volumeCreationParams);
-    this.dialogRef.close();
   }
 
   public updateDiskOffering(change: MatSelectChange): void {

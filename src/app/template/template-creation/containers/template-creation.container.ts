@@ -47,7 +47,6 @@ export class TemplateCreationContainerComponent {
 
   constructor(
     private store: Store<State>,
-    private dialogRef: MatDialogRef<TemplateCreationContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.snapshot = data.snapshot;
@@ -65,7 +64,6 @@ export class TemplateCreationContainerComponent {
 
   public onCreate(params) {
     this.store.dispatch(new templateActions.CreateTemplate(params));
-    this.dialogRef.close(null);
   }
 }
 

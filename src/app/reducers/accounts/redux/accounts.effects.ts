@@ -12,6 +12,7 @@ import { Account } from '../../../shared/models/account.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AccountUserService } from '../../../shared/services/account-user.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { MatDialog } from '@angular/material';
 
 import * as accountActions from './accounts.actions';
 import * as vmActions from '../../vm/redux/vm.actions';
@@ -166,10 +167,10 @@ export class AccountsEffects {
   @Effect({ dispatch: false })
   userCreateSuccess$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS)
-    .do((action: accountActions.AccountUserCreateSuccess) => this.onNotify(
-      action.payload,
-      this.successAccountUserCreateMessage
-    ));
+    .do((action: accountActions.AccountUserCreateSuccess) => {
+      this.onNotify(action.payload, this.successAccountUserCreateMessage);
+      this.dialog.closeAll();
+    });
 
   @Effect()
   userUpdate$: Observable<Action> = this.actions$
@@ -209,8 +210,9 @@ export class AccountsEffects {
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
     private notificationService: NotificationService,
-    private router: Router
-  ) {
+    private router: Router,
+    private dialog: MatDialog
+) {
   }
 
   private onNotify(user, message) {
