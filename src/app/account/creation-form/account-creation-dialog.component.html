@@ -2,9 +2,8 @@
 <div *ngIf="!isLoading">
   <h3 class="mat-dialog-title">{{ 'ACCOUNT_PAGE.CREATION.CREATE_ACCOUNT' | translate }}</h3>
   <form
-    (ngSubmit)="onSubmit($event)"
+    (ngSubmit)="onSubmit()"
     [formGroup]="accountForm"
-    novalidate
   >
     <div class="mat-dialog-content">
       <mat-form-field class="full-width-input">
@@ -88,14 +87,6 @@
             {{ role.name }}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-      <mat-form-field class="full-width-input">
-        <input
-          matInput
-          name="account"
-          [placeholder]="'ACCOUNT_PAGE.CREATION.ACCOUNT' | translate"
-          formControlName="account"
-        >
       </mat-form-field>
       <cs-time-zone
         name="timezone"

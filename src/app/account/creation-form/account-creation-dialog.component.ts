@@ -28,14 +28,12 @@ export class AccountCreationDialogComponent {
       lastname: this.formBuilder.control('', [ Validators.required ]),
       domainid: this.formBuilder.control('', [ Validators.required ]),
       roleid: this.formBuilder.control(''),
-      account: this.formBuilder.control(null),
       timezone: this.formBuilder.control(null),
       networkdomain: this.formBuilder.control(null),
     });
   }
 
-  public onSubmit(e): void {
-    e.preventDefault();
+  public onSubmit(): void {
     const accountCreationParams = this.prepareData(this.accountForm.value);
     this.onAccountCreate.emit(accountCreationParams);
   }
@@ -51,9 +49,6 @@ export class AccountCreationDialogComponent {
     result.domainid = data.domainid;
     if (data.timezone) {
       result.timezone = data.timezone.geo;
-    }
-    if (data.account) {
-      result.account = data.account;
     }
     if (data.networkdomain) {
       result.networkdomain = data.networkdomain;
