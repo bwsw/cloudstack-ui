@@ -249,7 +249,6 @@ export class VmDeploymentService {
   ): Observable<{ deployResponse: any, temporaryVm: VirtualMachine }> {
     const params = this.getVmCreationParams(state);
 
-    console.log('PARAMS', params);
     let deployResponse;
     let temporaryVm;
 

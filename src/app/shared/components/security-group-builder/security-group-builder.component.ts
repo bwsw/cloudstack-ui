@@ -101,11 +101,9 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   public onRulesChange(rule: RuleListItem) {
-    if (rule.rule.type === NetworkRuleType.Ingress) {
-      this.pushIngressRule(rule.rule, rule.checked);
-    } else {
-      this.pushEgressRule(rule.rule, rule.checked);
-    }
+    this.selectedRules[0].find(_ => _.rule.ruleId === rule.rule.ruleId)
+      ? this.selectedRules[0].find(_ => _.rule.ruleId === rule.rule.ruleId).checked = rule.checked
+      : this.selectedRules[1].find(_ => _.rule.ruleId === rule.rule.ruleId).checked = rule.checked;
 
     this.emitChange();
   }
