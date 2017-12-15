@@ -335,7 +335,7 @@ export class VmDeploymentService {
       state.securityGroupData.securityGroups &&
       state.securityGroupData.securityGroups[0].id
     ) {
-      params.securityGroupIds = state.securityGroupData.securityGroups.map(item => item.id).join(','); // @todo
+      params.securityGroupIds = state.securityGroupData.securityGroups.map(item => item.id).join(',');
     }
 
     if (state.serviceOffering.areCustomParamsSet) {
