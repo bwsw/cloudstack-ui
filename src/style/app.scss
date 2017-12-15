@@ -288,7 +288,7 @@ mat-form-field.form-select-control {
 .filter-wrapper {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 15px;
+  padding-top: 10px;
   > * {
     margin-right: 20px;
     &:last-child {
@@ -498,11 +498,11 @@ mat-table mat-header-cell,
 
 .mat-dialog-container {
   max-height: 95vh !important;
+  .mat-dialog-title {
+    margin: 0 0 10px !important;
+  }
 }
 
-mat-dialog-title {
-  margin: 0 0 8px !important;
-}
 
 .mat-dialog-actions {
   justify-content: flex-end;
@@ -559,8 +559,8 @@ mat-dialog-title {
   font-size: 18px !important;
 }
 
-mat-radio-button, mat-checkbox {
-  font-size: 12pt !important;
+mat-radio-button, mat-checkbox, mat-dialog-content {
+  font-size: 11pt !important;
 }
 
 mat-button-toggle, mat-form-field, mat-option {
