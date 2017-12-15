@@ -8,6 +8,17 @@ import { Rules } from './rules';
 export interface RuleListItem {
   rule: NetworkRule;
   checked: boolean;
+  type: NetworkRuleTypes;
+}
+
+export enum SecurityGroupBuilderTemplates {
+  NotSelected,
+  Selected
+}
+
+export enum NetworkRuleTypes {
+  Ingress,
+  Egress
 }
 
 @Component({
@@ -19,14 +30,25 @@ export class SecurityGroupBuilderComponent implements OnInit {
   @Input() public inputRules: Rules;
   @Output() public onChange = new EventEmitter<Rules>();
 
-  public items: Array<Array<SecurityGroup>>;
+  public securityGroups: Array<Array<SecurityGroup>>;
   public selectedGroupIndex: number;
   public selectedColumnIndex: number;
   public selectedRules: Array<Array<RuleListItem>>;
-  public NetworkRuleTypes = NetworkRuleType;
+
+  public get SecurityGroupBuilderTemplates() {
+    return SecurityGroupBuilderTemplates;
+  }
+
+  public get NetworkRuleType() {
+    return NetworkRuleType;
+  }
+
+  public get NetworkRuleTypes() {
+    return NetworkRuleTypes;
+  }
 
   constructor(private securityGroupService: SecurityGroupService) {
-    this.items = [[], []];
+    this.securityGroups = [[], []];
     this.selectedRules = [[], []];
   }
 
@@ -39,14 +61,14 @@ export class SecurityGroupBuilderComponent implements OnInit {
 
     accountSecurityGroups
       .subscribe(groups => {
-        this.items[0] = templates.concat(groups);
+        this.securityGroups[SecurityGroupBuilderTemplates.NotSelected] = templates.concat(groups);
 
         this.initRulesList();
       });
   }
 
   public selectAll(): void {
-    while (this.items[0].length) {
+    while (this.securityGroups[SecurityGroupBuilderTemplates.NotSelected].length) {
       this.selectedGroupIndex = 0;
       this.moveRight();
     }
@@ -55,7 +77,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   public reset(): void {
-    while (this.items[1].length) {
+    while (this.securityGroups[SecurityGroupBuilderTemplates.Selected].length) {
       this.selectedGroupIndex = 0;
       this.moveLeft();
     }
@@ -86,7 +108,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
       return;
     }
 
-    const group = this.items[0][this.selectedGroupIndex];
+    const group = this.securityGroups[SecurityGroupBuilderTemplates.NotSelected][this.selectedGroupIndex];
 
     this.pushAllIngressRulesOfGroup(group);
     this.pushAllEgressRulesOfGroup(group);
@@ -97,13 +119,17 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   public get rules(): Rules {
-    return new Rules(this.items[1], this.checkedIngressRules, this.checkedEgressRules);
+    return new Rules(this.securityGroups[SecurityGroupBuilderTemplates.Selected],
+      this.checkedIngressRules,
+      this.checkedEgressRules);
   }
 
-  public onRulesChange(rule: RuleListItem) {
-    this.selectedRules[0].find(_ => _.rule.ruleId === rule.rule.ruleId)
-      ? this.selectedRules[0].find(_ => _.rule.ruleId === rule.rule.ruleId).checked = rule.checked
-      : this.selectedRules[1].find(_ => _.rule.ruleId === rule.rule.ruleId).checked = rule.checked;
+  public onRulesChange(ruleItem: RuleListItem) {
+    const findByRuleId = (_: RuleListItem) => _.rule.ruleId === ruleItem.rule.ruleId;
+    const changedRule = this.selectedRules[ruleItem.type].find(findByRuleId);
+    if (changedRule) {
+      changedRule.checked = ruleItem.checked;
+    }
 
     this.emitChange();
   }
@@ -113,13 +139,13 @@ export class SecurityGroupBuilderComponent implements OnInit {
   };
 
   private get checkedIngressRules(): Array<NetworkRule> {
-    return this.selectedRules[0]
+    return this.selectedRules[NetworkRuleTypes.Ingress]
       .filter(rule => rule.checked)
       .map(item => item.rule);
   }
 
   private get checkedEgressRules(): Array<NetworkRule> {
-    return this.selectedRules[1]
+    return this.selectedRules[NetworkRuleTypes.Egress]
       .filter(rule => rule.checked)
       .map(item => item.rule);
   }
@@ -130,80 +156,84 @@ export class SecurityGroupBuilderComponent implements OnInit {
     }
 
     for (let i = 0; i < this.inputRules.templates.length; i++) {
-      const ind = this.items[0].findIndex(template => template.id === this.inputRules.templates[i].id);
+      const ind = this.securityGroups[SecurityGroupBuilderTemplates.NotSelected]
+        .findIndex(template => template.id === this.inputRules.templates[i].id);
 
       if (ind === -1) {
         continue;
       }
 
-      this.items[1].push(this.items[0][ind]);
-      this.items[0].splice(ind, 1);
+      this.securityGroups[SecurityGroupBuilderTemplates.Selected]
+        .push(this.securityGroups[SecurityGroupBuilderTemplates.NotSelected][ind]);
+      this.securityGroups[SecurityGroupBuilderTemplates.NotSelected].splice(ind, 1);
     }
 
-    for (let i = 0; i < this.items[1].length; i++) {
-      const group = this.items[1][i];
+    for (let i = 0; i < this.securityGroups[SecurityGroupBuilderTemplates.Selected].length; i++) {
+      const group = this.securityGroups[SecurityGroupBuilderTemplates.Selected][i];
       for (let j = 0; j < group.ingressRules.length; j++) {
         const ind = this.inputRules.ingress.findIndex(rule => {
           return rule.ruleId === group.ingressRules[j].ruleId;
         });
-        this.pushIngressRule(group.ingressRules[j], ind !== -1);
+        this.pushIngressRule(group.ingressRules[j], ind !== -1, NetworkRuleTypes.Ingress);
       }
 
       for (let j = 0; j < group.egressRules.length; j++) {
         const ind = this.inputRules.egress.findIndex(rule => {
           return rule.ruleId === group.egressRules[j].ruleId;
         });
-        this.pushEgressRule(group.egressRules[j], ind !== -1);
+        this.pushEgressRule(group.egressRules[j], ind !== -1, NetworkRuleTypes.Egress);
       }
     }
   }
 
   private pushAllIngressRulesOfGroup(group: SecurityGroup): void {
     group.ingressRules.forEach(rule => {
-      this.pushIngressRule(rule, true);
+      this.pushIngressRule(rule, true, NetworkRuleTypes.Ingress);
     });
   }
 
   private pushAllEgressRulesOfGroup(group: SecurityGroup): void {
     group.egressRules.forEach(rule => {
-      this.pushEgressRule(rule, true);
+      this.pushEgressRule(rule, true, NetworkRuleTypes.Egress);
     });
   }
 
-  private pushIngressRule(rule, checked): void {
-    this.selectedRules[0].push({
+  private pushIngressRule(rule, checked, type): void {
+    this.selectedRules[NetworkRuleTypes.Ingress].push({
       rule,
-      checked
+      checked,
+      type
     });
   }
 
-  private pushEgressRule(rule, checked): void {
-    this.selectedRules[1].push({
+  private pushEgressRule(rule, checked, type): void {
+    this.selectedRules[NetworkRuleTypes.Egress].push({
       rule,
-      checked
+      checked,
+      type
     });
   }
 
   private removeIngressRulesOfSelectedGroup(): void {
-    const group = this.items[1][this.selectedGroupIndex];
+    const group = this.securityGroups[SecurityGroupBuilderTemplates.Selected][this.selectedGroupIndex];
     let startIndex = 0;
 
     for (let i = 0; i < this.selectedGroupIndex; i++) {
-      startIndex += this.items[1][i].ingressRules.length;
+      startIndex += this.securityGroups[SecurityGroupBuilderTemplates.Selected][i].ingressRules.length;
     }
 
-    this.selectedRules[0].splice(startIndex, group.ingressRules.length);
+    this.selectedRules[NetworkRuleTypes.Ingress].splice(startIndex, group.ingressRules.length);
   }
 
   private removeEgressRulesOfSelectedGroup(): void {
-    const group = this.items[1][this.selectedGroupIndex];
+    const group = this.securityGroups[SecurityGroupBuilderTemplates.Selected][this.selectedGroupIndex];
     let startIndex = 0;
 
     for (let i = 0; i < this.selectedGroupIndex; i++) {
-      startIndex += this.items[1][i].egressRules.length;
+      startIndex += this.securityGroups[SecurityGroupBuilderTemplates.Selected][i].egressRules.length;
     }
 
-    this.selectedRules[1].splice(startIndex, group.egressRules.length);
+    this.selectedRules[NetworkRuleTypes.Egress].splice(startIndex, group.egressRules.length);
   }
 
   private resetSelectedGroup(): void {
@@ -215,12 +245,14 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   private moveSelectedGroupLeft(): void {
-    this.items[0].push(this.items[1][this.selectedGroupIndex]);
-    this.items[1].splice(this.selectedGroupIndex, 1);
+    this.securityGroups[SecurityGroupBuilderTemplates.NotSelected]
+      .push(this.securityGroups[SecurityGroupBuilderTemplates.Selected][this.selectedGroupIndex]);
+    this.securityGroups[SecurityGroupBuilderTemplates.Selected].splice(this.selectedGroupIndex, 1);
   }
 
   private moveSelectedGroupRight(): void {
-    this.items[1].push(this.items[0][this.selectedGroupIndex]);
-    this.items[0].splice(this.selectedGroupIndex, 1);
+    this.securityGroups[SecurityGroupBuilderTemplates.Selected]
+      .push(this.securityGroups[SecurityGroupBuilderTemplates.NotSelected][this.selectedGroupIndex]);
+    this.securityGroups[SecurityGroupBuilderTemplates.NotSelected].splice(this.selectedGroupIndex, 1);
   }
 }

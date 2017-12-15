@@ -4,7 +4,7 @@
       <h5>{{ 'SECURITY_GROUP_SELECTOR.ALL_GROUPS' | translate }}</h5>
       <button
         mat-button
-        *ngIf="items[0].length"
+        *ngIf="securityGroups[SecurityGroupBuilderTemplates.NotSelected].length"
         (click)="selectAll()"
       >
         {{ 'COMMON.SELECT_ALL' | translate }}
@@ -12,8 +12,8 @@
     </div>
     <mat-list>
       <mat-list-item
-        *ngFor="let securityGroup of items[0]; let i=index"
-        [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
+        *ngFor="let securityGroup of securityGroups[SecurityGroupBuilderTemplates.NotSelected]; let i = index"
+        [class.active]="selectedColumnIndex === SecurityGroupBuilderTemplates.NotSelected && selectedGroupIndex === i"
         (click)="selectGroup(i, true)"
       >
         <h4 matLine>
@@ -43,14 +43,15 @@
       <h5>{{ 'SECURITY_GROUP_SELECTOR.SELECTED_GROUPS' | translate }}</h5>
       <button
         mat-button
-        *ngIf="items[1].length"
+        *ngIf="securityGroups[SecurityGroupBuilderTemplates.Selected].length"
         (click)="reset()"
-      >{{ 'COMMON.RESET' | translate }}</button>
+      >{{ 'COMMON.RESET' | translate }}
+      </button>
     </div>
     <mat-list>
       <mat-list-item
-        *ngFor="let securityGroup of items[1]; let i=index"
-        [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
+        *ngFor="let securityGroup of securityGroups[SecurityGroupBuilderTemplates.Selected]; let i=index"
+        [class.active]="selectedColumnIndex === SecurityGroupBuilderTemplates.Selected && selectedGroupIndex === i"
         (click)="selectGroup(i, false)"
       >
         <h4 matLine>
@@ -65,15 +66,15 @@
   <h5>{{ 'SECURITY_GROUP_SELECTOR.NETWORK_RULES' | translate }}</h5>
   <mat-list>
     <cs-security-group-builder-rule
-      *ngFor="let item of selectedRules[0]"
-      [item]="item"
-      [type]="NetworkRuleTypes.Ingress"
+      *ngFor="let rule of selectedRules[NetworkRuleTypes.Ingress]"
+      [item]="rule"
+      [type]="NetworkRuleType.Ingress"
       (onCheckChange)="onRulesChange($event)"
     ></cs-security-group-builder-rule>
     <cs-security-group-builder-rule
-      *ngFor="let item of selectedRules[1]"
-      [item]="item"
-      [type]="NetworkRuleTypes.Egress"
+      *ngFor="let rule of selectedRules[NetworkRuleTypes.Egress]"
+      [item]="rule"
+      [type]="NetworkRuleType.Egress"
       (onCheckChange)="onRulesChange($event)"
     ></cs-security-group-builder-rule>
   </mat-list>
