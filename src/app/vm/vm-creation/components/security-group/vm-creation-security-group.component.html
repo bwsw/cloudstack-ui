@@ -15,22 +15,23 @@
   </mat-button-toggle-group>
 
   <cs-security-group-builder
-    *ngIf="displayMode === VmCreationSecurityGroupMode.Builder"
-    [inputRules]="savedData.rules"
+    *ngIf="isModeBuilder"
+    [inputRules]="savedData?.rules"
     (onChange)="onBuilderGroupChange($event)"
   ></cs-security-group-builder>
 
   <cs-security-group-selector
-    *ngIf="displayMode === VmCreationSecurityGroupMode.Selector && sharedGroups"
+    *ngIf="isModeSelector && sharedGroups"
     [securityGroups]="sharedGroups"
-    [ngModel]="savedData.securityGroups"
-    (ngModelChange)="onSecurityGroupChange($event)"
+    [(ngModel)]="savedData.securityGroups"
   ></cs-security-group-selector>
 </div>
+
 <div class="mat-dialog-actions">
   <button mat-button (click)="onCancel.emit()">
     {{ 'COMMON.CANCEL' | translate }}
   </button>
+
   <button
     mat-button
     [disabled]="(isModeBuilder && !savedData.rules?.templates?.length)

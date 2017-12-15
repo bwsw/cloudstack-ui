@@ -12,7 +12,10 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 import { NotSelectedSshKey, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
 // tslint:disable-next-line
-import { ProgressLoggerMessage } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import {
+  ProgressLoggerMessage,
+  ProgressLoggerMessageStatus
+} from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as vmActions from './vm.actions';

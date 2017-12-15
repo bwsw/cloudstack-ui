@@ -29,6 +29,10 @@ import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { NetworkRule } from '../../../security-group/network-rule.model';
+import { VirtualMachine } from '../../../vm';
+import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
+import { SecurityGroup } from '../../../security-group/sg.model';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -36,8 +40,6 @@ import * as fromServiceOfferings from '../../service-offerings/redux/service-off
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
-import { NetworkRule } from '../../../security-group/network-rule.model';
-import { VirtualMachine } from '../../../vm';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -220,17 +222,25 @@ export class VirtualMachineCreationEffects {
   deploying$ = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_REQUEST)
     .switchMap((action: vmActions.DeploymentRequest) => {
+      let securityGroups: SecurityGroup[];
+
       return this.templateTagService.getAgreement(action.payload.state.template)
         .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload.state) : Observable.of(true))
         .filter(res => !!res)
         .switchMap(() => this.doCreateAffinityGroup(action.payload.state))
-        .switchMap(() => this.doCreateSecurityGroup(action.payload.state))
+        .switchMap(() => this.doCreateSecurityGroup(action.payload.state)
+          .map((groups) => {
+            securityGroups = groups;
+            this.store.dispatch(new vmActions.DeploymentChangeStatus({
+              stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
+            }));
+          }))
         .switchMap(() => {
           let temporaryVm;
 
           this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
-          const params = this.getVmCreationParams(action.payload.state);
-          console.log('PARAMS', params);
+          const params = this.getVmCreationParams(action.payload.state, securityGroups);
+
           return this.vmService.deploy(params)
             .switchMap(response => this.vmService.get(response.id))
             .switchMap(vm => {
@@ -481,7 +491,9 @@ export class VirtualMachineCreationEffects {
   private createAffinityGroup = (state: VmCreationState) => state.affinityGroup
     && state.affinityGroup.name && !state.affinityGroupNames.includes(state.affinityGroup.name);
 
-  private createSecurityGroup = (state: VmCreationState) => state.zone && state.zone.securitygroupsenabled;
+  private createSecurityGroup = (state: VmCreationState) => state.zone && state.zone.securitygroupsenabled
+    && state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder;
+
   private createInstanceGroup = (state: VmCreationState) => state.instanceGroup && !!state.instanceGroup.name;
 
   private doCreateAffinityGroup(state: VmCreationState) {
@@ -504,11 +516,7 @@ export class VirtualMachineCreationEffects {
     if (this.createSecurityGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
 
-      return this.vmCreationSecurityGroupService
-        .getSecurityGroupCreationRequest(state.securityGroupData)
-        .map(() => this.store.dispatch(new vmActions.DeploymentChangeStatus({
-          stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
-        })));
+      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state.securityGroupData);
     } else {
       return Observable.of(null);
     }
@@ -559,16 +567,16 @@ export class VirtualMachineCreationEffects {
       })));
   }
 
-  private getVmCreationParams(state) {
+  private getVmCreationParams(state: VmCreationState, securityGroups?: SecurityGroup[]) {
     const params: VmCreationParams = {};
 
     if (state.affinityGroup) {
       params.affinityGroupNames = state.affinityGroup.name;
     }
 
-    params.startVm = state.doStartVm;
+    params.startVm = state.doStartVm.toString();
     params.keyboard = state.keyboard;
-    params.name = state.displayName || state.defaultName;
+    params.name = state.displayName;
     params.serviceOfferingId = state.serviceOffering.id;
     params.templateId = state.template.id;
     params.zoneId = state.zone.id;
@@ -582,13 +590,10 @@ export class VirtualMachineCreationEffects {
       params.hypervisor = 'KVM';
     }
 
-    if (state.securityGroupData && state.securityGroupData) {
-      if (state.securityGroupData.securityGroups &&
-        state.securityGroupData.securityGroups.length &&
-        state.securityGroupData.securityGroups[0].id
-      ) {
-        params.securityGroupIds = state.securityGroupData.securityGroups.map(item => item.id).join(',');
-      }
+    console.log(securityGroups);
+
+    if (securityGroups && securityGroups.length && securityGroups[0].id) {
+      params.securityGroupIds = securityGroups.map(item => item.id).join(',');
     }
 
     if (state.serviceOffering.areCustomParamsSet) {

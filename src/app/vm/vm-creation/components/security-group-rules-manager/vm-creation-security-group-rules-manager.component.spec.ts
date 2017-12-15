@@ -138,6 +138,7 @@ describe('Sg Rules manager component', () => {
     f.debugElement.query(By.css('.fancy-select-button')).triggerEventHandler('click');
 
     const expectedSavedRules = new Rules([mockSg], mockIngressRules, mockEgressRules);
+    expect(comp.savedData.rules).toEqual(expectedSavedRules);
     expect(comp.securityGroupRulesManagerData.rules).toEqual(expectedSavedRules);
   });
 
@@ -148,6 +149,7 @@ describe('Sg Rules manager component', () => {
 
     tick();
     f.detectChanges();
+    expect(comp.savedData.rules).toEqual(expectedSavedRules);
     expect(comp.securityGroupRulesManagerData.rules).toEqual(expectedSavedRules);
   }));
 });
