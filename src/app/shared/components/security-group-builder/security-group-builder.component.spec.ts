@@ -7,7 +7,10 @@ import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { Rules } from './rules';
-import { SecurityGroupBuilderComponent } from './security-group-builder.component';
+import {
+  NetworkRuleTypes, SecurityGroupBuilderComponent,
+  SecurityGroupBuilderTemplates
+} from './security-group-builder.component';
 
 
 describe('Sg creation component', () => {
@@ -104,22 +107,22 @@ describe('Sg creation component', () => {
   it('inits rules', () => {
     comp.ngOnInit();
 
-    expect(comp.items[0]).toEqual([mockSg1, mockSg2]);
-    expect(comp.items[1].length).toBe(0);
-    expect(comp.selectedRules[0].length).toBe(0);
-    expect(comp.selectedRules[1].length).toBe(0);
+    expect(comp.securityGroups[SecurityGroupBuilderTemplates.NotSelected]).toEqual([mockSg1, mockSg2]);
+    expect(comp.securityGroups[SecurityGroupBuilderTemplates.Selected].length).toBe(0);
+    expect(comp.selectedRules[NetworkRuleTypes.Ingress].length).toBe(0);
+    expect(comp.selectedRules[NetworkRuleTypes.Egress].length).toBe(0);
 
     f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
     comp.inputRules = mockRules;
     mockRules.templates = [mockSg1];
     comp.ngOnInit();
-    expect(comp.items[0]).toEqual([mockSg2]);
-    expect(comp.items[1]).toEqual([mockSg1]);
-    expect(comp.selectedRules[0].length).toBe(mockSg1.ingressRules.length);
-    expect(comp.selectedRules[1].length).toBe(mockSg1.egressRules.length);
-    expect(comp.selectedRules[0].every(rule => !rule.checked));
-    expect(comp.selectedRules[1].every(rule => !rule.checked));
+    expect(comp.securityGroups[SecurityGroupBuilderTemplates.NotSelected]).toEqual([mockSg2]);
+    expect(comp.securityGroups[SecurityGroupBuilderTemplates.Selected]).toEqual([mockSg1]);
+    expect(comp.selectedRules[NetworkRuleTypes.Ingress].length).toBe(mockSg1.ingressRules.length);
+    expect(comp.selectedRules[NetworkRuleTypes.Egress].length).toBe(mockSg1.egressRules.length);
+    expect(comp.selectedRules[NetworkRuleTypes.Ingress].every(rule => !rule.checked));
+    expect(comp.selectedRules[NetworkRuleTypes.Egress].every(rule => !rule.checked));
 
     f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
@@ -128,12 +131,12 @@ describe('Sg creation component', () => {
     mockRules.egress = mockRuleEgress;
     mockRules.ingress = mockRulesIngress;
     comp.ngOnInit();
-    expect(comp.items[0]).toEqual([mockSg1]);
-    expect(comp.items[1]).toEqual([mockSg2]);
-    expect(comp.selectedRules[0].length).toBe(mockSg2.ingressRules.length);
-    expect(comp.selectedRules[1].length).toBe(mockSg2.egressRules.length);
-    expect(comp.selectedRules[0][0].checked).toBe(true);
-    expect(comp.selectedRules[1][0].checked).toBe(true);
+    expect(comp.securityGroups[SecurityGroupBuilderTemplates.NotSelected]).toEqual([mockSg1]);
+    expect(comp.securityGroups[SecurityGroupBuilderTemplates.Selected]).toEqual([mockSg2]);
+    expect(comp.selectedRules[NetworkRuleTypes.Ingress].length).toBe(mockSg2.ingressRules.length);
+    expect(comp.selectedRules[NetworkRuleTypes.Egress].length).toBe(mockSg2.egressRules.length);
+    expect(comp.selectedRules[NetworkRuleTypes.Ingress][0].checked).toBe(true);
+    expect(comp.selectedRules[NetworkRuleTypes.Egress][0].checked).toBe(true);
   });
 
   it('handles dialog close', () => {
