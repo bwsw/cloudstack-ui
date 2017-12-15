@@ -1,4 +1,4 @@
-<div class="tab-action-container">
+<div class="tab-action-container" *ngIf="isAdmin">
   <button mat-mini-fab (click)="addUser()">
     <mat-icon>add</mat-icon>
   </button>
@@ -20,7 +20,9 @@
 
     <cs-account-user-card [user]="user"></cs-account-user-card>
 
-    <mat-action-row>
+    <mat-action-row
+      *ngIf="isAdmin || account.name === user.username"
+    >
       <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
         <mat-icon>more_vert</mat-icon>
       </button>

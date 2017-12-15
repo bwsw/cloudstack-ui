@@ -126,7 +126,6 @@ import {
 } from './pipes';
 import { AccountUserService } from './services/account-user.service';
 import { AccountService } from './services/account.service';
-import { AdminGuard } from './services/admin-guard';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
@@ -362,7 +361,6 @@ import { ZoneService } from './services/zone.service';
     AffinityGroupService,
     AsyncJobService,
     AuthGuard,
-    AdminGuard,
     AuthService,
     CacheService,
     ConfigService,

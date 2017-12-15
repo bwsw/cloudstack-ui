@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AdminGuard } from '../shared/services/admin-guard';
 import { AuthGuard } from '../shared/services/auth-guard.service';
 import { AccountDetailsContainerComponent } from './account-container/account-details.container';
 import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
@@ -33,8 +32,7 @@ export const accountsRoutes: Routes = [
           },
           {
             path: 'users',
-            component: AccountUsersContainerComponent,
-            canActivate: [AuthGuard, AdminGuard],
+            component: AccountUsersContainerComponent
           }
         ]
       }
