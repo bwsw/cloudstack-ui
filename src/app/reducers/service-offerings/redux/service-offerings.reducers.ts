@@ -71,9 +71,7 @@ export const initialState: State = adapter.getInitialState({
   offeringAvailability: {},
   defaultParams: {},
   customOfferingRestrictions: {},
-  offeringCompatibilityPolicy: {
-    defaultPolicy: OfferingPolicy.NO_RESTRICTION
-  }
+  offeringCompatibilityPolicy: { }
 });
 
 export function reducer(
@@ -451,14 +449,15 @@ export const matchHostTags = (
     oldTags = oldTags.filter(t1 => ignoreTags.indexOf(t1) === -1);
     newTags = newTags.filter(t1 => ignoreTags.indexOf(t1) === -1)
   }
-  switch (offeringCompatibilityPolicy.offeringChangePolicy || offeringCompatibilityPolicy.defaultPolicy) {
+  switch (offeringCompatibilityPolicy.offeringChangePolicy) {
     case OfferingPolicy.CONTAINS_ALL: {
       return compareTags(oldTags, newTags);
     }
     case OfferingPolicy.EXACTLY_MATCH: {
       return oldTags.length === newTags.length ? compareTags(oldTags, newTags) : false;
     }
-    case OfferingPolicy.NO_RESTRICTION: {
+    case OfferingPolicy.NO_RESTRICTIONS:
+    default: {
       return true;
     }
   }

@@ -28,9 +28,7 @@ describe('Test service offering reducer', () => {
         offeringAvailability: {},
         defaultParams: {},
         customOfferingRestrictions: {},
-        offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restrictions'
-        }
+        offeringCompatibilityPolicy: {}
       });
   });
 
@@ -44,9 +42,7 @@ describe('Test service offering reducer', () => {
         offeringAvailability: {},
         defaultParams: {},
         customOfferingRestrictions: {},
-        offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restrictions'
-        }
+        offeringCompatibilityPolicy: {}
       });
   });
 
@@ -63,9 +59,7 @@ describe('Test service offering reducer', () => {
         offeringAvailability: {},
         defaultParams: {},
         customOfferingRestrictions: {},
-        offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restrictions'
-        }
+        offeringCompatibilityPolicy: {}
       });
   });
 
@@ -82,9 +76,7 @@ describe('Test service offering reducer', () => {
         offeringAvailability: { 'filterOfferings': false },
         defaultParams: {},
         customOfferingRestrictions: {},
-        offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restrictions'
-        }
+        offeringCompatibilityPolicy: {}
       });
 
     state = fromSOs.reducer(state, {
@@ -100,9 +92,7 @@ describe('Test service offering reducer', () => {
         offeringAvailability: { 'filterOfferings': false },
         defaultParams: {},
         customOfferingRestrictions: { 'custom': 'r1' },
-        offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restrictions'
-        }
+        offeringCompatibilityPolicy: {}
       });
 
     state = fromSOs.reducer(state, {
@@ -118,16 +108,14 @@ describe('Test service offering reducer', () => {
         offeringAvailability: { 'filterOfferings': false },
         defaultParams: { 'default': 'd1' },
         customOfferingRestrictions: { 'custom': 'r1' },
-        offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restrictions'
-        }
+        offeringCompatibilityPolicy: {}
       });
 
     state = fromSOs.reducer(state, {
       type: LOAD_COMPATIBILITY_POLICY_RESPONSE,
       payload: {
-        'offeringChangePolicyIgnoreTags': ['t1'],
-        'defaultPolicy': 'no-restrictions'
+        'offeringChangePolicy': 'no-restrictions',
+        'offeringChangePolicyIgnoreTags': ['t1']
       }
     });
 
@@ -140,8 +128,8 @@ describe('Test service offering reducer', () => {
         defaultParams: { 'default': 'd1' },
         customOfferingRestrictions: { 'custom': 'r1' },
         offeringCompatibilityPolicy: {
-          offeringChangePolicyIgnoreTags: ['t1'],
-          defaultPolicy: 'no-restrictions'
+          offeringChangePolicy: 'no-restrictions',
+          offeringChangePolicyIgnoreTags: ['t1']
         }
       });
   });
@@ -159,9 +147,7 @@ describe('Test service offering reducer', () => {
         offeringAvailability: {},
         defaultParams: {},
         customOfferingRestrictions: {},
-        offeringCompatibilityPolicy: {
-          defaultPolicy: 'no-restrictions'
-        }
+        offeringCompatibilityPolicy: {}
       });
     expect(fromSOs.getOfferingsEntitiesState.projector({list: state})).toBe(state);
     expect(fromSOs.isLoading.projector(state)).toBe(false);
@@ -378,21 +364,19 @@ describe('Test service offering reducer', () => {
     const newTags = ['t1', 't2'];
     const policy1 = {
       offeringChangePolicy: 'contains-all',
-      offeringChangePolicyIgnoreTags: ['t3'],
-      defaultPolicy: 'no-restrictions'
+      offeringChangePolicyIgnoreTags: ['t3']
     };
     expect(fromSOs.matchHostTags(oldTags, newTags, policy1)).toBeTruthy();
     expect(fromSOs.matchHostTags(['t1', 't3', 't4'], newTags, policy1)).toBeFalsy();
     const policy2 = {
       offeringChangePolicy: 'exactly-match',
-      offeringChangePolicyIgnoreTags: ['t2'],
-      defaultPolicy: 'no-restrictions'
+      offeringChangePolicyIgnoreTags: ['t2']
     };
     expect(fromSOs.matchHostTags(oldTags, newTags, policy2)).toBeFalsy();
     expect(fromSOs.matchHostTags(['t1', 't2'], newTags, policy2)).toBeTruthy();
     const policy3 = {
-      offeringChangePolicyIgnoreTags: ['t2'],
-      defaultPolicy: 'no-restrictions'
+      offeringChangePolicy: 'no-restrictions',
+      offeringChangePolicyIgnoreTags: ['t2']
     };
     expect(fromSOs.matchHostTags(oldTags, newTags, policy3)).toBeTruthy();
   });
@@ -418,8 +402,7 @@ describe('Test service offering reducer', () => {
 
     const policy = {
       offeringChangePolicy: 'exactly-match',
-      offeringChangePolicyIgnoreTags: ['t2'],
-      defaultPolicy: 'no-restrictions'
+      offeringChangePolicyIgnoreTags: ['t2']
     };
     const resourceUsage = {
       available: new ResourcesData(),

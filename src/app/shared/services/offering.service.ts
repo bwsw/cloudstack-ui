@@ -17,14 +17,13 @@ export interface OfferingAvailability {
 
 export interface OfferingCompatibilityPolicy {
   offeringChangePolicy?: string,
-  offeringChangePolicyIgnoreTags?: string[],
-  defaultPolicy: string
+  offeringChangePolicyIgnoreTags?: string[]
 }
 
 export enum OfferingPolicy {
   CONTAINS_ALL = 'contains-all',
   EXACTLY_MATCH = 'exactly-match',
-  NO_RESTRICTION = 'no-restrictions'
+  NO_RESTRICTIONS = 'no-restrictions'
 }
 
 @Injectable()
