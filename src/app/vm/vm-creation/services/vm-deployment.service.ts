@@ -104,10 +104,8 @@ export class VmDeploymentService {
       })
       .switchMap(() => {
         return this.getSecurityGroupCreationObservable(deployObservable, state)
-          .map((securityGroup: SecurityGroup | SecurityGroup[]) => {
-            if (state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
-              state.securityGroupData.securityGroups = [<SecurityGroup>securityGroup];
-            }
+          .map((securityGroups: SecurityGroup[]) => {
+            state.securityGroupData.securityGroups = securityGroups;
             return state;
           });
       });
