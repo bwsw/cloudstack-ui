@@ -55,7 +55,6 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
         return this.authorizeRules(securityGroup, ingressRules, egressRules);
       })
       .switchMap(securityGroup => {
-        console.log(securityGroup);
         return this.securityGroupCreationPostAction(securityGroup);
       });
   }
