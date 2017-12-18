@@ -8,6 +8,6 @@ const sshKeyPairs: Array<Object> = require('../fixtures/sshKeyPairs.json');
 @Injectable()
 export class MockSSHKeyPairService {
   public getList(): Observable<Array<SSHKeyPair>> {
-    return Observable.of(sshKeyPairs.map(json => new SSHKeyPair(json)));
+    return Observable.of(sshKeyPairs.map(json => json as SSHKeyPair));
   }
 }

@@ -1,11 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers';
-import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
-
-import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 import { Grouping } from '../../../shared/models/grouping.model';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+
+import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
+import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
+
 
 
 export const sshKeyGroupings: Array<Grouping> = [
