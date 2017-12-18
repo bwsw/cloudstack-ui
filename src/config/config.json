@@ -168,5 +168,19 @@
     "webShell": false,
     "pulse": false
   },
-  "templateGroups": []
+  "templateGroups": [
+    {
+      "id": "WWW"
+    },
+    {
+      "id": "databases",
+      "translations": {
+        "ru": "Базы данных",
+        "en": "Databases"
+      }
+    },
+    {
+      "id": "CMS"
+    }
+  ]
 }
