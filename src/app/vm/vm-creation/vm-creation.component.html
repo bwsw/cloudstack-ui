@@ -212,9 +212,9 @@
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h4>
             <cs-vm-creation-ssh-key-selector
-              [sshKeyPair]="sshKeyPair"
+              [sshKeyPair]="vmCreationState.sshKeyPair"
               [sshKeyPairs]="sshKeyPairs"
-              (sshKeyPairChange)="onSshKeyPairChange($event)"
+              (sshKeyPairChange)="onSshKeyPairChange.emit($event)"
             ></cs-vm-creation-ssh-key-selector>
           </div>
 

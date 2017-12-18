@@ -80,7 +80,6 @@ export class VmCreationComponent {
   };
 
   public takenName: string;
-  public progressLoggerController = new ProgressLoggerController();
   public maxEntityNameLength = 63;
 
   public visibleAffinityGroups: Array<AffinityGroup>;

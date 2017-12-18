@@ -222,44 +222,34 @@ export class VirtualMachineCreationEffects {
   deploying$ = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_REQUEST)
     .switchMap((action: vmActions.DeploymentRequest) => {
-      let securityGroups: SecurityGroup[];
-
-      return this.templateTagService.getAgreement(action.payload.template)
-        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
-        .filter(res => !!res)
-        .switchMap(() => this.doCreateAffinityGroup(action.payload))
+      return this.doCreateAffinityGroup(action.payload)
         .switchMap(() => this.doCreateSecurityGroup(action.payload)
-          .map((groups) => {
-            securityGroups = groups;
+          .switchMap((securityGroups) => {
             this.store.dispatch(new vmActions.DeploymentChangeStatus({
               stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
             }));
-          }))
-        .switchMap(() => {
-          let temporaryVm;
 
-          this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
-          const params = this.getVmCreationParams(action.payload, securityGroups);
+            this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
+            const params = this.getVmCreationParams(action.payload, securityGroups);
 
-          return this.vmService.deploy(params)
-            .switchMap(response => this.vmService.get(response.id))
-            .switchMap(vm => {
-              temporaryVm = vm;
+            return this.vmService.deploy(params)
+              .switchMap(response => this.vmService.get(response.id))
+              .switchMap(vm => {
 
-              if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
-                temporaryVm.instanceGroup = action.payload.instanceGroup;
-              }
+                if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
+                  vm.instanceGroup = action.payload.instanceGroup;
+                }
 
-              this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
-              this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
+                this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
+                this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
-              return this.vmService.incrementNumberOfVms();
-            })
-            .switchMap(() => this.doCreateInstanceGroup(temporaryVm, action.payload))
-            .switchMap(() => this.doCopyTags(temporaryVm, action.payload))
-            .map(() => new vmActions.DeploymentRequestSuccess(temporaryVm))
-            .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
-        });
+                return this.vmService.incrementNumberOfVms()
+                  .switchMap(() => this.doCreateInstanceGroup(vm, action.payload))
+                  .switchMap(() => this.doCopyTags(vm, action.payload))
+                  .map(() => new vmActions.DeploymentRequestSuccess(vm))
+                  .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
+              });
+          }));
     });
 
   @Effect({ dispatch: false })

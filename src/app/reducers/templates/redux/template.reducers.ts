@@ -12,7 +12,7 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
-import * as vm from '../../vm/redux/vm.actions';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -395,10 +395,10 @@ export const selectFilteredTemplates = createSelector(
 
     return templates.filter(template =>
       selectedZonesFilter(template)
-        && selectedTypesFilter(template)
-        && selectedGroupsFilter(template)
-        && selectedOsFamiliesFilter(template)
-        && queryFilter(template));
+      && selectedTypesFilter(template)
+      && selectedGroupsFilter(template)
+      && selectedOsFamiliesFilter(template)
+      && queryFilter(template));
   }
 );
 
@@ -465,21 +465,36 @@ export const selectTemplatesForAction = createSelector(
   }
 );
 
-export const selectTemplatesForIsoAttachment = createSelector(selectTemplatesForAction, vmCreationListFilters,
-  (templates, vmFilters) => {
+export const selectTemplatesForIsoAttachment = createSelector(
+  selectTemplatesForAction,
+  vmCreationListFilters,
+  fromAuth.getUserAccount,
+  (templates, vmFilters, account) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
       return template.zoneId === vmFilters.selectedZoneId || template.crossZones;
     };
+    const currentAccountFilter = (template: BaseTemplateModel) => {
+      return (account && template.account === account.name && template.domainId === account.domainid)
+        || template.isFeatured || template.isPublic;
+    };
 
-    return templates.filter(template => selectedZoneFilter(template));
+    return templates.filter(template => selectedZoneFilter(template) && currentAccountFilter(template));
   }
 );
-export const selectTemplatesForVmCreation = createSelector(selectTemplatesForAction, fromVMs.getVmCreationZoneId,
-  (templates, zoneId) => {
+export const selectTemplatesForVmCreation = createSelector(
+  selectTemplatesForAction,
+  fromVMs.getVmCreationZoneId,
+  fromAuth.getUserAccount,
+  (templates, zoneId, account) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
       return template.zoneId === zoneId || template.crossZones;
     };
 
-    return templates.filter(template => selectedZoneFilter(template));
+    const currentAccountFilter = (template: BaseTemplateModel) => {
+      return (account && template.account === account.name && template.domainId === account.domainid)
+        || template.isFeatured || template.isPublic;
+    };
+
+    return templates.filter(template => selectedZoneFilter(template) && currentAccountFilter(template));
   }
 );
