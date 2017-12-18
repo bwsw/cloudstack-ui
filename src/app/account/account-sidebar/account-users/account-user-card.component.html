@@ -23,9 +23,12 @@
     *ngIf="user.secretkey"
     [name]="'ACCOUNT_PAGE.USER.SECRET_KEY'"
     [value]="user.secretkey"
+    [isCopy]="true"
   ></cs-parameters-pair>
   <cs-parameters-pair
+    *ngIf="user.apikey"
     [name]="'ACCOUNT_PAGE.USER.API_KEY'"
     [value]="user.apikey"
+    [isCopy]="true"
   ></cs-parameters-pair>
 </ng-container>

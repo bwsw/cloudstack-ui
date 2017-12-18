@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { AuthService } from '../../shared/services/auth.service';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import { State } from '../../reducers/index';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-account-users-container',
@@ -12,6 +12,7 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
       [account]="account$ | async"
       (onUserRegenerateKey)="generateUserKeys($event)"
       (onUserDelete)="deleteUser($event)"
+      (onLoadUserKeys)="loadUserKeys($event)"
     ></cs-account-users>`
 })
 export class AccountUsersContainerComponent {
@@ -33,5 +34,9 @@ export class AccountUsersContainerComponent {
 
   public deleteUser(account) {
     this.store.dispatch(new accountActions.AccountUserDelete(account));
+  }
+
+  public loadUserKeys(user) {
+    this.store.dispatch(new accountActions.AccountLoadUserKeys(user));
   }
 }

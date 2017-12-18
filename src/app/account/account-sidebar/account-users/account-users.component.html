@@ -8,7 +8,7 @@
   <mat-expansion-panel
     *ngFor="let user of sortedUsers"
     [expanded]="step === user.id"
-    (opened)="setStep(user.id)"
+    (opened)="openItem(user)"
   >
     <mat-expansion-panel-header>
       <mat-panel-title>

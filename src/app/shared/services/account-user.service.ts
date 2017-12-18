@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { BaseBackendService } from './base-backend.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AccountUser } from '../models/account-user.model';
+import { BackendResource } from '../decorators/backend-resource.decorator';
+import { AccountUser, ApiKeys } from '../models/account-user.model';
+import { BaseBackendService } from './base-backend.service';
 
 @Injectable()
 @BackendResource({
@@ -37,9 +37,13 @@ export class AccountUserService extends BaseBackendService<AccountUser> {
     });
   }
 
-  public generateKeys(user: AccountUser): Observable<{ userkeys: object }> {
-    return this.sendCommand('register', {
+  public generateKeys(user: AccountUser): Observable<ApiKeys> {
+    return this.sendCommand('register;Keys', {
       id: user.id
-    }, 'UserKeys');
+    }).map(res => res.userkeys);
+  }
+
+  public getUserKeys(id: string): Observable<ApiKeys> {
+    return this.sendCommand('get;Keys', { id }).map(res => res.userkeys);
   }
 }

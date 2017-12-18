@@ -199,7 +199,18 @@ export class AccountsEffects {
       this.accountUserService.generateKeys(action.payload)
         .map(res => new accountActions.AccountUserGenerateKeySuccess({
           user: action.payload,
-          userKeys: res.userkeys
+          userKeys: res
+        }))
+        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+
+  @Effect()
+  userLoadKeys$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_LOAD_USER_KEYS)
+    .switchMap((action: accountActions.AccountLoadUserKeys) =>
+      this.accountUserService.getUserKeys(action.payload.id)
+        .map(res => new accountActions.AccountLoadUserKeysSuccess({
+          user: action.payload,
+          userKeys: res
         }))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
@@ -216,7 +227,7 @@ export class AccountsEffects {
     private notificationService: NotificationService,
     private router: Router,
     private dialog: MatDialog
-) {
+  ) {
   }
 
   private onNotify(user, message) {
