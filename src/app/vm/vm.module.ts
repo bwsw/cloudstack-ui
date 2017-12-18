@@ -113,11 +113,14 @@ import { VmTagsContainerComponent } from './container/vm-tags.container';
 import { VmActionsContainerComponent } from './container/vm-actions.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
 import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
+// tslint:disable-next-line
 import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.container';
 import { SnapshotModalContainerComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshot-modal.container';
 import { SnapshotsContainerComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshots.container';
 import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
 import { HttpModule } from '@angular/http';
+// tslint:disable-next-line
+import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
 
 @NgModule({
   imports: [
@@ -212,6 +215,7 @@ import { HttpModule } from '@angular/http';
     SnapshotModalComponent,
     SnapshotModalContainerComponent,
     VmCreationSecurityGroupComponent,
+    VmCreationSecurityGroupContainerComponent,
     SecurityGroupManagerExistingGroupComponent,
     VmCreationSecurityGroupRulesManagerComponent,
     NicComponent,
@@ -243,11 +247,12 @@ import { HttpModule } from '@angular/http';
     SnapshotModalContainerComponent,
     VolumeAttachmentDialogComponent,
     SshKeypairResetComponent,
-    VmCreationSecurityGroupComponent,
+    VmCreationSecurityGroupContainerComponent,
     PostdeploymentComponent,
     VmResetPasswordComponent,
     VmAccessComponent,
     ServiceOfferingDialogContainerComponent
   ]
 })
-export class VmModule { }
+export class VmModule {
+}

@@ -301,11 +301,11 @@ export class VmCreationComponent implements OnInit {
     });
 
     const inProgressMessage = this.progressLoggerController.messages.find(message => {
-      return message.status.includes(ProgressLoggerMessageStatus.InProgress);
+      return message.status && message.status.includes(ProgressLoggerMessageStatus.InProgress);
     });
 
     this.updateLoggerMessage(
-      inProgressMessage.text,
+      inProgressMessage && inProgressMessage.text,
       [ProgressLoggerMessageStatus.Error]
     );
 
