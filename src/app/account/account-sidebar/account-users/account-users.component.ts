@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { AccountUser } from '../../../shared/models/account-user.model';
-import { Account, AccountType } from '../../../shared/models/account.model';
+import { Account } from '../../../shared/models/account.model';
 import { AccountUserEditContainerComponent } from '../../account-container/account-user-edit.container';
 import { AccountUserPasswordFormContainerComponent } from '../../account-container/account-user-password.container';
 
@@ -11,6 +11,7 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
 })
 export class AccountUsersComponent {
   @Input() public account: Account;
+  @Input() public isAdmin: boolean;
 
   @Output() public onUserDelete = new EventEmitter<AccountUser>();
   @Output() public onUserRegenerateKey = new EventEmitter<AccountUser>();
@@ -40,10 +41,6 @@ export class AccountUsersComponent {
   public regenerateKeys(user) {
     this.onUserRegenerateKey.emit(user);
     this.setStep(user.id)
-  }
-
-  public get isAdmin(): boolean {
-    return this.account && this.account.accounttype !== AccountType.User;
   }
 
   public onUserChangePassword(user) {

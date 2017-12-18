@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { AuthService } from '../../shared/services/auth.service';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import { State } from '../../reducers/index';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-account-users-container',
   template: `
     <cs-account-users
       [account]="account$ | async"
+      [isAdmin]="isAdmin()"
       (onUserRegenerateKey)="generateUserKeys($event)"
       (onUserDelete)="deleteUser($event)"
     ></cs-account-users>`
