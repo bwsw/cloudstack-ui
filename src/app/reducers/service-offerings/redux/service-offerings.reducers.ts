@@ -453,9 +453,8 @@ export const matchHostTags = (
 ) => {
   const ignoreTags = offeringCompatibilityPolicy.offeringChangePolicyIgnoreTags;
   if (ignoreTags) {
-    //todo: get rid
-    oldTags = oldTags.filter(t1 => ignoreTags.indexOf(t1) === -1);
-    newTags = newTags.filter(t1 => ignoreTags.indexOf(t1) === -1);
+    oldTags = filterTags(oldTags, ignoreTags);
+    newTags = filterTags(newTags, ignoreTags);
   }
   switch (offeringCompatibilityPolicy.offeringChangePolicy) {
     case OfferingPolicy.CONTAINS_ALL: {
@@ -469,6 +468,12 @@ export const matchHostTags = (
       return true;
     }
   }
+};
+
+const filterTags = (
+  tags, ignoreTags
+) => {
+  return tags.filter(t => ignoreTags.indexOf(t) === -1);
 };
 
 export const includeTags = (
