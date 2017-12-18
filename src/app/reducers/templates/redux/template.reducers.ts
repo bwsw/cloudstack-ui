@@ -103,12 +103,6 @@ export function listReducer(
         loading: true
       };
     }
-    case template.LOAD_SELECTED_TEMPLATE: {
-      return {
-        ...state,
-        selectedTemplateId: action.payload
-      };
-    }
     case template.TEMPLATE_FILTER_UPDATE: {
       return {
         ...state,

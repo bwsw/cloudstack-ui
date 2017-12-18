@@ -14,7 +14,6 @@ import {
 })
 export class VolumeDetailsComponent {
   @Input() public volume: Volume;
-  @Input() public description: string;
   @Input() public diskOffering: DiskOffering;
 
 

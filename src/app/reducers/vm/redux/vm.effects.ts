@@ -23,7 +23,9 @@ import {
 } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
-import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
+import {
+  VmResetPasswordComponent
+} from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { WebShellService } from '../../../vm/web-shell/web-shell.service';
 import { State } from '../../index';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
@@ -213,7 +215,7 @@ export class VirtualMachinesEffects {
   @Effect()
   removeInstantGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_REMOVE_INSTANT_GROUP)
-    .switchMap((action: vmActions.RemoveInstantGroup) => {
+    .switchMap((action: vmActions.RemoveInstanceGroup) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_IN_PROGRESS');
 
@@ -577,10 +579,10 @@ export class VirtualMachinesEffects {
               'JOB_NOTIFICATIONS.VM.CHANGE_SSH_IN_PROGRESS');
 
             return this.sshService.reset({
-              keypair: changeAction.payload.keypair,
+              keypair: changeAction.payload.keyPair,
               id: changeAction.payload.vm.id,
-              account: changeAction.payload.account,
-              domainid: changeAction.payload.domainid
+              account: changeAction.payload.vm.account,
+              domainid: changeAction.payload.vm.domainid
             })
               .switchMap((newVm) => {
                 this.jobsNotificationService.finish({
