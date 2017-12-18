@@ -6,8 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../../../testutils/mocks/mock-translate.service.spec';
 import { NetworkRule } from '../../../../security-group/network-rule.model';
-import { NetworkRuleTypes, RuleListItem } from '../security-group-builder.component';
+import { RuleListItem } from '../security-group-builder.component';
 import { SecurityGroupBuilderRuleComponent } from './security-group-builder-rule.component';
+import { NetworkRuleType } from '../../../../security-group/sg.model';
 
 
 describe('Sg creation rule component', () => {
@@ -23,7 +24,7 @@ describe('Sg creation rule component', () => {
       'endport': 65535,
       'cidr': '0.0.0.0/0',
     }),
-    type: NetworkRuleTypes.Ingress
+    type: NetworkRuleType.Ingress
   };
 
   beforeEach(async(() => {
