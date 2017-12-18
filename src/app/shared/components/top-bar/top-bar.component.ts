@@ -31,6 +31,8 @@ export class TopBarComponent {
   }
 
   private showSidebarForSG(): boolean {
-    return this.activatedRoute.snapshot.firstChild.firstChild.routeConfig.path !== 'rules';
+    if (this.activatedRoute.snapshot.firstChild.firstChild) {
+      return this.activatedRoute.snapshot.firstChild.firstChild.routeConfig.path !== 'rules';
+    }
   }
 }
