@@ -1,9 +1,10 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { AuthService } from '../../shared/services/auth.service';
+import { Account } from '../../shared/models/account.model';
+
 import * as configurationAction from '../../reducers/configuration/redux/configurations.actions';
 import * as resourceLimitAction from '../../reducers/resource-limit/redux/resource-limits.actions';
 import * as resourceCountAction from '../../reducers/resource-count/redux/resource-counts.actions';
@@ -11,9 +12,6 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromConfigurations from '../../reducers/configuration/redux/configurations.reducers';
 import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
 import * as fromResourceCounts from '../../reducers/resource-count/redux/resource-counts.reducers';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { AuthService } from '../../shared/services/auth.service';
-import { Account } from '../../shared/models/account.model';
 
 @Component({
   selector: 'cs-account-page-container',
@@ -22,7 +20,6 @@ import { Account } from '../../shared/models/account.model';
       [account]="account$ | async"
     ></cs-account-detail>
     <cs-account-settings
-      *ngIf="isAdmin()"
       [account]="account$ | async"
       [configurations]="configurations$ | async"
       (onConfigurationEdit)="onConfigurationEdit($event)"
