@@ -403,6 +403,11 @@ export const getCustomOfferingWithSetParams = (
   return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
 };
 
+export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,
+  fromVMs.getVmCreationZoneId, (restrictions, zoneId) => {
+    return restrictions && restrictions[zoneId] || DefaultCustomServiceOfferingRestrictions;
+  });
+
 export const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
   return Object.keys(restrictions).reduce((acc, key) => {
     return (

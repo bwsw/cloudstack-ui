@@ -447,48 +447,52 @@ export function formReducer(
   }
 }
 
-export const getVmFormState = createSelector(
+export const getVmForm = createSelector(
   getVMsState,
   state => state.form
 );
+export const getVmFormState = createSelector(
+  getVMsState,
+  state => state.form.state
+);
 
 export const formIsLoading = createSelector(
-  getVmFormState,
+  getVmForm,
   state => state.loading
 );
 
 export const enoughResources = createSelector(
-  getVmFormState,
+  getVmForm,
   state => state.enoughResources
 );
 
 export const insufficientResources = createSelector(
-  getVmFormState,
+  getVmForm,
   state => state.insufficientResources
 );
 
 export const deploymentStopped = createSelector(
-  getVmFormState,
+  getVmForm,
   state => state.deploymentStopped
 );
 
 export const loggerStageList = createSelector(
-  getVmFormState,
+  getVmForm,
   state => state.loggerStageList
 );
 
 export const showOverlay = createSelector(
-  getVmFormState,
+  getVmForm,
   state => state.showOverlay
 );
 
 export const getDeployedVM = createSelector(
-  getVmFormState,
+  getVmForm,
   state => state.deployedVm
 );
 
 export const getVmCreationZoneId = createSelector(
   getVmFormState,
-  state => state.state.zone && state.state.zone.id
+  state => state.zone && state.zone.id
 );
 

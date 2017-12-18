@@ -384,7 +384,7 @@ export class VmInitialZoneSelect implements Action {
 export class DeployVm implements Action {
   type = DEPLOY_VM;
 
-  constructor(public payload: FormState) {
+  constructor(public payload: VmCreationState) {
   }
 }
 
@@ -436,7 +436,7 @@ export class DeploymentInitActionList implements Action {
 export class DeploymentRequest implements Action {
   type = VM_DEPLOYMENT_REQUEST;
 
-  constructor(public payload: FormState) {
+  constructor(public payload: VmCreationState) {
   }
 }
 

@@ -7,11 +7,9 @@ import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
-import { VirtualMachine } from '../../shared/vm.model';
 import { VmService } from '../../shared/vm.service';
-import { NotSelected } from '../data/vm-creation-state';
+import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { MatDialogRef } from '@angular/material';
-import { FormState } from '../../../reducers/vm/redux/vm.reducers';
 
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
@@ -26,6 +24,7 @@ import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
+import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 
 @Component({
   selector: 'cs-vm-create-container',
@@ -47,6 +46,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [customOfferingRestrictions]="customOfferingRestrictions$ | async"
+      [sshKeyPairs]="sshKeyPairs$ | async"
 
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
@@ -58,7 +58,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       (keyboardChange)="onKeyboardChange($event)"
       (affinityGroupChange)="onAffinityGroupChange($event)"
       (instanceGroupChange)="onInstanceGroupChange($event)"
-      (sshKeyPairChange)="onSshKeyPairChange($event)"
+      (onSshKeyPairChange)="onSshKeyPairChange($event)"
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
@@ -78,7 +78,7 @@ export class VmCreationContainerComponent implements OnInit {
     )
     .map((loadings: boolean[]) => loadings.find(loading => loading));
   readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
-  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.customOfferingRestrictions);
+  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
   readonly deploymentStopped$ = this.store.select(fromVMs.deploymentStopped);
   readonly diskOfferings$ = this.store.select(fromDiskOfferings.selectAll);
@@ -91,6 +91,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly affinityGroups$ = this.store.select(fromAffinityGroups.selectAll);
   readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly zones$ = this.store.select(fromZones.selectAll);
+  readonly sshKeyPairs$ = this.store.select(fromSshKeys.selectAll);
 
   constructor(
     private store: Store<State>,
@@ -106,6 +107,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
+    this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
@@ -173,7 +175,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new vmActions.VmFormUpdate({ agreement }));
   }
 
-  public onDeploy(state: FormState) {
+  public onDeploy(state: VmCreationState) {
     this.store.dispatch(new vmActions.DeployVm(state));
   }
 

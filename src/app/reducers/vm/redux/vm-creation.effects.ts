@@ -140,16 +140,16 @@ export class VirtualMachineCreationEffects {
     )
     .map((
       [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings]: [
-        vmActions.VmFormUpdate, FormState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
+        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
         ]) => {
 
       if (action.payload.zone) {
         let updates = {};
 
-        const selectedServiceOfferingStillAvailable = vmCreationState.state.serviceOffering
-          && serviceOfferings.find(_ => _.id === vmCreationState.state.serviceOffering.id);
-        const selectedTemplateStillAvailable = vmCreationState.state.template
-          && templates.find(_ => _.id === vmCreationState.state.template.id);
+        const selectedServiceOfferingStillAvailable = vmCreationState.serviceOffering
+          && serviceOfferings.find(_ => _.id === vmCreationState.serviceOffering.id);
+        const selectedTemplateStillAvailable = vmCreationState.template
+          && templates.find(_ => _.id === vmCreationState.template.id);
 
         if (!selectedServiceOfferingStillAvailable) {
           updates = { ...updates, serviceOffering: serviceOfferings[0] };
@@ -165,34 +165,34 @@ export class VirtualMachineCreationEffects {
         if (action.payload.template.resourceType === TemplateResourceType.template) {
           const rootDiskSize = Utils.convertToGb(action.payload.template.size);
           return new vmActions.VmFormUpdate({ rootDiskSize });
-        } else if (!vmCreationState.state.diskOffering) {
+        } else if (!vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
         }
       }
 
       if (action.payload.diskOffering) {
-        if (!action.payload.diskOffering.isCustomized || !vmCreationState.state.template) {
+        if (!action.payload.diskOffering.isCustomized || !vmCreationState.template) {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         } else {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-          const minSize = Math.ceil(Utils.convertToGb(vmCreationState.state.template.size)) || defaultDiskSize;
+          const minSize = Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
           // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
           const upd = { rootDiskMinSize: minSize };
 
-          if (!vmCreationState.state.rootDiskSize
-            || vmCreationState.state.rootDiskSize < vmCreationState.state.rootDiskMinSize) {
+          if (!vmCreationState.rootDiskSize
+            || vmCreationState.rootDiskSize < vmCreationState.rootDiskMinSize) {
             return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
           }
           return new vmActions.VmFormUpdate(upd);
         }
       }
 
-      if (vmCreationState.state.zone) {
-        if (!vmCreationState.state.serviceOffering && serviceOfferings.length) {
+      if (vmCreationState.zone) {
+        if (!vmCreationState.serviceOffering && serviceOfferings.length) {
           return new vmActions.VmFormUpdate({ serviceOffering: serviceOfferings[0] });
         }
 
-        if (!vmCreationState.state.template && templates.length) {
+        if (!vmCreationState.template && templates.length) {
           return new vmActions.VmFormUpdate({ template: templates[0] });
         }
       }
@@ -204,8 +204,8 @@ export class VirtualMachineCreationEffects {
   preparingForDeploy$ = this.actions$
     .ofType(vmActions.DEPLOY_VM)
     .switchMap((action: vmActions.DeployVm) => {
-      return this.templateTagService.getAgreement(action.payload.state.template)
-        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload.state) : Observable.of(true))
+      return this.templateTagService.getAgreement(action.payload.template)
+        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
         .filter(res => !!res)
         .switchMap(() => {
           this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
@@ -224,11 +224,11 @@ export class VirtualMachineCreationEffects {
     .switchMap((action: vmActions.DeploymentRequest) => {
       let securityGroups: SecurityGroup[];
 
-      return this.templateTagService.getAgreement(action.payload.state.template)
-        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload.state) : Observable.of(true))
+      return this.templateTagService.getAgreement(action.payload.template)
+        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
         .filter(res => !!res)
-        .switchMap(() => this.doCreateAffinityGroup(action.payload.state))
-        .switchMap(() => this.doCreateSecurityGroup(action.payload.state)
+        .switchMap(() => this.doCreateAffinityGroup(action.payload))
+        .switchMap(() => this.doCreateSecurityGroup(action.payload)
           .map((groups) => {
             securityGroups = groups;
             this.store.dispatch(new vmActions.DeploymentChangeStatus({
@@ -239,15 +239,15 @@ export class VirtualMachineCreationEffects {
           let temporaryVm;
 
           this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
-          const params = this.getVmCreationParams(action.payload.state, securityGroups);
+          const params = this.getVmCreationParams(action.payload, securityGroups);
 
           return this.vmService.deploy(params)
             .switchMap(response => this.vmService.get(response.id))
             .switchMap(vm => {
               temporaryVm = vm;
 
-              if (action.payload.state.instanceGroup && action.payload.state.instanceGroup.name) {
-                temporaryVm.instanceGroup = action.payload.state.instanceGroup;
+              if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
+                temporaryVm.instanceGroup = action.payload.instanceGroup;
               }
 
               this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
@@ -255,8 +255,8 @@ export class VirtualMachineCreationEffects {
 
               return this.vmService.incrementNumberOfVms();
             })
-            .switchMap(() => this.doCreateInstanceGroup(temporaryVm, action.payload.state))
-            .switchMap(() => this.doCopyTags(temporaryVm, action.payload.state))
+            .switchMap(() => this.doCreateInstanceGroup(temporaryVm, action.payload))
+            .switchMap(() => this.doCopyTags(temporaryVm, action.payload))
             .map(() => new vmActions.DeploymentRequestSuccess(temporaryVm))
             .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
         });
@@ -361,7 +361,7 @@ export class VirtualMachineCreationEffects {
       .filter(_ => _);
   }
 
-  private initializeDeploymentActionList(state: FormState): ProgressLoggerMessageData[] {
+  private initializeDeploymentActionList(state: VmCreationState): ProgressLoggerMessageData[] {
     const translations = {
       [VmDeploymentStage.AG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_AG',
       [VmDeploymentStage.SG_GROUP_CREATION]: 'VM_PAGE.VM_CREATION.CREATING_SG',
@@ -372,7 +372,7 @@ export class VirtualMachineCreationEffects {
 
     const loggerStageList = [];
 
-    this.getDeploymentActionList(state.state).forEach(actionName => {
+    this.getDeploymentActionList(state).forEach(actionName => {
       loggerStageList.push({ text: translations[actionName] });
     });
 

@@ -114,8 +114,6 @@ import { VmCreationAgreementComponent } from './vm-creation/template/agreement/v
 import { HttpModule } from '@angular/http';
 import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
 import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
-// tslint:disable-next-line
-import { VmCreationSshKeySelectorContainerComponent } from './vm-creation/ssh-key-selector/containers/ssh-key-selector.container';
 import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
@@ -201,7 +199,6 @@ import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.
     VmSidebarComponent,
     VmCreationTemplateContainerComponent,
     VmCreationTemplateComponent,
-    VmCreationSshKeySelectorContainerComponent,
     VmCreationSshKeySelectorComponent,
     VmTemplateDialogComponent,
     VmVolumeDetailsContainerComponent,

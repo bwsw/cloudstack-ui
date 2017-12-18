@@ -5,7 +5,7 @@ import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from 
 import { DiskOffering, Account } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
-import { NotSelected } from './data/vm-creation-state';
+import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { VmCreationAgreementComponent } from './template/agreement/vm-creation-agreement.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -14,7 +14,6 @@ import { ICustomOfferingRestrictions } from '../../service-offering/custom-servi
 // tslint:disable-next-line
 import { ProgressLoggerMessage, } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
-import { FormState } from '../../reducers/vm/redux/vm.reducers';
 import { AuthService } from '../../shared/services/auth.service';
 
 import * as clone from 'lodash/clone';
@@ -33,11 +32,12 @@ import * as clone from 'lodash/clone';
 })
 export class VmCreationComponent {
   @Input() public account: Account;
-  @Input() public vmCreationState: FormState;
+  @Input() public vmCreationState: VmCreationState;
   @Input() public instanceGroupList: InstanceGroup[];
   @Input() public affinityGroupList: AffinityGroup[];
   @Input() public diskOfferings: DiskOffering[];
   @Input() public zones: Zone[];
+  @Input() public sshKeyPairs: SSHKeyPair[];
   @Input() public serviceOfferings: ServiceOffering[];
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
 
@@ -60,12 +60,12 @@ export class VmCreationComponent {
   @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output() public keyboardChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
-  @Output() public sshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
+  @Output() public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
   @Output() public doStartVmChange = new EventEmitter<boolean>();
   @Output() public zoneChange = new EventEmitter<Zone>();
   @Output() public agreementChange = new EventEmitter<boolean>();
   @Output() public onVmDeploymentFailed = new EventEmitter();
-  @Output() public deploy = new EventEmitter<FormState>();
+  @Output() public deploy = new EventEmitter<VmCreationState>();
   @Output() public cancel = new EventEmitter();
   @Output() public onError = new EventEmitter();
 
@@ -87,12 +87,12 @@ export class VmCreationComponent {
   public visibleInstanceGroups: Array<InstanceGroup>;
 
   public get nameIsTaken(): boolean {
-    return !!this.vmCreationState && this.vmCreationState.state.displayName === this.takenName;
+    return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
   }
 
   public get diskOfferingsAreAllowed(): boolean {
-    return this.vmCreationState.state.template
-      && !this.vmCreationState.state.template.isTemplate;
+    return this.vmCreationState.template
+      && !this.vmCreationState.template.isTemplate;
   }
 
   public get rootDiskSizeLimit(): number {
@@ -100,12 +100,12 @@ export class VmCreationComponent {
   }
 
   public get showRootDiskResize(): boolean {
-    return this.vmCreationState.state.diskOffering && this.vmCreationState.state.diskOffering.isCustomized;
+    return this.vmCreationState.diskOffering && this.vmCreationState.diskOffering.isCustomized;
   }
 
   public get showSecurityGroups(): boolean {
-    return this.vmCreationState.state.zone
-      && this.vmCreationState.state.zone.securitygroupsenabled
+    return this.vmCreationState.zone
+      && this.vmCreationState.zone.securitygroupsenabled
       && this.auth.isSecurityGroupEnabled();
   }
 
