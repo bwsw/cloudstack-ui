@@ -3,8 +3,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange, MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { ServiceOffering } from '../../shared/models';
-import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
+import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { areCustomParamsSet, CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 
@@ -48,12 +48,12 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   public get customOfferingDescription(): Observable<string> {
-    if (!this.serviceOffering || !this.serviceOffering.areCustomParamsSet) {
+    if (!this.serviceOffering || !this.serviceOffering.iscustomized || !areCustomParamsSet(this.serviceOffering)) {
       return Observable.of('');
     }
 
-    const cpuNumber = this.serviceOffering.cpuNumber;
-    const cpuSpeed = this.serviceOffering.cpuSpeed;
+    const cpuNumber = this.serviceOffering.cpunumber;
+    const cpuSpeed = this.serviceOffering.cpuspeed;
     const memory = this.serviceOffering.memory;
 
     return this.translateService.get(['UNITS.MB', 'UNITS.MHZ'])
@@ -66,7 +66,7 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     const newOffering = this.serviceOfferings.find(_ => _.id === change.value);
     this.saveOffering();
     this.serviceOffering = newOffering;
-    if (newOffering.isCustomized) {
+    if (newOffering.iscustomized) {
       this.showCustomOfferingDialog()
         .subscribe(customOffering => {
           this.setCustomOffering(customOffering);

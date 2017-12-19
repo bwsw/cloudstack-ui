@@ -19,6 +19,7 @@ import {
   OfferingCompatibilityPolicy,
   OfferingPolicy
 } from '../../../shared/services/offering.service';
+import { isOfferingLocal } from '../../../shared/models/offering.model';
 
 
 import * as serviceOfferingActions from './service-offerings.actions';
@@ -212,10 +213,10 @@ export const getAvailableOfferings = createSelector(
         ResourceStats.fromAccount([user]),
         zone
       ).sort((a: ServiceOffering, b: ServiceOffering) => {
-        if (!a.isCustomized && b.isCustomized) {
+        if (!a.iscustomized && b.iscustomized) {
           return -1;
         }
-        if (a.isCustomized && !b.isCustomized) {
+        if (a.iscustomized && !b.iscustomized) {
           return 1;
         }
         return 0;
@@ -236,7 +237,7 @@ export const getAvailableOfferings = createSelector(
       const filterStorageType = (offering) => offering.storageType === currentOffering.storageType;
 
       return availableOfferings.map((offering) => {
-        return !offering.isCustomized
+        return !offering.iscustomized
           ? offering
           : getCustomOfferingWithSetParams(
             offering,
@@ -304,7 +305,8 @@ export const getOfferingsAvailableInZone = (
         availability,
         zone
       );
-      const localStorageCompatibility = zone.localstorageenabled || !offering.isLocal;
+      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
+        offering);
       return offeringAvailableInZone && localStorageCompatibility;
     });
 };
@@ -338,7 +340,7 @@ export const getAvailableByResourcesSync = (
       let enoughCpus;
       let enoughMemory;
 
-      if (offering.isCustomized) {
+      if (offering.iscustomized) {
         const restrictions = merge(
           DefaultCustomServiceOfferingRestrictions,
           offeringRestrictions && offeringRestrictions[zone.id]
@@ -346,7 +348,7 @@ export const getAvailableByResourcesSync = (
         enoughCpus = !restrictions.cpuNumber || restrictions.cpuNumber.min < resourceUsage.available.cpus;
         enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
       } else {
-        enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
+        enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
         enoughMemory = resourceUsage.available.memory >= offering.memory;
       }
 
@@ -368,7 +370,7 @@ export const getCustomOfferingWithSetParams = (
   defaults: ICustomServiceOffering,
   customRestrictions: ICustomOfferingRestrictions,
   resourceStats: ResourceStats
-) => {
+): CustomServiceOffering => {
 
   const getServiceOfferingRestriction = (param) => {
     return serviceOffering[param]
@@ -377,8 +379,8 @@ export const getCustomOfferingWithSetParams = (
       || customServiceOfferingFallbackParams[param];
   };
 
-  const cpuNumber = getServiceOfferingRestriction('cpuNumber');
-  const cpuSpeed = getServiceOfferingRestriction('cpuSpeed');
+  const cpunumber = getServiceOfferingRestriction('cpuNumber');
+  const cpuspeed = getServiceOfferingRestriction('cpuSpeed');
   const memory = getServiceOfferingRestriction('memory');
 
   const restrictions = getRestrictionIntersection(
@@ -391,11 +393,11 @@ export const getCustomOfferingWithSetParams = (
   }
 
   const normalizedParams = clipOfferingParamsToRestrictions(
-    { cpuNumber, cpuSpeed, memory },
+    { cpunumber, cpuspeed, memory },
     restrictions
   );
 
-  return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
+  return Object.assign({}, serviceOffering, { ...normalizedParams });
 };
 
 export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,

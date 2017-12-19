@@ -19,15 +19,15 @@ export class VolumeSidebarDiskOfferingComponent {
   }
 
   public get displayText(): string {
-    return this.offering && (this.offering.displayText || '').toString();
+    return this.offering && (this.offering.displaytext || '').toString();
   }
 
   public get minIops(): string {
-    return this.offering && (this.offering.minIops || '').toString();
+    return this.offering && (this.offering.miniops || '').toString();
   }
 
   public get maxIops(): string {
-    return this.offering && (this.offering.maxIops || '').toString();
+    return this.offering && (this.offering.maxiops || '').toString();
   }
 
   public get diskBytesReadRate(): number {

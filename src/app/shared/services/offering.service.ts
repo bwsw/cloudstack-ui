@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { isOfferingLocal, Offering } from '../models/offering.model';
 import { Zone } from '../models';
 import { Offering } from '../models/offering.model';
 import { BaseBackendService } from './base-backend.service';
@@ -75,7 +76,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
           offeringAvailability,
           zone
         );
-        const localStorageCompatibility = zone.localstorageenabled || !offering.isLocal;
+        const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(offering);
         return offeringAvailableInZone && localStorageCompatibility;
       });
   }

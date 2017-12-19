@@ -8,6 +8,6 @@ const diskOfferings: Array<Object> = require('../fixtures/diskOfferings.json');
 @Injectable()
 export class MockDiskOfferingService {
   public getList(): Observable<Array<DiskOffering>> {
-    return Observable.of(diskOfferings.map(json => new DiskOffering(json)));
+    return Observable.of(diskOfferings.map(json => json as DiskOffering));
   }
 }

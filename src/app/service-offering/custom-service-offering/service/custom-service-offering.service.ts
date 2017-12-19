@@ -21,7 +21,7 @@ export interface DefaultServiceOfferingConfigurationByZone {
 
 export interface DefaultServiceOfferingConfiguration {
   offering: string;
-  customOfferingParams: ICustomServiceOffering;
+  customOfferingParams: CustomServiceOffering;
 }
 
 export const customServiceOfferingFallbackParams = {
@@ -35,7 +35,8 @@ export class CustomServiceOfferingService {
   constructor(
     private configService: ConfigService,
     private resourceUsageService: ResourceUsageService
-  ) {}
+  ) {
+  }
 
   public getCustomOfferingWithSetParams(
     serviceOffering: CustomServiceOffering,
@@ -43,15 +44,15 @@ export class CustomServiceOfferingService {
     customRestrictions: ICustomOfferingRestrictions,
     resourceStats: ResourceStats
   ): CustomServiceOffering {
-    const cpuNumber =
-      serviceOffering.cpuNumber
-      || defaultParams && defaultParams.cpuNumber
+    const cpunumber =
+      serviceOffering.cpunumber
+      || defaultParams && defaultParams.cpunumber
       || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
       || customServiceOfferingFallbackParams.cpuNumber;
 
-    const cpuSpeed =
-      serviceOffering.cpuSpeed
-      || defaultParams && defaultParams.cpuSpeed
+    const cpuspeed =
+      serviceOffering.cpuspeed
+      || defaultParams && defaultParams.cpuspeed
       || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
       || customServiceOfferingFallbackParams.cpuSpeed;
 
@@ -71,17 +72,23 @@ export class CustomServiceOfferingService {
     }
 
     const normalizedParams = this.clipOfferingParamsToRestrictions(
-      { cpuNumber, cpuSpeed, memory },
+      { cpunumber, cpuspeed, memory },
       restrictions
     );
 
-    return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
+    return Object.assign(serviceOffering, { ...normalizedParams });
   }
 
-  public getCustomOfferingRestrictionsByZone(resourceStats: ResourceStats): Observable<ICustomOfferingRestrictionsByZone> {
-    const restrictions = this.configService.get<ICustomOfferingRestrictionsByZone>('customOfferingRestrictions');
+  public getCustomOfferingRestrictionsByZone(
+    resourceStats: ResourceStats
+  ): Observable<ICustomOfferingRestrictionsByZone> {
+    const restrictions = this.configService.get<ICustomOfferingRestrictionsByZone>(
+      'customOfferingRestrictions');
 
-   return Observable.of(this.getCustomOfferingRestrictionsByZoneSync(restrictions, resourceStats));
+    return Observable.of(this.getCustomOfferingRestrictionsByZoneSync(
+      restrictions,
+      resourceStats
+    ));
   }
 
   public getCustomOfferingRestrictionsByZoneSync(
@@ -143,7 +150,10 @@ export class CustomServiceOfferingService {
       }
 
       if (customRestrictions.cpuNumber.max != null) {
-        result.cpuNumber['max'] = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max)
+        result.cpuNumber['max'] = Math.min(
+          customRestrictions.cpuNumber.max,
+          result.cpuNumber.max
+        );
       }
     }
 

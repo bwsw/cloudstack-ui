@@ -17,26 +17,27 @@ import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { CustomServiceOffering } from './custom-service-offering';
 import { CustomServiceOfferingComponent } from './custom-service-offering.component';
 
-const so = require('../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
+const so = require(
+  '../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
 
 describe('CustomServiceOfferingComponent', () => {
   let component: CustomServiceOfferingComponent;
   let fixture: ComponentFixture<CustomServiceOfferingComponent>;
 
   let mockDialogRef;
-  let customOffering;
+  let customOffering: CustomServiceOffering;
   let dialogData;
 
   async function configureTestBed(data) {
     mockDialogRef = {
       close: jasmine.createSpy('close')
     };
-    customOffering = new CustomServiceOffering({
-      cpuNumber: 1,
-      cpuSpeed: 1500,
+    customOffering = {
+      ...so[0],
+      cpunumber: 1,
+      cpuspeed: 1500,
       memory: 1000,
-      serviceOffering: so[0]
-    });
+    };
     dialogData = {
       offering: customOffering,
       zoneId: 'someId',
@@ -104,12 +105,12 @@ describe('CustomServiceOfferingComponent', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(component.offering.cpuNumber).toBe(3);
-      expect(component.offering.cpuSpeed).toBe(1000);
+      expect(component.offering.cpunumber).toBe(3);
+      expect(component.offering.cpuspeed).toBe(1000);
 
       // original offering should not change
-      expect(customOffering.cpuNumber).toBe(1);
-      expect(customOffering.cpuSpeed).toBe(1500);
+      expect(customOffering.cpunumber).toBe(1);
+      expect(customOffering.cpuspeed).toBe(1500);
     })
   );
 
@@ -129,15 +130,15 @@ describe('CustomServiceOfferingComponent', () => {
       expect(mockDialogRef.close).toHaveBeenCalledTimes(1);
       expect(mockDialogRef.close).toHaveBeenCalledWith(customOffering);
 
-      component.offering.cpuNumber = 4;
+      component.offering.cpunumber = 4;
       submitButton.nativeElement.click();
       fixture.detectChanges();
 
-      const expected = new CustomServiceOffering({
-        serviceOffering: customOffering
-      });
-      expected.cpuNumber = 4;
-      expected.cpuSpeed = 1500;
+      const expected: CustomServiceOffering = {
+        ...customOffering
+      };
+      expected.cpunumber = 4;
+      expected.cpuspeed = 1500;
       expected.memory = 1000;
       expect(mockDialogRef.close).toHaveBeenCalledTimes(2);
       expect(mockDialogRef.close.calls.mostRecent().args).toEqual([expected]);
@@ -155,7 +156,7 @@ describe('CustomServiceOfferingComponent', () => {
         By.css('button[type="button"]')
       );
 
-      component.offering.cpuNumber = 4;
+      component.offering.cpunumber = 4;
       submitButton.nativeElement.click();
       fixture.detectChanges();
       expect(mockDialogRef.close).toHaveBeenCalledTimes(1);

@@ -152,11 +152,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     params['id'] = virtualMachine.id;
     params['serviceOfferingId'] = serviceOffering.id;
 
-    if (serviceOffering.isCustomized) {
+    if (serviceOffering.iscustomized) {
       params['details'] = [
         {
-          cpuNumber: serviceOffering.cpuNumber,
-          cpuSpeed: serviceOffering.cpuSpeed,
+          cpuNumber: serviceOffering.cpunumber,
+          cpuSpeed: serviceOffering.cpuspeed,
           memory: serviceOffering.memory
         }
       ];

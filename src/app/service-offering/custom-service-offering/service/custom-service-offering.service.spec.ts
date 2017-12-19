@@ -51,7 +51,8 @@ interface ServiceOfferingFixture {
   memory: number;
 }
 
-const fixture: CustomServiceOfferingFixture = require('./custom-service-offering.service.fixture.json');
+const fixture: CustomServiceOfferingFixture = require(
+  './custom-service-offering.service.fixture.json');
 
 describe('Custom service offering service', () => {
   let customServiceOfferingService: CustomServiceOfferingService;
@@ -62,10 +63,22 @@ describe('Custom service offering service', () => {
   }): void {
     TestBed.configureTestingModule({
       providers: [
-        { provide: ConfigService, useClass: MockConfigService },
-        { provide: ResourceUsageService, useClass: MockResourceUsageService },
-        { provide: 'mockConfigServiceConfig', useValue: { value: params.mockConfigServiceConfig } },
-        { provide: 'mockResourceUsageServiceConfig', useValue: { value: params.mockResourceUsageServiceConfig } },
+        {
+          provide: ConfigService,
+          useClass: MockConfigService
+        },
+        {
+          provide: ResourceUsageService,
+          useClass: MockResourceUsageService
+        },
+        {
+          provide: 'mockConfigServiceConfig',
+          useValue: { value: params.mockConfigServiceConfig }
+        },
+        {
+          provide: 'mockResourceUsageServiceConfig',
+          useValue: { value: params.mockResourceUsageServiceConfig }
+        },
         CustomServiceOfferingService
       ]
     });
@@ -121,17 +134,25 @@ describe('Custom service offering service', () => {
       });
   }
 
-  function areRestrictionsCorrect(key: string, restrictions: ICustomOfferingRestrictionsByZone): boolean {
-    //expect(restrictions).toBe('');
-    //expect(fixture.restrictionsTests[key].expected).toBe('');
+  function areRestrictionsCorrect(
+    key: string,
+    restrictions: ICustomOfferingRestrictionsByZone
+  ): boolean {
+    // expect(restrictions).toBe('');
+    // expect(fixture.restrictionsTests[key].expected).toBe('');
     return isEqual(restrictions, fixture.restrictionsTests[key].expected);
   }
 
-  function isCustomOfferingCorrect(key: string, offering: CustomServiceOffering): boolean {
+  function isCustomOfferingCorrect(
+    key: string,
+    offering: CustomServiceOffering
+  ): boolean {
     const expected = fixture.defaultParamsTests[key].expected;
+    console.log(expected);
+
     return (
-      expected.cpuNumber === offering.cpuNumber
-      && expected.cpuSpeed === offering.cpuSpeed
+      expected.cpuNumber === offering.cpunumber
+      && expected.cpuSpeed === offering.cpuspeed
       && expected.memory === offering.memory
     );
   }
@@ -189,24 +210,30 @@ describe('Custom service offering service', () => {
   it('should set custom offering params to default if restrictions are met', () => {
     const key = 'customOfferingWithParamsWithinRestrictions';
     const offering = getCustomOfferingWithSetParamsForTest(key);
+
+    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
   it('should clip custom offering to resources', () => {
     const key = 'customOfferingIsClippedToResources';
     const offering = getCustomOfferingWithSetParamsForTest(key);
+
+    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
   it('should fall back to restrictions if default params are not set', () => {
     const key = 'customOfferingFallsBackToRestrictionMinima';
     const offering = getCustomOfferingWithSetParamsForTest(key);
+    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
   it('should fall back to hardcoded fallback params if restrictions are not set', () => {
     const key = 'customOfferingFallsBackToFallbackParams';
     const offering = getCustomOfferingWithSetParamsForTest(key);
+    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
