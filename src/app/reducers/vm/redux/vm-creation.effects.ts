@@ -246,9 +246,9 @@ export class VirtualMachineCreationEffects {
                 return this.vmService.incrementNumberOfVms()
                   .switchMap(() => this.doCreateInstanceGroup(vm, action.payload))
                   .switchMap(() => this.doCopyTags(vm, action.payload))
-                  .map(() => new vmActions.DeploymentRequestSuccess(vm))
-                  .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
-              });
+                  .map(() => new vmActions.DeploymentRequestSuccess(vm));
+              })
+              .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
           }));
     });
 

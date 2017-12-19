@@ -14,11 +14,12 @@
   <span *ngIf="customOfferingDescription" class="custom-offering-info">
     {{ customOfferingDescription | async }}
   </span>
+
   <button
     *ngIf="serviceOffering?.isCustomized"
     mat-button
     type="button"
-    (click)="changeOffering({ value: serviceOffering })"
+    (click)="changeOffering({ value: serviceOffering.id })"
   >
     {{ 'COMMON.CHANGE' | translate }}
   </button>
