@@ -245,7 +245,7 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.AddSecondaryIp) => {
       return this.vmService.addIpToNic(action.payload.nicId)
         .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryIp);
+          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip);
           newSecondaryIp.push(res.result.nicsecondaryip);
           const newNic = Object.assign(
             {},
@@ -276,7 +276,7 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.RemoveSecondaryIp) => {
       return this.vmService.removeIpFromNic(action.payload.id)
         .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryIp)
+          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip)
             .filter(ip => ip.id !== action.payload.id);
           const newNic = Object.assign(
             {},
@@ -757,7 +757,7 @@ export class VirtualMachinesEffects {
       const protocol = getProtocol(vm);
       const port = getPort(vm);
       const path = getPath(vm);
-      const ip = vm.nic[0].ipAddress;
+      const ip = vm.nic[0].ipaddress;
 
       const address = `${protocol}://${ip}:${port}/${path}`;
       window.open(
