@@ -184,9 +184,9 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  changeInstantGroup$: Observable<Action> = this.actions$
+  changeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_INSTANT_GROUP)
-    .switchMap((action: vmActions.ChangeInstantGroup) => {
+    .switchMap((action: vmActions.ChangeInstanceGroup) => {
       const newVm = Object.assign(
         {},
         action.payload.vm,
@@ -213,7 +213,7 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  removeInstantGroup$: Observable<Action> = this.actions$
+  removeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_REMOVE_INSTANT_GROUP)
     .switchMap((action: vmActions.RemoveInstanceGroup) => {
       const notificationId = this.jobsNotificationService.add(

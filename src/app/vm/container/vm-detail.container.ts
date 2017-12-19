@@ -75,7 +75,7 @@ export class VmDetailContainerComponent implements OnInit {
   public changeGroup(group) {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
       if (group.name !== '') {
-        this.store.dispatch(new vmActions.ChangeInstantGroup({
+        this.store.dispatch(new vmActions.ChangeInstanceGroup({
           vm,
           group
         }));

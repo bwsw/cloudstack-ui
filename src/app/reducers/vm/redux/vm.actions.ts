@@ -125,7 +125,7 @@ export class ChangeAffinityGroup implements Action {
 
 }
 
-export class ChangeInstantGroup implements Action {
+export class ChangeInstanceGroup implements Action {
   type = VM_CHANGE_INSTANT_GROUP;
 
   constructor(public payload: {
@@ -355,7 +355,7 @@ export type Actions = LoadVMsRequest
   | ChangeDescription
   | ChangeServiceOffering
   | ChangeAffinityGroup
-  | ChangeInstantGroup
+  | ChangeInstanceGroup
   | RemoveInstanceGroup
   | AddSecondaryIp
   | RemoveSecondaryIp
