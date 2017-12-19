@@ -51,7 +51,8 @@ export class ResourceLimitsEffects {
     private actions$: Actions,
     private resourceLimitService: ResourceLimitService,
     private dialogService: DialogService
-  ) { }
+  ) {
+  }
 
   private handleError(error): void {
     this.dialogService.alert({

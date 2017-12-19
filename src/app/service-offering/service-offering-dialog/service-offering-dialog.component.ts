@@ -25,7 +25,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
 
   public ngOnInit() {
     if (this.serviceOfferings.length) {
-      this.serviceOffering = this.serviceOfferings[0];
+      this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
     }
   }
 

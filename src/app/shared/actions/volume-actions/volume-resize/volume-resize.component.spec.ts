@@ -1,5 +1,6 @@
 import {
   Injectable,
+  NO_ERRORS_SCHEMA,
   Pipe,
   PipeTransform
 } from '@angular/core';
@@ -12,7 +13,6 @@ import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
-import { DiskOfferingComponent } from '../../../components/disk-offering/disk-offering.component';
 import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../../components/slider/slider.component';
 import {
@@ -76,7 +76,6 @@ describe('volume resize for root disks', () => {
         FormsModule
       ],
       declarations: [
-        DiskOfferingComponent,
         OverlayLoadingComponent,
         MockDivisionPipe,
         MockTranslatePipe,
@@ -89,11 +88,11 @@ describe('volume resize for root disks', () => {
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MatDialogRef, useValue: dialog }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed
-      .overrideComponent(DiskOfferingComponent, { set: { template: '' }})
       .overrideComponent(OverlayLoadingComponent, { set: { template: '' }})
       .overrideComponent(SliderComponent, { set: { template: '' }})
       .createComponent(VolumeResizeComponent);
@@ -139,7 +138,6 @@ describe('volume resize for data disks', () => {
         FormsModule
       ],
       declarations: [
-        DiskOfferingComponent,
         OverlayLoadingComponent,
         MockDivisionPipe,
         MockTranslatePipe,
@@ -152,11 +150,11 @@ describe('volume resize for data disks', () => {
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: MatDialogRef, useValue: dialog }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed
-      .overrideComponent(DiskOfferingComponent, { set: { template: '' }})
       .overrideComponent(OverlayLoadingComponent, { set: { template: '' }})
       .overrideComponent(SliderComponent, { set: { template: '' }})
       .createComponent(VolumeResizeComponent);

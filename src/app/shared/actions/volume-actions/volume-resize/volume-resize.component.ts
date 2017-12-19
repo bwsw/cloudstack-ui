@@ -5,7 +5,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MatSelectChange } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { Volume } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
@@ -17,13 +17,12 @@ import { VolumeResizeData } from '../../../services/volume.service';
   styleUrls: ['volume-resize.component.scss']
 })
 export class VolumeResizeComponent implements OnInit {
-  public newSize: number;
   @Input() public maxSize: number;
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
-
   @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
   public diskOffering: DiskOffering;
+  public newSize: number;
 
   constructor(
     public dialogRef: MatDialogRef<VolumeResizeComponent>
@@ -38,8 +37,11 @@ export class VolumeResizeComponent implements OnInit {
     return (this.diskOfferings && this.diskOfferings.length > 0) || this.volume.isRoot;
   }
 
-  public updateDiskOffering(diskOffering: DiskOffering): void {
-    this.diskOffering = diskOffering;
+  public updateDiskOffering(change: MatSelectChange): void {
+    if (change) {
+      const diskOfferingId = change.value as string;
+      this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
+    }
   }
 
   public resizeVolume(): void {

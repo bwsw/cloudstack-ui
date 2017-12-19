@@ -22,10 +22,10 @@ export class SshKeypairComponent {
   }
 
   public showSshKeypairResetDialog(): void {
-    this.dialog.open( SshKeypairResetComponent,<MatDialogConfig>{
+    this.dialog.open( SshKeypairResetComponent, <MatDialogConfig>{
       width: '350px' ,
       disableClose: true,
-      data: { keys: this.keys }
+      data: { keys: this.keys, sshKeyName: this.vm.keyPair }
     }).afterClosed()
       .filter(res => Boolean(res))
       .subscribe(res => this.onSshKeyChange.emit(res));

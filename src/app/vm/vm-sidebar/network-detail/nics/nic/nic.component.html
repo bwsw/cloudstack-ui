@@ -9,7 +9,7 @@
 
   <mat-card-content class="mat-card-content">
     <div class="expanded-panel grid">
-      <cs-nic-fields [nic]="nic"></cs-nic-fields>
+      <cs-nic-fields *ngIf="nic" [nic]="nic"></cs-nic-fields>
       <cs-secondary-ip-list
         [nic]="nic"
         (onSecondaryIpAdd)="onSecondaryIpAdd.emit($event)"

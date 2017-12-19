@@ -4,7 +4,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MatSelectChange } from '@angular/material';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { Zone } from '../../shared/models';
 import { VolumeCreationData } from '../../shared/models/volume.model';
@@ -38,22 +38,31 @@ export class VolumeCreationDialogComponent {
     public authService: AuthService
   ) {
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    this.newVolume.size = this.minSize;
   }
 
   public onSubmit(e): void {
     e.preventDefault();
+
+    if (!this.diskOffering.isCustomized) {
+      delete this.newVolume.size;
+    }
+
     const volumeCreationParams = Object.assign(
       {},
       this.newVolume,
       { diskOfferingId: this.diskOffering.id }
       );
+
     this.onVolumeCreate.emit(volumeCreationParams);
-    this.dialogRef.close();
   }
 
-  public updateDiskOffering(offering: DiskOffering): void {
-    this.diskOffering = offering;
-    this.showResizeSlider = offering.isCustomized;
+  public updateDiskOffering(change: MatSelectChange): void {
+    if (change) {
+      const diskOffering = change.value as DiskOffering;
+      this.diskOffering = diskOffering;
+      this.showResizeSlider = diskOffering.isCustomized;
+    }
   }
 
   public updateZone(zoneId: string) {

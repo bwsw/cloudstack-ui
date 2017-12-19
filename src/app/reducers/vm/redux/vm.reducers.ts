@@ -15,6 +15,7 @@ import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { InstanceGroup } from '../../../shared/models';
 import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
+import { Utils } from '../../../shared/services/utils/utils.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -59,7 +60,7 @@ export const virtualMachineReducers = {
 export const adapter: EntityAdapter<VirtualMachine> = createEntityAdapter<VirtualMachine>(
   {
     selectId: (item: VirtualMachine) => item.id,
-    sortComparer: false
+    sortComparer: Utils.sortByName
   });
 
 /** getInitialState returns the default initial state
@@ -134,7 +135,7 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(vms, state),
+        ...adapter.addAll([...vms], state),
         loading: false
       };
     }

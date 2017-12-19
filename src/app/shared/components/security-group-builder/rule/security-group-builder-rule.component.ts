@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NetworkProtocol } from '../../../../security-group/network-rule.model';
 import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../../icmp/icmp-types';
@@ -12,6 +12,7 @@ import { RuleListItem } from '../security-group-builder.component';
 export class SecurityGroupBuilderRuleComponent {
   @Input() public item: RuleListItem;
   @Input() public type: string;
+  @Output() public onCheckChange = new EventEmitter<RuleListItem>();
 
   public NetworkProtocols = NetworkProtocol;
 
@@ -77,5 +78,6 @@ export class SecurityGroupBuilderRuleComponent {
     return ruleParams;
   }
 
-  constructor(private translateService: TranslateService) {}
+  constructor(private translateService: TranslateService) {
+  }
 }
