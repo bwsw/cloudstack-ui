@@ -1,7 +1,7 @@
 Overview
 ===============
 
-CloudStack-UI is a project which purpose is to provide an easy-to-use, light, and user friendly front end interface for the Apache CloudStack virtualization management system. 
+CloudStack-UI is a project which purpose is to provide an easy-to-use, light, and user-friendly front-end interface for the Apache CloudStack virtualization management system. 
 
 Apache CloudStack is a great product which is widely used. But its front end is developed for administrators (from our point of view), not for cloud end users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop the UI are connected with lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. 
 
@@ -17,7 +17,7 @@ This page provides some background about the project, describes what CloudStack-
 
 At Bitworks Software, we have been running an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production). And we've found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original CloudStack UI and make a lot of operational mistakes. That’s why we've decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
-The project is developed by Bitworks Software (https://bitworks.software/en) Frontend Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard frontend development workflow.
+The project is developed by `Bitworks Software <https://bitworks.software/en>`_ Front-end Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard front-end development workflow.
 
 Implementation Details
 -----------------------------
@@ -38,9 +38,28 @@ Tested and works fine in next modern browsers:
 Documentation
 ---------------------
 
-The documentation for the project is presented in two parts:
+The documentation for the project is presented by a User Guide that explains to average users how to use the UI when working with CloudStack. It also includes explanations on managers' part clarifying how to use and manage the cloud infrastructure via CloudStack-UI.
 
-1) User Guide that explains average users how to use the UI when working with CloudStack,
-2) Administrator's Guide for managers clarifying how to use, manage and configure the cloud infrastructure.  
+We hope the new features we support will be useful for both end-users and administrators.
 
-We hope the new features we support will be useful for both end users and administrators.
+How to Contribute
+-------------------------
+
+CloudStack-UI is an open-source project. It is developed by an open and friendly community. Everybody is welcome to contribute and engage with the community.  We are happy to accept any contribution. You can contribute to the project development in various ways:
+
+1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
+2. Propose useful features. Ideas are always welcome. 
+3. Deploy it somewhere and inform us about your success story and we will share it in the adopters section.
+4. Fix bugs and send us the PR.
+5. Implement a feature from the Roadmap or simply make something new.
+6. Support and promote the development of specific functions which are important to you and may be shared.
+7. Provide testing environment for other deployment schemes. Now we interested in testing the app with
+
+   1) KVM with RBD
+   2) Xen with NFS, Local, RBD
+   3) Oher browsers and operating systems
+   
+7. Hire us for frontend or backend development of custom software development projects. Take a look at our `website <https://bitworks.software/>`_ to know where we can be useful. Take a look at our `presentation <https://www.slideshare.net/secret/BpNGxtaPUfOIqj>`_ to learn more about us.
+
+To contribute, just contact us via e-mail: info@bw-sw.com
+
