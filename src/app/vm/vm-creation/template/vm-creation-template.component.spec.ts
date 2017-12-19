@@ -113,7 +113,6 @@ describe('VmCreationTemplateComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.zoneId = 'someId';
     component.template = templates[0];
     const button = fixture.debugElement.query(By.css('button'));
 
@@ -126,8 +125,7 @@ describe('VmCreationTemplateComponent', () => {
     expect(args[1]).toEqual({
       width: '840px',
       data: {
-        template: templates[0],
-        zoneId: 'someId'
+        template: templates[0]
       }
     });
   });
@@ -138,7 +136,6 @@ describe('VmCreationTemplateComponent', () => {
     fixture.detectChanges();
 
     spyOn(component.change, 'next');
-    component.zoneId = 'someId';
     const button = fixture.debugElement.query(By.css('button'));
 
     button.nativeElement.click();

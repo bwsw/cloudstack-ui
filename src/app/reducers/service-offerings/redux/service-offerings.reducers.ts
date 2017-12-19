@@ -57,10 +57,6 @@ export const serviceOfferingReducers = {
   list: reducer,
 };
 
-// export const sortServiceOfferings = (a: ServiceOffering, b: ServiceOffering) = {
-//   return 0;
-// }
-
 /**
  * createEntityAdapter creates many an object of helper
  * functions for single or multiple operations
@@ -255,6 +251,8 @@ export const getAvailableOfferings = createSelector(
             ResourceStats.fromAccount([user])
           );
       }).filter(item => filterByCompatibilityPolicy(item) && filterStorageType(item));
+    } else {
+      return [];
     }
   }
 );
@@ -279,15 +277,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
         customRestrictions,
         ResourceStats.fromAccount([user]),
         zone
-      ).sort((a: ServiceOffering, b: ServiceOffering) => {
-        if (!a.isCustomized && b.isCustomized) {
-          return -1;
-        }
-        if (a.isCustomized && !b.isCustomized) {
-          return 1;
-        }
-        return 0;
-      });
+      );
 
       return availableOfferings.map((offering) => {
         return !offering.isCustomized
@@ -299,6 +289,8 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
             ResourceStats.fromAccount([user])
           );
       }).filter(item => item);
+    } else {
+      return [];
     }
   });
 
@@ -365,6 +357,15 @@ export const getAvailableByResourcesSync = (
       }
 
       return enoughCpus && enoughMemory;
+    })
+    .sort((a: ServiceOffering, b: ServiceOffering) => {
+      if (!a.isCustomized && b.isCustomized) {
+        return -1;
+      }
+      if (a.isCustomized && !b.isCustomized) {
+        return 1;
+      }
+      return 0;
     });
 };
 

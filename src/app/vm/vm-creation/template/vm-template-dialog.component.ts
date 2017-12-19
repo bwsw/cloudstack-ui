@@ -12,7 +12,6 @@ import { AuthService } from '../../../shared/services/auth.service';
 })
 export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   public _selectedTemplate: BaseTemplateModel;
-  public zoneId: string;
 
   public set preselectedTemplate(value: BaseTemplateModel) {
     this.selectedTemplate = value;
@@ -34,7 +33,6 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent {
   ) {
     super(translate, authService);
 
-    this.zoneId = data.zoneId;
     this.preselectedTemplate = data.template;
   }
 

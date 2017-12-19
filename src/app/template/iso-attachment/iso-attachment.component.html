@@ -2,12 +2,12 @@
   {{ 'VM_PAGE.STORAGE_DETAILS.ISO_MODAL.TITLE' | translate }}
 </h3>
 <div class="mat-dialog-content">
-  <cs-template-filter-list-selector-container
+  <cs-iso-attachment-filter-selector-container
     [viewMode]="'Iso'"
     [showIsoSwitch]="false"
     [(selectedTemplate)]="selectedIso"
     [zoneId]="zoneId"
-  ></cs-template-filter-list-selector-container>
+  ></cs-iso-attachment-filter-selector-container>
 </div>
 <div class="mat-dialog-actions">
   <button mat-button color="primary" matDialogClose>

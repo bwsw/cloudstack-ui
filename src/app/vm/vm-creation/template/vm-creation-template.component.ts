@@ -20,7 +20,6 @@ import { TranslateService } from '@ngx-translate/core';
   ]
 })
 export class VmCreationTemplateComponent {
-  @Input() public zoneId: string;
   @Input() public templates: BaseTemplateModel[];
   @Output() public change: EventEmitter<BaseTemplateModel>;
 
@@ -82,7 +81,6 @@ export class VmCreationTemplateComponent {
     return this.dialog.open(VmTemplateDialogComponent, {
       width: '776px',
       data: {
-        zoneId: this.zoneId,
         template: this.template
       },
     })

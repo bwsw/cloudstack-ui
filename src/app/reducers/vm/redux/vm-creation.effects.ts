@@ -580,8 +580,6 @@ export class VirtualMachineCreationEffects {
       params.hypervisor = 'KVM';
     }
 
-    console.log(securityGroups);
-
     if (securityGroups && securityGroups.length && securityGroups[0].id) {
       params.securityGroupIds = securityGroups.map(item => item.id).join(',');
     }
