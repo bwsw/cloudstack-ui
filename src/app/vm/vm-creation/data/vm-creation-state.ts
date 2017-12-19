@@ -7,7 +7,7 @@ import { NotSelected } from '../services/vm-creation.service';
 import { VmCreationData } from './vm-creation-data';
 import { VmDeploymentStage } from '../services/vm-deployment.service';
 
-interface VmCreationParams {
+export interface VmCreationParams {
   affinityGroupNames?: string;
   details?: Array<any>;
   diskofferingid?: string;
@@ -40,11 +40,11 @@ export class VmCreationState {
   public template: BaseTemplateModel;
   public zone: Zone;
   public agreement: boolean;
+  public defaultName: string; // to get default name if the name is empty
 
   private _rootDiskSizeMin: number;
 
   private affinityGroupNames: Array<string>; // we need to know whether the group already exists
-  private defaultName: string; // to get default name if the name is empty
 
   constructor(data: VmCreationData) {
     this.getStateFromData(data);
@@ -119,60 +119,6 @@ export class VmCreationState {
         this.serviceOffering = data.getDefaultServiceOffering(this.zone);
       }
     }
-  }
-
-  public getVmCreationParams(): VmCreationParams {
-    const params: VmCreationParams = {};
-
-    params.affinityGroupNames = this.affinityGroup && this.affinityGroup.name;
-    if (!this.doStartVm) {
-      params.startVm = 'false';
-    }
-    params.keyboard = this.keyboard;
-    params.name = this.displayName || this.defaultName;
-    params.serviceOfferingId = this.serviceOffering.id;
-    params.templateId = this.template.id;
-    params.zoneId = this.zone.id;
-
-    if (this.sshKeyPair && !(this.sshKeyPair as NotSelected).ignore) {
-      params.keyPair = this.sshKeyPair.name;
-    }
-
-    if (this.diskOffering && !this.template.isTemplate) {
-      params.diskofferingid = this.diskOffering.id;
-      params.hypervisor = 'KVM';
-    }
-
-    if (
-      this.securityGroupData &&
-      this.securityGroupData.securityGroups &&
-      this.securityGroupData.securityGroups[0].id
-    ) {
-      params.securityGroupIds = this.securityGroupData.securityGroups.map(item => item.id).join(','); // @todo
-    }
-
-    if (this.serviceOffering.areCustomParamsSet) {
-      params.details = [
-        {
-          cpuNumber: this.serviceOffering.cpuNumber,
-          cpuSpeed: this.serviceOffering.cpuSpeed,
-          memory: this.serviceOffering.memory
-        }
-      ];
-    }
-
-    if (
-      (this.rootDiskSize != null && this.template.isTemplate) ||
-      this.showRootDiskResize
-    ) {
-      if (this.template.isTemplate) {
-        params.rootDiskSize = this.rootDiskSize;
-      } else {
-        params.size = this.rootDiskSize;
-      }
-    }
-
-    return params;
   }
 
   public get deploymentActionList(): Array<VmDeploymentStage> {

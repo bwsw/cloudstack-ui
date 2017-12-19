@@ -46,7 +46,7 @@ class MockErrorService {
 }
 
 @Injectable()
-export class MockStorageService {
+class MockStorageService {
   private storage = {};
 
   public write(key: string, value: string): void {
@@ -66,7 +66,7 @@ export class MockStorageService {
   }
 }
 
-export class MockStore<T> {
+class MockStore<T> {
 }
 
 const configStorage = {};
@@ -87,7 +87,7 @@ class MockConfigService {
 }
 
 @Injectable()
-export class MockAsyncJobService {
+class MockAsyncJobService {
   public completeAllJobs(): void {
   }
 }

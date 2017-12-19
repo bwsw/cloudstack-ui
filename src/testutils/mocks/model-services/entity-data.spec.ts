@@ -8,7 +8,7 @@ const diskOfferings: Array<Object> = require('./fixtures/diskOfferings.json');
 const isos: Array<Object> = require('./fixtures/isos.json');
 const securityGroupTemplates: Array<Object> = require('./fixtures/securityGroupTemplates.json');
 const serviceOfferings: Array<Object> = require('./fixtures/serviceOfferings.json');
-const sshKeyPairs: Array<Object> = require('./fixtures/sshKeyPairs.json');
+const sshKeyPairs: Array<SSHKeyPair> = require('./fixtures/sshKeyPairs.json');
 const templates: Array<Object> = require('./fixtures/templates.json');
 const zones: Array<Object> = require('./fixtures/zones.json');
 
@@ -28,7 +28,7 @@ export class MockEntityData {
     this.isos = isos.map(json => new Iso(json));
     this.securityGroupTemplates = securityGroupTemplates.map(json => new SecurityGroup(json));
     this.serviceOfferings = serviceOfferings.map(json => new ServiceOffering(json));
-    this.sshKeyPairs = sshKeyPairs.map(json => new SSHKeyPair(json));
+    this.sshKeyPairs = sshKeyPairs;
     this.templates = templates.map(json => new Template(json));
     this.zones = zones.map(json => json as Zone);
   }

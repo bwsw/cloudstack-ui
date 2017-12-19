@@ -111,9 +111,6 @@
       "UNABLE_TO_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{val1}}",
       "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached, please try again later",
       "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one."
-    },
-    "SNAPSHOT_POLICIES": {
-      "HOURLY_TURN_OFF": "Hourly schedule is turned off"
     }
   },
   "JOB_NOTIFICATIONS": {
