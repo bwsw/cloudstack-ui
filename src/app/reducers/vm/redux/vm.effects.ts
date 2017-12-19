@@ -94,42 +94,38 @@ export class VirtualMachinesEffects {
   changeServiceOffering$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_SERVICE_OFFERING)
     .switchMap((action: vmActions.ChangeServiceOffering) => {
-      const vmState = action.payload.vm.state;
-
-      const change = (changeAction) => {
-        const notificationId = this.jobsNotificationService.add(
-          'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_IN_PROGRESS');
-
-        return this.vmService
-          .changeServiceOffering(changeAction.payload.offering, changeAction.payload.vm)
-          .switchMap((newVm) => {
-            this.jobsNotificationService.finish({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE'
-            });
-            if (vmState === VmState.Running) {
-              this.store.dispatch(new vmActions.UpdateVM(newVm));
-              return this.start(newVm);
-            } else {
-              return Observable.of(new vmActions.UpdateVM(newVm));
-            }
-          })
-          .catch((error: Error) => {
-            this.jobsNotificationService.fail({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED'
-            });
-            return Observable.of(new vmActions.VMUpdateError(error));
-          });
-      };
-
-      if (!this.isVMStopped(action.payload.vm)) {
-        return this.stop(action.payload.vm)
-          .switchMap(() => change(action));
+      if (action.payload.vm.state === VmState.Running) {
+        return this.stop(action.payload.vm).map(() => action);
       } else {
-        return change(action);
+        return Observable.of(action);
       }
+    })
+    .switchMap(changeAction => {
+      const vmState = changeAction.payload.vm.state;
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_IN_PROGRESS');
 
+      return this.vmService
+        .changeServiceOffering(changeAction.payload.offering, changeAction.payload.vm)
+        .switchMap((newVm) => {
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE'
+          });
+          if (vmState === VmState.Running) {
+            this.store.dispatch(new vmActions.UpdateVM(newVm));
+            return this.start(newVm);
+          } else {
+            return Observable.of(new vmActions.UpdateVM(newVm));
+          }
+        })
+        .catch((error: Error) => {
+          this.jobsNotificationService.fail({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED'
+          });
+          return Observable.of(new vmActions.VMUpdateError(error));
+        });
     });
 
   @Effect()
@@ -141,43 +137,40 @@ export class VirtualMachinesEffects {
         'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.STOP_MACHINE_FOR_AG'
       )
         .switchMap(() => {
-          const vmState = action.payload.vm.state;
-
-          const change = (changeAction) => {
-            const notificationId = this.jobsNotificationService.add(
-              'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_IN_PROGRESS');
-
-            return this.affinityGroupService.updateForVm(
-              changeAction.payload.vm.id,
-              changeAction.payload.affinityGroupId
-            )
-              .switchMap((newVm) => {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_DONE'
-                });
-                if (vmState === VmState.Running) {
-                  this.store.dispatch(new vmActions.UpdateVM(newVm));
-                  return this.start(newVm);
-                } else {
-                  return Observable.of(new vmActions.UpdateVM(newVm));
-                }
-              })
-              .catch((error: Error) => {
-                this.jobsNotificationService.fail({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_FAILED'
-                });
-                return Observable.of(new vmActions.VMUpdateError(error));
-              });
-          };
-
-          if (!this.isVMStopped(action.payload.vm)) {
-            return this.stop(action.payload.vm)
-              .switchMap(() => change(action));
+          if (action.payload.vm.state === VmState.Running) {
+            return this.stop(action.payload.vm).map(() => action);
           } else {
-            return change(action);
+            return Observable.of(action);
           }
+        })
+        .switchMap(changeAction => {
+          const vmState = changeAction.payload.vm.state;
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_IN_PROGRESS');
+
+          return this.affinityGroupService.updateForVm(
+            changeAction.payload.vm.id,
+            changeAction.payload.affinityGroupId
+          )
+            .switchMap((newVm) => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_DONE'
+              });
+              if (vmState === VmState.Running) {
+                this.store.dispatch(new vmActions.UpdateVM(newVm));
+                return this.start(newVm);
+              } else {
+                return Observable.of(new vmActions.UpdateVM(newVm));
+              }
+            })
+            .catch((error: Error) => {
+              this.jobsNotificationService.fail({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_FAILED'
+              });
+              return Observable.of(new vmActions.VMUpdateError(error));
+            });
         });
     });
 
@@ -570,45 +563,42 @@ export class VirtualMachinesEffects {
         'VM_PAGE.VM_DETAILS.SSH_KEY.STOP_MACHINE_FOR_SSH'
       )
         .switchMap(() => {
-          const vmState = action.payload.vm.state;
-
-          const change = (changeAction) => {
-            const notificationId = this.jobsNotificationService.add(
-              'JOB_NOTIFICATIONS.VM.CHANGE_SSH_IN_PROGRESS');
-
-            return this.sshService.reset({
-              keypair: changeAction.payload.keypair,
-              id: changeAction.payload.vm.id,
-              account: changeAction.payload.account,
-              domainid: changeAction.payload.domainid
-            })
-              .switchMap((newVm) => {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.CHANGE_SSH_DONE'
-                });
-                if (vmState === VmState.Running) {
-                  this.store.dispatch(new vmActions.UpdateVM(newVm));
-                  return this.start(newVm);
-                } else {
-                  return Observable.of(new vmActions.UpdateVM(newVm));
-                }
-              })
-              .catch((error: Error) => {
-                this.jobsNotificationService.fail({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.CHANGE_SSH_FAILED'
-                });
-                return Observable.of(new vmActions.VMUpdateError(error));
-              });
-          };
-
-          if (!this.isVMStopped(action.payload.vm)) {
-            return this.stop(action.payload.vm)
-              .switchMap(() => change(action));
+          if (action.payload.vm.state === VmState.Running) {
+            return this.stop(action.payload.vm).map(() => action);
           } else {
-            return change(action);
+            return Observable.of(action);
           }
+        })
+        .switchMap(changeAction => {
+          const vmState = changeAction.payload.vm.state;
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.VM.CHANGE_SSH_IN_PROGRESS');
+
+          return this.sshService.reset({
+            keypair: changeAction.payload.keypair,
+            id: changeAction.payload.vm.id,
+            account: changeAction.payload.account,
+            domainid: changeAction.payload.domainid
+          })
+            .switchMap((newVm) => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.CHANGE_SSH_DONE'
+              });
+              if (vmState === VmState.Running) {
+                this.store.dispatch(new vmActions.UpdateVM(newVm));
+                return this.start(newVm);
+              } else {
+                return Observable.of(new vmActions.UpdateVM(newVm));
+              }
+            })
+            .catch((error: Error) => {
+              this.jobsNotificationService.fail({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.CHANGE_SSH_FAILED'
+              });
+              return Observable.of(new vmActions.VMUpdateError(error));
+            });
         });
     });
 
@@ -620,41 +610,38 @@ export class VirtualMachinesEffects {
         .onErrorResumeNext()
         .filter(res => Boolean(res))
         .switchMap(() => {
-          const vmState = action.payload.state;
-
-          const reset = (vm) => {
-            const notificationId = this.jobsNotificationService.add(
-              'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_IN_PROGRESS');
-
-            return this.vmService.command(vm, 'resetPasswordFor')
-              .switchMap((newVm) => {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE'
-                });
-                if (vmState === VmState.Running) {
-                  this.store.dispatch(new vmActions.UpdateVM(newVm));
-                  return this.start(newVm)
-                    .do(() => this.showPasswordDialog(newVm));
-                }
-                this.showPasswordDialog(newVm);
-                return Observable.of(new vmActions.UpdateVM(newVm));
-              })
-              .catch((error: Error) => {
-                this.jobsNotificationService.fail({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_FAILED'
-                });
-                return Observable.of(new vmActions.VMUpdateError(error));
-              });
-          };
-
-          if (!this.isVMStopped(action.payload)) {
-            return this.stop(action.payload)
-              .switchMap(() => reset(action.payload));
+          if (action.payload.state === VmState.Running) {
+            return this.stop(action.payload).map(() => action);
           } else {
-            return reset(action.payload);
+            return Observable.of(action);
           }
+        })
+        .switchMap(resetAction => {
+          const vmState = resetAction.payload.state;
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_IN_PROGRESS');
+
+          return this.vmService.command(resetAction.payload, 'resetPasswordFor')
+            .switchMap((newVm) => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE'
+              });
+              if (vmState === VmState.Running) {
+                this.store.dispatch(new vmActions.UpdateVM(newVm));
+                return this.start(newVm)
+                  .do(() => this.showPasswordDialog(newVm));
+              }
+              this.showPasswordDialog(newVm);
+              return Observable.of(new vmActions.UpdateVM(newVm));
+            })
+            .catch((error: Error) => {
+              this.jobsNotificationService.fail({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_FAILED'
+              });
+              return Observable.of(new vmActions.VMUpdateError(error));
+            });
         });
     });
 

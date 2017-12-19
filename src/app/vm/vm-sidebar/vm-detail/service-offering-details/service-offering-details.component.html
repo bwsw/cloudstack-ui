@@ -114,6 +114,7 @@
           [matTooltip]="'COMMON.CHANGE' | translate"
           matTooltipPosition="above"
           mat-icon-button
+          [disabled]="!canActivate"
           (click)="changeServiceOffering()"
         >
           <mat-icon>edit</mat-icon>

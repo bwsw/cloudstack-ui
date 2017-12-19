@@ -1,14 +1,8 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig
-} from '@angular/material';
+import { Component, Input } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ServiceOffering } from '../../../../shared/models/service-offering.model';
 import { ServiceOfferingDialogContainerComponent } from '../../../container/service-offering-dialog.container';
-import { VirtualMachine } from '../../../shared/vm.model';
+import { VirtualMachine, VmState } from '../../../shared/vm.model';
 
 
 @Component({
@@ -39,5 +33,9 @@ export class ServiceOfferingDetailsComponent {
 
   public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
+  }
+
+  public get canActivate() {
+    return this.vm.state !== VmState.InProgress;
   }
 }
