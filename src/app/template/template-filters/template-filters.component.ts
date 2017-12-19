@@ -3,7 +3,7 @@ import { OsFamily, OsType } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { Account } from '../../shared/models/account.model';
-import { Domain } from '../../shared/models/domain.model';
+import { Domain, getPath } from '../../shared/models/domain.model';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
@@ -90,7 +90,7 @@ export class TemplateFiltersComponent implements OnInit {
 
   public accountFullDomain(account) {
     const domain = this.domains[account.domainid];
-    return domain ? domain.getPath() : '';
+    return domain ? getPath() : '';
   }
 
   public setMode(mode: string): void {
