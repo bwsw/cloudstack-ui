@@ -8,8 +8,7 @@ import { ResourceCount } from '../models/resource-count.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'ResourceCount',
-  entityModel: ResourceCount
+  entity: 'ResourceCount'
 })
 export class ResourceCountService extends BaseBackendCachedService<ResourceCount> {
   constructor(protected http: HttpClient) {
