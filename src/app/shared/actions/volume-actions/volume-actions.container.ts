@@ -1,14 +1,10 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/index';
-import { Volume } from '../../models/volume.model';
 import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
+import { Volume } from '../../models/volume.model';
 import { AuthService } from '../../services/auth.service';
-import { ISnapshotData } from './volume-snapshot';
 
 
 @Component({
@@ -20,6 +16,8 @@ import { ISnapshotData } from './volume-snapshot';
       (onVolumeAttach)="onVolumeAttach($event)"
       (onVolumeDetach)="onVolumeDetach($event)"
       (onVolumeSnapshots)="onVolumeSnapshots($event)"
+      (onVolumeResize)="onVolumeResize($event)"
+      (onVolumeSchedule)="onVolumeSchedule($event)"
     >
     </cs-volume-actions>`,
 })
@@ -38,20 +36,24 @@ export class VolumeActionsContainerComponent {
     this.store.dispatch(new volumeActions.DeleteVolume(volume));
   }
 
-  public onVolumeAttach(vmId: string): void {
-    this.store.dispatch(new volumeActions.AttachVolume({ volumeId: this.volume.id, virtualMachineId: vmId }));
+  public onVolumeAttach(volume: Volume): void {
+    this.store.dispatch(new volumeActions.AttachVolume(volume));
   }
 
   public onVolumeDetach(volume: Volume): void {
     this.store.dispatch(new volumeActions.DetachVolume(volume));
   }
 
-  public onVolumeSnapshots(snapshotData: ISnapshotData): void {
-    this.store.dispatch(new volumeActions.AddSnapshot({
-      volume: this.volume,
-      name: snapshotData.name,
-      description: snapshotData.desc
-    }));
+  public onVolumeSnapshots(volume: Volume): void {
+    this.store.dispatch(new volumeActions.AddSnapshot(volume));
+  }
+
+  public onVolumeResize(volume: Volume): void {
+    this.store.dispatch(new volumeActions.ResizeVolume(volume));
+  }
+
+  public onVolumeSchedule(volume: Volume): void {
+    this.store.dispatch(new volumeActions.AddSnapshotSchedule(volume));
   }
 
 }

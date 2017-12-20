@@ -1,24 +1,20 @@
-import {
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
-import { State } from '../../reducers/index';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { State } from '../../reducers/index';
+import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import { Volume } from '../../shared/models/volume.model';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
 @Component({
   selector: 'cs-vm-volume-details-container',
   template: `
-    <cs-volume-details 
+    <cs-volume-details
       [volume]="volume"
       [description]="description"
       [diskOffering]="offering$ | async"
-    >      
+    >
     </cs-volume-details>`
 })
 export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {

@@ -1,23 +1,23 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  CustomServiceOfferingService,
-  DefaultServiceOfferingConfigurationByZone
-} from './custom-service-offering.service';
-import { ConfigService } from '../../../shared/services/config.service';
+import * as isEqual from 'lodash/isEqual';
+import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
 import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
+import { MockResourceUsageService } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { ConfigService } from '../../../shared/services/config.service';
 import {
   ResourceStats,
   ResourceUsageService
 } from '../../../shared/services/resource-usage.service';
-import { MockResourceUsageService } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
 import { ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
 import {
   CustomServiceOffering,
   ICustomServiceOffering
 } from '../custom-service-offering';
-import * as isEqual from 'lodash/isEqual';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { MockEntityData } from '../../../../testutils/mocks/model-services/entity-data.spec';
+import {
+  CustomServiceOfferingService,
+  DefaultServiceOfferingConfigurationByZone
+} from './custom-service-offering.service';
 
 
 interface CustomServiceOfferingFixture {
@@ -122,8 +122,8 @@ describe('Custom service offering service', () => {
   }
 
   function areRestrictionsCorrect(key: string, restrictions: ICustomOfferingRestrictionsByZone): boolean {
-    //expect(restrictions).toBe('');
-    //expect(fixture.restrictionsTests[key].expected).toBe('');
+    // expect(restrictions).toBe('');
+    // expect(fixture.restrictionsTests[key].expected).toBe('');
     return isEqual(restrictions, fixture.restrictionsTests[key].expected);
   }
 

@@ -1,7 +1,7 @@
 <ng-container *ngIf="volume">
   <cs-volume-snapshot-creation
     [volume]="volume"
-    (onVolumeSnapshots)="onVolumeSnapshots.emit($event)"
+    (onSnapshotAdd)="onSnapshotAdd.emit($event)"
   ></cs-volume-snapshot-creation>
 
   <cs-volume-snapshot
