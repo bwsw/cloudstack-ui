@@ -9,6 +9,7 @@ import {
   ResourceStats,
   ResourceUsageService
 } from '../../../shared/services/resource-usage.service';
+// tslint:disable-next-line
 import { MockResourceUsageService } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
 import { ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
 import {
@@ -45,9 +46,8 @@ interface CustomServiceOfferingFixture {
 
 interface ServiceOfferingFixture {
   id: string;
-  areCustomParamsSet: boolean;
-  cpuNumber: number;
-  cpuSpeed: number;
+  cpunumber: number;
+  cpuspeed: number;
   memory: number;
 }
 
@@ -118,7 +118,8 @@ describe('Custom service offering service', () => {
 
     return customServiceOfferingService.getCustomOfferingWithSetParams(
       _serviceOffering,
-      config.defaultServiceOfferingConfig[_zoneId].customOfferingParams,
+      config.defaultServiceOfferingConfig[_zoneId]
+      && config.defaultServiceOfferingConfig[_zoneId].customOfferingParams,
       config.customOfferingRestrictions[_zoneId],
       resources
     );
@@ -126,20 +127,13 @@ describe('Custom service offering service', () => {
 
   function getCustomServiceOffering(): ServiceOffering {
     const id = '3890f81e-62aa-4a50-971a-f066223d623d';
-
-    return new MockEntityData()
-      .serviceOfferings
-      .find(_ => {
-        return _.id === id;
-      });
+    return new MockEntityData().serviceOfferings.find(_ => _.id === id);
   }
 
   function areRestrictionsCorrect(
     key: string,
     restrictions: ICustomOfferingRestrictionsByZone
   ): boolean {
-    // expect(restrictions).toBe('');
-    // expect(fixture.restrictionsTests[key].expected).toBe('');
     return isEqual(restrictions, fixture.restrictionsTests[key].expected);
   }
 
@@ -148,11 +142,9 @@ describe('Custom service offering service', () => {
     offering: CustomServiceOffering
   ): boolean {
     const expected = fixture.defaultParamsTests[key].expected;
-    console.log(expected);
-
     return (
-      expected.cpuNumber === offering.cpunumber
-      && expected.cpuSpeed === offering.cpuspeed
+      expected.cpunumber === offering.cpunumber
+      && expected.cpuspeed === offering.cpuspeed
       && expected.memory === offering.memory
     );
   }
@@ -210,40 +202,34 @@ describe('Custom service offering service', () => {
   it('should set custom offering params to default if restrictions are met', () => {
     const key = 'customOfferingWithParamsWithinRestrictions';
     const offering = getCustomOfferingWithSetParamsForTest(key);
-
-    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
   it('should clip custom offering to resources', () => {
     const key = 'customOfferingIsClippedToResources';
     const offering = getCustomOfferingWithSetParamsForTest(key);
-
-    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
   it('should fall back to restrictions if default params are not set', () => {
     const key = 'customOfferingFallsBackToRestrictionMinima';
     const offering = getCustomOfferingWithSetParamsForTest(key);
-    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
   it('should fall back to hardcoded fallback params if restrictions are not set', () => {
     const key = 'customOfferingFallsBackToFallbackParams';
     const offering = getCustomOfferingWithSetParamsForTest(key);
-    console.log(key, offering);
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
-  it('should return undefined if restrictions are not compatible', () => {
+  it('should return undefined if restrictions are not compatible (by CPU)', () => {
     const key = 'returnUndefinedIfRestrictionsAreNotCompatibleByCPUs';
     const offering = getCustomOfferingWithSetParamsForTest(key);
     expect(offering).toBeUndefined();
   });
 
-  it('should return undefined if restrictions are not compatible', () => {
+  it('should return undefined if restrictions are not compatible (by memory)', () => {
     const key = 'returnUndefinedIfRestrictionsAreNotCompatibleByMemory';
     const offering = getCustomOfferingWithSetParamsForTest(key);
     expect(offering).toBeUndefined();

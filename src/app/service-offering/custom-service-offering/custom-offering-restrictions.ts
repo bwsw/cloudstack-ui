@@ -8,8 +8,8 @@ export interface ICustomOfferingRestrictionsByZone {
 }
 
 export interface ICustomOfferingRestrictions {
-  cpuNumber?: CustomOfferingRestriction;
-  cpuSpeed?:  CustomOfferingRestriction;
+  cpunumber?: CustomOfferingRestriction;
+  cpuspeed?:  CustomOfferingRestriction;
   memory?:    CustomOfferingRestriction;
 }
 

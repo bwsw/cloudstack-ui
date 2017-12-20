@@ -199,7 +199,7 @@ describe('Service-offering service', () => {
           serviceOfferings: []
         }
       },
-      { '1': { cpuNumber: { min: 1 }, memory: { min: 1 } } },
+      { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
       resourceUsage,
       <Zone>{ id: '1' }
     );
@@ -216,7 +216,7 @@ describe('Service-offering service', () => {
           serviceOfferings: []
         }
       },
-      { '1': { cpuNumber: { min: 1 }, memory: { min: 1 } } },
+      { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
       resourceUsage,
       <Zone>{ id: '1' }
     );

@@ -42,11 +42,11 @@ describe('CustomServiceOfferingComponent', () => {
       offering: customOffering,
       zoneId: 'someId',
       restriction: {
-        cpuNumber: {
+        cpunumber: {
           min: 0,
           max: 4
         },
-        cpuSpeed: {
+        cpuspeed: {
           min: 1000,
           max: 2000
         },

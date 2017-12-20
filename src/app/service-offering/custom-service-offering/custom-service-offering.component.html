@@ -8,16 +8,16 @@
         name="cpuNumber"
         type="number"
         [(ngModel)]="offering.cpunumber"
-        [min]="restrictions.cpuNumber.min"
-        [max]="restrictions.cpuNumber.max"
-        [minValue]="restrictions.cpuNumber.min"
-        [maxValue]="restrictions.cpuNumber.max"
+        [min]="restrictions.cpunumber.min"
+        [max]="restrictions.cpunumber.max"
+        [minValue]="restrictions.cpunumber.min"
+        [maxValue]="restrictions.cpunumber.max"
         step="1"
         required
         #cpuNumberControl="ngModel"
       >
       <mat-error *ngIf="cpuNumberControl.invalid">
-        {{ errorMessage(restrictions.cpuNumber.min, restrictions.cpuNumber.max) | async }}
+        {{ errorMessage(restrictions.cpunumber.min, restrictions.cpunumber.max) | async }}
       </mat-error>
     </mat-form-field>
 
@@ -28,16 +28,16 @@
         name="cpuSpeed"
         type="number"
         [(ngModel)]="offering.cpuspeed"
-        [min]="restrictions.cpuSpeed.min"
-        [max]="restrictions.cpuSpeed.max"
-        [minValue]="restrictions.cpuSpeed.min"
-        [maxValue]="restrictions.cpuSpeed.max"
+        [min]="restrictions.cpuspeed.min"
+        [max]="restrictions.cpuspeed.max"
+        [minValue]="restrictions.cpuspeed.min"
+        [maxValue]="restrictions.cpuspeed.max"
         step="1"
         required
         #cpuSpeedControl="ngModel"
       >
       <mat-error *ngIf="cpuSpeedControl.invalid">
-        {{ errorMessage(restrictions.cpuSpeed.min, restrictions.cpuSpeed.max) | async }}
+        {{ errorMessage(restrictions.cpuspeed.min, restrictions.cpuspeed.max) | async }}
       </mat-error>
     </mat-form-field>
 

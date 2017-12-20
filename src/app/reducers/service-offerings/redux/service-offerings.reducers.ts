@@ -456,34 +456,34 @@ export const getRestrictionIntersection = (
     return result;
   }
 
-  if (customRestrictions.cpuNumber != null) {
-    if (customRestrictions.cpuNumber.min != null) {
-      result.cpuNumber['min'] = customRestrictions.cpuNumber.min;
+  if (customRestrictions.cpunumber != null) {
+    if (customRestrictions.cpunumber.min != null) {
+      result.cpuNumber['min'] = customRestrictions.cpunumber.min;
     }
 
-    if (customRestrictions.cpuNumber.max != null) {
+    if (customRestrictions.cpunumber.max != null) {
       result.cpuNumber['max'] = Math.min(
-        customRestrictions.cpuNumber.max,
+        customRestrictions.cpunumber.max,
         result.cpuNumber.max
       );
     }
   }
 
-  if (customRestrictions.cpuSpeed != null) {
-    if (customRestrictions.cpuSpeed.min != null) {
+  if (customRestrictions.cpuspeed != null) {
+    if (customRestrictions.cpuspeed.min != null) {
       if (!result['cpuSpeed']) {
         result['cpuSpeed'] = {};
       }
 
-      result['cpuSpeed']['min'] = customRestrictions.cpuSpeed.min;
+      result['cpuSpeed']['min'] = customRestrictions.cpuspeed.min;
     }
 
-    if (customRestrictions.cpuSpeed.max != null) {
+    if (customRestrictions.cpuspeed.max != null) {
       if (!result['cpuSpeed']) {
         result['cpuSpeed'] = {};
       }
 
-      result['cpuSpeed']['max'] = customRestrictions.cpuSpeed.max;
+      result['cpuSpeed']['max'] = customRestrictions.cpuspeed.max;
     }
   }
 
