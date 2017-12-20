@@ -110,8 +110,8 @@
               <mat-select
                 class="form-select-control"
                 name="diskOfferingSelector"
-                [(ngModel)]="vmCreationState.diskOffering"
-                (selectionChange)="diskOfferingChange.emit($event)"
+                [ngModel]="vmCreationState.diskOffering"
+                (selectionChange)="diskOfferingChange.emit($event.value)"
               >
                 <mat-option
                   *ngFor="let offering of diskOfferings"

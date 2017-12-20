@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { BaseTemplateModel } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
-import { FormState } from './vm.reducers';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -32,14 +31,17 @@ import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VirtualMachine } from '../../../vm';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
-import { SecurityGroup } from '../../../security-group/sg.model';
+import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
 import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
+import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -175,7 +177,7 @@ export class VirtualMachineCreationEffects {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         } else {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-          const minSize = Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
+          const minSize = Math.max(Math.ceil(Utils.convertToGb(vmCreationState.template.size)), defaultDiskSize);
           // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
           const upd = { rootDiskMinSize: minSize };
 
@@ -256,7 +258,14 @@ export class VirtualMachineCreationEffects {
   changeStatusOfDeployment$ = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_CHANGE_STATUS)
     .do((action: vmActions.DeploymentChangeStatus) => {
-      this.handleDeploymentMessages(action.payload, this.deploymentNotificationId);
+      this.handleDeploymentMessages(action.payload);
+    });
+
+  @Effect({ dispatch: false })
+  deploymentSuccess$ = this.actions$
+    .ofType(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
+    .do((action: vmActions.DeploymentRequestSuccess) => {
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED });
     });
 
   @Effect()
@@ -299,7 +308,6 @@ export class VirtualMachineCreationEffects {
 
   private handleDeploymentMessages(
     deploymentMessage: VmDeploymentMessage,
-    notificationId?: string
   ): void {
     switch (deploymentMessage.stage) {
       case VmDeploymentStage.AG_GROUP_CREATION:
@@ -318,7 +326,7 @@ export class VirtualMachineCreationEffects {
         this.onVmCreationInProgress();
         break;
       case VmDeploymentStage.FINISHED:
-        this.onDeployDone(notificationId);
+        this.onDeployDone();
         break;
       case VmDeploymentStage.INSTANCE_GROUP_CREATION:
         this.onInstanceGroupCreation();
@@ -455,9 +463,9 @@ export class VirtualMachineCreationEffects {
     );
   }
 
-  private onDeployDone(notificationId: string): void {
+  private onDeployDone(): void {
     this.jobsNotificationService.finish({
-      id: notificationId,
+      id: this.deploymentNotificationId,
       message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
     });
   }

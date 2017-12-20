@@ -171,12 +171,12 @@ export function vmCreationListReducer(
         }
       };
     }
-    case template.DIALOG_LOAD_TEMPLATE_REQUEST: {
+    case template.DIALOG_TEMPLATE_FILTER_RESET: {
       return {
-        ...state,
+        ...initialVmCreationTemplatesState,
         filters: {
-          ...state.filters,
-          selectedZoneId: action.payload
+          ...initialVmCreationTemplatesState.filters,
+          selectedViewMode: state.filters.selectedViewMode
         }
       };
     }
@@ -416,13 +416,6 @@ export const selectTemplatesForAction = createSelector(
     const groupsMap = vmFilters.selectedGroups
       .reduce((m, i) => ({ ...m, [i]: i }), {});
 
-    const viewModeStr = vmFilters.selectedViewMode === TemplateResourceType.iso
-      ? vmFilters.selectedViewMode.toUpperCase()
-      : vmFilters.selectedViewMode;
-    const selectedViewModeFilter = (template: BaseTemplateModel) => {
-      return viewModeStr === template.resourceType;
-    };
-
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
       const selfFilter = !!typesMap[TemplateFilters.self]
@@ -457,7 +450,6 @@ export const selectTemplatesForAction = createSelector(
 
     return templates.filter((template) =>
       availableTemplatesFilter(template)
-      && selectedViewModeFilter(template)
       && selectedTypesFilter(template)
       && selectedOsFamiliesFilter(template)
       && selectedGroupsFilter(template)
@@ -467,27 +459,42 @@ export const selectTemplatesForAction = createSelector(
 
 export const selectTemplatesForIsoAttachment = createSelector(
   selectTemplatesForAction,
-  vmCreationListFilters,
   fromAuth.getUserAccount,
-  (templates, vmFilters, account) => {
+  fromVMs.getSelectedVM,
+  (templates, account, vm) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
-      return template.zoneId === vmFilters.selectedZoneId || template.crossZones;
+      return template.zoneId === vm.zoneId || template.crossZones;
     };
+
+    const selectedViewModeFilter = (template: BaseTemplateModel) => {
+      return template.resourceType === TemplateResourceType.iso.toUpperCase();
+    };
+
     const currentAccountFilter = (template: BaseTemplateModel) => {
       return (account && template.account === account.name && template.domainId === account.domainid)
         || template.isFeatured || template.isPublic;
     };
 
-    return templates.filter(template => selectedZoneFilter(template) && currentAccountFilter(template));
+    return templates.filter(template => selectedZoneFilter(template)
+      && selectedViewModeFilter(template)
+      && currentAccountFilter(template));
   }
 );
 export const selectTemplatesForVmCreation = createSelector(
   selectTemplatesForAction,
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
-  (templates, zoneId, account) => {
+  vmCreationListFilters,
+  (templates, zoneId, account, filter) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
       return template.zoneId === zoneId || template.crossZones;
+    };
+
+    const viewModeStr = filter.selectedViewMode === TemplateResourceType.iso
+      ? filter.selectedViewMode.toUpperCase()
+      : filter.selectedViewMode;
+    const selectedViewModeFilter = (template: BaseTemplateModel) => {
+      return viewModeStr === template.resourceType;
     };
 
     const currentAccountFilter = (template: BaseTemplateModel) => {
@@ -495,6 +502,8 @@ export const selectTemplatesForVmCreation = createSelector(
         || template.isFeatured || template.isPublic;
     };
 
-    return templates.filter(template => selectedZoneFilter(template) && currentAccountFilter(template));
+    return templates.filter(template => selectedViewModeFilter(template)
+      && selectedZoneFilter(template)
+      && currentAccountFilter(template));
   }
 );

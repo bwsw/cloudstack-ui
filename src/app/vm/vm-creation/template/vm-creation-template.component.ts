@@ -21,12 +21,12 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class VmCreationTemplateComponent {
   @Input() public templates: BaseTemplateModel[];
-  @Output() public change: EventEmitter<BaseTemplateModel>;
+  @Output() public change = new EventEmitter<BaseTemplateModel>();
+  @Output() public closed = new EventEmitter();
 
   private _template: BaseTemplateModel | null;
 
   constructor(private dialog: MatDialog, private translateService: TranslateService) {
-    this.change = new EventEmitter();
   }
 
   public get templateName(): Observable<string> {
@@ -48,6 +48,8 @@ export class VmCreationTemplateComponent {
           this.template = template;
           this.change.next(this.template);
         }
+
+        this.closed.emit();
       });
   }
 

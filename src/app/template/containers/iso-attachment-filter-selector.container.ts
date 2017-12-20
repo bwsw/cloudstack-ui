@@ -11,9 +11,9 @@ import * as templateActions from '../../reducers/templates/redux/template.action
   selector: 'cs-iso-attachment-filter-selector-container',
   template: `
     <cs-template-filter-list-selector
-      [templates]="templates$ | async"
-      [dialogMode]="dialogMode"
-      [showIsoSwitch]="showIsoSwitch"
+      [templates]="isos$ | async"
+      [dialogMode]="true"
+      [showIsoSwitch]="false"
       [selectedTypes]="selectedTypes$ | async"
       [selectedOsFamilies]="selectedOsFamilies$ | async"
       [selectedGroups]="selectedGroups$ | async"
@@ -23,7 +23,6 @@ import * as templateActions from '../../reducers/templates/redux/template.action
       [fetching]="isLoading$ | async"
       [(selectedTemplate)]="selectedTemplate"
       (selectedTemplateChange)="selectedTemplateChange.emit($event)"
-      (viewModeChange)="onViewModeChange($event)"
       (onSelectedTypesChange)="onSelectedTypesChange($event)"
       (onSelectedOsFamiliesChange)="onSelectedOsFamiliesChange($event)"
       (onSelectedGroupsChange)="onSelectedGroupsChange($event)"
@@ -31,7 +30,7 @@ import * as templateActions from '../../reducers/templates/redux/template.action
     ></cs-template-filter-list-selector>`
 })
 export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewInit {
-  readonly templates$ = this.store.select(fromTemplates.selectTemplatesForIsoAttachment);
+  readonly isos$ = this.store.select(fromTemplates.selectTemplatesForIsoAttachment);
   readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
   readonly viewMode$ = this.store.select(fromTemplates.vmCreationListViewMode);
@@ -40,10 +39,7 @@ export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewI
   readonly selectedGroups$ = this.store.select(fromTemplates.vmCreationListSelectedGroups);
   readonly query$ = this.store.select(fromTemplates.vmCreationListQuery);
 
-  @Input() public dialogMode = true;
-  @Input() public showIsoSwitch = false;
   @Input() public selectedTemplate: BaseTemplateModel;
-
   @Output() public selectedTemplateChange = new EventEmitter<BaseTemplateModel>();
 
   public groupings = [
@@ -55,30 +51,15 @@ export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewI
     }
   ];
 
-  @Input()
-  public set viewMode(value: string) {
-    this.onViewModeChange(value);
-  }
-
-  @Input()
-  public set zoneId(value: string) {
-    if (value) {
-      this.store.dispatch(new templateActions.DialogLoadTemplatesRequest(value));
-    }
-  }
-
   constructor(
     private store: Store<State>,
     private cd: ChangeDetectorRef
   ) {
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 
   public ngAfterViewInit() {
     this.cd.detectChanges();
-  }
-
-  public onViewModeChange(selectedViewMode: string) {
-    this.store.dispatch(new templateActions.DialogTemplatesFilterUpdate({ selectedViewMode }));
   }
 
   public onSelectedTypesChange(selectedTypes: string[]) {

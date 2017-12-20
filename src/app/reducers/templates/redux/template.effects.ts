@@ -57,12 +57,6 @@ export class TemplateEffects {
     });
 
   @Effect()
-  loadTemplatesByZoneId$: Observable<Action> = this.actions$
-    .ofType(template.DIALOG_LOAD_TEMPLATE_REQUEST)
-    .map((action: template.DialogLoadTemplatesRequest) =>
-      new template.LoadTemplatesRequest());
-
-  @Effect()
   removeTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_REMOVE)
     .switchMap((action: template.RemoveTemplate) => {
@@ -102,9 +96,9 @@ export class TemplateEffects {
     .switchMap((action: template.CreateTemplate) => {
       return (action.payload.entity === TemplateResourceType.iso ? this.isoService.register(action.payload)
         : action.payload.snapshotId ? this.templateService.create(action.payload)
-        : this.templateService.register(action.payload))
-          .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
-          .catch((error: Error) => Observable.of(new template.CreateTemplateError(error)));
+          : this.templateService.register(action.payload))
+        .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
+        .catch((error: Error) => Observable.of(new template.CreateTemplateError(error)));
     });
 
   @Effect({ dispatch: false })
