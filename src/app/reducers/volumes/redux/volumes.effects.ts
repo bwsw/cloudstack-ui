@@ -200,9 +200,9 @@ export class VolumesEffects {
             'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
           return this.snapshotService.remove(action.payload.snapshot.id)
             .map(() => {
-              let newSnapshots = action.payload.volume.snapshots.filter(
+              const newSnapshots = action.payload.volume.snapshots.filter(
                 _ => _.id !== action.payload.snapshot.id);
-              let newVolume = Object.assign({}, action.payload.volume, {snapshots: newSnapshots});
+              const newVolume = Object.assign({}, action.payload.volume, {snapshots: newSnapshots});
               this.jobsNotificationService.finish({
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'

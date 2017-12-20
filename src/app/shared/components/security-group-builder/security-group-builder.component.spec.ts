@@ -15,7 +15,8 @@ describe('Sg creation component', () => {
   let comp: SecurityGroupBuilderComponent;
 
   const dialogReferenceMock = {
-    close(): void {}
+    close(): void {
+    }
   };
 
   const mockSg1 = new SecurityGroup({
@@ -104,22 +105,22 @@ describe('Sg creation component', () => {
   it('inits rules', () => {
     comp.ngOnInit();
 
-    expect(comp.items[0]).toEqual([mockSg1, mockSg2]);
-    expect(comp.items[1].length).toBe(0);
-    expect(comp.selectedRules[0].length).toBe(0);
-    expect(comp.selectedRules[1].length).toBe(0);
+    expect(comp.securityGroups.available).toEqual([mockSg1, mockSg2]);
+    expect(comp.securityGroups.selected.length).toBe(0);
+    expect(comp.selectedRules.ingress.length).toBe(0);
+    expect(comp.selectedRules.egress.length).toBe(0);
 
     f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
     comp.inputRules = mockRules;
     mockRules.templates = [mockSg1];
     comp.ngOnInit();
-    expect(comp.items[0]).toEqual([mockSg2]);
-    expect(comp.items[1]).toEqual([mockSg1]);
-    expect(comp.selectedRules[0].length).toBe(mockSg1.ingressRules.length);
-    expect(comp.selectedRules[1].length).toBe(mockSg1.egressRules.length);
-    expect(comp.selectedRules[0].every(rule => !rule.checked));
-    expect(comp.selectedRules[1].every(rule => !rule.checked));
+    expect(comp.securityGroups.available).toEqual([mockSg2]);
+    expect(comp.securityGroups.selected).toEqual([mockSg1]);
+    expect(comp.selectedRules.ingress.length).toBe(mockSg1.ingressRules.length);
+    expect(comp.selectedRules.egress.length).toBe(mockSg1.egressRules.length);
+    expect(comp.selectedRules.ingress.every(rule => !rule.checked));
+    expect(comp.selectedRules.egress.every(rule => !rule.checked));
 
     f = TestBed.createComponent(SecurityGroupBuilderComponent);
     comp = f.componentInstance;
@@ -128,12 +129,12 @@ describe('Sg creation component', () => {
     mockRules.egress = mockRuleEgress;
     mockRules.ingress = mockRulesIngress;
     comp.ngOnInit();
-    expect(comp.items[0]).toEqual([mockSg1]);
-    expect(comp.items[1]).toEqual([mockSg2]);
-    expect(comp.selectedRules[0].length).toBe(mockSg2.ingressRules.length);
-    expect(comp.selectedRules[1].length).toBe(mockSg2.egressRules.length);
-    expect(comp.selectedRules[0][0].checked).toBe(true);
-    expect(comp.selectedRules[1][0].checked).toBe(true);
+    expect(comp.securityGroups.available).toEqual([mockSg1]);
+    expect(comp.securityGroups.selected).toEqual([mockSg2]);
+    expect(comp.selectedRules.ingress.length).toBe(mockSg2.ingressRules.length);
+    expect(comp.selectedRules.egress.length).toBe(mockSg2.egressRules.length);
+    expect(comp.selectedRules.ingress[0].checked).toBe(true);
+    expect(comp.selectedRules.egress[0].checked).toBe(true);
   });
 
   it('handles dialog close', () => {

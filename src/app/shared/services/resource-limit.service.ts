@@ -17,11 +17,6 @@ export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit
     super(http);
   }
 
-  public getList(params?: {}): Observable<Array<ResourceLimit>> {
-    return super.getList(params)
-      .map(result => result.sort((a, b) => a.resourcetype - b.resourcetype));
-  }
-
   public updateResourceLimit(
     resourceLimit: ResourceLimit,
     account: Account
