@@ -40,14 +40,14 @@ export class VmTagsContainerComponent extends WithUnsubscribe() implements OnIni
 
   public editTag(tagEditAction: TagEditAction) {
     const newTag = {
-      resourceIds: this.vm.id,
-      resourceType: this.vm.resourceType,
+      resourceid: this.vm.id,
+      resourcetype: this.vm.resourceType,
       key: tagEditAction.newTag.key,
       value: tagEditAction.newTag.value
     };
     const newTags = Object.assign([], this.vm.tags)
       .filter(t => tagEditAction.oldTag.key !== t.key);
-    newTags.push(new Tag(newTag));
+    newTags.push(newTag as Tag);
     this.store.dispatch(new vmActions.UpdateVM(Object.assign(
       {},
       this.vm,
@@ -66,13 +66,13 @@ export class VmTagsContainerComponent extends WithUnsubscribe() implements OnIni
 
   public addTag(keyValuePair: KeyValuePair) {
     const newTag = {
-      resourceId: this.vm.id,
-      resourceType: this.vm.resourceType,
+      resourceid: this.vm.id,
+      resourcetype: this.vm.resourceType,
       key: keyValuePair.key,
       value: keyValuePair.value
     };
     const newTags = Object.assign([], this.vm.tags);
-    newTags.push(new Tag(newTag));
+    newTags.push(newTag as Tag);
     this.store.dispatch(new vmActions.UpdateVM(Object.assign(
       {},
       this.vm,

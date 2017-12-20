@@ -104,6 +104,6 @@ export class Volume extends BaseModel {
       this.tags = [];
     }
 
-    this.tags = this.tags.map(tag => new Tag(tag));
+    this.tags = this.tags;
   }
 }
