@@ -35,11 +35,27 @@ export class UserService extends BaseBackendService<AccountUser> {
     super(http);
   }
 
+  public createUser(user: AccountUser): Observable<AccountUser> {
+    return this.sendCommand('create', user)
+      .map(res => res.user);
+  }
+
+  public updateUser(user: AccountUser): Observable<AccountUser> {
+    return this.sendCommand('update', user)
+      .map(res => res.user);
+  }
+
+  public removeUser(user: AccountUser): Observable<any> {
+    return this.sendCommand('delete', {
+      id: user.id,
+    });
+  }
+
   public updatePassword(id: string, password: string): Observable<any> {
     return this.postRequest('update', { id, password });
   }
 
-  public registerKeys(id: string): Observable<any> {
+  public registerKeys(id: string): Observable<ApiKeys> {
     return this.sendCommand('register;Keys', { id }).map(res => res.userkeys);
   }
 
@@ -85,7 +101,10 @@ export class UserService extends BaseBackendService<AccountUser> {
     this.getList().subscribe();
   }
 
-  protected prepareModel(res): AccountUser {
+  protected prepareModel(res, entityModel?): AccountUser {
+    if (entityModel) {
+      return entityModel(res) as AccountUser;
+    }
     return res as AccountUser;
   }
 

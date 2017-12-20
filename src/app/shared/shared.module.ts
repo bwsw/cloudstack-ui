@@ -124,7 +124,6 @@ import {
   ViewValuePipe,
   VolumeSortPipe
 } from './pipes';
-import { AccountUserService } from './services/account-user.service';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
@@ -412,8 +411,7 @@ import { ZoneService } from './services/zone.service';
     ZoneService,
     HypervisorService,
     TimeZoneService,
-    AccountUserActionsService,
-    AccountUserService
+    AccountUserActionsService
   ]
 })
 export class SharedModule {

@@ -1,12 +1,11 @@
 <div class="height-container">
   <div class="flex-container container">
-    <div class="flex-container left">
+    <div class="key">
       <div
-        class="name"
         [innerHTML]="name | translate"
         [matTooltip]="name | translate"
       ></div>
-      <div *ngIf="isEdit" class="buttons">
+      <div *ngIf="canBeEdit" class="buttons">
         <button
           class="button-18px"
           mat-icon-button
@@ -16,32 +15,34 @@
         </button>
       </div>
     </div>
+    <div class="value">
+      <cs-input-group *ngIf="canBeCopy">
+        <mat-form-field cs-input-group-textbox>
+          <input matInput [value]="value" readonly>
+        </mat-form-field>
+        <button
+          mat-icon-button
+          cs-input-group-button
+          ngxClipboard
+          [cbContent]="value"
+          (cbOnSuccess)="onCopySuccess()"
+          (cbOnError)="onCopyFail()"
+        >
+          <mat-icon
+            matTooltipPosition="below"
+            [matTooltip]="'CLIPBOARD.COPY' | translate"
+          >
+            content_copy
+          </mat-icon>
+        </button>
+      </cs-input-group>
+    </div>
     <div
-      *ngIf="!isCopy"
+      *ngIf="!canBeCopy"
       ngxClipboard
       class="value"
       [innerHTML]="value"
       [matTooltip]="value"
     ></div>
-    <cs-input-group *ngIf="isCopy" class="value">
-      <mat-form-field class="full-width-input" cs-input-group-textbox>
-        <input matInput [value]="value" readonly>
-      </mat-form-field>
-      <button
-        mat-icon-button
-        cs-input-group-button
-        ngxClipboard
-        [cbContent]="value"
-        (cbOnSuccess)="onCopySuccess()"
-        (cbOnError)="onCopyFail()"
-      >
-        <mat-icon
-          matTooltipPosition="below"
-          [matTooltip]="'CLIPBOARD.COPY' | translate"
-        >
-          content_copy
-        </mat-icon>
-      </button>
-    </cs-input-group>
   </div>
 </div>

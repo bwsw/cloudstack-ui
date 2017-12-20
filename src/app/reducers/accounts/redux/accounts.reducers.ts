@@ -134,7 +134,6 @@ export function reducer(
         return adapter.addOne(action.payload, state);
       }
     }
-    case account.ACCOUNT_USER_GENERATE_KEYS_SUCCESS:
     case account.ACCOUNT_LOAD_USER_KEYS_SUCCESS: {
       const updatedUser: AccountUser = { ...action.payload.user };
       updatedUser.secretkey = action.payload.userKeys.secretkey;

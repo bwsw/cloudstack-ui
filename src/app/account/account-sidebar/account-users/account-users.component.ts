@@ -19,8 +19,8 @@ export class AccountUsersComponent {
   public step: string;
 
   public get sortedUsers(): Array<AccountUser> {
-    return this.account.user && [...this.account.user]
-      .sort((u1, u2) => u1.firstname.localeCompare(u2.firstname));
+    return this.account && this.account.user ? [...this.account.user]
+      .sort((u1, u2) => u1.firstname.localeCompare(u2.firstname)) : [];
   }
 
   constructor(private dialog: MatDialog) {
