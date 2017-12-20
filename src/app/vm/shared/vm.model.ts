@@ -176,7 +176,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
       this.nic = [];
     }
 
-    this.nic = this.nic.map(nic => nic as NIC);
+    this.nic = this.nic;
   }
 
   private initializeSecurityGroups(): void {
