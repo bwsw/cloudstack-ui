@@ -8,6 +8,7 @@ import { MockTranslateService } from '../../../../../testutils/mocks/mock-transl
 import { NetworkRule } from '../../../../security-group/network-rule.model';
 import { RuleListItem } from '../security-group-builder.component';
 import { SecurityGroupBuilderRuleComponent } from './security-group-builder-rule.component';
+import { NetworkRuleType } from '../../../../security-group/sg.model';
 
 
 describe('Sg creation rule component', () => {
@@ -22,7 +23,8 @@ describe('Sg creation rule component', () => {
       'startport': 1,
       'endport': 65535,
       'cidr': '0.0.0.0/0',
-    })
+    }),
+    type: NetworkRuleType.Ingress
   };
 
   beforeEach(async(() => {

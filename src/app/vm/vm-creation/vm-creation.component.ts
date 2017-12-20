@@ -170,8 +170,11 @@ export class VmCreationComponent implements OnInit {
     this.updateFormState();
   }
 
-  public diskOfferingChange(value: DiskOffering) {
-    this.formState.state.diskOffering = value;
+  public diskOfferingChange(change: MatSelectChange) {
+    if (change) {
+      const diskOffering = change.value as DiskOffering;
+      this.formState.state.diskOffering = diskOffering;
+    }
     this.updateFormState();
   }
 
@@ -298,11 +301,11 @@ export class VmCreationComponent implements OnInit {
     });
 
     const inProgressMessage = this.progressLoggerController.messages.find(message => {
-      return message.status.includes(ProgressLoggerMessageStatus.InProgress);
+      return message.status && message.status.includes(ProgressLoggerMessageStatus.InProgress);
     });
 
     this.updateLoggerMessage(
-      inProgressMessage.text,
+      inProgressMessage && inProgressMessage.text,
       [ProgressLoggerMessageStatus.Error]
     );
 

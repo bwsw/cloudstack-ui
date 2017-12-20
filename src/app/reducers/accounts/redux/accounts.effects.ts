@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { AccountService } from '../../../shared/services/account.service';
+import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models/account.model';
-import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AccountUserService } from '../../../shared/services/account-user.service';
+import { AccountService } from '../../../shared/services/account.service';
+import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-
-import * as accountActions from './accounts.actions';
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
+
+import * as accountActions from './accounts.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -112,6 +110,13 @@ export class AccountsEffects {
     });
 
   @Effect({ dispatch: false })
+  accountCreateSuccess$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_CREATE_SUCCESS)
+    .do((action: accountActions.CreateSuccess) => {
+      this.dialog.closeAll();
+    });
+
+  @Effect({ dispatch: false })
   deleteSuccessNavigate$: Observable<Account> = this.actions$
     .ofType(accountActions.ACCOUNT_DELETE_SUCCESS)
     .map((action: accountActions.DeleteSuccess) => action.payload)
@@ -166,10 +171,10 @@ export class AccountsEffects {
   @Effect({ dispatch: false })
   userCreateSuccess$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS)
-    .do((action: accountActions.AccountUserCreateSuccess) => this.onNotify(
-      action.payload,
-      this.successAccountUserCreateMessage
-    ));
+    .do((action: accountActions.AccountUserCreateSuccess) => {
+      this.onNotify(action.payload, this.successAccountUserCreateMessage);
+      this.dialog.closeAll();
+    });
 
   @Effect()
   userUpdate$: Observable<Action> = this.actions$
@@ -209,8 +214,9 @@ export class AccountsEffects {
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
     private notificationService: NotificationService,
-    private router: Router
-  ) {
+    private router: Router,
+    private dialog: MatDialog
+) {
   }
 
   private onNotify(user, message) {

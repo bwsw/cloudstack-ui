@@ -6,17 +6,19 @@ import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/ser
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
+import { SecurityGroup } from '../../../security-group/sg.model';
 
 
 @Injectable()
 export class VmCreationSecurityGroupService {
-  constructor(private securityGroupService: SecurityGroupService) {}
+  constructor(private securityGroupService: SecurityGroupService) {
+  }
 
-  public getSecurityGroupCreationRequest(securityGroupData: VmCreationSecurityGroupData): Observable<any> {
+  public getSecurityGroupCreationRequest(securityGroupData: VmCreationSecurityGroupData): Observable<SecurityGroup[]> {
     if (securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
       const data = this.securityGroupCreationData;
       const rules = this.getSecurityGroupCreationRules(securityGroupData.rules);
-      return this.securityGroupService.createPrivate(data, rules);
+      return this.securityGroupService.createPrivate(data, rules).map(securityGroup => [securityGroup]);
     } else {
       return Observable.of(securityGroupData.securityGroups);
     }
@@ -36,6 +38,6 @@ export class VmCreationSecurityGroupService {
     return {
       ingress: rules.ingress,
       egress: rules.egress
-    }
+    };
   }
 }

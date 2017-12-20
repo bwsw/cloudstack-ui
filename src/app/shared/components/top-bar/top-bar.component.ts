@@ -1,4 +1,5 @@
 import { Component, Optional } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LayoutService } from '../../services/layout.service';
 import { ListService } from '../list/list.service';
 
@@ -10,8 +11,10 @@ import { ListService } from '../list/list.service';
 export class TopBarComponent {
   constructor(
     @Optional() private listService: ListService,
+    private activatedRoute: ActivatedRoute,
     private layoutService: LayoutService
-  ) {}
+  ) {
+  }
 
   public toggleDrawer(): void {
     this.layoutService.drawerToggled.next();
@@ -22,6 +25,14 @@ export class TopBarComponent {
   }
 
   public get sidebarOpen(): boolean {
-    return this.listService ? this.listService.hasSelected() : false;
+    return this.listService
+      ? this.listService.hasSelected() && this.showSidebarForSG()
+      : false;
+  }
+
+  private showSidebarForSG(): boolean {
+    if (this.activatedRoute.snapshot.firstChild.firstChild) {
+      return this.activatedRoute.snapshot.firstChild.firstChild.routeConfig.path !== 'rules';
+    }
   }
 }

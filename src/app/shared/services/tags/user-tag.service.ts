@@ -196,6 +196,6 @@ export class UserTagService implements EntityTagService {
   }
 
   private getSshKeyDescriptionKey(sshKey: SSHKeyPair): string {
-    return `${this.keys.sshDescription}.${sshKey.fingerPrint}`;
+    return `${this.keys.sshDescription}.${sshKey.fingerprint}`;
   }
 }

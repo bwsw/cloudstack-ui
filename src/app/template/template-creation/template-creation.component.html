@@ -152,6 +152,7 @@
                 [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.HYPERVISOR' | translate"
                 [(ngModel)]="hypervisor" (valueChange)="changeHypervisor(hypervisor)"
                 name="hypervisor"
+                ngDefaultControl
               >
                 <mat-option
                   *ngFor="let h of hypervisors"
@@ -167,6 +168,7 @@
                 [placeholder]="'TEMPLATE_PAGE.TEMPLATE_CREATION.FORMAT' | translate"
                 [(ngModel)]="format"
                 name="format"
+                ngDefaultControl
               >
                 <mat-option *ngFor="let f of visibleFormats" [value]="f.name">{{f.name}}
                 </mat-option>
@@ -176,12 +178,14 @@
           <div [class.column]="mode === TemplateResourceType.template" class="additional">
             <mat-checkbox *ngIf="!snapshot"
               name="extract"
+              ngDefaultControl
               [(ngModel)]="isExtractable"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.IS_EXTRACTABLE' | translate }}
             </mat-checkbox>
             <mat-checkbox
               name="public"
+              ngDefaultControl
               [(ngModel)]="isPublic"
               *ngIf="isRootAdmin"
             >
@@ -189,6 +193,7 @@
             </mat-checkbox>
             <mat-checkbox
               name="feature"
+              ngDefaultControl
               [(ngModel)]="isFeatured"
               *ngIf="isRootAdmin"
             >
@@ -197,6 +202,7 @@
 
             <mat-checkbox
               name="routing"
+              ngDefaultControl
               [(ngModel)]="isRouting"
               *ngIf="isRootAdmin && !snapshot"
             >
@@ -204,6 +210,7 @@
             </mat-checkbox>
             <mat-checkbox
               name="hvm"
+              ngDefaultControl
               [(ngModel)]="requiresHvm"
               *ngIf="mode === TemplateResourceType.template"
             >
@@ -212,15 +219,14 @@
             <mat-checkbox
               *ngIf="mode === TemplateResourceType.iso && !snapshot"
               name="bootable"
+              ngDefaultControl
               [(ngModel)]="bootable"
             >
               {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.BOOTABLE' | translate }}
             </mat-checkbox>
           </div>
         </div>
-
       </div>
-
     </div>
     <div class="mat-dialog-actions">
       <button

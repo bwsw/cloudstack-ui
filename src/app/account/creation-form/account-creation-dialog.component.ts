@@ -1,21 +1,16 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import { Role } from '../../shared/models/role.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AccountData, AccountForm } from '../../shared/models/account.model';
 import { Domain } from '../../shared/models/domain.model';
-import { MatDialogRef } from '@angular/material';
-import { TimeZone } from '../../shared/components/time-zone/time-zone.service';
-import { AccountData } from '../../shared/models/account.model';
+import { Role } from '../../shared/models/role.model';
 
 @Component({
   selector: 'cs-account-creation-dialog',
   templateUrl: 'account-creation-dialog.component.html'
 })
 export class AccountCreationDialogComponent {
-  public newAccount = new AccountData();
+  public showPassword = true;
+  public accountForm: FormGroup;
 
   @Input() public isLoading: boolean;
   @Input() public domains: Domain[];
@@ -23,13 +18,42 @@ export class AccountCreationDialogComponent {
   @Output() public onAccountCreate = new EventEmitter<AccountData>();
 
   constructor(
-    private dialogRef: MatDialogRef<AccountCreationDialogComponent>,
-  ) { }
+    private formBuilder: FormBuilder
+  ) {
+    this.accountForm = this.formBuilder.group({
+      username: this.formBuilder.control('', [ Validators.required ]),
+      email: this.formBuilder.control('', [ Validators.required, Validators.email ]),
+      password: this.formBuilder.control('', [ Validators.required ]),
+      firstname: this.formBuilder.control('', [ Validators.required ]),
+      lastname: this.formBuilder.control('', [ Validators.required ]),
+      domainid: this.formBuilder.control('', [ Validators.required ]),
+      roleid: this.formBuilder.control(''),
+      timezone: this.formBuilder.control(null),
+      networkdomain: this.formBuilder.control(null),
+    });
+  }
 
-  public onSubmit(e): void {
-    e.preventDefault();
-    const accountCreationParams = Object.assign({}, this.newAccount);
+  public onSubmit(): void {
+    const accountCreationParams = this.prepareData(this.accountForm.value);
     this.onAccountCreate.emit(accountCreationParams);
-    this.dialogRef.close();
+  }
+
+  public prepareData(data: AccountForm): AccountData {
+    const result: AccountData = new AccountData();
+    result.username = data.username;
+    result.email = data.email;
+    result.password = data.password;
+    result.firstname = data.firstname;
+    result.lastname = data.lastname;
+    result.roleid = data.roleid;
+    result.domainid = data.domainid;
+    if (data.timezone) {
+      result.timezone = data.timezone.geo;
+    }
+    if (data.networkdomain) {
+      result.networkdomain = data.networkdomain;
+    }
+
+    return result;
   }
 }
