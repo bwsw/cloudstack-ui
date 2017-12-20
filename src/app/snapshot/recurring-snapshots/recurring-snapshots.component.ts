@@ -106,7 +106,7 @@ export class RecurringSnapshotsComponent implements OnInit {
   private onError(error): void {
     this.dialogService.alert({
       message: {
-        translationToken: error.errorcode === 431 ? 'ERRORS.SNAPSHOT_POLICIES.HOURLY_TURN_OFF' : error.message,
+        translationToken: error.message,
         interpolateParams: error.params
       }
     });
