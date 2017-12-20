@@ -14,7 +14,7 @@
     ></cs-service-offering-selector>
     <div
       class="message warning"
-      *ngIf="serviceOffering?.id !== serviceOfferingId"
+      *ngIf="serviceOffering?.id !== serviceOfferingId && isVmRunning"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
     <div

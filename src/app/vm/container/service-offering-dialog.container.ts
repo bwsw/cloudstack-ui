@@ -14,7 +14,7 @@ import { CustomServiceOfferingService, } from '../../service-offering/custom-ser
 import { Account } from '../../shared/models/account.model';
 import { ResourceStats } from '../../shared/services/resource-usage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 
 
 @Component({
@@ -25,6 +25,7 @@ import { VirtualMachine } from '../shared/vm.model';
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="getRestrictions() | async"
       [zoneId]="virtualMachine.zoneId"
+      [isVmRunning]="isVmRunning()"
       (onServiceOfferingChange)="changeServiceOffering($event)"
     >
     </cs-service-offering-dialog>`,
@@ -73,5 +74,9 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
     return this.customServiceOfferingService
       .getCustomOfferingRestrictionsByZone(ResourceStats.fromAccount([this.user]))
       .map(restrictions => restrictions[this.virtualMachine.zoneId]);
+  }
+
+  public isVmRunning(): boolean {
+    return this.virtualMachine.state === VmState.Running;
   }
 }
