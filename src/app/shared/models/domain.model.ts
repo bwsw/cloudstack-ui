@@ -49,6 +49,6 @@ export interface Domain extends BaseModelInterface {
   vpctotal: number;
 }
 
-export const getPath = () => {
-  return this.path === 'ROOT' ? '' : this.path.replace('ROOT/', '') + '/';
+export const getPath = (domain: Domain) => {
+  return domain.path === 'ROOT' ? '' : domain.path.replace('ROOT/', '') + '/';
 }

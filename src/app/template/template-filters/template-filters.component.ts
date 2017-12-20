@@ -90,7 +90,7 @@ export class TemplateFiltersComponent implements OnInit {
 
   public accountFullDomain(account) {
     const domain = this.domains[account.domainid];
-    return domain ? getPath() : '';
+    return domain ? getPath(domain) : '';
   }
 
   public setMode(mode: string): void {
