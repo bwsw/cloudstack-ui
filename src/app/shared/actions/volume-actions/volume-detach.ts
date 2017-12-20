@@ -28,6 +28,6 @@ export class VolumeDetachAction implements VolumeAction {
   }
 
   public hidden(volume: Volume): boolean {
-    return !volume.virtualMachineId || volume.type === VolumeType.ROOT;
+    return !volume.virtualmachineid || volume.type === VolumeType.ROOT;
   }
 }

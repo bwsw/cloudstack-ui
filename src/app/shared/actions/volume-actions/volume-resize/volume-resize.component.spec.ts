@@ -66,7 +66,7 @@ describe('volume resize for root disks', () => {
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
     const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
-    const testVolume = new Volume('');
+    const testVolume = {} as Volume;
     testVolume.id = '1';
     testVolume.size = 1;
     testVolume.type = VolumeType.ROOT;
@@ -128,7 +128,7 @@ describe('volume resize for data disks', () => {
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
     const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
-    const testVolume = new Volume('');
+    const testVolume = {} as Volume;
     testVolume.id = '1';
     testVolume.size = 1;
     testVolume.type = VolumeType.DATADISK;

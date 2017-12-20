@@ -13,9 +13,9 @@
     </div>
     <div class="row" *ngIf="volume.created">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.CREATED' | translate }}</div>
-      <div>{{ volume.created | date:'y-MM-dd H:m:s' }}</div>
+      <div>{{ volumeCreated | date:'y-MM-dd H:m:s' }}</div>
     </div>
-    <div class="row"  *ngIf="volume.storageType">
+    <div class="row"  *ngIf="volume.storagetype">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.STORAGE_TYPE' | translate }}</div>
       <div>{{ storageTypeTranslationToken | translate }}</div><!--todo-->
     </div>

@@ -45,7 +45,7 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       .filter(volume => !!volume)
       .subscribe(volume => {
         // todo remove model
-        this.volume = new Volume(volume);
+        this.volume = volume as Volume;
         if (!this.volume.snapshots.length) {
           this.dialogRef.close();
         }

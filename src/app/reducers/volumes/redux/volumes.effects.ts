@@ -60,7 +60,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
           });
-          return new volumeActions.UpdateVolume(new Volume(volume));
+          return new volumeActions.UpdateVolume(volume as Volume);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -90,7 +90,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
           });
-          return new volumeActions.UpdateVolume(new Volume(volume))
+          return new volumeActions.UpdateVolume(volume as Volume)
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -115,7 +115,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
           });
-          return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
+          return Observable.of(new volumeActions.ReplaceVolume(volume as Volume));
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -140,7 +140,7 @@ export class VolumesEffects {
             message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
           });
           this.dialog.closeAll();
-          return new volumeActions.ResizeVolumeSuccess(new Volume(volume));
+          return new volumeActions.ResizeVolumeSuccess(volume as Volume);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -176,7 +176,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
           });
-          return new volumeActions.AddSnapshotSuccess(new Volume(newVolume));
+          return new volumeActions.AddSnapshotSuccess(newVolume as Volume);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -207,7 +207,7 @@ export class VolumesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
               });
-              return new volumeActions.DeleteSnapshotSuccess(new Volume(newVolume));
+              return new volumeActions.DeleteSnapshotSuccess(newVolume as Volume);
             })
             .catch(error => {
               this.jobsNotificationService.fail({
@@ -255,7 +255,7 @@ export class VolumesEffects {
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
             });
-            return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
+            return Observable.of(new volumeActions.ReplaceVolume(volume as Volume));
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
@@ -266,7 +266,7 @@ export class VolumesEffects {
           });
       };
 
-      if (action.payload.virtualMachineId) {
+      if (action.payload.virtualmachineid) {
         return detach(action)
           .switchMap(() => remove(action));
       } else {

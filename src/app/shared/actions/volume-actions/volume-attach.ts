@@ -18,7 +18,7 @@ export class VolumeAttachAction implements VolumeAction {
     return this.dialog.open(VolumeAttachmentContainerComponent, {
       data: {
         volume,
-        zoneId: volume.zoneId
+        zoneId: volume.zoneid
       },
       width: '375px'
     })
@@ -31,6 +31,6 @@ export class VolumeAttachAction implements VolumeAction {
   }
 
   public hidden(volume: Volume): boolean {
-    return !!volume.virtualMachineId;
+    return !!volume.virtualmachineid;
   }
 }

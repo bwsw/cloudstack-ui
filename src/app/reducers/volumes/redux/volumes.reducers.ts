@@ -8,10 +8,11 @@ import {
   EntityState
 } from '@ngrx/entity';
 import * as event from './volumes.actions';
-import { Volume } from '../../../shared/models/volume.model';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import { Utils } from '../../../shared/services/utils/utils.service';
+import { Volume } from '../../../shared/models/volume.model';
+import { getDescription } from '../../../shared/models';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -223,9 +224,9 @@ export const selectSpareOnlyVolumes = createSelector(
   selectAll,
   fromVMs.getSelectedVM,
   (volumes, vm) => {
-    const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
-    const spareOnlyFilter = volume => !volume.virtualMachineId;
-    const accountFilter = volume => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
+    const zoneFilter = (volume: Volume) => vm && volume.zoneid === vm.zoneId;
+    const spareOnlyFilter = (volume: Volume) => !volume.virtualmachineid;
+    const accountFilter = (volume: Volume) => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
 
     return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume));
   }
@@ -237,7 +238,7 @@ export const selectVmVolumes = createSelector(
   (volumes, virtualMachineId) => {
 
     const virtualMachineIdFilter = volume => !virtualMachineId ||
-      volume.virtualMachineId === virtualMachineId;
+      volume.virtualmachineid === virtualMachineId;
 
     return volumes.filter(volume => {
       return virtualMachineIdFilter(volume);
@@ -268,17 +269,17 @@ export const selectFilteredVolumes = createSelector(
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
-    const spareOnlyFilter = volume => spareOnly ? !volume.virtualMachineId : true;
+    const spareOnlyFilter = (volume: Volume) => spareOnly ? !volume.virtualmachineid : true;
 
-    const queryFilter = volume => !query || volume.name.toLowerCase()
+    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase()
         .includes(queryLower) ||
-      volume.description.toLowerCase().includes(queryLower);
+      getDescription(volume).toLowerCase().includes(queryLower);
 
-    const selectedTypesFilter = volume => !selectedTypes.length || !!typesMap[volume.type];
+    const selectedTypesFilter = (volume: Volume) => !selectedTypes.length || !!typesMap[volume.type];
 
-    const selectedZoneIdsFilter = volume => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneId];
+    const selectedZoneIdsFilter = (volume: Volume) => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneid];
 
-    const selectedAccountIdsFilter = volume => !selectedAccountIds.length ||
+    const selectedAccountIdsFilter = (volume: Volume) => !selectedAccountIds.length ||
       (accountsMap[volume.account] && domainsMap[volume.domainid]);
 
 

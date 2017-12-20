@@ -215,7 +215,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private addVolumes(vm: VirtualMachine, volumes: Array<Volume>): VirtualMachine {
-    const filteredVolumes = volumes.filter((volume: Volume) => volume.virtualMachineId === vm.id);
+    const filteredVolumes = volumes.filter((volume: Volume) => volume.virtualmachineid === vm.id);
     vm.volumes = this.sortVolumes(filteredVolumes);
     return vm;
   }

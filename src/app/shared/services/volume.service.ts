@@ -5,20 +5,15 @@ import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 import {
   Snapshot,
-  Volume
+  Volume,
+  isDeleted,
+  VolumeCreationData
 } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { SnapshotService } from './snapshot.service';
 import { VolumeTagService } from './tags/volume-tag.service';
 
-
-interface VolumeCreationData {
-  name: string;
-  zoneId: string;
-  diskOfferingId: string;
-  size?: number;
-}
 
 export interface VolumeAttachmentData {
   id: string;
@@ -27,14 +22,13 @@ export interface VolumeAttachmentData {
 
 export interface VolumeResizeData {
   id: string;
-  diskOfferingId?: string;
+  diskofferingid?: string;
   size?: number;
 }
 
 @Injectable()
 @BackendResource({
-  entity: 'Volume',
-  entityModel: Volume
+  entity: 'Volume'
 })
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeResized = new Subject<Volume>();
@@ -49,6 +43,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {
+    console.log(params);
     const volumesRequest = super.getList(params);
     const snapshotsRequest = this.snapshotService.getList();
 
@@ -61,7 +56,7 @@ export class VolumeService extends BaseBackendService<Volume> {
           (snapshot: Snapshot) => snapshot.volumeId === volume.id
         );
       });
-      return volumes.filter(volume => !volume.isDeleted);
+      return volumes.filter(volume => !isDeleted(volume));
     });
   }
 

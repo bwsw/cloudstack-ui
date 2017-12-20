@@ -9,7 +9,7 @@ import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-o
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Volume } from '../../shared/models/volume.model';
+import { Volume, getDescription } from '../../shared/models/volume.model';
 
 @Component({
   selector: 'cs-volume-details-container',
@@ -50,8 +50,8 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
       .takeUntil(this.unsubscribe$)
       .subscribe(volume => {
         if (volume) {
-          this.volume = new Volume(volume);
-          this.description = this.volume.description;
+          this.volume = volume as Volume;
+          this.description = getDescription(this.volume);
         }
       });
   }

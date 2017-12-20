@@ -9,7 +9,7 @@ import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Volume } from '../../shared/models/volume.model';
+import { Volume, getDescription } from '../../shared/models/volume.model';
 
 @Component({
   selector: 'cs-vm-volume-details-container',
@@ -36,7 +36,7 @@ export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() impleme
   public ngOnInit() {
     this.store.dispatch(new volumeActions.LoadSelectedVolume(this.volume.id));
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
-    this.description = this.volume.description;
+    this.description = getDescription(this.volume);
   }
 
 }

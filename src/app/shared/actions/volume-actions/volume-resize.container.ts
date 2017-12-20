@@ -54,7 +54,7 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
-    this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneId));
+    this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneid));
 
     this.zone$
       .takeUntil(this.unsubscribe$)

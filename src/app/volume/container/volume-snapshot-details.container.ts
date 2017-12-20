@@ -39,7 +39,7 @@ export class VolumeSnapshotDetailsContainerComponent extends WithUnsubscribe() i
       .takeUntil(this.unsubscribe$)
       .subscribe(volume => {
         if (volume) {
-          this.volume = new Volume(volume);
+          this.volume = volume as Volume;
         }
       })
   }

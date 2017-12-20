@@ -1,7 +1,7 @@
 import { Action } from './action.interface';
-import { BaseModel } from '../models/base.model';
+import { BaseModel, BaseModelInterface } from '../models';
 
 
-export interface ActionsService<M extends BaseModel, A extends Action<M>> {
+export interface ActionsService<M extends BaseModelInterface | BaseModel, A extends Action<M>> {
   actions: Array<A>;
 }

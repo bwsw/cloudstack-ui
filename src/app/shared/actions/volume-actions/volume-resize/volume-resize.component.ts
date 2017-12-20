@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialogRef, MatSelectChange } from '@angular/material';
 import { DiskOffering } from '../../../models';
-import { Volume } from '../../../models/volume.model';
+import { Volume, isRoot } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
 
 
@@ -34,7 +34,7 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   public get canResize(): boolean {
-    return (this.diskOfferings && this.diskOfferings.length > 0) || this.volume.isRoot;
+    return (this.diskOfferings && this.diskOfferings.length > 0) || isRoot(this.volume);
   }
 
   public updateDiskOffering(change: MatSelectChange): void {
@@ -45,11 +45,11 @@ export class VolumeResizeComponent implements OnInit {
   }
 
   public resizeVolume(): void {
-    const includeDiskOffering = this.diskOffering && !this.volume.isRoot;
+    const includeDiskOffering = this.diskOffering && !isRoot(this.volume);
     const params: VolumeResizeData = Object.assign(
       { id: this.volume.id },
       this.newSize ? { size: this.newSize } : {},
-      includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}
+      includeDiskOffering ? { diskofferingid: this.diskOffering.id } : {}
     );
     this.onDiskResized.emit(params);
   }

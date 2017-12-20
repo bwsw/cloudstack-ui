@@ -6,6 +6,7 @@ import {
   DiskOffering,
   Volume
 } from '../../../../../shared/models';
+import * as moment from 'moment';
 
 @Component({
   selector: 'cs-volume-details',
@@ -24,7 +25,11 @@ export class VolumeDetailsComponent {
       'LOCAL': 'DISK_OFFERING_STORAGE_TYPE.LOCAL'
     };
 
-    return storageTypeTranslations[this.volume.storageType.toUpperCase()];
+    return storageTypeTranslations[this.volume.storagetype.toUpperCase()];
+  }
+
+  public get volumeCreated(): Date {
+    return moment(this.volume.created).toDate();
   }
 
   public hasPerformanceInfo(): boolean {

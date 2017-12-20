@@ -35,8 +35,8 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
     {
       key: 'zones',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ZONES',
-      selector: (item: Volume) => item.zoneId,
-      name: (item: Volume) => item.zoneName
+      selector: (item: Volume) => item.zoneid,
+      name: (item: Volume) => item.zonename
     },
     {
       key: 'types',

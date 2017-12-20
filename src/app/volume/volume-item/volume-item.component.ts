@@ -1,7 +1,6 @@
 import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { VolumeActionsService } from '../../shared/actions/volume-actions/volume-actions.service';
-import { DiskOffering, Volume } from '../../shared/models';
+import { DiskOffering, getDescription, Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
@@ -19,7 +18,6 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
   public query: string;
 
   constructor(
-    public volumeActionsService: VolumeActionsService,
     protected diskOfferingService: DiskOfferingService,
     protected zoneService: ZoneService
   ) {
@@ -42,7 +40,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
   }
 
   public get descriptionIncludesQuery(): boolean {
-    return this.query && this.item.description.includes(this.query);
+    return this.query && getDescription(this.item).includes(this.query);
   }
 
   public get stateTranslationToken(): string {
