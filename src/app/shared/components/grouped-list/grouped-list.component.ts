@@ -1,12 +1,8 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  Type
-} from '@angular/core';
-import * as groupBy from 'lodash/groupBy';
+import { Component, Input, OnChanges, Type } from '@angular/core';
 import { Grouping } from '../../models/grouping.model';
 import { BaseModelInterface } from '../../models/base.model';
+
+import * as groupBy from 'lodash/groupBy';
 
 @Component({
   selector: 'cs-grouped-list',
@@ -31,7 +27,7 @@ export class GroupedListComponent implements OnChanges {
     return { ...this.dynamicInputs, item };
   }
 
-  private updateTree(): void {
+  protected updateTree(): void {
     const groupings = this.groupings;
     if (groupings.length && this.level < groupings.length) {
       const groups = groupBy(this.list, groupings[this.level].selector);
@@ -40,7 +36,7 @@ export class GroupedListComponent implements OnChanges {
           name: groupings[this.level].name(groups[gn][0]),
           items: groups[gn]
         };
-      });
+      }).sort((group1, group2) => group1.name.localeCompare(group2.name));
     } else {
       this.tree = [{ items: this.list }];
     }

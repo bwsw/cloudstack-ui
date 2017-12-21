@@ -1,4 +1,4 @@
-<cs-grouped-list
+<cs-sg-grouped-list
   class="padding"
   [list]="securityGroups"
   [groupings]="groupings"
@@ -6,7 +6,7 @@
   [dynamicInputs]="inputs"
   [dynamicOutputs]="outputs"
 >
-</cs-grouped-list>
+</cs-sg-grouped-list>
 <div class="padding" *ngIf="!securityGroups.length">
   {{ 'COMMON.NO_RESULTS' | translate }}
 </div>
