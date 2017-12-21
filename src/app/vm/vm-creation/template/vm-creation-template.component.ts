@@ -21,8 +21,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class VmCreationTemplateComponent {
   @Input() public templates: BaseTemplateModel[];
+  @Input() public numberOfTemplates: number;
   @Output() public change = new EventEmitter<BaseTemplateModel>();
-  @Output() public closed = new EventEmitter();
 
   private _template: BaseTemplateModel | null;
 
@@ -48,8 +48,6 @@ export class VmCreationTemplateComponent {
           this.template = template;
           this.change.next(this.template);
         }
-
-        this.closed.emit();
       });
   }
 

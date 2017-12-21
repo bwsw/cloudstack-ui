@@ -130,7 +130,7 @@
               [max]="rootDiskSizeLimit"
               [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
               [ngModel]="vmCreationState.rootDiskSize"
-              (change)="rootDiskSizeChange.emit($event)"
+              (ngModelChange)="rootDiskSizeChange.emit($event)"
               [units]="'UNITS.GB' | translate"
             ></cs-slider>
           </div>

@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
 import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
 import { DiskOffering, Account } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
@@ -92,6 +91,13 @@ export class VmCreationComponent {
   public get diskOfferingsAreAllowed(): boolean {
     return this.vmCreationState.template
       && !this.vmCreationState.template.isTemplate;
+  }
+
+  public get showResizeSlider(): boolean {
+    return this.vmCreationState.template
+      && !this.vmCreationState.template.isTemplate
+      && this.showRootDiskResize
+      && !!this.vmCreationState.rootDiskMinSize;
   }
 
   public get rootDiskSizeLimit(): number {

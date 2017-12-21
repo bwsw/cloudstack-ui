@@ -17,6 +17,8 @@ import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
+import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
+import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
@@ -24,7 +26,6 @@ import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
-import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 
 @Component({
   selector: 'cs-vm-create-container',
@@ -74,7 +75,8 @@ export class VmCreationContainerComponent implements OnInit {
       this.store.select(fromZones.isLoading),
       this.store.select(fromServiceOfferings.isLoading),
       this.store.select(fromAuth.isLoading),
-      this.store.select(fromAffinityGroups.isLoading)
+      this.store.select(fromAffinityGroups.isLoading),
+      this.store.select(fromTemplates.isLoading)
     )
     .map((loadings: boolean[]) => loadings.find(loading => loading));
   readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);

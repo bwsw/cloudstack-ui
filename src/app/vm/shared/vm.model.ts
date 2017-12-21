@@ -157,10 +157,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     this.initializeInstanceGroup();
   }
 
-  public get ipIsAvailable(): boolean {
-    return this.nic.length && !!this.nic[0].ipaddress;
-  }
-
   public getDisksSize(): number {
     const sizeInBytes = this.volumes && this.volumes.reduce((
       acc: number,

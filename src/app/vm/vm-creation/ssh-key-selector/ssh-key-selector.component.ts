@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SSHKeyPair } from '../../../shared/models';
-import { NotSelected, NotSelectedSshKey } from '../data/vm-creation-state';
+import { NotSelected } from '../data/vm-creation-state';
 
+export const NotSelectedSshKey: NotSelected = {
+  name: 'VM_PAGE.VM_CREATION.NO_SSH_KEY',
+  ignore: true
+};
 
 @Component({
   selector: 'cs-vm-creation-ssh-key-selector',

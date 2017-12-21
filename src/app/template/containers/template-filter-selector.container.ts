@@ -31,7 +31,7 @@ import * as templateActions from '../../reducers/templates/redux/template.action
     ></cs-template-filter-list-selector>`
 })
 export class TemplateFilterListSelectorContainerComponent implements AfterViewInit {
-  readonly templates$ = this.store.select(fromTemplates.selectTemplatesForVmCreation);
+  readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation);
   readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
   readonly viewMode$ = this.store.select(fromTemplates.vmCreationListViewMode);

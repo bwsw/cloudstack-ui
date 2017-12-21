@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { VirtualMachine } from '../../../vm';
-import { ServiceOffering, InstanceGroup, SSHKeyPair, Color } from '../../../shared/models';
+import { ServiceOffering, InstanceGroup, SSHKeyPair, Color, Tag } from '../../../shared/models';
 import { FormState } from './vm.reducers';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
@@ -60,6 +60,7 @@ export const VM_DEPLOYMENT_CHANGE_STATUS = '[VM deployment] VM_DEPLOYMENT_CHANGE
 export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
+export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -447,6 +448,13 @@ export class DeploymentRequestError implements Action {
   }
 }
 
+export class VmDeploymentCopyTags implements Action {
+  type = VM_DEPLOYMENT_COPY_TAGS;
+
+  constructor(public payload: Tag[]) {
+  }
+}
+
 export type Actions = LoadVMsRequest
   | LoadVMsResponse
   | AccessVm
@@ -495,4 +503,5 @@ export type Actions = LoadVMsRequest
   | DeploymentInitActionList
   | DeploymentRequest
   | DeploymentRequestSuccess
-  | DeploymentRequestError;
+  | DeploymentRequestError
+  | VmDeploymentCopyTags;

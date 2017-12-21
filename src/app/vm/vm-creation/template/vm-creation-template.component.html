@@ -14,7 +14,7 @@
       {{ templateName | async }}
     </span>
   </ng-container>
-  <ng-container *ngIf="!templates || !templates.length">
+  <ng-container *ngIf="!numberOfTemplates">
     <span class="no-templates">
       {{ 'VM_PAGE.VM_CREATION.NO_TEMPLATES' | translate }}
     </span>

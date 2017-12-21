@@ -9,7 +9,7 @@ import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { NotSelectedSshKey, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
 // tslint:disable-next-line
 import {
@@ -21,6 +21,7 @@ import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as vmActions from './vm.actions';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import * as affinityGroupActions from '../../affinity-groups/redux/affinity-groups.actions';
+import { NotSelectedSshKey } from '../../../vm/vm-creation/ssh-key-selector/ssh-key-selector.component';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -435,6 +436,12 @@ export function formReducer(
       return {
         ...state,
         deploymentStopped: false
+      };
+    }
+    case vmActions.VM_DEPLOYMENT_COPY_TAGS: {
+      return {
+        ...state,
+        deployedVm: <VirtualMachine>({ ...state.deployedVm, tags: action.payload })
       };
     }
     case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
