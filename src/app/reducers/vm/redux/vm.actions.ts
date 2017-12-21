@@ -125,7 +125,7 @@ export class ChangeAffinityGroup implements Action {
 
 }
 
-export class ChangeInstantGroup implements Action {
+export class ChangeInstanceGroup implements Action {
   type = VM_CHANGE_INSTANT_GROUP;
 
   constructor(public payload: {
@@ -136,7 +136,7 @@ export class ChangeInstantGroup implements Action {
 
 }
 
-export class RemoveInstantGroup implements Action {
+export class RemoveInstanceGroup implements Action {
   type = VM_REMOVE_INSTANT_GROUP;
 
   constructor(public payload: VirtualMachine) {
@@ -330,9 +330,7 @@ export class ChangeSshKey implements Action {
 
   constructor(public payload: {
     vm: VirtualMachine,
-    keypair: SSHKeyPair,
-    account: string,
-    domainid: string
+    keyPair: SSHKeyPair
   }) {
   }
 }
@@ -357,8 +355,8 @@ export type Actions = LoadVMsRequest
   | ChangeDescription
   | ChangeServiceOffering
   | ChangeAffinityGroup
-  | ChangeInstantGroup
-  | RemoveInstantGroup
+  | ChangeInstanceGroup
+  | RemoveInstanceGroup
   | AddSecondaryIp
   | RemoveSecondaryIp
   | ChangeVmColor

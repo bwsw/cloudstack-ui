@@ -7,9 +7,9 @@
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.SIZE' | translate }}</div>
       <div>{{ (volume.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</div>
     </div>
-    <div class="row" *ngIf="description">
+    <div class="row" *ngIf="volume.description">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.DESCRIPTION' | translate }}</div>
-      <div>{{ description }}</div>
+      <div>{{ volume.description }}</div>
     </div>
     <div class="row" *ngIf="volume.created">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.CREATED' | translate }}</div>
