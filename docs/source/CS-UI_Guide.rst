@@ -220,6 +220,8 @@ For each VM in the list you can see the following information:
 - RAM values;
 - Disks volumes.
 
+.. _VM_Info:
+
 VM Information
 ~~~~~~~~~~~~~~~~~
 
@@ -303,13 +305,13 @@ Click "Take a snapshot" in the disk Actions list and in the dialogue window ente
 
 All snapshots are saved in the list of snapshots. In the disk information, you will see the name and time of the *last-taken snapshot*. For it you can:
   
-- Create a template - Register a new template right from the disk information block of the sidebar. In the appeared window fill in the form:
+- **Create a template** - Register a new template right from the disk information block of the sidebar. In the appeared window fill in the form:
      
    - Name * - Enter a name of the new template.
    - Description * - Provide a short description of the template.
    - OS type * - Select an OS type from the drop-down list.
    - Group - Select a group from the drop-won list.
-   - Password enabled - Tick this option to enable accessing VM by password when this template is used.
+   - Password enabled - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
    - Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory.
  
 .. note:: Required fields are marked with an asterisk (*).
@@ -371,6 +373,10 @@ The data disk will be deleted from the system.
 
 2. Attach a volume - Allows attaching a data disk to the VM.
 
+Attach more data discs to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "Select". The chosen data disk will appear for the virtual machine with the "Attach" button. Click "Attach" to attach the selected disk to the virtual machine.
+
+.. figure:: _static/VMs_AttachVolume_Attach.png
+
 If there are no spare drives yet, you can create one right from this panel. Click "Create new volume" and you will be moved to the Storage section. A "New volume" form will appear where you should specify the following information:
 
 - Name * - Name of the new data disk.
@@ -388,11 +394,11 @@ Click "Cancel" to drop the new volume creation.
 
 Move back to the virtual machine information sidebar. Under the "Storage" tab in the "Attach a volume" section click "+" to select an additional disk. Select a data disk in the drop-down list and click "Select" to add it to the "Attach a volume" section. To attach the volume press the "Attach" button.
 
-.. figure:: _static/VMs_AttachVolume_Attach.png
-
 3. ISO - Allows attaching ISO. 
 
-Add ISO clicking the "Select" button. Select ISO in the dialogue window and click "Attach" to assign it to the VM. 
+Attach ISO clicking the "Attach" button. Select ISO in the dialogue window and click "Attach" to assign it to the VM. 
+
+.. figure:: _static/VMs_AddISO.png
 
 To easily find the ISO file you need, please, use the search tool above the list. Additionally, you can filter the list by OS family(-ies), by type(-s), by group(-s). Tick the ISO file you wish in the list and click "Attach". The ISO will be attached to the VM.
 
@@ -400,7 +406,7 @@ You can attach the ISO file clicking the "Detach" button.
 
 .. figure:: _static/VMs_ISO_Detach.png
 
-Network
+Network Tab
 """"""""""""""""""""""""""
 
 1. NIC information
@@ -419,7 +425,7 @@ This tab allows viewing |view| the implemented firewall rules for the virtual ma
 
 See the Firewall_ section for more information on firewall rules in the system.
 
-Tags
+Tags Tab
 """"""""""""""""""""""""
 
 Under this tab you can create and see the VM tags. 
@@ -576,7 +582,7 @@ Like in the Virtual Machine information tab the following actions are available 
     - Description * - Provide a short description of the template.
     - OS type * - Select an OS type from the drop-down list.
     - Group - Select a group from the drop-won list.
-    - Password enabled - Tick this option if the template has the password change script installed.
+    - Password enabled - Tick this option if the template has the password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
     - Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support the dynamic scaling of VM CPU/memory.
  
 .. note:: Required fields are marked with an asterisk (*).
@@ -675,68 +681,76 @@ The data disk will be deleted from the system.
 
 Images
 ---------------
-Under this section you can manage Templates and ISO that are installation sources for VMs.
+Under the "Images" section you can manage Templates and ISO that are used as installation sources for VMs.
 
-You can switch between the list of Templates or of ISO by selecting a corresponding option above:
+You can switch from Templates to ISO by selecting a corresponding option above:
+
+.. figure:: _static/Images_TempISO.png
 
 Manage Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-List of templates can be switched to the box view.
+A template is a reusable configuration for virtual machines. When users launch VMs, they can choose from a list of templates. Administrators and users can create templates and add them to CloudStack.
 
-Filtering and search tool.
+There are variety of ways to add more templates to the system. In the :ref:`VM_Info` section we have descibed one way of template creation from a VM volume snapshot under the "Storage" tab of VM information sidebar.
 
-Select by:
+Another way is to create a new template filling in the form under the "Images" section.
 
-OS families
-Types
-Zones
-Groups
+Existing templates are presented in the list. You can switch the list view of templates to the box view using the view button |view box icon| in the upper-right corner.
 
-Group by:
+The list of templates can be filtered using the filtering tool. The filtering parameters are as follows:
 
-Zones
-Groups
+- OS families;
+- Types;
+- Zones;
+- Groups.
 
-Search by name/a part of the name.
+Besides, adjust the list view using grouping tool. Templates can be grouped by zones or/and groups.
+
+.. figure:: _static/Images_Temp_Grouping.png
+
+Use the search tool to easily find a template by its name or by a part of the name.
 
 Create Template
 """"""""""""""""""""""""""
 
-Name *
+You can create a new template clicking "Create" in the lower-right corner. It will open a creation form where you should specify the following information:
 
-Description *
+1. Name * - Enter a name for the new template.
 
-URL *
+#. Description * - Provide a short description to have a general idea about the template.
 
-OS type *
+#. URL * - Specify a valid url to download the template file from. (?)
 
-Zone *
+#. OS type * - This helps CloudStack and the hypervisor perform certain operations and make assumptions that improve the VM performance. Select from the drop-down list the necessary option, or select "Other" there is no needed option in the list.
 
-Group
+#. Zone * - Choose the zone where you want the template to be available.
 
-Password enabled checkbox
+#. Group - Select a group from the drop-down list.
 
-Dynamically scalable checkbox
+#. Password enabled checkbox - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
 
-Show additional fields:
+#. Dynamically scalable checkbox - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory.
 
-Hypervisor - KVM
+.. note:: Required fields are marked with an asterisk (*).
 
-Format - 
+9. "Show additional fields" allows expanding the form and set more settings:
 
-Extractable checkbox
+   - Hypervisor - Select a hypervisor from the drop-down list.
 
-Requires HVM checkbox
+   - Format - The format of the template upload file, e.g. VHD or RAW or VMDK.
 
+   - Extractable checkbox - Tick this option if the template is available for extraction. If this option is selected, end-users can download a full image of a template.
+
+   - Requires HVM checkbox - Tick this option for creating a template that requires HVM.
 
 
 Template Information
 """"""""""""""""""""""""
 
-Presented in the right sidebar.
+The information on each template is presented in the right-side bar. It is opened by clicking the template card or line in the list. The information is presented in 3 tabs:
 
-General: Name, Actions (Delete), Icon (?)
+1. General Information: Name, Actions (Delete), Icon (?)
 
 Template tab: Description, OS, General Information, Group
 
@@ -783,6 +797,7 @@ Logout
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
 .. |view icon| image:: _static/view_list_icon.png
+.. |view box icon| image:: _static/box_icon.png
 .. |view| image:: _static/view_icon.png
 .. |actions icon| image:: _static/actions_icon.png
 .. |edit icon| image:: _static/edit_icon.png
