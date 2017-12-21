@@ -102,9 +102,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand('deploy', params);
   }
 
-  /* public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
+/*   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
      return this.asyncJobService.getList().map(jobs => {
-       return jobs.filter(job => !job.status && job.cmd)
+       return jobs.filter(job => !job.jobstatus && mapCmd(job))
          .map(job => this.registerVmJob(job));
      });
    }*/
