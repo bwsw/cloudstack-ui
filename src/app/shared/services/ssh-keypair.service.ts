@@ -16,9 +16,9 @@ export interface SshKeyCreationData {
 
 @Injectable()
 @BackendResource({
-  entity: 'SSHKeyPair',
-  entityModel: SSHKeyPair
+  entity: 'SSHKeyPair'
 })
+
 export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
   constructor(
     private asyncJobService: AsyncJobService,

@@ -4,6 +4,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as securityGroup from './sg.actions';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
@@ -240,4 +241,8 @@ export const selectFilteredSecurityGroups = createSelector(
   }
 );
 
-
+export const selectSecurityGroupsForVmCreation = createSelector(
+  selectAll, fromAuth.getUserAccountEntity, (securityGroups, account) => {
+    const accountFilter = (securityGroup: SecurityGroup) => securityGroup.account === account.account.name;
+    return securityGroups.filter((securityGroup) => accountFilter(securityGroup));
+  });

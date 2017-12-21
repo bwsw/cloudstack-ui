@@ -1,13 +1,13 @@
 import { OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { BaseModel } from '../../models/base.model';
+import { BaseModelInterface } from '../../models/base.model';
 import { BaseBackendService } from '../../services/base-backend.service';
 import { NotificationService } from '../../services/notification.service';
 import { EntityDoesNotExistError } from './entity-does-not-exist-error';
 
 
-export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
+export abstract class SidebarComponent<M extends BaseModelInterface> implements OnInit {
   public entity: M;
   public notFound: boolean;
 
