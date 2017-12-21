@@ -21,7 +21,7 @@
     <cs-account-user-card [user]="user"></cs-account-user-card>
 
     <mat-action-row
-      *ngIf="isAdmin || account.name === user.username"
+      *ngIf="isAdmin || currentUserId === user.id"
     >
       <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
         <mat-icon>more_vert</mat-icon>

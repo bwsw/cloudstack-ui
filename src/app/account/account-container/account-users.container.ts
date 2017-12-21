@@ -11,6 +11,7 @@ import { AuthService } from '../../shared/services/auth.service';
     <cs-account-users
       [account]="account$ | async"
       [isAdmin]="isAdmin()"
+      [currentUserId]="currentUserId()"
       (onUserRegenerateKey)="generateUserKeys($event)"
       (onUserDelete)="deleteUser($event)"
     ></cs-account-users>`
@@ -26,6 +27,10 @@ export class AccountUsersContainerComponent {
 
   public isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  public currentUserId() {
+    return this.authService.user.userId;
   }
 
   public generateUserKeys(user) {

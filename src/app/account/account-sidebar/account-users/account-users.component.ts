@@ -12,6 +12,7 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
 export class AccountUsersComponent {
   @Input() public account: Account;
   @Input() public isAdmin: boolean;
+  @Input() public currentUserId: string;
 
   @Output() public onUserDelete = new EventEmitter<AccountUser>();
   @Output() public onUserRegenerateKey = new EventEmitter<AccountUser>();
