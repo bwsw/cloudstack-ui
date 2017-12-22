@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { ApiKeys } from '../../shared/models/account-user.model';
 import { BACKEND_API_URL } from '../../shared/services/base-backend.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 
 interface ApiInfoLink {
@@ -28,11 +29,6 @@ interface ApiInfoLinks {
 interface ApiInfoTextFields {
   apiKey: ApiInfoTextField;
   apiSecretKey: ApiInfoTextField;
-}
-
-interface ApiKeys {
-  apiKey: string;
-  secretKey: string;
 }
 
 @Component({
@@ -77,11 +73,11 @@ export class ApiInfoComponent implements OnInit {
         this.inputFields = {
           apiKey: {
             title: 'SETTINGS.API_CONFIGURATION.API_KEY',
-            value: apiKeys.apiKey
+            value: apiKeys.apikey
           },
           apiSecretKey: {
             title: 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY',
-            value: apiKeys.secretKey
+            value: apiKeys.secretkey
           }
         };
       });
@@ -119,17 +115,7 @@ export class ApiInfoComponent implements OnInit {
   }
 
   private getApiKeys(): Observable<ApiKeys> {
-    return this.userService.getList()
-      .map(users => {
-        if (!users || !users.length) {
-          throw new Error('Unable to create user\'s API key');
-        } else {
-          return {
-            apiKey: users[0].apiKey,
-            secretKey: users[0].secretKey
-          };
-        }
-      });
+    return this.userService.getUserKeys(this.userId);
   }
 
   private regenerateKeys(): void {

@@ -1,9 +1,12 @@
-.name {
+.key {
+  flex-grow: 1;
+  flex-shrink: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: default;
   max-width: 170px;
+  margin-right: 5px;
 }
 
 .value {
@@ -12,11 +15,23 @@
   cursor: default;
   text-align: right;
   white-space: nowrap;
+  flex-shrink: 2;
 
   input {
     text-align: end;
   }
+
+  cs-input-group {
+    mat-form-field {
+      padding-top: 0.2em;
+
+      /deep/ div.mat-input-infix {
+        width: auto;
+      }
+    }
+  }
 }
+
 
 .flex-container {
   display: flex;

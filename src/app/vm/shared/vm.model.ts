@@ -51,7 +51,7 @@ export const isHttpAuthMode = (vm: VirtualMachine) => {
   const authModeTag = vm.tags.find(
     tag => tag.key === VirtualMachineTagKeys.authModeToken);
   const authMode = authModeTag && authModeTag.value;
-  const mode = authMode && authMode.split(',').find(m => m === AuthModeType.HTTP);
+  const mode = authMode && authMode.split(',').find(m => m.toLowerCase() === AuthModeType.HTTP);
   return mode && vm.state === VmState.Running;
 };
 
