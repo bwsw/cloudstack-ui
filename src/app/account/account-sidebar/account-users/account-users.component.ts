@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Account } from '../../../shared/models/account.model';
-import { AccountUser } from '../../../shared/models/account-user.model';
 import { MatDialog } from '@angular/material';
+import { AccountUser } from '../../../shared/models/account-user.model';
+import { Account } from '../../../shared/models/account.model';
 import { AccountUserEditContainerComponent } from '../../account-container/account-user-edit.container';
 import { AccountUserPasswordFormContainerComponent } from '../../account-container/account-user-password.container';
 
@@ -11,6 +11,8 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
 })
 export class AccountUsersComponent {
   @Input() public account: Account;
+  @Input() public isAdmin: boolean;
+  @Input() public currentUserId: string;
 
   @Output() public onUserDelete = new EventEmitter<AccountUser>();
   @Output() public onUserRegenerateKey = new EventEmitter<AccountUser>();
