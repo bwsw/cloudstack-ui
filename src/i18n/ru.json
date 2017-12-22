@@ -283,7 +283,7 @@
     "LICENSE": {
       "LICENSE_1": "© {{ year }}, ",
       "LICENSE_2": "Bitworks Software, Ltd.",
-      "LICENSE_3": "Released under Apache v2.0 license"
+      "LICENSE_3": "Выпущен под лицензией Apache версии 2.0"
     }
   },
   "VM_PAGE": {
@@ -311,7 +311,7 @@
       "NUMBER_OF_VMS": "Количество",
       "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
       "CPUS": "CPU",
-      "RAM": "RAM",
+      "RAM": "ОЗУ",
       "VOLUMES": "Диски",
       "SNAPSHOTS": "Снимки",
       "STORAGE": "Хранилище",
@@ -336,8 +336,8 @@
     },
     "CARD": {
       "IP_NA": "IP недоступен",
-      "CPU": "CPU",
-      "RAM": "RAM",
+      "CPU": "ЦП",
+      "RAM": "ОЗУ",
       "DISKS": "Диски"
     },
     "SIDEBAR": {
@@ -529,16 +529,16 @@
       "AFFINITY_GROUP": "Аффинитетная группа",
       "SECURITY_GROUPS": "Брандмауэр",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
-      "KB_US": "Standard (US) keyboard",
-      "KB_UK": "UK keyboard",
-      "KB_JP": "Japanese keyboard",
-      "KB_SC": "Simplified Chinese keyboard",
+      "KB_US": "Стандартная раскладка (США)",
+      "KB_UK": "Английская раскладка (UK)",
+      "KB_JP": "Японская раскладка",
+      "KB_SC": "Упрощенная китайская раскладка",
       "SSH_KEY_PAIR": "SSH ключ",
       "NO_SSH_KEY": "Нет SSH ключа",
       "START_VM": "Запустить ВМ",
       "YOU_RAN_OUT_OF": "Вам не хватает",
-      "CPUS": "CPU",
-      "MEMORY": "RAM",
+      "CPUS": "ЦП",
+      "MEMORY": "ОЗУ",
       "INSTANCES": "ВМ",
       "IPS": "IP",
       "VOLUMES": "Дисков",
