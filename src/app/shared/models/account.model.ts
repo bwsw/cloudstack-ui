@@ -21,7 +21,6 @@ export interface AccountForm {
   lastname: string;
   password: string;
   domainid: string;
-  account?: string;
   roleid: string;
   timezone?: TimeZone;
   networkdomain?: string;
@@ -34,7 +33,6 @@ export class AccountData {
   lastname: string;
   password: string;
   domainid: string;
-  account?: string;
   roleid: string;
   timezone?: string;
   networkdomain?: string;

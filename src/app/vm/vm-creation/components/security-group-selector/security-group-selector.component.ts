@@ -47,6 +47,8 @@ export class SecurityGroupSelectorComponent implements ControlValueAccessor {
     } else {
       this.selectedSecurityGroups.push(securityGroup);
     }
+
+    this.propagateChange(this.selectedSecurityGroups);
   }
 
   public checkSelectedSG(securityGroupId: string): boolean {

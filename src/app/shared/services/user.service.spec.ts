@@ -1,8 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  Component,
-  Injectable
-} from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import {
   async,
   discardPeriodicTasks,
@@ -12,10 +9,8 @@ import {
 } from '@angular/core/testing';
 import { BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import {
-  NavigationExtras,
-  Router
-} from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { MockUserTagService } from '../../../testutils/mocks/tag-services/mock-user-tag.service';
@@ -24,12 +19,11 @@ import { AuthService } from './auth.service';
 import { CacheService } from './cache.service';
 import { ConfigService } from './config.service';
 import { ErrorService } from './error.service';
+import { JobsNotificationService } from './jobs-notification.service';
 import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
 import { UserTagService } from './tags/user-tag.service';
 import { UserService } from './user.service';
-import { Store } from '@ngrx/store';
-import { JobsNotificationService } from './jobs-notification.service';
 
 
 @Component({
@@ -77,6 +71,10 @@ function getRefreshInterval(): number {
 
 function setRefreshInterval(value: number): void {
   configStorage['sessionRefreshInterval'] = value;
+}
+
+function setSessionTimeout(value: number): void {
+  configStorage['sessionTimeout'] = value;
 }
 
 @Injectable()
@@ -136,12 +134,14 @@ const testBedConfig = {
 describe('User service session', () => {
   let userService: UserService;
   let configService: ConfigService;
+  let userTagService: UserTagService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(testBedConfig);
 
     userService = TestBed.get(UserService);
     configService = TestBed.get(ConfigService);
+    userTagService = TestBed.get(UserTagService);
   }));
 
   it('should set inactivity timeout', () => {
@@ -152,8 +152,25 @@ describe('User service session', () => {
       .subscribe(timeout => expect(timeout).toBe(1));
   });
 
+  it('should get inactivity timeout', () => {
+    userService.getInactivityTimeout()
+      .subscribe(timeout => expect(timeout).toBe(0));
+    const spyTagSessionTimeout =
+      spyOn(userTagService, 'getSessionTimeout').and.returnValue(Observable.of(-1));
+    userService.getInactivityTimeout()
+      .subscribe(timeout => expect(timeout).toBe(30));
+    expect(spyTagSessionTimeout).toHaveBeenCalled();
+    //expect(spySessionTimeout).toHaveBeenCalled();
+
+    setSessionTimeout(10);
+    userService.getInactivityTimeout()
+      .subscribe(timeout => expect(timeout).toBe(10));
+    expect(spyTagSessionTimeout).toHaveBeenCalledTimes(2);
+  });
+
   it('should refresh session', fakeAsync(() => {
-    const refresh = spyOn(userService, 'sendRefreshRequest');
+    const refresh = spyOn(userService, 'sendRefreshRequest').and.callThrough();
+    const getList = spyOn(userService, 'getList').and.returnValue(Observable.of(null));
     const inactivityTimeout = 10;
     const refreshInterval = 60;
 
@@ -162,6 +179,7 @@ describe('User service session', () => {
 
     tick(getRefreshInterval() * inactivityTimeout * 60 / refreshInterval);
     expect(refresh).toHaveBeenCalledTimes(inactivityTimeout - 1);
+    expect(getList).toHaveBeenCalled();
   }));
 
   it('should stop refreshing if inactivity interval=0', fakeAsync(() => {

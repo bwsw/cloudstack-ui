@@ -29,6 +29,8 @@ export const resourceLimitsReducers = {
   list: reducer,
 };
 
+const sortByResourceTypes = (a: ResourceLimit, b: ResourceLimit) => a.resourcetype - b.resourcetype;
+
 /**
  * createEntityAdapter creates many an object of helper
  * functions for single or multiple operations
@@ -39,7 +41,7 @@ export const resourceLimitsReducers = {
  */
 export const adapter: EntityAdapter<ResourceLimit> = createEntityAdapter<ResourceLimit>({
   selectId: (item: ResourceLimit) => item.resourcetype.toString(),
-  sortComparer: false
+  sortComparer: sortByResourceTypes
 });
 
 /** getInitialState returns the default initial state
@@ -62,9 +64,6 @@ export function reducer(
       };
     }
     case event.LOAD_RESOURCE_LIMITS_RESPONSE: {
-
-      const resourceLimits = action.payload;
-
       return {
         /**
          * The addMany function provided by the created adapter
@@ -73,7 +72,7 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(resourceLimits, state),
+        ...adapter.addAll([...action.payload], state),
         loading: false
       };
     }

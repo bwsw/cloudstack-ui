@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { AccountService } from '../../../shared/services/account.service';
+import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models/account.model';
+import { AccountService } from '../../../shared/services/account.service';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
-import { AccountUserService } from '../../../shared/services/account-user.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { MatDialog } from '@angular/material';
-
-import * as accountActions from './accounts.actions';
+import { UserService } from '../../../shared/services/user.service';
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
+
+import * as accountActions from './accounts.actions';
 
 @Injectable()
 export class AccountsEffects {
@@ -113,6 +110,13 @@ export class AccountsEffects {
     });
 
   @Effect({ dispatch: false })
+  accountCreateSuccess$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_CREATE_SUCCESS)
+    .do((action: accountActions.CreateSuccess) => {
+      this.dialog.closeAll();
+    });
+
+  @Effect({ dispatch: false })
   deleteSuccessNavigate$: Observable<Account> = this.actions$
     .ofType(accountActions.ACCOUNT_DELETE_SUCCESS)
     .map((action: accountActions.DeleteSuccess) => action.payload)
@@ -144,7 +148,7 @@ export class AccountsEffects {
   userDelete$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_DELETE)
     .switchMap((action: accountActions.AccountUserDelete) =>
-      this.accountUserService.removeUser(action.payload)
+      this.userService.removeUser(action.payload)
         .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
@@ -160,7 +164,7 @@ export class AccountsEffects {
   userCreate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE)
     .switchMap((action: accountActions.AccountUserCreate) =>
-      this.accountUserService.createUser(action.payload)
+      this.userService.createUser(action.payload)
         .map((user) => new accountActions.AccountUserCreateSuccess(user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
@@ -176,7 +180,7 @@ export class AccountsEffects {
   userUpdate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_UPDATE)
     .switchMap((action: accountActions.AccountUserUpdate) =>
-      this.accountUserService.updateUser(action.payload)
+      this.userService.updateUser(action.payload)
         .map((user) => new accountActions.AccountUserUpdateSuccess(user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
@@ -192,10 +196,21 @@ export class AccountsEffects {
   userGenerateKeys$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_GENERATE_KEYS)
     .switchMap((action: accountActions.AccountUserGenerateKey) =>
-      this.accountUserService.generateKeys(action.payload)
-        .map(res => new accountActions.AccountUserGenerateKeySuccess({
+      this.userService.registerKeys(action.payload.id)
+        .map(res => new accountActions.AccountLoadUserKeysSuccess({
           user: action.payload,
-          userKeys: res.userkeys
+          userKeys: res
+        }))
+        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+
+  @Effect()
+  userLoadKeys$: Observable<Action> = this.actions$
+    .ofType(accountActions.ACCOUNT_LOAD_USER_KEYS)
+    .switchMap((action: accountActions.AccountLoadUserKeys) =>
+      this.userService.getUserKeys(action.payload.id)
+        .map(res => new accountActions.AccountLoadUserKeysSuccess({
+          user: action.payload,
+          userKeys: res
         }))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
@@ -206,13 +221,13 @@ export class AccountsEffects {
   constructor(
     private actions$: Actions,
     private accountService: AccountService,
-    private accountUserService: AccountUserService,
+    private userService: UserService,
     private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
     private notificationService: NotificationService,
     private router: Router,
     private dialog: MatDialog
-) {
+  ) {
   }
 
   private onNotify(user, message) {

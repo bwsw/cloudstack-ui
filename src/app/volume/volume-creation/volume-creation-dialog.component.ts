@@ -57,12 +57,9 @@ export class VolumeCreationDialogComponent {
     this.onVolumeCreate.emit(volumeCreationParams);
   }
 
-  public updateDiskOffering(change: MatSelectChange): void {
-    if (change) {
-      const diskOffering = change.value as DiskOffering;
-      this.diskOffering = diskOffering;
-      this.showResizeSlider = diskOffering.isCustomized;
-    }
+  public updateDiskOffering(diskOfferingId: string): void {
+    this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
+    this.showResizeSlider = this.diskOffering.isCustomized;
   }
 
   public updateZone(zoneId: string) {

@@ -4,7 +4,9 @@ import { MatDialog } from '@angular/material';
 import { Rules } from '../../../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-security-group-mode';
-import { VmCreationSecurityGroupComponent } from '../security-group/vm-creation-security-group.component';
+// tslint:disable-next-line
+import { VmCreationSecurityGroupContainerComponent } from '../security-group/containers/vm-creation-security-group.container';
+
 import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -29,7 +31,8 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
     this.savedData = VmCreationSecurityGroupData.fromRules(new Rules());
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   @Input()
   public get securityGroupRulesManagerData(): VmCreationSecurityGroupData {
@@ -49,7 +52,8 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {
+  }
 
   public get isModeNew(): boolean {
     return this.savedData && this.savedData.mode === VmCreationSecurityGroupMode.Builder;
@@ -76,14 +80,14 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
 
   public showDialog(): void {
     const data = cloneDeep(this.savedData);
-    this.dialog.open(VmCreationSecurityGroupComponent, {
-      width: '720px',
+    this.dialog.open(VmCreationSecurityGroupContainerComponent, {
+      width: '800px',
       data
     })
       .afterClosed()
-      .subscribe((data: any) => {
-        if (data) {
-          this.updateData(data);
+      .subscribe((res: any) => {
+        if (res) {
+          this.updateData(res);
         }
       });
   }

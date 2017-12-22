@@ -1,5 +1,10 @@
 import { Component, forwardRef, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSelectChange } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+  MatSelectChange
+} from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { ProgressLoggerController } from '../../shared/components/progress-logger/progress-logger.service';
@@ -272,7 +277,7 @@ export class VmCreationComponent implements OnInit {
   }
 
 
-  private showTemplateAgreementDialog(): Observable<BaseTemplateModel> {
+  private showTemplateAgreementDialog(): Observable<boolean> {
     return this.dialog.open(VmCreationAgreementComponent, {
       width: '900px',
       data: this.formState.state.template
@@ -301,11 +306,11 @@ export class VmCreationComponent implements OnInit {
     });
 
     const inProgressMessage = this.progressLoggerController.messages.find(message => {
-      return message.status.includes(ProgressLoggerMessageStatus.InProgress);
+      return message.status && message.status.includes(ProgressLoggerMessageStatus.InProgress);
     });
 
     this.updateLoggerMessage(
-      inProgressMessage.text,
+      inProgressMessage && inProgressMessage.text,
       [ProgressLoggerMessageStatus.Error]
     );
 

@@ -40,6 +40,7 @@
     <mat-checkbox
       name="rule-checkbox"
       [(ngModel)]="item.checked"
+      (ngModelChange)="onCheckChange.emit(item)"
     ></mat-checkbox>
   </span>
 </mat-list-item>
