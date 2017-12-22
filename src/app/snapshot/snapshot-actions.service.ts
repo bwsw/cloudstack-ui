@@ -3,13 +3,9 @@ import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { ActionsService } from '../shared/interfaces/action-service.interface';
 import { Action } from '../shared/interfaces/action.interface';
-import {
-  Snapshot,
-  Volume
-} from '../shared/models';
-import {
-  TemplateCreationContainerComponent
-} from '../template/template-creation/containers/template-creation.container';
+import { Snapshot, Volume } from '../shared/models';
+// tslint:disable-next-line
+import { TemplateCreationContainerComponent } from '../template/template-creation/containers/template-creation.container';
 import { TemplateResourceType } from '../template/shared/base-template.service';
 
 

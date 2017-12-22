@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Action } from '@ngrx/store';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
@@ -15,6 +15,7 @@ import { VolumeTagService } from '../../../shared/services/tags/volume-tag.servi
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
+
 import * as volumeActions from './volumes.actions';
 
 @Injectable()
@@ -61,7 +62,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
           });
-          return new volumeActions.UpdateVolume(new Volume(volume));
+          return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -71,7 +72,6 @@ export class VolumesEffects {
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
-
 
   @Effect()
   attachVolume$: Observable<Action> = this.actions$
@@ -101,7 +101,7 @@ export class VolumesEffects {
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
             });
-            return new volumeActions.UpdateVolume(new Volume(volume))
+            return new volumeActions.UpdateVolume(volume)
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
@@ -112,6 +112,7 @@ export class VolumesEffects {
           });
         });
     });
+
   @Effect()
   attachVolumeToVM$: Observable<Action> = this.actions$
     .ofType(volumeActions.ATTACH_VOLUME_TO_VM)
@@ -130,7 +131,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
           });
-          return new volumeActions.UpdateVolume(new Volume(volume))
+          return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -158,7 +159,7 @@ export class VolumesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
               });
-              return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
+              return Observable.of(new volumeActions.ReplaceVolume(volume));
             })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -193,7 +194,7 @@ export class VolumesEffects {
               message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
             });
             this.dialog.closeAll();
-            return new volumeActions.ResizeVolumeSuccess(new Volume(volume));
+            return new volumeActions.ResizeVolumeSuccess(volume);
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
@@ -272,7 +273,11 @@ export class VolumesEffects {
             .map(() => {
               const newSnapshots = action.payload.volume.snapshots.filter(
                 _ => _.id !== action.payload.snapshot.id);
-              const newVolume = Object.assign({}, action.payload.volume, {snapshots: newSnapshots});
+              const newVolume = Object.assign(
+                {},
+                action.payload.volume,
+                { snapshots: newSnapshots }
+              );
               this.jobsNotificationService.finish({
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
@@ -289,8 +294,6 @@ export class VolumesEffects {
             });
         });
     });
-
-
 
   @Effect()
   deleteVolume$: Observable<Action> = this.actions$
@@ -331,7 +334,7 @@ export class VolumesEffects {
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
                 });
-                return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
+                return Observable.of(new volumeActions.ReplaceVolume(volume));
               })
               .catch((error: Error) => {
                 this.jobsNotificationService.fail({

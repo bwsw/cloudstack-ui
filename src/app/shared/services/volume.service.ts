@@ -57,9 +57,12 @@ export class VolumeService extends BaseBackendService<Volume> {
       snapshotsRequest
     ).map(([volumes, snapshots]) => {
       volumes.forEach(volume => {
-        volume.snapshots = snapshots.filter(
-          (snapshot: Snapshot) => snapshot.volumeId === volume.id
-        );
+        return {
+          ...volume,
+          snapshots: snapshots.filter(
+            (snapshot: Snapshot) => snapshot.volumeId === volume.id
+          )
+        };
       });
       return volumes.filter(volume => !volume.isDeleted);
     });
