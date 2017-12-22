@@ -1250,9 +1250,9 @@
     "READY": "Готов"
   },
   "SNAPSHOT_STATE": {
-    "BACKEDUP": "Backed up",
+    "BACKEDUP": "Резервная копия создана",
     "CREATING": "Создается",
-    "BACKINGUP": "Backing up",
+    "BACKINGUP": "Создается резервная копия",
     "ALLOCATED": "Аллоцирован",
     "ERROR": "Ошибка"
   },
@@ -1328,10 +1328,10 @@
     "LOCK": "Заблокировать аккаунт"
   },
   "ACCOUNT_USER_ACTION": {
-    "DELETE": "Delete user",
-    "EDIT": "Edit user",
-    "REGENERATE_KEY": "Regenerate key",
-    "CHANGE_PASSWORD": "Change password"
+    "DELETE": "Удалить пользователя",
+    "EDIT": "Изменить пользователя",
+    "REGENERATE_KEY": "Сгенерировать ключ",
+    "CHANGE_PASSWORD": "Изменить пароль"
   },
   "ACCOUNT_STATE": {
     "DISABLED": "Деактивирован",
