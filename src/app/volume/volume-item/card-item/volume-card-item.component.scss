@@ -12,11 +12,11 @@
 }
 
 .root-disk {
-  background-image: repeating-linear-gradient(
-      -45deg,
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0) 20px,
-      rgba(0, 0, 0, 0.05) 20px,
-      rgba(0, 0, 0, 0.05) 40px
+  background: center/4px 4px repeat radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.05) 2px,
+      transparent 2px,
+      transparent 100%
   );
 }

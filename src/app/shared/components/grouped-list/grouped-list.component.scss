@@ -17,14 +17,14 @@
   }
 
   & h4 {
-    padding-top: 0;
+    padding-top: 0 !important;
   }
 
   & & h4 {
-    font-size: 20px;
+    font-size: 18px !important;
   }
 
   & & & h4 {
-    font-size: 16px;
+    font-size: 15px !important;
   }
 }
