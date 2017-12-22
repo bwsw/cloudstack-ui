@@ -489,10 +489,7 @@ export const allTemplatesReadyForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
   vmCreationListFilters,
-  (templates, zoneId, account, filter) => {
-    console.log(filterForVmCreation(templates, zoneId, account, filter));
-    return filterForVmCreation(templates, zoneId, account, filter).length;
-  });
+  (templates, zoneId, account, filter) => filterForVmCreation(templates, zoneId, account, filter).length);
 
 const filterForVmCreation = (templates, zoneId, account, filter) => {
   const selectedZoneFilter = (template: BaseTemplateModel) => {
