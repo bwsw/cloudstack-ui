@@ -36,9 +36,13 @@ export class GroupedListComponent implements OnChanges {
           name: groupings[this.level].name(groups[gn][0]),
           items: groups[gn]
         };
-      }).sort((group1, group2) => group1.name.localeCompare(group2.name));
+      }).sort((group1, group2) => this.sortGroups(group1, group2));
     } else {
       this.tree = [{ items: this.list }];
     }
+  }
+
+  protected sortGroups(group1, group2) {
+    return group1.name.localeCompare(group2.name);
   }
 }
