@@ -14,6 +14,7 @@ import { AuthService } from '../../shared/services/auth.service';
       [currentUserId]="currentUserId()"
       (onUserRegenerateKey)="generateUserKeys($event)"
       (onUserDelete)="deleteUser($event)"
+      (onLoadUserKeys)="loadUserKeys($event)"
     ></cs-account-users>`
 })
 export class AccountUsersContainerComponent {
@@ -39,5 +40,9 @@ export class AccountUsersContainerComponent {
 
   public deleteUser(account) {
     this.store.dispatch(new accountActions.AccountUserDelete(account));
+  }
+
+  public loadUserKeys(user) {
+    this.store.dispatch(new accountActions.AccountLoadUserKeys(user));
   }
 }
