@@ -15,7 +15,7 @@ Project History
 ---------------------------
 This page provides some background about the project, describes what CloudStack-UI is, and why it was developed.
 
-At Bitworks Software, we have been running an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production). And we've found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original CloudStack UI and make a lot of operational mistakes. That’s why we've decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At `Bitworks Software <https://bitworks.software/en>`_, we have been running an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production). And we've found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original CloudStack UI and make a lot of operational mistakes. That’s why we've decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 There are several aims we strived to achieve with the new UI: 
 
@@ -29,15 +29,12 @@ There are several aims we strived to achieve with the new UI:
 
 5) The next key point that we wanted to cover with the new UI is to have some extra features beyond the functionality that CloudStack provides, e.g. DNS management, helpdesk integration, PaaS management, runtime statistics charts and monitoring.
 
-6) And a final goal is to have a community support that could help us to improve the product and provide better user experience for the users of CloudStack
-
-The project is developed by `Bitworks Software <https://bitworks.software/en>`_ Front-end Division within the educational marathon, which has the purpose to incorporate our new team members and show them our standard front-end development workflow.
+6) And a final goal is to have a community support that could help us to improve the product and provide better user experience for the CloudStack users.
 
 Implementation Details
 -----------------------------
-(to correct versions)
 
-Designed compatible with Apache CloudStack 4.9 and hasn't tested for the previous versions of CloudStack.
+Designed compatible with Apache CloudStack 4.10 and has been tested for 4.9.
 
 Powered by Angular and Material 2.
 
@@ -52,7 +49,7 @@ Tested and works fine in next modern browsers:
 Documentation
 ---------------------
 
-The documentation for the project is presented by a User Guide that explains to average users how to use the UI when working with CloudStack. It also includes explanations on managers' part clarifying how to use and manage the cloud infrastructure via CloudStack-UI.
+The documentation for the project is presented in the :ref:`CS_User_Guide` that explains to average users how to use the UI when working with CloudStack. It also includes explanations on managers' part clarifying how to manage the cloud infrastructure via CloudStack-UI.
 
 We hope the new features we support will be useful for both end-users and administrators.
 
