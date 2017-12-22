@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 import {
-  Snapshot,
   Volume,
   VolumeCreationData,
   isDeleted
