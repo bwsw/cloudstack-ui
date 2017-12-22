@@ -33,7 +33,7 @@ export class VmTagsContainerComponent {
   public editTag(tagEditAction: TagEditAction) {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
       const newTag = {
-        resourceIds: vm.id,
+        resourceId: vm.id,
         resourceType: vm.resourceType,
         key: tagEditAction.newTag.key,
         value: tagEditAction.newTag.value
@@ -47,7 +47,6 @@ export class VmTagsContainerComponent {
         { tags: newTags }
       )));
     });
-
   }
 
   public deleteTag(tag: Tag) {
