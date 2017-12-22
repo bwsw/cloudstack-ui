@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../shared/services/auth-guard.service';
-import { AccountPageContainerComponent } from './account-container/account.container';
-import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
 import { AccountDetailsContainerComponent } from './account-container/account-details.container';
-import { AccountCreationComponent } from './creation-form/account-creation.component';
+import { AccountSidebarContainerComponent } from './account-container/account-sidebar.container';
 import { AccountUsersContainerComponent } from './account-container/account-users.container';
+import { AccountPageContainerComponent } from './account-container/account.container';
+import { AccountCreationComponent } from './creation-form/account-creation.component';
 
 export const accountsRoutes: Routes = [
   {

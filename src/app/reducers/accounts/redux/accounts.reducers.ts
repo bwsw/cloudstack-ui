@@ -1,17 +1,10 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AccountUser } from '../../../shared/models/account-user.model';
 import { Account } from '../../../shared/models/account.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as account from './accounts.actions';
-import { Utils } from '../../../shared/services/utils/utils.service';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -141,7 +134,7 @@ export function reducer(
         return adapter.addOne(action.payload, state);
       }
     }
-    case account.ACCOUNT_USER_GENERATE_KEYS_SUCCESS: {
+    case account.ACCOUNT_LOAD_USER_KEYS_SUCCESS: {
       const updatedUser: AccountUser = { ...action.payload.user };
       updatedUser.secretkey = action.payload.userKeys.secretkey;
       updatedUser.apikey = action.payload.userKeys.apikey;
@@ -293,7 +286,8 @@ export const selectDomainAccounts = createSelector(
   selectAll,
   fromAuth.getUserAccount,
   (accounts, userAccount) => {
-    const userDomainFilter = account => !!userAccount && account.domainid === userAccount.domainid;
+    const userDomainFilter =
+      account => !!userAccount && account.domainid === userAccount.domainid;
 
     return accounts.filter(account => {
       return userDomainFilter(account);
