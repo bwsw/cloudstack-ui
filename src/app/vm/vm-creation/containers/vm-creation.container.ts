@@ -93,7 +93,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly affinityGroups$ = this.store.select(fromAffinityGroups.selectAll);
   readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly sshKeyPairs$ = this.store.select(fromSshKeys.selectAll);
+  readonly sshKeyPairs$ = this.store.select(fromSshKeys.selectSshKeysForAccount);
 
   constructor(
     private store: Store<State>,

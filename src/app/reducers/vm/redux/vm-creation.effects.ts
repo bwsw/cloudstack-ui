@@ -248,12 +248,15 @@ export class VirtualMachineCreationEffects {
                 temporaryVm.state = VmState.Deploying;
                 this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
 
-                this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
                 return this.vmService.incrementNumberOfVms()
                   .switchMap(() => this.vmService.registerVmJob(deployResponse));
               })
-              .switchMap((deployedVm: VirtualMachine) => this.doCreateInstanceGroup(deployedVm, action.payload)
-                .switchMap(() => this.doCopyTags(deployedVm, action.payload)))
+              .switchMap((deployedVm: VirtualMachine) => {
+                this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
+
+                return this.doCreateInstanceGroup(deployedVm, action.payload)
+                  .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
+              })
               .map((vmWithTags) => {
                 if (action.payload.doStartVm) {
                   vmWithTags.state = VmState.Running;
@@ -263,8 +266,7 @@ export class VirtualMachineCreationEffects {
               })
               .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
           })
-          .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error))))
-        .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
+          .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
     });
 
   @Effect({ dispatch: false })
@@ -505,7 +507,8 @@ export class VirtualMachineCreationEffects {
       .includes(state.affinityGroup.name.toUpperCase());
 
   private createSecurityGroup = (state: VmCreationState) => state.zone && state.zone.securitygroupsenabled
-    && state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder;
+    && state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder
+    && !!state.securityGroupData.rules.templates.length;
 
   private createInstanceGroup = (state: VmCreationState) => state.instanceGroup && !!state.instanceGroup.name;
 
@@ -517,9 +520,15 @@ export class VirtualMachineCreationEffects {
         name: state.affinityGroup.name,
         type: AffinityGroupType.hostAntiAffinity
       })
-        .map(() => this.store.dispatch(new vmActions.DeploymentChangeStatus({
-          stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED
-        })));
+        .map(() => {
+          this.store.dispatch(new vmActions.DeploymentChangeStatus({
+            stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED
+          }));
+          this.store.dispatch(new vmActions.VmFormUpdate({
+            affinityGroupNames: [...state.affinityGroupNames, state.affinityGroup.name]
+          }));
+        })
+        .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
     } else {
       return Observable.of(null);
     }
@@ -540,18 +549,19 @@ export class VirtualMachineCreationEffects {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION });
 
       return this.instanceGroupService.add(vm, state.instanceGroup)
-        .map(() =>
+        .map((virtualMachine: VirtualMachine) => {
           this.store.dispatch(new vmActions.DeploymentChangeStatus({
             stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED
-          })));
+          }));
+          return virtualMachine;
+        });
     } else {
-      return Observable.of(null);
+      return Observable.of(vm);
     }
   }
 
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
-
     return this.tagService.copyTagsToEntity(state.template.tags, vm)
       .switchMap(() => {
         return this.userTagService.getSavePasswordForAllVms();
@@ -579,7 +589,7 @@ export class VirtualMachineCreationEffects {
         this.store.dispatch(new vmActions.DeploymentChangeStatus({
           stage: VmDeploymentStage.TAG_COPYING_FINISHED
         }));
-        return <VirtualMachine>({ ...vm, tags: state.template.tags });
+        return <VirtualMachine>({ ...vm, tags: [...vm.tags, ...state.template.tags] });
       });
   }
 
