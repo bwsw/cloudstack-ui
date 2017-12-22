@@ -66,7 +66,7 @@
       "CONFIRM_RESTORE": "Are you sure you want to reinstall this virtual machine?",
       "CONFIRM_DESTROY": "Are you sure you want to destroy this virtual machine?",
       "CONFIRM_EXPUNGE": "Are you sure you want to expunge this virtual machine?<br><b>This cannot be undone.</b>",
-      "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?<br><b>This cannot be undone.</b>",
+      "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
