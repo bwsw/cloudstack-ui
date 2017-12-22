@@ -168,6 +168,7 @@ import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
+import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
 
 @NgModule({
   imports: [
