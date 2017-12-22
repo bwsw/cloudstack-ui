@@ -1,42 +1,38 @@
+.. _CS_User_Guide:
+
 CloudStack-UI User Guide
 =============================
 .. Contents::
 
-CloudStack-UI is created to make it easier for end-users to use cloud infrastructure - to view and use their cloud resources, including virtual machines, templates and ISOs, data volumes and snapshots, guest networks, and IP addresses. 
+CloudStack-UI is created to make it easier for end-users to use cloud infrastructure - to view and use their cloud resources, including virtual machines, templates and ISOs, data volumes and snapshots, security groups, and IP addresses. 
 
 Logging In 
 -------------
 If you have never worked with CloudStack before, you should start with installing the CloudStack platform. Follow the instruction in `the official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-installation/en/4.9/>`_.
 
-Then deploy CloudStack-UI (link to Deployment documentation).
+Then deploy CloudStack-UI (see the `instructions for deployment <https://github.com/bwsw/cloudstack-ui#deployment>`_).
 
 To enter the platform use your credentials provided by the administrator:
 
 - Login * -   The user ID of your account. 
 - Password * - The password associated with the user ID.
-- Domain - If you are a root user, leave this field blank. If you are a user in the sub-domains, enter the full path to the domain, excluding the root domain.
+- Domain - Enter a domain here. If you are a user in the sub-domains, enter the full path to the domain, excluding the root domain. 
+
+Administrator can set a domain in configurations. In this case a user does not need to enter domain every time when logging in. Domain field will be prepopulated with the specified value.
 
 .. note:: Required fields are marked with asterisks (*).
 
 .. figure:: _static/LoginScreen.png
 
-Push "Login" to proceed to CloudStack.
+Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
 
-Virtual Machines
--------------------
-
-This is the starting page you see when entering the platform. Here and in all other views we implemented the “one step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view.
-
-At this page, you can see the list of virtual machines existing in the system.
-
-.. figure:: _static/VMs.png
-   :scale: 80%
+To the left you can see the main navigation bar. It allows moving from section to section. It is configured by Root Administrator in the configuration file. The administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section).
 
 .. _Resource_Usage:
 
 Resource Usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-It is important that now in this section you can see the resource statistics: used and free VMs, computational resources, volumes and storage space. 
+In this section you can see the resource statistics: used and free VMs, computational resources, volumes and storage space. 
 
 Domain Administrators can view resources for their account and for the whole domain.
 
@@ -52,7 +48,26 @@ It provides information on the following resources:
 3) Volumes and snapshots;
 4) Storage - primary and secondary.
 
-You can view resources for your account or the whole domain, as well as select the information on used or free resources. Click the options that you need above the resource data list.
+You can select the information on used or free resources. Click the options that you need above the resource data list.
+
+Notifications on Pending Operations 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the upper-right corner of the screen, you can see the list of pending operations by clicking a bell button |bell icon|. It informs you of the latest operations in the ststem. You can clear the list after its reviewing by deleting every notification one by one or clicking "Clear All" at the list bottom.
+
+.. figure:: _static/VMs_Alerts.png
+   :scale: 80%
+
+Virtual Machines
+-------------------
+
+At the starting page and in all other views we implemented the “one step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view.
+
+At this page, you can see the list of virtual machines existing in the system.
+
+.. figure:: _static/VMs.png
+   :scale: 80%
+
 
 Filtering of Virtual Machines
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,14 +86,6 @@ Besides, VMs can be grouped by zones and/or groups and/or colors and/or accounts
    
 Use the search tool to find a virtual machine by its name or a part of the name.
 
-Alerts on Operations with Virtual Machines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In the upper-right corner of the screen, you can expand the list of pending operations by clicking a bell icon |bell icon|. It informs you of the latest operations with VMs. You can clear the list after its reviewing by deleting every notification one by one or clicking "Clear All" at the list bottom.
-
-.. figure:: _static/VMs_Alerts.png
-   :scale: 80%
-   
 Under the Virtual Machines section, you can create a new virtual machine.
 
 .. _Create_VM:
@@ -87,9 +94,7 @@ Create a Virtual Machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Creating a new VM in CloudStack-UI is a one-step action. You can select options from one screen without additional steps.
 
-An important thing is that the system immediately checks that the user has the amount of resources required to create a virtual machine. Thus, it doesn’t allow him/her to launch the creation of a VM which will fail for sure because of the resource lack.
-
-To create a new VM click the "Create" button at the bottom-left corner. 
+To create a new VM click the "Create" button at the bottom-right corner. 
 
 .. figure:: _static/VMs_Create.png
    :scale: 80%
@@ -169,7 +174,7 @@ Once the VM creation process finishes, the success message will inform you of th
 The message will show the list of all creation steps and the virtual machine information:
 
 - VM name and IP,
-- VM Password - This field appears after the VM creation, if a password is enabled for the template used for this machine. A password is autogenerated. Click "Save" next to it in the dialogue window if you want to save it for this VM. The system will ask you if you wish to save passwords for all other virtual machines to VM tags by default. Click "Yes" and the "Save VM password by default" option will be activated in the account settings:
+- VM Password - This field appears after the VM creation, if a password is enabled for the template used for this machine. A password is autogenerated. Click "Save" next to it in the dialogue window if you want to save it for this VM. The system will ask you if you wish to save passwords for the virtual machines created in the future to VM tags by default. Click "Yes" and the "Save VM password by default" option will be activated in the account settings:
 
 .. figure:: _static/Settings_SavePass.png
 
@@ -190,6 +195,8 @@ Possible Issues When Creating a Virtual Machine
 
 (need more info)
 
+An important thing in CloudStack -UI is that the system immediately checks that a user has the amount of resources required to create a virtual machine. It doesn’t allow launching the creation of a VM which will fail for sure because of the resource lack.
+
 You can face the following issues when creating a virtual machine:
 
 1) Lack of resources.
@@ -202,7 +209,7 @@ The system checks if there are enough resources for a new virtual machine. If yo
  
 No VM creation form is available.
  
-If there are insufficient resources you will not be allowed to create a new VM and start it upon creation. You will be able to create a new VM with the unchecked "Start VM" option. No IP, no password are assigned to the VM in this case.
+If there are insufficient resources you will not be allowed to create a new VM and start it upon creation. You will be able to create a new VM with the unchecked "Start VM" option. No IP is assigned to the VM in this case.
 
 Virtual Machines List
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,18 +221,47 @@ You can change the view of existing virtual machines from list to box by clickin
 For each VM in the list you can see the following information: 
 
 - VM name and IP;
-- State - shows the VM state by color spot: red for Running, red for Stopped, yellow for changing status;
+- State - shows the VM state by color spot: green for Running, red for Stopped, yellow for changing status;
 - OS family;
-- CPU values;
-- RAM values;
-- Disks volumes.
+- CPU;
+- RAM;
+- Disks.
+
+To the right the Actions button |actions icon| expands the list of actions available for the VM.
+
+.. _VM_Actions:
+
+VM Action Box
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the "Actions" button |actions icon| to the right from each virtual machine in the list. 
+
+.. figure:: _static/VMs_Actions.png
+   :scale: 70%
+   
+It allows performing the following actions with the VM:
+
+- Start VM - Allows a user to launch a VM, 
+
+- Stop VM - Allows a user to stop a running VM, 
+
+- Reboot VM - Allows a user to restart a VM, 
+
+- Reinstall VM - Allows a user to reinstall a VM, 
+
+- Destroy VM - Allows a user to delete a VM. After deleting the virtual machine will remain in the system and can be restored in the future. To completely destroy the VM tick the "Expunge" option in the dialogue window. It will completely delete the VM from the system. The VM will not be available to restore anymore.
+.. If the virtual machine has disks, the system will ask you in a dialogue window if these disks should be deleted. Confirm your intention to delete them clicking "Yes". Click "No" to cancel the disk deleting.
+- Reset password - Allows a user to change the password for VM (available for started VMs only). The VM will be rebooted if you reset the password. After clicking "Reset password" a new password will be autogenerated for the VM. Click "Save" in the dialogue window to save passwords for all your virtual machines automatically. It will activate the "Save VM passwords by default" option for the account and the password
+
+- Access VM - Opens an "Access VM" dialog window which allows to view and save a password for the VM and access the VM via the VNC console. In the :ref:`VM_Access` section you can find more information on accessing a VM.
 
 .. _VM_Info:
 
-VM Information
-~~~~~~~~~~~~~~~~~
+VM Details Sidebar
+~~~~~~~~~~~~~~~~~~~~
 
-By clicking a VM line or card you can get the VM information. It is presented in a sidebar to the right. 
+For each virtual machine you can get the details.
+
+By clicking a VM line or card you can open a sidebar to the right. 
 
 .. figure:: _static/VMs_Details.png
    :scale: 70%
@@ -236,7 +272,7 @@ There you will find the information on the selected virtual machine:
 2. Color-picker - Allows marking a virtual machine by a color to distinguish it in the list. 
 3. Actions on the VM. See the :ref:`VM_Actions` section below.
 
-Below you will see four tabs. Let's describe what information on the virtual machine is presented under each tab.
+You will see four tabs below. Let's describe what information on the virtual machine is presented in each tab.
 
 Virtual Machine Tab
 """"""""""""""""""""""""""
@@ -373,7 +409,7 @@ The data disk will be deleted from the system.
 
 2. Attach a volume - Allows attaching a data disk to the VM.
 
-Attach more data discs to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "Select". The chosen data disk will appear for the virtual machine with the "Attach" button. Click "Attach" to attach the selected disk to the virtual machine.
+Attach more data disks to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "Select". The chosen data disk will appear for the virtual machine with the "Attach" button. Click "Attach" to attach the selected disk to the virtual machine.
 
 .. figure:: _static/VMs_AttachVolume_Attach.png
 
@@ -456,30 +492,7 @@ You can create a tag right from this tab. Click "+" and fill in the appeared for
 
 .. figure:: _static/VMs_Tag_Create.png
 
-.. _VM_Actions:
-
-Actions on Virtual Machines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the "Actions" button |actions icon| to the right from each virtual machine in the list. 
-
-.. figure:: _static/VMs_Actions.png
-   :scale: 70%
-   
-It allows the following actions with the VM:
-
-- Start VM - Allows a user to launch a VM, 
-
-- Stop VM - Allows a user to stop a running VM, 
-
-- Reboot VM - Allows a user to restart a VM, 
-
-- Reinstall VM - Allows a user to reinstall a VM, 
-
-- Destroy VM - Allows a user to delete a VM. After deleting the virtual machine will remain in the system and can be restored in the future. To completely destroy the VM tick the "Expunge" option in the dialogue window. It will completely delete the VM from the system. The VM will not be available to restore anymore.
-.. If the virtual machine has disks, the system will ask you in a dialogue window if these disks should be deleted. Confirm your intention to delete them clicking "Yes". Click "No" to cancel the disk deleting.
-- Reset password - Allows a user to change the password for VM. The VM will be rebooted if you reset the password. After clicking "Reset password" a new password will be autogenerated for the VM. Click "Save" in the dialogue window to save passwords for all your virtual machines automatically. It will activate the "Save VM passwords by default" option for the account and the password
-
-- Access VM - Opens an "Access VM" dialog window which allows to view and reset a password for the VM and access the VM via the VNC console. 
+.. _VM_Access:
 
 Access a Virtual Machine
 """""""""""""""""""""""""""""""
@@ -489,11 +502,11 @@ Depending on the installation source (ISO or a Template) the system allows getti
 
 .. figure:: _static/AccessVM_OpenConsole.png
 
-- WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To configure access to VM using WebShell, please, refer to the page (link to the list of tags);
+- WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To find more information on accessing VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/107-ReleaseNotes-En#webshell-plugin-experimental-function>`_;
 
 .. figure:: _static/AccessVM_WebShell.png
 
-- Access via HTTP if VM has a ``csui.vm.auth-mode`` tag with HTTP value. To configure access to VM via HTTP, please, refer to page (ссылка на теги).
+- Access via HTTP if VM has a ``csui.vm.auth-mode`` tag with HTTP value. To configure access to VM via HTTP, please, refer to page (link to tags list).
 
 .. figure:: _static/AccessVM_OpenURL.png
 
@@ -549,6 +562,8 @@ Click "Create" to save the settings and create the new volume. You will see the 
 .. figure:: _static/Storage_Created.png
 
 Click "Cancel" to drop all the settings. The drive will not be created then.
+
+.. _Storage_Info:
 
 Disk Information
 ~~~~~~~~~~~~~~~~~~~~~
@@ -681,7 +696,7 @@ The data disk will be deleted from the system.
 
 Images
 ---------------
-Under the "Images" section you can manage Templates and ISO that are used as installation sources for VMs.
+Under the "Images" section you can manage Templates and ISO files that are used as installation sources for VMs.
 
 You can switch from Templates to ISO by selecting a corresponding option above:
 
@@ -692,20 +707,25 @@ Manage Templates
 
 A template is a reusable configuration for virtual machines. When users launch VMs, they can choose from a list of templates. Administrators and users can create templates and add them to CloudStack.
 
-There are variety of ways to add more templates to the system. In the :ref:`VM_Info` section we have descibed one way of template creation from a VM volume snapshot under the "Storage" tab of VM information sidebar.
+There are variety of ways to add more templates to the system. In the :ref:`VM_Info` section we have descibed one way of template creation from a VM volume snapshot under the "Storage" tab of the VM information sidebar. From under the :ref:`Storage_Info` sidebar of the "Storage" section you also can create a template on the base of the volume snapshot.
 
-Another way is to create a new template filling in the form under the "Images" section.
+Another way is to create a new template filling in the form under the "Images" section. Read about it the next section.
 
-Existing templates are presented in the list. You can switch the list view of templates to the box view using the view button |view box icon| in the upper-right corner.
+Existing templates are presented in the list under the "Images" section. A user can see the templates belonging to his/her account only. Domain Administrator can see templates of all users in the domain but cannot perform actions on other users' templates.
+
+You can switch the list view of templates to the box view using the view button |view box icon| in the upper-right corner. 
+
+For each Template in the list you can see its name, OS family, description.  Actions button |actions icon| expands the list of actions for it. Actions are available to those templates that belong to your account only (corresponding to "My" type).
 
 The list of templates can be filtered using the filtering tool. The filtering parameters are as follows:
 
+- Accounts (for Domain Administrators);
 - OS families;
 - Types;
 - Zones;
 - Groups.
 
-Besides, adjust the list view using grouping tool. Templates can be grouped by zones or/and groups.
+Besides, adjust the list view using the grouping tool. Templates can be grouped by zones or/and groups.
 
 .. figure:: _static/Images_Temp_Grouping.png
 
@@ -714,7 +734,11 @@ Use the search tool to easily find a template by its name or by a part of the na
 Create Template
 """"""""""""""""""""""""""
 
-You can create a new template clicking "Create" in the lower-right corner. It will open a creation form where you should specify the following information:
+You can create a new template clicking "Create" in the bottom-right corner. 
+
+.. figure:: _static/Images_CreateTemplate.png
+
+It will open a creation form where you should specify the following information:
 
 1. Name * - Enter a name for the new template.
 
@@ -744,30 +768,58 @@ You can create a new template clicking "Create" in the lower-right corner. It wi
 
    - Requires HVM checkbox - Tick this option for creating a template that requires HVM.
 
+Once all fields are filled in, click "Create" to create the template with these settings. The created template will appear in the list.
+
+Click "Cancel" to close the form without template creation. All fields will be cleared.
 
 Template Information
 """"""""""""""""""""""""
 
-The information on each template is presented in the right-side bar. It is opened by clicking the template card or line in the list. The information is presented in 3 tabs:
+The information on each template is presented in the right-side bar. It is opened by clicking the template card or line in the list. The information is presented there in 3 tabs. Above the tabs you can see the template general information: 
 
-1. General Information: Name, Actions (Delete), Icon (?)
+- Name - Template name and symbol, 
+- Actions button - Actions list (Delete). 
 
-Template tab: Description, OS, General Information, Group
+1. Template tab: 
 
-Zones tab: 
+   - Description - Tamplate description provided at its creation, 
+   - OS - The OS selected for this template, 
+   - General Information - The settings saved for this template: size, creation date, type, hypervisor, other settings, 
+   - URL - The URL provided for this template,
+   - Group - Template group.
 
-Tags tab:
+2. Zones tab - Shows the zone where the template is available.
 
-"Show system tags" checkbox
+3. Tags tab - Presents the list of tags assigned to the template.
 
-Search tool
+Tags can be system or common. System tags are used to provide functionality from user interface perspective. Changing these tags affects functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the template. Uncheck this box to hide system tags from the list. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. 
 
-Add a tag
- 
+To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
+
+To add a tag for the template click "Create" |create icon|. In the appeared form enter:
+
+- Key * 
+- Value * 
+
+.. note:: Required fields are marked with an asterisk (*).
+
+Click "Create" to assign a new tag to the template. 
+
+If the template has tags, you can see the Add button in the left cornet of this list. Click it to add more tags to the list.
+
+.. note:: Please, see the list of tags (link to the list) to find system tags that can be used for a template.
+
+Tags can be edited or/and deleted. Mouse over the tag in the list and see "Edit" and "Delete" buttons.
+
+Click "Edit" to change the tag's key or value in the appeared form. Save the edits.
+
+Click "Delete" to delete the tag from the list for this template. Confirm your action in the dialofue window. Make sure the tag disappeard from the list of assigned tags.
+
 Actions on Templates
 """""""""""""""""""""""""""""
+Clicking "Actions" |actions icon| you can expand the list of actions for those templates that belong to your account only (corresponding to "My" type). Deleting action is available here.
 
-Delete
+Click "Delete" to delete the template and then confirm your action in the dialogue window. The template will be deleted. Click "Cancel" to close the window without deleting a template.
 
 Manage ISO
 ~~~~~~~~~~~~~~~~~~~~~
