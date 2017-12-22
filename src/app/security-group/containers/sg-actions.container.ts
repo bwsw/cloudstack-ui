@@ -13,6 +13,7 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
       [securityGroup]="securityGroup"
       (onSecurityGroupView)="onViewSecurityGroup($event)"
       (onSecurityGroupDelete)="onDeleteSecurityGroup($event)"
+      (onSecurityGroupConvert)="onSecurityGroupConvert($event)"
     ></cs-security-group-actions>`
 })
 export class SecurityGroupActionsContainerComponent {
@@ -35,5 +36,9 @@ export class SecurityGroupActionsContainerComponent {
     );
 
     return Observable.of(securityGroup);
+  }
+
+  public onSecurityGroupConvert(securityGroup) {
+    this.store.dispatch(new securityGroupActions.ConvertSecurityGroup(securityGroup));
   }
 }

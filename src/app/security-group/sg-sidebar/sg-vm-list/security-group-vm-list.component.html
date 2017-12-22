@@ -9,11 +9,21 @@
       <div class="mat-card-content-container">
         <div *ngFor="let vm of vmList">
           <div class="vm-link">
-            <a routerLink="{{ getVmLink(vm) }}">{{vm.name}}</a>
+            <ng-template [ngIf]="isModeShared">
+              <a routerLink="{{ getVmLink(vm) }}">{{ vm.name }}</a>
+            </ng-template>
+            <ng-template [ngIf]="isModePrivate">
+              <span>{{ vm.name }}</span>
+            </ng-template>
           </div>
         </div>
         <div class="vm-link" *ngIf="!vmList.length">
-          {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_LIST' | translate }}
+          <ng-template [ngIf]="isModePrivate">
+            {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
+          </ng-template>
+          <ng-template [ngIf]="isModeShared">
+            {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_LIST' | translate }}
+          </ng-template>
         </div>
       </div>
     </mat-card-content>

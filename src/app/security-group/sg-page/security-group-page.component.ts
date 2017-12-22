@@ -10,6 +10,8 @@ import { SecurityGroup, } from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { ListService } from '../../shared/components/list/list.service';
 import { SecurityGroupViewMode } from '../sg-view-mode';
+import { VirtualMachine } from '../../vm';
+import { Dictionary } from '@ngrx/entity/src/models';
 
 @Component({
   selector: 'cs-security-group-page',
@@ -22,6 +24,7 @@ export class SecurityGroupPageComponent {
   @Input() public isLoading = false;
   @Input() public viewMode: SecurityGroupViewMode;
   @Input() public query: string;
+  @Input() public vmList: Dictionary<VirtualMachine>;
 
   public mode: ViewMode;
   public viewModeKey = 'sgPageViewMode';

@@ -6,6 +6,7 @@ import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.mod
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as securityGroup from './sg.actions';
+import * as fromVM from '../../vm/redux/vm.reducers';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 
@@ -18,7 +19,8 @@ export interface ListState extends EntityState<SecurityGroup> {
   filters: {
     viewMode: string,
     selectedAccountIds: string[],
-    query: string
+    query: string,
+    orphan: boolean
   },
   loading: boolean,
   selectedSecurityGroupId: string | null
@@ -33,7 +35,8 @@ const initialListState: ListState = adapter.getInitialState({
   filters: {
     query: '',
     selectedAccountIds: [],
-    viewMode: SecurityGroupViewMode.Templates
+    viewMode: SecurityGroupViewMode.Templates,
+    orphan: false
   },
   loading: false,
   selectedSecurityGroupId: null
@@ -183,6 +186,11 @@ export const query = createSelector(
   state => state.query
 );
 
+export const orphan =  createSelector(
+  filters,
+  state => state.orphan
+);
+
 export const filterSelectedAccountIds = createSelector(
   filters,
   state => state.selectedAccountIds
@@ -231,13 +239,17 @@ export const selectFilteredSecurityGroups = createSelector(
     const viewModeFilter = (group: SecurityGroup) => {
       if (mode === SecurityGroupViewMode.Templates) {
         return group.type === SecurityGroupType.PredefinedTemplate || group.type === SecurityGroupType.CustomTemplate;
-      } else {
+      } else if (mode === SecurityGroupViewMode.Shared) {
         return group.type === SecurityGroupType.Shared;
+      } else if (mode === SecurityGroupViewMode.Private) {
+        return group.type === SecurityGroupType.Private;
       }
     };
 
+    const checkFilter = (group: SecurityGroup) => filter.orphan ? group.virtualMachineIds.length === 0 : true;
+
     return securityGroups.filter(group => queryFilter(group)
-      && viewModeFilter(group) && selectedAccountIdsFilter(group));
+      && viewModeFilter(group) && selectedAccountIdsFilter(group) && checkFilter(group));
   }
 );
 
@@ -246,3 +258,10 @@ export const selectSecurityGroupsForVmCreation = createSelector(
     const accountFilter = (securityGroup: SecurityGroup) => securityGroup.account === account.account.name;
     return securityGroups.filter((securityGroup) => accountFilter(securityGroup));
   });
+
+export const isOrphan = createSelector(
+  selectAll,
+  (sg) => {
+    return sg.find(_ => _.virtualMachineIds.length !== 0) ? true : false
+  }
+);

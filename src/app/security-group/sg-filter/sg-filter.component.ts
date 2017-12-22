@@ -20,10 +20,13 @@ export interface SecurityGroupFilter {
 })
 export class SgFilterComponent {
   @Input() public accounts: Array<Account>;
+  @Input() public orphan: boolean;
+  @Input() public isOrphan: boolean;
   @Output() public viewModeChange = new EventEmitter<SecurityGroupViewMode>();
   @Output() public queryChange = new EventEmitter<string>();
   @Output() public vmChange = new EventEmitter<string>();
   @Output() public onAccountsChange = new EventEmitter<Array<string>>();
+  @Output() public onOrphanChange = new EventEmitter<boolean>();
 
   public viewMode: SecurityGroupViewMode;
   public query: string;
