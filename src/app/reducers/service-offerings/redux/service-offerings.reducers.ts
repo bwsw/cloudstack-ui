@@ -275,7 +275,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
       );
 
       return availableOfferings.map((offering) => {
-        return !offering.isCustomized
+        return !offering.iscustomized
           ? offering
           : getCustomOfferingWithSetParams(
             offering,
@@ -299,8 +299,8 @@ export const getOfferingsAvailableInZone = (
   }
 
   return offeringList
-    .filter(offering => {
-      const offeringAvailableInZone = isOfferingAvailableInZone(
+    .filter((offering: ServiceOffering) => {
+      const offeringAvailableInZone = this.isOfferingAvailableInZone(
         offering,
         availability,
         zone
@@ -355,10 +355,10 @@ export const getAvailableByResourcesSync = (
       return enoughCpus && enoughMemory;
     })
     .sort((a: ServiceOffering, b: ServiceOffering) => {
-      if (!a.isCustomized && b.isCustomized) {
+      if (!a.iscustomized && b.iscustomized) {
         return -1;
       }
-      if (a.isCustomized && !b.isCustomized) {
+      if (a.iscustomized && !b.iscustomized) {
         return 1;
       }
       return 0;
@@ -397,7 +397,7 @@ export const getCustomOfferingWithSetParams = (
     restrictions
   );
 
-  return Object.assign({}, serviceOffering, { ...normalizedParams });
+  return { ...serviceOffering, ...normalizedParams };
 };
 
 export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,

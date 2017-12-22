@@ -19,7 +19,7 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
           return list;
         }
 
-        return list.filter(offering => {
+        return list.filter((offering: DiskOffering) => {
           return offering.disksize < params.maxSize || offering.iscustomized;
         });
       });
