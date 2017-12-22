@@ -10,5 +10,5 @@
     [volume]="volume"
   ></cs-volume-snapshot>
 
-  <cs-no-results *ngIf="!volume.snapshots.length"></cs-no-results>
+  <cs-no-results *ngIf="!volume.snapshots || !volume.snapshots.length"></cs-no-results>
 </ng-container>
