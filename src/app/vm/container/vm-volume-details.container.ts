@@ -14,18 +14,16 @@ import { Volume } from '../../shared/models/volume.model';
 @Component({
   selector: 'cs-vm-volume-details-container',
   template: `
-    <cs-volume-details 
+    <cs-volume-details
       [volume]="volume"
-      [description]="description"
       [diskOffering]="offering$ | async"
-    >      
+    >
     </cs-volume-details>`
 })
 export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
 
   @Input() public volume: Volume;
   readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
-  public description;
 
   constructor(
     private store: Store<State>,
@@ -36,7 +34,6 @@ export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() impleme
   public ngOnInit() {
     this.store.dispatch(new volumeActions.LoadSelectedVolume(this.volume.id));
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
-    this.description = this.volume.description;
   }
 
 }
