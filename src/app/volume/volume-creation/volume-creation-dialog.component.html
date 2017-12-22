@@ -44,14 +44,14 @@
           <mat-select
             class="form-select-control"
             name="diskOffering"
-            [(ngModel)]="diskOffering"
+            [(ngModel)]="newVolume.diskOfferingId"
             [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.DISK_OFFERING' | translate"
             [required]="true"
-            (selectionChange)="updateDiskOffering($event)"
+            (selectionChange)="updateDiskOffering($event.value)"
           >
             <mat-option
               *ngFor="let offering of diskOfferings"
-              [value]="offering"
+              [value]="offering.id"
             >
               {{ offering.name }}
             </mat-option>

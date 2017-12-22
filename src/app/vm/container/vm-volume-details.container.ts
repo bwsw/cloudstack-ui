@@ -12,7 +12,6 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
   template: `
     <cs-volume-details
       [volume]="volume"
-      [description]="description"
       [diskOffering]="offering$ | async"
     >
     </cs-volume-details>`
@@ -21,7 +20,6 @@ export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() impleme
 
   @Input() public volume: Volume;
   readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
-  public description;
 
   constructor(
     private store: Store<State>,
@@ -32,7 +30,6 @@ export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() impleme
   public ngOnInit() {
     this.store.dispatch(new volumeActions.LoadSelectedVolume(this.volume.id));
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
-    this.description = this.volume.description;
   }
 
 }

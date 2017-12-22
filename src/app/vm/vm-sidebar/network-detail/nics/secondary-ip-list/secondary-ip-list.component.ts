@@ -16,8 +16,8 @@ import { IpAddress } from '../../../../../shared/models/ip-address.model';
 })
 export class SecondaryIpListComponent {
   @Input() public nic: NIC;
-  @Output() public onSecondaryIpAdd = new EventEmitter();
-  @Output() public onSecondaryIpRemove = new EventEmitter();
+  @Output() public onSecondaryIpAdd = new EventEmitter<string>();
+  @Output() public onSecondaryIpRemove = new EventEmitter<IpAddress>();
 
   constructor(
     private dialogService: DialogService
