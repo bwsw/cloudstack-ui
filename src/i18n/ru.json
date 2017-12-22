@@ -41,10 +41,10 @@
       "CONFIRM_LOCK": "Вы уверены, что хотите заблокировать этот аккаунт?"
     },
     "ACCOUNT_USER": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this user?",
-      "CONFIRM_EDIT": "Are you sure you want to edit this user?",
-      "CONFIRM_CHANGE_PASSWORD": "Are you sure you want to change password for this user?",
-      "CONFIRM_REGENERATE_KEY": "Are you sure you want to regenerate key for this user?"
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этого пользователя?",
+      "CONFIRM_EDIT": "Вы уверены, что хотите изменить этого пользователя?",
+      "CONFIRM_CHANGE_PASSWORD": "Вы уверены, что хотите изменить пароль для этого пользователя?",
+      "CONFIRM_REGENERATE_KEY": "Вы уверены, что хотите сгенерировать ключи для этого пользователя?"
     },
     "ISO": {
       "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот ISO файл?",
@@ -66,7 +66,7 @@
       "CONFIRM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
       "CONFIRM_DESTROY": "Вы уверены, что хотите удалить виртуальную машину?",
       "CONFIRM_EXPUNGE": "Вы уверены, что хотите уничтожить виртуальную машину?<br><b>Эта операция необратима.</b>",
-      "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?",
+      "CONFIRM_RECOVER": "Вы уверены, что хотите восстановить эту виртуальную машину?",
       "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
       "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?",
@@ -187,8 +187,8 @@
       "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
       "RESET_PASSWORD_DONE": "Пароль сброшен",
       "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
-      "SAVE_PASSWORD_DONE": "Password saved",
-      "SAVE_PASSWORD_FAILED": "Failed to save password",
+      "SAVE_PASSWORD_DONE": "Пароль сохранен",
+      "SAVE_PASSWORD_FAILED": "Не удалось сохранить пароль",
       "DESTROY_IN_PROGRESS": "Удаление ВМ",
       "DESTROY_DONE": "ВМ была удалена",
       "DESTROY_FAILED": "Не удалось удалить ВМ",
