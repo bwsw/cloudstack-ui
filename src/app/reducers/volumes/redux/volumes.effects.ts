@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
+import { Snapshot } from '../../../shared/models/snapshot.model';
 import { ISnapshotData, Volume } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
@@ -84,32 +85,32 @@ export class VolumesEffects {
         },
         width: '375px'
       })
-        .afterClosed()
-        .filter(res => Boolean(res))
-        .switchMap((virtualMachineId) => {
-          const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
+      .afterClosed()
+      .filter(res => Boolean(res))
+      .switchMap((virtualMachineId) => {
+        const notificationId = this.jobsNotificationService.add(
+          'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
 
-          const params = {
-            id: action.payload.id,
-            virtualMachineId: virtualMachineId
-          };
-          return this.volumeService
-            .attach(params)
-            .map(volume => {
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
-              });
-              return new volumeActions.UpdateVolume(new Volume(volume))
-            })
-            .catch((error: Error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
-              });
-              return Observable.of(new volumeActions.VolumeUpdateError(error));
+        const params = {
+          id: action.payload.id,
+          virtualMachineId: virtualMachineId
+        };
+        return this.volumeService
+          .attach(params)
+          .map(volume => {
+            this.jobsNotificationService.finish({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
             });
+            return new volumeActions.UpdateVolume(new Volume(volume))
+          })
+          .catch((error: Error) => {
+            this.jobsNotificationService.fail({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
+            });
+            return Observable.of(new volumeActions.VolumeUpdateError(error));
+          });
         });
     });
   @Effect()
@@ -180,28 +181,28 @@ export class VolumesEffects {
         },
         width: '375px'
       })
-        .afterClosed()
-        .filter(res => Boolean(res))
-        .switchMap((params: VolumeResizeData) => {
-          const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
-          return this.volumeService
-            .resize(params)
-            .map(volume => {
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
-              });
-              this.dialog.closeAll();
-              return new volumeActions.ResizeVolumeSuccess(new Volume(volume));
-            })
-            .catch((error: Error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
-              });
-              return Observable.of(new volumeActions.VolumeUpdateError(error));
+      .afterClosed()
+      .filter(res => Boolean(res))
+      .switchMap((params: VolumeResizeData) => {
+        const notificationId = this.jobsNotificationService.add(
+          'JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
+        return this.volumeService
+          .resize(params)
+          .map(volume => {
+            this.jobsNotificationService.finish({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
             });
+            this.dialog.closeAll();
+            return new volumeActions.ResizeVolumeSuccess(new Volume(volume));
+          })
+          .catch((error: Error) => {
+            this.jobsNotificationService.fail({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
+            });
+            return Observable.of(new volumeActions.VolumeUpdateError(error));
+          });
         });
     });
 
@@ -212,40 +213,40 @@ export class VolumesEffects {
       return this.dialog.open(SnapshotCreationComponent, {
         data: action.payload
       })
-        .afterClosed()
-        .filter(res => Boolean(res))
-        .switchMap((params: ISnapshotData) => {
-          const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+      .afterClosed()
+      .filter(res => Boolean(res))
+      .switchMap((params: ISnapshotData) => {
+        const notificationId = this.jobsNotificationService.add(
+          'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
 
-          return this.snapshotService.create(
-            action.payload.id,
-            params.name,
-            params.desc
-          )
-            .map(snapshot => {
-              const newSnaps = Object.assign([], action.payload.snapshots);
+        return this.snapshotService.create(
+          action.payload.id,
+          params.name,
+          params.desc
+        )
+        .map((snapshot: Snapshot) => {
+          const newSnaps = Object.assign([], action.payload.snapshots);
 
-              newSnaps.unshift(snapshot);
-              const newVolume = Object.assign(
-                {},
-                action.payload,
-                { snapshots: newSnaps }
-              );
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
-              });
-              return new volumeActions.AddSnapshotSuccess(new Volume(newVolume));
-            })
-            .catch((error: Error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-              });
-              return Observable.of(new volumeActions.VolumeUpdateError(error));
-            });
+          newSnaps.unshift(snapshot);
+          const newVolume = Object.assign(
+            {},
+            action.payload,
+            { snapshots: newSnaps }
+          );
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
+          });
+          return new volumeActions.AddSnapshotSuccess(new Volume(newVolume));
+        })
+        .catch((error: Error) => {
+          this.jobsNotificationService.fail({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
+          });
+          return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
+      });
     });
 
   @Effect({ dispatch: false })
@@ -254,8 +255,7 @@ export class VolumesEffects {
     .switchMap((action: volumeActions.AddSnapshotSchedule) => {
       return this.dialog.open(RecurringSnapshotsComponent, {
         data: action.payload
-      })
-        .afterClosed();
+      }).afterClosed();
     });
 
   @Effect()

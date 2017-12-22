@@ -40,7 +40,7 @@ export class VolumeSnapshotDetailsContainerComponent extends WithUnsubscribe() i
       })
   }
 
-  public addSnapshot(volume): void {
+  public addSnapshot(volume: Volume): void {
     this.store.dispatch(new volumeActions.AddSnapshot(volume));
   }
 

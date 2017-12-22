@@ -123,6 +123,8 @@ export const getAvailableOfferings = createSelector(
         zone
       );
       return availableOfferings;
+    } else {
+      return [];
     }
   }
 );
@@ -153,7 +155,7 @@ const isOfferingAvailableInZone = (
   offeringAvailability: OfferingAvailability,
   zone: Zone
 ) => {
-  return offeringAvailability[zone.id].diskOfferings.includes(offering.id);
+  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.includes(offering.id);
 };
 
 

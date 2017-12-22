@@ -9,7 +9,7 @@ import { State } from '../../../reducers/index';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import { AuthService } from '../../../shared/services/auth.service';
-import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
+import { Account } from '../../models/account.model';
 import { Volume } from '../../models/volume.model';
 import { VolumeResizeData } from '../../services/volume.service';
 
@@ -24,7 +24,7 @@ import { VolumeResizeData } from '../../services/volume.service';
     >
     </cs-volume-resize>`,
 })
-export class VolumeResizeContainerComponent extends WithUnsubscribe() implements OnInit {
+export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.select(fromDiskOfferings.getAvailableOfferings);
   readonly account$ = this.store.select(fromAuth.getUserAccount);
 
@@ -38,7 +38,6 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
     private dialogRef: MatDialogRef<VolumeResizeContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data,
   ) {
-    super();
     this.volume = data.volume;
   }
 
@@ -48,11 +47,10 @@ export class VolumeResizeContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneId));
 
     this.account$
-      .takeUntil(this.unsubscribe$)
-      .subscribe((account) => {
-        if (account) {
-          this.maxSize = account.primarystorageavailable;
-        }
+      .take(1)
+      .filter(account => !!account)
+      .subscribe((account: Account) => {
+        this.maxSize = account.primarystorageavailable;
       });
   }
 

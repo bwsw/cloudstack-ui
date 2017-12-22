@@ -5,7 +5,7 @@ import { Volume, VolumeType } from '../models/volume.model';
 export class VolumeSortPipe implements PipeTransform {
 
   transform(volumes: Volume[], args: any): Volume[] {
-    return volumes.sort((a: Volume, b) => {
+    return volumes.sort((a: Volume, b: Volume) => {
       const aIsRoot = a.type === VolumeType.ROOT;
       const bIsRoot = b.type === VolumeType.ROOT;
       if (aIsRoot && !bIsRoot) {
