@@ -547,7 +547,7 @@ The tags assigned to the virtual machine are presented in the list. System tags 
   
  - Delete - Allows deleting the tag. Click "Delete" and confirm your action in the dialogue window.
 
-.. figure:: _static/VMs_Detalis_Tags_Actions.png
+.. figure:: _static/VMs_Details_Tags_Actions.png
 
 **Create Tags**
 
