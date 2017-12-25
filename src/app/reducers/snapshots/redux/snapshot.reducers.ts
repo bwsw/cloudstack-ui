@@ -91,14 +91,3 @@ export const isLoading = createSelector(
   getSnapshotEntitiesState,
   state => state.loading
 );
-
-export const selectSnapshotsOfVolume = createSelector(
-  selectAll,
-  fromVolumes.getSelectedId,
-  (snapshots, selectedVolumeId) => {
-
-    const selectedVolumeFilter = (snapshot: Snapshot) => snapshot.volumeid === selectedVolumeId;
-
-    return snapshots.filter((snapshot: Snapshot) => selectedVolumeFilter(snapshot));
-  }
-);

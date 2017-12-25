@@ -16,7 +16,6 @@ import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
   template: `
     <cs-volume-snapshot-details
       [volume]="volume$ | async"
-       [snapshots]="snapshots$ | async"
       [isLoading]="isLoading$ | async"
       (onSnapshotAdd)="addSnapshot($event)"
     >
@@ -24,7 +23,6 @@ import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 })
 export class VolumeSnapshotDetailsContainerComponent {
   readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
-  readonly snapshots$ = this.store.select(fromSnapshots.selectSnapshotsOfVolume);
   readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
 
   constructor(

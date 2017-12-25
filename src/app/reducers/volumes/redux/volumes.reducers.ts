@@ -6,6 +6,8 @@ import { Utils } from '../../../shared/services/utils/utils.service';
 import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
+
 /**
  * @ngrx/entity provides a predefined interface for handling
  * a structured dictionary of records. This interface
@@ -209,9 +211,33 @@ export const filterSpareOnly = createSelector(
   state => state.spareOnly
 );
 
+export const selectVolumesWithSnapshots = createSelector(
+  selectAll,
+  fromSnapshots.selectAll,
+  (volumes, snapshots) => {
+    return volumes.map(
+      volume => {
+        return {
+          ...volume,
+          snapshots: snapshots.filter(snapshot => snapshot.volumeid === volume.id)
+        };
+      });
+  }
+);
+
+export const getSelectedVolumeWithSnapshots = createSelector(
+  selectVolumesWithSnapshots,
+  getSelectedId,
+  (volumes, selectedId) => {
+    const list = volumes.reduce((m, i) => ({ ...m, [i.id]: i }), {});
+
+    return list[selectedId];
+  }
+);
+
 
 export const selectSpareOnlyVolumes = createSelector(
-  selectAll,
+  selectVolumesWithSnapshots,
   fromVMs.getSelectedVM,
   (volumes, vm) => {
     const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
@@ -225,7 +251,7 @@ export const selectSpareOnlyVolumes = createSelector(
 );
 
 export const selectVmVolumes = createSelector(
-  selectAll,
+  selectVolumesWithSnapshots,
   fromVMs.getSelectedId,
   (volumes, virtualMachineId) => {
 
@@ -239,7 +265,7 @@ export const selectVmVolumes = createSelector(
 );
 
 export const selectFilteredVolumes = createSelector(
-  selectAll,
+  selectVolumesWithSnapshots,
   filterQuery,
   filterSpareOnly,
   filterSelectedTypes,
