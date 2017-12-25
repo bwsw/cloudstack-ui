@@ -134,11 +134,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public get showResizeSlider(): boolean {
-    return (
-      !!this.formState.state.template &&
-      (this.formState.state.template.isTemplate ||
-        this.formState.state.showRootDiskResize)
-    );
+    return !!this.formState.state.template
+      && !this.formState.state.template.isTemplate
+      && this.formState.state.showRootDiskResize
+      && !!this.formState.state.rootDiskSizeMin;
   }
 
   public get showSecurityGroups(): boolean {
