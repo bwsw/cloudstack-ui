@@ -34,7 +34,7 @@ To the left you can see the main navigation bar. It allows moving from section t
 .. _Resource_Usage:
 
 Resource Usage
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 In this section you can see the resource statistics: used and free VMs, computational resources, volumes and storage space. 
 
 A Domain Administrator can view resources for his/her account and for the whole domain.
@@ -54,7 +54,7 @@ It provides information on the following resources:
 You can select the information on used or free resources. Click the options that you need above the resource data list.
 
 Notifications on Pending Operations 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------
 
 In the upper-right corner of the screen, you can see the list of pending operations by clicking a bell button |bell icon|. It informs you of the latest operations in the ststem. You can clear the list after its reviewing by deleting every notification one by one or clicking "Clear All" at the list bottom.
 
@@ -333,7 +333,7 @@ The selected group can be removed by clicking "Edit" and choosing "Remove from t
 
 #. SSH key - Shows the SSH key of the virtual machine. Add the SHH key by clicking "+". In the appeared window select the SHH key form the drop-down list and click "Change":
 
-.. figure:: _static/VMs_Details_AddSHH.png
+.. figure:: _static/VMs_Details_AddSSH.png
 
 At saving the new SSH key for a started VM you will see the warning: "You need to stop the virtual machine to reset SSH key." Click "OK" if you want to stop it right now. Click "Cancel" to drop the edits.
 
@@ -564,7 +564,7 @@ You can create a tag right from this tab. Click "+" and fill in the appeared for
 .. _VM_Access:
 
 Access a Virtual Machine
-"""""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Depending on the installation source (ISO or a Template) the system allows getting an access to the VM interaction interface. Currently, the following options are supported:
 
 - Open VNC console - This button under the "Access VM" action allows opening a console;
