@@ -168,5 +168,6 @@
     "webShell": false,
     "pulse": false
   },
-  "templateGroups": []
+  "templateGroups": [],
+  "accountTags": true
 }

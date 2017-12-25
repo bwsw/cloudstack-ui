@@ -10,7 +10,8 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { ConfigService } from '../../shared/services/config.service';
+import { AccountTagService } from '../../shared/services/tags/account-tag.service';
 
 @Component({
   selector: 'cs-ssh-key-sidebar',
@@ -19,20 +20,25 @@ import { UserTagService } from '../../shared/services/tags/user-tag.service';
 export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
 
+  public get showDescription(): boolean {
+    return this.configService.get<boolean>('accountTags');
+  }
+
   constructor(
     protected entityService: SSHKeyPairService,
     protected notificationService: NotificationService,
     protected route: ActivatedRoute,
     protected router: Router,
-    protected userTagService: UserTagService,
-    protected store: Store<State>
+    protected store: Store<State>,
+    protected configService: ConfigService,
+    protected accountTagService: AccountTagService
   ) {
     super(entityService, notificationService, route, router);
   }
 
   public onDescriptionChange(description: string): void {
     this.description = description;
-    this.userTagService.setSshKeyDescription(this.entity, this.description).subscribe();
+    this.accountTagService.setSshKeyDescription(this.entity, this.description).subscribe();
   }
 
   protected loadEntity(name: string): Observable<SSHKeyPair> {
@@ -53,7 +59,7 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
           .switchMap(sshKeyPair => {
             return Observable.forkJoin(
               Observable.of(sshKeyPair),
-              this.userTagService.getSshKeyDescription(sshKeyPair)
+              this.accountTagService.getSshKeyDescription(sshKeyPair)
             );
           })
           .map(([sshKeyPair, description]) => {

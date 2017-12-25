@@ -46,7 +46,6 @@ export class SshKeyPageContainerComponent implements OnInit, AfterViewInit {
   ) {
   }
 
-
   ngOnInit() {
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
   }

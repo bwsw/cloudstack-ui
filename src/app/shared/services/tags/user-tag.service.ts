@@ -10,7 +10,6 @@ import {
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
-import { SSHKeyPair } from '../../models/ssh-keypair.model';
 import { Utils } from '../utils/utils.service';
 
 
@@ -117,15 +116,6 @@ export class UserTagService implements EntityTagService {
       .map(() => +timeout);
   }
 
-  public getSshKeyDescription(sshKey: SSHKeyPair): Observable<string> {
-    return this.readTag(this.getSshKeyDescriptionKey(sshKey));
-  }
-
-  public setSshKeyDescription(sshKey: SSHKeyPair, description: string): Observable<string> {
-    return this.writeTag(this.getSshKeyDescriptionKey(sshKey), description)
-      .map(() => description);
-  }
-
   public getShowSystemTags(): Observable<boolean> {
     return this.readTag(this.keys.showSystemTags)
       .map(value => Utils.convertBooleanStringToBoolean(value));
@@ -193,9 +183,5 @@ export class UserTagService implements EntityTagService {
     }
 
     return Observable.of(null);
-  }
-
-  private getSshKeyDescriptionKey(sshKey: SSHKeyPair): string {
-    return `${this.keys.sshDescription}.${sshKey.fingerprint}`;
   }
 }

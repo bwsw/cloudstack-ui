@@ -45,8 +45,7 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-   const newEntity = Object.assign({}, entity);
-
+   const newEntity = {...entity};
     const createObs = this.create({
       resourceIds: newEntity.id,
       resourceType: entityName,
@@ -55,14 +54,12 @@ export class TagService extends BaseBackendCachedService<Tag> {
     })
       .map(() => {
         if (newEntity.tags) {
-         const newTags = Object.assign([], newEntity.tags);
-          newTags.push(new Tag({
+          newEntity.tag.push(new Tag({
             resourceId: newEntity.id,
             resourceType: entityName,
             key,
             value
           }));
-          return Object.assign({}, newEntity, { tags: newTags });
         }
         return newEntity;
       })

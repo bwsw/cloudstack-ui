@@ -167,6 +167,7 @@ import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { AccountTagService } from './services/tags/account-tag.service';
 
 @NgModule({
   imports: [
@@ -403,6 +404,7 @@ import { ZoneService } from './services/zone.service';
     TemplateTagService,
     UserService,
     UserTagService,
+    AccountTagService,
     VmTagService,
     ZoneService,
     VmCreationSecurityGroupService,
