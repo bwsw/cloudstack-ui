@@ -1,13 +1,5 @@
-import {
-  Injectable,
-  NO_ERRORS_SCHEMA,
-  Pipe,
-  PipeTransform
-} from '@angular/core';
-import {
-  async,
-  TestBed
-} from '@angular/core/testing';
+import { Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -15,15 +7,12 @@ import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../../components/slider/slider.component';
-import {
-  DiskOffering,
-  Volume
-} from '../../../models';
+import { DiskOffering, Volume } from '../../../models';
 import { VolumeType } from '../../../models/volume.model';
 import { DiskOfferingService } from '../../../services/disk-offering.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
-import { VolumeResizeComponent } from './volume-resize.component';
 import { ResourceUsageService } from '../../../services/resource-usage.service';
+import { VolumeResizeComponent } from './volume-resize.component';
 
 
 @Injectable()
@@ -108,7 +97,7 @@ describe('volume resize for root disks', () => {
 
     const diskOffering = new DiskOffering();
     diskOffering.id = 'diskOfferingId';
-    component.diskOffering = diskOffering;
+    component.diskOfferingId = diskOffering.id;
 
     component.resizeVolume();
     expect(component.onDiskResized.emit).toHaveBeenCalledWith({
@@ -170,13 +159,13 @@ describe('volume resize for data disks', () => {
 
     const diskOffering = new DiskOffering();
     diskOffering.id = 'diskOfferingId';
-    component.diskOffering = diskOffering;
+    component.diskOfferingId = diskOffering.id;
 
     component.resizeVolume();
     expect(component.onDiskResized.emit).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
-      diskOfferingId: diskOffering.id
+      diskOfferingId: component.diskOfferingId
     });
   });
 });

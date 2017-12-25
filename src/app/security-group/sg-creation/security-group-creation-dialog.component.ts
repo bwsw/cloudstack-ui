@@ -12,7 +12,7 @@ export class SecurityGroupCreationDialogComponent {
     this.dialog.open(SecurityGroupCreationContainerComponent, <MatDialogConfig>{
       data: { },
       disableClose: true,
-      width: '450px'
+      width: '405px'
     })
   }
 

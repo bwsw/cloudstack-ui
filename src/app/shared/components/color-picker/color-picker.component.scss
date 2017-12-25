@@ -32,7 +32,7 @@ $input-margin: 10px;
 }
 
 :host mat-form-field {
-  width: 300px - $input-margin - $preview-width !important;
+  width: 260px - $input-margin - $preview-width !important;
   margin-left: $input-margin;
   input {
     cursor: pointer;

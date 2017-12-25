@@ -4,7 +4,7 @@
   <section>
     <h4>{{ 'SETTINGS.SECURITY.TITLE' | translate }}</h4>
     <div class="section-container">
-      <h5>{{ 'SETTINGS.SECURITY.CHANGE_PASSWORD' | translate }}</h5>
+      <h3>{{ 'SETTINGS.SECURITY.CHANGE_PASSWORD' | translate }}</h3>
       <form
         class="settings-control"
         [formGroup]="passwordUpdateForm"
@@ -62,7 +62,7 @@
     <h4>{{ 'SETTINGS.LOOK_AND_FEEL.TITLE' | translate }}</h4>
     <div class="section-container">
       <div *ngIf="language" class="settings-control">
-        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.LANGUAGE' | translate }}</h5>
+        <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.LANGUAGE' | translate }}</h3>
         <mat-form-field
           *loading="settingLanguage"
           class="form-select-control"
@@ -81,8 +81,8 @@
         </mat-form-field>
       </div>
       <div *ngIf="firstDayOfWeek != null" class="settings-control">
-        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate
-          }}</h5>
+        <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate
+          }}</h3>
         <mat-form-field
           *loading="settingLanguage"
           class="form-select-control"
@@ -102,7 +102,7 @@
         </mat-form-field>
       </div>
       <div class="settings-control">
-        <h5 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.TIME_FORMAT' | translate }}</h5>
+        <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.TIME_FORMAT' | translate }}</h3>
         <mat-form-field
           *loading="settingLanguage"
           class="form-select-control"
@@ -122,7 +122,7 @@
         </mat-form-field>
       </div>
       <div class="settings-control">
-        <h5>{{ 'SETTINGS.LOOK_AND_FEEL.THEME' | translate }}</h5>
+        <h3>{{ 'SETTINGS.LOOK_AND_FEEL.THEME' | translate }}</h3>
         <div>
           <cs-color-picker
             *ngIf="primaryColor"
