@@ -8,6 +8,7 @@ export interface AsyncJob<T> extends BaseModelInterface {
   jobinstancetype: string;
   jobinstanceid?: string;
   jobresulttype: string;
+  cmd: string;
 }
 
 export const mapCmd = (asyncJob) => {
@@ -16,12 +17,13 @@ export const mapCmd = (asyncJob) => {
   // we need only one so we take "Cmd" and filter any others out
   const regex = /^org\.apache\.cloudstack\.api\.command\..*\.vm\.(\w*)Cmd$/;
   if (!asyncJob.cmd) {
-    asyncJob.cmd = '';
+    return '';
   }
+
   const matches = asyncJob.cmd.match(regex);
   if (matches) {
     asyncJob.cmd = matches[1].toLowerCase();
-    this.formatCommand();
+    this.formatCommand(asyncJob);
   } else {
     return '';
   }

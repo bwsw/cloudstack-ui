@@ -94,7 +94,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
           this.timerIds.filter(id => interval !== id);
         }
         observer.complete();
-        this.event.next(Object.assign(asyncJob, {cmd: mapCmd(asyncJob)}));
+        this.event.next({...asyncJob, cmd: mapCmd(asyncJob)});
       });
   }
 
