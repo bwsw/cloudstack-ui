@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/index';
-import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
 import { Volume } from '../../models/volume.model';
 import { AuthService } from '../../services/auth.service';
+import { ISnapshotData } from './volume-snapshot';
 
+import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
+import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
 
 @Component({
   selector: 'cs-volume-actions-container',
@@ -56,4 +59,12 @@ export class VolumeActionsContainerComponent {
     this.store.dispatch(new volumeActions.AddSnapshotSchedule(volume));
   }
 
+// todo check
+  public onVolumeSnapshots(snapshotData: ISnapshotData): void {
+    this.store.dispatch(new snapshotActions.AddSnapshot({
+      volume: this.volume,
+      name: snapshotData.name,
+      description: snapshotData.desc
+    }));
+  }
 }

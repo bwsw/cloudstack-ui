@@ -8,7 +8,7 @@ import {
   SnapshotActionsService
 } from '../../../../../snapshot/snapshot-actions.service';
 
-import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
 
 @Component({
   selector: 'cs-snapshot-actions',
@@ -31,10 +31,7 @@ export class SnapshotActionsComponent {
       .subscribe(() => {
         this.actionInProgress = false;
         if (action.command === 'delete') {
-          this.store.dispatch(new volumeActions.DeleteSnapshot({
-            volume: this.volume,
-            snapshot: this.snapshot
-          }));
+          this.store.dispatch(new snapshotActions.DeleteSnapshot(this.snapshot));
         }
       });
   }

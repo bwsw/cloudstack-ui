@@ -200,7 +200,6 @@ export class ChangeDescription implements Action {
   }
 }
 
-
 export type Actions = LoadVolumesRequest
   | LoadVolumesResponse
   | VolumeFilterUpdate
@@ -214,8 +213,4 @@ export type Actions = LoadVolumesRequest
   | AttachVolumeToVM
   | DetachVolume
   | ResizeVolume
-  | ChangeDescription
-  | AddSnapshot
-  | DeleteSnapshot
-  | AddSnapshotSuccess
-  | DeleteSnapshotSuccess;
+  | ChangeDescription;
