@@ -7,10 +7,10 @@
 
       <mat-progress-bar
         mode="indeterminate"
-        [class.progress-hidden]="!deploymentStopped"
+        [class.progress-hidden]="!deploymentInProgress"
       ></mat-progress-bar>
       <cs-postdeployment-dialog
-        *ngIf="!deploymentStopped && deployedVm"
+        *ngIf="!deploymentInProgress && deployedVm"
         [vm]="deployedVm"
         [dialogRef]="dialogRef"
         [title]="'VM_POST_ACTION.TITLE'"
@@ -24,7 +24,7 @@
       mat-button
       type="button"
       color="primary"
-      *ngIf="!deploymentStopped && !deployedVm"
+      *ngIf="!deploymentInProgress && !deployedVm"
       (click)="onVmDeploymentFailed.emit()"
     >
       {{ 'COMMON.CLOSE' | translate }}

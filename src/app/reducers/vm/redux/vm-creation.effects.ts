@@ -206,15 +206,21 @@ export class VirtualMachineCreationEffects {
     .switchMap((action: vmActions.DeployVm) => {
       return this.templateTagService.getAgreement(action.payload.template)
         .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
-        .filter(res => !!res)
-        .switchMap(() => {
-          this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
-          this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
+        .switchMap((agreement) => {
+          if (agreement) {
+            this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+            this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
 
-          return Observable.of<any>(
-            new vmActions.DeploymentInitActionList(this.initializeDeploymentActionList(action.payload)),
-            new vmActions.DeploymentRequest(action.payload)
-          );
+            return Observable.of<any>(
+              new vmActions.DeploymentInitActionList(this.initializeDeploymentActionList(action.payload)),
+              new vmActions.DeploymentRequest(action.payload)
+            );
+          } else {
+            return Observable.of(new vmActions.VmCreationStateUpdate({
+              showOverlay: false,
+              deploymentInProgress: false
+            }));
+          }
         });
     });
 

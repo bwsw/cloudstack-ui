@@ -40,7 +40,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       [diskOfferingsAreLoading]="diskOfferingsAreLoading$ | async"
       [zones]="zones$ | async"
       [showOverlay]="showOverlay$ | async"
-      [deploymentStopped]="deploymentStopped$ | async"
+      [deploymentInProgress]="deploymentInProgress$ | async"
       [deployedVm]="deployedVm$ | async"
       [enoughResources]="enoughResources$ | async"
       [insufficientResources]="insufficientResources$ | async"
@@ -82,7 +82,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
   readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
-  readonly deploymentStopped$ = this.store.select(fromVMs.deploymentStopped);
+  readonly deploymentInProgress$ = this.store.select(fromVMs.deploymentInProgress);
   readonly diskOfferings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly diskOfferingsAreLoading$ = this.store.select(fromDiskOfferings.isLoading);
   readonly deployedVm$ = this.store.select(fromVMs.getDeployedVM);

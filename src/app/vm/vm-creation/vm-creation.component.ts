@@ -43,7 +43,7 @@ export class VmCreationComponent {
   @Input() public fetching: boolean;
   @Input() public diskOfferingsAreLoading: boolean;
   @Input() public showOverlay: boolean;
-  @Input() public deploymentStopped: boolean;
+  @Input() public deploymentInProgress: boolean;
   @Input() public loggerStageList: Array<ProgressLoggerMessage>;
   @Input() public deployedVm: VirtualMachine;
   @Input() public enoughResources: boolean;

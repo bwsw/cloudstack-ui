@@ -50,7 +50,7 @@ export interface State extends EntityState<VirtualMachine> {
 export interface FormState {
   loading: boolean,
   showOverlay: boolean,
-  deploymentStopped: boolean,
+  deploymentInProgress: boolean,
   enoughResources: boolean,
   insufficientResources: Array<string>,
   loggerStageList: Array<ProgressLoggerMessage>,
@@ -346,7 +346,7 @@ export const selectFilteredVMs = createSelector(
 export const initialFormState: FormState = {
   loading: false,
   showOverlay: false,
-  deploymentStopped: false,
+  deploymentInProgress: false,
   enoughResources: false,
   insufficientResources: [],
   loggerStageList: [],
@@ -394,7 +394,7 @@ export function formReducer(
       return {
         ...state,
         showOverlay: true,
-        deploymentStopped: true
+        deploymentInProgress: true
       };
     }
     case vmActions.VM_DEPLOYMENT_INIT_ACTION_LIST: {
@@ -418,7 +418,7 @@ export function formReducer(
       return {
         ...state,
         deployedVm: action.payload,
-        deploymentStopped: false
+        deploymentInProgress: false
       };
     }
     case vmActions.VM_DEPLOYMENT_REQUEST_ERROR: {
@@ -430,13 +430,7 @@ export function formReducer(
         }
       });
 
-      return { ...state, loggerStageList: [...messages], deploymentStopped: false };
-    }
-    case vmActions.VM_DEPLOYMENT_REQUEST_ERROR: {
-      return {
-        ...state,
-        deploymentStopped: false
-      };
+      return { ...state, loggerStageList: [...messages], deploymentInProgress: false };
     }
     case vmActions.VM_DEPLOYMENT_COPY_TAGS: {
       return {
@@ -478,9 +472,9 @@ export const insufficientResources = createSelector(
   state => state.insufficientResources
 );
 
-export const deploymentStopped = createSelector(
+export const deploymentInProgress = createSelector(
   getVmForm,
-  state => state.deploymentStopped
+  state => state.deploymentInProgress
 );
 
 export const loggerStageList = createSelector(
