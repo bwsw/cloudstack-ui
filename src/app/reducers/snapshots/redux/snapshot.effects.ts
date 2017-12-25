@@ -36,7 +36,13 @@ export class SnapshotEffects {
         action.payload.name,
         action.payload.description
       )
-        .map(newSnap => new snapshot.AddSnapshotSuccess(newSnap))
+        .map(newSnap => {
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
+          });
+          return new snapshot.AddSnapshotSuccess(newSnap);
+        })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
             id: notificationId,
@@ -58,7 +64,14 @@ export class SnapshotEffects {
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
           return this.snapshotService.remove(action.payload.id)
-            .map(() => new snapshot.DeleteSnapshotSuccess(action.payload))
+            .map(() => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
+              });
+
+              return new snapshot.DeleteSnapshotSuccess(action.payload);
+            })
             .catch(error => {
               this.jobsNotificationService.fail({
                 id: notificationId,
