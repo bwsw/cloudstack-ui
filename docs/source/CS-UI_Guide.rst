@@ -691,7 +691,7 @@ At the right sidebar you can find two tabs:
 
 .. figure:: _static/Storage_CreateSnapshot.png
 
-Actions on Snapshots
+Snapshots Action Box 
 """"""""""""""""""""""""""""
 
 Like in the Virtual Machine information tab the same actions are available for a snapshot:
@@ -721,7 +721,7 @@ Find the detailed description in the :ref:`Actions_on_Snapshots` section.
 
 .. _Actions_on_Disks:
 
-Actions on Disks
+Volume Action Box 
 ~~~~~~~~~~~~~~~~~~~
 
 Action on drives are available under the Actions button |actions icon|.
