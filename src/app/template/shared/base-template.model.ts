@@ -54,7 +54,7 @@ export abstract class BaseTemplateModel extends BaseModel implements Taggable {
   constructor(json) {
     super(json);
     this.created = moment(json.created).toDate();
-    this.tags = this.tags ? this.tags : [];
+    this.tags = this.tags || [];
     this.size = this.size || 0;
   }
 

@@ -22,14 +22,14 @@ export interface Tag extends BaseModelInterface {
   value: string;
 }
 
-export const categoryName = (tag: Tag) => {
+export const categoryName = (tag: Tag): string => {
   const tagParts = tag.key.split('.');
   const categoryNameIsPresent = tagParts.length > 1 && tagParts[0] && tagParts[1];
 
   return categoryNameIsPresent ? tagParts[0] : defaultCategoryName;
 };
 
-export const keyWithoutCategory = (tag: Tag) => {
+export const keyWithoutCategory = (tag: Tag): string => {
   if (categoryName(tag) === defaultCategoryName) {
     return tag.key;
   }

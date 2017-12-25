@@ -32,14 +32,16 @@ export class VmTagsContainerComponent {
 
   public editTag(tagEditAction: TagEditAction) {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-      const newTag = {
-        resourceIds: vm.id,
-        resourceType: vm.resourceType,
+      const newTag: Tag = {
+        resourceid: vm.id,
+        resourcetype: vm.resourceType,
         key: tagEditAction.newTag.key,
-        value: tagEditAction.newTag.value
+        value: tagEditAction.newTag.value,
+        account: vm.account,
+        domain: vm.domain,
+        domainid: vm.domainid
       };
-      const newTags = Object.assign([], vm.tags)
-        .filter(t => tagEditAction.oldTag.key !== t.key);
+      const newTags: Tag[] = vm.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
       this.store.dispatch(new vmActions.UpdateVM(Object.assign(
         {},
@@ -63,13 +65,16 @@ export class VmTagsContainerComponent {
 
   public addTag(keyValuePair: KeyValuePair) {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-      const newTag = {
-        resourceId: vm.id,
-        resourceType: vm.resourceType,
+      const newTag: Tag = {
+        resourceid: vm.id,
+        resourcetype: vm.resourceType,
         key: keyValuePair.key,
-        value: keyValuePair.value
+        value: keyValuePair.value,
+        account: vm.account,
+        domain: vm.domain,
+        domainid: vm.domainid
       };
-      const newTags = Object.assign([], vm.tags);
+      const newTags: Tag[] = vm.tags;
       newTags.push(newTag);
       this.store.dispatch(new vmActions.UpdateVM(Object.assign(
         {},

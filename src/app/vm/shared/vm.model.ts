@@ -193,8 +193,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     if (!this.tags) {
       this.tags = [];
     }
-
-    this.tags = this.tags;
   }
 
   private initializeInstanceGroup(): void {

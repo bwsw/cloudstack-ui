@@ -17,7 +17,7 @@ export class MockTagService {
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return Observable.of({} as Tag);
+    return Observable.of({ key: 'key', value: 'value' } as Tag);
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
