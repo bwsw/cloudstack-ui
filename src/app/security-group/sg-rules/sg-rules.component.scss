@@ -10,9 +10,9 @@
 }
 
 mat-form-field {
-  width: 120px;
+  width: 120px !important;
   &.form-select-control {
-    width: 200px;
+    width: 170px !important;
     margin-left: 20px;
   }
 }

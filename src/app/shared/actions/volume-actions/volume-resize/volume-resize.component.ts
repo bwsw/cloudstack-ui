@@ -1,11 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
-import { MatDialogRef, MatSelectChange } from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { Volume } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
@@ -21,7 +15,7 @@ export class VolumeResizeComponent implements OnInit {
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
   @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
-  public diskOffering: DiskOffering;
+  public diskOfferingId: string;
   public newSize: number;
 
   constructor(
@@ -31,25 +25,29 @@ export class VolumeResizeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.newSize = this.volume.size / Math.pow(2, 30);
+    this.diskOfferingId = this.volume.diskOfferingId;
   }
 
   public get canResize(): boolean {
     return (this.diskOfferings && this.diskOfferings.length > 0) || this.volume.isRoot;
   }
 
-  public updateDiskOffering(change: MatSelectChange): void {
-    if (change) {
-      const diskOfferingId = change.value as string;
-      this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
-    }
+  public updateDiskOffering(value: string): void {
+    const diskOffering = this.diskOfferings.find(_ => _.id === value);
+    this.diskOfferingId = diskOffering && diskOffering.id;
+  }
+
+  public isCustomized(diskOfferingId: string) {
+    const diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
+    return diskOffering && diskOffering.isCustomized;
   }
 
   public resizeVolume(): void {
-    const includeDiskOffering = this.diskOffering && !this.volume.isRoot;
+    const includeDiskOffering = this.diskOfferingId && !this.volume.isRoot;
     const params: VolumeResizeData = Object.assign(
       { id: this.volume.id },
       this.newSize ? { size: this.newSize } : {},
-      includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}
+      includeDiskOffering ? { diskOfferingId: this.diskOfferingId } : {}
     );
     this.onDiskResized.emit(params);
   }

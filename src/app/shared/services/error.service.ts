@@ -44,6 +44,10 @@ export class ErrorService {
     {
       regex: /Value greater than max allowed length (\d+) for param: volumeName/,
       translation: 'ERRORS.VOLUME.NAME_TOO_LONG'
+    },
+    {
+      regex: /maxSnaps exceeds limit: (\d+) for interval type: hourly/,
+      translation: 'ERRORS.SNAPSHOT_POLICIES.HOURLY_TURN_OFF'
     }
   ];
 

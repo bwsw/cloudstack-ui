@@ -54,6 +54,7 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
           this.description = this.volume.description;
         }
       });
+    console.log(this.volume);
   }
 
 }

@@ -2,10 +2,11 @@ mat-icon {
   line-height: 48px;
 }
 
-h4 {
+h3 {
   max-width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 16px !important;
 }
 
 :host /deep/ .mat-tab-links {
@@ -15,7 +16,7 @@ h4 {
 }
 
 :host /deep/ .mat-tab-link {
-  min-width: 83px !important;
+  min-width: 75px !important;
 }
 
 .title-color-container {

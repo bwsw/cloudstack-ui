@@ -1,4 +1,4 @@
-<div class="tab-action-container">
+<div class="tab-action-container" *ngIf="isAdmin">
   <button mat-mini-fab (click)="addUser()">
     <mat-icon>add</mat-icon>
   </button>
@@ -8,7 +8,7 @@
   <mat-expansion-panel
     *ngFor="let user of sortedUsers"
     [expanded]="step === user.id"
-    (opened)="setStep(user.id)"
+    (opened)="openItem(user)"
   >
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -20,7 +20,9 @@
 
     <cs-account-user-card [user]="user"></cs-account-user-card>
 
-    <mat-action-row>
+    <mat-action-row
+      *ngIf="isAdmin || currentUserId === user.id"
+    >
       <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
