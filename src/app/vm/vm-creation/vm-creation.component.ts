@@ -147,7 +147,7 @@ export class VmCreationComponent {
     );
     const existingGroup = this.affinityGroupList.find(group => group.name === groupName);
 
-    this.affinityGroupChange.emit(clone(existingGroup) || new AffinityGroup({ name: groupName }));
+    this.affinityGroupChange.emit(clone(existingGroup) || { name: groupName });
   }
 
   public onVmCreationSubmit(e: any): void {
