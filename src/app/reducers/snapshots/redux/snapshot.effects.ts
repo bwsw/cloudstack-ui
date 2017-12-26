@@ -43,13 +43,10 @@ export class SnapshotEffects {
           });
           return new snapshot.AddSnapshotSuccess(newSnap);
         })
-        .catch((error: Error) => {
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-          });
-          return Observable.of(new snapshot.SnapshotUpdateError(error));
-        });
+        .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
+        })));
     });
 
   @Effect()
@@ -72,16 +69,20 @@ export class SnapshotEffects {
 
               return new snapshot.DeleteSnapshotSuccess(action.payload);
             })
-            .catch(error => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
-              });
-
-              return Observable.throw(error);
-            });
+            .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
+            })));
         });
     });
+
+  @Effect({ dispatch: false })
+  handleError$ = this.actions$
+    .ofType(snapshot.SNAPSHOT_UPDATE_ERROR)
+    .do((action: snapshot.SnapshotUpdateError) => {
+      this.jobsNotificationService.fail(action.payload);
+    });
+
 
   constructor(
     private actions$: Actions,

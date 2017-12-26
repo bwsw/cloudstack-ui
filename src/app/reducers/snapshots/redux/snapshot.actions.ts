@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Snapshot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
+import { INotification } from '../../../shared/services/jobs-notification.service';
 
 export const LOAD_SNAPSHOT_REQUEST = '[Snapshots] LOAD_SNAPSHOT_REQUEST';
 export const LOAD_SNAPSHOT_RESPONSE = '[Snapshots] LOAD_SNAPSHOT_RESPONSE';
@@ -61,7 +62,7 @@ export class DeleteSnapshotSuccess implements Action {
 export class SnapshotUpdateError implements Action {
   readonly type = SNAPSHOT_UPDATE_ERROR;
 
-  constructor(public payload: Error) {
+  constructor(public payload: INotification) {
   }
 }
 

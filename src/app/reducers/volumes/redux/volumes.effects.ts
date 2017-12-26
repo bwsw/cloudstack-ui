@@ -57,7 +57,7 @@ export class VolumesEffects {
           .setDescription(action.payload.volume, action.payload.description)
         : this.volumeTagService
           .removeDescription(action.payload.volume))
-        .map(volume => {
+        .map((volume: Volume) => {
           this.jobsNotificationService.finish({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
