@@ -13,7 +13,7 @@ export interface State {
 
 export interface ListState extends EntityState<Snapshot> {
   loading: boolean,
-  snapshotsByVolumeId: Dictionary<Snapshot[]>
+  snapshotIdsByVolumeId: Dictionary<string[]>
 }
 
 export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
@@ -23,7 +23,7 @@ export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
 
 const initialListState: ListState = adapter.getInitialState({
   loading: false,
-  snapshotsByVolumeId: {}
+  snapshotIdsByVolumeId: {}
 });
 
 export interface SnapshotState {
@@ -48,14 +48,16 @@ export function listReducer(
     }
     case snapshot.LOAD_SNAPSHOT_RESPONSE: {
       const reduceByVolumeId = action.payload.reduce(
-        (m, i) => ({ ...m, [i.volumeid]: (m[i.volumeid] ? [...m[i.volumeid], i] : [i]) }),
-        {}
+        (m, i) => ({
+          ...m,
+          [i.volumeid]: (m[i.volumeid] ? [...m[i.volumeid], i.id] : [i.id])
+        }), {}
       );
 
       const newState = {
         ...state,
         loading: false,
-        snapshotsByVolumeId: reduceByVolumeId
+        snapshotIdsByVolumeId: reduceByVolumeId
       };
 
       return {
@@ -77,10 +79,10 @@ export function listReducer(
     case snapshot.DELETE_SNAPSHOT_SUCCESS: {
       const newState = {
         ...state,
-        snapshotsByVolumeId: {
-          ...state.snapshotsByVolumeId,
-          [action.payload.volumeid]: state.snapshotsByVolumeId[action.payload.volumeid]
-            .filter(snapshot => snapshot.id !== action.payload.id)
+        snapshotIdsByVolumeId: {
+          ...state.snapshotIdsByVolumeId,
+          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
+            .filter(snapshotId => snapshotId !== action.payload.id)
         }
       };
       return {
@@ -114,5 +116,5 @@ export const isLoading = createSelector(
 
 export const selectSnapshotsByVolumeId = createSelector(
   getSnapshotEntitiesState,
-  state => state.snapshotsByVolumeId
+  state => state.snapshotIdsByVolumeId
 );
