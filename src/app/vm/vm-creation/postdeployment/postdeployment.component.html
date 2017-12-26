@@ -21,7 +21,7 @@
       </mat-icon>
     </div>
   </h4>
-  <h4 *ngIf="vm.nic[0]?.ipAddress"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{ vm.nic[0].ipAddress }}</h4>
+  <h4 *ngIf="vm.nic[0]?.ipaddress"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{ vm.nic[0].ipaddress }}</h4>
   <h4 *ngIf="isHttpAuthMode(vm) && getUrlLogin(vm)"><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b>
     {{ getUrlLogin(vm) }}
   </h4>
