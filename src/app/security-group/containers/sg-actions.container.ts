@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
+import { SecurityGroup } from '../sg.model';
 
 @Component({
   selector: 'cs-security-group-actions-container',
@@ -25,11 +26,11 @@ export class SecurityGroupActionsContainerComponent {
   ) {
   }
 
-  public onDeleteSecurityGroup(securityGroup) {
+  public onDeleteSecurityGroup(securityGroup: SecurityGroup) {
     this.store.dispatch(new securityGroupActions.DeleteSecurityGroup(securityGroup));
   }
 
-  public onViewSecurityGroup(securityGroup): Observable<any> {
+  public onViewSecurityGroup(securityGroup: SecurityGroup): Observable<any> {
     this.router.navigate(
       ['security-group', securityGroup.id, 'rules'],
       { queryParamsHandling: 'preserve' }
@@ -38,7 +39,7 @@ export class SecurityGroupActionsContainerComponent {
     return Observable.of(securityGroup);
   }
 
-  public onSecurityGroupConvert(securityGroup) {
+  public onSecurityGroupConvert(securityGroup: SecurityGroup) {
     this.store.dispatch(new securityGroupActions.ConvertSecurityGroup(securityGroup));
   }
 }

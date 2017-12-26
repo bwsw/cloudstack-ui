@@ -92,8 +92,7 @@ export class SecurityGroupEffects {
         .filter(res => Boolean(res))
         .switchMap(() => {
           return this.sgTagService.convertToShared(action.payload)
-            .map(_ => {
-              const newSG = Object.assign({}, _, {type: 'shared'});
+            .map(newSG => {
               return new securityGroup.UpdateSecurityGroup(newSG)
             })
             .catch(error => Observable.of(new securityGroup.UpdateSecurityGroupError(error)));

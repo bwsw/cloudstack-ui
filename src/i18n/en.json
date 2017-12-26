@@ -720,7 +720,7 @@
     },
     "FILTERS": {
       "SELECT_ACCOUNTS": "Select accounts",
-      "ORPHAN": "orphan",
+      "ORPHAN": "Orphan",
       "TEMPLATES": "Firewall Templates",
       "SHARED": "Shared Security Groups",
       "PRIVATE": "Private Security Groups",

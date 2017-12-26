@@ -20,7 +20,7 @@ export interface ListState extends EntityState<SecurityGroup> {
     viewMode: string,
     selectedAccountIds: string[],
     query: string,
-    orphan: boolean
+    selectOrphanSG: boolean
   },
   loading: boolean,
   selectedSecurityGroupId: string | null
@@ -36,7 +36,7 @@ const initialListState: ListState = adapter.getInitialState({
     query: '',
     selectedAccountIds: [],
     viewMode: SecurityGroupViewMode.Templates,
-    orphan: false
+    selectOrphanSG: false
   },
   loading: false,
   selectedSecurityGroupId: null
@@ -186,9 +186,9 @@ export const query = createSelector(
   state => state.query
 );
 
-export const orphan =  createSelector(
+export const selectOrphanSG =  createSelector(
   filters,
-  state => state.orphan
+  state => state.selectOrphanSG
 );
 
 export const filterSelectedAccountIds = createSelector(
@@ -246,10 +246,10 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    const checkFilter = (group: SecurityGroup) => filter.orphan ? group.virtualMachineIds.length === 0 : true;
+    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG ? group.virtualMachineIds.length === 0 : true;
 
     return securityGroups.filter(group => queryFilter(group)
-      && viewModeFilter(group) && selectedAccountIdsFilter(group) && checkFilter(group));
+      && viewModeFilter(group) && selectedAccountIdsFilter(group) && isOrphan(group));
   }
 );
 
@@ -259,7 +259,7 @@ export const selectSecurityGroupsForVmCreation = createSelector(
     return securityGroups.filter((securityGroup) => accountFilter(securityGroup));
   });
 
-export const isOrphan = createSelector(
+export const hasOrphanSecurityGroups = createSelector(
   selectAll,
   (sg) => {
     return sg.find(_ => _.virtualMachineIds.length !== 0) ? true : false
