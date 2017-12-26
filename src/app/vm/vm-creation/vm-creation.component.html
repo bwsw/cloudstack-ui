@@ -129,10 +129,9 @@
 
           </div>
 
-          <div *ngIf="formState.state.rootDiskSizeMin">
+          <div *ngIf="showResizeSlider">
             <cs-slider
               name="rds"
-              *ngIf="showResizeSlider"
               [min]="formState.state.rootDiskSizeMin"
               [max]="formState.data.rootDiskSizeLimit"
               [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"

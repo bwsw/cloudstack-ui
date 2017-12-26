@@ -49,7 +49,6 @@ export class VmTagsContainerComponent {
         { tags: newTags }
       )));
     });
-
   }
 
   public deleteTag(tag: Tag) {
