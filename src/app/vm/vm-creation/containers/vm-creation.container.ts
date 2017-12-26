@@ -75,7 +75,6 @@ export class VmCreationContainerComponent implements OnInit {
       this.store.select(fromZones.isLoading),
       this.store.select(fromServiceOfferings.isLoading),
       this.store.select(fromAuth.isLoading),
-      this.store.select(fromAffinityGroups.isLoading),
       this.store.select(fromTemplates.isLoading)
     )
     .map((loadings: boolean[]) => loadings.find(loading => loading));
