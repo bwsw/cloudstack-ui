@@ -54,6 +54,12 @@ export const sideBarRoutes: Array<SidebarRoute> = [
     className: 'disc-icon',
     id: 'TEMPLATES',
     enabled: true
+  },  {
+    path: '/snapshots',
+    text: 'NAVIGATION_SIDEBAR.SNAPSHOTS',
+    icon: 'backup',
+    id: 'SNAPSHOTS',
+    enabled: true
   },
   {
     path: '/security-group',

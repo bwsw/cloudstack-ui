@@ -47,6 +47,19 @@ export class VolumesEffects {
           return Observable.of(new volumeActions.CreateError(error));
         });
     });
+  @Effect()
+  createVolumeFromSnapshot$: Observable<Action> = this.actions$
+    .ofType(volumeActions.CREATE_VOLUME_FROM_SNAPSHOT)
+    .switchMap((action: volumeActions.CreateVolumeFromSnapshot) => {
+      return this.volumeService.createFromSnapshot(action.payload)
+        .map(createdVolume => {
+          this.dialog.closeAll();
+          return new volumeActions.CreateSuccess(createdVolume);
+        })
+        .catch((error: Error) => {
+          return Observable.of(new volumeActions.CreateError(error));
+        });
+    });
 
   @Effect()
   changeDescription$: Observable<Action> = this.actions$

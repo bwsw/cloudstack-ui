@@ -51,7 +51,8 @@
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
     },
     "SNAPSHOT": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?"
+      "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?",
+      "CONFIRM_REVERTING": "Are you sure you want to revert the owning volume to this snapshot?"
     },
     "TAG": {
       "CONFIRM_DELETION": "Are you sure you want to delete this tag?"
@@ -278,6 +279,7 @@
     "VMS": "Virtual machines",
     "STORAGE": "Storage",
     "IMAGES": "Images",
+    "SNAPSHOTS": "Snapshots",
     "FIREWALL_TEMPLATES": "Firewall",
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
@@ -720,6 +722,19 @@
       "HIDE_ADDITIONAL": "Hide additional fields"
     }
   },
+  "SNAPSHOT_PAGE": {
+    "CARD": {
+      "VOLUME": "Volume",
+      "VOLUME_DELETED": "Deleted",
+      "CREATED": "Created"
+    },
+    "ACTIONS": {
+      "CREATE_TEMPLATE": "Create template",
+      "CREATE_VOLUME": "Create volume",
+      "REVERT_TO_SNAPSHOT": "Revert volume to snapshot",
+      "DELETE_SNAPSHOT": "Delete"
+    }
+  },
   "SECURITY_GROUP_PAGE": {
     "DETAILS": {
       "TITLE": "Details",
@@ -733,7 +748,7 @@
       "EMPTY_VM_LIST": "No virtual machines",
       "EMPTY_VM_NAME": "Not available"
     },
-    "ACTION" : {
+    "ACTION": {
       "RULES": "Rules",
       "CONVERT": "Convert to shared"
     },

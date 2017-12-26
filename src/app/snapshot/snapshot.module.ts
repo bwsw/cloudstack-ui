@@ -1,21 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
   MatDialogModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatMenuModule,
   MatSelectModule,
   MatTabsModule,
   MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
+// tslint:disable-next-line
+import { SnapshotActionsComponent } from '../volume/volume-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
 import { DayPeriodComponent } from './recurring-snapshots/day-period/day-period.component';
 import { DailyPolicyComponent } from './recurring-snapshots/policy-editor/daily/daily-policy.component';
@@ -29,6 +28,17 @@ import { RecurringSnapshotsComponent } from './recurring-snapshots/recurring-sna
 import { SnapshotPolicyService } from './recurring-snapshots/snapshot-policy.service';
 import { StoredNumberComponent } from './recurring-snapshots/stored-number/stored-number.component';
 import { TimePickerComponent } from './recurring-snapshots/time-picker/time-picker.component';
+import { CreateVolumeFromSnapshotComponent } from './snapshots-page/components/create-volume.component';
+import { CreateVolumeFromSnapshotContainerComponent } from './snapshots-page/components/create-volume.container';
+// tslint:disable-next-line
+import { SnapshotActionComponent } from './snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.component';
+// tslint:disable-next-line
+import { SnapshotActionContainerComponent } from './snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.container';
+import { SnapshotActionService } from './snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
+import { SnapshotCardItemComponent } from './snapshots-page/snapshot-list-item/snapshot-card-item.component';
+import { SnapshotListItemComponent } from './snapshots-page/snapshot-list-item/snapshot-list-item.component';
+import { SnapshotsPageComponent } from './snapshots-page/snapshots-page.component';
+import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
 
 @NgModule({
   imports: [
@@ -46,6 +56,7 @@ import { TimePickerComponent } from './recurring-snapshots/time-picker/time-pick
     SharedModule,
     ReactiveFormsModule,
     MatTabsModule,
+    MatMenuModule
   ],
   exports: [
     RecurringSnapshotsComponent
@@ -62,14 +73,26 @@ import { TimePickerComponent } from './recurring-snapshots/time-picker/time-pick
     RecurringSnapshotsComponent,
     StoredNumberComponent,
     TimePickerComponent,
-    PolicyListComponent
+    SnapshotsPageContainerComponent,
+    SnapshotsPageComponent,
+    SnapshotListItemComponent,
+    SnapshotCardItemComponent,
+    SnapshotActionContainerComponent,
+    SnapshotActionComponent,
+    CreateVolumeFromSnapshotContainerComponent,
+    CreateVolumeFromSnapshotComponent
   ],
   providers: [
     PolicyViewBuilderService,
-    SnapshotPolicyService
+    SnapshotPolicyService,
+    SnapshotActionService
   ],
   entryComponents: [
-    RecurringSnapshotsComponent
+    RecurringSnapshotsComponent,
+    SnapshotCardItemComponent,
+    SnapshotListItemComponent,
+    CreateVolumeFromSnapshotContainerComponent
   ]
 })
-export class SnapshotModule { }
+export class SnapshotModule {
+}

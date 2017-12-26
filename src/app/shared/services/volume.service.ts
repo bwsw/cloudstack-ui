@@ -5,7 +5,6 @@ import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 import {
   Volume,
-  VolumeCreationData,
   isDeleted
 } from '../models';
 import { AsyncJobService } from './async-job.service';
@@ -14,6 +13,18 @@ import { SnapshotService } from './snapshot.service';
 import { VolumeTagService } from './tags/volume-tag.service';
 import { AsyncJob } from '../models/async-job.model';
 
+
+interface VolumeCreationData {
+  name: string;
+  zoneId: string;
+  diskOfferingId: string;
+  size?: number;
+}
+
+export interface VolumeFromSnapshotCreationData {
+  name: string;
+  snapshotId: string;
+}
 
 export interface VolumeAttachmentData {
   id: string;
@@ -69,6 +80,11 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
     ).switchMap((response: AsyncJob<Volume>)  => Observable.of(response.jobresult['volume']));
+  }
+  public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<Volume> {
+    return this.sendCommand('create', data).switchMap(job =>
+      this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
+    );
   }
 
   public detach(volume: Volume): Observable<Volume> {

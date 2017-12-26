@@ -1,0 +1,29 @@
+<cs-list
+  [isOpen]="listService?.hasSelected()"
+>
+  <ng-container cs-panels>
+
+  </ng-container>
+
+  <ng-container cs-list *loading="isLoading">
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="viewModeKey"
+      >
+      </cs-view-mode-switch>
+    </div>
+
+    <ng-container *ngIf="snapshots && snapshots.length">
+      <cs-grouped-list
+        class="padding"
+        [list]="snapshots"
+        [groupings]="groupings"
+        [component]="itemComponent"
+        [dynamicInputs]="inputs"
+        [dynamicOutputs]="outputs"
+        cs-list
+      ></cs-grouped-list>
+    </ng-container>
+  </ng-container>
+</cs-list>

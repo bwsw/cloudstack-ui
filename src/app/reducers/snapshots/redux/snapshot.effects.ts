@@ -86,6 +86,33 @@ export class SnapshotEffects {
             })));
         });
     });
+  @Effect()
+  revertVolumeToSnapshot$: Observable<Action> = this.actions$
+    .ofType(snapshot.REVERT_VOLUME_TO_SNAPSHOT)
+    .switchMap((action: snapshot.RevertVolumeToSnapshot) => {
+      return this.dialogService.confirm({
+        message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_REVERTING'
+      })
+        .onErrorResumeNext()
+        .filter(res => Boolean(res))
+        .switchMap(() => {
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
+          return this.snapshotService.revert(action.payload.id)
+            .map(() => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_DONE'
+              });
+
+              return new snapshot.RevertVolumeToSnapshotSuccess(action.payload);
+            })
+            .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_FAILED'
+            })));
+        });
+    });
 
   @Effect({ dispatch: false })
   handleError$ = this.actions$
