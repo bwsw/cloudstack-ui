@@ -20,7 +20,7 @@ import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.redu
     </cs-snapshot-modal>`,
 })
 export class SnapshotModalContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
+  readonly volume$ = this.store.select(fromVolumes.getSelectedVolumeWithSnapshots);
 
   public volume: Volume;
 
@@ -40,7 +40,7 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       .subscribe(volume => {
         // todo remove model
         this.volume = new Volume(volume);
-        if (!this.volume.snapshots.length) {
+        if (!this.volume.snapshots || !this.volume.snapshots.length) {
           this.dialogRef.close();
         }
       });

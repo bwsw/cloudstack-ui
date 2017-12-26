@@ -23,7 +23,7 @@ export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
 
 const initialListState: ListState = adapter.getInitialState({
   loading: false,
-  snapshotsByVolumeId: null
+  snapshotsByVolumeId: {}
 });
 
 export interface SnapshotState {
@@ -47,7 +47,7 @@ export function listReducer(
       };
     }
     case snapshot.LOAD_SNAPSHOT_RESPONSE: {
-      const sortByVolumeId = action.payload.reduce(
+      const reduceByVolumeId = action.payload.reduce(
         (m, i) => ({ ...m, [i.volumeid]: (m[i.volumeid] ? [...m[i.volumeid], i] : [i]) }),
         {}
       );
@@ -55,7 +55,7 @@ export function listReducer(
       const newState = {
         ...state,
         loading: false,
-        snapshotsByVolumeId: sortByVolumeId
+        snapshotsByVolumeId: reduceByVolumeId
       };
 
       return {
@@ -75,8 +75,16 @@ export function listReducer(
       };
     }
     case snapshot.DELETE_SNAPSHOT_SUCCESS: {
+      const newState = {
+        ...state,
+        snapshotsByVolumeId: {
+          ...state.snapshotsByVolumeId,
+          [action.payload.volumeid]: state.snapshotsByVolumeId[action.payload.volumeid]
+            .filter(snapshot => snapshot.id !== action.payload.id)
+        }
+      };
       return {
-        ...adapter.removeOne(action.payload.id, state)
+        ...adapter.removeOne(action.payload.id, newState)
       };
     }
     default: {
