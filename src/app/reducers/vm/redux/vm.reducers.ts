@@ -390,7 +390,7 @@ export function formReducer(
     case vmActions.VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE: {
       return { ...state, enoughResources: action.payload, loading: false };
     }
-    case vmActions.DEPLOY_VM: {
+    case vmActions.VM_DEPLOYMENT_REQUEST: {
       return {
         ...state,
         showOverlay: true,
