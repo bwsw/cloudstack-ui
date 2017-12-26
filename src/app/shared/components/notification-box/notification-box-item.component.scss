@@ -3,6 +3,11 @@
   line-height: 26px;
 }
 
+:host mat-list-item {
+  padding-bottom: 7px;
+  margin-bottom: 8px;
+}
+
 :host mat-spinner {
   background: transparent !important;
   margin-right: 16px;
@@ -14,3 +19,13 @@
   float: right;
   cursor: pointer;
 }
+
+:host mat-icon.done {
+  padding-left: 11px;
+}
+
+.mock-icon {
+  float: right;
+  width: 37px;
+}
+
