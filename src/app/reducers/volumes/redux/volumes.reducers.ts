@@ -219,7 +219,7 @@ export const selectVolumesWithSnapshots = createSelector(
       volume => {
         return {
           ...volume,
-          snapshots: snapshotsByVolumeId[volume.id] || {}
+          snapshots: snapshotsByVolumeId[volume.id] || []
         };
       });
   }
