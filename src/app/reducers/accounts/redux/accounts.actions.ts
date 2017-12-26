@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { AccountUser } from '../../../shared/models/account-user.model';
+import { AccountUser, ApiKeys } from '../../../shared/models/account-user.model';
 import { Account, AccountData } from '../../../shared/models/account.model';
 
 export const LOAD_ACCOUNTS_REQUEST = '[ACCOUNTS] LOAD_ACCOUNTS_REQUEST';
@@ -27,7 +27,8 @@ export const ACCOUNT_USER_UPDATE_SUCCESS = '[ACCOUNTS] ACCOUNT_USER_UPDATE_SUCCE
 export const ACCOUNT_USER_DELETE = '[ACCOUNTS] ACCOUNT_USER_DELETE';
 export const ACCOUNT_USER_DELETE_SUCCESS = '[ACCOUNTS] ACCOUNT_USER_DELETE_SUCCESS';
 export const ACCOUNT_USER_GENERATE_KEYS = '[ACCOUNTS] ACCOUNT_USER_GENERATE_KEYS';
-export const ACCOUNT_USER_GENERATE_KEYS_SUCCESS = '[ACCOUNTS] ACCOUNT_USER_GENERATE_KEYS_SUCCESS';
+export const ACCOUNT_LOAD_USER_KEYS = '[ACCOUNTS] ACCOUNT_LOAD_USER_KEYS';
+export const ACCOUNT_LOAD_USER_KEYS_SUCCESS = '[ACCOUNTS] ACCOUNT_LOAD_USER_KEYS_SUCCESS';
 
 export class LoadAccountsRequest implements Action {
   type = LOAD_ACCOUNTS_REQUEST;
@@ -176,10 +177,17 @@ export class AccountUserGenerateKey implements Action {
   }
 }
 
-export class AccountUserGenerateKeySuccess implements Action {
-  readonly type = ACCOUNT_USER_GENERATE_KEYS_SUCCESS;
+export class AccountLoadUserKeys implements Action {
+  readonly type = ACCOUNT_LOAD_USER_KEYS;
 
-  constructor(public payload: { user: AccountUser, userKeys: object }) {
+  constructor(public payload: AccountUser) {
+  }
+}
+
+export class AccountLoadUserKeysSuccess implements Action {
+  readonly type = ACCOUNT_LOAD_USER_KEYS_SUCCESS;
+
+  constructor(public payload: { user: AccountUser, userKeys: ApiKeys }) {
   }
 }
 
@@ -204,5 +212,4 @@ export type Actions = LoadAccountsRequest
   | AccountUserUpdateSuccess
   | AccountUserDelete
   | AccountUserDeleteSuccess
-  | AccountUserGenerateKey
-  | AccountUserGenerateKeySuccess;
+  | AccountUserGenerateKey;
