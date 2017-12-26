@@ -8,22 +8,22 @@ CloudStack-UI is created to make it easier for end-users to use cloud infrastruc
 
 Logging In 
 -------------
+
 If you have never worked with CloudStack before, you should start with installing the CloudStack platform. Follow the instruction in `the official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-installation/en/4.9/>`_.
 
 Then deploy CloudStack-UI (see the `instructions for deployment <https://github.com/bwsw/cloudstack-ui#deployment>`_).
 
-To enter the platform use your credentials provided by the administrator:
-
-- Login * -   The user ID of your account. 
-- Password * - The password associated with the user ID.
-- Domain - Enter a domain here. If you are a user in the sub-domains, enter the full path to the domain, excluding the root domain. 
+To enter the platform use your credentials provided by an administrator:
 
 .. note:: Required fields are marked with asterisks (*).
 
+- Login * -   The user ID of your account. 
+- Password * - The password associated with the user ID.
+- Domain - Enter a domain in the field under the "Show advanced options" button. If you are a user in the sub-domains, enter the full path to the domain, excluding the root domain. 
+
 Administrator can set a domain in configurations. It is more convenient for a user as he/she does not need to enter the domain every time at logging in. Domain field will be prepopulated with the specified value. 
 
-Another way to log in is to enter a URL in the format ``http://<management-server-ip-address>/login/do/ma/in``.
-
+Another way to log in is to enter a URL in the format ``http://<ip-address>/login?domain=<domain>``. The domain will be prepopulated in the login form with the value that is specified in the URL. Please, note, the domain value in URL will override the domain set in the configurations by Administrator.
 
 .. figure:: _static/LoginScreen.png
 
@@ -37,43 +37,49 @@ Resource Usage
 -------------------------
 In this section you can see the resource statistics: used and free VMs, computational resources, volumes and storage space. 
 
-A Domain Administrator can view resources for his/her account and for the whole domain.
-
-Unfold Resource Usage panel in the upper part of the screen.
-
-.. figure:: _static/VMs_ResourceUsage.png
-   :scale: 80%
-   
-It provides information on the following resources:
+Unfold *Resource Usage* panel in the upper part of the screen. It provides information on the following resources:
 
 1) Virtual machines;
 2) Computational resources - CPU, RAM;
 3) Volumes and snapshots;
 4) Storage - primary and secondary.
 
-You can select the information on used or free resources. Click the options that you need above the resource data list.
+You can switch between used or free resources by clicking the option you need above the resource data list.
 
+A user can see the resource usage statistics for his/her user only.
+
+.. figure:: _static/VMs_ResourceUsage_User.png
+   :scale: 80%
+   
+A Domain Administrator can view resources for his/her account and for the whole domain.
+
+.. figure:: _static/VMs_ResourceUsage.png
+   :scale: 80%
+   
 Notifications on Pending Operations 
 -----------------------------------------
 
-In the upper-right corner of the screen, you can see the list of pending operations by clicking a bell button |bell icon|. It informs you of the latest operations in the ststem. You can clear the list after its reviewing by deleting every notification one by one or clicking "Clear All" at the list bottom.
+In the upper-right corner of the screen, you can see the list of pending operations by clicking a bell button |bell icon|. It informs you of the latest operations in the system. You can clear the list after its reviewing by deleting every notification one by one or clicking "Clear All" at the list bottom.
 
-.. figure:: _static/VMs_Alerts.png
+.. figure:: _static/VMs_Alerts1.png
    :scale: 80%
 
 Virtual Machines
 -------------------
 
-At the starting page and in all other views we implemented the “one step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view.
+It is the starting section. Here and in all other views we implemented the “one-step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view.
 
-At this page, you can see the list of your virtual machines available to you only.
+At this page, you can see the list of your virtual machines available to your user only.
 
-If you are a Domain Administrator you can see the virtual machines of all users in your domain.
+.. figure:: _static/VMs_List_User.png
+   :scale: 80%
 
-.. figure:: _static/VMs.png
+If you are a Domain Administrator you can see the virtual machines of all users in your account. Or select all accounts in the "Select accounts" option above the list to see the virtual machines for the whole domain.
+
+.. figure:: _static/VMs_List_Admin.png
    :scale: 80%
    
-We have added the view icon |view icon|/|box icon| in the upper-right corner for your convenience. Now you can change the view of existing virtual machines from list to box.
+You can change the data representation of existing virtual machines from "card" to "list". We have added the switch |view icon|/|box icon| in the upper-right corner of each section. This improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
 .. figure:: _static/VMs_List.png
 
@@ -84,7 +90,7 @@ Filtering of Virtual Machines
 
 The filtering and search tool will help you to find a virtual machine in the list. 
 
-.. figure:: _static/VMs_Filter&Search.png
+.. figure:: _static/VMs_FilterAndSearch_User.png
    :scale: 80%
    
 You can filter the VM list by accounts (available for Domain Administrators) and/or zones and/or groups and/or states. In the drop-down lists tick the filtering parameters and see the immediate result.
@@ -111,9 +117,9 @@ To create a new VM click the "Create" button at the bottom-right corner.
    
 In the *Create VM* form fill in the following fields:
 
-1. Name * - A name of VM. The system suggests a meaningful autogenerated name in the following form ``vm-<username>-<counter>``. You can enter any name you wish. It should start with a letter, contain figures and latin letters and be unique within the domain.
+1. Name * - A name of VM. The system suggests a meaningful autogenerated name in the following form ``vm-<username>-<counter>``. You can enter any name you wish. It should start with a letter, contain figures and Latin letters and be unique within the domain.
 2. Zone * - A zone of VM operation. Select a zone from the drop-down list. The list of available zones is managed by Root Administrator.
-3. Service offerings * -  A set of options and resources that users can choose from, such as templates for creating virtual machines, disk storage, and more. The list of available service offerings is managed by Root Administrator. Now among other options there is *Custom offerings*. The Custom offerings option allows to set your own settings for:
+3. Service offerings * -  A set of options and resources that users can choose from, such as templates for creating virtual machines, disk storage, and more. The list of available service offerings is managed by Root Administrator. Now among other options there is *Custom offerings*. The Custom offerings option allows setting your own settings for:
 
     - CPU cores;
     - CPU (MHz);
@@ -134,17 +140,17 @@ The filtering tool allows finding a necessary option by selecting among template
    
    Click "Cancel" to drop selected options. No source will be selected then.   
 
-.. figure:: _static/VMs_Create_IstallationSource.png
+.. figure:: _static/VMs_Create_IstallationSource1.png
    :scale: 80%
     
 5. Disk offering * - Available if ISO is selected as a source. Select from the drop-down list the option on disk offerings. Change the disk size moving the slider up to the volume size you wish (if the selected disk offering has custom disk size).
 6. Group - Select a group from the drop-down list. Or create a new group by typing its name right in the field.
 7. Affinity group - Select an affinity group from the drop-down list. Or create a new group entering it right in this field.
-8. Firewall rules * - Click "Edit" to specify a security group for the VM. In the appeared window choose between "Create new" or "Select Shared" options. 
+8. Firewall rules - Click "Edit" to specify a security group for the VM. In the appeared window choose between "Create new" or "Select Shared" options. 
   
 **Create new security group**
 
-A new security group is created on the base of selected templates. This security group will be created as a privat group used for this VM only.
+A new security group is created on the base of selected templates. This security group will be created as a private group used for this VM only.
 
 If you would like to create a new security group, select a template in the "All templates" list at the left and move it to the "Selected templates" list at the right clicking the arrow icon:
    
@@ -163,24 +169,32 @@ Click "Cancel" to drop the selected options. No rules will be assigned to the vi
    
 **Select Shared security group**
    
-If you would like to select an existing group of firewall rules, you can click the "Select Shared" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. Thus, you are not allowed to edit them. That means, you won't be able to uncheck some rules in the group that you do not want to include into the list. You can assign only the whole shared group to your VM. 
+If you would like to select an existing group of firewall rules, you can click the "Select Shared" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. That means you won't be able to uncheck some rules in the group that you do not want to include into the list (like at creating from a template). You can assign only the whole shared group to your VM. 
    
 .. figure:: _static/VMs_Create_AddSecGr_Shared.png
    :scale: 70%
-   
+
+You can edit a shared security group after VM is created. In the *Network* tab of the VM details sidebar the assigned firewall rules can be viewed and edited. Please, find more information on security group editing in the :ref:`VM_Network_Tab` section.
+
 Click "Cancel" to drop the selected options. No rules will be assigned to the virtual machine. 
    
-8. Keyboard layout * - Select a keyboard layout from the drop-down list.
+8. Keyboard layout * - (is prepopulated). Select a keyboard layout from the drop-down list.
 9. SSH keypair - Select an SSH keypair. Find more information on the SSH key here (link to SSH keys section).
 10. Start VM checkbox - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available, no password is assigned to it.
 
 .. note:: Required fields are marked with an asterisk (*).
 
-For some templates/ISO used at VM creation you are offered to accept the "Template/ISO Terms and Conditions Agreement". Read the terms in the appeared window and click "Agree" to continue.
+Once all fields are filled in, click "Create".
+
+For some templates/ISO used at VM creation you are offered to accept the "Template/ISO Terms and Conditions Agreement". An administrator is able to specify an agreement for a template or ISO. Then a user must confirm it to continue VM installation from a chosen source. An agreement may specify, for example, software licensing terms or restrictions on the liability of the software template vendor. 
+
+If you are creating a virtual machine on the base of a template/ISO that requires an agreement, read the terms in the appeared window and click "Agree" to continue.
 
 .. figure:: _static/VMs_Create_Agreement.png
 
-Once all fields are filled in, click "Create" and wait for a while until the VM is created. A dialogue window will appear where you can monitor the VM creation process: security group creation, virtual machine deployment, template tags copying, etc. These procedures are fulfilled one by one. A procedure in progress is marked with a spinner in the message. In case of error occurring at any VM creation step, a user can understand at what step it has happened.
+Click "Cancel" to close the terms and move back to the creation form. Change the installation source.
+
+After clicking "Create", a dialogue window will appear where you can monitor the VM creation process: security group creation, virtual machine deployment, template tags copying, etc. These procedures are fulfilled one by one. A procedure in progress is marked with a spinner in the message. In case of an error occurring at any VM creation step, a user can understand at what step it has happened.
 
 .. figure:: _static/VMs_Create_Logger.png
    :scale: 70%
@@ -210,15 +224,13 @@ Click "Cancel" to drop the VM creation.
 Possible Issues When Creating a Virtual Machine
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-(need more info)
-
-An important thing in CloudStack -UI is that the system immediately checks that a user has the amount of resources required to create a virtual machine. It doesn’t allow launching the creation of a VM which will fail for sure because of the resource lack.
-
 You can face the following issues when creating a virtual machine:
 
 1) Lack of resources.
 
-The system checks if there are enough resources for a new virtual machine. If you lack the required amount of resources, the message will appear when clicking "Create Virtual Machine":
+An important thing in CloudStack-UI is that the system immediately checks that a user has the amount of resources required to create a virtual machine. It doesn’t allow launching the creation of a VM which will fail for sure because of the resource lack.
+
+If you lack the required amount of resources, the message will appear when clicking "Create Virtual Machine":
 
  "Insufficient resources
  
@@ -226,7 +238,11 @@ The system checks if there are enough resources for a new virtual machine. If yo
  
 No VM creation form is available.
  
-If there are insufficient resources you will not be allowed to create a new VM and start it upon creation. You will be able to create a new VM with the unchecked "Start VM" option. No IP is assigned to the VM in this case.
+.. If there are insufficient resources you will not be allowed to create a new VM and start it upon creation. You will be able to create a new VM with the unchecked "Start VM" option. No IP is assigned to the VM in this case.
+
+2) VM name is not unique.
+
+If the name specified for the virtual machine is not unique within a domain, the dialogue window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another name for your VM.
 
 Virtual Machines List
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -248,7 +264,7 @@ VM Action Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the "Actions" button |actions icon| to the right from each virtual machine in the list. 
 
-.. figure:: _static/VMs_Actions.png
+.. figure:: _static/VMs_ActionBox.png
    :scale: 70%
    
 It allows performing the following actions with the VM:
@@ -265,20 +281,40 @@ It allows performing the following actions with the VM:
 
 .. figure:: _static/VMs_Destroyed.png
 
-You can completely destroy the VM when destroying. Tick the "Expunge" option in the dialogue window . It will completely delete the VM from the system. The VM will not be available for recovering any more.
+You can completely destroy the VM when destroying. Tick the "Expunge" option in the dialogue window. It will completely delete the VM from the system. The VM will not be available for recovering anymore.
 
 .. figure:: _static/VMs_DestroyExpunge.png
 
-To recover a destroyed VM (which is not expunged) open the Actions list and click "Recover" to recover it.
+To recover a destroyed VM (which is not expunged) open the Actions list and click "Recover".
 
 .. figure:: _static/VMs_RestoreDeletedVM.png
 
 Click "Expunge" to completely destroy the VM.
 
 .. If the virtual machine has disks, the system will ask you in a dialogue window if these disks should be deleted. Confirm your intention to delete them clicking "Yes". Click "No" to cancel the disk deleting.
-- Reset password - Allows a user to change the password for VM (available for started VMs only). The VM will be rebooted if you reset the password. After clicking "Reset password" a new password will be autogenerated for the VM. Click "Save" in the dialogue window to save passwords for all your virtual machines automatically. It will activate the "Save VM passwords by default" option for the account and the password
+- Reset password - Allows a user to change the password for VM (available for started VMs only an in case the VM requires a password). The VM will be rebooted if you reset the password. 
 
-- Access VM - Opens an "Access VM" dialog window which allows to view and save a password for the VM and access the VM via the VNC console. In the :ref:`VM_Access` section you can find more information on accessing a VM.
+.. figure:: _static/VMs_ResetPassDialogue.png
+
+After clicking "Yes" the VM will be rebooted and a new password will be autogenerated for it. You will see the new password in the dialogue window. 
+
+.. figure:: _static/VMs_PasswordReset.png
+
+Click "OK" to close the dialogue window. Click "Save" to save the password for this VM.  It will activate the "Save VM passwords by default" option in the *Settings* section. In the future the password will be saved automatically right at VM creation.
+
+- Access VM - Opens an "Access VM" dialog window which allows to view VM name and IP, view and save a password for the VM and access the VM via the VNC console. 
+
+.. figure:: _static/AccessVM.png
+
+In the :ref:`VM_Access` section you can find more information on accessing a VM.
+
+- Pulse - It is a new feature created in CloudStack-UI to visualize the VM performance statistics. Clicking "Pulse" at the Actions box you will open a modal window with 3 tabs: CPU/RAM, Network, Disk. There you can see the charts of resources statistics for the VM.
+
+.. figure:: _static/Pulse.png
+
+You can adjust the graphs by range, data aggregation period, shift interval and other parameters. 
+
+This plugin is convenient for dynamic monitoring of VM performance. Find more information about it in the `official documentation <https://github.com/bwsw/cloudstack-ui/wiki/107-ReleaseNotes-En#pulse-plugin-experimental-function>`_. Pulse plugin deployment instructions can be found at the `page <https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment>`_.
 
 .. _VM_Info:
 
@@ -310,7 +346,7 @@ The description can be edited. Click "Edit" |edit icon| to change the descriptio
 
 .. figure:: _static/VMs_Details_EditDescription.png
 
-It also can be edited from the Tags tab. Click "Edit" next to the ``csui.vm.description`` tag and change the description taxt in the appeared form.
+It also can be edited from the Tags tab. Click "Edit" next to the ``csui.vm.description`` tag and change the description text in the appeared form.
 
 .. figure:: _static/VMs_Tags_EditDescription.png
 
@@ -344,7 +380,7 @@ The selected group can be removed by clicking "Edit" and choosing "Remove from t
 
 .. figure:: _static/VMs_Details_RemoveAffGroup.png
 
-5. Template - Shows the template used to create the virtal machine.
+5. Template - Shows the template used to create the virtual machine.
 
 #. SSH key - Shows the SSH key of the virtual machine. Add the SHH key by clicking "+". In the appeared window select the SHH key form the drop-down list and click "Change":
 
@@ -377,9 +413,13 @@ The following general information on a root disk is presented (expand the card t
 
 2. **Attach a volume** - Allows attaching a data disk to the VM.
 
-Additional volume (a data disk) can be attached to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "Select". The chosen data disk will appear for the virtual machine with the "Attach" button. Click "Attach" to attach the selected disk to the virtual machine.
+Additional volume (a data disk) can be attached to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "Select". 
 
-.. figure:: _static/VMs_AttachVolume_Attach1.png
+.. figure:: _static/VMs_AttachVolume_Select.png
+
+The chosen data disk will appear for the virtual machine with the "Attach" button. Click "Attach" to attach the selected disk to the virtual machine.
+
+.. figure:: _static/VMs_AttachVolume_Attach2.png
 
 If there are no available spare drives yet, you can create one right from this panel. 
 
@@ -468,7 +508,6 @@ In the appeared window set up a new size using the slider and click "Resize" to 
 
 Click "Cancel" to drop the size changes.
 
-
 **Detach**
 
 This action can be applied to data disks. It allows detaching the data disk from the virtual machine.
@@ -481,9 +520,9 @@ The data disk will be detached.
 
 **Delete**
 
-This action can be applied to data disks. It allows deleting a data disk from the system.
+This action can be applied to data disks. It allows deleting a data disk from the system right in the *Storage* VM details sidebar.
 
-Click "Delete" in the Actions list and confirm your action in the dialogue window. 
+Click "Delete" in the volume Actions list and confirm your action in the dialogue window. 
 
 .. figure:: _static/VMs_Details_Storage_DeleteDisk.png
 
@@ -522,15 +561,15 @@ Besides, you can see all the snapshots in the list clicking the "VIEW ALL" butto
 
 3. **ISO** - Allows attaching ISO. 
 
-Attach ISO clicking the "Attach" button. Select ISO in the dialogue window and click "Attach" to assign it to the VM. 
+Attach ISO clicking the "Attach" button in the ISO card. In the dialogue window you will see the list of available ISO files. To easily find the ISO file you need, please, use the search tool above the list. Additionally, you can filter the list by OS family(-ies), by type(-s), by group(-s). Tick the ISO file you wish in the list and click "Attach". The ISO will be attached to the VM.
 
-.. figure:: _static/VMs_AddISO.png
-
-To easily find the ISO file you need, please, use the search tool above the list. Additionally, you can filter the list by OS family(-ies), by type(-s), by group(-s). Tick the ISO file you wish in the list and click "Attach". The ISO will be attached to the VM.
+.. figure:: _static/VMs_AddISO1.png
 
 You can attach the ISO file clicking the "Detach" button.
 
 .. figure:: _static/VMs_ISO_Detach.png
+
+.. _VM_Network_Tab:
 
 Network Tab
 """"""""""""""""""""""""""
@@ -538,9 +577,7 @@ Under the Network tab the network configurations of the VM are presented.
 
 .. figure:: _static/VMs_Details_Network.png
 
-1. NIC information
-
-VM network details are shown here: Network namе, Netmask, Gateway, IP, Broadcast URI, Traffic Type, Type, Default, MAC address.
+1. **NIC information** - VM network details are shown here: Network namе, Netmask, Gateway, IP, Broadcast URI, Traffic Type, Type, Default, MAC address.
 
 You can add a secondary IP for the VM from this tab. Click "+" next to the Secondary IP option and confirm your action in the dialogue window. The IP appears for the VM.
 
@@ -548,11 +585,31 @@ You can add a secondary IP for the VM from this tab. Click "+" next to the Secon
 
 You can delete the secondary IP by clicking the "Delete" button next to it.
 
-2. Firewall rules
+2. **Firewall rules** - Allows viewing the implemented firewall rules for the virtual machine. Click |view| to open the list of assigned security group(-s). 
 
-This tab allows viewing |view| the implemented firewall rules for the virtual machine.
+.. figure:: _static/VMs_SG_View.png
 
-From the modal window you can move to editing a security group. Please, note, shared security groups are not available for editing.
+You can filter the list by types and/or protocols. Or you can adjust the view by grouping the list by types and/or protocols.
+
+.. figure:: _static/VMs_SG_Filter.png
+
+In the modal window you can edit a security group. Click "Edit" to move to editing form. There you will be able to add rules, or delete the selected ones from the list.
+
+To add rules, please, fill in the fields in the bar above the list and click "+":
+
+.. figure:: _static/VMs_SG_Edit_Add.png
+
+To delete rules, please, click Delete icon in the list. The rule will be deleted from the security group.
+
+.. figure:: _static/VMs_SG_Edit_Delete.png
+
+Then you can move back to the view mode, or close the window. 
+
+Please, note, when editing shared security groups, a warning message appears:
+
+.. figure:: _static/VMs_SharedSG_EditWarning.png
+
+Click "Yes" if you still want to edit a shared security group. You will be moved to the "Firewall" section where you can edit the security group. After editing, go back to the virtual machine that uses this group. You will see the rules are edited.
 
 See the Firewall_ section for more information on firewall rules in the system.
 
@@ -563,9 +620,9 @@ Under this tab you can create and see the VM tags.
 
 .. figure:: _static/VMs_Details_Tags.png
 
-CloudStack-UI uses tags very extensively to provide additional UX capabilities. Tags are key-value pairs. So it makes a kind of a key-value storage for the meta-inforamtion - VM description or group, or user language. The tags used by Cloudstack-UI are system tags. They are prefixed with ``csui``. You can find the full list of system tags supported by CloudStack-UI at the `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+CloudStack-UI uses tags very extensively to provide additional UX capabilities. Tags are key-value pairs. So it makes a kind of a key-value storage for the meta-information - VM description or group, or a user language. The tags used by Cloudstack-UI are system tags. They are prefixed with ``csui``. You can find the full list of system tags supported by CloudStack-UI at the `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 
-System tags are used to provide functionality from the user interface perspective. Changing these tags affects functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the virtual machine. Uncheck this box to hide system tags from the list. It helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. 
+System tags are used to provide functionality from the user interface perspective. Changing these tags affects the functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the virtual machine. Uncheck this box to hide system tags from the list. It helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. 
 
 To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
 
@@ -577,19 +634,29 @@ The tags assigned to the virtual machine are presented in the list. System tags 
   
  - Delete - Allows deleting the tag. Click "Delete" and confirm your action in the dialogue window.
 
-.. figure:: _static/VMs_Details_Tags_Actions.png
+.. figure:: _static/VMs_Details_Tags_Actions1.png
 
 **Create Tags**
 
-You can create a tag right from this tab. Click "+" and fill in the appeared form:
+You can create a tag right from *Tags* tab. 
 
- - Key * - Enter a key here. When adding a system tag, the ``csui`` prefix is automatically prepopulated here.
- 
- - Value * - Enter the value here.
+Click "Create" |create icon| and fill in the appeared form:
 
 .. note:: Required fields are marked with an asterisk (*).
 
-.. figure:: _static/VMs_Tag_Create.png
+ - Key * - Enter a key here. 
+ 
+ - Value * - Enter the value here.
+
+.. figure:: _static/VMs_Tag_CreateNew.png
+
+When adding a system tag, click "+" in the card to open the creation form. You will see that the ``csui`` prefix is automatically prepopulated here. 
+
+.. figure:: _static/VMs_SystemTag_Create.png
+
+If you create a non-system tag, it will be saved in a new card. If you have entered a key in the format ``<prefix>.<example>``, a card will be named as "<prefix>". When creating a new tag from this card, click "+" in the card and in the tag creation form the *Key* field will be prepopulated with the <prefix>.
+
+.. figure:: _static/VMs_Tag_Create1.png
 
 .. _VM_Access:
 
@@ -601,7 +668,7 @@ Depending on the installation source (ISO or a Template) the system allows getti
 
 .. figure:: _static/AccessVM_OpenConsole.png
 
-- WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To find more information on accessing VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/107-ReleaseNotes-En#webshell-plugin-experimental-function>`_. See the detailed instructions on deployment of WebShell Plugin `here <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment>`_.
+- WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To find more information on accessing VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/107-ReleaseNotes-En#webshell-plugin-experimental-function>`_. See the detailed instructions on the deployment of WebShell Plugin `here <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment>`_.
 
 .. figure:: _static/AccessVM_WebShell.png
 
@@ -967,3 +1034,4 @@ Logout
 .. |actions icon| image:: _static/actions_icon.png
 .. |edit icon| image:: _static/edit_icon.png
 .. |box icon| image:: _static/box_icon.png
+.. |create icon| image:: _static/create_icon.png
