@@ -3,12 +3,7 @@
   line-height: 26px;
 }
 
-:host mat-list-item {
-  padding-bottom: 7px;
-  margin-bottom: 8px;
-}
-
-:host mat-spinner {
+:host /deep/ mat-spinner {
   background: transparent !important;
   margin-right: 16px;
   width: 40px;
