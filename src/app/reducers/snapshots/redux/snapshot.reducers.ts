@@ -1,9 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Snapshot } from '../../../shared/models';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
-import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as snapshot from './snapshot.actions';
 import * as volume from '../../volumes/redux/volumes.actions';
 
@@ -12,7 +12,8 @@ export interface State {
 }
 
 export interface ListState extends EntityState<Snapshot> {
-  loading: boolean
+  loading: boolean,
+  snapshotsByVolumeId: Dictionary<Snapshot[]>
 }
 
 export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
@@ -21,7 +22,8 @@ export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
 });
 
 const initialListState: ListState = adapter.getInitialState({
-  loading: false
+  loading: false,
+  snapshotsByVolumeId: null
 });
 
 export interface SnapshotState {
@@ -45,6 +47,17 @@ export function listReducer(
       };
     }
     case snapshot.LOAD_SNAPSHOT_RESPONSE: {
+      const sortByVolumeId = action.payload.reduce(
+        (m, i) => ({ ...m, [i.volumeid]: (m[i.volumeid] ? [...m[i.volumeid], i] : [i]) }),
+        {}
+      );
+
+      const newState = {
+        ...state,
+        loading: false,
+        snapshotsByVolumeId: sortByVolumeId
+      };
+
       return {
         /**
          * The addMany function provided by the created adapter
@@ -53,8 +66,7 @@ export function listReducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll([...action.payload], state),
-        loading: false
+        ...adapter.addAll([...action.payload], newState)
       };
     }
     case snapshot.ADD_SNAPSHOT_SUCCESS: {
@@ -90,4 +102,9 @@ export const {
 export const isLoading = createSelector(
   getSnapshotEntitiesState,
   state => state.loading
+);
+
+export const selectSnapshotsByVolumeId = createSelector(
+  getSnapshotEntitiesState,
+  state => state.snapshotsByVolumeId
 );

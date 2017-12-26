@@ -213,13 +213,13 @@ export const filterSpareOnly = createSelector(
 
 export const selectVolumesWithSnapshots = createSelector(
   selectAll,
-  fromSnapshots.selectAll,
+  fromSnapshots.selectSnapshotsByVolumeId,
   (volumes, snapshots) => {
     return volumes.map(
       volume => {
         return {
           ...volume,
-          snapshots: snapshots.filter(snapshot => snapshot.volumeid === volume.id)
+          snapshots: snapshots && snapshots[volume.id]
         };
       });
   }
