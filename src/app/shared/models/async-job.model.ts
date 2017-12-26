@@ -22,8 +22,7 @@ export const mapCmd = (asyncJob) => {
 
   const matches = asyncJob.cmd.match(regex);
   if (matches) {
-    asyncJob.cmd = matches[1].toLowerCase();
-    this.formatCommand(asyncJob);
+    return this.formatCommand(asyncJob);
   } else {
     return '';
   }
@@ -34,4 +33,5 @@ export const formatCommand = (asyncJob) => {
   if (indexOfVmSubstr !== -1) {
     return asyncJob.cmd.substring(0, asyncJob.cmd.length - 2);
   }
+  return asyncJob.cmd;
 };
