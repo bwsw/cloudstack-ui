@@ -209,7 +209,7 @@ export class VmCreationComponent implements OnInit {
     const existingGroup = this.formState.data.getAffinityGroup(groupName);
 
     this.formState.state.affinityGroup =
-      clone(existingGroup) || new AffinityGroup({ name: groupName });
+      clone(existingGroup) || { name: groupName };
     this.updateFormState();
   }
 

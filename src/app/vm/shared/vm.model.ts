@@ -158,7 +158,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   }
 
   public get ipIsAvailable(): boolean {
-    return this.nic.length && !!this.nic[0].ipAddress;
+    return this.nic.length && !!this.nic[0].ipaddress;
   }
 
   public getDisksSize(): number {
@@ -175,8 +175,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     if (!this.nic) {
       this.nic = [];
     }
-
-    this.nic = this.nic.map(nic => new NIC(nic));
   }
 
   private initializeSecurityGroups(): void {
