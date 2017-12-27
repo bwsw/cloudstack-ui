@@ -73,7 +73,7 @@ export class VmTagsContainerComponent {
         domain: vm.domain,
         domainid: vm.domainid
       };
-      const newTags: Tag[] = vm.tags;
+      const newTags: Tag[] = [...vm.tags];
       newTags.push(newTag);
       this.store.dispatch(new vmActions.UpdateVM(Object.assign(
         {},
