@@ -8,6 +8,7 @@ import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 
 import { Store } from '@ngrx/store';
 import { State } from '../reducers/index';
+import { getName } from '../shared/models/user.model';
 import * as authActions from '../reducers/auth/redux/auth.actions';
 
 @Component({
@@ -40,7 +41,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public get title(): string {
-    return this.auth.user ? this.auth.user.name : '';
+    return this.auth.user ? getName(this.auth.user) : '';
   }
 
   public get isDrawerOpen(): boolean {
