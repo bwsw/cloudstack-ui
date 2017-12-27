@@ -72,8 +72,17 @@ export function listReducer(
       };
     }
     case snapshot.ADD_SNAPSHOT_SUCCESS: {
+      const newState = {
+        ...state,
+        snapshotIdsByVolumeId: {
+          ...state.snapshotIdsByVolumeId,
+          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
+            ? [...state.snapshotIdsByVolumeId[action.payload.volumeid], action.payload.id]
+            : [action.payload.id]
+        }
+      };
       return {
-        ...adapter.addOne(action.payload, state)
+        ...adapter.addOne(action.payload, newState)
       };
     }
     case snapshot.DELETE_SNAPSHOT_SUCCESS: {
