@@ -386,7 +386,8 @@
         "thick": "Статическое",
         "sparse": "Разреженное",
         "shared": "Общее",
-        "local": "Локальное"
+        "local": "Локальное",
+        "hosttags": "Теги хоста"
       },
       "AFFINITY_GROUP": {
         "TITLE": "Аффинитетная группа",
@@ -1191,6 +1192,7 @@
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Изменить предложение",
     "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
+    "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
     "CPU_MHZ": "{{count}}x{{speed}} МГц",
     "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
     "CUSTOM_SERVICE_OFFERING": {
