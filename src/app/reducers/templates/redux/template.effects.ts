@@ -4,7 +4,10 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { TemplateService } from '../../../template/shared/template.service';
-import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
+import {
+  TemplateFilters,
+  TemplateResourceType
+} from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { Template } from '../../../template/shared/template.model';
@@ -48,12 +51,19 @@ export class TemplateEffects {
         .withLatestFrom(this.store.select(fromTemplateGroups.selectAll))
         .map(([[templates, isos], groups]) =>
           [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups])
-        .switchMap(([[templates, isos], groups]) => groups && groups.length
-          ? Observable.of(new template.LoadTemplatesResponse([...templates, ...isos]))
-          : [
-            new template.LoadTemplatesResponse([...templates, ...isos]),
-            new templateGroup.LoadTemplateGroupsRequest()
-          ]);
+        .switchMap(([[templates, isos], groups]) => {
+          console.log('qq', templates, isos, groups);
+          return groups && groups.length
+            ? Observable.of(new template.LoadTemplatesResponse([...templates, ...isos]))
+            : [
+              new template.LoadTemplatesResponse([...templates, ...isos]),
+              new templateGroup.LoadTemplateGroupsRequest()
+            ];
+        })
+        .catch(error => {
+          console.log(error);
+          return Observable.of(new template.LoadTemplatesResponse([]));
+        });
     });
 
   @Effect()
@@ -94,8 +104,10 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
     .switchMap((action: template.CreateTemplate) => {
-      return (action.payload.entity === TemplateResourceType.iso ? this.isoService.register(action.payload)
-        : action.payload.snapshotId ? this.templateService.create(action.payload)
+      return (action.payload.entity === TemplateResourceType.iso
+        ? this.isoService.register(action.payload)
+        : action.payload.snapshotId
+          ? this.templateService.create(action.payload)
           : this.templateService.register(action.payload))
         .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
         .catch((error: Error) => Observable.of(new template.CreateTemplateError(error)));

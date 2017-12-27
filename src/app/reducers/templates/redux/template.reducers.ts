@@ -106,6 +106,7 @@ export function listReducer(
       };
     }
     case template.LOAD_TEMPLATE_RESPONSE: {
+      console.log('here', action.payload)
       return {
         /**
          * The addMany function provided by the created adapter
