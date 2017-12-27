@@ -3,7 +3,14 @@ import { Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Observable } from 'rxjs/Observable';
-import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
+import {
+  AffinityGroup,
+  DiskOffering,
+  InstanceGroup,
+  ServiceOffering,
+  SSHKeyPair,
+  Zone
+} from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
@@ -75,9 +82,13 @@ export class VmCreationContainerComponent implements OnInit {
       this.store.select(fromZones.isLoading),
       this.store.select(fromServiceOfferings.isLoading),
       this.store.select(fromAuth.isLoading),
-      this.store.select(fromTemplates.isLoading)
+      this.store.select(fromTemplates.isLoading),
+      this.store.select(fromAffinityGroups.isLoading)
     )
-    .map((loadings: boolean[]) => loadings.find(loading => loading));
+    .map((loadings: boolean[]) => {
+      console.log('zones, seroff, auth, templates, affgroups', loadings);
+      return loadings.find(loading => loading);
+    });
   readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
   readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
