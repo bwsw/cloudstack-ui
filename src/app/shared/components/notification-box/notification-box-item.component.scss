@@ -3,7 +3,7 @@
   line-height: 26px;
 }
 
-:host /deep/ mat-spinner {
+:host mat-spinner {
   background: transparent !important;
   margin-right: 16px;
   width: 40px;
@@ -19,8 +19,7 @@
   padding-left: 11px;
 }
 
-.mock-icon {
-  float: right;
-  width: 37px;
+.pending-notification {
+  padding-right: 33px;
 }
 
