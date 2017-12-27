@@ -1,6 +1,4 @@
-import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
-
+import { BaseModelInterface } from './base.model';
 
 export const ResourceTypes = {
   USER: 'User',
@@ -14,32 +12,27 @@ export const DeletionMark = {
 
 export const defaultCategoryName = 'Common';
 
-@FieldMapper({
-  domainid: 'domainId',
-  resourceid: 'resourceId',
-  resourcetype: 'resourceType'
-})
-export class Tag extends BaseModel {
-  public account: string;
-  public domain: string;
-  public domainId: string;
-  public key: string;
-  public resourceId: string;
-  public resourceType: string;
-  public value: string;
-
-  public get categoryName(): string {
-    const tagParts = this.key.split('.');
-    const categoryNameIsPresent = tagParts.length > 1 && tagParts[0] && tagParts[1];
-
-    return categoryNameIsPresent ? tagParts[0] : defaultCategoryName;
-  }
-
-  public get keyWithoutCategory(): string {
-    if (this.categoryName === defaultCategoryName) {
-      return this.key;
-    }
-
-    return this.key.split('.').splice(1).join('.');
-  }
+export interface Tag extends BaseModelInterface {
+  account: string;
+  domain: string;
+  domainid: string;
+  key: string;
+  resourceid: string;
+  resourcetype: string;
+  value: string;
 }
+
+export const categoryName = (tag: Tag): string => {
+  const tagParts = tag.key.split('.');
+  const categoryNameIsPresent = tagParts.length > 1 && tagParts[0] && tagParts[1];
+
+  return categoryNameIsPresent ? tagParts[0] : defaultCategoryName;
+};
+
+export const keyWithoutCategory = (tag: Tag): string => {
+  if (categoryName(tag) === defaultCategoryName) {
+    return tag.key;
+  }
+
+  return tag.key.split('.').splice(1).join('.');
+};
