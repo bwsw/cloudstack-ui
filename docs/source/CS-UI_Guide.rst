@@ -19,17 +19,19 @@ To enter the platform use your credentials provided by an administrator:
 
 - Login * -   The user ID of your account. 
 - Password * - The password associated with the user ID.
-- Domain - Enter a domain in the field under the "Show advanced options" button. If you are a user in the sub-domains, enter the full path to the domain, excluding the root domain. 
+- Domain - Specify domain when you log in. CloudStak-UI supports three ways to do it. Choose one which is more convenient for you:
+  
+   1) Enter a domain in the field under the "Show advanced options" button.
 
-Administrator can set a domain in configurations. It is more convenient for a user as he/she does not need to enter the domain every time at logging in. Domain field will be prepopulated with the specified value. 
+   2) Administrator can set a domain in configurations. Domain field will be prepopulated with the specified value. It is more convenient for a user as he/she does not need to enter the domain every time at logging in. 
 
-Another way to log in is to enter a URL in the format ``http://<ip-address>/login?domain=<domain>``. The domain will be prepopulated in the login form with the value that is specified in the URL. Please, note, the domain value in URL will override the domain set in the configurations by Administrator.
+   3) Other way to log in is to enter a URL in the format ``http://<ip-address>/login?domain=<domain>``. The domain will be prepopulated in the logging in form with the value that is specified in the URL. Please, note, the domain value in URL will override the domain set in the configurations by Administrator.
 
 .. figure:: _static/LoginScreen.png
 
 Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
 
-To the left you can see the main navigation bar. It allows moving from section to section. It is configured by Root Administrator in the configuration file. The administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section).
+To the left you can see the main navigation bar. It allows moving from section to section. It is configured by Root Administrator in the configuration file. The administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the :ref:`Administration_Guide` for more information on configuring the navigation bar elements reordering.
 
 .. _Resource_Usage:
 
@@ -169,7 +171,7 @@ Click "Cancel" to drop the selected options. No rules will be assigned to the vi
    
 **Select Shared security group**
    
-If you would like to select an existing group of firewall rules, you can click the "Select Shared" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. That means you won't be able to uncheck some rules in the group that you do not want to include into the list (like at creating from a template). You can assign only the whole shared group to your VM. 
+If you would like to select an existing group of firewall rules, you can click the "Select Shared" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. That means you won't be able to uncheck some rules in the group that you do not want to include into the list (like at creating from a template). You can assign only the whole shared secutity group to your VM. 
    
 .. figure:: _static/VMs_Create_AddSecGr_Shared.png
    :scale: 70%
@@ -186,7 +188,7 @@ Click "Cancel" to drop the selected options. No rules will be assigned to the vi
 
 Once all fields are filled in, click "Create".
 
-For some templates/ISO used at VM creation you are offered to accept the "Template/ISO Terms and Conditions Agreement". An administrator is able to specify an agreement for a template or ISO. Then a user must confirm it to continue VM installation from a chosen source. An agreement may specify, for example, software licensing terms or restrictions on the liability of the software template vendor. 
+For some templates/ISO used at VM creation you are offered to accept the "Template/ISO Terms and Conditions Agreement". An administrator is able to specify an agreement for a template or ISO. An agreement may determine, for example, software licensing terms or restrictions on the liability of the software template vendor. A user must confirm it to continue VM installation from a chosen source. 
 
 If you are creating a virtual machine on the base of a template/ISO that requires an agreement, read the terms in the appeared window and click "Agree" to continue.
 
@@ -226,7 +228,7 @@ Possible Issues When Creating a Virtual Machine
 
 You can face the following issues when creating a virtual machine:
 
-1) Lack of resources.
+- Lack of resources.
 
 An important thing in CloudStack-UI is that the system immediately checks that a user has the amount of resources required to create a virtual machine. It doesn’t allow launching the creation of a VM which will fail for sure because of the resource lack.
 
@@ -240,7 +242,7 @@ No VM creation form is available.
  
 .. If there are insufficient resources you will not be allowed to create a new VM and start it upon creation. You will be able to create a new VM with the unchecked "Start VM" option. No IP is assigned to the VM in this case.
 
-2) VM name is not unique.
+- VM name is not unique.
 
 If the name specified for the virtual machine is not unique within a domain, the dialogue window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another name for your VM.
 
@@ -480,7 +482,6 @@ Click "Take a snapshot" in the disk Actions list and in the dialogue window ente
 
 All snapshots are saved in the list of snapshots. In the disk information, you will see the name and time of the *last-taken snapshot*. For each snapshot the list of actions is available. Find more information on snapshot actions in the :ref:`Actions_on_Snapshots` sections below.
 
-
 **Set up snapshot schedule**
 
 You can schedule regular snapshotting by clicking "Set up snapshot schedule" in the Actions list.
@@ -585,7 +586,7 @@ You can add a secondary IP for the VM from this tab. Click "+" next to the Secon
 
 You can delete the secondary IP by clicking the "Delete" button next to it.
 
-2. **Firewall rules** - Allows viewing the implemented firewall rules for the virtual machine. Click |view| to open the list of assigned security group(-s). 
+2. **Firewall rules** - Allows viewing the security group assigned to the virtual machine. Click |view| to open the list of assigned security group(-s). 
 
 .. figure:: _static/VMs_SG_View.png
 
@@ -688,23 +689,33 @@ In this section, you can create and manage drives for virtual machines.
 Drive list
 ~~~~~~~~~~~~
 
-Here you can find a list of your disks existing in your account. Domain Administrator can see disks of all users in the domain.
+Here you can find a list of your disks existing for your user. 
 
-Disks can be viewed as a list or as a grid of cards. Switch the view clicking a view icon |view icon| in the upper-right corner.
+.. figure:: _static/Storage_List.png
+
+Domain Administrator can see disks of all accounts in the domain.
+
+.. figure:: _static/Storage_List_Admin.png
+
+Disks can be viewed as a list or as a grid of cards. Switch the view clicking a view icon |view icon|/|box icon| in the upper-right corner.
+
+.. note:: If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. Once you create a VM, a root disk is created for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional data disk.
 
 Filtering of Drives
 """"""""""""""""""""""""""
-Root disks are visually distinguished from data disks. In addition, there is an option to display only spare disks, which allows saving user's time in certain cases.
+Root disks are visually distinguished from data disks in the list. There is an option to display only spare disks which allows saving user's time in certain cases. 
 
-As in all lists, here you can use the filtering tool selecting drives by zones and/or types. Domain Administrators can see the list of  drives of all users in the domain. Filtering by accounts is available to Administrators.
+As in all lists, there is the filtering tool for selecting drives by zones and/or types. You also can apply the search tool selecting a drive by its name or a part of the name.
 
-.. figure:: _static/Storage_FilterAndSearch_Admin.png
+.. figure:: _static/Storage_FilterAndSearch1.png
 
-Besides, you can apply the search tool selecting a drive by its name or a part of the name.
-
-Moreover, for better distinguising of drives in the list you can group them by zones and/or types, like in the figure below:
+For better distinguising of drives in the list you can group them by zones and/or types, like in the figure below:
 
 .. figure:: _static/Storage_FilterAndSearch.png
+
+Domain Administrators can see the list of drives of all accounts in the domain. Filtering by accounts is available to Administrators.
+
+.. figure:: _static/Storage_FilterAndSearch_Admin.png
 
 For each drive in the list the following information is presented:
 
@@ -717,23 +728,27 @@ The Actions button |actions icon| is available to the right. It expands the list
 Create New Volume
 ~~~~~~~~~~~~~~~~~~~
 
-Here you can create new volumes.
+In the *Storage* section you can create new volumes.
 
-Clicking the "Create" button you get access to the creation form. 
+Clicking the "Create" button |create icon| in the bottom-right corner you opens a creation form. 
+
+If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. Once you create a VM, a root disk is created for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional disk. When clicking "Create", a dialogue window will ask you if you are sure you want to create a drive. Confirm your creation action clicking "Yes":
+
+.. figure:: _static/AdditionalDiskNotification.png
 
 To create a new volume fill in the fields:
 
-- Name * - enter a name of the volume.
-- Zone * - select a zone from the drop-down list.
-- Disk offering * - select from the drop-down list.
+- Name * - Enter a name of the volume. 
+- Zone * - Select a zone from the drop-down list.
+- Disk offering * - Select from the drop-down list. If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider up to the volume size you wish.
 
 .. note:: Required fields are marked with an asterisk (*).
 
-.. figure:: _static/Storage_Create.png
+.. figure:: _static/Storage_Create1.png
 
-Click "Create" to save the settings and create the new volume. You will see the drive appears on the list.
+Click "Create" to save the settings and create the new volume. You will see the drive appears in the list.
 
-.. figure:: _static/Storage_Created.png
+.. figure:: _static/Storage_Created1.png
 
 Click "Cancel" to drop all the settings. The drive will not be created then.
 
@@ -744,28 +759,53 @@ Volume Details Sidebar
 
 Clicking a disk in the list you can access the information on the volume. 
 
-.. figure:: _static/Storage_Info.png
+.. figure:: _static/Storage_Info1.png
 
 At the right sidebar you can find two tabs:
 
 1. Volume tab - Provides the information on the disk volume:
 
-    - General information - Presents disk size, date and time of creation, the storage type (shared, local).
-    - Description - Allows entering a short description to the drive. Click "Save" to save the description. You can edit the description clicking the "Edit" button |edit icon| in the tab.
-    - Disk offering - Presents the information on the disk offering chosen during disk creating.
+- General information - Presents disk size, date and time of creation, the storage type (shared, local).
+- Description - Allows entering a short description to the drive. Click at the Description card and enter a short description in the text block.
     
-2. Snapshots tab - Allows creating disk snapshots. Click the "Add" button and enter a snapshot name and the description in the dialogue window. Then click "Create" and see the snapshot has appeared in the list. 
+.. figure:: _static/Storage_Description.png
+   :align: center
 
-.. figure:: _static/Storage_CreateSnapshot.png
+Click "Save" to save the description. 
+
+You can edit the description clicking the "Edit" button |edit icon| in the tab.
+
+.. figure:: _static/Storage_DescriptionEdit.png
+   :align: center
+   
+- Disk offering - Presents the information on the disk offering chosen at disk creation.
+    
+2. Snapshots tab - Allows creating disk snapshots. Snapshots can be taken for disks with "Ready" status only.
+
+   Click the "Add" button |create icon| and enter in the dialogue window:
+
+    - Name - Define a name for the snapshot. It is auto-generated in the format ``<date>-<time>``. But you can specify any name you wish.
+    - Description - Add a description of the snapshot to know what it contains.  
+ 
+   Then click "Create" and see the snapshot has appeared in the list. 
+
+.. figure:: _static/Storage_CreateSnapshot1.png
+   :align: center
+   
+Every snapshot is saved in a separate card. There you will see the name and time of the snapshot. 
+
+For each snapshot the list of actions is available. Find more information on snapshot actions in the :ref:`Actions_on_Snapshot_Volume` section below.
+
+.. _Actions_on_Snapshot_Volume:
 
 Snapshots Action Box 
 """"""""""""""""""""""""""""
 
 Like in the Virtual Machine information tab the same actions are available for a snapshot:
      
-- **Create a template** - Allows creating a template.
+- **Create a template** - Allows creating a template from the snapshot. This template can be used for VM creation.
   
-.. - Register a new template right from the disk information block of the sidebar. In the appeared window fill in the form:
+   Fill in the form to register a new template:
      
     - Name * - Enter a name of the new template.
     - Description * - Provide a short description of the template.
@@ -774,17 +814,17 @@ Like in the Virtual Machine information tab the same actions are available for a
     - Password enabled - Tick this option if the template has the password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
     - Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support the dynamic scaling of VM CPU/memory.
  
- .. note:: Required fields are marked with an asterisk (*).
+.. note:: Required fields are marked with an asterisk (*).
  
-.. Click "Show additional fields" to expand the list of optional settings. It allows creating a template that requires HVM.
+Click "Show additional fields" to expand the list of optional settings. It allows creating a template that requires HVM.
      
-.. Once all fields are filled in click "Create" to create the new template.
+Once all fields are filled in click "Create" to create the new template.
 
-.. .. figure:: _static/Storage_CreateTemplate.png
+.. figure:: _static/Storage_CreateTemplate1.png
 
 - **Delete** - Allows deleting the snapshot.
 
-Find the detailed description in the :ref:`Actions_on_Snapshots` section.
+.. Find the detailed description in the :ref:`Actions_on_Snapshots` section.
 
 .. _Actions_on_Disks:
 
@@ -811,7 +851,7 @@ For data disks:
 
 **Take a snapshot**
   
-You can take a snapshot to preserve the data volumes.
+You can take a snapshot of the disk to preserve the data volumes. Snapshots can be taken for disks with the "Ready" status only.
   
 Click "Take a snapshot" in the disk Actions list and in the dialogue window enter the following information:
   
@@ -825,9 +865,11 @@ All snapshots are saved in the list of snapshots. For a snapshot you can:
 - Create a template;  
 - Delete the snapshot.
 
-See the :ref:`Actions_on_Snapshots` section for more information.
+See the :ref:`Actions_on_Snapshot_Volume` section for more information.
    
 **Set up snapshot schedule**
+
+This action is available for disks with the "Ready" status only.
 
 You can schedule the regular snapshotting by clicking "Set up snapshot schedule" in the Actions list.
 
@@ -840,7 +882,7 @@ In the appeared window set up the schedule for recurring snapshots:
 
 Click "+" to save the schedule. You can add more than one schedule but only one per each type (hourly, daily, weekly, monthly).
 
-.. figure:: _static/Storage_ScheduleSnapshotting.png
+.. figure:: _static/Storage_ScheduleSnapshotting1.png
 
 **Resize the disk**
 
@@ -850,7 +892,7 @@ You can change the disk size by selecting "Resize the disk" option in the Action
 
 In the appeared window set up a new size and click "Resize" to save the edits.
 
-.. figure:: _static/Storage_ResizeDisk.png
+.. figure:: _static/Storage_ResizeDisk1.png
 
 Click "Cancel" to drop the size changes.
 
