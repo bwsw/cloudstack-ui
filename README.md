@@ -256,7 +256,7 @@ Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cl
 
 ## Configuration Options
 
-You can customize the application by providing your own configuration file ([config.json](https://github.com/bwsw/cloudstack-ui/blob/master/src/config/config.json)). For details see [Config Guide](https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md)
+You can customize the application by providing your own configuration file ([config.json](https://github.com/bwsw/cloudstack-ui/blob/master/src/config/config.json)). See the [Config Guide](https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md) for more information on configuration options.
 
 
 ## Project Sponsors

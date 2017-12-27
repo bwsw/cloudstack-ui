@@ -7,7 +7,7 @@ Domain URL used to fill the 'Domain' field in the login form
 
     "defaultDomain": "domain"
 
-### securityGroupTemplates:
+### Security Group Templates
 
 Predefined templates for security groups. You can define your own security groups that will be available for all users by default. Format:
 
@@ -54,11 +54,17 @@ Parameters:
    * For TCP and UDP: startPort and endPort
    * For ICMP: icmpCode and icmpType
 
-### vmColors
+### VM Colors
 
 The set of colors for virtual machines in hexadecimal format. You can specify any colors you like.
-
-### defaultThemeName
+```
+ "vmColors": [
+    {
+      "value": "#F44336"
+    }
+ ]
+```
+### Default Theme Name
 
 Preferred color theme for the app. Available themes are:
 ```
@@ -66,8 +72,10 @@ Preferred color theme for the app. Available themes are:
 "indigo-pink"
 ```
 Is not specified, blue-red one is used.
-
-### offeringAvailability
+```
+ "defaultThemeName": "blue-red"
+```
+### Offering Availability
 
 In this section you can specify which offerings will be available for which zones. Format:
 
@@ -81,7 +89,7 @@ In this section you can specify which offerings will be available for which zone
 
 If filterOfferings is set to false, all offerings will be available for all zones.
 
-### customOfferingRestrictions
+### Custom Offering Restrictions
 
 In this sections you can specify limits for custom offerings in the following format:
 
@@ -104,7 +112,7 @@ In this sections you can specify limits for custom offerings in the following fo
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
 
-### sessionTimeout
+### Session Timeout
 
 Number of minutes a user's session should stay active. After this time passes the user is
 logged out. 
@@ -112,10 +120,14 @@ logged out.
 Defaults to `30` (minutes).
 
 You can set it to `0` to turn this off, although in this case the session is likely to expire on the server side.
+```
+ "sessionTimeout": 30
+```
+### Allow Reordering Sidebar
 
-### allowReorderingSidebar
-
-A boolean value which allows or forbids a user to reorder links in the main sidebar 
-
+A boolean value which allows or forbids a user to reorder links in the main sidebar. 
+```
+ "allowReorderingSidebar": false
+```
 ### Extensions
 Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for extension configuration options.
