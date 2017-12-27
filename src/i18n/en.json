@@ -66,7 +66,7 @@
       "CONFIRM_RESTORE": "Are you sure you want to reinstall this virtual machine?",
       "CONFIRM_DESTROY": "Are you sure you want to destroy this virtual machine?",
       "CONFIRM_EXPUNGE": "Are you sure you want to expunge this virtual machine?<br><b>This cannot be undone.</b>",
-      "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?<br><b>This cannot be undone.</b>",
+      "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
@@ -85,12 +85,12 @@
   },
   "ERRORS": {
     "COMMON": {
-      "THE_NAME_IS_TAKEN": "The name {{val1}} is taken"
+      "THE_NAME_IS_TAKEN": "The name {{ val1 }} is taken"
     },
     "AUTH": {
       "INCORRECT_USERNAME": "Incorrect username",
       "INCORRECT_PASSWORD": "Incorrect password",
-      "INCORRECT_DOMAIN": "Unable to find domain {{val1}}"
+      "INCORRECT_DOMAIN": "Unable to find domain {{ val1 }}"
     },
     "ISO": {
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
@@ -99,17 +99,17 @@
       "LIMIT_EXCEEDED": "Snapshot limit has been exceeded. You need to delete some of your previous snapshots first."
     },
     "SSH": {
-      "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{val1}}' already exists"
+      "KEY_PAIR_ALREADY_EXISTS": "SSH key with name '{{ val1 }}' already exists"
     },
     "VM": {
       "INSUFFICIENT_RESOURCES": "Insufficient resources"
     },
     "VOLUME": {
-      "NAME_TOO_LONG": "Volume name cannot be longer than {{val1}} characters",
+      "NAME_TOO_LONG": "Volume name cannot be longer than {{ val1 }} characters",
       "NEW_SIZE_IS_LOWER": "New size is lower than the current, you need to shrink the volume",
       "PRIMARY_STORAGE_EXCEEDED": "Primary storage capacity exceeded",
-      "UNABLE_TO_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{val1}}",
-      "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached, please try again later",
+      "UNABLE_TO_FIND_PRIMARY_STORAGE": "Unable to find suitable primary storage when creating volume {{ val1 }}",
+      "VOLUME_BUSY": "There is other active snapshot tasks on the instance to which the volume is attached. Please try again later.",
       "VOLUME_LIMIT_EXCEEDED": "Volume limit has been exceeded. You need to delete some of your volumes to create a new one."
     },
     "SNAPSHOT_POLICIES": {
@@ -142,7 +142,7 @@
       "REGISTER_IN_PROGRESS": "Registering an ISO",
       "REGISTER_DONE": "ISO registered",
       "REGISTER_FAILED": "ISO failed",
-      "DELETION_IN_PROGRESS": " Deleting an ISO",
+      "DELETION_IN_PROGRESS": "Deleting an ISO",
       "DELETION_DONE": "ISO deleted",
       "DELETION_FAILED": "Failed to delete an ISO"
     },
@@ -213,15 +213,15 @@
       "REMOVE_INSTANT_GROUP_IN_PROGRESS": "Removing instant group",
       "REMOVE_INSTANT_GROUP_DONE": "Instant group removed",
       "REMOVE_INSTANT_GROUP_FAILED": "Failed to remove instant group",
-      "ADD_SECONDARY_IP_DONE": "Secondary Ip added",
-      "ADD_SECONDARY_IP_FAILED": "Failed to add secondary Ip",
-      "REMOVE_SECONDARY_IP_DONE": "Secondary Ip removed",
-      "REMOVE_SECONDARY_IP_FAILED": "Failed to remove secondary Ip",
+      "ADD_SECONDARY_IP_DONE": "Secondary IP added",
+      "ADD_SECONDARY_IP_FAILED": "Failed to add secondary IP",
+      "REMOVE_SECONDARY_IP_DONE": "Secondary IP removed",
+      "REMOVE_SECONDARY_IP_FAILED": "Failed to remove secondary IP",
       "COLOR_CHANGE_DONE": "VM color changed",
-      "COLOR_CHANGE_FAILED": "Failed to cahnge VM color",
-      "CHANGE_SSH_IN_PROGRESS": "Changing ssh-key",
+      "COLOR_CHANGE_FAILED": "Failed to change VM color",
+      "CHANGE_SSH_IN_PROGRESS": "Changing SSH-key",
       "CHANGE_SSH_DONE": "SSH-key changed",
-      "CHANGE_SSH_FAILED": "Failed to cahnge ssh-key"
+      "CHANGE_SSH_FAILED": "Failed to change SSH-key"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Volume is being detached",
@@ -438,8 +438,8 @@
         "MAX_IOPS": "Max IO/s",
         "READ_RATE_MB": "Read rate",
         "WRITE_RATE_MB": "Write rate",
-        "READ_RATE_IOPS": "Read rate",
-        "WRITE_RATE_IOPS": "Write rate"
+        "READ_RATE_IOPS": "Read rate (IO/s)",
+        "WRITE_RATE_IOPS": "Write rate (IO/s)"
       },
       "VOLUME_RESIZE": {
         "TITLE": "Resize volume",
@@ -603,8 +603,8 @@
       "MAX_IOPS": "Max IO/s",
       "READ_RATE_MB": "Read rate",
       "WRITE_RATE_MB": "Write rate",
-      "READ_RATE_IOPS": "Read rate",
-      "WRITE_RATE_IOPS": "Write rate"
+      "READ_RATE_IOPS": "Read rate (IO/s)",
+      "WRITE_RATE_IOPS": "Write rate (IO/s)"
     },
     "SNAPSHOTS": {
       "DESCRIPTION": "Description",
@@ -758,14 +758,14 @@
       "SELECT_PROTOCOL": "Select protocols",
       "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port {{ startPort }}</b>",
       "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> to <b>port range {{ startPort }}-{{ endPort }}</b>",
-      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpCode }}]</b> ",
-      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpType }}</b> and ICMP code <b>{{ icmpCode }}</b> ",
-      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCode }}</b> ",
+      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
+      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpType }}</b> and ICMP code <b>{{ icmpCode }}</b>",
+      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmpType }}]</b> and ICMP code <b>{{ icmpCode }}</b>",
       "DEFAULT_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} to port {{ startPort }}",
       "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} to port range {{ startPort }}-{{ endPort }}",
-      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCodeText }} [{{ icmpCode }}] ",
-      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpType }} and ICMP code {{ icmpCode }} ",
-      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCode }} ",
+      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCodeText }} [{{ icmpCode }}]",
+      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpType }} and ICMP code {{ icmpCode }}",
+      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmpType }}] and ICMP code {{ icmpCode }}",
       "NO_FIREWALL_RULES": "No firewall rules"
     },
     "ICMP_TYPES": {
@@ -1181,7 +1181,7 @@
     }
   },
   "SECURITY_GROUP_SELECTOR": {
-    "BASED_ON_VALUE": "Based on {{value}}",
+    "BASED_ON_VALUE": "Based on {{ value }}",
     "BUILD_NEW_GROUP": "Build a new security group",
     "SELECT_EXISTING_GROUP": "Select an existing group",
     "CREATE": "Create new",
@@ -1195,7 +1195,7 @@
     "CHANGE_SERVICE_OFFERING": "Change service offering",
     "CHOOSE_SERVICE_OFFERING": "Choose service offering",
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
-    "CPU_MHZ": "{{count}}x{{speed}} MHz",
+    "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
     "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Custom offering",
@@ -1306,12 +1306,12 @@
   },
   "UNITS": {
     "GB": "GB",
-    "GB_VALUE": "{{value}} GB",
+    "GB_VALUE": "{{ value }} GB",
     "GHZ": "GHz",
-    "IOPS": "{{value}} IO/s",
+    "IOPS": "{{ value }} IO/s",
     "MB": "MB",
-    "MB_VALUE": "{{value}} MB",
-    "MBPS": "{{value}} MB/s",
+    "MB_VALUE": "{{ value }} MB",
+    "MBPS": "{{ value }} MB/s",
     "MHZ": "MHz"
   },
   "VOLUME_ACTIONS": {
