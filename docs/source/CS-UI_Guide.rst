@@ -131,12 +131,12 @@ In the *Create VM* form fill in the following fields:
 
 Click "Confirm" to set the custom service offerings. The custom settings will appear for the service offerings. You can change them clicking "Change" next to the settings. Click "Cancel" to drop all the settings.
    
-.. figure:: _static/VMs_Create_SO_Custom_Change.png
+.. figure:: _static/VMs_Create_SO_Custom_Change1.png
    
 4. Installation source * - Click "Select" to choose an installation source. Traditionally, there are two options of the virtual machine creation:
     
-    - from a Template, 
-    - from an ISO file.
+    - From a Template, 
+    - From an ISO file.
     
 The filtering tool allows finding a necessary option by selecting among templates/ISOs by OS families, types and groups, or search the source by a name or a part of its name. Tick the source in the list and click "Select" to implement the selected source.
    
@@ -695,7 +695,7 @@ Here you can find a list of your disks existing for your user.
 
 Domain Administrator can see disks of all accounts in the domain.
 
-.. figure:: _static/Storage_List_Admin.png
+.. figure:: _static/Storage_List_Admin2.png
 
 Disks can be viewed as a list or as a grid of cards. Switch the view clicking a view icon |view icon|/|box icon| in the upper-right corner.
 
@@ -780,7 +780,7 @@ You can edit the description clicking the "Edit" button |edit icon| in the tab.
    
 - Disk offering - Presents the information on the disk offering chosen at disk creation.
     
-2. Snapshots tab - Allows creating disk snapshots. Snapshots can be taken for disks with "Ready" status only.
+2. Snapshots tab - Allows creating disk snapshots. Snapshots can be taken for disks with the "Ready" status only.
 
    Click the "Add" button |create icon| and enter in the dialogue window:
 
@@ -902,7 +902,7 @@ This action can be applied to data disks. It allows attaching/detaching the data
 
 Click "Attach" in the Actions list and in the dialogue window select a virtual machine to attach the disk to. Click "Attach" to perform the attachment.
 
-.. figure:: _static/Storage_AttachDisk.png
+.. figure:: _static/Storage_AttachDisk1.png
 
 An attached disk can be detached. Click "Detach" in the Actions list and confirm your action in the dialogue window. The data disk will be detached from the virtual machine.
 
