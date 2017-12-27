@@ -645,9 +645,9 @@ Click "Create" |create icon| and fill in the appeared form:
 
 .. note:: Required fields are marked with an asterisk (*).
 
- - Key * - Enter a key here. 
+- Key * - Enter a key here. 
  
- - Value * - Enter the value here.
+- Value * - Enter the value here.
 
 .. figure:: _static/VMs_Tag_CreateNew.png
 
@@ -933,12 +933,14 @@ There are variety of ways to add more templates to the system. In the :ref:`VM_I
 
 Another way is to create a new template filling in the form under the "Images" section. Read about it the next section.
 
-Existing templates are presented in the list under the "Images" section. A user can see the templates belonging to his/her account only. Domain Administrator can see templates of all users in the domain but cannot perform actions on other users' templates.
+Existing templates are presented in the list under the "Images" section. A user can see the templates belonging to his/her user only. Domain Administrator can see templates of all users in the domain but cannot perform actions on other users' templates.
 
 You can switch the list view of templates to the box view using the view button |view box icon| in the upper-right corner. 
 
-For each Template in the list you can see its name, OS family, description.  Actions button |actions icon| expands the list of actions for it. Actions are available to those templates that belong to your account only (corresponding to "My" type).
+For each template in the list you can see its name, OS family, description.  Actions button |actions icon| expands the list of actions for it. Actions are available to those templates that belong to your user only (corresponding to "My" type). Administrators can see templates of all users in the domain, but cannot manage them.
 
+Filtering of Templates
+""""""""""""""""""""""""""""
 The list of templates can be filtered using the filtering tool. The filtering parameters are as follows:
 
 - Accounts (for Domain Administrators);
@@ -956,7 +958,9 @@ Use the search tool to easily find a template by its name or by a part of the na
 Create Template
 """"""""""""""""""""""""""
 
-You can create a new template clicking "Create" in the bottom-right corner. 
+We have mentioned template creation from a snapshot in the *Storage* tab of the VM details sidebar ( see :ref:`Actions_on_Snapshots`) and from the *Snapshot* tab of the Volume details sidebar (see :ref:`Actions_on_Snapshot_Volume`).
+
+You also can create a new template in the *Images* section by clicking "Create" |create icon| in the bottom-right corner. 
 
 .. figure:: _static/Images_CreateTemplate.png
 
@@ -966,7 +970,7 @@ It will open a creation form where you should specify the following information:
 
 #. Description * - Provide a short description to have a general idea about the template.
 
-#. URL * - Specify a valid url to download the template file from. (?)
+#. URL * - Specify a valid url to download the template file from. 
 
 #. OS type * - This helps CloudStack and the hypervisor perform certain operations and make assumptions that improve the VM performance. Select from the drop-down list the necessary option, or select "Other" there is no needed option in the list.
 
@@ -986,16 +990,16 @@ It will open a creation form where you should specify the following information:
 
    - Format - The format of the template upload file, e.g. VHD or RAW or VMDK.
 
-   - Extractable checkbox - Tick this option if the template is available for extraction. If this option is selected, end-users can download a full image of a template.
+   - Extractable - Tick this option if the template is available for extraction. If this option is selected, end-users can download a full image of a template.
 
-   - Requires HVM checkbox - Tick this option for creating a template that requires HVM.
+   - Requires HVM - Tick this option for creating a template that requires HVM.
 
 Once all fields are filled in, click "Create" to create the template with these settings. The created template will appear in the list.
 
 Click "Cancel" to close the form without template creation. All fields will be cleared.
 
-Template Information
-""""""""""""""""""""""""
+Template Details Sidebar
+"""""""""""""""""""""""""""
 
 The information on each template is presented in the right-side bar. It is opened by clicking the template card or line in the list. The information is presented there in 3 tabs. Above the tabs you can see the template general information: 
 
@@ -1004,17 +1008,19 @@ The information on each template is presented in the right-side bar. It is opene
 
 1. Template tab: 
 
-   - Description - Tamplate description provided at its creation, 
-   - OS - The OS selected for this template, 
-   - General Information - The settings saved for this template: size, creation date, type, hypervisor, other settings, 
-   - URL - The URL provided for this template,
-   - Group - Template group.
+   - Description - Tamplate description provided at its creation. 
+   - OS - The OS selected for this template. 
+   - General Information - The settings saved for this template: size, creation date, type, hypervisor, other settings. 
+   - URL - The URL provided for this template. Next to it you can see the "Copy" icon |copy icon|. Click it to copy the URL to clipboard and then paste it in the address line.
+   - Group - Template group. Edit the group by clicking the "Edit" button "|edit icon|. Choose an existing grouup in the appeared window and click "Assign" to assign the selected group to the template.
 
 2. Zones tab - Shows the zone where the template is available.
 
 3. Tags tab - Presents the list of tags assigned to the template.
 
-Tags can be system or common. System tags are used to provide functionality from user interface perspective. Changing these tags affects functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the template. Uncheck this box to hide system tags from the list. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. 
+Tags can be system or non-system. System tags are used to provide functionality from the user interface perspective. Changing these tags affects functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the template. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. Uncheck the "Show system tags" checkbox to hide system tags from the list.  
+
+.. note:: Please, see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_ to find system tags that can be used for a template.
 
 To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
 
@@ -1027,24 +1033,71 @@ To add a tag for the template click "Create" |create icon|. In the appeared form
 
 Click "Create" to assign a new tag to the template. 
 
-If the template has tags, you can see the Add button in the left cornet of this list. Click it to add more tags to the list.
+When adding a system tag, click "+" in the card to open the creation form. You will see that the ``csui`` prefix is automatically prepopulated here. 
 
-.. note:: Please, see the list of tags (link to the list) to find system tags that can be used for a template.
+If you create a non-system tag, it will be saved in a new card. If you have entered a key in the format ``<prefix>.<example>``, a card will be named as "<prefix>". When creating a new tag from this card, click "+" in the card and in the tag creation form the *Key* field will be prepopulated with the <prefix>.
 
 Tags can be edited or/and deleted. Mouse over the tag in the list and see "Edit" and "Delete" buttons.
 
 Click "Edit" to change the tag's key or value in the appeared form. Save the edits.
 
-Click "Delete" to delete the tag from the list for this template. Confirm your action in the dialofue window. Make sure the tag disappeard from the list of assigned tags.
+Click "Delete" to delete the tag from the list for this template. Confirm your action in the dialogue window. Make sure the tag disappeared from the list of assigned tags.
 
-Actions on Templates
+Template Actions Box
 """""""""""""""""""""""""""""
-Clicking "Actions" |actions icon| you can expand the list of actions for those templates that belong to your account only (corresponding to "My" type). Deleting action is available here.
+Clicking "Actions" |actions icon| you can expand the list of actions for those templates that belong to your user only (corresponding to "My" type). Deleting action is available here.
 
 Click "Delete" to delete the template and then confirm your action in the dialogue window. The template will be deleted. Click "Cancel" to close the window without deleting a template.
 
 Manage ISO
 ~~~~~~~~~~~~~~~~~~~~~
+
+ISO files are another installation source for virtual machines. 
+
+Existing ISO files are presented in the list under the "Images" section. Switch the list from *Templates* to *ISO* in the filtering panel above the list.
+
+A user can see the ISO files belonging to his/her user only. Domain Administrator can see ISO files of all users in the domain but cannot perform actions on other users' ISO files.
+
+You can switch the list view of ISO files to the box view using the view button |view box icon| in the upper-right corner. 
+
+For each ISO file in the list you can see its name, OS family, description.  Actions button |actions icon| expands the list of actions for it. Actions are available to those ISO files that belong to your user only (corresponding to "My" type). Administrators can see ISO files of all users in the domain but cannot manage them.
+
+Create an ISO file
+"""""""""""""""""""
+
+You can create a new ISO file in the *Images* section by clicking "Create" |create icon| in the bottom-right corner. 
+
+It will open a creation form where you should specify the following information:
+
+1. Name * - Enter a name for the new ISO file.
+
+#. Description * - Provide a short description to have a general idea about the ISO file.
+
+#. URL * - Specify a valid url to download the ISO file from. 
+
+#. OS type * - This helps CloudStack and the hypervisor perform certain operations and make assumptions that improve the VM performance. Select from the drop-down list the necessary option, or select "Other" there is no needed option in the list.
+
+#. Zone * - Choose the zone where you want the ISO file to be available.
+
+#. Group - Select a group from the drop-down list.
+
+.. note:: Required fields are marked with an asterisk (*).
+
+7. "Show additional fields" allows expanding the form and set more settings:
+
+   - Extractable - Tick this option if the ISO file is available for extraction. If this option is selected, end-users can download a full image of an ISO file.
+
+   - Bootable - Tick this option to indicate whether the machine can be booted using this ISO.
+
+Once all fields are filled in, click "Create" to create the ISO file with these settings. The created ISO file will appear in the list.
+
+Click "Cancel" to close the form without ISO creation. All fields will be cleared.
+
+ISO Details Sidebar
+"""""""""""""""""""""""""
+ISO Actions Box
+""""""""""""""""""""""""
+
 
 Firewall
 --------------
@@ -1077,3 +1130,4 @@ Logout
 .. |edit icon| image:: _static/edit_icon.png
 .. |box icon| image:: _static/box_icon.png
 .. |create icon| image:: _static/create_icon.png
+.. |copy icon| image:: _static/copy_icon.png
