@@ -82,6 +82,7 @@ export class VmCreationContainerComponent implements OnInit {
       this.store.select(fromZones.isLoading),
       this.store.select(fromServiceOfferings.isLoading),
       this.store.select(fromAuth.isLoading),
+      this.store.select(fromTemplates.isLoading),
       this.store.select(fromAffinityGroups.isLoading)
     )
     .map((loadings: boolean[]) => loadings.find(loading => loading));
@@ -108,7 +109,6 @@ export class VmCreationContainerComponent implements OnInit {
     private dialogRef: MatDialogRef<VmCreationContainerComponent>
   ) {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
