@@ -1,9 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+// tslint:disable-next-line
+import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import { OfferingAvailability } from '../../../shared/services/offering.service';
 import {
   CustomServiceOffering,
   ICustomServiceOffering
@@ -13,19 +14,12 @@ import {
   ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
 } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
-// tslint:disable-next-line
-import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-service-offering.component';
-// tslint:disable-next-line
-import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import {
   OfferingAvailability,
   OfferingCompatibilityPolicy,
   OfferingPolicy
 } from '../../../shared/services/offering.service';
 
-import {
-  customServiceOfferingFallbackParams
-} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 
 import * as serviceOfferingActions from './service-offerings.actions';
 import * as fromVMs from '../../vm/redux/vm.reducers';
