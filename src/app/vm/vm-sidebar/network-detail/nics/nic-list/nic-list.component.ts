@@ -5,6 +5,7 @@ import {
   Output
 } from '@angular/core';
 import { VirtualMachine } from '../../../../shared/vm.model';
+import { IpAddress } from '../../../../../shared/models/ip-address.model';
 
 
 @Component({
@@ -13,6 +14,6 @@ import { VirtualMachine } from '../../../../shared/vm.model';
 })
 export class NicListComponent {
   @Input() public vm: VirtualMachine;
-  @Output() public onSecondaryIpAdd = new EventEmitter();
-  @Output() public onSecondaryIpRemove = new EventEmitter();
+  @Output() public onSecondaryIpAdd = new EventEmitter<string>();
+  @Output() public onSecondaryIpRemove = new EventEmitter<IpAddress>();
 }

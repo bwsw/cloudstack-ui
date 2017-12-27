@@ -8,8 +8,7 @@ import { Account } from '../models/account.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'Configuration',
-  entityModel: Configuration
+  entity: 'Configuration'
 })
 export class ConfigurationService extends BaseBackendService<Configuration> {
   constructor(protected http: HttpClient) {

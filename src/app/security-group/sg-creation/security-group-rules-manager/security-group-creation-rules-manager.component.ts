@@ -60,7 +60,7 @@ export class SecurityGroupCreationRulesManagerComponent {
 
   public showDialog(): void {
     this.dialog.open(SecurityGroupCreationSecurityGroupComponent, {
-      width: '800px',
+      width: '720px',
       data: this.savedData
     })
       .afterClosed()

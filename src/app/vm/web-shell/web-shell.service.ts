@@ -29,7 +29,7 @@ export class WebShellService {
       const userTag = machine.tags.find(tag => tag.key === userToken);
       return userTag && userTag.value || defaultUser;
     };
-    const ip = vm.nic[0].ipAddress;
+    const ip = vm.nic[0].ipaddress;
     const port = getPort(vm);
     const user = getUser(vm);
 

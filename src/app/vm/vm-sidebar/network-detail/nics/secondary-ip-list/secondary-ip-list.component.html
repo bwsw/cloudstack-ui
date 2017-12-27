@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="secondary-ips">
-    <div class="row" *ngFor="let ip of nic.secondaryIp">
+    <div class="row" *ngFor="let ip of nic.secondaryip">
       <cs-secondary-ip
         [secondaryIp]="ip"
         (onRemove)="confirmRemoveSecondaryIp($event)"

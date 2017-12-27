@@ -103,7 +103,7 @@ export class RecurringSnapshotsComponent implements OnInit {
       })
   }
 
-  private onError(error: any): void {
+  private onError(error): void {
     this.dialogService.alert({
       message: {
         translationToken: error.message,

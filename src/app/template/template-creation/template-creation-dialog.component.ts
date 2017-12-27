@@ -16,7 +16,7 @@ export class TemplateCreationDialogComponent {
     this.dialog.open(TemplateCreationContainerComponent, {
       data: {},
       disableClose: true,
-      width: '720px'
+      width: '650px'
     })
       .afterClosed()
       .subscribe(() => {

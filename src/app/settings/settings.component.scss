@@ -1,4 +1,4 @@
-$section-width: 320px;
+$section-width: 280px;
 $section-padding: 20px;
 
 :host {
@@ -10,16 +10,20 @@ $section-padding: 20px;
 
   section {
     h4 {
-      margin: 20px 0;
-      font-size: 1.4em;
+      margin: 10px 0;
+      font-size: 20px !important;
     }
 
     .section-container {
       padding-left: $section-padding;
 
       h5 {
-        margin: 8px 0;
+        margin: 5px 0;
         font-size: 1.25em;
+      }
+
+      h3 {
+        margin: 0;
       }
     }
 

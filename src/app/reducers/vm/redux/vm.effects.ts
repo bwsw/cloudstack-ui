@@ -23,7 +23,9 @@ import {
 } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
-import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
+import {
+  VmResetPasswordComponent
+} from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { WebShellService } from '../../../vm/web-shell/web-shell.service';
 import { State } from '../../index';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
@@ -182,9 +184,9 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  changeInstantGroup$: Observable<Action> = this.actions$
+  changeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_INSTANT_GROUP)
-    .switchMap((action: vmActions.ChangeInstantGroup) => {
+    .switchMap((action: vmActions.ChangeInstanceGroup) => {
       const newVm = Object.assign(
         {},
         action.payload.vm,
@@ -211,9 +213,9 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  removeInstantGroup$: Observable<Action> = this.actions$
+  removeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_REMOVE_INSTANT_GROUP)
-    .switchMap((action: vmActions.RemoveInstantGroup) => {
+    .switchMap((action: vmActions.RemoveInstanceGroup) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_IN_PROGRESS');
 
@@ -245,7 +247,7 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.AddSecondaryIp) => {
       return this.vmService.addIpToNic(action.payload.nicId)
         .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryIp);
+          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip);
           newSecondaryIp.push(res.result.nicsecondaryip);
           const newNic = Object.assign(
             {},
@@ -276,7 +278,7 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.RemoveSecondaryIp) => {
       return this.vmService.removeIpFromNic(action.payload.id)
         .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryIp)
+          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip)
             .filter(ip => ip.id !== action.payload.id);
           const newNic = Object.assign(
             {},
@@ -577,10 +579,10 @@ export class VirtualMachinesEffects {
               'JOB_NOTIFICATIONS.VM.CHANGE_SSH_IN_PROGRESS');
 
             return this.sshService.reset({
-              keypair: changeAction.payload.keypair,
+              keypair: changeAction.payload.keyPair,
               id: changeAction.payload.vm.id,
-              account: changeAction.payload.account,
-              domainid: changeAction.payload.domainid
+              account: changeAction.payload.vm.account,
+              domainid: changeAction.payload.vm.domainid
             })
               .switchMap((newVm) => {
                 this.jobsNotificationService.finish({
@@ -757,7 +759,7 @@ export class VirtualMachinesEffects {
       const protocol = getProtocol(vm);
       const port = getPort(vm);
       const path = getPath(vm);
-      const ip = vm.nic[0].ipAddress;
+      const ip = vm.nic[0].ipaddress;
 
       const address = `${protocol}://${ip}:${port}/${path}`;
       window.open(

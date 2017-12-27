@@ -15,7 +15,7 @@ export class VmCreationDialogComponent {
   ) {
     this.dialog.open(VmCreationComponent, {
       disableClose: true,
-      width: '755px'
+      width: '680px'
     })
       .afterClosed()
       .subscribe(vm => {

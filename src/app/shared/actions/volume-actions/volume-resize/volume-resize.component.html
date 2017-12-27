@@ -16,10 +16,10 @@
           <mat-select
             class="form-select-control"
             name="diskOffering"
-            [(ngModel)]="volume.diskOfferingId"
+            [(ngModel)]="diskOfferingId"
             [placeholder]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.DISK_OFFERING' | translate"
             required
-            (selectionChange)="updateDiskOffering($event)"
+            (selectionChange)="updateDiskOffering($event.value)"
           >
             <mat-option
               *ngFor="let offering of diskOfferings"
@@ -31,7 +31,7 @@
         </mat-form-field>
       </div>
       <cs-slider
-        *ngIf="diskOffering?.isCustomized || volume?.isRoot"
+        *ngIf="isCustomized(diskOfferingId) || volume?.isRoot"
         [min]="volume.size | division:2:30"
         [max]="maxSize"
         [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
