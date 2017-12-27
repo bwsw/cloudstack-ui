@@ -82,13 +82,9 @@ export class VmCreationContainerComponent implements OnInit {
       this.store.select(fromZones.isLoading),
       this.store.select(fromServiceOfferings.isLoading),
       this.store.select(fromAuth.isLoading),
-      this.store.select(fromTemplates.isLoading),
       this.store.select(fromAffinityGroups.isLoading)
     )
-    .map((loadings: boolean[]) => {
-      console.log('zones, seroff, auth, templates, affgroups', loadings);
-      return loadings.find(loading => loading);
-    });
+    .map((loadings: boolean[]) => loadings.find(loading => loading));
   readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
   readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);

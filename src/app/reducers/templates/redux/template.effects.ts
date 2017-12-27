@@ -52,7 +52,6 @@ export class TemplateEffects {
         .map(([[templates, isos], groups]) =>
           [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups])
         .switchMap(([[templates, isos], groups]) => {
-          console.log('qq', templates, isos, groups);
           return groups && groups.length
             ? Observable.of(new template.LoadTemplatesResponse([...templates, ...isos]))
             : [
@@ -60,10 +59,7 @@ export class TemplateEffects {
               new templateGroup.LoadTemplateGroupsRequest()
             ];
         })
-        .catch(error => {
-          console.log(error);
-          return Observable.of(new template.LoadTemplatesResponse([]));
-        });
+        .catch(error => Observable.of(new template.LoadTemplatesResponse([])));
     });
 
   @Effect()
