@@ -242,7 +242,13 @@ export const selectFilteredSecurityGroups = createSelector(
 );
 
 export const selectSecurityGroupsForVmCreation = createSelector(
-  selectAll, fromAuth.getUserAccountEntity, (securityGroups, account) => {
-    const accountFilter = (securityGroup: SecurityGroup) => securityGroup.account === account.account.name;
+  selectAll, fromAuth.getUserAccount, (securityGroups, account) => {
+    const accountFilter = (securityGroup: SecurityGroup) => account && securityGroup.account === account.name;
     return securityGroups.filter((securityGroup) => accountFilter(securityGroup));
   });
+
+export const selectPredefinedSecurityGroups = createSelector(
+  selectAll,
+  (securityGroups: SecurityGroup[]) => securityGroups.filter(
+    securityGroup => securityGroup.preselected)
+);

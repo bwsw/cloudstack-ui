@@ -49,6 +49,7 @@ export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
 export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
 export const VM_FORM_ADJUST = '[VM creation] VM_FORM_ADJUST';
 export const VM_INITIAL_ZONE_SELECT = '[VM creation] VM_INITIAL_ZONE_SELECT';
+export const VM_SECURITY_GROUPS_SELECT = '[VM creation] VM_SECURITY_GROUPS_SELECT';
 export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
 export const VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE = '[VM creation] VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE';
 
@@ -382,6 +383,13 @@ export class VmInitialZoneSelect implements Action {
   }
 }
 
+export class VmInitialSecurityGroupsSelect implements Action {
+  type = VM_SECURITY_GROUPS_SELECT;
+
+  constructor(public payload?: boolean) {
+  }
+}
+
 export class DeployVm implements Action {
   type = DEPLOY_VM;
 
@@ -496,6 +504,7 @@ export type Actions = LoadVMsRequest
   | VmFormUpdate
   | VmFormAdjust
   | VmInitialZoneSelect
+  | VmInitialSecurityGroupsSelect
   | DeployVm
   | DeploymentChangeStatus
   | DeploymentAddLoggerMessage

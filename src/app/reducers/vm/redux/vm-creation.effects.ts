@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
@@ -38,6 +39,7 @@ import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
 import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
+import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
 
@@ -109,7 +111,9 @@ export class VirtualMachineCreationEffects {
 
           return Observable.of(
             new vmActions.VmCreationEnoughResourceUpdateState(enoughResources),
-            new vmActions.VmInitialZoneSelect());
+            new vmActions.VmInitialZoneSelect(),
+            new vmActions.VmInitialSecurityGroupsSelect()
+          );
         }));
 
   @Effect()
@@ -118,6 +122,17 @@ export class VirtualMachineCreationEffects {
     .withLatestFrom(this.store.select(fromZones.selectAll).filter(zones => !!zones.length))
     .map(([action, zones]: [vmActions.VmInitialZoneSelect, Zone[]]) =>
       new vmActions.VmFormUpdate({ zone: zones[0] }));
+
+  @Effect()
+  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$
+    .ofType(vmActions.VM_SECURITY_GROUPS_SELECT)
+    .withLatestFrom(this.store.select(fromSecurityGroups.selectPredefinedSecurityGroups)
+      .filter(groups => !!groups.length))
+    .map(([action, securityGroups]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[]]) => {
+      return new vmActions.VmFormUpdate({
+        securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules(securityGroups))
+      });
+    });
 
   @Effect()
   vmCreationFormUpdate$: Observable<Action> = this.actions$

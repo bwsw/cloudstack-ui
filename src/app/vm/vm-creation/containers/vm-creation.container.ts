@@ -31,6 +31,7 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
+import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 
@@ -108,6 +109,7 @@ export class VmCreationContainerComponent implements OnInit {
     private authService: AuthService,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>
   ) {
+    this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
     this.store.dispatch(new sshKeyActions.LoadSshKeyRequest());
