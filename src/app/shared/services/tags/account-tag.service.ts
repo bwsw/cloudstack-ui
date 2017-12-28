@@ -27,8 +27,12 @@ export class AccountTagService implements EntityTagService {
     return this.accountService.getAccount({name: this.user.account, domainid: this.user.domainid})
       .switchMap(account => {
           return this.tagService.getTag(account, this.getSshKeyDescriptionKey(sshKey))
-            .filter(tag => !!tag)
-            .map(tag => this.tagService.getValueFromTag(tag));
+            .map(tag => {
+                if (tag) {
+                  return this.tagService.getValueFromTag(tag);
+                }
+              }
+            );
         }
       );
   }
