@@ -977,7 +977,7 @@ The list of templates can be filtered using the filtering tool. The filtering pa
 - Zones;
 - Groups.
 
-.. figure:: _static/Images_TempList_Admin
+.. figure:: _static/Images_TempList_Admin.png
 
 Besides, adjust the list view using the grouping tool. Templates can be grouped by zones or/and groups.
 
