@@ -642,7 +642,7 @@ export class VirtualMachineCreationEffects {
       params.securityGroupIds = securityGroups.map(item => item.id).join(',');
     }
 
-    if (areCustomParamsSet(state.serviceOffering)) {
+    if (!areCustomParamsSet(state.serviceOffering)) {
       params.details = [
         {
           cpuNumber: state.serviceOffering.cpunumber,
