@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
-import { areCustomParamsSet } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
@@ -642,7 +641,7 @@ export class VirtualMachineCreationEffects {
       params.securityGroupIds = securityGroups.map(item => item.id).join(',');
     }
 
-    if (!areCustomParamsSet(state.serviceOffering)) {
+    if (state.serviceOffering.iscustomized) {
       params.details = [
         {
           cpuNumber: state.serviceOffering.cpunumber,
