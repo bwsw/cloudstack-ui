@@ -105,7 +105,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ query }));
   }
 
-  public onOrphanChange(orphan) {
-    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ orphan }));
+  public onOrphanChange(selectOrphanSG) {
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ selectOrphanSG }));
   }
 }

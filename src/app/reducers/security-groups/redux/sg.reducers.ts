@@ -6,7 +6,6 @@ import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.mod
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as securityGroup from './sg.actions';
-import * as fromVM from '../../vm/redux/vm.reducers';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 

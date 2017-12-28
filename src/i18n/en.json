@@ -76,7 +76,7 @@
       "CONFIRM_EDIT_FROM_VM": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group in the Security Group management area?",
       "CONFIRM_EDIT": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group?",
       "CONFIRM_DELETION": "Are you sure you want to delete this security group?",
-      "CONFIRM_CONVERT": "Are you sure you want convert this security group to Shared"
+      "CONFIRM_CONVERT": "Are you sure you want convert this security group to Shared?"
     },
     "VOLUME": {
       "CONFIRM_DELETION": "Are you sure you want to delete this volume?",
