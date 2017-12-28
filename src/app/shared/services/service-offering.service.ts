@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+// tslint:disable-next-line
 import {
   DefaultCustomServiceOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
@@ -8,16 +9,15 @@ import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
 import { OfferingAvailability, OfferingService } from './offering.service';
 import { ResourceStats } from './resource-usage.service';
+// tslint:disable-next-line
 import * as merge from 'lodash/merge';
 
 
 @Injectable()
 @BackendResource({
-  entity: 'ServiceOffering',
-  entityModel: ServiceOffering
+  entity: 'ServiceOffering'
 })
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
-
   public getAvailableByResourcesSync(
     serviceOfferings: Array<ServiceOffering>,
     offeringAvailability: OfferingAvailability,
@@ -37,7 +37,7 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
         let enoughCpus;
         let enoughMemory;
 
-        if (offering.isCustomized) {
+        if (offering.iscustomized) {
           const restrictions = merge(
             DefaultCustomServiceOfferingRestrictions,
             offeringRestrictions && offeringRestrictions[zone.id]
@@ -45,7 +45,7 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
           enoughCpus = !restrictions.cpuNumber || restrictions.cpuNumber.min < resourceUsage.available.cpus;
           enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
         } else {
-          enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
+          enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
           enoughMemory = resourceUsage.available.memory >= offering.memory;
         }
 

@@ -186,7 +186,7 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.diskOffering) {
-        if (!action.payload.diskOffering.isCustomized || !vmCreationState.template) {
+        if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         } else {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
@@ -641,18 +641,18 @@ export class VirtualMachineCreationEffects {
       params.securityGroupIds = securityGroups.map(item => item.id).join(',');
     }
 
-    if (state.serviceOffering.areCustomParamsSet) {
+    if (state.serviceOffering.iscustomized) {
       params.details = [
         {
-          cpuNumber: state.serviceOffering.cpuNumber,
-          cpuSpeed: state.serviceOffering.cpuSpeed,
+          cpuNumber: state.serviceOffering.cpunumber,
+          cpuSpeed: state.serviceOffering.cpuspeed,
           memory: state.serviceOffering.memory
         }
       ];
     }
 
     if ((state.rootDiskSize != null && state.template.isTemplate) ||
-      (state.diskOffering && state.diskOffering.isCustomized)) {
+      (state.diskOffering && state.diskOffering.iscustomized)) {
       if (state.template.isTemplate) {
         params.rootDiskSize = state.rootDiskSize;
       } else {
