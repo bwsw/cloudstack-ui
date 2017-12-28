@@ -19,7 +19,7 @@ export class SnapshotTagService implements EntityTagService {
   }
 
   public setDescription(snapshot: Snapshot, description: string): Observable<Taggable> {
-    return this.descriptionTagService.setDescription(snapshot, description, this);
+    return this.descriptionTagService.setDescription(snapshot, snapshot.resourceType, description, this);
   }
 
   public markForRemoval(snapshot: Snapshot): Observable<any> {

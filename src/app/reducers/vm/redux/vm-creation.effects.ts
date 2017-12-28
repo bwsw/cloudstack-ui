@@ -31,10 +31,9 @@ import { TagService } from '../../../shared/services/tags/tag.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
-import { VirtualMachine } from '../../../vm';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { VmState } from '../../../vm/shared/vm.model';
+import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -584,7 +583,7 @@ export class VirtualMachineCreationEffects {
 
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
-    return this.tagService.copyTagsToEntity(state.template.tags, vm)
+    return this.vmTagService.copyTagsToEntity(state.template.tags, vm)
       .switchMap(() => {
         return this.userTagService.getSavePasswordForAllVms();
       })
@@ -592,7 +591,7 @@ export class VirtualMachineCreationEffects {
         if (tag) {
           return this.tagService.update(
             vm,
-            vm.resourceType,
+            VmResourceType,
             VirtualMachineTagKeys.passwordTag,
             vm.password
           );
