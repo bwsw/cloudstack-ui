@@ -13,6 +13,21 @@ export interface ICustomOfferingRestrictions {
   memory?:    CustomOfferingRestriction;
 }
 
+export const DefaultCustomServiceOfferingRestrictions: ICustomOfferingRestrictions = {
+  cpuNumber: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  },
+  cpuSpeed: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  },
+  memory: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  }
+};
+
 export class CustomOfferingRestrictions {
   public cpuNumber: CustomOfferingRestriction = {
     min: 0,

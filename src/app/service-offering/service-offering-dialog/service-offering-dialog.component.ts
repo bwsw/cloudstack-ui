@@ -16,7 +16,6 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
 })
 export class ServiceOfferingDialogComponent implements OnInit {
   @Input() public serviceOfferings: Array<ServiceOffering>;
-  @Input() public zoneId: string;
   @Input() public serviceOfferingId: string;
   @Input() public restrictions: ICustomOfferingRestrictions;
   @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();

@@ -1,7 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-
+import { Component } from '@angular/core';
 import { Iso } from '../shared';
+
 
 @Component({
   selector: 'cs-iso-attachment',
@@ -9,9 +8,4 @@ import { Iso } from '../shared';
 })
 export class IsoAttachmentComponent {
   public selectedIso: Iso;
-  public zoneId: string;
-
-  constructor(@Inject(MAT_DIALOG_DATA) data) {
-    this.zoneId = data.zoneId;
-  }
 }

@@ -45,7 +45,7 @@ export function reducer(state = initialUserAccountState, action: event.Actions):
       return {
         ...state,
         account: action.payload,
-        accountId : action.payload.id,
+        accountId: action.payload.id,
         loading: false
       };
     }
@@ -71,4 +71,9 @@ export const getUserAccount = createSelector(
 export const getUserAccountId = createSelector(
   getUserAccountEntity,
   state => state.accountId
+);
+
+export const isLoading = createSelector(
+  getUserAccountEntity,
+  state => state.loading
 );
