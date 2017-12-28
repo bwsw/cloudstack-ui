@@ -10,8 +10,7 @@ import { BaseBackendCachedService } from '../base-backend-cached.service';
 
 @Injectable()
 @BackendResource({
-  entity: 'Tag',
-  entityModel: Tag
+  entity: 'Tag'
 })
 export class TagService extends BaseBackendCachedService<Tag> {
   constructor(
@@ -40,12 +39,13 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({resourceId: entity.id, key})
+    return this.getList({resourceid: entity.id, key})
       .map(tags => tags[0]);
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-   const newEntity = {...entity};
+   const newEntity = Object.assign({}, entity);
+
     const createObs = this.create({
       resourceIds: newEntity.id,
       resourceType: entityName,
@@ -54,12 +54,13 @@ export class TagService extends BaseBackendCachedService<Tag> {
     })
       .map(() => {
         if (newEntity.tags) {
-          newEntity.tag.push(new Tag({
-            resourceId: newEntity.id,
-            resourceType: entityName,
+          newEntity.tags.push({
+            resourceid: newEntity.id,
+            resourcetype: entityName,
             key,
             value
-          }));
+          });
+          return newEntity;
         }
         return newEntity;
       })
@@ -83,7 +84,7 @@ export class TagService extends BaseBackendCachedService<Tag> {
     const copyRequests = tags.map(tag => {
       return this.update(
         entity,
-        entity.resourceType,
+        entity.resourcetype,
         tag.key,
         tag.value
       );

@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import * as serviceOfferingActions from './service-offerings.actions';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import { Observable } from 'rxjs/Observable';
+import { DefaultServiceOfferingConfigurationByZone } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { ConfigService } from '../../../shared/services/config.service';
-import { DefaultServiceOfferingConfigurationByZone } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import * as serviceOfferingActions from './service-offerings.actions';
 
 @Injectable()
 export class ServiceOfferingEffects {
@@ -50,6 +47,15 @@ export class ServiceOfferingEffects {
     .map((action: serviceOfferingActions.LoadCustomRestrictionsRequest) => {
       return new serviceOfferingActions.LoadCustomRestrictionsResponse(
         this.configService.get('customOfferingRestrictions')
+      );
+    });
+
+  @Effect()
+  loadCompatibilityPolicy$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.LOAD_COMPATIBILITY_POLICY_REQUEST)
+    .map((action: serviceOfferingActions.LoadCompatibilityPolicyRequest) => {
+      return new serviceOfferingActions.LoadCompatibilityPolicyResponse(
+        this.configService.get('offeringCompatibilityPolicy')
       );
     });
 

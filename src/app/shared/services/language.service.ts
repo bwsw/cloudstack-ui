@@ -26,9 +26,6 @@ export class LanguageService {
     private translate: TranslateService,
     private userTagService: UserTagService
   ) {
-    if (!translate.defaultLang) {
-      translate.setDefaultLang(DEFAULT_LANGUAGE);
-    }
   }
 
   public getLanguage(): Observable<Language> {

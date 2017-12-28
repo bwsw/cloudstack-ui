@@ -134,11 +134,10 @@ export class VmCreationComponent implements OnInit {
   }
 
   public get showResizeSlider(): boolean {
-    return (
-      !!this.formState.state.template &&
-      (this.formState.state.template.isTemplate ||
-        this.formState.state.showRootDiskResize)
-    );
+    return !!this.formState.state.template
+      && !this.formState.state.template.isTemplate
+      && this.formState.state.showRootDiskResize
+      && !!this.formState.state.rootDiskSizeMin;
   }
 
   public get showSecurityGroups(): boolean {
@@ -210,7 +209,7 @@ export class VmCreationComponent implements OnInit {
     const existingGroup = this.formState.data.getAffinityGroup(groupName);
 
     this.formState.state.affinityGroup =
-      clone(existingGroup) || new AffinityGroup({ name: groupName });
+      clone(existingGroup) || { name: groupName };
     this.updateFormState();
   }
 
