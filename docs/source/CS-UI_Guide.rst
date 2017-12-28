@@ -1269,4 +1269,4 @@ Logout
 .. |create icon| image:: _static/create_icon.png
 .. |copy icon| image:: _static/copy_icon.png
 .. |color picker| image:: _static/color-picker_icon.png
-.. |adv picker| image:: _static/adv_icon.png
+.. |adv icon| image:: _static/adv_icon.png
