@@ -3,9 +3,9 @@ Overview
 
 CloudStack-UI is a project which purpose is to provide an easy-to-use, light, and user-friendly front-end interface for the Apache CloudStack virtualization management system. 
 
-Apache CloudStack is a great product which is widely used. But its front end is developed for administrators (from our point of view), not for cloud end-users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop the UI are connected with lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. 
+Apache CloudStack is a great product which is widely used. But its front end is developed for administrators (from our point of view), not for cloud end-users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop the UI are connected to the lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. 
 
-That's what we are trying to add to Cloudstack-UI. The work is still in progress. But for now we have already covered lots of features that make CloudStack more good-looking, intuitive and convenient.
+That is what we are trying to add to Cloudstack-UI. The work is still in progress. But for now we have already covered lots of features that make CloudStack more good-looking, intuitive and convenient.
 
 Project on `GitHub <https://github.com/bwsw/cloudstack-ui>`_.
 
@@ -15,7 +15,7 @@ Project History
 ---------------------------
 This page provides some background about the project, describes what CloudStack-UI is, and why it was developed.
 
-At `Bitworks Software <https://bitworks.software/en>`_, we have been running an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production). And we've found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original CloudStack UI and make a lot of operational mistakes. That’s why we've decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
+At `Bitworks Software <https://bitworks.software/en>`_, we have been running an ACS public cloud for 3 years (actually we still run CS 4.3 cloud in production). And we have found that average users who are familiar with Digital Ocean, Amazon AWS, and other VPS management systems feel uncomfortable with original CloudStack UI and make a lot of operational mistakes. That is why we have decided to implement a convenient and neat end-user facing UI covering regular activities, which are important for day-to-day VM management.
 
 There are several aims we strived to achieve with the new UI: 
 
