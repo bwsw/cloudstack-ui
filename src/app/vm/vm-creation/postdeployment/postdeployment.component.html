@@ -14,7 +14,7 @@
             >check_circle</mat-icon>
           </div>
         </h4>
-        <h4 *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipAddress}}</h4>
+        <h4 *ngIf="vm.ipIsAvailable"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b> {{vm.nic[0].ipaddress}}</h4>
         <h4 *ngIf="isHttpAuthMode(vm) && getUrlLogin(vm)"><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b> {{getUrlLogin(vm)}}</h4>
         <h4 *ngIf="isHttpAuthMode(vm) && getUrlPassword(vm)"><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{getUrlPassword(vm)}}</h4>
     <div class="mat-dialog-actions">
