@@ -14,11 +14,11 @@ export interface ICustomOfferingRestrictions {
 }
 
 export const DefaultCustomServiceOfferingRestrictions: ICustomOfferingRestrictions = {
-  cpuNumber: {
+  cpunumber: {
     min: 0,
     max: Number.POSITIVE_INFINITY
   },
-  cpuSpeed: {
+  cpuspeed: {
     min: 0,
     max: Number.POSITIVE_INFINITY
   },

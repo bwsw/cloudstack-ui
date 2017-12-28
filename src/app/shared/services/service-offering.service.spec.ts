@@ -20,7 +20,7 @@ class MockErrorService {
 
 describe('Service-offering service', () => {
   let serviceOfferingService: ServiceOfferingService;
-  const newSO: ServiceOffering = {
+  const newSO = <ServiceOffering>{
     id: '1',
     name: 'Service Offering',
     displaytext: 'About disk offering',

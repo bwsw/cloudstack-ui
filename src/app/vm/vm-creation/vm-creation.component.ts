@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { AffinityGroup, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../shared/models';
+import {
+  AffinityGroup,
+  InstanceGroup,
+  ServiceOffering,
+  SSHKeyPair,
+  Zone
+} from '../../shared/models';
 import { DiskOffering, Account } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
@@ -105,7 +111,8 @@ export class VmCreationComponent {
   }
 
   public get showRootDiskResize(): boolean {
-    return this.vmCreationState.diskOffering && this.vmCreationState.diskOffering.isCustomized;
+    return this.vmCreationState.diskOffering
+      && this.vmCreationState.diskOffering.iscustomized;
   }
 
   public get showSecurityGroups(): boolean {

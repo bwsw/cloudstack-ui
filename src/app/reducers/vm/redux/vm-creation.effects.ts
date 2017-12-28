@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
+import { areCustomParamsSet } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
@@ -186,7 +187,7 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.diskOffering) {
-        if (!action.payload.diskOffering.isCustomized || !vmCreationState.template) {
+        if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         } else {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
@@ -641,18 +642,18 @@ export class VirtualMachineCreationEffects {
       params.securityGroupIds = securityGroups.map(item => item.id).join(',');
     }
 
-    if (state.serviceOffering.areCustomParamsSet) {
+    if (areCustomParamsSet(state.serviceOffering)) {
       params.details = [
         {
-          cpuNumber: state.serviceOffering.cpuNumber,
-          cpuSpeed: state.serviceOffering.cpuSpeed,
+          cpuNumber: state.serviceOffering.cpunumber,
+          cpuSpeed: state.serviceOffering.cpuspeed,
           memory: state.serviceOffering.memory
         }
       ];
     }
 
     if ((state.rootDiskSize != null && state.template.isTemplate) ||
-      (state.diskOffering && state.diskOffering.isCustomized)) {
+      (state.diskOffering && state.diskOffering.iscustomized)) {
       if (state.template.isTemplate) {
         params.rootDiskSize = state.rootDiskSize;
       } else {

@@ -222,7 +222,7 @@ export const getAvailableOfferings = createSelector(
         return 0;
       });
 
-      const filterByCompatibilityPolicy = (offering) => {
+      const filterByCompatibilityPolicy = (offering: ServiceOffering) => {
         if (compatibilityPolicy) {
           const oldTags = currentOffering.hosttags
             ? currentOffering.hosttags.split(',')
@@ -234,9 +234,9 @@ export const getAvailableOfferings = createSelector(
         }
       };
 
-      const filterStorageType = (offering) => offering.storageType === currentOffering.storageType;
+      const filterStorageType = (offering: ServiceOffering) => offering.storagetype === currentOffering.storagetype;
 
-      return availableOfferings.map((offering) => {
+      return availableOfferings.map((offering: ServiceOffering) => {
         return !offering.iscustomized
           ? offering
           : getCustomOfferingWithSetParams(
@@ -274,7 +274,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
         zone
       );
 
-      return availableOfferings.map((offering) => {
+      return availableOfferings.map((offering: ServiceOffering) => {
         return !offering.iscustomized
           ? offering
           : getCustomOfferingWithSetParams(
@@ -345,7 +345,7 @@ export const getAvailableByResourcesSync = (
           DefaultCustomServiceOfferingRestrictions,
           offeringRestrictions && offeringRestrictions[zone.id]
         );
-        enoughCpus = !restrictions.cpuNumber || restrictions.cpuNumber.min < resourceUsage.available.cpus;
+        enoughCpus = !restrictions.cpunumber || restrictions.cpunumber.min < resourceUsage.available.cpus;
         enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
       } else {
         enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
@@ -379,8 +379,8 @@ export const getCustomOfferingWithSetParams = (
       || customServiceOfferingFallbackParams[param];
   };
 
-  const cpunumber = getServiceOfferingRestriction('cpuNumber');
-  const cpuspeed = getServiceOfferingRestriction('cpuSpeed');
+  const cpunumber = getServiceOfferingRestriction('cpunumber');
+  const cpuspeed = getServiceOfferingRestriction('cpuspeed');
   const memory = getServiceOfferingRestriction('memory');
 
   const restrictions = getRestrictionIntersection(
@@ -444,7 +444,7 @@ export const getRestrictionIntersection = (
   resourceStats: ResourceStats
 ) => {
   const result = {
-    cpuNumber: {
+    cpunumber: {
       max: resourceStats.available.cpus
     },
     memory: {
@@ -458,32 +458,32 @@ export const getRestrictionIntersection = (
 
   if (customRestrictions.cpunumber != null) {
     if (customRestrictions.cpunumber.min != null) {
-      result.cpuNumber['min'] = customRestrictions.cpunumber.min;
+      result.cpunumber['min'] = customRestrictions.cpunumber.min;
     }
 
     if (customRestrictions.cpunumber.max != null) {
-      result.cpuNumber['max'] = Math.min(
+      result.cpunumber['max'] = Math.min(
         customRestrictions.cpunumber.max,
-        result.cpuNumber.max
+        result.cpunumber.max
       );
     }
   }
 
   if (customRestrictions.cpuspeed != null) {
     if (customRestrictions.cpuspeed.min != null) {
-      if (!result['cpuSpeed']) {
-        result['cpuSpeed'] = {};
+      if (!result['cpuspeed']) {
+        result['cpuspeed'] = {};
       }
 
-      result['cpuSpeed']['min'] = customRestrictions.cpuspeed.min;
+      result['cpuspeed']['min'] = customRestrictions.cpuspeed.min;
     }
 
     if (customRestrictions.cpuspeed.max != null) {
-      if (!result['cpuSpeed']) {
-        result['cpuSpeed'] = {};
+      if (!result['cpuspeed']) {
+        result['cpuspeed'] = {};
       }
 
-      result['cpuSpeed']['max'] = customRestrictions.cpuspeed.max;
+      result['cpuspeed']['max'] = customRestrictions.cpuspeed.max;
     }
   }
 

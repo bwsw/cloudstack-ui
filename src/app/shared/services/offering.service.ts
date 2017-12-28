@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { isOfferingLocal, Offering } from '../models/offering.model';
 import { Zone } from '../models';
-import { Offering } from '../models/offering.model';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 
