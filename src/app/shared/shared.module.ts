@@ -53,8 +53,8 @@ import { VolumeActionsContainerComponent } from './actions/volume-actions/volume
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
 import { VolumeAttachAction } from './actions/volume-actions/volume-attach';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
-import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 // tslint:disable-next-line
+import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeDetachAction } from './actions/volume-actions/volume-detach';
 import { VolumeRecurringSnapshotsAction } from './actions/volume-actions/volume-recurring-snapshots';
 import { VolumeRemoveAction } from './actions/volume-actions/volume-remove';
@@ -164,10 +164,12 @@ import { TemplateTagService } from './services/tags/template-tag.service';
 import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
+import { AccountTagService } from './services/tags/account-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import { AccountTagService } from './services/tags/account-tag.service';
+import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
+import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
 
 @NgModule({
   imports: [
@@ -205,7 +207,8 @@ import { AccountTagService } from './services/tags/account-tag.service';
     MatButtonToggleModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
-    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects]),
+    StoreModule.forFeature('affinity-groups', affinityGroupReducers),
+    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
   ],
   exports: [
     CdkTableModule,

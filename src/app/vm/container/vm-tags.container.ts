@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
+import { Tag } from '../../shared/models';
+import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
+import { VirtualMachine, VmResourceType } from '../shared/vm.model';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import { Tag } from '../../shared/models';
-import {
-  KeyValuePair,
-  TagEditAction
-} from '../../tags/tags-view/tags-view.component';
-import { VirtualMachine } from '../shared/vm.model';
 
 @Component({
   selector: 'cs-vm-tags-container',
@@ -34,7 +31,7 @@ export class VmTagsContainerComponent {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
       const newTag: Tag = {
         resourceid: vm.id,
-        resourcetype: vm.resourceType,
+        resourcetype: VmResourceType,
         key: tagEditAction.newTag.key,
         value: tagEditAction.newTag.value,
         account: vm.account,
@@ -66,7 +63,7 @@ export class VmTagsContainerComponent {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
       const newTag: Tag = {
         resourceid: vm.id,
-        resourcetype: vm.resourceType,
+        resourcetype: VmResourceType,
         key: keyValuePair.key,
         value: keyValuePair.value,
         account: vm.account,

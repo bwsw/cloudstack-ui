@@ -8,12 +8,12 @@ import * as fromTemplateGroups from '../../reducers/templates/redux/template-gro
 import * as templateActions from '../../reducers/templates/redux/template.actions';
 
 @Component({
-  selector: 'cs-template-filter-list-selector-container',
+  selector: 'cs-iso-attachment-filter-selector-container',
   template: `
     <cs-template-filter-list-selector
-      [templates]="templates$ | async"
-      [dialogMode]="dialogMode"
-      [showIsoSwitch]="showIsoSwitch"
+      [templates]="isos$ | async"
+      [dialogMode]="true"
+      [showIsoSwitch]="false"
       [selectedTypes]="selectedTypes$ | async"
       [selectedOsFamilies]="selectedOsFamilies$ | async"
       [selectedGroups]="selectedGroups$ | async"
@@ -23,15 +23,14 @@ import * as templateActions from '../../reducers/templates/redux/template.action
       [fetching]="isLoading$ | async"
       [(selectedTemplate)]="selectedTemplate"
       (selectedTemplateChange)="selectedTemplateChange.emit($event)"
-      (viewModeChange)="onViewModeChange($event)"
       (onSelectedTypesChange)="onSelectedTypesChange($event)"
       (onSelectedOsFamiliesChange)="onSelectedOsFamiliesChange($event)"
       (onSelectedGroupsChange)="onSelectedGroupsChange($event)"
       (onQueryChange)="onQueryChange($event)"
     ></cs-template-filter-list-selector>`
 })
-export class TemplateFilterListSelectorContainerComponent implements AfterViewInit {
-  readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation);
+export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewInit {
+  readonly isos$ = this.store.select(fromTemplates.selectTemplatesForIsoAttachment);
   readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
   readonly viewMode$ = this.store.select(fromTemplates.vmCreationListViewMode);
@@ -40,10 +39,7 @@ export class TemplateFilterListSelectorContainerComponent implements AfterViewIn
   readonly selectedGroups$ = this.store.select(fromTemplates.vmCreationListSelectedGroups);
   readonly query$ = this.store.select(fromTemplates.vmCreationListQuery);
 
-  @Input() public dialogMode = true;
-  @Input() public showIsoSwitch = true;
   @Input() public selectedTemplate: BaseTemplateModel;
-
   @Output() public selectedTemplateChange = new EventEmitter<BaseTemplateModel>();
 
   public groupings = [
@@ -59,14 +55,11 @@ export class TemplateFilterListSelectorContainerComponent implements AfterViewIn
     private store: Store<State>,
     private cd: ChangeDetectorRef
   ) {
+    this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 
   public ngAfterViewInit() {
     this.cd.detectChanges();
-  }
-
-  public onViewModeChange(selectedViewMode: string) {
-    this.store.dispatch(new templateActions.DialogTemplatesFilterUpdate({ selectedViewMode }));
   }
 
   public onSelectedTypesChange(selectedTypes: string[]) {
