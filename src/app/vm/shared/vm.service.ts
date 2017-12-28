@@ -180,12 +180,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   /*public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
     // instanceof check is needed because API response for
-    // VM restore doesn't contain the instanceType field
+    // VM restore doesn't contain the jobinstancetype field
 
     return (
-      job.result &&
-      (job.instanceType === VirtualMachineEntityName ||
-        job.result instanceof VirtualMachine)
+      job.jobresult &&
+      (job.jobinstancetype === VirtualMachineEntityName ||
+        job.jobresult instanceof VirtualMachine)
     );
   }*/
 

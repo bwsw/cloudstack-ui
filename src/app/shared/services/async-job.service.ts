@@ -101,7 +101,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   private getJobId(job: any): string {
     let jobId;
     if (this.isAsyncJob(job)) {
-      jobId = job.id;
+      jobId = job.jobid;
     } else {
       jobId = job.jobid || job;
     }
