@@ -40,6 +40,12 @@
       "CONFIRM_ENABLE": "Вы уверены, что хотите активировать этот аккаунт?",
       "CONFIRM_LOCK": "Вы уверены, что хотите заблокировать этот аккаунт?"
     },
+    "ACCOUNT_USER": {
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этого пользователя?",
+      "CONFIRM_EDIT": "Вы уверены, что хотите изменить этого пользователя?",
+      "CONFIRM_CHANGE_PASSWORD": "Вы уверены, что хотите изменить пароль для этого пользователя?",
+      "CONFIRM_REGENERATE_KEY": "Вы уверены, что хотите сгенерировать ключи для этого пользователя?"
+    },
     "ISO": {
       "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот ISO файл?",
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот ISO файл?"
@@ -60,7 +66,7 @@
       "CONFIRM_RESTORE": "Вы уверены, что хотите переустановить виртуальную машину?",
       "CONFIRM_DESTROY": "Вы уверены, что хотите удалить виртуальную машину?",
       "CONFIRM_EXPUNGE": "Вы уверены, что хотите уничтожить виртуальную машину?<br><b>Эта операция необратима.</b>",
-      "CONFIRM_RECOVER": "Вы уверены, что хотите восстановить виртуальную машину?",
+      "CONFIRM_RECOVER": "Вы уверены, что хотите восстановить эту виртуальную машину?",
       "CONFIRM_RESET_PASSWORD": "Вы уверены, что хотите сбросить пароль?<br>Если ваша виртуальная машина запущена, то она будет перезагружена.",
       "PASSWORD_DIALOG_MESSAGE": "Пароль для машины {{ vmName }} был сброшен в <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Удалить диски с данными этой ВМ?",
@@ -75,18 +81,17 @@
     "VOLUME": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот диск?",
       "CONFIRM_DETACHMENT": "Вы уверены, что хотите открепить этот диск?",
-      "CONFIRM_CREATION": "У вас нет виртуальных машин. При создании виртуальной машины на основе шаблона, диск создается автоматически.<br>Вы действительно хотите создать дополнительный диск?"
+      "CONFIRM_CREATION": "У вас нет виртуальных машин. При создании виртуальной машины на основе шаблона, диск создается автоматически.<br><br>Вы действительно хотите создать дополнительный диск?"
     }
   },
-
   "ERRORS": {
     "COMMON": {
-      "THE_NAME_IS_TAKEN": "Имя {{val1}} уже занято"
+      "THE_NAME_IS_TAKEN": "Имя {{ val1 }} уже занято"
     },
     "AUTH": {
       "INCORRECT_USERNAME": "Неверное имя пользователя",
       "INCORRECT_PASSWORD": "Неверный пароль",
-      "INCORRECT_DOMAIN": "Не удалось найти домен {{val1}}"
+      "INCORRECT_DOMAIN": "Не удалось найти домен {{ val1 }}"
     },
     "ISO": {
       "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется следующими машинами:<br>{{ vms }}"
@@ -95,16 +100,16 @@
       "LIMIT_EXCEEDED": "Лимит снимков превышен. Для создания новых снимков Вам необходимо удалить какие-либо из ранее созданных снимков."
     },
     "SSH": {
-      "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{val1}}\" уже существует"
+      "KEY_PAIR_ALREADY_EXISTS": "SSH ключ с именем \"{{ val1 }}\" уже существует"
     },
     "VM": {
       "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
     },
     "VOLUME": {
-      "NAME_TOO_LONG": "Имя диска не может быть длиннее {{val1}} символов",
+      "NAME_TOO_LONG": "Имя диска не может быть длиннее {{ val1 }} символов",
       "NEW_SIZE_IS_LOWER": "Новый размер меньше текущего, необходимо сжать диск",
       "PRIMARY_STORAGE_EXCEEDED": "Лимит основного хранилища превышен",
-      "UNABLE_TO_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{val1}}",
+      "UNABLE_TO_FIND_PRIMARY_STORAGE": "Не удалось найти подходящее основное хранилище при создании диска {{ val1 }}",
       "VOLUME_BUSY": "На виртуальной машине, к которой прикреплен этот диск, уже выполняется другое действие над снимками. Повторите попытку позже.",
       "VOLUME_LIMIT_EXCEEDED": "Лимит дисков превышен. Для создания новых дисков вам нужно удалить какие-либо из ранее созданных дисков."
     },
@@ -183,8 +188,8 @@
       "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
       "RESET_PASSWORD_DONE": "Пароль сброшен",
       "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
-      "SAVE_PASSWORD_DONE": "Password saved",
-      "SAVE_PASSWORD_FAILED": "Failed to save password",
+      "SAVE_PASSWORD_DONE": "Пароль сохранен",
+      "SAVE_PASSWORD_FAILED": "Не удалось сохранить пароль",
       "DESTROY_IN_PROGRESS": "Удаление ВМ",
       "DESTROY_DONE": "ВМ была удалена",
       "DESTROY_FAILED": "Не удалось удалить ВМ",
@@ -200,9 +205,9 @@
       "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
       "CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
       "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение",
-      "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Изменение аффинитентной группы",
-      "CHANGE_AFFINITY_GROUP_DONE": "Аффинитентная группа изменена",
-      "CHANGE_AFFINITY_GROUP_FAILED": "Не удалось изменить аффинитентную группу",
+      "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Изменение аффинитетной группы",
+      "CHANGE_AFFINITY_GROUP_DONE": "Аффинитетная группа изменена",
+      "CHANGE_AFFINITY_GROUP_FAILED": "Не удалось изменить аффинитетную группу",
       "CHANGE_INSTANT_GROUP_IN_PROGRESS": "Изменение группы",
       "CHANGE_INSTANT_GROUP_DONE": "Группа изменена",
       "CHANGE_INSTANT_GROUP_FAILED": "Не удалось изменить группу",
@@ -215,9 +220,9 @@
       "REMOVE_SECONDARY_IP_FAILED": "Не удалось удалить дополнительный IP",
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
       "COLOR_CHANGE_FAILED": "Не удалось изменить цвет ВМ",
-      "CHANGE_SSH_IN_PROGRESS": "Изменение ssh-ключа",
+      "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
-      "CHANGE_SSH_FAILED": "Не удалось изменить ssh-ключ"
+      "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
@@ -280,7 +285,7 @@
     "LICENSE": {
       "LICENSE_1": "© {{ year }}, ",
       "LICENSE_2": "Bitworks Software, Ltd.",
-      "LICENSE_3": "Released under Apache v2.0 license"
+      "LICENSE_3": "Выпущен под лицензией Apache версии 2.0"
     }
   },
   "VM_PAGE": {
@@ -301,14 +306,14 @@
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
       "USED": "Использовано",
-      "FREE": "Доступно",
       "ACCOUNT": "Аккаунт",
       "DOMAIN": "Домен",
+      "FREE": "Доступно",
       "VMS": "Виртуальные машины",
       "NUMBER_OF_VMS": "Количество",
       "COMPUTATIONAL_RESOURCES": "Вычислительные ресурсы",
       "CPUS": "CPU",
-      "RAM": "RAM",
+      "RAM": "ОЗУ",
       "VOLUMES": "Диски",
       "SNAPSHOTS": "Снимки",
       "STORAGE": "Хранилище",
@@ -333,8 +338,8 @@
     },
     "CARD": {
       "IP_NA": "IP недоступен",
-      "CPU": "CPU",
-      "RAM": "RAM",
+      "CPU": "ЦП",
+      "RAM": "ОЗУ",
       "DISKS": "Диски"
     },
     "SIDEBAR": {
@@ -388,7 +393,8 @@
         "thick": "Статическое",
         "sparse": "Разреженное",
         "shared": "Общее",
-        "local": "Локальное"
+        "local": "Локальное",
+        "hosttags": "Теги хоста"
       },
       "AFFINITY_GROUP": {
         "TITLE": "Аффинитетная группа",
@@ -437,7 +443,6 @@
         "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
         "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
       },
-
       "VOLUME_RESIZE": {
         "TITLE": "Изменить размер диска",
         "DISK_OFFERING": "Дисковое предложение",
@@ -526,22 +531,22 @@
       "AFFINITY_GROUP": "Аффинитетная группа",
       "SECURITY_GROUPS": "Брандмауэр",
       "KEYBOARD_LAYOUT": "Раскладка клавиатуры",
-      "KB_US": "Standard (US) keyboard",
-      "KB_UK": "UK keyboard",
-      "KB_JP": "Japanese keyboard",
-      "KB_SC": "Simplified Chinese keyboard",
+      "KB_US": "Стандартная раскладка (США)",
+      "KB_UK": "Английская раскладка (UK)",
+      "KB_JP": "Японская раскладка",
+      "KB_SC": "Упрощенная китайская раскладка",
       "SSH_KEY_PAIR": "SSH ключ",
       "NO_SSH_KEY": "Нет SSH ключа",
       "START_VM": "Запустить ВМ",
       "YOU_RAN_OUT_OF": "Вам не хватает",
-      "CPUS": "CPU",
-      "MEMORY": "RAM",
+      "CPUS": "ЦП",
+      "MEMORY": "ОЗУ",
       "INSTANCES": "ВМ",
       "IPS": "IP",
       "VOLUMES": "Дисков",
       "PRIMARY_STORAGE": "Основного хранилища",
-      "CREATING_SG": "Создание группы безопасности...",
       "CREATING_AG": "Создание аффинитетной группы...",
+      "CREATING_SG": "Создание группы безопасности...",
       "DEPLOYING_VM": "Создание виртуальной машины...",
       "CREATING_INSTANCE_GROUP": "Создание группы...",
       "TAG_COPYING": "Копирование тегов из шаблона...",
@@ -550,11 +555,10 @@
       "NO_TEMPLATES": "Нет доступных шаблонов"
     }
   },
-
   "VM_POST_ACTION": {
     "TITLE": "Виртуальная машина успешно создана",
     "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
-    "OPEN_SHELL_CONSOLE": "Окрыть WebShell",
+    "OPEN_SHELL_CONSOLE": "Открыть WebShell",
     "OPEN_URL": "Открыть URL",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
@@ -562,7 +566,6 @@
     "VM": "Имя машины",
     "VM_IP": "IP адрес"
   },
-
   "VOLUME_PAGE": {
     "FILTERS": {
       "SELECT_ACCOUNTS": "Выберите аккаунты",
@@ -661,7 +664,7 @@
       "SIZE": "Размер",
       "EXTRACTABLE": "Извлекаемый",
       "PUBLIC": "Публичный",
-      "RECOMMENDED": "Рекоммендуемый",
+      "RECOMMENDED": "Рекомендуемый",
       "PASSWORD_ENABLED": "Пароль включен",
       "DYNAMICALLY_SCALABLE": "Динамическое масштабирование",
       "CROSS_ZONES": "Общий для зон",
@@ -682,7 +685,7 @@
       "NAME": "Название",
       "DESCRIPTION": "Описание",
       "URL": "URL",
-      "INVALID_URL": "Неподдерживаемый URL (только http or https)",
+      "INVALID_URL": "Неподдерживаемый URL (только http или https)",
       "OS_TYPE": "Тип ОС",
       "ZONE": "Зона",
       "GROUP": "Группа",
@@ -712,7 +715,7 @@
       "EMPTY_VM_LIST": "Нет виртуальных машин",
       "EMPTY_VM_NAME": "Нет доступных"
     },
-    "ACTION" : {
+    "ACTION": {
       "RULES": "Правила",
       "CONVERT": "Сделать общей"
     },
@@ -744,7 +747,9 @@
       "START_PORT": "Начальный порт",
       "END_PORT": "Конечный порт",
       "INGRESS": "Входящее",
+      "INGRESS_DISPLAY": "Входящий",
       "EGRESS": "Исходящее",
+      "EGRESS_DISPLAY": "Исходящий",
       "TCP": "TCP",
       "UDP": "UDP",
       "ICMP": "ICMP",
@@ -759,18 +764,16 @@
       "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
       "SELECT_TYPE": "Выберите типы",
       "SELECT_PROTOCOL": "Выберите протоколы",
-      "INGRESS_DISPLAY": "Входящий",
-      "EGRESS_DISPLAY": "Исходящий",
       "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
       "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
-      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>,  ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
-      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>,  ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
-      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>,  ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
+      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
       "DEFAULT_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, порт: {{ startPort }}",
       "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
-      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
-      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
-      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }},  ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
+      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
+      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
+      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
       "NO_FIREWALL_RULES": "Нет правил брандмауэра"
     },
     "ICMP_TYPES": {
@@ -1186,7 +1189,7 @@
     }
   },
   "SECURITY_GROUP_SELECTOR": {
-    "BASED_ON_VALUE": "Основан на {{value}}",
+    "BASED_ON_VALUE": "Основан на {{ value }}",
     "BUILD_NEW_GROUP": "Создание новой группы",
     "SELECT_EXISTING_GROUP": "Выбор существующей группы",
     "CREATE": "Создать",
@@ -1199,7 +1202,8 @@
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Изменить предложение",
     "CHOOSE_SERVICE_OFFERING": "Выберите предложение",
-    "CPU_MHZ": "{{count}}x{{speed}} МГц",
+    "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
+    "CPU_MHZ": "{{ count }}x{{ speed }} МГц",
     "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Настраиваемое предложение",
@@ -1254,9 +1258,9 @@
     "READY": "Готов"
   },
   "SNAPSHOT_STATE": {
-    "BACKEDUP": "Backed up",
+    "BACKEDUP": "Резервная копия создана",
     "CREATING": "Создается",
-    "BACKINGUP": "Backing up",
+    "BACKINGUP": "Создается резервная копия",
     "ALLOCATED": "Аллоцирован",
     "ERROR": "Ошибка"
   },
@@ -1310,15 +1314,14 @@
   },
   "UNITS": {
     "GB": "ГБ",
-    "GB_VALUE": "{{value}} ГБ",
+    "GB_VALUE": "{{ value }} ГБ",
     "GHZ": "ГГц",
-    "IOPS": "{{value}} IO/сек",
+    "IOPS": "{{ value }} IO/сек",
     "MB": "MБ",
-    "MB_VALUE": "{{value}} MБ",
-    "MBPS": "{{value}} MБ/сек",
+    "MB_VALUE": "{{ value }} MБ",
+    "MBPS": "{{ value }} MБ/сек",
     "MHZ": "МГц"
   },
-
   "VOLUME_ACTIONS": {
     "TAKE_SNAPSHOT": "Создать снимок",
     "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
@@ -1331,6 +1334,12 @@
     "DISABLE": "Деактивировать аккаунт",
     "ENABLE": "Активировать аккаунт",
     "LOCK": "Заблокировать аккаунт"
+  },
+  "ACCOUNT_USER_ACTION": {
+    "DELETE": "Удалить пользователя",
+    "EDIT": "Изменить пользователя",
+    "REGENERATE_KEY": "Сгенерировать ключ",
+    "CHANGE_PASSWORD": "Изменить пароль"
   },
   "ACCOUNT_STATE": {
     "DISABLED": "Деактивирован",

@@ -6,8 +6,7 @@ import { Domain } from '../models/domain.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'Domain',
-  entityModel: Domain
+  entity: 'Domain'
 })
 export class DomainService extends BaseBackendService<Domain> {
   constructor(protected http: HttpClient) {

@@ -95,7 +95,7 @@ export class VmCreationState {
 
   public getStateFromData(data: VmCreationData): void {
     this.securityGroupData = VmCreationSecurityGroupData.fromRules(data.preselectedRules);
-    this.affinityGroup = new AffinityGroup({ name: '' });
+    this.affinityGroup = { name: '' } as AffinityGroup;
     this.affinityGroupNames = data.affinityGroupNames;
     this.defaultName = data.defaultName;
     this.displayName = data.defaultName;

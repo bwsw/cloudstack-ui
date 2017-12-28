@@ -1,4 +1,4 @@
-import { BaseModel } from './base.model';
+import { BaseModelInterface } from './base.model';
 
 /*export const enum ResourceType {
   Instance, // Number of instances a user can create
@@ -19,10 +19,12 @@ import { BaseModel } from './base.model';
   resourcetype: 'resourceType'
 })*/
 
-export class ResourceCount extends BaseModel {
-  public account: string;
-  public domain: string;
-  public domainid: string;
-  public resourcecount: number;
-  public resourcetype: number;
+export interface ResourceCount extends BaseModelInterface {
+  id?: string;
+  account: string;
+  domain: string;
+  domainid: string;
+  resourcecount: number;
+  resourcetype: number;
 }
+

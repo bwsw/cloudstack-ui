@@ -3,7 +3,7 @@ import { AffinityGroup, DiskOffering, ServiceOffering, SSHKeyPair, Zone } from '
 import { Iso, Template } from '../../../app/template/shared';
 
 
-const affinityGroups: Array<Object> = require('./fixtures/affinityGroups.json');
+const affinityGroups: Array<AffinityGroup> = require('./fixtures/affinityGroups.json');
 const diskOfferings: Array<Object> = require('./fixtures/diskOfferings.json');
 const isos: Array<Object> = require('./fixtures/isos.json');
 const securityGroupTemplates: Array<Object> = require('./fixtures/securityGroupTemplates.json');
@@ -23,7 +23,7 @@ export class MockEntityData {
   public zones: Array<Zone>;
 
   constructor() {
-    this.affinityGroups = affinityGroups.map(json => new AffinityGroup(json));
+    this.affinityGroups = affinityGroups;
     this.diskOfferings = diskOfferings.map(json => new DiskOffering(json));
     this.isos = isos.map(json => new Iso(json));
     this.securityGroupTemplates = securityGroupTemplates.map(json => new SecurityGroup(json));

@@ -1,54 +1,54 @@
-import { BaseModel } from './base.model';
+import { BaseModelInterface } from './base.model';
 
-export class Domain extends BaseModel {
-  public cpuavailable: number;
-  public cpulimit: number;
-  public cputotal: number;
-  public haschild: boolean;
-  public id: string;
-  public ipavailable: string;
-  public iplimit: string;
-  public iptotal: number;
-  public level: number;
-  public memoryavailable: string;
-  public memorylimit: string;
-  public memorytotal: number;
-  public name: string;
-  public networkavailable: string;
-  public networkdomain: string;
-  public networklimit: string;
-  public networktotal: number;
-  public parentdomainid: string;
-  public parentdomainname: string;
-  public path: string;
-  public primarystorageavailable: string;
+export interface Domain extends BaseModelInterface {
+  cpuavailable: number;
+  cpulimit: number;
+  cputotal: number;
+  haschild: boolean;
+  id: string;
+  ipavailable: string;
+  iplimit: string;
+  iptotal: number;
+  level: number;
+  memoryavailable: string;
+  memorylimit: string;
+  memorytotal: number;
+  name: string;
+  networkavailable: string;
+  networkdomain: string;
+  networklimit: string;
+  networktotal: number;
+  parentdomainid: string;
+  parentdomainname: string;
+  path: string;
+  primarystorageavailable: string;
 
-  public primarystoragelimit: string;
-  public primarystoragetotal: number;
-  public projectavailable: string;
-  public projectlimit: string;
-  public projecttotal: number;
-  public secondarystorageavailable: string;
-  public secondarystoragelimit: string;
-  public secondarystoragetotal: number;
-  public snapshotavailable: string;
-  public snapshotlimit: string;
-  public snapshottotal: number;
-  public state: string;
-  public templateavailable: string;
-  public templatelimit: string;
-  public templatetotal: number;
-  public vmavailable: string;
-  public vmlimit: string;
-  public vmtotal: number;
-  public volumeavailable: string;
-  public volumelimit: string;
-  public volumetotal: number;
-  public vpcavailable: string;
-  public vpclimit: string;
-  public vpctotal: number;
+  primarystoragelimit: string;
+  primarystoragetotal: number;
+  projectavailable: string;
+  projectlimit: string;
+  projecttotal: number;
+  secondarystorageavailable: string;
+  secondarystoragelimit: string;
+  secondarystoragetotal: number;
+  snapshotavailable: string;
+  snapshotlimit: string;
+  snapshottotal: number;
+  state: string;
+  templateavailable: string;
+  templatelimit: string;
+  templatetotal: number;
+  vmavailable: string;
+  vmlimit: string;
+  vmtotal: number;
+  volumeavailable: string;
+  volumelimit: string;
+  volumetotal: number;
+  vpcavailable: string;
+  vpclimit: string;
+  vpctotal: number;
+}
 
-  public getPath(): string {
-    return this.path === 'ROOT' ? '' : this.path.replace('ROOT/', '') + '/';
-  }
+export const getPath = (domain: Domain) => {
+  return domain.path === 'ROOT' ? '' : domain.path.replace('ROOT/', '') + '/';
 }

@@ -52,6 +52,7 @@ export class ServiceOffering extends Offering {
   public defaultUse: boolean;
   public deploymentPlanner: string;
   public domain: string;
+  public hosttags: string;
 
   constructor(params: any | ServiceOffering) {
     super(params);
