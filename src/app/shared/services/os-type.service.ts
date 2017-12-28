@@ -9,8 +9,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 @BackendResource({
-  entity: 'OsType',
-  entityModel: OsType
+  entity: 'OsType'
 })
 export class OsTypeService extends BaseBackendService<OsType> {
   private osTypes: Array<OsType>;
