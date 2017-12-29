@@ -31,11 +31,11 @@
         </ng-template>
       </div>
     </div>
-    <div class="card-wrapper" *ngIf="!item?.description">
+    <div class="card-wrapper" *ngIf="!item?.description && !isPrivate">
       <div class="description"></div>
     </div>
 
-    <div class="card-wrapper" *ngIf="item?.description">
+    <div class="card-wrapper" *ngIf="item?.description && !isPrivate">
       <div class="description flex-1">{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</div>
       <div class="description flex-2">
         <span

@@ -20,7 +20,7 @@
     </span>
   </div>
 
-  <div class="desc" *ngIf="item?.description">
+  <div class="desc" *ngIf="item?.description && !isPrivate">
     <span>{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</span>
     <span
       *ngIf="item.description"
