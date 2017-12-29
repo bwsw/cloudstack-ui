@@ -1,36 +1,23 @@
-import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
-
+import { BaseModelInterface } from './base.model';
 
 export const StorageTypes = {
   local: 'local',
   shared: 'shared'
 };
 
-@FieldMapper({
-  displaytext: 'displayText',
-  iscustomized: 'isCustomized',
-  miniops: 'minIops',
-  maxiops: 'maxIops',
-  storagetype: 'storageType',
-  provisioningtype: 'provisioningType'
-})
-export abstract class Offering extends BaseModel {
-  public id: string;
-  public name: string;
-  public displayText: string;
-  public diskBytesReadRate: number;
-  public diskBytesWriteRate: number;
-  public diskIopsReadRate: number;
-  public diskIopsWriteRate: number;
-  public isCustomized: boolean;
-  public minIops: number;
-  public maxIops: number;
-  public storageType: string;
-  public provisioningType: string;
-
-  public get isLocal(): boolean {
-    return this.storageType === StorageTypes.local;
-  }
+export interface Offering extends BaseModelInterface {
+  id: string;
+  name: string;
+  displaytext: string;
+  diskBytesReadRate: number;
+  diskBytesWriteRate: number;
+  diskIopsReadRate: number;
+  diskIopsWriteRate: number;
+  iscustomized: boolean;
+  miniops: number;
+  maxiops: number;
+  storagetype: string;
+  provisioningtype: string;
 }
-// disk[..] properties don't need to be in field mapper because they are already in camel case in the response
+
+export const isOfferingLocal = (offering: Offering) => offering.storagetype === StorageTypes.local;

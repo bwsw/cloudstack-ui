@@ -4,11 +4,11 @@
       "config": {
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 1,
               "max": 4
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 2000
             },
@@ -27,11 +27,11 @@
       },
       "expected": {
         "zone1": {
-          "cpuNumber": {
+          "cpunumber": {
             "min": 1,
             "max": 4
           },
-          "cpuSpeed": {
+          "cpuspeed": {
             "min": 1000,
             "max": 2000
           },
@@ -46,11 +46,11 @@
       "config": {
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 1,
               "max": 4
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 2000
             },
@@ -69,11 +69,11 @@
       },
       "expected": {
         "zone1": {
-          "cpuNumber": {
+          "cpunumber": {
             "min": 1,
             "max": 2
           },
-          "cpuSpeed": {
+          "cpuspeed": {
             "min": 1000,
             "max": 2000
           },
@@ -88,7 +88,7 @@
       "config": {
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "max": 3
             },
             "memory": {
@@ -97,10 +97,10 @@
             }
           },
           "zone2": {
-            "cpuNumber": {
+            "cpunumber": {
               "max": 6
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 5000
             },
@@ -118,7 +118,7 @@
       },
       "expected": {
         "zone1": {
-          "cpuNumber": {
+          "cpunumber": {
             "max": 3
           },
           "memory": {
@@ -127,10 +127,10 @@
           }
         },
         "zone2": {
-          "cpuNumber": {
+          "cpunumber": {
             "max": 4
           },
-          "cpuSpeed": {
+          "cpuspeed": {
             "min": 1000,
             "max": 5000
           },
@@ -167,7 +167,7 @@
       "config": {
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "max": 3
             },
             "memory": {
@@ -184,7 +184,7 @@
       },
       "expected": {
         "zone1": {
-          "cpuNumber": {
+          "cpunumber": {
             "max": 1
           },
           "memory": {
@@ -201,19 +201,19 @@
           "zone1": {
             "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
             "customOfferingParams": {
-              "cpuNumber": 2,
-              "cpuSpeed": 1000,
+              "cpunumber": 2,
+              "cpuspeed": 1000,
               "memory": 1024
             }
           }
         },
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 1,
               "max": 4
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 2000
             },
@@ -231,8 +231,8 @@
         }
       },
       "expected": {
-        "cpuNumber": 2,
-        "cpuSpeed": 1000,
+        "cpunumber": 2,
+        "cpuspeed": 1000,
         "memory": 1024
       }
     },
@@ -242,19 +242,19 @@
           "zone1": {
             "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
             "customOfferingParams": {
-              "cpuNumber": 4,
-              "cpuSpeed": 3000,
+              "cpunumber": 4,
+              "cpuspeed": 3000,
               "memory": 8192
             }
           }
         },
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 1,
               "max": 8
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 4000
             },
@@ -272,8 +272,8 @@
         }
       },
       "expected": {
-        "cpuNumber": 2,
-        "cpuSpeed": 3000,
+        "cpunumber": 2,
+        "cpuspeed": 3000,
         "memory": 4096
       }
     },
@@ -287,11 +287,11 @@
         },
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 1,
               "max": 8
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 4000
             },
@@ -309,8 +309,8 @@
         }
       },
       "expected": {
-        "cpuNumber": 1,
-        "cpuSpeed": 1000,
+        "cpunumber": 1,
+        "cpuspeed": 1000,
         "memory": 32
       }
     },
@@ -331,8 +331,8 @@
         }
       },
       "expected": {
-        "cpuNumber": 1,
-        "cpuSpeed": 1000,
+        "cpunumber": 1,
+        "cpuspeed": 1000,
         "memory": 512
       }
     },
@@ -342,19 +342,19 @@
           "zone1": {
             "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
             "customOfferingParams": {
-              "cpuNumber": 2,
-              "cpuSpeed": 1000,
+              "cpunumber": 2,
+              "cpuspeed": 1000,
               "memory": 1024
             }
           }
         },
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 4,
               "max": 4
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 2000
             },
@@ -378,19 +378,19 @@
           "zone1": {
             "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
             "customOfferingParams": {
-              "cpuNumber": 2,
-              "cpuSpeed": 1000,
+              "cpunumber": 2,
+              "cpuspeed": 1000,
               "memory": 1024
             }
           }
         },
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 4,
               "max": 4
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 2000
             },
@@ -414,19 +414,19 @@
           "zone1": {
             "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
             "customOfferingParams": {
-              "cpuNumber": 2,
-              "cpuSpeed": 1000,
+              "cpunumber": 2,
+              "cpuspeed": 1000,
               "memory": 1024
             }
           }
         },
         "customOfferingRestrictions": {
           "zone1": {
-            "cpuNumber": {
+            "cpunumber": {
               "min": 1,
               "max": 4
             },
-            "cpuSpeed": {
+            "cpuspeed": {
               "min": 1000,
               "max": 2000
             },
@@ -444,8 +444,8 @@
         }
       },
       "expected": {
-        "cpuNumber": 2,
-        "cpuSpeed": 1000,
+        "cpunumber": 2,
+        "cpuspeed": 1000,
         "memory": 1024
       }
     }

@@ -19,6 +19,7 @@ import {
   OfferingCompatibilityPolicy,
   OfferingPolicy
 } from '../../../shared/services/offering.service';
+import { isOfferingLocal } from '../../../shared/models/offering.model';
 
 
 import * as serviceOfferingActions from './service-offerings.actions';
@@ -212,16 +213,16 @@ export const getAvailableOfferings = createSelector(
         ResourceStats.fromAccount([user]),
         zone
       ).sort((a: ServiceOffering, b: ServiceOffering) => {
-        if (!a.isCustomized && b.isCustomized) {
+        if (!a.iscustomized && b.iscustomized) {
           return -1;
         }
-        if (a.isCustomized && !b.isCustomized) {
+        if (a.iscustomized && !b.iscustomized) {
           return 1;
         }
         return 0;
       });
 
-      const filterByCompatibilityPolicy = (offering) => {
+      const filterByCompatibilityPolicy = (offering: ServiceOffering) => {
         if (compatibilityPolicy) {
           const oldTags = currentOffering.hosttags
             ? currentOffering.hosttags.split(',')
@@ -233,10 +234,10 @@ export const getAvailableOfferings = createSelector(
         }
       };
 
-      const filterStorageType = (offering) => offering.storageType === currentOffering.storageType;
+      const filterStorageType = (offering: ServiceOffering) => offering.storagetype === currentOffering.storagetype;
 
-      return availableOfferings.map((offering) => {
-        return !offering.isCustomized
+      return availableOfferings.map((offering: ServiceOffering) => {
+        return !offering.iscustomized
           ? offering
           : getCustomOfferingWithSetParams(
             offering,
@@ -273,8 +274,8 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
         zone
       );
 
-      return availableOfferings.map((offering) => {
-        return !offering.isCustomized
+      return availableOfferings.map((offering: ServiceOffering) => {
+        return !offering.iscustomized
           ? offering
           : getCustomOfferingWithSetParams(
             offering,
@@ -298,13 +299,14 @@ export const getOfferingsAvailableInZone = (
   }
 
   return offeringList
-    .filter(offering => {
-      const offeringAvailableInZone = isOfferingAvailableInZone(
+    .filter((offering: ServiceOffering) => {
+      const offeringAvailableInZone = this.isOfferingAvailableInZone(
         offering,
         availability,
         zone
       );
-      const localStorageCompatibility = zone.localstorageenabled || !offering.isLocal;
+      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
+        offering);
       return offeringAvailableInZone && localStorageCompatibility;
     });
 };
@@ -338,25 +340,25 @@ export const getAvailableByResourcesSync = (
       let enoughCpus;
       let enoughMemory;
 
-      if (offering.isCustomized) {
+      if (offering.iscustomized) {
         const restrictions = merge(
           DefaultCustomServiceOfferingRestrictions,
           offeringRestrictions && offeringRestrictions[zone.id]
         );
-        enoughCpus = !restrictions.cpuNumber || restrictions.cpuNumber.min < resourceUsage.available.cpus;
+        enoughCpus = !restrictions.cpunumber || restrictions.cpunumber.min < resourceUsage.available.cpus;
         enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
       } else {
-        enoughCpus = resourceUsage.available.cpus >= offering.cpuNumber;
+        enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
         enoughMemory = resourceUsage.available.memory >= offering.memory;
       }
 
       return enoughCpus && enoughMemory;
     })
     .sort((a: ServiceOffering, b: ServiceOffering) => {
-      if (!a.isCustomized && b.isCustomized) {
+      if (!a.iscustomized && b.iscustomized) {
         return -1;
       }
-      if (a.isCustomized && !b.isCustomized) {
+      if (a.iscustomized && !b.iscustomized) {
         return 1;
       }
       return 0;
@@ -368,7 +370,7 @@ export const getCustomOfferingWithSetParams = (
   defaults: ICustomServiceOffering,
   customRestrictions: ICustomOfferingRestrictions,
   resourceStats: ResourceStats
-) => {
+): CustomServiceOffering => {
 
   const getServiceOfferingRestriction = (param) => {
     return serviceOffering[param]
@@ -377,8 +379,8 @@ export const getCustomOfferingWithSetParams = (
       || customServiceOfferingFallbackParams[param];
   };
 
-  const cpuNumber = getServiceOfferingRestriction('cpuNumber');
-  const cpuSpeed = getServiceOfferingRestriction('cpuSpeed');
+  const cpunumber = getServiceOfferingRestriction('cpunumber');
+  const cpuspeed = getServiceOfferingRestriction('cpuspeed');
   const memory = getServiceOfferingRestriction('memory');
 
   const restrictions = getRestrictionIntersection(
@@ -391,11 +393,11 @@ export const getCustomOfferingWithSetParams = (
   }
 
   const normalizedParams = clipOfferingParamsToRestrictions(
-    { cpuNumber, cpuSpeed, memory },
+    { cpunumber, cpuspeed, memory },
     restrictions
   );
 
-  return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
+  return { ...serviceOffering, ...normalizedParams };
 };
 
 export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,
@@ -442,7 +444,7 @@ export const getRestrictionIntersection = (
   resourceStats: ResourceStats
 ) => {
   const result = {
-    cpuNumber: {
+    cpunumber: {
       max: resourceStats.available.cpus
     },
     memory: {
@@ -454,34 +456,34 @@ export const getRestrictionIntersection = (
     return result;
   }
 
-  if (customRestrictions.cpuNumber != null) {
-    if (customRestrictions.cpuNumber.min != null) {
-      result.cpuNumber['min'] = customRestrictions.cpuNumber.min;
+  if (customRestrictions.cpunumber != null) {
+    if (customRestrictions.cpunumber.min != null) {
+      result.cpunumber['min'] = customRestrictions.cpunumber.min;
     }
 
-    if (customRestrictions.cpuNumber.max != null) {
-      result.cpuNumber['max'] = Math.min(
-        customRestrictions.cpuNumber.max,
-        result.cpuNumber.max
+    if (customRestrictions.cpunumber.max != null) {
+      result.cpunumber['max'] = Math.min(
+        customRestrictions.cpunumber.max,
+        result.cpunumber.max
       );
     }
   }
 
-  if (customRestrictions.cpuSpeed != null) {
-    if (customRestrictions.cpuSpeed.min != null) {
-      if (!result['cpuSpeed']) {
-        result['cpuSpeed'] = {};
+  if (customRestrictions.cpuspeed != null) {
+    if (customRestrictions.cpuspeed.min != null) {
+      if (!result['cpuspeed']) {
+        result['cpuspeed'] = {};
       }
 
-      result['cpuSpeed']['min'] = customRestrictions.cpuSpeed.min;
+      result['cpuspeed']['min'] = customRestrictions.cpuspeed.min;
     }
 
-    if (customRestrictions.cpuSpeed.max != null) {
-      if (!result['cpuSpeed']) {
-        result['cpuSpeed'] = {};
+    if (customRestrictions.cpuspeed.max != null) {
+      if (!result['cpuspeed']) {
+        result['cpuspeed'] = {};
       }
 
-      result['cpuSpeed']['max'] = customRestrictions.cpuSpeed.max;
+      result['cpuspeed']['max'] = customRestrictions.cpuspeed.max;
     }
   }
 

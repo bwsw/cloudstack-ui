@@ -20,13 +20,12 @@ export class CustomServiceOfferingComponent {
     private translateService: TranslateService
   ) {
     const { offering, restriction } = data;
-    this.offering = new CustomServiceOffering({
-      cpuNumber: offering.cpuNumber,
-      cpuSpeed: offering.cpuSpeed,
-      memory: offering.memory,
-      serviceOffering: offering
-    });
-
+    this.offering = {
+      ...offering,
+      cpunumber: offering.cpunumber,
+      cpuspeed: offering.cpuspeed,
+      memory: offering.memory
+    };
     this.restrictions = restriction;
   }
 
