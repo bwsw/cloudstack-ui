@@ -9,6 +9,8 @@ import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { VirtualMachineTagKeys } from './vm-tag-keys';
 import { KeyValuePair } from '../../../tags/tags-view/tags-view.component';
+import { Taggable } from '../../interfaces/taggable.interface';
+import { VmResourceType } from '../../../vm/shared/vm.model';
 
 
 @Injectable()
@@ -33,7 +35,7 @@ export class VmTagService implements EntityTagService {
     }
     return this.tagService.update(
       vm,
-      vm.resourceType,
+      VmResourceType,
       this.keys.color,
       tagValue
     );
@@ -45,6 +47,7 @@ export class VmTagService implements EntityTagService {
   ): Observable<VirtualMachine> {
     return this.descriptionTagService.setDescription(
       vm,
+      VmResourceType,
       description,
       this
     ) as Observable<VirtualMachine>;
@@ -53,18 +56,19 @@ export class VmTagService implements EntityTagService {
   public removeDescription(vm: VirtualMachine): Observable<VirtualMachine> {
     return this.descriptionTagService.removeDescription(
       vm,
+      VmResourceType,
       this
     ) as Observable<VirtualMachine>;
   }
 
   public setPassword(vm: VirtualMachine, tag: KeyValuePair): Observable<VirtualMachine> {
-    return this.tagService.update(vm, vm.resourceType, tag.key, tag.value);
+    return this.tagService.update(vm, VmResourceType, tag.key, tag.value);
   }
 
   public setGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
     return this.tagService.update(
       vm,
-      vm.resourceType,
+      VmResourceType,
       this.keys.group,
       group && group.name
     );
@@ -74,7 +78,7 @@ export class VmTagService implements EntityTagService {
     const newVm = Object.assign({}, vm);
     return this.tagService.remove({
       resourceIds: vm.id,
-      resourceType: vm.resourceType,
+      resourceType: VmResourceType,
       'tags[0].key': this.keys.group,
       'tags[0].value': vm.instanceGroup.name
     })
@@ -87,10 +91,28 @@ export class VmTagService implements EntityTagService {
   public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {
     return this.tagService.update(
       vm,
-      vm.resourceType,
+      VmResourceType,
       this.keys.agreementAccepted,
       true
     );
+  }
+
+
+  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
+    const copyRequests = tags.map(tag => {
+      return this.tagService.update(
+        entity,
+        VmResourceType,
+        tag.key,
+        tag.value
+      );
+    });
+
+    if (!copyRequests.length) {
+      return Observable.of(null);
+    } else {
+      return Observable.forkJoin(...copyRequests);
+    }
   }
 
   private getColorFromColorTag(colorTag: Tag): Color {

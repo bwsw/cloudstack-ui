@@ -12,12 +12,13 @@ export class DescriptionTagService {
 
   public setDescription(
     entity: Taggable,
+    entityResourceType: string,
     description: string,
     entityTagService: EntityTagService
   ): Observable<Taggable> {
     return this.tagService.update(
       entity,
-      entity.resourceType,
+      entityResourceType,
       entityTagService.keys.description,
       description
     );
@@ -25,12 +26,13 @@ export class DescriptionTagService {
 
   public removeDescription(
     entity: Taggable,
+    entityResourceType: string,
     entityTagService: EntityTagService
   ): Observable<Taggable> {
     const newEntity = Object.assign({}, entity);
     return this.tagService.remove({
       resourceIds: entity.id,
-      resourceType: entity.resourceType,
+      resourceType: entityResourceType,
       'tags[0].key': entityTagService.keys.description,
       'tags[0].value': ''
     })

@@ -68,6 +68,8 @@ export enum VmState {
   Expunging = 'Expunging'
 }
 
+export const VmResourceType = 'UserVm';
+
 @ZoneName()
 @FieldMapper({
   displayname: 'displayName',
@@ -96,7 +98,6 @@ export enum VmState {
 })
 export class VirtualMachine extends BaseModel implements Taggable {
   public static ColorDelimiter = ';';
-  public resourceType = 'UserVm';
 
   public id: string;
   public displayName: string;
@@ -155,10 +156,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     this.initializeSecurityGroups();
     this.initializeTags();
     this.initializeInstanceGroup();
-  }
-
-  public get ipIsAvailable(): boolean {
-    return this.nic.length && !!this.nic[0].ipaddress;
   }
 
   public getDisksSize(): number {

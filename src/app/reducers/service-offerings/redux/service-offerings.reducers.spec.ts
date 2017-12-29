@@ -20,7 +20,7 @@ import * as fromSOs from './service-offerings.reducers';
 describe('Test service offering reducer', () => {
 
   it('should handle initial state', () => {
-    let state = fromSOs.reducer(undefined, { type: '' });
+    const state = fromSOs.reducer(undefined, { type: '' });
     expect(state)
       .toEqual({
         ids: [],
@@ -36,7 +36,7 @@ describe('Test service offering reducer', () => {
   });
 
   it('should set loading', () => {
-    let state = fromSOs.reducer(undefined, { type: LOAD_SERVICE_OFFERINGS_REQUEST });
+    const state = fromSOs.reducer(undefined, { type: LOAD_SERVICE_OFFERINGS_REQUEST });
     expect(state)
       .toEqual({
         ids: [],
@@ -52,9 +52,9 @@ describe('Test service offering reducer', () => {
   });
 
   it('should set entities', () => {
-    let state = fromSOs.reducer(undefined, {
+    const state = fromSOs.reducer(undefined, {
       type: LOAD_SERVICE_OFFERINGS_RESPONSE,
-      payload: [ { id: '1', name: 'off1' }, { id: '2', name: 'off2' } ]
+      payload: [{ id: '1', name: 'off1' }, { id: '2', name: 'off2' }]
     });
     expect(state)
       .toEqual({
@@ -78,7 +78,7 @@ describe('Test service offering reducer', () => {
     expect(state)
       .toEqual({
         ids: [],
-        entities: { },
+        entities: {},
         loading: false,
         offeringAvailability: { 'filterOfferings': false },
         defaultParams: {},
@@ -96,7 +96,7 @@ describe('Test service offering reducer', () => {
     expect(state)
       .toEqual({
         ids: [],
-        entities: { },
+        entities: {},
         loading: false,
         offeringAvailability: { 'filterOfferings': false },
         defaultParams: {},
@@ -114,7 +114,7 @@ describe('Test service offering reducer', () => {
     expect(state)
       .toEqual({
         ids: [],
-        entities: { },
+        entities: {},
         loading: false,
         offeringAvailability: { 'filterOfferings': false },
         defaultParams: { 'default': 'd1' },
@@ -135,7 +135,7 @@ describe('Test service offering reducer', () => {
     expect(state)
       .toEqual({
         ids: [],
-        entities: { },
+        entities: {},
         loading: false,
         offeringAvailability: { 'filterOfferings': false },
         defaultParams: { 'default': 'd1' },
@@ -148,9 +148,9 @@ describe('Test service offering reducer', () => {
   });
 
   it('should get state', () => {
-    let state = fromSOs.reducer(undefined, {
+    const state = fromSOs.reducer(undefined, {
       type: LOAD_SERVICE_OFFERINGS_RESPONSE,
-      payload: [ { id: '1', name: 'off1' }, { id: '2', name: 'off2' } ]
+      payload: [{ id: '1', name: 'off1' }, { id: '2', name: 'off2' }]
     });
     expect(state)
       .toEqual({
@@ -164,16 +164,32 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         }
       });
-    expect(fromSOs.getOfferingsEntitiesState.projector({list: state})).toBe(state);
+    expect(fromSOs.getOfferingsEntitiesState.projector({ list: state })).toBe(state);
     expect(fromSOs.isLoading.projector(state)).toBe(false);
-    expect(fromSOs.getSelectedOffering.projector(state.entities, { serviceOfferingId: 1 }))
+    expect(fromSOs.getSelectedOffering.projector(
+      state.entities,
+      { serviceOfferingId: 1 }
+    ))
       .toEqual({ id: '1', name: 'off1' });
   });
 
   it('should get available by resources (Sync)', () => {
-    const list = [
-      new ServiceOffering({ id: '1', name: 'off1', hosttags: 't1,t2', cpuNumber: 2, memory: 2 }),
-      new ServiceOffering({ id: '2', name: 'off2', hosttags: 't1', isCustomized: true, cpuNumber: 2, memory: 2 })
+    const list = <ServiceOffering[]>[
+      {
+        id: '1',
+        name: 'off1',
+        hosttags: 't1,t2',
+        cpunumber: 2,
+        memory: 2
+      },
+      {
+        id: '2',
+        name: 'off2',
+        hosttags: 't1',
+        iscustomized: true,
+        cpunumber: 2,
+        memory: 2
+      }
     ];
     const resourceUsage = {
       available: new ResourcesData(),
@@ -192,7 +208,7 @@ describe('Test service offering reducer', () => {
           serviceOfferings: ['1', '2'],
         }
       },
-      {  '1': { cpuNumber: { min: 1 }, memory: { min: 1 } } },
+      { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
       resourceUsage,
       <Zone>{ id: '1' }
     );
@@ -201,10 +217,10 @@ describe('Test service offering reducer', () => {
   });
 
   it('should check is offering available in zone', () => {
-    const offering = new ServiceOffering({
+    const offering = <ServiceOffering>{
       id: '1', name: 'off1', hosttags: 't1,t2',
-      cpuNumber: 2, memory: 2, storageType: StorageTypes.shared
-    });
+      cpunumber: 2, memory: 2, storagetype: StorageTypes.shared
+    };
 
     const result1 = fromSOs.isOfferingAvailableInZone(
       offering,
@@ -234,15 +250,15 @@ describe('Test service offering reducer', () => {
   });
 
   it('should get offerings available in zone', () => {
-    const list = [
-      new ServiceOffering({
+    const list = <ServiceOffering[]>[
+      {
         id: '1', name: 'off1', hosttags: 't1,t2',
-        cpuNumber: 2, memory: 2, storageType: StorageTypes.shared
-      }),
-      new ServiceOffering({
-        id: '2', name: 'off2', hosttags: 't1', isCustomized: true,
-        cpuNumber: 2, memory: 2, storageType: StorageTypes.local
-      })
+        cpunumber: 2, memory: 2, storagetype: StorageTypes.shared
+      },
+      {
+        id: '2', name: 'off2', hosttags: 't1', iscustomized: true,
+        cpunumber: 2, memory: 2, storagetype: StorageTypes.local
+      }
     ];
 
     const result1 = fromSOs.getOfferingsAvailableInZone(
@@ -282,11 +298,11 @@ describe('Test service offering reducer', () => {
     resourceUsage.available.memory = 2;
 
     const result1 = fromSOs.getRestrictionIntersection(
-      { cpuNumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } },
+      { cpunumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } },
       resourceUsage
     );
     expect(result1).toEqual({
-      cpuNumber: { max: 2, min: 1 },
+      cpunumber: { max: 2, min: 1 },
       memory: { max: 2, min: 1 }
     });
 
@@ -295,32 +311,32 @@ describe('Test service offering reducer', () => {
       resourceUsage
     );
     expect(result2).toEqual({
-      cpuNumber: { max: 2 },
+      cpunumber: { max: 2 },
       memory: { max: 2 }
     });
 
     const result3 = fromSOs.getRestrictionIntersection(
       {
-        cpuNumber: { min: 1, max: 2 },
+        cpunumber: { min: 1, max: 2 },
         memory: { min: 1, max: 2 },
-        cpuSpeed: { min: 1, max: 2 }
+        cpuspeed: { min: 1, max: 2 }
       },
       resourceUsage
     );
     expect(result3).toEqual({
-      cpuNumber: { max: 2, min: 1 },
+      cpunumber: { max: 2, min: 1 },
       memory: { max: 2, min: 1 },
-      cpuSpeed: { min: 1, max: 2 }
+      cpuspeed: { min: 1, max: 2 }
     });
   });
 
   it('should check is restriction compatible', () => {
     const result1 = fromSOs.restrictionsAreCompatible(
-      { cpuNumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } }
+      { cpunumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } }
     );
     expect(result1).toEqual(true);
     const result2 = fromSOs.restrictionsAreCompatible(
-      { cpuNumber: { min: 1, max: 0 }, memory: { min: 1 } }
+      { cpunumber: { min: 1, max: 0 }, memory: { min: 1 } }
     );
     expect(result2).toEqual(false);
 
@@ -328,24 +344,24 @@ describe('Test service offering reducer', () => {
 
   it('should return clip offering params to restrictions', () => {
     const result1 = fromSOs.clipOfferingParamsToRestrictions(
-      { cpuNumber: 2, memory: 2, cpuSpeed: 2 },
-      { cpuNumber: { min: 1 }, memory: { min: 1 } },
+      { cpunumber: 2, memory: 2, cpuspeed: 2 },
+      { cpunumber: { min: 1 }, memory: { min: 1 } },
     );
-    expect(result1).toEqual({ cpuNumber: 2, memory: 2, cpuSpeed: 2 });
+    expect(result1).toEqual({ cpunumber: 2, memory: 2, cpuspeed: 2 });
 
     const result2 = fromSOs.clipOfferingParamsToRestrictions(
-      { cpuNumber: 2, memory: 2, cpuSpeed: 2 },
-      { cpuNumber: { min: 3 }, memory: { max: 1 } },
+      { cpunumber: 2, memory: 2, cpuspeed: 2 },
+      { cpunumber: { min: 3 }, memory: { max: 1 } },
     );
-    expect(result2).toEqual({ cpuNumber: 3, memory: 1, cpuSpeed: 2 });
+    expect(result2).toEqual({ cpunumber: 3, memory: 1, cpuspeed: 2 });
 
   });
 
   it('should get custom offering with set params', () => {
-    const offering = new ServiceOffering({
+    const offering = <ServiceOffering>{
       id: '2', name: 'off2', hosttags: 't1',
-      isCustomized: true, cpuNumber: 2, memory: 2
-    });
+      iscustomized: true, cpunumber: 2, memory: 2
+    };
     const resourceUsage = {
       available: new ResourcesData(),
       consumed: new ResourcesData(),
@@ -357,16 +373,12 @@ describe('Test service offering reducer', () => {
     const result1 = fromSOs.getCustomOfferingWithSetParams(
       offering,
       {},
-      { cpuNumber: { min: 1 }, memory: { min: 1 }, cpuSpeed: { min: 1 } },
+      { cpunumber: { min: 1 }, memory: { min: 1 }, cpuspeed: { min: 1 } },
       resourceUsage
     );
+
     expect(result1)
-      .toEqual(new CustomServiceOffering({
-        ... { cpuNumber: 2, memory: 2, cpuSpeed: 1} ,
-        serviceOffering: offering
-      }));
-
-
+      .toEqual({...offering, cpunumber: 2, memory: 2, cpuspeed: 1 });
   });
 
   it('should compare tags', () => {
@@ -397,23 +409,23 @@ describe('Test service offering reducer', () => {
   });
 
   it('should get available offerings', () => {
-    const list = [
-      new ServiceOffering({
+    const list = <ServiceOffering[]>[
+      {
         id: '1', name: 'off1', hosttags: 't1,t2',
-        storageType: StorageTypes.local,
-        cpuNumber: 2, memory: 2
-      }),
-      new ServiceOffering({
+        storagetype: StorageTypes.local,
+        cpunumber: 2, memory: 2
+      },
+      {
         id: '2', name: 'off2', hosttags: 't1',
-        storageType: StorageTypes.shared,
-        cpuNumber: 2, memory: 2
-      })
+        storagetype: StorageTypes.shared,
+        cpunumber: 2, memory: 2
+      }
     ];
-    const offering = new ServiceOffering({
+    const offering = {
       id: '2', name: 'off2', hosttags: 't1',
-      storageType: StorageTypes.shared,
-      cpuNumber: 2, memory: 2
-    });
+      storagetype: StorageTypes.shared,
+      cpunumber: 2, memory: 2
+    };
 
     const policy = {
       offeringChangePolicy: OfferingPolicy.EXACTLY_MATCH,
@@ -439,15 +451,13 @@ describe('Test service offering reducer', () => {
         }
       },
       {},
-      { cpuNumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } },
+      { cpunumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } },
       policy,
       <Zone>{ id: '1', localstorageenabled: false },
       {}
     ))
-      .toEqual([ list[1] ]);
+      .toEqual([list[1]]);
   });
-
-
 
 
 });

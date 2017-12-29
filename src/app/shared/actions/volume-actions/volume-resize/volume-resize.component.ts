@@ -39,7 +39,7 @@ export class VolumeResizeComponent implements OnInit {
 
   public isCustomized(diskOfferingId: string) {
     const diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
-    return diskOffering && diskOffering.isCustomized;
+    return diskOffering && diskOffering.iscustomized;
   }
 
   public resizeVolume(): void {

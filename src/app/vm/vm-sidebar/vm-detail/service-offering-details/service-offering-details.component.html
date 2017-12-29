@@ -14,17 +14,17 @@
 
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.description' | translate }}</div>
-        <div>{{ offering.displayText }}</div>
+        <div>{{ offering.displaytext }}</div>
       </div>
 
-      <div *ngIf="offering?.cpuNumber != null" class="row">
+      <div *ngIf="offering?.cpunumber != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.cpuNumber' | translate }}</div>
-        <div>{{ offering.cpuNumber }}</div>
+        <div>{{ offering.cpunumber }}</div>
       </div>
 
-      <div *ngIf="offering?.cpuSpeed != null" class="row">
+      <div *ngIf="offering?.cpuspeed != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.cpuSpeed' | translate }}</div>
-        <div>{{ offering.cpuSpeed }}</div>
+        <div>{{ offering.cpuspeed }}</div>
       </div>
 
       <div *ngIf="offering?.memory != null" class="row">
@@ -34,42 +34,42 @@
 
       <div *ngIf="offering?.created" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.created' | translate }}</div>
-        <div>{{ offering.created | stringifyDate }}</div>
+        <div>{{ offeringCreated | stringifyDate }}</div>
       </div>
 
-      <div *ngIf="offering?.networkRate" class="row">
+      <div *ngIf="offering?.networkrate" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.networkRate' | translate }}</div>
-        <div>{{ offering.networkRate }}</div>
+        <div>{{ offering.networkrate }}</div>
       </div>
 
-      <div *ngIf="offering?.offerHa != null" class="row">
+      <div *ngIf="offering?.offerha != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.offerHa' | translate }}</div>
-        <div>{{ offering.offerHa | viewValue | async }}</div>
+        <div>{{ offering.offerha | viewValue | async }}</div>
       </div>
 
-      <div *ngIf="offering?.limitCpu != null" class="row">
+      <div *ngIf="offering?.limitcpuuse != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.limitCpu' | translate }}</div>
-        <div>{{ offering.limitCpu | viewValue | async }}</div>
+        <div>{{ offering.limitcpuuse | viewValue | async }}</div>
       </div>
 
-      <div *ngIf="offering?.isVolatile != null" class="row">
+      <div *ngIf="offering?.isvolatile != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.isVolatile' | translate }}</div>
-        <div>{{ offering.isVolatile | viewValue | async }}</div>
+        <div>{{ offering.isvolatile | viewValue | async }}</div>
       </div>
 
-      <div *ngIf="offering?.isSystem != null" class="row">
+      <div *ngIf="offering?.issystem != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.isSystem' | translate }}</div>
-        <div>{{ offering.isSystem | viewValue | async }}</div>
+        <div>{{ offering.issystem | viewValue | async }}</div>
       </div>
 
-      <div *ngIf="offering?.defaultUse != null" class="row">
+      <div *ngIf="offering?.defaultuse != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.defaultUse' | translate }}</div>
-        <div>{{ offering.defaultUse | viewValue | async }}</div>
+        <div>{{ offering.defaultuse | viewValue | async }}</div>
       </div>
 
-      <div *ngIf="offering?.deploymentPlanner != null" class="row">
+      <div *ngIf="offering?.deploymentplanner != null" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.deploymentPlanner' | translate }}</div>
-        <div>{{ offering.deploymentPlanner | viewValue | async }}</div>
+        <div>{{ offering.deploymentplanner | viewValue | async }}</div>
       </div>
 
       <div *ngIf="offering?.domain" class="row">
@@ -97,14 +97,14 @@
         <div>{{ offering.diskIopsWriteRate }}</div>
       </div>
 
-      <div *ngIf="offering?.provisioningType" class="row">
+      <div *ngIf="offering?.provisioningtype" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.provisioningType' | translate }}</div>
-        <div>{{ offering.provisioningType | translate }}</div>
+        <div>{{ offering.provisioningtype | translate }}</div>
       </div>
 
-      <div *ngIf="offering?.storageType" class="row">
+      <div *ngIf="offering?.storagetype" class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.SERVICE_OFFERING.storageType' | translate }}</div>
-        <div>{{ offering.storageType | translate }}</div>
+        <div>{{ offering.storagetype | translate }}</div>
       </div>
 
     </div>

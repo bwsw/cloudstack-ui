@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { BaseTemplateModel } from '../shared/base-template.model';
@@ -14,7 +6,6 @@ import { BaseTemplateModel } from '../shared/base-template.model';
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as fromTemplateGroups from '../../reducers/templates/redux/template-group.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
-import * as osTypeActions from '../../reducers/templates/redux/ostype.actions';
 
 @Component({
   selector: 'cs-template-filter-list-selector-container',
@@ -39,8 +30,8 @@ import * as osTypeActions from '../../reducers/templates/redux/ostype.actions';
       (onQueryChange)="onQueryChange($event)"
     ></cs-template-filter-list-selector>`
 })
-export class TemplateFilterListSelectorContainerComponent implements OnInit, AfterViewInit {
-  readonly templates$ = this.store.select(fromTemplates.selectTemplatesForVmCreation);
+export class TemplateFilterListSelectorContainerComponent implements AfterViewInit {
+  readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation);
   readonly isLoading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
   readonly viewMode$ = this.store.select(fromTemplates.vmCreationListViewMode);
@@ -64,24 +55,10 @@ export class TemplateFilterListSelectorContainerComponent implements OnInit, Aft
     }
   ];
 
-  @Input()
-  public set viewMode(value: string) {
-    this.onViewModeChange(value);
-  }
-
-  @Input()
-  public set zoneId(value: string) {
-    this.store.dispatch(new templateActions.DialogLoadTemplatesRequest(value));
-  }
-
   constructor(
     private store: Store<State>,
     private cd: ChangeDetectorRef
   ) {
-  }
-
-  public ngOnInit() {
-    this.store.dispatch(new osTypeActions.LoadOsTypesRequest());
   }
 
   public ngAfterViewInit() {

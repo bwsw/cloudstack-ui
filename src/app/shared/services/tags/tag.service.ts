@@ -80,23 +80,6 @@ export class TagService extends BaseBackendCachedService<Tag> {
       .catch(() => createObs);
   }
 
-  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
-    const copyRequests = tags.map(tag => {
-      return this.update(
-        entity,
-        entity.resourcetype,
-        tag.key,
-        tag.value
-      );
-    });
-
-    if (!copyRequests.length) {
-      return Observable.of(null);
-    } else {
-      return Observable.forkJoin(...copyRequests);
-    }
-  }
-
   public getValueFromTag(tag: Tag): any {
     if (tag) {
       return tag.value;
