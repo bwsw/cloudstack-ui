@@ -252,6 +252,7 @@
       "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
       "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
       "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully",
+      "PRIVATE_GROUP_DELETED": "Private group {{ name }} deleted successfully",
       "CONVERT_PRIVATE_TO_SHARED": "Private group {{ name }} converted to Shared successfully"
     },
     "ACCOUNT": {

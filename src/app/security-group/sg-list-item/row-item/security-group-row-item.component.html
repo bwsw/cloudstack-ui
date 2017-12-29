@@ -8,15 +8,6 @@
     [innerHTML]="item.name | highlight:query"
   ></h2>
 
-  <div class="desc" *ngIf="item?.description">
-    <span>{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</span>
-    <span
-      *ngIf="item.description"
-      [matTooltip]="item.description"
-      [innerHTML]="item.description | highlight:query"
-      matTooltipPosition="above"
-    ></span>
-  </div>
   <div class="desc" *ngIf="isPrivate">
     <span>{{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:</span>
     <span>
@@ -27,6 +18,16 @@
         {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
       </ng-template>
     </span>
+  </div>
+
+  <div class="desc" *ngIf="item?.description">
+    <span>{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</span>
+    <span
+      *ngIf="item.description"
+      [matTooltip]="item.description"
+      [innerHTML]="item.description | highlight:query"
+      matTooltipPosition="above"
+    ></span>
   </div>
 
   <button class="row-action" mat-icon-button [matMenuTriggerFor]="actionsMenu">

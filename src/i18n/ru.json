@@ -252,6 +252,7 @@
       "TEMPLATE_GROUP_SET_ERROR": "Произошла ошибка, попробуйте еще раз",
       "SHARED_GROUP_CREATED": "Разделяемая группа {{ name }} успешно создана",
       "SHARED_GROUP_DELETED": "Разделяемая группа {{ name }} успешно удалена",
+      "PRIVATE_GROUP_DELETED": "Приватная группа {{ name }} успешно удалена",
       "CONVERT_PRIVATE_TO_SHARED": "Приватная группа {{ name }} успешно сконвертирована в разделяемую"
     },
     "ACCOUNT": {
@@ -711,7 +712,7 @@
       "DESCRIPTION": "Описание",
       "TYPE": "Тип",
       "VM_NAME": "Имя Вм",
-      "VM_LIST": "ВМ, использующие группу",
+      "VM_LIST": "ВМ, использующая группу",
       "EMPTY_VM_LIST": "Нет виртуальных машин",
       "EMPTY_VM_NAME": "Нет доступных"
     },

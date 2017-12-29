@@ -18,7 +18,7 @@ const SecurityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
   icon: 'delete',
-  canActivate: (securityGroup: SecurityGroup) => securityGroup.type !== SecurityGroupType.PredefinedTemplate
+  canActivate: (securityGroup: SecurityGroup) => securityGroup.type !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualMachineIds.length === 0
 };
 
 const SecurityGroupShowRulesAction = {

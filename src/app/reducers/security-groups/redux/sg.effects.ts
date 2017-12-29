@@ -106,7 +106,8 @@ export class SecurityGroupEffects {
 
   private deleteSuccessMessage = {
     [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED',
-    [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED'
+    [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED',
+    [SecurityGroupType.Private]: 'NOTIFICATIONS.TEMPLATE.PRIVATE_GROUP_DELETED'
   };
 
   constructor(

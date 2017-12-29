@@ -29,6 +29,10 @@ export class SecurityGroupPageComponent {
   public mode: ViewMode;
   public viewModeKey = 'sgPageViewMode';
 
+  public get isCreationEnabled(): boolean {
+    return this.viewMode !== SecurityGroupViewMode.Private;
+  }
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
