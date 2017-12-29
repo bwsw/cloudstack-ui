@@ -158,9 +158,9 @@ Click "Confirm" to set the custom service offerings. The custom settings will ap
   
 **Create new security group**
 
-A new security group is created on the base of selected templates. This security group will be created as a private group used for this VM only.
+A new security group is created on the base of selected templates. This security group will be created as a *private* group used for this VM only.
 
-If you would like to create a new security group, select a template in the "All templates" list at the left and move it to the "Selected templates" list at the right by clicking the arrow icon:
+When creating a new security group, you can see all the templates are selected by default in the modal window. To form your custom security group, select a template in the "All templates" list at the left and move it to the "Selected templates" list at the right by clicking the arrow icon:
    
 .. figure:: _static/VMs_Create_AddSecGr_New.png
    :scale: 80%
@@ -969,6 +969,7 @@ For each template in the list you can see its name, OS family, description.  Act
 
 Filtering of Templates
 """"""""""""""""""""""""""""
+
 The list of templates can be filtered using the filtering tool. The filtering parameters are as follows:
 
 - Accounts (for Domain Administrators);
@@ -1089,6 +1090,7 @@ Click "Delete" to delete the tag from the list for this template. Confirm your a
 
 Template Action Box
 """""""""""""""""""""""""""""
+
 By clicking "Actions" |actions icon| you can expand the list of actions for those templates that belong to your user only (corresponding to "My" type). Deleting action is available here.
 
 .. figure:: _static/Images_Temp_ActionBox.png
@@ -1112,6 +1114,7 @@ For each ISO file in the list you can see its name, OS family, description. Acti
 
 Filtering of ISOs
 """"""""""""""""""""""""""""
+
 The list of ISOs can be filtered using the filtering tool. The filtering parameters are as follows:
 
 - OS families;
@@ -1226,10 +1229,11 @@ Tags can be edited or/and deleted. Mouse over the tag in the list and see "Edit"
 
 Click "Edit" to change the tag's key or value in the appeared form. Save the edits.
 
-Click "Delete" to delete the tag from the list for this template. Confirm your action in the dialogue window. Make sure the tag disappeared from the list of assigned tags.
+Click "Delete" to delete the tag from the list for this ISO. Confirm your action in the dialogue window. Make sure the tag disappeared from the list of assigned tags.
 
 ISO Actions Box
 """"""""""""""""""""""""
+
 By clicking "Actions" |actions icon| you can expand the list of actions for those ISO files that belong to your user only (corresponding to "My" type). Deleting action is available here.
 
 .. figure:: _static/Images_ISO_ActionBox.png
@@ -1238,6 +1242,32 @@ Click "Delete" to delete the ISO and then confirm your action in the dialogue wi
 
 Firewall
 --------------
+The *Firewall* section contains templates to create a security group for a virtual machine, and shared security groups used for virtual machines of other users.
+
+.. figure:: _static/Firewall_List.png
+
+**Firewall templates** are presets of rules that can be system or developed by a user. Administrators can specify default presets during the interface deployment in the json configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. 
+
+Upon VM creation on the base of templates the system creates a new security group for a VM. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a private security group used for that virtual machine only. 
+
+The second way is to use a **shared security group** for your virtual machine. Shared groups are used by other VMs. Changes of rules in them may affect other VMs. 
+
+Users can manage security group rules in two modes: a "view" mode with filtering by types and protocols and an “edit” mode. Security groups editing is available when switching from "view" mode to "editing" mode. If the group is shared, the user is warned that changes will affect other VMs using this group. This behavior allows avoiding undesirable changes for other VMs.
+
+Templates and shared security groups are placed in different tabs of the *Firewall* section. You can switch from templates to shared security groups using the tool above the list. 
+
+.. figure:: _static/Firewall_Switch.png
+
+A user can see security groups of his/her user only. Administrator can observe security groups of all accounts in the domain.
+
+The security groups are presented in a list format. You can change the view to cards clicking the switch view icon |view icon|/|box icon| in the upper-right corner.
+
+To quickly find the security group you need, please, use the search tool above the list. Enter a name or a part of the name of the template/sequrity group and see the immediate result.
+
+Administrators can filter the list of templates/shared groups by accounts.
+
+.. figure:: _static/Firewall_Filter_Admin.png
+
 
 Activity Log
 -----------------
