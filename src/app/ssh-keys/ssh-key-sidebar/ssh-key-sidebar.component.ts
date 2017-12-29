@@ -22,7 +22,7 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
 
   public get showDescription(): boolean {
-    return this.configService.get<boolean>('accountTags');
+    return this.configService.get<boolean>('accountTagsEnabled');
   }
 
   constructor(
