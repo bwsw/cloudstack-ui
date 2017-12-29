@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
-import { defaultCategoryName, Tag } from '../../shared/models';
+import { defaultCategoryName, Tag, categoryName, keyWithoutCategory } from '../../shared/models';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
@@ -92,7 +92,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
       data: {
         title: 'TAGS.EDIT_TAG',
         confirmButtonText: 'COMMON.EDIT',
-        categoryName: tag.categoryName,
+        categoryName: categoryName(tag),
         tag
       }
     })
@@ -159,7 +159,9 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   private getCategories(): Array<TagCategory> {
-    const groupedTags = groupBy(this.tags, 'categoryName');
+    const groupedTags = groupBy(
+      this.tags.map(_ => Object.assign({}, _, {categoryName: categoryName(_)})),
+      'categoryName');
 
     const categories = Object.keys(groupedTags)
       .map(categoryName => this.getCategory(groupedTags, categoryName))
@@ -202,7 +204,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   private getCategory(groupedTags: any, name: string): TagCategory {
-    const tags = groupedTags[name].filter(_ => _.keyWithoutCategory);
+    const tags = groupedTags[name].filter(tag => keyWithoutCategory(tag));
     const sortedTags = sortBy(tags, [_ => _.key.toLowerCase()]);
 
     return {

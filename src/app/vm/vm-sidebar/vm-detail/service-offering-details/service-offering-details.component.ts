@@ -1,15 +1,10 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig
-} from '@angular/material';
+import { Component, Input } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ServiceOffering } from '../../../../shared/models/service-offering.model';
 import { ServiceOfferingDialogContainerComponent } from '../../../container/service-offering-dialog.container';
 import { VirtualMachine } from '../../../shared/vm.model';
 
+import * as moment from 'moment';
 
 @Component({
   selector: 'cs-service-offering-details',
@@ -39,5 +34,9 @@ export class ServiceOfferingDetailsComponent {
 
   public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
+  }
+
+  public get offeringCreated(): Date {
+    return this.offering && this.offering.created && moment(this.offering.created).toDate();
   }
 }

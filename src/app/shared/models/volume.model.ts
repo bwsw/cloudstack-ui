@@ -30,31 +30,103 @@ export const volumeTypeNames = {
   [VolumeType.DATADISK]: 'VOLUME_TYPE.DATADISK'
 };
 
-export interface Volume extends BaseModelInterface {
-  resourceType: 'Volume';
+@ZoneName()
+@FieldMapper({
+  diskofferingid: 'diskOfferingId',
+  diskofferingname: 'diskOfferingName',
+  provisioningtype: 'provisioningType',
+  serviceofferingid: 'serviceofferingid',
+  storagetype: 'storageType',
+  virtualmachineid: 'virtualMachineId',
+  zoneid: 'zoneId',
+  zonename: 'zoneName'
+})
+export class Volume extends BaseModel {
+  public resourceType = 'Volume';
 
-  id: string;
-  account: string;
-  created: Date;
-  domain: string;
-  domainid: string;
-  diskOffering: DiskOffering;
-  diskofferingid: string;
-  loading: boolean;
-  name: string;
-  state: VolumeState;
-  size: number;
-  virtualmachineid: string;
-  provisioningtype: string;
-  serviceOffering: ServiceOffering;
-  serviceofferingid: string;
-  snapshots: Array<Snapshot>;
-  storagetype: string;
-  tags: Array<Tag>;
-  type: VolumeType;
-  zoneid: string;
-  zonename: string;
+  public id: string;
+  public account: string;
+  public created: Date;
+  public domain: string;
+  public domainid: string;
+  public diskOffering: DiskOffering;
+  public diskOfferingId: string;
+  public loading: boolean;
+  public name: string;
+  public state: VolumeState;
+  public size: number;
+  public virtualMachineId: string;
+  public provisioningType: string;
+  public serviceOffering: ServiceOffering;
+  public serviceOfferingId: string;
+  public snapshots: Array<Snapshot>;
+  public storageType: string;
+  public tags: Array<Tag>;
+  public type: VolumeType;
+  public zoneId: string;
+  public zoneName: string;
+
+  // resourceType: 'Volume';
+  //
+  // id: string;
+  // account: string;
+  // created: Date;
+  // domain: string;
+  // domainid: string;
+  // diskOffering: DiskOffering;
+  // diskofferingid: string;
+  // loading: boolean;
+  // name: string;
+  // state: VolumeState;
+  // size: number;
+  // virtualmachineid: string;
+  // provisioningtype: string;
+  // serviceOffering: ServiceOffering;
+  // serviceofferingid: string;
+  // snapshots: Array<Snapshot>;
+  // storagetype: string;
+  // tags: Array<Tag>;
+  // type: VolumeType;
+  // zoneid: string;
+  // zonename: string;
+
+  constructor(json) {
+    super(json);
+    this.created = moment(json.created).toDate();
+
+    this.initializeTags();
+  }
+
+  public get description(): string {
+    if (!this.tags) {
+      return '';
+    }
+
+    const description = this.tags.find(tag => tag.key === VolumeTagKeys.description);
+    if (description) {
+      return description.value;
+    } else {
+      return '';
+    }
+  }
+
+  public get isRoot(): boolean {
+    return this.type === VolumeType.ROOT;
+  }
+
+  public get isDeleted(): boolean {
+    return !!this.tags.find(
+      tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE
+    );
+  }
+
+  private initializeTags(): void {
+    if (!this.tags) {
+      this.tags = [];
+    }
+  }
 }
+
 
 export const getDescription = (volume: Volume) => {
   if (!volume.tags) {

@@ -86,18 +86,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       });
   }
 
-  public getInstanceGroupList(): Observable<Array<InstanceGroup>> {
-    return this.getListWithDetails(undefined, true)
-      .map(vmList => Object.values(vmList.reduce((groupsMap, vm) => {
-        const group = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
-
-        if (group && group.value && !groupsMap[group.value]) {
-          groupsMap[group.value] = new InstanceGroup(group.value);
-        }
-        return groupsMap;
-      }, {})));
-  }
-
   public deploy(params: {}): Observable<any> {
     return this.sendCommand('deploy', params);
   }
@@ -164,11 +152,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     params['id'] = virtualMachine.id;
     params['serviceOfferingId'] = serviceOffering.id;
 
-    if (serviceOffering.isCustomized) {
+    if (serviceOffering.iscustomized) {
       params['details'] = [
         {
-          cpuNumber: serviceOffering.cpuNumber,
-          cpuSpeed: serviceOffering.cpuSpeed,
+          cpuNumber: serviceOffering.cpunumber,
+          cpuSpeed: serviceOffering.cpuspeed,
           memory: serviceOffering.memory
         }
       ];

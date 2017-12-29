@@ -1,0 +1,17 @@
+<mat-form-field class="form-select-control">
+  <mat-select
+    name="ssh"
+    [ngModel]="sshKeyPair"
+    (selectionChange)="sshKeyPairChange.emit($event.value)"
+  >
+    <mat-option [value]="sshKeyNotSelected">
+      {{ sshKeyNotSelected?.name | translate }}
+    </mat-option>
+    <mat-option
+      *ngFor="let keyPair of sshKeyPairs"
+      [value]="keyPair"
+    >
+      {{ keyPair.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

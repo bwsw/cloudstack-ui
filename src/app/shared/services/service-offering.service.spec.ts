@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
+import { StorageTypes } from '../models/offering.model';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
 import { CacheService } from './cache.service';
@@ -18,8 +19,33 @@ class MockErrorService {
 }
 
 describe('Service-offering service', () => {
-
   let serviceOfferingService: ServiceOfferingService;
+  const newSO = <ServiceOffering>{
+    id: '1',
+    name: 'Service Offering',
+    displaytext: 'About disk offering',
+    diskBytesReadRate: 1,
+    diskBytesWriteRate: 1,
+    diskIopsReadRate: 1,
+    diskIopsWriteRate: 1,
+    iscustomized: false,
+    miniops: 1,
+    maxiops: 1,
+    storagetype: StorageTypes.local,
+    provisioningtype: '',
+    created: new Date().toDateString(),
+    cpunumber: 1,
+    cpuspeed: 1000,
+    memory: 512,
+    networkrate: '',
+    offerha: false,
+    limitcpuuse: false,
+    isvolatile: true,
+    issystem: false,
+    defaultuse: true,
+    deploymentplanner: '',
+    domain: 'domainId'
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,7 +64,7 @@ describe('Service-offering service', () => {
 
   it('should check offering is available in zone', () => {
     let result = serviceOfferingService['isOfferingAvailableInZone'](
-      new ServiceOffering({ id: '1' }),
+      newSO,
       <OfferingAvailability>{
         1: {
           filterOfferings: true,
@@ -50,8 +76,9 @@ describe('Service-offering service', () => {
     );
     expect(result).toBe(false);
 
+
     result = serviceOfferingService['isOfferingAvailableInZone'](
-      new ServiceOffering({ id: '1' }),
+      newSO,
       <OfferingAvailability>{
         1: {
           filterOfferings: true,
@@ -64,7 +91,7 @@ describe('Service-offering service', () => {
     expect(result).toBe(true);
 
     result = serviceOfferingService['isOfferingAvailableInZone'](
-      new ServiceOffering({ id: '1' }),
+      newSO,
       <OfferingAvailability>{
         1: {
           filterOfferings: false,
@@ -77,7 +104,7 @@ describe('Service-offering service', () => {
     expect(result).toBe(true);
   });
   it('should get available by resources without config settings', () => {
-    const availableOfferings = [new ServiceOffering({ id: '1', isCustomized: true })];
+    const availableOfferings = [newSO];
     const resourceUsage = {
       available: new ResourcesData(),
       consumed: new ResourcesData(),
@@ -102,9 +129,57 @@ describe('Service-offering service', () => {
   });
 
   it('should get available by resources', () => {
+    const customizedOffering = {
+      id: '1',
+      name: 'Service Offering',
+      displaytext: 'About disk offering',
+      diskBytesReadRate: 1,
+      diskBytesWriteRate: 1,
+      diskIopsReadRate: 1,
+      diskIopsWriteRate: 1,
+      iscustomized: true,
+      miniops: 1,
+      maxiops: 1,
+      storagetype: StorageTypes.local,
+      provisioningtype: '',
+      created: new Date().toDateString(),
+      networkrate: '',
+      offerha: false,
+      limitcpuuse: false,
+      isvolatile: true,
+      issystem: false,
+      defaultuse: true,
+      deploymentplanner: '',
+      domain: 'domainId'
+    };
     const availableOfferings = [
-      new ServiceOffering({ isCustomized: false, cpuNumber: 1, memory: 1 }),
-      new ServiceOffering({ isCustomized: true })
+      {
+        id: '1',
+        name: 'Service Offering',
+        displaytext: 'About disk offering',
+        diskBytesReadRate: 1,
+        diskBytesWriteRate: 1,
+        diskIopsReadRate: 1,
+        diskIopsWriteRate: 1,
+        iscustomized: false,
+        miniops: 1,
+        maxiops: 1,
+        storagetype: StorageTypes.local,
+        provisioningtype: '',
+        created: new Date().toDateString(),
+        cpunumber: 1,
+        cpuspeed: 1000,
+        memory: 1,
+        networkrate: '',
+        offerha: false,
+        limitcpuuse: false,
+        isvolatile: true,
+        issystem: false,
+        defaultuse: true,
+        deploymentplanner: '',
+        domain: 'domainId'
+      },
+      customizedOffering
     ];
     spyOn(serviceOfferingService, 'getOfferingsAvailableInZone')
       .and
@@ -116,7 +191,7 @@ describe('Service-offering service', () => {
     };
     resourceUsage.available.cpus = 2;
     let result = serviceOfferingService.getAvailableByResourcesSync(
-      [new ServiceOffering({ id: '1' })],
+      [newSO],
       <OfferingAvailability>{
         1: {
           filterOfferings: true,
@@ -124,7 +199,7 @@ describe('Service-offering service', () => {
           serviceOfferings: []
         }
       },
-      { '1': { cpuNumber: { min: 1 }, memory: { min: 1 } } },
+      { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
       resourceUsage,
       <Zone>{ id: '1' }
     );
@@ -133,7 +208,7 @@ describe('Service-offering service', () => {
     resourceUsage.available.cpus = 2;
     resourceUsage.available.memory = 2;
     result = serviceOfferingService.getAvailableByResourcesSync(
-      [new ServiceOffering({ id: '1' })],
+      [newSO],
       <OfferingAvailability>{
         1: {
           filterOfferings: true,
@@ -141,7 +216,7 @@ describe('Service-offering service', () => {
           serviceOfferings: []
         }
       },
-      { '1': { cpuNumber: { min: 1 }, memory: { min: 1 } } },
+      { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
       resourceUsage,
       <Zone>{ id: '1' }
     );
