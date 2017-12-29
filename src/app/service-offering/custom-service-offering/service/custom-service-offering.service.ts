@@ -21,12 +21,12 @@ export interface DefaultServiceOfferingConfigurationByZone {
 
 export interface DefaultServiceOfferingConfiguration {
   offering: string;
-  customOfferingParams: ICustomServiceOffering;
+  customOfferingParams: CustomServiceOffering;
 }
 
 export const customServiceOfferingFallbackParams = {
-  cpuNumber: 1,
-  cpuSpeed: 1000,
+  cpunumber: 1,
+  cpuspeed: 1000,
   memory: 512
 };
 
@@ -35,7 +35,8 @@ export class CustomServiceOfferingService {
   constructor(
     private configService: ConfigService,
     private resourceUsageService: ResourceUsageService
-  ) {}
+  ) {
+  }
 
   public getCustomOfferingWithSetParams(
     serviceOffering: CustomServiceOffering,
@@ -43,17 +44,17 @@ export class CustomServiceOfferingService {
     customRestrictions: ICustomOfferingRestrictions,
     resourceStats: ResourceStats
   ): CustomServiceOffering {
-    const cpuNumber =
-      serviceOffering.cpuNumber
-      || defaultParams && defaultParams.cpuNumber
-      || customRestrictions && customRestrictions.cpuNumber && customRestrictions.cpuNumber.min
-      || customServiceOfferingFallbackParams.cpuNumber;
+    const cpunumber =
+      serviceOffering.cpunumber
+      || defaultParams && defaultParams.cpunumber
+      || customRestrictions && customRestrictions.cpunumber && customRestrictions.cpunumber.min
+      || customServiceOfferingFallbackParams.cpunumber;
 
-    const cpuSpeed =
-      serviceOffering.cpuSpeed
-      || defaultParams && defaultParams.cpuSpeed
-      || customRestrictions && customRestrictions.cpuSpeed && customRestrictions.cpuSpeed.min
-      || customServiceOfferingFallbackParams.cpuSpeed;
+    const cpuspeed =
+      serviceOffering.cpuspeed
+      || defaultParams && defaultParams.cpuspeed
+      || customRestrictions && customRestrictions.cpuspeed && customRestrictions.cpuspeed.min
+      || customServiceOfferingFallbackParams.cpuspeed;
 
     const memory =
       serviceOffering.memory
@@ -71,17 +72,23 @@ export class CustomServiceOfferingService {
     }
 
     const normalizedParams = this.clipOfferingParamsToRestrictions(
-      { cpuNumber, cpuSpeed, memory },
+      { cpunumber, cpuspeed, memory },
       restrictions
     );
 
-    return new CustomServiceOffering({ ...normalizedParams, serviceOffering });
+    return { ...serviceOffering, ...normalizedParams };
   }
 
-  public getCustomOfferingRestrictionsByZone(resourceStats: ResourceStats): Observable<ICustomOfferingRestrictionsByZone> {
-    const restrictions = this.configService.get<ICustomOfferingRestrictionsByZone>('customOfferingRestrictions');
+  public getCustomOfferingRestrictionsByZone(
+    resourceStats: ResourceStats
+  ): Observable<ICustomOfferingRestrictionsByZone> {
+    const restrictions = this.configService.get<ICustomOfferingRestrictionsByZone>(
+      'customOfferingRestrictions');
 
-   return Observable.of(this.getCustomOfferingRestrictionsByZoneSync(restrictions, resourceStats));
+    return Observable.of(this.getCustomOfferingRestrictionsByZoneSync(
+      restrictions,
+      resourceStats
+    ));
   }
 
   public getCustomOfferingRestrictionsByZoneSync(
@@ -125,7 +132,7 @@ export class CustomServiceOfferingService {
     resourceStats: ResourceStats
   ): ICustomOfferingRestrictions {
     const result = {
-      cpuNumber: {
+      cpunumber: {
         max: resourceStats.available.cpus
       },
       memory: {
@@ -137,31 +144,34 @@ export class CustomServiceOfferingService {
       return result;
     }
 
-    if (customRestrictions.cpuNumber != null) {
-      if (customRestrictions.cpuNumber.min != null) {
-        result.cpuNumber['min'] = customRestrictions.cpuNumber.min;
+    if (customRestrictions.cpunumber != null) {
+      if (customRestrictions.cpunumber.min != null) {
+        result.cpunumber['min'] = customRestrictions.cpunumber.min;
       }
 
-      if (customRestrictions.cpuNumber.max != null) {
-        result.cpuNumber['max'] = Math.min(customRestrictions.cpuNumber.max, result.cpuNumber.max)
+      if (customRestrictions.cpunumber.max != null) {
+        result.cpunumber['max'] = Math.min(
+          customRestrictions.cpunumber.max,
+          result.cpunumber.max
+        );
       }
     }
 
-    if (customRestrictions.cpuSpeed != null) {
-      if (customRestrictions.cpuSpeed.min != null) {
-        if (!result['cpuSpeed']) {
-          result['cpuSpeed'] = {};
+    if (customRestrictions.cpuspeed != null) {
+      if (customRestrictions.cpuspeed.min != null) {
+        if (!result['cpuspeed']) {
+          result['cpuspeed'] = {};
         }
 
-        result['cpuSpeed']['min'] = customRestrictions.cpuSpeed.min;
+        result['cpuspeed']['min'] = customRestrictions.cpuspeed.min;
       }
 
-      if (customRestrictions.cpuSpeed.max != null) {
-        if (!result['cpuSpeed']) {
-          result['cpuSpeed'] = {};
+      if (customRestrictions.cpuspeed.max != null) {
+        if (!result['cpuspeed']) {
+          result['cpuspeed'] = {};
         }
 
-        result['cpuSpeed']['max'] = customRestrictions.cpuSpeed.max;
+        result['cpuspeed']['max'] = customRestrictions.cpuspeed.max;
       }
     }
 

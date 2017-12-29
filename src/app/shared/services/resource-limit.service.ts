@@ -9,8 +9,7 @@ import { Account } from '../models/account.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'ResourceLimit',
-  entityModel: ResourceLimit
+  entity: 'ResourceLimit'
 })
 export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit> {
   constructor(protected http: HttpClient) {

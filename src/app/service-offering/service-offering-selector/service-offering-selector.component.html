@@ -1,9 +1,11 @@
-<mat-form-field class="form-select-control">
+<mat-form-field
+  class="form-select-control"
+>
   <mat-select
-    [ngModel]="serviceOffering"
-    (change)="changeOffering($event)"
+    [ngModel]="serviceOffering?.id"
+    (selectionChange)="changeOffering($event)"
   >
-    <mat-option *ngFor="let so of serviceOfferings" [value]="so">
+    <mat-option *ngFor="let so of serviceOfferings" [value]="so.id">
       {{ so.name }}
     </mat-option>
   </mat-select>
@@ -12,11 +14,12 @@
   <span *ngIf="customOfferingDescription" class="custom-offering-info">
     {{ customOfferingDescription | async }}
   </span>
+
   <button
-    *ngIf="serviceOffering?.isCustomized"
+    *ngIf="serviceOffering?.iscustomized"
     mat-button
     type="button"
-    (click)="changeOffering({ value: serviceOffering })"
+    (click)="changeOffering({ value: serviceOffering.id })"
   >
     {{ 'COMMON.CHANGE' | translate }}
   </button>

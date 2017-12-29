@@ -32,7 +32,7 @@ export class AccountsEffects {
   @Effect()
   updateAccounts$: Observable<Action> = this.actions$
     .ofType(
-      vmActions.CREATE_VM_SUCCESS,
+      vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS,
       vmActions.EXPUNGE_VM_SUCCESS,
       volumeActions.VOLUME_DELETE_SUCCESS,
       volumeActions.VOLUME_CREATE_SUCCESS,

@@ -28,6 +28,7 @@ import { SecurityGroupService } from './services/security-group.service';
 import { SecurityGroupActionService } from './sg-actions/sg-action.service';
 import { SecurityGroupActionsComponent } from './sg-actions/sg-actions-component/sg-actions.component';
 import { SgFilterComponent } from './sg-filter/sg-filter.component';
+import { SecurityGroupGroupedListComponent } from './sg-list/security-group-grouped-list.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
 // tslint:disable-next-line
@@ -122,6 +123,7 @@ import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
     SecurityGroupVmListComponent,
     SecurityGroupSidebarComponent,
     SecurityGroupRulesDialogComponent,
+    SecurityGroupGroupedListComponent
   ],
   providers: [
     NetworkRuleService,

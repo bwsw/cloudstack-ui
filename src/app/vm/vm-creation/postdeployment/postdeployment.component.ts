@@ -1,7 +1,4 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +7,8 @@ import {
   getPassword,
   isHttpAuthMode,
   VirtualMachine,
-  VmState
+  VmState,
+  VmResourceType
 } from '../../shared/vm.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
@@ -99,7 +97,7 @@ export class PostdeploymentComponent {
       .switchMap(() =>
         this.tagService.update(
           this.vm,
-          this.vm.resourceType,
+          VmResourceType,
           VirtualMachineTagKeys.passwordTag,
           this.vm.password
         )

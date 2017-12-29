@@ -19,12 +19,10 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   @Input() public min: number;
   @Input() public max: number;
   @Input() public units: string;
-  @Output() public change: EventEmitter<number>;
 
   public _size: number;
 
   constructor() {
-    this.change = new EventEmitter();
   }
 
   public ngOnInit(): void {
@@ -61,7 +59,6 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
       return;
     }
     this.size = newValue;
-    this.change.next(this.size);
   }
 
   public writeValue(value): void {

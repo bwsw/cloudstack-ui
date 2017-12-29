@@ -7,7 +7,7 @@
       (selectionChange)="nicChange.emit()"
     >
       <mat-option *ngFor="let nic of availableNics; index as i" [value]="nic">
-        NIC{{ i + 1 }} ({{ nic.macAddress }})
+        NIC{{ i + 1 }} ({{ nic.macaddress }})
       </mat-option>
     </mat-select>
   </mat-form-field>
