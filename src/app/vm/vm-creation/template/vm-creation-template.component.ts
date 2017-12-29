@@ -20,13 +20,13 @@ import { TranslateService } from '@ngx-translate/core';
   ]
 })
 export class VmCreationTemplateComponent {
-  @Input() public zoneId: string;
-  @Output() public change: EventEmitter<BaseTemplateModel>;
+  @Input() public templates: BaseTemplateModel[];
+  @Input() public numberOfTemplates: number;
+  @Output() public change = new EventEmitter<BaseTemplateModel>();
 
   private _template: BaseTemplateModel | null;
 
   constructor(private dialog: MatDialog, private translateService: TranslateService) {
-    this.change = new EventEmitter();
   }
 
   public get templateName(): Observable<string> {
@@ -51,7 +51,8 @@ export class VmCreationTemplateComponent {
       });
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   @Input()
   public get template(): BaseTemplateModel {
@@ -73,13 +74,13 @@ export class VmCreationTemplateComponent {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {}
+  public registerOnTouched(): void {
+  }
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
     return this.dialog.open(VmTemplateDialogComponent, {
       width: '776px',
       data: {
-        zoneId: this.zoneId,
         template: this.template
       },
     })

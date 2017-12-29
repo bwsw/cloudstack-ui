@@ -9,7 +9,6 @@ import { VmCreationSecurityGroupContainerComponent } from '../security-group/con
 
 import * as cloneDeep from 'lodash/cloneDeep';
 
-
 @Component({
   selector: 'cs-vm-creation-security-group-rules-manager',
   templateUrl: 'vm-creation-security-group-rules-manager.component.html',

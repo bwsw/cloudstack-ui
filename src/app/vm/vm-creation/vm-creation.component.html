@@ -2,16 +2,15 @@
   <div class="overlay mat-dialog-content">
     <div class="message">
       <cs-progress-logger
-        [controller]="progressLoggerController"
+        [messages]="loggerStageList"
       ></cs-progress-logger>
 
       <mat-progress-bar
         mode="indeterminate"
-        [class.progress-hidden]="!deploymentStopped"
+        [class.progress-hidden]="!deploymentInProgress"
       ></mat-progress-bar>
-
       <cs-postdeployment-dialog
-        *ngIf="!deploymentStopped && deployedVm"
+        *ngIf="!deploymentInProgress && deployedVm"
         [vm]="deployedVm"
         [dialogRef]="dialogRef"
         [title]="'VM_POST_ACTION.TITLE'"
@@ -25,8 +24,8 @@
       mat-button
       type="button"
       color="primary"
-      *ngIf="!deploymentStopped && !deployedVm"
-      matDialogClose
+      *ngIf="!deploymentInProgress && !deployedVm"
+      (click)="onVmDeploymentFailed.emit()"
     >
       {{ 'COMMON.CLOSE' | translate }}
     </button>
@@ -43,15 +42,15 @@
   >
     <div class="mat-dialog-content">
       <div class="container">
-        <div *ngIf="enoughResources && formState?.state" class="left-column">
+        <div *ngIf="enoughResources && vmCreationState" class="left-column">
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h4>
             <mat-form-field floatPlaceholder="never" class="full-width-input">
               <input
                 matInput
                 name="name"
-                [ngModel]="formState.state.displayName"
-                (ngModelChange)="displayNameChange($event)"
+                [ngModel]="vmCreationState.displayName"
+                (ngModelChange)="displayNameChange.emit($event)"
                 [placeholder]="'VM_PAGE.VM_CREATION.NAME' | translate"
                 pattern="^[a-zA-Z]{1}[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]$"
                 [maxlength]="maxEntityNameLength"
@@ -62,7 +61,7 @@
               </mat-error>
               <mat-hint align="end">
                 <cs-character-count
-                  [value]="formState.state.displayName"
+                  [value]="vmCreationState.displayName"
                   [maxLength]="maxEntityNameLength"
                 ></cs-character-count>
               </mat-hint>
@@ -73,124 +72,117 @@
             <h4>{{ 'VM_PAGE.VM_CREATION.ZONE' | translate }}</h4>
             <mat-form-field class="form-select-control">
               <mat-select
-
                 name="zone"
-                [ngModel]="formState.state.zone"
-                (selectionChange)="zoneChange($event)"
+                [ngModel]="vmCreationState.zone"
+                (selectionChange)="zoneChange.emit($event.value)"
               >
-                <mat-option *ngFor="let z of formState.data.zones" [value]="z">
+                <mat-option *ngFor="let z of zones" [value]="z">
                   {{ z.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
 
-          <div>
+          <div *ngIf="vmCreationState.zone && serviceOfferings?.length">
             <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
             <cs-service-offering-selector
               name="serviceOffering"
-              [serviceOfferings]="formState.data.serviceOfferings"
-              [customOfferingRestrictions]="formState.data.getCustomOfferingRestrictions(formState.state.zone)"
-              [zoneId]="formState.state.zone.id"
-              [ngModel]="formState.state.serviceOffering"
-              (change)="serviceOfferingChange($event)"
+              [serviceOfferings]="serviceOfferings"
+              [customOfferingRestrictions]="customOfferingRestrictions"
+              [ngModel]="vmCreationState.serviceOffering"
+              (change)="serviceOfferingChange.emit($event)"
             ></cs-service-offering-selector>
           </div>
 
-          <div class="dialog-select-wrapper">
-            <cs-vm-creation-template
-              name="template"
-              class="template-select"
-              [ngModel]="formState.state.template"
-              [zoneId]="formState.state.zone.id"
-              (change)="templateChange($event)"
-            ></cs-vm-creation-template>
+          <div class="dialog-select-wrapper" *ngIf="vmCreationState.zone">
+            <cs-vm-creation-template-container
+              [template]="vmCreationState.template"
+              (change)="changeTemplate($event)"
+            ></cs-vm-creation-template-container>
           </div>
 
-          <div *ngIf="formState.state.diskOfferingsAreAllowed">
+          <div *ngIf="diskOfferingsAreAllowed">
             <h4>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
             <mat-form-field
               class="full-width-input"
+              *loading="diskOfferingsAreLoading"
             >
               <mat-select
                 class="form-select-control"
                 name="diskOfferingSelector"
-                [(ngModel)]="formState.state.diskOffering"
-                (selectionChange)="diskOfferingChange($event)"
+                [ngModel]="vmCreationState.diskOffering"
+                (selectionChange)="diskOfferingChange.emit($event.value)"
               >
                 <mat-option
-                  *ngFor="let offering of formState.data.diskOfferings"
+                  *ngFor="let offering of diskOfferings"
                   [value]="offering"
                 >
                   {{ offering.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-
           </div>
 
           <div *ngIf="showResizeSlider">
             <cs-slider
               name="rds"
-              [min]="formState.state.rootDiskSizeMin"
-              [max]="formState.data.rootDiskSizeLimit"
+              [min]="vmCreationState.rootDiskMinSize"
+              [max]="rootDiskSizeLimit"
               [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
-              [ngModel]="formState.state.rootDiskSize"
-              (change)="rootDiskSizeChange($event)"
+              [ngModel]="vmCreationState.rootDiskSize"
+              (ngModelChange)="rootDiskSizeChange.emit($event)"
               [units]="'UNITS.GB' | translate"
             ></cs-slider>
           </div>
 
         </div>
 
-        <div *ngIf="enoughResources && formState?.state" class="right-column">
+        <div *ngIf="enoughResources && vmCreationState" class="right-column">
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
             <mat-form-field floatPlaceholder="never">
               <input
-                name="group"
+                name="instanceGroup"
                 matInput
                 [matAutocomplete]="instanceGroups"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
-                [ngModel]="formState.state.instanceGroup.name"
-                (ngModelChange)="instanceGroupChange($event)"
+                [ngModel]="vmCreationState.instanceGroup?.name"
+                (ngModelChange)="changeInstanceGroup($event)"
               >
             </mat-form-field>
-            <!--<mat-form-field>-->
             <mat-autocomplete #instanceGroups>
               <mat-option
-                *ngFor="let group of visibleInstanceGroups"
+                *ngFor="let group of (visibleInstanceGroups || instanceGroupList)"
                 [value]="group.name"
               >
                 {{ group.name }}
               </mat-option>
             </mat-autocomplete>
-            <!--</mat-form-field>-->
           </div>
 
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h4>
             <mat-form-field floatPlaceholder="never">
               <input
-                name="group"
+                name="affinityGroup"
                 matInput
                 pattern="[a-zA-Z]{1}[a-zA-Z0-9\-\_]{0,61}[a-zA-Z0-9]$"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
                 [matAutocomplete]="affinityGroups"
                 [maxlength]="maxEntityNameLength"
-                [(ngModel)]="formState.state.affinityGroup.name"
-                (ngModelChange)="affinityGroupChange($event)"
+                [ngModel]="vmCreationState.affinityGroup?.name"
+                (ngModelChange)="changeAffinityGroup($event)"
               >
               <mat-hint align="end">
                 <cs-character-count
-                  [value]="formState.state.affinityGroup.name"
+                  [value]="vmCreationState.affinityGroup?.name"
                   [maxLength]="maxEntityNameLength"
                 ></cs-character-count>
               </mat-hint>
             </mat-form-field>
             <mat-autocomplete #affinityGroups>
               <mat-option
-                *ngFor="let group of visibleAffinityGroups"
+                *ngFor="let group of (visibleAffinityGroups || affinityGroupList)"
                 [value]="group.name"
               >
                 {{ group.name }}
@@ -203,8 +195,8 @@
               name="sgm"
               class="sg-rules-manager"
               *ngIf="showSecurityGroups"
-              [ngModel]="formState.state.securityGroupData"
-              (ngModelChange)="securityRulesChange($event)"
+              [ngModel]="vmCreationState.securityGroupData"
+              (ngModelChange)="securityRulesChange.emit($event)"
             ></cs-vm-creation-security-group-rules-manager>
           </div>
 
@@ -212,35 +204,25 @@
             <h4>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h4>
             <cs-keyboards
               name="keyboard"
-              [ngModel]="formState.state.keyboard"
-              (ngModelChange)="keyboardChange($event)"
+              [ngModel]="vmCreationState.keyboard"
+              (ngModelChange)="keyboardChange.emit($event)"
             ></cs-keyboards>
           </div>
 
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h4>
-            <mat-form-field class="form-select-control">
-              <mat-select
-
-                name="ssh"
-                [ngModel]="formState.state.sshKeyPair"
-                (selectionChange)="sshKeyPairChange($event)"
-              >
-                <mat-option
-                  *ngFor="let keyPair of formState.data.sshKeyPairs"
-                  [value]="keyPair"
-                >
-                  {{ keyPair.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <cs-vm-creation-ssh-key-selector
+              [sshKeyPair]="vmCreationState.sshKeyPair"
+              [sshKeyPairs]="sshKeyPairs"
+              (sshKeyPairChange)="onSshKeyPairChange.emit($event)"
+            ></cs-vm-creation-ssh-key-selector>
           </div>
 
           <div class="start-vm-checkbox">
             <mat-checkbox
               name="startVm"
-              [ngModel]="formState.state.doStartVm"
-              (ngModelChange)="doStartVmChange($event)"
+              [ngModel]="vmCreationState.doStartVm"
+              (ngModelChange)="doStartVmChange.emit($event)"
             >
               {{ 'VM_PAGE.VM_CREATION.START_VM' | translate }}
             </mat-checkbox>
@@ -249,7 +231,7 @@
         </div>
         <div *ngIf="!enoughResources">
           {{ 'ERRORS.VM.INSUFFICIENT_RESOURCES' | translate }}
-          <div *ngIf="insufficientResources.length">
+          <div *ngIf="insufficientResources?.length">
             {{ 'VM_PAGE.VM_CREATION.YOU_RAN_OUT_OF' | translate }}
             <ng-container *ngFor="let resource of insufficientResources; let l = last">
               {{ insufficientResourcesErrorMap[resource] | translate }}
@@ -266,6 +248,7 @@
         color="primary"
         matDialogClose
         type="button"
+        (click)="cancel.emit()"
       >
         {{ 'COMMON.CANCEL' | translate }}
       </button>
@@ -273,7 +256,7 @@
         mat-button
         color="primary"
         type="submit"
-        [disabled]="!vmCreateForm.valid || nameIsTaken || !formState?.state.template"
+        [disabled]="!vmCreateForm.valid || nameIsTaken || !vmCreationState.template"
       >
         {{ 'COMMON.CREATE' | translate }}
       </button>
