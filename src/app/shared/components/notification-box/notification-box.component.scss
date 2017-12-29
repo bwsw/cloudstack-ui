@@ -8,6 +8,8 @@ mat-list {
   max-height: 288px;
   overflow: auto;
   line-height: 20px;
+  padding-top: 0;
+  margin-bottom: -5px !important;
 }
 
 cs-popover {

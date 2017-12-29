@@ -20,8 +20,7 @@
         close
       </mat-icon>
     </ng-container>
-    <span
-      [ngClass]="{'pending-notification': notification.status === notificationStatus.Pending}">
+    <span>
       {{ notification.message | translate }}
     </span>
   </h4>
@@ -34,5 +33,10 @@
     >
       close
     </mat-icon>
+    <mat-icon
+      *ngIf="notification.status === notificationStatus.Pending"
+      class="close"
+      matListIcon
+    ></mat-icon>
   </span>
 </mat-list-item>

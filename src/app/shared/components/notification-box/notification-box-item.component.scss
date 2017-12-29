@@ -13,13 +13,10 @@
 :host mat-icon.close {
   float: right;
   cursor: pointer;
+  padding-left: 8px;
 }
 
 :host mat-icon.done {
-  padding-left: 11px;
-}
-
-.pending-notification {
-  padding-right: 33px;
+  padding-left: 8px;
 }
 
