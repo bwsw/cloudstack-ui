@@ -969,7 +969,6 @@ For each template in the list you can see its name, OS family, description.  Act
 
 Filtering of Templates
 """"""""""""""""""""""""""""
-
 The list of templates can be filtered using the filtering tool. The filtering parameters are as follows:
 
 - Accounts (for Domain Administrators);
@@ -1090,7 +1089,6 @@ Click "Delete" to delete the tag from the list for this template. Confirm your a
 
 Template Action Box
 """""""""""""""""""""""""""""
-
 By clicking "Actions" |actions icon| you can expand the list of actions for those templates that belong to your user only (corresponding to "My" type). Deleting action is available here.
 
 .. figure:: _static/Images_Temp_ActionBox.png
@@ -1114,7 +1112,6 @@ For each ISO file in the list you can see its name, OS family, description. Acti
 
 Filtering of ISOs
 """"""""""""""""""""""""""""
-
 The list of ISOs can be filtered using the filtering tool. The filtering parameters are as follows:
 
 - OS families;
@@ -1233,7 +1230,6 @@ Click "Delete" to delete the tag from the list for this ISO. Confirm your action
 
 ISO Actions Box
 """"""""""""""""""""""""
-
 By clicking "Actions" |actions icon| you can expand the list of actions for those ISO files that belong to your user only (corresponding to "My" type). Deleting action is available here.
 
 .. figure:: _static/Images_ISO_ActionBox.png
@@ -1242,6 +1238,7 @@ Click "Delete" to delete the ISO and then confirm your action in the dialogue wi
 
 Firewall
 --------------
+
 The *Firewall* section contains templates to create a security group for a virtual machine, and shared security groups used for virtual machines of other users.
 
 .. figure:: _static/Firewall_List.png
@@ -1300,3 +1297,4 @@ Logout
 .. |copy icon| image:: _static/copy_icon.png
 .. |color picker| image:: _static/color-picker_icon.png
 .. |adv icon| image:: _static/adv_icon.png
+
