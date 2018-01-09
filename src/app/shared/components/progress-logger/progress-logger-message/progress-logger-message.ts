@@ -1,4 +1,4 @@
-import { ParametrizedTranslation } from "../../../../dialog/dialog-service/dialog.service";
+import { ParametrizedTranslation } from '../../../../dialog/dialog-service/dialog.service';
 
 export enum ProgressLoggerMessageStatus {
   Highlighted,
