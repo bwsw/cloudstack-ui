@@ -86,14 +86,14 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.sendCommand('detach', { id: volume.id })
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      );
+      ).switchMap(response => Observable.of(response.result.volume));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand('attach', data)
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      );
+      ).switchMap(response => Observable.of(response.result.volume));
   }
 
   public markForRemoval(volume: Volume): Observable<any> {

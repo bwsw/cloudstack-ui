@@ -38,10 +38,12 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
   }
 
   public changeDescription(description) {
-    this.store.dispatch(new volumeActions.ChangeDescription({
-      volume: this.volume,
-      description
-    }));
+    this.volume$.take(1).subscribe((volume: Volume) => {
+      this.store.dispatch(new volumeActions.ChangeDescription({
+        volume,
+        description
+      }));
+    });
   }
 
   public ngOnInit() {

@@ -7,9 +7,9 @@
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.SIZE' | translate }}</div>
       <div>{{ (volume.size | division:2:30:2) }} {{ ('UNITS.GB' | translate) }}</div>
     </div>
-    <div class="row" *ngIf="volume.description">
+    <div class="row" *ngIf="volumeDescription">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.DESCRIPTION' | translate }}</div>
-      <div>{{ volume.description }}</div>
+      <div>{{ volumeDescription }}</div>
     </div>
     <div class="row" *ngIf="volume.created">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.CREATED' | translate }}</div>
@@ -21,7 +21,7 @@
     </div>
     <div class="row"
          *ngIf="volume?.diskOffering?.name"
-         [matTooltip]="volume?.diskOffering?.displayText"
+         [matTooltip]="volume?.diskOffering?.displaytext"
          matTooltipPosition="above"
     >
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.DISK_OFFERING' | translate }}</div>
@@ -37,12 +37,12 @@
       {{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.PERFORMANCE' | translate }}
     </div>
 
-    <div class="row" *ngIf="volume.diskOffering.minIops">
+    <div class="row" *ngIf="volume.diskOffering.miniops">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MIN_IO' | translate }}</div>
       <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.minIops } }}</div>
     </div>
 
-    <div class="row" *ngIf="volume.diskOffering.maxIops">
+    <div class="row" *ngIf="volume.diskOffering.maxiops">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MAX_IO' | translate }}</div>
       <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.maxIops } }}</div>
     </div>

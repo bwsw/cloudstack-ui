@@ -21,7 +21,7 @@ export class VolumeTagService {
   public setDescription(volume: Volume, description: string): Observable<Volume> {
     return this.descriptionTagService.setDescription(
       volume,
-      volume.resourceType,
+      'Volume',
       description,
       this
     ) as Observable<Volume>;
@@ -30,7 +30,7 @@ export class VolumeTagService {
   public removeDescription(volume: Volume): Observable<Volume> {
     return this.descriptionTagService.removeDescription(
       volume,
-      volume.resourceType,
+      'Volume',
       this
     ) as Observable<Volume>;
   }

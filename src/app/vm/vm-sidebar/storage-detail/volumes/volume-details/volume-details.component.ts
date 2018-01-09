@@ -4,7 +4,8 @@ import {
 } from '@angular/core';
 import {
   DiskOffering,
-  Volume
+  Volume,
+  getDescription
 } from '../../../../../shared/models';
 import * as moment from 'moment';
 
@@ -29,6 +30,10 @@ export class VolumeDetailsComponent {
 
   public get volumeCreated(): Date {
     return moment(this.volume.created).toDate();
+  }
+
+  public get volumeDescription(): string {
+    return getDescription(this.volume);
   }
 
   public hasPerformanceInfo(): boolean {
