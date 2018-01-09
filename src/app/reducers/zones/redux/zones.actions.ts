@@ -9,7 +9,6 @@ export class LoadZonesRequest implements Action {
 
   constructor(public payload?: any) {
   }
-
 }
 
 export class LoadZonesResponse implements Action {
@@ -24,7 +23,6 @@ export class LoadSelectedZone implements Action {
 
   constructor(public payload: string) {
   }
-
 }
 
 export type Actions = LoadZonesResponse | LoadZonesRequest | LoadSelectedZone;

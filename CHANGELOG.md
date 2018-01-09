@@ -1,3 +1,44 @@
+<a name="1.410.17"></a>
+## [1.410.17](https://github.com/bwsw/cloudstack-ui/compare/1.410.16...1.410.17) (2017-12-29)
+
+### Bug Fixes
+
+* **access-vm:** Fix IP value (closes [#851](https://github.com/bwsw/cloudstack-ui/issues/851)) ([#855](https://github.com/bwsw/cloudstack-ui/issues/855)) ([1b89cf6](https://github.com/bwsw/cloudstack-ui/commit/1b89cf6))
+* **account-creation:** remove "account" field ([1cab600](https://github.com/bwsw/cloudstack-ui/commit/1cab600))
+* **dialogs:** Unify selectors displaying in dialogs ([#751](https://github.com/bwsw/cloudstack-ui/issues/751)) ([a67a432](https://github.com/bwsw/cloudstack-ui/commit/a67a432))
+* **dialogs:** Redirect back to dialog when error occurs ([#762](https://github.com/bwsw/cloudstack-ui/issues/762)) ([30c3a51](https://github.com/bwsw/cloudstack-ui/commit/30c3a51))
+* **disk-offering-selector:** Fix disk size selector for custom disk offerings ([#769](https://github.com/bwsw/cloudstack-ui/issues/769)) ([8b9e8fe](https://github.com/bwsw/cloudstack-ui/commit/8b9e8fe))
+* **docker:** Ignore certificates for Backend verification ([624ae87](https://github.com/bwsw/cloudstack-ui/commit/624ae87))
+* **filters:** Add sorting by ABC for groupings and range system and custom security groups (closes [#826](https://github.com/bwsw/cloudstack-ui/issues/826)) ([#834](https://github.com/bwsw/cloudstack-ui/issues/834)) ([7cc22f5](https://github.com/bwsw/cloudstack-ui/commit/7cc22f5))
+* **i18n:** Fix translation files multiple loading and change some of translations (closes [#835](https://github.com/bwsw/cloudstack-ui/issues/835)) ([#840](https://github.com/bwsw/cloudstack-ui/issues/840)) ([3e5b04c](https://github.com/bwsw/cloudstack-ui/commit/3e5b04c))
+* **list:** Fix sorting by elements in lists ([#740](https://github.com/bwsw/cloudstack-ui/issues/740)) ([74a61dc](https://github.com/bwsw/cloudstack-ui/commit/74a61dc))
+* **notification-box:** Fix notification moves ([#793](https://github.com/bwsw/cloudstack-ui/issues/793)) ([bd04f7a](https://github.com/bwsw/cloudstack-ui/commit/bd04f7a))
+* **reducers:** Fix reducers ([#773](https://github.com/bwsw/cloudstack-ui/issues/773)) ([9a72721](https://github.com/bwsw/cloudstack-ui/commit/9a72721))
+* **resize-disk:** Show resize slider for customized diskOffering (closes [#792](https://github.com/bwsw/cloudstack-ui/issues/792)) ([#829](https://github.com/bwsw/cloudstack-ui/issues/829)) ([e513126](https://github.com/bwsw/cloudstack-ui/commit/e513126))
+* **snapshot-hourly-schedule:** Show localized message (closes [#722](https://github.com/bwsw/cloudstack-ui/issues/722)) ([#803](https://github.com/bwsw/cloudstack-ui/issues/803)) ([bcad896](https://github.com/bwsw/cloudstack-ui/commit/bcad896))
+* **special-fields:** Check email field, show and hide password ([#724](https://github.com/bwsw/cloudstack-ui/issues/724)) ([a8e2ccd](https://github.com/bwsw/cloudstack-ui/commit/a8e2ccd))
+* **top-bar:** Fix SSHKey sidebar (closes [#797](https://github.com/bwsw/cloudstack-ui/issues/797)) ([#798](https://github.com/bwsw/cloudstack-ui/issues/798)) ([5ca136d](https://github.com/bwsw/cloudstack-ui/commit/5ca136d))
+* **users-tab:**  Fix users tab behavior for user account ([#767](https://github.com/bwsw/cloudstack-ui/issues/767)) ([a0dee3e](https://github.com/bwsw/cloudstack-ui/commit/a0dee3e))
+* **vm:** Fix for csui.vm.auth-mode tag case ([956757d](https://github.com/bwsw/cloudstack-ui/commit/956757d))
+* **vm:** Fix multiple updates of VM tags (closes [#825](https://github.com/bwsw/cloudstack-ui/issues/825)) ([#841](https://github.com/bwsw/cloudstack-ui/issues/841)) ([519c894](https://github.com/bwsw/cloudstack-ui/commit/519c894))
+* **vm-creation:** Fix show disk sizer condition in VM creation dialog (closes [#818](https://github.com/bwsw/cloudstack-ui/issues/818)) ([#820](https://github.com/bwsw/cloudstack-ui/issues/820)) ([5367022](https://github.com/bwsw/cloudstack-ui/commit/5367022))
+* **vm-filter:** Remove incorrect empty group name (closes [#827](https://github.com/bwsw/cloudstack-ui/issues/827)) ([#849](https://github.com/bwsw/cloudstack-ui/issues/849)) ([2c8b733](https://github.com/bwsw/cloudstack-ui/commit/2c8b733))
+* **vm-sidebar-firewall:** Fix button of firewall rules dialog on vm sidebar (closes [#846](https://github.com/bwsw/cloudstack-ui/issues/846)) ([#854](https://github.com/bwsw/cloudstack-ui/issues/854)) ([d024efa](https://github.com/bwsw/cloudstack-ui/commit/d024efa))
+* **volume-alert-dialog:** Fix volume limit exceeded dialog (closes [#795](https://github.com/bwsw/cloudstack-ui/issues/795)) ([#808](https://github.com/bwsw/cloudstack-ui/issues/808)) ([590b4cd](https://github.com/bwsw/cloudstack-ui/commit/590b4cd))
+* **volume-creation:** Fix zone selection clears the disk (closes [#801](https://github.com/bwsw/cloudstack-ui/issues/801)) ([#812](https://github.com/bwsw/cloudstack-ui/issues/812)) ([c1a6260](https://github.com/bwsw/cloudstack-ui/commit/c1a6260))
+
+
+### Features
+
+* **ipv6:**  Add ipV6 fields to vm-network details view ([#770](https://github.com/bwsw/cloudstack-ui/issues/770)) ([8b8b798](https://github.com/bwsw/cloudstack-ui/commit/8b8b798))
+* **service-offering:** Add service offering compatibility policy (closes [#567](https://github.com/bwsw/cloudstack-ui/issues/567)) ([#763](https://github.com/bwsw/cloudstack-ui/issues/763)) ([5bea747](https://github.com/bwsw/cloudstack-ui/commit/5bea747))
+* **styles:** Decrease a size of all elements by 10% (closes [#637](https://github.com/bwsw/cloudstack-ui/issues/637)) ([#748](https://github.com/bwsw/cloudstack-ui/issues/748)) ([612b1b4](https://github.com/bwsw/cloudstack-ui/commit/612b1b4))
+* **user-keys:**  Show and copy users apiKey and secretKey ([#804](https://github.com/bwsw/cloudstack-ui/issues/804)) ([b2609ac](https://github.com/bwsw/cloudstack-ui/commit/b2609ac))
+
+
+
+
+
 <a name="1.410.16"></a>
 ## [1.410.16](https://github.com/bwsw/cloudstack-ui/compare/1.410.15...1.410.16) (2017-12-12)
 

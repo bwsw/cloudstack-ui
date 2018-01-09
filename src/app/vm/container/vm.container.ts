@@ -61,17 +61,17 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
         item.instanceGroup ? item.instanceGroup.name : 'VM_PAGE.FILTERS.NO_GROUP'
     },
     {
-      key: 'colors',
-      label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
-      selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
-      name: (item: VirtualMachine) => ' ',
-    },
-    {
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => getGroupName(item),
-    }
+      name: (item: VirtualMachine) => getGroupName(item)
+    },
+    {
+      key: 'colors',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
+      selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
+      name: (item: VirtualMachine) => ''
+    },
   ];
 
   public ngOnInit() {

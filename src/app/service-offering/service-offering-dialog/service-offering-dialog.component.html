@@ -8,18 +8,17 @@
       class="service-offering-selector"
       [serviceOfferings]="serviceOfferings"
       [customOfferingRestrictions]="restrictions"
-      [zoneId]="zoneId"
       [ngModel]="serviceOffering"
       (change)="updateOffering($event)"
     ></cs-service-offering-selector>
     <div
-      class="message warning"
-      *ngIf="serviceOffering?.id !== serviceOfferingId"
-    >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
-    </div>
-    <div
       *ngIf="!serviceOfferings?.length"
     >{{ "SERVICE_OFFERING.NO_AVAILABLE_OFFERINGS" | translate }}
+    </div>
+    <div
+      class="message warning"
+      *ngIf="serviceOfferings?.length && serviceOffering?.id !== serviceOfferingId"
+    >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
   </div>
   <div class="mat-dialog-actions">
