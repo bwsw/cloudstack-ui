@@ -5,7 +5,7 @@ Images
 .. Contents::
 
 
-Under the "Images" section you can manage Templates and ISO files that are used as installation sources for VMs.
+In the *Images* section you can manage Templates and ISO files that are used as installation sources for VMs.
 
 You can switch from Templates to ISO by selecting a corresponding option above:
 
