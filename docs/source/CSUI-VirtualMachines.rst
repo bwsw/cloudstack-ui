@@ -7,6 +7,9 @@ Virtual Machines
 
 *Virtual Machines* is the starting section. Here and in all other views we implemented the “one-step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view.
 
+Virtual Machines List
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 At this page, you can see the list of your virtual machines available to your user only.
 
 .. figure:: _static/VMs_List_User.png
@@ -27,8 +30,19 @@ And vice versa, switch a list view to a box view:
 
 .. figure:: _static/VMs_Boxes.png
 
+For each VM in the list you can see the following information: 
+
+- VM name and IP;
+- State - shows the VM state by color spot: green for Running, red for Stopped, yellow for changing status;
+- OS family;
+- CPU;
+- RAM;
+- Disks.
+
+To the right the Actions button |actions icon| expands the list of actions available for the VM.
+
 Filtering of Virtual Machines
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+""""""""""""""""""""""""""""""""""""
 
 The filtering and search tool will help you to find a virtual machine in the list. 
 
@@ -191,20 +205,6 @@ No VM creation form is available.
 - VM name is not unique.
 
 If the name specified for the virtual machine is not unique within a domain, the dialogue window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another name for your VM.
-
-Virtual Machines List
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For each VM in the list you can see the following information: 
-
-- VM name and IP;
-- State - shows the VM state by color spot: green for Running, red for Stopped, yellow for changing status;
-- OS family;
-- CPU;
-- RAM;
-- Disks.
-
-To the right the Actions button |actions icon| expands the list of actions available for the VM.
 
 .. _VM_Actions:
 
