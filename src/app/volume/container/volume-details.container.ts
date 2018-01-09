@@ -50,9 +50,9 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.volume$
       .takeUntil(this.unsubscribe$)
-      .subscribe(volume => {
+      .subscribe((volume: Volume) => {
         if (volume) {
-          this.volume = volume as Volume;
+          this.volume = volume;
           this.description = getDescription(this.volume);
         }
       });

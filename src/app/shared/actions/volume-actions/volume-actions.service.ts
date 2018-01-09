@@ -7,7 +7,7 @@ export const VolumeAttachAction = {
   command: 'attach',
   icon: 'attach_file',
   canActivate: (volume: Volume) => true,
-  hidden: (volume: Volume) => !!volume.virtualMachineId
+  hidden: (volume: Volume) => !!volume.virtualmachineid
 };
 export const VolumeRemoveAction = {
   name: 'COMMON.DELETE',
@@ -28,7 +28,7 @@ export const VolumeDetachAction = {
   command: 'detach',
   icon: 'remove',
   canActivate: (volume: Volume) => true,
-  hidden: (volume: Volume) => !volume.virtualMachineId || volume.type === VolumeType.ROOT
+  hidden: (volume: Volume) => !volume.virtualmachineid || volume.type === VolumeType.ROOT
 };
 export const VolumeSnapshotAction = {
   name: 'VOLUME_ACTIONS.TAKE_SNAPSHOT',

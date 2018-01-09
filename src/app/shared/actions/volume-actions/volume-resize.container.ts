@@ -5,13 +5,14 @@ import { Store } from '@ngrx/store';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
-import { State } from '../../../reducers/index';
-import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
+
+import { State } from '../../../reducers/index';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Account } from '../../models/account.model';
 import { Volume } from '../../models/volume.model';
 import { VolumeResizeData } from '../../services/volume.service';
+import { VolumeType } from '../../models';
 
 @Component({
   selector: 'cs-volume-resize-container',

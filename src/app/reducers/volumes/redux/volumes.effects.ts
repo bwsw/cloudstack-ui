@@ -4,7 +4,6 @@ import {
   Effect
 } from '@ngrx/effects';
 import { Router } from '@angular/router';
-import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -60,12 +59,12 @@ export class VolumesEffects {
           .setDescription(action.payload.volume, action.payload.description)
         : this.volumeTagService
           .removeDescription(action.payload.volume))
-        .map(volume => {
+        .map((volume: Volume) => {
           this.jobsNotificationService.finish({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
           });
-          return new volumeActions.UpdateVolume(volume as Volume);
+          return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -84,7 +83,7 @@ export class VolumesEffects {
       return this.dialog.open(VolumeAttachmentContainerComponent, {
         data: {
           volume: action.payload,
-          zoneId: action.payload.zoneId
+          zoneId: action.payload.zoneid
         },
         width: '375px'
       })
@@ -100,12 +99,12 @@ export class VolumesEffects {
         };
         return this.volumeService
           .attach(params)
-          .map(volume => {
+          .map((volume: Volume) => {
             this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
             });
-            return new volumeActions.UpdateVolume(new Volume(volume))
+            return new volumeActions.UpdateVolume(volume)
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
@@ -129,12 +128,12 @@ export class VolumesEffects {
       };
       return this.volumeService
         .attach(params)
-        .map(volume => {
+        .map((volume: Volume) => {
           this.jobsNotificationService.finish({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
           });
-          return new volumeActions.UpdateVolume(volume as Volume)
+          return new volumeActions.UpdateVolume(volume)
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -157,12 +156,12 @@ export class VolumesEffects {
             'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS');
           return this.volumeService
             .detach(action.payload)
-            .switchMap(volume => {
+            .switchMap((volume: Volume) => {
               this.jobsNotificationService.finish({
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
               });
-              return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
+              return Observable.of(new volumeActions.ReplaceVolume(volume));
             })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -191,13 +190,13 @@ export class VolumesEffects {
           'JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
         return this.volumeService
           .resize(params)
-          .map(volume => {
+          .map((volume: Volume) => {
             this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
             });
             this.dialog.closeAll();
-            return new volumeActions.ResizeVolumeSuccess(new Volume(volume));
+            return new volumeActions.ResizeVolumeSuccess(volume);
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
@@ -330,12 +329,12 @@ export class VolumesEffects {
           const detach = (detachVolume) => {
             return this.volumeService
               .detach(detachVolume)
-              .do(volume => {
+              .do((volume: Volume) => {
                 this.jobsNotificationService.finish({
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
                 });
-                return Observable.of(new volumeActions.ReplaceVolume(new Volume(volume)));
+                return Observable.of(new volumeActions.ReplaceVolume(volume));
               })
               .catch((error: Error) => {
                 this.jobsNotificationService.fail({
