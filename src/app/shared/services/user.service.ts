@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../decorators';
-import { User } from '../models/user.model';
+import { AccountUser, ApiKeys } from '../models/account-user.model';
 import { BaseBackendService } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
@@ -16,9 +16,9 @@ const DEFAULT_SESSION_TIMEOUT = 30;
 @Injectable()
 @BackendResource({
   entity: 'User',
-  entityModel: User
+  entityModel: AccountUser
 })
-export class UserService extends BaseBackendService<User> {
+export class UserService extends BaseBackendService<AccountUser> {
   private refreshTimer: any;
   private numberOfRefreshes = 0;
   private inactivityTimeout: number;
@@ -35,12 +35,32 @@ export class UserService extends BaseBackendService<User> {
     super(http);
   }
 
+  public createUser(user: AccountUser): Observable<AccountUser> {
+    return this.sendCommand('create', user)
+      .map(res => res.user);
+  }
+
+  public updateUser(user: AccountUser): Observable<AccountUser> {
+    return this.sendCommand('update', user)
+      .map(res => res.user);
+  }
+
+  public removeUser(user: AccountUser): Observable<any> {
+    return this.sendCommand('delete', {
+      id: user.id,
+    });
+  }
+
   public updatePassword(id: string, password: string): Observable<any> {
     return this.postRequest('update', { id, password });
   }
 
-  public registerKeys(id: string): Observable<any> {
+  public registerKeys(id: string): Observable<ApiKeys> {
     return this.sendCommand('register;Keys', { id }).map(res => res.userkeys);
+  }
+
+  public getUserKeys(id: string): Observable<ApiKeys> {
+    return this.sendCommand('get;Keys', { id }).map(res => res.userkeys);
   }
 
   public startIdleMonitor() {
@@ -79,6 +99,13 @@ export class UserService extends BaseBackendService<User> {
 
   public sendRefreshRequest(): void {
     this.getList().subscribe();
+  }
+
+  protected prepareModel(res, entityModel?): AccountUser {
+    if (entityModel) {
+      return entityModel(res) as AccountUser;
+    }
+    return res as AccountUser;
   }
 
   private refreshSession(): void {

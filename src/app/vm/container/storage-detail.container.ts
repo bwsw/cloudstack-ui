@@ -1,16 +1,6 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
-import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
-import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import { VirtualMachine } from '../shared/vm.model';
 import { Volume } from '../../shared/models/volume.model';
 import { IsoAttachmentComponent } from '../../template/iso-attachment/iso-attachment.component';
@@ -18,6 +8,12 @@ import { IsoEvent } from '../vm-sidebar/storage-detail/iso/iso.component';
 import { MatDialog } from '@angular/material';
 import { Iso } from '../../template/shared/iso.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+
+import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
+import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
+import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 
 @Component({
   selector: 'cs-storage-details-container',
@@ -71,7 +67,7 @@ export class StorageDetailContainerComponent implements OnInit, AfterViewInit {
   private attachIsoDialog(): void {
     this.vm$.take(1).switchMap((vm: VirtualMachine) => {
       return this.dialog.open(IsoAttachmentComponent, {
-        width: '720px',
+        width: '650px',
         data: { zoneId: vm.zoneId }
       })
         .afterClosed()

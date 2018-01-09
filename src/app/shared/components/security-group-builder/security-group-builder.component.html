@@ -1,7 +1,7 @@
 <div class="list-builder">
   <div class="left-list">
     <div class="flex-container">
-      <h5>{{ 'SECURITY_GROUP_SELECTOR.ALL_GROUPS' | translate }}</h5>
+      <h3>{{ 'SECURITY_GROUP_SELECTOR.ALL_GROUPS' | translate }}</h3>
       <button
         mat-button
         *ngIf="securityGroups.available.length"
@@ -16,9 +16,9 @@
         [class.active]="selectedColumnIndex === 0 && selectedGroupIndex === i"
         (click)="selectGroup(i, true)"
       >
-        <h4 matLine>
+        <h5 matLine>
           {{ securityGroup.name }}
-        </h4>
+        </h5>
       </mat-list-item>
     </mat-list>
   </div>
@@ -40,7 +40,7 @@
   </div>
   <div class="right-list">
     <div class="flex-container">
-      <h5>{{ 'SECURITY_GROUP_SELECTOR.SELECTED_GROUPS' | translate }}</h5>
+      <h3>{{ 'SECURITY_GROUP_SELECTOR.SELECTED_GROUPS' | translate }}</h3>
       <button
         mat-button
         *ngIf="securityGroups.selected.length"
@@ -54,16 +54,16 @@
         [class.active]="selectedColumnIndex === 1 && selectedGroupIndex === i"
         (click)="selectGroup(i, false)"
       >
-        <h4 matLine>
+        <h5 matLine>
           {{ securityGroup.name }}
-        </h4>
+        </h5>
       </mat-list-item>
     </mat-list>
   </div>
 </div>
 
 <div class="rules-list">
-  <h5>{{ 'SECURITY_GROUP_SELECTOR.NETWORK_RULES' | translate }}</h5>
+  <h3>{{ 'SECURITY_GROUP_SELECTOR.NETWORK_RULES' | translate }}</h3>
   <mat-list>
     <cs-security-group-builder-rule
       *ngFor="let rule of selectedRules.ingress"

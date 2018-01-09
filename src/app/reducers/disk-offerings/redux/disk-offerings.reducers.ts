@@ -1,6 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
+import { isOfferingLocal } from '../../../shared/models/offering.model';
 import { Zone } from '../../../shared/models/zone.model';
 import { OfferingAvailability } from '../../../shared/services/offering.service';
 import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
@@ -145,7 +146,8 @@ const getOfferingsAvailableInZone = (
         offeringAvailability,
         zone
       );
-      const localStorageCompatibility = zone.localstorageenabled || !offering.isLocal;
+      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
+        offering);
       return offeringAvailableInZone && localStorageCompatibility;
     });
 };

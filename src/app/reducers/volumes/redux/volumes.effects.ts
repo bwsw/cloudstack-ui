@@ -19,7 +19,6 @@ import * as volumeActions from './volumes.actions';
 
 @Injectable()
 export class VolumesEffects {
-
   @Effect()
   loadVolumes$: Observable<Action> = this.actions$
     .ofType(volumeActions.LOAD_VOLUMES_REQUEST)

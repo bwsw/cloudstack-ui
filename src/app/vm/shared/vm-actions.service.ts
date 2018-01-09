@@ -5,7 +5,7 @@ import {
 } from './vm.model';
 
 const isIpAvailable = (vm) => {
-  return vm.nic.length && !!vm.nic[0].ipAddress;
+  return vm.nic.length && !!vm.nic[0].ipaddress;
 };
 
 const VmStartAction = {

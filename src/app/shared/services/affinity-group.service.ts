@@ -18,8 +18,7 @@ export interface AffinityGroupCreationData {
 
 @Injectable()
 @BackendResource({
-  entity: 'AffinityGroup',
-  entityModel: AffinityGroup
+  entity: 'AffinityGroup'
 })
 export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup> {
   constructor(

@@ -13,6 +13,7 @@ import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { InputGroupComponent } from '../../shared/components/input-group/input-group.component';
 import { LoadingDirective } from '../../shared/directives/loading.directive';
+import { ApiKeys } from '../../shared/models/account-user.model';
 import { ConfigService } from '../../shared/services/config.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
@@ -46,9 +47,16 @@ describe('Api Info component', () => {
 
     public getList(): Observable<any> {
       return Observable.of([{
-        apiKey: 'apiKey',
-        secretKey: 'secretKey'
+        apikey: 'apikey',
+        secretkey: 'secretkey'
       }]);
+    }
+
+    public getUserKeys(): Observable<ApiKeys> {
+      return Observable.of({
+        apikey: 'apikey',
+        secretkey: 'secretkey'
+      });
     }
   }
 
@@ -115,11 +123,11 @@ describe('Api Info component', () => {
     expect(component.inputFields).toEqual({
       apiKey: {
         title: 'SETTINGS.API_CONFIGURATION.API_KEY',
-        value: 'apiKey'
+        value: 'apikey'
       },
       apiSecretKey: {
         title: 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY',
-        value: 'secretKey'
+        value: 'secretkey'
       }
     });
 
@@ -129,8 +137,8 @@ describe('Api Info component', () => {
       tick();
       fixture.detectChanges();
       const inputFields = fixture.debugElement.queryAll(By.directive(MatInput));
-      expect(inputFields[0].nativeElement.value).toBe('apiKey');
-      expect(inputFields[1].nativeElement.value).toBe('secretKey');
+      expect(inputFields[0].nativeElement.value).toBe('apikey');
+      expect(inputFields[1].nativeElement.value).toBe('secretkey');
     });
   }));
 

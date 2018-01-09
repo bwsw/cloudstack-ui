@@ -30,6 +30,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
+import { ClipboardModule } from 'ngx-clipboard';
+import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
+import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
 import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
 import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offerings.reducers';
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
@@ -51,6 +54,7 @@ import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-
 import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
+// tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
@@ -116,7 +120,6 @@ import {
   ViewValuePipe,
   VolumeSortPipe
 } from './pipes';
-import { AccountUserService } from './services/account-user.service';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
@@ -168,6 +171,7 @@ import { ZoneService } from './services/zone.service';
     FormsModule,
     BadgeModule,
     CdkTableModule,
+    ClipboardModule,
     DragulaModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -196,7 +200,8 @@ import { ZoneService } from './services/zone.service';
     MatButtonToggleModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
-    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects]),
+    StoreModule.forFeature('affinity-groups', affinityGroupReducers),
+    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
   ],
   exports: [
     CdkTableModule,
@@ -397,8 +402,7 @@ import { ZoneService } from './services/zone.service';
     ZoneService,
     HypervisorService,
     TimeZoneService,
-    AccountUserActionsService,
-    AccountUserService
+    AccountUserActionsService
   ]
 })
 export class SharedModule {

@@ -18,7 +18,7 @@ export class AccountCreationComponent {
   ) {
     this.dialog.open(AccountCreationContainerComponent, {
       disableClose: true,
-      width: '400px',
+      width: '360px',
     })
       .afterClosed()
       .subscribe(() => this.router.navigate(['../'], {

@@ -17,7 +17,7 @@ export class VolumeCreationComponent {
     private activatedRoute: ActivatedRoute,
   ) {
     this.dialog.open(VolumeCreationContainerComponent, {
-      width: '450px',
+      width: '405px',
       disableClose: true
     }).afterClosed()
       .subscribe(() => {

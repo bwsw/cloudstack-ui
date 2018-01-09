@@ -62,12 +62,14 @@ import { zoneReducers } from '../reducers/templates/redux/zone.reducers';
 import { ZoneEffects } from '../reducers/templates/redux/zone.effects';
 import { TemplatePageContainerComponent } from './containers/template-page.container';
 import { TemplateCreationContainerComponent } from './template-creation/containers/template-creation.container';
+// tslint:disable-next-line
 import { TemplateActionsSidebarContainerComponent } from './template-sidebar/template-actions-sidebar/containers/template-actions-sidebar.container';
 import { TemplateFilterContainerComponent } from './containers/template-filter.container';
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 import { TemplateOsIconContainerComponent } from './template-sidebar/template-os-icon/template-os-icon.container';
 import { TemplateGroupService } from '../shared/services/template-group.service';
+// tslint:disable-next-line
 import { TemplateGroupSelectorComponent } from './template-sidebar/template-group/template-group-selector/template-group-selector.component';
 import { TemplateGroupComponent } from './template-sidebar/template-group/template-group.component';
 import { templateGroupReducers } from '../reducers/templates/redux/template-group.reducers';
@@ -81,7 +83,9 @@ import { TagsContainerComponent } from './template-sidebar/containers/tags.conta
 import { TemplateFilterListSelectorContainerComponent } from './containers/template-filter-selector.container';
 import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zones.container';
 import { TemplateFilterListContainerComponent } from './template-filter-list/containers/template-filter-list.container';
+// tslint:disable-next-line
 import { TemplateGroupSelectorContainerComponent } from './template-sidebar/template-group/containers/template-group-selector.container';
+import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-attachment-filter-selector.container';
 
 
 @NgModule({
@@ -139,6 +143,7 @@ import { TemplateGroupSelectorContainerComponent } from './template-sidebar/temp
     TemplateCardListComponent,
     TemplatePageContainerComponent,
     TemplateFilterContainerComponent,
+    IsoAttachmentFilterSelectorContainerComponent,
     TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
@@ -162,6 +167,7 @@ import { TemplateGroupSelectorContainerComponent } from './template-sidebar/temp
     TemplateFilterListSelectorContainerComponent,
     TemplateFilterListSelectorComponent,
     TemplateFilterListContainerComponent,
+    IsoAttachmentFilterSelectorContainerComponent,
     TemplateFilterListComponent,
     TemplateFiltersComponent,
     TemplateGroupComponent

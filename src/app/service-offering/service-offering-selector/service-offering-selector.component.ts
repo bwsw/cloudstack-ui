@@ -3,9 +3,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange, MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
+import { areCustomParamsSet, CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 
@@ -25,7 +24,6 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
 export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
   @Input() public serviceOfferings: Array<ServiceOffering>;
-  @Input() public zoneId: string;
   @Output() public change: EventEmitter<ServiceOffering>;
 
   private _serviceOffering: ServiceOffering;
@@ -50,12 +48,12 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   public get customOfferingDescription(): Observable<string> {
-    if (!this.serviceOffering || !this.serviceOffering.areCustomParamsSet) {
+    if (!this.serviceOffering || !this.serviceOffering.iscustomized || !areCustomParamsSet(this.serviceOffering)) {
       return Observable.of('');
     }
 
-    const cpuNumber = this.serviceOffering.cpuNumber;
-    const cpuSpeed = this.serviceOffering.cpuSpeed;
+    const cpuNumber = this.serviceOffering.cpunumber;
+    const cpuSpeed = this.serviceOffering.cpuspeed;
     const memory = this.serviceOffering.memory;
 
     return this.translateService.get(['UNITS.MB', 'UNITS.MHZ'])
@@ -65,10 +63,10 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   public changeOffering(change: MatSelectChange): void {
-    const newOffering = change.value as ServiceOffering;
+    const newOffering = this.serviceOfferings.find(_ => _.id === change.value);
     this.saveOffering();
     this.serviceOffering = newOffering;
-    if (newOffering.isCustomized) {
+    if (newOffering.iscustomized) {
       this.showCustomOfferingDialog()
         .subscribe(customOffering => {
           this.setCustomOffering(customOffering);
@@ -83,9 +81,11 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {}
+  public registerOnTouched(): void {
+  }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   public writeValue(serviceOffering: ServiceOffering): void {
     if (serviceOffering) {
@@ -117,7 +117,6 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     return this.dialog.open(CustomServiceOfferingComponent, {
       width: '370px',
       data: {
-        zoneId: this.zoneId,
         offering: this.serviceOffering,
         restriction: this.customOfferingRestrictions
       }

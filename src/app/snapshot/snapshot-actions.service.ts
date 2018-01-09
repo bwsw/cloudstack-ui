@@ -49,7 +49,7 @@ export class SnapshotActionsService implements ActionsService<Snapshot, Snapshot
 
   public showCreationDialog(snapshot: Snapshot): Observable<any> {
     return this.dialog.open(TemplateCreationContainerComponent, {
-      width: '720px',
+      width: '650px',
       panelClass: 'template-creation-dialog-snapshot',
       data: {
         mode: TemplateResourceType.template,

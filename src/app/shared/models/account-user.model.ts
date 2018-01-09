@@ -22,8 +22,13 @@ export class AccountUser implements BaseModelInterface {
   public accountid?: string;
   public iscallerchilddomain?: boolean;
   public isdefault?: boolean;
-  public secretkey?: boolean;
-  public apikey?: boolean;
+  public secretkey?: string;
+  public apikey?: string;
+}
+
+export interface ApiKeys {
+  apikey: string;
+  secretkey: string;
 }
 
 export interface AccountUserForm {

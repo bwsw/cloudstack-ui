@@ -1,5 +1,4 @@
-import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { BaseModelInterface } from './base.model';
 
 export enum OsFamily {
   Linux = 'Linux',
@@ -8,15 +7,11 @@ export enum OsFamily {
   Other = 'Other'
 }
 
-@FieldMapper({
-  isuserdefined: 'isUserDefined',
-  oscategory: 'osCategory'
-})
-export class OsType extends BaseModel {
-  public id: string;
-  public description: string;
-  public isUserDefined: boolean;
-  public osCategory: string;
+export interface OsType extends BaseModelInterface {
+  id: string;
+  description: string;
+  isuserdefined: boolean;
+  oscategory: string;
 
-  public osFamily: OsFamily;
+  osFamily: OsFamily;
 }

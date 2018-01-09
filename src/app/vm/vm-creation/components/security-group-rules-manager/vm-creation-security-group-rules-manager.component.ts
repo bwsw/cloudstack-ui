@@ -9,7 +9,6 @@ import { VmCreationSecurityGroupContainerComponent } from '../security-group/con
 
 import * as cloneDeep from 'lodash/cloneDeep';
 
-
 @Component({
   selector: 'cs-vm-creation-security-group-rules-manager',
   templateUrl: 'vm-creation-security-group-rules-manager.component.html',
@@ -81,7 +80,7 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
   public showDialog(): void {
     const data = cloneDeep(this.savedData);
     this.dialog.open(VmCreationSecurityGroupContainerComponent, {
-      width: '800px',
+      width: '720px',
       data
     })
       .afterClosed()

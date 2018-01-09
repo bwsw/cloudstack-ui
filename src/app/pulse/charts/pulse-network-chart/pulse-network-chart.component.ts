@@ -84,7 +84,7 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
 
   public update(params, forceUpdate) {
     const requests = params.selectedAggregations.map(_ =>
-      this.pulse.network(this.vmId, this.selectedNic.macAddress, {
+      this.pulse.network(this.vmId, this.selectedNic.macaddress, {
         range: params.selectedScale.range,
         aggregation: _,
         shift: `${params.shiftAmount}${params.selectedShift || 'w'}`

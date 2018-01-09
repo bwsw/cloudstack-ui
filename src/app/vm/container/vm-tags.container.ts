@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
+import { Tag } from '../../shared/models';
+import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
+import { VirtualMachine, VmResourceType } from '../shared/vm.model';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import { Tag } from '../../shared/models';
-import {
-  KeyValuePair,
-  TagEditAction
-} from '../../tags/tags-view/tags-view.component';
-import { VirtualMachine } from '../shared/vm.model';
 
 @Component({
   selector: 'cs-vm-tags-container',
@@ -32,22 +29,23 @@ export class VmTagsContainerComponent {
 
   public editTag(tagEditAction: TagEditAction) {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-      const newTag = {
-        resourceIds: vm.id,
-        resourceType: vm.resourceType,
+      const newTag: Tag = {
+        resourceid: vm.id,
+        resourcetype: VmResourceType,
         key: tagEditAction.newTag.key,
-        value: tagEditAction.newTag.value
+        value: tagEditAction.newTag.value,
+        account: vm.account,
+        domain: vm.domain,
+        domainid: vm.domainid
       };
-      const newTags = Object.assign([], vm.tags)
-        .filter(t => tagEditAction.oldTag.key !== t.key);
-      newTags.push(new Tag(newTag));
+      const newTags: Tag[] = vm.tags.filter(t => tagEditAction.oldTag.key !== t.key);
+      newTags.push(newTag);
       this.store.dispatch(new vmActions.UpdateVM(Object.assign(
         {},
         vm,
         { tags: newTags }
       )));
     });
-
   }
 
   public deleteTag(tag: Tag) {
@@ -63,14 +61,17 @@ export class VmTagsContainerComponent {
 
   public addTag(keyValuePair: KeyValuePair) {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-      const newTag = {
-        resourceId: vm.id,
-        resourceType: vm.resourceType,
+      const newTag: Tag = {
+        resourceid: vm.id,
+        resourcetype: VmResourceType,
         key: keyValuePair.key,
-        value: keyValuePair.value
+        value: keyValuePair.value,
+        account: vm.account,
+        domain: vm.domain,
+        domainid: vm.domainid
       };
-      const newTags = Object.assign([], vm.tags);
-      newTags.push(new Tag(newTag));
+      const newTags: Tag[] = [...vm.tags];
+      newTags.push(newTag);
       this.store.dispatch(new vmActions.UpdateVM(Object.assign(
         {},
         vm,
