@@ -13,7 +13,10 @@ import {
 // tslint:disable-next-line
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import {
+  ServiceOffering,
+  ServiceOfferingGroupKey
+} from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
 import {
   OfferingAvailability,
@@ -137,6 +140,24 @@ export function reducer(
           ...action.payload
         }
       };
+    }
+
+    case serviceOfferingActions.SET_SERVICE_OFFERING_GROUP_SUCCESS: {
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: {
+          tags: action.payload.tags
+        }
+      }, state);
+    }
+
+    case serviceOfferingActions.RESET_SERVICE_OFFERING_GROUP_SUCCESS: {
+      return adapter.updateOne({
+        id: action.payload.id,
+        changes: {
+          tags: action.payload.tags.filter(_ => _.key !== ServiceOfferingGroupKey)
+        }
+      }, state);
     }
 
     default: {

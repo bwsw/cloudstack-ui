@@ -1,6 +1,8 @@
 import { Offering } from './offering.model';
+import { Tag } from './tag.model';
 
 export interface ServiceOffering extends Offering {
+  resourceType: 'ServiceOffering';
   created: string;
   cpunumber: number;
   cpuspeed: number;
@@ -14,4 +16,16 @@ export interface ServiceOffering extends Offering {
   deploymentplanner: string;
   domain: string;
   hosttags: string;
+  tags: Array<Tag>;
 }
+
+export class ServiceOfferingGroup {
+  public id: string;
+  public translations?: string;
+
+  constructor(id: string) {
+    this.id = id;
+  }
+}
+
+export const ServiceOfferingGroupKey = 'csui.service-offering.group';

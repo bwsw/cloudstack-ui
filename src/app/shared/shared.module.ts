@@ -154,6 +154,7 @@ import { StyleService } from './services/style.service';
 import { DescriptionTagService } from './services/tags/description-tag.service';
 import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
 import { SecurityGroupTagService } from './services/tags/security-group-tag.service';
+import { ServiceOfferingTagService } from './services/tags/service-offering-tag.service';
 import { SnapshotTagService } from './services/tags/snapshot-tag.service';
 import { TagService } from './services/tags/tag.service';
 import { TemplateTagService } from './services/tags/template-tag.service';
@@ -384,6 +385,7 @@ import { ZoneService } from './services/zone.service';
     SecurityGroupService,
     SecurityGroupTagService,
     ServiceOfferingService,
+    ServiceOfferingTagService,
     SessionStorageService,
     SnapshotService,
     SnapshotTagService,
