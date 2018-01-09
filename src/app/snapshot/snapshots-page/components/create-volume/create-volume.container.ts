@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { State } from '../../../reducers';
-import { Snapshot } from '../../../shared/models';
+import { State } from '../../../../reducers/index';
+import { Snapshot } from '../../../../shared/models/index';
 
-import * as fromVolumes from '../../../reducers/volumes/redux/volumes.reducers';
-import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
+import * as fromVolumes from '../../../../reducers/volumes/redux/volumes.reducers';
+import * as volumeActions from '../../../../reducers/volumes/redux/volumes.actions';
 
 @Component({
   selector: 'cs-create-volume-from-snapshot-container',

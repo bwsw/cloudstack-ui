@@ -1,11 +1,10 @@
 :host {
   display: inline-flex;
-  cursor: pointer;
+  //cursor: pointer;
 }
 
 .row {
   margin-bottom: 5px;
-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

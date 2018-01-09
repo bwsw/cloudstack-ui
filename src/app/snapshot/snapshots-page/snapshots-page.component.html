@@ -2,7 +2,9 @@
   [isOpen]="listService?.hasSelected()"
 >
   <ng-container cs-panels>
-
+    <cs-top-bar>
+      <cs-snapshot-filter-container></cs-snapshot-filter-container>
+    </cs-top-bar>
   </ng-container>
 
   <ng-container cs-list *loading="isLoading">

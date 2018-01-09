@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Snapshot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 

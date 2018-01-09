@@ -4,6 +4,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { Snapshot, Volume } from '../../shared/models';
 import { Grouping } from '../../shared/models/grouping.model';
+import { VirtualMachine } from '../../vm';
 import { SnapshotCardItemComponent } from './snapshot-list-item/snapshot-card-item.component';
 import { SnapshotListItemComponent } from './snapshot-list-item/snapshot-list-item.component';
 
@@ -15,6 +16,7 @@ import { SnapshotListItemComponent } from './snapshot-list-item/snapshot-list-it
 export class SnapshotsPageComponent implements OnChanges {
   @Input() public snapshots: Snapshot[];
   @Input() public volumes: Dictionary<Volume>;
+  @Input() public virtualMachines: Dictionary<VirtualMachine>;
   @Input() public groupings: Array<Grouping> = [];
   @Input() public isLoading: boolean;
 
@@ -39,6 +41,9 @@ export class SnapshotsPageComponent implements OnChanges {
   public ngOnChanges(changes) {
     if (changes.volumes) {
       this.inputs.volumes = this.volumes;
+    }
+    if (changes.virtualMachines) {
+      this.inputs.virtualMachines = this.virtualMachines;
     }
   }
 

@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Snapshot } from '../../../shared/models';
+import { Snapshot, SnapshotPageMode } from '../../../shared/models';
 
 import * as snapshot from './snapshot.actions';
 import * as volume from '../../volumes/redux/volumes.actions';
@@ -13,6 +13,9 @@ export interface State {
 
 export interface ListState extends EntityState<Snapshot> {
   loading: boolean,
+  filters: {
+    mode: SnapshotPageMode
+  }
   snapshotIdsByVolumeId: Dictionary<string[]>
 }
 
@@ -29,6 +32,9 @@ export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
 
 const initialListState: ListState = adapter.getInitialState({
   loading: false,
+  filters: {
+    mode: SnapshotPageMode.Volume
+  },
   snapshotIdsByVolumeId: {}
 });
 
@@ -76,6 +82,9 @@ export function listReducer(
          */
         ...adapter.addAll([...action.payload], newState)
       };
+    }
+    case snapshot.SNAPSHOT_FILTER_UPDATE: {
+      return { ...state, filters: { ...state.filters, ...action.payload } };
     }
     case snapshot.ADD_SNAPSHOT_SUCCESS: {
       const newState = {
@@ -132,4 +141,25 @@ export const isLoading = createSelector(
 export const selectSnapshotsByVolumeId = createSelector(
   getSnapshotEntitiesState,
   state => state.snapshotIdsByVolumeId
+);
+
+export const filters = createSelector(
+  getSnapshotEntitiesState,
+  state => state.filters
+);
+
+export const viewMode = createSelector(
+  filters,
+  state => state.mode
+);
+
+export const selectFilteredSnapshots = createSelector(
+  selectAll,
+  filters,
+  (snapshots, filter) => {
+    const filterByViewMode = (snapshot: Snapshot) =>
+      (filter.mode === SnapshotPageMode.Volume && !!snapshot.volumeid)
+      || (filter.mode === SnapshotPageMode.VM && !!snapshot.virtualmachineid);
+    return snapshots.filter((snapshot: Snapshot) => filterByViewMode(snapshot));
+  }
 );

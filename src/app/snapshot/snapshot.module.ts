@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
-  MatButtonModule,
+  MatButtonModule, MatButtonToggleModule,
   MatDialogModule,
   MatIconModule,
   MatInputModule, MatMenuModule,
@@ -28,8 +28,10 @@ import { RecurringSnapshotsComponent } from './recurring-snapshots/recurring-sna
 import { SnapshotPolicyService } from './recurring-snapshots/snapshot-policy.service';
 import { StoredNumberComponent } from './recurring-snapshots/stored-number/stored-number.component';
 import { TimePickerComponent } from './recurring-snapshots/time-picker/time-picker.component';
-import { CreateVolumeFromSnapshotComponent } from './snapshots-page/components/create-volume.component';
-import { CreateVolumeFromSnapshotContainerComponent } from './snapshots-page/components/create-volume.container';
+import { CreateVolumeFromSnapshotComponent } from './snapshots-page/components/create-volume/create-volume.component';
+import { CreateVolumeFromSnapshotContainerComponent } from './snapshots-page/components/create-volume/create-volume.container';
+import { SnapshotFilterComponent } from './snapshots-page/components/snaphot-filter/snapshot-filter.component';
+import { SnapshotFilterContainerComponent } from './snapshots-page/components/snaphot-filter/snapshot-filter.container';
 // tslint:disable-next-line
 import { SnapshotActionComponent } from './snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.component';
 // tslint:disable-next-line
@@ -55,6 +57,7 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     MatInputModule,
     SharedModule,
     ReactiveFormsModule,
+    MatButtonToggleModule,
     MatTabsModule,
     MatMenuModule
   ],
@@ -80,7 +83,9 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     SnapshotActionContainerComponent,
     SnapshotActionComponent,
     CreateVolumeFromSnapshotContainerComponent,
-    CreateVolumeFromSnapshotComponent
+    CreateVolumeFromSnapshotComponent,
+    SnapshotFilterContainerComponent,
+    SnapshotFilterComponent
   ],
   providers: [
     PolicyViewBuilderService,

@@ -723,7 +723,7 @@
   "SECURITY_GROUP_PAGE": {
     "DETAILS": {
       "TITLE": "Детали",
-      "ID": "Id",
+      "ID": "ID",
       "NAME": "Имя",
       "DESCRIPTION": "Описание",
       "TYPE": "Тип",

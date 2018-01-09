@@ -57,7 +57,7 @@ export const sideBarRoutes: Array<SidebarRoute> = [
   },  {
     path: '/snapshots',
     text: 'NAVIGATION_SIDEBAR.SNAPSHOTS',
-    icon: 'backup',
+    icon: 'camera_alt',
     id: 'SNAPSHOTS',
     enabled: true
   },

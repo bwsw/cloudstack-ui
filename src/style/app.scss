@@ -376,11 +376,11 @@ mat-card-actions {
   box-shadow: 0 0 0px 1px white;
 }
 
-.running, .enabled {
+.running, .enabled, .backed-up {
   background-color: #388E3C;
 }
 
-.in-progress, .stopping {
+.in-progress, .stopping, .backing-up, .allocated {
   background-color: #FFA726;
 }
 

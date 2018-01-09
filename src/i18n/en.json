@@ -725,8 +725,13 @@
   "SNAPSHOT_PAGE": {
     "CARD": {
       "VOLUME": "Volume",
+      "VM": "Virtual Machine",
       "VOLUME_DELETED": "Deleted",
       "CREATED": "Created"
+    },
+    "FILTERS": {
+      "VOLUME": "Volume",
+      "VM": "Virtual Machines"
     },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Create template",
@@ -738,7 +743,7 @@
   "SECURITY_GROUP_PAGE": {
     "DETAILS": {
       "TITLE": "Details",
-      "ID": "Id",
+      "ID": "ID",
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "TYPE": "Type",

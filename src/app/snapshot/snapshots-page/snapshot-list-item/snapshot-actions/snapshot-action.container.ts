@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { TemplateResourceType } from '../../../../template/shared/base-template.service';
 // tslint:disable-next-line
 import { TemplateCreationContainerComponent } from '../../../../template/template-creation/containers/template-creation.container';
-import { CreateVolumeFromSnapshotContainerComponent } from '../../components/create-volume.container';
+import { CreateVolumeFromSnapshotContainerComponent } from '../../components/create-volume/create-volume.container';
 
 import * as snapshotActions from '../../../../reducers/snapshots/redux/snapshot.actions';
 
@@ -45,6 +45,7 @@ export class SnapshotActionContainerComponent {
   }
 
   public onSnapshotRevert(snapshot: Snapshot): void {
+    this.store.dispatch(new snapshotActions.RevertVolumeToSnapshot(snapshot));
   }
 
   private showTemplateCreationDialog(snapshot: Snapshot): Observable<any> {

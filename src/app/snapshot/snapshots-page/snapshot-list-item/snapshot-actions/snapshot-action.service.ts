@@ -26,7 +26,7 @@ const SnapshotRevertAction = {
   name: 'SNAPSHOT_PAGE.ACTIONS.REVERT_TO_SNAPSHOT',
   command: 'revert',
   icon: 'settings_backup_restore',
-  canActivate: (snapshot: Snapshot) => snapshot && !!snapshot.volumeid
+  canActivate: (snapshot: Snapshot) => snapshot.revertable
 };
 
 export class SnapshotActionService {

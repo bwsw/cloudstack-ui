@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Volume, VolumeCreationData } from '../../../shared/models/volume.model';
+import { VolumeFromSnapshotCreationData } from '../../../shared/services/volume.service';
 import { VirtualMachine } from '../../../vm';
 
 export const LOAD_VOLUMES_REQUEST = '[VOLUMES] LOAD_VOLUMES_REQUEST';

@@ -5,6 +5,7 @@ import { INotification } from '../../../shared/services/jobs-notification.servic
 
 export const LOAD_SNAPSHOT_REQUEST = '[Snapshots] LOAD_SNAPSHOT_REQUEST';
 export const LOAD_SNAPSHOT_RESPONSE = '[Snapshots] LOAD_SNAPSHOT_RESPONSE';
+export const SNAPSHOT_FILTER_UPDATE = '[Snapshots] SNAPSHOT_FILTER_UPDATE';
 
 export const ADD_SNAPSHOT = '[Snapshots] ADD_SNAPSHOT';
 export const ADD_SNAPSHOT_SUCCESS = '[Snapshots] ADD_SNAPSHOT_SUCCESS';
@@ -26,6 +27,13 @@ export class LoadSnapshotResponse implements Action {
   readonly type = LOAD_SNAPSHOT_RESPONSE;
 
   constructor(public payload: Snapshot[]) {
+  }
+}
+
+export class SnapshotFilterUpdate implements Action {
+  readonly type = SNAPSHOT_FILTER_UPDATE;
+
+  constructor(public payload: any) {
   }
 }
 
@@ -81,6 +89,7 @@ export class RevertVolumeToSnapshotSuccess implements Action {
 export type Actions =
   LoadSnapshotRequest
   | LoadSnapshotResponse
+  | SnapshotFilterUpdate
   | AddSnapshot
   | DeleteSnapshot
   | AddSnapshotSuccess

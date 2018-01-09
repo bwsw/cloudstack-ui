@@ -65,6 +65,17 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     return super.getList();
   }
 
+  public getVmSnapshotsList(virtualMachineId?: string): Observable<Array<Snapshot>> {
+    if (virtualMachineId) {
+      return super.getRequest(
+        'listVM',
+        { virtualMachineId: virtualMachineId },
+      ).map(res => res['listvmsnapshotresponse']['vmSnapshot']);
+    }
+    return super.getRequest('listVM')
+      .map(res => res['listvmsnapshotresponse']['vmSnapshot']);
+  }
+
   private getSnapshotCreationParams(volumeId: string, name?: string): any {
     if (name) {
       return {

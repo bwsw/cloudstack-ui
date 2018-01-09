@@ -9,7 +9,7 @@
         <span
           class="state-icon"
           [matTooltip]="stateTranslations[item.state] | translate"
-          [ngClass]="item.state"
+          [ngClass]="statusClass"
         ></span>
         <span [matTooltip]="item.name"> {{ item.name }} </span>
       </h2>
@@ -21,8 +21,11 @@
     </div>
   </mat-card-header>
   <mat-card-content>
-    <div class="row">
+    <div class="row" *ngIf="!!item.volumeid">
       {{ 'SNAPSHOT_PAGE.CARD.VOLUME' | translate }}: {{ volumeName }}
+    </div>
+    <div class="row" *ngIf="!!item.virtualmachineid">
+      {{ 'SNAPSHOT_PAGE.CARD.VM' | translate }}: {{ virtualMachineName }}
     </div>
 
     <div class="row">

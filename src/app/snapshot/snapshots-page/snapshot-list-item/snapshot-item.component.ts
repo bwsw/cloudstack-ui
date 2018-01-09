@@ -8,10 +8,12 @@ import {
   SnapshotStates,
   Volume
 } from '../../../shared/models';
+import { VirtualMachine } from '../../../vm';
 
 export class SnapshotItemComponent {
   public item: Snapshot;
   public volumes: Dictionary<Volume>;
+  public virtualMachines: Dictionary<VirtualMachine>;
   public isSelected: (snapshot: Snapshot) => boolean;
   public onClick = new EventEmitter<Snapshot>();
   public matMenuTrigger: MatMenuTrigger;
@@ -24,6 +26,23 @@ export class SnapshotItemComponent {
     [SnapshotStates.Error]: 'SNAPSHOT_STATE.ERROR',
   };
 
+  public get statusClass() {
+    const { state } = this.item;
+    const backedUp = state === SnapshotStates.BackedUp;
+    const backingUp = state === SnapshotStates.BackingUp;
+    const creating = state === SnapshotStates.Creating;
+    const allocated = state === SnapshotStates.Allocated;
+    const error = state === SnapshotStates.Error;
+
+    return {
+      'backed-up': backedUp,
+      'backing-up': backingUp,
+      creating,
+      allocated,
+      error
+    };
+  }
+
   public get snapshotCreated() {
     return getDateSnapshotCreated(this.item);
   }
@@ -32,6 +51,12 @@ export class SnapshotItemComponent {
     return (this.volumes
       && this.volumes[this.item.volumeid]
       && this.volumes[this.item.volumeid].name)
+      || this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED');
+  }
+  public get virtualMachineName() {
+    return (this.virtualMachines
+      && this.virtualMachines[this.item.virtualmachineid]
+      && this.virtualMachines[this.item.virtualmachineid].name)
       || this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED');
   }
 
