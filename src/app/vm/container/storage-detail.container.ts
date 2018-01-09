@@ -48,7 +48,7 @@ export class StorageDetailContainerComponent implements OnInit, AfterViewInit {
 
   public onVolumeAttach(volume: Volume): void {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new volumeActions.AttachVolume({
+      this.store.dispatch(new volumeActions.AttachVolumeToVM({
         volumeId: volume.id,
         virtualMachineId: vm.id
       }));

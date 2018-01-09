@@ -1,16 +1,13 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './disk-offerings.actions';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
-
+import { isOfferingLocal } from '../../../shared/models/offering.model';
+import { Zone } from '../../../shared/models/zone.model';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
+import * as fromZones from '../../zones/redux/zones.reducers';
+import * as event from './disk-offerings.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -111,5 +108,56 @@ export const getSelectedOffering = createSelector(
   fromVolumes.getSelectedVolume,
   (entities, volume) => volume && entities[volume.diskofferingid]
 );
+
+export const getAvailableOfferings = createSelector(
+  selectAll,
+  fromServiceOfferings.offeringAvailability,
+  fromZones.getSelectedZone,
+  (
+    diskOfferings, availability,
+    zone
+  ) => {
+    if (zone && availability) {
+      const availableOfferings = getOfferingsAvailableInZone(
+        diskOfferings,
+        availability,
+        zone
+      );
+      return availableOfferings;
+    } else {
+      return [];
+    }
+  }
+);
+
+const getOfferingsAvailableInZone = (
+  offeringList: Array<DiskOffering>,
+  offeringAvailability: OfferingAvailability,
+  zone: Zone
+) => {
+  if (!offeringAvailability.filterOfferings) {
+    return offeringList;
+  }
+
+  return offeringList
+    .filter(offering => {
+      const offeringAvailableInZone = isOfferingAvailableInZone(
+        offering,
+        offeringAvailability,
+        zone
+      );
+      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
+        offering);
+      return offeringAvailableInZone && localStorageCompatibility;
+    });
+};
+
+const isOfferingAvailableInZone = (
+  offering: DiskOffering,
+  offeringAvailability: OfferingAvailability,
+  zone: Zone
+) => {
+  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.includes(offering.id);
+};
 
 

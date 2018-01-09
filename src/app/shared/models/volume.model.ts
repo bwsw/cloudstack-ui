@@ -1,12 +1,9 @@
 import { VolumeTagKeys } from '../services/tags/volume-tag-keys';
 import { BaseModelInterface } from './base.model';
 import { DiskOffering } from './disk-offering.model';
-import { Snapshot } from './snapshot.model';
-import {
-  DeletionMark,
-  Tag
-} from './tag.model';
 import { ServiceOffering } from './service-offering.model';
+import { Snapshot } from './snapshot.model';
+import { DeletionMark, Tag } from './tag.model';
 
 export class VolumeCreationData {
   public name: string;
@@ -76,3 +73,8 @@ export const isDeleted = (volume: Volume) => {
     tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE
   );
 };
+
+export interface ISnapshotData {
+  name: string;
+  desc: string;
+}

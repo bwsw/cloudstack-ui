@@ -1,32 +1,32 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-// tslint:disable-next-line
-import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { Zone } from '../../../shared/models/zone.model';
-import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import {
-  CustomServiceOffering,
-  ICustomServiceOffering
-} from '../../../service-offering/custom-service-offering/custom-service-offering';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as merge from 'lodash/merge';
 import {
   DefaultCustomServiceOfferingRestrictions,
   ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
 } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import {
+  CustomServiceOffering,
+  ICustomServiceOffering
+} from '../../../service-offering/custom-service-offering/custom-service-offering';
+// tslint:disable-next-line
+import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { isOfferingLocal } from '../../../shared/models/offering.model';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { Zone } from '../../../shared/models/zone.model';
+import {
   OfferingAvailability,
   OfferingCompatibilityPolicy,
   OfferingPolicy
 } from '../../../shared/services/offering.service';
-import { isOfferingLocal } from '../../../shared/models/offering.model';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import * as fromAuths from '../../auth/redux/auth.reducers';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromZones from '../../zones/redux/zones.reducers';
 
 
 import * as serviceOfferingActions from './service-offerings.actions';
-import * as fromVMs from '../../vm/redux/vm.reducers';
-import * as fromAuths from '../../auth/redux/auth.reducers';
-import * as fromZones from '../../zones/redux/zones.reducers';
-import * as merge from 'lodash/merge';
 
 
 /**
@@ -299,8 +299,8 @@ export const getOfferingsAvailableInZone = (
   }
 
   return offeringList
-    .filter((offering: ServiceOffering) => {
-      const offeringAvailableInZone = this.isOfferingAvailableInZone(
+    .filter(offering => {
+      const offeringAvailableInZone = isOfferingAvailableInZone(
         offering,
         availability,
         zone
