@@ -64,9 +64,11 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     );
     this.jobsNotificationService.reset();
 
-    return this._user.userid
-      ? this.getCapabilities().toPromise()
-      : Promise.resolve();
+    if (this._user) {
+      return this._user.userid
+        ? this.getCapabilities().toPromise()
+        : Promise.resolve();
+    }
   }
 
   public get user(): User | null {
@@ -121,7 +123,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private saveUserDataToLocalStorage(loginRes: User): void {
-    this.storage.write('user', JSON.stringify(loginRes));
+    this._user = loginRes;
+    this.storage.write('user', JSON.stringify(this._user));
   }
 
   private setLoggedOut(): void {
