@@ -31,6 +31,8 @@ import { MemoryStorageService } from 'app/shared/services/memory-storage.service
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
+import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
+import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
 import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
 import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offerings.reducers';
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
@@ -51,17 +53,11 @@ import { TemplateActionsService } from './actions/template-actions/template-acti
 import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-component/volume-actions.component';
 import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
-import { VolumeAttachAction } from './actions/volume-actions/volume-attach';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
 // tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
-import { VolumeDetachAction } from './actions/volume-actions/volume-detach';
-import { VolumeRecurringSnapshotsAction } from './actions/volume-actions/volume-recurring-snapshots';
-import { VolumeRemoveAction } from './actions/volume-actions/volume-remove';
-import { VolumeResizeAction } from './actions/volume-actions/volume-resize';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
-import { VolumeSnapshotAction } from './actions/volume-actions/volume-snapshot';
 import { BadgeModule } from './badge/';
 import {
   CalendarComponent,
@@ -167,8 +163,6 @@ import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
-import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
 
 @NgModule({
   imports: [
@@ -394,12 +388,6 @@ import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinit
     SnapshotService,
     SnapshotTagService,
     VolumeActionsService,
-    VolumeAttachAction,
-    VolumeDetachAction,
-    VolumeRecurringSnapshotsAction,
-    VolumeRemoveAction,
-    VolumeResizeAction,
-    VolumeSnapshotAction,
     StyleService,
     TagService,
     TemplateActionsService,

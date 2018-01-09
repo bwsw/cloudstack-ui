@@ -1,13 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Volume } from '../../../models/volume.model';
-import { VolumeActionsService } from '../volume-actions.service';
 import { VolumeAction } from '../volume-action';
-import { ISnapshotData } from '../volume-snapshot';
+import { VolumeActionsService } from '../volume-actions.service';
 
 
 @Component({
@@ -17,11 +11,12 @@ import { ISnapshotData } from '../volume-snapshot';
 export class VolumeActionsComponent {
   @Input() public volume: Volume;
   @Output() public onVolumeDelete = new EventEmitter<Volume>();
-  @Output() public onVolumeResize = new EventEmitter<any>();
-  @Output() public onVolumeAttach = new EventEmitter<string>();
+  @Output() public onVolumeResize = new EventEmitter<Volume>();
+  @Output() public onVolumeAttach = new EventEmitter<Volume>();
   @Output() public onVolumeDetach = new EventEmitter<Volume>();
-  @Output() public onVolumeSnapshots = new EventEmitter<ISnapshotData>();
-  public actions: Array<VolumeAction>;
+  @Output() public onVolumeSnapshots = new EventEmitter<Volume>();
+  @Output() public onVolumeSchedule = new EventEmitter<Volume>();
+  public actions: Array<any>;
 
   constructor(
     public volumeActionsService: VolumeActionsService
@@ -29,31 +24,32 @@ export class VolumeActionsComponent {
     this.actions = this.volumeActionsService.actions;
   }
 
-  public onAction(action: VolumeAction, volume: Volume): void {
-    action.activate(volume).subscribe(
-      res => {
-        switch (action.command){
-          case 'delete': {
-            this.onVolumeDelete.emit(res);
-            break
-          }
-          case 'resize': {
-            this.onVolumeResize.emit(res);
-            break;
-          }
-          case 'attach': {
-            this.onVolumeAttach.emit(res);
-            break;
-          }
-          case 'detach': {
-            this.onVolumeDetach.emit(res);
-            break;
-          }
-          case 'snapshot': {
-            this.onVolumeSnapshots.emit(res);
-            break;
-          }
-        }
-      });
+  public onAction(action, volume: Volume): void {
+    switch (action.command) {
+      case VolumeAction.DELETE: {
+        this.onVolumeDelete.emit(volume);
+        break
+      }
+      case VolumeAction.RESIZE: {
+        this.onVolumeResize.emit(volume);
+        break;
+      }
+      case VolumeAction.ATTACH: {
+        this.onVolumeAttach.emit(volume);
+        break;
+      }
+      case VolumeAction.DETACH: {
+        this.onVolumeDetach.emit(volume);
+        break;
+      }
+      case VolumeAction.SNAPSHOT: {
+        this.onVolumeSnapshots.emit(volume);
+        break;
+      }
+      case VolumeAction.SCHEDULE: {
+        this.onVolumeSchedule.emit(volume);
+        break;
+      }
+    }
   }
 }

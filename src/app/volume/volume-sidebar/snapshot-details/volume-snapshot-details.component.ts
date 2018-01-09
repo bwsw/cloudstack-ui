@@ -1,11 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Volume } from '../../../shared/models/volume.model';
-import { ISnapshotData } from '../../../shared/actions/volume-actions/volume-snapshot';
 
 
 @Component({
@@ -14,6 +8,6 @@ import { ISnapshotData } from '../../../shared/actions/volume-actions/volume-sna
 })
 export class VolumeSnapshotDetailsComponent {
   @Input() public volume: Volume;
-  @Output() public onVolumeSnapshots = new EventEmitter<ISnapshotData>();
+  @Output() public onSnapshotAdd = new EventEmitter<Volume>();
 
 }

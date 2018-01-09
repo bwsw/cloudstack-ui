@@ -5,23 +5,20 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { State } from '../../reducers/index';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import * as fromZones from '../../reducers/zones/redux/zones.reducers';
-import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as debounce from 'lodash/debounce';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import { State } from '../../reducers/index';
+import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
+import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import { VolumeType } from '../../shared/models/volume.model';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import * as debounce from 'lodash/debounce';
 
 
 @Component({
@@ -33,7 +30,7 @@ import * as debounce from 'lodash/debounce';
       [types]="types"
       [query]="query$ | async"
       [groupings]="groupings"
-      [spareOnly]="spareOnly$ | async" 
+      [spareOnly]="spareOnly$ | async"
       [selectedGroupings]="selectedGroupings"
       [selectedZoneIds]="selectedZoneIds$ | async"
       [selectedTypes]="selectedTypes$ | async"
