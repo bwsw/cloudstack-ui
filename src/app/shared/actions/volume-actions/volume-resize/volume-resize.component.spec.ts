@@ -101,7 +101,7 @@ describe('volume resize for root disks', () => {
 
     const diskOffering: DiskOffering = {
       disksize: 1,
-      id: 'diskOfferingId',
+      id: 'diskofferingid',
       name: 'Disk Offering',
       displaytext: 'About disk offering',
       diskBytesReadRate: 1,
@@ -114,7 +114,7 @@ describe('volume resize for root disks', () => {
       storagetype: StorageTypes.local,
       provisioningtype: '',
     };
-    diskOffering.id = 'diskOfferingId';
+    diskOffering.id = 'diskofferingid';
     component.diskOfferingId = diskOffering.id;
 
     component.resizeVolume();
@@ -180,7 +180,7 @@ describe('volume resize for data disks', () => {
 
     const diskOffering = {
       disksize: 1,
-      id: 'diskOfferingId',
+      id: 'diskofferingid',
       name: 'Disk Offering',
       displaytext: 'About disk offering',
       diskBytesReadRate: 1,

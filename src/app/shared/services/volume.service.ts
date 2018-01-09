@@ -43,7 +43,6 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {
-    console.log(params);
     const volumesRequest = super.getList(params);
     const snapshotsRequest = this.snapshotService.getList();
 
@@ -80,7 +79,7 @@ export class VolumeService extends BaseBackendService<Volume> {
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-    );
+    ).switchMap(response => Observable.of(response.result.volume));
   }
 
   public detach(volume: Volume): Observable<Volume> {
