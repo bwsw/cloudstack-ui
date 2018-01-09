@@ -64,3 +64,17 @@ In the upper-right corner of the screen, you can see the list of pending operati
 
 .. figure:: _static/VMs_Alerts1.png
    :scale: 80%
+
+
+.. |bell icon| image:: _static/bell_icon.png
+.. |refresh icon| image:: _static/refresh_icon.png
+.. |view icon| image:: _static/view_list_icon.png
+.. |view box icon| image:: _static/box_icon.png
+.. |view| image:: _static/view_icon.png
+.. |actions icon| image:: _static/actions_icon.png
+.. |edit icon| image:: _static/edit_icon.png
+.. |box icon| image:: _static/box_icon.png
+.. |create icon| image:: _static/create_icon.png
+.. |copy icon| image:: _static/copy_icon.png
+.. |color picker| image:: _static/color-picker_icon.png
+.. |adv icon| image:: _static/adv_icon.png
