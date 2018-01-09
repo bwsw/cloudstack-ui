@@ -44,6 +44,7 @@ If you would like to create a new security group template, click "Create" in the
  - Basic rules - Click "ADD" to open the list of rules to assign them to the template. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
  
 .. figure:: _static/Firewall_SelectRules.png
+   :scale: 70%
 
 Click “SELECT ALL” to move all templates from left to right at once.
 
@@ -56,11 +57,13 @@ Click “SAVE” to apply the selected rules to your security group template.
 Click “CANCEL” to drop the selected options. No rules will be assigned to the template. You will return to the “Create a new security group” window.
 
 .. figure:: _static/Firewall_CreateTemplate.png
-
+   :scale: 70%
+   
 Click "CREATE" to create the new firewall template. The template will appear in the list of firewall templates.
 
 .. figure:: _static/Firewall_CreatedTemplate.png
-
+   :scale: 70%
+   
 Click "CANCEL" to cancel the template creation process. No firewall templates will be created then. All fields will be cleared in the form.
 
 Create a Shared Security Group
@@ -76,7 +79,8 @@ If you would like to create a new shared security group, click "Create" in the b
  - Basic rules - Click "ADD" to open the list of rules to assign them to the group. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
  
 .. figure:: _static/Firewall_SelectRules.png
-
+   :scale: 70%
+   
 Click “SELECT ALL” to move all templates from left to right at once.
 
 Click “RESET” to drop all selected templates.
@@ -88,7 +92,8 @@ Click “SAVE” to apply the selected rules to your security group template.
 Click “CANCEL” to drop the selected options. No rules will be assigned to the security group. You will return to the “Create a new security group” window.
 
 .. figure:: _static/Firewall_CreateTemplate.png
-
+   :scale: 70%
+   
 Click "CREATE" to create the new shared security group. The group will appear in the list of shared security groups.
 
 .. figure:: _static/Firewall_CreatedTemplate.png
@@ -142,11 +147,13 @@ You can edit the implemented rules right in this modal window by clicking "EDIT"
 To add rules, please, fill in the fields in the panel above the list and click “+”:
 
 .. figure:: _static/Firewall_AddRules.png
-
+   :scale: 70%
+   
 To delete rules, please, click Delete icon in the list. The rule will be deleted from the security group.
 
 .. figure:: _static/Firewall_DeleteRules.png
-
+   :scale: 70%
+   
 Then you can move back to the view mode, or close the window. You will see the rules are edited.
 
 Please, note, when editing shared security groups, a warning message appears:
