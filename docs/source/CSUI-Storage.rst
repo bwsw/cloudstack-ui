@@ -4,7 +4,7 @@ Storage
 ----------
 .. Contents::
 
-In the Storage section, you can create and manage drives for virtual machines.
+In the *Storage* section, you can create and manage drives for virtual machines.
 
 Drive list
 ~~~~~~~~~~~~
