@@ -8,10 +8,12 @@
     </button>
   </div>
 
-  <cs-description
-    [description]="description"
-    (descriptionChange)="onDescriptionChange($event)"
-  ></cs-description>
+  <ng-container *ngIf="showDescription">
+    <cs-description
+      [description]="description"
+      (descriptionChange)="onDescriptionChange($event)"
+    ></cs-description>
+  </ng-container>
 
   <cs-ssh-key-fingerprint [sshKeyPair]="entity"></cs-ssh-key-fingerprint>
 </div>
