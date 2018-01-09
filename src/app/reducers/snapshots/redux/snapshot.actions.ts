@@ -30,11 +30,7 @@ export class LoadSnapshotResponse implements Action {
 export class AddSnapshot implements Action {
   readonly type = ADD_SNAPSHOT;
 
-  constructor(public payload: {
-    volume: Volume,
-    name: string,
-    description: string
-  }) {
+  constructor(public payload: Volume) {
   }
 }
 

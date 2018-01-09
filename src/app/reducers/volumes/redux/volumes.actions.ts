@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { Snapshot } from '../../../shared/models/snapshot.model';
 import { Volume, VolumeCreationData } from '../../../shared/models/volume.model';
 
 export const LOAD_VOLUMES_REQUEST = '[VOLUMES] LOAD_VOLUMES_REQUEST';
@@ -15,11 +14,7 @@ export const ATTACH_VOLUME_TO_VM = '[VOLUMES] ATTACH_VOLUME_TO_VM';
 export const DETACH_VOLUME = '[VOLUMES] DETACH_VOLUME';
 export const RESIZE_VOLUME = '[VOLUMES] RESIZE_VOLUME';
 export const RESIZE_VOLUME_SUCCESS = '[VOLUMES] RESIZE_VOLUME_SUCCESS';
-export const ADD_SNAPSHOT = '[VOLUMES] ADD_SNAPSHOT';
-export const ADD_SNAPSHOT_SUCCESS = '[VOLUMES] ADD_SNAPSHOT_SUCCESS';
 export const ADD_SNAPSHOT_SCHEDULE = '[VOLUMES] ADD_SNAPSHOT_SCHEDULE';
-export const DELETE_SNAPSHOT = '[VOLUMES] DELETE_SNAPSHOT';
-export const DELETE_SNAPSHOT_SUCCESS = '[VOLUMES] DELETE_SNAPSHOT_SUCCESS';
 export const VOLUME_CREATE_SUCCESS = '[VOLUMES] VOLUME_CREATE_SUCCESS';
 export const VOLUME_DELETE_SUCCESS = '[VOLUMES] VOLUME_DELETE_SUCCESS';
 export const VOLUME_CREATE_ERROR = '[VOLUMES] VOLUME_CREATE_ERROR';
@@ -124,39 +119,8 @@ export class ResizeVolumeSuccess implements Action {
   }
 }
 
-export class AddSnapshot implements Action {
-  readonly type = ADD_SNAPSHOT;
-
-  constructor(public payload: Volume) {
-  }
-}
-
 export class AddSnapshotSchedule implements Action {
   readonly type = ADD_SNAPSHOT_SCHEDULE;
-
-  constructor(public payload: Volume) {
-  }
-}
-
-export class DeleteSnapshot implements Action {
-  readonly type = DELETE_SNAPSHOT;
-
-  constructor(public payload: {
-    volume: Volume,
-    snapshot: Snapshot
-  }) {
-  }
-}
-
-export class AddSnapshotSuccess implements Action {
-  readonly type = ADD_SNAPSHOT_SUCCESS;
-
-  constructor(public payload: Volume) {
-  }
-}
-
-export class DeleteSnapshotSuccess implements Action {
-  readonly type = DELETE_SNAPSHOT_SUCCESS;
 
   constructor(public payload: Volume) {
   }

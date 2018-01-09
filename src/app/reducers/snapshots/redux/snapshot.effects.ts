@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Snapshot } from '../../../shared/models';
-import { Volume } from '../../../shared/models/volume.model';
+import { ISnapshotData } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
+// tslint:disable-next-line
+import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 
 import * as snapshot from './snapshot.actions';
 
@@ -28,25 +31,33 @@ export class SnapshotEffects {
   addSnapshot$: Observable<Action> = this.actions$
     .ofType(snapshot.ADD_SNAPSHOT)
     .switchMap((action: snapshot.AddSnapshot) => {
-      const notificationId = this.jobsNotificationService.add(
-        'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+      return this.dialog.open(SnapshotCreationComponent, {
+        data: action.payload
+      })
+        .afterClosed()
+        .filter(res => Boolean(res))
+        .switchMap((params: ISnapshotData) => {
 
-      return this.snapshotService.create(
-        action.payload.volume.id,
-        action.payload.name,
-        action.payload.description
-      )
-        .map(newSnap => {
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
-          });
-          return new snapshot.AddSnapshotSuccess(newSnap);
-        })
-        .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
-          id: notificationId,
-          message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-        })));
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+
+          return this.snapshotService.create(
+            action.payload.id,
+            params.name,
+            params.desc
+          )
+            .map(newSnap => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
+              });
+              return new snapshot.AddSnapshotSuccess(newSnap);
+            })
+            .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
+            })));
+        });
     });
 
   @Effect()
@@ -88,7 +99,8 @@ export class SnapshotEffects {
     private actions$: Actions,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private dialog: MatDialog
   ) {
   }
 }

@@ -2,10 +2,10 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Snapshot } from '../../../shared/models';
-import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as snapshot from './snapshot.actions';
 import * as volume from '../../volumes/redux/volumes.actions';
+import * as moment from 'moment';
 
 export interface State {
   list: ListState
@@ -16,9 +16,15 @@ export interface ListState extends EntityState<Snapshot> {
   snapshotIdsByVolumeId: Dictionary<string[]>
 }
 
+const sortByCreation = (snapshot1: Snapshot, snapshot2: Snapshot) => {
+  const date1 = moment(snapshot1.created);
+  const date2 = moment(snapshot2.created);
+  return moment.max(date1, date2) === date1 ? -1 : 1;
+};
+
 export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
   selectId: (item: Snapshot) => item.id,
-  sortComparer: Utils.sortByName
+  sortComparer: sortByCreation
 });
 
 const initialListState: ListState = adapter.getInitialState({
@@ -77,7 +83,7 @@ export function listReducer(
         snapshotIdsByVolumeId: {
           ...state.snapshotIdsByVolumeId,
           [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
-            ? [...state.snapshotIdsByVolumeId[action.payload.volumeid], action.payload.id]
+            ? [action.payload.id, ...state.snapshotIdsByVolumeId[action.payload.volumeid]]
             : [action.payload.id]
         }
       };

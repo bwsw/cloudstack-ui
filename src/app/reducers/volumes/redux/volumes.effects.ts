@@ -5,16 +5,15 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+// tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
-import { Snapshot } from '../../../shared/models/snapshot.model';
-import { ISnapshotData, Volume } from '../../../shared/models/volume.model';
+import { Volume } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
-import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 
 import * as volumeActions from './volumes.actions';
 
@@ -206,49 +205,6 @@ export class VolumesEffects {
         });
     });
 
-  @Effect()
-  addSnapshot$: Observable<Action> = this.actions$
-    .ofType(volumeActions.ADD_SNAPSHOT)
-    .switchMap((action: volumeActions.AddSnapshot) => {
-      return this.dialog.open(SnapshotCreationComponent, {
-        data: action.payload
-      })
-      .afterClosed()
-      .filter(res => Boolean(res))
-      .switchMap((params: ISnapshotData) => {
-        const notificationId = this.jobsNotificationService.add(
-          'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
-
-        return this.snapshotService.create(
-          action.payload.id,
-          params.name,
-          params.desc
-        )
-        .map((snapshot: Snapshot) => {
-          const newSnaps = Object.assign([], action.payload.snapshots);
-
-          newSnaps.unshift(snapshot);
-          const newVolume = Object.assign(
-            {},
-            action.payload,
-            { snapshots: newSnaps }
-          );
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
-          });
-          return new volumeActions.AddSnapshotSuccess(new Volume(newVolume));
-        })
-        .catch((error: Error) => {
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-          });
-          return Observable.of(new volumeActions.VolumeUpdateError(error));
-        });
-      });
-    });
-
   @Effect({ dispatch: false })
   addSnapshotSchedule$: Observable<Action> = this.actions$
     .ofType(volumeActions.ADD_SNAPSHOT_SCHEDULE)
@@ -256,43 +212,6 @@ export class VolumesEffects {
       return this.dialog.open(RecurringSnapshotsComponent, {
         data: action.payload
       }).afterClosed();
-    });
-
-  @Effect()
-  deleteSnapshot$: Observable<Action> = this.actions$
-    .ofType(volumeActions.DELETE_SNAPSHOT)
-    .switchMap((action: volumeActions.DeleteSnapshot) => {
-
-      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .switchMap(() => {
-          const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
-          return this.snapshotService.remove(action.payload.snapshot.id)
-            .map(() => {
-              const newSnapshots = action.payload.volume.snapshots.filter(
-                _ => _.id !== action.payload.snapshot.id);
-              const newVolume = Object.assign(
-                {},
-                action.payload.volume,
-                { snapshots: newSnapshots }
-              );
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
-              });
-              return new volumeActions.DeleteSnapshotSuccess(new Volume(newVolume));
-            })
-            .catch(error => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
-              });
-
-              return Observable.throw(error);
-            });
-        });
     });
 
   @Effect()
