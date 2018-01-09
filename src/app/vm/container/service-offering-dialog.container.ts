@@ -3,19 +3,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
 import { State } from '../../reducers/index';
-import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
-import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import * as zoneActions from '../../reducers/zones/redux/zones.actions';
+// tslint:disable-next-line
 import { ICustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
+// tslint:disable-next-line
 import { CustomServiceOfferingService, } from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { Account } from '../../shared/models/account.model';
 import { ResourceStats } from '../../shared/services/resource-usage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 
+import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
+import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as zoneActions from '../../reducers/zones/redux/zones.actions';
+import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
 
 @Component({
   selector: 'cs-service-offering-dialog-container',
@@ -24,8 +26,6 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
       [serviceOfferings]="offerings$ | async"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="getRestrictions() | async"
-      [zoneId]="virtualMachine.zoneId"
-      [isVmRunning]="isVmRunning()"
       (onServiceOfferingChange)="changeServiceOffering($event)"
     >
     </cs-service-offering-dialog>`,

@@ -1,14 +1,12 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { Store } from '@ngrx/store';
+import * as authActions from '../reducers/auth/redux/auth.actions';
+import { State } from '../reducers/index';
+import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
 import { AuthService } from '../shared/services/auth.service';
 import { LayoutService } from '../shared/services/layout.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-
-import { Store } from '@ngrx/store';
-import { State } from '../reducers/index';
-import * as authActions from '../reducers/auth/redux/auth.actions';
 
 @Component({
   selector: 'cs-home',
@@ -31,6 +29,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
       .takeUntil(this.unsubscribe$)
       .filter(isLoggedIn => !!isLoggedIn)
       .subscribe(() => {
+        this.store.dispatch(new serviceOfferingActions.LoadCompatibilityPolicyRequest());
         this.store.dispatch(new authActions.LoadUserAccountRequest({
           mame: this.auth.user.account,
           domainid: this.auth.user.domainid

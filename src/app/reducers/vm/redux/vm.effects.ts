@@ -1,33 +1,33 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { Router } from '@angular/router';
-import { Actions, Effect } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
-import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-import { AuthService } from '../../../shared/services/auth.service';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
-import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
-import { IsoService } from '../../../template/shared/iso.service';
-import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
-import {
-  getPath,
-  getPort,
-  getProtocol,
-  VirtualMachine,
-  VmState
-} from '../../../vm/shared/vm.model';
-import { VmService } from '../../../vm/shared/vm.service';
-import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
-import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { WebShellService } from '../../../vm/web-shell/web-shell.service';
+import { Action, Store } from '@ngrx/store';
+import { VmService } from '../../../vm/shared/vm.service';
+import { VirtualMachine, VmState, getPath, getPort, getProtocol } from '../../../vm/shared/vm.model';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { IsoService } from '../../../template/shared/iso.service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+// tslint:disable-next-line
+import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
+import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { Router } from '@angular/router';
+import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
+import { AuthService } from '../../../shared/services/auth.service';
+import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
+// tslint:disable-next-line
+import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { Actions, Effect } from '@ngrx/effects';
+import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
 import { State } from '../../index';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
+
 import * as vmActions from './vm.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
+
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -177,9 +177,9 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  changeInstantGroup$: Observable<Action> = this.actions$
+  changeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_INSTANT_GROUP)
-    .switchMap((action: vmActions.ChangeInstantGroup) => {
+    .switchMap((action: vmActions.ChangeInstanceGroup) => {
       const newVm = Object.assign(
         {},
         action.payload.vm,
@@ -206,9 +206,9 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  removeInstantGroup$: Observable<Action> = this.actions$
+  removeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_REMOVE_INSTANT_GROUP)
-    .switchMap((action: vmActions.RemoveInstantGroup) => {
+    .switchMap((action: vmActions.RemoveInstanceGroup) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_IN_PROGRESS');
 
@@ -240,7 +240,7 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.AddSecondaryIp) => {
       return this.vmService.addIpToNic(action.payload.nicId)
         .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryIp);
+          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip);
           newSecondaryIp.push(res.result.nicsecondaryip);
           const newNic = Object.assign(
             {},
@@ -271,7 +271,7 @@ export class VirtualMachinesEffects {
     .switchMap((action: vmActions.RemoveSecondaryIp) => {
       return this.vmService.removeIpFromNic(action.payload.id)
         .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryIp)
+          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip)
             .filter(ip => ip.id !== action.payload.id);
           const newNic = Object.assign(
             {},
@@ -582,10 +582,10 @@ export class VirtualMachinesEffects {
             'JOB_NOTIFICATIONS.VM.CHANGE_SSH_IN_PROGRESS');
 
           return this.sshService.reset({
-            keypair: changeAction.payload.keypair,
+            keypair: changeAction.payload.keyPair,
             id: changeAction.payload.vm.id,
-            account: changeAction.payload.account,
-            domainid: changeAction.payload.domainid
+            account: changeAction.payload.vm.account,
+            domainid: changeAction.payload.vm.domainid
           })
             .switchMap((newVm) => {
               this.jobsNotificationService.finish({
@@ -698,8 +698,13 @@ export class VirtualMachinesEffects {
 
   @Effect()
   vmCreateSuccessLoadVolumes$: Observable<Action> = this.actions$
-    .ofType(vmActions.CREATE_VM_SUCCESS)
-    .map(() => new volumeActions.LoadVolumesRequest());
+    .ofType(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
+    .switchMap(() => Observable.of(
+      new volumeActions.LoadVolumesRequest(),
+      new vmActions.DeploymentAddLoggerMessage({
+        text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',
+        status: [ProgressLoggerMessageStatus.Highlighted]
+      })));
 
   @Effect({ dispatch: false })
   vmAccess$: Observable<VirtualMachine> = this.actions$
@@ -753,7 +758,7 @@ export class VirtualMachinesEffects {
       const protocol = getProtocol(vm);
       const port = getPort(vm);
       const path = getPath(vm);
-      const ip = vm.nic[0].ipAddress;
+      const ip = vm.nic[0].ipaddress;
 
       const address = `${protocol}://${ip}:${port}/${path}`;
       window.open(
@@ -762,7 +767,6 @@ export class VirtualMachinesEffects {
         'resizable=0,width=820,height=640'
       );
     });
-
 
   constructor(
     private store: Store<State>,

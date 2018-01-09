@@ -3,9 +3,9 @@
   [value]="ipWithSuffix | translate"
 ></cs-parameters-pair>
 <cs-parameters-pair
-  *ngIf="nic.macAddress"
+  *ngIf="nic.macaddress"
   [name]="'VM_PAGE.NETWORK_DETAILS.macAddress'"
-  [value]="nic.macAddress"
+  [value]="nic.macaddress"
 ></cs-parameters-pair>
 <cs-parameters-pair
   *ngIf="nic.gateway"
@@ -19,17 +19,17 @@
 ></cs-parameters-pair>
 
 <cs-parameters-pair
-  *ngIf="nic.ip6Address"
+  *ngIf="nic.ip6address"
   [name]="'VM_PAGE.NETWORK_DETAILS.ip6Address'"
-  [value]="nic.ip6Address"
+  [value]="nic.ip6address"
 ></cs-parameters-pair>
 <cs-parameters-pair
-  *ngIf="nic.ip6Cidr"
+  *ngIf="nic.ip6cidr"
   [name]="'VM_PAGE.NETWORK_DETAILS.ip6Cidr'"
-  [value]="nic.ip6Cidr"
+  [value]="nic.ip6cidr"
 ></cs-parameters-pair>
 <cs-parameters-pair
-  *ngIf="nic.ip6Gateway"
+  *ngIf="nic.ip6gateway"
   [name]="'VM_PAGE.NETWORK_DETAILS.ip6Gateway'"
-  [value]="nic.ip6Gateway"
+  [value]="nic.ip6gateway"
 ></cs-parameters-pair>

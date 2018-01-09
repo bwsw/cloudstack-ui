@@ -22,6 +22,7 @@ import { DraggableSelectModule } from '../shared/components/draggable-select/dra
 import { SharedModule } from '../shared/shared.module';
 import { ShhKeyFilterContainerComponent } from './containers/ssh-key-filter/ssh-key-filter.container';
 import { SshKeyPageContainerComponent } from './containers/ssh-key-page/ssh-key-page.container';
+// tslint:disable-next-line
 import { SShKeyCreationDialogContainerComponent } from './ssh-key-creation/containers/ssh-key-creation-dialog.container';
 import { SshKeyCreationDialogComponent } from './ssh-key-creation/ssh-key-creation-dialog.component';
 import { SshKeyCreationComponent } from './ssh-key-creation/ssh-key-creation.component';

@@ -44,7 +44,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly account$ = this.store.select(fromAccounts.selectUserAccount);
 
-  public maxSize: number = 2;
+  public maxSize = 2;
 
   constructor(
     public dialogService: DialogService,
@@ -58,15 +58,14 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
 
     this.account$
-      .takeUntil(this.unsubscribe$)
+      .take(1)
+      .filter(account => !!account)
       .subscribe((account) => {
-        if (account) {
-          if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
-            this.handleInsufficientResources();
-            return;
-          }
-          this.maxSize = account.primarystorageavailable;
+        if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
+          this.handleInsufficientResources();
+          return;
         }
+        this.maxSize = account.primarystorageavailable;
       });
 
   }

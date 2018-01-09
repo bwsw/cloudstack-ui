@@ -44,7 +44,7 @@ export class VolumeCreationDialogComponent {
   public onSubmit(e): void {
     e.preventDefault();
 
-    if (!this.diskOffering.isCustomized) {
+    if (!this.diskOffering.iscustomized) {
       delete this.newVolume.size;
     }
 
@@ -57,12 +57,9 @@ export class VolumeCreationDialogComponent {
     this.onVolumeCreate.emit(volumeCreationParams);
   }
 
-  public updateDiskOffering(change: MatSelectChange): void {
-    if (change) {
-      const diskOffering = change.value as DiskOffering;
-      this.diskOffering = diskOffering;
-      this.showResizeSlider = diskOffering.isCustomized;
-    }
+  public updateDiskOffering(diskOfferingId: string): void {
+    this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
+    this.showResizeSlider = this.diskOffering.iscustomized;
   }
 
   public updateZone(zoneId: string) {

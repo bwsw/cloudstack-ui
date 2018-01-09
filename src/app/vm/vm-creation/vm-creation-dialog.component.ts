@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { VmCreationComponent } from './vm-creation.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { VmCreationContainerComponent } from './containers/vm-creation.container';
 
 @Component({
   selector: 'cs-vm-create-dialog',
-  template: ``
+  template: `<ng-template></ng-template>`
 })
 export class VmCreationDialogComponent {
   constructor(
@@ -13,9 +13,9 @@ export class VmCreationDialogComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.dialog.open(VmCreationComponent, {
+    this.dialog.open(VmCreationContainerComponent, {
       disableClose: true,
-      width: '755px'
+      width: '680px'
     })
       .afterClosed()
       .subscribe(vm => {
@@ -23,6 +23,6 @@ export class VmCreationDialogComponent {
           queryParamsHandling: 'preserve',
           relativeTo: this.activatedRoute
         });
-      });
+      })
   }
 }

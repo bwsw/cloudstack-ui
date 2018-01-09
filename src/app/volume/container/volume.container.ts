@@ -1,17 +1,9 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
-import { State } from '../../reducers/index';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
+import { State } from '../../reducers/index';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
-import {
-  Volume,
-  volumeTypeNames
-} from '../../shared/models/volume.model';
+import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
+import { Volume, volumeTypeNames } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
 
 
@@ -63,7 +55,7 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
     private cd: ChangeDetectorRef
   ) {
     if (!this.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }
   }
 

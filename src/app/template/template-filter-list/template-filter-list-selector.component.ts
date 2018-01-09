@@ -1,15 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
 import { Zone } from '../../shared/models/zone.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { Template } from '../shared/template.model';
 
 
 @Component({
@@ -19,7 +12,7 @@ import { Template } from '../shared/template.model';
 })
 export class TemplateFilterListSelectorComponent {
   private _selectedTemplate: BaseTemplateModel;
-  @Input() public templates: Array<Template>;
+  @Input() public templates: Array<BaseTemplateModel>;
 
   @Input() public dialogMode = true;
   @Input() public showIsoSwitch = true;

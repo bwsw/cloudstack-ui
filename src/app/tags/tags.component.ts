@@ -50,16 +50,16 @@ export abstract class TagsComponent<T extends Taggable> {
     Observable.of(null)
       .switchMap(() => {
         return this.tagService.remove({
-          resourceIds: tagEditAction.oldTag.resourceId,
-          resourceType: tagEditAction.oldTag.resourceType,
+          resourceIds: tagEditAction.oldTag.resourceid,
+          resourceType: tagEditAction.oldTag.resourcetype,
           'tags[0].key': tagEditAction.oldTag.key,
           'tags[0].value': tagEditAction.oldTag.value
         });
       })
       .switchMap(() => {
         return this.tagService.create({
-          resourceIds: tagEditAction.oldTag.resourceId,
-          resourceType: tagEditAction.oldTag.resourceType,
+          resourceIds: tagEditAction.oldTag.resourceid,
+          resourceType: tagEditAction.oldTag.resourcetype,
           'tags[0].key': tagEditAction.newTag.key,
           'tags[0].value': tagEditAction.newTag.value
         });
@@ -73,8 +73,8 @@ export abstract class TagsComponent<T extends Taggable> {
 
   public deleteTag(tag: Tag): void {
     this.tagService.remove({
-      resourceIds: tag.resourceId,
-      resourceType: tag.resourceType,
+      resourceIds: tag.resourceid,
+      resourceType: tag.resourcetype,
       'tags[0].key': tag.key
     })
       .subscribe(

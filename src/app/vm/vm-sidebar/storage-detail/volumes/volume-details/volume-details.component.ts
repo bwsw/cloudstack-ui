@@ -14,7 +14,6 @@ import {
 })
 export class VolumeDetailsComponent {
   @Input() public volume: Volume;
-  @Input() public description: string;
   @Input() public diskOffering: DiskOffering;
 
 
@@ -34,8 +33,8 @@ export class VolumeDetailsComponent {
 
     const diskOffering = this.diskOffering;
     return [
-      diskOffering.minIops,
-      diskOffering.maxIops,
+      diskOffering.miniops,
+      diskOffering.maxiops,
       diskOffering.diskBytesReadRate,
       diskOffering.diskBytesWriteRate,
       diskOffering.diskIopsReadRate,

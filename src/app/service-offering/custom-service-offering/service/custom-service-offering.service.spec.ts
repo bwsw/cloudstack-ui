@@ -9,6 +9,7 @@ import {
   ResourceStats,
   ResourceUsageService
 } from '../../../shared/services/resource-usage.service';
+// tslint:disable-next-line
 import { MockResourceUsageService } from '../../../../testutils/mocks/model-services/services/mock-resource-usage.service.spec';
 import { ICustomOfferingRestrictionsByZone } from '../custom-offering-restrictions';
 import {
@@ -45,13 +46,13 @@ interface CustomServiceOfferingFixture {
 
 interface ServiceOfferingFixture {
   id: string;
-  areCustomParamsSet: boolean;
-  cpuNumber: number;
-  cpuSpeed: number;
+  cpunumber: number;
+  cpuspeed: number;
   memory: number;
 }
 
-const fixture: CustomServiceOfferingFixture = require('./custom-service-offering.service.fixture.json');
+const fixture: CustomServiceOfferingFixture = require(
+  './custom-service-offering.service.fixture.json');
 
 describe('Custom service offering service', () => {
   let customServiceOfferingService: CustomServiceOfferingService;
@@ -62,10 +63,22 @@ describe('Custom service offering service', () => {
   }): void {
     TestBed.configureTestingModule({
       providers: [
-        { provide: ConfigService, useClass: MockConfigService },
-        { provide: ResourceUsageService, useClass: MockResourceUsageService },
-        { provide: 'mockConfigServiceConfig', useValue: { value: params.mockConfigServiceConfig } },
-        { provide: 'mockResourceUsageServiceConfig', useValue: { value: params.mockResourceUsageServiceConfig } },
+        {
+          provide: ConfigService,
+          useClass: MockConfigService
+        },
+        {
+          provide: ResourceUsageService,
+          useClass: MockResourceUsageService
+        },
+        {
+          provide: 'mockConfigServiceConfig',
+          useValue: { value: params.mockConfigServiceConfig }
+        },
+        {
+          provide: 'mockResourceUsageServiceConfig',
+          useValue: { value: params.mockResourceUsageServiceConfig }
+        },
         CustomServiceOfferingService
       ]
     });
@@ -105,7 +118,8 @@ describe('Custom service offering service', () => {
 
     return customServiceOfferingService.getCustomOfferingWithSetParams(
       _serviceOffering,
-      config.defaultServiceOfferingConfig[_zoneId].customOfferingParams,
+      config.defaultServiceOfferingConfig[_zoneId]
+      && config.defaultServiceOfferingConfig[_zoneId].customOfferingParams,
       config.customOfferingRestrictions[_zoneId],
       resources
     );
@@ -113,25 +127,24 @@ describe('Custom service offering service', () => {
 
   function getCustomServiceOffering(): ServiceOffering {
     const id = '3890f81e-62aa-4a50-971a-f066223d623d';
-
-    return new MockEntityData()
-      .serviceOfferings
-      .find(_ => {
-        return _.id === id;
-      });
+    return new MockEntityData().serviceOfferings.find(_ => _.id === id);
   }
 
-  function areRestrictionsCorrect(key: string, restrictions: ICustomOfferingRestrictionsByZone): boolean {
-    //expect(restrictions).toBe('');
-    //expect(fixture.restrictionsTests[key].expected).toBe('');
+  function areRestrictionsCorrect(
+    key: string,
+    restrictions: ICustomOfferingRestrictionsByZone
+  ): boolean {
     return isEqual(restrictions, fixture.restrictionsTests[key].expected);
   }
 
-  function isCustomOfferingCorrect(key: string, offering: CustomServiceOffering): boolean {
+  function isCustomOfferingCorrect(
+    key: string,
+    offering: CustomServiceOffering
+  ): boolean {
     const expected = fixture.defaultParamsTests[key].expected;
     return (
-      expected.cpuNumber === offering.cpuNumber
-      && expected.cpuSpeed === offering.cpuSpeed
+      expected.cpunumber === offering.cpunumber
+      && expected.cpuspeed === offering.cpuspeed
       && expected.memory === offering.memory
     );
   }
@@ -210,13 +223,13 @@ describe('Custom service offering service', () => {
     expect(isCustomOfferingCorrect(key, offering)).toBeTruthy();
   });
 
-  it('should return undefined if restrictions are not compatible', () => {
+  it('should return undefined if restrictions are not compatible (by CPU)', () => {
     const key = 'returnUndefinedIfRestrictionsAreNotCompatibleByCPUs';
     const offering = getCustomOfferingWithSetParamsForTest(key);
     expect(offering).toBeUndefined();
   });
 
-  it('should return undefined if restrictions are not compatible', () => {
+  it('should return undefined if restrictions are not compatible (by memory)', () => {
     const key = 'returnUndefinedIfRestrictionsAreNotCompatibleByMemory';
     const offering = getCustomOfferingWithSetParamsForTest(key);
     expect(offering).toBeUndefined();

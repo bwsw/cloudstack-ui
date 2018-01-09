@@ -4,12 +4,9 @@ import { ZoneName } from '../decorators/zone-name.decorator';
 import { VolumeTagKeys } from '../services/tags/volume-tag-keys';
 import { BaseModel } from './base.model';
 import { DiskOffering } from './disk-offering.model';
-import { Snapshot } from './snapshot.model';
-import {
-  DeletionMark,
-  Tag
-} from './tag.model';
 import { ServiceOffering } from './service-offering.model';
+import { Snapshot } from './snapshot.model';
+import { DeletionMark, Tag } from './tag.model';
 
 export class VolumeCreationData {
   public name: string;
@@ -103,7 +100,10 @@ export class Volume extends BaseModel {
     if (!this.tags) {
       this.tags = [];
     }
-
-    this.tags = this.tags.map(tag => new Tag(tag));
   }
+}
+
+export interface ISnapshotData {
+  name: string;
+  desc: string;
 }
