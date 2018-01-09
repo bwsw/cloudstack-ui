@@ -31,8 +31,6 @@ export const volumeTypeNames = {
 };
 
 export interface Volume extends BaseModelInterface {
-  resourceType: 'Volume';
-
   id: string;
   account: string;
   created: Date;
