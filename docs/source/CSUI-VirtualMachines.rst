@@ -5,7 +5,7 @@ Virtual Machines
 
 .. Contents::
 
-Virtual Machines is the starting section. Here and in all other views we implemented the “one-step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view.
+*Virtual Machines* is the starting section. Here and in all other views we implemented the “one-step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view.
 
 At this page, you can see the list of your virtual machines available to your user only.
 
