@@ -19,7 +19,7 @@ import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.action
     </cs-volume-snapshot-details>`,
 })
 export class VolumeSnapshotDetailsContainerComponent {
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
+  readonly volume$ = this.store.select(fromVolumes.getSelectedVolumeWithSnapshots);
   readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
 
   constructor(

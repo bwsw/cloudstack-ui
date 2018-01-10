@@ -12,7 +12,5 @@
     ></cs-volume-snapshot>
   </ng-container>
 
-
-  <cs-no-results *ngIf="!volume.snapshots || !volume.snapshots.length"></cs-no-results>
   <cs-no-results *ngIf="!volume.snapshots || !volume.snapshots.length && !isLoading"></cs-no-results>
 </ng-container>
