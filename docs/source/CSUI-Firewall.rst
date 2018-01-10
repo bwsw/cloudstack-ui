@@ -4,11 +4,11 @@ Firewall
 --------------
 .. Contents::
 
-The *Firewall* section contains templates to create a security group for a virtual machine, and shared security groups used for virtual machines of other users.
+The *Firewall* section contains templates to create a security group for a virtual machine and shared security groups used for virtual machines of other users.
 
 .. figure:: _static/Firewall_List.png
 
-**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how create a custom firewall template at :ref:`Create_FTemplate`.
+**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how to create a custom firewall template at :ref:`Create_FTemplate`.
 
 Upon VM creation the system creates a new security group for a VM on the base of templates. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a private security group used for that virtual machine only. 
 
@@ -20,14 +20,14 @@ Templates and shared security groups are placed in different tabs of the *Firewa
 
 .. figure:: _static/Firewall_Switch.png
 
-A user can see security groups of his/her user only. Administrator can observe security groups of all accounts in the domain.
+A user can see security groups of his/her user only. An Administrator can observe security groups of all accounts in the domain.
 
 Firewall List
 """"""""""""""""""""""""
 
 The security groups are presented in a list format. You can change the view from list to cards clicking the switch view icon |view icon|/|box icon| in the upper-right corner.
 
-To quickly find the security group you need, please, use the search tool above the list. Enter a name or a part of the name of the template/sequrity group and see the immediate result.
+To quickly find the security group you need, please, use the search tool above the list. Enter a name or a part of the name of the template/security group and see the immediate result.
 
 Administrators can filter the list of templates/shared groups by accounts.
 
@@ -76,7 +76,7 @@ Click "CANCEL" to cancel the template creation process. No firewall templates wi
 
 Create a Shared Security Group
 """"""""""""""""""""""""""""""""""""""
-You can create a shared security group and it will be available for implementing by other virtual machine.
+You can create a shared security group and it will be available for creating virtual machines of other users.
 
 A new shared security group is created on the base of existing templates. This security group will be created with a ``shared`` type.
 
@@ -153,7 +153,7 @@ Besides, you can group the rules by types and/or protocols.
 
 .. figure:: _static/Firewall_FilterRules.png
 
-You can edit the implemented rules right in this modal window by clicking "EDIT" below the list. When switching to the edit mode you are enabled to add rules, or delete the selected ones from the list. 
+You can edit the implemented rules right in this modal window by clicking "EDIT" below the list. When switching to the edit mode you are enabled to add rules or delete the selected ones from the list. 
 
 To add rules, please, fill in the fields in the panel above the list and click “+”:
 
