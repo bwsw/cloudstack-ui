@@ -76,6 +76,7 @@ mat-list-item {
 .row-action {
   position: absolute !important;
   right: 3px;
+  top: 8px;
 }
 
 .mat-list-item-content {
@@ -124,8 +125,8 @@ mat-card mat-card-header h2 {
 
 mat-card mat-card-header .mat-card-header-menu {
   position: absolute;
-  top: 7px !important;
-  right: 5px !important;
+  top: 8px !important;
+  right: 8px !important;
 }
 
 mat-card mat-card-content {
@@ -245,7 +246,7 @@ mat-card.custom-card {
 
     & > div {
       width: 50%;
-      padding: 2px;
+      padding: 2px 2px 2px 0 !important;
     }
 
     & > div:nth-child(2n) {
