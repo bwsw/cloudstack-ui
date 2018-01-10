@@ -377,7 +377,6 @@ export class VirtualMachinesEffects {
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
                 });
-                return new vmActions.ExpungeVmSuccess(action.payload);
               } else {
                 this.jobsNotificationService.finish({
                   id: notificationId,
@@ -385,7 +384,13 @@ export class VirtualMachinesEffects {
                 });
               }
             })
-            .map(vm => new vmActions.UpdateVM(vm))
+            .map(vm => {
+              if (params.expunge) {
+                return new vmActions.ExpungeVmSuccess(action.payload);
+              } else {
+                return new vmActions.UpdateVM(vm);
+              }
+            })
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
                 id: notificationId,
