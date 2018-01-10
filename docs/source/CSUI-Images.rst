@@ -42,7 +42,7 @@ Besides, you can adjust the list view using the grouping tool. Templates/ISOs ca
 Use the search tool to easily find a template/ISO by its name or by a part of the name.
 
 Create Template
-""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~
 
 There is a variety of ways to add more templates to the system. In the :ref:`VM_Info` section we have described one way of template creation from a VM volume snapshot in the "Storage" tab of the VM information sidebar (see :ref:`Actions_on_Snapshots`). From the :ref:`Storage_Info` of the "Storage" section you also can create a template on the base of the volume snapshot (see :ref:`Actions_on_Snapshot_Volume`).
 
@@ -85,7 +85,7 @@ Once all fields are filled in, click "Create" to create the template with these 
 Click "Cancel" to close the form without template creation. All fields will be cleared.
 
 Create ISO
-"""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~
 
 You can create a new ISO file in the *Images* section by clicking "Create" |create icon| in the bottom-right corner. 
 
@@ -122,7 +122,7 @@ The created ISO will appear in the list.
 .. _Image_Details:
 
 Template/ISO Details Sidebar
-"""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The information on each template/ISO is presented in the right-side bar. It is opened by clicking the template/ISO card or line in the list. The information is presented here in 3 tabs. Above the tabs you can see the template/ISO general information: 
 
@@ -192,7 +192,8 @@ Click "Edit" to change the tag's key or value in the appeared form. Save the edi
 Click "Delete" to delete the tag from the list for this template. Confirm your action in the dialogue window. Make sure the tag disappeared from the list of assigned tags.
 
 Template/ISO Action Box
-"""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 By clicking "Actions" |actions icon| you can expand the list of actions for those templates/ISO that belong to your user only (corresponding to "My" type). The deleting action is available here.
 
 .. figure:: _static/Images_Temp_ActionBox.png
