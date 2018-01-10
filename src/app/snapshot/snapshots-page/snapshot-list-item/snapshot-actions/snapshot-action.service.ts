@@ -1,28 +1,28 @@
 import { Snapshot } from '../../../../shared/models';
 import { Action } from '../../../../shared/models/action.model';
 
-const CreateTemplateFromSnapshotAction = {
+const CreateTemplateFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_TEMPLATE',
   command: 'createTemplate',
-  icon: 'library_add',
+  icon: 'add',
   canActivate: (snapshot: Snapshot) => true
 };
 
-const CreateVolumeFromSnapshotAction = {
+const CreateVolumeFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_VOLUME',
   command: 'createVolume',
-  icon: 'library_add',
+  icon: 'add',
   canActivate: (snapshot: Snapshot) => true
 };
 
-const SnapshotDeleteAction = {
+const SnapshotDeleteAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.DELETE_SNAPSHOT',
   command: 'delete',
   icon: 'delete',
   canActivate: (snapshot: Snapshot) => true
 };
 
-const SnapshotRevertAction = {
+const SnapshotRevertAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.REVERT_TO_SNAPSHOT',
   command: 'revert',
   icon: 'settings_backup_restore',

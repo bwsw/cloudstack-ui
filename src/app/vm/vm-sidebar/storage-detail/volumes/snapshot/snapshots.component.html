@@ -11,10 +11,10 @@
     </div>
     <div class="row snapshot-name">{{ volume.snapshots[0].name }}</div>
     <div class="row">
-      <div style="width: 70%;">
+      <div style="width: 60%;">
         {{ snapshotCreatedDate(volume.snapshots[0]) | stringifyDate }}
       </div>
-      <div style="width: 30%;">
+      <div style="width: 40%;">
         <button
           *ngFor="let action of actions"
           mat-icon-button

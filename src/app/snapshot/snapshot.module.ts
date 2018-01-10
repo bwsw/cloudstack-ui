@@ -14,7 +14,6 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 // tslint:disable-next-line
-import { SnapshotActionsComponent } from '../volume/volume-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
 import { DayPeriodComponent } from './recurring-snapshots/day-period/day-period.component';
 import { DailyPolicyComponent } from './recurring-snapshots/policy-editor/daily/daily-policy.component';
@@ -29,6 +28,7 @@ import { SnapshotPolicyService } from './recurring-snapshots/snapshot-policy.ser
 import { StoredNumberComponent } from './recurring-snapshots/stored-number/stored-number.component';
 import { TimePickerComponent } from './recurring-snapshots/time-picker/time-picker.component';
 import { CreateVolumeFromSnapshotComponent } from './snapshots-page/components/create-volume/create-volume.component';
+// tslint:disable-next-line
 import { CreateVolumeFromSnapshotContainerComponent } from './snapshots-page/components/create-volume/create-volume.container';
 import { SnapshotFilterComponent } from './snapshots-page/components/snaphot-filter/snapshot-filter.component';
 import { SnapshotFilterContainerComponent } from './snapshots-page/components/snaphot-filter/snapshot-filter.container';
@@ -62,7 +62,8 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     MatMenuModule
   ],
   exports: [
-    RecurringSnapshotsComponent
+    RecurringSnapshotsComponent,
+    SnapshotActionContainerComponent
   ],
   declarations: [
     DayOfWeekComponent,

@@ -72,6 +72,8 @@ export function listReducer(
         snapshotIdsByVolumeId: reduceByVolumeId
       };
 
+      console.log(newState);
+
       return {
         /**
          * The addMany function provided by the created adapter

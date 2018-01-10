@@ -20,13 +20,13 @@ export class SnapshotEffects {
   loadSnapshots$: Observable<Action> = this.actions$
     .ofType(snapshot.LOAD_SNAPSHOT_REQUEST)
     .switchMap((action: snapshot.LoadSnapshotRequest) => {
-      return Observable.forkJoin(
-        this.snapshotService.getListAll(action.payload),
-        this.snapshotService.getVmSnapshotsList()
-      )
-        .map(([volumeSnapshots, vmSnapshots]: Array<Snapshot[]>) =>
-          new snapshot.LoadSnapshotResponse([...vmSnapshots, ...volumeSnapshots]))
-        .catch(() => Observable.of(new snapshot.LoadSnapshotResponse([])));
+      return this.snapshotService.getListAll(action.payload)
+        .map((snapshots: Array<Snapshot>) => {
+          return new snapshot.LoadSnapshotResponse(snapshots);
+        })
+        .catch(() => {
+          return Observable.of(new snapshot.LoadSnapshotResponse([]));
+        });
     });
 
 
