@@ -111,7 +111,7 @@ Click "CREATE" to create the new shared security group. The group will appear in
 
 Click "CANCEL" to cancel the group creation process. No group will be created then. All fields will be cleared in the form.
 
-Firewall Rules Details Sidebar
+Security Group Details Sidebar
 """"""""""""""""""""""""""""""""""""""
 You can see the firewall rules details in the sidebar to the right. 
 
