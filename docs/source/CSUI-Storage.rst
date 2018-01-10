@@ -133,7 +133,7 @@ Like in the Virtual Machine information tab the same actions are available for a
     - Name * - Enter a name of the new template.
     - Description * - Provide a short description of the template.
     - OS type * - Select an OS type from the drop-down list.
-    - Group - Select a group from the drop-won list.
+    - Group - Select a group from the drop-down list.
     - Password enabled - Tick this option if the template has the password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
     - Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support the dynamic scaling of VM CPU/memory.
  
