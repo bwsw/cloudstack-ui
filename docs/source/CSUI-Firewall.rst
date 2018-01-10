@@ -8,9 +8,9 @@ The *Firewall* section contains templates to create a security group for a virtu
 
 .. figure:: _static/Firewall_List.png
 
-**Firewall templates** are presets of rules that can be system or developed by a user. Administrators can specify default presets during the interface deployment in the json configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. 
+**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how create a custom firewall template at :ref:`Create_FTemplate`.
 
-Upon VM creation on the base of templates the system creates a new security group for a VM. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a private security group used for that virtual machine only. 
+Upon VM creation the system creates a new security group for a VM on the base of templates. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a private security group used for that virtual machine only. 
 
 The second way is to use a **shared security group** for your virtual machine. Shared groups are used by other VMs. Changes of rules in them may affect other VMs. 
 
@@ -22,13 +22,18 @@ Templates and shared security groups are placed in different tabs of the *Firewa
 
 A user can see security groups of his/her user only. Administrator can observe security groups of all accounts in the domain.
 
-The security groups are presented in a list format. You can change the view to cards clicking the switch view icon |view icon|/|box icon| in the upper-right corner.
+Firewall List
+""""""""""""""""""""""""
+
+The security groups are presented in a list format. You can change the view from list to cards clicking the switch view icon |view icon|/|box icon| in the upper-right corner.
 
 To quickly find the security group you need, please, use the search tool above the list. Enter a name or a part of the name of the template/sequrity group and see the immediate result.
 
 Administrators can filter the list of templates/shared groups by accounts.
 
 .. figure:: _static/Firewall_Filter_Admin.png
+
+.. _Create_FTemplate:
 
 Create a Security Group Template
 """"""""""""""""""""""""""""""""""""""
@@ -39,9 +44,12 @@ A new security group template is created on the base of existing templates. This
 
 If you would like to create a new security group template, click "Create" in the bottom-right corner and fill in the form:
 
- - Name * - Enter a name for the template.
- - Description - Provide a short description for the firewall template.
- - Basic rules - Click "ADD" to open the list of rules to assign them to the template. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
+.. figure:: _static/Firewall_CreateTemplate.png
+   :scale: 70%
+
+- Name * - Enter a name for the template.
+- Description - Provide a short description for the firewall template.
+- Basic rules - Click "ADD" to open the list of rules to assign them to the template. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
  
 .. figure:: _static/Firewall_SelectRules.png
    :scale: 70%
@@ -52,14 +60,14 @@ Click “RESET” to drop all selected templates.
 
 In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your firewall template.
 
+.. figure:: _static/Firewall_SelectRules2.png
+   :scale: 70%
+
 Click “SAVE” to apply the selected rules to your security group template.
 
 Click “CANCEL” to drop the selected options. No rules will be assigned to the template. You will return to the “Create a new security group” window.
 
-.. figure:: _static/Firewall_CreateTemplate.png
-   :scale: 70%
-   
-Click "CREATE" to create the new firewall template. The template will appear in the list of firewall templates.
+When all fields are completed, click "CREATE" to create the new firewall template. The template will appear in the list of firewall templates as *Custom*:
 
 .. figure:: _static/Firewall_CreatedTemplate.png
    :scale: 70%
@@ -87,30 +95,33 @@ Click “RESET” to drop all selected templates.
 
 In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your shared security group.
 
+.. figure:: _static/Firewall_SelectRules2.png
+   :scale: 70%
+
 Click “SAVE” to apply the selected rules to your security group template.
 
 Click “CANCEL” to drop the selected options. No rules will be assigned to the security group. You will return to the “Create a new security group” window.
 
-.. figure:: _static/Firewall_CreateTemplate.png
+.. figure:: _static/Firewall_CreateSharedSG.png
    :scale: 70%
    
 Click "CREATE" to create the new shared security group. The group will appear in the list of shared security groups.
 
-.. figure:: _static/Firewall_CreatedTemplate.png
+.. figure:: _static/Firewall_CreatedSG.png
 
 Click "CANCEL" to cancel the group creation process. No group will be created then. All fields will be cleared in the form.
 
-Firewall Template Details Sidebar
+Firewall Rules Details Sidebar
 """"""""""""""""""""""""""""""""""""""
-You can see the firewall template details in the sidebar to the right. 
+You can see the firewall rules details in the sidebar to the right. 
 
-Click the template in the list and open the sidebar. You will see the template general information there:
+Click the template/shared security group in the list and open the sidebar. You will see the information there:
 
-- Name;
-- :ref:`SG_Action_Box`;
-- Id;
-- Description;
-- Type.
+- Name of the security group;
+- :ref:`SG_Action_Box` under |actions icon|;
+- ID of the security group;
+- Description giving an idea what the security group contains;
+- Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``.
 
 .. figure:: _static/Firewall_TemplateDetails.png
  
