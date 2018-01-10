@@ -64,11 +64,9 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     );
     this.jobsNotificationService.reset();
 
-    if (this._user) {
-      return this._user.userid
-        ? this.getCapabilities().toPromise()
-        : Promise.resolve();
-    }
+    return this._user && this._user.userid
+      ? this.getCapabilities().toPromise()
+      : Promise.resolve()
   }
 
   public get user(): User | null {
@@ -83,7 +81,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
       .do((res) => this.saveUserDataToLocalStorage(res))
-      .switchMap(res => this.getCapabilities())
+      .switchMap(() => this.getCapabilities())
       .do(() => this.loggedIn.next(true))
       .catch(error => this.handleCommandError(error.error));
   }
