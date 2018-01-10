@@ -25,6 +25,7 @@ import {
 } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
+import { AuthService } from '../../../shared/services/auth.service';
 // tslint:disable-next-line
 import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { WebShellService } from '../../../vm/web-shell/web-shell.service';
@@ -359,7 +360,7 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  destroyVm$: Observable<Action> = this.actions$
+  destroyVm$ = this.actions$
     .ofType(vmActions.DESTROY_VM)
     .switchMap((action: vmActions.DestroyVm) => {
       return this.dialog.open(VmDestroyDialogComponent, {
@@ -371,24 +372,25 @@ export class VirtualMachinesEffects {
             'JOB_NOTIFICATIONS.VM.DESTROY_IN_PROGRESS');
           this.update(action.payload, VmState.InProgress);
           return this.vmService.command(action.payload, 'destroy', params)
-            .do(() => {
+            .switchMap(vm => {
               if (params.expunge) {
                 this.jobsNotificationService.finish({
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
                 });
+                return Observable.of<any>(
+                  new vmActions.ExpungeVmSuccess(action.payload),
+                  new volumeActions.DeleteVolumes(action.payload)
+                );
               } else {
                 this.jobsNotificationService.finish({
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE'
                 });
-              }
-            })
-            .map(vm => {
-              if (params.expunge) {
-                return new vmActions.ExpungeVmSuccess(action.payload);
-              } else {
-                return new vmActions.UpdateVM(vm);
+                return Observable.of<any>(
+                  new vmActions.UpdateVM(vm),
+                  new volumeActions.DeleteVolumes(action.payload)
+                );
               }
             })
             .catch((error: Error) => {
@@ -396,10 +398,7 @@ export class VirtualMachinesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.DESTROY_FAILED'
               });
-              return Observable.of(new vmActions.VMUpdateError({
-                vm: action.payload,
-                state: VmState.Error,
-                error }));
+              return Observable.of(new vmActions.VMUpdateError(error));
             });
         });
     });
