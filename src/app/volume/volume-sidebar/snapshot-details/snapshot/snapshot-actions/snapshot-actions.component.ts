@@ -1,7 +1,4 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { State } from '../../../../../reducers/index';
 import { Store } from '@ngrx/store';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
@@ -10,7 +7,8 @@ import {
   SnapshotAction,
   SnapshotActionsService
 } from '../../../../../snapshot/snapshot-actions.service';
-import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+
+import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
 
 @Component({
   selector: 'cs-snapshot-actions',
@@ -24,7 +22,8 @@ export class SnapshotActionsComponent {
   constructor(
     public snapshotActionsService: SnapshotActionsService,
     private store: Store<State>,
-  ) {}
+  ) {
+  }
 
   public onAction(action: SnapshotAction): void {
     this.actionInProgress = true;
@@ -32,10 +31,7 @@ export class SnapshotActionsComponent {
       .subscribe(() => {
         this.actionInProgress = false;
         if (action.command === 'delete') {
-          this.store.dispatch(new volumeActions.DeleteSnapshot({
-            volume: this.volume,
-            snapshot: this.snapshot
-          }));
+          this.store.dispatch(new snapshotActions.DeleteSnapshot(this.snapshot));
         }
       });
   }

@@ -9,7 +9,7 @@ import {
   TableDatabase,
   TableDataSource
 } from '../../../../../shared/components/table/table';
-import { Volume } from '../../../../../shared/models';
+import { getDateSnapshotCreated, Volume } from '../../../../../shared/models';
 import {
   SnapshotAction,
   SnapshotActionsService
@@ -46,5 +46,9 @@ export class SnapshotModalComponent implements OnChanges {
           this.onSnapshotDelete.emit(snapshot);
         }
       });
+  }
+
+  public snapshotCreatedDate(snapshot: Snapshot) {
+    return getDateSnapshotCreated(snapshot);
   }
 }

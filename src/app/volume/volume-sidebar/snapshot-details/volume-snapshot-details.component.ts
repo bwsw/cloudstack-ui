@@ -8,6 +8,7 @@ import { Volume } from '../../../shared/models/volume.model';
 })
 export class VolumeSnapshotDetailsComponent {
   @Input() public volume: Volume;
+  @Input() public isLoading: boolean;
   @Output() public onSnapshotAdd = new EventEmitter<Volume>();
 
 }
