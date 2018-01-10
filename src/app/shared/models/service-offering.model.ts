@@ -19,6 +19,12 @@ export interface ServiceOffering extends Offering {
   tags: Array<Tag>;
 }
 
+export const getGroupId = (item: ServiceOffering) => {
+  const tag = item.tags && item.tags.find(
+    _ => _.key === ServiceOfferingGroupKey);
+  return tag && tag.value;
+};
+
 export class ServiceOfferingGroup {
   public id: string;
   public translations?: string;
@@ -28,4 +34,10 @@ export class ServiceOfferingGroup {
   }
 }
 
+export const ServiceOfferingType = {
+  select: 'Select',
+  custom: 'Custom'
+};
+
 export const ServiceOfferingGroupKey = 'csui.service-offering.group';
+export const DefaultServiceOfferingGroupId = 'common';

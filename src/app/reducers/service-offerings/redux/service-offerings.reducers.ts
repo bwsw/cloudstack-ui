@@ -14,8 +14,10 @@ import {
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
 import {
+  DefaultServiceOfferingGroupId,
   ServiceOffering,
-  ServiceOfferingGroupKey
+  ServiceOfferingGroupKey,
+  ServiceOfferingType
 } from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
 import {
@@ -27,6 +29,7 @@ import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
+import * as fromSOGroups from './service-offering-group.reducers';
 
 
 import * as serviceOfferingActions from './service-offerings.actions';
@@ -44,7 +47,12 @@ export interface State extends EntityState<ServiceOffering> {
   offeringAvailability: OfferingAvailability;
   defaultParams: ICustomServiceOffering;
   customOfferingRestrictions: ICustomOfferingRestrictionsByZone;
-  offeringCompatibilityPolicy: OfferingCompatibilityPolicy
+  offeringCompatibilityPolicy: OfferingCompatibilityPolicy,
+  filters: {
+    selectedViewMode: string,
+    selectedGroups: string[],
+    query: string
+  }
 }
 
 export interface OfferingsState {
@@ -80,6 +88,11 @@ export const initialState: State = adapter.getInitialState({
   customOfferingRestrictions: {},
   offeringCompatibilityPolicy: {
     offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+  },
+  filters: {
+    selectedViewMode: ServiceOfferingType.select,
+    selectedGroups: [],
+    query: ''
   }
 });
 
@@ -92,6 +105,15 @@ export function reducer(
       return {
         ...state,
         loading: true
+      };
+    }
+    case serviceOfferingActions.SERVICE_OFFERINGS_FILTER_UPDATE: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          ...action.payload
+        }
       };
     }
     case serviceOfferingActions.LOAD_SERVICE_OFFERINGS_RESPONSE: {
@@ -108,6 +130,12 @@ export function reducer(
          */
         ...adapter.addAll(offerings, state),
         loading: false
+      };
+    }
+
+    case serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING: {
+      return {
+        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state)
       };
     }
 
@@ -184,6 +212,26 @@ export const {
 export const isLoading = createSelector(
   getOfferingsEntitiesState,
   state => state.loading
+);
+
+export const filters = createSelector(
+  getOfferingsEntitiesState,
+  state => state.filters
+);
+
+export const filterSelectedViewMode = createSelector(
+  filters,
+  state => state.selectedViewMode
+);
+
+export const filterSelectedGroups = createSelector(
+  filters,
+  state => state.selectedGroups
+);
+
+export const filterQuery = createSelector(
+  filters,
+  state => state.query
 );
 
 export const offeringAvailability = createSelector(
@@ -273,7 +321,41 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
-export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
+export const selectFilteredOfferings = createSelector(
+  getAvailableOfferings,
+  filterSelectedViewMode,
+  filterSelectedGroups,
+  filterQuery,
+  fromSOGroups.selectEntities,
+  (offerings, viewMode, selectedGroups, query, groups) => {
+    const groupsMap = selectedGroups.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const queryLower = query && query.toLowerCase();
+
+    const selectedViewModeFilter = (offering: ServiceOffering) => {
+      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+    };
+
+    const selectedGroupsFilter = (offering: ServiceOffering) => {
+      if (selectedGroups.length) {
+        const tag = offering.tags && offering.tags.find(_ => _.key === ServiceOfferingGroupKey);
+        const group = tag && tag.value;
+        const showGeneral = selectedGroups.indexOf(DefaultServiceOfferingGroupId) !== -1;
+        return !!groupsMap[group]
+          || (showGeneral && (!groups[group] || !group));
+      }
+      return true;
+    };
+
+    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase()
+        .includes(queryLower);
+
+    return offerings.filter((offering: ServiceOffering) => selectedViewModeFilter(
+      offering) && queryFilter(offering) && selectedGroupsFilter(offering));
+  }
+);
+
+export const getAvailableOfferingsForVmCreation = createSelector(
+  selectAll,
   offeringAvailability,
   defaultParams,
   customOfferingRestrictions,
@@ -308,7 +390,42 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
     } else {
       return [];
     }
-  });
+  }
+);
+
+export const selectFilteredOfferingsForVmCreation = createSelector(
+  getAvailableOfferingsForVmCreation,
+  filterSelectedViewMode,
+  filterSelectedGroups,
+  filterQuery,
+  fromSOGroups.selectEntities,
+  (offerings, viewMode, selectedGroups, query, groups) => {
+    const groupsMap = selectedGroups.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const queryLower = query && query.toLowerCase();
+
+    const selectedViewModeFilter = (offering: ServiceOffering) => {
+      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+    };
+
+    const selectedGroupsFilter = (offering: ServiceOffering) => {
+      if (selectedGroups.length) {
+        const tag = offering.tags && offering.tags.find(_ => _.key === ServiceOfferingGroupKey);
+        const group = tag && tag.value;
+        const showGeneral = selectedGroups.indexOf(DefaultServiceOfferingGroupId) !== -1;
+        return !!groupsMap[group]
+          || (showGeneral && (!groups[group] || !group));
+      }
+      return true;
+    };
+
+    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase()
+      .includes(queryLower);
+
+    return offerings.filter((offering: ServiceOffering) => selectedViewModeFilter(
+      offering) && queryFilter(offering) && selectedGroupsFilter(offering));
+  }
+);
+
 
 export const getOfferingsAvailableInZone = (
   offeringList: Array<ServiceOffering>,

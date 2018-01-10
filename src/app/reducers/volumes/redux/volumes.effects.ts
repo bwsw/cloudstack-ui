@@ -5,6 +5,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+// tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
 import { Snapshot } from '../../../shared/models/snapshot.model';
@@ -13,6 +14,7 @@ import { JobsNotificationService } from '../../../shared/services/jobs-notificat
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
+// tslint:disable-next-line
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 import * as volumeActions from './volumes.actions';

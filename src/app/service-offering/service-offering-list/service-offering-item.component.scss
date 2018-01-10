@@ -1,0 +1,24 @@
+mat-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  max-height: 370px;
+}
+
+mat-list-item {
+  cursor: pointer;
+  .name {
+    flex-basis: 100px;
+    flex-grow: 2;
+  }
+  .title {
+    flex-basis: 100px;
+  }
+  div {
+    flex-basis: 10px;
+    flex-grow: 1;
+  }
+}
+
+.selected-offering span {
+  font-weight: bold;
+}

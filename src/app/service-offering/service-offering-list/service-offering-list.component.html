@@ -1,0 +1,58 @@
+<!--div class="offering-list">
+  <mat-list>
+    <mat-list-item>
+      <div class="title">
+        {{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }}
+      </div>
+      <div>
+        {{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }}
+      </div>
+      <div>
+        {{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }}
+      </div>
+      <div>
+        {{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }}
+      </div>
+      <div>
+        {{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}
+      </div>
+      <span></span>
+    </mat-list-item>
+    <mat-list-item
+      *ngFor="let offering of offeringList"
+      (click)="selectOffering(offering)"
+      [class.selected-offering]="selectedOffering?.id === offering?.id"
+    >
+      <div class="name">
+        <span [innerHTML]="offering.name | highlight:query"></span>
+      </div>
+      <div
+        [innerHTML]="offering.cpunumber"
+      ></div>
+      <div
+        [innerHTML]="offering.cpuspeed"
+      ></div>
+      <div
+        [innerHTML]="offering.memory"
+      ></div>
+      <div
+        [innerHTML]="offering.networkrate ? offering.networkrate : '-'"
+      ></div>
+      <span>
+        <mat-radio-button [checked]="offering?.id === selectedOffering?.id"></mat-radio-button>
+      </span>
+    </mat-list-item>
+  </mat-list>
+</div-->
+<cs-grouped-list
+  class="padding"
+  [list]="offeringList"
+  [groupings]="groupings"
+  [component]="itemComponent"
+  [dynamicInputs]="inputs"
+  [dynamicOutputs]="outputs"
+>
+</cs-grouped-list>
+<cs-no-results *ngIf="!offeringList?.length && !isLoading"></cs-no-results>
+
+

@@ -1,6 +1,8 @@
-import { CustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { StorageTypes } from '../../../shared/models/offering.model';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import {
+  ServiceOffering,
+  ServiceOfferingType
+} from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
 import { OfferingPolicy } from '../../../shared/services/offering.service';
 import {
@@ -31,6 +33,11 @@ describe('Test service offering reducer', () => {
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
   });
@@ -47,6 +54,11 @@ describe('Test service offering reducer', () => {
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
   });
@@ -66,6 +78,11 @@ describe('Test service offering reducer', () => {
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
   });
@@ -85,6 +102,11 @@ describe('Test service offering reducer', () => {
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
 
@@ -103,6 +125,11 @@ describe('Test service offering reducer', () => {
         customOfferingRestrictions: { 'custom': 'r1' },
         offeringCompatibilityPolicy: {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
 
@@ -121,6 +148,11 @@ describe('Test service offering reducer', () => {
         customOfferingRestrictions: { 'custom': 'r1' },
         offeringCompatibilityPolicy: {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
 
@@ -143,6 +175,11 @@ describe('Test service offering reducer', () => {
         offeringCompatibilityPolicy: {
           offeringChangePolicy: 'no-restrictions',
           offeringChangePolicyIgnoreTags: ['t1']
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
   });
@@ -162,6 +199,11 @@ describe('Test service offering reducer', () => {
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
+        },
+        filters: {
+          selectedViewMode: ServiceOfferingType.select,
+          selectedGroups: [],
+          query: ''
         }
       });
     expect(fromSOs.getOfferingsEntitiesState.projector({ list: state })).toBe(state);

@@ -1,11 +1,18 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatSelectChange, MatDialog } from '@angular/material';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output
+} from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { areCustomParamsSet, CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
-import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
+// tslint:disable-next-line
+import { VmCreationServiceOfferingContainerComponent } from '../../vm/vm-creation/service-offering/vm-creation-service-offering.container';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 
 
@@ -21,7 +28,7 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
     }
   ]
 })
-export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
+export class ServiceOfferingSelectorComponent {
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Output() public change: EventEmitter<ServiceOffering>;
@@ -35,46 +42,6 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     private translateService: TranslateService
   ) {
     this.change = new EventEmitter();
-  }
-
-  @Input()
-  public get serviceOffering(): ServiceOffering {
-    return this._serviceOffering;
-  }
-
-  public set serviceOffering(serviceOffering: ServiceOffering) {
-    this._serviceOffering = serviceOffering;
-    this.propagateChange(this.serviceOffering);
-  }
-
-  public get customOfferingDescription(): Observable<string> {
-    if (!this.serviceOffering || !this.serviceOffering.iscustomized || !areCustomParamsSet(this.serviceOffering)) {
-      return Observable.of('');
-    }
-
-    const cpuNumber = this.serviceOffering.cpunumber;
-    const cpuSpeed = this.serviceOffering.cpuspeed;
-    const memory = this.serviceOffering.memory;
-
-    return this.translateService.get(['UNITS.MB', 'UNITS.MHZ'])
-      .map(translations => {
-        return `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${translations['UNITS.MB']}`;
-      });
-  }
-
-  public changeOffering(change: MatSelectChange): void {
-    const newOffering = this.serviceOfferings.find(_ => _.id === change.value);
-    this.saveOffering();
-    this.serviceOffering = newOffering;
-    if (newOffering.iscustomized) {
-      this.showCustomOfferingDialog()
-        .subscribe(customOffering => {
-          this.setCustomOffering(customOffering);
-          this.change.next(this.serviceOffering);
-        });
-    } else {
-      this.change.next(this.serviceOffering);
-    }
   }
 
   public registerOnChange(fn): void {
@@ -93,42 +60,53 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     }
   }
 
-  private setCustomOffering(customOffering: CustomServiceOffering): void {
-    if (customOffering) {
-      this.updateCustomOfferingInList(customOffering);
-      this.serviceOffering = customOffering;
-    } else {
-      this.restorePreviousOffering();
-    }
+  @Input()
+  public get serviceOffering(): ServiceOffering {
+    return this._serviceOffering;
   }
 
-  private updateCustomOfferingInList(customOffering: CustomServiceOffering): void {
-    this.serviceOfferings = this.serviceOfferings.map(offering => {
-      if (offering.id === customOffering.id) {
-        return customOffering;
-      } else {
-        return offering;
-      }
-    });
-    this.cd.detectChanges();
+  public set serviceOffering(serviceOffering: ServiceOffering) {
+    this._serviceOffering = serviceOffering;
+    this.propagateChange(this.serviceOffering);
   }
 
-  private showCustomOfferingDialog(): Observable<CustomServiceOffering> {
-    return this.dialog.open(CustomServiceOfferingComponent, {
-      width: '370px',
+  public onClick() {
+    this.dialog.open(VmCreationServiceOfferingContainerComponent, <MatDialogConfig>{
+      width: '700px',
+      disableClose: true,
       data: {
-        offering: this.serviceOffering,
+        serviceOffering: this.serviceOffering,
         restriction: this.customOfferingRestrictions
       }
-    }).afterClosed();
-
+    })
+      .afterClosed()
+      .filter(res => Boolean(res))
+      .subscribe(offering => {
+        this.serviceOffering = offering;
+        this.change.next(this.serviceOffering);
+      });
   }
 
-  private saveOffering(): void {
-    this.previousOffering = this.serviceOffering;
-  }
+  public get offeringName(): Observable<string> {
+    if (!this.serviceOffering) {
+      return Observable.of('');
+    }
 
-  private restorePreviousOffering(): void {
-    this.serviceOffering = this.previousOffering;
+    return this.translateService.get([
+      'UNITS.MB',
+      'UNITS.MHZ',
+      'VM_PAGE.VM_CREATION.SERVICE_OFFERING'
+    ])
+      .map(translations => {
+        if (!this.serviceOffering.iscustomized) {
+          return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name}`;
+        } else {
+          const cpuNumber = this.serviceOffering.cpunumber;
+          const cpuSpeed = this.serviceOffering.cpuspeed;
+          const memory = this.serviceOffering.memory;
+          return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name} -` +
+            `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${translations['UNITS.MB']}`;
+        }
+      });
   }
 }

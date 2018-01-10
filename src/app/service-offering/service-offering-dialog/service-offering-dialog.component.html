@@ -3,7 +3,24 @@
 </h3>
 <div *loading="loading">
   <div class="mat-dialog-content" *loading="!serviceOfferings">
-    <cs-service-offering-selector
+    <cs-service-offering-filter
+      [groups]="groups"
+      [viewMode]="viewMode"
+      [groupings]="groupings"
+      (groupingsChange)="groupingsChange.emit($event)"
+      (viewModeChange)="viewModeChange.emit($event)"
+      (selectedGroupsChange)="selectedGroupsChange.emit($event)"
+      (queryChange)="queryChange.emit($event)"
+    ></cs-service-offering-filter>
+    <cs-service-offering-list
+      [groups]="groups"
+      [offeringList]="serviceOfferings"
+      [customOfferingRestrictions]="restrictions"
+      [selectedOffering]="serviceOffering"
+      (selectedOfferingChange)="updateOffering($event)"
+    ></cs-service-offering-list>
+
+    <!--cs-service-offering-selector
       *ngIf="serviceOfferings?.length"
       class="service-offering-selector"
       [serviceOfferings]="serviceOfferings"
@@ -14,10 +31,11 @@
     <div
       *ngIf="!serviceOfferings?.length"
     >{{ "SERVICE_OFFERING.NO_AVAILABLE_OFFERINGS" | translate }}
-    </div>
+    </div-->
+
     <div
       class="message warning"
-      *ngIf="serviceOfferings?.length && serviceOffering?.id !== serviceOfferingId"
+      *ngIf="!formMode && serviceOfferings?.length && serviceOffering && serviceOffering.id !== serviceOfferingId"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
   </div>
@@ -32,7 +50,7 @@
       [disabled]="serviceOffering?.id === serviceOfferingId"
       (click)="onChange()"
     >
-      {{ 'COMMON.CHANGE' | translate }}
+      {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}
     </button>
   </div>
 </div>

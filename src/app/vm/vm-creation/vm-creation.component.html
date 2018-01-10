@@ -84,12 +84,10 @@
           </div>
 
           <div *ngIf="vmCreationState.zone && serviceOfferings?.length">
-            <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
             <cs-service-offering-selector
               name="serviceOffering"
-              [serviceOfferings]="serviceOfferings"
               [customOfferingRestrictions]="customOfferingRestrictions"
-              [ngModel]="vmCreationState.serviceOffering"
+              [serviceOffering]="vmCreationState.serviceOffering"
               (change)="serviceOfferingChange.emit($event)"
             ></cs-service-offering-selector>
           </div>

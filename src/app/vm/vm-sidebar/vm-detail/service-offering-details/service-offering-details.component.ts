@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+
+import * as moment from 'moment';
 import { ServiceOffering } from '../../../../shared/models/service-offering.model';
 import { ServiceOfferingDialogContainerComponent } from '../../../container/service-offering-dialog.container';
 import { VirtualMachine } from '../../../shared/vm.model';
-
-import * as moment from 'moment';
 
 @Component({
   selector: 'cs-service-offering-details',
@@ -25,7 +25,7 @@ export class ServiceOfferingDetailsComponent {
 
   public changeServiceOffering(): void {
     this.dialog.open(ServiceOfferingDialogContainerComponent, <MatDialogConfig>{
-      width: '350px',
+      width: '700px',
       disableClose: true,
       data: { vm: this.vm }
     })

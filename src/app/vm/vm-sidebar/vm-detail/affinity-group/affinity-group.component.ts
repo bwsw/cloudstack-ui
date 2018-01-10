@@ -1,13 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig
-} from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+// tslint:disable-next-line
 import { AffinityGroupSelectorComponent } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { DateTimeFormatterService } from '../../../../shared/services/date-time-formatter.service';
 import { VirtualMachine } from '../../../shared/vm.model';

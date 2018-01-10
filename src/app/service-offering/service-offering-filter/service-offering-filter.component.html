@@ -1,0 +1,56 @@
+<div class="options-panel filter-wrapper">
+  <mat-button-toggle-group
+    (change)="setMode($event.value)"
+    name="viewMode"
+    [(ngModel)]="viewMode"
+  >
+    <mat-button-toggle [value]="ServiceOfferingType.select">
+      {{ 'SERVICE_OFFERING.MODES.SELECT' | translate }}
+    </mat-button-toggle>
+    <mat-button-toggle
+      [value]="ServiceOfferingType.custom"
+      [attr.cdkFocusRegionStart]="viewMode === ServiceOfferingType.custom">
+      {{ 'SERVICE_OFFERING.MODES.CUSTOM' | translate }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <mat-form-field *ngIf="groups?.length">
+    <mat-select
+      multiple="true"
+      [placeholder]="'SERVICE_OFFERING.FILTERS.SELECT_GROUPS' | translate"
+      [(ngModel)]="selectedGroups"
+      (change)="selectedGroupsChange.emit(selectedGroups)"
+    >
+      <mat-option [value]="'common'">{{ 'SERVICE_OFFERING.FILTERS.COMMON' | translate }}
+      </mat-option>
+
+      <mat-option
+        *ngFor="let g of groups"
+        [value]="g.id"
+      >
+        {{ g.translations && g.translations[locale] || g.id }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--mat-form-field>
+    <cs-draggable-select
+      multiple="true"
+      [placeholder]="'SERVICE_OFFERING.FILTERS.GROUP_BY' | translate"
+      [ngModel]="selectedGroupings"
+      [dragItems]="groupings"
+      (selectionChange)="groupingsChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let g of groupings" [value]="g">
+        {{ g.label | translate }}
+      </mat-option>
+    </cs-draggable-select>
+  </mat-form-field-->
+</div>
+
+<div class="filter-wrapper">
+  <cs-search
+    [(ngModel)]="query"
+    (ngModelChange)="queryChange.emit(query)"
+  ></cs-search>
+</div>

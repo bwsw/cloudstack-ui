@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
 import { ConfigService } from '../../../shared/services/config.service';
 import * as actions from './service-offering-group.actions';
 
 @Injectable()
-export class ServiceOfferingEffects {
+export class ServiceOfferingGroupEffects {
 
   @Effect()
   loadServiceOfferingGroups$ = this.actions$
     .ofType(actions.LOAD_SERVICE_OFFERING_GROUP_REQUEST)
     .switchMap((action: actions.LoadServiceOfferingGroupRequest) => {
-      return this.configService.get('serviceOfferingGroups')
-        .map(groupList => new actions.LoadServiceOfferingGroupResponse(groupList));
+      return Observable.of(this.configService.get('serviceOfferingGroups'))
+        .map(groupList => new actions.LoadServiceOfferingGroupResponse(groupList ? groupList : []));
     });
 
   constructor(
