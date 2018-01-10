@@ -171,3 +171,4 @@ The list of actions allows an Administrator to:
 .. |copy icon| image:: _static/copy_icon.png
 .. |color picker| image:: _static/color-picker_icon.png
 .. |adv icon| image:: _static/adv_icon.png
+.. |hide| image:: _static/hide_icon.png
