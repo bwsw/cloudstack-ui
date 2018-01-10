@@ -18,7 +18,8 @@ Clicking *Accounts* in the left-side navigation bar you open the *Accounts* sect
 You can switch the view from list to box using the switch tool |view icon|/|box icon| in the upper-right corner.
 
 .. figure:: _static/Accounts_ListSwitch.png
-
+   :scale: 70%
+   
 For each account in the list you can see the following information:
 
  - Account name
@@ -43,7 +44,7 @@ You can filter the list by:
 Besides, accounts can be grouped by the parameters mentioned above.
 
 .. figure:: _static/Accounts_Filtering.png
-
+   :scale: 70%
 
 Create an Account
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,15 +57,15 @@ By clicking "Create" |create icon| in the bottom-left corner you will open a for
 
 .. note:: Required fields are marked with asterisks (*).
 
- - Name * - Enter any desired login ID. It should be unique within the domain.
- - Email * - Enter the accounts email address.
- - Password * - Enter any password you like. You can view the password that you are entering by clicking |view| to the right. Hide the password under dots by clicking |hide|. 
- - First name * - Enter the first name of a person or the first part of the entity represented by the account. It can be a department or a customer.
- - Last name * - Enter the last name of a person or the second part of the entity represented by the account (a customer or a department).
- - Domain * - Select a domain in which the account is to be created.
- - Role - Select the role for the account.
- - Time zone - Set the timezone that corresponds to the account locale.
- - Network domain - If you want to assign a special domain name to the account's guest VM network, specify the DNS suffix. 
+- Name * - Enter any desired login ID. It should be unique within the domain.
+- Email * - Enter the accounts email address.
+- Password * - Enter any password you like. You can view the password that you are entering by clicking |view| to the right. Hide the password under dots by clicking |hide|. 
+- First name * - Enter the first name of a person or the first part of the entity represented by the account. It can be a department or a customer.
+- Last name * - Enter the last name of a person or the second part of the entity represented by the account (a customer or a department).
+- Domain * - Select a domain in which the account is to be created.
+- Role - Select the role for the account.
+- Time zone - Set the timezone that corresponds to the account locale.
+- Network domain - If you want to assign a special domain name to the account's guest VM network, specify the DNS suffix. 
 
 .. figure:: _static/Accounts_Create.png
 
@@ -76,7 +77,8 @@ Account Details Sidebar
 For each account, the information is available in the details sidebar to the right. Click the account in the list to open the sidebar:
 
 .. figure:: _static/Accounts_Details.png
-
+   :scale: 70%
+   
 There two tabs in the sidebar: General and Users.
 
 The *General* tab contains the general information on the account: details, limits for resources. 
@@ -84,7 +86,8 @@ The *General* tab contains the general information on the account: details, limi
 Administrators can edit the limits. Click "Edit" |edit icon| in the Limits block and change the values right in the block.
 
 .. figure:: _static/Accounts_EditLimits.png
-
+   :scale: 70%
+   
 Administrators can see the statistics on resource usage at the bottom. Refresh the data by clicking |refresh icon|.
 
 .. figure:: _static/Accounts_Stats.png
@@ -105,6 +108,7 @@ Create a User
 Administrators can create a new user from under the *Users* tab of the Account Details sidebar by clicking "Create" |create icon|. 
 
 .. figure:: _static/Accounts_CreateUser.png
+   :scale: 70%
 
 In the appeared form fill in the following fields:
 
@@ -118,7 +122,8 @@ In the appeared form fill in the following fields:
 - Time zone * - Set the timezone that corresponds to the user's locale. Select an option from the drop-down list.
 
 .. figure:: _static/Accounts_CreateUser2.png
-
+   :scale: 80%
+   
 Click "CREATE" to create the new user. It will appear in the list of users for this account.
 
 Click "CANCEL" to cancel the user creation.
@@ -130,11 +135,13 @@ Administrators can manage a user via the Action box. The list of actions allows 
 - Edit user - Opens a form to edit user's settings (name, email, timezone). Edit the information and click "SAVE" to save the edits.
 
 .. figure:: _static/Accounts_UserActions_Edit.png
-
+   :scale: 70%
+   
 - Change password - Opens a modal window with two fields for you to enter a new password and confirm it. Use the view tool |view| to view or hide a password while entering. Click "SAVE" to save the new password.
 
 .. figure:: _static/Accounts_UserActions_ChangePass.png
-
+   :scale: 70%
+   
 - Regenerate key - Allows changing the keys - secret and API - for the user. Confirm your action in the dialogue window, and the keys will be changed.
  
 - Delete a user - Allows deleting a user from the system. Confirm your action in the dialogue window, and the user will be deleted.
@@ -147,7 +154,8 @@ Account Action Box
 Administrators can manage an account via the Action box under |actions icon|. 
 
 .. figure:: _static/Accounts_Actions.png
-
+   :scale: 70%
+   
 The list of actions allows an Administrator to:
 
 - Disable account - Allows disabling an account. By disabling the account all users for this account will no longer have access to their cloud resources. All running VMs will be immediately shut down. Click "Disable account" and confirm your action in the dialogue window. The account will be inactive.
