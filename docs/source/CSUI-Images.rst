@@ -4,7 +4,7 @@ Images
 ---------------
 .. Contents::
 
-In the *Images* section you can manage Templates and ISO files that are used as installation sources for VMs.
+In the *Images* section, you can manage Templates and ISO files that are used as installation sources for VMs.
 
 A template is a reusable configuration for virtual machines. When users create a VM, they can choose from a list of templates. Administrators and users can create new templates and add them to CloudStack.
 
@@ -21,7 +21,7 @@ Existing templates/ISOs are presented in the list in the "Images" section. A use
 
 You can switch the list view of templates/ISOs to the box view using the view button |view box icon| in the upper-right corner. 
 
-For each template/ISO in the list you can see its name, OS family, description.  The Actions button |actions icon| expands the list of actions. Actions are available to those templates/ISOs that belong to your user only (corresponding to "My" type). Administrators can see templates/ISOs of all users in the domain, but cannot manage them.
+For each template/ISO in the list, you can see its name, OS family, description.  The Actions button |actions icon| expands the list of actions. Actions are available to those templates/ISOs that belong to your user only (corresponding to "My" type). Administrators can see templates/ISOs of all users in the domain, but cannot manage them.
 
 Filtering of Images
 """"""""""""""""""""""""""""
@@ -44,9 +44,9 @@ Use the search tool to easily find a template/ISO by its name or by a part of th
 Create Template
 ~~~~~~~~~~~~~~~~~~~~
 
-There is a variety of ways to add more templates to the system. In the :ref:`VM_Info` section we have described one way of template creation from a VM volume snapshot in the "Storage" tab of the VM information sidebar (see :ref:`Actions_on_Snapshots`). From the :ref:`Storage_Info` of the "Storage" section you also can create a template on the base of the volume snapshot (see :ref:`Actions_on_Snapshot_Volume`).
+There is a variety of ways to add more templates to the system. In the :ref:`VM_Info` section, we have described one way of template creation from a VM volume snapshot in the "Storage" tab of the VM information sidebar (see :ref:`Actions_on_Snapshots`). From the :ref:`Storage_Info` of the "Storage" section, you also can create a template on the base of the volume snapshot (see :ref:`Actions_on_Snapshot_Volume`).
 
-Other way is to create a new template filling in the form in the *Images* section by clicking "Create" |create icon| in the bottom-right corner. 
+One more way to create a new template is filling in the form in the *Images* section by clicking "Create" |create icon| in the bottom-right corner. 
 
 .. figure:: _static/Images_Temp_Create.png
 
@@ -124,7 +124,7 @@ The created ISO will appear in the list.
 Template/ISO Details Sidebar
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The information on each template/ISO is presented in the right-side bar. It is opened by clicking the template/ISO card or line in the list. The information is presented here in 3 tabs. Above the tabs you can see the template/ISO general information: 
+The information on each template/ISO is presented in the sidebar to the right. It is opened by clicking the template/ISO card or line in the list. The information is presented here in 3 tabs. Above the tabs you can see the template/ISO general information: 
 
 - Name - Template/ISO name and symbol, 
 - Actions button - Actions list allowing the Delete action. 
@@ -141,7 +141,7 @@ The information on each template/ISO is presented in the right-side bar. It is o
    
 .. figure:: _static/Images_Temp_Details_GroupEdit.png
    
-From this window you can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
+From this window, you can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
 
 .. figure:: _static/Images_Temp_Details_GroupRemove.png
 
@@ -153,7 +153,7 @@ From this window you can remove the template/ISO from the group. Select the "Rem
 
 .. figure:: _static/Images_Details_Tags.png
 
-Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the template. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. Uncheck the "Show system tags" checkbox to hide system tags from the list. 
+Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the template. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. Uncheck the "Show system tags" checkbox to hide system tags from the list. 
 
 The following system tags can be used for templates/ISOs:
 
