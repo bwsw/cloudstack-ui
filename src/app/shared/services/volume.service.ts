@@ -63,6 +63,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.sendCommand('resize', params).switchMap(job =>
       this.asyncJobService.queryJob(job, this.entity, this.entityModel)
     )
+      .switchMap(response => Observable.of(response.result.volume))
       .do(jobResult => this.onVolumeResized.next(jobResult));
   }
 
