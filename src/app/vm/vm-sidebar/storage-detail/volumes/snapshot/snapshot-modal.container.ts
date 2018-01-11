@@ -1,20 +1,14 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/index';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
-import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
-import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.reducers';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
 import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
 
+import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
+import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.reducers';
 
 @Component({
   selector: 'cs-snapshot-modal-container',
@@ -26,7 +20,7 @@ import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
     </cs-snapshot-modal>`,
 })
 export class SnapshotModalContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
+  readonly volume$ = this.store.select(fromVolumes.getSelectedVolumeWithSnapshots);
 
   public volume: Volume;
 
@@ -46,16 +40,13 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       .subscribe(volume => {
         // todo remove model
         this.volume = new Volume(volume);
-        if (!this.volume.snapshots.length) {
+        if (!this.volume.snapshots || !this.volume.snapshots.length) {
           this.dialogRef.close();
         }
       });
   }
 
   public snapshotDeleted(snapshot: Snapshot) {
-    this.store.dispatch(new volumeActions.DeleteSnapshot({
-      volume: this.volume,
-      snapshot
-    }));
+    this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
   }
 }

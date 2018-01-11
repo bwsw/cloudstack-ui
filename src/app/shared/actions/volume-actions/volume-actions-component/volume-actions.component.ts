@@ -14,7 +14,7 @@ export class VolumeActionsComponent {
   @Output() public onVolumeResize = new EventEmitter<Volume>();
   @Output() public onVolumeAttach = new EventEmitter<Volume>();
   @Output() public onVolumeDetach = new EventEmitter<Volume>();
-  @Output() public onVolumeSnapshots = new EventEmitter<Volume>();
+  @Output() public onSnapshotAdd = new EventEmitter<Volume>();
   @Output() public onVolumeSchedule = new EventEmitter<Volume>();
   public actions: Array<any>;
 
@@ -43,7 +43,7 @@ export class VolumeActionsComponent {
         break;
       }
       case VolumeAction.SNAPSHOT: {
-        this.onVolumeSnapshots.emit(volume);
+        this.onSnapshotAdd.emit(volume);
         break;
       }
       case VolumeAction.SCHEDULE: {

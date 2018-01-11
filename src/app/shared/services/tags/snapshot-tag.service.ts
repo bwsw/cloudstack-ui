@@ -7,6 +7,7 @@ import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { SnapshotTagKeys } from './snapshot-tag-keys';
 
+export const SnapshotResourceType = 'Snapshot';
 
 @Injectable()
 export class SnapshotTagService implements EntityTagService {
@@ -19,14 +20,19 @@ export class SnapshotTagService implements EntityTagService {
   }
 
   public setDescription(snapshot: Snapshot, description: string): Observable<Taggable> {
-    return this.descriptionTagService.setDescription(snapshot, snapshot.resourceType, description, this);
+    return this.descriptionTagService.setDescription(
+      snapshot,
+      SnapshotResourceType,
+      description,
+      this
+    );
   }
 
   public markForRemoval(snapshot: Snapshot): Observable<any> {
     return this.tagService.create(
       {
         resourceIds: snapshot.id,
-        resourceType: snapshot.resourceType,
+        resourceType: SnapshotResourceType,
         'tags[0].key': 'status',
         'tags[0].value': 'removed',
       });
