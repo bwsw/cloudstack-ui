@@ -4,11 +4,11 @@ Accounts
 -----------------
 .. Contents::
 
-In the *Accounts* section you can manage accounts and users in them. For an account, you can see details and resource limits. Please, note that the account limits are shared by all users in the account. If you are facing the problem of the lack of resources, contact the Administrator. Administrators are able to edit the limits of an account. Besides, they can monitor resource usage having access to the resource statistics for each account.
+In the *Accounts* section Administrators can manage accounts and users in them. For an account, details and resource limits can be viewed. Please, note that the account limits are shared by all users in the account. If you are facing the problem of the lack of resources, contact the Administrator. Administrators are able to edit the limits of an account. Besides, they can monitor resource usage having access to the resource statistics for each account.
 
 Administrators can see the list of accounts for the whole domain. They can create new users for an account, edit or delete a user. 
 
-For each user in the account, you can see the settings. 
+If you are a User, you can view but not manage your account and users in it. For each user in the account, you can see the settings. 
 
 Account List
 ~~~~~~~~~~~~~~~~~~~~~~~
