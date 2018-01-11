@@ -168,14 +168,5 @@
     "webShell": true,
     "pulse": false
   },
-  "templateGroups": [],
-  "serviceOfferingGroups": [
-    {
-      "id": "testGroup",
-      "translations": {
-        "ru": "Тестовая группа",
-        "en": "Test group"
-      }
-    }
-  ]
+  "templateGroups": []
 }
