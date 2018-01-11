@@ -20,7 +20,7 @@ Here is the documentation structure:
    CSUI-Images
    CSUI-Firewall
    CSUI-Events
-   CSUI-SSHKeys
+   CSUI-SSHkeys
    CSUI-Accounts
    CSUI-Settings
    CSUI-Logout
