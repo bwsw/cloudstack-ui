@@ -17,8 +17,8 @@ export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
-export const VM_CHANGE_INSTANT_GROUP = '[VM] VM_CHANGE_INSTANT_GROUP';
-export const VM_REMOVE_INSTANT_GROUP = '[VM] VM_REMOVE_INSTANT_GROUP';
+export const VM_CHANGE_INSTANCE_GROUP = '[VM] VM_CHANGE_INSTANCE_GROUP';
+export const VM_REMOVE_INSTANCE_GROUP = '[VM] VM_REMOVE_INSTANCE_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
 export const VM_CHANGE_COLOR = '[VM] VM_CHANGE_COLOR';
@@ -137,7 +137,7 @@ export class ChangeAffinityGroup implements Action {
 }
 
 export class ChangeInstanceGroup implements Action {
-  type = VM_CHANGE_INSTANT_GROUP;
+  type = VM_CHANGE_INSTANCE_GROUP;
 
   constructor(public payload: {
     vm: VirtualMachine,
@@ -147,7 +147,7 @@ export class ChangeInstanceGroup implements Action {
 }
 
 export class RemoveInstanceGroup implements Action {
-  type = VM_REMOVE_INSTANT_GROUP;
+  type = VM_REMOVE_INSTANCE_GROUP;
 
   constructor(public payload: VirtualMachine) {
   }
