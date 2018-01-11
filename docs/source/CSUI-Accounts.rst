@@ -53,7 +53,7 @@ An Administrator can create a new account in the domain.
 
 .. figure:: _static/Accounts_OpenCreateForm.png
 
-By clicking "Create" |create icon| in the bottom-left corner you will open a form where the following fields should be completed:
+By clicking "Create" |create icon| in the bottom-right corner you will open a form where the following fields should be completed:
 
 .. note:: Required fields are marked with asterisks (*).
 
