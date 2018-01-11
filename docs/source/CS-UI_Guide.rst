@@ -19,7 +19,7 @@ Here is the documentation structure:
    CSUI-Storage
    CSUI-Images
    CSUI-Firewall
-   CSUI-ActivityLog
+   CSUI-Events
    CSUI-SSHKeys
    CSUI-Accounts
    CSUI-Settings
