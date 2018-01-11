@@ -6,7 +6,8 @@ import { BackendResource } from '../decorators';
 import {
   Snapshot,
   Volume,
-  VolumeCreationData
+  VolumeCreationData,
+  isDeleted
 } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
@@ -43,7 +44,7 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public getList(params?: {}): Observable<Array<Volume>> {
     return super.getList(params)
-      .map((volumes: Volume[]) => volumes.filter(volume => !volume.isDeleted));
+      .map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume)));
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {

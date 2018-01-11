@@ -28,6 +28,10 @@ export class VolumeResizeComponent implements OnInit {
     this.diskOfferingId = this.volume.diskofferingid;
   }
 
+  public get volumeIsRoot(): boolean {
+    return isRoot(this.volume);
+  }
+
   public get canResize(): boolean {
     return (this.diskOfferings && this.diskOfferings.length > 0) || isRoot(this.volume);
   }
