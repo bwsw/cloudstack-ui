@@ -1,17 +1,12 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './volumes.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Volume } from '../../../shared/models/volume.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
+
+import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
-import { Utils } from '../../../shared/services/utils/utils.service';
-import { Volume } from '../../../shared/models/volume.model';
+import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
 import { getDescription } from '../../../shared/models';
 
 /**
@@ -74,17 +69,17 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: event.Actions
+  action: volumeActions.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_VOLUMES_REQUEST: {
+    case volumeActions.LOAD_VOLUMES_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
 
-    case event.VOLUME_FILTER_UPDATE: {
+    case volumeActions.VOLUME_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -94,7 +89,7 @@ export function reducer(
       };
     }
 
-    case event.LOAD_VOLUMES_RESPONSE: {
+    case volumeActions.LOAD_VOLUMES_RESPONSE: {
 
       const volumes = action.payload;
 
@@ -111,35 +106,33 @@ export function reducer(
       };
     }
 
-    case event.VOLUME_CREATE_SUCCESS: {
+    case volumeActions.VOLUME_CREATE_SUCCESS: {
       return {
         ...adapter.addOne(action.payload, state),
       };
     }
 
-    case event.ADD_SNAPSHOT_SUCCESS:
-    case event.DELETE_SNAPSHOT_SUCCESS:
-    case event.RESIZE_VOLUME_SUCCESS:
-    case event.UPDATE_VOLUME: {
+    case volumeActions.RESIZE_VOLUME_SUCCESS:
+    case volumeActions.UPDATE_VOLUME: {
       return {
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
       };
     }
 
-    case event.REPLACE_VOLUME: {
+    case volumeActions.REPLACE_VOLUME: {
       const newState = adapter.removeOne(action.payload.id, state);
       return {
         ...adapter.addOne(action.payload, newState),
       };
     }
 
-    case event.VOLUME_DELETE_SUCCESS: {
+    case volumeActions.VOLUME_DELETE_SUCCESS: {
       return {
         ...adapter.removeOne(action.payload.id, state),
       };
     }
 
-    case event.LOAD_SELECTED_VOLUME: {
+    case volumeActions.LOAD_SELECTED_VOLUME: {
       return {
         ...state,
         selectedVolumeId: action.payload
@@ -219,21 +212,56 @@ export const filterSpareOnly = createSelector(
   state => state.spareOnly
 );
 
+export const selectVolumesWithSnapshots = createSelector(
+  selectAll,
+  fromSnapshots.selectEntities,
+  fromSnapshots.selectSnapshotsByVolumeId,
+  (volumes, snapshots, snapshotIdsByVolumeId) => {
+    return volumes.map(
+      volume => {
+        const snapshotsOfVolume = snapshotIdsByVolumeId[volume.id]
+          ? snapshotIdsByVolumeId[volume.id].map(snapshotId => snapshots[snapshotId])
+          : [];
+        return {
+          ...volume,
+          snapshots: snapshotsOfVolume
+        };
+      });
+  }
+);
+
+export const getSelectedVolumeWithSnapshots = createSelector(
+  selectVolumesWithSnapshots,
+  getSelectedId,
+  (volumes, selectedId) => {
+    const list = volumes.reduce((m, i) => ({ ...m, [i.id]: i }), {});
+
+    return list[selectedId];
+  }
+);
+
 
 export const selectSpareOnlyVolumes = createSelector(
-  selectAll,
+  selectVolumesWithSnapshots,
   fromVMs.getSelectedVM,
   (volumes, vm) => {
-    const zoneFilter = (volume: Volume) => vm && volume.zoneid === vm.zoneId;
+    const zoneFilter = (volume: Volume) => vm && volume.zoneid === vm.zoneid;
     const spareOnlyFilter = (volume: Volume) => !volume.virtualmachineid;
-    const accountFilter = (volume: Volume) => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
+    const accountFilter =
+      (volume: Volume) => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
 
-    return volumes.filter(volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume));
+    const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
+    const spareOnlyFilter = volume => !volume.virtualMachineId;
+    const accountFilter =
+      volume => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
+
+    return volumes.filter(
+      volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume));
   }
 );
 
 export const selectVmVolumes = createSelector(
-  selectAll,
+  selectVolumesWithSnapshots,
   fromVMs.getSelectedId,
   (volumes, virtualMachineId) => {
 
@@ -247,7 +275,7 @@ export const selectVmVolumes = createSelector(
 );
 
 export const selectFilteredVolumes = createSelector(
-  selectAll,
+  selectVolumesWithSnapshots,
   filterQuery,
   filterSpareOnly,
   filterSelectedTypes,
@@ -275,9 +303,11 @@ export const selectFilteredVolumes = createSelector(
         .includes(queryLower) ||
       getDescription(volume).toLowerCase().includes(queryLower);
 
-    const selectedTypesFilter = (volume: Volume) => !selectedTypes.length || !!typesMap[volume.type];
+    const selectedTypesFilter =
+      (volume: Volume) => !selectedTypes.length || !!typesMap[volume.type];
 
-    const selectedZoneIdsFilter = (volume: Volume) => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneid];
+    const selectedZoneIdsFilter =
+      (volume: Volume) => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneid];
 
     const selectedAccountIdsFilter = (volume: Volume) => !selectedAccountIds.length ||
       (accountsMap[volume.account] && domainsMap[volume.domainid]);

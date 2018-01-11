@@ -6,7 +6,6 @@ import { BackendResource } from '../decorators';
 import {
   Snapshot,
   Volume,
-  isDeleted,
   VolumeCreationData
 } from '../models';
 import { AsyncJobService } from './async-job.service';
@@ -43,20 +42,8 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {
-    const volumesRequest = super.getList(params);
-    const snapshotsRequest = this.snapshotService.getList();
-
-    return Observable.forkJoin(
-      volumesRequest,
-      snapshotsRequest
-    ).map(([volumes, snapshots]) => {
-      volumes.forEach(volume => {
-        volume.snapshots = snapshots.filter(
-          (snapshot: Snapshot) => snapshot.volumeId === volume.id
-        );
-      });
-      return volumes.filter(volume => !isDeleted(volume));
-    });
+    return super.getList(params)
+      .map((volumes: Volume[]) => volumes.filter(volume => !volume.isDeleted));
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {

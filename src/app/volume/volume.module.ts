@@ -15,6 +15,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+import { SnapshotEffects } from '../reducers/snapshots/redux/snapshot.effects';
+import { snapshotReducers } from '../reducers/snapshots/redux/snapshot.reducers';
 // tslint:disable-next-line
 import { SharedModule } from '../shared/shared.module';
 import { VolumeFilterComponent } from './volume-filter/volume-filter.component';
@@ -84,7 +86,14 @@ import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
     StoreModule.forFeature('userAccount', userAccountReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
-    EffectsModule.forFeature([VolumesEffects, ZonesEffects, DiskOfferingEffects, UserAccountEffects]),
+    StoreModule.forFeature('snapshots', snapshotReducers),
+    EffectsModule.forFeature([
+      VolumesEffects,
+      ZonesEffects,
+      DiskOfferingEffects,
+      UserAccountEffects,
+      SnapshotEffects
+    ]),
   ],
   declarations: [
     SnapshotActionsComponent,
@@ -117,4 +126,5 @@ import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
     VolumeCreationContainerComponent,
   ]
 })
-export class VolumeModule { }
+export class VolumeModule {
+}

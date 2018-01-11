@@ -11,6 +11,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
@@ -95,6 +96,7 @@ export class StorageDetailContainerComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     this.store.dispatch(new volumeActions.LoadVolumesRequest());
+    this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
   }
 
   public ngAfterViewInit() {
