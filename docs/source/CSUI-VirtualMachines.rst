@@ -137,7 +137,7 @@ You can edit a shared security group after VM is created. In the *Network* tab o
 Click "Cancel" to drop the selected options. No rules will be assigned to the virtual machine. 
    
 8. Keyboard layout * - (is prepopulated). Select a keyboard layout from the drop-down list.
-9. SSH keypair - Select an SSH keypair. Find more information on the SSH key here (link to SSH keys section).
+9. SSH keypair - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys here (link to SSH keys section).
 10. Start VM - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
 
 .. note:: Required fields are marked with an asterisk (*).
