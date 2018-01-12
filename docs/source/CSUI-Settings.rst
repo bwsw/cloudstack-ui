@@ -2,6 +2,7 @@
 
 Settings
 -------------
+.. Contents::
 
 In the *Settings* section a user can modify the interface by changing settings.
 
