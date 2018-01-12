@@ -61,7 +61,7 @@ SSH Key Details Sidebar
 
 By clicking an SSH key in the list you will open a details sidebar to the right. It contains the following information:
 
-- SHH key name;
+- SSH key name;
 - Key action box allowing key deleting;
 - SSH public key.
 
