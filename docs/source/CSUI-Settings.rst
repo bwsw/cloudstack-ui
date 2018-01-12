@@ -21,7 +21,7 @@ Change Password
 """"""""""""""""""
 Here you can change the password provided by your Administrator to the one you like. This will improve the account security.
 
-Enter a new password in the first field and confirm it in the second one:
+Enter a new password and re-enter it in the next field to confirm it:
 
 .. figure:: _static/Settings_EditPass.png
 
