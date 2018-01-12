@@ -4,7 +4,7 @@ Accounts
 -----------------
 .. Contents::
 
-In the *Accounts* section Administrators can manage accounts and users in them. For an account, details and resource limits can be viewed. Please, note that the account limits are shared by all users in the account. If you are facing the problem of the lack of resources, contact the Administrator. Administrators are able to edit the limits of an account. Besides, they can monitor resource usage having access to the resource statistics for each account.
+In the *Accounts* section Administrators can manage accounts and users in them. For an account, details and resource limits can be viewed. Please, note that the account limits are shared by all users in the account. If you are facing the problem of the lack of resources, contact your Administrator. Administrators are able to edit the limits of an account. Besides, they can monitor resource usage having access to the resource statistics for each account.
 
 Administrators can see the list of accounts for the whole domain. They can create new users for an account, edit or delete a user. 
 
@@ -22,8 +22,8 @@ You can switch the view from list to box using the switch tool |view icon|/|box 
    
 For each account in the list you can see the following information:
 
- - Account name
- - State - shows the account state by color spot: green for Enabled, red for Disabled or Locked statuses; 
+ - Account name;
+ - State - Shows the account state by color spot: green for Enabled, red for Disabled or Locked statuses; 
  - Role - A role assigned to the account - Root Administrator, Resource Administrator, Domain Administrator, User. Find more information on roles in CloudStack in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/4.9/accounts.html>`_.
  - Role type - A role type connected to the role.
  - Domain - The domain which the account belongs to.
