@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { flatMap } from 'rxjs/operators';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
 // tslint:disable-next-line
@@ -25,7 +26,6 @@ import {
 } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
-import { AuthService } from '../../../shared/services/auth.service';
 // tslint:disable-next-line
 import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
 import { WebShellService } from '../../../vm/web-shell/web-shell.service';
@@ -360,7 +360,7 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  destroyVm$ = this.actions$
+  destroyVm$: Observable<Action | Array<Action>> = this.actions$
     .ofType(vmActions.DESTROY_VM)
     .switchMap((action: vmActions.DestroyVm) => {
       return this.dialog.open(VmDestroyDialogComponent, {
@@ -370,29 +370,32 @@ export class VirtualMachinesEffects {
         .switchMap((params) => {
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.VM.DESTROY_IN_PROGRESS');
-          this.update(action.payload, VmState.InProgress);
+          this.update(action.payload);
+
+          const actions = flatMap((vm: VirtualMachine): Action[] => {
+            if (params.expunge) {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
+              });
+              return [
+                new vmActions.ExpungeVmSuccess(action.payload),
+                new volumeActions.DeleteVolumes(action.payload)
+              ];
+            } else {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE'
+              });
+              return [
+                new vmActions.UpdateVM(vm),
+                new volumeActions.DeleteVolumes(action.payload)
+              ];
+            }
+          });
+
           return this.vmService.command(action.payload, 'destroy', params)
-            .switchMap(vm => {
-              if (params.expunge) {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
-                });
-                return Observable.of<any>(
-                  new vmActions.ExpungeVmSuccess(action.payload),
-                  new volumeActions.DeleteVolumes(action.payload)
-                );
-              } else {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VM.DESTROY_DONE'
-                });
-                return Observable.of<any>(
-                  new vmActions.UpdateVM(vm),
-                  new volumeActions.DeleteVolumes(action.payload)
-                );
-              }
-            })
+            .pipe(actions)
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
                 id: notificationId,
@@ -713,7 +716,8 @@ export class VirtualMachinesEffects {
       new vmActions.DeploymentAddLoggerMessage({
         text: 'VM_PAGE.VM_CREATION.DEPLOYMENT_FINISHED',
         status: [ProgressLoggerMessageStatus.Highlighted]
-      })));
+      })
+    ));
 
   @Effect({ dispatch: false })
   vmAccess$: Observable<VirtualMachine> = this.actions$

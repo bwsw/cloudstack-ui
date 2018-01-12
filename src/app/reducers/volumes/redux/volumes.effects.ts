@@ -216,29 +216,25 @@ export class VolumesEffects {
       }).afterClosed();
     });
 
-  @Effect({ dispatch: false })
+  @Effect()
   deleteVolumes$ = this.actions$
     .ofType(volumeActions.DELETE_VOLUMES)
     .withLatestFrom(this.store.select(fromVolumes.selectAll))
-    .do(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
-      const vmVolumes = volumes
-        .filter((volume: Volume) => !volume.isRoot && volume.virtualMachineId === action.payload.id);
-
-      if (vmVolumes.length) {
-        this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' })
-          .subscribe((res) => {
-            if (res) {
-              vmVolumes.forEach((volume: Volume) => this.store.dispatch(
-                new volumeActions.DeleteVolume(volume)));
-            }
-          });
-      }
-    });
+    .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
+      return volumes.filter((volume: Volume) => !volume.isRoot
+        && volume.virtualMachineId === action.payload.id);
+    })
+    .filter((volumes: Array<Volume>) => !!volumes.length)
+    .switchMap((volumes: Array<Volume>) =>
+      this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' })
+        .filter(res => Boolean(res))
+        .flatMap((): Action[] => volumes
+          .map((volume: Volume) => new volumeActions.DeleteVolume(volume))));
 
   @Effect()
   deleteVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUME)
-    .switchMap((action: volumeActions.DeleteVolume) => {
+    .flatMap((action: volumeActions.DeleteVolume) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS');
 
@@ -281,7 +277,7 @@ export class VolumesEffects {
 
       if (action.payload.virtualmachineid) {
         return detach(action.payload)
-          .switchMap(() => remove(action.payload));
+          .flatMap(() => remove(action.payload));
       } else {
         return remove(action.payload);
       }
