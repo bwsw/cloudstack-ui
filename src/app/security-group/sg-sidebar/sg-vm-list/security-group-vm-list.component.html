@@ -2,7 +2,14 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        <h2 class="mat-card-title-text">{{ 'SECURITY_GROUP_PAGE.DETAILS.VM_LIST' | translate }}</h2>
+        <h2 class="mat-card-title-text">
+          <ng-template [ngIf]="isModePrivate">
+            {{ 'SECURITY_GROUP_PAGE.DETAILS.VM_LIST_PRIVATE' | translate }}
+          </ng-template>
+          <ng-template [ngIf]="!isModePrivate">
+            {{ 'SECURITY_GROUP_PAGE.DETAILS.VM_LIST_SHARED' | translate }}
+          </ng-template>
+        </h2>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content class="mat-card-content-with-actions">

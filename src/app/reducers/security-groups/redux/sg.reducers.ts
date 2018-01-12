@@ -267,12 +267,9 @@ export const selectPredefinedSecurityGroups = createSelector(
 export const hasOrphanSecurityGroups = createSelector(
   selectAll,
   (sg) => {
-    return sg.find(_ => {
-        if (_.virtualMachineIds) {
-          return _.virtualMachineIds.length !== 0;
-        }
-      }
-    ) ? true : false;
+    const orphans = sg.filter(group => group.type === SecurityGroupType.Private)
+      .find(_ => _.virtualMachineIds.length === 0);
+    return !!orphans;
   }
 );
 

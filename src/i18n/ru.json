@@ -711,8 +711,9 @@
       "NAME": "Имя",
       "DESCRIPTION": "Описание",
       "TYPE": "Тип",
-      "VM_NAME": "Имя Вм",
-      "VM_LIST": "ВМ, использующая группу",
+      "VM_NAME": "Имя ВМ",
+      "VM_LIST_SHARED": "ВМ, использующие группу",
+      "VM_LIST_PRIVATE": "ВМ, использующая группу",
       "EMPTY_VM_LIST": "Нет виртуальных машин",
       "EMPTY_VM_NAME": "Нет доступных"
     },
@@ -737,7 +738,7 @@
     },
     "CARD": {
       "DESCRIPTION": "Описание",
-      "VM_NAME": "Имя Вм"
+      "VM_NAME": "Имя ВМ"
     },
     "RULES": {
       "VIEW_TITLE": "Правила группы <b>{{ value }}</b>",

@@ -712,7 +712,8 @@
       "DESCRIPTION": "Description",
       "TYPE": "Type",
       "VM_NAME": "VM name",
-      "VM_LIST": "VMs using the group",
+      "VM_LIST_SHARED": "VMs using the group",
+      "VM_LIST_PRIVATE": "VM using the group",
       "EMPTY_VM_LIST": "No virtual machines",
       "EMPTY_VM_NAME": "Not available"
     },
