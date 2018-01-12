@@ -636,6 +636,8 @@ Depending on the installation source (ISO or a Template) the system allows getti
 
 .. figure:: _static/AccessVM_OpenURL.png
 
+You can choose the way you like and make necessary settings.
+
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
 .. |view icon| image:: _static/view_list_icon.png
