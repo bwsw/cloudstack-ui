@@ -52,7 +52,6 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
-    MatInputModule,
     SharedModule,
     ReactiveFormsModule,
     MatButtonToggleModule,

@@ -1,13 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { State } from '../../../../reducers';
 import { Snapshot } from '../../../../shared/models';
 import { Store } from '@ngrx/store';
-import { TemplateResourceType } from '../../../../template/shared/base-template.service';
-// tslint:disable-next-line
-import { TemplateCreationContainerComponent } from '../../../../template/template-creation/containers/template-creation.container';
-import { CreateVolumeFromSnapshotContainerComponent } from '../../components/create-volume/create-volume.container';
+import { SnapshotActionService } from './snapshot-action.service';
 
 import * as snapshotActions from '../../../../reducers/snapshots/redux/snapshot.actions';
 
@@ -28,16 +24,17 @@ export class SnapshotActionContainerComponent {
 
   constructor(
     private store: Store<State>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snapshotActionService: SnapshotActionService
   ) {
   }
 
   public onTemplateCreate(snapshot: Snapshot) {
-    this.showTemplateCreationDialog(snapshot);
+    this.snapshotActionService.showTemplateCreationDialog(snapshot);
   }
 
   public onVolumeCreate(snapshot: Snapshot) {
-    this.showVolumeCreationDialog(snapshot);
+    this.snapshotActionService.showVolumeCreationDialog(snapshot);
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
@@ -46,28 +43,5 @@ export class SnapshotActionContainerComponent {
 
   public onSnapshotRevert(snapshot: Snapshot): void {
     this.store.dispatch(new snapshotActions.RevertVolumeToSnapshot(snapshot));
-  }
-
-  private showTemplateCreationDialog(snapshot: Snapshot): Observable<any> {
-    return this.dialog.open(TemplateCreationContainerComponent, {
-      width: '650px',
-      panelClass: 'template-creation-dialog-snapshot',
-      data: {
-        mode: TemplateResourceType.template,
-        snapshot
-      }
-    })
-      .afterClosed();
-  }
-
-  private showVolumeCreationDialog(snapshot: Snapshot): Observable<any> {
-    return this.dialog.open(CreateVolumeFromSnapshotContainerComponent, {
-      width: '405px',
-      data: {
-        mode: TemplateResourceType.template,
-        snapshot
-      }
-    })
-      .afterClosed();
   }
 }
