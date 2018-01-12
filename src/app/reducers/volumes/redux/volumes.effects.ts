@@ -217,7 +217,7 @@ export class VolumesEffects {
     });
 
   @Effect()
-  deleteVolumes$ = this.actions$
+  deleteVolumes$: Observable<Action | Action[]> = this.actions$
     .ofType(volumeActions.DELETE_VOLUMES)
     .withLatestFrom(this.store.select(fromVolumes.selectAll))
     .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
