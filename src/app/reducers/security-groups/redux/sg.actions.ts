@@ -10,9 +10,11 @@ export const CREATE_SECURITY_GROUP = '[SecurityGroups] CREATE_SECURITY_GROUP';
 export const CREATE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] CREATE_SECURITY_GROUP_SUCCESS';
 export const CREATE_SECURITY_GROUP_ERROR = '[SecurityGroups] CREATE_SECURITY_GROUP_ERROR';
 export const UPDATE_SECURITY_GROUP = '[SecurityGroups] UPDATE_SECURITY_GROUP';
+export const UPDATE_SECURITY_GROUP_ERROR = '[SecurityGroups] UPDATE_SECURITY_GROUP_ERROR';
 export const DELETE_SECURITY_GROUP = '[SecurityGroups] DELETE_SECURITY_GROUP';
 export const DELETE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] DELETE_SECURITY_GROUP_SUCCESS';
 export const DELETE_SECURITY_GROUP_ERROR = '[SecurityGroups] DELETE_SECURITY_GROUP_ERROR';
+export const CONVERT_SECURITY_GROUP = '[SecurityGroups] CONVERT_SECURITY_GROUP';
 
 export class LoadSecurityGroupRequest implements Action {
   readonly type = LOAD_SECURITY_GROUP_REQUEST;
@@ -91,6 +93,21 @@ export class DeleteSecurityGroupError implements Action {
   }
 }
 
+export class ConvertSecurityGroup implements Action {
+  type = CONVERT_SECURITY_GROUP;
+
+  constructor(public payload: SecurityGroup) {
+  }
+}
+export class UpdateSecurityGroupError implements Action {
+  type = UPDATE_SECURITY_GROUP_ERROR;
+
+
+  constructor(public payload: any) {
+  }
+}
+
+
 export type Actions =
   LoadSecurityGroupRequest
   | LoadSecurityGroupResponse
@@ -102,4 +119,5 @@ export type Actions =
   | UpdateSecurityGroup
   | DeleteSecurityGroup
   | DeleteSecurityGroupSuccess
-  | DeleteSecurityGroupError;
+  | DeleteSecurityGroupError
+  | ConvertSecurityGroup;

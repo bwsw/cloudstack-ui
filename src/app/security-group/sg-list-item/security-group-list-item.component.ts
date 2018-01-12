@@ -5,6 +5,9 @@ import {
 } from '@angular/core';
 import { SecurityGroup } from '../sg.model';
 import { MatMenuTrigger } from '@angular/material';
+import { VirtualMachine } from '../../vm';
+import { Dictionary } from '@ngrx/entity/src/models';
+import { SecurityGroupViewMode } from '../sg-view-mode';
 
 export class SecurityGroupListItemComponent implements OnChanges {
   public item: SecurityGroup;
@@ -12,8 +15,13 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;
   public isSelected: (securityGroup) => boolean;
+  public vmList: Dictionary<VirtualMachine>;
 
   public query: string;
+
+  public get sgVmName() {
+    return this.vmList[this.item.virtualMachineIds[0]].name;
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     const query = changes.searchQuery;
@@ -28,4 +36,9 @@ export class SecurityGroupListItemComponent implements OnChanges {
       this.onClick.emit(this.item);
     }
   }
+
+  public get isPrivate(): boolean {
+    return this.item.type === SecurityGroupViewMode.Private.toString();
+  }
+
 }
