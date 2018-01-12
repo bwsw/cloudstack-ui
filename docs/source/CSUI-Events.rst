@@ -8,7 +8,7 @@ In the *Activity log* section you can see user activity in the account. Event se
 
 Events List
 ~~~~~~~~~~~~~~~~
-Events in the Activity log are listed in a chronological order from the latest till the earliest. The latest 25 events are displayed.
+Events in the Activity log are listed in a chronological order from the latest till the earliest. It represents the full list of events for a selected day.
 
 A user can view activities for his/her user only. An Administrator can see events for all accounts in the domain. 
 
