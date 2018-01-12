@@ -14,7 +14,8 @@ Security
 A user can manage the following security settings:
 
 - Change password;
-- Set the session timeout interval.
+- Set the session timeout interval;
+- the "Save VM passwords by defalt" option.
 
 Change Password
 """"""""""""""""""
@@ -56,12 +57,12 @@ If this option is not activated, every time when creating a machine the system w
 
 .. figure:: _static/VMs_Create_Dialogue_SavePass.png
 
-Then the system will ask you if you wish to save passwords to VM tags automatically. If you click "Yes", the "Save VM passwords by default" option will be activated in *Settings*.
+Then the system will ask you if you wish to save passwords to VM tags automatically. If you click "Yes", the "Save VM passwords by default" option will be activated in *Settings*. You will find more information about VM creation in the :ref:`Create_VM` section.
 
 API Configuration
 ~~~~~~~~~~~~~~~~~~~~
 
-In this block, of settings you can see and manage the API configurations: regenerate API keys, see the connection URL.
+In this block of settings you can see and manage the API configurations: regenerate API keys, see the connection URL.
 
 You can see an API key and a Secret key in corresponding fields. You can copy any of them clicking |copy icon| to the right. 
 
