@@ -569,7 +569,7 @@ Please, note, when editing shared security groups, a warning message appears:
 
 Click "Yes" if you still want to edit a shared security group. You will be moved to the "Firewall" section where you can edit the security group. After editing, go back to the virtual machine that uses this group. You will see the rules are edited.
 
-See the Firewall_ section for more information on firewall rules in the system.
+See the :ref:`Firewall` section for more information on firewall rules in the system.
 
 Tags Tab
 """"""""""""""""""""""""
