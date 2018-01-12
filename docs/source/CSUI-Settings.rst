@@ -15,7 +15,7 @@ A user can manage the following security settings:
 
 - Change password;
 - Set the session timeout interval;
-- the "Save VM passwords by defalt" option.
+- the "Save VM passwords by default" option.
 
 Change Password
 """"""""""""""""""
@@ -45,7 +45,7 @@ The maximum allowed value is 300 minutes. Please, note that a long time period o
 The session timeout can be set in the configuration file. You will find more information in  `Config Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_.
 
 
-Save VM passwords by defalt
+Save VM passwords by default
 """""""""""""""""""""""""""""""
 This checkbox allows saving passwords to VM tags automatically for all created virtual machines requiring passwords.
 
