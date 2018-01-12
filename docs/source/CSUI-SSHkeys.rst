@@ -59,11 +59,22 @@ The created SSH key is available to assign to VMs now.
 SSH Key Details Sidebar
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By clicking an SSH key in the list you will open a details sidebar to the right. It contains the following information:
+By clicking an SSH key in the list you will open a details sidebar to the right. 
+
+.. figure:: _static/SSH_Details1.png
+
+It contains the following information:
 
 - SSH key name;
 - Key action box allowing key deleting;
-- SSH public key.
+- SSH public key fingerprint;
+- SSH key description - In this block a description can be added to understand better what this key is for. Click the block and enter a short description in the text field. Then click "SAVE" to save it.
+
+.. figure:: _static/SSH_Details_EditDescr.png
+
+Click "CANCEL" to drop adding a description.
+
+You can edit the description of an SSH key by clicking |edit icon|. Change the existing description in the text field and save the edits.
 
 SSH Key Action Box
 ~~~~~~~~~~~~~~~~~~~~
