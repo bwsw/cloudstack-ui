@@ -50,7 +50,7 @@ Then click “CREATE”. The SSH key will be auto-generated. The public key will
 
 Then click “OK” to close the window. 
 
-You can specify the SSH public key entering its value in the field. It should start from ``ssh-rsa`` followed by at least one space. Then click “CREATE”. It will be saved. No private key is required in this case.
+You can specify the SSH public key entering its value in the field. It should start from ``ssh-rsa`` followed by one space and at least one symbol. Then click “CREATE”. It will be saved. No private key is required in this case.
 
 .. figure:: _static/SSH_EnterKey.png
 
