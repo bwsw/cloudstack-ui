@@ -30,7 +30,7 @@ export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
   sortComparer: sortByCreation
 });
 
-const initialListState: ListState = adapter.getInitialState({
+export const initialListState: ListState = adapter.getInitialState({
   loading: false,
   filters: {
     mode: SnapshotPageMode.Volume
@@ -71,9 +71,6 @@ export function listReducer(
         loading: false,
         snapshotIdsByVolumeId: reduceByVolumeId
       };
-
-      console.log(newState);
-
       return {
         /**
          * The addMany function provided by the created adapter

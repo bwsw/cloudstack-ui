@@ -11,7 +11,6 @@ import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.servi
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Snapshot, SnapshotStates } from '../../../shared/models';
-import { Tag } from '../../../shared/models/tag.model';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
@@ -93,18 +92,16 @@ describe('Snapshot Effects', () => {
     service = TestBed.get(SnapshotService);
     effects = TestBed.get(SnapshotEffects);
 
-    spyOn(service, 'getList').and.returnValue(of(snapshots));
+    spyOn(service, 'getListAll').and.returnValue(of(snapshots));
   });
 
-  describe('loadSnapshots$', () => {
-    it('should return a collection from LoadSnapshotResponse', () => {
-      const action = new actions.LoadSnapshotRequest();
-      const completion = new actions.LoadSnapshotResponse(snapshots);
+  it('should return a collection from LoadSnapshotResponse', () => {
+    const action = new actions.LoadSnapshotRequest();
+    const completion = new actions.LoadSnapshotResponse(snapshots);
 
-      actions$.stream = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
 
-      expect(effects.loadSnapshots$).toBeObservable(expected);
-    });
+    expect(effects.loadSnapshots$).toBeObservable(expected);
   });
 });

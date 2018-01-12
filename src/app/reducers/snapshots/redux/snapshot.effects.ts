@@ -66,12 +66,12 @@ export class SnapshotEffects {
   @Effect()
   deleteSnapshot$: Observable<Action> = this.actions$
     .ofType(snapshot.DELETE_SNAPSHOT)
-    .switchMap((action: snapshot.DeleteSnapshot) => {
+    .flatMap((action: snapshot.DeleteSnapshot) => {
 
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
-        .switchMap(() => {
+        .flatMap(() => {
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
           return this.snapshotService.remove(action.payload.id)

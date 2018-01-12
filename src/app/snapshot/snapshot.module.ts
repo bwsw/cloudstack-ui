@@ -30,8 +30,6 @@ import { TimePickerComponent } from './recurring-snapshots/time-picker/time-pick
 import { CreateVolumeFromSnapshotComponent } from './snapshots-page/components/create-volume/create-volume.component';
 // tslint:disable-next-line
 import { CreateVolumeFromSnapshotContainerComponent } from './snapshots-page/components/create-volume/create-volume.container';
-import { SnapshotFilterComponent } from './snapshots-page/components/snaphot-filter/snapshot-filter.component';
-import { SnapshotFilterContainerComponent } from './snapshots-page/components/snaphot-filter/snapshot-filter.container';
 // tslint:disable-next-line
 import { SnapshotActionComponent } from './snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.component';
 // tslint:disable-next-line
@@ -84,9 +82,7 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     SnapshotActionContainerComponent,
     SnapshotActionComponent,
     CreateVolumeFromSnapshotContainerComponent,
-    CreateVolumeFromSnapshotComponent,
-    SnapshotFilterContainerComponent,
-    SnapshotFilterComponent
+    CreateVolumeFromSnapshotComponent
   ],
   providers: [
     PolicyViewBuilderService,
