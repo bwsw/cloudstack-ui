@@ -42,7 +42,7 @@ The value is stored in user’s tags.
 
 The maximum allowed value is 300 minutes. Please, note that a long time period of an idle session decreases the account security.
 
-The session timeout can be set in the configuration file. Please, see more information in  `Config Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_.
+The session timeout can be set in the configuration file. You will find more information in  `Config Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_.
 
 
 Save VM passwords by defalt
@@ -96,11 +96,15 @@ From the drop-down list select the day when a week starts: Monday or Sanday.
 
 .. figure:: _static/Settings_DayOfWeek.png
 
+The first day of week can be set in the configuration JSON file. You will find more information in the `Config Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_. 
+
 Time Format
 """""""""""""
-Here you have the opportunity to switch the time format from AM/PM to 24H. You can set it to "Auto" and the time format will be set in correspondence to the interface language: AM/PM if you select  English and 24H if you select Russian.
+Here you have the opportunity to switch the time format from AM/PM to 24H. You can set it to "Auto" and the time format will be set in correspondence to the interface language: AM/PM if you select English and 24H if you select Russian.
 
 .. figure:: _static/Settings_TimeFormat.png
+
+The time format can be set in the configuration JSON file. You will find more information in the `Config Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_. 
 
 Theme Color
 """""""""""""""""""
@@ -110,7 +114,7 @@ Click the field and select another color if you wish.
 
 .. figure:: _static/Settings_Theme.png
 
-
+A theme color can be set in the configuration JSON file. You will find more information in the `Config Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_. 
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
