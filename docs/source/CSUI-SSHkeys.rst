@@ -44,14 +44,17 @@ By clicking “Create” |create icon| in the bottom-right corner you will open 
 
 .. figure:: _static/SSH_Create.png
 
-Then click “CREATE”. The SSH key will be auto-generated. The public key will appear in the list of SSH keys. In the modal window, you will see the private key. This private key is not saved in the system. You should save it for yourself. Click "COPY" to correctly copy it and save it locally.
+Then click “CREATE”. The SSH key will be auto-generated. The public key will appear in the list of SSH keys with a fingerprint. In the modal window, you will see the private key. This private key is not saved in the system. You should save it for yourself. Click "COPY" to correctly copy it and save it locally.
 
 .. figure:: _static/SSH_Copy.png
 
 Then click “OK” to close the window. 
 
-The created SSH key is available for VMs now.
+You can specify the SSH public key entering its value in the field. It should start from ``ssh-rsa ``. Then click “CREATE”. It will be saved. No private key is required in this case.
 
+.. figure:: _static/SSH_EnterKey.png
+
+The created SSH key is available to assign to VMs now.
 
 SSH Key Details Sidebar
 ~~~~~~~~~~~~~~~~~~~~~~~~~
