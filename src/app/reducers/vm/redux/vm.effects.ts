@@ -360,7 +360,7 @@ export class VirtualMachinesEffects {
     });
 
   @Effect()
-  destroyVm$: Observable<Action | Array<Action>> = this.actions$
+  destroyVm$: Observable<Action> = this.actions$
     .ofType(vmActions.DESTROY_VM)
     .switchMap((action: vmActions.DestroyVm) => {
       return this.dialog.open(VmDestroyDialogComponent, {

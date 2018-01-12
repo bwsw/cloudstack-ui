@@ -217,7 +217,7 @@ export class VolumesEffects {
     });
 
   @Effect()
-  deleteVolumes$: Observable<Action | Action[]> = this.actions$
+  deleteVolumes$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUMES)
     .withLatestFrom(this.store.select(fromVolumes.selectAll))
     .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
@@ -228,7 +228,7 @@ export class VolumesEffects {
     .switchMap((volumes: Array<Volume>) =>
       this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' })
         .filter(res => Boolean(res))
-        .flatMap((): Action[] => volumes
+        .flatMap(() => volumes
           .map((volume: Volume) => new volumeActions.DeleteVolume(volume))));
 
   @Effect()
