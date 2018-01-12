@@ -3,27 +3,23 @@ import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models';
 import { TagService } from '../shared/services/tags/tag.service';
-import {
-  KeyValuePair,
-  TagEditAction
-} from './tags-view/tags-view.component';
-import { EventEmitter, Output } from '@angular/core';
+import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
+import { EventEmitter, Input, Output } from '@angular/core';
 
 
 export abstract class TagsComponent<T extends Taggable> {
   public abstract entity: Taggable;
+  @Input() public tags: Array<Tag>;
   @Output() public onTagAdd = new EventEmitter<KeyValuePair>();
   @Output() public onTagDelete = new EventEmitter<Tag>();
   @Output() public onTagEdit = new EventEmitter<TagEditAction>();
-
-  public tags: Array<Tag>;
+  public resourceType: string;
 
   constructor(
     protected dialogService: DialogService,
     protected tagService: TagService,
   ) {
   }
-
 
   public addTag(tag: KeyValuePair): void {
     if (!tag) {
@@ -32,7 +28,7 @@ export abstract class TagsComponent<T extends Taggable> {
 
     this.tagService.create({
       resourceIds: this.entity.id,
-      resourceType: this.entity.resourceType,
+      resourceType: this.resourceType,
       'tags[0].key': tag.key,
       'tags[0].value': tag.value
     })

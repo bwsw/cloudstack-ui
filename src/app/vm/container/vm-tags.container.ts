@@ -12,6 +12,7 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
   template: `
     <cs-vm-tags
       [entity]="vm$ | async"
+      [tags]="vmTags$ | async"
       (onTagAdd)="addTag($event)"
       (onTagDelete)="deleteTag($event)"
       (onTagEdit)="editTag($event)"
@@ -19,8 +20,8 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
   `
 })
 export class VmTagsContainerComponent {
-
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
+  readonly vmTags$ = this.store.select(fromVMs.getSelectedVmTags);
 
   constructor(
     private store: Store<State>,

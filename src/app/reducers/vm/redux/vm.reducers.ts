@@ -215,6 +215,11 @@ export const getSelectedVM = createSelector(
   (state, selectedId) => state.list.entities[selectedId]
 );
 
+export const getSelectedVmTags = createSelector(
+  getSelectedVM,
+  (vm) => vm && vm.tags
+);
+
 export const filters = createSelector(
   getVMsEntitiesState,
   state => state.filters
