@@ -12,5 +12,7 @@ export const UserTagKeys = {
   showSystemTags: 'csui.user.show-system-tags',
   timeFormat: 'csui.user.time-format',
   theme: 'csui.user.theme',
-  navigationOrder: 'csui.user.navigation-order'
+  navigationOrder: 'csui.user.navigation-order',
+  serviceOfferingClass: 'csui.service-offering.class',
+  serviceOfferingParam: 'csui.service-offering.param',
 };

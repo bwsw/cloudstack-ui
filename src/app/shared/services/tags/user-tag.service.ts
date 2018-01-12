@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { ServiceOffering } from '../../models/service-offering.model';
+import { SSHKeyPair } from '../../models/ssh-keypair.model';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
-import {
-  Language,
-  TimeFormat
-} from '../language.service';
+import { Language, TimeFormat } from '../language.service';
+import { Utils } from '../utils/utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
-import { SSHKeyPair } from '../../models/ssh-keypair.model';
-import { Utils } from '../utils/utils.service';
 
 
 interface UserIdObject {
@@ -126,6 +124,14 @@ export class UserTagService implements EntityTagService {
       .map(() => description);
   }
 
+  public setServiceOfferingParams(offering: ServiceOffering): Observable<ServiceOffering> {
+    return Observable.forkJoin(
+        this.writeTag(this.getSOCpuNumberKey(offering), offering.cpunumber.toString()),
+        this.writeTag(this.getSOCpuSpeedKey(offering), offering.cpuspeed.toString()),
+        this.writeTag(this.getSOMemoryKey(offering), offering.memory.toString()),
+      ).map(() => offering);
+  }
+
   public getShowSystemTags(): Observable<boolean> {
     return this.readTag(this.keys.showSystemTags)
       .map(value => Utils.convertBooleanStringToBoolean(value));
@@ -197,5 +203,17 @@ export class UserTagService implements EntityTagService {
 
   private getSshKeyDescriptionKey(sshKey: SSHKeyPair): string {
     return `${this.keys.sshDescription}.${sshKey.fingerprint}`;
+  }
+
+  private getSOCpuNumberKey(offering: ServiceOffering): string {
+    return `${this.keys.serviceOfferingParam}.${offering.id}.cpuNumber`;
+  }
+
+  private getSOCpuSpeedKey(offering: ServiceOffering): string {
+    return `${this.keys.serviceOfferingParam}.${offering.id}.cpuSpeed`;
+  }
+
+  private getSOMemoryKey(offering: ServiceOffering): string {
+    return `${this.keys.serviceOfferingParam}.${offering.id}.memory`;
   }
 }

@@ -3,6 +3,7 @@ import {
   ServiceOffering,
   ServiceOfferingType
 } from '../../../shared/models/service-offering.model';
+import { Tag } from '../../../shared/models/tag.model';
 import { Zone } from '../../../shared/models/zone.model';
 import { OfferingPolicy } from '../../../shared/services/offering.service';
 import {
@@ -35,8 +36,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -56,8 +57,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -80,8 +81,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -104,8 +105,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -127,8 +128,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -150,8 +151,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -177,8 +178,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicyIgnoreTags: ['t1']
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -201,8 +202,8 @@ describe('Test service offering reducer', () => {
           offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
         },
         filters: {
-          selectedViewMode: ServiceOfferingType.select,
-          selectedGroups: [],
+          selectedViewMode: ServiceOfferingType.fixed,
+          selectedClasses: [],
           query: ''
         }
       });
@@ -404,6 +405,33 @@ describe('Test service offering reducer', () => {
       id: '2', name: 'off2', hosttags: 't1',
       iscustomized: true, cpunumber: 2, memory: 2
     };
+    const tag1 = <Tag>{
+      key: "csui.service-offering.param.2.cpuNumber",
+      value: "2",
+      resourcetype: "User",
+      resourceid: "1",
+      account: "1",
+      domainid: "1",
+      domain: "1"
+    };
+    const tag2 = <Tag>{
+      key: "csui.service-offering.param.2.cpuSpeed",
+      value: "1",
+      resourcetype: "User",
+      resourceid: "1",
+      account: "1",
+      domainid: "1",
+      domain: "1"
+    };
+    const tag3 = <Tag>{
+      key: "csui.service-offering.param.2.memory",
+      value: "2",
+      resourcetype: "User",
+      resourceid: "1",
+      account: "1",
+      domainid: "1",
+      domain: "1"
+    };
     const resourceUsage = {
       available: new ResourcesData(),
       consumed: new ResourcesData(),
@@ -412,11 +440,9 @@ describe('Test service offering reducer', () => {
     resourceUsage.available.cpus = 2;
     resourceUsage.available.memory = 2;
 
-    const result1 = fromSOs.getCustomOfferingWithSetParams(
+    const result1 = fromSOs.getCustomOfferingWithParams(
       offering,
-      {},
-      { cpunumber: { min: 1 }, memory: { min: 1 }, cpuspeed: { min: 1 } },
-      resourceUsage
+      [ tag1, tag2, tag3 ]
     );
 
     expect(result1)

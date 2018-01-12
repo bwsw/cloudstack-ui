@@ -1,5 +1,5 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AffinityGroup } from '../../../shared/models';
 
 import * as affinityGroupActions from './affinity-groups.actions';
@@ -75,7 +75,7 @@ export function reducer(
 }
 
 
-export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>('affinity-groups');
+export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>('affinity-classes');
 
 export const getAffinityGroupEntitiesState = createSelector(
   getAffinityGroupsState,

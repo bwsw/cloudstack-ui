@@ -9,7 +9,7 @@ import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
-import * as soGroupActions from '../../../reducers/service-offerings/redux/service-offering-group.actions';
+import * as soClassActions from '../../../reducers/service-offerings/redux/service-offering-class.actions';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
@@ -120,7 +120,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
-    this.store.dispatch(new soGroupActions.LoadServiceOfferingGroupRequest());
+    this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));

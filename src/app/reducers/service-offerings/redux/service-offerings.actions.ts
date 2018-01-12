@@ -2,10 +2,7 @@ import { Action } from '@ngrx/store';
 // tslint:disable-next-line
 import { ICustomOfferingRestrictionsByZone } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { ICustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering';
-import {
-  ServiceOffering,
-  ServiceOfferingGroup
-} from '../../../shared/models/service-offering.model';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import {
   OfferingAvailability,
   OfferingCompatibilityPolicy
@@ -23,11 +20,6 @@ export const LOAD_CUSTOM_RESTRICTION_REQUEST = '[OFFERINGS] LOAD_CUSTOM_RESTRICT
 export const LOAD_CUSTOM_RESTRICTION_RESPONSE = '[OFFERINGS] LOAD_CUSTOM_RESTRICTION_RESPONSE';
 export const LOAD_COMPATIBILITY_POLICY_REQUEST = '[OFFERINGS] LOAD_COMPABILITY_POLICY_REQUEST';
 export const LOAD_COMPATIBILITY_POLICY_RESPONSE = '[OFFERINGS] LOAD_COMPABILITY_POLICY_RESPONSE';
-export const SET_SERVICE_OFFERING_GROUP = '[OFFERINGS] SET_SERVICE_OFFERING_GROUP';
-export const RESET_SERVICE_OFFERING_GROUP = '[OFFERINGS] RESET_SERVICE_OFFERING_GROUP';
-export const RESET_SERVICE_OFFERING_GROUP_SUCCESS = '[OFFERINGS] RESET_SERVICE_OFFERING_GROUP_SUCCESS';
-export const SET_SERVICE_OFFERING_GROUP_SUCCESS = '[OFFERINGS] SET_SERVICE_OFFERING_GROUP_SUCCESS';
-export const SET_SERVICE_OFFERING_GROUP_ERROR = '[OFFERINGS] SET_SERVICE_OFFERING_GROUP_ERROR';
 
 
 export class LoadOfferingsRequest implements Action {
@@ -91,43 +83,6 @@ export class LoadCompatibilityPolicyResponse implements Action {
   }
 }
 
-export class SetServiceOfferingGroup implements Action {
-  readonly type = SET_SERVICE_OFFERING_GROUP;
-
-  constructor(public payload: {
-    serviceOffering: ServiceOffering,
-    serviceOfferingGroup: ServiceOfferingGroup
-  }) {
-  }
-}
-
-export class SetServiceOfferingGroupSuccess implements Action {
-  readonly type = SET_SERVICE_OFFERING_GROUP_SUCCESS;
-
-  constructor(public payload: ServiceOffering) {
-  }
-}
-export class SetServiceOfferingGroupError implements Action {
-  readonly type = SET_SERVICE_OFFERING_GROUP_ERROR;
-
-  constructor(public payload: any) {
-  }
-}
-
-export class ResetServiceOfferingGroup implements Action {
-  readonly type = RESET_SERVICE_OFFERING_GROUP;
-
-  constructor(public payload: ServiceOffering) {
-  }
-}
-
-export class ResetServiceOfferingGroupSuccess implements Action {
-  readonly type = RESET_SERVICE_OFFERING_GROUP_SUCCESS;
-
-  constructor(public payload: ServiceOffering) {
-  }
-}
-
 export type Actions = LoadOfferingsResponse
   | LoadOfferingsRequest
   | LoadCustomRestrictionsRequest
@@ -135,9 +90,4 @@ export type Actions = LoadOfferingsResponse
   | LoadDefaultParamsRequest
   | LoadDefaultParamsResponse
   | LoadOfferingAvailabilityRequest
-  | LoadOfferingAvailabilityResponse
-  | ResetServiceOfferingGroupSuccess
-  | ResetServiceOfferingGroup
-  | SetServiceOfferingGroupError
-  | SetServiceOfferingGroupSuccess
-  | SetServiceOfferingGroup;
+  | LoadOfferingAvailabilityResponse;

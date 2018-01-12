@@ -83,7 +83,10 @@
             </mat-form-field>
           </div>
 
-          <div *ngIf="vmCreationState.zone && serviceOfferings?.length">
+          <div
+            *ngIf="vmCreationState.zone && serviceOfferings?.length"
+            class="dialog-select-wrapper"
+          >
             <cs-service-offering-selector
               name="serviceOffering"
               [customOfferingRestrictions]="customOfferingRestrictions"

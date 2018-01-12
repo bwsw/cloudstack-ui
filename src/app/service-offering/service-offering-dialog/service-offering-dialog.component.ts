@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   ServiceOffering,
-  ServiceOfferingGroup
+  ServiceOfferingClass
 } from '../../shared/models/service-offering.model';
+import { Tag } from '../../shared/models/tag.model';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
+import { ICustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 
 export enum ServiceOfferingFromMode {
   CHANGE,
@@ -18,16 +20,18 @@ export enum ServiceOfferingFromMode {
 export class ServiceOfferingDialogComponent implements OnInit {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
   @Input() public serviceOfferings: Array<ServiceOffering>;
-  @Input() public groups: Array<ServiceOfferingGroup>;
+  @Input() public classes: Array<ServiceOfferingClass>;
+  @Input() public classTags: Array<Tag>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
   @Input() public restrictions: ICustomOfferingRestrictions;
+  @Input() public defaultParams: ICustomServiceOffering;
   @Input() public groupings: Array<any>;
-  @Input() public selectedGroupings: Array<any>;
+  @Input() public query: string;
   @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();
   @Output() public onServiceOfferingUpdate = new EventEmitter<ServiceOffering>();
   @Output() public viewModeChange = new EventEmitter();
-  @Output() public selectedGroupsChange = new EventEmitter();
+  @Output() public selectedClassesChange = new EventEmitter();
   @Output() public queryChange = new EventEmitter();
   public serviceOffering: ServiceOffering;
   public loading: boolean;

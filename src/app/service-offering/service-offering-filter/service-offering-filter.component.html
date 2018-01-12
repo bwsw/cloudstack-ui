@@ -4,8 +4,8 @@
     name="viewMode"
     [(ngModel)]="viewMode"
   >
-    <mat-button-toggle [value]="ServiceOfferingType.select">
-      {{ 'SERVICE_OFFERING.MODES.SELECT' | translate }}
+    <mat-button-toggle [value]="ServiceOfferingType.fixed">
+      {{ 'SERVICE_OFFERING.MODES.FIXED' | translate }}
     </mat-button-toggle>
     <mat-button-toggle
       [value]="ServiceOfferingType.custom"
@@ -14,18 +14,18 @@
     </mat-button-toggle>
   </mat-button-toggle-group>
 
-  <mat-form-field *ngIf="groups?.length">
+  <mat-form-field *ngIf="classes?.length">
     <mat-select
       multiple="true"
-      [placeholder]="'SERVICE_OFFERING.FILTERS.SELECT_GROUPS' | translate"
-      [(ngModel)]="selectedGroups"
-      (change)="selectedGroupsChange.emit(selectedGroups)"
+      [placeholder]="'SERVICE_OFFERING.FILTERS.SELECT_CLASSES' | translate"
+      [(ngModel)]="selectedClasses"
+      (change)="selectedClassesChange.emit(selectedClasses)"
     >
       <mat-option [value]="'common'">{{ 'SERVICE_OFFERING.FILTERS.COMMON' | translate }}
       </mat-option>
 
       <mat-option
-        *ngFor="let g of groups"
+        *ngFor="let g of classes"
         [value]="g.id"
       >
         {{ g.translations && g.translations[locale] || g.id }}

@@ -1,5 +1,11 @@
-mat-list {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  max-height: 370px;
+h4, h5 {
+  margin: 10px;
+}
+table {
+  thead {
+    text-align: left;
+  }
+  tbody {
+    cursor: pointer;
+  }
 }

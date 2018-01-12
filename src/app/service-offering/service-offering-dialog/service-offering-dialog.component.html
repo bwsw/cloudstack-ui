@@ -4,18 +4,21 @@
 <div *loading="loading">
   <div class="mat-dialog-content" *loading="!serviceOfferings">
     <cs-service-offering-filter
-      [groups]="groups"
+      [classes]="classes"
       [viewMode]="viewMode"
       [groupings]="groupings"
       (groupingsChange)="groupingsChange.emit($event)"
       (viewModeChange)="viewModeChange.emit($event)"
-      (selectedGroupsChange)="selectedGroupsChange.emit($event)"
+      (selectedClassesChange)="selectedClassesChange.emit($event)"
       (queryChange)="queryChange.emit($event)"
     ></cs-service-offering-filter>
     <cs-service-offering-list
-      [groups]="groups"
+      [classes]="classes"
+      [query]="query"
+      [classTags]="classTags"
       [offeringList]="serviceOfferings"
       [customOfferingRestrictions]="restrictions"
+      [defaultParams]="defaultParams"
       [selectedOffering]="serviceOffering"
       (selectedOfferingChange)="updateOffering($event)"
     ></cs-service-offering-list>

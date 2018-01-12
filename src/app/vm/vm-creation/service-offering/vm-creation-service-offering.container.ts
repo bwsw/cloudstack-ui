@@ -2,10 +2,11 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
-import * as fromSOGroups from '../../../reducers/service-offerings/redux/service-offering-group.reducers';
+import * as fromSOClasses from '../../../reducers/service-offerings/redux/service-offering-class.reducers';
 
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as fromUserTags from '../../../reducers/user-tags/redux/user-tags.reducers';
 // tslint:disable-next-line
 import { ICustomOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
@@ -19,20 +20,24 @@ import { ServiceOffering } from '../../../shared/models/service-offering.model';
       [formMode]="formMode"
       [serviceOfferings]="offerings$ | async"
       [serviceOfferingId]="serviceOfferingId"
-      [groups]="groups$ | async"
+      [classes]="classes$ | async"
+      [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
       [restrictions]="customOfferingRestrictions"
+      [defaultParams]="defaultParams$ | async"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
       (onServiceOfferingChange)="changeServiceOffering($event)"
       (viewModeChange)="onViewModeChange($event)"
-      (selectedGroupsChange)="onSelectedGroupsChange($event)"
+      (selectedClassesChange)="onSelectedClassesChange($event)"
       (queryChange)="onQueryChange($event)"
     >
     </cs-service-offering-dialog>`
 })
 export class VmCreationServiceOfferingContainerComponent {
   readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferingsForVmCreation);
-  readonly groups$ = this.store.select(fromSOGroups.selectAll);
+  readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
+  readonly classes$ = this.store.select(fromSOClasses.selectAll);
+  readonly classTags$ = this.store.select(fromUserTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 
   public formMode = ServiceOfferingFromMode.SELECT;
@@ -57,8 +62,8 @@ export class VmCreationServiceOfferingContainerComponent {
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }));
   }
 
-  public onSelectedGroupsChange(selectedGroups: string[]) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedGroups }));
+  public onSelectedClassesChange(selectedClasses: string[]) {
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }));
   }
 
   public onQueryChange(query: string) {

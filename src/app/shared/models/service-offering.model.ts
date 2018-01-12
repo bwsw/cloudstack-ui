@@ -1,3 +1,4 @@
+import { UserTagKeys } from '../services/tags/user-tag-keys';
 import { Offering } from './offering.model';
 import { Tag } from './tag.model';
 
@@ -21,13 +22,14 @@ export interface ServiceOffering extends Offering {
 
 export const getGroupId = (item: ServiceOffering) => {
   const tag = item.tags && item.tags.find(
-    _ => _.key === ServiceOfferingGroupKey);
+    _ => _.key === ServiceOfferingClassKey);
   return tag && tag.value;
 };
 
-export class ServiceOfferingGroup {
+export class ServiceOfferingClass {
   public id: string;
-  public translations?: string;
+  public name?: object;
+  public description?: object;
 
   constructor(id: string) {
     this.id = id;
@@ -35,9 +37,10 @@ export class ServiceOfferingGroup {
 }
 
 export const ServiceOfferingType = {
-  select: 'Select',
+  fixed: 'Select',
   custom: 'Custom'
 };
 
-export const ServiceOfferingGroupKey = 'csui.service-offering.group';
-export const DefaultServiceOfferingGroupId = 'common';
+export const ServiceOfferingClassKey = UserTagKeys.serviceOfferingClass;
+export const ServiceOfferingParamKey = UserTagKeys.serviceOfferingParam;
+export const DefaultServiceOfferingClassId = 'common';

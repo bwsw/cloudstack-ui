@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ServiceOfferingGroup } from '../../../shared/models/service-offering.model';
+import { ServiceOfferingClass } from '../../../shared/models/service-offering.model';
 
-import * as event from './service-offering-group.actions';
+import * as event from './service-offering-class.actions';
 
 
 /**
@@ -12,15 +12,15 @@ import * as event from './service-offering-group.actions';
  * model type by id. This interface is extended to include
  * any additional interface properties.
  */
-export interface State extends EntityState<ServiceOfferingGroup> {
-  loading: boolean
+export interface State extends EntityState<ServiceOfferingClass> {
+  loading: boolean,
 }
 
-export interface ServiceOfferingGroupState {
+export interface ServiceOfferingClassState {
   list: State;
 }
 
-export const serviceOfferingGroupReducers = {
+export const serviceOfferingClassReducers = {
   list: reducer,
 };
 
@@ -32,8 +32,8 @@ export const serviceOfferingGroupReducers = {
  * a sortComparer option which is set to a compare
  * function if the records are to be sorted.
  */
-export const adapter: EntityAdapter<ServiceOfferingGroup> = createEntityAdapter<ServiceOfferingGroup>({
-  selectId: (item: ServiceOfferingGroup) => item.id,
+export const adapter: EntityAdapter<ServiceOfferingClass> = createEntityAdapter<ServiceOfferingClass>({
+  selectId: (item: ServiceOfferingClass) => item.id,
   sortComparer: false
 });
 
@@ -50,13 +50,13 @@ export function reducer(
   action: event.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_SERVICE_OFFERING_GROUP_REQUEST: {
+    case event.LOAD_SERVICE_OFFERING_CLASS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case event.LOAD_SERVICE_OFFERING_GROUP_RESPONSE: {
+    case event.LOAD_SERVICE_OFFERING_CLASS_RESPONSE: {
       return {
         /**
          * The addMany function provided by the created adapter
@@ -76,10 +76,10 @@ export function reducer(
 }
 
 
-export const getServiceOfferingGroupState = createFeatureSelector<ServiceOfferingGroupState>('serviceOfferingGroups');
+export const getServiceOfferingClassState = createFeatureSelector<ServiceOfferingClassState>('service-offering-class');
 
-export const getServiceOfferingGroupEntitiesState = createSelector(
-  getServiceOfferingGroupState,
+export const getServiceOfferingClassEntitiesState = createSelector(
+  getServiceOfferingClassState,
   state => state.list
 );
 
@@ -88,9 +88,9 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getServiceOfferingGroupEntitiesState);
+} = adapter.getSelectors(getServiceOfferingClassEntitiesState);
 
 export const isLoading = createSelector(
-  getServiceOfferingGroupEntitiesState,
+  getServiceOfferingClassEntitiesState,
   state => state.loading
 );

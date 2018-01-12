@@ -24,10 +24,12 @@ import { DynamicModule } from 'ng-dynamic-component';
 import { PulseModule } from '../pulse/pulse.module';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
-import { ServiceOfferingGroupEffects } from '../reducers/service-offerings/redux/service-offering-group.effects';
-import { serviceOfferingGroupReducers } from '../reducers/service-offerings/redux/service-offering-group.reducers';
+import { ServiceOfferingClassEffects } from '../reducers/service-offerings/redux/service-offering-class.effects';
+import { serviceOfferingClassReducers } from '../reducers/service-offerings/redux/service-offering-class.reducers';
 import { ServiceOfferingEffects } from '../reducers/service-offerings/redux/service-offerings.effects';
 import { serviceOfferingReducers } from '../reducers/service-offerings/redux/service-offerings.reducers';
+import { UserTagsEffects } from '../reducers/user-tags/redux/user-tags.effects';
+import { userTagsReducers } from '../reducers/user-tags/redux/user-tags.reducers';
 import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.effects';
 import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
@@ -154,16 +156,18 @@ import { WebShellService } from './web-shell/web-shell.service';
     HttpModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
+    StoreModule.forFeature('user-tags', userTagsReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
-    StoreModule.forFeature('serviceOfferingGroups', serviceOfferingGroupReducers),
+    StoreModule.forFeature('service-offering-class', serviceOfferingClassReducers),
     EffectsModule.forFeature([
       VirtualMachinesEffects,
       VirtualMachineCreationEffects,
       ZonesEffects,
       AccountsEffects,
+      UserTagsEffects,
       ServiceOfferingEffects,
-      ServiceOfferingGroupEffects
+      ServiceOfferingClassEffects
     ]),
   ],
   declarations: [

@@ -13,7 +13,6 @@ import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { MaxValueValidatorDirective } from '../../shared/directives/max-value.directive';
 import { MinValueValidatorDirective } from '../../shared/directives/min-value.directive';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { CustomServiceOffering } from './custom-service-offering';
 import { CustomServiceOfferingComponent } from './custom-service-offering.component';
 
@@ -54,6 +53,11 @@ describe('CustomServiceOfferingComponent', () => {
           min: 32,
           max: 2000
         }
+      },
+      defaultParams: {
+        cpunumber: 1,
+        cpuspeed: 1500,
+        memory: 1000,
       }
     };
 

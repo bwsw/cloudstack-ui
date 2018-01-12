@@ -13,7 +13,7 @@ import {
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { ConfigService } from '../../../shared/services/config.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
-import { ServiceOfferingTagService } from '../../../shared/services/tags/service-offering-tag.service';
+import * as userTagActions from '../../user-tags/redux/user-tags.actions';
 
 import * as serviceOfferingActions from './service-offerings.actions';
 
@@ -74,35 +74,16 @@ export class ServiceOfferingEffects {
     });
 
   @Effect()
-  setOfferingGroup$: Observable<Action> = this.actions$
-    .ofType(serviceOfferingActions.SET_SERVICE_OFFERING_GROUP)
-    .switchMap((action: serviceOfferingActions.SetServiceOfferingGroup) =>
-        this.serviceOfferingTagService.setGroup(
-        action.payload.serviceOffering,
-        action.payload.serviceOfferingGroup
-      )
-      .map(temp => new serviceOfferingActions.SetServiceOfferingGroupSuccess(temp))
-      .catch(error => Observable.of(new serviceOfferingActions.SetServiceOfferingGroupError(error))));
-
-  @Effect()
-  resetOfferingGroup$: Observable<Action> = this.actions$
-    .ofType(serviceOfferingActions.RESET_SERVICE_OFFERING_GROUP)
-    .switchMap((action: serviceOfferingActions.ResetServiceOfferingGroup) =>
-      this.serviceOfferingTagService.resetGroup(action.payload)
-        .map(temp => new serviceOfferingActions.ResetServiceOfferingGroupSuccess(action.payload))
-        .catch(error => Observable.of(new serviceOfferingActions.SetServiceOfferingGroupError(error))));
-
-  @Effect({ dispatch: false })
-  setOfferingGroupError$: Observable<Action> = this.actions$
-    .ofType(serviceOfferingActions.SET_SERVICE_OFFERING_GROUP_ERROR)
-    .do((action: serviceOfferingActions.SetServiceOfferingGroupError) => {
-      this.handleError(action.payload);
+  updateCustomServiceOffering$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING)
+    .map((action: serviceOfferingActions.UpdateCustomServiceOffering) => {
+      return new userTagActions.UpdateCustomServiceOfferingParams(action.payload);
     });
+
 
   constructor(
     private actions$: Actions,
     private offeringService: ServiceOfferingService,
-    private serviceOfferingTagService: ServiceOfferingTagService,
     private configService: ConfigService,
     private dialogService: DialogService
   ) { }

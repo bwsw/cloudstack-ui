@@ -1215,11 +1215,11 @@
       "MEMORY": "Memory (MB)"
     },
     "MODES": {
-      "SELECT": "Select",
+      "FIXED": "Fixed",
       "CUSTOM": "Custom"
     },
     "FILTERS": {
-      "SELECT_GROUPS": "Select groups",
+      "SELECT_CLASSES": "Select classes",
       "COMMON": "Common"
     }
   },

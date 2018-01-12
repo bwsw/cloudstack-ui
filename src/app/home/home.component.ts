@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import * as authActions from '../reducers/auth/redux/auth.actions';
 import { State } from '../reducers/index';
 import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
+import * as userTagsActions from '../reducers/user-tags/redux/user-tags.actions';
 import { AuthService } from '../shared/services/auth.service';
 import { LayoutService } from '../shared/services/layout.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
@@ -34,6 +35,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
           mame: this.auth.user.account,
           domainid: this.auth.user.domainid
         }));
+        this.store.dispatch(new userTagsActions.LoadUserTagsRequest({ resourcetype: 'User' }));
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });
   }

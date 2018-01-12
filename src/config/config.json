@@ -168,5 +168,18 @@
     "webShell": true,
     "pulse": false
   },
-  "templateGroups": []
+  "templateGroups": [],
+  "serviceOfferingClasses": [
+    {
+      "id": "testClass",
+      "name": {
+        "ru": "Тест",
+        "en": "Test"
+      },
+      "description": {
+        "ru": "тестовое описание",
+        "en": "test description"
+      }
+    }
+  ]
 }

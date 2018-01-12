@@ -4,11 +4,12 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
 import { State } from '../../reducers/index';
-import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-group.actions';
-import * as fromSOGroups from '../../reducers/service-offerings/redux/service-offering-group.reducers';
+import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-class.actions';
+import * as fromSOClasses from '../../reducers/service-offerings/redux/service-offering-class.reducers';
 
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as fromUserTags from '../../reducers/user-tags/redux/user-tags.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 // tslint:disable-next-line
@@ -21,22 +22,28 @@ import { VirtualMachine } from '../shared/vm.model';
   template: `
     <cs-service-offering-dialog
       [serviceOfferings]="offerings$ | async"
-      [groups]="groups$ | async"
+      [classes]="classes$ | async"
+      [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
+      [query]="query$ | async"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="customOfferingRestrictions$ | async"
+      [defaultParams]="defaultParams$ | async"
       (onServiceOfferingChange)="changeServiceOffering($event)"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
       (viewModeChange)="onViewModeChange($event)"
-      (selectedGroupsChange)="onSelectedGroupsChange($event)"
+      (selectedClassesChange)="onSelectedClassesChange($event)"
       (queryChange)="onQueryChange($event)"
     >
     </cs-service-offering-dialog>`,
 })
 export class ServiceOfferingDialogContainerComponent implements OnInit {
   readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferings);
-  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
-  readonly groups$ = this.store.select(fromSOGroups.selectAll);
+  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictions);
+  readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
+  readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
+  readonly classes$ = this.store.select(fromSOClasses.selectAll);
+  readonly classTags$ = this.store.select(fromUserTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 
   readonly user$ = this.store.select(fromAuths.getUserAccount);
@@ -59,15 +66,15 @@ export class ServiceOfferingDialogContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
-    this.store.dispatch(new soGroupActions.LoadServiceOfferingGroupRequest());
+    this.store.dispatch(new soGroupActions.LoadServiceOfferingClassRequest());
   }
 
   public onViewModeChange(selectedViewMode: string) {
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }));
   }
 
-  public onSelectedGroupsChange(selectedGroups: string[]) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedGroups }));
+  public onSelectedClassesChange(selectedClasses: string[]) {
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }));
   }
 
   public onQueryChange(query: string) {
