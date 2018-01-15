@@ -75,7 +75,7 @@ export function reducer(
 }
 
 
-export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>('affinity-classes');
+export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>('affinity-groups');
 
 export const getAffinityGroupEntitiesState = createSelector(
   getAffinityGroupsState,
