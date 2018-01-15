@@ -28,7 +28,7 @@ export abstract class TagsComponent<T extends Taggable> {
 
     this.tagService.create({
       resourceIds: this.entity.id,
-      resourceType: this.resourceType,
+      resourceType: this.entity.resourceType || this.resourceType,
       'tags[0].key': tag.key,
       'tags[0].value': tag.value
     })
