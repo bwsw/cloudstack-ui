@@ -94,7 +94,7 @@ Click "Confirm" to set the custom service offerings. The custom settings will ap
     - From a Template. 
     - From an ISO file.
     
-   You will see the list in a modal window that contains the templates/ISOs with the "Ready" status available for the selected zone, as well as user's account or the whole domain. 
+   You will see a list in a modal window that contains templates/ISOs with the "Ready" status available for the selected zone, as well as user's account or the whole domain. 
    
    The filtering tool allows finding a necessary option by selecting among templates/ISOs by OS families, types and groups, or search the source by a name or a part of its name. 
    
