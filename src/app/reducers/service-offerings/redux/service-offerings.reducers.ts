@@ -1,6 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as merge from 'lodash/merge';
 import {
   DefaultCustomServiceOfferingRestrictions,
   ICustomOfferingRestrictions,
@@ -12,6 +11,7 @@ import {
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
 // tslint:disable-next-line
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { ResourceType } from '../../../shared/models';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
@@ -24,10 +24,9 @@ import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
-
-
+import * as merge from 'lodash/merge';
 import * as serviceOfferingActions from './service-offerings.actions';
-
+import * as fromResourceLimits from '../../resource-limit/redux/resource-limits.reducers';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -252,7 +251,8 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
-export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
+export const getAvailableOfferingsForVmCreation = createSelector(
+  selectAll,
   offeringAvailability,
   defaultParams,
   customOfferingRestrictions,
@@ -287,7 +287,8 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
     } else {
       return [];
     }
-  });
+  }
+);
 
 export const getOfferingsAvailableInZone = (
   offeringList: Array<ServiceOffering>,
@@ -400,10 +401,34 @@ export const getCustomOfferingWithSetParams = (
   return { ...serviceOffering, ...normalizedParams };
 };
 
-export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,
-  fromVMs.getVmCreationZoneId, (restrictions, zoneId) => {
-    return restrictions && restrictions[zoneId] || DefaultCustomServiceOfferingRestrictions;
-  });
+export const getCustomRestrictionsForVmCreation = createSelector(
+  customOfferingRestrictions,
+  fromVMs.getVmCreationZoneId,
+  fromResourceLimits.selectAll,
+  (restrictions, zoneId, resourceLimits) => {
+    let resourceLimit: ICustomOfferingRestrictions;
+    if (!restrictions || !restrictions[zoneId]) {
+      const limits = resourceLimits.reduce(
+        (m, i) => ({ ...m, [i.resourcetype]: i.max }),
+        {}
+      );
+
+      resourceLimit = {
+        ...DefaultCustomServiceOfferingRestrictions,
+        memory: {
+          ...DefaultCustomServiceOfferingRestrictions.memory,
+          max: limits[ResourceType.Memory]
+        },
+        cpunumber: {
+          ...DefaultCustomServiceOfferingRestrictions.cpunumber,
+          max: limits[ResourceType.CPU]
+        }
+      };
+    }
+
+    return restrictions && restrictions[zoneId] || resourceLimit;
+  }
+);
 
 export const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
   return Object.keys(restrictions).reduce((acc, key) => {
