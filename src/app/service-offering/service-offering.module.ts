@@ -14,7 +14,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { SharedModule } from '../shared/shared.module';
 import { CustomServiceOfferingComponent } from './custom-service-offering/custom-service-offering.component';
-import { CustomServiceOfferingService } from './custom-service-offering/service/custom-service-offering.service';
 import { ServiceOfferingDialogComponent } from './service-offering-dialog/service-offering-dialog.component';
 import { ServiceOfferingFilterComponent } from './service-offering-filter/service-offering-filter.component';
 import { ServiceOfferingItemComponent } from './service-offering-list/service-offering-item.component';
@@ -58,9 +57,6 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
     ServiceOfferingSelectorComponent,
-  ],
-  providers: [
-    CustomServiceOfferingService
   ]
 })
 export class ServiceOfferingModule {

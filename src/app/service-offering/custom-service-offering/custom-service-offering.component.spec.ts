@@ -31,12 +31,7 @@ describe('CustomServiceOfferingComponent', () => {
     mockDialogRef = {
       close: jasmine.createSpy('close')
     };
-    customOffering = {
-      ...so[0],
-      cpunumber: 1,
-      cpuspeed: 1500,
-      memory: 1000,
-    };
+    customOffering = so[2];
     dialogData = {
       offering: customOffering,
       zoneId: 'someId',
@@ -113,8 +108,8 @@ describe('CustomServiceOfferingComponent', () => {
       expect(component.offering.cpuspeed).toBe(1000);
 
       // original offering should not change
-      expect(customOffering.cpunumber).toBe(1);
-      expect(customOffering.cpuspeed).toBe(1500);
+      expect(customOffering.cpunumber).toBe(2);
+      expect(customOffering.cpuspeed).toBe(500);
     })
   );
 
@@ -142,8 +137,8 @@ describe('CustomServiceOfferingComponent', () => {
         ...customOffering
       };
       expected.cpunumber = 4;
-      expected.cpuspeed = 1500;
-      expected.memory = 1000;
+      expected.cpuspeed = 500;
+      expected.memory = 1024;
       expect(mockDialogRef.close).toHaveBeenCalledTimes(2);
       expect(mockDialogRef.close.calls.mostRecent().args).toEqual([expected]);
     })

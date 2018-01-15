@@ -104,7 +104,7 @@ export class ServiceOfferingSelectorComponent {
           const cpuNumber = this.serviceOffering.cpunumber;
           const cpuSpeed = this.serviceOffering.cpuspeed;
           const memory = this.serviceOffering.memory;
-          return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name} -` +
+          return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name} - ` +
             `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${translations['UNITS.MB']}`;
         }
       });

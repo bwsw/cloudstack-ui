@@ -9,7 +9,7 @@ import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offer
 import {
   customServiceOfferingFallbackParams,
   DefaultServiceOfferingConfigurationByZone
-} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+} from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { ConfigService } from '../../../shared/services/config.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';

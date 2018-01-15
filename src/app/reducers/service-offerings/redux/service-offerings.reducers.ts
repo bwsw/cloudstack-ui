@@ -6,12 +6,12 @@ import {
   ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
 } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+// tslint:disable-next-line
 import {
   CustomServiceOffering,
+  customServiceOfferingFallbackParams,
   ICustomServiceOffering
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
-// tslint:disable-next-line
-import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
 import {
   DefaultServiceOfferingClassId,
