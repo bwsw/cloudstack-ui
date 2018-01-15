@@ -156,7 +156,7 @@ export function reducer(
   }
 }
 
-function formReducer(
+export function formReducer(
   state = initialFormState,
   action: volumeActions.Actions
 ): FormState {
