@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
+import * as fromAccountTags from '../../../reducers/account-tags/redux/account-tags.reducers';
 import { State } from '../../../reducers/index';
 import * as fromSOClasses from '../../../reducers/service-offerings/redux/service-offering-class.reducers';
 
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
-import * as fromUserTags from '../../../reducers/user-tags/redux/user-tags.reducers';
 // tslint:disable-next-line
 import { ICustomOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
@@ -37,7 +37,7 @@ export class VmCreationServiceOfferingContainerComponent {
   readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferingsForVmCreation);
   readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
-  readonly classTags$ = this.store.select(fromUserTags.selectServiceOfferingClassTags);
+  readonly classTags$ = this.store.select(fromAccountTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 
   public formMode = ServiceOfferingFromMode.SELECT;

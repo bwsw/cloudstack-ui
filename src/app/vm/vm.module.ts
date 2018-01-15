@@ -22,14 +22,14 @@ import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { PulseModule } from '../pulse/pulse.module';
+import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.effects';
+import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
 import { ServiceOfferingClassEffects } from '../reducers/service-offerings/redux/service-offering-class.effects';
 import { serviceOfferingClassReducers } from '../reducers/service-offerings/redux/service-offering-class.reducers';
 import { ServiceOfferingEffects } from '../reducers/service-offerings/redux/service-offerings.effects';
 import { serviceOfferingReducers } from '../reducers/service-offerings/redux/service-offerings.reducers';
-import { UserTagsEffects } from '../reducers/user-tags/redux/user-tags.effects';
-import { userTagsReducers } from '../reducers/user-tags/redux/user-tags.reducers';
 import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.effects';
 import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
@@ -156,7 +156,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     HttpModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
-    StoreModule.forFeature('user-tags', userTagsReducers),
+    StoreModule.forFeature('account-tags', accountTagsReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
     StoreModule.forFeature('service-offering-class', serviceOfferingClassReducers),
@@ -165,7 +165,7 @@ import { WebShellService } from './web-shell/web-shell.service';
       VirtualMachineCreationEffects,
       ZonesEffects,
       AccountsEffects,
-      UserTagsEffects,
+      AccountTagsEffects,
       ServiceOfferingEffects,
       ServiceOfferingClassEffects
     ]),

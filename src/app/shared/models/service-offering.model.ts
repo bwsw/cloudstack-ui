@@ -1,4 +1,4 @@
-import { UserTagKeys } from '../services/tags/user-tag-keys';
+import { AccountTagKeys } from '../services/tags/account-tag-keys';
 import { Offering } from './offering.model';
 import { Tag } from './tag.model';
 
@@ -20,12 +20,6 @@ export interface ServiceOffering extends Offering {
   tags: Array<Tag>;
 }
 
-export const getGroupId = (item: ServiceOffering) => {
-  const tag = item.tags && item.tags.find(
-    _ => _.key === ServiceOfferingClassKey);
-  return tag && tag.value;
-};
-
 export class ServiceOfferingClass {
   public id: string;
   public name?: object;
@@ -41,6 +35,6 @@ export const ServiceOfferingType = {
   custom: 'Custom'
 };
 
-export const ServiceOfferingClassKey = UserTagKeys.serviceOfferingClass;
-export const ServiceOfferingParamKey = UserTagKeys.serviceOfferingParam;
+export const ServiceOfferingClassKey = AccountTagKeys.serviceOfferingClass;
+export const ServiceOfferingParamKey = AccountTagKeys.serviceOfferingParam;
 export const DefaultServiceOfferingClassId = 'common';

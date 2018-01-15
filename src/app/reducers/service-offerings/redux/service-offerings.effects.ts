@@ -13,7 +13,7 @@ import {
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { ConfigService } from '../../../shared/services/config.service';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
-import * as userTagActions from '../../user-tags/redux/user-tags.actions';
+import * as accountTagActions from '../../account-tags/redux/account-tags.actions';
 
 import * as serviceOfferingActions from './service-offerings.actions';
 
@@ -77,7 +77,7 @@ export class ServiceOfferingEffects {
   updateCustomServiceOffering$: Observable<Action> = this.actions$
     .ofType(serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING)
     .map((action: serviceOfferingActions.UpdateCustomServiceOffering) => {
-      return new userTagActions.UpdateCustomServiceOfferingParams(action.payload);
+      return new accountTagActions.UpdateCustomServiceOfferingParams(action.payload);
     });
 
 

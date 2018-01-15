@@ -28,8 +28,8 @@ import {
   OfferingPolicy
 } from '../../../shared/services/offering.service';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import * as fromAccountTags from '../../account-tags/redux/account-tags.reducers';
 import * as fromAuths from '../../auth/redux/auth.reducers';
-import * as fromUserTags from '../../user-tags/redux/user-tags.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as fromSOClass from './service-offering-class.reducers';
@@ -252,7 +252,7 @@ export const getAvailableOfferings = createSelector(
   offeringCompatibilityPolicy,
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
-  fromUserTags.selectServiceOfferingParamTags,
+  fromAccountTags.selectServiceOfferingParamTags,
   (
     serviceOfferings, currentOffering, availability,
     customRestrictions, compatibilityPolicy,
@@ -306,7 +306,7 @@ export const selectFilteredOfferings = createSelector(
   filterSelectedClasses,
   filterQuery,
   fromSOClass.selectEntities,
-  fromUserTags.selectAll,
+  fromAccountTags.selectAll,
   (offerings, viewMode, selectedClasses, query, classes, tags) => {
     const groupsMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
@@ -342,7 +342,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromZones.selectEntities,
   fromAuths.getUserAccount,
-  fromUserTags.selectServiceOfferingParamTags,
+  fromAccountTags.selectServiceOfferingParamTags,
   (
     serviceOfferings, availability,
     defaults, customRestrictions,
@@ -375,7 +375,7 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
   filterSelectedClasses,
   filterQuery,
   fromSOClass.selectEntities,
-  fromUserTags.selectServiceOfferingClassTags,
+  fromAccountTags.selectServiceOfferingClassTags,
   (offerings, viewMode, selectedClasses, query, classes, tags) => {
     const groupsMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();

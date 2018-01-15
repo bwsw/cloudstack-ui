@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ServiceOffering } from '../../models/service-offering.model';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
@@ -114,14 +113,6 @@ export class UserTagService implements EntityTagService {
       .map(() => +timeout);
   }
 
-  public setServiceOfferingParams(offering: ServiceOffering): Observable<ServiceOffering> {
-    return Observable.forkJoin(
-      this.writeTag(this.getSOCpuNumberKey(offering), offering.cpunumber.toString()),
-      this.writeTag(this.getSOCpuSpeedKey(offering), offering.cpuspeed.toString()),
-      this.writeTag(this.getSOMemoryKey(offering), offering.memory.toString()),
-    ).map(() => offering);
-  }
-
   public getShowSystemTags(): Observable<boolean> {
     return this.readTag(this.keys.showSystemTags)
       .map(value => Utils.convertBooleanStringToBoolean(value));
@@ -189,17 +180,5 @@ export class UserTagService implements EntityTagService {
     }
 
     return Observable.of(null);
-  }
-
-  private getSOCpuNumberKey(offering: ServiceOffering): string {
-    return `${this.keys.serviceOfferingParam}.${offering.id}.cpuNumber`;
-  }
-
-  private getSOCpuSpeedKey(offering: ServiceOffering): string {
-    return `${this.keys.serviceOfferingParam}.${offering.id}.cpuSpeed`;
-  }
-
-  private getSOMemoryKey(offering: ServiceOffering): string {
-    return `${this.keys.serviceOfferingParam}.${offering.id}.memory`;
   }
 }

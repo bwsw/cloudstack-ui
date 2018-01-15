@@ -2,21 +2,21 @@ import { Action } from '@ngrx/store';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { Tag } from '../../../shared/models/tag.model';
 
-export const LOAD_USER_TAGS_REQUEST = '[USER_TAGS] LOAD_USER_TAGS_REQUEST';
-export const LOAD_USER_TAGS_RESPONSE = '[USER_TAGS] LOAD_USER_TAGS_RESPONSE';
-export const UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS = '[USER_TAGS] UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS';
-export const UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS = '[USER_TAGS] UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS';
-export const UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_ERROR = '[USER_TAGS] UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_ERROR';
+export const LOAD_ACCOUNT_TAGS_REQUEST = '[ACCOUNT_TAGS] LOAD_ACCOUNT_TAGS_REQUEST';
+export const LOAD_ACCOUNT_TAGS_RESPONSE = '[ACCOUNT_TAGS] LOAD_ACCOUNT_TAGS_RESPONSE';
+export const UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS = '[ACCOUNT_TAGS] UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS';
+export const UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS = '[ACCOUNT_TAGS] UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS';
+export const UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_ERROR = '[ACCOUNT_TAGS] UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_ERROR';
 
 
-export class LoadUserTagsRequest implements Action {
-  type = LOAD_USER_TAGS_REQUEST;
+export class LoadAccountTagsRequest implements Action {
+  type = LOAD_ACCOUNT_TAGS_REQUEST;
   constructor(public payload?: any) {
   }
 }
 
-export class LoadUserTagsResponse implements Action {
-  type = LOAD_USER_TAGS_RESPONSE;
+export class LoadAccountTagsResponse implements Action {
+  type = LOAD_ACCOUNT_TAGS_RESPONSE;
   constructor(public payload:  Tag[] ) {
   }
 }
@@ -39,5 +39,5 @@ export class UpdateCustomServiceOfferingParamsError implements Action {
   }
 }
 
-export type Actions = LoadUserTagsRequest
-  | LoadUserTagsResponse;
+export type Actions = LoadAccountTagsRequest
+  | LoadAccountTagsResponse;

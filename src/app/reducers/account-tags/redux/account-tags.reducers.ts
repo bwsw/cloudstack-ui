@@ -1,9 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Tag } from '../../../shared/models/tag.model';
-import { UserTagKeys } from '../../../shared/services/tags/user-tag-keys';
+import { AccountTagKeys } from '../../../shared/services/tags/account-tag-keys';
 
-import * as event from './user-tags.actions';
+import * as event from './account-tags.actions';
 
 
 /**
@@ -17,11 +17,11 @@ export interface State extends EntityState<Tag> {
   loading: boolean,
 }
 
-export interface UserTagsState {
+export interface AccountTagsState {
   list: State;
 }
 
-export const userTagsReducers = {
+export const accountTagsReducers = {
   list: reducer,
 };
 
@@ -51,13 +51,13 @@ export function reducer(
   action: event.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_USER_TAGS_REQUEST: {
+    case event.LOAD_ACCOUNT_TAGS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case event.LOAD_USER_TAGS_RESPONSE: {
+    case event.LOAD_ACCOUNT_TAGS_RESPONSE: {
       return {
         /**
          * The addMany function provided by the created adapter
@@ -71,21 +71,21 @@ export function reducer(
       };
     }
     case event.UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS: {
-      const id = `${UserTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`;
+      const id = `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`;
 
       if (state.ids.indexOf(id) > -1) {
         return {
           ...adapter.updateMany([
             {
-              id: `${UserTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`,
+              id: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`,
               changes: { value: action.payload.cpunumber }
             },
             {
-              id: `${UserTagKeys.serviceOfferingParam}.${action.payload.id}.cpuSpeed`,
+              id: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuSpeed`,
               changes: { value: action.payload.cpuspeed }
             },
             {
-              id: `${UserTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
+              id: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
               changes: { value: action.payload.memory }
             }
           ], state)
@@ -94,15 +94,15 @@ export function reducer(
       return {
         ...adapter.addMany([
           {
-            key: `${UserTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`,
+            key: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`,
             value: action.payload.cpunumber
           },
           {
-            key: `${UserTagKeys.serviceOfferingParam}.${action.payload.id}.cpuSpeed`,
+            key: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuSpeed`,
             value: action.payload.cpuspeed
           },
           {
-            key: `${UserTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
+            key: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
             value: action.payload.memory
           }
         ], state)
@@ -115,10 +115,10 @@ export function reducer(
 }
 
 
-export const getUserTagsState = createFeatureSelector<UserTagsState>('user-tags');
+export const getAccountTagsState = createFeatureSelector<AccountTagsState>('account-tags');
 
-export const getUserTagsEntitiesState = createSelector(
-  getUserTagsState,
+export const getAccountTagsEntitiesState = createSelector(
+  getAccountTagsState,
   state => state.list
 );
 
@@ -127,24 +127,24 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getUserTagsEntitiesState);
+} = adapter.getSelectors(getAccountTagsEntitiesState);
 
 export const isLoading = createSelector(
-  getUserTagsEntitiesState,
+  getAccountTagsEntitiesState,
   state => state.loading
 );
 
 export const selectServiceOfferingClassTags = createSelector(
   selectAll,
   (tags) => {
-    return tags.filter(tag => tag.key.includes(UserTagKeys.serviceOfferingClass));
+    return tags.filter(tag => tag.key.includes(AccountTagKeys.serviceOfferingClass));
   }
 );
 
 export const selectServiceOfferingParamTags = createSelector(
   selectAll,
   (tags) => {
-    return tags.filter(tag => tag.key.includes(UserTagKeys.serviceOfferingParam));
+    return tags.filter(tag => tag.key.includes(AccountTagKeys.serviceOfferingParam));
   }
 );
 
