@@ -1,4 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   DefaultCustomServiceOfferingRestrictions,
@@ -11,7 +12,7 @@ import {
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
 // tslint:disable-next-line
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ResourceType } from '../../../shared/models';
+import { ResourceLimit, ResourceType } from '../../../shared/models';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
@@ -259,18 +260,19 @@ export const getAvailableOfferingsForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromZones.selectEntities,
   fromAuths.getUserAccount,
+  fromResourceLimits.getResourceLimitsByType,
   (
     serviceOfferings, availability,
     defaults, customRestrictions,
-    zoneId, zones, user
+    zoneId, zones, user, limits
   ) => {
     const zone = zones && zones[zoneId];
     if (zone && user) {
-      const availableOfferings = getAvailableByResourcesSync(
+      const availableOfferings = getAvailableByResourceLimits(
         serviceOfferings,
         availability,
         customRestrictions,
-        ResourceStats.fromAccount([user]),
+        limits,
         zone
       );
 
@@ -351,6 +353,52 @@ export const getAvailableByResourcesSync = (
       } else {
         enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
         enoughMemory = resourceUsage.available.memory >= offering.memory;
+      }
+
+      return enoughCpus && enoughMemory;
+    })
+    .sort((a: ServiceOffering, b: ServiceOffering) => {
+      if (!a.iscustomized && b.iscustomized) {
+        return -1;
+      }
+      if (a.iscustomized && !b.iscustomized) {
+        return 1;
+      }
+      return 0;
+    });
+};
+
+export const getAvailableByResourceLimits = (
+  serviceOfferings: Array<ServiceOffering>,
+  availability: OfferingAvailability,
+  offeringRestrictions: ICustomOfferingRestrictionsByZone,
+  resourceLimits: Dictionary<ResourceLimit>,
+  zone: Zone
+) => {
+  const availableInZone = getOfferingsAvailableInZone(
+    serviceOfferings,
+    availability,
+    zone
+  );
+
+  return availableInZone
+    .filter(offering => {
+      let enoughCpus;
+      let enoughMemory;
+
+      const maxCpu = resourceLimits[ResourceType.CPU];
+      const maxMemory = resourceLimits[ResourceType.Memory];
+
+      if (offering.iscustomized) {
+        const restrictions = merge(
+          DefaultCustomServiceOfferingRestrictions,
+          offeringRestrictions && offeringRestrictions[zone.id]
+        );
+        enoughCpus = !restrictions.cpunumber || restrictions.cpunumber.min < maxCpu;
+        enoughMemory = !restrictions.memory || restrictions.memory.min < maxMemory;
+      } else {
+        enoughCpus = maxCpu >= offering.cpunumber;
+        enoughMemory = maxMemory >= offering.memory;
       }
 
       return enoughCpus && enoughMemory;
