@@ -1,4 +1,5 @@
 export enum SecurityGroupViewMode {
   Templates = 'templates',
-  Shared = 'shared'
+  Shared = 'shared',
+  Private = 'private'
 }

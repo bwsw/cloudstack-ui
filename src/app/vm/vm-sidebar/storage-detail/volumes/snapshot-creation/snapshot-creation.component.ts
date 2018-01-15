@@ -1,19 +1,12 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
-import * as moment from 'moment';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
 import {
   ResourceStats,
   ResourceUsageService
 } from '../../../../../shared/services/resource-usage.service';
 
+import * as moment from 'moment';
 
 @Component({
   selector: 'cs-snapshot-creation',
@@ -31,7 +24,8 @@ export class SnapshotCreationComponent implements OnInit {
     private dialogRef: MatDialogRef<SnapshotCreationComponent>,
     @Inject(MAT_DIALOG_DATA) private volume: Volume,
     private resourceUsageService: ResourceUsageService,
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     this.name = this.defaultName;
@@ -48,6 +42,6 @@ export class SnapshotCreationComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.dialogRef.close({ name: this.name, desc: this.description});
+    this.dialogRef.close({ name: this.name, desc: this.description });
   }
 }

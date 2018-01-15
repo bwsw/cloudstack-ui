@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ServiceOffering } from '../../models/service-offering.model';
-import { SSHKeyPair } from '../../models/ssh-keypair.model';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
@@ -115,21 +114,12 @@ export class UserTagService implements EntityTagService {
       .map(() => +timeout);
   }
 
-  public getSshKeyDescription(sshKey: SSHKeyPair): Observable<string> {
-    return this.readTag(this.getSshKeyDescriptionKey(sshKey));
-  }
-
-  public setSshKeyDescription(sshKey: SSHKeyPair, description: string): Observable<string> {
-    return this.writeTag(this.getSshKeyDescriptionKey(sshKey), description)
-      .map(() => description);
-  }
-
   public setServiceOfferingParams(offering: ServiceOffering): Observable<ServiceOffering> {
     return Observable.forkJoin(
-        this.writeTag(this.getSOCpuNumberKey(offering), offering.cpunumber.toString()),
-        this.writeTag(this.getSOCpuSpeedKey(offering), offering.cpuspeed.toString()),
-        this.writeTag(this.getSOMemoryKey(offering), offering.memory.toString()),
-      ).map(() => offering);
+      this.writeTag(this.getSOCpuNumberKey(offering), offering.cpunumber.toString()),
+      this.writeTag(this.getSOCpuSpeedKey(offering), offering.cpuspeed.toString()),
+      this.writeTag(this.getSOMemoryKey(offering), offering.memory.toString()),
+    ).map(() => offering);
   }
 
   public getShowSystemTags(): Observable<boolean> {
@@ -199,10 +189,6 @@ export class UserTagService implements EntityTagService {
     }
 
     return Observable.of(null);
-  }
-
-  private getSshKeyDescriptionKey(sshKey: SSHKeyPair): string {
-    return `${this.keys.sshDescription}.${sshKey.fingerprint}`;
   }
 
   private getSOCpuNumberKey(offering: ServiceOffering): string {

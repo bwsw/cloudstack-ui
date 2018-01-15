@@ -2,10 +2,11 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/index';
-import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
 import { Volume } from '../../models/volume.model';
 import { AuthService } from '../../services/auth.service';
 
+import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
+import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
 
 @Component({
   selector: 'cs-volume-actions-container',
@@ -15,14 +16,13 @@ import { AuthService } from '../../services/auth.service';
       (onVolumeDelete)="onVolumeDelete($event)"
       (onVolumeAttach)="onVolumeAttach($event)"
       (onVolumeDetach)="onVolumeDetach($event)"
-      (onVolumeSnapshots)="onVolumeSnapshots($event)"
+      (onSnapshotAdd)="onSnapshotAdd($event)"
       (onVolumeResize)="onVolumeResize($event)"
       (onVolumeSchedule)="onVolumeSchedule($event)"
     >
     </cs-volume-actions>`,
 })
 export class VolumeActionsContainerComponent {
-
   @Input() public volume: Volume;
 
   constructor(
@@ -44,10 +44,6 @@ export class VolumeActionsContainerComponent {
     this.store.dispatch(new volumeActions.DetachVolume(volume));
   }
 
-  public onVolumeSnapshots(volume: Volume): void {
-    this.store.dispatch(new volumeActions.AddSnapshot(volume));
-  }
-
   public onVolumeResize(volume: Volume): void {
     this.store.dispatch(new volumeActions.ResizeVolume(volume));
   }
@@ -56,4 +52,7 @@ export class VolumeActionsContainerComponent {
     this.store.dispatch(new volumeActions.AddSnapshotSchedule(volume));
   }
 
+  public onSnapshotAdd(volume: Volume): void {
+    this.store.dispatch(new snapshotActions.AddSnapshot(volume));
+  }
 }

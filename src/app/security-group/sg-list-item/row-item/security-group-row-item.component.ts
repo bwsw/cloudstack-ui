@@ -8,6 +8,8 @@ import {
 import { SecurityGroup } from '../../sg.model';
 import { SecurityGroupListItemComponent } from '../security-group-list-item.component';
 import { MatMenuTrigger } from '@angular/material';
+import { Dictionary } from '@ngrx/entity/src/models';
+import { VirtualMachine } from '../../../vm';
 
 @Component({
   selector: 'cs-security-group-row-item',
@@ -18,6 +20,7 @@ export class SecurityGroupRowItemComponent extends SecurityGroupListItemComponen
   @Input() public item: SecurityGroup;
   @Input() public searchQuery: () => string;
   @Input() public isSelected: (securityGroup) => boolean;
+  @Input() public vmList: Dictionary<VirtualMachine>;
   @Output() public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 }

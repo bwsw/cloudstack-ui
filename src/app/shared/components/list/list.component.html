@@ -6,6 +6,7 @@
 <ng-content select="[cs-sidebar]"></ng-content>
 
 <cs-fab
+  *ngIf="creationEnabled"
   [isOpen]="isOpen"
   (click)="onAction.next()"
 ></cs-fab>

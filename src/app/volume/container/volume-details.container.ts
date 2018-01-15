@@ -23,7 +23,6 @@ import { Volume } from '../../shared/models/volume.model';
   `
 })
 export class VolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
-
   readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
   readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
   public description;

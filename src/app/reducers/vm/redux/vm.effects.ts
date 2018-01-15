@@ -188,7 +188,7 @@ export class VirtualMachinesEffects {
 
   @Effect()
   changeInstanceGroup$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_CHANGE_INSTANT_GROUP)
+    .ofType(vmActions.VM_CHANGE_INSTANCE_GROUP)
     .switchMap((action: vmActions.ChangeInstanceGroup) => {
       const newVm = Object.assign(
         {},
@@ -196,20 +196,20 @@ export class VirtualMachinesEffects {
         { instanceGroup: action.payload.group }
       );
       const notificationId = this.jobsNotificationService.add(
-        'JOB_NOTIFICATIONS.VM.CHANGE_INSTANT_GROUP_IN_PROGRESS');
+        'JOB_NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_IN_PROGRESS');
 
       return this.vmTagService.setGroup(newVm, action.payload.group)
         .map(vm => {
           this.jobsNotificationService.finish({
             id: notificationId,
-            message: 'JOB_NOTIFICATIONS.VM.CHANGE_INSTANT_GROUP_DONE'
+            message: 'JOB_NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_DONE'
           });
           return new vmActions.UpdateVM(vm);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
             id: notificationId,
-            message: 'JOB_NOTIFICATIONS.VM.CHANGE_INSTANT_GROUP_FAILED'
+            message: 'JOB_NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_FAILED'
           });
           return Observable.of(new vmActions.VMUpdateError(error));
         });
@@ -217,10 +217,10 @@ export class VirtualMachinesEffects {
 
   @Effect()
   removeInstanceGroup$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_REMOVE_INSTANT_GROUP)
+    .ofType(vmActions.VM_REMOVE_INSTANCE_GROUP)
     .switchMap((action: vmActions.RemoveInstanceGroup) => {
       const notificationId = this.jobsNotificationService.add(
-        'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_IN_PROGRESS');
+        'JOB_NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_IN_PROGRESS');
 
       return this.vmTagService.removeGroup(action.payload)
         .map(vm => {
@@ -231,14 +231,14 @@ export class VirtualMachinesEffects {
           );
           this.jobsNotificationService.finish({
             id: notificationId,
-            message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_DONE'
+            message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_DONE'
           });
           return new vmActions.UpdateVM(newVm);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
             id: notificationId,
-            message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANT_GROUP_FAILED'
+            message: 'JOB_NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_FAILED'
           });
           return Observable.of(new vmActions.VMUpdateError(error));
         });

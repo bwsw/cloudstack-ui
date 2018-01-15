@@ -1,11 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Volume } from '../../../../../shared/models';
+import { getDateSnapshotCreated, Volume } from '../../../../../shared/models';
 import {
   SnapshotAction,
   SnapshotActionsService
@@ -45,5 +40,9 @@ export class SnapshotsComponent {
           this.onSnapshotDelete.emit(snapshot);
         }
       });
+  }
+
+  public snapshotCreatedDate(snapshot: Snapshot) {
+    return getDateSnapshotCreated(snapshot);
   }
 }
