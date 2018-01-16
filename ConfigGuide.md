@@ -129,5 +129,59 @@ A boolean value which allows or forbids a user to reorder links in the main side
 ```
  "allowReorderingSidebar": false
 ```
+### Template Groups
+
+You can define groups for sorting installation sources (templates and ISOs). 
+
+Template group has a required `id` parameter and an optional translations parameter. If there are no translations defined for the template group, group's ID will be used.
+
+A TemplateGroup looks like 
+```
+{
+  "id": "id-234", //unique key
+  "translations": {
+    "ru": "Имя Темплейта", // russian translation
+    "en": "Template Name" //english translation
+}
+```
+### Default Service Offering
+
+For custom service offerings there can be predefined offering parameters: number of CPUs, speed of CPU and/or memory. For example,
+
+```
+"defaultServiceOfferingConfig": {
+   "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+	   "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
+	   "customOfferingParams": {
+	      "cpuNumber": 2,
+	      "cpuSpeed": 1000,
+	      "memory": 1024
+	   }
+	}
+}
+```
+
+### Session Refresh Interval
+
+You can set interval for updating the session (_in seconds_):
+`"sessionRefreshInterval": 60,`
+
+### Offering Compatibility Policy
+
+You can set a type of comparing and ignoring VM tags, when changing service offering from one cluster to service offering from another for VM:
+```
+"offeringCompatibilityPolicy": {
+ "offeringChangePolicy": "exactly-match",
+ "offeringChangePolicyIgnoreTags": ["t1"]
+}
+```
+
+### Account Tags Enabled
+Account tags are available only for the last API version. If you are using another API version, the property should be false in config:
+
+```
+"accountTagsEnabled": false
+```
+
 ### Extensions
 Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for extension configuration options.
