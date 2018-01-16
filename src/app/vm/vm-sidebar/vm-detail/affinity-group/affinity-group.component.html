@@ -16,6 +16,7 @@
         [matTooltip]="'COMMON.EDIT' | translate"
         matTooltipPosition="above"
         mat-icon-button
+        [disabled]="!canActivate"
         (click)="changeAffinityGroup()"
       >
         <mat-icon>edit</mat-icon>

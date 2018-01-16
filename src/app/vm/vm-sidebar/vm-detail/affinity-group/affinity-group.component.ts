@@ -1,16 +1,8 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig
-} from '@angular/material';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AffinityGroupSelectorComponent } from 'app/vm/vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { DateTimeFormatterService } from '../../../../shared/services/date-time-formatter.service';
-import { VirtualMachine } from '../../../shared/vm.model';
+import { VirtualMachine, VmState } from '../../../shared/vm.model';
 
 
 @Component({
@@ -42,5 +34,9 @@ export class AffinityGroupComponent {
           this.onAffinityGroupChange.emit(groupId);
         }
       });
+  }
+
+  public get canActivate() {
+    return this.vm.state !== VmState.InProgress;
   }
 }
