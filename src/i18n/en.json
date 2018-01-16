@@ -1363,5 +1363,25 @@
   "ACCOUNT_STATE": {
     "DISABLED": "Disabled",
     "ENABLED": "Enabled"
+  },
+  "DISK_OFFERING_TABLE": {
+    "NAME": "",
+    "BYTESREADRATE": "Read rate(MB/s)",
+    "BYTESWRITERATE": "Write rate(MB/s)",
+    "IOPSREADRATE": "Read rate(IO/s)",
+    "IOPSWRITERATE": "Write rate(IO/s)",
+    "DISPLAYTEXT": "Description",
+    "DISKSIZE": "Disk size",
+    "STORAGETYPE": "Storage type",
+    "PROVISIONINGTYPE": "Provisioning type",
+    "ISCUSTOMIZED": "Customized",
+    "MINIOPS": "Min IO/s",
+    "MAXIOPS": "Max IO/s",
+    "THIN": "Thin",
+    "THICK": "Thick",
+    "FAT": "Fat",
+    "SPARSE": "Sparse",
+    "SHARED": "Shared",
+    "CREATED": "Created"
   }
 }

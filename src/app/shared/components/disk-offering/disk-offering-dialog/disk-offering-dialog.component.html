@@ -1,0 +1,56 @@
+<div class="table-wrapper">
+  <table class="mat-table">
+    <thead>
+    <tr class="mat-header-row">
+      <ng-container *ngFor="let column of displayedColumns">
+        <th class="mat-header-cell"> {{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate }}</th>
+      </ng-container>
+      <th class="mat-header-cell"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="mat-row"
+        *ngFor="let offering of diskOfferings"
+        (click)="selectOffering(offering)"
+    >
+      <ng-container *ngFor="let column of displayedColumns">
+        <td class="mat-cell">
+          <ng-container *ngIf="column !== 'provisioningtype' && column !== 'storagetype'">
+            <span>{{ offering[column] || '-'}}</span>
+          </ng-container>
+          <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype'">
+            <span>{{ tableId.toUpperCase() + '.' + offering[column].toUpperCase() | translate }}</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <td class="mat-cell">
+      <span>
+        <mat-radio-button
+          [checked]="selectedDiskOffering && offering?.id === selectedDiskOffering.id"></mat-radio-button>
+      </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<cs-no-results *ngIf="!diskOfferings?.length"></cs-no-results>
+
+<div class="mat-dialog-actions">
+  <button
+    mat-button
+    color="primary"
+    matDialogClose
+    type="button"
+  >
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    color="primary"
+    type="submit"
+    (click)="onSubmit()"
+  >
+    {{ 'COMMON.SELECT' | translate }}
+  </button>
+</div>
