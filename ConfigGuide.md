@@ -130,7 +130,7 @@ In this section you can specify classes for service offerings in the following f
        }
     ]
     
-Each classes should have an unique id, name, and description. Name and description should be localized for used languages.
+Each classes should have a unique id, name, and description. Name and description should be localized for used languages.
 
 ### Session Timeout
 
