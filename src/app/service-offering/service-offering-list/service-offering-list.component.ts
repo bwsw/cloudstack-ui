@@ -16,7 +16,6 @@ import {
   ICustomServiceOffering
 } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
-import { ServiceOfferingItemComponent } from './service-offering-item.component';
 
 export const noGroup = '-1';
 
@@ -87,10 +86,6 @@ export class ServiceOfferingListComponent implements OnChanges {
     return this.translateService.currentLang as Language;
   }
 
-  public get itemComponent() {
-    return ServiceOfferingItemComponent;
-  }
-
   public getGroup(item: ServiceOffering): ServiceOfferingClass {
     const tag = this.classTags.find(tag => tag.key === ServiceOfferingClassKey + '.' + item.id);
     const classKey = tag && tag.value || noGroup;
@@ -116,6 +111,15 @@ export class ServiceOfferingListComponent implements OnChanges {
           group: this.groupings.group(groups[gn][0]),
           items: groups[gn]
         };
+      }).sort((group1, group2) => {
+        if (!!group1) {
+          return -1;
+        }
+        if (!!group2) {
+          return 0
+        } else {
+          return 1;
+        }
       });
     }
   }

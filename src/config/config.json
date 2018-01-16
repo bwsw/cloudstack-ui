@@ -169,7 +169,7 @@
     "pulse": false
   },
   "templateGroups": [],
-  "accountTagsEnabled": false,
+  "accountTagsEnabled": true,
   "serviceOfferingClasses": [
     {
       "id": "testClass",
