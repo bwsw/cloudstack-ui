@@ -149,6 +149,24 @@ A boolean value which allows or forbids a user to reorder links in the main side
 ```
  "allowReorderingSidebar": false
 ```
+
+### Disk Offering Parameters
+This configuration allows a user to set parameters of Disk Offerings that will be shown in Disk Offerings Table.
+
+For example,
+```
+"diskOfferingParameters": [
+  "displaytext",
+  "disksize",
+  "created"
+  "storagetype",
+  "provisioningtype",
+  "iscustomized",
+  "miniops"
+  "maxiops"
+]
+
+```
 ### Template Groups
 
 You can define groups for sorting installation sources (templates and ISOs). 

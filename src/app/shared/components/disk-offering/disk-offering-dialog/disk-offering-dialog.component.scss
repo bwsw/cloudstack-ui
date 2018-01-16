@@ -8,17 +8,19 @@
 table {
   thead {
     text-align: left;
+    tr {
+      white-space: nowrap;
+    }
   }
   tbody {
     cursor: pointer;
+    tr {
+      white-space: nowrap;
+    }
   }
 }
 
-//mat-cell, mat-header-cell {
-//  min-width: 150px !important;
-//}
-
-.mat-row, .mat-header-row {
-  background: white !important;
-  min-width: 862px !important;
+.name-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

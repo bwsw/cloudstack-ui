@@ -1366,10 +1366,10 @@
   },
   "DISK_OFFERING_TABLE": {
     "NAME": "",
-    "BYTESREADRATE": "Read rate(MB/s)",
-    "BYTESWRITERATE": "Write rate(MB/s)",
-    "IOPSREADRATE": "Read rate(IO/s)",
-    "IOPSWRITERATE": "Write rate(IO/s)",
+    "BYTESREADRATE": "Read MB/s",
+    "BYTESWRITERATE": "Write MB/s",
+    "IOPSREADRATE": "Read IO/s",
+    "IOPSWRITERATE": "Write IO/s",
     "DISPLAYTEXT": "Description",
     "DISKSIZE": "Disk size",
     "STORAGETYPE": "Storage type",
@@ -1382,6 +1382,8 @@
     "FAT": "Fat",
     "SPARSE": "Sparse",
     "SHARED": "Shared",
-    "CREATED": "Created"
+    "CREATED": "Created",
+    "TRUE": "Yes",
+    "FALSE": "No"
   }
 }

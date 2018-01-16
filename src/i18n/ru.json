@@ -1366,22 +1366,24 @@
   },
   "DISK_OFFERING_TABLE": {
     "NAME": "",
-    "BYTESREADRATE": "Скорость чтения(МБайт/сек)",
-    "BYTESWRITERATE": "Скорость записи(МБайт/сек)",
-    "IOPSREADRATE": "Скорость чтения (IO/сек)",
-    "IOPSWRITERATE": "Скорость записи (IO/сек)",
+    "BYTESREADRATE": "Чтение (МБайт/сек)",
+    "BYTESWRITERATE": "Запись (МБайт/сек)",
+    "IOPSREADRATE": "Чтение (IO/сек)",
+    "IOPSWRITERATE": "Запись IO/сек",
     "DISPLAYTEXT": "Описание",
     "DISKSIZE": "Размер диска",
     "STORAGETYPE": "Тип хранилища",
-    "PROVISIONTYPE": "Выделение ёмкости",
+    "PROVISIONINGTYPE": "Выделение ёмкости",
     "ISCUSTOMIZED": "Настраиваемое",
     "MINIOPS": "Мин. IO/s",
     "MAXIOPS": "Макс. IO/s",
     "THIN": "Динамическое",
     "THICK": "Статическое",
+    "FAT": "Полное",
     "SPARSE": "Разреженное",
     "SHARED": "Общее",
     "CREATED": "Создано",
-    "FAT": "Полное"
+    "TRUE": "Да",
+    "FALSE": "Нет"
   }
 }

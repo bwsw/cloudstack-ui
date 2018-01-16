@@ -11,6 +11,7 @@ import { ConfigService } from '../../../services/config.service';
 export class DiskOfferingDialogComponent implements OnInit {
   public diskOfferings: Array<DiskOffering>;
   public selectedDiskOffering: DiskOffering;
+  public preselectedDiskOffering: DiskOffering;
   public tableId = 'DISK_OFFERING_TABLE';
   public displayedColumns: Array<string>;
   public defaultParams = ['name', 'bytesreadrate', 'byteswriterate', 'iopsreadrate', 'iopswriterate'];
@@ -22,6 +23,7 @@ export class DiskOfferingDialogComponent implements OnInit {
   ) {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
+    this.preselectedDiskOffering = data.diskOffering;
   }
 
   public ngOnInit() {

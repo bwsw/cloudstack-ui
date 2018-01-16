@@ -3,7 +3,7 @@
     <thead>
     <tr class="mat-header-row">
       <ng-container *ngFor="let column of displayedColumns">
-        <th class="mat-header-cell"> {{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate }}</th>
+        <th class="mat-header-cell"> {{ tableId.toUpperCase() + '.' + column?.toUpperCase() | translate }}</th>
       </ng-container>
       <th class="mat-header-cell"></th>
     </tr>
@@ -15,11 +15,18 @@
     >
       <ng-container *ngFor="let column of displayedColumns">
         <td class="mat-cell">
-          <ng-container *ngIf="column !== 'provisioningtype' && column !== 'storagetype'">
+          <ng-container *ngIf="column === 'name'">
+            <span
+              class="name-text"
+              [matTooltip]="offering[column]">
+            {{ offering[column] }}
+            </span>
+          </ng-container>
+          <ng-container *ngIf="column !== 'provisioningtype' && column !== 'storagetype' && column !== 'name' && column !== 'iscustomized'">
             <span>{{ offering[column] || '-'}}</span>
           </ng-container>
-          <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype'">
-            <span>{{ tableId.toUpperCase() + '.' + offering[column].toUpperCase() | translate }}</span>
+          <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype' || column === 'iscustomized'">
+            <span>{{ (tableId.toUpperCase() + '.' + offering[column]?.toString().toUpperCase() | translate)  || '-'}}</span>
           </ng-container>
         </td>
       </ng-container>
@@ -49,6 +56,7 @@
     mat-button
     color="primary"
     type="submit"
+    [disabled]="preselectedDiskOffering === selectedDiskOffering"
     (click)="onSubmit()"
   >
     {{ 'COMMON.SELECT' | translate }}
