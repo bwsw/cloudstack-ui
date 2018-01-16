@@ -727,6 +727,7 @@
       "VOLUME": "Volume",
       "VM": "Virtual Machine",
       "VOLUME_DELETED": "Deleted",
+      "VM_DELETED": "Deleted",
       "CREATED": "Created"
     },
     "FILTERS": {

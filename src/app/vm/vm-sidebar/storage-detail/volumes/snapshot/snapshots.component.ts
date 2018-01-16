@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material';
 import { getDateSnapshotCreated, Volume } from '../../../../../shared/models';
 import { Action } from '../../../../../shared/models/action.model';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
-// tslint:disable-next-line
-import { SnapshotActionService } from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
+import {
+  SnapshotActions,
+  SnapshotActionService
+} from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
 import { SnapshotModalContainerComponent } from './snapshot-modal.container';
 
 
@@ -37,19 +39,19 @@ export class SnapshotsComponent {
 
   public onAction(action, snapshot: Snapshot) {
     switch (action.command) {
-      case 'createTemplate': {
+      case SnapshotActions.CreateTemplate: {
         this.onTemplateCreate.emit(snapshot);
         break;
       }
-      case 'createVolume': {
+      case SnapshotActions.CreateVolume: {
         this.onVolumeCreate.emit(snapshot);
         break;
       }
-      case 'revert': {
+      case SnapshotActions.Revert: {
         this.onSnapshotRevert.emit(snapshot);
         break;
       }
-      case 'delete': {
+      case SnapshotActions.Delete: {
         this.onSnapshotDelete.emit(snapshot);
         break;
       }

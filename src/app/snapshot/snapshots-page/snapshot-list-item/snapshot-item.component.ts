@@ -27,20 +27,19 @@ export class SnapshotItemComponent {
   };
 
   public get statusClass() {
-    const { state } = this.item;
-    const backedUp = state === SnapshotStates.BackedUp;
-    const backingUp = state === SnapshotStates.BackingUp;
-    const creating = state === SnapshotStates.Creating;
-    const allocated = state === SnapshotStates.Allocated;
-    const error = state === SnapshotStates.Error;
-
-    return {
-      'backed-up': backedUp,
-      'backing-up': backingUp,
-      creating,
-      allocated,
-      error
-    };
+    return [
+      SnapshotStates.BackedUp,
+      SnapshotStates.BackingUp,
+      SnapshotStates.Allocated,
+      SnapshotStates.Creating,
+      SnapshotStates.Error
+    ].reduce((m, state) => ({
+      ...m, [(state === SnapshotStates.BackingUp)
+        ? 'backing-up'
+        : state === SnapshotStates.BackedUp
+          ? 'backed-up'
+          : state]: this.item.state === state
+    }), {});
   }
 
   public get snapshotCreated() {
@@ -53,11 +52,12 @@ export class SnapshotItemComponent {
       && this.volumes[this.item.volumeid].name)
       || this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED');
   }
+
   public get virtualMachineName() {
     return (this.virtualMachines
       && this.virtualMachines[this.item.virtualmachineid]
       && this.virtualMachines[this.item.virtualmachineid].name)
-      || this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED');
+      || this.translate.instant('SNAPSHOT_PAGE.CARD.VM_DELETED');
   }
 
   constructor(private translate: TranslateService) {
