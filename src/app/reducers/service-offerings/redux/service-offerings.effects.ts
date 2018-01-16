@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 // tslint:disable-next-line
@@ -84,16 +83,7 @@ export class ServiceOfferingEffects {
   constructor(
     private actions$: Actions,
     private offeringService: ServiceOfferingService,
-    private configService: ConfigService,
-    private dialogService: DialogService
+    private configService: ConfigService
   ) { }
 
-  private handleError(error: any): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
-    });
-  }
 }

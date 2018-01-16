@@ -40,4 +40,7 @@ export class UpdateCustomServiceOfferingParamsError implements Action {
 }
 
 export type Actions = LoadAccountTagsRequest
-  | LoadAccountTagsResponse;
+  | LoadAccountTagsResponse
+  | UpdateCustomServiceOfferingParams
+  | UpdateCustomServiceOfferingParamsSuccess
+  | UpdateCustomServiceOfferingParamsError;

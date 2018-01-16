@@ -90,4 +90,6 @@ export type Actions = LoadOfferingsResponse
   | LoadDefaultParamsRequest
   | LoadDefaultParamsResponse
   | LoadOfferingAvailabilityRequest
-  | LoadOfferingAvailabilityResponse;
+  | LoadOfferingAvailabilityResponse
+  | LoadCompatibilityPolicyResponse
+  | LoadCompatibilityPolicyRequest;

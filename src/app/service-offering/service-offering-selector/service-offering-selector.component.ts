@@ -44,22 +44,6 @@ export class ServiceOfferingSelectorComponent {
     this.change = new EventEmitter();
   }
 
-  public registerOnChange(fn): void {
-    this.propagateChange = fn;
-  }
-
-  public registerOnTouched(): void {
-  }
-
-  public propagateChange: any = () => {
-  };
-
-  public writeValue(serviceOffering: ServiceOffering): void {
-    if (serviceOffering) {
-      this.serviceOffering = serviceOffering;
-    }
-  }
-
   @Input()
   public get serviceOffering(): ServiceOffering {
     return this._serviceOffering;
@@ -67,7 +51,6 @@ export class ServiceOfferingSelectorComponent {
 
   public set serviceOffering(serviceOffering: ServiceOffering) {
     this._serviceOffering = serviceOffering;
-    this.propagateChange(this.serviceOffering);
   }
 
   public onClick() {
