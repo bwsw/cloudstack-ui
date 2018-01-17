@@ -26,6 +26,7 @@ import { SecurityGroupViewMode } from '../../sg-view-mode';
 export class SgFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   public filters$ = this.store.select(fromSecurityGroups.filters);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
+  public isOrphan$ = this.store.select(fromSecurityGroups.hasOrphanSecurityGroups);
   public viewMode: SecurityGroupViewMode;
 
   public query: string;
@@ -102,5 +103,9 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
 
   public onQueryChange(query) {
     this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ query }));
+  }
+
+  public onOrphanChange(selectOrphanSG) {
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ selectOrphanSG }));
   }
 }

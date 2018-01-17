@@ -15,6 +15,7 @@ export class SecurityGroupActionsComponent {
   @Input() public securityGroup: SecurityGroup;
   @Output() public onSecurityGroupDelete = new EventEmitter<SecurityGroup>();
   @Output() public onSecurityGroupView = new EventEmitter<SecurityGroup>();
+  @Output() public onSecurityGroupConvert = new EventEmitter<SecurityGroup>();
 
   constructor(
     public securityGroupActionService: SecurityGroupActionService,
@@ -36,6 +37,9 @@ export class SecurityGroupActionsComponent {
       case SecurityGroupActionType.View: {
         this.onSecurityGroupView.emit(this.securityGroup);
         break;
+      }
+      case SecurityGroupActionType.Convert: {
+        this.onSecurityGroupConvert.emit(this.securityGroup);
       }
     }
   }

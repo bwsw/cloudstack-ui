@@ -19,16 +19,17 @@ import { SecurityGroupCreationParams } from '../../../security-group/sg-creation
 
 import * as securityGroup from './sg.actions';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
+import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
 
 @Injectable()
 export class SecurityGroupEffects {
   @Effect()
   loadSecurityGroups$: Observable<Action> = this.actions$
     .ofType(securityGroup.LOAD_SECURITY_GROUP_REQUEST)
-    .switchMap((action: securityGroup.LoadSecurityGroupRequest) => {
+    .switchMap(() => {
       return Observable.forkJoin([
-        this.securiryGroupService.getList(),
-        Observable.of(this.securiryGroupService.getPredefinedTemplates())
+        this.securityGroupService.getList(),
+        Observable.of(this.securityGroupService.getPredefinedTemplates())
       ])
         .map(([groups, templates]) => new securityGroup
           .LoadSecurityGroupResponse(groups.concat(templates)))
@@ -60,7 +61,7 @@ export class SecurityGroupEffects {
     .ofType(securityGroup.DELETE_SECURITY_GROUP)
     .switchMap((action: securityGroup.DeleteSecurityGroup) => {
       return this.onDeleteConfirmation(action.payload)
-        .map(result => new securityGroup.DeleteSecurityGroupSuccess(action.payload))
+        .map(() => new securityGroup.DeleteSecurityGroupSuccess(action.payload))
         .catch(error => Observable.of(new securityGroup.DeleteSecurityGroupError(error)));
     });
 
@@ -82,6 +83,22 @@ export class SecurityGroupEffects {
     .ofType(securityGroup.DELETE_SECURITY_GROUP_ERROR)
     .do((action: securityGroup.DeleteSecurityGroupError) => this.handleError(action.payload));
 
+  @Effect()
+  convertSecurityGroup$: Observable<Action> = this.actions$
+    .ofType(securityGroup.CONVERT_SECURITY_GROUP)
+    .switchMap((action: securityGroup.ConvertSecurityGroup) => {
+      return this.dialogService.confirm({message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT'})
+        .onErrorResumeNext()
+        .filter(res => Boolean(res))
+        .switchMap(() => {
+          return this.sgTagService.convertToShared(action.payload)
+            .map(newSG => {
+              return new securityGroup.UpdateSecurityGroup(newSG)
+            })
+            .catch(error => Observable.of(new securityGroup.UpdateSecurityGroupError(error)));
+        });
+    });
+
   private createSuccessMessage = {
     [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED',
     [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_CREATED'
@@ -89,22 +106,24 @@ export class SecurityGroupEffects {
 
   private deleteSuccessMessage = {
     [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED',
-    [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED'
+    [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_DELETED',
+    [SecurityGroupType.Private]: 'NOTIFICATIONS.TEMPLATE.PRIVATE_GROUP_DELETED'
   };
 
   constructor(
     private actions$: Actions,
-    private securiryGroupService: SecurityGroupService,
+    private securityGroupService: SecurityGroupService,
     private dialogService: DialogService,
     private notificationService: NotificationService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sgTagService: SecurityGroupTagService
   ) {
   }
 
   public createSecurityGroup({ mode, data, rules }: SecurityGroupCreationParams): Observable<SecurityGroup> {
     return this.getSecurityGroupCreationRequest(mode, data, rules)
-      .switchMap(securityGroup => this.securiryGroupService.get(securityGroup.id));
+      .switchMap(securityGroup => this.securityGroupService.get(securityGroup.id));
   }
 
   private getSecurityGroupCreationRequest(
@@ -113,9 +132,9 @@ export class SecurityGroupEffects {
     rules: Rules
   ): Observable<SecurityGroup> {
     if (mode === SecurityGroupViewMode.Templates) {
-      return this.securiryGroupService.createTemplate(data, rules);
+      return this.securityGroupService.createTemplate(data, rules);
     } else {
-      return this.securiryGroupService.createShared(data, rules);
+      return this.securityGroupService.createShared(data, rules);
     }
   }
 
@@ -144,7 +163,7 @@ export class SecurityGroupEffects {
   }
 
   public onDeleteConfirmation(securityGroup: SecurityGroup): Observable<any> {
-    return this.securiryGroupService.deleteGroup(securityGroup)
+    return this.securityGroupService.deleteGroup(securityGroup)
       .map(() => {
         this.notificationService.message({
           translationToken: this.deleteSuccessMessage[securityGroup.type],

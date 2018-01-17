@@ -1,8 +1,4 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -122,7 +118,7 @@ describe('Template creation component', () => {
     };
 
     component.name = params.name;
-    component.snapshot = new Snapshot({ id: 'snap1' });
+    component.snapshot = <Snapshot>{ id: 'snap1' };
     component.displayText = params.displayText;
     component.osTypeId = params.osTypeId;
     component.passwordEnabled = true;

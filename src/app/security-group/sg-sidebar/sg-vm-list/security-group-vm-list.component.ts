@@ -15,11 +15,19 @@ export class SecurityGroupVmListComponent {
   @Input() public vmList: VirtualMachine[];
   @Input() public viewMode: SecurityGroupViewMode;
 
+  public get isModePrivate(): boolean {
+    return this.viewMode === SecurityGroupViewMode.Private;
+  }
+
+  public get isModeShared(): boolean {
+    return this.viewMode === SecurityGroupViewMode.Shared;
+  }
+
   public getVmLink(vm: VirtualMachine) {
     return `/instances/${vm.id}/vm`;
   }
 
   public showVMList(): boolean {
-    return this.viewMode === SecurityGroupViewMode.Shared;
+    return this.viewMode !== SecurityGroupViewMode.Templates;
   }
 }

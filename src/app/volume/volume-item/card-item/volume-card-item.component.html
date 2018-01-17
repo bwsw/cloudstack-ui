@@ -33,7 +33,7 @@
 
       <div class="flex-1">
         <div class="row" *ngIf="descriptionIncludesQuery">
-          <span [innerHTML]="item.description | highlight:query"></span>
+          <span [innerHTML]="getDescription(item) | highlight:query"></span>
         </div>
         <div class="row">
           <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>

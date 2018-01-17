@@ -107,7 +107,7 @@ export abstract class VmListItemComponent implements OnInit {
 
   public get getDisksSize(): number {
     const filteredVolumes = this.volumes && this.volumes
-      .filter((volume: Volume) => volume.virtualMachineId === this.item.id);
+      .filter((volume: Volume) => volume.virtualmachineid === this.item.id);
     const sizeInBytes = filteredVolumes && filteredVolumes.reduce((
       acc: number,
       volume: Volume

@@ -18,11 +18,24 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="card-wrapper" *ngIf="!item?.description">
+    <div class="card-wrapper" *ngIf="isPrivate">
+      <div class="description flex-1">{{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:</div>
+      <div class="description flex-2">
+        <ng-template [ngIf]="item?.virtualMachineIds[0]">
+          {{ sgVmName }}
+        </ng-template>
+        <ng-template [ngIf]="!item?.virtualMachineIds[0]">
+          <span>
+            {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
+          </span>
+        </ng-template>
+      </div>
+    </div>
+    <div class="card-wrapper" *ngIf="!item?.description && !isPrivate">
       <div class="description"></div>
     </div>
 
-    <div class="card-wrapper" *ngIf="item?.description">
+    <div class="card-wrapper" *ngIf="item?.description && !isPrivate">
       <div class="description flex-1">{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</div>
       <div class="description flex-2">
         <span

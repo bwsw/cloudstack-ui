@@ -9,7 +9,7 @@ import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-o
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { Volume } from '../../shared/models/volume.model';
+import { Volume, getDescription } from '../../shared/models/volume.model';
 
 @Component({
   selector: 'cs-volume-details-container',
@@ -23,7 +23,6 @@ import { Volume } from '../../shared/models/volume.model';
   `
 })
 export class VolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
-
   readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
   readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
   public description;
@@ -38,20 +37,22 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
   }
 
   public changeDescription(description) {
-    this.store.dispatch(new volumeActions.ChangeDescription({
-      volume: this.volume,
-      description
-    }));
+    this.volume$.take(1).subscribe((volume: Volume) => {
+      this.store.dispatch(new volumeActions.ChangeDescription({
+        volume,
+        description
+      }));
+    });
   }
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.volume$
       .takeUntil(this.unsubscribe$)
-      .subscribe(volume => {
+      .subscribe((volume: Volume) => {
         if (volume) {
-          this.volume = new Volume(volume);
-          this.description = this.volume.description;
+          this.volume = volume;
+          this.description = getDescription(this.volume);
         }
       });
   }

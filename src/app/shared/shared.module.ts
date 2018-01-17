@@ -160,6 +160,7 @@ import { TemplateTagService } from './services/tags/template-tag.service';
 import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
+import { AccountTagService } from './services/tags/account-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
@@ -394,6 +395,7 @@ import { ZoneService } from './services/zone.service';
     TemplateTagService,
     UserService,
     UserTagService,
+    AccountTagService,
     VmTagService,
     ZoneService,
     VmCreationSecurityGroupService,

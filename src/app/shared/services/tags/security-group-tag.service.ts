@@ -36,4 +36,17 @@ export class SecurityGroupTagService implements EntityTagService {
       SecurityGroupType.Private
     );
   }
+
+  public convertToShared(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+    const newSecurityGroup = Object.assign({}, securityGroup);
+    return this.tagService.remove({
+      resourceIds: securityGroup.id,
+      resourceType: securityGroup.resourceType,
+      'tag[0].key': this.keys.type
+    })
+      .map(() => {
+        newSecurityGroup.tags = newSecurityGroup.tags.filter(_ => this.keys.type !== _.key);
+        return Object.assign({}, newSecurityGroup, { type: 'shared' }) as SecurityGroup;
+      })
+  }
 }

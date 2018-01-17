@@ -27,7 +27,7 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
 
   public isOfferingAvailableForVolume(diskOffering: DiskOffering, volume: Volume, zone: Zone): boolean {
     return !isOfferingLocal(diskOffering) || zone.localstorageenabled &&
-      (diskOffering.iscustomized || diskOffering.id !== volume.diskOfferingId);
+      (diskOffering.iscustomized || diskOffering.id !== volume.diskofferingid);
   }
 
   protected isOfferingAvailableInZone(

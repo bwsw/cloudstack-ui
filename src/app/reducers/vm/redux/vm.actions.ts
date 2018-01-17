@@ -1,12 +1,19 @@
 import { Action } from '@ngrx/store';
-import { VirtualMachine } from '../../../vm';
-import { ServiceOffering, InstanceGroup, SSHKeyPair, Color, Tag } from '../../../shared/models';
-import { FormState } from './vm.reducers';
+import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import {
+  Color,
+  InstanceGroup,
+  ServiceOffering,
+  SSHKeyPair,
+  Tag
+} from '../../../shared/models';
+import { VirtualMachine } from '../../../vm';
+import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmDeploymentMessage } from './vm-creation.effects';
+import { FormState } from './vm.reducers';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -17,8 +24,8 @@ export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
-export const VM_CHANGE_INSTANT_GROUP = '[VM] VM_CHANGE_INSTANT_GROUP';
-export const VM_REMOVE_INSTANT_GROUP = '[VM] VM_REMOVE_INSTANT_GROUP';
+export const VM_CHANGE_INSTANCE_GROUP = '[VM] VM_CHANGE_INSTANCE_GROUP';
+export const VM_REMOVE_INSTANCE_GROUP = '[VM] VM_REMOVE_INSTANCE_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
 export const VM_CHANGE_COLOR = '[VM] VM_CHANGE_COLOR';
@@ -137,7 +144,7 @@ export class ChangeAffinityGroup implements Action {
 }
 
 export class ChangeInstanceGroup implements Action {
-  type = VM_CHANGE_INSTANT_GROUP;
+  type = VM_CHANGE_INSTANCE_GROUP;
 
   constructor(public payload: {
     vm: VirtualMachine,
@@ -147,7 +154,7 @@ export class ChangeInstanceGroup implements Action {
 }
 
 export class RemoveInstanceGroup implements Action {
-  type = VM_REMOVE_INSTANT_GROUP;
+  type = VM_REMOVE_INSTANCE_GROUP;
 
   constructor(public payload: VirtualMachine) {
   }
@@ -344,7 +351,11 @@ export class ChangeSshKey implements Action {
 export class VMUpdateError implements Action {
   readonly type = VM_UPDATE_ERROR;
 
-  constructor(public payload: Error) {
+  constructor(public payload: {
+    vm?: VirtualMachine,
+    state?: VmState,
+    error: Error
+  }) {
   }
 }
 

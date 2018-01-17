@@ -9,7 +9,7 @@
     novalidate
   >
     <div class="mat-dialog-content">
-      <div *ngIf="!volume?.isRoot">
+      <div *ngIf="!volumeIsRoot">
         <mat-form-field
           class="full-width-input"
         >
@@ -31,7 +31,7 @@
         </mat-form-field>
       </div>
       <cs-slider
-        *ngIf="isCustomized(diskOfferingId) || volume?.isRoot"
+        *ngIf="isCustomized(diskOfferingId) || volumeIsRoot"
         [min]="volume.size | division:2:30"
         [max]="maxSize"
         [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
