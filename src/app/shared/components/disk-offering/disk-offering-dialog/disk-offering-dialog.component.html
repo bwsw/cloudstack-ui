@@ -2,7 +2,7 @@
   <table class="mat-table">
     <thead>
     <tr class="mat-header-row">
-      <ng-container *ngFor="let column of displayedColumns">
+      <ng-container *ngFor="let column of columns">
         <th class="mat-header-cell"> {{ tableId.toUpperCase() + '.' + column?.toUpperCase() | translate }}</th>
       </ng-container>
       <th class="mat-header-cell"></th>
@@ -13,7 +13,7 @@
         *ngFor="let offering of diskOfferings"
         (click)="selectOffering(offering)"
     >
-      <ng-container *ngFor="let column of displayedColumns">
+      <ng-container *ngFor="let column of columns">
         <td class="mat-cell">
           <ng-container *ngIf="column === 'name'">
             <span
@@ -25,7 +25,7 @@
           <ng-container *ngIf="column !== 'provisioningtype' && column !== 'storagetype' && column !== 'name' && column !== 'iscustomized'">
             <span>{{ offering[column] || '-'}}</span>
           </ng-container>
-          <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype' || column === 'iscustomized'">
+          <ng-container *ngIf="column === 'provisioningtype' || column ===  'storagetype' || column ===  'iscustomized'">
             <span>{{ (tableId.toUpperCase() + '.' + offering[column]?.toString().toUpperCase() | translate)  || '-'}}</span>
           </ng-container>
         </td>

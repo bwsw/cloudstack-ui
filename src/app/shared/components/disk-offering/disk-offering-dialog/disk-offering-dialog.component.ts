@@ -13,8 +13,13 @@ export class DiskOfferingDialogComponent implements OnInit {
   public selectedDiskOffering: DiskOffering;
   public preselectedDiskOffering: DiskOffering;
   public tableId = 'DISK_OFFERING_TABLE';
-  public displayedColumns: Array<string>;
-  public defaultParams = ['name', 'bytesreadrate', 'byteswriterate', 'iopsreadrate', 'iopswriterate'];
+  public columns: Array<string> = [
+    'name',
+    'bytesreadrate',
+    'byteswriterate',
+    'iopsreadrate',
+    'iopswriterate'
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -28,10 +33,8 @@ export class DiskOfferingDialogComponent implements OnInit {
 
   public ngOnInit() {
     const configParams = this.configService.get('diskOfferingParameters');
-    if (configParams !== []) {
-      this.displayedColumns = this.defaultParams.concat(configParams);
-    } else {
-      this.displayedColumns = [...this.defaultParams];
+    if (configParams) {
+      this.columns = this.columns.concat(configParams);
     }
   }
 

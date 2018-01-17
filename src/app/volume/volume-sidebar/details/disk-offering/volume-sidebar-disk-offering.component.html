@@ -8,38 +8,30 @@
   </mat-card-header>
   <mat-card-content>
     <div class="grid grid-right">
-      <div class="row" *ngIf="name">
-        <div>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING_NAME' | translate }}</div>
-        <div>{{ name }}</div>
-      </div>
-      <div class="row" *ngIf="displayText">
-        <div>{{ 'VOLUME_PAGE.DETAILS.DESCRIPTION' | translate }}</div>
-        <div>{{ displayText }}</div>
-      </div>
-      <div class="row" *ngIf="minIops">
-        <div>{{ 'VOLUME_PAGE.DETAILS.MIN_IOPS' | translate }}</div>
-        <div>{{ minIops }}</div>
-      </div>
-      <div class="row" *ngIf="maxIops">
-        <div>{{ 'VOLUME_PAGE.DETAILS.MAX_IOPS' | translate }}</div>
-        <div>{{ maxIops }}</div>
-      </div>
-      <div class="row" *ngIf="diskBytesReadRate">
-        <div>{{ 'VOLUME_PAGE.DETAILS.READ_RATE_MB' | translate }}</div>
-        <div>{{ 'UNITS.MBPS' | translate:{ value: diskBytesReadRate | division:10:6 } }}</div>
-      </div>
-      <div class="row" *ngIf="diskBytesWriteRate">
-        <div>{{ 'VOLUME_PAGE.DETAILS.WRITE_RATE_MB' | translate }}</div>
-        <div>{{ 'UNITS.MBPS' | translate:{ value: diskBytesWriteRate | division:10:6 } }}</div>
-      </div>
-      <div class="row" *ngIf="diskIopsReadRate">
-        <div>{{ 'VOLUME_PAGE.DETAILS.READ_RATE_IOPS' | translate }}</div>
-        <div>{{ 'UNITS.IOPS' | translate:{ value: diskIopsReadRate } }}</div>
-      </div>
-      <div class="row" *ngIf="diskIopsWriteRate">
-        <div>{{ 'VOLUME_PAGE.DETAILS.WRITE_RATE_IOPS' | translate }}</div>
-        <div>{{ 'UNITS.IOPS' | translate:{ value: diskIopsWriteRate } }}</div>
-      </div>
+      <ng-container *ngFor="let column of columns">
+        <div class="row">
+          <!--Title-->
+          <ng-container *ngIf="column !== 'name'">
+            <div>{{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate}}</div>
+          </ng-container>
+          <ng-container *ngIf="column === 'name'">
+            <div>{{ tableId.toUpperCase() + '.' + column.toUpperCase() + '_SIDEBAR' | translate}}</div>
+          </ng-container>
+
+          <!--Value-->
+          <ng-container *ngIf="column === 'name'">
+            <div class="name-text" [matTooltip]="offering[column]">
+              {{ offering[column] }}
+            </div>
+          </ng-container>
+          <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype' || column === 'iscustomized'">
+            <div>{{ (tableId.toUpperCase() + '.' + offering[column]?.toString().toUpperCase() | translate)  || '-'}}</div>
+          </ng-container>
+          <ng-container *ngIf="column !== 'provisioningtype' && column !==  'storagetype' && column !==  'name' && column !== 'iscustomized'">
+            <div>{{ offering[column] || '-'}}</div>
+          </ng-container>
+        </div>
+      </ng-container>
     </div>
   </mat-card-content>
 </mat-card>
