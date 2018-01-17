@@ -8,4 +8,9 @@ table {
   tbody {
     cursor: pointer;
   }
+  td.name-text, th.name-text, th.field {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

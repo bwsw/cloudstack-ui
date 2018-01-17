@@ -5,11 +5,26 @@
     <table class="mat-table">
       <thead>
       <tr class="mat-header-row">
-        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }}</th>
-        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }}</th>
-        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }}</th>
-        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }}</th>
-        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}</th>
+        <th class="mat-header-cell name-text"
+            [matTooltip]="'SERVICE_OFFERING.COLUMN.NAME' | translate">
+          {{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }}
+        </th>
+        <th class="mat-header-cell field"
+            [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate">
+          {{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }}
+        </th>
+        <th class="mat-header-cell field"
+            [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate">
+          {{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }}
+        </th>
+        <th class="mat-header-cell field"
+            [matTooltip]="'SERVICE_OFFERING.COLUMN.MEMORY' | translate">
+          {{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }}
+        </th>
+        <th class="mat-header-cell field"
+            [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
+          {{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}
+        </th>
         <th class="mat-header-cell"></th>
       </tr>
       </thead>
@@ -18,7 +33,7 @@
           *ngFor="let offering of group.items"
           (click)="selectOffering(offering)"
       >
-        <td class="mat-cell">
+        <td class="mat-cell name-text" [matTooltip]="offering.name">
           <span [innerHTML]="offering.name | highlight:query"></span>
         </td>
         <td class="mat-cell">
