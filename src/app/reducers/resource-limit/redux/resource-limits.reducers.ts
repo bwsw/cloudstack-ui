@@ -29,10 +29,7 @@ export const resourceLimitsReducers = {
   list: reducer,
 };
 
-const sortByResourceTypes = (
-  a: ResourceLimit,
-  b: ResourceLimit
-) => a.resourcetype - b.resourcetype;
+const sortByResourceTypes = (a: ResourceLimit, b: ResourceLimit) => a.resourcetype - b.resourcetype;
 
 /**
  * createEntityAdapter creates many an object of helper
@@ -88,8 +85,7 @@ export function reducer(
 }
 
 
-export const getResourceLimitsState = createFeatureSelector<ResourceLimitsState>(
-  'resourceLimits');
+export const getResourceLimitsState = createFeatureSelector<ResourceLimitsState>('resourceLimits');
 
 export const getResourceLimitsEntitiesState = createSelector(
   getResourceLimitsState,

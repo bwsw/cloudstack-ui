@@ -12,7 +12,6 @@ import {
   Zone
 } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
-import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VmService } from '../../shared/vm.service';
@@ -78,7 +77,7 @@ import * as domainActions from '../../../reducers/domains/redux/domains.actions'
       (onVmDeploymentFailed)="showOverlayChange()"
     ></cs-vm-create>`
 })
-export class VmCreationContainerComponent extends WithUnsubscribe() implements OnInit {
+export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
   readonly isLoading$ = this.store.select(fromVMs.formIsLoading)
     .withLatestFrom(
@@ -111,8 +110,6 @@ export class VmCreationContainerComponent extends WithUnsubscribe() implements O
     private authService: AuthService,
     private dialogRef: MatDialogRef<VmCreationContainerComponent>
   ) {
-    super();
-
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
