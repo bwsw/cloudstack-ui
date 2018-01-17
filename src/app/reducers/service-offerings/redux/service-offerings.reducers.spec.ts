@@ -1,4 +1,4 @@
-import { CustomServiceOffering } from '../../../service-offering/custom-service-offering/custom-service-offering';
+import { Account } from '../../../shared/models';
 import { StorageTypes } from '../../../shared/models/offering.model';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
@@ -22,7 +22,7 @@ describe('Test service offering reducer', () => {
   it('should handle initial state', () => {
     const state = fromSOs.reducer(undefined, { type: '' });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -38,7 +38,7 @@ describe('Test service offering reducer', () => {
   it('should set loading', () => {
     const state = fromSOs.reducer(undefined, { type: LOAD_SERVICE_OFFERINGS_REQUEST });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: true,
@@ -57,7 +57,7 @@ describe('Test service offering reducer', () => {
       payload: [{ id: '1', name: 'off1' }, { id: '2', name: 'off2' }]
     });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: ['1', '2'],
         entities: { 1: { id: '1', name: 'off1' }, 2: { id: '2', name: 'off2' } },
         loading: false,
@@ -76,7 +76,7 @@ describe('Test service offering reducer', () => {
       payload: { 'filterOfferings': false }
     });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -94,7 +94,7 @@ describe('Test service offering reducer', () => {
     });
 
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -112,7 +112,7 @@ describe('Test service offering reducer', () => {
     });
 
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -133,7 +133,7 @@ describe('Test service offering reducer', () => {
     });
 
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -153,7 +153,7 @@ describe('Test service offering reducer', () => {
       payload: [{ id: '1', name: 'off1' }, { id: '2', name: 'off2' }]
     });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: ['1', '2'],
         entities: { 1: { id: '1', name: 'off1' }, 2: { id: '2', name: 'off2' } },
         loading: false,
@@ -323,7 +323,7 @@ describe('Test service offering reducer', () => {
       },
       resourceUsage
     );
-    expect(result3).toEqual({
+    expect(result3).toEqual(<any>{
       cpunumber: { max: 2, min: 1 },
       memory: { max: 2, min: 1 },
       cpuspeed: { min: 1, max: 2 }
@@ -378,7 +378,7 @@ describe('Test service offering reducer', () => {
     );
 
     expect(result1)
-      .toEqual({...offering, cpunumber: 2, memory: 2, cpuspeed: 1 });
+      .toEqual({ ...offering, cpunumber: 2, memory: 2, cpuspeed: 1 });
   });
 
   it('should compare tags', () => {
@@ -440,9 +440,18 @@ describe('Test service offering reducer', () => {
     resourceUsage.available.memory = 2;
     spyOn(ResourceStats, 'fromAccount').and.returnValue(resourceUsage);
 
-    expect(fromSOs.getAvailableOfferings.projector(
+    const filterByPolicyAndStorageType = fromSOs.filteredServiceOfferingsByCompatibilityPolicyAndStorageType.projector(
       list,
       offering,
+      {},
+      { cpunumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } },
+      policy
+    );
+
+    expect(filterByPolicyAndStorageType).toEqual([list[1]]);
+
+    expect(fromSOs.getAvailableOfferings.projector(
+      filterByPolicyAndStorageType,
       {
         '1': {
           filterOfferings: true,
@@ -452,12 +461,20 @@ describe('Test service offering reducer', () => {
       },
       {},
       { cpunumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } },
-      policy,
-      <Zone>{ id: '1', localstorageenabled: false },
-      {}
+      {
+        id: '1',
+        displayName: 'virtual machine',
+        name: 'vm-1',
+        zoneId: '1',
+        serviceOffering: '1'
+      },
+      { 1: <Zone>{ id: '1', localstorageenabled: false } },
+      <Account>{ id: '1', domainid: '1' },
+      resourceUsage
     ))
       .toEqual([list[1]]);
   });
 
 
-});
+})
+;
