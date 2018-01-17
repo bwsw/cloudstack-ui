@@ -35,7 +35,7 @@ import * as serviceOfferingActions from '../../../reducers/service-offerings/red
 import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
-import * as resourceLimitAction from '../../../reducers/resource-limit/redux/resource-limits.actions';
+import * as domainActions from '../../../reducers/domains/redux/domains.actions';
 
 @Component({
   selector: 'cs-vm-create-container',
@@ -122,6 +122,7 @@ export class VmCreationContainerComponent extends WithUnsubscribe() implements O
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
+    this.store.dispatch(new domainActions.LoadDomainsRequest());
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
@@ -131,16 +132,6 @@ export class VmCreationContainerComponent extends WithUnsubscribe() implements O
 
   public ngOnInit() {
     this.store.dispatch(new vmActions.VmCreationFormInit());
-
-    this.account$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(account => {
-        if (account) {
-          this.store.dispatch(new resourceLimitAction.LoadResourceLimitsRequest({
-            domainid: account.domainid
-          }));
-        }
-      });
   }
 
   public onDisplayNameChange(displayName: string) {

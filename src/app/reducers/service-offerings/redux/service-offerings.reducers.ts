@@ -1,5 +1,4 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   DefaultCustomServiceOfferingRestrictions,
@@ -12,7 +11,6 @@ import {
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
 // tslint:disable-next-line
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { ResourceLimit, ResourceType } from '../../../shared/models';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { Zone } from '../../../shared/models/zone.model';
@@ -27,7 +25,6 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as merge from 'lodash/merge';
 import * as serviceOfferingActions from './service-offerings.actions';
-import * as fromResourceLimits from '../../resource-limit/redux/resource-limits.reducers';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -191,67 +188,6 @@ export const getSelectedOffering = createSelector(
   (entities, vm) => vm && entities[vm.serviceOfferingId]
 );
 
-export const getAvailableOfferings = createSelector(
-  selectAll,
-  getSelectedOffering,
-  offeringAvailability,
-  defaultParams,
-  customOfferingRestrictions,
-  offeringCompatibilityPolicy,
-  fromZones.getSelectedZone,
-  fromAuths.getUserAccount,
-  (
-    serviceOfferings, currentOffering, availability,
-    defaults, customRestrictions, compatibilityPolicy,
-    zone, user
-  ) => {
-    if (zone && user) {
-      const availableOfferings = getAvailableByResourcesSync(
-        serviceOfferings,
-        availability,
-        customRestrictions,
-        ResourceStats.fromAccount([user]),
-        zone
-      ).sort((a: ServiceOffering, b: ServiceOffering) => {
-        if (!a.iscustomized && b.iscustomized) {
-          return -1;
-        }
-        if (a.iscustomized && !b.iscustomized) {
-          return 1;
-        }
-        return 0;
-      });
-
-      const filterByCompatibilityPolicy = (offering: ServiceOffering) => {
-        if (compatibilityPolicy) {
-          const oldTags = currentOffering.hosttags
-            ? currentOffering.hosttags.split(',')
-            : [];
-          const newTags = offering.hosttags ? offering.hosttags.split(',') : [];
-          return matchHostTags(oldTags, newTags, compatibilityPolicy);
-        } else {
-          return true;
-        }
-      };
-
-      const filterStorageType = (offering: ServiceOffering) => offering.storagetype === currentOffering.storagetype;
-
-      return availableOfferings.map((offering: ServiceOffering) => {
-        return !offering.iscustomized
-          ? offering
-          : getCustomOfferingWithSetParams(
-            offering,
-            defaults[zone.id] && defaults[zone.id].customOfferingParams,
-            customOfferingRestrictions[zone.id],
-            ResourceStats.fromAccount([user])
-          );
-      }).filter(item => filterByCompatibilityPolicy(item) && filterStorageType(item));
-    } else {
-      return [];
-    }
-  }
-);
-
 export const getAvailableOfferingsForVmCreation = createSelector(
   selectAll,
   offeringAvailability,
@@ -260,19 +196,20 @@ export const getAvailableOfferingsForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromZones.selectEntities,
   fromAuths.getUserAccount,
-  fromResourceLimits.getResourceLimitsByType,
+  fromAuths.getUserAvailableResources,
   (
     serviceOfferings, availability,
     defaults, customRestrictions,
-    zoneId, zones, user, limits
+    zoneId, zones, user, resources
   ) => {
     const zone = zones && zones[zoneId];
+
     if (zone && user) {
-      const availableOfferings = getAvailableByResourceLimits(
+      const availableOfferings = getAvailableForCurrentUser(
         serviceOfferings,
         availability,
         customRestrictions,
-        limits,
+        resources,
         zone
       );
 
@@ -283,6 +220,77 @@ export const getAvailableOfferingsForVmCreation = createSelector(
             offering,
             defaults[zone.id] && defaults[zone.id].customOfferingParams,
             customOfferingRestrictions[zone.id],
+            ResourceStats.fromAccount([user])
+          );
+      }).filter(item => item);
+    } else {
+      return [];
+    }
+  }
+);
+
+export const filteredServiceOfferingsByCompatibilityPolicyAndStorageType = createSelector(
+  selectAll,
+  getSelectedOffering,
+  defaultParams,
+  customOfferingRestrictions,
+  offeringCompatibilityPolicy,
+  (
+    serviceOfferings, currentOffering,
+    defaults, customRestrictions, compatibilityPolicy
+  ) => {
+    const filterByCompatibilityPolicy = (offering: ServiceOffering) => {
+      if (compatibilityPolicy) {
+        const oldTags = currentOffering.hosttags
+          ? currentOffering.hosttags.split(',')
+          : [];
+        const newTags = offering.hosttags ? offering.hosttags.split(',') : [];
+        return matchHostTags(oldTags, newTags, compatibilityPolicy);
+      } else {
+        return true;
+      }
+    };
+
+    const filterStorageType = (offering: ServiceOffering) =>
+      offering.storagetype === currentOffering.storagetype;
+
+    return serviceOfferings.filter(item => filterByCompatibilityPolicy(item)
+      && filterStorageType(item));
+  }
+);
+
+export const getAvailableOfferings = createSelector(
+  filteredServiceOfferingsByCompatibilityPolicyAndStorageType,
+  offeringAvailability,
+  defaultParams,
+  customOfferingRestrictions,
+  fromVMs.getSelectedVM,
+  fromZones.selectEntities,
+  fromAuths.getUserAccount,
+  fromAuths.getUserAvailableResources,
+  (
+    serviceOfferings, availability,
+    defaults, customRestrictions,
+    vm, zones, user, resourceAvailability
+  ) => {
+    const zone = vm && zones && zones[vm.zoneId];
+
+    if (zone && user) {
+      const availableOfferings = getAvailableForCurrentUser(
+        serviceOfferings,
+        availability,
+        customRestrictions,
+        resourceAvailability,
+        zone
+      );
+
+      return availableOfferings.map((offering: ServiceOffering) => {
+        return !offering.iscustomized
+          ? offering
+          : getCustomOfferingWithSetParams(
+            offering,
+            defaults[zone.id] && defaults[zone.id].customOfferingParams,
+            customRestrictions[zone.id],
             ResourceStats.fromAccount([user])
           );
       }).filter(item => item);
@@ -368,11 +376,11 @@ export const getAvailableByResourcesSync = (
     });
 };
 
-export const getAvailableByResourceLimits = (
+export const getAvailableForCurrentUser = (
   serviceOfferings: Array<ServiceOffering>,
   availability: OfferingAvailability,
   offeringRestrictions: ICustomOfferingRestrictionsByZone,
-  resourceLimits: Dictionary<ResourceLimit>,
+  resources: ResourceStats,
   zone: Zone
 ) => {
   const availableInZone = getOfferingsAvailableInZone(
@@ -386,8 +394,8 @@ export const getAvailableByResourceLimits = (
       let enoughCpus;
       let enoughMemory;
 
-      const maxCpu = resourceLimits[ResourceType.CPU];
-      const maxMemory = resourceLimits[ResourceType.Memory];
+      const maxCpu = resources && resources.available.cpus;
+      const maxMemory = resources && resources.available.memory;
 
       if (offering.iscustomized) {
         const restrictions = merge(
@@ -452,29 +460,48 @@ export const getCustomOfferingWithSetParams = (
 export const getCustomRestrictionsForVmCreation = createSelector(
   customOfferingRestrictions,
   fromVMs.getVmCreationZoneId,
-  fromResourceLimits.selectAll,
-  (restrictions, zoneId, resourceLimits) => {
+  fromAuths.getUserAvailableResources,
+  (restrictions, zoneId, resources) => {
     let resourceLimit: ICustomOfferingRestrictions;
     if (!restrictions || !restrictions[zoneId]) {
-      const limits = resourceLimits.reduce(
-        (m, i) => ({ ...m, [i.resourcetype]: i.max }),
-        {}
-      );
-
       resourceLimit = {
         ...DefaultCustomServiceOfferingRestrictions,
         memory: {
           ...DefaultCustomServiceOfferingRestrictions.memory,
-          max: limits[ResourceType.Memory]
+          max: resources && resources.available.memory
         },
         cpunumber: {
           ...DefaultCustomServiceOfferingRestrictions.cpunumber,
-          max: limits[ResourceType.CPU]
+          max: resources && resources.available.cpus
         }
       };
     }
 
     return restrictions && restrictions[zoneId] || resourceLimit;
+  }
+);
+
+export const getCustomRestrictions = createSelector(
+  customOfferingRestrictions,
+  fromVMs.getSelectedVM,
+  fromAuths.getUserAvailableResources,
+  (restrictions, vm, resources) => {
+    let resourceLimit: ICustomOfferingRestrictions;
+    if (!restrictions || vm && !restrictions[vm.zoneId]) {
+      resourceLimit = {
+        ...DefaultCustomServiceOfferingRestrictions,
+        memory: {
+          ...DefaultCustomServiceOfferingRestrictions.memory,
+          max: resources && resources.available.memory
+        },
+        cpunumber: {
+          ...DefaultCustomServiceOfferingRestrictions.cpunumber,
+          max: resources && resources.available.cpus
+        }
+      };
+    }
+
+    return restrictions && vm && restrictions[vm.zoneId] || resourceLimit;
   }
 );
 

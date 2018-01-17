@@ -209,7 +209,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     };
   }
 
-  private makeGetListObservable(
+  protected makeGetListObservable(
     params?: {},
     customApiFormat?: ApiFormat
   ): Observable<FormattedResponse<M>> {

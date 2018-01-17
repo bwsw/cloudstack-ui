@@ -83,7 +83,7 @@
             </mat-form-field>
           </div>
 
-          <div *ngIf="vmCreationState.zone && serviceOfferings?.length">
+          <div *ngIf="vmCreationState.zone">
             <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
             <cs-service-offering-selector
               name="serviceOffering"

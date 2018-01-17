@@ -107,15 +107,3 @@ export const isLoading = createSelector(
   getResourceLimitsEntitiesState,
   state => state.loading
 );
-
-export const getResourceLimitsByType = createSelector(
-  selectAll,
-  limits => {
-    console.log(limits);
-
-    return limits.reduce(
-      (m, i) => ({ ...m, [i.resourcetype]: i.max }),
-      {}
-    );
-  }
-);

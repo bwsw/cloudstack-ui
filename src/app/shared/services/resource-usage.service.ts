@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import {
-  ResourceLimit,
-  ResourceType,
-  Account
-} from '../models';
+import { ResourceLimit, ResourceType, Account, Domain } from '../models';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 
@@ -38,7 +34,7 @@ export class ResourceStats {
   public consumed: ResourcesData;
   public max: ResourcesData;
 
-  public static fromAccount(accounts: Array<Account>): ResourceStats {
+  public static fromAccount(accounts: Array<Account | Domain>): ResourceStats {
     const consumedResources = new ResourcesData();
     const maxResources = new ResourcesData();
     const availableResources = new ResourcesData();
@@ -92,7 +88,8 @@ export class ResourceUsageService {
   constructor(
     private authService: AuthService,
     private accountService: AccountService
-  ) {}
+  ) {
+  }
 
   public getResourceUsage(forDomain = false): Observable<ResourceStats> {
     const params = forDomain
