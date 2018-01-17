@@ -10,9 +10,10 @@ import { AccountService } from '../../../shared/services/account.service';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { UserService } from '../../../shared/services/user.service';
+
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
-
+import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import * as accountActions from './accounts.actions';
 
 @Injectable()
@@ -32,13 +33,13 @@ export class AccountsEffects {
   @Effect()
   updateAccounts$: Observable<Action> = this.actions$
     .ofType(
-      vmActions.CREATE_VM_SUCCESS,
+      vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS,
       vmActions.EXPUNGE_VM_SUCCESS,
       volumeActions.VOLUME_DELETE_SUCCESS,
       volumeActions.VOLUME_CREATE_SUCCESS,
-      volumeActions.ADD_SNAPSHOT_SUCCESS,
-      volumeActions.DELETE_SNAPSHOT_SUCCESS,
-      volumeActions.RESIZE_VOLUME_SUCCESS
+      volumeActions.RESIZE_VOLUME_SUCCESS,
+      snapshotActions.ADD_SNAPSHOT_SUCCESS,
+      snapshotActions.DELETE_SNAPSHOT_SUCCESS
     )
     .map(() => {
       return new accountActions.LoadAccountsRequest();

@@ -159,14 +159,15 @@
   },
   "customOfferingRestrictions": {},
   "defaultDomain": "",
-  "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.9/",
+  "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.10/",
   "sessionRefreshInterval": 60,
   "sessionTimeout": 30,
   "allowReorderingSidebar": false,
   "defaultServiceOfferingConfig": {},
   "extensions": {
-    "webShell": false,
+    "webShell": true,
     "pulse": false
   },
-  "templateGroups": []
+  "templateGroups": [],
+  "accountTagsEnabled": false
 }

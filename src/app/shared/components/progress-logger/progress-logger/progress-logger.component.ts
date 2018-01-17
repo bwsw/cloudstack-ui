@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ProgressLoggerController } from '../progress-logger.service';
 import { ProgressLoggerMessage } from '../progress-logger-message/progress-logger-message';
 
 
@@ -8,5 +7,5 @@ import { ProgressLoggerMessage } from '../progress-logger-message/progress-logge
   templateUrl: 'progress-logger.component.html'
 })
 export class ProgressLoggerComponent {
-  @Input() public controller: ProgressLoggerController;
+  @Input() public messages: Array<ProgressLoggerMessage>;
 }

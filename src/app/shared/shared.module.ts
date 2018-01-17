@@ -31,6 +31,8 @@ import { MemoryStorageService } from 'app/shared/services/memory-storage.service
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
+import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
+import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
 import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
 import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offerings.reducers';
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
@@ -51,17 +53,11 @@ import { TemplateActionsService } from './actions/template-actions/template-acti
 import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-component/volume-actions.component';
 import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
-import { VolumeAttachAction } from './actions/volume-actions/volume-attach';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
-import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 // tslint:disable-next-line
-import { VolumeDetachAction } from './actions/volume-actions/volume-detach';
-import { VolumeRecurringSnapshotsAction } from './actions/volume-actions/volume-recurring-snapshots';
-import { VolumeRemoveAction } from './actions/volume-actions/volume-remove';
-import { VolumeResizeAction } from './actions/volume-actions/volume-resize';
+import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
-import { VolumeSnapshotAction } from './actions/volume-actions/volume-snapshot';
 import { BadgeModule } from './badge/';
 import {
   CalendarComponent,
@@ -164,6 +160,7 @@ import { TemplateTagService } from './services/tags/template-tag.service';
 import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
+import { AccountTagService } from './services/tags/account-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
@@ -204,7 +201,8 @@ import { ZoneService } from './services/zone.service';
     MatButtonToggleModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
-    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects]),
+    StoreModule.forFeature('affinity-groups', affinityGroupReducers),
+    EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
   ],
   exports: [
     CdkTableModule,
@@ -391,18 +389,13 @@ import { ZoneService } from './services/zone.service';
     SnapshotService,
     SnapshotTagService,
     VolumeActionsService,
-    VolumeAttachAction,
-    VolumeDetachAction,
-    VolumeRecurringSnapshotsAction,
-    VolumeRemoveAction,
-    VolumeResizeAction,
-    VolumeSnapshotAction,
     StyleService,
     TagService,
     TemplateActionsService,
     TemplateTagService,
     UserService,
     UserTagService,
+    AccountTagService,
     VmTagService,
     ZoneService,
     VmCreationSecurityGroupService,

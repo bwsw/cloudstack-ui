@@ -10,8 +10,7 @@ import { SnapshotTagService } from './tags/snapshot-tag.service';
 
 @Injectable()
 @BackendResource({
-  entity: 'Snapshot',
-  entityModel: Snapshot
+  entity: 'Snapshot'
 })
 export class SnapshotService extends BaseBackendCachedService<Snapshot> {
 
@@ -33,7 +32,9 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     const params = this.getSnapshotCreationParams(volumeId, name);
     return this.sendCommand('create', params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .switchMap(snapshot => {
+      .switchMap(response => {
+        const snapshot = response.result.snapshot;
+
         if (description) {
           return this.snapshotTagService.setDescription(snapshot, description);
         }

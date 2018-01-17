@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
-import { Volume } from '../../../models/volume.model';
+import { Volume, isRoot } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
 
 
@@ -25,11 +25,15 @@ export class VolumeResizeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.newSize = this.volume.size / Math.pow(2, 30);
-    this.diskOfferingId = this.volume.diskOfferingId;
+    this.diskOfferingId = this.volume.diskofferingid;
+  }
+
+  public get volumeIsRoot(): boolean {
+    return isRoot(this.volume);
   }
 
   public get canResize(): boolean {
-    return (this.diskOfferings && this.diskOfferings.length > 0) || this.volume.isRoot;
+    return (this.diskOfferings && this.diskOfferings.length > 0) || isRoot(this.volume);
   }
 
   public updateDiskOffering(value: string): void {
@@ -39,11 +43,11 @@ export class VolumeResizeComponent implements OnInit {
 
   public isCustomized(diskOfferingId: string) {
     const diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
-    return diskOffering && diskOffering.isCustomized;
+    return diskOffering && diskOffering.iscustomized;
   }
 
   public resizeVolume(): void {
-    const includeDiskOffering = this.diskOfferingId && !this.volume.isRoot;
+    const includeDiskOffering = this.diskOfferingId && !isRoot(this.volume);
     const params: VolumeResizeData = Object.assign(
       { id: this.volume.id },
       this.newSize ? { size: this.newSize } : {},

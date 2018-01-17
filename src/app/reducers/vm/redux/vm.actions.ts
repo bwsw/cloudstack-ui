@@ -1,11 +1,19 @@
 import { Action } from '@ngrx/store';
+import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+// tslint:disable-next-line
+import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import {
   Color,
   InstanceGroup,
   ServiceOffering,
-  SSHKeyPair
+  SSHKeyPair,
+  Tag
 } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
+import { VmState } from '../../../vm/shared/vm.model';
+import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import { VmDeploymentMessage } from './vm-creation.effects';
+import { FormState } from './vm.reducers';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -16,8 +24,8 @@ export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
 export const VM_CHANGE_DESCRIPTION = '[VM] VM_CHANGE_DESCRIPTION';
 export const VM_CHANGE_SERVICE_OFFERING = '[VM] VM_CHANGE_SERVICE_OFFERING';
 export const VM_CHANGE_AFFINITY_GROUP = '[VM] VM_CHANGE_AFFINITY_GROUP';
-export const VM_CHANGE_INSTANT_GROUP = '[VM] VM_CHANGE_INSTANT_GROUP';
-export const VM_REMOVE_INSTANT_GROUP = '[VM] VM_REMOVE_INSTANT_GROUP';
+export const VM_CHANGE_INSTANCE_GROUP = '[VM] VM_CHANGE_INSTANCE_GROUP';
+export const VM_REMOVE_INSTANCE_GROUP = '[VM] VM_REMOVE_INSTANCE_GROUP';
 export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
 export const VM_CHANGE_COLOR = '[VM] VM_CHANGE_COLOR';
@@ -40,16 +48,33 @@ export const CONSOLE_VM = '[VM] CONSOLE_VM';
 export const OPEN_URL_VM = '[VM] OPEN_URL_VM';
 export const EXPUNGE_VM = '[VM] EXPUNGE_VM';
 export const EXPUNGE_VM_SUCCESS = '[VM] EXPUNGE_VM_SUCCESS';
-export const CREATE_VM_SUCCESS = '[VM] CREATE_VM_SUCCESS';
 export const CHANGE_SSH_KEY = '[VM] CHANGE_SSH_KEY';
 export const VM_UPDATE_ERROR = '[VM] VM_UPDATE_ERROR';
+
+export const VM_FORM_INIT = '[VM creation] VM_FORM_INIT';
+export const VM_FORM_CLEAN = '[VM creation] VM_FORM_CLEAN';
+export const VM_FORM_UPDATE = '[VM creation] VM_FORM_UPDATE';
+export const VM_FORM_ADJUST = '[VM creation] VM_FORM_ADJUST';
+export const VM_INITIAL_ZONE_SELECT = '[VM creation] VM_INITIAL_ZONE_SELECT';
+export const VM_SECURITY_GROUPS_SELECT = '[VM creation] VM_SECURITY_GROUPS_SELECT';
+export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
+export const VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE = '[VM creation] VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE';
+
+export const DEPLOY_VM = '[VM deployment] DEPLOY_VM';
+export const VM_DEPLOYMENT_REQUEST = '[VM deployment] VM_DEPLOYMENT_REQUEST';
+export const VM_DEPLOYMENT_REQUEST_SUCCESS = '[VM deployment] VM_DEPLOYMENT_REQUEST_SUCCESS';
+export const VM_DEPLOYMENT_REQUEST_ERROR = '[VM deployment] VM_DEPLOYMENT_REQUEST_ERROR';
+export const VM_DEPLOYMENT_CHANGE_STATUS = '[VM deployment] VM_DEPLOYMENT_CHANGE_STATUS';
+export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
+export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
+export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
+export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
 
   constructor(public payload?: any) {
   }
-
 }
 
 export class LoadVMRequest implements Action {
@@ -57,7 +82,6 @@ export class LoadVMRequest implements Action {
 
   constructor(public payload?: any) {
   }
-
 }
 
 export class LoadVMsResponse implements Action {
@@ -65,7 +89,6 @@ export class LoadVMsResponse implements Action {
 
   constructor(public payload: VirtualMachine[]) {
   }
-
 }
 
 export class VMFilterUpdate implements Action {
@@ -73,7 +96,6 @@ export class VMFilterUpdate implements Action {
 
   constructor(public payload: { [key: string]: any }) {
   }
-
 }
 
 export class VMAttachmentFilterUpdate implements Action {
@@ -89,7 +111,6 @@ export class LoadSelectedVM implements Action {
 
   constructor(public payload: string) {
   }
-
 }
 
 export class ChangeDescription implements Action {
@@ -100,7 +121,6 @@ export class ChangeDescription implements Action {
     description: string
   }) {
   }
-
 }
 
 export class ChangeServiceOffering implements Action {
@@ -111,7 +131,6 @@ export class ChangeServiceOffering implements Action {
     offering: ServiceOffering
   }) {
   }
-
 }
 
 export class ChangeAffinityGroup implements Action {
@@ -122,26 +141,23 @@ export class ChangeAffinityGroup implements Action {
     affinityGroupId: string
   }) {
   }
-
 }
 
 export class ChangeInstanceGroup implements Action {
-  type = VM_CHANGE_INSTANT_GROUP;
+  type = VM_CHANGE_INSTANCE_GROUP;
 
   constructor(public payload: {
     vm: VirtualMachine,
     group: InstanceGroup
   }) {
   }
-
 }
 
 export class RemoveInstanceGroup implements Action {
-  type = VM_REMOVE_INSTANT_GROUP;
+  type = VM_REMOVE_INSTANCE_GROUP;
 
   constructor(public payload: VirtualMachine) {
   }
-
 }
 
 export class AddSecondaryIp implements Action {
@@ -152,7 +168,6 @@ export class AddSecondaryIp implements Action {
     nicId: string
   }) {
   }
-
 }
 
 export class RemoveSecondaryIp implements Action {
@@ -163,7 +178,6 @@ export class RemoveSecondaryIp implements Action {
     id: string
   }) {
   }
-
 }
 
 export class ChangeVmColor implements Action {
@@ -174,7 +188,6 @@ export class ChangeVmColor implements Action {
     color: Color
   }) {
   }
-
 }
 
 export class UpdateVM implements Action {
@@ -318,8 +331,8 @@ export class ExpungeVmSuccess implements Action {
   }
 }
 
-export class CreateVmSuccess implements Action {
-  readonly type = CREATE_VM_SUCCESS;
+export class DeploymentRequestSuccess implements Action {
+  readonly type = VM_DEPLOYMENT_REQUEST_SUCCESS;
 
   constructor(public payload: VirtualMachine) {
   }
@@ -338,7 +351,126 @@ export class ChangeSshKey implements Action {
 export class VMUpdateError implements Action {
   readonly type = VM_UPDATE_ERROR;
 
-  constructor(public payload: Error) {
+  constructor(public payload: {
+    vm?: VirtualMachine,
+    state?: VmState,
+    error: Error
+  }) {
+  }
+}
+
+export class VmFormUpdate implements Action {
+  type = VM_FORM_UPDATE;
+
+  constructor(public payload?: Partial<VmCreationState>) {
+  }
+}
+
+export class VmFormAdjust implements Action {
+  type = VM_FORM_ADJUST;
+
+  constructor(public payload?: Partial<VmCreationState>) {
+  }
+}
+
+export class VmCreationStateUpdate implements Action {
+  type = VM_CREATION_STATE_UPDATE;
+
+  constructor(public payload: Partial<FormState>) {
+  }
+}
+
+export class VmCreationEnoughResourceUpdateState implements Action {
+  type = VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE;
+
+  constructor(public payload: boolean) {
+  }
+}
+
+export class VmInitialZoneSelect implements Action {
+  type = VM_INITIAL_ZONE_SELECT;
+
+  constructor(public payload?: boolean) {
+  }
+}
+
+export class VmInitialSecurityGroupsSelect implements Action {
+  type = VM_SECURITY_GROUPS_SELECT;
+
+  constructor(public payload?: boolean) {
+  }
+}
+
+export class DeployVm implements Action {
+  type = DEPLOY_VM;
+
+  constructor(public payload: VmCreationState) {
+  }
+}
+
+export class VmCreationFormInit implements Action {
+  type = VM_FORM_INIT;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class VmCreationFormClean implements Action {
+  type = VM_FORM_CLEAN;
+
+  constructor(public payload?: any) {
+  }
+}
+
+export class DeploymentAddLoggerMessage implements Action {
+  type = VM_DEPLOYMENT_ADD_LOGGER_MESSAGE;
+
+  constructor(public payload?: ProgressLoggerMessageData) {
+  }
+}
+
+export class DeploymentChangeStatus implements Action {
+  type = VM_DEPLOYMENT_CHANGE_STATUS;
+
+  constructor(public payload?: VmDeploymentMessage) {
+  }
+}
+
+export class DeploymentUpdateLoggerMessage implements Action {
+  type = VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE;
+
+  constructor(public payload: {
+    messageText: string | ParametrizedTranslation,
+    data: Partial<ProgressLoggerMessageData>
+  }) {
+  }
+}
+
+export class DeploymentInitActionList implements Action {
+  type = VM_DEPLOYMENT_INIT_ACTION_LIST;
+
+  constructor(public payload: ProgressLoggerMessageData[]) {
+  }
+}
+
+export class DeploymentRequest implements Action {
+  type = VM_DEPLOYMENT_REQUEST;
+
+  constructor(public payload: VmCreationState) {
+  }
+}
+
+export class DeploymentRequestError implements Action {
+  type = VM_DEPLOYMENT_REQUEST_ERROR;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VmDeploymentCopyTags implements Action {
+  type = VM_DEPLOYMENT_COPY_TAGS;
+
+  constructor(public payload: Tag[]) {
   }
 }
 
@@ -374,6 +506,22 @@ export type Actions = LoadVMsRequest
   | RecoverVm
   | ExpungeVm
   | ExpungeVmSuccess
-  | CreateVmSuccess
   | ChangeSshKey
-  | VMUpdateError;
+  | VMUpdateError
+  | VmCreationStateUpdate
+  | VmCreationEnoughResourceUpdateState
+  | VmCreationFormInit
+  | VmCreationFormClean
+  | VmFormUpdate
+  | VmFormAdjust
+  | VmInitialZoneSelect
+  | VmInitialSecurityGroupsSelect
+  | DeployVm
+  | DeploymentChangeStatus
+  | DeploymentAddLoggerMessage
+  | DeploymentUpdateLoggerMessage
+  | DeploymentInitActionList
+  | DeploymentRequest
+  | DeploymentRequestSuccess
+  | DeploymentRequestError
+  | VmDeploymentCopyTags;

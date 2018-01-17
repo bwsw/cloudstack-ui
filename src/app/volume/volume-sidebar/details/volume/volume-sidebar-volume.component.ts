@@ -3,6 +3,7 @@ import {
   Input
 } from '@angular/core';
 import { Volume } from '../../../../shared/models/volume.model';
+import * as moment from 'moment';
 
 
 @Component({
@@ -18,6 +19,10 @@ export class VolumeSidebarVolumeComponent {
       'LOCAL': 'DISK_OFFERING_STORAGE_TYPE.LOCAL'
     };
 
-    return storageTypeTranslations[this.volume.storageType.toUpperCase()];
+    return storageTypeTranslations[this.volume.storagetype.toUpperCase()];
+  }
+
+  public get volumeCreated(): Date {
+    return moment(this.volume.created).toDate();
   }
 }

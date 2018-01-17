@@ -1,6 +1,7 @@
 <cs-list
   (onAction)="showCreationDialog()"
   [isOpen]="listService.hasSelected() && showSidebarDetails"
+  [creationEnabled]="isCreationEnabled"
 >
   <ng-container cs-panels>
     <cs-top-bar>
@@ -22,6 +23,7 @@
       [query]="query"
       [viewMode]="viewMode"
       [mode]="mode"
+      [vmList]="vmList"
       cs-list
     ></cs-security-group-list>
   </ng-container>

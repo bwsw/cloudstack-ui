@@ -4,7 +4,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { MatDialogRef, MatSelectChange } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { Zone } from '../../shared/models';
 import { VolumeCreationData } from '../../shared/models/volume.model';
@@ -44,22 +44,16 @@ export class VolumeCreationDialogComponent {
   public onSubmit(e): void {
     e.preventDefault();
 
-    if (!this.diskOffering.isCustomized) {
+    if (!this.diskOffering.iscustomized) {
       delete this.newVolume.size;
     }
 
-    const volumeCreationParams = Object.assign(
-      {},
-      this.newVolume,
-      { diskOfferingId: this.diskOffering.id }
-      );
-
-    this.onVolumeCreate.emit(volumeCreationParams);
+    this.onVolumeCreate.emit(this.newVolume);
   }
 
   public updateDiskOffering(diskOfferingId: string): void {
     this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
-    this.showResizeSlider = this.diskOffering.isCustomized;
+    this.showResizeSlider = this.diskOffering.iscustomized;
   }
 
   public updateZone(zoneId: string) {

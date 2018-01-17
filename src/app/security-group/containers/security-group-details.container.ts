@@ -19,7 +19,6 @@ import * as fromVM from '../../reducers/vm/redux/vm.reducers';
   `
 })
 export class SecurityGroupDetailsContainerComponent {
-
   readonly securityGroup$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
   readonly vmList$ = this.store.select(fromVM.getUsingSGVMs);
   readonly viewMode$ = this.store.select(fromSecurityGroups.viewMode);

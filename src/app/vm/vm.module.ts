@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -37,10 +34,7 @@ import { VmService } from './shared/vm.service';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
-import { VmCreationFormNormalizationService } from './vm-creation/form-normalization/form-normalization.service';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
-import { VmCreationService } from './vm-creation/services/vm-creation.service';
-import { VmDeploymentService } from './vm-creation/services/vm-deployment.service';
 import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmCreationTemplateComponent } from './vm-creation/template/vm-creation-template.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
@@ -112,15 +106,18 @@ import { NetworkDetailContainerComponent } from './container/network-detail.cont
 import { VmTagsContainerComponent } from './container/vm-tags.container';
 import { VmActionsContainerComponent } from './container/vm-actions.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
-import { VmTemplateDialogContainerComponent } from './vm-creation/template/containers/vm-template-dialog.container';
 // tslint:disable-next-line
 import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.container';
 import { SnapshotModalContainerComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshot-modal.container';
 import { SnapshotsContainerComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshots.container';
 import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
 import { HttpModule } from '@angular/http';
+import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
+import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
+import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
+import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.effects';
 
 @NgModule({
   imports: [
@@ -157,6 +154,7 @@ import { VmCreationSecurityGroupContainerComponent } from './vm-creation/compone
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
     EffectsModule.forFeature([
       VirtualMachinesEffects,
+      VirtualMachineCreationEffects,
       ZonesEffects,
       AccountsEffects,
       ServiceOfferingEffects
@@ -188,6 +186,7 @@ import { VmCreationSecurityGroupContainerComponent } from './vm-creation/compone
     VmActionsContainerComponent,
     VmAccessComponent,
     VmColorComponent,
+    VmCreationContainerComponent,
     VmCreationComponent,
     VmCreationDialogComponent,
     VmCreationAgreementComponent,
@@ -198,8 +197,9 @@ import { VmCreationSecurityGroupContainerComponent } from './vm-creation/compone
     VmFilterComponent,
     VmSidebarContainerComponent,
     VmSidebarComponent,
+    VmCreationTemplateContainerComponent,
     VmCreationTemplateComponent,
-    VmTemplateDialogContainerComponent,
+    VmCreationSshKeySelectorComponent,
     VmTemplateDialogComponent,
     VmVolumeDetailsContainerComponent,
     VolumeDetailsComponent,
@@ -214,6 +214,7 @@ import { VmCreationSecurityGroupContainerComponent } from './vm-creation/compone
     SnapshotCreationComponent,
     SnapshotModalComponent,
     SnapshotModalContainerComponent,
+    VmCreationSecurityGroupContainerComponent,
     VmCreationSecurityGroupComponent,
     VmCreationSecurityGroupContainerComponent,
     SecurityGroupManagerExistingGroupComponent,
@@ -228,9 +229,6 @@ import { VmCreationSecurityGroupContainerComponent } from './vm-creation/compone
   ],
   providers: [
     VmActionsService,
-    VmCreationFormNormalizationService,
-    VmCreationService,
-    VmDeploymentService,
     VmEntityDeletionService,
     VmService,
     WebShellService,
@@ -239,7 +237,7 @@ import { VmCreationSecurityGroupContainerComponent } from './vm-creation/compone
   entryComponents: [
     AffinityGroupSelectorComponent,
     InstanceGroupSelectorComponent,
-    VmCreationComponent,
+    VmCreationContainerComponent,
     VmDestroyDialogComponent,
     VmTemplateDialogComponent,
     VmCreationAgreementComponent,

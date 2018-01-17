@@ -16,6 +16,7 @@
           [value]="securityGroup.name"
         ></cs-parameters-pair>
         <cs-parameters-pair
+          *ngIf="!isPrivate"
           [name]="'SECURITY_GROUP_PAGE.DETAILS.DESCRIPTION'"
           [value]="securityGroup.description"
         ></cs-parameters-pair>

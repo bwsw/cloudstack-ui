@@ -18,7 +18,7 @@ export abstract class VolumeItem {
     let zone;
 
     this.zoneService
-      .get(this.item.zoneId)
+      .get(this.item.zoneid)
       .switchMap((_zone: Zone) => {
         zone = _zone;
         return this.diskOfferingService.getList({ zoneId: zone.id });

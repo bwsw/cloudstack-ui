@@ -71,8 +71,12 @@ export class TemplateFiltersComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.dialogMode) {
-      this.selectedOsFamilies = this.osFamilies.concat();
-      this.selectedTypes = this.categoryFilters.concat();
+      if (!this.selectedOsFamilies || !this.selectedOsFamilies.length) {
+        this.selectedOsFamilies = this.osFamilies.concat();
+      }
+      if (!this.selectedTypes || !this.selectedTypes.length) {
+        this.selectedTypes = this.categoryFilters.concat();
+      }
     }
   }
 

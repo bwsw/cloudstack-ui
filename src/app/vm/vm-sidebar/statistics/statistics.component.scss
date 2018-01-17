@@ -1,3 +1,8 @@
 .statistics .row > div:nth-child(2n) {
   text-align: right;
 }
+
+mat-card mat-card-header .mat-card-header-menu {
+  top: 9px !important;
+  right: 10px !important;
+}

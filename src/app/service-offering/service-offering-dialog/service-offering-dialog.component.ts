@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 
@@ -16,9 +10,9 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
 })
 export class ServiceOfferingDialogComponent implements OnInit {
   @Input() public serviceOfferings: Array<ServiceOffering>;
-  @Input() public zoneId: string;
   @Input() public serviceOfferingId: string;
   @Input() public restrictions: ICustomOfferingRestrictions;
+  @Input() public isVmRunning: boolean;
   @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();
   public serviceOffering: ServiceOffering;
   public loading: boolean;
