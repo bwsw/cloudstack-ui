@@ -18,7 +18,6 @@ import { Account } from '../../shared/models/account.model';
       (onAccountDelete)="onAccountDelete($event)"
       (onAccountDisable)="onAccountDisable($event)"
       (onAccountEnable)="onAccountEnable($event)"
-      (onAccountLock)="onAccountLock($event)"
     >
     </cs-account-actions>`,
 })
@@ -30,10 +29,6 @@ export class AccountActionsContainerComponent {
     public dialogService: DialogService,
     private store: Store<State>,
   ) {
-  }
-
-  public onAccountLock(account: Account): void {
-    this.store.dispatch(new accountActions.LockAccountRequest(account));
   }
 
   public onAccountEnable(account: Account): void {

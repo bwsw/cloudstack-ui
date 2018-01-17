@@ -23,7 +23,6 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 })
 export class AccountActionsComponent {
   @Input() public account: Account;
-  @Output() public onAccountLock: EventEmitter<Account> = new EventEmitter<Account>();
   @Output() public onAccountEnable: EventEmitter<Account> = new EventEmitter<Account>();
   @Output() public onAccountDisable: EventEmitter<Account> = new EventEmitter<Account>();
   @Output() public onAccountDelete: EventEmitter<Account> = new EventEmitter<Account>();
@@ -43,10 +42,6 @@ export class AccountActionsComponent {
       .filter(res => Boolean(res))
       .subscribe(() => {
         switch (action.command) {
-          case 'lock': {
-            this.onAccountLock.emit(account);
-            break;
-          }
           case 'enable': {
             this.onAccountEnable.emit(account);
             break;
