@@ -33,13 +33,12 @@ export class SnapshotItemComponent {
       SnapshotStates.Allocated,
       SnapshotStates.Creating,
       SnapshotStates.Error
-    ].reduce((m, state) => ({
-      ...m, [(state === SnapshotStates.BackingUp)
+    ].filter(state => this.item.state === state)
+      .map((state) => (state === SnapshotStates.BackingUp)
         ? 'backing-up'
         : state === SnapshotStates.BackedUp
           ? 'backed-up'
-          : state]: this.item.state === state
-    }), {});
+          : state);
   }
 
   public get snapshotCreated() {
