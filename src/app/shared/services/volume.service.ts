@@ -3,23 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
-import {
-  Volume,
-  isDeleted
-} from '../models';
+import { Volume, isDeleted, VolumeCreationData } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { SnapshotService } from './snapshot.service';
 import { VolumeTagService } from './tags/volume-tag.service';
 import { AsyncJob } from '../models/async-job.model';
-
-
-interface VolumeCreationData {
-  name: string;
-  zoneId: string;
-  diskOfferingId: string;
-  size?: number;
-}
 
 export interface VolumeFromSnapshotCreationData {
   name: string;
@@ -81,6 +70,7 @@ export class VolumeService extends BaseBackendService<Volume> {
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
     ).switchMap((response: AsyncJob<Volume>)  => Observable.of(response.jobresult['volume']));
   }
+
   public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
