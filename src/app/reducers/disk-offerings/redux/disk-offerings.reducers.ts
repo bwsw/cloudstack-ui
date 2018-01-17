@@ -106,7 +106,7 @@ export const isLoading = createSelector(
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVolumes.getSelectedVolume,
-  (entities, volume) => volume && entities[volume.diskOfferingId]
+  (entities, volume) => volume && entities[volume.diskofferingid]
 );
 
 export const getAvailableOfferings = createSelector(

@@ -79,7 +79,7 @@ export class VolumesEffects {
       return this.dialog.open(VolumeAttachmentContainerComponent, {
         data: {
           volume: action.payload,
-          zoneId: action.payload.zoneId
+          zoneId: action.payload.zoneid
         },
         width: '375px'
       })
@@ -95,7 +95,7 @@ export class VolumesEffects {
         };
         return this.volumeService
           .attach(params)
-          .map(volume => {
+          .map((volume: Volume) => {
             this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
@@ -125,12 +125,12 @@ export class VolumesEffects {
       };
       return this.volumeService
         .attach(params)
-        .map(volume => {
+        .map((volume: Volume) => {
           this.jobsNotificationService.finish({
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
           });
-          return new volumeActions.UpdateVolume(volume);
+          return new volumeActions.UpdateVolume(volume)
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -153,7 +153,7 @@ export class VolumesEffects {
             'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS');
           return this.volumeService
             .detach(action.payload)
-            .switchMap(volume => {
+            .switchMap((volume: Volume) => {
               this.jobsNotificationService.finish({
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
@@ -187,7 +187,7 @@ export class VolumesEffects {
           'JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
         return this.volumeService
           .resize(params)
-          .map(volume => {
+          .map((volume: Volume) => {
             this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
@@ -248,7 +248,7 @@ export class VolumesEffects {
           const detach = (detachVolume) => {
             return this.volumeService
               .detach(detachVolume)
-              .do(volume => {
+              .do((volume: Volume) => {
                 this.jobsNotificationService.finish({
                   id: notificationId,
                   message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
@@ -264,7 +264,7 @@ export class VolumesEffects {
               });
           };
 
-          if (action.payload.virtualMachineId) {
+          if (action.payload.virtualmachineid) {
             return detach(action.payload)
               .switchMap(() => remove(action.payload));
           } else {

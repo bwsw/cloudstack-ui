@@ -7,6 +7,7 @@ import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
+import { getDescription } from '../../../shared/models';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -260,7 +261,7 @@ export const selectVmVolumes = createSelector(
   (volumes, virtualMachineId) => {
 
     const virtualMachineIdFilter = volume => !virtualMachineId ||
-      volume.virtualMachineId === virtualMachineId;
+      volume.virtualmachineid === virtualMachineId;
 
     return volumes.filter(volume => {
       return virtualMachineIdFilter(volume);
@@ -291,19 +292,19 @@ export const selectFilteredVolumes = createSelector(
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
-    const spareOnlyFilter = volume => spareOnly ? !volume.virtualMachineId : true;
+    const spareOnlyFilter = (volume: Volume) => spareOnly ? !volume.virtualmachineid : true;
 
-    const queryFilter = volume => !query || volume.name.toLowerCase()
+    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase()
         .includes(queryLower) ||
-      volume.description.toLowerCase().includes(queryLower);
+      getDescription(volume).toLowerCase().includes(queryLower);
 
     const selectedTypesFilter =
-      volume => !selectedTypes.length || !!typesMap[volume.type];
+      (volume: Volume) => !selectedTypes.length || !!typesMap[volume.type];
 
     const selectedZoneIdsFilter =
-      volume => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneId];
+      (volume: Volume) => !selectedZoneIds.length || !!zoneIdsMap[volume.zoneid];
 
-    const selectedAccountIdsFilter = volume => !selectedAccountIds.length ||
+    const selectedAccountIdsFilter = (volume: Volume) => !selectedAccountIds.length ||
       (accountsMap[volume.account] && domainsMap[volume.domainid]);
 
 
