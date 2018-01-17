@@ -1,6 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ServiceOfferingClass } from '../../../shared/models/service-offering.model';
+import {
+  DefaultServiceOfferingClassId,
+  ServiceOfferingClass
+} from '../../../shared/models/service-offering.model';
 
 import * as event from './service-offering-class.actions';
 
@@ -57,6 +60,7 @@ export function reducer(
       };
     }
     case event.LOAD_SERVICE_OFFERING_CLASS_RESPONSE: {
+      const newState = adapter.addAll(action.payload, state);
       return {
         /**
          * The addMany function provided by the created adapter
@@ -65,7 +69,7 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(action.payload, state),
+        ...adapter.addOne({ id: DefaultServiceOfferingClassId }, newState),
         loading: false
       };
     }

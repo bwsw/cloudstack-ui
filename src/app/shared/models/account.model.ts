@@ -1,7 +1,6 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountUser } from './account-user.model';
 import { BaseModel } from './base.model';
-import { Tag } from './tag.model';
 
 export const enum AccountType {
   User = 0,
@@ -14,6 +13,8 @@ export const AccountState = {
   disabled: 'disabled',
   locked: 'locked',
 };
+
+export const AccountResourceType = 'Account';
 
 export interface AccountForm {
   username: string;

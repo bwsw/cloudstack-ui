@@ -1,45 +1,47 @@
 <div *ngFor="let group of list">
-  <h4>{{ getName(group.group) | translate }}</h4>
-  <h5>{{ getDescription(group.group) | translate }}</h5>
-  <table class="mat-table">
-    <thead>
-    <tr class="mat-header-row">
-      <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }}</th>
-      <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }}</th>
-      <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }}</th>
-      <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }}</th>
-      <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}</th>
-      <th class="mat-header-cell"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="mat-row"
-        *ngFor="let offering of group.items"
-        (click)="selectOffering(offering)"
-    >
-      <td class="mat-cell">
-        <span [innerHTML]="offering.name | highlight:query"></span>
-      </td>
-      <td class="mat-cell">
-        {{ offering.cpunumber || '-' }}
-      </td>
-      <td class="mat-cell">
-        {{ offering.cpuspeed || '-' }}
-      </td>
-      <td class="mat-cell">
-        {{ offering.memory || '-' }}
-      </td>
-      <td class="mat-cell">
-        {{ offering.networkrate || '-' }}
-      </td>
-      <td class="mat-cell">
-        <span>
-          <mat-radio-button [checked]="selectedOffering && offering.id === selectedOffering.id"></mat-radio-button>
-        </span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <ng-container *ngIf="group.items.length">
+    <h4>{{ getName(group.soClass) | translate }}</h4>
+    <h5>{{ getDescription(group.soClass) | translate }}</h5>
+    <table class="mat-table">
+      <thead>
+      <tr class="mat-header-row">
+        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }}</th>
+        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }}</th>
+        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }}</th>
+        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }}</th>
+        <th class="mat-header-cell">{{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}</th>
+        <th class="mat-header-cell"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="mat-row"
+          *ngFor="let offering of group.items"
+          (click)="selectOffering(offering)"
+      >
+        <td class="mat-cell">
+          <span [innerHTML]="offering.name | highlight:query"></span>
+        </td>
+        <td class="mat-cell">
+          {{ offering.cpunumber || '-' }}
+        </td>
+        <td class="mat-cell">
+          {{ offering.cpuspeed || '-' }}
+        </td>
+        <td class="mat-cell">
+          {{ offering.memory || '-' }}
+        </td>
+        <td class="mat-cell">
+          {{ offering.networkrate || '-' }}
+        </td>
+        <td class="mat-cell">
+          <span>
+            <mat-radio-button id="{{offering.id}}" [checked]="selectedOffering && offering.id === selectedOffering.id"></mat-radio-button>
+          </span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </ng-container>
 </div>
 
 <cs-no-results *ngIf="!offeringList?.length && !isLoading"></cs-no-results>

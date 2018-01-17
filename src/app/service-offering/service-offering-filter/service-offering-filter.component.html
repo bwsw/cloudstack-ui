@@ -21,14 +21,14 @@
       [(ngModel)]="selectedClasses"
       (change)="selectedClassesChange.emit(selectedClasses)"
     >
-      <mat-option [value]="'common'">{{ 'SERVICE_OFFERING.FILTERS.COMMON' | translate }}
-      </mat-option>
+      <!--mat-option [value]="'common'">{{ 'SERVICE_OFFERING.FILTERS.COMMON' | translate }}
+      </mat-option-->
 
       <mat-option
-        *ngFor="let g of classes"
-        [value]="g.id"
+        *ngFor="let c of classes"
+        [value]="c.id"
       >
-        {{ g.translations && g.translations[locale] || g.id }}
+        {{ getName(c) | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>

@@ -300,6 +300,14 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
+export const classesFilter = (offering: ServiceOffering, tags: Tag[], classesMap: any) => {
+  const tag = offering && tags.find(tag => tag.key === ServiceOfferingClassKey + '.' + offering.id);
+    const classes = tag && tag.value.split(',');
+    const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
+    return classes && classes.reduce((m, group) => (m || !!classesMap[group]), false)
+      || (showGeneral && !classes);
+};
+
 export const selectFilteredOfferings = createSelector(
   getAvailableOfferings,
   filterSelectedViewMode,
@@ -308,7 +316,7 @@ export const selectFilteredOfferings = createSelector(
   fromSOClass.selectEntities,
   fromAccountTags.selectAll,
   (offerings, viewMode, selectedClasses, query, classes, tags) => {
-    const groupsMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
 
     const selectedViewModeFilter = (offering: ServiceOffering) => {
@@ -317,11 +325,7 @@ export const selectFilteredOfferings = createSelector(
 
     const selectedClassesFilter = (offering: ServiceOffering) => {
       if (selectedClasses.length) {
-        const tag = offering && tags.find(tag => tag.key === ServiceOfferingClassKey + '.' + offering.id);
-        const group = tag && tag.value;
-        const showGeneral = selectedClasses.indexOf(DefaultServiceOfferingClassId) !== -1;
-        return !!groupsMap[group]
-          || (showGeneral && (!classes[group] || !group));
+        return classesFilter(offering, tags, classesMap);
       }
       return true;
     };
@@ -377,7 +381,7 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
   fromSOClass.selectEntities,
   fromAccountTags.selectServiceOfferingClassTags,
   (offerings, viewMode, selectedClasses, query, classes, tags) => {
-    const groupsMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
 
     const selectedViewModeFilter = (offering: ServiceOffering) => {
@@ -386,11 +390,7 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
 
     const selectedClassesFilter = (offering: ServiceOffering) => {
       if (selectedClasses.length) {
-        const tag = offering && tags.find(tag => tag.key === ServiceOfferingClassKey + '.' + offering.id);
-        const group = tag && tag.value;
-        const showGeneral = selectedClasses.indexOf(DefaultServiceOfferingClassId) !== -1;
-        return !!groupsMap[group]
-          || (showGeneral && (!classes[group] || !group));
+        return classesFilter(offering, tags, classesMap);
       }
       return true;
     };

@@ -3,6 +3,8 @@ import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { State } from '../../../reducers';
+
+import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
@@ -29,6 +31,7 @@ import {
   SSHKeyPair,
   Zone
 } from '../../../shared/models';
+import { AccountResourceType } from '../../../shared/models/account.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmService } from '../../shared/vm.service';
@@ -121,6 +124,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
+    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));

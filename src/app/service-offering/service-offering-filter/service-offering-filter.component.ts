@@ -38,4 +38,9 @@ export class ServiceOfferingFilterComponent {
   public get locale(): Language {
     return this.translate.currentLang as Language;
   }
+
+  public getName(soClass: ServiceOfferingClass) {
+    return soClass && soClass.name
+      && soClass.name[this.locale] || 'SERVICE_OFFERING.FILTERS.COMMON';
+  }
 }

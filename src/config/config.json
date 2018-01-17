@@ -172,14 +172,25 @@
   "accountTagsEnabled": true,
   "serviceOfferingClasses": [
     {
-      "id": "testClass",
+      "id": "testClass1",
       "name": {
-        "ru": "Тест",
-        "en": "Test"
+        "ru": "Тест1",
+        "en": "Test1"
       },
       "description": {
-        "ru": "тестовое описание",
-        "en": "test description"
+        "ru": "тестовое описание 1",
+        "en": "test description 1"
+      }
+    },
+    {
+      "id": "testClass2",
+      "name": {
+        "ru": "Тест2",
+        "en": "Test2"
+      },
+      "description": {
+        "ru": "тестовое описание 2",
+        "en": "test description 2"
       }
     }
   ]

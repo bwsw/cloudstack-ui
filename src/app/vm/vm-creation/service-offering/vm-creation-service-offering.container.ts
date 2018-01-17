@@ -21,8 +21,10 @@ import { ServiceOffering } from '../../../shared/models/service-offering.model';
       [serviceOfferings]="offerings$ | async"
       [serviceOfferingId]="serviceOfferingId"
       [classes]="classes$ | async"
+      [selectedClasses]="selectedClasses$ | async"
       [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
+      [query]="query$ | async"
       [restrictions]="customOfferingRestrictions"
       [defaultParams]="defaultParams$ | async"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
@@ -37,6 +39,8 @@ export class VmCreationServiceOfferingContainerComponent {
   readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferingsForVmCreation);
   readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
+  readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
+  readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
   readonly classTags$ = this.store.select(fromAccountTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 

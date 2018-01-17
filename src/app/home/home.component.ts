@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import * as accountTagsActions from '../reducers/account-tags/redux/account-tags.actions';
 import * as authActions from '../reducers/auth/redux/auth.actions';
 import { State } from '../reducers/index';
 import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
@@ -35,7 +34,6 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
           mame: this.auth.user.account,
           domainid: this.auth.user.domainid
         }));
-        this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: 'Account' }));
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });
   }

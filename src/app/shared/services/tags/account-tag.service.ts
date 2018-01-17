@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { AccountResourceType } from '../../models/account.model';
 import { ServiceOffering } from '../../models/service-offering.model';
 import { SSHKeyPair } from '../../models/ssh-keypair.model';
 import { User } from '../../models/user.model';
@@ -51,7 +52,7 @@ export class AccountTagService implements EntityTagService {
       .switchMap(account => {
         return this.tagService.update(
           account,
-          'Account',
+          AccountResourceType,
           key,
           value)
       });

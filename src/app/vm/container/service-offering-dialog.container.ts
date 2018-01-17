@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
 import * as fromAccountTags from '../../reducers/account-tags/redux/account-tags.reducers';
 import { State } from '../../reducers/index';
 import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-class.actions';
@@ -12,7 +13,7 @@ import * as fromServiceOfferings from '../../reducers/service-offerings/redux/se
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 // tslint:disable-next-line
-import { Account } from '../../shared/models/account.model';
+import { Account, AccountResourceType } from '../../shared/models/account.model';
 import { VirtualMachine } from '../shared/vm.model';
 
 @Component({
@@ -21,6 +22,7 @@ import { VirtualMachine } from '../shared/vm.model';
     <cs-service-offering-dialog
       [serviceOfferings]="offerings$ | async"
       [classes]="classes$ | async"
+      [selectedClasses]="selectedClasses$ | async"
       [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
@@ -41,6 +43,7 @@ export class ServiceOfferingDialogContainerComponent implements OnInit {
   readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
   readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
+  readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
   readonly classTags$ = this.store.select(fromAccountTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 
@@ -62,6 +65,7 @@ export class ServiceOfferingDialogContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new soGroupActions.LoadServiceOfferingClassRequest());
+    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
   }
 
   public onViewModeChange(selectedViewMode: string) {

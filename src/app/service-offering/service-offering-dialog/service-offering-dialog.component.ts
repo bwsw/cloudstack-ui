@@ -21,6 +21,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Input() public classes: Array<ServiceOfferingClass>;
+  @Input() public selectedClasses: Array<string>;
   @Input() public classTags: Array<Tag>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
