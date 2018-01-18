@@ -302,7 +302,7 @@ mat-form-field.form-select-control {
   }
 }
 
-.mat-dialog-content .filter-wrapper{
+.mat-dialog-content .filter-wrapper {
   padding: 0;
 }
 
@@ -380,7 +380,7 @@ mat-card-actions {
   background-color: #388E3C;
 }
 
-.in-progress, .stopping, .backing-up, .allocated {
+.in-progress, .stopping, .backing-up, .allocated, .creating {
   background-color: #FFA726;
 }
 
@@ -503,7 +503,6 @@ mat-table mat-header-cell,
     margin: 0 0 10px !important;
   }
 }
-
 
 .mat-dialog-actions {
   justify-content: flex-end;
