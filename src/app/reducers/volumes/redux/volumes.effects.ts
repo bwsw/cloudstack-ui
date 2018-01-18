@@ -8,6 +8,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
+import { isRoot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
@@ -221,8 +222,8 @@ export class VolumesEffects {
     .ofType(volumeActions.DELETE_VOLUMES)
     .withLatestFrom(this.store.select(fromVolumes.selectAll))
     .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
-      return volumes.filter((volume: Volume) => !volume.isRoot
-        && volume.virtualMachineId === action.payload.id);
+      return volumes.filter((volume: Volume) => !isRoot(volume)
+        && volume.virtualmachineid === action.payload.id);
     })
     .filter((volumes: Array<Volume>) => !!volumes.length)
     .switchMap((volumes: Array<Volume>) =>
