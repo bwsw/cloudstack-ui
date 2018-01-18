@@ -253,39 +253,42 @@ export class VirtualMachineCreationEffects {
             this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
             const params = this.getVmCreationParams(action.payload, securityGroups);
             let deployResponse;
+            return this.userTagService.getKeyboardLayoutForVms()
+              .switchMap((res: string) => {
+                params.keyboard = res;
+                return this.vmService.deploy(params)
+                  .switchMap(response => {
+                    deployResponse = response;
+                    return this.vmService.get(deployResponse.id);
+                  })
+                  .switchMap(vm => {
+                    const temporaryVm = vm;
 
-            return this.vmService.deploy(params)
-              .switchMap(response => {
-                deployResponse = response;
-                return this.vmService.get(deployResponse.id);
-              })
-              .switchMap(vm => {
-                const temporaryVm = vm;
+                    if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
+                      temporaryVm.instanceGroup = action.payload.instanceGroup;
+                    }
 
-                if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
-                  temporaryVm.instanceGroup = action.payload.instanceGroup;
-                }
+                    temporaryVm.state = VmState.Deploying;
+                    this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
 
-                temporaryVm.state = VmState.Deploying;
-                this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
+                    return this.vmService.incrementNumberOfVms()
+                      .switchMap(() => this.vmService.registerVmJob(deployResponse));
+                  })
+                  .switchMap((deployedVm: VirtualMachine) => {
+                    this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
-                return this.vmService.incrementNumberOfVms()
-                  .switchMap(() => this.vmService.registerVmJob(deployResponse));
-              })
-              .switchMap((deployedVm: VirtualMachine) => {
-                this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
+                    return this.doCreateInstanceGroup(deployedVm, action.payload)
+                      .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
+                  })
+                  .map((vmWithTags) => {
+                    if (action.payload.doStartVm) {
+                      vmWithTags.state = VmState.Running;
+                    }
 
-                return this.doCreateInstanceGroup(deployedVm, action.payload)
-                  .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
-              })
-              .map((vmWithTags) => {
-                if (action.payload.doStartVm) {
-                  vmWithTags.state = VmState.Running;
-                }
-
-                return new vmActions.DeploymentRequestSuccess(vmWithTags);
-              })
-              .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
+                    return new vmActions.DeploymentRequestSuccess(vmWithTags);
+                  })
+                  .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
+              });
           })
           .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
     });
@@ -620,9 +623,7 @@ export class VirtualMachineCreationEffects {
     if (state.affinityGroup) {
       params.affinityGroupNames = state.affinityGroup.name;
     }
-
     params.startVm = state.doStartVm.toString();
-    params.keyboard = state.keyboard;
     params.name = state.displayName;
     params.serviceOfferingId = state.serviceOffering.id;
     params.templateId = state.template.id;

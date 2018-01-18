@@ -356,7 +356,6 @@ export const initialFormState: FormState = {
     displayName: '',
     doStartVm: true,
     instanceGroup: null,
-    keyboard: KeyboardLayout.us,
     rootDiskSize: 0,
     rootDiskMinSize: 0,
     securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules()),

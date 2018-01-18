@@ -201,15 +201,6 @@
           </div>
 
           <div>
-            <h4>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h4>
-            <cs-keyboards
-              name="keyboard"
-              [ngModel]="vmCreationState.keyboard"
-              (ngModelChange)="keyboardChange.emit($event)"
-            ></cs-keyboards>
-          </div>
-
-          <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.SSH_KEY_PAIR' | translate }}</h4>
             <cs-vm-creation-ssh-key-selector
               [sshKeyPair]="vmCreationState.sshKeyPair"

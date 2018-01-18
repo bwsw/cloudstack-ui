@@ -3,6 +3,7 @@ export const UserTagKeys = {
   askToCreateVm: 'csui.user.ask-to-create-vm',
   askToCreateVolume: 'csui.user.ask-to-create-volume',
   savePasswordForAllVms: 'csui.user.save-password-for-all-vms',
+  keyboardLayoutForVms: 'csui.user.keyboard-layout-for-vms',
   firstDayOfWeek: 'csui.user.first-day-of-week',
   lang: 'csui.user.lang',
   lastVmId: 'csui.user.last-vm-id',

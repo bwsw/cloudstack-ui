@@ -63,7 +63,6 @@ export class VmCreationComponent {
   @Output() public affinityGroupChange = new EventEmitter<AffinityGroup>();
   @Output() public instanceGroupChange = new EventEmitter<InstanceGroup>();
   @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
-  @Output() public keyboardChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
   @Output() public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
   @Output() public doStartVmChange = new EventEmitter<boolean>();

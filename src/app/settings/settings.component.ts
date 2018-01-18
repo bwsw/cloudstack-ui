@@ -51,6 +51,8 @@ export class SettingsComponent implements OnInit {
   public TimeFormat = TimeFormat;
   public timeFormats = Object.keys(TimeFormat);
 
+  public keyboardLayout: string;
+
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -70,6 +72,7 @@ export class SettingsComponent implements OnInit {
     this.loadFirstDayOfWeek();
     this.buildForm();
     this.loadTimeFormat();
+    this.loadKeyboardLayout();
   }
 
   public getTimeFormatTranslationToken(format: TimeFormat): string {
@@ -132,6 +135,20 @@ export class SettingsComponent implements OnInit {
       .setFirstDayOfWeek(change.value)
       .finally(() => (this.updatingFirstDayOfWeek = false))
       .subscribe();
+  }
+
+  public keyboardChange(value: string) {
+    this.userTagService
+      .setKeyboardLayoutForVms(value)
+      .finally(() => (this.keyboardLayout = value))
+      .subscribe()
+  }
+
+  public loadKeyboardLayout(): void {
+    this.userTagService.getKeyboardLayoutForVms()
+      .subscribe(keyboard => {
+        this.keyboardLayout = keyboard ? keyboard : 'us'
+      });
   }
 
   private get password(): string {

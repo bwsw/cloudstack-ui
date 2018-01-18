@@ -1145,6 +1145,10 @@
       "hour24": "24-Hours Time",
       "AUTO": "Auto",
       "THEME": "Theme Color"
+    },
+    "VM_PREFERENCES": {
+      "TITLE": "VM preferences",
+      "KEYBOARD_LAYOUT": "Keyboard layout"
     }
   },
   "CLIPBOARD": {

@@ -79,6 +79,20 @@ export class UserTagService implements EntityTagService {
       .map(() => ask);
   }
 
+  public setKeyboardLayoutForVms(value: any): Observable<any> {
+    return this.writeTag(
+      this.keys.keyboardLayoutForVms,
+      value
+    )
+      .map(() => value);
+  }
+
+  public getKeyboardLayoutForVms(): Observable<any> {
+    return this.readTag(
+      this.keys.keyboardLayoutForVms,
+    ).map(value => value);
+  }
+
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
     return this.readTag(this.keys.firstDayOfWeek).map(value => +value);
   }

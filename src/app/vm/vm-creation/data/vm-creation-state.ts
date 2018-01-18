@@ -15,7 +15,6 @@ export interface VmCreationState {
   displayName: string;
   doStartVm: boolean;
   instanceGroup: InstanceGroup;
-  keyboard: KeyboardLayout;
   rootDiskSize: number;
   rootDiskMinSize: number;
   securityGroupData: VmCreationSecurityGroupData;
