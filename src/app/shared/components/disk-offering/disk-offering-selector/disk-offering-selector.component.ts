@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDialog, MatSelectChange } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offering-dialog.component';
 
 @Component({
@@ -19,16 +19,14 @@ import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offeri
 export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public required: boolean;
-  @Input() public diskOfferingId: string;
+  @Input() public params: Array<string>;
   @Output() public change: EventEmitter<DiskOffering>;
-  private _diskOffering: DiskOffering;
+  public diskOffering: DiskOffering;
+  private _diskOfferingId: string;
 
-  public get diskOffering(): DiskOffering {
-    return this.diskOfferings.find(_ => _.id === this.diskOfferingId);
-  }
-
-  public set diskOffering(value: DiskOffering) {
-    this._diskOffering = value;
+  @Input()
+  public get diskOfferingId(): string {
+    return this._diskOfferingId;
   }
 
   constructor(
@@ -58,7 +56,8 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
       width: '910px',
       data: {
         diskOfferings: this.diskOfferings,
-        diskOffering: this.diskOffering
+        diskOffering: this.diskOffering,
+        columns: this.params
       }
     })
       .afterClosed()

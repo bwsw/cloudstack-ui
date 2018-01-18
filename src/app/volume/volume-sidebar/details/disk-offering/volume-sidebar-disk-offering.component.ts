@@ -16,4 +16,13 @@ export class VolumeSidebarDiskOfferingComponent {
   @Input() public offering: Offering;
   @Input() public columns: Array<string>;
   public tableId = 'VOLUME_PAGE.DETAILS';
+
+  public getName(column: string): string {
+    const defaultName = this.tableId.toUpperCase() + '.' + column.toUpperCase();
+    return column === 'name'
+      ?
+      defaultName + '_SIDEBAR'
+      :
+      defaultName;
+  }
 }

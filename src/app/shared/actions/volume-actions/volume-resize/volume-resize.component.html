@@ -13,7 +13,8 @@
         <cs-disk-offering-selector
           name="diskOffering"
           [diskOfferings]="diskOfferings"
-          [diskOfferingId]="diskOfferingId"
+          [params]="diskOfferingParams"
+          [ngModel]="diskOfferingId"
           (change)="updateDiskOffering($event.id)"
         ></cs-disk-offering-selector>
         </div>

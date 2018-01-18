@@ -24,6 +24,7 @@ export class VolumeCreationDialogComponent {
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public zones: Array<Zone>;
   @Input() public maxSize: number;
+  @Input() public params: Array<string>;
   @Output() public onVolumeCreate = new EventEmitter<VolumeCreationData>();
   @Output() public onZoneUpdated = new EventEmitter<Zone>();
 
@@ -31,7 +32,6 @@ export class VolumeCreationDialogComponent {
   public showResizeSlider: boolean;
   public size = 1;
   public minSize = 1;
-
 
   constructor(
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
@@ -52,6 +52,7 @@ export class VolumeCreationDialogComponent {
   }
 
   public updateDiskOffering(diskOfferingId: string): void {
+    this.newVolume.diskofferingid = diskOfferingId;
     this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
     this.showResizeSlider = this.diskOffering.iscustomized;
   }

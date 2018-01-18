@@ -9,28 +9,18 @@
   <mat-card-content>
     <div class="grid grid-right">
       <ng-container *ngFor="let column of columns">
-        <div class="row">
-          <!--Title-->
-          <ng-container *ngIf="column !== 'name'">
-            <div>{{ tableId.toUpperCase() + '.' + column.toUpperCase() | translate}}</div>
-          </ng-container>
-          <ng-container *ngIf="column === 'name'">
-            <div>{{ tableId.toUpperCase() + '.' + column.toUpperCase() + '_SIDEBAR' | translate}}</div>
-          </ng-container>
-
-          <!--Value-->
-          <ng-container *ngIf="column === 'name'">
-            <div class="name-text" [matTooltip]="offering[column]">
-              {{ offering[column] }}
-            </div>
-          </ng-container>
-          <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype' || column === 'iscustomized'">
-            <div>{{ (tableId.toUpperCase() + '.' + offering[column]?.toString().toUpperCase() | translate)  || '-'}}</div>
-          </ng-container>
-          <ng-container *ngIf="column !== 'provisioningtype' && column !==  'storagetype' && column !==  'name' && column !== 'iscustomized'">
-            <div>{{ offering[column] || '-'}}</div>
-          </ng-container>
-        </div>
+        <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype' || column === 'iscustomized'">
+          <cs-parameters-pair
+            [name]="getName(column)"
+            [value]="(tableId.toUpperCase() + '.' + offering[column]?.toString().toUpperCase() | translate)  || '-'">
+          </cs-parameters-pair>
+        </ng-container>
+        <ng-container *ngIf="column !== 'provisioningtype' && column !== 'storagetype' && column !== 'iscustomized'">
+          <cs-parameters-pair
+            [name]="getName(column)"
+            [value]="offering[column]  || '-'">
+          </cs-parameters-pair>
+        </ng-container>
       </ng-container>
     </div>
   </mat-card-content>

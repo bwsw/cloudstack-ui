@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { ConfigService } from '../../../services/config.service';
@@ -8,18 +8,12 @@ import { ConfigService } from '../../../services/config.service';
   templateUrl: 'disk-offering-dialog.component.html',
   styleUrls: ['disk-offering-dialog.component.scss'],
 })
-export class DiskOfferingDialogComponent implements OnInit {
+export class DiskOfferingDialogComponent {
   public diskOfferings: Array<DiskOffering>;
   public selectedDiskOffering: DiskOffering;
   public preselectedDiskOffering: DiskOffering;
   public tableId = 'DISK_OFFERING_TABLE';
-  public columns: Array<string> = [
-    'name',
-    'bytesreadrate',
-    'byteswriterate',
-    'iopsreadrate',
-    'iopswriterate'
-  ];
+  public columns: Array<string>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -29,13 +23,7 @@ export class DiskOfferingDialogComponent implements OnInit {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
     this.preselectedDiskOffering = data.diskOffering;
-  }
-
-  public ngOnInit() {
-    const configParams = this.configService.get('diskOfferingParameters');
-    if (configParams) {
-      this.columns = this.columns.concat(configParams);
-    }
+    this.columns = data.columns;
   }
 
   public selectOffering(offering: DiskOffering) {
