@@ -1,7 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/index';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
 import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
@@ -39,7 +46,7 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       .filter(volume => !!volume)
       .subscribe(volume => {
         // todo remove model
-        this.volume = new Volume(volume);
+        this.volume = volume as Volume;
         if (!this.volume.snapshots || !this.volume.snapshots.length) {
           this.dialogRef.close();
         }

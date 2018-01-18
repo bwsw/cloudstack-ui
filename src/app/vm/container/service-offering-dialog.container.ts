@@ -14,7 +14,7 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 // tslint:disable-next-line
 import { Account, AccountResourceType } from '../../shared/models/account.model';
-import { VirtualMachine } from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 
 @Component({
   selector: 'cs-service-offering-dialog-container',
@@ -26,6 +26,7 @@ import { VirtualMachine } from '../shared/vm.model';
       [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
+      [isVmRunning]="isVmRunning()"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="customOfferingRestrictions$ | async"
       [defaultParams]="defaultParams$ | async"
@@ -92,5 +93,9 @@ export class ServiceOfferingDialogContainerComponent implements OnInit {
       offering: serviceOffering
     }));
     this.dialogRef.close();
+  }
+
+  public isVmRunning(): boolean {
+    return this.virtualMachine.state === VmState.Running;
   }
 }

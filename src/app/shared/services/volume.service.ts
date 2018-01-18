@@ -5,20 +5,15 @@ import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 import {
   Snapshot,
-  Volume
+  Volume,
+  VolumeCreationData,
+  isDeleted
 } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService } from './base-backend.service';
 import { SnapshotService } from './snapshot.service';
 import { VolumeTagService } from './tags/volume-tag.service';
 
-
-interface VolumeCreationData {
-  name: string;
-  zoneId: string;
-  diskOfferingId: string;
-  size?: number;
-}
 
 export interface VolumeAttachmentData {
   id: string;
@@ -27,14 +22,13 @@ export interface VolumeAttachmentData {
 
 export interface VolumeResizeData {
   id: string;
-  diskOfferingId?: string;
+  diskofferingid?: string;
   size?: number;
 }
 
 @Injectable()
 @BackendResource({
-  entity: 'Volume',
-  entityModel: Volume
+  entity: 'Volume'
 })
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeResized = new Subject<Volume>();
@@ -50,13 +44,14 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public getList(params?: {}): Observable<Array<Volume>> {
     return super.getList(params)
-      .map((volumes: Volume[]) => volumes.filter(volume => !volume.isDeleted));
+      .map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume)));
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {
     return this.sendCommand('resize', params).switchMap(job =>
       this.asyncJobService.queryJob(job, this.entity, this.entityModel)
     )
+      .switchMap(response => Observable.of(response.result.volume))
       .do(jobResult => this.onVolumeResized.next(jobResult));
   }
 
@@ -73,21 +68,21 @@ export class VolumeService extends BaseBackendService<Volume> {
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-    );
+    ).switchMap(response => Observable.of(response.result.volume));
   }
 
   public detach(volume: Volume): Observable<Volume> {
     return this.sendCommand('detach', { id: volume.id })
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      );
+      ).switchMap(response => Observable.of(response.result.volume));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand('attach', data)
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      );
+      ).switchMap(response => Observable.of(response.result.volume));
   }
 
   public markForRemoval(volume: Volume): Observable<any> {

@@ -29,6 +29,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
   @Input() public defaultParams: ICustomServiceOffering;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
+  @Input() public isVmRunning: boolean;
   @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();
   @Output() public onServiceOfferingUpdate = new EventEmitter<ServiceOffering>();
   @Output() public viewModeChange = new EventEmitter();
@@ -51,6 +52,5 @@ export class ServiceOfferingDialogComponent implements OnInit {
   public onChange(): void {
     this.onServiceOfferingChange.emit(this.serviceOffering);
   }
-
 
 }

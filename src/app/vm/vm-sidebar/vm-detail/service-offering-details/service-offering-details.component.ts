@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import * as moment from 'moment';
 import { ServiceOffering } from '../../../../shared/models/service-offering.model';
 import { ServiceOfferingDialogContainerComponent } from '../../../container/service-offering-dialog.container';
-import { VirtualMachine } from '../../../shared/vm.model';
+import { VirtualMachine, VmState } from '../../../shared/vm.model';
 
 @Component({
   selector: 'cs-service-offering-details',
@@ -38,5 +38,9 @@ export class ServiceOfferingDetailsComponent {
 
   public get offeringCreated(): Date {
     return this.offering && this.offering.created && moment(this.offering.created).toDate();
+  }
+
+  public get canActivate() {
+    return this.vm.state !== VmState.InProgress;
   }
 }
