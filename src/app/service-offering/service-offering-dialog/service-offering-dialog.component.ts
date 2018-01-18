@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { ResourceStats } from '../../shared/services/resource-usage.service';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 
 
@@ -13,6 +14,7 @@ export class ServiceOfferingDialogComponent implements OnInit {
   @Input() public serviceOfferingId: string;
   @Input() public restrictions: ICustomOfferingRestrictions;
   @Input() public isVmRunning: boolean;
+  @Input() public resourceUsage: ResourceStats;
   @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();
   public serviceOffering: ServiceOffering;
   public loading: boolean;

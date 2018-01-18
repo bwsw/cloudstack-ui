@@ -1,13 +1,27 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelectChange, MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
-import { areCustomParamsSet, CustomServiceOffering } from '../custom-service-offering/custom-service-offering';
+import { ResourceStats } from '../../shared/services/resource-usage.service';
+import {
+  areCustomParamsSet,
+  CustomServiceOffering
+} from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
-import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
-
+import {
+  DefaultCustomServiceOfferingRestrictions,
+  ICustomOfferingRestrictions
+} from '../custom-service-offering/custom-offering-restrictions';
+import * as merge from 'lodash';
 
 @Component({
   selector: 'cs-service-offering-selector',
@@ -24,6 +38,7 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
 export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
   @Input() public serviceOfferings: Array<ServiceOffering>;
+  @Input() public resourceUsage: ResourceStats;
   @Output() public change: EventEmitter<ServiceOffering>;
 
   private _serviceOffering: ServiceOffering;
@@ -48,7 +63,8 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   public get customOfferingDescription(): Observable<string> {
-    if (!this.serviceOffering || !this.serviceOffering.iscustomized || !areCustomParamsSet(this.serviceOffering)) {
+    if (!this.serviceOffering || !this.serviceOffering.iscustomized || !areCustomParamsSet(
+        this.serviceOffering)) {
       return Observable.of('');
     }
 
@@ -91,6 +107,33 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
     if (serviceOffering) {
       this.serviceOffering = serviceOffering;
     }
+  }
+
+  public isDisabled(serviceOffering: ServiceOffering): boolean {
+    if (this.resourceUsage) {
+      let enoughCpus;
+      let enoughMemory;
+
+      const maxCpu = this.resourceUsage && this.resourceUsage.available.cpus;
+      const maxMemory = this.resourceUsage && this.resourceUsage.available.memory;
+
+      if (serviceOffering.iscustomized) {
+        const restrictions = merge(
+          DefaultCustomServiceOfferingRestrictions,
+          this.customOfferingRestrictions
+        );
+        enoughCpus = !restrictions.cpunumber || restrictions.cpunumber.min < maxCpu;
+        enoughMemory = !restrictions.memory || restrictions.memory.min < maxMemory;
+      } else {
+        enoughCpus = maxCpu >= serviceOffering.cpunumber;
+        enoughMemory = maxMemory >= serviceOffering.memory;
+      }
+      console.log(enoughCpus, enoughMemory);
+
+      return !enoughCpus || !enoughMemory;
+    }
+
+    return false;
   }
 
   private setCustomOffering(customOffering: CustomServiceOffering): void {

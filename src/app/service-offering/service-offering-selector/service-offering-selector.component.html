@@ -5,7 +5,11 @@
     [ngModel]="serviceOffering?.id"
     (selectionChange)="changeOffering($event)"
   >
-    <mat-option *ngFor="let so of serviceOfferings" [value]="so.id">
+    <mat-option
+      *ngFor="let so of serviceOfferings"
+      [disabled]="so.disabled"
+      [value]="so.id"
+    >
       {{ so.name }}
     </mat-option>
   </mat-select>

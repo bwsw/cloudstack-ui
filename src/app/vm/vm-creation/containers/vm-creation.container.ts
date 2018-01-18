@@ -34,6 +34,7 @@ import * as serviceOfferingActions from '../../../reducers/service-offerings/red
 import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
+import * as domainActions from '../../../reducers/domains/redux/domains.actions';
 
 @Component({
   selector: 'cs-vm-create-container',
@@ -56,6 +57,7 @@ import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/a
       [serviceOfferings]="serviceOfferings$ | async"
       [customOfferingRestrictions]="customOfferingRestrictions$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
+      [resourceUsage]="resourceUsage$ | async"
 
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
@@ -102,6 +104,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly sshKeyPairs$ = this.store.select(fromSshKeys.selectSshKeysForAccount);
+  readonly resourceUsage$ = this.store.select(fromAuth.getUserAvailableResources);
 
   constructor(
     private store: Store<State>,
@@ -118,6 +121,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
+    this.store.dispatch(new domainActions.LoadDomainsRequest());
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
