@@ -1,12 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  Output
-} from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -20,13 +12,6 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
   selector: 'cs-service-offering-selector',
   templateUrl: 'service-offering-selector.component.html',
   styleUrls: ['service-offering-selector.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ServiceOfferingSelectorComponent),
-      multi: true
-    }
-  ]
 })
 export class ServiceOfferingSelectorComponent {
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
@@ -37,7 +22,6 @@ export class ServiceOfferingSelectorComponent {
   private previousOffering: ServiceOffering;
 
   constructor(
-    private cd: ChangeDetectorRef,
     private dialog: MatDialog,
     private translateService: TranslateService
   ) {
