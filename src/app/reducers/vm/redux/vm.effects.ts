@@ -319,7 +319,7 @@ export class VirtualMachinesEffects {
   @Effect()
   stopVm$: Observable<Action> = this.actions$
     .ofType(vmActions.STOP_VM)
-    .switchMap((action: vmActions.StopVm) => {
+    .flatMap((action: vmActions.StopVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -349,7 +349,7 @@ export class VirtualMachinesEffects {
   @Effect()
   startVm$: Observable<Action> = this.actions$
     .ofType(vmActions.START_VM)
-    .switchMap((action: vmActions.StartVm) => {
+    .flatMap((action: vmActions.StartVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -361,7 +361,7 @@ export class VirtualMachinesEffects {
   @Effect()
   destroyVm$: Observable<Action> = this.actions$
     .ofType(vmActions.DESTROY_VM)
-    .switchMap((action: vmActions.DestroyVm) => {
+    .flatMap((action: vmActions.DestroyVm) => {
       return this.dialog.open(VmDestroyDialogComponent, {
         data: this.authService.canExpungeOrRecoverVm()
       }).afterClosed()
@@ -407,7 +407,7 @@ export class VirtualMachinesEffects {
   @Effect()
   rebootVm$: Observable<Action> = this.actions$
     .ofType(vmActions.REBOOT_VM)
-    .switchMap((action: vmActions.RebootVm) => {
+    .flatMap((action: vmActions.RebootVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_REBOOT' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -438,7 +438,7 @@ export class VirtualMachinesEffects {
   @Effect()
   restoreVm$: Observable<Action> = this.actions$
     .ofType(vmActions.RESTORE_VM)
-    .switchMap((action: vmActions.RestoreVm) => {
+    .flatMap((action: vmActions.RestoreVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -470,7 +470,7 @@ export class VirtualMachinesEffects {
   @Effect()
   recoverVm$: Observable<Action> = this.actions$
     .ofType(vmActions.RECOVER_VM)
-    .switchMap((action: vmActions.RecoverVm) => {
+    .flatMap((action: vmActions.RecoverVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RECOVER' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -501,7 +501,7 @@ export class VirtualMachinesEffects {
   @Effect()
   expungeVm$: Observable<Action> = this.actions$
     .ofType(vmActions.EXPUNGE_VM)
-    .switchMap((action: vmActions.ExpungeVm) => {
+    .flatMap((action: vmActions.ExpungeVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_EXPUNGE' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -620,7 +620,7 @@ export class VirtualMachinesEffects {
   @Effect()
   resetPassword$: Observable<Action> = this.actions$
     .ofType(vmActions.RESET_PASSWORD_VM)
-    .switchMap((action: vmActions.ResetPasswordVm) => {
+    .flatMap((action: vmActions.ResetPasswordVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
