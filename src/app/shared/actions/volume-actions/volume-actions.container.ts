@@ -38,7 +38,7 @@ export class VolumeActionsContainerComponent {
     })
       .onErrorResumeNext()
       .filter(res => Boolean(res))
-      .map(() => {
+      .subscribe(() => {
         this.store.dispatch(new volumeActions.DeleteVolume(volume));
       });
   }
