@@ -86,8 +86,6 @@ export const getUserAvailableResources = createSelector(
       && ResourceStats.fromAccount([domains[user.domainid]]);
     const userResources = user && ResourceStats.fromAccount([user]);
 
-    console.log(domainResources, userResources);
-
     const result = {};
     Object.entries(domainResources ? domainResources.available : {})
       .forEach(([key, value]: [string, number]) => {

@@ -147,7 +147,6 @@ export function reducer(
   }
 }
 
-
 export const getOfferingsState = createFeatureSelector<OfferingsState>('service-offerings');
 
 export const getOfferingsEntitiesState = createSelector(
@@ -196,13 +195,8 @@ export const getSelectedOffering = createSelector(
 export const filteredServiceOfferingsByCompatibilityPolicyAndStorageType = createSelector(
   selectAll,
   getSelectedOffering,
-  defaultParams,
-  customOfferingRestrictions,
   offeringCompatibilityPolicy,
-  (
-    serviceOfferings, currentOffering,
-    defaults, customRestrictions, compatibilityPolicy
-  ) => {
+  (serviceOfferings, currentOffering, compatibilityPolicy) => {
     const filterByCompatibilityPolicy = (offering: ServiceOffering) => {
       if (compatibilityPolicy) {
         const oldTags = currentOffering.hosttags
@@ -225,7 +219,6 @@ export const filteredServiceOfferingsByCompatibilityPolicyAndStorageType = creat
 
 export const getAvailableOfferings = createSelector(
   filteredServiceOfferingsByCompatibilityPolicyAndStorageType,
-  getSelectedOffering,
   offeringAvailability,
   defaultParams,
   customOfferingRestrictions,
@@ -234,8 +227,8 @@ export const getAvailableOfferings = createSelector(
   fromAuths.getUserAccount,
   fromAuths.getUserAvailableResources,
   (
-    serviceOfferings, offering, availability,
-    defaults, customRestrictions, vm, zone, user, resourceUsage
+    serviceOfferings, availability, defaults, customRestrictions,
+    vm, zone, user, resourceUsage
   ) => {
     if (zone && user) {
       const availableOfferings = getAvailableByResourcesSync(
@@ -470,11 +463,11 @@ export const getCustomRestrictions = createSelector(
         ...DefaultCustomServiceOfferingRestrictions,
         memory: {
           ...DefaultCustomServiceOfferingRestrictions.memory,
-          max: resources && resources.available.memory
+          max: resources && resources.available.memory + (vm ? vm.memory : 0)
         },
         cpunumber: {
           ...DefaultCustomServiceOfferingRestrictions.cpunumber,
-          max: resources && resources.available.cpus
+          max: resources && resources.available.cpus + (vm ? vm.cpuNumber : 0)
         }
       };
     }
@@ -581,7 +574,6 @@ export const getRestrictionIntersection = (
   return result;
 };
 
-
 export const matchHostTags = (
   oldTags: Array<string>,
   newTags: Array<string>,
@@ -628,17 +620,12 @@ const isServiceOfferingDisabled = (
     let enoughCpus;
     let enoughMemory;
 
-    console.log(virtualMachine);
-
     const maxCpu = resourceUsage && (virtualMachine
       ? resourceUsage.available.cpus + virtualMachine.cpuNumber
       : resourceUsage.available.cpus);
     const maxMemory = resourceUsage && (virtualMachine
       ? resourceUsage.available.memory + virtualMachine.memory
       : resourceUsage.available.memory);
-
-    console.log(maxCpu, maxMemory);
-
 
     if (serviceOffering.iscustomized) {
       const restrictions = merge(
@@ -651,7 +638,6 @@ const isServiceOfferingDisabled = (
       enoughCpus = maxCpu >= serviceOffering.cpunumber;
       enoughMemory = maxMemory >= serviceOffering.memory;
     }
-    console.log(enoughCpus, enoughMemory);
 
     return !enoughCpus || !enoughMemory;
   }

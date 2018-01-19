@@ -128,8 +128,6 @@ export class ServiceOfferingSelectorComponent implements ControlValueAccessor {
         enoughCpus = maxCpu >= serviceOffering.cpunumber;
         enoughMemory = maxMemory >= serviceOffering.memory;
       }
-      console.log(enoughCpus, enoughMemory);
-
       return !enoughCpus || !enoughMemory;
     }
 
