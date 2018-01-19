@@ -559,7 +559,7 @@ export class VirtualMachineCreationEffects {
     if (this.createSecurityGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
 
-      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state.securityGroupData);
+      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     } else {
       return Observable.of(null);
     }
