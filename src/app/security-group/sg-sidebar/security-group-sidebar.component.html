@@ -9,13 +9,37 @@
   </div>
 </div>
 
+<nav mat-tab-nav-bar>
+  <a
+    matTabLink
+    [routerLink]="['./details']"
+    queryParamsHandling="preserve"
+    [active]="tabIsActive('vm')"
+
+  >
+    <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.FIREWALL' | translate" class="mat-tab-tooltip">
+      <mat-icon>security</mat-icon>
+    </div>
+  </a>
+  <a
+    matTabLink
+    [routerLink]="['./tags']"
+    queryParamsHandling="preserve"
+    [active]="tabIsActive('tags')"
+  >
+    <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
+      <mat-icon>local_offer</mat-icon>
+    </div>
+  </a>
+</nav>
+
 <mat-menu #actionsMenu="matMenu">
   <cs-security-group-actions-container
     *ngIf="entity"
     [securityGroup]="entity"
   ></cs-security-group-actions-container>
 </mat-menu>
-<cs-sg-details-container></cs-sg-details-container>
+<!--<cs-sg-details-container></cs-sg-details-container>-->
 
 <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
 

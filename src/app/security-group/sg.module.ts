@@ -62,6 +62,8 @@ import { SecurityGroupCreationContainerComponent } from './containers/security-g
 import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
+import { SecurityGroupTagsComponent } from './sg-sidebar/sg-tags/sg-tags.component';
+import { SecurityGroupTagsContainerComponent } from './containers/sg-tags.container';
 
 
 @NgModule({
@@ -121,6 +123,8 @@ import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
     SecurityGroupDetailsContainerComponent,
     SecurityGroupDetailsComponent,
     SecurityGroupVmListComponent,
+    SecurityGroupTagsComponent,
+    SecurityGroupTagsContainerComponent,
     SecurityGroupSidebarComponent,
     SecurityGroupRulesDialogComponent,
     SecurityGroupGroupedListComponent
