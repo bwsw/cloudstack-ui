@@ -10,9 +10,7 @@
     [ngClass]="statusClass"
     [matTooltip]="stateTranslationToken | translate"
   ></span>
-  <h2 class="row-title">
-    <span [matTooltip]="item.name" [innerHTML]="item.name | highlight:query">
-      {{ item.name }} </span>
+  <h2 class="row-title" [innerHTML]="item.name | highlight:query">
   </h2>
 
   <div class="info">{{ item.nic[0]?.ipaddress ? item.nic[0].ipaddress : ('VM_PAGE.CARD.IP_NA' | translate) }}</div>

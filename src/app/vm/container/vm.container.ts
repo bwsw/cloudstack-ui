@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
@@ -30,6 +25,7 @@ const getGroupName = (vm: VirtualMachine) => {
   template: `
     <cs-vm-page
       [vms]="vms$ | async"
+      [query]="query$ | async" 
       [volumes]="volumes$ | async"
       [osTypesMap]="osTypesMap$ | async"
       [isLoading]="loading$ | async"
@@ -40,6 +36,7 @@ const getGroupName = (vm: VirtualMachine) => {
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
 
   readonly vms$ = this.store.select(fromVMs.selectFilteredVMs);
+  readonly query$ = this.store.select(fromVMs.filterQuery);
   readonly volumes$ = this.store.select(fromVolumes.selectAll);
   readonly osTypesMap$ = this.store.select(fromOsTypes.selectEntities);
   readonly loading$ = this.store.select(fromVMs.isLoading);
