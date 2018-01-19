@@ -51,7 +51,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     return this.sendCommand('resize', params).switchMap(job =>
       this.asyncJobService.queryJob(job, this.entity, this.entityModel)
     )
-      .switchMap(response => Observable.of(response.result.volume))
+      .switchMap(response => Observable.of(response.jobresult.volume))
       .do(jobResult => this.onVolumeResized.next(jobResult));
   }
 
@@ -68,21 +68,21 @@ export class VolumeService extends BaseBackendService<Volume> {
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand('create', data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-    ).switchMap(response => Observable.of(response.result.volume));
+    ).switchMap(response => Observable.of(response.jobresult.volume));
   }
 
   public detach(volume: Volume): Observable<Volume> {
     return this.sendCommand('detach', { id: volume.id })
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      ).switchMap(response => Observable.of(response.result.volume));
+      ).switchMap(response => Observable.of(response.jobresult.volume));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand('attach', data)
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      ).switchMap(response => Observable.of(response.result.volume));
+      ).switchMap(response => Observable.of(response.jobresult.volume));
   }
 
   public markForRemoval(volume: Volume): Observable<any> {

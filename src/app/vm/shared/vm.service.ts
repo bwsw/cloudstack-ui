@@ -7,7 +7,6 @@ import {
   ServiceOffering,
   Volume
 } from '../../shared/models';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
@@ -18,7 +17,6 @@ import { Iso } from '../../template/shared';
 import {
   VirtualMachine
 } from './vm.model';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
