@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { ServiceOffering } from '../../shared/models/service-offering.model';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 
@@ -8,18 +15,20 @@ import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-o
   templateUrl: 'service-offering-dialog.component.html',
   styleUrls: ['service-offering-dialog.component.scss'],
 })
-export class ServiceOfferingDialogComponent implements OnInit {
+export class ServiceOfferingDialogComponent implements OnChanges {
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Input() public serviceOfferingId: string;
   @Input() public restrictions: ICustomOfferingRestrictions;
   @Input() public isVmRunning: boolean;
+  @Input() public isLoading: boolean;
   @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();
   public serviceOffering: ServiceOffering;
-  public loading: boolean;
 
-  public ngOnInit() {
+  public ngOnChanges(changes: SimpleChanges) {
     if (this.serviceOfferings.length) {
-      this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
+      const serviceOffering = this.serviceOfferings
+        .find((offering: ServiceOffering) => offering.id === this.serviceOfferingId);
+      this.updateOffering(serviceOffering);
     }
   }
 

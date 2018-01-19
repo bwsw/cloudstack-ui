@@ -1,12 +1,5 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Domain } from '../../../shared/models/domain.model';
 
 import * as event from './domains.actions';
@@ -63,9 +56,6 @@ export function reducer(
       };
     }
     case event.LOAD_DOMAINS_RESPONSE: {
-
-      const domains = action.payload;
-
       return {
         /**
          * The addMany function provided by the created adapter
@@ -74,8 +64,7 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(domains, state),
-        loading: false
+        ...adapter.addAll(action.payload, { ...state, loading: false }),
       };
     }
     default: {
