@@ -300,12 +300,12 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
-export const classesFilter = (offering: ServiceOffering, tags: Tag[], classesMap: any) => {
+export const classesFilter = (offering: ServiceOffering, tags: Tag[], classesMap) => {
   const tag = offering && tags.find(tag => tag.key === ServiceOfferingClassKey + '.' + offering.id);
-    const classes = tag && tag.value.split(',');
-    const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
-    return classes && classes.reduce((m, group) => (m || !!classesMap[group]), false)
-      || (showGeneral && !classes);
+  const classes = tag && tag.value.split(',');
+  const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
+  return classes && classes.find(soClass => classesMap[soClass])
+    || (showGeneral && !classes);
 };
 
 export const selectFilteredOfferings = createSelector(

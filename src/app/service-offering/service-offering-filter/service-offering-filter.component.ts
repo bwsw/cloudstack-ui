@@ -15,12 +15,9 @@ export class ServiceOfferingFilterComponent {
   @Input() public selectedClasses: ServiceOfferingClass[];
   @Input() public query: string;
   @Input() public viewMode: string;
-  @Input() public groupings: Array<any>;
-  @Input() public selectedGroupings: Array<any>;
-  @Output() public groupingsChange = new EventEmitter();
-  @Output() public viewModeChange = new EventEmitter();
-  @Output() public queryChange = new EventEmitter();
-  @Output() public selectedClassesChange = new EventEmitter();
+  @Output() public viewModeChange = new EventEmitter<string>();
+  @Output() public queryChange = new EventEmitter<string>();
+  @Output() public selectedClassesChange = new EventEmitter<Array<ServiceOfferingClass>>();
 
   constructor(
     private translate: TranslateService

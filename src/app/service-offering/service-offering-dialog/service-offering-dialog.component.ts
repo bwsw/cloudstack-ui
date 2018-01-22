@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import {
   ServiceOffering,
   ServiceOfferingClass
@@ -17,7 +24,7 @@ export enum ServiceOfferingFromMode {
   templateUrl: 'service-offering-dialog.component.html',
   styleUrls: ['service-offering-dialog.component.scss'],
 })
-export class ServiceOfferingDialogComponent implements OnInit {
+export class ServiceOfferingDialogComponent implements OnChanges {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Input() public classes: Array<ServiceOfferingClass>;
@@ -38,9 +45,11 @@ export class ServiceOfferingDialogComponent implements OnInit {
   public serviceOffering: ServiceOffering;
   public loading: boolean;
 
-  public ngOnInit() {
-    if (this.serviceOfferings.length) {
-      this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
+  public ngOnChanges(changes: SimpleChanges) {
+    const listChanges = changes.serviceOfferings;
+    if (listChanges) {
+      this.serviceOffering = this.serviceOffering ||
+        this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
     }
   }
 
@@ -51,6 +60,13 @@ export class ServiceOfferingDialogComponent implements OnInit {
 
   public onChange(): void {
     this.onServiceOfferingChange.emit(this.serviceOffering);
+  }
+
+  public get showRebootMessage(): boolean {
+    return !this.formMode &&
+      this.serviceOfferings.length &&
+      this.serviceOffering && this.serviceOffering.id !== this.serviceOfferingId
+      && this.isVmRunning;
   }
 
 }

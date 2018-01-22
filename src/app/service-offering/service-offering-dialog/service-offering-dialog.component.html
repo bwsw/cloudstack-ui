@@ -6,8 +6,6 @@
     <cs-service-offering-filter
       [classes]="classes"
       [viewMode]="viewMode"
-      [groupings]="groupings"
-      (groupingsChange)="groupingsChange.emit($event)"
       (viewModeChange)="viewModeChange.emit($event)"
       (selectedClassesChange)="selectedClassesChange.emit($event)"
       (queryChange)="queryChange.emit($event)"
@@ -26,7 +24,7 @@
 
     <div
       class="message warning"
-      *ngIf="!formMode && serviceOfferings?.length && serviceOffering?.id !== serviceOfferingId && isVmRunning"
+      *ngIf="showRebootMessage"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
   </div>
