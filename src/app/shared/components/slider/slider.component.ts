@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, forwardRef, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DiskOffering } from '../../models';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   @Input() public min: number;
   @Input() public max: number;
   @Input() public units: string;
+  @Input() public diskOffering: DiskOffering;
 
   public _size: number;
 

@@ -1,26 +1,29 @@
-<div class="custom-slider">
-  <h5 *ngIf="label">{{ label }}</h5>
-  <div class="current-value">
-    <mat-form-field class="custom-slider-input">
-      <input
-        matInput
-        type="number"
-        [ngModel]="size"
-        (ngModelChange)="handleSliderChange($event)"
-        step="1"
-        [min]="min"
-        [max]="max"
-        (blur)="onBlur($event)"
-      >
-    </mat-form-field>
-    <div class="custom-slider-label">{{ units }}</div>
+<ng-container *ngIf="diskOffering?.iscustomized">
+  <div class="custom-slider">
+    <h5 *ngIf="label">{{ label }}</h5>
+    <div class="current-value">
+      <mat-form-field class="custom-slider-input">
+        <input
+          matInput
+          type="number"
+          [ngModel]="size"
+          (ngModelChange)="handleSliderChange($event)"
+          step="1"
+          [min]="min"
+          [max]="max"
+          (blur)="onBlur($event)"
+        >
+      </mat-form-field>
+      <div class="custom-slider-label">{{ units }}</div>
+    </div>
   </div>
-</div>
 
-<mat-slider
-  [min]="min"
-  [max]="max"
-  [thumb-label]="true"
-  [ngModel]="sliderValue"
-  (ngModelChange)="handleSliderChange($event)"
-></mat-slider>
+  <mat-slider
+    [min]="min"
+    [max]="max"
+    [thumb-label]="true"
+    [ngModel]="sliderValue"
+    (ngModelChange)="handleSliderChange($event)"
+  ></mat-slider>
+</ng-container>
+

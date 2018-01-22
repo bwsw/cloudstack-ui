@@ -19,7 +19,7 @@
         ></cs-disk-offering-selector>
         </div>
       <cs-slider
-        *ngIf="isCustomized(diskOffering?.id) || volumeIsRoot"
+        [diskOffering]="diskOffering"
         [min]="volume.size | division:2:30"
         [max]="maxSize"
         [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
