@@ -3,11 +3,12 @@ import { Actions, Effect } from '@ngrx/effects';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
+import { isRoot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
@@ -15,8 +16,10 @@ import { VolumeTagService } from '../../../shared/services/tags/volume-tag.servi
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 // tslint:disable-next-line
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
+import { State } from '../../index';
 
 import * as volumeActions from './volumes.actions';
+import * as fromVolumes from './volumes.reducers';
 
 @Injectable()
 export class VolumesEffects {
@@ -84,32 +87,32 @@ export class VolumesEffects {
         },
         width: '375px'
       })
-      .afterClosed()
-      .filter(res => Boolean(res))
-      .switchMap((virtualMachineId) => {
-        const notificationId = this.jobsNotificationService.add(
-          'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
+        .afterClosed()
+        .filter(res => Boolean(res))
+        .switchMap((virtualMachineId) => {
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
 
-        const params = {
-          id: action.payload.id,
-          virtualMachineId: virtualMachineId
-        };
-        return this.volumeService
-          .attach(params)
-          .map((volume: Volume) => {
-            this.jobsNotificationService.finish({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
+          const params = {
+            id: action.payload.id,
+            virtualMachineId: virtualMachineId
+          };
+          return this.volumeService
+            .attach(params)
+            .map((volume: Volume) => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
+              });
+              return new volumeActions.UpdateVolume(volume);
+            })
+            .catch((error: Error) => {
+              this.jobsNotificationService.fail({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
+              });
+              return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
-            return new volumeActions.UpdateVolume(volume)
-          })
-          .catch((error: Error) => {
-            this.jobsNotificationService.fail({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
-            });
-            return Observable.of(new volumeActions.VolumeUpdateError(error));
-          });
         });
     });
 
@@ -131,7 +134,7 @@ export class VolumesEffects {
             id: notificationId,
             message: 'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
           });
-          return new volumeActions.UpdateVolume(volume)
+          return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
           this.jobsNotificationService.fail({
@@ -181,28 +184,28 @@ export class VolumesEffects {
         },
         width: '375px'
       })
-      .afterClosed()
-      .filter(res => Boolean(res))
-      .switchMap((params: VolumeResizeData) => {
-        const notificationId = this.jobsNotificationService.add(
-          'JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
-        return this.volumeService
-          .resize(params)
-          .map((volume: Volume) => {
-            this.jobsNotificationService.finish({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
+        .afterClosed()
+        .filter(res => Boolean(res))
+        .switchMap((params: VolumeResizeData) => {
+          const notificationId = this.jobsNotificationService.add(
+            'JOB_NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS');
+          return this.volumeService
+            .resize(params)
+            .map((volume: Volume) => {
+              this.jobsNotificationService.finish({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_DONE'
+              });
+              this.dialog.closeAll();
+              return new volumeActions.ResizeVolumeSuccess(volume);
+            })
+            .catch((error: Error) => {
+              this.jobsNotificationService.fail({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
+              });
+              return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
-            this.dialog.closeAll();
-            return new volumeActions.ResizeVolumeSuccess(volume);
-          })
-          .catch((error: Error) => {
-            this.jobsNotificationService.fail({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VOLUME.RESIZE_FAILED'
-            });
-            return Observable.of(new volumeActions.VolumeUpdateError(error));
-          });
         });
     });
 
@@ -216,62 +219,70 @@ export class VolumesEffects {
     });
 
   @Effect()
+  deleteVolumes$: Observable<Action> = this.actions$
+    .ofType(volumeActions.DELETE_VOLUMES)
+    .withLatestFrom(this.store.select(fromVolumes.selectAll))
+    .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
+      return volumes.filter((volume: Volume) => !isRoot(volume)
+        && volume.virtualmachineid === action.payload.id);
+    })
+    .filter((volumes: Array<Volume>) => !!volumes.length)
+    .switchMap((volumes: Array<Volume>) =>
+      this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' })
+        .filter(res => Boolean(res))
+        .flatMap(() => volumes
+          .map((volume: Volume) => new volumeActions.DeleteVolume(volume))));
+
+  @Effect()
   deleteVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUME)
-    .switchMap((action: volumeActions.DeleteVolume) => {
-      return this.dialogService.confirm({
-        message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
-      })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .switchMap(() => {
-          const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS');
+    .flatMap((action: volumeActions.DeleteVolume) => {
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS');
 
-          const remove = (removeVolume) => {
-            return this.volumeService.remove(removeVolume)
-              .map(() => {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
-                });
-                return new volumeActions.DeleteSuccess(removeVolume);
-              })
-              .catch((error: Error) => {
-                this.jobsNotificationService.fail({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED'
-                });
-                return Observable.of(new volumeActions.VolumeUpdateError(error));
-              });
-          };
+      const remove = (removeVolume) => {
+        return this.volumeService.remove(removeVolume)
+          .map(() => {
+            this.jobsNotificationService.finish({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_DONE'
+            });
+            return new volumeActions.DeleteSuccess(removeVolume);
+          })
+          .catch((error: Error) => {
+            this.jobsNotificationService.fail({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DELETION_FAILED'
+            });
+            return Observable.of(new volumeActions.VolumeUpdateError(error));
+          });
+      };
 
-          const detach = (detachVolume) => {
-            return this.volumeService
-              .detach(detachVolume)
-              .do((volume: Volume) => {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-                });
-                return Observable.of(new volumeActions.ReplaceVolume(volume));
-              })
-              .catch((error: Error) => {
-                this.jobsNotificationService.fail({
-                  id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
-                });
-                return Observable.of(new volumeActions.VolumeUpdateError(error));
-              });
-          };
+      const detach = (detachVolume) => {
+        return this.volumeService
+          .detach(detachVolume)
+          .do((volume: Volume) => {
+            this.jobsNotificationService.finish({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
+            });
+            return Observable.of(new volumeActions.ReplaceVolume(volume));
+          })
+          .catch((error: Error) => {
+            this.jobsNotificationService.fail({
+              id: notificationId,
+              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
+            });
+            return Observable.of(new volumeActions.VolumeUpdateError(error));
+          });
+      };
 
-          if (action.payload.virtualmachineid) {
-            return detach(action.payload)
-              .switchMap(() => remove(action.payload));
-          } else {
-            return remove(action.payload);
-          }
-        });
+      if (action.payload.virtualmachineid) {
+        return detach(action.payload)
+          .flatMap(() => remove(action.payload));
+      } else {
+        return remove(action.payload);
+      }
     });
 
   @Effect({ dispatch: false })
@@ -309,7 +320,8 @@ export class VolumesEffects {
     private router: Router,
     private snapshotService: SnapshotService,
     private jobsNotificationService: JobsNotificationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store<State>
   ) {
   }
 
