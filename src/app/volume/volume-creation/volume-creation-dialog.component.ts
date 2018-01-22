@@ -51,9 +51,9 @@ export class VolumeCreationDialogComponent {
     this.onVolumeCreate.emit(this.newVolume);
   }
 
-  public updateDiskOffering(diskOfferingId: string): void {
-    this.newVolume.diskofferingid = diskOfferingId;
-    this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
+  public updateDiskOffering(diskOffering: DiskOffering): void {
+    this.newVolume.diskofferingid = diskOffering.id;
+    this.diskOffering = diskOffering;
     this.showResizeSlider = this.diskOffering.iscustomized;
   }
 

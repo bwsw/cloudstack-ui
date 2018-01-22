@@ -43,8 +43,8 @@
           name="diskOffering"
           [diskOfferings]="diskOfferings"
           [params]="params"
-          [ngModel]="newVolume.diskofferingid"
-          (change)="updateDiskOffering($event.id)"
+          [ngModel]="diskOffering"
+          (change)="updateDiskOffering($event)"
         ></cs-disk-offering-selector>
       </div>
       <div *ngIf="showResizeSlider && minSize && maxSize">

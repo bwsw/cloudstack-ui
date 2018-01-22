@@ -21,12 +21,18 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public required: boolean;
   @Input() public params: Array<string>;
   @Output() public change: EventEmitter<DiskOffering>;
-  public diskOffering: DiskOffering;
-  private _diskOfferingId: string;
+  private _diskOffering: DiskOffering;
 
   @Input()
-  public get diskOfferingId(): string {
-    return this._diskOfferingId;
+  public get diskOffering(): DiskOffering {
+    return this._diskOffering;
+  }
+
+  public set diskOffering(value: DiskOffering) {
+    if (value) {
+      this._diskOffering = value;
+      this.propagateChange(this.diskOffering);
+    }
   }
 
   constructor(
@@ -45,9 +51,9 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   public propagateChange: any = () => {
   };
 
-  public writeValue(diskOfferingId: string): void {
-    if (diskOfferingId) {
-      this.diskOffering = this.diskOfferings.find(_ => _.id === diskOfferingId);
+  public writeValue(diskOffering: DiskOffering): void {
+    if (diskOffering) {
+      this._diskOffering = diskOffering;
     }
   }
 
@@ -56,7 +62,7 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
       width: '910px',
       data: {
         diskOfferings: this.diskOfferings,
-        diskOffering: this.diskOffering,
+        diskOffering: this._diskOffering,
         columns: this.params
       }
     })

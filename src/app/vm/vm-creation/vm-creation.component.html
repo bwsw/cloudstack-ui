@@ -108,7 +108,7 @@
               name="diskOffering"
               [diskOfferings]="diskOfferings"
               [params]="diskOfferingParams"
-              [ngModel]="vmCreationState.diskOffering?.id"
+              [ngModel]="vmCreationState?.diskOffering"
               (change)="diskOfferingChange.emit($event)"
             ></cs-disk-offering-selector>
           </div>

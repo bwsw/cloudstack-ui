@@ -3,7 +3,6 @@ import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Volume, getDescription } from '../../shared/models/volume.model';
-import { ConfigService } from '../../shared/services/config.service';
 
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
@@ -20,28 +19,20 @@ import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-off
     ></cs-description>
     <cs-volume-sidebar-disk-offering
       [offering]="offering$ | async"
-      [columns]="diskOfferingColumns"
+      [columns]="params$ | async"
     ></cs-volume-sidebar-disk-offering>
   `
 })
 export class VolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
   readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
   readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
+  readonly params$ = this.store.select(fromDiskOfferings.getParams);
+
   public description;
-  public diskOfferingColumns: Array<string> = [
-    'name',
-    'bytesreadrate',
-    'byteswriterate',
-    'iopsreadrate',
-    'iopswriterate'
-  ];
-
   public volume: Volume;
-
 
   constructor(
     private store: Store<State>,
-    private configService: ConfigService
   ) {
     super();
   }
@@ -56,8 +47,8 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
   }
 
   public ngOnInit() {
-    this.setDiskOfferingColumns();
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
+    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
     this.volume$
       .takeUntil(this.unsubscribe$)
       .subscribe((volume: Volume) => {
@@ -66,12 +57,5 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
           this.description = getDescription(this.volume);
         }
       });
-  }
-
-  public setDiskOfferingColumns() {
-    const configParams = this.configService.get('diskOfferingParameters');
-    if (configParams) {
-      this.diskOfferingColumns = this.diskOfferingColumns.concat(configParams);
-    }
   }
 }
