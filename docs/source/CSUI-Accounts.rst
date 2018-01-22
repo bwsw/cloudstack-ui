@@ -23,11 +23,11 @@ You can switch the view from list to box using the switch tool |view icon|/|box 
 For each account in the list you can see the following information:
 
  - Account name;
- - State - Shows the account state by color spot: green for Enabled, red for Disabled or Locked statuses; 
+ - State - Shows the account state by color spot: green for Enabled, red for Disabled statuses; 
  - Role - A role assigned to the account - Root Administrator, Resource Administrator, Domain Administrator, User. Find more information on roles in CloudStack in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/4.9/accounts.html>`_.
  - Role type - A role type connected to the role.
  - Domain - The domain which the account belongs to.
- - Action list - Allows an Administrator to manage the account - to disable, lock or delete it. Find more details at :ref:`Account_Action_Box`. 
+ - Action list - Allows an Administrator to manage the account - to disable or delete it. Find more details at :ref:`Account_Action_Box`. 
 
 Filtering of Accounts
 """""""""""""""""""""""""""
@@ -39,7 +39,7 @@ You can filter the list by:
  - Domains - Select a domain/domains available to you from the drop-down list.
  - Roles - Select a role - Root Administrator, Resource Administrator, Domain Administrator and/or User -from the drop-down list.
  - Role types - Select a role type/types from the drop-down list.
- - States - Select a state/states - Enabled, Disabled and/or Locked - from the drop-down list.
+ - States - Select a state/states - Enabled and/or Disabled - from the drop-down list.
 
 Besides, accounts can be grouped by the parameters mentioned above.
 
@@ -171,16 +171,15 @@ Account Action Box
 
 Administrators can manage an account via the Action box under |actions icon|. 
 
-.. figure:: _static/Accounts_Actions.png
+.. figure:: _static/Accounts_Actions887.png
    :scale: 70%
    
 The list of actions allows an Administrator to:
 
 - Disable account - Allows disabling an account. By disabling the account all users for this account will no longer have access to their cloud resources. All running VMs will be immediately shut down. Click "Disable account" and confirm your action in the dialogue window. The account will be inactive.
 
-- Lock account - Allows locking an account from its users. By locking the account all users for this account will no longer be able to manage their cloud resources. Existing resources can still be accessed. Click "Lock account" and confirm your action in the dialogue window. The account will be locked.
-
-- Enable account - Allows activating a disabled/locked account. Click "Enable account" and confirm your action in the dialogue window. The account will be activated.
+.. - Lock account - Allows locking an account from its users. By locking the account all users for this account will no longer be able to manage their cloud resources. Existing resources can still be accessed. Click "Lock account" and confirm your action in the dialogue window. The account will be locked.
+- Enable account - Allows activating a disabled account. Click "Enable account" and confirm your action in the dialogue window. The account will be activated.
 
 - Delete account - Allows deleting an account from the system. Confirm your action in the dialogue window, and the account will be deleted.
 
