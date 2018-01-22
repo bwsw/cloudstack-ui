@@ -48,6 +48,11 @@ export class ErrorService {
     {
       regex: /maxSnaps exceeds limit: (\d+) for interval type: hourly/,
       translation: 'ERRORS.SNAPSHOT_POLICIES.HOURLY_TURN_OFF'
+    },
+    {
+      regex:
+        /User (.*) .*or their account.* in domain (.*) is disabled\/locked. Please contact the administrator./,
+      translation: 'ERRORS.AUTH.DISABLED'
     }
   ];
 
