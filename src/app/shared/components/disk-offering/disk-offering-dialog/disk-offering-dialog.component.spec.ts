@@ -18,7 +18,7 @@ class MockConfigService {
   }
 }
 
-fdescribe('Disk Offering dialog', () => {
+describe('Disk Offering dialog', () => {
   let fixture: ComponentFixture<DiskOfferingDialogComponent>;
   let component: DiskOfferingDialogComponent;
   let dialog: MatDialogRef<DiskOfferingDialogComponent>;
@@ -87,4 +87,10 @@ fdescribe('Disk Offering dialog', () => {
     expect(dialog.close).toHaveBeenCalledTimes(1);
     expect(dialog.close).toHaveBeenCalledWith('');
   }));
+
+  it('should send disk offering', () => {
+    component.selectedDiskOffering = diskOffering;
+    component.onSubmit();
+    expect(dialog.close).toHaveBeenCalledWith(diskOffering);
+  });
 });
