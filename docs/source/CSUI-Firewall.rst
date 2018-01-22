@@ -10,16 +10,17 @@ The *Firewall* section contains templates to create a security group for a virtu
 
 **Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how to create a custom firewall template at :ref:`Create_FTemplate`.
 
-Upon VM creation the system creates a new security group for a VM on the base of templates. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a private security group used for that virtual machine only. 
+Upon VM creation the system creates a new security group for a VM on the base of templates. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a **private security group** used for that virtual machine only. 
 
 The second way is to use a **shared security group** for your virtual machine. Shared groups are used by other VMs. Changes of rules in them may affect other VMs. 
 
 Users can manage security group rules in two modes: a "view" mode with filtering by types and protocols and an “edit” mode. Security groups editing is available when switching from "view" mode to "editing" mode. If the group is shared, the user is warned that changes will affect other VMs using this group. This behavior allows avoiding undesirable changes for other VMs.
 
-Templates and shared security groups are placed in different tabs of the *Firewall* section. You can switch from templates to shared security groups using the tool above the list. 
+Templates, shared and private security groups are placed in different tabs of the *Firewall* section. You can switch from templates to shared or private security groups using the tool above the list. 
 
-.. figure:: _static/Firewall_Switch.png
-
+.. figure:: _static/Firewall_Switch816.png
+   :scale: 80%
+   
 A user can see security groups of his/her user only. An Administrator can observe security groups of all accounts in the domain.
 
 Firewall List
@@ -111,16 +112,35 @@ Click "CREATE" to create the new shared security group. The group will appear in
 
 Click "CANCEL" to cancel the group creation process. No group will be created then. All fields will be cleared in the form.
 
+Private Security Groups
+""""""""""""""""""""""""""""
+Private security groups are listed in the *Private Security Groups* section. 
+
+Security groups appear in this section once they are created for a virtual machine (see :ref:`Create_VM`). 
+
+Administrators can filter the list by accounts.
+
+.. figure:: _static/Firewall_Filter_Admin816.png
+
+Besides, you can quickly find a group by its name or a part of the name using the searching tool above the lits.
+
+.. figure:: _static/Firewall_Search816.png
+
+You can filter the list by ticking "Orphan" option above. It allows displaying only the security groups that are not used by any machine. The "Orphan" option appears above the list in case the security groups that are not used by VMs exist in the list.
+
+.. figure:: _static/Firewall_Orphan816.png
+
+
 Security Group Details Sidebar
 """"""""""""""""""""""""""""""""""""""
 You can see the firewall rules details in the sidebar to the right. 
 
-Click the template/shared security group in the list and open the sidebar. You will see the information there:
+Click the template/shared/private security group in the list and open the sidebar. You will see the information there:
 
 - Name of the security group;
 - :ref:`SG_Action_Box` under |actions icon|;
 - ID of the security group;
-- Description giving an idea what the security group contains;
+- Description giving an idea what the security group contains (not available for private security groups);
 - Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``.
 
 .. figure:: _static/Firewall_TemplateDetails.png
