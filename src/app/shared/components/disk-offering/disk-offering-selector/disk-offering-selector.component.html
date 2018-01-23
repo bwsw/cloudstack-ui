@@ -1,6 +1,6 @@
 <div class="top-row">
   <h5>
-    <ng-container *ngIf="diskOffering">{{ diskOffering?.name }}</ng-container>
+    <ng-container *ngIf="diskOffering">{{ diskOffering.name }}</ng-container>
     <ng-container *ngIf="!diskOffering">{{ 'COMMON.NONE' | translate }}</ng-container>
   </h5>
 

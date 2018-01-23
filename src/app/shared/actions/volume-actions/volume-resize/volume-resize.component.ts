@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { Volume, isRoot } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
+import { isCustomized } from '../../../models/offering.model';
 
 
 @Component({
@@ -25,6 +26,10 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   ) {
   }
 
+  public isCustomizedForVolume(diskOffering: DiskOffering): boolean {
+    return isCustomized(diskOffering);
+  }
+
   public ngOnInit(): void {
     this.newSize = this.volume.size / Math.pow(2, 30);
   }
@@ -33,11 +38,6 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
     if ('diskOfferings' in changes) {
       this.diskOffering = this.diskOfferings.find(_ => _.id === this.volume.diskofferingid);
     }
-  }
-
-  public isCustomized(value: string) {
-    const diskOffering = this.diskOfferings.find(_ => _.id === value);
-    return diskOffering &&  diskOffering.iscustomized;
   }
 
   public get volumeIsRoot(): boolean {
