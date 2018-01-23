@@ -27,7 +27,9 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   }
 
   public isCustomizedForVolume(diskOffering: DiskOffering): boolean {
-    return isCustomized(diskOffering);
+    if (diskOffering) {
+      return isCustomized(diskOffering);
+    }
   }
 
   public ngOnInit(): void {

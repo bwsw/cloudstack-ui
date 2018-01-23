@@ -9,7 +9,7 @@
     novalidate
   >
     <div class="mat-dialog-content">
-      <div *ngIf="!volumeIsRoot && diskOffering">
+      <div *ngIf="!volumeIsRoot || diskOfferings?.length">
         <cs-disk-offering-selector
           name="diskOffering"
           [diskOfferings]="diskOfferings"
