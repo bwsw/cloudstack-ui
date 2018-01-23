@@ -241,7 +241,7 @@ Click "Expunge" to completely destroy the VM. The VM will not be available for r
 
 .. figure:: _static/VMs_DestroyExpunge.png
 
-When deleting a virtual machine, if the machine has data disks attached, the system will ask you in a dialogue window whether these disks should be deleted. Confirm your intention to delete them clicking "Yes". Click "No" to cancel the disk deleting.
+When deleting a virtual machine, if the machine has data disks attached, the system will ask you in a dialogue window whether these disks should be deleted. Confirm your intention to delete them by clicking "Yes". Click "No" to cancel the disk deleting.
 
 - Reset password - Allows a user to change the password for VM (available for started VMs only in case a VM requires a password). The VM will be rebooted if you reset the password. 
 
