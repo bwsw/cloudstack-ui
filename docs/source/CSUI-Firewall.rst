@@ -124,11 +124,11 @@ You can quickly find a group by its name or a part of the name using the searchi
 
 Besides, Administrators can filter the list by accounts.
 
-.. figure:: _static/Firewall_Filter_Admin816.png
+.. figure:: _static/Firewall_Filter_Admin816-1.png
 
 You can filter the list by ticking the "Orphan" checkbox above. It allows displaying only the security groups that are not used by any machine. 
 
-.. figure:: _static/Firewall_Orphan816.png
+.. figure:: _static/Firewall_Orphan816-2.png
 
 The "Orphan" option appears above the list in case the security groups that are not used by any VM exist in the list. This might happen in case a VM has been deleted but a group has been not (because of an error or incorrect behavior).
 
