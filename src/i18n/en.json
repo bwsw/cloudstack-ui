@@ -1346,7 +1346,6 @@
   },
   "ACCOUNT_STATE": {
     "DISABLED": "Disabled",
-    "ENABLED": "Enabled",
-    "LOCKED": "Locked"
+    "ENABLED": "Enabled"
   }
 }
