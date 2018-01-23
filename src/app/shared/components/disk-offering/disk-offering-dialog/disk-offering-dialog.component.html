@@ -4,7 +4,7 @@
     <thead>
     <tr class="mat-header-row">
       <ng-container *ngFor="let column of columns">
-        <th class="mat-header-cell"> {{ tableId.toUpperCase() + '.' + column?.toUpperCase() | translate }}</th>
+        <th class="mat-header-cell"> {{ tableId + '.' + column | translate }}</th>
       </ng-container>
       <th class="mat-header-cell"></th>
     </tr>
@@ -23,11 +23,11 @@
             {{ offering[column] }}
             </span>
           </ng-container>
-          <ng-container *ngIf="column !== 'provisioningtype' && column !== 'storagetype' && column !== 'name' && column !== 'iscustomized'">
+          <ng-container *ngIf="column !== ('name' || 'provisioningtype' || 'storagetype' || 'iscustomized')">
             <span>{{ offering[column] || '-'}}</span>
           </ng-container>
-          <ng-container *ngIf="column === 'provisioningtype' || column ===  'storagetype' || column ===  'iscustomized'">
-            <span>{{ (tableId.toUpperCase() + '.' + offering[column]?.toString().toUpperCase() | translate)  || '-'}}</span>
+          <ng-container *ngIf="column === ('provisioningtype' ||  'storagetype' || 'iscustomized')">
+            <span>{{ (tableId + '.' + offering[column]?.toString() | translate)  || '-'}}</span>
           </ng-container>
         </td>
       </ng-container>

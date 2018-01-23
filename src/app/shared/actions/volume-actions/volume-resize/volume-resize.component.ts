@@ -35,6 +35,11 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
     }
   }
 
+  public isCustomized(value: string) {
+    const diskOffering = this.diskOfferings.find(_ => _.id === value);
+    return diskOffering &&  diskOffering.iscustomized;
+  }
+
   public get volumeIsRoot(): boolean {
     return isRoot(this.volume);
   }

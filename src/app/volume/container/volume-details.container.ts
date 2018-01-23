@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { Volume, getDescription } from '../../shared/models/volume.model';
 
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
@@ -23,18 +22,17 @@ import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-off
     ></cs-volume-sidebar-disk-offering>
   `
 })
-export class VolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
+export class VolumeDetailsContainerComponent implements OnInit {
   readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
   readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
   readonly params$ = this.store.select(fromDiskOfferings.getParams);
 
-  public description;
+  public description: string;
   public volume: Volume;
 
   constructor(
-    private store: Store<State>,
+    private store: Store<State>
   ) {
-    super();
   }
 
   public changeDescription(description) {
@@ -50,7 +48,6 @@ export class VolumeDetailsContainerComponent extends WithUnsubscribe() implement
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
     this.volume$
-      .takeUntil(this.unsubscribe$)
       .subscribe((volume: Volume) => {
         if (volume) {
           this.volume = volume;

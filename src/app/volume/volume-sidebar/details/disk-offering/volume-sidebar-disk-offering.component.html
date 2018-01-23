@@ -11,13 +11,13 @@
       <ng-container *ngFor="let column of columns">
         <ng-container *ngIf="column === 'provisioningtype' || column === 'storagetype' || column === 'iscustomized'">
           <cs-parameters-pair
-            [name]="getName(column)"
-            [value]="(tableId.toUpperCase() + '.' + offering[column]?.toString().toUpperCase() | translate)  || '-'">
+            [name]="tableId + '.' + column"
+            [value]="(tableId + '.' + offering[column]?.toString() | translate)  || '-'">
           </cs-parameters-pair>
         </ng-container>
         <ng-container *ngIf="column !== 'provisioningtype' && column !== 'storagetype' && column !== 'iscustomized'">
           <cs-parameters-pair
-            [name]="getName(column)"
+            [name]="tableId + '.' + column"
             [value]="offering[column]  || '-'">
           </cs-parameters-pair>
         </ng-container>
