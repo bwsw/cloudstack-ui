@@ -1219,7 +1219,7 @@
     },
     "COLUMN": {
       "NAME": "Имя",
-      "NETWORK_RATE": "Скорость сети",
+      "NETWORK_RATE": "Скорость сети (MБ/сек)",
       "CPU_NUMBER": "Ядра CPU",
       "CPU_SPEED": "CPU (MHz)",
       "MEMORY": "Память (MБ)"

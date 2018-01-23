@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -38,7 +44,7 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
     >
     </cs-service-offering-dialog>`,
 })
-export class ServiceOfferingDialogContainerComponent implements OnInit {
+export class ServiceOfferingDialogContainerComponent implements OnInit, AfterViewInit {
   readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferings);
   readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictions);
   readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
@@ -56,6 +62,7 @@ export class ServiceOfferingDialogContainerComponent implements OnInit {
     public dialogService: DialogService,
     public dialogRef: MatDialogRef<ServiceOfferingDialogContainerComponent>,
     private store: Store<State>,
+    private cd: ChangeDetectorRef
   ) {
     this.virtualMachine = data.vm;
   }
@@ -67,6 +74,10 @@ export class ServiceOfferingDialogContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new soGroupActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   public onViewModeChange(selectedViewMode: string) {

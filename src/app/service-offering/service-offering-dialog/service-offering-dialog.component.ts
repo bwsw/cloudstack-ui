@@ -8,7 +8,8 @@ import {
 } from '@angular/core';
 import {
   ServiceOffering,
-  ServiceOfferingClass
+  ServiceOfferingClass,
+  ServiceOfferingType
 } from '../../shared/models/service-offering.model';
 import { Tag } from '../../shared/models/tag.model';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
@@ -50,6 +51,10 @@ export class ServiceOfferingDialogComponent implements OnChanges {
     if (listChanges) {
       this.serviceOffering = this.serviceOffering ||
         this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
+      if (!this.serviceOffering) {
+        this.viewMode === ServiceOfferingType.fixed ? this.viewModeChange.emit(ServiceOfferingType.custom) :
+          this.viewModeChange.emit(ServiceOfferingType.fixed);
+      }
     }
   }
 

@@ -1219,7 +1219,7 @@
     },
     "COLUMN": {
       "NAME": "Name",
-      "NETWORK_RATE": "Network rate",
+      "NETWORK_RATE": "Network rate (MB/s)",
       "CPU_NUMBER": "CPU cores",
       "CPU_SPEED": "CPU (MHz)",
       "MEMORY": "Memory (MB)"
