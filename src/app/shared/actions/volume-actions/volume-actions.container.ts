@@ -33,7 +33,14 @@ export class VolumeActionsContainerComponent {
   }
 
   public onVolumeDelete(volume: Volume): void {
-    this.store.dispatch(new volumeActions.DeleteVolume(volume));
+    this.dialogService.confirm({
+      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
+    })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        this.store.dispatch(new volumeActions.DeleteVolume(volume));
+      });
   }
 
   public onVolumeAttach(volume: Volume): void {

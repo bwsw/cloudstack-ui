@@ -69,7 +69,8 @@ export class SgRulesComponent implements OnChanges {
       key: 'types',
       label: 'SECURITY_GROUP_PAGE.FILTERS.TYPES',
       selector: (item: NetworkRule) => item.type,
-      name: (item: NetworkRule) => `SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`
+      name: (item: NetworkRule) => this.translateService
+        .instant(`SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`)
     }, {
       key: 'protocols',
       label: 'SECURITY_GROUP_PAGE.FILTERS.PROTOCOLS',
