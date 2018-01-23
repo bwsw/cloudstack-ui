@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Volume, VolumeCreationData } from '../../../shared/models/volume.model';
+import { VirtualMachine } from '../../../vm';
 
 export const LOAD_VOLUMES_REQUEST = '[VOLUMES] LOAD_VOLUMES_REQUEST';
 export const LOAD_VOLUMES_RESPONSE = '[VOLUMES] LOAD_VOLUMES_RESPONSE';
@@ -7,6 +8,7 @@ export const VOLUME_FILTER_UPDATE = '[VOLUMES] VOLUME_FILTER_UPDATE';
 export const LOAD_SELECTED_VOLUME = '[VOLUMES] LOAD_SELECTED_VOLUME';
 export const CREATE_VOLUME = '[VOLUMES] CREATE_VOLUME';
 export const DELETE_VOLUME = '[VOLUMES] DELETE_VOLUME';
+export const DELETE_VOLUMES = '[VOLUMES] DELETE_VOLUMES';
 export const UPDATE_VOLUME = '[VOLUMES] UPDATE_VOLUME';
 export const REPLACE_VOLUME = '[VOLUMES] REPLACE_VOLUME';
 export const ATTACH_VOLUME = '[VOLUMES] ATTACH_VOLUME';
@@ -64,6 +66,13 @@ export class DeleteVolume implements Action {
   readonly type = DELETE_VOLUME;
 
   constructor(public payload: Volume) {
+  }
+}
+
+export class DeleteVolumes implements Action {
+  readonly type = DELETE_VOLUMES;
+
+  constructor(public payload: VirtualMachine) {
   }
 }
 
@@ -175,6 +184,8 @@ export type Actions = LoadVolumesRequest
   | ReplaceVolume
   | AttachVolume
   | AttachVolumeToVM
+  | DeleteVolume
+  | DeleteVolumes
   | DetachVolume
   | ResizeVolume
   | ChangeDescription;

@@ -71,23 +71,9 @@ export class AccountsEffects {
     });
 
   @Effect()
-  lockAccount$: Observable<Action> = this.actions$
-    .ofType(accountActions.LOCK_ACCOUNT)
-    .switchMap((action: accountActions.LockAccountRequest) => {
-      return this.accountService.lockAccount(action.payload)
-        .switchMap(job => {
-          return this.asyncJobService.queryJob(job, 'account', Account);
-        })
-        .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
-        .catch((error: Error) => {
-          return Observable.of(new accountActions.AccountUpdateError(error));
-        });
-    });
-
-  @Effect()
   deleteAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DELETE_ACCOUNT)
-    .switchMap((action: accountActions.LockAccountRequest) => {
+    .switchMap((action: accountActions.DeleteAccountRequest) => {
       return this.accountService.removeAccount(action.payload)
         .switchMap(job => {
           return this.asyncJobService.queryJob(job, 'account', Account);

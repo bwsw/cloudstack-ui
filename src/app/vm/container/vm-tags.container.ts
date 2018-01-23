@@ -19,7 +19,6 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
   `
 })
 export class VmTagsContainerComponent {
-
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
 
   constructor(
