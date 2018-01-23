@@ -25,19 +25,10 @@ const AccountEnableAction = {
   canActivate: (account: Account) => account.state !== 'enabled'
 };
 
-const AccountLockAction = {
-  name: 'ACCOUNT_ACTION.LOCK',
-  command: 'lock',
-  icon: 'block',
-  confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_LOCK',
-  canActivate: (account: Account) => account.state !== 'locked'
-};
-
 export class AccountActionsService {
   public actions: Array<Action<Account>> = [
     AccountDisableAction,
     AccountEnableAction,
-    AccountLockAction,
     AccountDeleteAction
   ];
 }
