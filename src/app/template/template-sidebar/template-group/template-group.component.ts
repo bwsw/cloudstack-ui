@@ -33,6 +33,10 @@ export class TemplateGroupComponent {
   ) {
   }
 
+  public get groupsLoaded(): boolean {
+    return !!Object.entries(this.groups).length;
+  }
+
   public get groupName(): string {
     const tag = this.template.tags.find(_ => _.key === TemplateTagKeys.group);
     const group = tag && this.groups[tag.value];

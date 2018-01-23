@@ -610,7 +610,7 @@ export class VirtualMachineCreationEffects {
         this.store.dispatch(new vmActions.DeploymentChangeStatus({
           stage: VmDeploymentStage.TAG_COPYING_FINISHED
         }));
-        return <VirtualMachine>({ ...vm, tags: [...vm.tags, ...state.template.tags] });
+        return <VirtualMachine>({ ...vm, tags: [...vm.tags] });
       });
   }
 
