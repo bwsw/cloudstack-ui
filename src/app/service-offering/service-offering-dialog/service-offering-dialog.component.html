@@ -19,6 +19,7 @@
       [customOfferingRestrictions]="restrictions"
       [defaultParams]="defaultParams"
       [selectedOffering]="serviceOffering"
+      [showFields]="showFields"
       (selectedOfferingChange)="updateOffering($event)"
     ></cs-service-offering-list>
 
@@ -29,6 +30,10 @@
     </div>
   </div>
   <div class="mat-dialog-actions">
+    <button mat-button color="primary" (click)="showFields = !showFields">
+      {{ (showFields ? 'SERVICE_OFFERING.HIDE_ADDITIONAL_FIELDS'
+      : 'SERVICE_OFFERING.SHOW_ADDITIONAL_FIELDS' )| translate }}
+    </button>
     <button mat-button color="primary" matDialogClose>
       {{ 'COMMON.CANCEL' | translate }}
     </button>

@@ -44,6 +44,7 @@ export class ServiceOfferingDialogComponent implements OnChanges {
   @Output() public queryChange = new EventEmitter();
   public serviceOffering: ServiceOffering;
   public loading: boolean;
+  public showFields = false;
 
   public ngOnChanges(changes: SimpleChanges) {
     const listChanges = changes.serviceOfferings;

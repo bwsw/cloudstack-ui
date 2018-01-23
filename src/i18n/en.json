@@ -1208,6 +1208,8 @@
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
     "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
     "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
+    "SHOW_ADDITIONAL_FIELDS": "Show additional fields",
+    "HIDE_ADDITIONAL_FIELDS": "Hide additional fields",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Custom offering",
       "CPU_NUMBER": "CPU cores",
