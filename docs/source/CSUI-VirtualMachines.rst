@@ -240,8 +240,10 @@ To recover a destroyed VM (which is not expunged) open the Actions list and clic
 Click "Expunge" to completely destroy the VM. The VM will not be available for recovering anymore.
 
 .. figure:: _static/VMs_DestroyExpunge.png
-.. If the virtual machine has disks, the system will ask you in a dialogue window if these disks should be deleted. Confirm your intention to delete them clicking "Yes". Click "No" to cancel the disk deleting.
-- Reset password - Allows a user to change the password for VM (available for started VMs only an in case the VM requires a password). The VM will be rebooted if you reset the password. 
+
+When deleting a virtual machine, if the machine has data disks attached, the system will ask you in a dialogue window whether these disks should be deleted. Confirm your intention to delete them clicking "Yes". Click "No" to cancel the disk deleting.
+
+- Reset password - Allows a user to change the password for VM (available for started VMs only in case a VM requires a password). The VM will be rebooted if you reset the password. 
 
 .. figure:: _static/VMs_ResetPassDialogue.png
 
@@ -264,6 +266,8 @@ In the :ref:`VM_Access` section you can find more information on accessing a VM.
 You can adjust the graphs by range, data aggregation period, shift interval and other parameters. 
 
 This plugin is convenient for dynamic monitoring of VM performance. Find more information about it in the `official documentation <https://github.com/bwsw/cloudstack-ui/wiki/107-ReleaseNotes-En#pulse-plugin-experimental-function>`_. Pulse plugin deployment instructions can be found at the `page <https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment>`_.
+
+please, note, when performing one of the actions in the list, other actions in this list are disabled until the action in progress finishes.
 
 .. _VM_Info:
 
