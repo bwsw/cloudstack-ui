@@ -267,7 +267,7 @@ You can adjust the graphs by range, data aggregation period, shift interval and 
 
 This plugin is convenient for dynamic monitoring of VM performance. Find more information about it in the `official documentation <https://github.com/bwsw/cloudstack-ui/wiki/107-ReleaseNotes-En#pulse-plugin-experimental-function>`_. Pulse plugin deployment instructions can be found at the `page <https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment>`_.
 
-please, note, when performing one of the actions in the list, other actions in this list are disabled until the action in progress finishes.
+Please, note, when performing one of the actions from the list, other actions in this list are disabled until the action in progress finishes.
 
 .. _VM_Info:
 
