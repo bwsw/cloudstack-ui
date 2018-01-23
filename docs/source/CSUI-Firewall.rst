@@ -6,7 +6,7 @@ Firewall
 
 The *Firewall* section contains templates to create a security group for a virtual machine and shared security groups used for virtual machines of other users.
 
-.. figure:: _static/Firewall_List.png
+.. figure:: _static/Firewall_List816.png
 
 **Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how to create a custom firewall template at :ref:`Create_FTemplate`.
 
@@ -118,18 +118,19 @@ Private security groups are listed in the *Private Security Groups* section.
 
 Security groups appear in this section once they are created for a virtual machine (see :ref:`Create_VM`). 
 
-Administrators can filter the list by accounts.
-
-.. figure:: _static/Firewall_Filter_Admin816.png
-
-Besides, you can quickly find a group by its name or a part of the name using the searching tool above the lits.
+You can quickly find a group by its name or a part of the name using the searching tool above the list.
 
 .. figure:: _static/Firewall_Search816.png
 
-You can filter the list by ticking "Orphan" option above. It allows displaying only the security groups that are not used by any machine. The "Orphan" option appears above the list in case the security groups that are not used by VMs exist in the list.
+Besides, Administrators can filter the list by accounts.
+
+.. figure:: _static/Firewall_Filter_Admin816.png
+
+You can filter the list by ticking the "Orphan" checkbox above. It allows displaying only the security groups that are not used by any machine. 
 
 .. figure:: _static/Firewall_Orphan816.png
 
+The "Orphan" option appears above the list in case the security groups that are not used by any VM exist in the list. This might happen in case a VM has been deleted but a group has been not (because of an error or incorrect behavior).
 
 Security Group Details Sidebar
 """"""""""""""""""""""""""""""""""""""
@@ -141,7 +142,7 @@ Click the template/shared/private security group in the list and open the sideba
 - :ref:`SG_Action_Box` under |actions icon|;
 - ID of the security group;
 - Description giving an idea what the security group contains (not available for private security groups);
-- Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``.
+- Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``. For privat security groups you will see ``private``.
 
 .. figure:: _static/Firewall_TemplateDetails.png
  
@@ -149,11 +150,13 @@ For shared security groups you also can see what virtual machines this group is 
  
 .. figure:: _static/Firewall_SharedSGDetails.png
 
+For privat security groups a VM name is also displayed in the details sidebar, but it is not active.
+
 .. _SG_Action_Box:
 
 Security Group Action Box
 """"""""""""""""""""""""""""""""""
-Both firewall templates and shared security groups have an Action box with the following actions in it:
+Firewall templates, shared and private security groups have an Action box with the following actions in it:
 
 - View - Allows viewing the rules in the group/template. Click "Rules" |view| to open the rules implemented to the template. 
 
@@ -180,7 +183,7 @@ To add rules, please, fill in the fields in the panel above the list and click �
 .. figure:: _static/Firewall_AddRules.png
    :scale: 70%
    
-To delete rules, please, click Delete icon in the list. The rule will be deleted from the security group.
+To delete rules, please, click the Delete icon in the list. The rule will be deleted from the security group.
 
 .. figure:: _static/Firewall_DeleteRules.png
    :scale: 70%
