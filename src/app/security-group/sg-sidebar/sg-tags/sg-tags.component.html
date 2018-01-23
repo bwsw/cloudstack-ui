@@ -1,10 +1,9 @@
-<!--<div *ngIf="entity">-->
-  <!--<cs-tags-view-->
-    <!--[hasPermissions]="true"-->
-    <!--[tags]="entity.tags"-->
-    <!--(onTagAdd)="addTag($event)"-->
-    <!--(onTagEdit)="editTag($event)"-->
-    <!--(onTagDelete)="deleteTag($event)"-->
-  <!--&gt;</cs-tags-view>-->
-<!--</div>-->
-<span>Tags tab open</span>
+<div *ngIf="entity">
+  <cs-tags-view
+    [hasPermissions]="true"
+    [tags]="entity?.tags || []"
+    (onTagAdd)="addTag($event)"
+    (onTagEdit)="editTag($event)"
+    (onTagDelete)="deleteTag($event)"
+  ></cs-tags-view>
+</div>

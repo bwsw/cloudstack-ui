@@ -1,4 +1,4 @@
-<div *ngIf="entity">
+<div *ngIf="entity || !entity.preselected">
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
     <button mat-icon-button
@@ -7,31 +7,30 @@
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
+
+  <nav mat-tab-nav-bar >
+    <a
+      matTabLink
+      [routerLink]="['./sg']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('sg')"
+    >
+      <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.FIREWALL' | translate" class="mat-tab-tooltip">
+        <mat-icon>security</mat-icon>
+      </div>
+    </a>
+    <a *ngIf="!entity.preselected"
+      matTabLink
+      [routerLink]="['./tags']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('tags')"
+    >
+      <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
+        <mat-icon>local_offer</mat-icon>
+      </div>
+    </a>
+  </nav>
 </div>
-
-<nav mat-tab-nav-bar>
-  <a
-    matTabLink
-    [routerLink]="['./details']"
-    queryParamsHandling="preserve"
-    [active]="tabIsActive('vm')"
-
-  >
-    <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.FIREWALL' | translate" class="mat-tab-tooltip">
-      <mat-icon>security</mat-icon>
-    </div>
-  </a>
-  <a
-    matTabLink
-    [routerLink]="['./tags']"
-    queryParamsHandling="preserve"
-    [active]="tabIsActive('tags')"
-  >
-    <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
-      <mat-icon>local_offer</mat-icon>
-    </div>
-  </a>
-</nav>
 
 <mat-menu #actionsMenu="matMenu">
   <cs-security-group-actions-container
@@ -39,7 +38,9 @@
     [securityGroup]="entity"
   ></cs-security-group-actions-container>
 </mat-menu>
-<!--<cs-sg-details-container></cs-sg-details-container>-->
+
+
+<router-outlet></router-outlet>
 
 <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
 

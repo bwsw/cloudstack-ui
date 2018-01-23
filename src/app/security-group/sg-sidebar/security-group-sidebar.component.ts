@@ -10,7 +10,8 @@ import { SecurityGroupService } from '../services/security-group.service';
 
 @Component({
   selector: 'cs-sg-sidebar',
-  templateUrl: 'security-group-sidebar.component.html'
+  templateUrl: 'security-group-sidebar.component.html',
+  styleUrls: ['security-group-sidebar.component.scss']
 })
 export class SecurityGroupSidebarComponent extends SidebarComponent<SecurityGroup> {
   @Input() public entity: SecurityGroup;

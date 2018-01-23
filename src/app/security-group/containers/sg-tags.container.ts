@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
+import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
+import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
+import { SecurityGroup } from '../sg.model';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
-import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'cs-vm-tags-container',
@@ -17,66 +20,64 @@ import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.red
   `
 })
 export class SecurityGroupTagsContainerComponent {
-  readonly sg$ = this.store.select(fromSecurityGroups.selectFilteredSecurityGroups);
+  readonly sg$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
 
   constructor(
     private store: Store<State>,
+    private authService: AuthService
   ) {
   }
 
   public editTag(tagEditAction: TagEditAction) {
-    // this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-    //   const newTag: Tag = {
-    //     resourceid: vm.id,
-    //     resourcetype: VmResourceType,
-    //     key: tagEditAction.newTag.key,
-    //     value: tagEditAction.newTag.value,
-    //     account: vm.account,
-    //     domain: vm.domain,
-    //     domainid: vm.domainid
-    //   };
-    //   const newTags: Tag[] = vm.tags.filter(t => tagEditAction.oldTag.key !== t.key);
-    //   newTags.push(newTag);
-    //   this.store.dispatch(new vmActions.UpdateVM(Object.assign(
-    //     {},
-    //     vm,
-    //     { tags: newTags }
-    //   )));
-    // });
-    console.log('edit');
+    this.sg$.take(1).subscribe((sg: SecurityGroup) => {
+      const newTag: Tag = {
+        resourceid: sg.id,
+        resourcetype: 'SecurityGroup',
+        key: tagEditAction.newTag.key,
+        value: tagEditAction.newTag.value,
+        account: sg.account,
+        domain: sg.domain,
+        domainid: this.authService.user.domainid
+      };
+      const newTags: Tag[] = sg.tags.filter(t => tagEditAction.oldTag.key !== t.key);
+      newTags.push(newTag);
+      this.store.dispatch(new sgActions.UpdateSecurityGroup(Object.assign(
+        {},
+        sg,
+        { tags: newTags }
+      )));
+    });
   }
 
   public deleteTag(tag: Tag) {
-    // this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-    //   const newTags = Object.assign([], vm.tags).filter(t => tag.key !== t.key);
-    //   this.store.dispatch(new vmActions.UpdateVM(Object.assign(
-    //     {},
-    //     vm,
-    //     { tags: newTags }
-    //   )));
-    // });
-    console.log('delete');
+    this.sg$.take(1).subscribe((sg: SecurityGroup) => {
+      const newTags = Object.assign([], sg.tags).filter(_ => tag.key !== _.key);
+      this.store.dispatch(new sgActions.UpdateSecurityGroup(Object.assign(
+        {},
+        sg,
+        { tags: newTags}
+      )))
+    });
   }
 
   public addTag(keyValuePair: KeyValuePair) {
-    // this.vm$.take(1).subscribe((vm: VirtualMachine) => {
-    //   const newTag: Tag = {
-    //     resourceid: vm.id,
-    //     resourcetype: VmResourceType,
-    //     key: keyValuePair.key,
-    //     value: keyValuePair.value,
-    //     account: vm.account,
-    //     domain: vm.domain,
-    //     domainid: vm.domainid
-    //   };
-    //   const newTags: Tag[] = [...vm.tags];
-    //   newTags.push(newTag);
-    //   this.store.dispatch(new vmActions.UpdateVM(Object.assign(
-    //     {},
-    //     vm,
-    //     { tags: newTags }
-    //   )));
-    // });
-    console.log('add');
+    this.sg$.take(1).subscribe((sg: SecurityGroup) => {
+      const newTag = {
+        resourceid: sg.id,
+        resourcetype: 'SecurityGroup',
+        key: keyValuePair.key,
+        value: keyValuePair.value,
+        account: sg.account,
+        domain: sg.domain,
+        domainid: this.authService.user.domainid
+      };
+      const newTags: Tag[] = [...sg.tags];
+      newTags.push(newTag);
+      this.store.dispatch(new sgActions.UpdateSecurityGroup(Object.assign(
+        {},
+        sg,
+        { tags: newTags }
+      )));
+    });
   }
 }
