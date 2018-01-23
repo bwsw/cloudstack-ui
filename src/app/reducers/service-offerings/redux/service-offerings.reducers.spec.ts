@@ -415,21 +415,18 @@ describe('Test service offering reducer', () => {
       {
         id: '1', name: 'off1', hosttags: 't1,t2',
         storagetype: StorageTypes.local,
-        cpunumber: 2, memory: 2,
-        disabled: false
+        cpunumber: 2, memory: 2
       },
       {
         id: '2', name: 'off2', hosttags: 't1',
         storagetype: StorageTypes.shared,
-        cpunumber: 2, memory: 2,
-        disabled: false
+        cpunumber: 2, memory: 2
       }
     ];
     const offering = {
       id: '2', name: 'off2', hosttags: 't1',
       storagetype: StorageTypes.shared,
-      cpunumber: 2, memory: 2,
-      disabled: false
+      cpunumber: 2, memory: 2
     };
 
     const policy = {

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
+// tslint:disable-next-line
+import { isServiceOfferingDisabled } from '../../../service-offering/service-offering-selector/service-offering-selector.component';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
 import {
@@ -30,7 +32,10 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
+import {
+  ResourceStats,
+  ResourceUsageService
+} from '../../../shared/services/resource-usage.service';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
@@ -50,6 +55,7 @@ import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.re
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -163,11 +169,13 @@ export class VirtualMachineCreationEffects {
       this.store.select(fromZones.selectAll),
       this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation),
       this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation),
-      this.store.select(fromDiskOfferings.selectAll)
+      this.store.select(fromDiskOfferings.selectAll),
+      this.store.select(fromAuth.getUserAvailableResources)
     )
     .map((
-      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings]: [
-        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
+      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, resourceUsage]: [
+        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[],
+        ServiceOffering[], DiskOffering[], ResourceStats
         ]) => {
 
       if (action.payload.zone) {
@@ -181,7 +189,8 @@ export class VirtualMachineCreationEffects {
         if (!selectedServiceOfferingStillAvailable) {
           updates = {
             ...updates,
-            serviceOffering: serviceOfferings.filter(_ => !_.disabled)[0]
+            serviceOffering: serviceOfferings.filter((so: ServiceOffering) =>
+              !isServiceOfferingDisabled(so, resourceUsage))[0]
           };
         }
 

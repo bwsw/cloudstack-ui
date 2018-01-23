@@ -1,7 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as merge from 'lodash/merge';
-import { resource } from 'selenium-webdriver/http';
 import {
   DefaultCustomServiceOfferingRestrictions,
   ICustomOfferingRestrictions,
@@ -22,12 +20,10 @@ import {
   OfferingPolicy
 } from '../../../shared/services/offering.service';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import { VirtualMachine } from '../../../vm';
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
-
-
+import * as merge from 'lodash/merge';
 import * as serviceOfferingActions from './service-offerings.actions';
 
 
@@ -248,17 +244,10 @@ export const getAvailableOfferings = createSelector(
       });
 
       return availableOfferings.map((serviceOffering: ServiceOffering) => {
-        const offer = { ...serviceOffering };
-        offer.disabled = isServiceOfferingDisabled(
-          serviceOffering,
-          resourceUsage,
-          vm
-        );
-
-        return !offer.iscustomized
-          ? offer
+        return !serviceOffering.iscustomized
+          ? serviceOffering
           : getCustomOfferingWithSetParams(
-            offer,
+            serviceOffering,
             defaults[zone.id] && defaults[zone.id].customOfferingParams,
             customOfferingRestrictions[zone.id],
             ResourceStats.fromAccount([user])
@@ -294,14 +283,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
         zone
       );
 
-      return availableOfferings.map((offering: ServiceOffering) => {
-        const serviceOffering: ServiceOffering = { ...offering };
-
-        serviceOffering.disabled = isServiceOfferingDisabled(
-          offering,
-          resourceUsage
-        );
-
+      return availableOfferings.map((serviceOffering: ServiceOffering) => {
         return !serviceOffering.iscustomized
           ? serviceOffering
           : getCustomOfferingWithSetParams(
@@ -609,38 +591,4 @@ export const includeTags = (
   newTags: Array<string>
 ) => {
   return !oldTags.find(tag => newTags.indexOf(tag) === -1);
-};
-
-const isServiceOfferingDisabled = (
-  serviceOffering: ServiceOffering,
-  resourceUsage: ResourceStats,
-  virtualMachine?: VirtualMachine
-): boolean => {
-  if (resourceUsage) {
-    let enoughCpus;
-    let enoughMemory;
-
-    const maxCpu = resourceUsage && (virtualMachine
-      ? resourceUsage.available.cpus + virtualMachine.cpuNumber
-      : resourceUsage.available.cpus);
-    const maxMemory = resourceUsage && (virtualMachine
-      ? resourceUsage.available.memory + virtualMachine.memory
-      : resourceUsage.available.memory);
-
-    if (serviceOffering.iscustomized) {
-      const restrictions = merge(
-        DefaultCustomServiceOfferingRestrictions,
-        this.customOfferingRestrictions
-      );
-      enoughCpus = !restrictions.cpunumber || restrictions.cpunumber.min < maxCpu;
-      enoughMemory = !restrictions.memory || restrictions.memory.min < maxMemory;
-    } else {
-      enoughCpus = maxCpu >= serviceOffering.cpunumber;
-      enoughMemory = maxMemory >= serviceOffering.memory;
-    }
-
-    return !enoughCpus || !enoughMemory;
-  }
-
-  return false;
 };

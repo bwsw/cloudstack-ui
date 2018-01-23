@@ -6,6 +6,7 @@ import { State } from '../../reducers/index';
 // tslint:disable-next-line
 import { CustomServiceOfferingService, } from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { Account } from '../../shared/models/account.model';
+import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 
@@ -22,6 +23,7 @@ import * as domainActions from '../../reducers/domains/redux/domains.actions';
     <cs-service-offering-dialog
       [serviceOfferings]="offerings$ | async"
       [isVmRunning]="isVmRunning()"
+      [virtualMachine]="virtualMachine"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="restrictions$ | async"
       [resourceUsage]="resourceUsage$ | async"
@@ -44,6 +46,7 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
     public dialogRef: MatDialogRef<ServiceOfferingDialogContainerComponent>,
     private customServiceOfferingService: CustomServiceOfferingService,
     private store: Store<State>,
+    private auth: AuthService
   ) {
     super();
     this.virtualMachine = data.vm;
@@ -61,7 +64,9 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
     this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
+    if (this.auth.isAdmin()) {
+      this.store.dispatch(new domainActions.LoadDomainsRequest());
+    }
   }
 
   public changeServiceOffering(serviceOffering) {

@@ -7,7 +7,7 @@
   >
     <mat-option
       *ngFor="let so of serviceOfferings"
-      [disabled]="so.disabled"
+      [disabled]="isDisabled(so)"
       [value]="so.id"
     >
       {{ so.name }}

@@ -86,11 +86,10 @@ export const getUserAvailableResources = createSelector(
       && ResourceStats.fromAccount([domains[user.domainid]]);
     const userResources = user && ResourceStats.fromAccount([user]);
 
-    const result = {};
-    Object.entries(domainResources ? domainResources.available : {})
-      .forEach(([key, value]: [string, number]) => {
-        result[key] = Math.min(userResources.available[key], value);
-      });
+    const result = (domainResources ? Object.entries(domainResources.available) : [])
+      .reduce((m, [key, value]) => ({
+        ...m, [key]: Math.min(userResources.available[key], value)
+      }), {});
 
     return userResources &&
       { ...userResources, available: { ...userResources.available, ...result } };

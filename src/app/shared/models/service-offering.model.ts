@@ -14,5 +14,4 @@ export interface ServiceOffering extends Offering {
   deploymentplanner: string;
   domain: string;
   hosttags: string;
-  disabled?: boolean
 }

@@ -121,7 +121,10 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
+
+    if (this.authService.isAdmin()) {
+      this.store.dispatch(new domainActions.LoadDomainsRequest());
+    }
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
