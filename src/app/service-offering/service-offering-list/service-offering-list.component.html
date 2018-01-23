@@ -27,19 +27,19 @@
             {{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}
           </th>
           <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
+              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate">
             {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate }}
           </th>
           <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
+              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate">
             {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate }}
           </th>
           <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
+              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate">
             {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate }}
           </th>
           <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
+              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate">
             {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate }}
           </th>
           <th class="mat-header-cell"></th>
@@ -66,10 +66,10 @@
             {{ offering.networkrate || '-' }}
           </td>
           <td class="mat-cell" *ngIf="showFields">
-            {{ offering.diskBytesReadRate || '-' }}
+            {{ offering.diskBytesReadRate ? (offering.diskBytesReadRate | division:10:6) : '-' }}
           </td>
           <td class="mat-cell" *ngIf="showFields">
-            {{ offering.diskBytesWriteRate || '-' }}
+            {{ offering.diskBytesWriteRate ? (offering.diskBytesWriteRate | division:10:6) : '-' }}
           </td>
           <td class="mat-cell" *ngIf="showFields">
             {{ offering.diskIopsReadRate || '-' }}

@@ -16,8 +16,11 @@ table {
     cursor: pointer;
   }
   td.name-text, th.name-text, th.field {
-    max-width: 150px;
+    min-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  th.field {
+    min-width: 100px;
   }
 }

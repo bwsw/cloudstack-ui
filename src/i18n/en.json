@@ -1224,7 +1224,11 @@
       "NETWORK_RATE": "Network rate",
       "CPU_NUMBER": "CPU cores",
       "CPU_SPEED": "CPU (MHz)",
-      "MEMORY": "Memory (MB)"
+      "MEMORY": "Memory (MB)",
+      "DISK_BYTES_READ": "Disk read rate (MB/s)",
+      "DISK_BYTES_WRITE": "Disk write rate (MB/s)",
+      "DISK_IOPS_READ": "Disk read rate (IO/s)",
+      "DISK_IOPS_WRITE": "Disk write rate (IO/s)"
     },
     "MODES": {
       "FIXED": "Fixed",

@@ -1223,8 +1223,12 @@
       "NAME": "Имя",
       "NETWORK_RATE": "Скорость сети",
       "CPU_NUMBER": "Ядра CPU",
-      "CPU_SPEED": "CPU (MHz)",
-      "MEMORY": "Память (MБ)"
+      "CPU_SPEED": "CPU (МГц)",
+      "MEMORY": "Память (MБ)",
+      "DISK_BYTES_READ": "Скорость чтения (MБ/сек)",
+      "DISK_BYTES_WRITE": "Скорость записи (MБ/сек)",
+      "DISK_IOPS_READ": "Скорость чтения (IO/сек)",
+      "DISK_IOPS_WRITE": "Скорость записи (IO/сек)"
     },
     "MODES": {
       "FIXED": "Фиксированные",
