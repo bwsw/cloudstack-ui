@@ -36,7 +36,7 @@ Besides, the keys can be grouped by accounts that may be convenient for list vie
 
 .. figure:: _static/SSH_AdminFiltering.png
 
-Create SSH Key
+Create an SSH Key
 ~~~~~~~~~~~~~~~~~
 You can generate a new SSH key to use for authentication.
 
@@ -76,9 +76,11 @@ Click "CANCEL" to drop adding a description.
 
 You can edit the description of an SSH key by clicking |edit icon|. Change the existing description in the text field and save the edits.
 
+The description is saved to account tags if they are supported for the account. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_ by an Administrator.
+
 SSH Key Action Box
 ~~~~~~~~~~~~~~~~~~~~
-By clicking "Actions" |actions icon| you can expand the list of actions for those SSH keys that belong to your user only. Deleting action is available here.
+By clicking "Actions" |actions icon| you can expand the list of actions for those SSH keys that belong to your user only. The deleting action is available here.
 
 .. figure:: _static/SSH_ActionBox.png
 
