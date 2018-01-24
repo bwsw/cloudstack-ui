@@ -19,7 +19,8 @@ export interface ListState extends EntityState<SecurityGroup> {
     viewMode: string,
     selectedAccountIds: string[],
     query: string,
-    selectOrphanSG: boolean
+    selectOrphanSG: boolean,
+    virtualMachineId: string
   },
   loading: boolean,
   selectedSecurityGroupId: string | null
@@ -35,7 +36,8 @@ const initialListState: ListState = adapter.getInitialState({
     query: '',
     selectedAccountIds: [],
     viewMode: SecurityGroupViewMode.Templates,
-    selectOrphanSG: false
+    selectOrphanSG: false,
+    virtualMachineId: ''
   },
   loading: false,
   selectedSecurityGroupId: null
@@ -190,6 +192,11 @@ export const selectOrphanSG =  createSelector(
   state => state.selectOrphanSG
 );
 
+export const selectVirtualMachineId =  createSelector(
+  filters,
+  state => state.virtualMachineId
+);
+
 export const filterSelectedAccountIds = createSelector(
   filters,
   state => state.selectedAccountIds
@@ -249,6 +256,15 @@ export const selectFilteredSecurityGroups = createSelector(
 
     return securityGroups.filter(group => queryFilter(group)
       && viewModeFilter(group) && selectedAccountIdsFilter(group) && isOrphan(group));
+  }
+);
+
+export const selectVMSecurityGroups = createSelector(
+  selectAll,
+  selectVirtualMachineId,
+  (securityGroups, virtualMachineId) => {
+    return securityGroups.filter(group =>
+      group.virtualMachineIds && group.virtualMachineIds.indexOf(virtualMachineId) > -1);
   }
 );
 

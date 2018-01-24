@@ -1,12 +1,11 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
+import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import { VirtualMachine } from '../shared/vm.model';
 
 
@@ -31,6 +30,7 @@ import { VirtualMachine } from '../shared/vm.model';
 export class VmActionsContainerComponent {
 
   @Input() public vm: VirtualMachine;
+  readonly securityGroups$ = this.store.select(fromSecurityGroups.selectVMSecurityGroups);
 
   constructor(
     public dialogService: DialogService,
@@ -51,11 +51,23 @@ export class VmActionsContainerComponent {
   }
 
   public onVmExpunge(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.ExpungeVm(vm));
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ virtualMachineId: this.vm.id }));
+    this.securityGroups$.take(1).subscribe(groups => {
+      this.store.dispatch(new vmActions.ExpungeVm({
+        vm: vm,
+        securityGroups: groups
+      }));
+    });
   }
 
-  public onVmDestroy(event): void {
-    this.store.dispatch(new vmActions.DestroyVm(event));
+  public onVmDestroy(vm: VirtualMachine): void {
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ virtualMachineId: this.vm.id }));
+    this.securityGroups$.take(1).subscribe(groups => {
+      this.store.dispatch(new vmActions.DestroyVm({
+        vm: vm,
+        securityGroups: groups
+      }));
+    });
   }
 
   public onVmReboot(vm: VirtualMachine): void {

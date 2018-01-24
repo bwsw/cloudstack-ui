@@ -31,8 +31,10 @@ import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-passwo
 import { WebShellService } from '../../../vm/web-shell/web-shell.service';
 import { State } from '../../index';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as sgActions from '../../security-groups/redux/sg.actions';
 
 import * as vmActions from './vm.actions';
+import { SecurityGroupType } from '../../../security-group/sg.model';
 
 
 @Injectable()
@@ -379,9 +381,12 @@ export class VirtualMachinesEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
               });
+              const privateSG = action.payload.securityGroups.find(
+                group => group.type === SecurityGroupType.Private);
               return [
-                new vmActions.ExpungeVmSuccess(action.payload),
-                new volumeActions.DeleteVolumes(action.payload)
+                new vmActions.ExpungeVmSuccess(action.payload.vm),
+                new volumeActions.DeleteVolumes(action.payload.vm),
+                new sgActions.DeleteSecurityGroup(privateSG)
               ];
             } else {
               this.jobsNotificationService.finish({
@@ -390,12 +395,12 @@ export class VirtualMachinesEffects {
               });
               return [
                 new vmActions.UpdateVM(vm),
-                new volumeActions.DeleteVolumes(action.payload)
+                new volumeActions.DeleteVolumes(action.payload.vm)
               ];
             }
           });
 
-          return this.vmService.command(action.payload, 'destroy', params)
+          return this.vmService.command(action.payload.vm, 'destroy', params)
             .pipe(actions)
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -403,7 +408,7 @@ export class VirtualMachinesEffects {
                 message: 'JOB_NOTIFICATIONS.VM.DESTROY_FAILED'
               });
               return Observable.of(new vmActions.VMUpdateError({
-                vm: action.payload,
+                vm: action.payload.vm,
                 state: VmState.Error,
                 error
               }));
@@ -515,12 +520,21 @@ export class VirtualMachinesEffects {
         .switchMap(() => {
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.VM.EXPUNGE_IN_PROGRESS');
-          return this.vmService.command(action.payload, 'expunge')
+          const actions = flatMap((): Action[]  => {
+            const privateSG = action.payload.securityGroups.find(
+              group => group.type === SecurityGroupType.Private);
+            return [
+              new vmActions.ExpungeVmSuccess(action.payload.vm),
+              new sgActions.DeleteSecurityGroup(privateSG)
+            ];
+          });
+
+          return this.vmService.command(action.payload.vm, 'expunge')
             .do(() => this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
             }))
-            .map(vm => new vmActions.ExpungeVmSuccess(action.payload))
+            .pipe(actions)
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
                 id: notificationId,
