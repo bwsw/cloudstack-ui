@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { Actions } from '@ngrx/effects';
+import { StateObservable, Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
@@ -15,14 +16,20 @@ import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
+import { VmService } from '../../../vm';
 import { SnapshotEffects } from './snapshot.effects';
 
 import * as actions from './snapshot.actions';
+import * as fromSnapshots from './snapshot.reducers';
 
 @Injectable()
 class MockAsyncJobService {
   public completeAllJobs(): void {
   }
+}
+
+@Injectable()
+export class MockVmService {
 }
 
 const snapshots: Array<Snapshot> = [
@@ -76,11 +83,15 @@ describe('Snapshot Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({ ...fromSnapshots.snapshotReducers })
+      ],
       providers: [
         SnapshotService,
         SnapshotEffects,
         { provide: Actions, useFactory: getActions },
+        { provide: VmService, useFactory: MockVmService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: SnapshotTagService, useClass: MockSnapshotTagService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
