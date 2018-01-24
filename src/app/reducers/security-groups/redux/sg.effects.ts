@@ -99,6 +99,13 @@ export class SecurityGroupEffects {
         });
     });
 
+  @Effect()
+  updateSecurityGroup$: Observable<Action> = this.actions$
+    .ofType(securityGroup.UPDATE_SECURITY_GROUP)
+    .map(() => {
+      return new securityGroup.LoadSecurityGroupRequest();
+    });
+
   private createSuccessMessage = {
     [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED',
     [SecurityGroupType.Shared]: 'NOTIFICATIONS.TEMPLATE.SHARED_GROUP_CREATED'

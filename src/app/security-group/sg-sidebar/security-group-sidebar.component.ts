@@ -2,7 +2,7 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { SecurityGroup } from '../sg.model';
+import { SecurityGroup, SecurityGroupType } from '../sg.model';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../shared/services/notification.service';
@@ -15,6 +15,10 @@ import { SecurityGroupService } from '../services/security-group.service';
 })
 export class SecurityGroupSidebarComponent extends SidebarComponent<SecurityGroup> {
   @Input() public entity: SecurityGroup;
+
+  public get isPredefinedTemplate(): boolean {
+    return this.entity && this.entity.type === SecurityGroupType.PredefinedTemplate;
+  }
 
   constructor(
     protected sgService: SecurityGroupService,

@@ -41,11 +41,12 @@ export class SecurityGroupTagsContainerComponent {
       };
       const newTags: Tag[] = sg.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
-      this.store.dispatch(new sgActions.UpdateSecurityGroup(Object.assign(
+      const result = new SecurityGroup(Object.assign(
         {},
         sg,
         { tags: newTags }
-      )));
+      ));
+      this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }
 
@@ -73,11 +74,13 @@ export class SecurityGroupTagsContainerComponent {
       };
       const newTags: Tag[] = [...sg.tags];
       newTags.push(newTag);
-      this.store.dispatch(new sgActions.UpdateSecurityGroup(Object.assign(
+
+      const result = new SecurityGroup(Object.assign(
         {},
         sg,
         { tags: newTags }
-      )));
+      ));
+      this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }
 }

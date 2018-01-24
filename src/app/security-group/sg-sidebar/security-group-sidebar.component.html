@@ -1,4 +1,4 @@
-<div *ngIf="entity || !entity.preselected">
+<div *ngIf="entity">
   <div class="title-container">
     <h4 class="details-header">{{ entity.name }}</h4>
     <button mat-icon-button
@@ -8,7 +8,7 @@
     </button>
   </div>
 
-  <nav mat-tab-nav-bar >
+  <nav mat-tab-nav-bar *ngIf="!isPredefinedTemplate">
     <a
       matTabLink
       [routerLink]="['./sg']"
@@ -19,7 +19,7 @@
         <mat-icon>security</mat-icon>
       </div>
     </a>
-    <a *ngIf="!entity.preselected"
+    <a *ngIf="!entity?.preselected"
       matTabLink
       [routerLink]="['./tags']"
       queryParamsHandling="preserve"
@@ -42,5 +42,7 @@
 
 <router-outlet></router-outlet>
 
-<cs-overlay-loading [active]="!entity"></cs-overlay-loading>
+<ng-container *ngIf="!isPredefinedTemplate">
+  <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
+</ng-container>
 
