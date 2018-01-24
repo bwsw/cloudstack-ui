@@ -26,22 +26,24 @@
               [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
             {{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}
           </th>
-          <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate }}
-          </th>
-          <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate }}
-          </th>
-          <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate }}
-          </th>
-          <th class="mat-header-cell field" *ngIf="showFields"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate }}
-          </th>
+          <ng-container *ngIf="showFields">
+            <th class="mat-header-cell field"
+                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate">
+              {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate }}
+            </th>
+            <th class="mat-header-cell field"
+                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate">
+              {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate }}
+            </th>
+            <th class="mat-header-cell field"
+                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate">
+              {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate }}
+            </th>
+            <th class="mat-header-cell field"
+                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate">
+              {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate }}
+            </th>
+          </ng-container>
           <th class="mat-header-cell"></th>
         </tr>
         </thead>
@@ -65,18 +67,20 @@
           <td class="mat-cell">
             {{ offering.networkrate || '-' }}
           </td>
-          <td class="mat-cell" *ngIf="showFields">
-            {{ offering.diskBytesReadRate ? (offering.diskBytesReadRate | division:10:6) : '-' }}
-          </td>
-          <td class="mat-cell" *ngIf="showFields">
-            {{ offering.diskBytesWriteRate ? (offering.diskBytesWriteRate | division:10:6) : '-' }}
-          </td>
-          <td class="mat-cell" *ngIf="showFields">
-            {{ offering.diskIopsReadRate || '-' }}
-          </td>
-          <td class="mat-cell" *ngIf="showFields">
-            {{ offering.diskIopsWriteRate || '-' }}
-          </td>
+          <ng-container *ngIf="showFields">
+            <td class="mat-cell">
+              {{ offering.diskBytesReadRate ? (offering.diskBytesReadRate | division:10:6) : '-' }}
+            </td>
+            <td class="mat-cell">
+              {{ offering.diskBytesWriteRate ? (offering.diskBytesWriteRate | division:10:6) : '-' }}
+            </td>
+            <td class="mat-cell">
+              {{ offering.diskIopsReadRate || '-' }}
+            </td>
+            <td class="mat-cell">
+              {{ offering.diskIopsWriteRate || '-' }}
+            </td>
+          </ng-container>
           <td class="mat-cell">
             <span>
               <mat-radio-button id="{{offering.id}}" [checked]="selectedOffering && offering.id === selectedOffering.id"></mat-radio-button>
