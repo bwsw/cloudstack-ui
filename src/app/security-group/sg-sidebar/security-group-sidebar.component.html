@@ -39,10 +39,9 @@
   ></cs-security-group-actions-container>
 </mat-menu>
 
+<cs-sg-details-container *ngIf="isPredefinedTemplate"></cs-sg-details-container>
 
-<router-outlet></router-outlet>
+<router-outlet *ngIf="!isPredefinedTemplate"></router-outlet>
 
-<ng-container *ngIf="!isPredefinedTemplate">
-  <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
-</ng-container>
+<cs-overlay-loading [active]="!entity"></cs-overlay-loading>
 

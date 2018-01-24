@@ -3,17 +3,14 @@ import {
   Input
 } from '@angular/core';
 import { SecurityGroup, SecurityGroupType } from '../sg.model';
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NotificationService } from '../../shared/services/notification.service';
-import { SecurityGroupService } from '../services/security-group.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cs-sg-sidebar',
   templateUrl: 'security-group-sidebar.component.html',
   styleUrls: ['security-group-sidebar.component.scss']
 })
-export class SecurityGroupSidebarComponent extends SidebarComponent<SecurityGroup> {
+export class SecurityGroupSidebarComponent {
   @Input() public entity: SecurityGroup;
 
   public get isPredefinedTemplate(): boolean {
@@ -21,11 +18,13 @@ export class SecurityGroupSidebarComponent extends SidebarComponent<SecurityGrou
   }
 
   constructor(
-    protected sgService: SecurityGroupService,
-    protected notificationService: NotificationService,
-    protected route: ActivatedRoute,
-    protected router: Router
+    protected route: ActivatedRoute
   ) {
-    super(sgService, notificationService, route, router);
+  }
+
+  public tabIsActive(tabId: string) {
+    const path = this.route.snapshot;
+    const pathLastChild = path.firstChild.routeConfig.path;
+    return (tabId === pathLastChild);
   }
 }
