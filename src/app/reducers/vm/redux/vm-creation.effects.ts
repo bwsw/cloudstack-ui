@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
+// tslint:disable-next-line
+import { isServiceOfferingDisabled } from '../../../service-offering/service-offering-selector/service-offering-selector.component';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
+import {
+  AffinityGroupType,
+  DiskOffering,
+  ServiceOffering,
+  Zone
+} from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -12,7 +19,10 @@ import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import {
+  NotSelected,
+  VmCreationState
+} from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
@@ -22,7 +32,10 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-import { ResourceUsageService } from '../../../shared/services/resource-usage.service';
+import {
+  ResourceStats,
+  ResourceUsageService
+} from '../../../shared/services/resource-usage.service';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
@@ -42,6 +55,7 @@ import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.re
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -99,7 +113,10 @@ export class VirtualMachineCreationEffects {
           const insufficientResources = [];
 
           Object.keys(resourceUsage.available)
-            .filter(key => ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].includes(key))
+            .filter(key => [
+              'instances', 'volumes', 'cpus', 'memory',
+              'primaryStorage'
+            ].includes(key))
             .forEach(key => {
               const available = resourceUsage.available[key];
               if (available === 0) {
@@ -119,7 +136,8 @@ export class VirtualMachineCreationEffects {
   @Effect()
   vmSelectInitialZone$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_INITIAL_ZONE_SELECT)
-    .withLatestFrom(this.store.select(fromZones.selectAll).filter(zones => !!zones.length))
+    .withLatestFrom(this.store.select(fromZones.selectAll)
+      .filter(zones => !!zones.length))
     .map(([action, zones]: [vmActions.VmInitialZoneSelect, Zone[]]) =>
       new vmActions.VmFormUpdate({ zone: zones[0] }));
 
@@ -151,11 +169,13 @@ export class VirtualMachineCreationEffects {
       this.store.select(fromZones.selectAll),
       this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation),
       this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation),
-      this.store.select(fromDiskOfferings.selectAll)
+      this.store.select(fromDiskOfferings.selectAll),
+      this.store.select(fromAuth.getUserAvailableResources)
     )
     .map((
-      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings]: [
-        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
+      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, resourceUsage]: [
+        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[],
+        ServiceOffering[], DiskOffering[], ResourceStats
         ]) => {
 
       if (action.payload.zone) {
@@ -167,7 +187,11 @@ export class VirtualMachineCreationEffects {
           && templates.find(_ => _.id === vmCreationState.template.id);
 
         if (!selectedServiceOfferingStillAvailable) {
-          updates = { ...updates, serviceOffering: serviceOfferings[0] };
+          updates = {
+            ...updates,
+            serviceOffering: serviceOfferings.filter((so: ServiceOffering) =>
+              !isServiceOfferingDisabled(so, resourceUsage))[0]
+          };
         }
 
         if (!selectedTemplateStillAvailable) {
@@ -190,7 +214,10 @@ export class VirtualMachineCreationEffects {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         } else {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-          const minSize = Math.max(Math.ceil(Utils.convertToGb(vmCreationState.template.size)), defaultDiskSize);
+          const minSize = Math.max(
+            Math.ceil(Utils.convertToGb(vmCreationState.template.size)),
+            defaultDiskSize
+          );
           // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
           const upd = { rootDiskMinSize: minSize };
 
@@ -220,14 +247,18 @@ export class VirtualMachineCreationEffects {
     .ofType(vmActions.DEPLOY_VM)
     .switchMap((action: vmActions.DeployVm) => {
       return this.templateTagService.getAgreement(action.payload.template)
-        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
+        .switchMap(
+          res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(
+            true))
         .switchMap((agreement) => {
           if (agreement) {
-            this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+            this.deploymentNotificationId = this.jobsNotificationService.add(
+              'JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
             this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
 
             return Observable.of<any>(
-              new vmActions.DeploymentInitActionList(this.initializeDeploymentActionList(action.payload)),
+              new vmActions.DeploymentInitActionList(this.initializeDeploymentActionList(
+                action.payload)),
               new vmActions.DeploymentRequest(action.payload)
             );
           } else {
@@ -276,7 +307,10 @@ export class VirtualMachineCreationEffects {
                 this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
                 return this.doCreateInstanceGroup(deployedVm, action.payload)
-                  .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
+                  .switchMap((virtualMachine) => this.doCopyTags(
+                    virtualMachine,
+                    action.payload
+                  ));
               })
               .map((vmWithTags) => {
                 if (action.payload.doStartVm) {
@@ -511,7 +545,10 @@ export class VirtualMachineCreationEffects {
     messageText: string | ParametrizedTranslation,
     status?: Array<ProgressLoggerMessageStatus>
   ): void {
-    this.store.dispatch(new vmActions.DeploymentUpdateLoggerMessage({ messageText, data: { status } }));
+    this.store.dispatch(new vmActions.DeploymentUpdateLoggerMessage({
+      messageText,
+      data: { status }
+    }));
   }
 
   private showTemplateAgreementDialog(state: VmCreationState): Observable<BaseTemplateModel> {
@@ -581,7 +618,10 @@ export class VirtualMachineCreationEffects {
     }
   }
 
-  private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
+  private doCopyTags(
+    vm: VirtualMachine,
+    state: VmCreationState
+  ): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
     return this.vmTagService.copyTagsToEntity(state.template.tags, vm)
       .switchMap(() => {

@@ -8,6 +8,8 @@
       class="service-offering-selector"
       [serviceOfferings]="serviceOfferings"
       [customOfferingRestrictions]="restrictions"
+      [resourceUsage]="resourceUsage"
+      [virtualMachine]="virtualMachine"
       [ngModel]="serviceOffering"
       (change)="updateOffering($event)"
     ></cs-service-offering-selector>

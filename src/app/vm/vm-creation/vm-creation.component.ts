@@ -8,6 +8,7 @@ import {
   Zone
 } from '../../shared/models';
 import { DiskOffering, Account } from '../../shared/models';
+import { ResourceStats } from '../../shared/services/resource-usage.service';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
@@ -54,6 +55,7 @@ export class VmCreationComponent {
   @Input() public deployedVm: VirtualMachine;
   @Input() public enoughResources: boolean;
   @Input() public insufficientResources: Array<string>;
+  @Input() public resourceUsage: ResourceStats;
 
   @Output() public displayNameChange = new EventEmitter<string>();
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();

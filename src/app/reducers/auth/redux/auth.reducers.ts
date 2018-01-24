@@ -1,9 +1,9 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import * as event from './auth.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ResourceStats } from '../../../shared/services/resource-usage.service';
 import { Account } from '../../../shared/models/account.model';
+
+import * as event from './auth.actions';
+import * as fromDomains from '../../domains/redux/domains.reducers';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -76,4 +76,22 @@ export const getUserAccountId = createSelector(
 export const isLoading = createSelector(
   getUserAccountEntity,
   state => state.loading
+);
+
+export const getUserAvailableResources = createSelector(
+  getUserAccount,
+  fromDomains.selectEntities,
+  (user, domains) => {
+    const domainResources = domains && user && domains[user.domainid]
+      && ResourceStats.fromAccount([domains[user.domainid]]);
+    const userResources = user && ResourceStats.fromAccount([user]);
+
+    const result = (domainResources ? Object.entries(domainResources.available) : [])
+      .reduce((m, [key, value]) => ({
+        ...m, [key]: Math.min(userResources.available[key], value)
+      }), {});
+
+    return userResources &&
+      { ...userResources, available: { ...userResources.available, ...result } };
+  }
 );

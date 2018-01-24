@@ -7,18 +7,13 @@ import {
   OnInit
 } from '@angular/core';
 import { OsFamily } from '../../shared/models/os-type.model';
-import {
-  TemplateFilters,
-  TemplateResourceType
-} from '../shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { Store } from '@ngrx/store';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { State } from '../../reducers/index';
+import { AuthService } from '../../shared/services/auth.service';
 
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
@@ -31,7 +26,6 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromTemplateGroups from '../../reducers/templates/redux/template-group.reducers';
-import { AuthService } from '../../shared/services/auth.service';
 
 
 @Component({
@@ -105,7 +99,9 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new zonesActions.LoadZonesRequest());
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
     this.store.dispatch(new accountsActions.LoadAccountsRequest());
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
+    if (this.authService.isAdmin()) {
+      this.store.dispatch(new domainActions.LoadDomainsRequest());
+    }
 
     this.initFilters();
   }

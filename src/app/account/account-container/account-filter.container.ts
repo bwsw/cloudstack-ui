@@ -1,23 +1,18 @@
-import {
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from '../../reducers/index';
+import { AuthService } from '../../shared/services/auth.service';
+import { FilterService } from '../../shared/services/filter.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SessionStorageService } from '../../shared/services/session-storage.service';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as roleActions from '../../reducers/roles/redux/roles.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
-import { Store } from '@ngrx/store';
-import { State } from '../../reducers/index';
-import { FilterService } from '../../shared/services/filter.service';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
-import { SessionStorageService } from '../../shared/services/session-storage.service';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
 @Component({
   selector: 'cs-account-filter-container',
@@ -76,7 +71,8 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
     private store: Store<State>,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private auth: AuthService
   ) {
     super();
   }
@@ -128,7 +124,10 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   }
 
   public ngOnInit() {
-    this.store.dispatch(new domainActions.LoadDomainsRequest());
+    if (this.auth.isAdmin()) {
+      this.store.dispatch(new domainActions.LoadDomainsRequest());
+    }
+
     this.store.dispatch(new roleActions.LoadRolesRequest());
     this.initFilters();
     this.filters$
