@@ -1,7 +1,7 @@
 <div *ngIf="vm">
   <h3>{{ title | translate }}</h3>
   <h4><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{ vm.name }}</h4>
-  <h4 *ngIf="!vm.isoId">
+  <h4 *ngIf="vm.passwordEnabled">
     <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b>
     <span *ngIf="getPassword()">{{ getPassword() }}</span>
     <i *ngIf="!getPassword()">{{ 'VM_POST_ACTION.NO_INFORMATION' | translate }}</i>
