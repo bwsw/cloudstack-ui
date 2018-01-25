@@ -67,7 +67,7 @@ export class SecurityGroupEffects {
     });
 
   @Effect({ dispatch: false })
-  deleteSecurityGroupSuccessNavigate$: Observable<SecurityGroup> = this.actions$
+  deleteSecurityGroupSuccessNavigate$ = this.actions$
     .ofType(securityGroup.DELETE_SECURITY_GROUP_SUCCESS)
     .map((action: securityGroup.DeleteSecurityGroupSuccess) => action.payload)
     .filter((sg: SecurityGroup) => {

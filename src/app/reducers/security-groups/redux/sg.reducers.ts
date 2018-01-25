@@ -111,12 +111,6 @@ export function listReducer(
     case securityGroup.UPDATE_SECURITY_GROUP: {
       return {
         ...adapter.updateOne({id: action.payload.id, changes: action.payload}, state)
-        // return {
-        //   ...state,
-        //   entities: {
-        //     ...state.entities,
-        //     [action.payload.id]: action.payload
-        //   }
       };
     }
     default: {
