@@ -383,10 +383,16 @@ export class VirtualMachinesEffects {
               });
               const privateSG = action.payload.securityGroups.find(
                 group => group.type === SecurityGroupType.Private);
+              if (privateSG) {
+                return [
+                  new vmActions.ExpungeVmSuccess(action.payload.vm),
+                  new volumeActions.DeleteVolumes(action.payload.vm),
+                  new sgActions.DeleteSecurityGroup(privateSG)
+                ]
+              }
               return [
                 new vmActions.ExpungeVmSuccess(action.payload.vm),
-                new volumeActions.DeleteVolumes(action.payload.vm),
-                new sgActions.DeleteSecurityGroup(privateSG)
+                new volumeActions.DeleteVolumes(action.payload.vm)
               ];
             } else {
               this.jobsNotificationService.finish({
@@ -523,9 +529,14 @@ export class VirtualMachinesEffects {
           const actions = flatMap((): Action[]  => {
             const privateSG = action.payload.securityGroups.find(
               group => group.type === SecurityGroupType.Private);
+            if (privateSG) {
+              return [
+                new vmActions.ExpungeVmSuccess(action.payload.vm),
+                new sgActions.DeleteSecurityGroup(privateSG)
+              ]
+            }
             return [
-              new vmActions.ExpungeVmSuccess(action.payload.vm),
-              new sgActions.DeleteSecurityGroup(privateSG)
+              new vmActions.ExpungeVmSuccess(action.payload.vm)
             ];
           });
 
