@@ -62,6 +62,7 @@ export class AppSidebarComponent extends WithUnsubscribe()
   }
 
   public ngOnInit() {
+    this.setUpRoutes();
     this.setUpDragula();
     this.initNavigationOrder();
   }
@@ -163,5 +164,12 @@ export class AppSidebarComponent extends WithUnsubscribe()
 
   private toggleState(): void {
     this._editing = !this._editing;
+  }
+
+  public setUpRoutes() {
+    if (this.canEdit) {
+      const defaultOrder = this.configService.get<Array<string>>('sidebarOrder');
+      this.routes = this.routes.filter(route => defaultOrder.some(_ => _.toUpperCase() === route.id));
+    }
   }
 }
