@@ -2,7 +2,7 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { SecurityGroup, SecurityGroupType } from '../sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class SecurityGroupSidebarComponent {
   @Input() public entity: SecurityGroup;
 
   public get isPredefinedTemplate(): boolean {
-    return this.entity && this.entity.type === SecurityGroupType.PredefinedTemplate;
+    return this.entity && getType(this.entity) === SecurityGroupType.PredefinedTemplate;
   }
 
   constructor(
