@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import {
-  SecurityGroup,
-  SecurityGroupType
-} from '../../../security-group/sg.model';
+import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
-
+import { State } from '../../index';
 import * as securityGroup from './sg.actions';
+import * as fromSecurityGroups from './sg.reducers';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
 
@@ -65,6 +60,16 @@ export class SecurityGroupEffects {
         .catch(error => Observable.of(new securityGroup.DeleteSecurityGroupError(error)));
     });
 
+  @Effect()
+  deletePrivateSecurityGroup$: Observable<Action> = this.actions$
+    .ofType(securityGroup.DELETE_PRIVATE_SECURITY_GROUP)
+    .withLatestFrom(this.store.select(fromSecurityGroups.selectVMSecurityGroups))
+    .map(([action, groups]: [securityGroup.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
+      return groups.find((group: SecurityGroup) => group.type === SecurityGroupType.Private);
+    })
+    .filter((group: SecurityGroup) => !!group)
+    .map((group: SecurityGroup) => new securityGroup.DeleteSecurityGroup(group));
+
   @Effect({ dispatch: false })
   deleteSecurityGroupSuccessNavigate$: Observable<Action> = this.actions$
     .ofType(securityGroup.DELETE_SECURITY_GROUP_SUCCESS)
@@ -111,6 +116,7 @@ export class SecurityGroupEffects {
   };
 
   constructor(
+    private store: Store<State>,
     private actions$: Actions,
     private securityGroupService: SecurityGroupService,
     private dialogService: DialogService,

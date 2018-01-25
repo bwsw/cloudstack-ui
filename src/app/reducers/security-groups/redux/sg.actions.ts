@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
 
 export const LOAD_SECURITY_GROUP_REQUEST = '[SecurityGroups] LOAD_SECURITY_GROUP_REQUEST';
 export const LOAD_SECURITY_GROUP_RESPONSE = '[SecurityGroups] LOAD_SECURITY_GROUP_RESPONSE';
@@ -12,6 +13,7 @@ export const CREATE_SECURITY_GROUP_ERROR = '[SecurityGroups] CREATE_SECURITY_GRO
 export const UPDATE_SECURITY_GROUP = '[SecurityGroups] UPDATE_SECURITY_GROUP';
 export const UPDATE_SECURITY_GROUP_ERROR = '[SecurityGroups] UPDATE_SECURITY_GROUP_ERROR';
 export const DELETE_SECURITY_GROUP = '[SecurityGroups] DELETE_SECURITY_GROUP';
+export const DELETE_PRIVATE_SECURITY_GROUP = '[SecurityGroups] DELETE_PRIVATE_SECURITY_GROUP';
 export const DELETE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] DELETE_SECURITY_GROUP_SUCCESS';
 export const DELETE_SECURITY_GROUP_ERROR = '[SecurityGroups] DELETE_SECURITY_GROUP_ERROR';
 export const CONVERT_SECURITY_GROUP = '[SecurityGroups] CONVERT_SECURITY_GROUP';
@@ -79,6 +81,13 @@ export class DeleteSecurityGroup implements Action {
   }
 }
 
+export class DeletePrivateSecurityGroup implements Action {
+  type = DELETE_PRIVATE_SECURITY_GROUP;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
 export class DeleteSecurityGroupSuccess implements Action {
   type = DELETE_SECURITY_GROUP_SUCCESS;
 
@@ -118,6 +127,7 @@ export type Actions =
   | CreateSecurityGroupError
   | UpdateSecurityGroup
   | DeleteSecurityGroup
+  | DeletePrivateSecurityGroup
   | DeleteSecurityGroupSuccess
   | DeleteSecurityGroupError
   | ConvertSecurityGroup;

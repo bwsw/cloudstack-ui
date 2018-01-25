@@ -14,7 +14,6 @@ import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmDeploymentMessage } from './vm-creation.effects';
 import { FormState } from './vm.reducers';
-import { SecurityGroup } from '../../../security-group/sg.model';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -272,10 +271,7 @@ export class RebootVm implements Action {
 export class DestroyVm implements Action {
   readonly type = DESTROY_VM;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    securityGroups: Array<SecurityGroup>
-  }) {
+  constructor(public payload: VirtualMachine) {
   }
 }
 
@@ -324,10 +320,7 @@ export class OpenUrlVm implements Action {
 export class ExpungeVm implements Action {
   readonly type = EXPUNGE_VM;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    securityGroups: Array<SecurityGroup>
-  }) {
+  constructor(public payload: VirtualMachine) {
   }
 }
 
