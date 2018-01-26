@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  OnInit,
   OnChanges,
   SimpleChanges
 } from '@angular/core';
@@ -25,7 +26,7 @@ export enum ServiceOfferingFromMode {
   templateUrl: 'service-offering-dialog.component.html',
   styleUrls: ['service-offering-dialog.component.scss'],
 })
-export class ServiceOfferingDialogComponent implements OnChanges {
+export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Input() public classes: Array<ServiceOfferingClass>;
@@ -46,15 +47,19 @@ export class ServiceOfferingDialogComponent implements OnChanges {
   public serviceOffering: ServiceOffering;
   public loading: boolean;
 
+  public ngOnInit() {
+    this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
+    if (!this.serviceOffering) {
+      this.viewMode === ServiceOfferingType.fixed ? this.viewModeChange.emit(ServiceOfferingType.custom) :
+        this.viewModeChange.emit(ServiceOfferingType.fixed);
+    }
+  }
+
   public ngOnChanges(changes: SimpleChanges) {
     const listChanges = changes.serviceOfferings;
     if (listChanges) {
       this.serviceOffering = this.serviceOffering ||
         this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
-      if (!this.serviceOffering) {
-        this.viewMode === ServiceOfferingType.fixed ? this.viewModeChange.emit(ServiceOfferingType.custom) :
-          this.viewModeChange.emit(ServiceOfferingType.fixed);
-      }
     }
   }
 

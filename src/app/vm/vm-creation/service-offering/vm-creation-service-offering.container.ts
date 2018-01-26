@@ -66,7 +66,7 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
   }
 
   ngOnInit() {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses: [] }));
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
   }
 
   ngAfterViewInit() {

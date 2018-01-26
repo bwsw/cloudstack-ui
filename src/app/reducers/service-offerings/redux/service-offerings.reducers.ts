@@ -83,6 +83,13 @@ export const adapter: EntityAdapter<ServiceOffering> = createEntityAdapter<Servi
  * for the generated entity state. Initial state
  * additional properties can also be defined.
  */
+
+export const initialFilters = {
+  selectedViewMode: ServiceOfferingType.fixed,
+  selectedClasses: [],
+  query: ''
+};
+
 export const initialState: State = adapter.getInitialState({
   loading: false,
   offeringAvailability: {},
@@ -91,11 +98,7 @@ export const initialState: State = adapter.getInitialState({
   offeringCompatibilityPolicy: {
     offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
   },
-  filters: {
-    selectedViewMode: ServiceOfferingType.fixed,
-    selectedClasses: [],
-    query: ''
-  }
+  filters: initialFilters
 });
 
 export function reducer(
