@@ -164,6 +164,7 @@ import { AccountTagService } from './services/tags/account-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
 
 @NgModule({
   imports: [
@@ -267,6 +268,7 @@ import { ZoneService } from './services/zone.service';
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
@@ -277,6 +279,7 @@ import { ZoneService } from './services/zone.service';
     VolumeAttachmentContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent
   ],
   declarations: [
@@ -346,6 +349,7 @@ import { ZoneService } from './services/zone.service';
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentContainerComponent,
     VolumeAttachmentComponent,

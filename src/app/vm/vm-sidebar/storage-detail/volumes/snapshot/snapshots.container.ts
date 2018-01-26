@@ -5,6 +5,7 @@ import { Volume } from '../../../../../shared/models/volume.model';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
 
 import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'cs-snapshots-container',
@@ -20,10 +21,16 @@ export class SnapshotsContainerComponent {
 
   constructor(
     private store: Store<State>,
+    private dialogService: DialogService
   ) {
   }
 
   public snapshotDeleted(snapshot: Snapshot) {
-    this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+      });
   }
 }

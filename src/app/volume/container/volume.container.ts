@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/co
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import { Volume, volumeTypeNames } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
@@ -47,6 +48,7 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
 
   public ngOnInit() {
     this.store.dispatch(new volumeActions.LoadVolumesRequest());
+    this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
   }
 
   constructor(

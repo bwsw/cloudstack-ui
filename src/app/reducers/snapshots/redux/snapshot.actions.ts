@@ -3,15 +3,16 @@ import { Snapshot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { INotification } from '../../../shared/services/jobs-notification.service';
 
-export const LOAD_SNAPSHOT_REQUEST = '[Snapshots] LOAD_SNAPSHOT_REQUEST';
-export const LOAD_SNAPSHOT_RESPONSE = '[Snapshots] LOAD_SNAPSHOT_RESPONSE';
+export const LOAD_SNAPSHOT_REQUEST = '[SNAPSHOTS] LOAD_SNAPSHOT_REQUEST';
+export const LOAD_SNAPSHOT_RESPONSE = '[SNAPSHOTS] LOAD_SNAPSHOT_RESPONSE';
 
-export const ADD_SNAPSHOT = '[Snapshots] ADD_SNAPSHOT';
-export const ADD_SNAPSHOT_SUCCESS = '[Snapshots] ADD_SNAPSHOT_SUCCESS';
-export const DELETE_SNAPSHOT = '[Snapshots] DELETE_SNAPSHOT';
-export const DELETE_SNAPSHOT_SUCCESS = '[Snapshots] DELETE_SNAPSHOT_SUCCESS';
+export const ADD_SNAPSHOT = '[SNAPSHOTS] ADD_SNAPSHOT';
+export const ADD_SNAPSHOT_SUCCESS = '[SNAPSHOTS] ADD_SNAPSHOT_SUCCESS';
+export const DELETE_SNAPSHOT = '[SNAPSHOTS] DELETE_SNAPSHOT';
+export const DELETE_SNAPSHOTS = '[SNAPSHOTS] DELETE_SNAPSHOTS';
+export const DELETE_SNAPSHOT_SUCCESS = '[SNAPSHOTS] DELETE_SNAPSHOT_SUCCESS';
 
-export const SNAPSHOT_UPDATE_ERROR = '[Snapshots] SNAPSHOT_UPDATE_ERROR';
+export const SNAPSHOT_UPDATE_ERROR = '[SNAPSHOTS] SNAPSHOT_UPDATE_ERROR';
 
 export class LoadSnapshotRequest implements Action {
   readonly type = LOAD_SNAPSHOT_REQUEST;
@@ -38,6 +39,13 @@ export class DeleteSnapshot implements Action {
   readonly type = DELETE_SNAPSHOT;
 
   constructor(public payload: Snapshot) {
+  }
+}
+
+export class DeleteSnapshots implements Action {
+  readonly type = DELETE_SNAPSHOTS;
+
+  constructor(public payload: Array<Snapshot>) {
   }
 }
 

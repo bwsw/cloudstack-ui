@@ -9,6 +9,7 @@ import {
 } from '../../../../../snapshot/snapshot-actions.service';
 
 import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'cs-snapshot-actions',
@@ -21,6 +22,7 @@ export class SnapshotActionsComponent {
 
   constructor(
     public snapshotActionsService: SnapshotActionsService,
+    private dialogService: DialogService,
     private store: Store<State>,
   ) {
   }
@@ -31,7 +33,12 @@ export class SnapshotActionsComponent {
       .subscribe(() => {
         this.actionInProgress = false;
         if (action.command === 'delete') {
-          this.store.dispatch(new snapshotActions.DeleteSnapshot(this.snapshot));
+          this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+            .onErrorResumeNext()
+            .filter(res => Boolean(res))
+            .subscribe(() => {
+              this.store.dispatch(new snapshotActions.DeleteSnapshot(this.snapshot));
+            });
         }
       });
   }

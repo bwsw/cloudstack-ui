@@ -11,26 +11,26 @@ import { SnapshotService } from '../../../shared/services/snapshot.service';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 
-import * as snapshot from './snapshot.actions';
+import * as snapshotActions from './snapshot.actions';
 
 
 @Injectable()
 export class SnapshotEffects {
   @Effect()
   loadSnapshots$: Observable<Action> = this.actions$
-    .ofType(snapshot.LOAD_SNAPSHOT_REQUEST)
-    .switchMap((action: snapshot.LoadSnapshotRequest) => {
+    .ofType(snapshotActions.LOAD_SNAPSHOT_REQUEST)
+    .switchMap((action: snapshotActions.LoadSnapshotRequest) => {
       return this.snapshotService
         .getListAll(action.payload)
-        .map((snapshots: Snapshot[]) => new snapshot.LoadSnapshotResponse(snapshots))
-        .catch(() => Observable.of(new snapshot.LoadSnapshotResponse([])));
+        .map((snapshots: Snapshot[]) => new snapshotActions.LoadSnapshotResponse(snapshots))
+        .catch(() => Observable.of(new snapshotActions.LoadSnapshotResponse([])));
     });
 
 
   @Effect()
   addSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshot.ADD_SNAPSHOT)
-    .switchMap((action: snapshot.AddSnapshot) => {
+    .ofType(snapshotActions.ADD_SNAPSHOT)
+    .switchMap((action: snapshotActions.AddSnapshot) => {
       return this.dialog.open(SnapshotCreationComponent, {
         data: action.payload
       })
@@ -51,9 +51,9 @@ export class SnapshotEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
               });
-              return new snapshot.AddSnapshotSuccess(newSnap);
+              return new snapshotActions.AddSnapshotSuccess(newSnap);
             })
-            .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
+            .catch(() => Observable.of(new snapshotActions.SnapshotUpdateError({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
             })));
@@ -62,13 +62,9 @@ export class SnapshotEffects {
 
   @Effect()
   deleteSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshot.DELETE_SNAPSHOT)
-    .switchMap((action: snapshot.DeleteSnapshot) => {
-
-      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .switchMap(() => {
+    .ofType(snapshotActions.DELETE_SNAPSHOT)
+    .flatMap((action: snapshotActions.DeleteSnapshot) => {
+      
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
           return this.snapshotService.remove(action.payload.id)
@@ -78,19 +74,24 @@ export class SnapshotEffects {
                 message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
               });
 
-              return new snapshot.DeleteSnapshotSuccess(action.payload);
+              return new snapshotActions.DeleteSnapshotSuccess(action.payload);
             })
-            .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
+            .catch(() => Observable.of(new snapshotActions.SnapshotUpdateError({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
             })));
-        });
     });
+
+  @Effect()
+  deleteSnapshots$: Observable<Action> = this.actions$
+    .ofType(snapshotActions.DELETE_SNAPSHOTS)
+    .flatMap((action: snapshotActions.DeleteSnapshots) => action.payload
+      .map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot)));
 
   @Effect({ dispatch: false })
   handleError$ = this.actions$
-    .ofType(snapshot.SNAPSHOT_UPDATE_ERROR)
-    .do((action: snapshot.SnapshotUpdateError) => {
+    .ofType(snapshotActions.SNAPSHOT_UPDATE_ERROR)
+    .do((action: snapshotActions.SnapshotUpdateError) => {
       this.jobsNotificationService.fail(action.payload);
     });
 

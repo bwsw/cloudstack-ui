@@ -19,6 +19,8 @@ import { State } from '../../index';
 
 import * as volumeActions from './volumes.actions';
 import * as fromVolumes from './volumes.reducers';
+import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
+import { VolumeDeleteDialogComponent } from '../../../shared/actions/volume-actions/volume-delete/volume-delete-dialog.component';
 
 @Injectable()
 export class VolumesEffects {
@@ -220,17 +222,26 @@ export class VolumesEffects {
   @Effect()
   deleteVolumes$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUMES)
-    .withLatestFrom(this.store.select(fromVolumes.selectAll))
+    .withLatestFrom(this.store.select(fromVolumes.selectVolumesWithSnapshots))
     .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
       return volumes.filter((volume: Volume) => !isRoot(volume)
         && volume.virtualmachineid === action.payload.id);
     })
     .filter((volumes: Array<Volume>) => !!volumes.length)
     .switchMap((volumes: Array<Volume>) =>
-      this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' })
+      this.dialog.open(VolumeDeleteDialogComponent, {
+        data: !!volumes.find(volume => !!volume.snapshots.length)
+      }).afterClosed()
         .filter(res => Boolean(res))
-        .flatMap(() => volumes
-          .map((volume: Volume) => new volumeActions.DeleteVolume(volume))));
+        .flatMap((params) => {
+          return volumes
+            .map((volume: Volume) => {
+              if (params.deleteSnapshots && !!volume.snapshots.length) {
+                this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots));
+              }
+              return new volumeActions.DeleteVolume(volume);
+            });
+        }));
 
   @Effect()
   deleteVolume$: Observable<Action> = this.actions$

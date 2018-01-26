@@ -51,7 +51,8 @@
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
     },
     "SNAPSHOT": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?"
+      "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?",
+      "CONFIRM_ALL_DELETION": "Delete this volume's snapshots?"
     },
     "TAG": {
       "CONFIRM_DELETION": "Are you sure you want to delete this tag?"
@@ -1330,7 +1331,8 @@
     "SNAPSHOT_SCHEDULE": "Set up snapshot schedule",
     "RESIZE": "Resize the disk",
     "ATTACH": "Attach",
-    "DETACH": "Detach"
+    "DETACH": "Detach",
+    "DELETE_SNAPSHOTS": "Delete snapshots"
   },
   "ACCOUNT_ACTION": {
     "DELETE": "Delete account",
