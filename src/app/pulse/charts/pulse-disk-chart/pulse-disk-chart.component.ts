@@ -8,7 +8,7 @@ import {
   Output
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Volume } from '../../../shared/models/volume.model';
+import { Volume, isRoot } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
 import { humanReadableSize } from '../../unitsUtils';
@@ -71,7 +71,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
     this.volumeService
       .getList({ virtualMachineId: this.vmId })
       .subscribe(volumes => {
-        const rootDiskInd = volumes.findIndex(_ => _.isRoot);
+        const rootDiskInd = volumes.findIndex(_ => isRoot(_));
         if (rootDiskInd !== -1) {
           const temp = volumes[0];
           volumes[0] = volumes[rootDiskInd];

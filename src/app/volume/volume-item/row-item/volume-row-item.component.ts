@@ -6,7 +6,6 @@ import {
   ViewChild
 } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { VolumeActionsService } from '../../../shared/actions/volume-actions/volume-actions.service';
 import { Volume } from '../../../shared/models';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { ZoneService } from '../../../shared/services/zone.service';
@@ -26,10 +25,9 @@ export class VolumeRowItemComponent extends VolumeItemComponent {
   @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 
   constructor(
-    public volumeActionsService: VolumeActionsService,
     protected diskOfferingService: DiskOfferingService,
     protected zoneService: ZoneService
   ) {
-    super(volumeActionsService, diskOfferingService, zoneService);
+    super(diskOfferingService, zoneService);
   }
 }

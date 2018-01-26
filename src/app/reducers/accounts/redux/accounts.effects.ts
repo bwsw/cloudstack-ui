@@ -9,10 +9,10 @@ import { Account } from '../../../shared/models/account.model';
 import { AccountService } from '../../../shared/services/account.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { UserService } from '../../../shared/services/user.service';
-import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import * as accountActions from './accounts.actions';
 
 @Injectable()
@@ -67,20 +67,9 @@ export class AccountsEffects {
     });
 
   @Effect()
-  lockAccount$: Observable<Action> = this.actions$
-    .ofType(accountActions.LOCK_ACCOUNT)
-    .switchMap((action: accountActions.LockAccountRequest) => {
-      return this.accountService.lockAccount(action.payload)
-        .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
-        .catch((error: Error) => {
-          return Observable.of(new accountActions.AccountUpdateError(error));
-        });
-    });
-
-  @Effect()
   deleteAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DELETE_ACCOUNT)
-    .switchMap((action: accountActions.LockAccountRequest) => {
+    .switchMap((action: accountActions.DeleteAccountRequest) => {
       return this.accountService.removeAccount(action.payload)
         .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {

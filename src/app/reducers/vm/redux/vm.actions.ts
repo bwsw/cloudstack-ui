@@ -1,12 +1,19 @@
 import { Action } from '@ngrx/store';
-import { VirtualMachine } from '../../../vm';
-import { ServiceOffering, InstanceGroup, SSHKeyPair, Color, Tag } from '../../../shared/models';
-import { FormState } from './vm.reducers';
+import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import {
+  Color,
+  InstanceGroup,
+  ServiceOffering,
+  SSHKeyPair,
+  Tag
+} from '../../../shared/models';
+import { VirtualMachine } from '../../../vm';
+import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmDeploymentMessage } from './vm-creation.effects';
+import { FormState } from './vm.reducers';
 
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
@@ -344,7 +351,11 @@ export class ChangeSshKey implements Action {
 export class VMUpdateError implements Action {
   readonly type = VM_UPDATE_ERROR;
 
-  constructor(public payload: Error) {
+  constructor(public payload: {
+    vm?: VirtualMachine,
+    state?: VmState,
+    error: Error
+  }) {
   }
 }
 

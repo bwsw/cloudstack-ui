@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../../decorators/backend-resource.decorator';
-import { Taggable } from '../../interfaces/taggable.interface';
 import { Tag } from '../../models/tag.model';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendCachedService } from '../base-backend-cached.service';

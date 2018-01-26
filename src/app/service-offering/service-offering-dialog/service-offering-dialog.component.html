@@ -17,7 +17,7 @@
     </div>
     <div
       class="message warning"
-      *ngIf="serviceOfferings?.length && serviceOffering?.id !== serviceOfferingId"
+      *ngIf="serviceOfferings?.length && serviceOffering?.id !== serviceOfferingId && isVmRunning"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
     </div>
   </div>

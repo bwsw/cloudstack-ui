@@ -31,7 +31,7 @@ export class AccountUsersContainerComponent {
   }
 
   public currentUserId() {
-    return this.authService.user.userId;
+    return this.authService.user.userid;
   }
 
   public generateUserKeys(user) {
