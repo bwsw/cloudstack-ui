@@ -90,7 +90,7 @@ export class UserTagService implements EntityTagService {
   public getKeyboardLayoutForVms(): Observable<any> {
     return this.readTag(
       this.keys.keyboardLayoutForVms,
-    ).map(value => value);
+    );
   }
 
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
