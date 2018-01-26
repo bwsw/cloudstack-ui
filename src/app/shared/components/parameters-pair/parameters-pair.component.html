@@ -5,15 +5,15 @@
         [innerHTML]="name | translate"
         [matTooltip]="name | translate"
       ></div>
-      <div *ngIf="canBeEdit" class="buttons">
-        <button
-          class="button-18px"
-          mat-icon-button
-          (click)="onButtonClicked.emit($event)"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-      </div>
+    </div>
+    <div *ngIf="canBeEdit" class="buttons">
+      <button
+        class="button-18px"
+        mat-icon-button
+        (click)="onButtonClicked.emit($event)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
     </div>
     <div class="value">
       <cs-input-group *ngIf="canBeCopy">
