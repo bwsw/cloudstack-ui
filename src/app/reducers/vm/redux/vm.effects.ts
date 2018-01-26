@@ -327,7 +327,7 @@ export class VirtualMachinesEffects {
         .switchMap(() => {
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
-          this.update(action.payload, VmState.Running);
+          this.update(action.payload, VmState.Stopping);
           return this.vmService.command(action.payload, 'stop')
             .do(() => this.jobsNotificationService.finish({
               id: notificationId,
