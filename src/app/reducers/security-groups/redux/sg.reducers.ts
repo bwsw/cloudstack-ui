@@ -181,7 +181,7 @@ export const query = createSelector(
   state => state.query
 );
 
-export const selectOrphanSG =  createSelector(
+export const selectOrphanSG = createSelector(
   filters,
   state => state.selectOrphanSG
 );
@@ -241,7 +241,9 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG ? group.virtualMachineIds.length === 0 : true;
+    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG
+      ? group.virtualMachineIds.length === 0
+      : true;
 
     return securityGroups.filter(group => queryFilter(group)
       && viewModeFilter(group) && selectedAccountIdsFilter(group) && isOrphan(group));
@@ -251,7 +253,9 @@ export const selectFilteredSecurityGroups = createSelector(
 export const selectSecurityGroupsForVmCreation = createSelector(
   selectAll, fromAuth.getUserAccount, (securityGroups, account) => {
     const accountFilter = (securityGroup: SecurityGroup) => account && securityGroup.account === account.name;
-    return securityGroups.filter((securityGroup) => accountFilter(securityGroup));
+    const onlySharedFilter = (securityGroup: SecurityGroup) => securityGroup.type === SecurityGroupType.Shared;
+    return securityGroups.filter((securityGroup) => accountFilter(securityGroup)
+      && onlySharedFilter(securityGroup));
   });
 
 export const selectPredefinedSecurityGroups = createSelector(

@@ -163,17 +163,11 @@ export class SecurityGroupBuilderComponent implements OnInit {
     for (let i = 0; i < this.securityGroups.selected.length; i++) {
       const group = this.securityGroups.selected[i];
       for (let j = 0; j < group.ingressRules.length; j++) {
-        const ind = this.inputRules.ingress.findIndex(rule => {
-          return rule.ruleId === group.ingressRules[j].ruleId;
-        });
-        this.pushIngressRule(group.ingressRules[j], ind !== -1, NetworkRuleType.Ingress);
+        this.pushIngressRule(group.ingressRules[j], true, NetworkRuleType.Ingress);
       }
 
       for (let j = 0; j < group.egressRules.length; j++) {
-        const ind = this.inputRules.egress.findIndex(rule => {
-          return rule.ruleId === group.egressRules[j].ruleId;
-        });
-        this.pushEgressRule(group.egressRules[j], ind !== -1, NetworkRuleType.Egress);
+        this.pushEgressRule(group.egressRules[j], true, NetworkRuleType.Egress);
       }
     }
   }
