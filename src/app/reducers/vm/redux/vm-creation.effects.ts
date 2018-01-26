@@ -569,7 +569,7 @@ export class VirtualMachineCreationEffects {
 
       return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     } else {
-      return Observable.of(null);
+      return Observable.of(state.securityGroupData.securityGroups);
     }
   }
 
