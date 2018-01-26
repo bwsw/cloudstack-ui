@@ -62,7 +62,7 @@ export class SettingsComponent implements OnInit {
     private userService: UserService,
     private userTagService: UserTagService
   ) {
-    this.userId = this.authService.user.userId;
+    this.userId = this.authService.user.userid;
   }
 
   public ngOnInit(): void {

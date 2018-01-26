@@ -562,7 +562,7 @@ export class VirtualMachineCreationEffects {
     if (this.createSecurityGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
 
-      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state.securityGroupData);
+      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     } else {
       return Observable.of(null);
     }
@@ -613,7 +613,7 @@ export class VirtualMachineCreationEffects {
         this.store.dispatch(new vmActions.DeploymentChangeStatus({
           stage: VmDeploymentStage.TAG_COPYING_FINISHED
         }));
-        return <VirtualMachine>({ ...vm, tags: [...vm.tags, ...state.template.tags] });
+        return <VirtualMachine>({ ...vm, tags: [...vm.tags] });
       });
   }
 

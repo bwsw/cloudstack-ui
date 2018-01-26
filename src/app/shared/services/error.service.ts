@@ -35,7 +35,7 @@ export class ErrorService {
     },
     {
       regex: /Failed to authenticate user (.*); please provide valid credentials/,
-      translation: 'ERRORS.AUTH.INCORRECT_PASSWORD'
+      translation: 'ERRORS.AUTH.INCORRECT_CREDENTIALS'
     },
     {
       regex: /Unable to find the domain from the path \/(.*)\//,
@@ -48,6 +48,11 @@ export class ErrorService {
     {
       regex: /maxSnaps exceeds limit: (\d+) for interval type: hourly/,
       translation: 'ERRORS.SNAPSHOT_POLICIES.HOURLY_TURN_OFF'
+    },
+    {
+      regex:
+        /User (.*) .*or their account.* in domain (.*) is disabled\/locked. Please contact the administrator./,
+      translation: 'ERRORS.AUTH.DISABLED'
     }
   ];
 
