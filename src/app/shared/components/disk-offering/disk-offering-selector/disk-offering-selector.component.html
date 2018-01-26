@@ -1,8 +1,8 @@
 <div class="top-row">
-  <h5>
+  <h4>
     <ng-container *ngIf="diskOffering">{{ diskOffering.name }}</ng-container>
-    <ng-container *ngIf="!diskOffering">{{ 'COMMON.NONE' | translate }}</ng-container>
-  </h5>
+    <ng-container *ngIf="!diskOffering">{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-container>
+  </h4>
 
   <button
     mat-button
