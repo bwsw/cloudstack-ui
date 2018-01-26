@@ -61,8 +61,6 @@ export class CreateSecurityGroupSuccess implements Action {
   }
 }
 
-
-
 export class CreateSecurityGroupsSuccess implements Action {
   type = CREATE_SECURITY_GROUPS_SUCCESS;
 

@@ -65,12 +65,11 @@ export class SecurityGroupEffects {
     .ofType(securityGroup.DELETE_PRIVATE_SECURITY_GROUP)
     .withLatestFrom(this.store.select(fromSecurityGroups.selectAll))
     .map(([action, groups]: [securityGroup.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
-      const vmGroups =  groups.filter((group: SecurityGroup) =>
+      const vmGroup =  groups.find((group: SecurityGroup) =>
         action.payload.securityGroup &&
-        !!action.payload.securityGroup.find(vmGroup => vmGroup.id === group.id));
-      const vmGroup = vmGroups.find((group: SecurityGroup) => {
-        return group.type === SecurityGroupType.Private;
-      });
+        !!action.payload.securityGroup.find(vmGroup => vmGroup.id === group.id) &&
+        group.type === SecurityGroupType.Private
+      );
       return vmGroup;
     })
     .filter((group: SecurityGroup) => !!group)
