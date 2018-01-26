@@ -63,12 +63,21 @@ export class SecurityGroupEffects {
   @Effect()
   deletePrivateSecurityGroup$: Observable<Action> = this.actions$
     .ofType(securityGroup.DELETE_PRIVATE_SECURITY_GROUP)
-    .withLatestFrom(this.store.select(fromSecurityGroups.selectVMSecurityGroups))
+    .withLatestFrom(this.store.select(fromSecurityGroups.selectAll))
     .map(([action, groups]: [securityGroup.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
-      return groups.find((group: SecurityGroup) => group.type === SecurityGroupType.Private);
+      const vmGroups =  groups.filter((group: SecurityGroup) =>
+        action.payload.securityGroup &&
+        !!action.payload.securityGroup.find(vmGroup => vmGroup.id === group.id));
+      const vmGroup = vmGroups.find((group: SecurityGroup) => {
+        return group.type === SecurityGroupType.Private;
+      });
+      return vmGroup;
     })
     .filter((group: SecurityGroup) => !!group)
-    .map((group: SecurityGroup) => new securityGroup.DeleteSecurityGroup(group));
+    .switchMap((group: SecurityGroup) => {
+      return this.deleteSecurityGroup(group)
+        .map(() => new securityGroup.DeleteSecurityGroupSuccess(group));
+    });
 
   @Effect({ dispatch: false })
   deleteSecurityGroupSuccessNavigate$: Observable<Action> = this.actions$
@@ -169,12 +178,16 @@ export class SecurityGroupEffects {
   }
 
   public onDeleteConfirmation(securityGroup: SecurityGroup): Observable<any> {
-    return this.securityGroupService.deleteGroup(securityGroup)
+    return this.deleteSecurityGroup(securityGroup)
       .map(() => {
         this.notificationService.message({
           translationToken: this.deleteSuccessMessage[securityGroup.type],
           interpolateParams: { name: securityGroup.name }
         });
       });
+  }
+
+  private deleteSecurityGroup(securityGroup: SecurityGroup): Observable<any> {
+    return this.securityGroupService.deleteGroup(securityGroup);
   }
 }

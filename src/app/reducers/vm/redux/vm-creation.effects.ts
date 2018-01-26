@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
+import {
+  AffinityGroupType,
+  DiskOffering,
+  ServiceOffering,
+  Zone
+} from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -12,7 +17,10 @@ import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import {
+  NotSelected,
+  VmCreationState
+} from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
@@ -37,6 +45,7 @@ import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.m
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
+import * as securityGroupActions from '../../security-groups/redux/sg.actions';
 import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
@@ -246,6 +255,9 @@ export class VirtualMachineCreationEffects {
       return this.doCreateAffinityGroup(action.payload)
         .switchMap(() => this.doCreateSecurityGroup(action.payload)
           .switchMap((securityGroups) => {
+            if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
+              this.store.dispatch(new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups));
+            }
             this.store.dispatch(new vmActions.DeploymentChangeStatus({
               stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
             }));
@@ -282,7 +294,6 @@ export class VirtualMachineCreationEffects {
                 if (action.payload.doStartVm) {
                   vmWithTags.state = VmState.Running;
                 }
-
                 return new vmActions.DeploymentRequestSuccess(vmWithTags);
               })
               .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));

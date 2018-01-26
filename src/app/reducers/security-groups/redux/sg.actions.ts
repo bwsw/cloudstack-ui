@@ -9,6 +9,7 @@ export const SECURITY_GROUP_FILTER_UPDATE = '[SecurityGroups] SECURITY_GROUP_FIL
 export const LOAD_SELECTED_SECURITY_GROUP = '[SecurityGroups] LOAD_SELECTED_SECURITY_GROUP';
 export const CREATE_SECURITY_GROUP = '[SecurityGroups] CREATE_SECURITY_GROUP';
 export const CREATE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] CREATE_SECURITY_GROUP_SUCCESS';
+export const CREATE_SECURITY_GROUPS_SUCCESS = '[SecurityGroups] CREATE_SECURITY_GROUPS_SUCCESS';
 export const CREATE_SECURITY_GROUP_ERROR = '[SecurityGroups] CREATE_SECURITY_GROUP_ERROR';
 export const UPDATE_SECURITY_GROUP = '[SecurityGroups] UPDATE_SECURITY_GROUP';
 export const UPDATE_SECURITY_GROUP_ERROR = '[SecurityGroups] UPDATE_SECURITY_GROUP_ERROR';
@@ -57,6 +58,15 @@ export class CreateSecurityGroupSuccess implements Action {
   type = CREATE_SECURITY_GROUP_SUCCESS;
 
   constructor(public payload: SecurityGroup) {
+  }
+}
+
+
+
+export class CreateSecurityGroupsSuccess implements Action {
+  type = CREATE_SECURITY_GROUPS_SUCCESS;
+
+  constructor(public payload: SecurityGroup[]) {
   }
 }
 
@@ -124,6 +134,7 @@ export type Actions =
   | LoadSelectedSecurityGroup
   | CreateSecurityGroup
   | CreateSecurityGroupSuccess
+  | CreateSecurityGroupsSuccess
   | CreateSecurityGroupError
   | UpdateSecurityGroup
   | DeleteSecurityGroup

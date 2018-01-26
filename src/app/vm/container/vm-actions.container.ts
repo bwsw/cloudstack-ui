@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
-import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 import { VirtualMachine } from '../shared/vm.model';
 
 
@@ -49,12 +48,10 @@ export class VmActionsContainerComponent {
   }
 
   public onVmExpunge(vm: VirtualMachine): void {
-    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ virtualMachineId: this.vm.id }));
     this.store.dispatch(new vmActions.ExpungeVm(vm));
   }
 
   public onVmDestroy(vm: VirtualMachine): void {
-    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ virtualMachineId: this.vm.id }));
     this.store.dispatch(new vmActions.DestroyVm(vm));
   }
 
