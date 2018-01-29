@@ -12,7 +12,7 @@
         [ngClass]="statusClass"
         [matTooltip]="stateTranslationToken | translate"
       ></span>
-      <h2 class="mat-card-title-text" [innerHTML]="item.name | highlight:query">
+      <h2 class="mat-card-title-text" [matTooltip]="item.name" [innerHTML]="item.name | highlight:query">
       </h2>
     </mat-card-title>
     <div class="mat-card-header-menu">
