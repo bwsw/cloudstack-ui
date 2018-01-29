@@ -90,7 +90,7 @@
     },
     "AUTH": {
       "INCORRECT_USERNAME": "Incorrect username",
-      "INCORRECT_PASSWORD": "Incorrect password",
+      "INCORRECT_CREDENTIALS": "Incorrect username or password",
       "INCORRECT_DOMAIN": "Unable to find domain {{ val1 }}",
       "DISABLED": "User {{ val1 }} (or their account) {{ val2 }} is disabled. Please contact the administrator."
     },

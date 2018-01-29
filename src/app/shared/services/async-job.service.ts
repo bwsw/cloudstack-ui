@@ -5,7 +5,7 @@ import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 
-import { AsyncJob } from '../models';
+import { AsyncJob, mapCmd } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { ErrorService } from './error.service';
 
@@ -18,8 +18,7 @@ const enum JobStatus {
 
 @Injectable()
 @BackendResource({
-  entity: 'AsyncJob',
-  entityModel: AsyncJob
+  entity: 'AsyncJob'
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   public event: Subject<AsyncJob<any>>;
@@ -76,16 +75,16 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     interval?: any
   ): void {
     this.sendCommand('query;Result', { jobId })
-      .map(res => new AsyncJob<typeof entityModel>(res))
+      .map(res => res as AsyncJob<typeof entityModel>)
       .subscribe((asyncJob) => {
-        switch (asyncJob.status) {
+        switch (asyncJob.jobstatus) {
           case JobStatus.InProgress:
             return;
           case JobStatus.Completed:
             observer.next(this.getResult(asyncJob, entity, entityModel));
             break;
           case JobStatus.Failed: {
-            observer.error(ErrorService.parseError(this.getResponse({ error: asyncJob.result })));
+            observer.error(ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult })));
             break;
           }
         }
@@ -95,14 +94,14 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
           this.timerIds.filter(id => interval !== id);
         }
         observer.complete();
-        this.event.next(asyncJob);
+        this.event.next({...asyncJob, cmd: mapCmd(asyncJob)});
       });
   }
 
   private getJobId(job: any): string {
     let jobId;
-    if (job instanceof AsyncJob) {
-      jobId = job.id;
+    if (this.isAsyncJob(job)) {
+      jobId = job.jobid;
     } else {
       jobId = job.jobid || job;
     }
@@ -113,21 +112,25 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return jobId;
   }
 
+  private isAsyncJob(job) {
+    return job.id !== undefined;
+  }
+
   private getResult(
     asyncJob: AsyncJob<typeof entityModel>,
     entity = '',
     entityModel: any = null
   ): any {
     // when response is just success: true/false
-    if (asyncJob.result && asyncJob.result.success) {
-      return asyncJob.result;
+    if (asyncJob.jobresult && asyncJob.jobresult.success) {
+      return asyncJob.jobresult;
     }
 
-    const hasEntity = asyncJob.instanceType || asyncJob.resultType;
+    const hasEntity = asyncJob.jobinstancetype || asyncJob.jobresulttype;
     let result;
     if (hasEntity && (entity && entityModel)) {
-      result = this.prepareModel(asyncJob.result[entity.toLowerCase()], entityModel);
-      asyncJob.result = result;
+      result = this.prepareModel(asyncJob.jobresult[entity.toLowerCase()], entityModel);
+      asyncJob.jobresult = result;
     } else {
       result = asyncJob;
     }
