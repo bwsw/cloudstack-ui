@@ -9,16 +9,22 @@
   <mat-card-content>
     <div class="grid grid-right">
       <ng-container *ngFor="let column of columns">
-        <ng-container *ngIf="column === ('provisioningtype' || 'storagetype' || 'iscustomized')">
+        <ng-container *ngIf="0 <= ['provisioningtype','storagetype','iscustomized'].indexOf(column)">
           <cs-parameters-pair
             [name]="tableId + '.' + column"
             [value]="(tableId + '.' + offering[column]?.toString() | translate)  || '-'">
           </cs-parameters-pair>
         </ng-container>
-        <ng-container *ngIf="column !== ('provisioningtype' || 'storagetype' ||'iscustomized')">
+        <ng-container *ngIf="!(0 <= ['provisioningtype','storagetype','iscustomized','created'].indexOf(column))">
           <cs-parameters-pair
             [name]="tableId + '.' + column"
             [value]="offering[column]  || '-'">
+          </cs-parameters-pair>
+        </ng-container>
+        <ng-container *ngIf="column === 'created'">
+          <cs-parameters-pair
+            [name]="tableId + '.' + column"
+            [value]="(offeringCreated | stringifyDate)">
           </cs-parameters-pair>
         </ng-container>
       </ng-container>

@@ -23,11 +23,14 @@
             {{ offering[column] }}
             </span>
           </ng-container>
-          <ng-container *ngIf="column !== ('name' || 'provisioningtype' || 'storagetype' || 'iscustomized')">
+          <ng-container *ngIf="!(0 <= ['provisioningtype','storagetype','iscustomized','created', 'name'].indexOf(column))">
             <span>{{ offering[column] || '-'}}</span>
           </ng-container>
-          <ng-container *ngIf="column === ('provisioningtype' ||  'storagetype' || 'iscustomized')">
+          <ng-container *ngIf="0 <= ['provisioningtype','storagetype','iscustomized'].indexOf(column)">
             <span>{{ (tableId + '.' + offering[column]?.toString() | translate)  || '-'}}</span>
+          </ng-container>
+          <ng-container *ngIf="column === 'created' && offering">
+            <span>{{ (offeringCreated(offering[column]) | stringifyDate)  || '-'}}</span>
           </ng-container>
         </td>
       </ng-container>

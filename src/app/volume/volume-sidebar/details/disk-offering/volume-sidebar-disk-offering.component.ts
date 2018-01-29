@@ -2,8 +2,9 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { Offering } from '../../../../shared/models/offering.model';
 import { Volume } from '../../../../shared/models/volume.model';
+import * as moment from 'moment';
+import { DiskOffering } from '../../../../shared/models';
 
 
 @Component({
@@ -13,7 +14,11 @@ import { Volume } from '../../../../shared/models/volume.model';
 })
 export class VolumeSidebarDiskOfferingComponent {
   @Input() public volume: Volume;
-  @Input() public offering: Offering;
+  @Input() public offering: DiskOffering;
   @Input() public columns: Array<string>;
   public tableId = 'VOLUME_PAGE.DETAILS';
+
+  public get offeringCreated(): Date {
+    return moment(this.offering.created).toDate();
+  }
 }

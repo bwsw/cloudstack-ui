@@ -172,11 +172,6 @@
   "accountTagsEnabled": false,
   "serviceOfferingClasses": [],
   "diskOfferingParameters": [
-    "displaytext",
-    "disksize",
-    "iscustomized",
-    "storagetype",
-    "provisioningtype",
-    "created"
+    "displaytext"
   ]
 }

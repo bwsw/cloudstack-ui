@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { ConfigService } from '../../../services/config.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'cs-disk-offering-dialog',
@@ -24,6 +25,10 @@ export class DiskOfferingDialogComponent {
     this.selectedDiskOffering = data.diskOffering;
     this.preselectedDiskOffering = data.diskOffering;
     this.columns = data.columns;
+  }
+
+  public offeringCreated(date: string): Date {
+    return moment(date).toDate();
   }
 
   public selectOffering(offering: DiskOffering) {
