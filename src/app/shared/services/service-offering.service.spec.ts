@@ -152,7 +152,7 @@ describe('Service-offering service', () => {
       deploymentplanner: '',
       domain: 'domainId'
     };
-    const availableOfferings = [
+    const availableOfferings = <any>[
       {
         id: '1',
         name: 'Service Offering',

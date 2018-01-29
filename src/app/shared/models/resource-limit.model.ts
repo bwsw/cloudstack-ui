@@ -20,3 +20,11 @@ export interface ResourceLimit extends BaseModelInterface {
   max: number;
   resourcetype: number;
 }
+
+export const updateLimitMax = (limit: ResourceLimit): ResourceLimit => {
+  const fixedJson = { ...limit };
+  if (limit.max === -1) {
+    fixedJson['max'] = Infinity;
+  }
+  return fixedJson;
+};
