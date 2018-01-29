@@ -25,7 +25,7 @@ export class UserTagService implements EntityTagService {
 
   private get user(): UserIdObject {
     const user = this.authService.user;
-    return user ? { id: user.userId } : undefined;
+    return user ? { id: user.userid } : undefined;
   }
 
   public getTheme(): Observable<string> {
