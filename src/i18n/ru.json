@@ -85,6 +85,7 @@
     }
   },
   "ERRORS": {
+    "SUPPORT_INFORMATION": "Информация о тех. поддержке",
     "COMMON": {
       "THE_NAME_IS_TAKEN": "Имя {{ val1 }} уже занято"
     },

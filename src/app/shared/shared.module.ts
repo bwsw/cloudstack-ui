@@ -164,6 +164,7 @@ import { AccountTagService } from './services/tags/account-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { SupportInformationComponent } from './components/support-information/support-information.component';
 
 @NgModule({
   imports: [
@@ -270,6 +271,7 @@ import { ZoneService } from './services/zone.service';
     TemplateActionsContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
+    SupportInformationComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -350,6 +352,7 @@ import { ZoneService } from './services/zone.service';
     VolumeAttachmentContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
+    SupportInformationComponent,
   ],
   providers: [
     AccountService,

@@ -85,6 +85,7 @@
     }
   },
   "ERRORS": {
+    "SUPPORT_INFORMATION": "Support information",
     "COMMON": {
       "THE_NAME_IS_TAKEN": "The name {{ val1 }} is taken"
     },
