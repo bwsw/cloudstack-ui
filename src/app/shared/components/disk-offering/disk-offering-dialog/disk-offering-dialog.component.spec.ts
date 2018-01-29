@@ -11,10 +11,18 @@ import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { DiskOffering } from '../../../models';
+import { StringifyDatePipe } from '../../../pipes/stringifyDate.pipe';
+import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
 
 class MockConfigService {
   public get(key: string) {
     return ['created'];
+  }
+}
+
+class MockConfigServiceDateTimeFormatterService {
+  public stringifyToTime() {
+    return;
   }
 }
 
@@ -49,7 +57,7 @@ describe('Disk Offering dialog', () => {
 
       TestBed.configureTestingModule({
         imports: [FormsModule, MatDialogModule, MatRadioModule],
-        declarations: [MockTranslatePipe, DiskOfferingDialogComponent],
+        declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
         providers: [
           { provide: ConfigService, useClass: MockConfigService },
           {
@@ -67,6 +75,10 @@ describe('Disk Offering dialog', () => {
             provide: 'mockResourceUsageServiceConfig',
             useValue: { value: {} }
           },
+          {
+            provide: DateTimeFormatterService,
+            useClass: MockConfigServiceDateTimeFormatterService
+          }
         ],
         schemas: [NO_ERRORS_SCHEMA]
       }).compileComponents();
