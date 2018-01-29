@@ -9,13 +9,13 @@
   <mat-card-content>
     <div class="grid grid-right">
       <ng-container *ngFor="let column of columns">
-        <ng-container *ngIf="0 <= ['provisioningtype','storagetype','iscustomized'].indexOf(column)">
+        <ng-container *ngIf="isCustomField(column, ['provisioningtype','storagetype','iscustomized'])">
           <cs-parameters-pair
             [name]="tableId + '.' + column"
             [value]="(tableId + '.' + offering[column]?.toString() | translate)  || '-'">
           </cs-parameters-pair>
         </ng-container>
-        <ng-container *ngIf="!(0 <= ['provisioningtype','storagetype','iscustomized','created'].indexOf(column))">
+        <ng-container *ngIf="!isCustomField(column, ['provisioningtype','storagetype','iscustomized','created'])">
           <cs-parameters-pair
             [name]="tableId + '.' + column"
             [value]="offering[column]  || '-'">

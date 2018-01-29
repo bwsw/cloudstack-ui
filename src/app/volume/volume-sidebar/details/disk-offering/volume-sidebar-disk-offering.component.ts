@@ -21,4 +21,8 @@ export class VolumeSidebarDiskOfferingComponent {
   public get offeringCreated(): Date {
     return moment(this.offering.created).toDate();
   }
+
+  public isCustomField(column: string, columns: Array<string>): boolean {
+    return 0 <= columns.indexOf(column);
+  }
 }

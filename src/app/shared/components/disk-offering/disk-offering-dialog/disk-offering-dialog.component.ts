@@ -31,6 +31,10 @@ export class DiskOfferingDialogComponent {
     return moment(date).toDate();
   }
 
+  public isCustomField(column: string, columns: Array<string>): boolean {
+    return 0 <= columns.indexOf(column);
+  }
+
   public selectOffering(offering: DiskOffering) {
     this.selectedDiskOffering = offering;
   }
