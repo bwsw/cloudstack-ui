@@ -18,6 +18,7 @@ import * as event from './disk-offerings.actions';
  */
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
+  tableParams: Array<string>;
 }
 
 export interface OfferingsState {
@@ -47,6 +48,7 @@ export const adapter: EntityAdapter<DiskOffering> = createEntityAdapter<DiskOffe
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  tableParams: []
 });
 
 export function reducer(
@@ -77,6 +79,13 @@ export function reducer(
       };
     }
 
+    case event.LOAD_DEFAULT_DISK_PARAMS_RESPONSE: {
+      return {
+        ...state,
+        tableParams: action.payload
+      }
+    }
+
     default: {
       return state;
     }
@@ -89,6 +98,11 @@ export const getOfferingsState = createFeatureSelector<OfferingsState>('disk-off
 export const getOfferingsEntitiesState = createSelector(
   getOfferingsState,
   state => state.list
+);
+
+export const getParams = createSelector(
+  getOfferingsEntitiesState,
+  state => state.tableParams
 );
 
 export const {
