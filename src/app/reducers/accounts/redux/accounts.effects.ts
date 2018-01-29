@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models/account.model';
 import { AccountService } from '../../../shared/services/account.service';
-import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { UserService } from '../../../shared/services/user.service';
 
@@ -50,9 +49,6 @@ export class AccountsEffects {
     .ofType(accountActions.DISABLE_ACCOUNT)
     .switchMap((action: accountActions.DisableAccountRequest) => {
       return this.accountService.disableAccount(action.payload)
-        .switchMap(job => {
-          return this.asyncJobService.queryJob(job, 'account', Account);
-        })
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
           return Observable.of(new accountActions.AccountUpdateError(error));
@@ -64,7 +60,7 @@ export class AccountsEffects {
     .ofType(accountActions.ENABLE_ACCOUNT)
     .switchMap((action: accountActions.EnableAccountRequest) => {
       return this.accountService.enableAccount(action.payload)
-        .map(res => new accountActions.UpdateAccount(res.account))
+        .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
@@ -75,9 +71,6 @@ export class AccountsEffects {
     .ofType(accountActions.DELETE_ACCOUNT)
     .switchMap((action: accountActions.DeleteAccountRequest) => {
       return this.accountService.removeAccount(action.payload)
-        .switchMap(job => {
-          return this.asyncJobService.queryJob(job, 'account', Account);
-        })
         .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
           return Observable.of(new accountActions.AccountUpdateError(error));
@@ -209,7 +202,6 @@ export class AccountsEffects {
     private actions$: Actions,
     private accountService: AccountService,
     private userService: UserService,
-    private asyncJobService: AsyncJobService,
     private dialogService: DialogService,
     private notificationService: NotificationService,
     private router: Router,

@@ -1,25 +1,15 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
-import {
-  Hypervisor,
-  OsType,
-  Zone
-} from '../../shared';
-import { Snapshot } from '../../shared/models/snapshot.model';
-import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { TemplateGroup } from '../../shared/models/template-group.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Hypervisor, OsType, Zone } from '../../shared';
+import { Account, isRootAdmin } from '../../shared/models/account.model';
+import { Snapshot } from '../../shared/models/snapshot.model';
+import { TemplateGroup } from '../../shared/models/template-group.model';
+import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { Language } from '../../shared/services/language.service';
 import {
   CreateTemplateBaseParams,
   TemplateResourceType
 } from '../shared/base-template.service';
-import { Account } from '../../shared/models/account.model';
 
 interface TemplateFormat {
   name: string;
@@ -165,6 +155,6 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public get isRootAdmin(): boolean {
-    return this.account.isRootAdmin;
+    return isRootAdmin(this.account);
   }
 }
