@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { AuthService } from '../../shared/services/auth.service';
-import { Account } from '../../shared/models/account.model';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 
 import * as configurationAction from '../../reducers/configuration/redux/configurations.actions';
-import * as resourceLimitAction from '../../reducers/resource-limit/redux/resource-limits.actions';
-import * as resourceCountAction from '../../reducers/resource-count/redux/resource-counts.actions';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromConfigurations from '../../reducers/configuration/redux/configurations.reducers';
-import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
+import { State } from '../../reducers/index';
+import * as resourceCountAction from '../../reducers/resource-count/redux/resource-counts.actions';
 import * as fromResourceCounts from '../../reducers/resource-count/redux/resource-counts.reducers';
+import * as resourceLimitAction from '../../reducers/resource-limit/redux/resource-limits.actions';
+import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
+import { Account } from '../../shared/models/account.model';
+import { AuthService } from '../../shared/services/auth.service';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
 @Component({
   selector: 'cs-account-page-container',
@@ -40,7 +40,7 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
 
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
   readonly configurations$ = this.store.select(fromConfigurations.selectAll);
-  readonly limits$ = this.store.select(fromResourceLimits.selectAll);
+  readonly limits$ = this.store.select(fromResourceLimits.updatedLimits);
   readonly stats$ = this.store.select(fromResourceCounts.selectAll);
 
   public account: Account;
