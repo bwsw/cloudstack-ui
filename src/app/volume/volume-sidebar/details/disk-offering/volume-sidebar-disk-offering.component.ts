@@ -17,6 +17,8 @@ export class VolumeSidebarDiskOfferingComponent {
   @Input() public offering: DiskOffering;
   @Input() public columns: Array<string>;
   public tableId = 'VOLUME_PAGE.DETAILS';
+  public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
+  public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created'];
 
   public get offeringCreated(): Date {
     return moment(this.offering.created).toDate();

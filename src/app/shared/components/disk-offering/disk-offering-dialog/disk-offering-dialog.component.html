@@ -23,10 +23,10 @@
             {{ offering[column] }}
             </span>
           </ng-container>
-          <ng-container *ngIf="!isCustomField(column, ['provisioningtype','storagetype','iscustomized','created', 'name'])">
+          <ng-container *ngIf="!isCustomField(column, notCustomFields)">
             <span>{{ offering[column] || '-'}}</span>
           </ng-container>
-          <ng-container *ngIf="isCustomField(column, ['provisioningtype', 'storagetype', 'iscustomized'])">
+          <ng-container *ngIf="isCustomField(column, customFields)">
             <span>{{ (tableId + '.' + offering[column]?.toString() | translate)  || '-'}}</span>
           </ng-container>
           <ng-container *ngIf="column === 'created' && offering">

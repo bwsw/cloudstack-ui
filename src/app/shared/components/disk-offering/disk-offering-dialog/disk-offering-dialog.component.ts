@@ -15,6 +15,8 @@ export class DiskOfferingDialogComponent {
   public preselectedDiskOffering: DiskOffering;
   public tableId = 'DISK_OFFERING_TABLE';
   public columns: Array<string>;
+  public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
+  public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
