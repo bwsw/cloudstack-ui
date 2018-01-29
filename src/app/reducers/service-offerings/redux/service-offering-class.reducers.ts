@@ -1,8 +1,12 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AffinityGroup } from '../../../shared/models';
+import {
+  DefaultServiceOfferingClassId,
+  ServiceOfferingClass
+} from '../../../shared/models/service-offering.model';
 
-import * as affinityGroupActions from './affinity-groups.actions';
+import * as event from './service-offering-class.actions';
+
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -11,15 +15,15 @@ import * as affinityGroupActions from './affinity-groups.actions';
  * model type by id. This interface is extended to include
  * any additional interface properties.
  */
-export interface State extends EntityState<AffinityGroup> {
-  loading: boolean;
+export interface State extends EntityState<ServiceOfferingClass> {
+  loading: boolean,
 }
 
-export interface AffinityGroupsState {
+export interface ServiceOfferingClassState {
   list: State;
 }
 
-export const affinityGroupReducers = {
+export const serviceOfferingClassReducers = {
   list: reducer,
 };
 
@@ -31,8 +35,8 @@ export const affinityGroupReducers = {
  * a sortComparer option which is set to a compare
  * function if the records are to be sorted.
  */
-export const adapter: EntityAdapter<AffinityGroup> = createEntityAdapter<AffinityGroup>({
-  selectId: (item: AffinityGroup) => item.id,
+export const adapter: EntityAdapter<ServiceOfferingClass> = createEntityAdapter<ServiceOfferingClass>({
+  selectId: (item: ServiceOfferingClass) => item.id,
   sortComparer: false
 });
 
@@ -41,21 +45,22 @@ export const adapter: EntityAdapter<AffinityGroup> = createEntityAdapter<Affinit
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false,
+  loading: false
 });
 
 export function reducer(
   state = initialState,
-  action: affinityGroupActions.Actions
+  action: event.Actions
 ): State {
   switch (action.type) {
-    case affinityGroupActions.LOAD_AFFINITY_GROUPS_REQUEST: {
+    case event.LOAD_SERVICE_OFFERING_CLASS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case affinityGroupActions.LOAD_AFFINITY_GROUPS_RESPONSE: {
+    case event.LOAD_SERVICE_OFFERING_CLASS_RESPONSE: {
+      const newState = adapter.addAll(action.payload, state);
       return {
         /**
          * The addMany function provided by the created adapter
@@ -64,7 +69,7 @@ export function reducer(
          * the collection is to be sorted, the adapter will
          * sort each record upon entry into the sorted array.
          */
-        ...adapter.addAll(action.payload, state),
+        ...adapter.addOne({ id: DefaultServiceOfferingClassId }, newState),
         loading: false
       };
     }
@@ -75,10 +80,10 @@ export function reducer(
 }
 
 
-export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>('affinity-groups');
+export const getServiceOfferingClassState = createFeatureSelector<ServiceOfferingClassState>('service-offering-class');
 
-export const getAffinityGroupEntitiesState = createSelector(
-  getAffinityGroupsState,
+export const getServiceOfferingClassEntitiesState = createSelector(
+  getServiceOfferingClassState,
   state => state.list
 );
 
@@ -87,9 +92,9 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getAffinityGroupEntitiesState);
+} = adapter.getSelectors(getServiceOfferingClassEntitiesState);
 
 export const isLoading = createSelector(
-  getAffinityGroupEntitiesState,
+  getServiceOfferingClassEntitiesState,
   state => state.loading
 );

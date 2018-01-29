@@ -169,5 +169,29 @@
     "pulse": false
   },
   "templateGroups": [],
-  "accountTagsEnabled": false
+  "accountTagsEnabled": false,
+  "serviceOfferingClasses": [
+    {
+      "id": "testClass1",
+      "name": {
+        "ru": "Тест1",
+        "en": "Test1"
+      },
+      "description": {
+        "ru": "тестовое описание 1",
+        "en": "test description 1"
+      }
+    },
+    {
+      "id": "testClass2",
+      "name": {
+        "ru": "Тест2",
+        "en": "Test2"
+      },
+      "description": {
+        "ru": "тестовое описание 2",
+        "en": "test description 2"
+      }
+    }
+  ]
 }

@@ -112,6 +112,26 @@ In this sections you can specify limits for custom offerings in the following fo
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
 
+### Service Offering Classes
+
+In this section you can specify classes for service offerings in the following format:
+
+    "serviceOfferingClasses": [
+      {
+        "id": "class_id",
+        "name": {
+           "ru": "class_name_ru",
+           "en": "class_name_en"
+        },
+        "description": {
+          "ru": "class_description_ru",
+          "en": "class_description_en"
+        }
+       }
+    ]
+    
+Each classes should have a unique id, name, and description. Name and description should be localized for used languages.
+
 ### Session Timeout
 
 Number of minutes a user's session should stay active. After this time passes the user is

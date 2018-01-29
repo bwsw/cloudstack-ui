@@ -14,6 +14,8 @@ export const AccountState = {
   locked: 'locked',
 };
 
+export const AccountResourceType = 'Account';
+
 export interface AccountForm {
   username: string;
   email: string;

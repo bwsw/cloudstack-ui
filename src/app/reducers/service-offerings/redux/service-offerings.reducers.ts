@@ -6,14 +6,21 @@ import {
   ICustomOfferingRestrictions,
   ICustomOfferingRestrictionsByZone
 } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+// tslint:disable-next-line
 import {
   CustomServiceOffering,
+  customServiceOfferingFallbackParams,
   ICustomServiceOffering
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
-// tslint:disable-next-line
-import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import {
+  DefaultServiceOfferingClassId,
+  ServiceOffering,
+  ServiceOfferingClassKey,
+  ServiceOfferingParamKey,
+  ServiceOfferingType
+} from '../../../shared/models/service-offering.model';
+import { Tag } from '../../../shared/models/tag.model';
 import { Zone } from '../../../shared/models/zone.model';
 import {
   OfferingAvailability,
@@ -21,10 +28,11 @@ import {
   OfferingPolicy
 } from '../../../shared/services/offering.service';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import * as fromAccountTags from '../../account-tags/redux/account-tags.reducers';
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
-
+import * as fromSOClass from './service-offering-class.reducers';
 
 import * as serviceOfferingActions from './service-offerings.actions';
 
@@ -41,7 +49,12 @@ export interface State extends EntityState<ServiceOffering> {
   offeringAvailability: OfferingAvailability;
   defaultParams: ICustomServiceOffering;
   customOfferingRestrictions: ICustomOfferingRestrictionsByZone;
-  offeringCompatibilityPolicy: OfferingCompatibilityPolicy
+  offeringCompatibilityPolicy: OfferingCompatibilityPolicy,
+  filters: {
+    selectedViewMode: string,
+    selectedClasses: string[],
+    query: string
+  }
 }
 
 export interface OfferingsState {
@@ -70,6 +83,13 @@ export const adapter: EntityAdapter<ServiceOffering> = createEntityAdapter<Servi
  * for the generated entity state. Initial state
  * additional properties can also be defined.
  */
+
+export const initialFilters = {
+  selectedViewMode: ServiceOfferingType.fixed,
+  selectedClasses: [],
+  query: ''
+};
+
 export const initialState: State = adapter.getInitialState({
   loading: false,
   offeringAvailability: {},
@@ -77,7 +97,8 @@ export const initialState: State = adapter.getInitialState({
   customOfferingRestrictions: {},
   offeringCompatibilityPolicy: {
     offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS
-  }
+  },
+  filters: initialFilters
 });
 
 export function reducer(
@@ -89,6 +110,15 @@ export function reducer(
       return {
         ...state,
         loading: true
+      };
+    }
+    case serviceOfferingActions.SERVICE_OFFERINGS_FILTER_UPDATE: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          ...action.payload
+        }
       };
     }
     case serviceOfferingActions.LOAD_SERVICE_OFFERINGS_RESPONSE: {
@@ -105,6 +135,12 @@ export function reducer(
          */
         ...adapter.addAll(offerings, state),
         loading: false
+      };
+    }
+
+    case serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING: {
+      return {
+        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state)
       };
     }
 
@@ -165,6 +201,26 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
+export const filters = createSelector(
+  getOfferingsEntitiesState,
+  state => state.filters
+);
+
+export const filterSelectedViewMode = createSelector(
+  filters,
+  state => state.selectedViewMode
+);
+
+export const filterSelectedClasses = createSelector(
+  filters,
+  state => state.selectedClasses
+);
+
+export const filterQuery = createSelector(
+  filters,
+  state => state.query
+);
+
 export const offeringAvailability = createSelector(
   getOfferingsEntitiesState,
   state => state.offeringAvailability
@@ -195,15 +251,15 @@ export const getAvailableOfferings = createSelector(
   selectAll,
   getSelectedOffering,
   offeringAvailability,
-  defaultParams,
   customOfferingRestrictions,
   offeringCompatibilityPolicy,
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
+  fromAccountTags.selectServiceOfferingParamTags,
   (
     serviceOfferings, currentOffering, availability,
-    defaults, customRestrictions, compatibilityPolicy,
-    zone, user
+    customRestrictions, compatibilityPolicy,
+    zone, user, paramTags
   ) => {
     if (zone && user) {
       const availableOfferings = getAvailableByResourcesSync(
@@ -239,12 +295,7 @@ export const getAvailableOfferings = createSelector(
       return availableOfferings.map((offering: ServiceOffering) => {
         return !offering.iscustomized
           ? offering
-          : getCustomOfferingWithSetParams(
-            offering,
-            defaults[zone.id] && defaults[zone.id].customOfferingParams,
-            customOfferingRestrictions[zone.id],
-            ResourceStats.fromAccount([user])
-          );
+          : getCustomOfferingWithParams(offering, paramTags);
       }).filter(item => filterByCompatibilityPolicy(item) && filterStorageType(item));
     } else {
       return [];
@@ -252,17 +303,57 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
-export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
+export const classesFilter = (offering: ServiceOffering, tags: Tag[], classesMap) => {
+  const tag = offering && tags.find(tag => tag.key === ServiceOfferingClassKey + '.' + offering.id);
+  const classes = tag && tag.value.split(',');
+  const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
+  return classes && classes.find(soClass => classesMap[soClass])
+    || (showGeneral && !classes);
+};
+
+export const selectFilteredOfferings = createSelector(
+  getAvailableOfferings,
+  filterSelectedViewMode,
+  filterSelectedClasses,
+  filterQuery,
+  fromSOClass.selectEntities,
+  fromAccountTags.selectAll,
+  (offerings, viewMode, selectedClasses, query, classes, tags) => {
+    const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const queryLower = query && query.toLowerCase();
+
+    const selectedViewModeFilter = (offering: ServiceOffering) => {
+      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+    };
+
+    const selectedClassesFilter = (offering: ServiceOffering) => {
+      if (selectedClasses.length) {
+        return classesFilter(offering, tags, classesMap);
+      }
+      return true;
+    };
+
+    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase()
+        .includes(queryLower);
+
+    return offerings.filter((offering: ServiceOffering) => selectedViewModeFilter(
+      offering) && queryFilter(offering) && selectedClassesFilter(offering));
+  }
+);
+
+export const getAvailableOfferingsForVmCreation = createSelector(
+  selectAll,
   offeringAvailability,
   defaultParams,
   customOfferingRestrictions,
   fromVMs.getVmCreationZoneId,
   fromZones.selectEntities,
   fromAuths.getUserAccount,
+  fromAccountTags.selectServiceOfferingParamTags,
   (
     serviceOfferings, availability,
     defaults, customRestrictions,
-    zoneId, zones, user
+    zoneId, zones, user, paramTags
   ) => {
     const zone = zones && zones[zoneId];
     if (zone && user) {
@@ -277,17 +368,44 @@ export const getAvailableOfferingsForVmCreation = createSelector(selectAll,
       return availableOfferings.map((offering: ServiceOffering) => {
         return !offering.iscustomized
           ? offering
-          : getCustomOfferingWithSetParams(
-            offering,
-            defaults[zone.id] && defaults[zone.id].customOfferingParams,
-            customOfferingRestrictions[zone.id],
-            ResourceStats.fromAccount([user])
-          );
+          : getCustomOfferingWithParams(offering, paramTags);
       }).filter(item => item);
     } else {
       return [];
     }
-  });
+  }
+);
+
+export const selectFilteredOfferingsForVmCreation = createSelector(
+  getAvailableOfferingsForVmCreation,
+  filterSelectedViewMode,
+  filterSelectedClasses,
+  filterQuery,
+  fromSOClass.selectEntities,
+  fromAccountTags.selectServiceOfferingClassTags,
+  (offerings, viewMode, selectedClasses, query, classes, tags) => {
+    const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
+    const queryLower = query && query.toLowerCase();
+
+    const selectedViewModeFilter = (offering: ServiceOffering) => {
+      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+    };
+
+    const selectedClassesFilter = (offering: ServiceOffering) => {
+      if (selectedClasses.length) {
+        return classesFilter(offering, tags, classesMap);
+      }
+      return true;
+    };
+
+    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase()
+      .includes(queryLower);
+
+    return offerings.filter((offering: ServiceOffering) => selectedViewModeFilter(
+      offering) && queryFilter(offering) && selectedClassesFilter(offering));
+  }
+);
+
 
 export const getOfferingsAvailableInZone = (
   offeringList: Array<ServiceOffering>,
@@ -365,45 +483,74 @@ export const getAvailableByResourcesSync = (
     });
 };
 
-export const getCustomOfferingWithSetParams = (
+export const getCustomOfferingWithParams = (
   serviceOffering: CustomServiceOffering,
-  defaults: ICustomServiceOffering,
-  customRestrictions: ICustomOfferingRestrictions,
-  resourceStats: ResourceStats
+  tags: Array<Tag>
 ): CustomServiceOffering => {
 
-  const getServiceOfferingRestriction = (param) => {
-    return serviceOffering[param]
-      || defaults && defaults[param]
-      || customRestrictions && customRestrictions[param] && customRestrictions[param].min
-      || customServiceOfferingFallbackParams[param];
+  const getValue = (param) => {
+    const key = `${ServiceOfferingParamKey}.${serviceOffering.id}.${param}`;
+    const tag = tags.find(tag => tag.key === key);
+    return tag && tag.value;
   };
 
-  const cpunumber = getServiceOfferingRestriction('cpunumber');
-  const cpuspeed = getServiceOfferingRestriction('cpuspeed');
-  const memory = getServiceOfferingRestriction('memory');
+  const cpunumber = parseInt(getValue('cpuNumber'));
+  const cpuspeed = parseInt(getValue('cpuSpeed'));
+  const memory = parseInt(getValue('memory'));
 
-  const restrictions = getRestrictionIntersection(
-    customRestrictions,
-    resourceStats
-  );
-
-  if (!restrictionsAreCompatible(restrictions)) {
-    return undefined;
+  if (cpunumber && cpuspeed && memory ) {
+    const params = { cpunumber, cpuspeed, memory };
+    return { ...serviceOffering, ...params };
+  } else {
+    return serviceOffering;
   }
-
-  const normalizedParams = clipOfferingParamsToRestrictions(
-    { cpunumber, cpuspeed, memory },
-    restrictions
-  );
-
-  return { ...serviceOffering, ...normalizedParams };
 };
+
+export const getCustomRestrictions = createSelector(customOfferingRestrictions,
+  fromZones.getSelectedZone,(restrictions, zone) => {
+    return restrictions && zone && restrictions[zone.id] || DefaultCustomServiceOfferingRestrictions;
+  });
 
 export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,
   fromVMs.getVmCreationZoneId, (restrictions, zoneId) => {
     return restrictions && restrictions[zoneId] || DefaultCustomServiceOfferingRestrictions;
   });
+
+export const getDefaultParams = createSelector(
+  defaultParams,
+  getCustomRestrictions,
+  getCustomRestrictionsForVmCreation,
+  fromAuths.getUserAccount,
+  (defaults, customRestrictions, customRestrictionsForVmCreation, user ) => {
+    const resourceStats = ResourceStats.fromAccount([user]);
+    const getServiceOfferingRestriction = (param) => {
+      return defaults && defaults[param]
+        || customRestrictions && customRestrictions[param] && customRestrictions[param].min
+        || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param] && customRestrictionsForVmCreation[param].min
+        || customServiceOfferingFallbackParams[param];
+    };
+
+    const cpunumber = getServiceOfferingRestriction('cpunumber');
+    const cpuspeed = getServiceOfferingRestriction('cpuspeed');
+    const memory = getServiceOfferingRestriction('memory');
+
+    const restrictions = getRestrictionIntersection(
+      customRestrictions,
+      resourceStats
+    );
+
+    if (!restrictionsAreCompatible(restrictions)) {
+      return undefined;
+    }
+
+    const normalizedParams = clipOfferingParamsToRestrictions(
+      { cpunumber, cpuspeed, memory },
+      restrictions
+    );
+
+    return { ...normalizedParams };
+  }
+);
 
 export const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
   return Object.keys(restrictions).reduce((acc, key) => {

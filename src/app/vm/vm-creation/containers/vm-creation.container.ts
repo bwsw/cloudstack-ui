@@ -1,8 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { State } from '../../../reducers';
-import { AuthService } from '../../../shared/services/auth.service';
 import { Observable } from 'rxjs/Observable';
+import { State } from '../../../reducers';
+
+import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
+import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
+import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
+import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
+import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
+import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
+import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
+import * as soClassActions from '../../../reducers/service-offerings/redux/service-offering-class.actions';
+import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
+import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
+import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
+import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
+import * as templateActions from '../../../reducers/templates/redux/template.actions';
+import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
+import * as vmActions from '../../../reducers/vm/redux/vm.actions';
+
+import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
+import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
+import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import {
   AffinityGroup,
   DiskOffering,
@@ -11,29 +31,13 @@ import {
   SSHKeyPair,
   Zone
 } from '../../../shared/models';
+import { AccountResourceType } from '../../../shared/models/account.model';
+import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
-import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
-import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VmService } from '../../shared/vm.service';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
-import { MatDialogRef } from '@angular/material';
-
-import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
-import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
-import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
-import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
-import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
-import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
-import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
-import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
-import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
-import * as vmActions from '../../../reducers/vm/redux/vm.actions';
-import * as templateActions from '../../../reducers/templates/redux/template.actions';
-import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
-import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
-import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
-import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
-import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
+import { KeyboardLayout } from '../keyboards/keyboards.component';
+import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
 @Component({
   selector: 'cs-vm-create-container',
@@ -118,6 +122,9 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
+    this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
+    this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
+    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));

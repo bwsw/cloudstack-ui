@@ -208,6 +208,7 @@ mat-card.custom-card {
   margin: 0 !important;
   position: relative;
   box-shadow: none !important;
+  display: flex;
 
   & > * {
     align-self: center;

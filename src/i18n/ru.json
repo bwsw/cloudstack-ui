@@ -554,7 +554,8 @@
       "TAG_COPYING": "Копирование тегов из шаблона...",
       "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",
-      "NO_TEMPLATES": "Нет доступных шаблонов"
+      "NO_TEMPLATES": "Нет доступных шаблонов",
+      "NO_OFFERINGS": "Нет доступных сервисных предложений"
     }
   },
   "VM_POST_ACTION": {
@@ -1216,6 +1217,21 @@
       "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
       "UP_TO": "До {{ upperLimit }}",
       "FROM": "От {{ lowerLimit }}"
+    },
+    "COLUMN": {
+      "NAME": "Имя",
+      "NETWORK_RATE": "Скорость сети (MБ/сек)",
+      "CPU_NUMBER": "Ядра CPU",
+      "CPU_SPEED": "CPU (MHz)",
+      "MEMORY": "Память (MБ)"
+    },
+    "MODES": {
+      "FIXED": "Фиксированные",
+      "CUSTOM": "Настраеваемые"
+    },
+    "FILTERS": {
+      "SELECT_CLASSES": "Выберите классы",
+      "COMMON": "Общие"
     }
   },
   "SNAPSHOT_POLICIES": {

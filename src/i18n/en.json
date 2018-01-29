@@ -554,7 +554,8 @@
       "TAG_COPYING": "Copying template tags...",
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
-      "NO_TEMPLATES": "No templates available"
+      "NO_TEMPLATES": "No templates available",
+      "NO_OFFERINGS": "No offerings available"
     }
   },
   "VM_POST_ACTION": {
@@ -1216,6 +1217,21 @@
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
       "FROM": "From {{ lowerLimit }}"
+    },
+    "COLUMN": {
+      "NAME": "Name",
+      "NETWORK_RATE": "Network rate (MB/s)",
+      "CPU_NUMBER": "CPU cores",
+      "CPU_SPEED": "CPU (MHz)",
+      "MEMORY": "Memory (MB)"
+    },
+    "MODES": {
+      "FIXED": "Fixed",
+      "CUSTOM": "Custom"
+    },
+    "FILTERS": {
+      "SELECT_CLASSES": "Select classes",
+      "COMMON": "Common"
     }
   },
   "SNAPSHOT_POLICIES": {
