@@ -39,7 +39,7 @@ export class AccountCreationDialogComponent {
   }
 
   public prepareData(data: AccountForm): AccountData {
-    const result: AccountData = new AccountData();
+    const result: AccountData = {} as AccountData;
     result.username = data.username;
     result.email = data.email;
     result.password = data.password;
