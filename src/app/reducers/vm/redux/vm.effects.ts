@@ -564,7 +564,7 @@ export class VirtualMachinesEffects {
   @Effect()
   detachIso$: Observable<Action> = this.actions$
     .ofType(vmActions.DETACH_ISO)
-    .switchMap((action: vmActions.AttachIso) => {
+    .switchMap((action: vmActions.DetachIso) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.ISO.DETACHMENT_IN_PROGRESS');
       return this.isoService.detach(action.payload)
@@ -831,9 +831,10 @@ export class VirtualMachinesEffects {
   private showConfirmDialog(): Observable<any> {
     return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_SAVE_PASSWORD' })
       .onErrorResumeNext()
-      .filter(res => !!res)
       .switchMap((res) => {
-        this.userTagService.setSavePasswordForAllVms(true);
+        if (res) {
+          this.userTagService.setSavePasswordForAllVms(true);
+        }
         return Observable.of(null);
       });
   }
