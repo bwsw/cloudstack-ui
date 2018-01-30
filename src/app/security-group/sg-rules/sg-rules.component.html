@@ -45,12 +45,13 @@
                 name="cidr"
                 type="text"
                 [(ngModel)]="cidr"
-                pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$"
+                (ngModelChange)="onCidrChange()"
+                [errorStateMatcher]="cidrMatcher"
+                [placeholder]="'SECURITY_GROUP_PAGE.RULES.ENTER_CIDR' | translate"
                 required
-                (click)="onCidrClick()"
                 #cidrField="ngModel"
               >
-              <mat-error *ngIf="cidrField.hasError('pattern')">
+              <mat-error *ngIf="!isCidrValid(cidr)">
                 {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
               </mat-error>
             </mat-form-field>
