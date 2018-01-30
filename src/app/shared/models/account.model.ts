@@ -11,8 +11,9 @@ export const enum AccountType {
 export const AccountState = {
   enabled: 'enabled',
   disabled: 'disabled',
-  locked: 'locked',
 };
+
+export const AccountResourceType = 'Account';
 
 export interface AccountForm {
   username: string;

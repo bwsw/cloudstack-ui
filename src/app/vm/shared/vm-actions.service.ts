@@ -1,8 +1,5 @@
 import { VmActions } from '../vm-actions/vm-action';
-import {
-  VirtualMachine,
-  VmState
-} from './vm.model';
+import { VirtualMachine, VmState } from './vm.model';
 
 const isIpAvailable = (vm) => {
   return vm.nic.length && !!vm.nic[0].ipaddress;
@@ -40,7 +37,7 @@ const VmRestoreAction = {
   canActivate: (vm: VirtualMachine) => !!vm && [
     VmState.Running,
     VmState.Stopped
-  ].includes(vm.state)
+  ].indexOf(vm.state) !== -1
 };
 
 const VmDestroyAction = {
@@ -51,7 +48,7 @@ const VmDestroyAction = {
   canActivate: (vm: VirtualMachine) => !!vm && [
     VmState.Running, VmState.Stopped,
     VmState.Error
-  ].includes(vm.state)
+  ].indexOf(vm.state) !== -1
 };
 
 const VmResetPasswordAction = {
@@ -60,7 +57,7 @@ const VmResetPasswordAction = {
   icon: 'vpn_key',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
   canActivate: (vm: VirtualMachine) => !!vm
-    && [VmState.Running, VmState.Stopped].includes(vm.state)
+    && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1
     && vm.passwordEnabled
     && isIpAvailable(vm)
 };

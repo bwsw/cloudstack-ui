@@ -1,3 +1,36 @@
+<a name="1.410.18"></a>
+## [1.410.18](https://github.com/qqcky/cloudstack-ui/compare/1.410.17...1.410.18) (2018-01-29)
+
+
+### Bug Fixes
+
+* **account-actions:** Remove "lock/enable account" feature from Accounts (closes [#887](https://github.com/qqcky/cloudstack-ui/issues/887)) ([#890](https://github.com/qqcky/cloudstack-ui/issues/890)) ([375435b](https://github.com/qqcky/cloudstack-ui/commit/375435b))
+* **accounts-filter:** Delete in Filtering of Accounts parameter "Locked" (closes [#908](https://github.com/qqcky/cloudstack-ui/issues/908)) ([#909](https://github.com/qqcky/cloudstack-ui/issues/909)) ([9bb0b29](https://github.com/qqcky/cloudstack-ui/commit/9bb0b29))
+* **affinity-group:** Fix limitations for affinity group creation (closes [#864](https://github.com/qqcky/cloudstack-ui/issues/864)) ([#884](https://github.com/qqcky/cloudstack-ui/issues/884)) ([2481a89](https://github.com/qqcky/cloudstack-ui/commit/2481a89))
+* **firewall-rules:** Fix firewall rule types sorting and alignment (closes [#868](https://github.com/qqcky/cloudstack-ui/issues/868)) ([#883](https://github.com/qqcky/cloudstack-ui/issues/883)) ([b661ee9](https://github.com/qqcky/cloudstack-ui/commit/b661ee9))
+* **instance-group:** Fix instance group translation (closes [#856](https://github.com/qqcky/cloudstack-ui/issues/856)) ([#869](https://github.com/qqcky/cloudstack-ui/issues/869)) ([484aa96](https://github.com/qqcky/cloudstack-ui/commit/484aa96))
+* **left-sidebar:** Decrease a height of each element in the left-side menu ([#901](https://github.com/qqcky/cloudstack-ui/issues/901)) ([#918](https://github.com/qqcky/cloudstack-ui/issues/918)) ([ef7012b](https://github.com/qqcky/cloudstack-ui/commit/ef7012b))
+* **login-page:** Incorrect error occurs for empty domain or invalid username (closes [#912](https://github.com/qqcky/cloudstack-ui/issues/912)) ([#914](https://github.com/qqcky/cloudstack-ui/issues/914)) ([c489e1b](https://github.com/qqcky/cloudstack-ui/commit/c489e1b))
+* **notification-box:** Fix view of notification-box (closes [#837](https://github.com/qqcky/cloudstack-ui/issues/837)) ([#843](https://github.com/qqcky/cloudstack-ui/issues/843)) ([bedbe45](https://github.com/qqcky/cloudstack-ui/commit/bedbe45))
+* **ssh-key:** Fix ssh key pair creation with not auto generated public key (closes [#878](https://github.com/qqcky/cloudstack-ui/issues/878)) ([#882](https://github.com/qqcky/cloudstack-ui/issues/882)) ([881f054](https://github.com/qqcky/cloudstack-ui/commit/881f054))
+* **styles:** Fix card-header align (closes [#853](https://github.com/qqcky/cloudstack-ui/issues/853) ) ([#873](https://github.com/qqcky/cloudstack-ui/issues/873)) ([afb7799](https://github.com/qqcky/cloudstack-ui/commit/afb7799))
+* **tags:** Fix tag keys view (closes [#898](https://github.com/qqcky/cloudstack-ui/issues/898)) ([#906](https://github.com/qqcky/cloudstack-ui/issues/906)) ([19e7839](https://github.com/qqcky/cloudstack-ui/commit/19e7839))
+* **vm-actions:** Replace switchMap with flatMap for vm actions ([347b060](https://github.com/qqcky/cloudstack-ui/commit/347b060))
+* **vm-creation:** Fix VM creation from template with tags leads to duplicate tags on the VM (closes [#858](https://github.com/qqcky/cloudstack-ui/issues/858)) ([#875](https://github.com/qqcky/cloudstack-ui/issues/875)) ([7465e36](https://github.com/qqcky/cloudstack-ui/commit/7465e36))
+* **vm-destroy:** Fix deleting of volumes while deleting the VM (closes [#870](https://github.com/qqcky/cloudstack-ui/issues/870)) ([#874](https://github.com/qqcky/cloudstack-ui/issues/874)) ([60e7b9c](https://github.com/qqcky/cloudstack-ui/commit/60e7b9c))
+* **vm-tags:** Fix vm tag creation bug (closes [#876](https://github.com/qqcky/cloudstack-ui/issues/876)) ([#877](https://github.com/qqcky/cloudstack-ui/issues/877)) ([2735e6c](https://github.com/qqcky/cloudstack-ui/commit/2735e6c))
+
+
+### Features
+
+* **disk-offering:** Change disk offering chooser component (closes [#501](https://github.com/qqcky/cloudstack-ui/issues/501)) ([#891](https://github.com/qqcky/cloudstack-ui/issues/891)) ([998c380](https://github.com/qqcky/cloudstack-ui/commit/998c380))
+* **private-sg:** Implement Private Security Groups tab in Firewall (closes [#816](https://github.com/qqcky/cloudstack-ui/issues/816)) ([#839](https://github.com/qqcky/cloudstack-ui/issues/839)) ([ded1f30](https://github.com/qqcky/cloudstack-ui/commit/ded1f30))
+* **security-group:** set name for private security groups from vm name (closes [#862](https://github.com/qqcky/cloudstack-ui/issues/862)) ([#905](https://github.com/qqcky/cloudstack-ui/issues/905)) ([b3e9755](https://github.com/qqcky/cloudstack-ui/commit/b3e9755))
+* **service-offering:** Update service offering chooser component ([#885](https://github.com/qqcky/cloudstack-ui/issues/885)) ([56f5e8d](https://github.com/qqcky/cloudstack-ui/commit/56f5e8d))
+* **ssh-key:** Store "SSH description" in account tags if supported (closes [#824](https://github.com/qqcky/cloudstack-ui/issues/824)) ([#844](https://github.com/qqcky/cloudstack-ui/issues/844)) ([95d7947](https://github.com/qqcky/cloudstack-ui/commit/95d7947))
+
+
+
 <a name="1.410.17"></a>
 ## [1.410.17](https://github.com/bwsw/cloudstack-ui/compare/1.410.16...1.410.17) (2017-12-29)
 

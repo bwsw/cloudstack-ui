@@ -31,6 +31,7 @@ import {
       [diskOfferings]="offerings$ | async"
       [maxSize]="maxSize"
       [zones]="zones$ | async"
+      [params]="params$ | async"
       (onVolumeCreate)="createVolume($event)"
       (onZoneUpdated)="updateZone($event)"
     >
@@ -43,6 +44,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly account$ = this.store.select(fromAccounts.selectUserAccount);
+  readonly params$ = this.store.select(fromDiskOfferings.getParams);
 
   public maxSize = 2;
 
@@ -56,6 +58,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
+    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
 
     this.account$
       .take(1)

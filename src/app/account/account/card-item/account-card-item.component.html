@@ -5,17 +5,15 @@
 >
   <mat-card-header>
     <mat-card-title>
+      <span
+        class="state-icon"
+        [matTooltip]="stateTranslations[item.state] | translate"
+        [ngClass]="item.state"
+      ></span>
       <h2
         class="mat-card-title-text"
-      >
-        <span
-          class="state-icon"
-          [matTooltip]="stateTranslations[item.state] | translate"
-          [ngClass]="item.state"
-        ></span>
-        <span
-          [matTooltip]="item.name"
-        > {{ item.name }} </span>
+        [matTooltip]="item.name"
+      >{{ item.name }}
       </h2>
     </mat-card-title>
     <div class="mat-card-header-menu" *ngIf="isAdmin() && !isSelf">
