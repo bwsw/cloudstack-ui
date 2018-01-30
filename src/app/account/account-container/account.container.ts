@@ -19,7 +19,6 @@ import {
 export const stateTranslations = {
   [AccountState.disabled]: 'ACCOUNT_STATE.DISABLED',
   [AccountState.enabled]: 'ACCOUNT_STATE.ENABLED',
-  [AccountState.locked]: 'ACCOUNT_STATE.LOCKED',
 };
 
 @Component({

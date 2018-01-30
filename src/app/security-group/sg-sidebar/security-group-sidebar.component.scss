@@ -1,0 +1,19 @@
+.mat-tab-nav-bar .mat-icon {
+  line-height: 48px;
+}
+
+:host /deep/ .tab-action-container {
+  margin: 15px 5px;
+}
+
+:host /deep/ .mat-action-row {
+  padding: 8px;
+}
+
+:host /deep/ .mat-expansion-panel-content {
+  color: rgba(0, 0, 0, 0.54)
+}
+
+:host /deep/ .mat-tab-link {
+  min-width: 140px !important;
+}

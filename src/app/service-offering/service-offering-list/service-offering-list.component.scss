@@ -1,0 +1,16 @@
+h4, h5 {
+  margin: 10px;
+}
+table {
+  thead {
+    text-align: left;
+  }
+  tbody {
+    cursor: pointer;
+  }
+  td.name-text, th.name-text, th.field {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
