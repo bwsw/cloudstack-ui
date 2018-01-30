@@ -14,6 +14,7 @@ import { JobsNotificationService } from '../../../shared/services/jobs-notificat
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
+// tslint:disable-next-line
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 import { State } from '../../index';
 

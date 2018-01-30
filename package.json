@@ -1,6 +1,6 @@
 {
   "name": "cloudstack-ui",
-  "version": "1.410.17",
+  "version": "1.410.18",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
@@ -37,7 +37,7 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "chart.js": "2.7.0",
     "core-js": "^2.4.1",
-    "jasmine": "2.8.0",
+    "jasmine": "^2.8.0",
     "jasmine-marbles": "^0.2.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",

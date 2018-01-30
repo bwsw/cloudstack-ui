@@ -16,7 +16,7 @@
         required
         #cpuNumberControl="ngModel"
       >
-      <mat-error *ngIf="cpuNumberControl.invalid">
+      <mat-error>
         {{ errorMessage(restrictions.cpunumber.min, restrictions.cpunumber.max) | async }}
       </mat-error>
     </mat-form-field>
@@ -36,7 +36,7 @@
         required
         #cpuSpeedControl="ngModel"
       >
-      <mat-error *ngIf="cpuSpeedControl.invalid">
+      <mat-error>
         {{ errorMessage(restrictions.cpuspeed.min, restrictions.cpuspeed.max) | async }}
       </mat-error>
     </mat-form-field>
@@ -56,7 +56,7 @@
         required
         #memoryControl="ngModel"
       >
-      <mat-error *ngIf="memoryControl.invalid">
+      <mat-error>
         {{ errorMessage(restrictions.memory.min, restrictions.memory.max) | async }}
       </mat-error>
     </mat-form-field>

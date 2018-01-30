@@ -55,18 +55,18 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   public initUser(): Promise<any> {
     try {
       const userRaw = this.storage.read('user');
-      const user = Utils.parseJsonString(userRaw);
-      this._user = new User(user);
+      const user: User = Utils.parseJsonString(userRaw);
+      this._user = user;
     } catch (e) {}
 
     this.loggedIn = new BehaviorSubject<boolean>(
-      !!(this._user && this._user.userId)
+      !!(this._user && this._user.userid)
     );
     this.jobsNotificationService.reset();
 
-    return this._user.userId
+    return this._user && this._user.userid
       ? this.getCapabilities().toPromise()
-      : Promise.resolve();
+      : Promise.resolve()
   }
 
   public get user(): User | null {
@@ -81,7 +81,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.postRequest('login', { username, password, domain })
       .map(res => this.getResponse(res))
       .do((res) => this.saveUserDataToLocalStorage(res))
-      .switchMap(res => this.getCapabilities())
+      .switchMap(() => this.getCapabilities())
       .do(() => this.loggedIn.next(true))
       .catch(error => this.handleCommandError(error.error));
   }
@@ -93,7 +93,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   public isLoggedIn(): Observable<boolean> {
-    return Observable.of(!!(this._user && this._user.userId));
+    return Observable.of(!!(this._user && this._user.userid));
   }
 
   public isAdmin(): boolean {
@@ -120,9 +120,9 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     return this.capabilities && this.capabilities.customdiskofferingmaxsize;
   }
 
-  private saveUserDataToLocalStorage(loginRes): void {
-    this._user = new User(loginRes);
-    this.storage.write('user', JSON.stringify(this._user.serialize()));
+  private saveUserDataToLocalStorage(loginRes: User): void {
+    this._user = loginRes;
+    this.storage.write('user', JSON.stringify(this._user));
   }
 
   private setLoggedOut(): void {

@@ -29,7 +29,7 @@ export class AccountUserActionsService {
       command: 'delete',
       icon: 'delete',
       confirmMessage: 'DIALOG_MESSAGES.ACCOUNT_USER.CONFIRM_DELETION',
-      canActivate: user => user.id !== this.authService.user.userId
+      canActivate: user => user.id !== this.authService.user.userid
     }
   ];
 

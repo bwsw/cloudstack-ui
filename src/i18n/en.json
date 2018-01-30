@@ -90,8 +90,9 @@
     },
     "AUTH": {
       "INCORRECT_USERNAME": "Incorrect username",
-      "INCORRECT_PASSWORD": "Incorrect password",
-      "INCORRECT_DOMAIN": "Unable to find domain {{ val1 }}"
+      "INCORRECT_CREDENTIALS": "Incorrect username or password",
+      "INCORRECT_DOMAIN": "Unable to find domain {{ val1 }}",
+      "DISABLED": "User {{ val1 }} (or their account) {{ val2 }} is disabled. Please contact the administrator."
     },
     "ISO": {
       "VMS_IN_USE": "Unable to delete the ISO as it's used by the following VMs:<br>{{ vms }}"
@@ -553,7 +554,8 @@
       "TAG_COPYING": "Copying template tags...",
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
-      "NO_TEMPLATES": "No templates available"
+      "NO_TEMPLATES": "No templates available",
+      "NO_OFFERINGS": "No offerings available"
     }
   },
   "VM_POST_ACTION": {
@@ -597,17 +599,30 @@
     "DETAILS": {
       "GENERAL_INFORMATION": "General information",
       "SIZE": "Size",
-      "CREATED": "Created",
       "STORAGE_TYPE": "Storage type",
       "DISK_OFFERING": "Disk offering",
-      "DISK_OFFERING_NAME": "Name",
-      "DESCRIPTION": "Description",
-      "MIN_IOPS": "Min IO/s",
-      "MAX_IOPS": "Max IO/s",
-      "READ_RATE_MB": "Read rate",
-      "WRITE_RATE_MB": "Write rate",
-      "READ_RATE_IOPS": "Read rate (IO/s)",
-      "WRITE_RATE_IOPS": "Write rate (IO/s)"
+      "NAME": "NAME",
+      "CREATED": "Created",
+      "name": "Name",
+      "bytesreadrate": "Read MB/s",
+      "byteswriterate": "Write MB/s",
+      "iopsreadrate": "Read IO/s",
+      "iopswriterate": "Write IO/s",
+      "displaytext": "Description",
+      "disksize": "Disk size",
+      "storagetype": "Storage type",
+      "provisioningtype": "Provisioning type",
+      "iscustomized": "Customized",
+      "miniops": "Min IO/s",
+      "maxiops": "Max IO/s",
+      "thin": "Thin",
+      "thick": "Thick",
+      "fat": "Fat",
+      "sparse": "Sparse",
+      "shared": "Shared",
+      "created": "Created",
+      "true": "Yes",
+      "false": "No"
     },
     "SNAPSHOTS": {
       "DESCRIPTION": "Description",
@@ -1219,6 +1234,21 @@
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
       "FROM": "From {{ lowerLimit }}"
+    },
+    "COLUMN": {
+      "NAME": "Name",
+      "NETWORK_RATE": "Network rate (MB/s)",
+      "CPU_NUMBER": "CPU cores",
+      "CPU_SPEED": "CPU (MHz)",
+      "MEMORY": "Memory (MB)"
+    },
+    "MODES": {
+      "FIXED": "Fixed",
+      "CUSTOM": "Custom"
+    },
+    "FILTERS": {
+      "SELECT_CLASSES": "Select classes",
+      "COMMON": "Common"
     }
   },
   "SNAPSHOT_POLICIES": {
@@ -1349,7 +1379,28 @@
   },
   "ACCOUNT_STATE": {
     "DISABLED": "Disabled",
-    "ENABLED": "Enabled",
-    "LOCKED": "Locked"
+    "ENABLED": "Enabled"
+  },
+  "DISK_OFFERING_TABLE": {
+    "name": "",
+    "bytesreadrate": "Read MB/s",
+    "byteswriterate": "Write MB/s",
+    "iopsreadrate": "Read IO/s",
+    "iopswriterate": "Write IO/s",
+    "displaytext": "Description",
+    "disksize": "Disk size",
+    "storagetype": "Storage type",
+    "provisioningtype": "Provisioning type",
+    "iscustomized": "Customized",
+    "miniops": "Min IO/s",
+    "maxiops": "Max IO/s",
+    "thin": "Thin",
+    "thick": "Thick",
+    "fat": "Fat",
+    "sparse": "Sparse",
+    "shared": "Shared",
+    "created": "Created",
+    "true": "Yes",
+    "false": "No"
   }
 }

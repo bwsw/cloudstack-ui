@@ -3,14 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { ResourceTypes } from '../../models/tag.model';
 import { DayOfWeek } from '../../types/day-of-week';
 import { AuthService } from '../auth.service';
-import {
-  Language,
-  TimeFormat
-} from '../language.service';
+import { Language, TimeFormat } from '../language.service';
+import { Utils } from '../utils/utils.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
 import { UserTagKeys } from './user-tag-keys';
-import { Utils } from '../utils/utils.service';
 
 
 interface UserIdObject {
@@ -28,7 +25,7 @@ export class UserTagService implements EntityTagService {
 
   private get user(): UserIdObject {
     const user = this.authService.user;
-    return user ? { id: user.userId } : undefined;
+    return user ? { id: user.userid } : undefined;
   }
 
   public getTheme(): Observable<string> {

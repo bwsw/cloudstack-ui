@@ -35,6 +35,6 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
     offeringAvailability: OfferingAvailability,
     zone: Zone
   ): boolean {
-    return offeringAvailability[zone.id].diskOfferings.includes(offering.id);
+    return offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
   }
 }
