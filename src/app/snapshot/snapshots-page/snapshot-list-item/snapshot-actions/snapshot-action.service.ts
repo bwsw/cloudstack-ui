@@ -18,14 +18,15 @@ export enum SnapshotActions {
 const CreateTemplateFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_TEMPLATE',
   command: SnapshotActions.CreateTemplate,
-  icon: 'add',
+  icon: 'disc',
+  className: 'disc-icon',
   canActivate: (snapshot: Snapshot) => true
 };
 
 const CreateVolumeFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_VOLUME',
   command: SnapshotActions.CreateVolume,
-  icon: 'add',
+  icon: 'dns',
   canActivate: (snapshot: Snapshot) => true
 };
 

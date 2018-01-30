@@ -157,9 +157,9 @@
       "DELETION_IN_PROGRESS": "Удаление снимка",
       "DELETION_DONE": "Снимок удален",
       "DELETION_FAILED": "Не удалось удалить снимок",
-      "REVERT_IN_PROGRESS": "Reverting a disk",
-      "REVERT_DONE": "Disk reverted",
-      "REVERT_FAILED": "Failed to revert a disk"
+      "REVERT_IN_PROGRESS": "Возвращение диска к снимку",
+      "REVERT_DONE": "Диск возращен к снимку",
+      "REVERT_FAILED": "Вернуть диск к снимку не удалось"
     },
     "TEMPLATE": {
       "REGISTER_IN_PROGRESS": "Регистрация шаблона",
@@ -265,6 +265,12 @@
       "USER_CREATED": "Пользователь {{ username }} успешно создан",
       "USER_UPDATED": "Пользователь {{ username }} успешно обновлен",
       "USER_DELETED": "Пользователь {{ username }} успешно удален"
+    },
+    "VOLUME": {
+      "VOLUME_FROM_SNAPSHOT_CREATED": "Диск {{ name }} успешно создан"
+    },
+    "SNAPSHOT": {
+      "DELETE_SUCCESS": "Снимок {{ name }} успешно удален"
     }
   },
   "AUTH": {

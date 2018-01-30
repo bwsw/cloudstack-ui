@@ -68,7 +68,7 @@ export class DeleteSnapshotSuccess implements Action {
 export class SnapshotUpdateError implements Action {
   readonly type = SNAPSHOT_UPDATE_ERROR;
 
-  constructor(public payload: INotification) {
+  constructor(public payload: any) {
   }
 }
 

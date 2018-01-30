@@ -10,7 +10,10 @@ import { SnapshotActions, SnapshotActionService } from './snapshot-action.servic
         *ngIf="action.canActivate(snapshot)"
         mat-menu-item (click)="activateAction(action, snapshot)"
       >
-        <mat-icon>{{ action.icon }}</mat-icon>
+        <mat-icon
+          [ngClass]="action.className"
+        >{{ action.icon }}
+        </mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
     </ng-container>`

@@ -5,13 +5,12 @@
 >
   <mat-card-header>
     <mat-card-title>
-      <h2 class="mat-card-title-text">
-        <span
-          class="state-icon"
-          [matTooltip]="stateTranslations[item.state] | translate"
-          [ngClass]="statusClass"
-        ></span>
-        <span [matTooltip]="item.name"> {{ item.name }} </span>
+      <span
+        class="state-icon"
+        [matTooltip]="stateTranslations[item.state] | translate"
+        [ngClass]="statusClass"
+      ></span>
+      <h2 class="mat-card-title-text" [matTooltip]="item.name" [innerHTML]="item.name">
       </h2>
     </mat-card-title>
     <div class="mat-card-header-menu">

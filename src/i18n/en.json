@@ -265,6 +265,12 @@
       "USER_CREATED": "User {{ username }} created successfully",
       "USER_UPDATED": "User {{ username }} updated successfully",
       "USER_DELETED": "User {{ username }} deleted successfully"
+    },
+    "VOLUME": {
+      "VOLUME_FROM_SNAPSHOT_CREATED": "Volume {{ name }} created successfully"
+    },
+    "SNAPSHOT": {
+      "DELETE_SUCCESS": "Snapshot {{ name }} deleted successfully"
     }
   },
   "AUTH": {

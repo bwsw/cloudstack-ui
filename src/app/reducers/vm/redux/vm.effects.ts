@@ -847,7 +847,7 @@ export class VirtualMachinesEffects {
       });
   }
 
-  private stop(vm) {
+  public stop(vm) {
     const notificationId = this.jobsNotificationService.add(
       'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
     this.update(vm, VmState.InProgress);

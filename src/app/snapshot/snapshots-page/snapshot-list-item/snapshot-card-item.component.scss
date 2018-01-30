@@ -9,3 +9,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+mat-card mat-card-header h2.mat-card-title-text {
+  max-width: 220px !important;
+}

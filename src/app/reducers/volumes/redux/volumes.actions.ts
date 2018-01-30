@@ -9,6 +9,7 @@ export const VOLUME_FILTER_UPDATE = '[VOLUMES] VOLUME_FILTER_UPDATE';
 export const LOAD_SELECTED_VOLUME = '[VOLUMES] LOAD_SELECTED_VOLUME';
 export const CREATE_VOLUME = '[VOLUMES] CREATE_VOLUME';
 export const CREATE_VOLUME_FROM_SNAPSHOT = '[VOLUMES] CREATE_VOLUME_FROM_SNAPSHOT';
+export const CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS = '[VOLUMES] CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS';
 export const DELETE_VOLUME = '[VOLUMES] DELETE_VOLUME';
 export const DELETE_VOLUMES = '[VOLUMES] DELETE_VOLUMES';
 export const UPDATE_VOLUME = '[VOLUMES] UPDATE_VOLUME';
@@ -179,6 +180,13 @@ export class CreateVolumeFromSnapshot implements Action {
   readonly type = CREATE_VOLUME_FROM_SNAPSHOT;
 
   constructor(public payload: VolumeFromSnapshotCreationData) {
+  }
+}
+
+export class CreateVolumeFromSnapshotSuccess implements Action {
+  readonly type = CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS;
+
+  constructor(public payload: Volume) {
   }
 }
 
