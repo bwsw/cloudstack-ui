@@ -2,7 +2,7 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { SecurityGroup, SecurityGroupType } from '../../sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../../sg.model';
 
 
 @Component({
@@ -13,7 +13,11 @@ export class SecurityGroupDetailsComponent {
   @Input() public securityGroup: SecurityGroup;
 
   public get isPrivate() {
-    return this.securityGroup.type === SecurityGroupType.Private;
+    return getType(this.securityGroup) === SecurityGroupType.Private;
+  }
+
+  public get securityGroupType(): SecurityGroupType {
+    return getType(this.securityGroup);
   }
 
 }

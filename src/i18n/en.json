@@ -755,6 +755,10 @@
       "DESCRIPTION": "Description",
       "VM_NAME": "VM name"
     },
+    "SIDEBAR": {
+      "FIREWALL": "Firewall",
+      "TAGS": "Tags"
+    },
     "RULES": {
       "VIEW_TITLE": "Rules for <b>{{ value }}</b>",
       "EDIT_TITLE": "Edit rules for <b>{{ value }}</b>",
