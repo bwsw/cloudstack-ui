@@ -77,7 +77,6 @@ import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selecto
 import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
 import { VmCreationTemplateComponent } from './vm-creation/template/vm-creation-template.component';
-import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
