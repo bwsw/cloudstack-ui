@@ -26,7 +26,7 @@ export class ConfigService {
     const result = {};
 
     for (const key in this.config) {
-      if (this.config.hasOwnProperty(key) && keyArray.includes(key)) {
+      if (this.config.hasOwnProperty(key) && keyArray.indexOf(key) !== -1) {
         result[key] = this.config[key];
       }
     }

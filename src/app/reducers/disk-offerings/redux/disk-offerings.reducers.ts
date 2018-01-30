@@ -171,7 +171,7 @@ const isOfferingAvailableInZone = (
   offeringAvailability: OfferingAvailability,
   zone: Zone
 ) => {
-  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.includes(offering.id);
+  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
 };
 
 
