@@ -12,6 +12,10 @@ import { Observable } from 'rxjs/Observable';
 export class SupportInformationComponent implements OnInit {
   public expandSupportInfo = false;
   public supportInformation: string;
+  public defaultPath = 'support/support-info';
+  public defaultLangPath = `${this.defaultPath}.${'md'}`;
+
+  public isShow = true;
 
   constructor(
     private http: Http,
@@ -20,28 +24,40 @@ export class SupportInformationComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.readFile();
+    this.convertFile();
   }
 
   public toggleSupportInfo(): void {
     this.expandSupportInfo = !this.expandSupportInfo;
   }
 
-  public readFile() {
-    const defaultPath = 'support/support-information';
-    this.userTagService.getLang()
-      .switchMap(lang => {
-        const path = lang === 'en' ? `${defaultPath}.${'md'}` : `${defaultPath}.${lang}.${'md'}`;
-        return Observable.of(path);
-      })
-      .switchMap(responsePath => this.http.get(responsePath))
+  public convertFile() {
+    this.readFile()
       .map(response => response.text())
       .map(text => {
         const converter = new Converter();
-        return text ? converter.makeHtml(text) : 'dd';
+        return converter.makeHtml(text);
       })
       .subscribe(supportText => {
         this.supportInformation = supportText;
       });
+  }
+
+  public readFile() {
+    return this.getPath()
+      .switchMap(responsePath => this.http.get(responsePath))
+      .catch(() => this.http.get(this.defaultLangPath))
+      .catch(error => {
+        this.isShow = false;
+        return Observable.throw(error);
+      });
+  }
+
+  public getPath() {
+    return this.userTagService.getLang()
+      .switchMap(lang => {
+        const path = lang === 'en' ? this.defaultLangPath : `${this.defaultPath}.${lang}.${'md'}`;
+        return Observable.of(path);
+      })
   }
 }

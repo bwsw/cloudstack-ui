@@ -170,8 +170,6 @@ import {
 import {
   DiskOfferingDialogComponent
 } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
-import { CustomServiceOfferingComponent } from '../service-offering/custom-service-offering/custom-service-offering.component';
-import { SupportInformationComponent } from './components/support-information/support-information.component';
 
 @NgModule({
   imports: [
@@ -279,7 +277,6 @@ import { SupportInformationComponent } from './components/support-information/su
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    SupportInformationComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -335,14 +332,12 @@ import { SupportInformationComponent } from './components/support-information/su
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
-    LoadingDirective,
     LoaderComponent,
     GroupedListComponent,
     TemplateActionsComponent,
     ProgressLoggerComponent,
     ProgressLoggerMessageComponent,
     AnimatedSlashComponent,
-    LoadingDirective,
     LoaderComponent,
     VolumeActionsComponent,
     TemplateActionsComponent,
@@ -363,7 +358,6 @@ import { SupportInformationComponent } from './components/support-information/su
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     DiskOfferingDialogComponent,
-    SupportInformationComponent,
   ],
   providers: [
     AccountService,

@@ -12,7 +12,8 @@
         "i18n",
         "css",
         "img",
-        "agreements"
+        "agreements",
+        "support"
       ],
       "index": "index.html",
       "main": "main.ts",

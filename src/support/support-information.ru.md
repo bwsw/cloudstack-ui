@@ -1,1 +1,0 @@
-Узнать больше support-information.ru.md

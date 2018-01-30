@@ -1,12 +1,14 @@
-<div class="support-information">
-  <h4>{{ 'ERRORS.SUPPORT_INFORMATION' | translate }}</h4>
-  <button
-    mat-icon-button
-    [class.open]="expandSupportInfo"
-    (click)="toggleSupportInfo()"
-  >
-    <mat-icon>keyboard_arrow_down</mat-icon>
-  </button>
-</div>
+<ng-container *ngIf="isShow">
+  <div class="support-information">
+    <h4>{{ 'ERRORS.SUPPORT_INFORMATION' | translate }}</h4>
+    <button
+      mat-icon-button
+      [class.open]="expandSupportInfo"
+      (click)="toggleSupportInfo()"
+    >
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
 
-<div *ngIf="expandSupportInfo" [class.open]="expandSupportInfo" [innerHTML]="supportInformation"></div>
+  <div *ngIf="expandSupportInfo" [innerHTML]="supportInformation"></div>
+</ng-container>
