@@ -7,6 +7,29 @@
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
+
+  <nav mat-tab-nav-bar *ngIf="!isPredefinedTemplate">
+    <a
+      matTabLink
+      [routerLink]="['./sg']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('sg')"
+    >
+      <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.FIREWALL' | translate" class="mat-tab-tooltip">
+        <mat-icon>security</mat-icon>
+      </div>
+    </a>
+    <a *ngIf="!entity?.preselected"
+      matTabLink
+      [routerLink]="['./tags']"
+      queryParamsHandling="preserve"
+      [active]="tabIsActive('tags')"
+    >
+      <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
+        <mat-icon>local_offer</mat-icon>
+      </div>
+    </a>
+  </nav>
 </div>
 
 <mat-menu #actionsMenu="matMenu">
@@ -15,7 +38,10 @@
     [securityGroup]="entity"
   ></cs-security-group-actions-container>
 </mat-menu>
-<cs-sg-details-container></cs-sg-details-container>
+
+<cs-sg-details-container *ngIf="isPredefinedTemplate"></cs-sg-details-container>
+
+<router-outlet *ngIf="!isPredefinedTemplate"></router-outlet>
 
 <cs-overlay-loading [active]="!entity"></cs-overlay-loading>
 

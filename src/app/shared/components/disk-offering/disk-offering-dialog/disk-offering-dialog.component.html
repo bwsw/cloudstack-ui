@@ -1,0 +1,68 @@
+<div class="table-wrapper"
+      *ngIf="diskOfferings?.length">
+  <table class="mat-table">
+    <thead>
+    <tr class="mat-header-row">
+      <ng-container *ngFor="let column of columns">
+        <th class="mat-header-cell"> {{ tableId + '.' + column | translate }}</th>
+      </ng-container>
+      <th class="mat-header-cell"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="mat-row"
+        *ngFor="let offering of diskOfferings"
+        (click)="selectOffering(offering)"
+    >
+      <ng-container *ngFor="let column of columns">
+        <td class="mat-cell">
+          <ng-container *ngIf="column === 'name'">
+            <span
+              class="name-text"
+              [matTooltip]="offering[column]">
+            {{ offering[column] }}
+            </span>
+          </ng-container>
+          <ng-container *ngIf="!isCustomField(column, notCustomFields)">
+            <span>{{ offering[column] || '-'}}</span>
+          </ng-container>
+          <ng-container *ngIf="isCustomField(column, customFields)">
+            <span>{{ (tableId + '.' + offering[column]?.toString() | translate)  || '-'}}</span>
+          </ng-container>
+          <ng-container *ngIf="column === 'created' && offering">
+            <span>{{ (offeringCreated(offering[column]) | stringifyDate)  || '-'}}</span>
+          </ng-container>
+        </td>
+      </ng-container>
+      <td class="mat-cell">
+      <span>
+        <mat-radio-button
+          [checked]="selectedDiskOffering && offering?.id === selectedDiskOffering.id"></mat-radio-button>
+      </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<cs-no-results *ngIf="!diskOfferings?.length"></cs-no-results>
+
+<div class="mat-dialog-actions">
+  <button
+    mat-button
+    color="primary"
+    matDialogClose
+    type="button"
+  >
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    color="primary"
+    type="submit"
+    [disabled]="preselectedDiskOffering === selectedDiskOffering"
+    (click)="onSubmit()"
+  >
+    {{ 'COMMON.SELECT' | translate }}
+  </button>
+</div>

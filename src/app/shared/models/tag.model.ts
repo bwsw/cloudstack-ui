@@ -13,12 +13,12 @@ export const DeletionMark = {
 export const defaultCategoryName = 'Common';
 
 export interface Tag extends BaseModelInterface {
-  account: string;
-  domain: string;
-  domainid: string;
+  account?: string;
+  domain?: string;
+  domainid?: string;
   key: string;
-  resourceid: string;
-  resourcetype: string;
+  resourceid?: string;
+  resourcetype?: string;
   value: string;
 }
 

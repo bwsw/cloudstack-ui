@@ -19,12 +19,12 @@ export class CustomServiceOfferingComponent {
     public dialogRef: MatDialogRef<CustomServiceOfferingComponent>,
     private translateService: TranslateService
   ) {
-    const { offering, restriction } = data;
+    const { offering, restriction, defaultParams } = data;
     this.offering = {
       ...offering,
-      cpunumber: offering.cpunumber,
-      cpuspeed: offering.cpuspeed,
-      memory: offering.memory
+      cpunumber: offering.cpunumber || defaultParams.cpunumber,
+      cpuspeed: offering.cpuspeed || defaultParams.cpuspeed,
+      memory: offering.memory || defaultParams.memory
     };
     this.restrictions = restriction;
   }

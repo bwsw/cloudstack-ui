@@ -220,6 +220,6 @@ describe('Service-offering service', () => {
       resourceUsage,
       <Zone>{ id: '1' }
     );
-    expect(result).toEqual(<any>availableOfferings);
+    expect(result).toEqual(<Array<ServiceOffering>>availableOfferings);
   });
 });

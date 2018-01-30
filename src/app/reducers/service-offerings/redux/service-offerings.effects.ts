@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 // tslint:disable-next-line
 import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
-import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { ConfigService } from '../../../shared/services/config.service';
 // tslint:disable-next-line
 import {
   customServiceOfferingFallbackParams,
   DefaultServiceOfferingConfigurationByZone
-} from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+} from '../../../service-offering/custom-service-offering/custom-service-offering';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { ConfigService } from '../../../shared/services/config.service';
+import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import * as accountTagActions from '../../account-tags/redux/account-tags.actions';
 
 import * as serviceOfferingActions from './service-offerings.actions';
 
@@ -71,10 +72,18 @@ export class ServiceOfferingEffects {
       );
     });
 
+  @Effect()
+  updateCustomServiceOffering$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING)
+    .map((action: serviceOfferingActions.UpdateCustomServiceOffering) => {
+      return new accountTagActions.UpdateCustomServiceOfferingParams(action.payload);
+    });
+
+
   constructor(
     private actions$: Actions,
     private offeringService: ServiceOfferingService,
     private configService: ConfigService
-  ) {
-  }
+  ) { }
+
 }
