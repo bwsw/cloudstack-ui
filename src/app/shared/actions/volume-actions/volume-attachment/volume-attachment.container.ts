@@ -1,17 +1,10 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../reducers/index';
-
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
-import * as fromVMs from '../../../../reducers/vm/redux/vm.reducers';
 import * as vmActions from '../../../../reducers/vm/redux/vm.actions';
+import * as fromVMs from '../../../../reducers/vm/redux/vm.reducers';
 import { Volume } from '../../../models/volume.model';
 
 @Component({
@@ -45,7 +38,10 @@ export class VolumeAttachmentContainerComponent implements OnInit {
 
   public ngOnInit() {
     this.store.dispatch(new vmActions.LoadVMsRequest());
-    this.store.dispatch(new vmActions.VMAttachmentFilterUpdate({ account: this.volume.account, domainId: this.volume.domainid }));
+    this.store.dispatch(new vmActions.VMAttachmentFilterUpdate({
+      account: this.volume.account,
+      domainId: this.volume.domainid
+    }));
   }
 
   public attachVolume(virtualMachineId: string) {

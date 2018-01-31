@@ -13,6 +13,7 @@ import { AuthService } from '../../shared/services/auth.service';
   template: `
     <cs-volume-page
       [volumes]="volumes$ | async"
+      [query]="query$ | async"
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
@@ -21,6 +22,7 @@ import { AuthService } from '../../shared/services/auth.service';
 export class VolumePageContainerComponent implements OnInit, AfterViewInit {
 
   readonly volumes$ = this.store.select(fromVolumes.selectFilteredVolumes);
+  readonly query$ = this.store.select(fromVolumes.filterQuery);
   readonly loading$ = this.store.select(fromVolumes.isLoading);
   readonly selectedGroupings$ = this.store.select(fromVolumes.filterSelectedGroupings);
 

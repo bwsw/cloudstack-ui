@@ -1,0 +1,28 @@
+.table-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: inline-block !important;
+  width: 100%;
+}
+
+table {
+  thead {
+    text-align: left;
+    tr {
+      white-space: nowrap;
+    }
+  }
+  tbody {
+    cursor: pointer;
+    tr {
+      white-space: nowrap;
+    }
+  }
+}
+
+.name-text {
+  display: block;
+  width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

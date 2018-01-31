@@ -9,8 +9,8 @@ import { NotificationService } from '../../services/notification.service';
 export class ParametersPairComponent {
   @Input() public name: string;
   @Input() public value: string;
-  @Input() public canBeEdit: boolean = false;
-  @Input() public canBeCopy: boolean = false;
+  @Input() public canBeEdit = false;
+  @Input() public canBeCopy = false;
   @Output() public onButtonClicked = new EventEmitter();
 
   constructor(private notificationService: NotificationService) {

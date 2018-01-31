@@ -83,13 +83,14 @@
             </mat-form-field>
           </div>
 
-          <div *ngIf="vmCreationState.zone && serviceOfferings?.length">
-            <h4>{{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}</h4>
+          <div
+            *ngIf="vmCreationState.zone && serviceOfferings?.length"
+            class="dialog-select-wrapper"
+          >
             <cs-service-offering-selector
               name="serviceOffering"
-              [serviceOfferings]="serviceOfferings"
               [customOfferingRestrictions]="customOfferingRestrictions"
-              [ngModel]="vmCreationState.serviceOffering"
+              [serviceOffering]="vmCreationState.serviceOffering"
               (change)="serviceOfferingChange.emit($event)"
             ></cs-service-offering-selector>
           </div>
@@ -102,25 +103,14 @@
           </div>
 
           <div *ngIf="diskOfferingsAreAllowed">
-            <h4>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
-            <mat-form-field
-              class="full-width-input"
-              *loading="diskOfferingsAreLoading"
-            >
-              <mat-select
-                class="form-select-control"
-                name="diskOfferingSelector"
-                [ngModel]="vmCreationState.diskOffering"
-                (selectionChange)="diskOfferingChange.emit($event.value)"
-              >
-                <mat-option
-                  *ngFor="let offering of diskOfferings"
-                  [value]="offering"
-                >
-                  {{ offering.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <h4 class="disk-offerings">{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
+            <cs-disk-offering-selector
+              name="diskOffering"
+              [diskOfferings]="diskOfferings"
+              [params]="diskOfferingParams"
+              [ngModel]="vmCreationState?.diskOffering"
+              (change)="diskOfferingChange.emit($event)"
+            ></cs-disk-offering-selector>
           </div>
 
           <div *ngIf="showResizeSlider">

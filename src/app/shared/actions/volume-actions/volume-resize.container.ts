@@ -21,6 +21,7 @@ import { VolumeType } from '../../models';
       [maxSize]="maxSize"
       [volume]="volume"
       [diskOfferings]="offerings$ | async"
+      [diskOfferingParams]="diskOfferingParams$ | async"
       (onDiskResized)="resizeDisk($event)"
     >
     </cs-volume-resize>`,
@@ -28,6 +29,7 @@ import { VolumeType } from '../../models';
 export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.select(fromDiskOfferings.getAvailableOfferings);
   readonly account$ = this.store.select(fromAuth.getUserAccount);
+  readonly diskOfferingParams$ = this.store.select(fromDiskOfferings.getParams);
 
   public volume: Volume;
 
@@ -45,6 +47,7 @@ export class VolumeResizeContainerComponent implements OnInit {
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneid));
+    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
 
     this.account$
       .take(1)

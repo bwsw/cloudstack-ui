@@ -1,22 +1,25 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
+import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
+import * as fromAccountTags from '../../reducers/account-tags/redux/account-tags.reducers';
 import { State } from '../../reducers/index';
+import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-class.actions';
+import * as fromSOClasses from '../../reducers/service-offerings/redux/service-offering-class.reducers';
 
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 // tslint:disable-next-line
-import { ICustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-// tslint:disable-next-line
-import { CustomServiceOfferingService, } from '../../service-offering/custom-service-offering/service/custom-service-offering.service';
-import { Account } from '../../shared/models/account.model';
-import { ResourceStats } from '../../shared/services/resource-usage.service';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { Account, AccountResourceType } from '../../shared/models/account.model';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 
 @Component({
@@ -24,16 +27,32 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
   template: `
     <cs-service-offering-dialog
       [serviceOfferings]="offerings$ | async"
+      [classes]="classes$ | async"
+      [selectedClasses]="selectedClasses$ | async"
+      [classTags]="classTags$ | async"
+      [viewMode]="viewMode$ | async"
+      [query]="query$ | async"
       [isVmRunning]="isVmRunning()"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
-      [restrictions]="getRestrictions() | async"
+      [restrictions]="customOfferingRestrictions$ | async"
+      [defaultParams]="defaultParams$ | async"
       (onServiceOfferingChange)="changeServiceOffering($event)"
+      (onServiceOfferingUpdate)="updateServiceOffering($event)"
+      (viewModeChange)="onViewModeChange($event)"
+      (selectedClassesChange)="onSelectedClassesChange($event)"
+      (queryChange)="onQueryChange($event)"
     >
     </cs-service-offering-dialog>`,
 })
-export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly offerings$ = this.store.select(fromServiceOfferings.getAvailableOfferings);
-  readonly user$ = this.store.select(fromAuths.getUserAccount);
+export class ServiceOfferingDialogContainerComponent implements OnInit, AfterViewInit {
+  readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferings);
+  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictions);
+  readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
+  readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
+  readonly classes$ = this.store.select(fromSOClasses.selectAll);
+  readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
+  readonly classTags$ = this.store.select(fromAccountTags.selectServiceOfferingClassTags);
+  readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 
   public virtualMachine: VirtualMachine;
   public user: Account;
@@ -42,18 +61,10 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
     @Inject(MAT_DIALOG_DATA) data,
     public dialogService: DialogService,
     public dialogRef: MatDialogRef<ServiceOfferingDialogContainerComponent>,
-    private customServiceOfferingService: CustomServiceOfferingService,
     private store: Store<State>,
+    private cd: ChangeDetectorRef
   ) {
-    super();
     this.virtualMachine = data.vm;
-    this.user$
-      .takeUntil(this.unsubscribe$)
-      .subscribe((user) => {
-        if (user) {
-          this.user = user;
-        }
-      });
   }
 
   public ngOnInit() {
@@ -61,6 +72,31 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
     this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
+    this.store.dispatch(new soGroupActions.LoadServiceOfferingClassRequest());
+    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
+  public onViewModeChange(selectedViewMode: string) {
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }));
+  }
+
+  public onSelectedClassesChange(selectedClasses: string[]) {
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }));
+  }
+
+  public onQueryChange(query: string) {
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ query }));
+  }
+
+  public updateServiceOffering(serviceOffering) {
+    if (serviceOffering.iscustomized) {
+      this.store.dispatch(new serviceOfferingActions.UpdateCustomServiceOffering(serviceOffering));
+    }
   }
 
   public changeServiceOffering(serviceOffering) {
@@ -69,12 +105,6 @@ export class ServiceOfferingDialogContainerComponent extends WithUnsubscribe() i
       offering: serviceOffering
     }));
     this.dialogRef.close();
-  }
-
-  public getRestrictions(): Observable<ICustomOfferingRestrictions> {
-    return this.customServiceOfferingService
-      .getCustomOfferingRestrictionsByZone(ResourceStats.fromAccount([this.user]))
-      .map(restrictions => restrictions[this.virtualMachine.zoneId]);
   }
 
   public isVmRunning(): boolean {

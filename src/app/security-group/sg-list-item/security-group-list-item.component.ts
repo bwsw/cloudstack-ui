@@ -3,7 +3,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { SecurityGroup } from '../sg.model';
+import { getType, SecurityGroup } from '../sg.model';
 import { MatMenuTrigger } from '@angular/material';
 import { VirtualMachine } from '../../vm';
 import { Dictionary } from '@ngrx/entity/src/models';
@@ -38,7 +38,7 @@ export class SecurityGroupListItemComponent implements OnChanges {
   }
 
   public get isPrivate(): boolean {
-    return this.item.type === SecurityGroupViewMode.Private.toString();
+    return getType(this.item) === SecurityGroupViewMode.Private.toString();
   }
 
 }

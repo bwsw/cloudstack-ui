@@ -151,6 +151,7 @@ import { SessionStorageService } from './services/session-storage.service';
 import { SnapshotService } from './services/snapshot.service';
 import { SSHKeyPairService } from './services/ssh-keypair.service';
 import { StyleService } from './services/style.service';
+import { AccountTagService } from './services/tags/account-tag.service';
 import { DescriptionTagService } from './services/tags/description-tag.service';
 import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
 import { SecurityGroupTagService } from './services/tags/security-group-tag.service';
@@ -160,11 +161,17 @@ import { TemplateTagService } from './services/tags/template-tag.service';
 import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
-import { AccountTagService } from './services/tags/account-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
+import {
+  DiskOfferingSelectorComponent
+} from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
+import {
+  DiskOfferingDialogComponent
+} from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
+import { CustomServiceOfferingComponent } from '../service-offering/custom-service-offering/custom-service-offering.component';
 
 @NgModule({
   imports: [
@@ -272,6 +279,7 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
     TemplateActionsContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
+    DiskOfferingSelectorComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -280,7 +288,8 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
     VolumeDeleteDialogComponent,
-    SecurityGroupBuilderComponent
+    SecurityGroupBuilderComponent,
+    DiskOfferingDialogComponent
   ],
   declarations: [
     AccountActionsComponent,
@@ -349,7 +358,6 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
-    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentContainerComponent,
     VolumeAttachmentComponent,

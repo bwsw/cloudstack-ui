@@ -1,17 +1,13 @@
-import {
-  async,
-  inject,
-  TestBed
-} from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { TemplateService } from './template.service';
-import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { TagService } from '../../shared/services/tags/tag.service';
-import { Template } from './template.model';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
+import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateService } from './base-template.service';
+import { Template } from './template.model';
+import { TemplateService } from './template.service';
 
 describe('Template service test', () => {
 
@@ -31,17 +27,17 @@ describe('Template service test', () => {
 
   it('should create without group', async(inject([TemplateService], (testService) => {
     const params = {
-      name:'test-template-1',
-      displaytext:'test',
-      ostypeid:'123',
-      snapshotid:'123',
-      entity:'Template'
+      name: 'test-template-1',
+      displaytext: 'test',
+      ostypeid: '123',
+      snapshotid: '123',
+      entity: 'Template'
     };
     const template = new Template(params);
     const spySend = spyOn(testService, 'sendCommand').and.callFake(() => {
       return Observable.of({
-        "id":"1",
-        "jobid":"job1"
+        'id': '1',
+        'jobid': 'job1'
       });
     });
 
@@ -59,24 +55,24 @@ describe('Template service test', () => {
 
   it('should create with group', async(inject([TemplateService], (testService) => {
     const params = {
-      name:'test-template-1',
-      displaytext:'test',
-      ostypeId:'123',
-      snapshotId:'123',
+      name: 'test-template-1',
+      displaytext: 'test',
+      ostypeId: '123',
+      snapshotId: '123',
       groupId: 'group1',
-      entity:'Template'
+      entity: 'Template'
     };
     const template1 = new Template(params);
     const template2 = Object.assign(
       {},
       new Template(params),
-      {tags: [ { key: TemplateTagKeys.group, value: 'group1' } ]}
+      { tags: [{ key: TemplateTagKeys.group, value: 'group1' }] }
     );
 
     const spySend = spyOn(testService, 'sendCommand').and.callFake(() => {
       return Observable.of({
-        "id":"1",
-        "jobid":"job1"
+        'id': '1',
+        'jobid': 'job1'
       });
     });
 
@@ -95,15 +91,16 @@ describe('Template service test', () => {
     expect(spySend).toHaveBeenCalledWith('create', params);
     expect(spyQueryJob).toHaveBeenCalled();
     expect(spySetGroup).toHaveBeenCalled();
-    expect(spyUpdate).toHaveBeenCalledWith(template1, 'Template', TemplateTagKeys.group, 'group1');
+    expect(spyUpdate)
+      .toHaveBeenCalledWith(template1, 'Template', TemplateTagKeys.group, 'group1');
   })));
 
   it('should register', async(inject([TemplateService], (testService) => {
     const params = {
-      name:'test-template-1',
-      displaytext:'test',
-      ostypeid:'123',
-      entity:'Template'
+      name: 'test-template-1',
+      displaytext: 'test',
+      ostypeid: '123',
+      entity: 'Template'
     };
     const requestParams = Object.assign({}, params, {
       hypervisor: 'KVM',

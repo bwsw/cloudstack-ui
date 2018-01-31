@@ -8,6 +8,15 @@ import * as diskOfferingActions from './disk-offerings.actions';
 import { Action } from '@ngrx/store';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
+import { ConfigService } from '../../../shared/services/config.service';
+
+const defaultDiskOfferingParams: Array<string> = [
+  'name',
+  'bytesreadrate',
+  'byteswriterate',
+  'iopsreadrate',
+  'iopswriterate'
+];
 
 @Injectable()
 export class DiskOfferingEffects {
@@ -23,8 +32,24 @@ export class DiskOfferingEffects {
         .catch(() => Observable.of(new diskOfferingActions.LoadOfferingsResponse([])));
     });
 
+  @Effect()
+  loadDefaultParams$: Observable<Action> = this.actions$
+    .ofType(diskOfferingActions.LOAD_DEFAULT_DISK_PARAMS_REQUEST)
+    .map((action: diskOfferingActions.LoadDefaultParamsRequest) => {
+      const paramsFromConfig = this.configService
+        .get('diskOfferingParameters');
+      let params = defaultDiskOfferingParams;
+
+      if (paramsFromConfig && Object.entries(paramsFromConfig).length) {
+        params = params.concat(paramsFromConfig);
+      }
+
+      return new diskOfferingActions.LoadDefaultParamsResponse(params);
+    });
+
   constructor(
     private actions$: Actions,
-    private offeringService: DiskOfferingService
+    private offeringService: DiskOfferingService,
+    private configService: ConfigService
   ) { }
 }
