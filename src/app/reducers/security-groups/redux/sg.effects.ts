@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
@@ -75,7 +72,7 @@ export class SecurityGroupEffects {
       const vmGroup =  groups.find((group: SecurityGroup) =>
         action.payload.securityGroup &&
         !!action.payload.securityGroup.find(vmGroup => vmGroup.id === group.id) &&
-        group.type === SecurityGroupType.Private
+        getType(group) === SecurityGroupType.Private
       );
       return vmGroup;
     })
