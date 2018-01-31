@@ -11,9 +11,12 @@ import { ErrorStateMatcher } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken, GetICMPV6CodeTranslationToken,
+  GetICMPTypeTranslationToken,
+  GetICMPV6CodeTranslationToken,
   GetICMPV6TypeTranslationToken,
-  ICMPType, ICMPtypes, ICMPv6Types
+  ICMPType,
+  ICMPtypes,
+  ICMPv6Types
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { NetworkRuleService } from '../services/network-rule.service';

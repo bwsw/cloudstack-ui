@@ -45,7 +45,7 @@
                 name="cidr"
                 type="text"
                 [(ngModel)]="cidr"
-                (ngModelChange)="onCidrChange()"
+                (change)="onCidrChange()"
                 [errorStateMatcher]="cidrMatcher"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.ENTER_CIDR' | translate"
                 required
