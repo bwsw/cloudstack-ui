@@ -3,12 +3,12 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Snapshot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
+import { getDescription } from '../../../shared/models';
 
 import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
-import { getDescription } from '../../../shared/models';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -165,6 +165,7 @@ export function formReducer(
     case volumeActions.CREATE_VOLUME: {
       return { ...state, loading: true };
     }
+    case volumeActions.CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS:
     case volumeActions.VOLUME_CREATE_SUCCESS:
     case volumeActions.VOLUME_CREATE_ERROR: {
       return { ...state, loading: false };
