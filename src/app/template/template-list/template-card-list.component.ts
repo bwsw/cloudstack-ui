@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { Template } from '../shared';
-import { BaseTemplateModel } from '../shared/base-template.model';
+import { BaseTemplateModel, getPath } from '../shared/base-template.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { TemplateCardItemComponent } from '../template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from '../template/row-item/template-row-item.component';
@@ -45,7 +45,7 @@ export class TemplateCardListComponent {
   }
 
   public selectTemplate(template: BaseTemplateModel): void {
-    this.listService.showDetails(`${template.path}/${template.id}`);
+    this.listService.showDetails(`${getPath(template)}/${template.id}`); // getPath(template)
   }
 
   public removeTemplate(template: Template): void {

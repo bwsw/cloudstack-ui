@@ -32,8 +32,8 @@ export class TemplateFilterListComponent {
     {
       key: 'zones',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
-      selector: (item: BaseTemplateModel) => item.zoneId || '',
-      name: (item: BaseTemplateModel) => item.zoneName || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
+      selector: (item: BaseTemplateModel) => item.zoneid || '',
+      name: (item: BaseTemplateModel) => item.zonename || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
     },
     {
       key: 'accounts',

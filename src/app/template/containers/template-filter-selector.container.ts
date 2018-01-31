@@ -50,8 +50,8 @@ export class TemplateFilterListSelectorContainerComponent implements AfterViewIn
     {
       key: 'zones',
       label: 'GROUP_BY_ZONES',
-      selector: (item: BaseTemplateModel) => item.zoneId || '',
-      name: (item: BaseTemplateModel) => item.zoneName || 'NO_ZONE'
+      selector: (item: BaseTemplateModel) => item.zoneid || '',
+      name: (item: BaseTemplateModel) => item.zonename || 'NO_ZONE'
     }
   ];
 

@@ -8,6 +8,7 @@ import { TemplateTagService } from '../../shared/services/tags/template-tag.serv
 import { BaseTemplateService } from './base-template.service';
 import { Template } from './template.model';
 import { TemplateService } from './template.service';
+import { BaseTemplateModel } from './base-template.model';
 
 describe('Template service test', () => {
 
@@ -33,7 +34,7 @@ describe('Template service test', () => {
       snapshotid: '123',
       entity: 'Template'
     };
-    const template = new Template(params);
+    const template = params;
     const spySend = spyOn(testService, 'sendCommand').and.callFake(() => {
       return Observable.of({
         'id': '1',
@@ -62,10 +63,10 @@ describe('Template service test', () => {
       groupId: 'group1',
       entity: 'Template'
     };
-    const template1 = new Template(params);
+    const template1 = params;
     const template2 = Object.assign(
       {},
-      new Template(params),
+      params,
       { tags: [{ key: TemplateTagKeys.group, value: 'group1' }] }
     );
 
@@ -107,7 +108,7 @@ describe('Template service test', () => {
       format: 'QCOW2',
       requiresHvm: true
     });
-    const template = new Template(params);
+    const template = params;
     const spyRegister = spyOn(BaseTemplateService.prototype, 'register').and
       .returnValue(Observable.of(template));
 

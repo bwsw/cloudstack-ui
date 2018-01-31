@@ -24,29 +24,29 @@
       <div
         *ngIf="singleLine"
         class="flex-2 single-line text-overflow-tooltip-fix"
-        [matTooltip]="item.osTypeName"
+        [matTooltip]="item.ostypename"
         matTooltipPosition="above"
-        [innerHTML]="item.osTypeName | highlight:query"
+        [innerHTML]="item.ostypename | highlight:query"
       ></div>
       <div
         *ngIf="!singleLine"
         class="flex-2 multiline"
-        [innerHTML]="item.osTypeName | highlight:query"
+        [innerHTML]="item.ostypename | highlight:query"
       ></div>
     </div>
     <div class="card-wrapper" *ngIf="item">
       <div
         *ngIf="singleLine"
         class="single-line text-overflow-tooltip-fix"
-        [matTooltip]="item.displayText"
+        [matTooltip]="item.displaytext"
         matTooltipPosition="above"
       >
-        <span [innerHTML]="item.displayText | highlight:query"></span>
+        <span [innerHTML]="item.displaytext | highlight:query"></span>
       </div>
       <div
         *ngIf="!singleLine"
         class="multiline"
-        [innerHTML]="item.displayText | highlight:query"
+        [innerHTML]="item.displaytext | highlight:query"
       ></div>
     </div>
   </mat-card-content>

@@ -20,7 +20,7 @@ export class TemplateTagService implements EntityTagService {
   ): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
-      template.resourceType,
+      this.getResourceType(template),
       this.keys.downloadUrl,
       downloadUrl
     );
@@ -32,7 +32,7 @@ export class TemplateTagService implements EntityTagService {
   ): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
-      template.resourceType,
+      this.getResourceType(template),
       this.keys.group,
       group && group.id
     );
@@ -61,5 +61,9 @@ export class TemplateTagService implements EntityTagService {
     }
 
     return Observable.of(this.tagService.getValueFromTag(agreement) || null);
+  }
+
+  public getResourceType(template) {
+    return template && template['bootable'] !== undefined ? 'Iso' : 'Template';
   }
 }

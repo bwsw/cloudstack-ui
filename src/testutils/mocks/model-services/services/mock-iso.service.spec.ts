@@ -8,6 +8,6 @@ const isos: Array<Object> = require('../fixtures/diskOfferings.json');
 @Injectable()
 export class MockIsoService {
   public getList(): Observable<Array<Iso>> {
-    return Observable.of(isos.map(json => new Iso(json)));
+    return Observable.of(isos.map((json: Iso) => json));
   }
 }

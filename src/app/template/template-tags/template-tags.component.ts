@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Tag } from '../../shared/models';
 import { TagsComponent } from '../../tags/tags.component';
-import { BaseTemplateModel } from '../shared';
+import { BaseTemplateModel, resourceType } from '../shared';
 import { AuthService } from '../../shared/services/auth.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { TagService } from '../../shared/services/tags/tag.service';
+import { KeyValuePair } from '../../tags/tags-view/tags-view.component';
 
 
 @Component({
@@ -25,6 +26,23 @@ export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
     protected authService: AuthService
   ) {
     super(dialogService, tagService);
+  }
+
+  public addTag(tag: KeyValuePair): void {
+    if (!tag) {
+      return;
+    }
+
+    this.tagService.create({
+      resourceIds: this.entity.id,
+      resourceType: resourceType(this.entity),
+      'tags[0].key': tag.key,
+      'tags[0].value': tag.value
+    })
+      .subscribe(
+        res => this.onTagAdd.emit(tag),
+        error => this.onError(error)
+      );
   }
 }
 

@@ -14,6 +14,6 @@ export class TemplateOsComponent implements OnInit {
   public templateOsType: OsType;
 
   public ngOnInit() {
-    this.templateOsType = this.osTypes[this.template.osTypeId];
+    this.templateOsType = this.osTypes[this.template.ostypeid];
   }
 }

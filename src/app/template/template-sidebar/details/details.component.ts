@@ -1,6 +1,8 @@
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Input } from '@angular/core';
+import moment = require('moment');
+import { downloadUrl } from '../../shared';
 
 
 export abstract class BaseTemplateDetailsComponent {
@@ -17,6 +19,14 @@ export abstract class BaseTemplateDetailsComponent {
     };
 
     return templateTypeTranslations[type];
+  }
+
+  public get entityCreated(): Date {
+    return moment(this.entity.created).toDate();
+  }
+
+  public get getDownloadUrl() {
+    return downloadUrl(this.entity);
   }
 
   public onCopySuccess(): void {

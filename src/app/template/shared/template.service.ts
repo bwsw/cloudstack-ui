@@ -14,7 +14,6 @@ import {
 @Injectable()
 @BackendResource({
   entity: TemplateResourceType.template,
-  entityModel: Template
 })
 export class TemplateService extends BaseTemplateService {
   public create(params: CreateTemplateBaseParams): Observable<Template> {

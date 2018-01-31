@@ -16,7 +16,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { BaseTemplateModel, getPath } from '../../../template/shared/base-template.model';
 import { MatDialog } from '@angular/material';
 import * as uniqBy from 'lodash/uniqBy';
 
@@ -88,7 +88,7 @@ export class TemplateEffects {
     })
     .map((action: template.RemoveTemplateSuccess) => action.payload)
     .filter((template: BaseTemplateModel) => {
-      return this.router.isActive(`/templates/${template.path}/${template.id}`, false);
+      return this.router.isActive(`/templates/${getPath(template)}/${template.id}`, false);
     })
     .do(() => {
       this.router.navigate(['./templates'], {

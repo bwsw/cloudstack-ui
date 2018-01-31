@@ -11,7 +11,7 @@ export class MockTemplateService {
   constructor(@Inject('mockTemplateServiceConfig') public config: { templates: any, groupedTemplates: any }) {}
 
   public getList(): Observable<Array<Template>> {
-    return Observable.of(templates.map(json => new Template(json)));
+    return Observable.of(templates.map((json: Template) => json));
   }
 
   public getGroupedTemplates(): Observable<GroupedTemplates<Template>> {

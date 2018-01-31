@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { BaseTemplateModel } from '../../../template/shared';
-import {
-  AffinityGroupType,
-  DiskOffering,
-  ServiceOffering,
-  Zone
-} from '../../../shared/models';
+import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
+import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -185,7 +180,7 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.template) {
-        if (action.payload.template.resourceType === TemplateResourceType.template) {
+        if (resourceType(action.payload.template) === TemplateResourceType.template) {
           const rootDiskSize = Utils.convertToGb(action.payload.template.size);
           return new vmActions.VmFormUpdate({ rootDiskSize });
         } else if (!vmCreationState.diskOffering) {
@@ -640,7 +635,7 @@ export class VirtualMachineCreationEffects {
       params.keyPair = state.sshKeyPair.name;
     }
 
-    if (state.diskOffering && !state.template.isTemplate) {
+    if (state.diskOffering && !isTemplate(state.template)) {
       params.diskofferingid = state.diskOffering.id;
       params.hypervisor = 'KVM';
     }
@@ -659,9 +654,9 @@ export class VirtualMachineCreationEffects {
       ];
     }
 
-    if ((state.rootDiskSize != null && state.template.isTemplate) ||
+    if ((state.rootDiskSize != null && isTemplate(state.template)) ||
       (state.diskOffering && state.diskOffering.iscustomized)) {
-      if (state.template.isTemplate) {
+      if (isTemplate(state.template)) {
         params.rootDiskSize = state.rootDiskSize;
       } else {
         params.size = state.rootDiskSize;

@@ -15,6 +15,6 @@ export class TemplateOsIconComponent {
   @Input() public osTypes: Dictionary<OsType>;
 
   public get templateOsType(): any {
-    return this.osTypes[this.template.osTypeId];
+    return this.osTypes[this.template.ostypeid];
   }
 }

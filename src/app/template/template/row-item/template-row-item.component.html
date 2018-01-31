@@ -13,18 +13,18 @@
   <div class="info">
     <span>{{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:</span>
     <span
-      [matTooltip]="item.osTypeName"
+      [matTooltip]="item.ostypename"
       matTooltipPosition="above"
-      [innerHTML]="item.osTypeName | highlight:query"
+      [innerHTML]="item.ostypename | highlight:query"
     ></span>
   </div>
 
   <div
     class="info"
-    [matTooltip]="item.displayText"
+    [matTooltip]="item.displaytext"
     matTooltipPosition="above"
   >
-    <span [innerHTML]="item.displayText | highlight:query"></span>
+    <span [innerHTML]="item.displaytext | highlight:query"></span>
   </div>
 
   <button

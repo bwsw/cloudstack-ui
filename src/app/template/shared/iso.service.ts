@@ -2,14 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
-import { Iso } from './iso.model';
 import { BaseTemplateService, TemplateResourceType } from './base-template.service';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 
 @Injectable()
 @BackendResource({
-  entity: TemplateResourceType.iso,
-  entityModel: Iso
+  entity: TemplateResourceType.iso
 })
 export class IsoService extends BaseTemplateService {
   public attach(params: any): Observable<VirtualMachine> {
