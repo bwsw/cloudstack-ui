@@ -9,8 +9,11 @@ import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken
+  GetICMPTypeTranslationToken, GetICMPV6CodeTranslationToken,
+  GetICMPV6TypeTranslationToken
 } from '../../shared/icmp/icmp-types';
+import { IPVersion, NetworkRuleType } from '../sg.model';
+import * as cidr from 'cidr-regex';
 
 @Component({
   selector: 'cs-security-group-rule',
@@ -25,6 +28,7 @@ export class SgRuleComponent {
 
   public deleting = false;
   public NetworkProtocols = NetworkProtocol;
+  public NetworkRuleTypes = NetworkRuleType;
 
   public get typeTranslationToken(): string {
     const typeTranslations = {
@@ -46,18 +50,27 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.item.icmpType);
+    return cidr.v4({ exact: true }).test(this.item.CIDR)
+      ? GetICMPTypeTranslationToken(this.item.icmpType)
+      : GetICMPV6TypeTranslationToken(this.item.icmpType);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode);
+    return cidr.v4({ exact: true }).test(this.item.CIDR)
+      ? GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode)
+      : GetICMPV6CodeTranslationToken(this.item.icmpType, this.item.icmpCode);
   }
 
   public get ruleParams(): Object {
+    const ipVersion = cidr.v4({ exact: true }).test(this.item.CIDR)
+      ? IPVersion.ipv4
+      : IPVersion.ipv6;
+
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
       cidr: this.item.CIDR,
+      ipVersion
     };
 
     let ruleParams;

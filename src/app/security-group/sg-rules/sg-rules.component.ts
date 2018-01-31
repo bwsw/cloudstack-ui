@@ -20,7 +20,11 @@ import {
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { NetworkRuleService } from '../services/network-rule.service';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import {
+  getType,
+  IPVersion, NetworkRuleType, SecurityGroup,
+  SecurityGroupType
+} from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
@@ -47,7 +51,7 @@ export class CidrStateMatcher implements ErrorStateMatcher {
   styleUrls: ['sg-rules.component.scss']
 })
 export class SgRulesComponent implements OnChanges {
-  @Input() public securityGroup: any;
+  @Input() public securityGroup: SecurityGroup;
   @Input() public editMode = false;
   @Input() public vmId: string;
   @Output() public onCloseDialog = new EventEmitter();
@@ -56,6 +60,7 @@ export class SgRulesComponent implements OnChanges {
   @ViewChild('rulesForm') public rulesForm: NgForm;
   public selectedType = '';
   public selectedCode = '';
+  public selectedIPVersion: string[] = [];
   public selectedTypes: string[] = [];
   public selectedProtocols: string[] = [];
 
@@ -68,12 +73,13 @@ export class SgRulesComponent implements OnChanges {
   public endPort: number;
   public cidr: string;
   public cidrMatcher = new CidrStateMatcher();
-  public ingressRules: NetworkRule[] = [];
-  public egressRules: NetworkRule[] = [];
+  public ingressRules = [];
+  public egressRules = [];
   public visibleRules: NetworkRule[] = [];
 
   public adding: boolean;
 
+  public IPversions = [IPVersion.ipv4, IPVersion.ipv6];
   public NetworkProtocols = NetworkProtocol;
   public NetworkRuleTypes = NetworkRuleType;
 
@@ -111,7 +117,7 @@ export class SgRulesComponent implements OnChanges {
   private _icmpTypes: ICMPType[];
 
   public get isPredefinedTemplate(): boolean {
-    return this.securityGroup && this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
+    return this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate;
   }
 
   public get icmpTypes(): ICMPType[] {
@@ -249,7 +255,6 @@ export class SgRulesComponent implements OnChanges {
     }
     const filteredEgressRules = this.filterRules(this.egressRules);
     const filteredIngressRules = this.filterRules(this.ingressRules);
-
     this.visibleRules = [...filteredIngressRules, ...filteredEgressRules];
   }
 
@@ -272,7 +277,7 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public confirmChangeMode() {
-    if (!this.editMode && this.securityGroup.type === SecurityGroupType.Shared) {
+    if (!this.editMode && getType(this.securityGroup) === SecurityGroupType.Shared) {
       this.dialogService.confirm({
         message: !this.vmId
           ? 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT'
@@ -329,15 +334,25 @@ export class SgRulesComponent implements OnChanges {
   private resetFilters() {
     this.selectedTypes = [];
     this.selectedProtocols = [];
+    this.selectedIPVersion = [];
     this.filter();
   }
 
   private filterRules(rules: NetworkRule[]) {
     return rules.filter((rule: NetworkRule) => {
-      return (!this.selectedProtocols.length
-        || this.selectedProtocols.find(protocol => protocol === rule.protocol))
-        && (!this.selectedTypes.length
-          || this.selectedTypes.find(type => rule.type === type));
+      const filterByIPversion = (item: NetworkRule) => {
+        const ruleIPversion = cidr.v6({ exact: true }).test(item.CIDR)
+          ? IPVersion.ipv6
+          : IPVersion.ipv4;
+        return !this.selectedIPVersion.length
+          || this.selectedIPVersion.find(version => version === ruleIPversion);
+      };
+      const filterByProtocol = (item: NetworkRule) => !this.selectedProtocols.length
+        || this.selectedProtocols.find(protocol => protocol === item.protocol);
+      const filterByTypes = (item: NetworkRule) => !this.selectedTypes.length
+        || this.selectedTypes.find(type => item.type === type);
+
+      return filterByTypes(rule) && filterByIPversion(rule) && filterByProtocol(rule);
     });
   }
 

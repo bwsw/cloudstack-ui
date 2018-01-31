@@ -18,6 +18,11 @@ export enum NetworkRuleType {
   Egress = 'Egress'
 }
 
+export enum IPVersion {
+  ipv4 = 'IPv4',
+  ipv6 = 'IPv6'
+}
+
 @FieldMapper({
   ingressrule: 'ingressRules',
   egressrule: 'egressRules',
@@ -97,5 +102,5 @@ export const isCustomTemplate = (securityGroup: SecurityGroup) => {
 export const isPrivate = (securityGroup: SecurityGroup) => {
   const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
 
-  return typeTag && typeTag.value === SecurityGroupType.Private
+  return typeTag && typeTag.value === SecurityGroupType.Private;
 };

@@ -173,6 +173,22 @@
         <mat-form-field class="form-select-control">
           <mat-select
             multiple="true"
+            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_IP_VERSION' | translate"
+            [(ngModel)]="selectedIPVersion"
+            (selectionChange)="filter()"
+            name="selectedIPVersion"
+          >
+            <mat-option
+              *ngFor="let t of IPversions"
+              [value]="t"
+            >
+              {{ t }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-select-control">
+          <mat-select
+            multiple="true"
             [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
             name="selectedTypes"
             [(ngModel)]="selectedTypes"
