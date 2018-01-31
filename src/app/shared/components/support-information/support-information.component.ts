@@ -10,11 +10,9 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['support-information.component.scss']
 })
 export class SupportInformationComponent implements OnInit {
-  public expandSupportInfo = false;
   public supportInformation: string;
   public defaultPath = 'support/support-info';
   public defaultLangPath = `${this.defaultPath}.${'md'}`;
-
   public isShow = true;
 
   constructor(
@@ -25,10 +23,6 @@ export class SupportInformationComponent implements OnInit {
 
   public ngOnInit() {
     this.convertFile();
-  }
-
-  public toggleSupportInfo(): void {
-    this.expandSupportInfo = !this.expandSupportInfo;
   }
 
   public convertFile() {

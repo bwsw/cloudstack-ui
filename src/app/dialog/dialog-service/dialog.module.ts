@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatDialogModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatIconModule, MatExpansionModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
@@ -15,7 +15,8 @@ import { SupportInformationComponent } from '../../shared/components/support-inf
     MatButtonModule,
     TranslateModule,
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   exports: [
     ConfirmDialogComponent,
