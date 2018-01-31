@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
+import {
+  AffinityGroupType,
+  DiskOffering,
+  ServiceOffering,
+  Zone
+} from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -12,7 +17,10 @@ import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
+import {
+  NotSelected,
+  VmCreationState
+} from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
@@ -99,7 +107,7 @@ export class VirtualMachineCreationEffects {
           const insufficientResources = [];
 
           Object.keys(resourceUsage.available)
-            .filter(key => ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].includes(key))
+            .filter(key => ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].indexOf(key) !== -1)
             .forEach(key => {
               const available = resourceUsage.available[key];
               if (available === 0) {
@@ -559,7 +567,7 @@ export class VirtualMachineCreationEffects {
     if (this.createSecurityGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
 
-      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state.securityGroupData);
+      return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     } else {
       return Observable.of(null);
     }

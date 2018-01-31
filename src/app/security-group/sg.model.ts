@@ -45,34 +45,6 @@ export class SecurityGroup extends BaseModel implements Taggable {
     this.initializeTags();
   }
 
-  public get type(): SecurityGroupType {
-    if (this.id.startsWith('template')) {
-      return SecurityGroupType.PredefinedTemplate;
-    }
-
-    if (this.isCustomTemplate) {
-      return SecurityGroupType.CustomTemplate;
-    }
-
-    if (this.isPrivate) {
-      return SecurityGroupType.Private;
-    }
-
-    return SecurityGroupType.Shared;
-  }
-
-  private get isCustomTemplate(): boolean {
-    const typeTag = this.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
-
-    return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
-  }
-
-  private get isPrivate(): boolean {
-    const typeTag = this.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
-
-    return typeTag && typeTag.value === SecurityGroupType.Private
-  }
-
   private initializeIngressRules(): void {
     if (!this.ingressRules) {
       this.ingressRules = [];
@@ -99,3 +71,31 @@ export class SecurityGroup extends BaseModel implements Taggable {
     }
   }
 }
+
+export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
+  if (securityGroup.id.startsWith('template')) {
+    return SecurityGroupType.PredefinedTemplate;
+  }
+
+  if (isCustomTemplate(securityGroup)) {
+    return SecurityGroupType.CustomTemplate;
+  }
+
+  if (isPrivate(securityGroup)) {
+    return SecurityGroupType.Private;
+  }
+
+  return SecurityGroupType.Shared;
+};
+
+export const isCustomTemplate = (securityGroup: SecurityGroup) => {
+  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+
+  return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
+};
+
+export const isPrivate = (securityGroup: SecurityGroup) => {
+  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+
+  return typeTag && typeTag.value === SecurityGroupType.Private
+};

@@ -90,8 +90,9 @@
     },
     "AUTH": {
       "INCORRECT_USERNAME": "Неверное имя пользователя",
-      "INCORRECT_PASSWORD": "Неверный пароль",
-      "INCORRECT_DOMAIN": "Не удалось найти домен {{ val1 }}"
+      "INCORRECT_CREDENTIALS": "Неверный пользователь или пароль",
+      "INCORRECT_DOMAIN": "Не удалось найти домен {{ val1 }}",
+      "DISABLED": "Пользователь {{ val1 }} (или его акаунт) {{ val2 }} деактивирован. Пожалуйста свяжитесь с администратором."
     },
     "ISO": {
       "VMS_IN_USE": "Невозможно удалить ISO файл, так как он используется следующими машинами:<br>{{ vms }}"
@@ -598,17 +599,30 @@
     "DETAILS": {
       "GENERAL_INFORMATION": "Общая информация",
       "SIZE": "Размер",
-      "CREATED": "Создан",
       "STORAGE_TYPE": "Тип хранилища",
       "DISK_OFFERING": "Дисковое предложение",
-      "DISK_OFFERING_NAME": "Название",
-      "DESCRIPTION": "Описание",
-      "MIN_IOPS": "Мин. IO/сек",
-      "MAX_IOPS": "Макс. IO/сек",
-      "READ_RATE_MB": "Скорость чтения",
-      "WRITE_RATE_MB": "Скорость записи",
-      "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
-      "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
+      "NAME": "Название",
+      "CREATED": "Создано",
+      "name": "Название",
+      "bytesreadrate": "Чтение МБайт/сек",
+      "byteswriterate": "Запись МБайт/сек",
+      "iopsreadrate": "Чтение IO/сек",
+      "iopswriterate": "Запись IO/сек",
+      "displaytext": "Описание",
+      "disksize": "Размер диска",
+      "storagetype": "Тип хранилища",
+      "provisioningtype": "Выделение ёмкости",
+      "iscustomized": "Настраиваемое",
+      "miniops": "Мин. IO/s",
+      "maxiops": "Макс. IO/s",
+      "thin": "Динамическое",
+      "thick": "Статическое",
+      "fat": "Полное",
+      "sparse": "Разреженное",
+      "shared": "Общее",
+      "created": "Создано",
+      "true": "Да",
+      "false": "Нет"
     },
     "SNAPSHOTS": {
       "DESCRIPTION": "Описание",
@@ -1221,9 +1235,9 @@
     },
     "COLUMN": {
       "NAME": "Имя",
-      "NETWORK_RATE": "Скорость сети",
+      "NETWORK_RATE": "Скорость сети (MБ/сек)",
       "CPU_NUMBER": "Ядра CPU",
-      "CPU_SPEED": "CPU (МГц)",
+      "CPU_SPEED": "CPU (MHz)",
       "MEMORY": "Память (MБ)",
       "DISK_BYTES_READ": "Скорость чтения (MБ/сек)",
       "DISK_BYTES_WRITE": "Скорость записи (MБ/сек)",
@@ -1367,7 +1381,28 @@
   },
   "ACCOUNT_STATE": {
     "DISABLED": "Деактивирован",
-    "ENABLED": "Активирован",
-    "LOCKED": "Заблокирован"
+    "ENABLED": "Активирован"
+  },
+  "DISK_OFFERING_TABLE": {
+    "name": "",
+    "bytesreadrate": "Чтение МБайт/сек",
+    "byteswriterate": "Запись МБайт/сек",
+    "iopsreadrate": "Чтение IO/сек",
+    "iopswriterate": "Запись IO/сек",
+    "displaytext": "Описание",
+    "disksize": "Размер диска",
+    "storagetype": "Тип хранилища",
+    "provisioningtype": "Выделение ёмкости",
+    "iscustomized": "Настраиваемое",
+    "miniops": "Мин. IO/s",
+    "maxiops": "Макс. IO/s",
+    "thin": "Динамическое",
+    "thick": "Статическое",
+    "fat": "Полное",
+    "sparse": "Разреженное",
+    "shared": "Общее",
+    "created": "Создано",
+    "true": "Да",
+    "false": "Нет"
   }
 }

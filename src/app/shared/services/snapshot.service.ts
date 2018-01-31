@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../decorators';
-import { Snapshot } from '../models';
+import { AsyncJob, Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { SnapshotTagService } from './tags/snapshot-tag.service';
@@ -32,8 +32,8 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     const params = this.getSnapshotCreationParams(volumeId, name);
     return this.sendCommand('create', params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .switchMap(response => {
-        const snapshot = response.result.snapshot;
+      .switchMap((response: AsyncJob<Snapshot>) => {
+        const snapshot = response.jobresult.snapshot;
 
         if (description) {
           return this.snapshotTagService.setDescription(snapshot, description);

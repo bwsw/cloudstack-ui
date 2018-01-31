@@ -37,6 +37,7 @@
 
 .stat-list {
   transition: margin 0.3s;
+  align-self: flex-start;
 
   &.open {
     margin-right: $sidebar-width;

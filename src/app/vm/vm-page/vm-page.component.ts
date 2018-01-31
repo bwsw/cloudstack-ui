@@ -1,12 +1,5 @@
-import {
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { Component, Input, OnInit, } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
@@ -25,6 +18,7 @@ import { Dictionary } from '@ngrx/entity/src/models';
 })
 export class VmPageComponent implements OnInit {
   @Input() public vms: Array<VirtualMachine>;
+  @Input() public query: string;
   @Input() public volumes: Array<Volume>;
   @Input() public osTypesMap: Dictionary<OsType>;
   @Input() public isLoading: boolean;

@@ -7,7 +7,6 @@ import {
   ServiceOffering,
   Volume
 } from '../../shared/models';
-import { InstanceGroup } from '../../shared/models/instance-group.model';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
@@ -18,7 +17,6 @@ import { Iso } from '../../template/shared';
 import {
   VirtualMachine
 } from './vm.model';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -90,9 +88,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand('deploy', params);
   }
 
-  /* public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
+/*   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
      return this.asyncJobService.getList().map(jobs => {
-       return jobs.filter(job => !job.status && job.cmd)
+       return jobs.filter(job => !job.jobstatus && mapCmd(job))
          .map(job => this.registerVmJob(job));
      });
    }*/
@@ -168,12 +166,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   /*public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
     // instanceof check is needed because API response for
-    // VM restore doesn't contain the instanceType field
+    // VM restore doesn't contain the jobinstancetype field
 
     return (
-      job.result &&
-      (job.instanceType === VirtualMachineEntityName ||
-        job.result instanceof VirtualMachine)
+      job.jobresult &&
+      (job.jobinstancetype === VirtualMachineEntityName ||
+        job.jobresult instanceof VirtualMachine)
     );
   }*/
 

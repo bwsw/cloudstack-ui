@@ -103,25 +103,14 @@
           </div>
 
           <div *ngIf="diskOfferingsAreAllowed">
-            <h4>{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
-            <mat-form-field
-              class="full-width-input"
-              *loading="diskOfferingsAreLoading"
-            >
-              <mat-select
-                class="form-select-control"
-                name="diskOfferingSelector"
-                [ngModel]="vmCreationState.diskOffering"
-                (selectionChange)="diskOfferingChange.emit($event.value)"
-              >
-                <mat-option
-                  *ngFor="let offering of diskOfferings"
-                  [value]="offering"
-                >
-                  {{ offering.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <h4 class="disk-offerings">{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
+            <cs-disk-offering-selector
+              name="diskOffering"
+              [diskOfferings]="diskOfferings"
+              [params]="diskOfferingParams"
+              [ngModel]="vmCreationState?.diskOffering"
+              (change)="diskOfferingChange.emit($event)"
+            ></cs-disk-offering-selector>
           </div>
 
           <div *ngIf="showResizeSlider">
@@ -167,7 +156,7 @@
               <input
                 name="affinityGroup"
                 matInput
-                pattern="[a-zA-Z]{1}[a-zA-Z0-9\-\_]{0,61}[a-zA-Z0-9]$"
+                pattern="[a-zA-ZА-яЁё]{1}[a-zA-ZА-яЁё0-9\-\_\.\!\?\ ]{0,61}[a-zA-ZА-яЁё0-9\-\_\.\!\?\ ]$"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
                 [matAutocomplete]="affinityGroups"
                 [maxlength]="maxEntityNameLength"

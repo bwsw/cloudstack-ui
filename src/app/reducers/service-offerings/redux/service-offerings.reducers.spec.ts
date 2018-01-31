@@ -70,7 +70,7 @@ describe('Test service offering reducer', () => {
       payload: [{ id: '1', name: 'off1' }, { id: '2', name: 'off2' }]
     });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: ['1', '2'],
         entities: { 1: { id: '1', name: 'off1' }, 2: { id: '2', name: 'off2' } },
         loading: false,
@@ -94,7 +94,7 @@ describe('Test service offering reducer', () => {
       payload: { 'filterOfferings': false }
     });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -117,7 +117,7 @@ describe('Test service offering reducer', () => {
     });
 
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -140,7 +140,7 @@ describe('Test service offering reducer', () => {
     });
 
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -166,7 +166,7 @@ describe('Test service offering reducer', () => {
     });
 
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: [],
         entities: {},
         loading: false,
@@ -191,7 +191,7 @@ describe('Test service offering reducer', () => {
       payload: [{ id: '1', name: 'off1' }, { id: '2', name: 'off2' }]
     });
     expect(state)
-      .toEqual({
+      .toEqual(<any>{
         ids: ['1', '2'],
         entities: { 1: { id: '1', name: 'off1' }, 2: { id: '2', name: 'off2' } },
         loading: false,
@@ -366,7 +366,7 @@ describe('Test service offering reducer', () => {
       },
       resourceUsage
     );
-    expect(result3).toEqual({
+    expect(result3).toEqual(<any>{
       cpunumber: { max: 2, min: 1 },
       memory: { max: 2, min: 1 },
       cpuspeed: { min: 1, max: 2 }

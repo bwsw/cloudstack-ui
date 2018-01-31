@@ -1,4 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import {
+  Component,
+  Inject,
+  AfterViewInit,
+  ChangeDetectorRef,
+  OnInit
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as fromAccountTags from '../../../reducers/account-tags/redux/account-tags.reducers';
@@ -35,7 +41,7 @@ import { ServiceOffering } from '../../../shared/models/service-offering.model';
     >
     </cs-service-offering-dialog>`
 })
-export class VmCreationServiceOfferingContainerComponent {
+export class VmCreationServiceOfferingContainerComponent implements OnInit, AfterViewInit {
   readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferingsForVmCreation);
   readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
@@ -52,10 +58,19 @@ export class VmCreationServiceOfferingContainerComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<VmCreationServiceOfferingContainerComponent>,
-    private store: Store<State>
+    private store: Store<State>,
+    private cd: ChangeDetectorRef
   ) {
     this.serviceOffering = data.serviceOffering;
     this.customOfferingRestrictions = data.restriction;
+  }
+
+  ngOnInit() {
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   public get serviceOfferingId(): string {

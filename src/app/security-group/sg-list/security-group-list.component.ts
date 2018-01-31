@@ -4,6 +4,7 @@ import {
   OnChanges
 } from '@angular/core';
 import {
+  getType,
   SecurityGroup,
   SecurityGroupType
 } from '../sg.model';
@@ -52,9 +53,9 @@ export class SecurityGroupListComponent implements OnChanges {
       {
         key: 'types',
         label: 'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY_TYPES',
-        selector: (item: SecurityGroup) => item.type,
+        selector: (item: SecurityGroup) => getType(item),
         name: (item: SecurityGroup) => {
-          switch (item.type) {
+          switch (getType(item)) {
             case SecurityGroupType.PredefinedTemplate: {
               return this.translateService.instant(
                 'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS');

@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
@@ -110,11 +110,7 @@ export function listReducer(
     }
     case securityGroup.UPDATE_SECURITY_GROUP: {
       return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: action.payload
-        }
+        ...adapter.updateOne({id: action.payload.id, changes: action.payload}, state)
       };
     }
     default: {
@@ -237,11 +233,11 @@ export const selectFilteredSecurityGroups = createSelector(
 
     const viewModeFilter = (group: SecurityGroup) => {
       if (mode === SecurityGroupViewMode.Templates) {
-        return group.type === SecurityGroupType.PredefinedTemplate || group.type === SecurityGroupType.CustomTemplate;
+        return getType(group) === SecurityGroupType.PredefinedTemplate || getType(group) === SecurityGroupType.CustomTemplate;
       } else if (mode === SecurityGroupViewMode.Shared) {
-        return group.type === SecurityGroupType.Shared;
+        return getType(group) === SecurityGroupType.Shared;
       } else if (mode === SecurityGroupViewMode.Private) {
-        return group.type === SecurityGroupType.Private;
+        return getType(group) === SecurityGroupType.Private;
       }
     };
 
@@ -267,7 +263,7 @@ export const selectPredefinedSecurityGroups = createSelector(
 export const hasOrphanSecurityGroups = createSelector(
   selectAll,
   (sg) => {
-    const orphans = sg.filter(group => group.type === SecurityGroupType.Private)
+    const orphans = sg.filter(group => getType(group) === SecurityGroupType.Private)
       .find(_ => _.virtualMachineIds.length === 0);
     return !!orphans;
   }

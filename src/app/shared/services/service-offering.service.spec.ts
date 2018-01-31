@@ -152,7 +152,7 @@ describe('Service-offering service', () => {
       deploymentplanner: '',
       domain: 'domainId'
     };
-    const availableOfferings = [
+    const availableOfferings = <any>[
       {
         id: '1',
         name: 'Service Offering',
@@ -220,6 +220,6 @@ describe('Service-offering service', () => {
       resourceUsage,
       <Zone>{ id: '1' }
     );
-    expect(result).toEqual(availableOfferings);
+    expect(result).toEqual(<Array<ServiceOffering>>availableOfferings);
   });
 });
