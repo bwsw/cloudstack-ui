@@ -15,9 +15,9 @@ export class VolumeDeleteDialogComponent {
   ) { }
 
   public confirmDestroy(): void {
-    const result = {};
+    const result: { deleteSnapshots?: boolean } = {};
     if (this.deleteSnapshots) {
-      result['deleteSnapshots'] = true;
+      result.deleteSnapshots = true;
     }
     this.dialogRef.close(result);
   }

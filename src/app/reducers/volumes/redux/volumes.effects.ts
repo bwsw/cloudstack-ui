@@ -236,12 +236,15 @@ export class VolumesEffects {
         .filter(res => Boolean(res))
         .flatMap((params) => {
           return volumes
-            .map((volume: Volume) => {
+            .reduce((res: Action[], volume: Volume) => {
               if (params.deleteSnapshots && !!volume.snapshots.length) {
-                this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots));
-              }
-              return new volumeActions.DeleteVolume(volume);
-            });
+                res.push(
+                  new snapshotActions.DeleteSnapshots(volume.snapshots),
+                  new volumeActions.DeleteVolume(volume)
+                );
+              } else res.push(new volumeActions.DeleteVolume(volume));
+              return res;
+            }, []);
         }));
 
   @Effect()

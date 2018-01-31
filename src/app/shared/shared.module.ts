@@ -165,13 +165,8 @@ import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
-import {
-  DiskOfferingSelectorComponent
-} from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
-import {
-  DiskOfferingDialogComponent
-} from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
-import { CustomServiceOfferingComponent } from '../service-offering/custom-service-offering/custom-service-offering.component';
+import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
+import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 
 @NgModule({
   imports: [
@@ -358,10 +353,13 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
+    DiskOfferingSelectorComponent,
+    DiskOfferingDialogComponent
   ],
   providers: [
     AccountService,
