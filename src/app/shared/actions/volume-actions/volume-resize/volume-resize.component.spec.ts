@@ -115,7 +115,7 @@ describe('volume resize for root disks', () => {
       provisioningtype: '',
     };
     diskOffering.id = 'diskofferingid';
-    component.diskOfferingId = diskOffering.id;
+    component.diskOffering = diskOffering;
 
     component.resizeVolume();
     expect(component.onDiskResized.emit).toHaveBeenCalledWith({
@@ -193,13 +193,13 @@ describe('volume resize for data disks', () => {
       storagetype: StorageTypes.local,
       provisioningtype: '',
     }
-    component.diskOfferingId = diskOffering.id;
+    component.diskOffering = diskOffering;
 
     component.resizeVolume();
     expect(component.onDiskResized.emit).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
-      diskOfferingId: component.diskOfferingId
+      diskOfferingId: component.diskOffering.id
     });
   });
 });

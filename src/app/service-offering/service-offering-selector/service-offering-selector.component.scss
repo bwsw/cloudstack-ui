@@ -1,9 +1,20 @@
 .custom-offering-info {
-  text-align: right;
+  display: inline-block;
+  width: 100%;
+  font-size: 11pt !important;
 }
 
-.flex-container {
+.top-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+}
+
+.top-row /deep/ * {
+  margin: 0;
+}
+
+.mat-input-wrapper {
+  text-align: left;
+  padding-top: 18px;
 }

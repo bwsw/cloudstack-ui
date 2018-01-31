@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import {
+  Actions,
+  Effect
+} from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  getType,
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
@@ -79,7 +86,7 @@ export class SecurityGroupEffects {
     });
 
   @Effect({ dispatch: false })
-  deleteSecurityGroupSuccessNavigate$: Observable<Action> = this.actions$
+  deleteSecurityGroupSuccessNavigate$ = this.actions$
     .ofType(securityGroup.DELETE_SECURITY_GROUP_SUCCESS)
     .map((action: securityGroup.DeleteSecurityGroupSuccess) => action.payload)
     .filter((sg: SecurityGroup) => {
@@ -163,7 +170,7 @@ export class SecurityGroupEffects {
 
   private onNotify(securityGroup: SecurityGroup) {
     this.notificationService.message({
-      translationToken: this.createSuccessMessage[securityGroup.type],
+      translationToken: this.createSuccessMessage[getType(securityGroup)],
       interpolateParams: { name: securityGroup.name }
     });
   }
@@ -180,7 +187,7 @@ export class SecurityGroupEffects {
     return this.deleteSecurityGroup(securityGroup)
       .map(() => {
         this.notificationService.message({
-          translationToken: this.deleteSuccessMessage[securityGroup.type],
+          translationToken: this.deleteSuccessMessage[getType(securityGroup)],
           interpolateParams: { name: securityGroup.name }
         });
       });

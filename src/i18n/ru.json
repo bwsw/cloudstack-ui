@@ -554,7 +554,8 @@
       "TAG_COPYING": "Копирование тегов из шаблона...",
       "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",
-      "NO_TEMPLATES": "Нет доступных шаблонов"
+      "NO_TEMPLATES": "Нет доступных шаблонов",
+      "NO_OFFERINGS": "Нет доступных сервисных предложений"
     }
   },
   "VM_POST_ACTION": {
@@ -598,17 +599,30 @@
     "DETAILS": {
       "GENERAL_INFORMATION": "Общая информация",
       "SIZE": "Размер",
-      "CREATED": "Создан",
       "STORAGE_TYPE": "Тип хранилища",
       "DISK_OFFERING": "Дисковое предложение",
-      "DISK_OFFERING_NAME": "Название",
-      "DESCRIPTION": "Описание",
-      "MIN_IOPS": "Мин. IO/сек",
-      "MAX_IOPS": "Макс. IO/сек",
-      "READ_RATE_MB": "Скорость чтения",
-      "WRITE_RATE_MB": "Скорость записи",
-      "READ_RATE_IOPS": "Скорость чтения (IO/сек)",
-      "WRITE_RATE_IOPS": "Скорость записи (IO/сек)"
+      "NAME": "Название",
+      "CREATED": "Создано",
+      "name": "Название",
+      "bytesreadrate": "Чтение МБайт/сек",
+      "byteswriterate": "Запись МБайт/сек",
+      "iopsreadrate": "Чтение IO/сек",
+      "iopswriterate": "Запись IO/сек",
+      "displaytext": "Описание",
+      "disksize": "Размер диска",
+      "storagetype": "Тип хранилища",
+      "provisioningtype": "Выделение ёмкости",
+      "iscustomized": "Настраиваемое",
+      "miniops": "Мин. IO/s",
+      "maxiops": "Макс. IO/s",
+      "thin": "Динамическое",
+      "thick": "Статическое",
+      "fat": "Полное",
+      "sparse": "Разреженное",
+      "shared": "Общее",
+      "created": "Создано",
+      "true": "Да",
+      "false": "Нет"
     },
     "SNAPSHOTS": {
       "DESCRIPTION": "Описание",
@@ -1216,6 +1230,21 @@
       "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
       "UP_TO": "До {{ upperLimit }}",
       "FROM": "От {{ lowerLimit }}"
+    },
+    "COLUMN": {
+      "NAME": "Имя",
+      "NETWORK_RATE": "Скорость сети (MБ/сек)",
+      "CPU_NUMBER": "Ядра CPU",
+      "CPU_SPEED": "CPU (MHz)",
+      "MEMORY": "Память (MБ)"
+    },
+    "MODES": {
+      "FIXED": "Фиксированные",
+      "CUSTOM": "Настраеваемые"
+    },
+    "FILTERS": {
+      "SELECT_CLASSES": "Выберите классы",
+      "COMMON": "Общие"
     }
   },
   "SNAPSHOT_POLICIES": {
@@ -1346,7 +1375,28 @@
   },
   "ACCOUNT_STATE": {
     "DISABLED": "Деактивирован",
-    "ENABLED": "Активирован",
-    "LOCKED": "Заблокирован"
+    "ENABLED": "Активирован"
+  },
+  "DISK_OFFERING_TABLE": {
+    "name": "",
+    "bytesreadrate": "Чтение МБайт/сек",
+    "byteswriterate": "Запись МБайт/сек",
+    "iopsreadrate": "Чтение IO/сек",
+    "iopswriterate": "Запись IO/сек",
+    "displaytext": "Описание",
+    "disksize": "Размер диска",
+    "storagetype": "Тип хранилища",
+    "provisioningtype": "Выделение ёмкости",
+    "iscustomized": "Настраиваемое",
+    "miniops": "Мин. IO/s",
+    "maxiops": "Макс. IO/s",
+    "thin": "Динамическое",
+    "thick": "Статическое",
+    "fat": "Полное",
+    "sparse": "Разреженное",
+    "shared": "Общее",
+    "created": "Создано",
+    "true": "Да",
+    "false": "Нет"
   }
 }

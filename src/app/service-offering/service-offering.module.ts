@@ -1,12 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatDialogModule, MatInputModule, MatSelectModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatDialogModule,
+  MatInputModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatTooltipModule
+} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 import { CustomServiceOfferingComponent } from './custom-service-offering/custom-service-offering.component';
-import { CustomServiceOfferingService } from './custom-service-offering/service/custom-service-offering.service';
 import { ServiceOfferingDialogComponent } from './service-offering-dialog/service-offering-dialog.component';
+import { ServiceOfferingFilterComponent } from './service-offering-filter/service-offering-filter.component';
+import { ServiceOfferingListComponent } from './service-offering-list/service-offering-list.component';
 import { ServiceOfferingSelectorComponent } from './service-offering-selector/service-offering-selector.component';
 
 @NgModule({
@@ -15,7 +24,10 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
     FormsModule,
     SharedModule,
     MatButtonModule,
+    MatButtonToggleModule,
+    MatRadioModule,
     MatDialogModule,
+    MatTooltipModule,
     MatInputModule,
     MatSelectModule,
     SharedModule,
@@ -31,15 +43,14 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
   declarations: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
+    ServiceOfferingFilterComponent,
+    ServiceOfferingListComponent,
     ServiceOfferingSelectorComponent
   ],
   entryComponents: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
     ServiceOfferingSelectorComponent,
-  ],
-  providers: [
-    CustomServiceOfferingService
   ]
 })
 export class ServiceOfferingModule {

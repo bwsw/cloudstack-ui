@@ -108,7 +108,7 @@ export class VirtualMachineCreationEffects {
           const insufficientResources = [];
 
           Object.keys(resourceUsage.available)
-            .filter(key => ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].includes(key))
+            .filter(key => ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].indexOf(key) !== -1)
             .forEach(key => {
               const available = resourceUsage.available[key];
               if (available === 0) {
