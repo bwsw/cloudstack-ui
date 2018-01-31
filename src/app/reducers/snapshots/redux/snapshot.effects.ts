@@ -119,35 +119,32 @@ export class SnapshotEffects {
       })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
-        .flatMap(() => {
-
-          return (isVmRunning
-            ? this.vmEffects.stop(vms[vmId])
-            : Observable.of(null))
-            .flatMap(() => {
-              const notificationId = this.jobsNotificationService.add(
-                'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
-              return this.snapshotService.revert(action.payload.id)
-                .flatMap(() => {
-                  this.jobsNotificationService.finish({
-                    id: notificationId,
-                    message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_DONE'
-                  });
-
-                  return isVmRunning
-                    ? [
-                      new snapshot.RevertVolumeToSnapshotSuccess(action.payload),
-                      new vmActions.StartVm(vms[vmId])
-                    ]
-                    : [new snapshot.RevertVolumeToSnapshotSuccess(action.payload)];
-                })
-                .catch((error) => Observable.of(new snapshot.SnapshotUpdateError({
+        .flatMap(() => (isVmRunning
+          ? this.vmEffects.stop(vms[vmId])
+          : Observable.of(null))
+          .flatMap(() => {
+            const notificationId = this.jobsNotificationService.add(
+              'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
+            return this.snapshotService.revert(action.payload.id)
+              .flatMap(() => {
+                this.jobsNotificationService.finish({
                   id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_FAILED',
-                  error
-                })));
-            });
-        });
+                  message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_DONE'
+                });
+
+                return isVmRunning
+                  ? [
+                    new snapshot.RevertVolumeToSnapshotSuccess(action.payload),
+                    new vmActions.StartVm(vms[vmId])
+                  ]
+                  : [new snapshot.RevertVolumeToSnapshotSuccess(action.payload)];
+              })
+              .catch((error) => Observable.of(new snapshot.SnapshotUpdateError({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_FAILED',
+                error
+              })));
+          }));
     });
 
   @Effect({ dispatch: false })
@@ -174,7 +171,6 @@ export class SnapshotEffects {
     private jobsNotificationService: JobsNotificationService,
     private dialogService: DialogService,
     private dialog: MatDialog,
-    private vmService: VmService,
     private vmEffects: VirtualMachinesEffects
   ) {
   }

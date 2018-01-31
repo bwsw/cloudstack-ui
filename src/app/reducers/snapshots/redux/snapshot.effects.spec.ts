@@ -3,20 +3,25 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { Actions } from '@ngrx/effects';
-import { StateObservable, Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
+import { Subject } from 'rxjs/Subject';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
+import { MockNotificationService } from '../../../../testutils/mocks/mock-notification.service';
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Snapshot, SnapshotStates } from '../../../shared/models';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
+import { AuthService } from '../../../shared/services/auth.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
-import { VmService } from '../../../vm';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { VirtualMachinesEffects } from '../../vm/redux/vm.effects';
 import { SnapshotEffects } from './snapshot.effects';
 
 import * as actions from './snapshot.actions';
@@ -25,6 +30,18 @@ import * as fromSnapshots from './snapshot.reducers';
 @Injectable()
 class MockAsyncJobService {
   public completeAllJobs(): void {
+  }
+}
+
+@Injectable()
+export class MockAuthService {
+  public loggedIn = new Subject<boolean>();
+}
+
+@Injectable()
+export class MockVmEffects {
+  public stop(vm: VirtualMachine) {
+    return Observable.of(vm);
   }
 }
 
@@ -66,8 +83,6 @@ describe('Snapshot Effects', () => {
   let service: SnapshotService;
   let effects: SnapshotEffects;
 
-  const list: Array<Snapshot> = snapshots;
-
   const jobsNotificationService = jasmine.createSpyObj(
     'JobsNotificationService',
     ['add', 'finish', 'fail']
@@ -90,10 +105,12 @@ describe('Snapshot Effects', () => {
       providers: [
         SnapshotService,
         SnapshotEffects,
+        { provide: VirtualMachinesEffects, useFactory: MockVmEffects },
         { provide: Actions, useFactory: getActions },
-        { provide: VmService, useFactory: MockVmService },
+        { provide: AuthService, useFactory: MockAuthService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: SnapshotTagService, useClass: MockSnapshotTagService },
+        { provide: NotificationService, useValue: MockNotificationService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: DialogService, useClass: MockDialogService },
         { provide: MatDialog, useValue: mockDialog }
