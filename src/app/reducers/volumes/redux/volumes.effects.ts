@@ -275,12 +275,12 @@ export class VolumesEffects {
       const detach = (detachVolume) => {
         return this.volumeService
           .detach(detachVolume)
-          .do((volume: Volume) => {
+          .map((volume: Volume) => {
             this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
             });
-            return Observable.of(new volumeActions.ReplaceVolume(volume));
+            return new volumeActions.ReplaceVolume(volume);
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
@@ -293,6 +293,7 @@ export class VolumesEffects {
 
       if (action.payload.virtualmachineid) {
         return detach(action.payload)
+          .filter((action: Action) => action.type === volumeActions.REPLACE_VOLUME)
           .flatMap(() => remove(action.payload));
       } else {
         return remove(action.payload);
