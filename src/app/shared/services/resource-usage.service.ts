@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Account, ResourceLimit, ResourceType } from '../models';
+import { Account, Domain, ResourceLimit, ResourceType } from '../models';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 
@@ -34,7 +34,7 @@ export class ResourceStats {
   public consumed: ResourcesData;
   public max: ResourcesData;
 
-  public static convertLimits(account: Account): Account {
+  public static convertLimits(account: Account | Domain): Account {
     const accountJson = { ...account };
     Object.keys(accountJson)
       .filter(key => key.endsWith('available') || key.endsWith('limit'))
@@ -51,7 +51,7 @@ export class ResourceStats {
     return accountJson as Account;
   };
 
-  public static fromAccount(accounts: Array<Account>): ResourceStats {
+  public static fromAccount(accounts: Array<Account | Domain>): ResourceStats {
     const consumedResources = new ResourcesData();
     const maxResources = new ResourcesData();
     const availableResources = new ResourcesData();

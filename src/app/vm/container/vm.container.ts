@@ -1,17 +1,17 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
+import { AuthService } from '../../shared/services/auth.service';
+import { VirtualMachine } from '../shared/vm.model';
+import { noGroup } from '../vm-filter/vm-filter.component';
+import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
-import { AuthService } from '../../shared/services/auth.service';
-import { VirtualMachine } from '../shared/vm.model';
-
-import { noGroup } from '../vm-filter/vm-filter.component';
-import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import * as domainActions from '../../reducers/domains/redux/domains.actions';
 
 const getGroupName = (vm: VirtualMachine) => {
   return vm.domain !== 'ROOT'
@@ -25,7 +25,7 @@ const getGroupName = (vm: VirtualMachine) => {
   template: `
     <cs-vm-page
       [vms]="vms$ | async"
-      [query]="query$ | async" 
+      [query]="query$ | async"
       [volumes]="volumes$ | async"
       [osTypesMap]="osTypesMap$ | async"
       [isLoading]="loading$ | async"
@@ -34,7 +34,6 @@ const getGroupName = (vm: VirtualMachine) => {
     ></cs-vm-page>`
 })
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
-
   readonly vms$ = this.store.select(fromVMs.selectFilteredVMs);
   readonly query$ = this.store.select(fromVMs.filterQuery);
   readonly volumes$ = this.store.select(fromVolumes.selectAll);
@@ -75,6 +74,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     this.store.dispatch(new vmActions.LoadVMsRequest());
     this.store.dispatch(new volumeActions.LoadVolumesRequest());
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
+    this.store.dispatch(new domainActions.LoadDomainsRequest());
   }
 
   constructor(

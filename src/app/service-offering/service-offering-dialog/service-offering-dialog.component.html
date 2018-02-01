@@ -17,11 +17,12 @@
       [classTags]="classTags"
       [offeringList]="serviceOfferings"
       [customOfferingRestrictions]="restrictions"
+      [virtualMachine]="virtualMachine"
+      [resourceUsage]="resourceUsage"
       [defaultParams]="defaultParams"
       [selectedOffering]="serviceOffering"
       (selectedOfferingChange)="updateOffering($event)"
     ></cs-service-offering-list>
-
     <div
       class="message warning"
       *ngIf="showRebootMessage"

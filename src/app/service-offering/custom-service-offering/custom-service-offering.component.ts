@@ -22,11 +22,21 @@ export class CustomServiceOfferingComponent {
     const { offering, restriction, defaultParams } = data;
     this.offering = {
       ...offering,
-      cpunumber: offering.cpunumber || defaultParams.cpunumber,
-      cpuspeed: offering.cpuspeed || defaultParams.cpuspeed,
-      memory: offering.memory || defaultParams.memory
+      cpunumber: offering.cpunumber || (defaultParams && defaultParams.cpunumber) || restriction.cpunumber.min,
+      cpuspeed: offering.cpuspeed || (defaultParams && defaultParams.cpuspeed) || restriction.cpuspeed.min,
+      memory: offering.memory || (defaultParams && defaultParams.memory) || restriction.memory.min
     };
     this.restrictions = restriction;
+  }
+
+  public setMax(parameter: string, newValue: number) {
+    const max = this.restrictions[parameter].max;
+    if (newValue > max) {
+      this.offering[parameter] = max + 1;
+      setTimeout(() => this.offering[parameter] = max);
+      return;
+    }
+    this.offering[parameter] = newValue;
   }
 
   public errorMessage(lowerLimit: any, upperLimit: any): Observable<string> {

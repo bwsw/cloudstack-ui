@@ -1,4 +1,5 @@
-<h3 class="mat-dialog-title">{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.TITLE' | translate }}</h3>
+<h3 class="mat-dialog-title">{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.TITLE' |
+  translate }}</h3>
 <form (ngSubmit)="onSubmit()" #customOfferingForm="ngForm" novalidate>
   <div class="mat-dialog-content">
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_NUMBER' | translate }}</h5>
@@ -7,7 +8,8 @@
         matInput
         name="cpuNumber"
         type="number"
-        [(ngModel)]="offering.cpunumber"
+        [ngModel]="offering.cpunumber"
+        (ngModelChange)="setMax('cpunumber',$event)"
         [min]="restrictions.cpunumber.min"
         [max]="restrictions.cpunumber.max"
         [minValue]="restrictions.cpunumber.min"
@@ -27,7 +29,8 @@
         matInput
         name="cpuSpeed"
         type="number"
-        [(ngModel)]="offering.cpuspeed"
+        [ngModel]="offering.cpuspeed"
+        (ngModelChange)="setMax('cpuspeed', $event)"
         [min]="restrictions.cpuspeed.min"
         [max]="restrictions.cpuspeed.max"
         [minValue]="restrictions.cpuspeed.min"
@@ -47,7 +50,8 @@
         matInput
         name="memory"
         type="number"
-        [(ngModel)]="offering.memory"
+        [ngModel]="offering.memory"
+        (ngModelChange)="setMax('memory', $event)"
         [min]="restrictions.memory.min"
         [max]="restrictions.memory.max"
         [minValue]="restrictions.memory.min"

@@ -47,7 +47,6 @@ export class ServiceOfferingEffects {
         .get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
       const params = paramsFromConfig && Object.entries(paramsFromConfig).length
         ? paramsFromConfig : customServiceOfferingFallbackParams;
-
       return new serviceOfferingActions.LoadDefaultParamsResponse(params);
     });
 

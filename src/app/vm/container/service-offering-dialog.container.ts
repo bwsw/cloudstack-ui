@@ -8,19 +8,18 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
-import * as fromAccountTags from '../../reducers/account-tags/redux/account-tags.reducers';
 import { State } from '../../reducers/index';
+import { Account, AccountResourceType } from '../../shared/models/account.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-class.actions';
 import * as fromSOClasses from '../../reducers/service-offerings/redux/service-offering-class.reducers';
-
+import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
+import * as fromAccountTags from '../../reducers/account-tags/redux/account-tags.reducers';
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
-// tslint:disable-next-line
-import { Account, AccountResourceType } from '../../shared/models/account.model';
-import { VirtualMachine, VmState } from '../shared/vm.model';
+import * as fromAuth from '../../reducers/auth/redux/auth.reducers';
 
 @Component({
   selector: 'cs-service-offering-dialog-container',
@@ -32,6 +31,8 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
       [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
+      [resourceUsage]="resourceUsage$ | async"
+      [virtualMachine]="virtualMachine"
       [isVmRunning]="isVmRunning()"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="customOfferingRestrictions$ | async"
@@ -53,6 +54,7 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
   readonly classTags$ = this.store.select(fromAccountTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
+  readonly resourceUsage$ = this.store.select(fromAuth.getUserAvailableResources);
 
   public virtualMachine: VirtualMachine;
   public user: Account;
@@ -72,7 +74,8 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
     this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
+    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(
+      fromServiceOfferings.initialFilters));
     this.store.dispatch(new soGroupActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
   }
@@ -95,7 +98,8 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
 
   public updateServiceOffering(serviceOffering) {
     if (serviceOffering.iscustomized) {
-      this.store.dispatch(new serviceOfferingActions.UpdateCustomServiceOffering(serviceOffering));
+      this.store.dispatch(new serviceOfferingActions.UpdateCustomServiceOffering(
+        serviceOffering));
     }
   }
 

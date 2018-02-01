@@ -1281,6 +1281,11 @@
     "FILTERS": {
       "SELECT_CLASSES": "Select classes",
       "COMMON": "Common"
+    },
+    "TOOLTIPS": {
+      "NOT_ENOUGH_MEMORY": "Not enough memory",
+      "NOT_ENOUGH_CPU": "Not enough CPU",
+      "NOT_ENOUGH_MEMORY_AND_CPU": "Not enough memory and CPU"
     }
   },
   "SNAPSHOT_POLICIES": {

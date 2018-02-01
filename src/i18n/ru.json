@@ -1277,6 +1277,11 @@
     "FILTERS": {
       "SELECT_CLASSES": "Выберите классы",
       "COMMON": "Общие"
+    },
+    "TOOLTIPS": {
+      "NOT_ENOUGH_MEMORY": "Недостаточно памяти",
+      "NOT_ENOUGH_CPU": "Недостаточно CPU",
+      "NOT_ENOUGH_MEMORY_AND_CPU": "Недостаточно памяти и CPU"
     }
   },
   "SNAPSHOT_POLICIES": {

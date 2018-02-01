@@ -15,16 +15,16 @@ export interface ICustomOfferingRestrictions {
 
 export const DefaultCustomServiceOfferingRestrictions: ICustomOfferingRestrictions = {
   cpunumber: {
-    min: 0,
-    max: Number.POSITIVE_INFINITY
+    min: 1,
+    max: 2147483647
   },
   cpuspeed: {
-    min: 0,
-    max: Number.POSITIVE_INFINITY
+    min: 1,
+    max: 2147483647
   },
   memory: {
-    min: 0,
-    max: Number.POSITIVE_INFINITY
+    min: 32,
+    max: 2147483647
   }
 };
 

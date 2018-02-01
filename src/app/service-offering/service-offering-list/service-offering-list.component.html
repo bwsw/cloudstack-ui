@@ -5,53 +5,73 @@
     <table class="mat-table">
       <thead>
       <tr class="mat-header-row">
-        <th class="mat-header-cell name-text"
-            [matTooltip]="'SERVICE_OFFERING.COLUMN.NAME' | translate">
+        <th
+          class="mat-header-cell name-text"
+          [matTooltip]="'SERVICE_OFFERING.COLUMN.NAME' | translate"
+        >
           {{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }}
         </th>
-        <th class="mat-header-cell field"
-            [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate">
+        <th
+          class="mat-header-cell field"
+          [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate"
+        >
           {{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }}
         </th>
-        <th class="mat-header-cell field"
-            [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate">
+        <th
+          class="mat-header-cell field"
+          [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate"
+        >
           {{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }}
         </th>
-        <th class="mat-header-cell field"
-            [matTooltip]="'SERVICE_OFFERING.COLUMN.MEMORY' | translate">
+        <th
+          class="mat-header-cell field"
+          [matTooltip]="'SERVICE_OFFERING.COLUMN.MEMORY' | translate"
+        >
           {{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }}
         </th>
-        <th class="mat-header-cell field"
-            [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
+        <th
+          class="mat-header-cell field"
+          [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate"
+        >
           {{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}
         </th>
         <th class="mat-header-cell"></th>
       </tr>
       </thead>
       <tbody>
-      <tr class="mat-row"
-          *ngFor="let offering of group.items"
-          (click)="selectOffering(offering)"
+      <tr
+        class="mat-row"
+        *ngFor="let offering of group.items"
+        (click)="selectOffering(offering)"
+        [ngClass]="{'disabled': !isAvailable(offering)}"
+        [matTooltip]="serviceOfferingTooltip(offering) | translate"
       >
         <td class="mat-cell name-text" [matTooltip]="offering.name">
           <span [innerHTML]="offering.name | highlight:query"></span>
         </td>
         <td class="mat-cell">
-          {{ offering.cpunumber || '-' }}
+          {{ offering.cpunumber || (selectedOffering && offering.id === selectedOffering.id
+          ? selectedOffering.cpunumber : '-')}}
         </td>
         <td class="mat-cell">
-          {{ offering.cpuspeed || '-' }}
+          {{ offering.cpuspeed || (selectedOffering && offering.id === selectedOffering.id
+          ? selectedOffering.cpunumber : '-')}}
         </td>
         <td class="mat-cell">
-          {{ offering.memory || '-' }}
+          {{ offering.memory || (selectedOffering && offering.id === selectedOffering.id
+          ? selectedOffering.memory : '-') }}
         </td>
         <td class="mat-cell">
           {{ offering.networkrate || '-' }}
         </td>
         <td class="mat-cell">
-          <span>
-            <mat-radio-button id="{{offering.id}}" [checked]="selectedOffering && offering.id === selectedOffering.id"></mat-radio-button>
-          </span>
+        <span>
+        <mat-radio-button
+          id="{{ offering.id }}"
+          [disabled]="!isAvailable(offering)"
+          [checked]="selectedOffering && offering.id === selectedOffering.id"
+        ></mat-radio-button>
+        </span>
         </td>
       </tr>
       </tbody>
