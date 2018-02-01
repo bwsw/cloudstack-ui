@@ -69,7 +69,8 @@ export class PostdeploymentComponent {
 
   public getPassword() {
     const pass = this.vm.tags.find(tag => tag.key === VirtualMachineTagKeys.passwordTag);
-    return this.vm.password || pass && pass.value;
+    const vmPass = this.vm && this.vm.password || pass && pass.value;
+    return vmPass !== 'undefined' ? vmPass : false;
   }
 
   public isHttpAuthMode(vm): boolean {

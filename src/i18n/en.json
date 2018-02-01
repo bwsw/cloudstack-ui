@@ -565,6 +565,7 @@
     "OPEN_URL": "Open URL",
     "VM_PASSWORD": "Password",
     "UNKNOWN": "Unknown",
+    "NO_INFORMATION": "No information",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
     "VM_IP": "IP"
