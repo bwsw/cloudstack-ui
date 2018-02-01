@@ -79,7 +79,7 @@ export class UserTagService implements EntityTagService {
   public setKeyboardLayoutForVms(value: any): Observable<any> {
     return this.writeTag(
       this.keys.keyboardLayoutForVms,
-      value
+      value.toString()
     )
       .map(() => value);
   }

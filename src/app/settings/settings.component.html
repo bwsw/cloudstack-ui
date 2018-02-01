@@ -65,6 +65,7 @@
         <div>
           <cs-keyboards
             name="keyboard"
+            [settingLanguage]="settingLanguage"
             [ngModel]="keyboardLayout"
             (ngModelChange)="keyboardChange($event)"
           ></cs-keyboards>
