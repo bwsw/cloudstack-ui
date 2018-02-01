@@ -19,7 +19,7 @@ export class GroupedListComponent implements OnChanges {
 
   public tree: Array<{ items?, name? }>;
 
-  ngOnChanges(changes): void {
+  public ngOnChanges(changes): void {
     this.updateTree();
   }
 

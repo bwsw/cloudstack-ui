@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Volume } from '../../../shared/models/volume.model';
-import { Utils } from '../../../shared/services/utils/utils.service';
+import { Volume, VolumeType } from '../../../shared/models/volume.model';
 
 import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
@@ -37,6 +36,24 @@ export const volumeReducers = {
   list: reducer,
 };
 
+const sortByGroups = (a: Volume, b: Volume) => {
+  const aIsRoot = a.type === VolumeType.ROOT;
+  const bIsRoot = b.type === VolumeType.ROOT;
+  if (aIsRoot && bIsRoot) {
+    return a.name.localeCompare(b.name);
+  }
+  if (!aIsRoot && !bIsRoot) {
+    return a.name.localeCompare(b.name);
+  }
+  if (aIsRoot && !bIsRoot) {
+    return -1;
+  }
+  if (!aIsRoot && bIsRoot) {
+    return 1;
+  }
+  return 0;
+};
+
 /**
  * createEntityAdapter creates many an object of helper
  * functions for single or multiple operations
@@ -47,7 +64,7 @@ export const volumeReducers = {
  */
 export const adapter: EntityAdapter<Volume> = createEntityAdapter<Volume>({
   selectId: (item: Volume) => item.id,
-  sortComparer: Utils.sortByName
+  sortComparer: sortByGroups
 });
 
 /** getInitialState returns the default initial state
