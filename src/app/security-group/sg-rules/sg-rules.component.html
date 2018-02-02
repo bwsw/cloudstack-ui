@@ -63,7 +63,7 @@
                 <input
                   matInput
                   maxValue="255"
-                  minValue="-1"
+                  [minValue]="cidrIpVersion === IPVersion.ipv6 ? 0 : -1"
                   #icmpTypeField="ngModel"
                   name="icmpType"
                   [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate"
@@ -90,7 +90,7 @@
                 type="number"
                 [(ngModel)]="startPort"
                 [minValue]="0"
-                [maxValue]="65536"
+                [maxValue]="65535"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
                 integerValue
                 required
@@ -109,7 +109,7 @@
                   matInput
                   name="icmpCode"
                   maxValue="255"
-                  minValue="-1"
+                  [minValue]="cidrIpVersion === IPVersion.ipv6 ? 0 : -1"
                   #icmpCodeField="ngModel"
                   [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
                   [matAutocomplete]="icmpCodesAuto"
@@ -138,7 +138,7 @@
                 type="number"
                 [(ngModel)]="endPort"
                 [minValue]="0"
-                [maxValue]="65536"
+                [maxValue]="65535"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
                 integerValue
                 required

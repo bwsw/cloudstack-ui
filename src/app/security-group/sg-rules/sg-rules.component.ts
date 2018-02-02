@@ -240,9 +240,17 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public get typesByCIDR(): ICMPType[] {
-    return (this.cidr && cidr.v6({ exact: true }).test(this.cidr))
-      ? ICMPv6Types
-      : ICMPtypes;
+    return this.cidrIpVersion ? ICMPv6Types : ICMPtypes;
+  }
+
+  public get IPVersion() {
+    return IPVersion;
+  }
+
+  public get cidrIpVersion(): IPVersion {
+    return this.cidr && cidr.v6({ exact: true }).test(this.cidr)
+      ? IPVersion.ipv6
+      : IPVersion.ipv4;
   }
 
   public onCidrChange() {
@@ -357,13 +365,13 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public getIcmpTypeTranslationToken(type: number) {
-    return (this.cidr && cidr.v6({ exact: true }).test(this.cidr))
+    return this.cidrIpVersion === IPVersion.ipv6
       ? GetICMPV6TypeTranslationToken(type)
       : GetICMPTypeTranslationToken(type);
   }
 
   public getIcmpCodeTranslationToken(type: number, code: number) {
-    return (this.cidr && cidr.v6({ exact: true }).test(this.cidr))
+    return this.cidrIpVersion === IPVersion.ipv6
       ? GetICMPV6CodeTranslationToken(type, code)
       : GetICMPCodeTranslationToken(type, code);
   }
