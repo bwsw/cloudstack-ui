@@ -169,7 +169,9 @@ export class AppSidebarComponent extends WithUnsubscribe()
   public setUpRoutes() {
     if (this.canEdit) {
       const defaultOrder = this.configService.get<Array<string>>('sidebarOrder');
-      this.routes = this.routes.filter(route => defaultOrder.some(_ => _.toUpperCase() === route.id));
+      if (defaultOrder) {
+        this.routes = this.routes.filter(route => defaultOrder.some(_ => _.toUpperCase() === route.id));
+      }
     }
   }
 }
