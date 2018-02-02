@@ -157,18 +157,18 @@ describe('Security group firewall rules component', () => {
   }));
 
   it('filter lists of ICMP types and codes', async(() => {
-    const filteredTypes = comp.filterTypes('-1');
+    const filteredTypes = comp.filterTypes('255');
     expect(filteredTypes.length).toEqual(1);
 
     comp.selectedType = filteredTypes[0].type.toString();
     comp.setIcmpTypes(filteredTypes);
-    const filteredCodes = comp.filterCodes('-1');
+    const filteredCodes = comp.filterCodes('255');
     expect(filteredCodes.length).toEqual(1);
 
     comp.selectedCode = filteredCodes[0].toString();
     comp.setIcmpCodes(comp.selectedCode);
-    expect(comp.icmpType).toEqual(-1);
-    expect(comp.icmpCode).toEqual(-1);
+    expect(comp.icmpType).toEqual(255);
+    expect(comp.icmpCode).toEqual(0);
   }));
 
   it('filter network rules by IP version, type or protocol', () => {
@@ -202,12 +202,9 @@ describe('Security group firewall rules component', () => {
   }));
 
   it('should select types by CIDR IP version', async(() => {
-    comp.cidr = '2001:DB8::/128'; // CIDR (IPv6)
+    comp.cidr = '2001:DB8::/128';
     comp.onCidrChange();
     expect(comp.icmpTypes).toEqual(ICMPv6Types);
-    comp.cidr = '0.0.0.0/0'; // CIDR (IPv4)
-    comp.onCidrChange();
-    expect(comp.icmpTypes).toEqual(ICMPtypes);
   }));
 
   it('should change view or edit mode', async(() => {
