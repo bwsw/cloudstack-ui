@@ -251,8 +251,6 @@ describe('Test service offering reducer', () => {
           serviceOfferings: ['1', '2'],
         }
       },
-      { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
-      resourceUsage,
       <Zone>{ id: '1' }
     );
 
@@ -406,31 +404,31 @@ describe('Test service offering reducer', () => {
       iscustomized: true, cpunumber: 2, memory: 2
     };
     const tag1 = <Tag>{
-      key: "csui.service-offering.param.2.cpuNumber",
-      value: "2",
-      resourcetype: "User",
-      resourceid: "1",
-      account: "1",
-      domainid: "1",
-      domain: "1"
+      key: 'csui.service-offering.param.2.cpuNumber',
+      value: '2',
+      resourcetype: 'User',
+      resourceid: '1',
+      account: '1',
+      domainid: '1',
+      domain: '1'
     };
     const tag2 = <Tag>{
-      key: "csui.service-offering.param.2.cpuSpeed",
-      value: "1",
-      resourcetype: "User",
-      resourceid: "1",
-      account: "1",
-      domainid: "1",
-      domain: "1"
+      key: 'csui.service-offering.param.2.cpuSpeed',
+      value: '1',
+      resourcetype: 'User',
+      resourceid: '1',
+      account: '1',
+      domainid: '1',
+      domain: '1'
     };
     const tag3 = <Tag>{
-      key: "csui.service-offering.param.2.memory",
-      value: "2",
-      resourcetype: "User",
-      resourceid: "1",
-      account: "1",
-      domainid: "1",
-      domain: "1"
+      key: 'csui.service-offering.param.2.memory',
+      value: '2',
+      resourcetype: 'User',
+      resourceid: '1',
+      account: '1',
+      domainid: '1',
+      domain: '1'
     };
     const resourceUsage = {
       available: new ResourcesData(),
@@ -442,11 +440,11 @@ describe('Test service offering reducer', () => {
 
     const result1 = fromSOs.getCustomOfferingWithParams(
       offering,
-      [ tag1, tag2, tag3 ]
+      [tag1, tag2, tag3]
     );
 
     expect(result1)
-      .toEqual({...offering, cpunumber: 2, memory: 2, cpuspeed: 1 });
+      .toEqual({ ...offering, cpunumber: 2, memory: 2, cpuspeed: 1 });
   });
 
   it('should compare tags', () => {
