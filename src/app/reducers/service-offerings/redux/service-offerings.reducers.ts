@@ -488,11 +488,11 @@ export const getCustomRestrictions = createSelector(
         ...DefaultCustomServiceOfferingRestrictions,
         memory: {
           ...DefaultCustomServiceOfferingRestrictions.memory,
-          max: resources && resources.available.memory - (vm ? vm.memory : 0)
+          max: resources && resources.available.memory + (vm ? vm.memory : 0)
         },
         cpunumber: {
           ...DefaultCustomServiceOfferingRestrictions.cpunumber,
-          max: resources && resources.available.cpus - (vm ? vm.cpuNumber : 0)
+          max: resources && resources.available.cpus + (vm ? vm.cpuNumber : 0)
         }
       };
     }

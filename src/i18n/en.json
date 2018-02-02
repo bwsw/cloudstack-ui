@@ -1265,7 +1265,8 @@
       "MEMORY": "Memory (MB)",
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
-      "FROM": "From {{ lowerLimit }}"
+      "FROM": "From {{ lowerLimit }}",
+      "NO_AVAILABLE_RESOURCES": "No available resources"
     },
     "COLUMN": {
       "NAME": "Name",

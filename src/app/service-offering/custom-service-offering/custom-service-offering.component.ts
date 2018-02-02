@@ -43,6 +43,11 @@ export class CustomServiceOfferingComponent {
     const upperBound = Number.isInteger(upperLimit);
     const lowerBound = Number.isInteger(lowerLimit);
 
+    if (upperBound && upperLimit === 0) {
+      return this.translateService.get(
+        'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.NO_AVAILABLE_RESOURCES');
+    }
+
     if (lowerBound && upperBound) {
       return this.translateService.get(
         'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',

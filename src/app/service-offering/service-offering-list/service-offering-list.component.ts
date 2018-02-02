@@ -170,10 +170,10 @@ export const checkAvailabilityOfResources = (
     let enoughMemory;
 
     const maxCpu = resourceUsage && (virtualMachine
-      ? resourceUsage.available.cpus - virtualMachine.cpuNumber
+      ? resourceUsage.available.cpus + virtualMachine.cpuNumber
       : resourceUsage.available.cpus);
     const maxMemory = resourceUsage && (virtualMachine
-      ? resourceUsage.available.memory - virtualMachine.memory
+      ? resourceUsage.available.memory + virtualMachine.memory
       : resourceUsage.available.memory);
 
     if (serviceOffering.iscustomized) {

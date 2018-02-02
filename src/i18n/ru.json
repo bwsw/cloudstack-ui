@@ -1261,7 +1261,8 @@
       "MEMORY": "Память (МБ)",
       "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
       "UP_TO": "До {{ upperLimit }}",
-      "FROM": "От {{ lowerLimit }}"
+      "FROM": "От {{ lowerLimit }}",
+      "NO_AVAILABLE_RESOURCES": "Нет доступных ресурсов"
     },
     "COLUMN": {
       "NAME": "Имя",

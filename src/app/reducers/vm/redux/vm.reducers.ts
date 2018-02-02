@@ -386,7 +386,12 @@ export function formReducer(
       return { ...state, ...action.payload };
     }
     case vmActions.VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE: {
-      return { ...state, enoughResources: action.payload, loading: false };
+      return {
+        ...state,
+        enoughResources: action.payload.enoughResources,
+        insufficientResources: action.payload.insufficientResources,
+        loading: false
+      };
     }
     case vmActions.VM_DEPLOYMENT_REQUEST: {
       return {
@@ -422,7 +427,11 @@ export function formReducer(
     case vmActions.VM_DEPLOYMENT_REQUEST_ERROR: {
       const messages = [...state.loggerStageList].map(message => {
         if (message.status && message.status.includes(ProgressLoggerMessageStatus.InProgress)) {
-          return Object.assign({}, message, { status: [ProgressLoggerMessageStatus.Error] });
+          return Object.assign(
+            {},
+            message,
+            { status: [ProgressLoggerMessageStatus.Error] }
+          );
         } else {
           return message;
         }

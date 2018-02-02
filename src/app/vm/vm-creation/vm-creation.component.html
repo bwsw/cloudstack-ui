@@ -103,7 +103,8 @@
           </div>
 
           <div *ngIf="diskOfferingsAreAllowed">
-            <h4 class="disk-offerings">{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
+            <h4 class="disk-offerings">
+              {{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
             <cs-disk-offering-selector
               name="diskOffering"
               [diskOfferings]="diskOfferings"
@@ -243,6 +244,7 @@
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
+        *ngIf="enoughResources"
         mat-button
         color="primary"
         type="submit"

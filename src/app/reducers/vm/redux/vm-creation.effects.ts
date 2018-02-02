@@ -114,8 +114,7 @@ export class VirtualMachineCreationEffects {
       this.resourceUsageService.getResourceUsage()
         .switchMap(resourceUsage => {
           const insufficientResources = [];
-
-          Object.keys(resourceUsage.available)
+          Object.keys(resourceUsage && resourceUsage.available)
             .filter(
               key => ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].indexOf(
                 key) !== -1)
@@ -129,8 +128,11 @@ export class VirtualMachineCreationEffects {
           const enoughResources = !insufficientResources.length;
 
           return Observable.of(
-            new vmActions.VmCreationEnoughResourceUpdateState(enoughResources),
-            new vmActions.VmInitialZoneSelect(),
+            new vmActions.VmCreationEnoughResourceUpdateState({
+              enoughResources,
+              insufficientResources
+            }),
+            <Action>new vmActions.VmInitialZoneSelect(),
             new vmActions.VmInitialSecurityGroupsSelect()
           );
         }));
