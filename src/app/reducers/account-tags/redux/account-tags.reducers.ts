@@ -134,13 +134,6 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const selectServiceOfferingClassTags = createSelector(
-  selectAll,
-  (tags) => {
-    return tags.filter(tag => tag.key.includes(AccountTagKeys.serviceOfferingClass));
-  }
-);
-
 export const selectServiceOfferingParamTags = createSelector(
   selectAll,
   (tags) => {

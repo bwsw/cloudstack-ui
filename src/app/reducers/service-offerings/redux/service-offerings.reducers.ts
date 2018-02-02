@@ -16,9 +16,9 @@ import { isOfferingLocal } from '../../../shared/models/offering.model';
 import {
   DefaultServiceOfferingClassId,
   ServiceOffering,
-  ServiceOfferingClassKey,
   ServiceOfferingParamKey,
-  ServiceOfferingType
+  ServiceOfferingType,
+  ServiceOfferingClass
 } from '../../../shared/models/service-offering.model';
 import { Tag } from '../../../shared/models/tag.model';
 import { Zone } from '../../../shared/models/zone.model';
@@ -303,12 +303,12 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
-export const classesFilter = (offering: ServiceOffering, tags: Tag[], classesMap) => {
-  const tag = offering && tags.find(tag => tag.key === ServiceOfferingClassKey + '.' + offering.id);
-  const classes = tag && tag.value.split(',');
+export const classesFilter = (offering: ServiceOffering, soClasses: ServiceOfferingClass[], classesMap: any) => {
+  const classes = soClasses.filter(soClass =>
+    soClass.serviceOfferings && soClass.serviceOfferings.indexOf(offering.id) > -1);
   const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
-  return classes && classes.find(soClass => classesMap[soClass])
-    || (showGeneral && !classes);
+  return classes.length && classes.find(soClass => classesMap[soClass.id])
+    || (showGeneral && !classes.length);
 };
 
 export const selectFilteredOfferings = createSelector(
@@ -316,9 +316,8 @@ export const selectFilteredOfferings = createSelector(
   filterSelectedViewMode,
   filterSelectedClasses,
   filterQuery,
-  fromSOClass.selectEntities,
-  fromAccountTags.selectAll,
-  (offerings, viewMode, selectedClasses, query, classes, tags) => {
+  fromSOClass.selectAll,
+  (offerings, viewMode, selectedClasses, query, classes ) => {
     const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
 
@@ -328,7 +327,7 @@ export const selectFilteredOfferings = createSelector(
 
     const selectedClassesFilter = (offering: ServiceOffering) => {
       if (selectedClasses.length) {
-        return classesFilter(offering, tags, classesMap);
+        return classesFilter(offering, classes, classesMap);
       }
       return true;
     };
@@ -381,9 +380,8 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
   filterSelectedViewMode,
   filterSelectedClasses,
   filterQuery,
-  fromSOClass.selectEntities,
-  fromAccountTags.selectServiceOfferingClassTags,
-  (offerings, viewMode, selectedClasses, query, classes, tags) => {
+  fromSOClass.selectAll,
+  (offerings, viewMode, selectedClasses, query, classes) => {
     const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
 
@@ -393,7 +391,7 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
 
     const selectedClassesFilter = (offering: ServiceOffering) => {
       if (selectedClasses.length) {
-        return classesFilter(offering, tags, classesMap);
+        return classesFilter(offering, classes, classesMap);
       }
       return true;
     };
