@@ -6,7 +6,6 @@ import {
 import { Observable } from 'rxjs/Observable';
 import * as range from 'lodash/range';
 
-import { BaseModel } from '../models';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
