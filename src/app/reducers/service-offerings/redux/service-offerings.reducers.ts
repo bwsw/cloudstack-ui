@@ -268,15 +268,7 @@ export const getAvailableOfferings = createSelector(
         customRestrictions,
         ResourceStats.fromAccount([user]),
         zone
-      ).sort((a: ServiceOffering, b: ServiceOffering) => {
-        if (!a.iscustomized && b.iscustomized) {
-          return -1;
-        }
-        if (a.iscustomized && !b.iscustomized) {
-          return 1;
-        }
-        return 0;
-      });
+      );
 
       const filterByCompatibilityPolicy = (offering: ServiceOffering) => {
         if (compatibilityPolicy) {
@@ -469,15 +461,7 @@ export const getAvailableByResourcesSync = (
       }
 
       return enoughCpus && enoughMemory;
-    })
-    .sort((a: ServiceOffering, b: ServiceOffering) => {
-      if (!a.iscustomized && b.iscustomized) {
-        return -1;
-      }
-      if (a.iscustomized && !b.iscustomized) {
-        return 1;
-      }
-      return 0;
+
     });
 };
 
