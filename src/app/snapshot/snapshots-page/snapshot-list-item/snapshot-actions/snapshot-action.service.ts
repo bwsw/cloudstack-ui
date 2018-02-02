@@ -20,14 +20,14 @@ const CreateTemplateFromSnapshotAction: Action<Snapshot> = {
   command: SnapshotActions.CreateTemplate,
   icon: 'disc',
   className: 'disc-icon',
-  canActivate: (snapshot: Snapshot) => snapshot.state !== SnapshotStates.Error
+  canActivate: (snapshot: Snapshot) => snapshot.state === SnapshotStates.BackedUp
 };
 
 const CreateVolumeFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_VOLUME',
   command: SnapshotActions.CreateVolume,
   icon: 'dns',
-  canActivate: (snapshot: Snapshot) => snapshot.state !== SnapshotStates.Error
+  canActivate: (snapshot: Snapshot) => snapshot.state === SnapshotStates.BackedUp
 };
 
 const SnapshotDeleteAction: Action<Snapshot> = {
@@ -41,7 +41,7 @@ const SnapshotRevertAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.REVERT_TO_SNAPSHOT',
   command: SnapshotActions.Revert,
   icon: 'settings_backup_restore',
-  canActivate: (snapshot: Snapshot) => snapshot.revertable && snapshot.state !== SnapshotStates.Error
+  canActivate: (snapshot: Snapshot) => snapshot.revertable && snapshot.state === SnapshotStates.BackedUp
 };
 
 @Injectable()
