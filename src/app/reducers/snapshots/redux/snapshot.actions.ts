@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Snapshot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
-import { INotification } from '../../../shared/services/jobs-notification.service';
 
 export const LOAD_SNAPSHOT_REQUEST = '[Snapshots] LOAD_SNAPSHOT_REQUEST';
 export const LOAD_SNAPSHOT_RESPONSE = '[Snapshots] LOAD_SNAPSHOT_RESPONSE';

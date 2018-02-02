@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { Snapshot } from '../../../../shared/models';
+import { Snapshot, SnapshotStates } from '../../../../shared/models';
 import { Action } from '../../../../shared/models/action.model';
 import { TemplateResourceType } from '../../../../template/shared/base-template.service';
 // tslint:disable-next-line
@@ -20,14 +20,14 @@ const CreateTemplateFromSnapshotAction: Action<Snapshot> = {
   command: SnapshotActions.CreateTemplate,
   icon: 'disc',
   className: 'disc-icon',
-  canActivate: (snapshot: Snapshot) => true
+  canActivate: (snapshot: Snapshot) => snapshot.state !== SnapshotStates.Error
 };
 
 const CreateVolumeFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_VOLUME',
   command: SnapshotActions.CreateVolume,
   icon: 'dns',
-  canActivate: (snapshot: Snapshot) => true
+  canActivate: (snapshot: Snapshot) => snapshot.state !== SnapshotStates.Error
 };
 
 const SnapshotDeleteAction: Action<Snapshot> = {
@@ -41,7 +41,7 @@ const SnapshotRevertAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.REVERT_TO_SNAPSHOT',
   command: SnapshotActions.Revert,
   icon: 'settings_backup_restore',
-  canActivate: (snapshot: Snapshot) => snapshot.revertable
+  canActivate: (snapshot: Snapshot) => snapshot.revertable && snapshot.state !== SnapshotStates.Error
 };
 
 @Injectable()
