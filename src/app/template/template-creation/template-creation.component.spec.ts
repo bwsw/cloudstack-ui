@@ -241,7 +241,7 @@ describe('Template creation component', () => {
       ispublic: true,
     };
 
-    component.account = { accounttype: 1 } as Account;
+    component.account = { accounttype: '1' } as Account;
 
     component.showAdditional = true;
     component.templateGroup = { id: 'testG1' };
