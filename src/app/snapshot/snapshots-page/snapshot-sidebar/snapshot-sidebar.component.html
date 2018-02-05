@@ -60,6 +60,7 @@
     </mat-card-header>
     <mat-card-content>
       <cs-parameters-pair
+        *ngIf="volume.vmdisplayname"
         [name]="'SNAPSHOT_PAGE.SIDEBAR.VOLUME_INFORMATION.VM'"
         [value]="volume.vmdisplayname"
       ></cs-parameters-pair>
