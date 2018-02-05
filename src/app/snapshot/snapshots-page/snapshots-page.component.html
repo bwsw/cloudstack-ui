@@ -3,7 +3,9 @@
   [creationEnabled]="false"
 >
   <ng-container cs-panels>
-    <cs-top-bar cs-list></cs-top-bar>
+    <cs-top-bar cs-list>
+      <cs-snapshots-filter-container></cs-snapshots-filter-container>
+    </cs-top-bar>
   </ng-container>
 
   <ng-container cs-list *loading="isLoading">

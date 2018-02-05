@@ -740,9 +740,21 @@
       "VM_DELETED": "Deleted",
       "CREATED": "Created"
     },
+    "TYPES": {
+      "HOURLY": "Hourly",
+      "DAILY": "Daily",
+      "WEEKLY": "Weekly",
+      "MONTHLY": "Monthly",
+      "MANUAL": "Manual"
+    },
     "FILTERS": {
       "VOLUME": "Volume",
-      "VM": "Virtual Machines"
+      "VM": "Virtual Machines",
+      "GROUP_BY": "Group by",
+      "SELECT_ACCOUNTS": "Select accounts",
+      "SELECT_TYPES": "Select types",
+      "GROUP_BY_TYPES": "Types",
+      "GROUP_BY_ACCOUNTS": "Accounts"
     },
     "SIDEBAR": {
       "DETAILS": "Details",

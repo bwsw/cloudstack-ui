@@ -9,7 +9,7 @@ export class MockDialogService {
     return Observable.of(null);
   }
 
-  public confirm(config: ConfirmDialogConfiguration): Observable<void> {
-    return Observable.of(null);
+  public confirm(config: ConfirmDialogConfiguration): Observable<boolean> {
+    return Observable.of(true);
   }
 }
