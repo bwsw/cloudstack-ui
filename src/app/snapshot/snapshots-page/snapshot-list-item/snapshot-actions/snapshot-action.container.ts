@@ -1,32 +1,30 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { State } from '../../../../reducers';
+import { Snapshot } from '../../../../shared/models';
 import { Store } from '@ngrx/store';
-import { State } from '../../../../../reducers/index';
-import { Volume } from '../../../../../shared/models/volume.model';
-import { Snapshot } from '../../../../../shared/models/snapshot.model';
-// tslint:disable-next-line
-import { SnapshotActionService } from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
+import { SnapshotActionService } from './snapshot-action.service';
 
-import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
+import * as snapshotActions from '../../../../reducers/snapshots/redux/snapshot.actions';
 
 @Component({
-  selector: 'cs-snapshots-container',
+  selector: 'cs-snapshot-action-container',
   template: `
-    <cs-snapshots
-      [volume]="volume"
+    <cs-snapshot-action
+      [snapshot]="snapshot"
       (onTemplateCreate)="onTemplateCreate($event)"
       (onVolumeCreate)="onVolumeCreate($event)"
-      (onSnapshotRevert)="onSnapshotRevert($event)"
       (onSnapshotDelete)="onSnapshotDelete($event)"
+      (onSnapshotRevert)="onSnapshotRevert($event)"
     >
-    </cs-snapshots>`,
+    </cs-snapshot-action>`,
 })
-export class SnapshotsContainerComponent {
-  @Input() public volume: Volume;
+export class SnapshotActionContainerComponent {
+  @Input() public snapshot: Snapshot;
 
   constructor(
-    private dialog: MatDialog,
     private store: Store<State>,
+    private dialog: MatDialog,
     private snapshotActionService: SnapshotActionService
   ) {
   }

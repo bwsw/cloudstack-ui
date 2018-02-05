@@ -38,7 +38,6 @@ import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
 import { ServiceOfferingModule } from '../service-offering/service-offering.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
-import { SnapshotActionsService } from '../snapshot/snapshot-actions.service';
 // tslint:disable-next-line
 import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
@@ -242,8 +241,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     VmActionsService,
     VmEntityDeletionService,
     VmService,
-    WebShellService,
-    SnapshotActionsService,
+    WebShellService
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,

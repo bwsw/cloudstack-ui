@@ -51,7 +51,9 @@
       "CONFIRM_DELETION": "Are you sure you want to delete this ISO?"
     },
     "SNAPSHOT": {
-      "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?"
+      "CONFIRM_DELETION": "Are you sure you want to delete this snapshot?",
+      "CONFIRM_REVERTING": "Are you sure you want to revert the owning volume to this snapshot?",
+      "CONFIRM_REVERTING_WITH_VM_REBOOT": "Are you sure you want to revert the owning volume to this snapshot? <b>Virtual Machine will be rebooted.</b>"
     },
     "TAG": {
       "CONFIRM_DELETION": "Are you sure you want to delete this tag?"
@@ -154,7 +156,10 @@
       "TAKE_FAILED": "Snapshot failed",
       "DELETION_IN_PROGRESS": "Deleting a snapshot",
       "DELETION_DONE": "Snapshot deleted successfully",
-      "DELETION_FAILED": "Failed to delete a snapshot"
+      "DELETION_FAILED": "Failed to delete a snapshot",
+      "REVERT_IN_PROGRESS": "Reverting a disk",
+      "REVERT_DONE": "Disk reverted",
+      "REVERT_FAILED": "Failed to revert a disk"
     },
     "TEMPLATE": {
       "REGISTER_IN_PROGRESS": "Registering a template",
@@ -260,6 +265,12 @@
       "USER_CREATED": "User {{ username }} created successfully",
       "USER_UPDATED": "User {{ username }} updated successfully",
       "USER_DELETED": "User {{ username }} deleted successfully"
+    },
+    "VOLUME": {
+      "VOLUME_FROM_SNAPSHOT_CREATED": "Volume {{ name }} created successfully"
+    },
+    "SNAPSHOT": {
+      "DELETE_SUCCESS": "Snapshot {{ name }} deleted successfully"
     }
   },
   "AUTH": {
@@ -278,6 +289,7 @@
     "VMS": "Virtual machines",
     "STORAGE": "Storage",
     "IMAGES": "Images",
+    "SNAPSHOTS": "Snapshots",
     "FIREWALL_TEMPLATES": "Firewall",
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
@@ -720,10 +732,29 @@
       "HIDE_ADDITIONAL": "Hide additional fields"
     }
   },
+  "SNAPSHOT_PAGE": {
+    "CARD": {
+      "VOLUME": "Volume",
+      "VM": "Virtual Machine",
+      "VOLUME_DELETED": "Deleted",
+      "VM_DELETED": "Deleted",
+      "CREATED": "Created"
+    },
+    "FILTERS": {
+      "VOLUME": "Volume",
+      "VM": "Virtual Machines"
+    },
+    "ACTIONS": {
+      "CREATE_TEMPLATE": "Create template",
+      "CREATE_VOLUME": "Create volume",
+      "REVERT_TO_SNAPSHOT": "Revert volume to snapshot",
+      "DELETE_SNAPSHOT": "Delete"
+    }
+  },
   "SECURITY_GROUP_PAGE": {
     "DETAILS": {
       "TITLE": "Details",
-      "ID": "Id",
+      "ID": "ID",
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "TYPE": "Type",
@@ -733,7 +764,7 @@
       "EMPTY_VM_LIST": "No virtual machines",
       "EMPTY_VM_NAME": "Not available"
     },
-    "ACTION" : {
+    "ACTION": {
       "RULES": "Rules",
       "CONVERT": "Convert to shared"
     },

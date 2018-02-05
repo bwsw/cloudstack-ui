@@ -321,30 +321,25 @@ export class VirtualMachinesEffects {
   stopVm$: Observable<Action> = this.actions$
     .ofType(vmActions.STOP_VM)
     .flatMap((action: vmActions.StopVm) => {
-      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .switchMap(() => {
-          const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
-          this.update(action.payload, VmState.Stopping);
-          return this.vmService.command(action.payload, 'stop')
-            .do(() => this.jobsNotificationService.finish({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VM.STOP_DONE'
-            }))
-            .map(vm => new vmActions.UpdateVM(vm))
-            .catch((error: Error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.VM.STOP_FAILED'
-              });
-              return Observable.of(new vmActions.VMUpdateError({
-                vm: action.payload,
-                state: VmState.Error,
-                error
-              }));
-            });
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
+      this.update(action.payload, VmState.Stopping);
+      return this.vmService.command(action.payload, 'stop')
+        .do(() => this.jobsNotificationService.finish({
+          id: notificationId,
+          message: 'JOB_NOTIFICATIONS.VM.STOP_DONE'
+        }))
+        .map(vm => new vmActions.UpdateVM(vm))
+        .catch((error: Error) => {
+          this.jobsNotificationService.fail({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.VM.STOP_FAILED'
+          });
+          return Observable.of(new vmActions.VMUpdateError({
+            vm: action.payload,
+            state: VmState.Error,
+            error
+          }));
         });
     });
 
@@ -352,12 +347,7 @@ export class VirtualMachinesEffects {
   startVm$: Observable<Action> = this.actions$
     .ofType(vmActions.START_VM)
     .flatMap((action: vmActions.StartVm) => {
-      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .switchMap(() => {
-          return this.start(action.payload);
-        });
+      return this.start(action.payload);
     });
 
   @Effect()
@@ -857,7 +847,7 @@ export class VirtualMachinesEffects {
       });
   }
 
-  private stop(vm) {
+  public stop(vm) {
     const notificationId = this.jobsNotificationService.add(
       'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
     this.update(vm, VmState.InProgress);

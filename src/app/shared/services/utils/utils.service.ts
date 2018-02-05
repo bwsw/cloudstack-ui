@@ -88,7 +88,7 @@ export class Utils {
   }
 
   public static sortByName = (a, b) => {
-    return a.name.localeCompare(b.name);
+    return a.name && a.name.localeCompare(b.name);
   };
 }
 

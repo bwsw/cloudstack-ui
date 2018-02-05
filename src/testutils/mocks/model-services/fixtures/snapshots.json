@@ -1,0 +1,42 @@
+[
+  {
+    "id": "id000-111-aaa-bbb-ccc",
+    "account": "test",
+    "domainid": "domainid000-111-aaa-bbb-ccc",
+    "domain": "develop",
+    "snapshottype": "MANUAL",
+    "volumeid": "volumeid000-111-aaa-bbb-ccc",
+    "volumename": "ROOT-volume-name",
+    "volumetype": "ROOT",
+    "created": "2016-01-10T15:59:42+0700",
+    "name": "test",
+    "intervaltype": "MANUAL",
+    "state": "BackedUp",
+    "physicalsize": 2112159744,
+    "zoneid": "zoneid000-111-aaa-bbb-ccc",
+    "tags": [],
+    "revertable": true,
+    "ostypeid": "ostypeid000-111-aaa-bbb-ccc",
+    "osdisplayname": "Apple Mac OS X 10.6 (64-bit)"
+  },
+  {
+    "id": "id000-111-aaa-bbb-ccc-ddd",
+    "account": "test",
+    "domainid": "domainid000-111-aaa-bbb-ccc-ddd",
+    "domain": "develop",
+    "snapshottype": "MANUAL",
+    "volumeid": "volumeid000-111-aaa-bbb-ccc-ddd",
+    "volumename": "ROOT-volume-name",
+    "volumetype": "ROOT",
+    "created": "2018-01-10T15:59:42+0700",
+    "name": "test",
+    "intervaltype": "MANUAL",
+    "state": "BackedUp",
+    "physicalsize": 2112159744,
+    "zoneid": "zoneid000-111-aaa-bbb-ccc-ddd",
+    "tags": [],
+    "revertable": true,
+    "ostypeid": "ostypeid000-111-aaa-bbb-ccc-ddd",
+    "osdisplayname": "Apple Mac OS X 10.6 (64-bit)"
+  }
+]
