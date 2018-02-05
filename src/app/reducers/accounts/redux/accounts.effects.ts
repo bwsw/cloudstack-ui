@@ -34,7 +34,7 @@ export class AccountsEffects {
     .ofType(
       vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS,
       vmActions.EXPUNGE_VM_SUCCESS,
-      vmActions.UPDATE_VM,
+      vmActions.UPDATE_VM_SERVICE_OFFERING,
       volumeActions.VOLUME_DELETE_SUCCESS,
       volumeActions.VOLUME_CREATE_SUCCESS,
       volumeActions.RESIZE_VOLUME_SUCCESS,

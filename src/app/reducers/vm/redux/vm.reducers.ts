@@ -154,6 +154,7 @@ export function listReducer(
       };
     }
 
+    case vmActions.UPDATE_VM_SERVICE_OFFERING:
     case vmActions.UPDATE_VM: {
       return {
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),

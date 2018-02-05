@@ -30,6 +30,7 @@ export const VM_ADD_SECONDARY_IP = '[VM] VM_ADD_SECONDARY_IP';
 export const VM_REMOVE_SECONDARY_IP = '[VM] VM_REMOVE_SECONDARY_IP';
 export const VM_CHANGE_COLOR = '[VM] VM_CHANGE_COLOR';
 export const UPDATE_VM = '[VM] UPDATE_VM';
+export const UPDATE_VM_SERVICE_OFFERING = '[VM] UPDATE_VM_SERVICE_OFFERING';
 export const REPLACE_VM = '[VM] REPLACE_VM';
 export const ATTACH_ISO = '[VM] ATTACH_ISO';
 export const DETACH_ISO = '[VM] DETACH_ISO';
@@ -192,6 +193,13 @@ export class ChangeVmColor implements Action {
 
 export class UpdateVM implements Action {
   readonly type = UPDATE_VM;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
+export class UpdateVMServiceOffering implements Action {
+  readonly type = UPDATE_VM_SERVICE_OFFERING;
 
   constructor(public payload: VirtualMachine) {
   }
@@ -493,6 +501,7 @@ export type Actions = LoadVMsRequest
   | RemoveSecondaryIp
   | ChangeVmColor
   | UpdateVM
+  | UpdateVMServiceOffering
   | ReplaceVM
   | AttachIso
   | DetachIso

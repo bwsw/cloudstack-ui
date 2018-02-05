@@ -117,7 +117,7 @@ export class VirtualMachinesEffects {
           if (vmState === VmState.Running) {
             return this.start(newVm);
           } else {
-            return Observable.of(new vmActions.UpdateVM(newVm));
+            return Observable.of(new vmActions.UpdateVMServiceOffering(newVm));
           }
         })
         .catch((error: Error) => {
@@ -832,8 +832,13 @@ export class VirtualMachinesEffects {
         id: notificationId,
         message: 'JOB_NOTIFICATIONS.VM.START_DONE'
       }))
-      .map((newVm) => new vmActions.UpdateVM(new VirtualMachine(
-        Object.assign({}, vm, newVm))))
+      .flatMap((newVm) => {
+        const updatedVm = new VirtualMachine({ ...vm, ...newVm });
+        return [
+          new vmActions.UpdateVM(updatedVm),
+          new vmActions.UpdateVMServiceOffering(updatedVm)
+        ];
+      })
       .catch((error: Error) => {
         this.jobsNotificationService.fail({
           id: notificationId,
