@@ -7,13 +7,12 @@ export enum SecurityGroupActionType {
   Convert = 'convert'
 }
 
-// #821 task
-// const SecurityGroupConvertAction = {
-//   name: 'SECURITY_GROUP_PAGE.ACTION.CONVERT',
-//   command: SecurityGroupActionType.Convert,
-//   icon: 'transform',
-//   canActivate: (securityGroup: SecurityGroup) => securityGroup.type === SecurityGroupType.Private
-// };
+const SecurityGroupConvertAction = {
+  name: 'SECURITY_GROUP_PAGE.ACTION.CONVERT',
+  command: SecurityGroupActionType.Convert,
+  icon: 'transform',
+  canActivate: (securityGroup: SecurityGroup) => getType(securityGroup) === SecurityGroupType.Private
+};
 
 const SecurityGroupDeleteAction = {
   name: 'COMMON.DELETE',
@@ -32,6 +31,7 @@ const SecurityGroupShowRulesAction = {
 export class SecurityGroupActionService {
   public actions: Array<Action<SecurityGroup>> = [
     SecurityGroupShowRulesAction,
-    SecurityGroupDeleteAction
+    SecurityGroupDeleteAction,
+    SecurityGroupConvertAction
   ];
 }
