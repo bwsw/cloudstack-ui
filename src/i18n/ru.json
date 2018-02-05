@@ -744,6 +744,24 @@
       "VOLUME": "Диск",
       "VM": "Виртуальные машины"
     },
+    "SIDEBAR": {
+      "DETAILS": "Детали",
+      "CREATED": "Создан",
+      "TYPE": "Тип",
+      "TYPES": {
+        "HOURLY": "Ежечасный",
+        "DAILY": "Ежедневный",
+        "WEEKLY": "Еженедельный",
+        "MONTHLY": "Ежемесячный",
+        "MANUAL": "Создан вручную"
+      },
+      "DESCRIPTION": "Описание",
+      "VOLUME_INFORMATION": {
+        "TITLE": "Информация о диске",
+        "VM": "Виртуальная машина",
+        "VOLUME": "Диск"
+      }
+    },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Создать шаблон",
       "CREATE_VOLUME": "Создать диск",
