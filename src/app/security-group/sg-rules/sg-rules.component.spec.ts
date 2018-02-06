@@ -179,11 +179,11 @@ describe('Security group firewall rules component', () => {
 
     comp.selectedIPVersion = [IPVersion.ipv6];
     comp.filter();
-    expect(comp.visibleRules.length).toEqual(5);
+    expect(comp.visibleRules.length).toEqual(6);
 
     comp.selectedType = [NetworkRuleType.Ingress];
     comp.filter();
-    expect(comp.visibleRules.length).toEqual(5);
+    expect(comp.visibleRules.length).toEqual(6);
     comp.selectedIPVersion = [];
     comp.selectedType = [];
     comp.filter();
