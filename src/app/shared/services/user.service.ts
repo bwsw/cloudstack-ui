@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../decorators';
 import { AccountUser, ApiKeys } from '../models/account-user.model';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService, CSCommands } from './base-backend.service';
 import { ConfigService } from './config.service';
 import { RouterUtilsService } from './router-utils.service';
 import { UserTagService } from './tags/user-tag.service';
@@ -36,31 +36,31 @@ export class UserService extends BaseBackendService<AccountUser> {
   }
 
   public createUser(user: AccountUser): Observable<AccountUser> {
-    return this.sendCommand('create', user)
+    return this.sendCommand(CSCommands.Create, user)
       .map(res => res.user);
   }
 
   public updateUser(user: AccountUser): Observable<AccountUser> {
-    return this.sendCommand('update', user)
+    return this.sendCommand(CSCommands.Update, user)
       .map(res => res.user);
   }
 
   public removeUser(user: AccountUser): Observable<any> {
-    return this.sendCommand('delete', {
+    return this.sendCommand(CSCommands.Delete, {
       id: user.id,
     });
   }
 
   public updatePassword(id: string, password: string): Observable<any> {
-    return this.postRequest('update', { id, password });
+    return this.postRequest(CSCommands.Update, { id, password });
   }
 
   public registerKeys(id: string): Observable<ApiKeys> {
-    return this.sendCommand('register;Keys', { id }).map(res => res.userkeys);
+    return this.sendCommand(CSCommands.RegisterKeys, { id }).map(res => res.userkeys);
   }
 
   public getUserKeys(id: string): Observable<ApiKeys> {
-    return this.sendCommand('get;Keys', { id }).map(res => res.userkeys);
+    return this.sendCommand(CSCommands.GetKeys, { id }).map(res => res.userkeys);
   }
 
   public startIdleMonitor() {

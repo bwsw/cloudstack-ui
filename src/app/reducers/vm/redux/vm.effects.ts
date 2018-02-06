@@ -11,6 +11,7 @@ import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { AuthService } from '../../../shared/services/auth.service';
+import { CSCommands } from '../../../shared/services/base-backend.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
@@ -32,7 +33,6 @@ import { WebShellService } from '../../../vm/web-shell/web-shell.service';
 import { State } from '../../index';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
-
 import * as vmActions from './vm.actions';
 
 
@@ -325,7 +325,7 @@ export class VirtualMachinesEffects {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
       this.update(action.payload, VmState.Stopping);
-      return this.vmService.command(action.payload, 'stop')
+      return this.vmService.command(action.payload, CSCommands.Stop)
         .do(() => this.jobsNotificationService.finish({
           id: notificationId,
           message: 'JOB_NOTIFICATIONS.VM.STOP_DONE'
@@ -387,7 +387,7 @@ export class VirtualMachinesEffects {
             }
           });
 
-          return this.vmService.command(action.payload, 'destroy', params)
+          return this.vmService.command(action.payload, CSCommands.Destroy, params)
             .pipe(actions)
             .catch((error: Error) => {
               this.jobsNotificationService.fail({
@@ -414,7 +414,7 @@ export class VirtualMachinesEffects {
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.VM.REBOOT_IN_PROGRESS');
           this.update(action.payload, VmState.InProgress);
-          return this.vmService.command(action.payload, 'reboot')
+          return this.vmService.command(action.payload, CSCommands.Reboot)
             .do(() => this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VM.REBOOT_DONE'
@@ -446,7 +446,7 @@ export class VirtualMachinesEffects {
             'JOB_NOTIFICATIONS.VM.RESTORE_IN_PROGRESS');
           this.update(action.payload, VmState.InProgress);
 
-          return this.vmService.command(action.payload, 'restore')
+          return this.vmService.command(action.payload, CSCommands.Restore)
             .do(() => this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VM.RESTORE_DONE'
@@ -514,7 +514,7 @@ export class VirtualMachinesEffects {
             ];
           });
 
-          return this.vmService.command(action.payload, 'expunge')
+          return this.vmService.command(action.payload, CSCommands.Expunge)
             .do(() => this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VM.EXPUNGE_DONE'
@@ -642,7 +642,7 @@ export class VirtualMachinesEffects {
           const notificationId = this.jobsNotificationService.add(
             'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_IN_PROGRESS');
 
-          return this.vmService.command(resetAction.payload, 'resetPasswordFor')
+          return this.vmService.command(resetAction.payload, CSCommands.ResetPasswordFor)
             .do(() => this.jobsNotificationService.finish({
               id: notificationId,
               message: 'JOB_NOTIFICATIONS.VM.RESET_PASSWORD_DONE'
@@ -837,7 +837,7 @@ export class VirtualMachinesEffects {
     const notificationId = this.jobsNotificationService.add(
       'JOB_NOTIFICATIONS.VM.START_IN_PROGRESS');
     this.update(vm, VmState.InProgress);
-    return this.vmService.command(vm, 'start')
+    return this.vmService.command(vm, CSCommands.Start)
       .do(() => this.jobsNotificationService.finish({
         id: notificationId,
         message: 'JOB_NOTIFICATIONS.VM.START_DONE'
@@ -861,7 +861,7 @@ export class VirtualMachinesEffects {
     const notificationId = this.jobsNotificationService.add(
       'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
     this.update(vm, VmState.InProgress);
-    return this.vmService.command(vm, 'stop')
+    return this.vmService.command(vm, CSCommands.Stop)
       .do(() => this.jobsNotificationService.finish({
         id: notificationId,
         message: 'JOB_NOTIFICATIONS.VM.STOP_DONE'
