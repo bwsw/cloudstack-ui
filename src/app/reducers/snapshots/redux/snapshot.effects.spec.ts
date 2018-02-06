@@ -24,6 +24,7 @@ import { SnapshotEffects } from './snapshot.effects';
 
 import * as snapshotActions from './snapshot.actions';
 import * as fromSnapshots from './snapshot.reducers';
+import { VirtualMachinesEffects } from '../../vm/redux/vm.effects';
 
 @Injectable()
 class MockAsyncJobService {
@@ -74,6 +75,10 @@ describe('Snapshot Effects', () => {
     ['add', 'finish', 'fail']
   );
 
+  const MockVirtualMachinesEffects = jasmine.createSpyObj(
+    'VirtualMachinesEffects', [ 'stop' ]
+  );
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,8 +89,9 @@ describe('Snapshot Effects', () => {
       providers: [
         SnapshotService,
         SnapshotEffects,
+        { provide: VirtualMachinesEffects, useValue: MockVirtualMachinesEffects },
         { provide: Actions, useFactory: getActions },
-        { provide: AuthService, useFactory: MockAuthService },
+        { provide: AuthService, useClass: MockAuthService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: SnapshotTagService, useClass: MockSnapshotTagService },
         { provide: NotificationService, useValue: MockNotificationService },

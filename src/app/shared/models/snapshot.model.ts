@@ -5,15 +5,30 @@ import { Tag } from './tag.model';
 
 import * as moment from 'moment';
 
+export enum SnapshotStates {
+  BackedUp = 'BackedUp',
+  Creating = 'Creating',
+  BackingUp = 'BackingUp',
+  Allocated = 'Allocated',
+  Error = 'Error'
+}
+
+export enum SnapshotPageMode {
+  Volume = 'volume',
+  VM = 'vm'
+}
+
 export interface Snapshot extends Taggable, BaseModelInterface {
   description: string;
   id: string;
   created: string;
-  resourceType: string;
   physicalsize: number;
-  volumeid: string;
+  volumeid?: string;
+  virtualmachineid?: string;
   name: string;
   tags: Array<Tag>;
+  state: SnapshotStates,
+  revertable: boolean
 }
 
 export const getDateSnapshotCreated = (snapshot: Snapshot) => {

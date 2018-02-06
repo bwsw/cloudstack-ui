@@ -26,6 +26,8 @@ import { Volume } from '../../../shared/models/volume.model';
 import { VolumesEffects } from './volumes.effects';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MockNotificationService } from '../../../../testutils/mocks/mock-notification.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Injectable()
 class MockAsyncJobService {
@@ -143,6 +145,7 @@ describe('Volume Effects', () => {
         { provide: Store, useClass: MockStore },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: VolumeTagService, useClass: MockTagService },
+        { provide: NotificationService, useClass: MockNotificationService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: LocalStorageService, useClass: MockStorageService },
         { provide: SnapshotTagService, useClass: MockTagService },
