@@ -1,11 +1,8 @@
-import * as uuid from 'uuid';
-import {
-  Params,
-  RouterState,
-  RouterStateSnapshot
-} from '@angular/router';
+import { Params, RouterState, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
-
+import { IPVersion } from '../../../security-group/sg.model';
+import * as uuid from 'uuid';
+import * as ipaddr from 'ipaddr.js';
 
 export class Utils {
   public static getUniqueId(): string {
@@ -82,7 +79,7 @@ export class Utils {
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
 
-    const darkness = 1 - ( 0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    const darkness = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
     return darkness > 0.5;
   }
@@ -90,6 +87,31 @@ export class Utils {
   public static sortByName = (a, b) => {
     return a.name && a.name.localeCompare(b.name);
   };
+
+  public static cidrIsValid(range: string): boolean {
+    try {
+      const cidr = ipaddr.parseCIDR(range);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  public static cidrType(cidr: string): IPVersion {
+    let type: IPVersion;
+    if (this.cidrIsValid(cidr)) {
+      try {
+        ipaddr.IPv4(cidr);
+        type = ipaddr.IPv4(cidr).kind();
+      } catch (err) {
+        type = IPVersion.ipv6;
+      }
+    } else {
+      type = IPVersion.ipv4;
+    }
+
+    return type;
+  }
 }
 
 

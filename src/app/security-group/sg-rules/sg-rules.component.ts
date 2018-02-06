@@ -19,6 +19,7 @@ import {
   ICMPv6Types
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
+import { Utils } from '../../shared/services/utils/utils.service';
 import { NetworkRuleService } from '../services/network-rule.service';
 import {
   getType,
@@ -29,17 +30,13 @@ import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
 import { SgRuleComponent } from './sg-rule.component';
-import * as cidr from 'cidr-regex';
 
 export class CidrStateMatcher implements ErrorStateMatcher {
   isErrorState(
     control: FormControl | null,
     form: FormGroupDirective | NgForm | null
   ): boolean {
-
-    const invalidCidr = control.value
-      && !cidr.v4({ exact: true }).test(control.value)
-      && !cidr.v6({ exact: true }).test(control.value);
+    const invalidCidr = control.value && !Utils.cidrIsValid(control.value);
 
     return control && (control.dirty || control.touched) && invalidCidr;
   }
@@ -125,8 +122,7 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public isCidrValid(input: string) {
-    return input && (cidr.v4({ exact: true }).test(input)
-      || cidr.v6({ exact: true }).test(input));
+    return input && Utils.cidrIsValid(input);
   }
 
   constructor(
@@ -248,7 +244,7 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public get cidrIpVersion(): IPVersion {
-    return this.cidr && cidr.v6({ exact: true }).test(this.cidr)
+    return this.cidr && Utils.cidrType(this.cidr) === IPVersion.ipv6
       ? IPVersion.ipv6
       : IPVersion.ipv4;
   }
@@ -349,7 +345,7 @@ export class SgRulesComponent implements OnChanges {
   private filterRules(rules: NetworkRule[]) {
     return rules.filter((rule: NetworkRule) => {
       const filterByIPversion = (item: NetworkRule) => {
-        const ruleIPversion = cidr.v6({ exact: true }).test(item.CIDR)
+        const ruleIPversion = item.CIDR && Utils.cidrType(item.CIDR) === IPVersion.ipv6
           ? IPVersion.ipv6
           : IPVersion.ipv4;
         return !this.selectedIPVersion.length

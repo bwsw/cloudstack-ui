@@ -19,8 +19,8 @@ export enum NetworkRuleType {
 }
 
 export enum IPVersion {
-  ipv4 = 'IPv4',
-  ipv6 = 'IPv6'
+  ipv4 = 'ipv4',
+  ipv6 = 'ipv6'
 }
 
 @FieldMapper({
