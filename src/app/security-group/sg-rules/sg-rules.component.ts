@@ -6,13 +6,17 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
   GetICMPTypeTranslationToken,
+  GetICMPV6CodeTranslationToken,
+  GetICMPV6TypeTranslationToken,
   ICMPType,
-  ICMPtypes
+  ICMPtypes,
+  ICMPv6Types
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { NetworkRuleService } from '../services/network-rule.service';
@@ -21,7 +25,21 @@ import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
 import { SgRuleComponent } from './sg-rule.component';
+import * as cidr from 'cidr-regex';
 
+export class CidrStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+
+    const invalidCidr = control.value
+      && !cidr.v4({ exact: true }).test(control.value)
+      && !cidr.v6({ exact: true }).test(control.value);
+
+    return control && (control.dirty || control.touched) && invalidCidr;
+  }
+}
 
 @Component({
   selector: 'cs-security-group-rules',
@@ -45,11 +63,11 @@ export class SgRulesComponent implements OnChanges {
   public protocol: NetworkProtocol;
   public startPort: number;
   public icmpType: number;
-  public icmpTypes: ICMPType[] = ICMPtypes;
   public icmpCode: number;
   public icmpCodes: number[];
   public endPort: number;
   public cidr: string;
+  public cidrMatcher = new CidrStateMatcher();
   public ingressRules: NetworkRule[] = [];
   public egressRules: NetworkRule[] = [];
   public visibleRules: NetworkRule[] = [];
@@ -90,8 +108,20 @@ export class SgRulesComponent implements OnChanges {
     { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
 
-  public getIcmpTypeTranslationToken = GetICMPTypeTranslationToken;
-  public getIcmpCodeTranslationToken = GetICMPCodeTranslationToken;
+  private _icmpTypes: ICMPType[];
+
+  public get isPredefinedTemplate(): boolean {
+    return this.securityGroup && this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
+  }
+
+  public get icmpTypes(): ICMPType[] {
+    return this._icmpTypes ? this._icmpTypes : this.typesByCIDR;
+  }
+
+  public isCidrValid(input: string) {
+    return input && (cidr.v4({ exact: true }).test(input)
+      || cidr.v6({ exact: true }).test(input));
+  }
 
   constructor(
     private networkRuleService: NetworkRuleService,
@@ -100,7 +130,6 @@ export class SgRulesComponent implements OnChanges {
     private dialogService: DialogService,
     private router: Router
   ) {
-    this.cidr = '0.0.0.0/0';
     this.protocol = NetworkProtocol.TCP;
     this.type = NetworkRuleType.Ingress;
 
@@ -117,10 +146,6 @@ export class SgRulesComponent implements OnChanges {
 
   public ngOnChanges(changes) {
     this.update();
-  }
-
-  public get isPredefinedTemplate(): boolean {
-    return this.securityGroup && this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
   }
 
   public addRule(e: Event): void {
@@ -187,18 +212,12 @@ export class SgRulesComponent implements OnChanges {
       });
   }
 
-  public onCidrClick(): void {
-    if (!this.cidr) {
-      this.cidr = '0.0.0.0/0';
-    }
-  }
-
   public setIcmpTypes(value: ICMPType[]) {
-    this.icmpTypes = value;
+    this._icmpTypes = value;
 
     if (+this.selectedType <= 255 && +this.selectedType >= -1) {
       this.icmpType = +this.selectedType;
-      const type = ICMPtypes.find(_ => {
+      const type = this.typesByCIDR.find(_ => {
         return _.type === this.icmpType;
       });
       this.selectedCode = '';
@@ -214,6 +233,16 @@ export class SgRulesComponent implements OnChanges {
     }
   }
 
+  public get typesByCIDR(): ICMPType[] {
+    return (this.cidr && cidr.v6({ exact: true }).test(this.cidr))
+      ? ICMPv6Types
+      : ICMPtypes;
+  }
+
+  public onCidrChange() {
+    this._icmpTypes = this.typesByCIDR;
+  }
+
   public filter(): void {
     if (!this.securityGroup) {
       return;
@@ -226,10 +255,10 @@ export class SgRulesComponent implements OnChanges {
 
   public filterTypes(val: number | string) {
     const filterValue = val.toString().toLowerCase();
-    return !!val ? ICMPtypes.filter(_ => _.type.toString() === filterValue ||
+    return !!val ? this.typesByCIDR.filter(_ => _.type.toString() === filterValue ||
       this.translateService.instant(this.getIcmpTypeTranslationToken(_.type))
         .toLowerCase()
-        .indexOf(filterValue) !== -1) : ICMPtypes;
+        .indexOf(filterValue) !== -1) : this.typesByCIDR;
   }
 
   public filterCodes(val: number | string) {
@@ -238,7 +267,7 @@ export class SgRulesComponent implements OnChanges {
       _.toString().indexOf(filterValue) !== -1 ||
       this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
         .toLowerCase()
-        .indexOf(filterValue) !== -1) : ICMPtypes.find(
+        .indexOf(filterValue) !== -1) : this.typesByCIDR.find(
       x => x.type === this.icmpType).codes;
   }
 
@@ -310,6 +339,18 @@ export class SgRulesComponent implements OnChanges {
         && (!this.selectedTypes.length
           || this.selectedTypes.find(type => rule.type === type));
     });
+  }
+
+  public getIcmpTypeTranslationToken(type: number) {
+    return (this.cidr && cidr.v6({ exact: true }).test(this.cidr))
+      ? GetICMPV6TypeTranslationToken(type)
+      : GetICMPTypeTranslationToken(type);
+  }
+
+  public getIcmpCodeTranslationToken(type: number, code: number) {
+    return (this.cidr && cidr.v6({ exact: true }).test(this.cidr))
+      ? GetICMPV6CodeTranslationToken(type, code)
+      : GetICMPCodeTranslationToken(type, code);
   }
 
   private emitChanges() {
