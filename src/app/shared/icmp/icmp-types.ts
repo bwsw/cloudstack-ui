@@ -24,7 +24,8 @@ export const ICMPtypes = [
   {
     type: 5,
     codes: [0, 1, 2, 3]
-  }, {
+  },
+  {
     type: 6,
     codes: [0]
   },

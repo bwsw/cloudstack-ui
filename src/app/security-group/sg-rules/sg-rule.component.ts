@@ -46,18 +46,18 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.item.icmpType);
+    return GetICMPTypeTranslationToken(this.item.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode);
+    return GetICMPCodeTranslationToken(this.item.icmptype, this.item.icmpcode);
   }
 
   public get ruleParams(): Object {
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.item.CIDR,
+      cidr: this.item.cidr,
     };
 
     let ruleParams;
@@ -73,15 +73,15 @@ export class SgRuleComponent {
       }
 
       ruleParams = Object.assign({}, params, {
-        icmpType: this.item.icmpType,
-        icmpCode: this.item.icmpCode,
+        icmptype: this.item.icmptype,
+        icmpcode: this.item.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
       ruleParams = Object.assign({}, params, {
-        startPort: this.item.startPort,
-        endPort: this.item.endPort
+        startport: this.item.startport,
+        endport: this.item.endport
       });
     }
 
@@ -95,6 +95,6 @@ export class SgRuleComponent {
     e.stopPropagation();
 
     this.deleting = true;
-    this.onRemove.emit({ type: this.item.type, id: this.item.ruleId });
+    this.onRemove.emit({ type: this.item.type, id: this.item.ruleid });
   }
 }

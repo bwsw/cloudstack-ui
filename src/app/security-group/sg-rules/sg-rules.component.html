@@ -88,8 +88,8 @@
                 name="startPort"
                 type="number"
                 [(ngModel)]="startPort"
-                [minValue]="0"
-                [maxValue]="65536"
+                minValue="0"
+                maxValue="65536"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
                 integerValue
                 required
@@ -136,8 +136,8 @@
                 name="endPort"
                 type="number"
                 [(ngModel)]="endPort"
-                [minValue]="0"
-                [maxValue]="65536"
+                minValue="0"
+                maxValue="65536"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
                 integerValue
                 required

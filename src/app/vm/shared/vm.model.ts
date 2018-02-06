@@ -1,8 +1,5 @@
 import { SecurityGroup } from '../../security-group/sg.model';
-import {
-  FieldMapper,
-  ZoneName
-} from '../../shared/decorators';
+import { FieldMapper, ZoneName } from '../../shared/decorators';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import {
   BaseModel,
@@ -181,7 +178,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
     }
 
     this.securityGroup = this.securityGroup.map(securityGroup => {
-      return new SecurityGroup(securityGroup);
+      return <SecurityGroup>(securityGroup);
     });
   }
 

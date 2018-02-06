@@ -22,13 +22,13 @@
       </ng-template>
     </ng-template>
     <ng-template [ngIf]="item.rule.protocol !== NetworkProtocols.ICMP">
-      <ng-template [ngIf]="item.rule.startPort === item.rule.endPort">
+      <ng-template [ngIf]="item.rule.startport === item.rule.endport">
       <span
         [matTooltip]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_NOMARKUP' | translate: (ruleParams)"
         [innerHTML]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE' | translate: (ruleParams)"
       ></span>
       </ng-template>
-      <ng-template [ngIf]="item.rule.startPort !== item.rule.endPort">
+      <ng-template [ngIf]="item.rule.startport !== item.rule.endport">
       <span
         [matTooltip]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE_NOMARKUP' | translate: (ruleParams)"
         [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE' | translate: (ruleParams)"

@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NetworkProtocol } from '../../../../security-group/network-rule.model';
-import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../../icmp/icmp-types';
+import {
+  GetICMPCodeTranslationToken,
+  GetICMPTypeTranslationToken
+} from '../../../icmp/icmp-types';
 import { RuleListItem } from '../security-group-builder.component';
 
 
@@ -36,18 +39,18 @@ export class SecurityGroupBuilderRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.item.rule.icmpType);
+    return GetICMPTypeTranslationToken(this.item.rule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.item.rule.icmpType, this.item.rule.icmpCode);
+    return GetICMPCodeTranslationToken(this.item.rule.icmptype, this.item.rule.icmpcode);
   }
 
   public get ruleParams(): Object {
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.item.rule.CIDR,
+      cidr: this.item.rule.cidr,
     };
 
     let ruleParams;
@@ -63,15 +66,15 @@ export class SecurityGroupBuilderRuleComponent {
       }
 
       ruleParams = Object.assign({}, params, {
-        icmpType: this.item.rule.icmpType,
-        icmpCode: this.item.rule.icmpCode,
+        icmptype: this.item.rule.icmptype,
+        icmpcode: this.item.rule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
       ruleParams = Object.assign({}, params, {
-        startPort: this.item.rule.startPort,
-        endPort: this.item.rule.endPort
+        startport: this.item.rule.startport,
+        endport: this.item.rule.endport
       });
     }
 

@@ -1,8 +1,4 @@
-import {
-  EventEmitter,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
+import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { getType, SecurityGroup } from '../sg.model';
 import { MatMenuTrigger } from '@angular/material';
 import { VirtualMachine } from '../../vm';
@@ -20,7 +16,7 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public query: string;
 
   public get sgVmName() {
-    return this.vmList[this.item.virtualMachineIds[0]].name;
+    return this.vmList[this.item.virtualmachineids[0]].name;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

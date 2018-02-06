@@ -16,7 +16,7 @@ import {
 } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { NetworkRuleService } from '../services/network-rule.service';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType, getType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
@@ -120,7 +120,7 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public get isPredefinedTemplate(): boolean {
-    return this.securityGroup && this.securityGroup.type === SecurityGroupType.PredefinedTemplate;
+    return this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate;
   }
 
   public addRule(e: Event): void {
@@ -172,7 +172,7 @@ export class SgRulesComponent implements OnChanges {
         const rules = type === NetworkRuleType.Ingress
           ? this.ingressRules
           : this.egressRules;
-        const ind = rules.findIndex(rule => rule.ruleId === id);
+        const ind = rules.findIndex(rule => rule.ruleid === id);
         if (ind === -1) {
           return;
         }
@@ -224,7 +224,7 @@ export class SgRulesComponent implements OnChanges {
     this.visibleRules = [...filteredIngressRules, ...filteredEgressRules];
   }
 
-  public filterTypes(val: number | string) {
+  public filterTypes(val: number | string): ICMPType[] {
     const filterValue = val.toString().toLowerCase();
     return !!val ? ICMPtypes.filter(_ => _.type.toString() === filterValue ||
       this.translateService.instant(this.getIcmpTypeTranslationToken(_.type))
@@ -232,18 +232,19 @@ export class SgRulesComponent implements OnChanges {
         .indexOf(filterValue) !== -1) : ICMPtypes;
   }
 
-  public filterCodes(val: number | string) {
+  public filterCodes(val: number | string): number[] {
     const filterValue = val.toString().toLowerCase();
-    return !!val ? this.icmpCodes.filter(_ =>
-      _.toString().indexOf(filterValue) !== -1 ||
-      this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
-        .toLowerCase()
-        .indexOf(filterValue) !== -1) : ICMPtypes.find(
-      x => x.type === this.icmpType).codes;
+    return !!val ?
+      this.icmpCodes.filter(_ =>
+        _.toString().indexOf(filterValue) !== -1 ||
+        this.translateService.instant(this.getIcmpCodeTranslationToken(this.icmpType, _))
+          .toLowerCase()
+          .indexOf(filterValue) !== -1) :
+      ICMPtypes.find(x => x.type === this.icmpType).codes;
   }
 
   public confirmChangeMode() {
-    if (!this.editMode && this.securityGroup.type === SecurityGroupType.Shared) {
+    if (!this.editMode && getType(this.securityGroup) === SecurityGroupType.Shared) {
       this.dialogService.confirm({
         message: !this.vmId
           ? 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_EDIT'
@@ -276,10 +277,10 @@ export class SgRulesComponent implements OnChanges {
 
   private update() {
     if (this.securityGroup) {
-      this.ingressRules = this.securityGroup.ingressRules
-        .map(rule => ({ ...rule, type: NetworkRuleType.Ingress }));
-      this.egressRules = this.securityGroup.egressRules
-        .map(rule => ({ ...rule, type: NetworkRuleType.Egress }));
+      this.ingressRules = this.securityGroup.ingressrule ? this.securityGroup.ingressrule
+        .map(rule => ({ ...rule, type: NetworkRuleType.Ingress })) : [];
+      this.egressRules = this.securityGroup.egressrule ? this.securityGroup.egressrule
+        .map(rule => ({ ...rule, type: NetworkRuleType.Egress })) : [];
     }
 
     this.filter();
@@ -313,9 +314,8 @@ export class SgRulesComponent implements OnChanges {
   }
 
   private emitChanges() {
-    const updatedSecurityGroup = new SecurityGroup(this.securityGroup);
-    updatedSecurityGroup.ingressRules = this.ingressRules;
-    updatedSecurityGroup.egressRules = this.egressRules;
+    const updatedSecurityGroup = Object.assign( {},
+      this.securityGroup, { ingressrule: this.ingressRules, egressrule: this.egressRules });
     this.onFirewallRulesChange.emit(updatedSecurityGroup);
   }
 }

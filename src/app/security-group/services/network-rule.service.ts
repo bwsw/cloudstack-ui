@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { NetworkRule } from '../network-rule.model';
+import { NetworkRule, compareRules } from '../network-rule.model';
 import { NetworkRuleType, SecurityGroup } from '../sg.model';
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
@@ -10,8 +10,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup',
-  entityModel: SecurityGroup
+  entity: 'SecurityGroup'
 })
 export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> {
   constructor(
@@ -25,8 +24,8 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
     const command = 'authorize';
     return this.sendCommand(`${command};${type}`, data)
       .switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel))
-      .switchMap(securityGroup => {
-        const rule = securityGroup[`${type.toLowerCase()}Rules`][0];
+      .switchMap(job => {
+        const rule = job.jobresult.securitygroup[`${type.toLowerCase()}rule`][0];
         return Observable.of(rule);
       });
   }
@@ -40,7 +39,7 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
 
   public removeDuplicateRules(rules: Array<NetworkRule>): Array<NetworkRule> {
     return rules.reduce((acc: Array<NetworkRule>, rule: NetworkRule) => {
-      const unique = !acc.some(resultRule => rule.isEqual(resultRule));
+      const unique = !acc.some(resultRule => compareRules(rule, resultRule));
       return unique ? acc.concat(rule) : acc;
     }, []);
   }

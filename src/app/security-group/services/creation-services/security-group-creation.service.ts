@@ -30,8 +30,7 @@ interface IcmpNetworkRuleCreationParams {
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup',
-  entityModel: SecurityGroup
+  entity: 'SecurityGroup'
 })
 export abstract class SecurityGroupCreationService extends BaseBackendService<SecurityGroup> {
   constructor(
@@ -122,11 +121,11 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   ): TcpUdpNetworkRuleCreationParams {
     return {
       securityGroupId: securityGroup.id,
-      ruleId: rule.ruleId,
+      ruleId: rule.ruleid,
       protocol: rule.protocol.toLowerCase(),
-      cidrList: rule.CIDR,
-      startPort: rule.startPort,
-      endPort: rule.endPort
+      cidrList: rule.cidr,
+      startPort: rule.startport,
+      endPort: rule.endport
     };
   };
 
@@ -136,11 +135,11 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   ): IcmpNetworkRuleCreationParams {
     return {
       securityGroupId: securityGroup.id,
-      ruleId: rule.ruleId,
+      ruleId: rule.ruleid,
       protocol: rule.protocol.toLowerCase(),
-      cidrList: rule.CIDR,
-      icmpCode: rule.icmpCode,
-      icmpType: rule.icmpType
+      cidrList: rule.cidr,
+      icmpCode: rule.icmpcode,
+      icmpType: rule.icmptype
     };
   }
 }

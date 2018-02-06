@@ -35,7 +35,7 @@ export class MockEntityData {
     this.diskOfferings = diskOfferings;
     this.isos = isos.map(json => new Iso(json));
     this.securityGroupTemplates = securityGroupTemplates.map(
-      json => new SecurityGroup(json));
+      json => <SecurityGroup>(json));
     this.serviceOfferings = serviceOfferings;
     this.sshKeyPairs = sshKeyPairs;
     this.templates = templates.map(json => new Template(json));

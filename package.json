@@ -11,6 +11,7 @@
     "build:aot": "npm run build-themes && ng build --prod --aot",
     "test": "ng test --code-coverage --watch=false",
     "test:watch": "ng test",
+    "test:watch-coverage": "ng test --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"

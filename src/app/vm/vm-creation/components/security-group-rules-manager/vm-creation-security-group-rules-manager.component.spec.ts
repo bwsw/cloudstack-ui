@@ -4,7 +4,10 @@ import { MatDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
-import { NetworkRule } from '../../../../security-group/network-rule.model';
+import {
+  NetworkRule,
+  NetworkProtocol
+} from '../../../../security-group/network-rule.model';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VmCreationSecurityGroupRulesManagerComponent } from '../../../../shared/components';
 import { FancySelectComponent } from '../../../../shared/components/fancy-select/fancy-select.component';
@@ -12,7 +15,7 @@ import { Rules } from '../../../../shared/components/security-group-builder/rule
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 
 
-const mockSg = new SecurityGroup({
+const mockSg = <SecurityGroup>{
   'id': '771ebeac-67cb-47a3-a49a-9b96ca0643b4',
   'name': 'eeae63c7-1c0e-4ecd-b4a2-505a167b28be-cs-sg',
   'account': 'develop',
@@ -21,21 +24,21 @@ const mockSg = new SecurityGroup({
   'ingressrule': [
     {
       'ruleid': 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
-      'protocol': 'udp',
+      'protocol': NetworkProtocol.UDP,
       'startport': 1,
       'endport': 65535,
       'cidr': '0.0.0.0/0',
     },
     {
       'ruleid': '2ae27d8c-973d-4636-922d-7e9d404c2633',
-      'protocol': 'icmp',
+      'protocol': NetworkProtocol.ICMP,
       'icmptype': -1,
       'icmpcode': -1,
       'cidr': '0.0.0.0/0',
     },
     {
       'ruleid': '2830a644-c860-4562-aa7a-052d33c856bb',
-      'protocol': 'tcp',
+      'protocol': NetworkProtocol.TCP,
       'startport': 1,
       'endport': 65535,
       'cidr': '0.0.0.0/0',
@@ -44,45 +47,47 @@ const mockSg = new SecurityGroup({
   'egressrule': [
     {
       'ruleid': '9932b4ee-3201-4cf5-97e3-ccf76ec0a0e9',
-      'protocol': 'udp',
+      'protocol': NetworkProtocol.UDP,
       'startport': 1,
       'endport': 65535,
       'cidr': '0.0.0.0/0',
     },
     {
       'ruleid': 'a81906bd-1eca-4e9d-889b-c426e0182807',
-      'protocol': 'icmp',
+      'protocol': NetworkProtocol.ICMP,
       'icmptype': -1,
       'icmpcode': -1,
       'cidr': '0.0.0.0/0',
     },
     {
       'ruleid': '3534384a-ad09-461b-b2a0-f33200ee6045',
-      'protocol': 'tcp',
+      'protocol': NetworkProtocol.TCP,
       'startport': 1,
       'endport': 65535,
       'cidr': '0.0.0.0/0',
     }
   ],
+  'tags': [],
+  'preselected': false,
   'virtualmachinecount': 0,
   'virtualmachineids': []
-});
+};
 
-const mockIngressRules = [new NetworkRule({
-  ruleId: 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
-  protocol: 'udp',
-  startPort: 1,
-  endPort: 65535,
-  CIDR: '0.0.0.0/0'
-})];
+const mockIngressRules = [<NetworkRule>{
+  ruleid: 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
+  protocol: NetworkProtocol.UDP,
+  startport: 1,
+  endport: 65535,
+  cidr: '0.0.0.0/0'
+}];
 
-const mockEgressRules = [new NetworkRule({
-  ruleId: '9932b4ee-3201-4cf5-97e3-ccf76ec0a0e9',
-  protocol: 'udp',
-  startPort: 1,
-  endPort: 65535,
-  CIDR: '0.0.0.0/0'
-})];
+const mockEgressRules = [<NetworkRule>{
+  ruleid: '9932b4ee-3201-4cf5-97e3-ccf76ec0a0e9',
+  protocol: NetworkProtocol.UDP,
+  startport: 1,
+  endport: 65535,
+  cidr: '0.0.0.0/0'
+}];
 
 class MockMdDialog {
   public open(): any {
