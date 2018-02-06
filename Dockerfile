@@ -1,4 +1,4 @@
-FROM node:8-alpine as builder
+FROM node:8 as builder
 
 WORKDIR /tmp/cloudstackui
 

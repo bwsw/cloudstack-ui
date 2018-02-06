@@ -64,10 +64,12 @@ export abstract class VmListItemComponent implements OnInit {
     const error = state === VmState.Error;
     const destroyed = state === VmState.Destroyed;
     const inProgress = state === VmState.InProgress;
+    const stopping = state === VmState.Stopping;
 
     return {
       running,
       stopped,
+      stopping,
       error,
       destroyed,
       'in-progress': inProgress

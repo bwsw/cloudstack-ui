@@ -1,4 +1,4 @@
-import { SecurityGroup, SecurityGroupType } from '../sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { Action } from '../../shared/models/action.model';
 
 export enum SecurityGroupActionType {
@@ -19,7 +19,7 @@ const SecurityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
   icon: 'delete',
-  canActivate: (securityGroup: SecurityGroup) => securityGroup.type !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualMachineIds.length === 0
+  canActivate: (securityGroup: SecurityGroup) => getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualMachineIds.length === 0
 };
 
 const SecurityGroupShowRulesAction = {

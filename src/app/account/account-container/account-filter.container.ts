@@ -56,7 +56,7 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   readonly selectedRoleTypes$ = this.store.select(fromAccounts.filterSelectedRoleTypes);
 
 
-  public states: Array<string> = ['enabled', 'disabled', 'locked'];
+  public states: Array<string> = ['enabled', 'disabled'];
 
   private filterService = new FilterService(
     {

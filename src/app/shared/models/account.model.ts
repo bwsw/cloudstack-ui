@@ -1,7 +1,6 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountUser } from './account-user.model';
-import { BaseModel } from './base.model';
-import { Tag } from './tag.model';
+import { BaseModelInterface } from './base.model';
 
 export const enum AccountType {
   User = 0,
@@ -12,8 +11,9 @@ export const enum AccountType {
 export const AccountState = {
   enabled: 'enabled',
   disabled: 'disabled',
-  locked: 'locked',
 };
+
+export const AccountResourceType = 'Account';
 
 export interface AccountForm {
   username: string;
@@ -39,83 +39,59 @@ export class AccountData {
   networkdomain?: string;
 }
 
-export class Account extends BaseModel {
-  public accounttype: AccountType;
-  public cpuavailable: number;
-  public cpulimit: number;
-  public cputotal: number;
-  public domain: string;
-  public fullDomain: string;
-  public domainid: string;
-  public id: string;
-  public ipavailable: number;
-  public iplimit: number;
-  public iptotal: number;
-  public isdefault: false;
-  public memoryavailable: number;
-  public memorylimit: number;
-  public memorytotal: number;
-  public name: string;
-  public networkavailable: number;
-  public networklimit: number;
-  public networktotal: number;
-  public primarystorageavailable: number;
-  public primarystoragelimit: number;
-  public primarystoragetotal: number;
-  public role: string;
-  public roleid: string;
-  public rolename: string;
-  public roletype: string;
-  public receivedbytes: number;
-  public sentbytes: number;
-  public secondarystorageavailable: number;
-  public secondarystoragelimit: number;
-  public secondarystoragetotal: number;
-  public snapshotavailable: number;
-  public snapshotlimit: number;
-  public snapshottotal: number;
-  public state: string;
-  public templateavailable: number;
-  public templatelimit: number;
-  public templatetotal: number;
-  public user: Array<AccountUser>;
-  public vmavailable: number;
-  public vmlimit: number;
-  public vmrunning: number;
-  public vmstopped: number;
-  public vmtotal: number;
-  public volumeavailable: number;
-  public volumelimit: number;
-  public volumetotal: number;
-  public vpcavailable: number;
-  public vpclimit: number;
-  public vpctotal: number;
-
-  constructor(json?: any) {
-    // TODO temporary workaround to fix *available and *limit fields in the json
-    // This field is either a string representation of a number or 'Unlimited'
-    // The code below converts it to number (-1 if unlimited);
-    const fixedJson = { ...json };
-    Object.keys(fixedJson)
-      .filter(key => key.endsWith('available') || key.endsWith('limit'))
-      .forEach(key => {
-        if (fixedJson[key] === 'Unlimited') {
-          fixedJson[key] = Infinity;
-        } else {
-          const temp = +fixedJson[key];
-          if (!isNaN(temp)) {
-            fixedJson[key] = temp;
-          }
-        }
-      });
-    super(fixedJson);
-  }
-
-  public get isAdmin() {
-    return this.accounttype !== AccountType.User;
-  }
-
-  public get isRootAdmin() {
-    return this.accounttype === AccountType.RootAdmin;
-  }
+export interface Account extends BaseModelInterface {
+  accounttype: AccountType;
+  cpuavailable: number;
+  cpulimit: number;
+  cputotal: number;
+  domain: string;
+  fullDomain: string;
+  domainid: string;
+  id: string;
+  ipavailable: number;
+  iplimit: number;
+  iptotal: number;
+  isdefault: false;
+  memoryavailable: number;
+  memorylimit: number;
+  memorytotal: number;
+  name: string;
+  networkavailable: number;
+  networklimit: number;
+  networktotal: number;
+  primarystorageavailable: number;
+  primarystoragelimit: number;
+  primarystoragetotal: number;
+  role: string;
+  roleid: string;
+  rolename: string;
+  roletype: string;
+  receivedbytes: number;
+  sentbytes: number;
+  secondarystorageavailable: number;
+  secondarystoragelimit: number;
+  secondarystoragetotal: number;
+  snapshotavailable: number;
+  snapshotlimit: number;
+  snapshottotal: number;
+  state: string;
+  templateavailable: number;
+  templatelimit: number;
+  templatetotal: number;
+  user: Array<AccountUser>;
+  vmavailable: number;
+  vmlimit: number;
+  vmrunning: number;
+  vmstopped: number;
+  vmtotal: number;
+  volumeavailable: number;
+  volumelimit: number;
+  volumetotal: number;
+  vpcavailable: number;
+  vpclimit: number;
+  vpctotal: number;
 }
+
+export const isAdmin = (account: Account) => account.accounttype !== AccountType.User;
+
+export const isRootAdmin = (account: Account) => account.accounttype === AccountType.RootAdmin;

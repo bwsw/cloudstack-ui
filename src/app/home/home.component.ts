@@ -32,7 +32,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
       .subscribe(() => {
         this.store.dispatch(new serviceOfferingActions.LoadCompatibilityPolicyRequest());
         this.store.dispatch(new authActions.LoadUserAccountRequest({
-          mame: this.auth.user.account,
+          name: this.auth.user.account,
           domainid: this.auth.user.domainid
         }));
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();

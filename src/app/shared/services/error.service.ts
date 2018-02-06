@@ -35,7 +35,7 @@ export class ErrorService {
     },
     {
       regex: /Failed to authenticate user (.*); please provide valid credentials/,
-      translation: 'ERRORS.AUTH.INCORRECT_PASSWORD'
+      translation: 'ERRORS.AUTH.INCORRECT_CREDENTIALS'
     },
     {
       regex: /Unable to find the domain from the path \/(.*)\//,
