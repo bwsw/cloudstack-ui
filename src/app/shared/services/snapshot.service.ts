@@ -53,6 +53,11 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
+  public revert(id: string): Observable<AsyncJob<Snapshot>> {
+    return this.sendCommand('revert', { id })
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+  }
+
   public getList(volumeId?: string): Observable<Array<Snapshot>> {
     if (volumeId) {
       return super.getList({ volumeId: volumeId });

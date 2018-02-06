@@ -20,8 +20,11 @@
         close
       </mat-icon>
     </ng-container>
-    <span>
-      {{ notification.message | translate }}
+    <span
+      class="message"
+      [innerHTML]="notification.message | translate"
+      [matTooltip]="notification.message | translate"
+    >
     </span>
   </h4>
   <span>
