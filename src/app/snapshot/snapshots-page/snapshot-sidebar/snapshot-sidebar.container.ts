@@ -25,7 +25,6 @@ export class SnapshotSidebarContainerComponent implements OnInit {
     private store: Store<State>,
     private activatedRoute: ActivatedRoute
   ) {
-    console.log('qq');
   }
 
   public ngOnInit() {

@@ -17,7 +17,7 @@ export interface ListState extends EntityState<Snapshot> {
     mode: SnapshotPageMode
   }
   snapshotIdsByVolumeId: Dictionary<string[]>,
-  selectedSnapshotId: string
+  selectedSnapshotId: string | null
 }
 
 const sortByCreation = (snapshot1: Snapshot, snapshot2: Snapshot) => {
