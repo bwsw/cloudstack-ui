@@ -112,7 +112,7 @@ export class VirtualMachineCreationEffects {
     .ofType(vmActions.VM_FORM_INIT)
     .switchMap((action: vmActions.VmCreationFormInit) =>
       this.resourceUsageService.getResourceUsage()
-        .switchMap(resourceUsage => {
+        .flatMap(resourceUsage => {
           const insufficientResources = [];
           Object.keys(resourceUsage && resourceUsage.available)
             .filter(
@@ -127,14 +127,14 @@ export class VirtualMachineCreationEffects {
 
           const enoughResources = !insufficientResources.length;
 
-          return Observable.of(
+          return [
             new vmActions.VmCreationEnoughResourceUpdateState({
               enoughResources,
               insufficientResources
             }),
-            <Action>new vmActions.VmInitialZoneSelect(),
+            new vmActions.VmInitialZoneSelect(),
             new vmActions.VmInitialSecurityGroupsSelect()
-          );
+          ];
         }));
 
   @Effect()
@@ -349,13 +349,11 @@ export class VirtualMachineCreationEffects {
       this.handleDeploymentMessages(action.payload);
     });
 
-  @Effect()
+  @Effect({ dispatch: false })
   deploymentSuccess$ = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
-    .map((action: vmActions.DeploymentRequestSuccess) => {
+    .do((action: vmActions.DeploymentRequestSuccess) => {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED });
-
-      return new accountActions.LoadAccountsRequest();
     });
 
   @Effect()

@@ -1259,9 +1259,9 @@
       "CPU_NUMBER": "Ядра CPU",
       "CPU_SPEED": "CPU (МГц)",
       "MEMORY": "Память (МБ)",
-      "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
-      "UP_TO": "До {{ upperLimit }}",
-      "FROM": "От {{ lowerLimit }}",
+      "BETWEEN": "От {{ min }} до {{ max }}",
+      "UP_TO": "До {{ max }}",
+      "FROM": "От {{ min }}",
       "NO_AVAILABLE_RESOURCES": "Нет доступных ресурсов"
     },
     "COLUMN": {

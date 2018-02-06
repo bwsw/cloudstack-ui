@@ -9,23 +9,19 @@ export interface ICustomOfferingRestrictionsByZone {
 
 export interface ICustomOfferingRestrictions {
   cpunumber?: CustomOfferingRestriction;
-  cpuspeed?:  CustomOfferingRestriction;
-  memory?:    CustomOfferingRestriction;
+  cpuspeed?: CustomOfferingRestriction;
+  memory?: CustomOfferingRestriction;
 }
 
+const DefaultRestrictions = {
+  min: 1,
+  max: 2147483647
+};
+
 export const DefaultCustomServiceOfferingRestrictions: ICustomOfferingRestrictions = {
-  cpunumber: {
-    min: 1,
-    max: 2147483647
-  },
-  cpuspeed: {
-    min: 1,
-    max: 2147483647
-  },
-  memory: {
-    min: 32,
-    max: 2147483647
-  }
+  cpunumber: DefaultRestrictions,
+  cpuspeed: DefaultRestrictions,
+  memory: DefaultRestrictions
 };
 
 export class CustomOfferingRestrictions {
@@ -47,8 +43,12 @@ export class CustomOfferingRestrictions {
   constructor(restrictions: ICustomOfferingRestrictions) {
     Object.keys(restrictions).forEach(key => {
       if (restrictions[key]) {
-        if (restrictions[key].min) { this[key].min = restrictions[key].min; }
-        if (restrictions[key].max) { this[key].max = restrictions[key].max; }
+        if (restrictions[key].min) {
+          this[key].min = restrictions[key].min;
+        }
+        if (restrictions[key].max) {
+          this[key].max = restrictions[key].max;
+        }
       }
     });
   }

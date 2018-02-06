@@ -39,38 +39,30 @@ export class CustomServiceOfferingComponent {
     this.offering[parameter] = newValue;
   }
 
-  public errorMessage(lowerLimit: any, upperLimit: any): Observable<string> {
-    const upperBound = Number.isInteger(upperLimit);
-    const lowerBound = Number.isInteger(lowerLimit);
+  public errorMessage(min: number, max: number): Observable<string> {
+    const isValid = (limit: number) => Number.isInteger(limit);
 
-    if (upperBound && upperLimit === 0) {
+    if (isValid(max) && max === 0) {
       return this.translateService.get(
         'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.NO_AVAILABLE_RESOURCES');
     }
 
-    if (lowerBound && upperBound) {
+    if (isValid(min) && isValid(max)) {
       return this.translateService.get(
         'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
-        {
-          lowerLimit,
-          upperLimit
-        }
+        { min, max }
       );
     }
-    if (!lowerBound && upperBound) {
+    if (!isValid(min) && isValid(max)) {
       return this.translateService.get(
         'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.UP_TO',
-        {
-          upperLimit
-        }
+        { max }
       );
     }
-    if (lowerBound && !upperBound) {
+    if (isValid(min) && !isValid(max)) {
       return this.translateService.get(
         'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.FROM',
-        {
-          lowerLimit
-        }
+        { min }
       );
     }
   }

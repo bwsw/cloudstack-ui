@@ -1263,9 +1263,9 @@
       "CPU_NUMBER": "CPU cores",
       "CPU_SPEED": "CPU (MHz)",
       "MEMORY": "Memory (MB)",
-      "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
-      "UP_TO": "Up to {{ upperLimit }}",
-      "FROM": "From {{ lowerLimit }}",
+      "BETWEEN": "Between {{ min }} and {{ max }}",
+      "UP_TO": "Up to {{ max }}",
+      "FROM": "From {{ min }}",
       "NO_AVAILABLE_RESOURCES": "No available resources"
     },
     "COLUMN": {

@@ -7,7 +7,6 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { debug } from 'util';
 import {
   ServiceOffering,
   ServiceOfferingClass,
