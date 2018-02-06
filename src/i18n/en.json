@@ -1414,6 +1414,7 @@
     "ENABLED": "Enabled"
   },
   "DISK_OFFERING_TABLE": {
+    "TITLE": "Choose Disk Offering",
     "name": "",
     "bytesreadrate": "Read MB/s",
     "byteswriterate": "Write MB/s",
