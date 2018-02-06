@@ -485,7 +485,7 @@ describe('Volume Effects', () => {
         }
       });
 
-    const action = new volumeActions.DeleteVolumes(<VirtualMachine>{id: "968d3edc-9837-4063-a539-95304b02fe95"});
+    const action = new volumeActions.DeleteVolumes({ vm: <VirtualMachine>{id: "968d3edc-9837-4063-a539-95304b02fe95"}, expunged: false });
     const completion1 = new snapshotActions.DeleteSnapshots(list[2].snapshots);
     const completion2 = new volumeActions.DeleteVolume(list[2]);
 
@@ -504,7 +504,7 @@ describe('Volume Effects', () => {
         }
       });
 
-    const action = new volumeActions.DeleteVolumes(<VirtualMachine>{id: "375c62b5-74d9-4494-8b79-0d7c76cff10f"});
+    const action = new volumeActions.DeleteVolumes({ vm: <VirtualMachine>{id: "375c62b5-74d9-4494-8b79-0d7c76cff10f"}, expunged: false });
     const completion = new volumeActions.DeleteVolume(list[1]);
 
     actions$.stream = hot('-a', { a: action });

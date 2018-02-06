@@ -381,7 +381,7 @@ export class VirtualMachinesEffects {
               });
               return [
                 new vmActions.ExpungeVmSuccess(action.payload),
-                new volumeActions.DeleteVolumes(action.payload)
+                new volumeActions.DeleteVolumes({ vm: action.payload, expunged: true })
               ];
             } else {
               this.jobsNotificationService.finish({
@@ -390,7 +390,7 @@ export class VirtualMachinesEffects {
               });
               return [
                 new vmActions.UpdateVM(vm),
-                new volumeActions.DeleteVolumes(action.payload)
+                new volumeActions.DeleteVolumes({ vm: action.payload, expunged: false })
               ];
             }
           });

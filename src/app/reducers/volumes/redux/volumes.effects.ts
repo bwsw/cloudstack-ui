@@ -225,11 +225,11 @@ export class VolumesEffects {
     .ofType(volumeActions.DELETE_VOLUMES)
     .withLatestFrom(this.store.select(fromVolumes.selectVolumesWithSnapshots))
     .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
-      return volumes.filter((volume: Volume) => !isRoot(volume)
-        && volume.virtualmachineid === action.payload.id);
+      return [volumes.filter((volume: Volume) => !isRoot(volume)
+        && volume.virtualmachineid === action.payload.vm.id), action.payload.expunged];
     })
-    .filter((volumes: Array<Volume>) => !!volumes.length)
-    .switchMap((volumes: Array<Volume>) =>
+    .filter(([volumes, expunged]: [Array<Volume>, boolean]) => !!volumes.length)
+    .switchMap(([volumes, expunged]: [Array<Volume>, boolean]) =>
       this.dialog.open(VolumeDeleteDialogComponent, {
         data: !!volumes.find(volume => !!volume.snapshots.length)
       }).afterClosed()
@@ -237,12 +237,15 @@ export class VolumesEffects {
         .flatMap((params) => {
           return volumes
             .reduce((res: Action[], volume: Volume) => {
+              const detachedVolume = expunged ?
+                Object.assign({}, volume, { virtualmachineid: '' }) :
+                volume;
               if (params.deleteSnapshots && !!volume.snapshots.length) {
                 res.push(
-                  new snapshotActions.DeleteSnapshots(volume.snapshots),
-                  new volumeActions.DeleteVolume(volume)
+                  new snapshotActions.DeleteSnapshots(detachedVolume.snapshots),
+                  new volumeActions.DeleteVolume(detachedVolume)
                 );
-              } else res.push(new volumeActions.DeleteVolume(volume));
+              } else res.push(new volumeActions.DeleteVolume(detachedVolume));
               return res;
             }, []);
         }));
@@ -276,10 +279,6 @@ export class VolumesEffects {
         return this.volumeService
           .detach(detachVolume)
           .map((volume: Volume) => {
-            this.jobsNotificationService.finish({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-            });
             return new volumeActions.ReplaceVolume(volume);
           })
           .catch((error: Error) => {
