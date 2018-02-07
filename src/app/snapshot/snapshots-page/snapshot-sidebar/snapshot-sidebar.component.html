@@ -33,7 +33,6 @@
       ></cs-parameters-pair>
 
       <cs-parameters-pair
-        *ngIf="snapshotType"
         [name]="'SNAPSHOT_PAGE.SIDEBAR.TYPE'"
         [value]="snapshotType | translate"
       ></cs-parameters-pair>
@@ -47,7 +46,7 @@
           {{ 'SNAPSHOT_PAGE.SIDEBAR.DESCRIPTION' | translate }}</h2>
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content class="content-wrap">
       {{ snapshotDescription }}
     </mat-card-content>
   </mat-card>
@@ -66,7 +65,6 @@
       ></cs-parameters-pair>
 
       <cs-parameters-pair
-        *ngIf="snapshotType"
         [name]="'SNAPSHOT_PAGE.SIDEBAR.VOLUME_INFORMATION.VOLUME'"
         [value]="volume.name"
       ></cs-parameters-pair>
@@ -76,7 +74,7 @@
 
 <cs-no-results
   *ngIf="notFound && !isLoading"
-  [text]="'SNAPSHOT_NOT_FOUND'"
+  [text]="'SNAPSHOT_PAGE.SIDEBAR.SNAPSHOT_NOT_FOUND' | translate"
 ></cs-no-results>
 
 <cs-overlay-loading [active]="isLoading"></cs-overlay-loading>

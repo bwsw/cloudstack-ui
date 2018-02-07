@@ -760,7 +760,8 @@
         "TITLE": "Volume information",
         "VM": "Virtual Machine",
         "VOLUME": "Volume"
-      }
+      },
+      "SNAPSHOT_NOT_FOUND": "Snapshot not found"
     },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Create template",

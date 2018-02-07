@@ -3,12 +3,15 @@ import { Dictionary } from '@ngrx/entity/src/models';
 import {
   getDateSnapshotCreated,
   getSnapshotDescription,
-  Snapshot, SnapshotStates, Volume
+  Snapshot,
+  SnapshotStates,
+  Volume
 } from '../../../shared/models';
 
 @Component({
   selector: 'cs-snapshot-sidebar',
-  templateUrl: 'snapshot-sidebar.component.html'
+  templateUrl: 'snapshot-sidebar.component.html',
+  styleUrls: ['snapshot-sidebar.component.scss']
 })
 export class SnapshotSidebarComponent {
   @Input() public snapshot: Snapshot;
