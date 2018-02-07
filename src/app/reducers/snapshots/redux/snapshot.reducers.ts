@@ -2,9 +2,12 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-  getDateSnapshotCreated, Snapshot, SnapshotPageMode,
+  getDateSnapshotCreated,
+  Snapshot,
+  SnapshotPageMode,
   SnapshotType
 } from '../../../shared/models';
+import { Language } from '../../../shared/services/language.service';
 
 import * as snapshot from './snapshot.actions';
 import * as volume from '../../volumes/redux/volumes.actions';
@@ -45,7 +48,7 @@ export const initialListState: ListState = adapter.getInitialState({
     mode: SnapshotPageMode.Volume,
     selectedAccounts: [],
     selectedTypes: [],
-    selectedDate: new Date(),
+    selectedDate: moment().toDate(),
     selectedGroupings: [],
     query: ''
   },
@@ -223,11 +226,19 @@ export const selectFilteredSnapshots = createSelector(
       );
 
     const queryLower = filter.query && filter.query.toLowerCase();
-    const filterByQuery = (snapshot: Snapshot) => !filter.query
-      || snapshot.name.toLowerCase().indexOf(queryLower) > -1
-      || snapshot.description && snapshot.description.toLowerCase()
-        .indexOf(queryLower) > -1
-      || getDateSnapshotCreated(snapshot).toString().indexOf(queryLower) > -1;
+    const filterByQuery = (snapshot: Snapshot) => {
+      const date = getDateSnapshotCreated(snapshot);
+      const lang = localStorage.getItem('lang') as Language;
+      const formattedDate = lang === Language.ru
+        ? moment(date).format('DD.MM.YYYY, HH:mm')
+        : moment(date).format('M/D/YYYY, h:mm A');
+
+      return !filter.query
+        || snapshot.name.toLowerCase().indexOf(queryLower) > -1
+        || snapshot.description && snapshot.description.toLowerCase()
+          .indexOf(queryLower) > -1
+        || formattedDate.toLowerCase().indexOf(queryLower) > -1;
+    };
 
     return snapshots.filter((snapshot: Snapshot) =>
       filterByViewMode(snapshot)

@@ -28,6 +28,8 @@
         cs-list
       ></cs-grouped-list>
     </ng-container>
+
+    <cs-no-results *ngIf="!snapshots?.length && !isLoading"></cs-no-results>
   </ng-container>
 
   <ng-container cs-sidebar>
@@ -36,3 +38,5 @@
     </cs-sidebar>
   </ng-container>
 </cs-list>
+
+

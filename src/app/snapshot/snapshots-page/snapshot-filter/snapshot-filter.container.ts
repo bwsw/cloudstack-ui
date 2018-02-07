@@ -14,6 +14,7 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
+import * as moment from 'moment';
 
 const getGroupName = (snapshot: Snapshot) => {
   return snapshot.domain !== 'ROOT'
@@ -57,7 +58,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
   private filterService = new FilterService({
     accounts: { type: 'array', defaultOption: [] },
     types: { type: 'array', defaultOption: [] },
-    date: { type: 'string' },
+    date: { type: 'string', defaultOption: moment().toDate() },
     groupings: { type: 'array', defaultOption: [] },
     query: { type: 'string' }
   }, this.router, this.storage, this.filtersKey, this.activatedRoute);
@@ -118,7 +119,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
         this.filterService.update({
           accounts: filters.selectedAccounts,
           types: filters.selectedTypes,
-          date: filters.selectedDate,
+          date: moment(filters.selectedDate).format('YYYY-MM-DD'),
           groupings: filters.selectedGroupings.map(_ => _.key),
           query: filters.query
         });
