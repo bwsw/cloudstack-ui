@@ -77,7 +77,7 @@ In the *Create VM* form fill in the following fields:
 2. **Zone** * - A zone of VM operation. Select a zone from the drop-down list. The list of available zones is managed by a Root Administrator. More information about zones in CloudStack can be found in the `official documentation <http://docs.cloudstack.apache.org/en/latest/concepts.html?highlight=zone#about-zones>`_.
 3. **Service offerings** * -  Select a set of options and resources for a VM, such as templates for creating virtual machines, disk storage, and other. The list of available service offerings is managed by a Root Administrator or a Domain Administrator. 
 
-Click "Select" in the Service Offerings block and choose a necessary option in the modal window. The list of service offerings can be of two types: Fixed and Custom. *Fixed* service offerings are the offerings with fixed parameters. They can not be changed. *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. Use the search tool to find an option in the list by a name or a part of the name.
+Click "SELECT" in the Service Offerings block and choose a necessary option in the modal window. The list of service offerings can be of two types: Fixed and Custom. *Fixed* service offerings are the offerings with fixed parameters. They can not be changed. *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. Use the search tool to find an option in the list by a name or a part of the name.
 
 For fixed service offerings the parameters are provided in the table per each option. Choose the option in the list and click "SELECT" below.
 
@@ -91,11 +91,11 @@ For custom service offerings the parameters are also provided in the table per e
 .. figure:: _static/VMs_Create_SO_Custom1.png   
    :scale: 70%
    
-Click "Confirm" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings. Click "Cancel" to drop all the settings.
+Click "CONFIRM" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings. Click "CANCEL" to drop all the settings.
 
 Click "SELECT" below the list to assign the service offerings to your machine. The custom settings will appear for the VM service offerings. They will be saved to VM tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_). 
 
-You can change service offerings by clicking "Select" next to the settings in the creation form and choosing other parameters.  Click "CHANGE" below to assign the selected option to the VM.
+You can change service offerings by clicking "SELECT" next to the settings in the creation form and choosing other parameters.  Click "CHANGE" below to assign the selected option to the VM.
    
 .. figure:: _static/VMs_Create_SO_Custom_Change2.png
    :scale: 70%
