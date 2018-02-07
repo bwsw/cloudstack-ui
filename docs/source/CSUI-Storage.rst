@@ -64,11 +64,11 @@ To create a new volume fill in the fields:
 
 - Name * - Enter a name of the volume. 
 - Zone * - Select a zone from the drop-down list.
-- Disk offering * - Select from the drop-down list. If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider up to the volume size you wish.
+- Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "Select". If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider up to the volume size you wish.
 
 .. note:: Required fields are marked with an asterisk (*).
 
-.. figure:: _static/Storage_Create1.png
+.. figure:: _static/Storage_Create2.png
    :scale: 70%
    
 Click "Create" to save the settings and create the new volume. You will see the drive appears in the list.
