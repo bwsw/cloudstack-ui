@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
-import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  NetworkRuleType,
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
 import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
 import { Rules } from './rules';
 
@@ -111,14 +115,17 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   public get rules(): Rules {
-    return new Rules(this.securityGroups.selected,
+    return new Rules(
+      this.securityGroups.selected,
       this.checkedIngressRules,
-      this.checkedEgressRules);
+      this.checkedEgressRules
+    );
   }
 
   public onRulesChange(ruleItem: RuleListItem) {
     const findByRuleId = (_: RuleListItem) => _.rule.ruleId === ruleItem.rule.ruleId;
-    const changedRule = this.selectedRules.ingress.find(findByRuleId) || this.selectedRules.egress.find(findByRuleId);
+    const changedRule = this.selectedRules.ingress.find(findByRuleId)
+      || this.selectedRules.egress.find(findByRuleId);
     if (changedRule) {
       changedRule.checked = ruleItem.checked;
     }
@@ -163,11 +170,17 @@ export class SecurityGroupBuilderComponent implements OnInit {
     for (let i = 0; i < this.securityGroups.selected.length; i++) {
       const group = this.securityGroups.selected[i];
       for (let j = 0; j < group.ingressRules.length; j++) {
-        this.pushIngressRule(group.ingressRules[j], true, NetworkRuleType.Ingress);
+        const ind = this.inputRules.ingress.findIndex(rule => {
+          return rule.ruleId === group.ingressRules[j].ruleId;
+        });
+        this.pushIngressRule(group.ingressRules[j], ind !== -1, NetworkRuleType.Ingress);
       }
 
       for (let j = 0; j < group.egressRules.length; j++) {
-        this.pushEgressRule(group.egressRules[j], true, NetworkRuleType.Egress);
+        const ind = this.inputRules.egress.findIndex(rule => {
+          return rule.ruleId === group.egressRules[j].ruleId;
+        });
+        this.pushEgressRule(group.egressRules[j], ind !== -1, NetworkRuleType.Egress);
       }
     }
   }
