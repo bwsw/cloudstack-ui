@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { ICMPtypes, ICMPv6Types } from '../../shared/icmp/icmp-types';
+import { ICMPv6Types } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../services/security-group.service';
 import { IPVersion, NetworkRuleType, SecurityGroup } from '../sg.model';
