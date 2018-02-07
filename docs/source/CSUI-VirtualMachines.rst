@@ -418,7 +418,7 @@ Click "Create new volume" and you will be moved to the Storage section. A "New v
 
 - Name * - Name of the new data disk.
 - Zone * - Select a zone for it from the drop-down list.
-- Disk offering * - Select a disk offering from the drop-down list. The disk offering list is managed by Root Administrator.
+- Disk offering * - Select a disk offering from the list in the modal window. The disk offering list is managed by Root Administrator. 
 - Size - Set the disk size if it is available. Disk size can be changed if a custom disk offering is selected above.
 
 .. note:: Required fields are marked with an asterisk (*).
