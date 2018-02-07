@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
@@ -123,8 +120,7 @@ export class SecurityGroupEffects {
   }
 
   public createSecurityGroup({ mode, data, rules }: SecurityGroupCreationParams): Observable<SecurityGroup> {
-    return this.getSecurityGroupCreationRequest(mode, data, rules)
-      .switchMap(securityGroup => this.securityGroupService.get(securityGroup.id));
+    return this.getSecurityGroupCreationRequest(mode, data, rules);
   }
 
   private getSecurityGroupCreationRequest(
