@@ -427,7 +427,7 @@ Once all fields are filled in, click "Create" to save the new volume.
 
 Click "Cancel" to drop the new volume creation.
 
-.. figure:: _static/VMs_AttachVolume_Create.png
+.. figure:: _static/VMs_AttachVolume_Create1.png
    :scale: 70%
    
 Move back to the virtual machine information sidebar. Under the "Storage" tab in the "Attach a volume" section click "+" to select an additional disk. Select a data disk in the drop-down list and click "Select" to add it to the "Attach a volume" section. To attach the volume press the "Attach" button.
