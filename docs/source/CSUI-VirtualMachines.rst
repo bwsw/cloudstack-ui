@@ -392,7 +392,7 @@ A started virtual machine will be rebooted at editing the service offering.
 
 5. Affinity Group - The affinity group assigned to the virtual machine. Edit this field by clicking the "Edit" button. In the dialogue window, choose an existing group or create a new one right in the dialogue window. Click "Assign" to assign the group to the VM. 
 
-.. figure:: _static/VMs_Details_CreateAffGroup.png
+.. figure:: _static/VMs_Details_CreateAffGroup1.png
    :scale: 70%
    
 When assigning an affinity group to the started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialogue window. Then the VM will be started again.
