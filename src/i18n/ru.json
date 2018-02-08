@@ -51,7 +51,9 @@
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот ISO файл?"
     },
     "SNAPSHOT": {
-      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот снимок?"
+      "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот снимок?",
+      "CONFIRM_REVERTING": "Вы уверены, что хотите вернуть владеющий диск к состоянию этого снимка?",
+      "CONFIRM_REVERTING_WITH_VM_REBOOT": "Вы уверены, что хотите вернуть владеющий диск к состоянию этого снимка? <b>Виртуальная машина, к которой прикреплен диск, будет перезагружена.</b>"
     },
     "TAG": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот тег?"
@@ -155,7 +157,10 @@
       "TAKE_FAILED": "Не удалось создать снимок",
       "DELETION_IN_PROGRESS": "Удаление снимка",
       "DELETION_DONE": "Снимок удален",
-      "DELETION_FAILED": "Не удалось удалить снимок"
+      "DELETION_FAILED": "Не удалось удалить снимок",
+      "REVERT_IN_PROGRESS": "Возвращение диска к снимку",
+      "REVERT_DONE": "Диск возращен к снимку",
+      "REVERT_FAILED": "Вернуть диск к снимку не удалось"
     },
     "TEMPLATE": {
       "REGISTER_IN_PROGRESS": "Регистрация шаблона",
@@ -261,6 +266,12 @@
       "USER_CREATED": "Пользователь {{ username }} успешно создан",
       "USER_UPDATED": "Пользователь {{ username }} успешно обновлен",
       "USER_DELETED": "Пользователь {{ username }} успешно удален"
+    },
+    "VOLUME": {
+      "VOLUME_FROM_SNAPSHOT_CREATED": "Диск {{ name }} успешно создан"
+    },
+    "SNAPSHOT": {
+      "DELETE_SUCCESS": "Снимок {{ name }} успешно удален"
     }
   },
   "AUTH": {
@@ -279,6 +290,7 @@
     "VMS": "Виртуальные<br>машины",
     "STORAGE": "Хранилище",
     "IMAGES": "Образы",
+    "SNAPSHOTS": "Снимки",
     "FIREWALL_TEMPLATES": "Брандмауэр",
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
@@ -566,6 +578,7 @@
     "OPEN_URL": "Открыть URL",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
+    "NO_INFORMATION": "Нет информации",
     "LOGIN": "Логин",
     "VM": "Имя машины",
     "VM_IP": "IP адрес"
@@ -720,10 +733,29 @@
       "HIDE_ADDITIONAL": "Скрыть дополнительные параметры"
     }
   },
+  "SNAPSHOT_PAGE": {
+    "CARD": {
+      "VOLUME": "Диск",
+      "VM": "Виртуальная машина",
+      "VOLUME_DELETED": "Удален",
+      "VM_DELETED": "Удалена",
+      "CREATED": "Создан"
+    },
+    "FILTERS": {
+      "VOLUME": "Диск",
+      "VM": "Виртуальные машины"
+    },
+    "ACTIONS": {
+      "CREATE_TEMPLATE": "Создать шаблон",
+      "CREATE_VOLUME": "Создать диск",
+      "REVERT_TO_SNAPSHOT": "Вернуть диск к снимку",
+      "DELETE_SNAPSHOT": "Удалить"
+    }
+  },
   "SECURITY_GROUP_PAGE": {
     "DETAILS": {
       "TITLE": "Детали",
-      "ID": "Id",
+      "ID": "ID",
       "NAME": "Имя",
       "DESCRIPTION": "Описание",
       "TYPE": "Тип",
@@ -1223,6 +1255,8 @@
     "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
     "CPU_MHZ": "{{ count }}x{{ speed }} МГц",
     "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
+    "SHOW_ADDITIONAL_FIELDS": "Показать дополнительные параметры",
+    "HIDE_ADDITIONAL_FIELDS": "Скрыть дополнительные параметры",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Настраиваемое предложение",
       "CPU_NUMBER": "Ядра CPU",
@@ -1237,7 +1271,11 @@
       "NETWORK_RATE": "Скорость сети (MБ/сек)",
       "CPU_NUMBER": "Ядра CPU",
       "CPU_SPEED": "CPU (MHz)",
-      "MEMORY": "Память (MБ)"
+      "MEMORY": "Память (MБ)",
+      "DISK_BYTES_READ": "Скорость чтения (MБ/сек)",
+      "DISK_BYTES_WRITE": "Скорость записи (MБ/сек)",
+      "DISK_IOPS_READ": "Скорость чтения (IO/сек)",
+      "DISK_IOPS_WRITE": "Скорость записи (IO/сек)"
     },
     "MODES": {
       "FIXED": "Фиксированные",

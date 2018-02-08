@@ -1,0 +1,41 @@
+<mat-list-item
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+>
+  <span
+    class="state-row-icon"
+    [matTooltip]="stateTranslations[item.state] | translate"
+    [ngClass]="statusClass"
+  ></span>
+  <h2 class="row-title">
+    <span [matTooltip]="item.name"> {{ item.name }} </span>
+  </h2>
+
+  <div class="info" *ngIf="item.volumeid">
+    {{ 'SNAPSHOT_PAGE.CARD.VOLUME' | translate }}: {{ volumeName }}
+  </div>
+
+  <div class="info" *ngIf="item.virtualmachineid">
+    {{ 'SNAPSHOT_PAGE.CARD.VM' | translate }}: {{ virtualMachineName }}
+  </div>
+
+  <div class="info">
+    {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}: {{ snapshotCreated | stringifyDate }}
+  </div>
+
+  <button
+    class="row-action"
+    mat-icon-button
+    [matMenuTriggerFor]="actionsMenu"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu
+    #actionsMenu="matMenu"
+  >
+    <cs-snapshot-action-container
+      [snapshot]="item"
+    ></cs-snapshot-action-container>
+  </mat-menu>
+</mat-list-item>

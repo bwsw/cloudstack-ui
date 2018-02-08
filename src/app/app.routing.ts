@@ -8,6 +8,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ReloadComponent } from './shared/components/reload/reload.component';
 import { AuthGuard } from './shared/services/auth-guard.service';
 import { LoginGuard } from './shared/services/login-guard.service';
+import { snapshotRoutes } from './snapshot/snapshot.routing';
 import { volumeRoutes } from './volume/volume.routing';
 import { sshRoutes } from './ssh-keys/ssh-keys.routing';
 import { templateRouting } from './template/template.routing';
@@ -37,6 +38,7 @@ export const routes: Routes = [
       ...vmRoutes,
       ...volumeRoutes,
       ...templateRouting,
+      // ...snapshotRoutes,
       ...sgRoutes,
       ...accountsRoutes,
       {

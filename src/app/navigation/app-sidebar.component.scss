@@ -40,6 +40,9 @@
   display: inline-block;
   border-color: inherit;
   vertical-align: middle;
+  &-edit {
+    transform: translateX(60px);
+  }
 }
 
 a {
