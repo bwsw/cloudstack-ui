@@ -21,10 +21,10 @@
     <div class="card-wrapper" *ngIf="isPrivate">
       <div class="description flex-1">{{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:</div>
       <div class="description flex-2">
-        <ng-template [ngIf]="item?.virtualMachineIds[0]">
+        <ng-template [ngIf]="item?.virtualmachineids[0]">
           {{ sgVmName }}
         </ng-template>
-        <ng-template [ngIf]="!item?.virtualMachineIds[0]">
+        <ng-template [ngIf]="!item?.virtualmachineids[0]">
           <span>
             {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
           </span>
