@@ -383,7 +383,7 @@ The VM group is a custom group. It is saved to VM tags with ``csui.vm.group`` ta
 
 4. Service offering - The offerings of the VM. Expand the section to view the whole list of offerings. Edit this field by clicking the "Edit" button |edit icon|. In the appeared window select a new option. 
 
-.. figure:: _static/VMs_Details_EditSO1.png
+.. figure:: _static/VMs_Details_EditSO2.png
    :scale: 70%
 
 Click "Change" to implement the edits. 
