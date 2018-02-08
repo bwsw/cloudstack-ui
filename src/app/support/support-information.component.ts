@@ -43,7 +43,7 @@ export class SupportInformationComponent implements OnInit {
   }
 
   public readFile() {
-    const cachedRequest = this.requestCache.get({});
+    const cachedRequest = this.requestCache.get();
     if (cachedRequest) {
       return cachedRequest;
     } else {

@@ -7,7 +7,7 @@ import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { AskDialogComponent } from './ask-dialog/ask-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { DialogService } from './dialog.service';
-import { SupportInformationComponent } from '../../support-information/support-information.component';
+import { SupportInformationComponent } from '../../support/support-information.component';
 
 @NgModule({
   imports: [

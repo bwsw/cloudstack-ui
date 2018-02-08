@@ -11,8 +11,8 @@ export interface CacheEntry<T> {
 export class Cache<T> implements ICache<T> {
   private cache: { [key: string]: T; } = {};
 
-  public get(params: {}): T {
-    const key = JSON.stringify(params);
+  public get(params?: {}): T {
+    const key = JSON.stringify(params || {});
     return this.cache[key];
   }
 
