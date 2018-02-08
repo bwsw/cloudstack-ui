@@ -31,43 +31,6 @@ export interface SecurityGroup extends BaseModelInterface, Taggable {
   preselected: boolean;
 }
 
-/**
- constructor(params?: {}) {
-   super(params);
-
-   this.initializeIngressRules();
-   this.initializeEgressRules();
-   this.initializeTags();
- }
-
- private initializeIngressRules(): void {
-    if (!this.ingressRules) {
-      this.ingressRules = [];
-    }
-
-    this.ingressRules = this.ingressRules.map(rule => {
-      return new NetworkRule(rule);
-    });
-  }
-
- private initializeEgressRules(): void {
-    if (!this.egressRules) {
-      this.egressRules = [];
-    }
-
-    this.egressRules = this.egressRules.map(rule => {
-      return new NetworkRule(rule);
-    });
-  }
-
- private initializeTags(): void {
-    if (!this.tags) {
-      this.tags = [];
-    }
-  }
-
- * */
-
 export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
   if (securityGroup.id.startsWith('template')) {
     return SecurityGroupType.PredefinedTemplate;
