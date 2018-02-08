@@ -43,10 +43,10 @@ export class BaseHttpInterceptor implements HttpInterceptor {
         'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
       })
     };
-    const requestWithHeaders = req.clone(httpOptions);
-    const request = sessionKey ? requestWithHeaders.clone({
-      params: requestWithHeaders.params.set('sessionKey', sessionKey)
-    }) : requestWithHeaders;
+    const cloneParams = sessionKey ?
+      { params: req.params.set('sessionKey', sessionKey), ...httpOptions } :
+      httpOptions;
+    const request = req.clone(cloneParams);
 
     return next.handle(request).do((event: HttpEvent<any>) => {
 
