@@ -79,28 +79,53 @@ In the *Create VM* form fill in the following fields:
 
 Click "SELECT" in the Service Offerings block and choose a necessary option in the modal window. The list of service offerings can be of two types: Fixed and Custom. *Fixed* service offerings are the offerings with fixed parameters. They can not be changed. *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. Use the search tool to find an option in the list by a name or a part of the name.
 
-For fixed service offerings the parameters are provided in the table per each option. Choose the option in the list and click "SELECT" below.
+For fixed service offerings the parameters are provided in the table per each option. Four main parameters are provided by default. They are:
 
-.. figure:: _static/VMs_Create_SO_Select.png   
+- CPU Cores;
+- CPU (MHz);
+- Memory (MB);
+- Network Rate (Mb/s).
+
+Click "SHOW ADDITIONAL FIELDS" to the right to expand the range of parameters. Scroll the table to right and you will see:
+
+- Disk read rate (Mb/s);
+- Disk write rate (Mb/s);
+- Disk read rate (IO/s);
+- Disk write rate (IO/s).
+
+You can hide the additional parameters by clicking "HIDE ADDITIONAL FIELDS".
+
+.. figure:: _static/VMs_Create_SO_AdditionalFields.png   
+   :scale: 70%
+
+Choose the option in the list and click "SELECT" below.
+
+.. figure:: _static/VMs_Create_SO_Select1.png   
    :scale: 70%
 
 The settings will appear for the VM service offerings. 
 
-For custom service offerings the parameters are also provided in the table per each option. By selecting an option in the list, you open a modal window where you can set a value for each parameter.
+For custom service offerings the parameters are also provided in the table per each option. Besides, you can see more parameters by clicking "SHOW ADDITIONAL FIELDS". 
 
-.. figure:: _static/VMs_Create_SO_Custom1.png   
+By selecting an option in the list, you open a modal window where you can set a value for the following parameters:
+
+- CPU Cores;
+- CPU (MHz);
+- Memory (MB).
+
+.. figure:: _static/VMs_Create_SO_Custom2.png   
    :scale: 70%
    
 Click "CONFIRM" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings. Click "CANCEL" to drop all the settings.
 
-Click "SELECT" below the list to assign the service offerings to your machine. The custom settings will appear for the VM service offerings. They will be saved to VM tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_). 
+Click "SELECT" below the list to assign the service offerings to your machine. The custom settings will appear for the VM service offerings. Custom service offering parameters are saved to account tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_) if they are supported for the account. This will make it easier for you to use saved custom parameters for service offerings next time at VM creation as they will be predefined in the form automatically. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_  by an Administrator. 
 
 You can change service offerings by clicking "SELECT" next to the settings in the creation form and choosing other parameters.  Click "CHANGE" below to assign the selected option to the VM.
    
 .. figure:: _static/VMs_Create_SO_Custom_Change2.png
    :scale: 70%
    
-4. Installation source * - Click "Select" to choose an installation source. Traditionally, there are two options of the virtual machine creation:
+4. **Installation source** * - Click "Select" to choose an installation source. Traditionally, there are two options of the virtual machine creation:
     
     - From a Template. 
     - From an ISO file.
@@ -116,7 +141,18 @@ You can change service offerings by clicking "SELECT" next to the settings in th
 .. figure:: _static/VMs_Create_IstallationSource1.png
    :scale: 80%
     
-5. Disk offering - Available if ISO is selected as a source. Open a modal window where available disk offerings are listed by clicking "SELECT" in the disk offering section. This list is managed by an Administrator. In the list you will see parameters for each disk offering option. Select an option in the list and click "SELECT" below to assign the selected option to the VM.
+5. **Disk offering** - Available if ISO is selected as a source. Open a modal window where available disk offerings are listed by clicking "SELECT" in the disk offering section. The list of available options is managed by an Administrator. 
+
+For each disk offering you will see a range of parameters. The following parameters are shown by default:
+
+- Read rate (MB/s);
+- Write rate (MB/s);
+- Read rate (IO/s);
+- Write rate (IO/s).
+
+More parameters can be added via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_ by an Administrator.
+
+Select a disk offering in the list and click "SELECT".
 
 .. figure:: _static/VMs_Create_DO.png
    :scale: 80%
@@ -128,9 +164,9 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 
 Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/service_offerings.html?highlight=Disk%20offering#compute-and-disk-service-offerings>`_.
 
-6. Group - Select a group from the drop-down list. Or create a new group by typing its name right in the field.
-7. Affinity group - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its lenght should not exceed 63 symbols. What is an affinity group you can read in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?highlight=Affinity#affinity-groups>`_.
-8. Firewall rules - Click "Edit" to specify a security group for the VM. In the appeared window choose between "Create new" or "Select Shared" options. 
+6. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field.
+7. **Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its lenght should not exceed 63 symbols. What is an affinity group you can read in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?highlight=Affinity#affinity-groups>`_.
+8. **Firewall rules** - Click "Edit" to specify a security group for the VM. In the appeared window choose between "Create new" or "Select Shared" options. 
   
 **Create new security group**
 
@@ -162,9 +198,9 @@ You can edit a shared security group after VM is created. In the *Network* tab o
 
 Click "Cancel" to drop the selected options. No rules will be assigned to the virtual machine. 
    
-8. Keyboard layout - (is prepopulated). Select a keyboard layout from the drop-down list.
-9. SSH keypair - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section.
-10. Start VM - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
+9. **Keyboard layout** - (is prepopulated). Select a keyboard layout from the drop-down list.
+10. **SSH keypair** - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section.
+11. **Start VM** - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
 
 .. note:: Required fields are marked with an asterisk (*).
 
@@ -347,10 +383,12 @@ The VM group is a custom group. It is saved to VM tags with ``csui.vm.group`` ta
 
 4. Service offering - The offerings of the VM. Expand the section to view the whole list of offerings. Edit this field by clicking the "Edit" button |edit icon|. In the appeared window select a new option. 
 
-.. figure:: _static/VMs_Details_EditSO.png
+.. figure:: _static/VMs_Details_EditSO1.png
    :scale: 70%
 
-Click "Change" to implement the edits. The started virtual machine will be rebooted at editing the service offering.
+Click "Change" to implement the edits. 
+
+A started virtual machine will be rebooted at editing the service offering.
 
 5. Affinity Group - The affinity group assigned to the virtual machine. Edit this field by clicking the "Edit" button. In the dialogue window, choose an existing group or create a new one right in the dialogue window. Click "Assign" to assign the group to the VM. 
 
