@@ -103,7 +103,7 @@ Volume Details Sidebar
 
 By clicking a disk in the list you can access the information on the volume. 
 
-.. figure:: _static/Storage_Info1.png
+.. figure:: _static/Storage_Info2.png
 
 At the right sidebar you can find two tabs:
 
