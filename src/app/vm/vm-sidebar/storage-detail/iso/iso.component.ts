@@ -14,8 +14,7 @@ export const enum IsoEvent {
 
 @Component({
   selector: 'cs-iso',
-  templateUrl: 'iso.component.html',
-  styleUrls: ['iso.component.scss']
+  templateUrl: 'iso.component.html'
 })
 export class IsoComponent {
   @Input() public iso: Iso;

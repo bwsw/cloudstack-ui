@@ -11,17 +11,40 @@
         class="row"
         *ngFor="let group of vm.securityGroup"
       >
-        <span class="sg-name">{{ group.name }}</span>
+        <span
+          class="sg-name"
+          [matTooltip]="group.name"
+        >{{ group.name }}</span>
         <button
           mat-icon-button
           class="mat-icon-button mat-icon-button--small"
+          [matTooltip]="'VM_PAGE.NETWORK_DETAILS.VIEW' | translate"
           (click)="showRulesDialog(group)">
           <mat-icon
             class="mat-icon--small"
           >visibility
           </mat-icon>
         </button>
+        <button
+          mat-icon-button
+          class="mat-icon-button mat-icon-button--small"
+          [matTooltip]="'VM_PAGE.NETWORK_DETAILS.DETACH' | translate"
+          (click)="detachFirewall.emit(group?.id)">
+          <mat-icon
+            class="mat-icon--small"
+          >remove
+          </mat-icon>
+        </button>
       </div>
     </div>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        [matTooltip]="'VM_PAGE.NETWORK_DETAILS.ATTACH' | translate"
+        (click)="showAttachFirewallDialog()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-actions>
   </mat-card-content>
 </mat-card>

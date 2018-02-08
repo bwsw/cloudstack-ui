@@ -529,7 +529,10 @@
       "type": "Type",
       "FIREWALL_RULES": "Firewall rules",
       "INGRESS": "Incoming",
-      "EGRESS": "Outgoing"
+      "EGRESS": "Outgoing",
+      "ATTACH": "Attach",
+      "DETACH": "Detach",
+      "VIEW": "View"
     },
     "VM_CREATION": {
       "NEW_VM": "New virtual machine",
@@ -1250,7 +1253,8 @@
     "ALL_GROUPS": "All templates",
     "SELECTED_GROUPS": "Selected templates",
     "NETWORK_RULES": "Network rules",
-    "SELECT_SECURITY_GROUP": "Select a group"
+    "SELECT_SECURITY_GROUP": "Select a group",
+    "ATTACHMENT": "Shared Security Group attachment"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Change service offering",

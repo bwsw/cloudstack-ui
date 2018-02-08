@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
 import { VirtualMachine, VmResourceType } from '../shared/vm.model';
+
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 

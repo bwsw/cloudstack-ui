@@ -1,0 +1,50 @@
+<h4>{{ 'SECURITY_GROUP_SELECTOR.ATTACHMENT' | translate }}</h4>
+
+<div
+  *ngIf="securityGroups?.length"
+  class="security-group-checkbox-list"
+>
+  <mat-list>
+    <mat-list-item
+      *ngFor="let sg of securityGroups"
+      lines="2"
+      [class.selected-security-group]="checkSelectedSG(sg?.id)"
+    >
+      <span class="mat-list-text"
+            (click)="$event.stopPropagation(); selectSecurityGroup(sg)">
+
+        <h4 matLine>
+          <span>{{ sg.name }}</span>
+        </h4>
+        <p
+          matLine
+          class="matLine-secondary"
+        >
+          {{ sg.description }}
+        </p>
+      </span>
+
+      <span>
+        <mat-checkbox
+          [checked]="checkSelectedSG(sg?.id)"
+          (change)="selectSecurityGroup(sg)"></mat-checkbox>
+      </span>
+    </mat-list-item>
+  </mat-list>
+</div>
+
+<cs-no-results *ngIf="!securityGroups?.length"></cs-no-results>
+
+<div class="mat-dialog-actions">
+  <button mat-button (click)="onCancel.emit()">
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+
+  <button
+    mat-button
+    [disabled]="preselected === selectedSecurityGroups"
+    (click)="onSave.emit(selectedSecurityGroups)"
+  >
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</div>

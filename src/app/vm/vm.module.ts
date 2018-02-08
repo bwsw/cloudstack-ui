@@ -123,6 +123,8 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 
 import { WebShellService } from './web-shell/web-shell.service';
+import { VmsSgListComponent } from './vm-sidebar/vms-sg-list/vms-sg-list.component';
+import { SgListContainerComponent } from './container/sg-list.container';
 
 @NgModule({
   imports: [
@@ -236,6 +238,9 @@ import { WebShellService } from './web-shell/web-shell.service';
     NicFieldsComponent,
     PostdeploymentComponent,
     VmResetPasswordComponent,
+    VmTagsContainerComponent,
+    VmsSgListComponent,
+    SgListContainerComponent,
   ],
   providers: [
     VmActionsService,
@@ -259,7 +264,8 @@ import { WebShellService } from './web-shell/web-shell.service';
     PostdeploymentComponent,
     VmResetPasswordComponent,
     VmAccessComponent,
-    ServiceOfferingDialogContainerComponent
+    ServiceOfferingDialogContainerComponent,
+    SgListContainerComponent
   ]
 })
 export class VmModule {

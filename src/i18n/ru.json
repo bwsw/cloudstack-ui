@@ -529,7 +529,10 @@
       "type": "Тип",
       "FIREWALL_RULES": "Правила брандмауэра",
       "INGRESS": "Входящее",
-      "EGRESS": "Исходящее"
+      "EGRESS": "Исходящее",
+      "ATTACH": "Прикрепить",
+      "DETACH": "Открепить",
+      "VIEW": "Просмотреть"
     },
     "VM_CREATION": {
       "NEW_VM": "Новая виртуальная машина",
@@ -1246,7 +1249,8 @@
     "ALL_GROUPS": "Все",
     "SELECTED_GROUPS": "Выбранные шаблоны",
     "NETWORK_RULES": "Сетевые правила",
-    "SELECT_SECURITY_GROUP": "Выбор группы"
+    "SELECT_SECURITY_GROUP": "Выбор группы",
+    "ATTACHMENT": "Прикрепление общих групп безопасности"
   },
   "SERVICE_OFFERING": {
     "CHANGE_SERVICE_OFFERING": "Изменить предложение",
