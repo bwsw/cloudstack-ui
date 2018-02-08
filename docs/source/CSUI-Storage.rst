@@ -236,7 +236,7 @@ You can change the disk size by selecting "Resize the disk" option in the Action
 
 In the appeared window set up a new size and click "Resize" to save the edits.
 
-.. figure:: _static/Storage_ResizeDisk1.png
+.. figure:: _static/Storage_ResizeDisk2.png
 
 Click "Cancel" to drop the size changes.
 
