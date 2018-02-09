@@ -45,6 +45,7 @@ import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.m
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
+import * as securityGroupActions from '../../security-groups/redux/sg.actions';
 import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
@@ -138,7 +139,8 @@ export class VirtualMachineCreationEffects {
       .filter(groups => !!groups.length))
     .map(([action, securityGroups]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[]]) => {
       return new vmActions.VmFormUpdate({
-        securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules(securityGroups))
+        securityGroupData: VmCreationSecurityGroupData
+          .fromRules(Rules.createWithAllRulesSelected(securityGroups))
       });
     });
 
@@ -254,6 +256,9 @@ export class VirtualMachineCreationEffects {
       return this.doCreateAffinityGroup(action.payload)
         .switchMap(() => this.doCreateSecurityGroup(action.payload)
           .switchMap((securityGroups) => {
+            if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
+              this.store.dispatch(new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups));
+            }
             this.store.dispatch(new vmActions.DeploymentChangeStatus({
               stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
             }));
@@ -290,7 +295,6 @@ export class VirtualMachineCreationEffects {
                 if (action.payload.doStartVm) {
                   vmWithTags.state = VmState.Running;
                 }
-
                 return new vmActions.DeploymentRequestSuccess(vmWithTags);
               })
               .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
@@ -569,7 +573,7 @@ export class VirtualMachineCreationEffects {
 
       return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     } else {
-      return Observable.of(null);
+      return Observable.of(state.securityGroupData.securityGroups);
     }
   }
 

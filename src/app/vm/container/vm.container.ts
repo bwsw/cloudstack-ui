@@ -7,6 +7,7 @@ import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
+import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import { AuthService } from '../../shared/services/auth.service';
 import { VirtualMachine } from '../shared/vm.model';
@@ -77,6 +78,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     this.store.dispatch(new volumeActions.LoadVolumesRequest());
     this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
+    this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
   }
 
   constructor(
