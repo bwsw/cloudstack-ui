@@ -113,14 +113,16 @@ By selecting an option in the list, you open a modal window where you can set a 
 - CPU (MHz);
 - Memory (MB).
 
-Administrators can set limits for custom service offerings in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-offering-restrictions>`_. That means you can not set values large the specified limits for custom service offerings.
+These parameters can be predefined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-service-offering>`_ by an Administrator. The values specified there will be used as default parameters for a custom service offering.
+
+Administrators can set limits for custom service offerings in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-offering-restrictions>`_. That means you cannot set values large than the limits specified for custom service offerings.
 
 .. figure:: _static/VMs_Create_SO_Custom2.png   
    :scale: 70%
    
 Click "CONFIRM" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings. Click "CANCEL" to drop all the settings.
 
-Click "SELECT" below the list to assign the service offerings to your machine. The custom settings will appear for the VM service offerings. Custom service offering parameters are saved to account tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_) if they are supported for the account. This will make it easier for you to use saved custom parameters for service offerings next time at VM creation as they will be predefined in the form automatically. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_  by an Administrator. 
+Click "SELECT" below the list to assign the service offerings to your machine. The custom settings will appear for the VM service offerings. Custom service offering parameters are saved to account tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_) if they are supported for the account. This will make it easier for you to use saved custom parameters for service offerings next time at VM creation as they will be predefined in the form automatically. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#account-tags-enabled>`_  by an Administrator. 
 
 You can change service offerings by clicking "SELECT" next to the settings in the creation form and choosing other parameters.  Click "CHANGE" below to assign the selected option to the VM.
    
