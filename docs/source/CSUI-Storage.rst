@@ -78,7 +78,7 @@ To create a new volume fill in the fields:
 - Read rate (IO/s);
 - Write rate (IO/s).
 
-More parameters can be added via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_ by an Administrator.
+More parameters can be added via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-parameters>`_ by an Administrator.
 
 Select a disk offering in the list and click "SELECT".
 
