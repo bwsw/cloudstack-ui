@@ -42,7 +42,7 @@ The value is stored in user’s tags.
 
 The maximum allowed value is 300 minutes. Please, note that a long time period of an idle session decreases the account security.
 
-The session timeout can be set in the configuration file. You will find more information in  `Config Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_.
+The session timeout can be set in the configuration file. You will find more information in the  `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_.
 
 
 Save VM passwords by default
@@ -72,7 +72,7 @@ Regenerate the keys by clicking |refresh icon| above the fields. New keys will b
 
 .. figure:: _static/Settings_APIKeysRefresh.png
 
-Below you can view a connection URL which is used to send requests to CloudStack API. All requests are listed in the Apache CloudStack documentation available by the link below.
+Below you can view a connection URL which is used to send requests to CloudStack API. All requests are listed in the Apache CloudStack documentation available by the link.
 
 .. figure:: _static/Settings_Links.png
 
