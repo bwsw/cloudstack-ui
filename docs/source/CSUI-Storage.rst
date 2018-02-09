@@ -114,7 +114,7 @@ At the right sidebar you can find two tabs:
     
 .. figure:: _static/Storage_Description1.png
 
-Click "Save" to save the description. 
+Click "Save" to save the description. Description will be saved to volume `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 
 You can edit the description by clicking the "Edit" button |edit icon| in the tab.
 
