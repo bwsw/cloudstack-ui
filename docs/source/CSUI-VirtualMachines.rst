@@ -168,7 +168,7 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 
 Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/service_offerings.html?highlight=Disk%20offering#compute-and-disk-service-offerings>`_.
 
-6. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field.
+6. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 7. **Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its lenght should not exceed 63 symbols. What is an affinity group you can read in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?highlight=Affinity#affinity-groups>`_.
 8. **Firewall rules** - Click "Edit" to specify a security group for the VM. In the appeared window choose between "Create new" or "Select Shared" options. 
   
