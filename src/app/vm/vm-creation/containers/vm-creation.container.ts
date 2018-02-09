@@ -67,7 +67,6 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
       (rootDiskSizeChange)="onRootDiskSizeChange($event)"
       (rootDiskSizeMinChange)="onRootDiskSizeMinChange($event)"
       (securityRulesChange)="onSecurityRulesChange($event)"
-      (keyboardChange)="onKeyboardChange($event)"
       (affinityGroupChange)="onAffinityGroupChange($event)"
       (instanceGroupChange)="onInstanceGroupChange($event)"
       (onSshKeyPairChange)="onSshKeyPairChange($event)"
@@ -167,10 +166,6 @@ export class VmCreationContainerComponent implements OnInit {
 
   public onAffinityGroupChange(affinityGroup: AffinityGroup) {
     this.store.dispatch(new vmActions.VmFormUpdate({ affinityGroup }));
-  }
-
-  public onKeyboardChange(keyboard: KeyboardLayout) {
-    this.store.dispatch(new vmActions.VmFormUpdate({ keyboard }));
   }
 
   public onZoneChange(zone: Zone) {

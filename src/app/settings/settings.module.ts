@@ -18,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ApiInfoComponent } from './api-info/api-info.component';
 import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-timeout.component';
 import { SettingsComponent } from './settings.component';
+import { KeyboardsComponent } from '../vm/vm-creation/keyboards/keyboards.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { SettingsComponent } from './settings.component';
   declarations: [
     ApiInfoComponent,
     InactivityTimeoutComponent,
-    SettingsComponent
+    SettingsComponent,
+    KeyboardsComponent
   ]
 })
 export class SettingsModule {

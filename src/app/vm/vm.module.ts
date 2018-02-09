@@ -66,6 +66,7 @@ import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/comp
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
 // tslint:disable-next-line
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
+import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
@@ -75,7 +76,6 @@ import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selecto
 import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmCreationTemplateContainerComponent } from './vm-creation/template/containers/vm-creation-template.container';
 import { VmCreationTemplateComponent } from './vm-creation/template/vm-creation-template.component';
-import { VmTemplateDialogComponent } from './vm-creation/template/vm-template-dialog.component';
 import { VmCreationDialogComponent } from './vm-creation/vm-creation-dialog.component';
 import { VmCreationComponent } from './vm-creation/vm-creation.component';
 import { VmFilterComponent } from './vm-filter/vm-filter.component';
@@ -172,7 +172,6 @@ import { WebShellService } from './web-shell/web-shell.service';
   declarations: [
     AffinityGroupComponent,
     AffinityGroupSelectorComponent,
-    KeyboardsComponent,
     FirewallRulesDetailComponent,
     FirewallRulesDetailContainerComponent,
     NetworkDetailContainerComponent,

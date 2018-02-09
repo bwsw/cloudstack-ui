@@ -20,6 +20,7 @@ export enum KeyboardLayout {
   ]
 })
 export class KeyboardsComponent implements ControlValueAccessor {
+  @Input() public settingLanguage: boolean;
   private _keyboardLayout: KeyboardLayout;
   public keyboardLayouts = [
     {

@@ -55,8 +55,24 @@
     </div>
   </section>
 
-
   <cs-api-info [userId]="userId"></cs-api-info>
+
+  <section>
+    <h4>{{ 'SETTINGS.VM_PREFERENCES.TITLE' | translate }}</h4>
+    <div class="section-container">
+      <div class="settings-control">
+        <h3>{{ 'SETTINGS.VM_PREFERENCES.KEYBOARD_LAYOUT' | translate }}</h3>
+        <div>
+          <cs-keyboards
+            name="keyboard"
+            [settingLanguage]="settingLanguage"
+            [ngModel]="keyboardLayout"
+            (ngModelChange)="keyboardChange($event)"
+          ></cs-keyboards>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <h4>{{ 'SETTINGS.LOOK_AND_FEEL.TITLE' | translate }}</h4>
