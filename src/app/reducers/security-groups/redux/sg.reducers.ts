@@ -109,6 +109,11 @@ export function listReducer(
         ...adapter.addOne(action.payload, state)
       };
     }
+    case securityGroup.CREATE_SECURITY_GROUPS_SUCCESS: {
+      return {
+        ...adapter.addMany(action.payload, state)
+      };
+    }
     case securityGroup.DELETE_SECURITY_GROUP_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
