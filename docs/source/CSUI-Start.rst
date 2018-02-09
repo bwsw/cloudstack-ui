@@ -30,7 +30,7 @@ To enter the platform use your credentials provided by an administrator:
 
 Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
 
-To the left you can see the main navigation bar. It allows moving from section to section. It is configured by Root Administrator in the configuration file. The administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the :ref:`Administration_Guide` for more information on configuring the navigation bar elements reordering.
+To the left you can see the main navigation bar. It allows moving from section to section. It is configured by Root Administrator in the configuration file. The administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#sidebar-order>` for more information on configuring the navigation bar elements reordering.
 
 .. _Resource_Usage:
 
