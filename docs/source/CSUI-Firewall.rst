@@ -116,7 +116,7 @@ Private Security Groups
 """"""""""""""""""""""""""""
 Private security groups are listed in the *Private Security Groups* section. 
 
-Security groups appear in this section once they are created for a virtual machine (see :ref:`Create_VM`). 
+Security groups appear in this section once they are created for a virtual machine (see :ref:`Create_VM`). A private security group name has the following format - ``sg-{{ virtual machine name }}`` - containing the name of the virtual machine it is created for. 
 
 You can quickly find a group by its name or a part of the name using the searching tool above the list.
 
