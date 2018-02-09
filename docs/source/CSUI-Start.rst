@@ -32,6 +32,8 @@ Push "Login" to proceed to CloudStack. You will see the first section - Virtual 
 
 To the left you can see the main navigation bar. It allows moving from section to section. It is configured by an Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#sidebar-order>`_ by setting a list of left-sidebar sections there. The Administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#allow-reordering-sidebar>`_ for more information on configuring the navigation bar elements.
 
+The navigation bar can be hidden or extended using the icon in the upper-left corner.
+
 .. _Resource_Usage:
 
 Resource Usage
