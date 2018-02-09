@@ -68,11 +68,21 @@ export class VmActionsContainerComponent {
   }
 
   public onVmStart(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.StartVm(vm));
+     this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        this.store.dispatch(new vmActions.StartVm(vm));
+      });
   }
 
   public onVmStop(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.StopVm(vm));
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        this.store.dispatch(new vmActions.StopVm(vm));
+      });
   }
 
 }

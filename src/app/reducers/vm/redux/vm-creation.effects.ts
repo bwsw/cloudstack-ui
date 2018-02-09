@@ -139,7 +139,8 @@ export class VirtualMachineCreationEffects {
       .filter(groups => !!groups.length))
     .map(([action, securityGroups]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[]]) => {
       return new vmActions.VmFormUpdate({
-        securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules(securityGroups))
+        securityGroupData: VmCreationSecurityGroupData
+          .fromRules(Rules.createWithAllRulesSelected(securityGroups))
       });
     });
 
@@ -572,7 +573,7 @@ export class VirtualMachineCreationEffects {
 
       return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     } else {
-      return Observable.of(null);
+      return Observable.of(state.securityGroupData.securityGroups);
     }
   }
 

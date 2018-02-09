@@ -1,9 +1,8 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { Snapshot } from '../../../shared/models/snapshot.model';
 
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
@@ -14,12 +13,6 @@ import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
 import * as zoneActions from '../../../reducers/templates/redux/zone.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
-import { Snapshot } from '../../../shared/models/snapshot.model';
-
 
 @Component({
   selector: 'cs-template-create-dialog-container',
@@ -28,7 +21,7 @@ import { Snapshot } from '../../../shared/models/snapshot.model';
       [mode]="viewMode$ | async"
       [osTypes]="osTypes$ | async"
       [zones]="zones$ | async"
-      [isLoading]="loading$ | async"
+      [isLoading]="isFormLoading$ | async"
       [groups]="groups$ | async"
       [snapshot]="snapshot"
       [account]="account$ | async"
@@ -40,8 +33,8 @@ export class TemplateCreationContainerComponent {
   readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly loading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
+  readonly isFormLoading$ = this.store.select(fromTemplates.isFormLoading);
 
   public snapshot: Snapshot;
 

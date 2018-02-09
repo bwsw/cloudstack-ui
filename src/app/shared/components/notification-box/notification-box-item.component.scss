@@ -20,3 +20,9 @@
   padding-left: 8px;
 }
 
+.message {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

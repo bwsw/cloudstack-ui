@@ -1,6 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
+import {
+  TemplateFilters,
+  TemplateResourceType
+} from '../../../template/shared/base-template.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
@@ -29,6 +32,10 @@ export interface ListState extends EntityState<BaseTemplateModel> {
     selectedAccountIds: string[],
     query: string
   }
+}
+
+export interface FormState {
+  loading: boolean
 }
 
 export interface VmCreationTemplatesState {
@@ -64,6 +71,10 @@ const initialListState: ListState = adapter.getInitialState({
   }
 });
 
+const initialFormState: FormState = {
+  loading: false
+};
+
 const initialVmCreationTemplatesState: VmCreationTemplatesState = {
   filters: {
     selectedViewMode: TemplateResourceType.template,
@@ -77,11 +88,13 @@ const initialVmCreationTemplatesState: VmCreationTemplatesState = {
 
 export interface TemplatesState {
   list: ListState,
+  form: FormState,
   vmCreationList: VmCreationTemplatesState
 }
 
 export const templateReducers = {
   list: listReducer,
+  form: formReducer,
   vmCreationList: vmCreationListReducer
 };
 
@@ -157,6 +170,23 @@ export function listReducer(
   }
 }
 
+export function formReducer(
+  state = initialFormState,
+  action: template.Actions
+): FormState {
+  switch (action.type) {
+    case template.TEMPLATE_CREATE: {
+      return { ...state, loading: true };
+    }
+    case template.TEMPLATE_CREATE_SUCCESS:
+    case template.TEMPLATE_CREATE_ERROR: {
+      return { ...state, loading: false };
+    }
+    default: {
+      return state;
+    }
+  }
+}
 
 export function vmCreationListReducer(
   state = initialVmCreationTemplatesState,
@@ -275,6 +305,11 @@ export const filterSelectedOsFamilies = createSelector(
 export const filterQuery = createSelector(
   filters,
   state => state.query
+);
+
+export const isFormLoading = createSelector(
+  getTemplatesState,
+  state => state.form.loading
 );
 
 export const vmCreationListFilters = createSelector(
@@ -482,14 +517,26 @@ export const selectFilteredTemplatesForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
   vmCreationListFilters,
-  (templates, zoneId, account, filter) => filterForVmCreation(templates, zoneId, account, filter));
+  (templates, zoneId, account, filter) => filterForVmCreation(
+    templates,
+    zoneId,
+    account,
+    filter
+  )
+);
 
 export const allTemplatesReadyForVmCreation = createSelector(
   selectAll,
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
   vmCreationListFilters,
-  (templates, zoneId, account, filter) => filterForVmCreation(templates, zoneId, account, filter).length);
+  (templates, zoneId, account, filter) => filterForVmCreation(
+    templates,
+    zoneId,
+    account,
+    filter
+  ).length
+);
 
 const filterForVmCreation = (templates, zoneId, account, filter) => {
   const selectedZoneFilter = (template: BaseTemplateModel) => {

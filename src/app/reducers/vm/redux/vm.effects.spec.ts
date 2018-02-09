@@ -648,20 +648,6 @@ describe('Virtual machine Effects', () => {
     expect(jobsNotificationService.add).toHaveBeenCalled();
   });
 
-  it('should not stop vm', () => {
-    const spyCommand = spyOn(service, 'command');
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
-
-    const action = new vmActions.StopVm(list[0]);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('', []);
-
-    expect(effects.stopVm$).toBeObservable(expected);
-    expect(spyDialog).toHaveBeenCalled();
-    expect(spyCommand).not.toHaveBeenCalled();
-  });
-
   it('should return an error during stopping vm', () => {
     const spyCommand = spyOn(service, 'command').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
@@ -695,20 +681,6 @@ describe('Virtual machine Effects', () => {
     expect(effects.startVm$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
     expect(jobsNotificationService.add).toHaveBeenCalled();
-  });
-
-  it('should not start vm', () => {
-    const spyCommand = spyOn(service, 'command');
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
-
-    const action = new vmActions.StartVm(list[1]);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('', []);
-
-    expect(effects.startVm$).toBeObservable(expected);
-    expect(spyDialog).toHaveBeenCalled();
-    expect(spyCommand).not.toHaveBeenCalled();
   });
 
   it('should return an error during starting vm', () => {
