@@ -344,7 +344,7 @@ By clicking a VM line or card you can open a sidebar to the right.
 There you will find the information on the selected virtual machine:
 
 1. VM name.
-2. Color-picker |color picker| - Allows marking a virtual machine by a color to distinguish it in the list. 
+2. Color-picker |color picker| - Allows marking a virtual machine by a color to distinguish it in the list. The range of available colors for VMs is specified in the `configuration giude <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#vm-colors>`_. 
 3. Actions on the VM. See the :ref:`VM_Actions` section below.
 
 You will see four tabs in the sidebar. Let's describe what information on the virtual machine is presented in each tab.
