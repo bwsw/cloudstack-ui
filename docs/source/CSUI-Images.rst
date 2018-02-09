@@ -62,7 +62,7 @@ It will open a creation form where you should specify the following information:
 
 #. Zone * - Choose the zone where you want the template to be available.
 
-#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator. The group assigned to a template is saved to template tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
+#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups>`. The group assigned to a template is saved to template tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
 
 #. Password enabled checkbox - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
 
@@ -103,7 +103,7 @@ It will open a creation form where you should specify the following information:
 
 #. Zone * - Choose the zone where you want the ISO file to be available.
 
-#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator. The group assigned to ISO is saved to ISO tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
+#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator  in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups>`. The group assigned to ISO is saved to ISO tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
 
 .. note:: Required fields are marked with an asterisk (*).
 
