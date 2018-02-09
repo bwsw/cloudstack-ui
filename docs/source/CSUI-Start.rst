@@ -22,10 +22,10 @@ To enter the platform use your credentials provided by an administrator:
   
    1) Enter a domain in the field under the "Show advanced options" button |adv icon|.
 
-   2) Administrator can set a domain in configurations. Domain field will be prepopulated with the specified value. It is more convenient for a user as he/she does not need to enter the domain every time at logging in. In this case the domain field can be hidden by clicking |adv icon|.
+   2) Administrator can set a domain in configurations. Domain field will be prepopulated with the specified value. It is more convenient for a user as he/she does not need to enter the domain every time at logging in. In this case the domain field can be hidden by clicking |adv icon|. Find more information on the feature configuration at the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-domain-url>`_.
 
-   3) Other way to log in is to enter a URL in the format ``http://<ip-address>/login?domain=<domain>``. The domain will be prepopulated in the logging in form with the value that is specified in the URL. Please, note, the domain value in URL will override the domain set in the configurations by Administrator. Find more information on the feature configuration at the `configurations page <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_.
 
+   3) Other way to log in is to enter a URL in the format ``http://<ip-address>/login?domain=<domain>``. The domain will be prepopulated in the logging in form with the value that is specified in the URL. Please, note, the domain value in URL will override the domain set in the configurations by Administrator. 
 .. figure:: _static/LoginScreen.png
 
 Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
