@@ -8,7 +8,7 @@ import { BaseModelStub } from '../models';
 import { AccountType } from '../models/account.model';
 import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService, CSCommands } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
 import { Store } from '@ngrx/store';
@@ -133,7 +133,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private getCapabilities(): Observable<void> {
-    return this.sendCommand('listCapabilities', {}, '')
+    return this.sendCommand(CSCommands.ListCapabilities, {}, '')
       .map(({ capability }) => (this.capabilities = capability))
       .catch(() => this.logout());
   }
