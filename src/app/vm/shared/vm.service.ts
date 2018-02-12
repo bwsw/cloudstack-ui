@@ -140,7 +140,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
-    return this.sendCommand(CSCommands.DeleteIpFrom, { id: ipId }, 'Nic')
+    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic')
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 

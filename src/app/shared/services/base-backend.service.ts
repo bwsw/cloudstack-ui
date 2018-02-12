@@ -28,7 +28,7 @@ export enum CSCommands {
   ChangeServiceFor = 'changeServiceFor',
   Create = 'create',
   Delete = 'delete',
-  DeleteIpFrom = 'deleteIpFrom',
+  RemoveIpFrom = 'removeIpFrom',
   Deploy = 'deploy',
   Destroy = 'destroy',
   Detach = 'detach',
