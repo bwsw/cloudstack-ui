@@ -1,13 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { State } from '../../reducers/index';
-import { Store } from '@ngrx/store';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Store } from '@ngrx/store';
+import { State } from '../../reducers/index';
+import { SecurityGroup } from '../../security-group/sg.model';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
-import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
-import { VmCreationSecurityGroupData } from '../vm-creation/security-group/vm-creation-security-group-data';
-import { SecurityGroup } from '../../security-group/sg.model';
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
 
 @Component({
@@ -29,7 +26,7 @@ export class SgListContainerComponent {
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<SgListContainerComponent>,
-    @Inject(MAT_DIALOG_DATA)public data: Array<SecurityGroup>,
+    @Inject(MAT_DIALOG_DATA) public data: Array<SecurityGroup>,
   ) {
     this.selectedSecurityGroups = data;
   }

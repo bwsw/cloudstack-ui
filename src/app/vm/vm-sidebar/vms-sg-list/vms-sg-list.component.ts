@@ -34,7 +34,8 @@ export class VmsSgListComponent implements OnInit {
   }
 
   public checkSelectedSG(securityGroupId: string): boolean {
-    const isSelectedItem = this.selectedSecurityGroups.find(securityGroup => securityGroup.id === securityGroupId);
+    const entities = this.selectedSecurityGroups.reduce((securityGroup, i) => ({ ...securityGroup, [i.id]: i}), {});
+    const isSelectedItem = entities[securityGroupId];
     return !!isSelectedItem;
   }
 
