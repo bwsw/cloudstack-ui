@@ -240,7 +240,7 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public get typesByCIDR(): ICMPType[] {
-    return this.cidrIpVersion ? ICMPv6Types : ICMPtypes;
+    return this.cidrIpVersion === IPVersion.ipv6 ? ICMPv6Types : ICMPtypes;
   }
 
   public get IPVersion() {

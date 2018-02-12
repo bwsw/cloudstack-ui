@@ -157,6 +157,7 @@ describe('Security group firewall rules component', () => {
   }));
 
   it('filter lists of ICMP types and codes', async(() => {
+    comp.cidr = '::/128';
     const filteredTypes = comp.filterTypes('255');
     expect(filteredTypes.length).toEqual(1);
 
