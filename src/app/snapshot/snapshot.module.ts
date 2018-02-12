@@ -11,6 +11,7 @@ import {
   MatTabsModule,
   MatTooltipModule
 } from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 // tslint:disable-next-line
@@ -37,6 +38,8 @@ import { SnapshotActionContainerComponent } from './snapshots-page/snapshot-list
 import { SnapshotActionService } from './snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
 import { SnapshotCardItemComponent } from './snapshots-page/snapshot-list-item/snapshot-card-item.component';
 import { SnapshotListItemComponent } from './snapshots-page/snapshot-list-item/snapshot-list-item.component';
+import { SnapshotSidebarComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.component';
+import { SnapshotSidebarContainerComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.container';
 import { SnapshotsPageComponent } from './snapshots-page/snapshots-page.component';
 import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
 
@@ -56,7 +59,8 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     ReactiveFormsModule,
     MatButtonToggleModule,
     MatTabsModule,
-    MatMenuModule
+    MatMenuModule,
+    RouterModule
   ],
   exports: [
     RecurringSnapshotsComponent,
@@ -80,6 +84,8 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     SnapshotCardItemComponent,
     SnapshotActionContainerComponent,
     SnapshotActionComponent,
+    SnapshotSidebarContainerComponent,
+    SnapshotSidebarComponent,
     CreateVolumeFromSnapshotContainerComponent,
     CreateVolumeFromSnapshotComponent
   ],
@@ -92,6 +98,7 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     RecurringSnapshotsComponent,
     SnapshotCardItemComponent,
     SnapshotListItemComponent,
+    SnapshotActionContainerComponent,
     CreateVolumeFromSnapshotContainerComponent
   ]
 })

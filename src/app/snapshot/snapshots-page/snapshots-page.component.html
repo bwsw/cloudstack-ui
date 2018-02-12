@@ -3,7 +3,7 @@
   [creationEnabled]="false"
 >
   <ng-container cs-panels>
-    <cs-top-bar></cs-top-bar>
+    <cs-top-bar cs-list></cs-top-bar>
   </ng-container>
 
   <ng-container cs-list *loading="isLoading">
@@ -26,5 +26,11 @@
         cs-list
       ></cs-grouped-list>
     </ng-container>
+  </ng-container>
+
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
   </ng-container>
 </cs-list>

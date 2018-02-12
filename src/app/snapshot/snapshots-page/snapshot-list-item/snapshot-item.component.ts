@@ -63,9 +63,9 @@ export class SnapshotItemComponent {
   }
 
   public handleClick(e: MouseEvent): void {
-    // e.stopPropagation();
-    // if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
-    //   this.onClick.emit(this.item);
-    // }
+    e.stopPropagation();
+    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
+      this.onClick.emit(this.item);
+    }
   }
 }

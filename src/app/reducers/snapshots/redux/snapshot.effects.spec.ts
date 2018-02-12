@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
@@ -36,6 +37,13 @@ class MockAsyncJobService {
 @Injectable()
 export class MockAuthService {
   public loggedIn = new Subject<boolean>();
+}
+
+@Injectable()
+class MockRouter {
+  public navigate(route: any): Promise<any> {
+    return Promise.resolve(route);
+  }
 }
 
 @Injectable()
@@ -113,7 +121,8 @@ describe('Snapshot Effects', () => {
         { provide: NotificationService, useValue: MockNotificationService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: DialogService, useClass: MockDialogService },
-        { provide: MatDialog, useValue: mockDialog }
+        { provide: MatDialog, useValue: mockDialog },
+        {provide: Router, useClass: MockRouter }
       ]
     });
     actions$ = TestBed.get(Actions);

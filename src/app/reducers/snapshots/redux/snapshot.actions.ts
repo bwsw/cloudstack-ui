@@ -12,6 +12,7 @@ export const DELETE_SNAPSHOT = '[Snapshots] DELETE_SNAPSHOT';
 export const DELETE_SNAPSHOT_SUCCESS = '[Snapshots] DELETE_SNAPSHOT_SUCCESS';
 export const REVERT_VOLUME_TO_SNAPSHOT = '[Snapshots] REVERT_VOLUME_TO_SNAPSHOT';
 export const REVERT_VOLUME_TO_SNAPSHOT_SUCCESS = '[Snapshots] REVERT_VOLUME_TO_SNAPSHOT_SUCCESS';
+export const LOAD_SELECTED_SNAPSHOT = '[Snapshots] LOAD_SELECTED_SNAPSHOT';
 
 export const SNAPSHOT_UPDATE_ERROR = '[Snapshots] SNAPSHOT_UPDATE_ERROR';
 
@@ -85,6 +86,13 @@ export class RevertVolumeToSnapshotSuccess implements Action {
   }
 }
 
+export class LoadSelectedSnapshot implements Action {
+  readonly type = LOAD_SELECTED_SNAPSHOT;
+
+  constructor(public payload: string) {
+      }
+}
+
 export type Actions =
   LoadSnapshotRequest
   | LoadSnapshotResponse
@@ -95,5 +103,6 @@ export type Actions =
   | DeleteSnapshotSuccess
   | SnapshotUpdateError
   | RevertVolumeToSnapshot
-  | RevertVolumeToSnapshotSuccess;
+  | RevertVolumeToSnapshotSuccess
+  | LoadSelectedSnapshot;
 

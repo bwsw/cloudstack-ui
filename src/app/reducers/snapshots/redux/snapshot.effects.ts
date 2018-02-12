@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { Action, Store } from '@ngrx/store';
@@ -10,7 +11,7 @@ import { ISnapshotData } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
-import { VirtualMachine, VmService, VmState } from '../../../vm';
+import { VirtualMachine, VmState } from '../../../vm';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 import { State } from '../../index';
@@ -152,7 +153,15 @@ export class SnapshotEffects {
     .ofType(snapshot.DELETE_SNAPSHOT_SUCCESS)
     .do((action: snapshot.DeleteSnapshotSuccess) => {
       this.onNotify(action.payload, 'NOTIFICATIONS.SNAPSHOT.DELETE_SUCCESS');
-    });
+    })
+    .map((action: snapshot.DeleteSnapshotSuccess) => action.payload)
+    .filter((snapshot: Snapshot) => this.router.isActive(
+      `/snapshots/${snapshot.id}`,
+      false
+    ))
+    .do(() => this.router.navigate(['./snapshots'], {
+      queryParamsHandling: 'preserve'
+    }));
 
   @Effect({ dispatch: false })
   handleError$ = this.actions$
@@ -171,7 +180,8 @@ export class SnapshotEffects {
     private jobsNotificationService: JobsNotificationService,
     private dialogService: DialogService,
     private dialog: MatDialog,
-    private vmEffects: VirtualMachinesEffects
+    private vmEffects: VirtualMachinesEffects,
+    private router: Router
   ) {
   }
 

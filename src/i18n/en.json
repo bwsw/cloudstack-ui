@@ -744,6 +744,25 @@
       "VOLUME": "Volume",
       "VM": "Virtual Machines"
     },
+    "SIDEBAR": {
+      "DETAILS": "Details",
+      "CREATED": "Created",
+      "TYPE": "Type",
+      "TYPES": {
+        "HOURLY": "Hourly",
+        "DAILY": "Daily",
+        "WEEKLY": "Weekly",
+        "MONTHLY": "Monthly",
+        "MANUAL": "Manual"
+      },
+      "DESCRIPTION": "Description",
+      "VOLUME_INFORMATION": {
+        "TITLE": "Volume information",
+        "VM": "Virtual Machine",
+        "VOLUME": "Volume"
+      },
+      "SNAPSHOT_NOT_FOUND": "Snapshot not found"
+    },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Create template",
       "CREATE_VOLUME": "Create volume",
