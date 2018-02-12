@@ -58,7 +58,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
   private filterService = new FilterService({
     accounts: { type: 'array', defaultOption: [] },
     types: { type: 'array', defaultOption: [] },
-    date: { type: 'string', defaultOption: moment().toDate() },
+    date: { type: 'string', defaultOption: moment().toString() },
     groupings: { type: 'array', defaultOption: [] },
     query: { type: 'string' }
   }, this.router, this.storage, this.filtersKey, this.activatedRoute);

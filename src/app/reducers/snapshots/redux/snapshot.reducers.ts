@@ -3,6 +3,7 @@ import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   getDateSnapshotCreated,
+  getSnapshotDescription,
   Snapshot,
   SnapshotPageMode,
   SnapshotType
@@ -221,23 +222,24 @@ export const selectFilteredSnapshots = createSelector(
 
     const filterByDate = (snapshot: Snapshot) => !filter.selectedDate
       || moment(snapshot.created).isBetween(
-        moment(filter.selectedDate),
-        moment(filter.selectedDate).add(1, 'days')
+        moment(filter.selectedDate).startOf('day'),
+        moment(filter.selectedDate).endOf('day')
       );
 
     const queryLower = filter.query && filter.query.toLowerCase();
     const filterByQuery = (snapshot: Snapshot) => {
       const date = getDateSnapshotCreated(snapshot);
       const lang = localStorage.getItem('lang') as Language;
-      const formattedDate = lang === Language.ru
-        ? moment(date).format('DD.MM.YYYY, HH:mm')
-        : moment(date).format('M/D/YYYY, h:mm A');
 
       return !filter.query
         || snapshot.name.toLowerCase().indexOf(queryLower) > -1
-        || snapshot.description && snapshot.description.toLowerCase()
-          .indexOf(queryLower) > -1
-        || formattedDate.toLowerCase().indexOf(queryLower) > -1;
+        || getSnapshotDescription(snapshot)
+        && getSnapshotDescription(snapshot).toLowerCase().indexOf(queryLower) > -1
+        || moment(date).format('DD.MM.YYYY, hh:mm').toLowerCase().indexOf(queryLower) > -1
+        || moment(date).format('DD.MM.YYYY, hh:mm').toLowerCase().indexOf(queryLower) > -1
+        || moment(date).format('M/D/YYYY, h:mm A').toLowerCase().indexOf(queryLower) > -1
+        || moment(date).format('M/D/YYYY h:mm A').toLowerCase().indexOf(queryLower) > -1
+        || moment(date).format('DD.MM.YYYY hh:mm').toLowerCase().indexOf(queryLower) > -1;
     };
 
     return snapshots.filter((snapshot: Snapshot) =>
