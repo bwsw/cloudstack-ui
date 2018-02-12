@@ -19,6 +19,7 @@ export class SnapshotsPageComponent implements OnChanges {
   @Input() public virtualMachines: Dictionary<VirtualMachine>;
   @Input() public groupings: Array<Grouping> = [];
   @Input() public isLoading: boolean;
+  @Input() public query: string;
 
   public mode: ViewMode;
   public viewModeKey = 'volumePageViewMode';
@@ -30,7 +31,7 @@ export class SnapshotsPageComponent implements OnChanges {
 
   constructor(public listService: ListService) {
     this.inputs = {
-      isSelected: (item: Snapshot) => this.listService.isSelected(item.id)
+      isSelected: (item: Snapshot) => this.listService.isSelected(item.id),
     };
 
     this.outputs = {
@@ -44,6 +45,9 @@ export class SnapshotsPageComponent implements OnChanges {
     }
     if (changes.virtualMachines) {
       this.inputs.virtualMachines = this.virtualMachines;
+    }
+    if (changes.query) {
+      this.inputs.query = this.query;
     }
   }
 

@@ -3,9 +3,9 @@ import { AccountUser } from './account-user.model';
 import { BaseModelInterface } from './base.model';
 
 export const enum AccountType {
-  User = 0,
-  RootAdmin = 1,
-  DomainAdmin = 2
+  User = '0',
+  RootAdmin = '1',
+  DomainAdmin = '2'
 }
 
 export const AccountState = {
