@@ -33,7 +33,7 @@
 
     <div class="row">
       {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
-      <span [innerHTML]="snapshotCreated | stringifyDate | highlight:query"></span>
+      <span [innerHTML]="snapshotCreated | stringifyDate"></span>
     </div>
   </mat-card-content>
   <mat-menu
