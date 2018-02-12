@@ -5,12 +5,16 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken
+  GetICMPTypeTranslationToken,
+  GetICMPV6CodeTranslationToken,
+  GetICMPV6TypeTranslationToken
 } from '../../shared/icmp/icmp-types';
+import { Utils } from '../../shared/services/utils/utils.service';
+import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { IPVersion, NetworkRuleType } from '../sg.model';
 
 @Component({
   selector: 'cs-security-group-rule',
@@ -25,6 +29,7 @@ export class SgRuleComponent {
 
   public deleting = false;
   public NetworkProtocols = NetworkProtocol;
+  public NetworkRuleTypes = NetworkRuleType;
 
   public get typeTranslationToken(): string {
     const typeTranslations = {
@@ -46,18 +51,27 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.item.icmptype);
+    return Utils.cidrType(this.item.cidr) === IPVersion.ipv4
+      ? GetICMPTypeTranslationToken(this.item.icmptype)
+      : GetICMPV6TypeTranslationToken(this.item.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.item.icmptype, this.item.icmpcode);
+    return Utils.cidrType(this.item.cidr) === IPVersion.ipv4
+      ? GetICMPCodeTranslationToken(this.item.icmptype, this.item.icmpcode)
+      : GetICMPV6CodeTranslationToken(this.item.icmptype, this.item.icmpcode);
   }
 
   public get ruleParams(): Object {
+    const ipVersion = Utils.cidrType(this.item.cidr) === IPVersion.ipv4
+      ? IPVersion.ipv4
+      : IPVersion.ipv6;
+
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
       cidr: this.item.cidr,
+      ipVersion
     };
 
     let ruleParams;

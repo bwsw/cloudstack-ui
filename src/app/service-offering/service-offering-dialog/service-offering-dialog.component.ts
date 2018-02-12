@@ -46,6 +46,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Output() public queryChange = new EventEmitter();
   public serviceOffering: ServiceOffering;
   public loading: boolean;
+  public showFields = false;
 
   public ngOnInit() {
     this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
@@ -77,6 +78,13 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       this.serviceOfferings.length &&
       this.serviceOffering && this.serviceOffering.id !== this.serviceOfferingId
       && this.isVmRunning;
+  }
+
+  public get disableSubmitButton(): boolean {
+    return !this.serviceOffering ||
+      !this.serviceOffering.iscustomized && this.serviceOffering.id === this.serviceOfferingId ||
+      this.serviceOffering.iscustomized && !this.serviceOffering.cpuspeed
+        && !this.serviceOffering.cpunumber && !this.serviceOffering.memory;
   }
 
 }

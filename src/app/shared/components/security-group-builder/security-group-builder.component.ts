@@ -115,14 +115,17 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   public get rules(): Rules {
-    return new Rules(this.securityGroups.selected,
+    return new Rules(
+      this.securityGroups.selected,
       this.checkedIngressRules,
-      this.checkedEgressRules);
+      this.checkedEgressRules
+    );
   }
 
   public onRulesChange(ruleItem: RuleListItem) {
     const findByRuleId = (_: RuleListItem) => _.rule.ruleid === ruleItem.rule.ruleid;
-    const changedRule = this.selectedRules.ingress.find(findByRuleId) || this.selectedRules.egress.find(findByRuleId);
+    const changedRule = this.selectedRules.ingress.find(findByRuleId)
+      || this.selectedRules.egress.find(findByRuleId);
     if (changedRule) {
       changedRule.checked = ruleItem.checked;
     }

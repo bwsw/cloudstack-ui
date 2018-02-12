@@ -5,6 +5,7 @@ import { ResourceLimit } from '../models/resource-limit.model';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Account } from '../models/account.model';
+import { CSCommands } from './base-backend.service';
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit
     resourceLimit: ResourceLimit,
     account: Account
   ): Observable<ResourceLimit> {
-    return this.sendCommand('update', {
+    return this.sendCommand(CSCommands.Update, {
       resourceType: resourceLimit.resourcetype,
       max: resourceLimit.max,
       domainid: account.domainid,

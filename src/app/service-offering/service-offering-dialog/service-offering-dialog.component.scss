@@ -15,3 +15,8 @@
 :host .mat-dialog-content {
   overflow: hidden;
 }
+
+.mat-dialog-actions {
+  flex-direction: column;
+  text-align: right;
+}

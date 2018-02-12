@@ -1,34 +1,37 @@
-import { Injectable, ViewChild, Component } from '@angular/core';
+import { Component, Injectable, ViewChild } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
-  MatListModule,
+  MatIconModule,
   MatInputModule,
-  MatSelectModule,
+  MatListModule,
   MatProgressSpinnerModule,
-  MatIconModule
+  MatSelectModule
 } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { DynamicModule } from 'ng-dynamic-component';
 import { Observable } from 'rxjs/Observable';
+import { MockDialogService } from '../../../testutils/mocks/mock-dialog.service';
 import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { NotificationService } from '../../shared/services/notification.service';
-import { NetworkRuleType, SecurityGroup } from '../sg.model';
-import { SgRulesComponent } from './sg-rules.component';
-import { NetworkRule, NetworkProtocol } from '../network-rule.model';
-import { NetworkRuleService } from '../services/network-rule.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { Router } from '@angular/router';
-import { LoadingDirective } from '../../shared/directives/loading.directive';
-import { GroupedListComponent } from '../../shared/components/grouped-list/grouped-list.component';
-import { DynamicModule } from 'ng-dynamic-component';
 import { DraggableSelectModule } from '../../shared/components/draggable-select/draggable-select.module';
+import { GroupedListComponent } from '../../shared/components/grouped-list/grouped-list.component';
+import { LoadingDirective } from '../../shared/directives/loading.directive';
+import { ICMPtypes, ICMPv6Types } from '../../shared/icmp/icmp-types';
+import { NotificationService } from '../../shared/services/notification.service';
+import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { NetworkRuleService } from '../services/network-rule.service';
+import { IPVersion, NetworkRuleType, SecurityGroup } from '../sg.model';
 import { SgRuleComponent } from './sg-rule.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ICMPtypes } from '../../shared/icmp/icmp-types';
-import { MockDialogService } from '../../../testutils/mocks/mock-dialog.service';
+import { SgRulesComponent } from './sg-rules.component';
+
+const securityGroupTemplates: Array<Object> = require(
+  '../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
 
 @Injectable()
 class MockRouter {
@@ -47,6 +50,69 @@ const mockSecurityGroup = <SecurityGroup>{
   egressrule: [],
   tags: [],
   virtualmachineids: []
+};
+
+const mockSecurityGroupWithRules = <SecurityGroup>{
+  id: '9d1f0e3b-82a7-4528-b02e-70c4f9eff4b0',
+  name: 'test',
+  description: '',
+  account: 'develop',
+  domain: 'ROOT',
+  virtualmachineids: [],
+  egressrule: [],
+  ingressrule: [
+    <NetworkRule>{
+      ruleid: 'ed4a91f5-35f2-48a3-b706-6a00dba50708',
+      protocol: NetworkProtocol.ICMP,
+      icmptype: 3,
+      icmpCode: 2,
+      cidr: '2001:DB8::/128',
+      tags: []
+    },
+    <NetworkRule>{
+      ruleid: '293a8e35-7c26-4216-851e-c87a46c9620f',
+      protocol: NetworkProtocol.TCP,
+      startport: 0,
+      endport: 65535,
+      cidr: '2001:DB8::/128',
+      tags: []
+    },
+    <NetworkRule>{
+      ruleid: 'af34ea6c-dd50-4cab-9f5e-ca4e454e59d3',
+      protocol: NetworkProtocol.ICMP,
+      icmptype: 2,
+      icmpcode: 0,
+      cidr: '2001:DB8::/128',
+      tags: []
+    },
+    <NetworkRule>{
+      ruleid: '41ce53d6-5274-49b0-a2e9-7b0ebc87c89a',
+      protocol: NetworkProtocol.ICMP,
+      icmptype: 132,
+      icmpcode: 0,
+      cidr: '2001:DB8::/128',
+      tags: []
+    },
+    <NetworkRule>{
+      ruleid: '02990ed4-827f-49a1-bb27-4ea6d565c1fd',
+      protocol: NetworkProtocol.ICMP,
+      icmptype: 4,
+      icmpcode: 1,
+      cidr: '2001:DB8::/128',
+      tags: []
+    },
+    <NetworkRule>{
+      ruleid: '787ee1c9-ec5f-4612-9894-1080acec515e',
+      protocol: NetworkProtocol.ICMP,
+      icmptype: 0,
+      icmpcode: 0,
+      cidr: '0.0.0.0/0',
+      tags: []
+    }
+  ],
+  tags: [],
+  virtualMachinesCount: 0,
+  virtualMachineIds: []
 };
 
 const mockNetworkRule = <NetworkRule>{
@@ -163,19 +229,53 @@ describe('Security group firewall rules component', () => {
     fixture.detectChanges();
 
     expect(component.sgRulesComponent.adding).toBeFalsy();
-    expect(component.sgRulesComponent.cidr).toEqual('0.0.0.0/0');
     expect(component.sgRulesComponent.protocol).toEqual(NetworkProtocol.TCP);
     expect(component.sgRulesComponent.type).toEqual(NetworkRuleType.Ingress);
     expect(component.sgRulesComponent.securityGroup).toEqual(mockSecurityGroup);
     expect(component.sgRulesComponent.vmId).toEqual('vm-id1');
   }));
 
-  it('should get is template predefined', async(async () => {
-    const { fixture } = createTestComponent();
-    await fixture.whenStable();
-    fixture.detectChanges();
+  it('filter network rules by IP version, type or protocol', () => {
+    component.sgRulesComponent.securityGroup = mockSecurityGroupWithRules;
+    component.sgRulesComponent.ngOnChanges();
 
+    expect(component.sgRulesComponent.visibleRules.length).toEqual(6);
+
+    component.sgRulesComponent.selectedIPVersion = [IPVersion.ipv6];
+    component.sgRulesComponent.filter();
+    expect(component.sgRulesComponent.visibleRules.length).toEqual(5);
+
+    component.sgRulesComponent.selectedType = [NetworkRuleType.Ingress];
+    component.sgRulesComponent.filter();
+    expect(component.sgRulesComponent.visibleRules.length).toEqual(5);
+    component.sgRulesComponent.selectedIPVersion = [];
+    component.sgRulesComponent.selectedType = [];
+    component.sgRulesComponent.filter();
+    expect(component.sgRulesComponent.visibleRules.length).toEqual(6);
+
+    component.sgRulesComponent.selectedProtocols = [NetworkProtocol.ICMP];
+    component.sgRulesComponent.filter();
+    expect(component.sgRulesComponent.visibleRules.length).toEqual(5);
+  });
+
+  it('should filter predefined templates', async(() => {
+    component.sgRulesComponent.securityGroup = securityGroupTemplates[0];
+    expect(component.sgRulesComponent.isPredefinedTemplate).toBeTruthy();
+    component.sgRulesComponent.securityGroup = mockSecurityGroupWithRules;
     expect(component.sgRulesComponent.isPredefinedTemplate).toBeFalsy();
+  }));
+
+  it('should select types by CIDR IP version', async(() => {
+    component.sgRulesComponent.cidr = '2001:DB8::/128';
+    component.sgRulesComponent.onCidrChange();
+    expect(component.sgRulesComponent.icmpTypes).toEqual(ICMPv6Types);
+  }));
+
+  it('should change view or edit mode', async(() => {
+    component.sgRulesComponent.editMode = false;
+    component.sgRulesComponent.securityGroup = securityGroupTemplates[0];
+    component.sgRulesComponent.confirmChangeMode();
+    expect(component.sgRulesComponent.editMode).toBeTruthy();
   }));
 
   it('should add new ingress rule', async(async () => {

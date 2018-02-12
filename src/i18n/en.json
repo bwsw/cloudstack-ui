@@ -812,21 +812,33 @@
       "ENTER_VALID_PORT": "Enter a valid port",
       "ENTER_VALID_TYPE": "Enter a valid type",
       "ENTER_VALID_CODE": "Enter a valid code",
+      "ENTER_CIDR": "CIDR v4/v6",
       "ENTER_VALID_CIDR": "Enter a valid CIDR",
       "FAILED_TO_ADD_RULE": "Failed to add the rule",
       "FAILED_TO_REMOVE_RULE": "Failed to remove the rule",
+      "SELECT_IP_VERSION": "Select IP version",
       "SELECT_TYPE": "Select types",
       "SELECT_PROTOCOL": "Select protocols",
-      "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }} to port {{ startport }}</b>",
-      "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> to <b>port range {{ startport }}-{{ endport }}</b>",
-      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmptype }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpcode }}]</b>",
-      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmptype }}</b> and ICMP code <b>{{ icmpcode }}</b>",
-      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to ip <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmptype }}]</b> and ICMP code <b>{{ icmpcode }}</b>",
-      "DEFAULT_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} to port {{ startport }}",
-      "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} to port range {{ startport }}-{{ endport }}",
-      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmptype }}] and ICMP code {{ icmpCodeText }} [{{ icmpcode }}]",
-      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmptype }} and ICMP code {{ icmpcode }}",
-      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to ip {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmptype }}] and ICMP code {{ icmpcode }}",
+      "EGRESS_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to {{ ipVersion }} <b>{{ cidr }} to port {{ startport }}</b>",
+      "EGRESS_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic to {{ ipVersion }} <b>{{ cidr }}</b> to <b>port range {{ startport }}-{{ endport }}</b>",
+      "EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to {{ ipVersion }} <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmptype }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpcode }}]</b>",
+      "NO_TEXT_EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to {{ ipVersion }} <b>{{ cidr }}</b> of ICMP type <b>{{ icmptype }}</b> and ICMP code <b>{{ icmpcode }}</b>",
+      "NO_CODE_EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic to {{ ipVersion }} <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmptype }}]</b> and ICMP code <b>{{ icmpcode }}</b>",
+      "EGRESS_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to {{ ipVersion }} {{ cidr }} to port {{ startport }}",
+      "EGRESS_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} traffic to {{ ipVersion }} {{ cidr }} to port range {{ startport }}-{{ endport }}",
+      "EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to {{ ipVersion }} {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmptype }}] and ICMP code {{ icmpCodeText }} [{{ icmpcode }}]",
+      "NO_TEXT_EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to {{ ipVersion }} {{ cidr }} of ICMP type {{ icmptype }} and ICMP code {{ icmpcode }}",
+      "NO_CODE_EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic to {{ ipVersion }} {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmptype }}] and ICMP code {{ icmpcode }}",
+      "INGRESS_RULE": "{{ type }} <b>{{ protocol }}</b> traffic from {{ ipVersion }} <b>{{ cidr }} to VM port {{ startport }}</b>",
+      "INGRESS_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> traffic from {{ ipVersion }} <b>{{ cidr }}</b> to VM <b>port range {{ startport }}-{{ endport }}</b>",
+      "INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic from <b>{{ ipVersion }}</b> <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmptype }}]</b> and ICMP code <b>{{ icmpCodeText }} [{{ icmpcode }}]</b>",
+      "NO_TEXT_INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic from {{ ipVersion }} <b>{{ cidr }}</b> of ICMP type <b>{{ icmptype }}</b> and ICMP code <b>{{ icmpcode }}</b>",
+      "NO_CODE_INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> traffic from {{ ipVersion }} <b>{{ cidr }}</b> of ICMP type <b>{{ icmpTypeText }} [{{ icmptype }}]</b> and ICMP code <b>{{ icmpcode }}</b>",
+      "INGRESS_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic from {{ ipVersion }} {{ cidr }} to port {{ startport }}",
+      "INGRESS_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} traffic from {{ ipVersion }} {{ cidr }} to VM port range {{ startport }}-{{ endport }}",
+      "INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic from {{ ipVersion }} {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmptype }}] and ICMP code {{ icmpCodeText }} [{{ icmpcode }}]",
+      "NO_TEXT_INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic from {{ ipVersion }} {{ cidr }} of ICMP type {{ icmptype }} and ICMP code {{ icmpcode }}",
+      "NO_CODE_INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} traffic from {{ ipVersion }} {{ cidr }} of ICMP type {{ icmpTypeText }} [{{ icmptype }}] and ICMP code {{ icmpcode }}",
       "NO_FIREWALL_RULES": "No firewall rules"
     },
     "ICMP_TYPES": {
@@ -1034,6 +1046,213 @@
           "3": "Decryption Failed",
           "4": "Need Authentication",
           "5": "Need Authorization"
+        }
+      }
+    },
+    "ICMP_V6_TYPES": {
+      "1": {
+        "description": "Destination Unreachable Message",
+        "codes": {
+          "0": "No route to destination",
+          "1": "Communication with the destination is administratively prohibited, such as a firewall filter",
+          "2": "Not assigned",
+          "3": "Address unreachable",
+          "4": "Port unreachable",
+          "5": "Source address failed ingress/egress policy",
+          "6": "Reject route to destination"
+        }
+      },
+      "2": {
+        "description": "Packet Too Big Message",
+        "codes": {
+          "0": ""
+        }
+      },
+      "3": {
+        "description": "Time Exceeded Message",
+        "codes": {
+          "0": "Hop limit exceeded in transit",
+          "1": "Fragment reassembly time exceeded"
+        }
+      },
+      "4": {
+        "description": "Parameter Problem Message",
+        "codes": {
+          "0": "Erroneous header field encountered",
+          "1": "Unrecognized next header type encountered",
+          "2": "Unrecognized IPv6 option encountered"
+        }
+      },
+      "100": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "101": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "127": {
+        "description": "Reserved for expansion of ICMPv6 error messages",
+        "codes": {
+          "0": ""
+        }
+      },
+      "128": {
+        "description": "Echo Request",
+        "codes": {
+          "0": ""
+        }
+      },
+      "129": {
+        "description": "Echo Reply",
+        "codes": {
+          "0": ""
+        }
+      },
+      "130": {
+        "description": "Multicast Listener Query",
+        "codes": {
+          "0": ""
+        }
+      },
+      "131": {
+        "description": "Multicast Listener Report",
+        "codes": {
+          "0": ""
+        }
+      },
+      "132": {
+        "description": "Multicast Listener Done",
+        "codes": {
+          "0": ""
+        }
+      },
+      "133": {
+        "description": "Router Solicitation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "134": {
+        "description": "Router Advertisement",
+        "codes": {
+          "0": ""
+        }
+      },
+      "135": {
+        "description": "Neighbor Solicitation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "136": {
+        "description": "Neighbor Advertisement",
+        "codes": {
+          "0": ""
+        }
+      },
+      "137": {
+        "description": "Redirect Message",
+        "codes": {
+          "0": ""
+        }
+      },
+      "138": {
+        "description": "Router Renumbering",
+        "codes": {
+          "0": "Router Renumbering Command",
+          "1": "Router Renumbering Result",
+          "255": "Sequence Number Reset"
+        }
+      },
+      "139": {
+        "description": "ICMP Node Information Query",
+        "codes": {
+          "0": "The Data field contains an IPv6 address which is the Subject of this Query.",
+          "1": "The Data field contains a name which is the Subject of this Query, or is empty, as in the case of a NOOP.",
+          "2": "The Data field contains an IPv4 address which is the Subject of this Query."
+        }
+      },
+      "140": {
+        "description": "ICMP Node Information Response",
+        "codes": {
+          "0": "A successful reply. The Reply Data field may or may not be empty.",
+          "1": "The Responder refuses to supply the answer. The Reply Data field will be empty.",
+          "2": "The Qtype of the Query is unknown to the Responder. The Reply Data field will be empty."
+        }
+      },
+      "141": {
+        "description": "Inverse Neighbor Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "142": {
+        "description": "Inverse Neighbor Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "144": {
+        "description": "Home Agent Address Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "145": {
+        "description": "Home Agent Address Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "146": {
+        "description": "Mobile Prefix Solicitation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "147": {
+        "description": "Mobile Prefix Advertisement",
+        "codes": {
+          "0": ""
+        }
+      },
+      "160": {
+        "description": "Extended Echo Request",
+        "codes": {
+          "0": "No error"
+        }
+      },
+      "161": {
+        "description": "Extended Echo Reply",
+        "codes": {
+          "0": "No error",
+          "1": "Malformed Query",
+          "2": "No Such Interface",
+          "3": "No Such Table Entry",
+          "4": "Multiple Interfaces Satisfy Query"
+        }
+      },
+      "200": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "201": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "255": {
+        "description": "Reserved for expansion of ICMPv6 informational messages",
+        "codes": {
+          "0": ""
         }
       }
     },
@@ -1258,6 +1477,8 @@
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
     "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
     "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
+    "SHOW_ADDITIONAL_FIELDS": "Show additional fields",
+    "HIDE_ADDITIONAL_FIELDS": "Hide additional fields",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Custom offering",
       "CPU_NUMBER": "CPU cores",
@@ -1272,7 +1493,11 @@
       "NETWORK_RATE": "Network rate (MB/s)",
       "CPU_NUMBER": "CPU cores",
       "CPU_SPEED": "CPU (MHz)",
-      "MEMORY": "Memory (MB)"
+      "MEMORY": "Memory (MB)",
+      "DISK_BYTES_READ": "Disk read rate (MB/s)",
+      "DISK_BYTES_WRITE": "Disk write rate (MB/s)",
+      "DISK_IOPS_READ": "Disk read rate (IO/s)",
+      "DISK_IOPS_WRITE": "Disk write rate (IO/s)"
     },
     "MODES": {
       "FIXED": "Fixed",

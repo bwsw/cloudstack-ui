@@ -8,6 +8,7 @@ export class MockDialogService {
   public alert(config: AlertDialogConfiguration): Observable<void> {
     return Observable.of(null);
   }
+
   public confirm(config: ConfirmDialogConfiguration): Observable<void> {
     return Observable.of(null);
   }
