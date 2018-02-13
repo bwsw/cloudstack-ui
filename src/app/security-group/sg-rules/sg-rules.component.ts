@@ -122,10 +122,6 @@ export class SgRulesComponent implements OnChanges {
   }
 
   public isCidrValid(input: string) {
-    const test1 = '0.0.0.0/0';
-    const test2 = '2001:DB8::/128';
-    console.log(Utils.cidrType(test1), Utils.cidrType(test2));
-
     return input && Utils.cidrIsValid(input);
   }
 
