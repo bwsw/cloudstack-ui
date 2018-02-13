@@ -81,7 +81,7 @@ Click “Show additional fields” to expand the list of optional settings. It a
 
 Once all fields are filled in click "Create" to create the new template.
 
-.. figure:: _static/Snapshots_CreateTemplate.png
+.. figure:: _static/Snapshots_CreateTemplate1.png
 
 Click "Cancel" to cancel the template creation.
 
