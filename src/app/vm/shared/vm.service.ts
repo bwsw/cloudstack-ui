@@ -9,7 +9,10 @@ import {
 } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import { BaseBackendService } from '../../shared/services/base-backend.service';
+import {
+  BaseBackendService,
+  CSCommands
+} from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
@@ -85,15 +88,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public deploy(params: {}): Observable<any> {
-    return this.sendCommand('deploy', params);
+    return this.sendCommand(CSCommands.Deploy, params);
   }
 
-/*   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
-     return this.asyncJobService.getList().map(jobs => {
-       return jobs.filter(job => !job.jobstatus && mapCmd(job))
-         .map(job => this.registerVmJob(job));
-     });
-   }*/
+  /*   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
+       return this.asyncJobService.getList().map(jobs => {
+         return jobs.filter(job => !job.jobstatus && mapCmd(job))
+           .map(job => this.registerVmJob(job));
+       });
+     }*/
 
 
   public command(
@@ -132,12 +135,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public addIpToNic(nicId: string): Observable<any> {
-    return this.sendCommand('addIpTo', { nicId }, 'Nic')
+    return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic')
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
-    return this.sendCommand('removeIpFrom', { id: ipId }, 'Nic')
+    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic')
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
@@ -160,7 +163,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       ];
     }
 
-    return this.sendCommand('changeServiceFor', params)
+    return this.sendCommand(CSCommands.ChangeServiceFor, params)
       .map(result => this.prepareModel(result['virtualmachine']));
   }
 

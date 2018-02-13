@@ -221,5 +221,21 @@ Account tags are available only for the last API version. If you are using anoth
 "accountTagsEnabled": false
 ```
 
+### Sidebar Order
+This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
+For example, 
+```
+"sidebarOrder": [
+  "vms",
+  "volumes",
+  "templates",
+  "sgs",
+  "events",
+  "ssh",
+  "accounts",
+ "settings"
+]
+```
+
 ### Extensions
 Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for extension configuration options.

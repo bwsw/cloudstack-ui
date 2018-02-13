@@ -1,16 +1,11 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/index';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
+// tslint:disable-next-line
+import { SnapshotActionService } from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
 import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
 
 import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
@@ -22,7 +17,10 @@ import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.redu
   template: `
     <cs-snapshot-modal
       [volume]="volume$ | async"
-      (onSnapshotDelete)="snapshotDeleted($event)"
+      (onTemplateCreate)="onTemplateCreate($event)"
+      (onVolumeCreate)="onVolumeCreate($event)"
+      (onSnapshotRevert)="onSnapshotRevert($event)"
+      (onSnapshotDelete)="onSnapshotDelete($event)"
     >
     </cs-snapshot-modal>`,
 })
@@ -34,7 +32,9 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<SnapshotModalContainerComponent>,
+    public dialog: MatDialog,
     private store: Store<State>,
+    private snapshotActionService: SnapshotActionService
   ) {
     super();
     this.store.dispatch(new volumeActions.LoadSelectedVolume(data.volumeId));
@@ -53,7 +53,19 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       });
   }
 
-  public snapshotDeleted(snapshot: Snapshot) {
+  public onTemplateCreate(snapshot: Snapshot) {
+    this.snapshotActionService.showTemplateCreationDialog(snapshot);
+  }
+
+  public onVolumeCreate(snapshot: Snapshot) {
+    this.snapshotActionService.showVolumeCreationDialog(snapshot);
+  }
+
+  public onSnapshotDelete(snapshot: Snapshot): void {
     this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+  }
+
+  public onSnapshotRevert(snapshot: Snapshot): void {
+    this.store.dispatch(new snapshotActions.RevertVolumeToSnapshot(snapshot));
   }
 }

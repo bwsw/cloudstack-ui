@@ -11,6 +11,7 @@ import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-a
 import { isRoot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
@@ -42,6 +43,25 @@ export class VolumesEffects {
         .map(createdVolume => {
           this.dialog.closeAll();
           return new volumeActions.CreateSuccess(createdVolume);
+        })
+        .catch((error: Error) => {
+          return Observable.of(new volumeActions.CreateError(error));
+        });
+    });
+  @Effect()
+  createVolumeFromSnapshot$: Observable<Action> = this.actions$
+    .ofType(volumeActions.CREATE_VOLUME_FROM_SNAPSHOT)
+    .switchMap((action: volumeActions.CreateVolumeFromSnapshot) => {
+      return this.volumeService.createFromSnapshot(action.payload)
+        .map(job => {
+          const createdVolume = job.jobresult['volume'];
+          this.dialog.closeAll();
+          console.log(createdVolume);
+          this.onNotify(
+            createdVolume,
+            'NOTIFICATIONS.VOLUME.VOLUME_FROM_SNAPSHOT_CREATED'
+          );
+          return new volumeActions.CreateVolumeFromSnapshotSuccess(createdVolume);
         })
         .catch((error: Error) => {
           return Observable.of(new volumeActions.CreateError(error));
@@ -319,10 +339,18 @@ export class VolumesEffects {
     private volumeTagService: VolumeTagService,
     private router: Router,
     private snapshotService: SnapshotService,
+    private notificationService: NotificationService,
     private jobsNotificationService: JobsNotificationService,
     private dialog: MatDialog,
     private store: Store<State>
   ) {
+  }
+
+  private onNotify(volume: Volume, message: string) {
+    this.notificationService.message({
+      translationToken: message,
+      interpolateParams: { name: volume.name }
+    });
   }
 
   private handleError(error): void {

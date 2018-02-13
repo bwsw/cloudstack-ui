@@ -1,20 +1,14 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import {
   TableDatabase,
   TableDataSource
 } from '../../../../../shared/components/table/table';
 import { getDateSnapshotCreated, Volume } from '../../../../../shared/models';
-import {
-  SnapshotAction,
-  SnapshotActionsService
-} from '../../../../../snapshot/snapshot-actions.service';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
+import {
+  SnapshotActions,
+  SnapshotActionService
+} from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
 
 @Component({
   selector: 'cs-snapshot-modal',
@@ -26,10 +20,13 @@ export class SnapshotModalComponent implements OnChanges {
   public dataBase: TableDatabase;
   public dataSource: TableDataSource | null;
   @Input() public volume: Volume;
-  @Output() public onSnapshotDelete = new EventEmitter<Snapshot>();
+  @Output() public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output() public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output() public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output() public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
 
   constructor(
-    public snapshotActionsService: SnapshotActionsService,
+    public snapshotActionsService: SnapshotActionService,
   ) {
     this.dataBase = new TableDatabase();
     this.dataSource = new TableDataSource(this.dataBase);
@@ -39,13 +36,25 @@ export class SnapshotModalComponent implements OnChanges {
     this.dataBase.update(this.volume.snapshots);
   }
 
-  public onAction(action: SnapshotAction, snapshot: Snapshot) {
-    action.activate(snapshot).subscribe(
-      () => {
-        if (action.command === 'delete') {
-          this.onSnapshotDelete.emit(snapshot);
-        }
-      });
+  public onAction(action, snapshot: Snapshot) {
+    switch (action.command) {
+      case SnapshotActions.CreateTemplate: {
+        this.onTemplateCreate.emit(snapshot);
+        break;
+      }
+      case SnapshotActions.CreateVolume: {
+        this.onVolumeCreate.emit(snapshot);
+        break;
+      }
+      case SnapshotActions.Revert: {
+        this.onSnapshotRevert.emit(snapshot);
+        break;
+      }
+      case SnapshotActions.Delete: {
+        this.onSnapshotDelete.emit(snapshot);
+        break;
+      }
+    }
   }
 
   public snapshotCreatedDate(snapshot: Snapshot) {
