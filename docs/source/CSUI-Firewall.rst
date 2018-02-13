@@ -136,7 +136,9 @@ Security Group Details Sidebar
 """"""""""""""""""""""""""""""""""""""
 You can see the firewall rules details in the sidebar to the right. 
 
-Click the template/shared/private security group in the list and open the sidebar. You will see two tabs there - Details and Tags. The Details tab contains the following information:
+Click the template/shared/private security group in the list and open the sidebar. You will see two tabs there - Details and Tags. 
+
+The **Details** tab contains the following information:
 
 - Name of the security group;
 - :ref:`SG_Action_Box` under |actions icon|;
@@ -144,15 +146,25 @@ Click the template/shared/private security group in the list and open the sideba
 - Description giving an idea what the security group contains (not available for private security groups);
 - Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``. For private security groups you will see ``private``.
 
-.. figure:: _static/Firewall_TemplateDetails.png
+.. figure:: _static/Firewall_TemplateDetails1.png
  
 For shared security groups you also can see what virtual machines this group is assigned to. The machine name in the list is active. You can move to the virtual machine details bar by clicking it.
  
-.. figure:: _static/Firewall_SharedSGDetails.png
+.. figure:: _static/Firewall_SharedSGDetails1.png
 
 For private security groups a VM name is also displayed in the details sidebar, but it is not active.
 
-The Tags tab presents the list of tags assigned to the security group. System tags are listed in a separate card. Using the search tool above you can quickly find a tag by its name. Click |create icon| to add a tag.
+The **Tags** tab presents the list of tags assigned to the security group. Using the search tool above you can quickly find a tag by its name. 
+
+System tags are listed in a separate card.
+
+.. figure:: _static/Firewall_Tags.png
+
+Сlick |create icon| to add a tag. Enter a key and a value. 
+
+.. figure:: _static/Firewall_Details_Tags.png
+
+Click "Create" to create the new tag. It will be saved in a separate card.
 
 An existing tag can be edited or deleted by clicking a correspondent icon next to the tag's name.
 
