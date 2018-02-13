@@ -28,8 +28,7 @@ Group snapshots by accounts (available for Administrators) and/or by type.
 The searching tool allows to find a snapshot by:
 
 - its name or a part of the name;
-- description;
-- creation date.
+- snapshot description.
 
 For each snapshot in the list the following information is presented:
 
