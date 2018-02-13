@@ -126,11 +126,15 @@ In this section you can specify classes for service offerings in the following f
         "description": {
           "ru": "class_description_ru",
           "en": "class_description_en"
-        }
+        },
+        "serviceOfferings": [
+          "so-id1",
+          "so-id2"
+        ]
        }
     ]
     
-Each classes should have a unique id, name, and description. Name and description should be localized for used languages.
+Each classes should have a unique id, name, description and list of service offering ids, which belong to this class. Name and description should be localized for used languages.
 
 ### Session Timeout
 
