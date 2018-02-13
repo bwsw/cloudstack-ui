@@ -1,17 +1,9 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
-import { State } from '../../reducers/index';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
+import { State } from '../../reducers/index';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
-import {
-  Volume,
-  volumeTypeNames
-} from '../../shared/models/volume.model';
+import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
+import { Volume, volumeTypeNames } from '../../shared/models/volume.model';
 import { AuthService } from '../../shared/services/auth.service';
 
 
@@ -20,6 +12,7 @@ import { AuthService } from '../../shared/services/auth.service';
   template: `
     <cs-volume-page
       [volumes]="volumes$ | async"
+      [query]="query$ | async"
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
@@ -28,6 +21,7 @@ import { AuthService } from '../../shared/services/auth.service';
 export class VolumePageContainerComponent implements OnInit, AfterViewInit {
 
   readonly volumes$ = this.store.select(fromVolumes.selectFilteredVolumes);
+  readonly query$ = this.store.select(fromVolumes.filterQuery);
   readonly loading$ = this.store.select(fromVolumes.isLoading);
   readonly selectedGroupings$ = this.store.select(fromVolumes.filterSelectedGroupings);
 
@@ -35,8 +29,8 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
     {
       key: 'zones',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ZONES',
-      selector: (item: Volume) => item.zoneId,
-      name: (item: Volume) => item.zoneName
+      selector: (item: Volume) => item.zoneid,
+      name: (item: Volume) => item.zonename
     },
     {
       key: 'types',
@@ -63,7 +57,7 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
     private cd: ChangeDetectorRef
   ) {
     if (!this.isAdmin()) {
-      this.groupings = this.groupings.filter(g => g.key != 'accounts');
+      this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }
   }
 

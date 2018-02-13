@@ -4,12 +4,12 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { ResourceCount } from '../models/resource-count.model';
+import { CSCommands } from './base-backend.service';
 
 
 @Injectable()
 @BackendResource({
-  entity: 'ResourceCount',
-  entityModel: ResourceCount
+  entity: 'ResourceCount'
 })
 export class ResourceCountService extends BaseBackendCachedService<ResourceCount> {
   constructor(protected http: HttpClient) {
@@ -19,6 +19,6 @@ export class ResourceCountService extends BaseBackendCachedService<ResourceCount
   public updateResourceCount(
     params: { [key: string]: string; }
   ): Observable<Array<ResourceCount>> {
-    return this.sendCommand('update', params).map(response => this.formatGetListResponse(response).list);
+    return this.sendCommand(CSCommands.Update, params).map(response => this.formatGetListResponse(response).list);
   }
 }

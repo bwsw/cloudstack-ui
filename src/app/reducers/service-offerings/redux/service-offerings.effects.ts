@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import * as serviceOfferingActions from './service-offerings.actions';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import { Observable } from 'rxjs/Observable';
+// tslint:disable-next-line
+import { DefaultCustomServiceOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
+// tslint:disable-next-line
+import {
+  customServiceOfferingFallbackParams,
+  DefaultServiceOfferingConfigurationByZone
+} from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { ConfigService } from '../../../shared/services/config.service';
-import { DefaultServiceOfferingConfigurationByZone } from '../../../service-offering/custom-service-offering/service/custom-service-offering.service';
+import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import * as accountTagActions from '../../account-tags/redux/account-tags.actions';
+
+import * as serviceOfferingActions from './service-offerings.actions';
 
 @Injectable()
 export class ServiceOfferingEffects {
@@ -38,24 +43,47 @@ export class ServiceOfferingEffects {
   loadDefaultParams$: Observable<Action> = this.actions$
     .ofType(serviceOfferingActions.LOAD_DEFAULT_PARAMS_REQUEST)
     .map((action: serviceOfferingActions.LoadDefaultParamsRequest) => {
-      return new serviceOfferingActions.LoadDefaultParamsResponse(
-        this.configService.get<DefaultServiceOfferingConfigurationByZone>(
-          'defaultServiceOfferingConfig')
-      );
+      const paramsFromConfig = this.configService
+        .get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
+      const params = paramsFromConfig && Object.entries(paramsFromConfig).length
+        ? paramsFromConfig : customServiceOfferingFallbackParams;
+
+      return new serviceOfferingActions.LoadDefaultParamsResponse(params);
     });
 
   @Effect()
   loadCustomRestrictions$: Observable<Action> = this.actions$
     .ofType(serviceOfferingActions.LOAD_CUSTOM_RESTRICTION_REQUEST)
     .map((action: serviceOfferingActions.LoadCustomRestrictionsRequest) => {
-      return new serviceOfferingActions.LoadCustomRestrictionsResponse(
-        this.configService.get('customOfferingRestrictions')
+      const restrictions = this.configService.get('customOfferingRestrictions')
+      && Object.entries(this.configService.get('customOfferingRestrictions')).length
+        ? this.configService.get('customOfferingRestrictions')
+        : DefaultCustomServiceOfferingRestrictions;
+
+      return new serviceOfferingActions.LoadCustomRestrictionsResponse(restrictions);
+    });
+
+  @Effect()
+  loadCompatibilityPolicy$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.LOAD_COMPATIBILITY_POLICY_REQUEST)
+    .map((action: serviceOfferingActions.LoadCompatibilityPolicyRequest) => {
+      return new serviceOfferingActions.LoadCompatibilityPolicyResponse(
+        this.configService.get('offeringCompatibilityPolicy')
       );
     });
+
+  @Effect()
+  updateCustomServiceOffering$: Observable<Action> = this.actions$
+    .ofType(serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING)
+    .map((action: serviceOfferingActions.UpdateCustomServiceOffering) => {
+      return new accountTagActions.UpdateCustomServiceOfferingParams(action.payload);
+    });
+
 
   constructor(
     private actions$: Actions,
     private offeringService: ServiceOfferingService,
     private configService: ConfigService
   ) { }
+
 }

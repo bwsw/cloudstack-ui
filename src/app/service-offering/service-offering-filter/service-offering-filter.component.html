@@ -1,0 +1,39 @@
+<div class="options-panel filter-wrapper">
+  <mat-button-toggle-group
+    (change)="setMode($event.value)"
+    name="viewMode"
+    [ngModel]="viewMode"
+  >
+    <mat-button-toggle [value]="ServiceOfferingType.fixed">
+      {{ 'SERVICE_OFFERING.MODES.FIXED' | translate }}
+    </mat-button-toggle>
+    <mat-button-toggle
+      [value]="ServiceOfferingType.custom"
+      [attr.cdkFocusRegionStart]="viewMode === ServiceOfferingType.custom">
+      {{ 'SERVICE_OFFERING.MODES.CUSTOM' | translate }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <mat-form-field *ngIf="classes?.length > 1">
+    <mat-select
+      multiple="true"
+      [placeholder]="'SERVICE_OFFERING.FILTERS.SELECT_CLASSES' | translate"
+      [ngModel]="selectedClasses"
+      (selectionChange)="selectedClassesChange.emit($event.value)"
+    >
+      <mat-option
+        *ngFor="let c of classes"
+        [value]="c.id"
+      >
+        {{ getName(c) | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="filter-wrapper">
+  <cs-search
+    [ngModel]="query"
+    (ngModelChange)="queryChange.emit($event)"
+  ></cs-search>
+</div>

@@ -32,6 +32,7 @@ import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'core-js/es6/weak-map';
 import 'core-js/es7/object';
+import 'core-js/es7/array';
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
 /** IE10 and IE11 requires the following to support `@angular/animation`. */
@@ -80,3 +81,4 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/operator/mergeMap';

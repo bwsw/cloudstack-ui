@@ -1,18 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../decorators/backend-resource.decorator';
 import { Account } from '../models/account.model';
-import { BaseBackendService } from './base-backend.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { AsyncJobService } from './async-job.service';
+import { BaseBackendService, CSCommands } from './base-backend.service';
 
 @Injectable()
 @BackendResource({
-  entity: 'Account',
-  entityModel: Account
+  entity: 'Account'
 })
 export class AccountService extends BaseBackendService<Account> {
 
-  constructor(protected http: HttpClient) {
+  constructor(
+    protected http: HttpClient,
+    private asyncJobService: AsyncJobService
+  ) {
     super(http);
   }
 
@@ -20,29 +23,23 @@ export class AccountService extends BaseBackendService<Account> {
     return this.getList(params).map(accounts => accounts[0]);
   }
 
-  public removeAccount(account: Account): Observable<{ jobid: string }> {
-    return this.sendCommand('delete', {
-      id: account.id,
-    });
+  public removeAccount(account: Account): Observable<Account> {
+    return this.sendCommand(CSCommands.Delete, { id: account.id })
+      .switchMap(job => this.asyncJobService.queryJob(job))
+      .switchMap(response => Observable.of(account));
   }
 
-  public disableAccount(account: Account): Observable<{ jobid: string }> {
-    return this.sendCommand('disable', {
+  public disableAccount(account: Account): Observable<Account> {
+    return this.sendCommand(CSCommands.Disable, {
       id: account.id,
       lock: false
-    });
+    }).switchMap(job => this.asyncJobService.queryJob(job))
+      .switchMap(response => Observable.of(response.result.account));
   }
 
-  public lockAccount(account: Account): Observable<{ jobid: string }> {
-    return this.sendCommand('disable', {
-      id: account.id,
-      lock: true
-    });
-  }
-
-  public enableAccount(account: Account): Observable<{ account: Account }> {
-    return this.sendCommand('enable', {
+  public enableAccount(account: Account): Observable<Account> {
+    return this.sendCommand(CSCommands.Enable, {
       id: account.id
-    });
+    }).map(res => res.account);
   }
 }

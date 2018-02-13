@@ -1,13 +1,5 @@
-import {
-  Injectable,
-  NO_ERRORS_SCHEMA,
-  Pipe,
-  PipeTransform
-} from '@angular/core';
-import {
-  async,
-  TestBed
-} from '@angular/core/testing';
+import { Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -15,15 +7,13 @@ import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../../components/slider/slider.component';
-import {
-  DiskOffering,
-  Volume
-} from '../../../models';
+import { DiskOffering, Volume } from '../../../models';
+import { StorageTypes } from '../../../models/offering.model';
 import { VolumeType } from '../../../models/volume.model';
 import { DiskOfferingService } from '../../../services/disk-offering.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
-import { VolumeResizeComponent } from './volume-resize.component';
 import { ResourceUsageService } from '../../../services/resource-usage.service';
+import { VolumeResizeComponent } from './volume-resize.component';
 
 
 @Injectable()
@@ -51,7 +41,7 @@ class MockDiskOfferingService {
   name: 'division'
 })
 export class MockDivisionPipe implements PipeTransform {
-  public transform(): number|string {
+  public transform(): number | string {
     return 0;
   }
 }
@@ -64,9 +54,12 @@ describe('volume resize for root disks', () => {
 
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
+    const jobsNotificationService = jasmine.createSpyObj(
+      'JobsNotificationService',
+      ['add', 'finish', 'fail']
+    );
 
-    const testVolume = new Volume('');
+    const testVolume = {} as Volume;
     testVolume.id = '1';
     testVolume.size = 1;
     testVolume.type = VolumeType.ROOT;
@@ -93,8 +86,8 @@ describe('volume resize for root disks', () => {
     });
 
     fixture = TestBed
-      .overrideComponent(OverlayLoadingComponent, { set: { template: '' }})
-      .overrideComponent(SliderComponent, { set: { template: '' }})
+      .overrideComponent(OverlayLoadingComponent, { set: { template: '' } })
+      .overrideComponent(SliderComponent, { set: { template: '' } })
       .createComponent(VolumeResizeComponent);
 
     component = fixture.componentInstance;
@@ -106,8 +99,22 @@ describe('volume resize for root disks', () => {
     component.newSize = newVolumeSize;
     spyOn(component.onDiskResized, 'emit').and.callThrough();
 
-    const diskOffering = new DiskOffering();
-    diskOffering.id = 'diskOfferingId';
+    const diskOffering: DiskOffering = {
+      disksize: 1,
+      id: 'diskofferingid',
+      name: 'Disk Offering',
+      displaytext: 'About disk offering',
+      diskBytesReadRate: 1,
+      diskBytesWriteRate: 1,
+      diskIopsReadRate: 1,
+      diskIopsWriteRate: 1,
+      iscustomized: true,
+      miniops: 1,
+      maxiops: 1,
+      storagetype: StorageTypes.local,
+      provisioningtype: '',
+    };
+    diskOffering.id = 'diskofferingid';
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
@@ -126,9 +133,12 @@ describe('volume resize for data disks', () => {
 
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
+    const jobsNotificationService = jasmine.createSpyObj(
+      'JobsNotificationService',
+      ['add', 'finish', 'fail']
+    );
 
-    const testVolume = new Volume('');
+    const testVolume = {} as Volume;
     testVolume.id = '1';
     testVolume.size = 1;
     testVolume.type = VolumeType.DATADISK;
@@ -155,8 +165,8 @@ describe('volume resize for data disks', () => {
     });
 
     fixture = TestBed
-      .overrideComponent(OverlayLoadingComponent, { set: { template: '' }})
-      .overrideComponent(SliderComponent, { set: { template: '' }})
+      .overrideComponent(OverlayLoadingComponent, { set: { template: '' } })
+      .overrideComponent(SliderComponent, { set: { template: '' } })
       .createComponent(VolumeResizeComponent);
 
     component = fixture.componentInstance;
@@ -168,15 +178,28 @@ describe('volume resize for data disks', () => {
     component.newSize = newVolumeSize;
     spyOn(component.onDiskResized, 'emit').and.callThrough();
 
-    const diskOffering = new DiskOffering();
-    diskOffering.id = 'diskOfferingId';
+    const diskOffering = {
+      disksize: 1,
+      id: 'diskofferingid',
+      name: 'Disk Offering',
+      displaytext: 'About disk offering',
+      diskBytesReadRate: 1,
+      diskBytesWriteRate: 1,
+      diskIopsReadRate: 1,
+      diskIopsWriteRate: 1,
+      iscustomized: true,
+      miniops: 1,
+      maxiops: 1,
+      storagetype: StorageTypes.local,
+      provisioningtype: '',
+    }
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
     expect(component.onDiskResized.emit).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
-      diskOfferingId: diskOffering.id
+      diskOfferingId: component.diskOffering.id
     });
   });
 });

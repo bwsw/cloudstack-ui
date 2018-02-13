@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../../decorators/backend-resource.decorator';
-import { Taggable } from '../../interfaces/taggable.interface';
 import { Tag } from '../../models/tag.model';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendCachedService } from '../base-backend-cached.service';
@@ -10,8 +9,7 @@ import { BaseBackendCachedService } from '../base-backend-cached.service';
 
 @Injectable()
 @BackendResource({
-  entity: 'Tag',
-  entityModel: Tag
+  entity: 'Tag'
 })
 export class TagService extends BaseBackendCachedService<Tag> {
   constructor(
@@ -40,7 +38,7 @@ export class TagService extends BaseBackendCachedService<Tag> {
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({resourceId: entity.id, key})
+    return this.getList({resourceid: entity.id, key})
       .map(tags => tags[0]);
   }
 
@@ -55,14 +53,18 @@ export class TagService extends BaseBackendCachedService<Tag> {
     })
       .map(() => {
         if (newEntity.tags) {
-         const newTags = Object.assign([], newEntity.tags);
-          newTags.push(new Tag({
-            resourceId: newEntity.id,
-            resourceType: entityName,
+          const newTags: Tag[] = [...newEntity.tags];
+          newTags.push(<Tag>{
+            resourceid: newEntity.id,
+            resourcetype: entityName,
             key,
             value
-          }));
-          return Object.assign({}, newEntity, { tags: newTags });
+          });
+          return Object.assign(
+            {},
+            newEntity,
+            { tags: newTags }
+          );
         }
         return newEntity;
       })
@@ -80,23 +82,6 @@ export class TagService extends BaseBackendCachedService<Tag> {
           .switchMap(() => createObs);
       })
       .catch(() => createObs);
-  }
-
-  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
-    const copyRequests = tags.map(tag => {
-      return this.update(
-        entity,
-        entity.resourceType,
-        tag.key,
-        tag.value
-      );
-    });
-
-    if (!copyRequests.length) {
-      return Observable.of(null);
-    } else {
-      return Observable.forkJoin(...copyRequests);
-    }
   }
 
   public getValueFromTag(tag: Tag): any {

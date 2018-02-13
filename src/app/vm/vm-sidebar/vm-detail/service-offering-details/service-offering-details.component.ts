@@ -1,15 +1,10 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig
-} from '@angular/material';
+import { Component, Input } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+
+import * as moment from 'moment';
 import { ServiceOffering } from '../../../../shared/models/service-offering.model';
 import { ServiceOfferingDialogContainerComponent } from '../../../container/service-offering-dialog.container';
-import { VirtualMachine } from '../../../shared/vm.model';
-
+import { VirtualMachine, VmState } from '../../../shared/vm.model';
 
 @Component({
   selector: 'cs-service-offering-details',
@@ -30,7 +25,7 @@ export class ServiceOfferingDetailsComponent {
 
   public changeServiceOffering(): void {
     this.dialog.open(ServiceOfferingDialogContainerComponent, <MatDialogConfig>{
-      width: '350px',
+      width: '700px',
       disableClose: true,
       data: { vm: this.vm }
     })
@@ -39,5 +34,13 @@ export class ServiceOfferingDetailsComponent {
 
   public toggleServiceOffering(): void {
     this.expandServiceOffering = !this.expandServiceOffering;
+  }
+
+  public get offeringCreated(): Date {
+    return this.offering && this.offering.created && moment(this.offering.created).toDate();
+  }
+
+  public get canActivate() {
+    return this.vm.state !== VmState.InProgress;
   }
 }

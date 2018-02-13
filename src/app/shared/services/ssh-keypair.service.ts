@@ -7,6 +7,7 @@ import { BackendResource } from '../decorators';
 import { SSHKeyPair } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
+import { CSCommands } from './base-backend.service';
 
 
 export interface SshKeyCreationData {
@@ -16,9 +17,9 @@ export interface SshKeyCreationData {
 
 @Injectable()
 @BackendResource({
-  entity: 'SSHKeyPair',
-  entityModel: SSHKeyPair
+  entity: 'SSHKeyPair'
 })
+
 export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
   constructor(
     private asyncJobService: AsyncJobService,
@@ -33,18 +34,18 @@ export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
 
   public create(params: SshKeyCreationData): Observable<SSHKeyPair> {
     this.invalidateCache();
-    return this.sendCommand('create', params)
+    return this.sendCommand(CSCommands.Create, params)
       .map(response => this.prepareModel(response['keypair']));
   }
 
   public register(params: SshKeyCreationData): Observable<SSHKeyPair> {
     this.invalidateCache();
-    return this.sendCommand('register', params)
+    return this.sendCommand(CSCommands.Register, params)
       .map(response => this.prepareModel(response['keypair']));
   }
 
   public reset(params): Observable<VirtualMachine> {
-    return this.sendCommand('reset;ForVirtualMachine', params, 'SSHKey')
+    return this.sendCommand(CSCommands.ResetForVM, params, 'SSHKey')
       .switchMap(job =>
         this.asyncJobService.queryJob(job.jobid, 'VirtualMachine', VirtualMachine)
       );

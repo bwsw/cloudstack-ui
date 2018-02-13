@@ -12,7 +12,6 @@ export const TEMPLATE_CREATE_ERROR = '[Templates] TEMPLATE_CREATE_ERROR';
 export const TEMPLATE_REMOVE = '[Templates] TEMPLATE_REMOVE';
 export const TEMPLATE_REMOVE_SUCCESS = '[Templates] TEMPLATE_REMOVE_SUCCESS';
 export const TEMPLATE_REMOVE_ERROR = '[Templates] TEMPLATE_REMOVE_ERROR';
-export const DIALOG_LOAD_TEMPLATE_REQUEST = '[Templates] DIALOG_LOAD_TEMPLATE_REQUEST';
 export const DIALOG_TEMPLATE_FILTER_UPDATE = '[Templates] DIALOG_TEMPLATE_FILTER_UPDATE';
 export const UPDATE_TEMPLATE = '[Templates] UPDATE_TEMPLATE';
 export const SET_TEMPLATE_GROUP = '[Templates] SET_TEMPLATE_GROUP';
@@ -47,13 +46,6 @@ export class TemplatesFilterUpdate implements Action {
   readonly type = TEMPLATE_FILTER_UPDATE;
 
   constructor(public payload: any) {
-  }
-}
-
-export class DialogLoadTemplatesRequest implements Action {
-  readonly type = DIALOG_LOAD_TEMPLATE_REQUEST;
-
-  constructor(public payload: string) {
   }
 }
 
@@ -128,6 +120,7 @@ export class SetTemplateGroupSuccess implements Action {
   constructor(public payload: BaseTemplateModel) {
   }
 }
+
 export class SetTemplateGroupError implements Action {
   readonly type = SET_TEMPLATE_GROUP_ERROR;
 
@@ -154,7 +147,6 @@ export type Actions =
   | LoadTemplatesResponse
   | LoadSelectedTemplate
   | TemplatesFilterUpdate
-  | DialogLoadTemplatesRequest
   | DialogTemplatesFilterUpdate
   | RemoveTemplate
   | RemoveTemplateError

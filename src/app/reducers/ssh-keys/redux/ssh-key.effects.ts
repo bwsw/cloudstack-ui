@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { Action } from '@ngrx/store';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { SshPrivateKeyDialogComponent } from '../../../ssh-keys/ssh-key-creation/ssh-private-key-dialog.component';
+import { MatDialog } from '@angular/material';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { Router } from '@angular/router';
 
 import * as sshKey from './ssh-key.actions';
-
 
 @Injectable()
 export class SshKeyEffects {
@@ -74,9 +73,12 @@ export class SshKeyEffects {
   @Effect({ dispatch: false })
   createSshKeySuccessPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_CREATE_SUCCESS)
-    .filter((action: sshKey.CreateSshKeyPairSuccessAction) => !!action.payload.privateKey)
     .do((action: sshKey.CreateSshKeyPairSuccessAction) => {
-      this.showPrivateKey(action.payload.privateKey);
+      if (action.payload.privatekey) {
+        this.showPrivateKey(action.payload.privatekey);
+      } else {
+        this.dialog.closeAll();
+      }
     });
 
   @Effect({ dispatch: false })

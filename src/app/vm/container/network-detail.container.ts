@@ -1,19 +1,14 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { VirtualMachine } from '../shared/vm.model';
+import { IpAddress } from '../../shared/models/ip-address.model';
 
 @Component({
   selector: 'cs-storage-details-container',
   template: `
-    <cs-nic-list 
+    <cs-nic-list
       [vm]="vm$ | async"
       (onSecondaryIpAdd)="addSecondaryIp($event)"
       (onSecondaryIpRemove)="removeSecondaryIp($event)"
@@ -23,43 +18,31 @@ import { VirtualMachine } from '../shared/vm.model';
     ></cs-firewall-rules-detail-container>
   `
 })
-export class NetworkDetailContainerComponent extends WithUnsubscribe() implements OnInit {
+export class NetworkDetailContainerComponent {
 
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
-
-  public vm: VirtualMachine;
-
 
   constructor(
     private store: Store<State>,
   ) {
-    super();
   }
 
-  public addSecondaryIp(nicId) {
-    this.store.dispatch(new vmActions.AddSecondaryIp({
-      vm: this.vm,
-      nicId
-    }));
+  public addSecondaryIp(nicId: string) {
+    this.vm$.take(1).subscribe(vm => {
+      this.store.dispatch(new vmActions.AddSecondaryIp({
+        vm,
+        nicId
+      }));
+    });
   }
 
-  public removeSecondaryIp(secondaryIp) {
-    this.store.dispatch(new vmActions.RemoveSecondaryIp({
-      vm: this.vm,
-      id: secondaryIp.id
-    }));
-  }
-
-  public ngOnInit() {
-    this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.vm$
-      .takeUntil(this.unsubscribe$)
-      .subscribe(vm => {
-        if (vm) {
-          this.vm = new VirtualMachine(vm);
-          this.store.dispatch(new zoneActions.LoadSelectedZone(this.vm.zoneId));
-        }
-      });
+  public removeSecondaryIp(secondaryIp: IpAddress) {
+    this.vm$.take(1).subscribe(vm => {
+      this.store.dispatch(new vmActions.RemoveSecondaryIp({
+        vm,
+        id: secondaryIp.id
+      }));
+    });
   }
 
 }

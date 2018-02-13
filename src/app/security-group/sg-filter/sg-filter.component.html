@@ -4,13 +4,19 @@
     [(ngModel)]="viewMode"
     (change)="viewModeChange.emit(this.viewMode)"
   >
-    <mat-button-toggle [value]="SecurityGroupViewMode.Templates">
+    <mat-button-toggle
+      [value]="SecurityGroupViewMode.Templates">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.TEMPLATES' | translate }}
     </mat-button-toggle>
     <mat-button-toggle
       [value]="SecurityGroupViewMode.Shared"
       [attr.cdkFocusRegionStart]="viewMode === SecurityGroupViewMode.Shared">
       {{ 'SECURITY_GROUP_PAGE.FILTERS.SHARED' | translate }}
+    </mat-button-toggle>
+    <mat-button-toggle
+      [value]="SecurityGroupViewMode.Private"
+      [attr.cdkFocusRegionStart]="viewMode === SecurityGroupViewMode.Private">
+      {{ 'SECURITY_GROUP_PAGE.FILTERS.PRIVATE' | translate }}
     </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
@@ -30,6 +36,14 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <span *ngIf="viewMode === SecurityGroupViewMode.Private && isOrphan">
+    <mat-checkbox
+      name="rule-checkbox"
+      [(ngModel)]="orphan"
+      (ngModelChange)="onOrphanChange.emit(orphan)"
+    >
+      {{ 'SECURITY_GROUP_PAGE.FILTERS.ORPHAN' | translate }}
+    </mat-checkbox>
+  </span>
   <cs-search [(ngModel)]="query" (ngModelChange)="queryChange.emit($event)"></cs-search>
 </div>
-

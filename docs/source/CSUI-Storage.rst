@@ -89,7 +89,7 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 
 .. figure:: _static/Storage_Create_ResizeDisk.png
    :scale: 70%
-
+   
 Click "Create" to save the settings and create the new volume. You will see the drive appears in the list.
 
 .. figure:: _static/Storage_Created1.png

@@ -1,16 +1,10 @@
-import { BaseModel } from './base.model';
-import { FieldMapper } from '../decorators/field-mapper.decorator';
+import { BaseModelInterface } from './base.model';
 
-
-@FieldMapper({
-  fingerprint: 'fingerPrint',
-  privatekey: 'privateKey'
-})
-export class SSHKeyPair extends BaseModel {
-  public name: string;
-  public fingerPrint: string;
-  public privateKey: string;
-  public account: string;
-  public domainid: string;
-  public domain: string;
+export interface SSHKeyPair extends BaseModelInterface {
+  name: string;
+  fingerprint: string;
+  privatekey: string;
+  account: string;
+  domainid: string;
+  domain: string;
 }

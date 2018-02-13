@@ -2,16 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../decorators';
-import { Snapshot } from '../models';
+import { AsyncJob, Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
+import { CSCommands } from './base-backend.service';
 import { SnapshotTagService } from './tags/snapshot-tag.service';
 
 
 @Injectable()
 @BackendResource({
-  entity: 'Snapshot',
-  entityModel: Snapshot
+  entity: 'Snapshot'
 })
 export class SnapshotService extends BaseBackendCachedService<Snapshot> {
 
@@ -31,9 +31,11 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     this.invalidateCache();
 
     const params = this.getSnapshotCreationParams(volumeId, name);
-    return this.sendCommand('create', params)
+    return this.sendCommand(CSCommands.Create, params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .switchMap(snapshot => {
+      .switchMap((response: AsyncJob<Snapshot>) => {
+        const snapshot = response.jobresult.snapshot;
+
         if (description) {
           return this.snapshotTagService.setDescription(snapshot, description);
         }
@@ -48,7 +50,12 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
 
   public remove(id: string): Observable<any> {
     this.invalidateCache();
-    return this.sendCommand('delete', { id })
+    return this.sendCommand(CSCommands.Delete, { id })
+      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+  }
+
+  public revert(id: string): Observable<AsyncJob<Snapshot>> {
+    return this.sendCommand(CSCommands.Revert, { id })
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 

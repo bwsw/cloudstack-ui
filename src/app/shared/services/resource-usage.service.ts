@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import {
-  ResourceLimit,
-  ResourceType,
-  Account
-} from '../models';
+import { Account, ResourceLimit, ResourceType } from '../models';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
 
 export class ResourcesData {
   public instances = 0;
-  public ips = 0;
   public volumes = 0;
-  public snapshots = 0;
   public cpus = 0;
   public memory = 0;
   public primaryStorage = 0;
+
+  public snapshots = 0;
+  public ips = 0;
   public secondaryStorage = 0;
 
   constructor(resources?: Array<ResourceLimit>) {
@@ -37,12 +34,29 @@ export class ResourceStats {
   public consumed: ResourcesData;
   public max: ResourcesData;
 
+  public static convertLimits(account: Account): Account {
+    const accountJson = { ...account };
+    Object.keys(accountJson)
+      .filter(key => key.endsWith('available') || key.endsWith('limit'))
+      .forEach(key => {
+        if (accountJson[key] === 'Unlimited') {
+          accountJson[key] = Infinity;
+        } else {
+          const value = +accountJson[key];
+          if (!isNaN(value)) {
+            accountJson[key] = value;
+          }
+        }
+      });
+    return accountJson as Account;
+  };
+
   public static fromAccount(accounts: Array<Account>): ResourceStats {
     const consumedResources = new ResourcesData();
     const maxResources = new ResourcesData();
     const availableResources = new ResourcesData();
 
-    accounts.forEach(a => {
+    accounts.map(a => this.convertLimits(a)).forEach(a => {
       consumedResources.instances += +a.vmtotal;
       consumedResources.cpus += +a.cputotal;
       consumedResources.ips += +a.iptotal;

@@ -1,14 +1,13 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
-import { LayoutService } from '../shared/services/layout.service';
-import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
+import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { State } from '../reducers/index';
+import { AuthService } from '../shared/services/auth.service';
+import { LayoutService } from '../shared/services/layout.service';
+import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
+import { getName } from '../shared/models/user.model';
 import * as authActions from '../reducers/auth/redux/auth.actions';
+import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
 
 @Component({
   selector: 'cs-home',
@@ -31,8 +30,9 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
       .takeUntil(this.unsubscribe$)
       .filter(isLoggedIn => !!isLoggedIn)
       .subscribe(() => {
+        this.store.dispatch(new serviceOfferingActions.LoadCompatibilityPolicyRequest());
         this.store.dispatch(new authActions.LoadUserAccountRequest({
-          mame: this.auth.user.account,
+          name: this.auth.user.account,
           domainid: this.auth.user.domainid
         }));
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
@@ -40,7 +40,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public get title(): string {
-    return this.auth.user ? this.auth.user.name : '';
+    return this.auth.user ? getName(this.auth.user) : '';
   }
 
   public get isDrawerOpen(): boolean {

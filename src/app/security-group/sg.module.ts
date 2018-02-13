@@ -28,6 +28,7 @@ import { SecurityGroupService } from './services/security-group.service';
 import { SecurityGroupActionService } from './sg-actions/sg-action.service';
 import { SecurityGroupActionsComponent } from './sg-actions/sg-actions-component/sg-actions.component';
 import { SgFilterComponent } from './sg-filter/sg-filter.component';
+import { SecurityGroupGroupedListComponent } from './sg-list/security-group-grouped-list.component';
 import { SgRuleComponent } from './sg-rules/sg-rule.component';
 import { SgRulesComponent } from './sg-rules/sg-rules.component';
 // tslint:disable-next-line
@@ -61,6 +62,9 @@ import { SecurityGroupCreationContainerComponent } from './containers/security-g
 import { SecurityGroupRulesDialogComponent } from './sg-rules/sg-rules-dialog.component';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
+import { SecurityGroupTagsComponent } from './sg-sidebar/sg-tags/sg-tags.component';
+import { SecurityGroupTagsContainerComponent } from './containers/sg-tags.container';
+import { TagsModule } from '../tags/tags.module';
 
 
 @NgModule({
@@ -87,6 +91,7 @@ import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
     MatButtonToggleModule,
     MatProgressSpinnerModule,
     DraggableSelectModule,
+    TagsModule,
     StoreModule.forFeature('securityGroups', securityGroupReducers),
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
@@ -120,8 +125,11 @@ import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
     SecurityGroupDetailsContainerComponent,
     SecurityGroupDetailsComponent,
     SecurityGroupVmListComponent,
+    SecurityGroupTagsComponent,
+    SecurityGroupTagsContainerComponent,
     SecurityGroupSidebarComponent,
     SecurityGroupRulesDialogComponent,
+    SecurityGroupGroupedListComponent
   ],
   providers: [
     NetworkRuleService,

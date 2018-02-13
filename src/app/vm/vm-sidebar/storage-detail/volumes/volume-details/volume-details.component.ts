@@ -4,8 +4,10 @@ import {
 } from '@angular/core';
 import {
   DiskOffering,
-  Volume
+  Volume,
+  getDescription
 } from '../../../../../shared/models';
+import * as moment from 'moment';
 
 @Component({
   selector: 'cs-volume-details',
@@ -14,7 +16,6 @@ import {
 })
 export class VolumeDetailsComponent {
   @Input() public volume: Volume;
-  @Input() public description: string;
   @Input() public diskOffering: DiskOffering;
 
 
@@ -24,7 +25,15 @@ export class VolumeDetailsComponent {
       'LOCAL': 'DISK_OFFERING_STORAGE_TYPE.LOCAL'
     };
 
-    return storageTypeTranslations[this.volume.storageType.toUpperCase()];
+    return storageTypeTranslations[this.volume.storagetype.toUpperCase()];
+  }
+
+  public get volumeCreated(): Date {
+    return moment(this.volume.created).toDate();
+  }
+
+  public get volumeDescription(): string {
+    return getDescription(this.volume);
   }
 
   public hasPerformanceInfo(): boolean {
@@ -34,8 +43,8 @@ export class VolumeDetailsComponent {
 
     const diskOffering = this.diskOffering;
     return [
-      diskOffering.minIops,
-      diskOffering.maxIops,
+      diskOffering.miniops,
+      diskOffering.maxiops,
       diskOffering.diskBytesReadRate,
       diskOffering.diskBytesWriteRate,
       diskOffering.diskIopsReadRate,

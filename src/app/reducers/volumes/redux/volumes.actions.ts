@@ -1,27 +1,25 @@
 import { Action } from '@ngrx/store';
-import {
-  Volume,
-  VolumeCreationData
-} from '../../../shared/models/volume.model';
-import { VolumeResizeData } from '../../../shared/services/volume.service';
-import { Snapshot } from '../../../shared/models/snapshot.model';
+import { Volume, VolumeCreationData } from '../../../shared/models/volume.model';
+import { VolumeFromSnapshotCreationData } from '../../../shared/services/volume.service';
+import { VirtualMachine } from '../../../vm';
 
 export const LOAD_VOLUMES_REQUEST = '[VOLUMES] LOAD_VOLUMES_REQUEST';
 export const LOAD_VOLUMES_RESPONSE = '[VOLUMES] LOAD_VOLUMES_RESPONSE';
 export const VOLUME_FILTER_UPDATE = '[VOLUMES] VOLUME_FILTER_UPDATE';
 export const LOAD_SELECTED_VOLUME = '[VOLUMES] LOAD_SELECTED_VOLUME';
 export const CREATE_VOLUME = '[VOLUMES] CREATE_VOLUME';
+export const CREATE_VOLUME_FROM_SNAPSHOT = '[VOLUMES] CREATE_VOLUME_FROM_SNAPSHOT';
+export const CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS = '[VOLUMES] CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS';
 export const DELETE_VOLUME = '[VOLUMES] DELETE_VOLUME';
+export const DELETE_VOLUMES = '[VOLUMES] DELETE_VOLUMES';
 export const UPDATE_VOLUME = '[VOLUMES] UPDATE_VOLUME';
 export const REPLACE_VOLUME = '[VOLUMES] REPLACE_VOLUME';
 export const ATTACH_VOLUME = '[VOLUMES] ATTACH_VOLUME';
+export const ATTACH_VOLUME_TO_VM = '[VOLUMES] ATTACH_VOLUME_TO_VM';
 export const DETACH_VOLUME = '[VOLUMES] DETACH_VOLUME';
 export const RESIZE_VOLUME = '[VOLUMES] RESIZE_VOLUME';
 export const RESIZE_VOLUME_SUCCESS = '[VOLUMES] RESIZE_VOLUME_SUCCESS';
-export const ADD_SNAPSHOT = '[VOLUMES] ADD_SNAPSHOT';
-export const ADD_SNAPSHOT_SUCCESS = '[VOLUMES] ADD_SNAPSHOT_SUCCESS';
-export const DELETE_SNAPSHOT = '[VOLUMES] DELETE_SNAPSHOT';
-export const DELETE_SNAPSHOT_SUCCESS = '[VOLUMES] DELETE_SNAPSHOT_SUCCESS';
+export const ADD_SNAPSHOT_SCHEDULE = '[VOLUMES] ADD_SNAPSHOT_SCHEDULE';
 export const VOLUME_CREATE_SUCCESS = '[VOLUMES] VOLUME_CREATE_SUCCESS';
 export const VOLUME_DELETE_SUCCESS = '[VOLUMES] VOLUME_DELETE_SUCCESS';
 export const VOLUME_CREATE_ERROR = '[VOLUMES] VOLUME_CREATE_ERROR';
@@ -74,6 +72,13 @@ export class DeleteVolume implements Action {
   }
 }
 
+export class DeleteVolumes implements Action {
+  readonly type = DELETE_VOLUMES;
+
+  constructor(public payload: VirtualMachine) {
+  }
+}
+
 export class UpdateVolume implements Action {
   readonly type = UPDATE_VOLUME;
 
@@ -90,6 +95,13 @@ export class ReplaceVolume implements Action {
 
 export class AttachVolume implements Action {
   readonly type = ATTACH_VOLUME;
+
+  constructor(public payload: Volume) {
+  }
+}
+
+export class AttachVolumeToVM implements Action {
+  readonly type = ATTACH_VOLUME_TO_VM;
 
   constructor(public payload: {
     volumeId: string,
@@ -108,7 +120,7 @@ export class DetachVolume implements Action {
 export class ResizeVolume implements Action {
   readonly type = RESIZE_VOLUME;
 
-  constructor(public payload: VolumeResizeData) {
+  constructor(public payload: Volume) {
   }
 }
 
@@ -119,36 +131,8 @@ export class ResizeVolumeSuccess implements Action {
   }
 }
 
-export class AddSnapshot implements Action {
-  readonly type = ADD_SNAPSHOT;
-
-  constructor(public payload: {
-    volume: Volume,
-    name: string,
-    description: string
-  }) {
-  }
-}
-
-export class DeleteSnapshot implements Action {
-  readonly type = DELETE_SNAPSHOT;
-
-  constructor(public payload: {
-    volume: Volume,
-    snapshot: Snapshot
-  }) {
-  }
-}
-
-export class AddSnapshotSuccess implements Action {
-  readonly type = ADD_SNAPSHOT_SUCCESS;
-
-  constructor(public payload: Volume) {
-  }
-}
-
-export class DeleteSnapshotSuccess implements Action {
-  readonly type = DELETE_SNAPSHOT_SUCCESS;
+export class AddSnapshotSchedule implements Action {
+  readonly type = ADD_SNAPSHOT_SCHEDULE;
 
   constructor(public payload: Volume) {
   }
@@ -192,6 +176,19 @@ export class ChangeDescription implements Action {
   }
 }
 
+export class CreateVolumeFromSnapshot implements Action {
+  readonly type = CREATE_VOLUME_FROM_SNAPSHOT;
+
+  constructor(public payload: VolumeFromSnapshotCreationData) {
+  }
+}
+
+export class CreateVolumeFromSnapshotSuccess implements Action {
+  readonly type = CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS;
+
+  constructor(public payload: Volume) {
+  }
+}
 
 export type Actions = LoadVolumesRequest
   | LoadVolumesResponse
@@ -203,10 +200,10 @@ export type Actions = LoadVolumesRequest
   | UpdateVolume
   | ReplaceVolume
   | AttachVolume
+  | AttachVolumeToVM
+  | DeleteVolume
+  | DeleteVolumes
   | DetachVolume
   | ResizeVolume
   | ChangeDescription
-  | AddSnapshot
-  | DeleteSnapshot
-  | AddSnapshotSuccess
-  | DeleteSnapshotSuccess;
+  | CreateVolumeFromSnapshot;

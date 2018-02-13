@@ -1,17 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {
-  ISnapshotData,
-  VolumeSnapshotAction
-} from '../../../../shared/actions/volume-actions/volume-snapshot';
-import {
-  Volume,
-  VolumeState
-} from '../../../../shared/models/volume.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Volume, VolumeState } from '../../../../shared/models/volume.model';
 
 
 @Component({
@@ -21,17 +9,13 @@ import {
 })
 export class VolumeSnapshotCreationComponent {
   @Input() public volume: Volume;
-  @Output() public onVolumeSnapshots = new EventEmitter<ISnapshotData>();
-
-  constructor(private volumeSnapshotAction: VolumeSnapshotAction) {}
+  @Output() public onSnapshotAdd = new EventEmitter<Volume>();
 
   public get isVolumeReady(): boolean {
     return this.volume && this.volume.state === VolumeState.Ready;
   }
 
   public addSnapshot(): void {
-    this.volumeSnapshotAction.activate(this.volume).subscribe(
-      res => this.onVolumeSnapshots.emit(res)
-    );
+    this.onSnapshotAdd.emit(this.volume)
   }
 }

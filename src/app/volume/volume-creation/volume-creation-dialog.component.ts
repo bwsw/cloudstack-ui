@@ -4,7 +4,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { MatDialogRef, MatSelectChange } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { Zone } from '../../shared/models';
 import { VolumeCreationData } from '../../shared/models/volume.model';
@@ -24,6 +24,7 @@ export class VolumeCreationDialogComponent {
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public zones: Array<Zone>;
   @Input() public maxSize: number;
+  @Input() public params: Array<string>;
   @Output() public onVolumeCreate = new EventEmitter<VolumeCreationData>();
   @Output() public onZoneUpdated = new EventEmitter<Zone>();
 
@@ -31,7 +32,6 @@ export class VolumeCreationDialogComponent {
   public showResizeSlider: boolean;
   public size = 1;
   public minSize = 1;
-
 
   constructor(
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
@@ -44,25 +44,17 @@ export class VolumeCreationDialogComponent {
   public onSubmit(e): void {
     e.preventDefault();
 
-    if (!this.diskOffering.isCustomized) {
+    if (!this.diskOffering.iscustomized) {
       delete this.newVolume.size;
     }
 
-    const volumeCreationParams = Object.assign(
-      {},
-      this.newVolume,
-      { diskOfferingId: this.diskOffering.id }
-      );
-
-    this.onVolumeCreate.emit(volumeCreationParams);
+    this.onVolumeCreate.emit(this.newVolume);
   }
 
-  public updateDiskOffering(change: MatSelectChange): void {
-    if (change) {
-      const diskOffering = change.value as DiskOffering;
-      this.diskOffering = diskOffering;
-      this.showResizeSlider = diskOffering.isCustomized;
-    }
+  public updateDiskOffering(diskOffering: DiskOffering): void {
+    this.newVolume.diskofferingid = diskOffering.id;
+    this.diskOffering = diskOffering;
+    this.showResizeSlider = this.diskOffering.iscustomized;
   }
 
   public updateZone(zoneId: string) {

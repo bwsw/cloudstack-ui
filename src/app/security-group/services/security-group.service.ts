@@ -5,7 +5,7 @@ import { BackendResource } from '../../shared/decorators';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
-import { SecurityGroup, SecurityGroupType } from '../sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
@@ -41,7 +41,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     return this.getList()
       .map(sharedGroups => {
         return sharedGroups.filter(group => {
-          return group.type === SecurityGroupType.Shared;
+          return getType(group) === SecurityGroupType.Shared;
         });
       });
   }

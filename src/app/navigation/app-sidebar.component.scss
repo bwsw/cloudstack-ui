@@ -11,12 +11,12 @@
 
   &-link {
     display: block;
-    padding: 16px 30px !important;
+    padding: 12px 30px !important;
     flex-shrink: 0;
     color: #757575;
     text-decoration: none;
     margin: 0;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0;
@@ -40,6 +40,9 @@
   display: inline-block;
   border-color: inherit;
   vertical-align: middle;
+  &-edit {
+    transform: translateX(60px);
+  }
 }
 
 a {
@@ -49,9 +52,9 @@ a {
 
 .title-header {
   line-height: 1;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   word-break: break-all;
 }
 

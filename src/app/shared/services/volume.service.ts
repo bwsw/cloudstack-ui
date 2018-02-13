@@ -3,21 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
-import {
-  Snapshot,
-  Volume
-} from '../models';
+import { Volume, isDeleted, VolumeCreationData } from '../models';
 import { AsyncJobService } from './async-job.service';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService, CSCommands } from './base-backend.service';
 import { SnapshotService } from './snapshot.service';
 import { VolumeTagService } from './tags/volume-tag.service';
+import { AsyncJob } from '../models/async-job.model';
 
-
-interface VolumeCreationData {
+export interface VolumeFromSnapshotCreationData {
   name: string;
-  zoneId: string;
-  diskOfferingId: string;
-  size?: number;
+  snapshotId: string;
 }
 
 export interface VolumeAttachmentData {
@@ -27,14 +22,13 @@ export interface VolumeAttachmentData {
 
 export interface VolumeResizeData {
   id: string;
-  diskOfferingId?: string;
+  diskofferingid?: string;
   size?: number;
 }
 
 @Injectable()
 @BackendResource({
-  entity: 'Volume',
-  entityModel: Volume
+  entity: 'Volume'
 })
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeResized = new Subject<Volume>();
@@ -49,26 +43,15 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {
-    const volumesRequest = super.getList(params);
-    const snapshotsRequest = this.snapshotService.getList();
-
-    return Observable.forkJoin(
-      volumesRequest,
-      snapshotsRequest
-    ).map(([volumes, snapshots]) => {
-      volumes.forEach(volume => {
-        volume.snapshots = snapshots.filter(
-          (snapshot: Snapshot) => snapshot.volumeId === volume.id
-        );
-      });
-      return volumes.filter(volume => !volume.isDeleted);
-    });
+    return super.getList(params)
+      .map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume)));
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {
-    return this.sendCommand('resize', params).switchMap(job =>
+    return this.sendCommand(CSCommands.Resize, params).switchMap(job =>
       this.asyncJobService.queryJob(job, this.entity, this.entityModel)
     )
+      .switchMap((response: AsyncJob<Volume>) => Observable.of(response.jobresult['volume']))
       .do(jobResult => this.onVolumeResized.next(jobResult));
   }
 
@@ -83,23 +66,33 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public create(data: VolumeCreationData): Observable<Volume> {
-    return this.sendCommand('create', data).switchMap(job =>
+    return this.sendCommand(CSCommands.Create, data)
+      .switchMap(job =>
+        this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
+      )
+      .switchMap((response: AsyncJob<Volume>) => Observable.of(response.jobresult['volume']));
+  }
+
+  public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<AsyncJob<Volume>> {
+    return this.sendCommand(CSCommands.Create, data).switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
     );
   }
 
   public detach(volume: Volume): Observable<Volume> {
-    return this.sendCommand('detach', { id: volume.id })
+    return this.sendCommand(CSCommands.Detach, { id: volume.id })
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      );
+      )
+      .switchMap((response: AsyncJob<Volume>) => Observable.of(response.jobresult['volume']));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
-    return this.sendCommand('attach', data)
+    return this.sendCommand(CSCommands.Attach, data)
       .switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      );
+      )
+      .switchMap((response: AsyncJob<Volume>) => Observable.of(response.jobresult['volume']));
   }
 
   public markForRemoval(volume: Volume): Observable<any> {

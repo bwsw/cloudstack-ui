@@ -1,5 +1,5 @@
 <div class="stat-section options-panel">
-  <h4 class="stat-header">
+  <h5 class="stat-header">
     {{ 'VM_PAGE.RESOURCE_USAGE.TITLE' | translate }}
     <button
       mat-icon-button
@@ -9,7 +9,7 @@
     >
       <mat-icon>keyboard_arrow_up</mat-icon>
     </button>
-  </h4>
+  </h5>
   <div class="stat-list" [class.closed]="!isOpen">
     <ng-container *ngIf="isAdmin">
       <mat-button-toggle-group (change)="switchType()">

@@ -2,6 +2,7 @@
   <h4 matLine class="mat-list-item-content">
     <ng-container [ngSwitch]="notification.status">
       <mat-icon
+        class="done"
         *ngSwitchCase="notificationStatus.Finished"
         matListIcon
       >
@@ -9,7 +10,7 @@
       </mat-icon>
       <mat-spinner
         *ngSwitchCase="notificationStatus.Pending"
-        [diameter]="50"
+        [diameter]="40"
         [strokeWidth]="5"
       ></mat-spinner>
       <mat-icon
@@ -19,7 +20,12 @@
         close
       </mat-icon>
     </ng-container>
-    {{ notification.message | translate }}
+    <span
+      class="message"
+      [innerHTML]="notification.message | translate"
+      [matTooltip]="notification.message | translate"
+    >
+    </span>
   </h4>
   <span>
     <mat-icon
@@ -30,5 +36,10 @@
     >
       close
     </mat-icon>
+    <mat-icon
+      *ngIf="notification.status === notificationStatus.Pending"
+      class="close"
+      matListIcon
+    ></mat-icon>
   </span>
 </mat-list-item>

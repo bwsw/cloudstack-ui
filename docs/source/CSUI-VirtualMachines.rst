@@ -419,7 +419,7 @@ The selected group can be removed by clicking "Edit" and choosing "Remove from t
 At saving the new SSH key for a started VM you will see the warning: "You need to stop the virtual machine to reset SSH key." Click "OK" if you want to stop it right now. Click "Cancel" to drop the edits.
 
 8. Statistics - shows VM statistics on CPU utilized, Network read, Network write, Disk read, Disk write, Disk read (IO), Disk write (IO). Refresh data by clicking the "Refresh" button |refresh icon| in the upper-right corner.
-    
+
 Storage Tab
 """""""""""""""""""""""""""
 The second tab - Storage - contains the information on the volumes allocated to the virtual machine.
@@ -599,7 +599,6 @@ In the dialogue window confirm your action. Please, note, the virtual machine th
 
 .. figure:: _static/VMs_SnapshotActions_Revert.png
    :scale: 70%
-
 
 - **Delete** - allows deleting the last-taken snapshot.
    

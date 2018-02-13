@@ -1,40 +1,58 @@
-import * as moment from 'moment';
-import { FieldMapper } from '../decorators';
 import { Taggable } from '../interfaces/taggable.interface';
-import { BaseModel } from './base.model';
-import { Tag } from './tag.model';
 import { SnapshotTagKeys } from '../services/tags/snapshot-tag-keys';
+import { BaseModelInterface } from './base.model';
+import { Tag } from './tag.model';
 
+import * as moment from 'moment';
 
-@FieldMapper({
-  physicalsize: 'physicalSize',
-  volumeid: 'volumeId'
-})
-export class Snapshot extends BaseModel implements Taggable {
-  public resourceType = 'Snapshot';
-
-  public id: string;
-  public created: Date;
-  public physicalSize: number;
-  public volumeId: string;
-  public name: string;
-  public tags: Array<Tag>;
-
-  constructor(json) {
-    super(json);
-    this.created = moment(json.created).toDate();
-  }
-
-  public get description(): string {
-    if (!this.tags) {
-      return '';
-    }
-
-    const description = this.tags.find(tag => tag.key === SnapshotTagKeys.description);
-    if (description) {
-      return description.value;
-    } else {
-      return '';
-    }
-  }
+export enum SnapshotStates {
+  BackedUp = 'BackedUp',
+  Creating = 'Creating',
+  BackingUp = 'BackingUp',
+  Allocated = 'Allocated',
+  Error = 'Error'
 }
+
+export enum SnapshotPageMode {
+  Volume = 'volume',
+  VM = 'vm'
+}
+
+export enum SnapshotType {
+  Manual = 'MANUAL',
+  Hourly = 'HOURLY',
+  Daily = 'DAILY',
+  Weekly = 'WEEKLY',
+  Monthly = 'MONTHLY',
+}
+
+export interface Snapshot extends Taggable, BaseModelInterface {
+  description: string;
+  id: string;
+  created: string;
+  physicalsize: number;
+  volumeid?: string;
+  virtualmachineid?: string;
+  snapshottype: SnapshotType;
+  name: string;
+  tags: Array<Tag>;
+  state: SnapshotStates;
+  revertable: boolean;
+}
+
+export const getDateSnapshotCreated = (snapshot: Snapshot) => {
+  return moment(snapshot.created).toDate();
+};
+
+export const getSnapshotDescription = (snapshot: Snapshot) => {
+  if (!snapshot.tags) {
+    return '';
+  }
+
+  const description = snapshot.tags.find(tag => tag.key === SnapshotTagKeys.description);
+  if (description) {
+    return description.value;
+  } else {
+    return '';
+  }
+};

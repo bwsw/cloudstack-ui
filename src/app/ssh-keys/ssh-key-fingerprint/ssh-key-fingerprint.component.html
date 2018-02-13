@@ -4,7 +4,7 @@
       <h2 class="mat-card-title-text">{{ 'SSH_KEYS.FINGERPRINT' | translate }}</h2>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
-    {{ sshKeyPair?.fingerPrint }}
+  <mat-card-content [matTooltip]="sshKeyPair?.fingerprint">
+    {{ sshKeyPair?.fingerprint }}
   </mat-card-content>
 </mat-card>

@@ -63,7 +63,7 @@ mat-list-item {
 
 .row-title {
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
   line-height: normal;
   flex-grow: 2;
   flex-basis: 100px;
@@ -76,6 +76,7 @@ mat-list-item {
 .row-action {
   position: absolute !important;
   right: 3px;
+  top: 8px;
 }
 
 .mat-list-item-content {
@@ -87,11 +88,12 @@ mat-list-item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  font-size: 14px !important;
 }
 
 mat-card {
   padding: 0 !important;
-  width: 320px;
+  width: 288px;
   margin: 0 15px 15px 0;
 }
 
@@ -111,7 +113,7 @@ mat-card .mat-card-header-text {
 
 mat-card mat-card-header h2 {
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   line-height: normal;
 
   &.mat-card-title-text {
@@ -123,8 +125,8 @@ mat-card mat-card-header h2 {
 
 mat-card mat-card-header .mat-card-header-menu {
   position: absolute;
-  top: 5px !important;
-  right: 5px !important;
+  top: 8px !important;
+  right: 8px !important;
 }
 
 mat-card mat-card-content {
@@ -132,6 +134,7 @@ mat-card mat-card-content {
   padding: 0 16px 16px 16px;
   margin-bottom: 0 !important;
   line-height: 18px;
+  font-size: 13.5px !important;
 }
 
 mat-card .mat-card-content-with-actions {
@@ -205,6 +208,7 @@ mat-card.custom-card {
   margin: 0 !important;
   position: relative;
   box-shadow: none !important;
+  display: flex;
 
   & > * {
     align-self: center;
@@ -243,7 +247,7 @@ mat-card.custom-card {
 
     & > div {
       width: 50%;
-      padding: 2px;
+      padding: 2px 2px 2px 0 !important;
     }
 
     & > div:nth-child(2n) {
@@ -279,10 +283,14 @@ mat-form-field.form-select-control {
   //margin: 20px 0;
 }
 
+.mat-form-field-infix {
+  width: 160px !important;
+}
+
 .filter-wrapper {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 20px;
+  padding-top: 10px;
   > * {
     margin-right: 20px;
     &:last-child {
@@ -294,7 +302,7 @@ mat-form-field.form-select-control {
   }
 }
 
-.mat-dialog-content .filter-wrapper{
+.mat-dialog-content .filter-wrapper {
   padding: 0;
 }
 
@@ -350,8 +358,7 @@ mat-card-actions {
   border-radius: 50%;
   width: 10px;
   height: 10px;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin: 8px 8px 5px;
   box-shadow: 0 0 1px 1px white;
 
   &.destroyed {
@@ -369,16 +376,19 @@ mat-card-actions {
   box-shadow: 0 0 0px 1px white;
 }
 
-.running, .enabled {
+.running, .enabled, .backed-up {
   background-color: #388E3C;
 }
 
-.in-progress {
+.in-progress, .stopping, .backing-up, .creating {
   background-color: #FFA726;
 }
 
-.stopped, .disabled, .locked,
-.error {
+.allocated {
+  background-color: #A3A3A3;
+}
+
+.stopped, .disabled, .locked, .error {
   background-color: #B71C1C;
 }
 
@@ -440,7 +450,7 @@ mat-card-actions {
 }
 
 h4.details-header {
-  font-size: 18px;
+  font-size: 17px !important;
 }
 
 .mat-row:hover {
@@ -492,6 +502,9 @@ mat-table mat-header-cell,
 
 .mat-dialog-container {
   max-height: 95vh !important;
+  .mat-dialog-title {
+    margin: 0 0 10px !important;
+  }
 }
 
 .mat-dialog-actions {
@@ -504,6 +517,7 @@ mat-table mat-header-cell,
 
 .mat-button {
   text-transform: uppercase;
+  font-size: 13px !important;
 }
 
 .mat-radio-label {
@@ -526,6 +540,13 @@ mat-table mat-header-cell,
   line-height: 32px !important;
 }
 
+/deep/ button {
+  &.mat-menu-item {
+    font-size: 15px;
+    height: 43px;
+  }
+}
+
 .button-18px {
   min-width: 24px !important;
   height: 24px !important;
@@ -539,4 +560,29 @@ mat-table mat-header-cell,
 
 .icon-18px {
   font-size: 18px !important;
+}
+
+mat-radio-button, mat-checkbox, mat-dialog-content {
+  font-size: 11pt !important;
+}
+
+mat-button-toggle, mat-form-field, mat-option {
+  font-size: 14px !important;
+}
+
+h5 {
+  font-size: 14px !important;
+}
+
+h4 {
+  font-size: 16px !important;
+}
+
+h3 {
+  font-size: 18px !important;
+}
+
+.content-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }

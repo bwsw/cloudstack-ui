@@ -3,37 +3,51 @@
 </h3>
 <div *loading="loading">
   <div class="mat-dialog-content" *loading="!serviceOfferings">
-    <cs-service-offering-selector
-      *ngIf="serviceOfferings?.length"
-      class="service-offering-selector"
-      [serviceOfferings]="serviceOfferings"
+    <cs-service-offering-filter
+      [classes]="classes"
+      [viewMode]="viewMode"
+      (viewModeChange)="viewModeChange.emit($event)"
+      (selectedClassesChange)="selectedClassesChange.emit($event)"
+      (queryChange)="queryChange.emit($event)"
+    ></cs-service-offering-filter>
+    <cs-service-offering-list
+      [classes]="classes"
+      [selectedClasses]="selectedClasses"
+      [query]="query"
+      [offeringList]="serviceOfferings"
       [customOfferingRestrictions]="restrictions"
-      [zoneId]="zoneId"
-      [ngModel]="serviceOffering"
-      (change)="updateOffering($event)"
-    ></cs-service-offering-selector>
+      [defaultParams]="defaultParams"
+      [selectedOffering]="serviceOffering"
+      [showFields]="showFields"
+      (selectedOfferingChange)="updateOffering($event)"
+    ></cs-service-offering-list>
+
     <div
       class="message warning"
-      *ngIf="serviceOffering?.id !== serviceOfferingId"
+      *ngIf="showRebootMessage"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
-    </div>
-    <div
-      *ngIf="!serviceOfferings?.length"
-    >{{ "SERVICE_OFFERING.NO_AVAILABLE_OFFERINGS" | translate }}
     </div>
   </div>
   <div class="mat-dialog-actions">
-    <button mat-button color="primary" matDialogClose>
-      {{ 'COMMON.CANCEL' | translate }}
-    </button>
-    <button
-      *ngIf="serviceOfferings?.length"
-      mat-button
-      color="primary"
-      [disabled]="serviceOffering?.id === serviceOfferingId"
-      (click)="onChange()"
-    >
-      {{ 'COMMON.CHANGE' | translate }}
-    </button>
+    <div>
+      <button mat-button color="primary" (click)="showFields = !showFields">
+        {{ (showFields ? 'SERVICE_OFFERING.HIDE_ADDITIONAL_FIELDS'
+        : 'SERVICE_OFFERING.SHOW_ADDITIONAL_FIELDS' )| translate }}
+      </button>
+    </div>
+    <div>
+      <button mat-button color="primary" matDialogClose>
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        *ngIf="serviceOfferings?.length"
+        mat-button
+        color="primary"
+        [disabled]="disableSubmitButton"
+        (click)="onChange()"
+      >
+        {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}
+      </button>
+    </div>
   </div>
 </div>

@@ -50,7 +50,7 @@
   overflow: auto;
 }
 
-h5 {
+h4 {
   margin: 0;
 }
 
@@ -64,11 +64,11 @@ h5 {
 }
 
 .left-column {
-  width: 300px;
+  width: 270px;
   margin-right: 10px;
 }
 .right-column {
-  width: 300px;
+  width: 270px;
   margin-left: 10px;
 }
 
@@ -104,7 +104,7 @@ h5 {
 
 .dialog-select-wrapper {
   position: relative;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
 
@@ -123,4 +123,8 @@ mat-progress-bar {
 
 .message {
   line-height: 1.4 !important;
+}
+
+.disk-offerings {
+  padding-bottom: 13px;
 }

@@ -1,14 +1,10 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+  ResourceLimit,
+  updateLimitMax
+} from '../../../shared/models/resource-limit.model';
 import * as event from './resource-limits.actions';
-import { ResourceLimit } from '../../../shared/models/resource-limit.model';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -102,4 +98,9 @@ export const {
 export const isLoading = createSelector(
   getResourceLimitsEntitiesState,
   state => state.loading
+);
+
+export const updatedLimits = createSelector(
+  selectAll,
+  (limits) => limits.map(limit => updateLimitMax(limit))
 );

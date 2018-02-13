@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
@@ -12,6 +7,7 @@ import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
+import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 import { AuthService } from '../../shared/services/auth.service';
 import { VirtualMachine } from '../shared/vm.model';
 
@@ -30,6 +26,7 @@ const getGroupName = (vm: VirtualMachine) => {
   template: `
     <cs-vm-page
       [vms]="vms$ | async"
+      [query]="query$ | async" 
       [volumes]="volumes$ | async"
       [osTypesMap]="osTypesMap$ | async"
       [isLoading]="loading$ | async"
@@ -40,6 +37,7 @@ const getGroupName = (vm: VirtualMachine) => {
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
 
   readonly vms$ = this.store.select(fromVMs.selectFilteredVMs);
+  readonly query$ = this.store.select(fromVMs.filterQuery);
   readonly volumes$ = this.store.select(fromVolumes.selectAll);
   readonly osTypesMap$ = this.store.select(fromOsTypes.selectEntities);
   readonly loading$ = this.store.select(fromVMs.isLoading);
@@ -61,23 +59,24 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
         item.instanceGroup ? item.instanceGroup.name : 'VM_PAGE.FILTERS.NO_GROUP'
     },
     {
-      key: 'colors',
-      label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
-      selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
-      name: (item: VirtualMachine) => ' ',
-    },
-    {
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => getGroupName(item),
-    }
+      name: (item: VirtualMachine) => getGroupName(item)
+    },
+    {
+      key: 'colors',
+      label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
+      selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
+      name: (item: VirtualMachine) => ''
+    },
   ];
 
   public ngOnInit() {
     this.store.dispatch(new vmActions.LoadVMsRequest());
     this.store.dispatch(new volumeActions.LoadVolumesRequest());
     this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
+    this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
   }
 
   constructor(

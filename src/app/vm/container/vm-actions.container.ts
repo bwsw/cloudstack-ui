@@ -1,7 +1,4 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
@@ -54,8 +51,8 @@ export class VmActionsContainerComponent {
     this.store.dispatch(new vmActions.ExpungeVm(vm));
   }
 
-  public onVmDestroy(event): void {
-    this.store.dispatch(new vmActions.DestroyVm(event));
+  public onVmDestroy(vm: VirtualMachine): void {
+    this.store.dispatch(new vmActions.DestroyVm(vm));
   }
 
   public onVmReboot(vm: VirtualMachine): void {
@@ -71,11 +68,21 @@ export class VmActionsContainerComponent {
   }
 
   public onVmStart(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.StartVm(vm));
+     this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        this.store.dispatch(new vmActions.StartVm(vm));
+      });
   }
 
   public onVmStop(vm: VirtualMachine): void {
-    this.store.dispatch(new vmActions.StopVm(vm));
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        this.store.dispatch(new vmActions.StopVm(vm));
+      });
   }
 
 }

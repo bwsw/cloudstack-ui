@@ -1,16 +1,13 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './disk-offerings.actions';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
-
+import { isOfferingLocal } from '../../../shared/models/offering.model';
+import { Zone } from '../../../shared/models/zone.model';
+import { OfferingAvailability } from '../../../shared/services/offering.service';
+import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
+import * as fromZones from '../../zones/redux/zones.reducers';
+import * as event from './disk-offerings.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -21,6 +18,7 @@ import * as fromVolumes from '../../volumes/redux/volumes.reducers';
  */
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
+  tableParams: Array<string>;
 }
 
 export interface OfferingsState {
@@ -50,6 +48,7 @@ export const adapter: EntityAdapter<DiskOffering> = createEntityAdapter<DiskOffe
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  tableParams: []
 });
 
 export function reducer(
@@ -80,6 +79,13 @@ export function reducer(
       };
     }
 
+    case event.LOAD_DEFAULT_DISK_PARAMS_RESPONSE: {
+      return {
+        ...state,
+        tableParams: action.payload
+      }
+    }
+
     default: {
       return state;
     }
@@ -92,6 +98,11 @@ export const getOfferingsState = createFeatureSelector<OfferingsState>('disk-off
 export const getOfferingsEntitiesState = createSelector(
   getOfferingsState,
   state => state.list
+);
+
+export const getParams = createSelector(
+  getOfferingsEntitiesState,
+  state => state.tableParams
 );
 
 export const {
@@ -109,7 +120,58 @@ export const isLoading = createSelector(
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVolumes.getSelectedVolume,
-  (entities, volume) => volume && entities[volume.diskOfferingId]
+  (entities, volume) => volume && entities[volume.diskofferingid]
 );
+
+export const getAvailableOfferings = createSelector(
+  selectAll,
+  fromServiceOfferings.offeringAvailability,
+  fromZones.getSelectedZone,
+  (
+    diskOfferings, availability,
+    zone
+  ) => {
+    if (zone && availability) {
+      const availableOfferings = getOfferingsAvailableInZone(
+        diskOfferings,
+        availability,
+        zone
+      );
+      return availableOfferings;
+    } else {
+      return [];
+    }
+  }
+);
+
+const getOfferingsAvailableInZone = (
+  offeringList: Array<DiskOffering>,
+  offeringAvailability: OfferingAvailability,
+  zone: Zone
+) => {
+  if (!offeringAvailability.filterOfferings) {
+    return offeringList;
+  }
+
+  return offeringList
+    .filter(offering => {
+      const offeringAvailableInZone = isOfferingAvailableInZone(
+        offering,
+        offeringAvailability,
+        zone
+      );
+      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
+        offering);
+      return offeringAvailableInZone && localStorageCompatibility;
+    });
+};
+
+const isOfferingAvailableInZone = (
+  offering: DiskOffering,
+  offeringAvailability: OfferingAvailability,
+  zone: Zone
+) => {
+  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+};
 
 

@@ -1,39 +1,40 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/index';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
-import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
-import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.reducers';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
+// tslint:disable-next-line
+import { SnapshotActionService } from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
 import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
 
+import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
+import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
+import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.reducers';
 
 @Component({
   selector: 'cs-snapshot-modal-container',
   template: `
     <cs-snapshot-modal
       [volume]="volume$ | async"
-      (onSnapshotDelete)="snapshotDeleted($event)"
+      (onTemplateCreate)="onTemplateCreate($event)"
+      (onVolumeCreate)="onVolumeCreate($event)"
+      (onSnapshotRevert)="onSnapshotRevert($event)"
+      (onSnapshotDelete)="onSnapshotDelete($event)"
     >
     </cs-snapshot-modal>`,
 })
 export class SnapshotModalContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
+  readonly volume$ = this.store.select(fromVolumes.getSelectedVolumeWithSnapshots);
 
   public volume: Volume;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<SnapshotModalContainerComponent>,
+    public dialog: MatDialog,
     private store: Store<State>,
+    private snapshotActionService: SnapshotActionService
   ) {
     super();
     this.store.dispatch(new volumeActions.LoadSelectedVolume(data.volumeId));
@@ -45,17 +46,26 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       .filter(volume => !!volume)
       .subscribe(volume => {
         // todo remove model
-        this.volume = new Volume(volume);
-        if (!this.volume.snapshots.length) {
+        this.volume = volume as Volume;
+        if (!this.volume.snapshots || !this.volume.snapshots.length) {
           this.dialogRef.close();
         }
       });
   }
 
-  public snapshotDeleted(snapshot: Snapshot) {
-    this.store.dispatch(new volumeActions.DeleteSnapshot({
-      volume: this.volume,
-      snapshot
-    }));
+  public onTemplateCreate(snapshot: Snapshot) {
+    this.snapshotActionService.showTemplateCreationDialog(snapshot);
+  }
+
+  public onVolumeCreate(snapshot: Snapshot) {
+    this.snapshotActionService.showVolumeCreationDialog(snapshot);
+  }
+
+  public onSnapshotDelete(snapshot: Snapshot): void {
+    this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+  }
+
+  public onSnapshotRevert(snapshot: Snapshot): void {
+    this.store.dispatch(new snapshotActions.RevertVolumeToSnapshot(snapshot));
   }
 }

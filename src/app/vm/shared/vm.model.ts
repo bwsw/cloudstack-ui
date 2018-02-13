@@ -51,7 +51,7 @@ export const isHttpAuthMode = (vm: VirtualMachine) => {
   const authModeTag = vm.tags.find(
     tag => tag.key === VirtualMachineTagKeys.authModeToken);
   const authMode = authModeTag && authModeTag.value;
-  const mode = authMode && authMode.split(',').find(m => m === AuthModeType.HTTP);
+  const mode = authMode && authMode.split(',').find(m => m.toLowerCase() === AuthModeType.HTTP);
   return mode && vm.state === VmState.Running;
 };
 
@@ -63,10 +63,13 @@ export enum VmState {
   Destroyed = 'Destroyed',
   Expunged = 'Expunged',
   InProgress = 'In-progress',
+  Stopping = 'Stopping',
   // custom states
   Deploying = 'Deploying',
   Expunging = 'Expunging'
 }
+
+export const VmResourceType = 'UserVm';
 
 @ZoneName()
 @FieldMapper({
@@ -96,7 +99,6 @@ export enum VmState {
 })
 export class VirtualMachine extends BaseModel implements Taggable {
   public static ColorDelimiter = ';';
-  public resourceType = 'UserVm';
 
   public id: string;
   public displayName: string;
@@ -157,10 +159,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     this.initializeInstanceGroup();
   }
 
-  public get ipIsAvailable(): boolean {
-    return this.nic.length && !!this.nic[0].ipAddress;
-  }
-
   public getDisksSize(): number {
     const sizeInBytes = this.volumes && this.volumes.reduce((
       acc: number,
@@ -175,8 +173,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     if (!this.nic) {
       this.nic = [];
     }
-
-    this.nic = this.nic.map(nic => new NIC(nic));
   }
 
   private initializeSecurityGroups(): void {
@@ -193,8 +189,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     if (!this.tags) {
       this.tags = [];
     }
-
-    this.tags = this.tags.map(tag => new Tag(tag));
   }
 
   private initializeInstanceGroup(): void {

@@ -13,4 +13,16 @@
 :host mat-icon.close {
   float: right;
   cursor: pointer;
+  padding-left: 8px;
 }
+
+:host mat-icon.done {
+  padding-left: 8px;
+}
+
+.message {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

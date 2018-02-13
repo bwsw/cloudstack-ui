@@ -2,18 +2,19 @@
   <div *ngIf="volume?.snapshots?.length" class="last-snapshot">
     <div class="row">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.LAST_SNAPSHOT' | translate }}:</div>
-      <div >
+      <div>
         <button mat-button color="primary" (click)="showSnapshots()">
-          {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }} ({{ volume.snapshots.length }})
+          {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_LIST.VIEW_ALL' | translate }}
+          ({{ volume.snapshots.length }})
         </button>
       </div>
     </div>
     <div class="row snapshot-name">{{ volume.snapshots[0].name }}</div>
     <div class="row">
-      <div style="width: 70%;">
-        {{ volume.snapshots[0].created | stringifyDate }}
+      <div style="width: 60%;">
+        {{ snapshotCreatedDate(volume.snapshots[0]) | stringifyDate }}
       </div>
-      <div style="width: 30%;">
+      <div style="width: 40%;">
         <button
           *ngFor="let action of actions"
           mat-icon-button
@@ -23,7 +24,7 @@
           (click)="onAction(action, volume.snapshots[0])"
           [disabled]="volume.snapshots[0]['loading']"
         >
-          <mat-icon>{{ action.icon }}</mat-icon>
+          <mat-icon [ngClass]="action.className">{{ action.icon }}</mat-icon>
         </button>
       </div>
     </div>

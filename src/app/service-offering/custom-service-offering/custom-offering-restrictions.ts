@@ -8,10 +8,25 @@ export interface ICustomOfferingRestrictionsByZone {
 }
 
 export interface ICustomOfferingRestrictions {
-  cpuNumber?: CustomOfferingRestriction;
-  cpuSpeed?:  CustomOfferingRestriction;
+  cpunumber?: CustomOfferingRestriction;
+  cpuspeed?:  CustomOfferingRestriction;
   memory?:    CustomOfferingRestriction;
 }
+
+export const DefaultCustomServiceOfferingRestrictions: ICustomOfferingRestrictions = {
+  cpunumber: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  },
+  cpuspeed: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  },
+  memory: {
+    min: 0,
+    max: Number.POSITIVE_INFINITY
+  }
+};
 
 export class CustomOfferingRestrictions {
   public cpuNumber: CustomOfferingRestriction = {

@@ -14,6 +14,8 @@ export class AccountUserEditComponent implements OnInit {
   @Output() public updateUser = new EventEmitter<AccountUser>();
 
   public userForm: FormGroup;
+  public loading = false;
+  public showPassword = true;
 
   constructor(
     private formBuilder: FormBuilder
@@ -36,17 +38,13 @@ export class AccountUserEditComponent implements OnInit {
     }
   }
 
-
-  public loading = false;
-  public showPassword = true;
-
   public onUserUpdate() {
     const newUser = this.prepareData(this.userForm.value);
     this.updateUser.emit(newUser);
   }
 
   public prepareData(data: AccountUserForm): AccountUser {
-    let result: AccountUser = new AccountUser();
+    const result: AccountUser = new AccountUser();
     result.username = data.username;
     result.email = data.email;
     if (data.password) {

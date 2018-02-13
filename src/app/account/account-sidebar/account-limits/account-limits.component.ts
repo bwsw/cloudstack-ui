@@ -21,7 +21,7 @@ export class AccountLimitsComponent {
   @Input() public limits: Array<ResourceLimit>;
   @Input() public isAdmin: boolean;
   @Output() public onLimitsEdit: EventEmitter<Array<ResourceLimit>>;
-  public isEdit: boolean = false;
+  public isEdit = false;
 
   public localLimits = [];
 

@@ -4,6 +4,7 @@ import {
   OnChanges
 } from '@angular/core';
 import {
+  getType,
   SecurityGroup,
   SecurityGroupType
 } from '../sg.model';
@@ -13,6 +14,8 @@ import { SecurityGroupRowItemComponent } from '../sg-list-item/row-item/security
 import { TranslateService } from '@ngx-translate/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { SecurityGroupViewMode } from '../sg-view-mode';
+import { VirtualMachine } from '../../vm';
+import { Dictionary } from '@ngrx/entity/src/models';
 
 
 @Component({
@@ -24,6 +27,7 @@ export class SecurityGroupListComponent implements OnChanges {
   @Input() public query: string;
   @Input() public mode: ViewMode;
   @Input() public viewMode: SecurityGroupViewMode;
+  @Input() public vmList: Dictionary<VirtualMachine>;
   public groupings = [];
 
   public inputs;
@@ -35,7 +39,8 @@ export class SecurityGroupListComponent implements OnChanges {
   ) {
     this.inputs = {
       searchQuery: () => this.query,
-      isSelected: (item: SecurityGroup) => this.listService.isSelected(item.id)
+      isSelected: (item: SecurityGroup) => this.listService.isSelected(item.id),
+      vmList: this.vmList
     };
 
     this.outputs = {
@@ -48,9 +53,9 @@ export class SecurityGroupListComponent implements OnChanges {
       {
         key: 'types',
         label: 'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY_TYPES',
-        selector: (item: SecurityGroup) => item.type,
+        selector: (item: SecurityGroup) => getType(item),
         name: (item: SecurityGroup) => {
-          switch (item.type) {
+          switch (getType(item)) {
             case SecurityGroupType.PredefinedTemplate: {
               return this.translateService.instant(
                 'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS');
@@ -63,6 +68,10 @@ export class SecurityGroupListComponent implements OnChanges {
         }
       }
     ] : [];
+
+    if (changes['vmList']) {
+      this.inputs.vmList = this.vmList;
+    }
   }
 
   public get itemComponent() {

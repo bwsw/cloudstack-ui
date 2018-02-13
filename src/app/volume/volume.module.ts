@@ -15,8 +15,11 @@ import {
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+import { SnapshotEffects } from '../reducers/snapshots/redux/snapshot.effects';
+import { snapshotReducers } from '../reducers/snapshots/redux/snapshot.reducers';
 // tslint:disable-next-line
 import { SharedModule } from '../shared/shared.module';
+import { SnapshotModule } from '../snapshot/snapshot.module';
 import { VolumeFilterComponent } from './volume-filter/volume-filter.component';
 import { VolumeListComponent } from './volume-list/volume-list.component';
 import { VolumePageComponent } from './volume-page/volume-page.component';
@@ -28,7 +31,6 @@ import { VolumeSidebarDiskOfferingComponent } from './volume-sidebar/details/dis
 import { VolumeSidebarVolumeComponent } from './volume-sidebar/details/volume/volume-sidebar-volume.component';
 // tslint:disable-next-line
 import { VolumeSnapshotCreationComponent } from './volume-sidebar/snapshot-details/snapshot-creation/volume-snapshot-creation.component';
-import { SnapshotActionsComponent } from './volume-sidebar/snapshot-details/snapshot/snapshot-actions/snapshot-actions.component';
 // tslint:disable-next-line
 import { VolumeSnapshotComponent } from './volume-sidebar/snapshot-details/snapshot/volume-snapshot.component';
 // tslint:disable-next-line
@@ -76,6 +78,7 @@ import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
     MatTooltipModule,
     RouterModule,
     SharedModule,
+    SnapshotModule,
     TranslateModule,
     MatDialogModule,
     DraggableSelectModule,
@@ -84,10 +87,16 @@ import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
     StoreModule.forFeature('userAccount', userAccountReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
-    EffectsModule.forFeature([VolumesEffects, ZonesEffects, DiskOfferingEffects, UserAccountEffects]),
+    StoreModule.forFeature('snapshots', snapshotReducers),
+    EffectsModule.forFeature([
+      VolumesEffects,
+      ZonesEffects,
+      DiskOfferingEffects,
+      UserAccountEffects,
+      SnapshotEffects
+    ]),
   ],
   declarations: [
-    SnapshotActionsComponent,
     VolumeSnapshotComponent,
     VolumeSnapshotCreationComponent,
     VolumeSnapshotDetailsComponent,
@@ -117,4 +126,5 @@ import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
     VolumeCreationContainerComponent,
   ]
 })
-export class VolumeModule { }
+export class VolumeModule {
+}

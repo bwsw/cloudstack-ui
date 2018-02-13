@@ -1,20 +1,16 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { TemplateCreationComponent } from './template-creation.component';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
-import { TemplateResourceType } from '../shared/base-template.service';
-import { Account } from '../../shared/models/account.model';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { HypervisorService } from '../../shared/services/hypervisor.service';
+import { Account } from '../../shared/models/account.model';
 import { Snapshot } from '../../shared/models/snapshot.model';
+import { HypervisorService } from '../../shared/services/hypervisor.service';
+import { TemplateResourceType } from '../shared/base-template.service';
+import { TemplateCreationComponent } from './template-creation.component';
 
 describe('Template creation component', () => {
   let fixture: ComponentFixture<TemplateCreationComponent>;
@@ -38,7 +34,7 @@ describe('Template creation component', () => {
       fixture = TestBed.createComponent(TemplateCreationComponent);
       component = fixture.componentInstance;
       component.mode = TemplateResourceType.template;
-      component.account = new Account({});
+      component.account = {} as Account;
       component.osTypes = [];
       component.zones = [];
       component.isLoading = false;
@@ -122,7 +118,7 @@ describe('Template creation component', () => {
     };
 
     component.name = params.name;
-    component.snapshot = new Snapshot({ id: 'snap1' });
+    component.snapshot = <Snapshot>{ id: 'snap1' };
     component.displayText = params.displayText;
     component.osTypeId = params.osTypeId;
     component.passwordEnabled = true;
@@ -245,7 +241,7 @@ describe('Template creation component', () => {
       ispublic: true,
     };
 
-    component.account = new Account({ accounttype: 1 });
+    component.account = <Account>{ accounttype: '1' };
 
     component.showAdditional = true;
     component.templateGroup = { id: 'testG1' };

@@ -41,8 +41,8 @@ export class TemplateTagService implements EntityTagService {
   public resetGroup(template: BaseTemplateModel): Observable<BaseTemplateModel> {
     const tag = template.tags.find(_ => _.key === this.keys.group);
     return this.tagService.remove({
-      resourceIds: tag.resourceId,
-      resourceType: tag.resourceType,
+      resourceIds: tag.resourceid,
+      resourceType: tag.resourcetype,
       'tags[0].key': tag.key
     });
   }

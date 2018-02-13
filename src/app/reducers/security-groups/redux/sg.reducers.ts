@@ -1,8 +1,12 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  getType,
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
+
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import * as securityGroup from './sg.actions';
@@ -18,7 +22,8 @@ export interface ListState extends EntityState<SecurityGroup> {
   filters: {
     viewMode: string,
     selectedAccountIds: string[],
-    query: string
+    query: string,
+    selectOrphanSG: boolean
   },
   loading: boolean,
   selectedSecurityGroupId: string | null
@@ -33,7 +38,8 @@ const initialListState: ListState = adapter.getInitialState({
   filters: {
     query: '',
     selectedAccountIds: [],
-    viewMode: SecurityGroupViewMode.Templates
+    viewMode: SecurityGroupViewMode.Templates,
+    selectOrphanSG: false
   },
   loading: false,
   selectedSecurityGroupId: null
@@ -103,16 +109,17 @@ export function listReducer(
         ...adapter.addOne(action.payload, state)
       };
     }
+    case securityGroup.CREATE_SECURITY_GROUPS_SUCCESS: {
+      return {
+        ...adapter.addMany(action.payload, state)
+      };
+    }
     case securityGroup.DELETE_SECURITY_GROUP_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
     case securityGroup.UPDATE_SECURITY_GROUP: {
       return {
-        ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.id]: action.payload
-        }
+        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state)
       };
     }
     default: {
@@ -183,6 +190,11 @@ export const query = createSelector(
   state => state.query
 );
 
+export const selectOrphanSG = createSelector(
+  filters,
+  state => state.selectOrphanSG
+);
+
 export const filterSelectedAccountIds = createSelector(
   filters,
   state => state.selectedAccountIds
@@ -230,19 +242,45 @@ export const selectFilteredSecurityGroups = createSelector(
 
     const viewModeFilter = (group: SecurityGroup) => {
       if (mode === SecurityGroupViewMode.Templates) {
-        return group.type === SecurityGroupType.PredefinedTemplate || group.type === SecurityGroupType.CustomTemplate;
-      } else {
-        return group.type === SecurityGroupType.Shared;
+        return getType(group) === SecurityGroupType.PredefinedTemplate
+          || getType(group) === SecurityGroupType.CustomTemplate;
+      } else if (mode === SecurityGroupViewMode.Shared) {
+        return getType(group) === SecurityGroupType.Shared;
+      } else if (mode === SecurityGroupViewMode.Private) {
+        return getType(group) === SecurityGroupType.Private;
       }
     };
 
+    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG
+      ? group.virtualMachineIds.length === 0
+      : true;
+
     return securityGroups.filter(group => queryFilter(group)
-      && viewModeFilter(group) && selectedAccountIdsFilter(group));
+      && viewModeFilter(group) && selectedAccountIdsFilter(group) && isOrphan(group));
   }
 );
 
 export const selectSecurityGroupsForVmCreation = createSelector(
-  selectAll, fromAuth.getUserAccountEntity, (securityGroups, account) => {
-    const accountFilter = (securityGroup: SecurityGroup) => securityGroup.account === account.account.name;
-    return securityGroups.filter((securityGroup) => accountFilter(securityGroup));
+  selectAll, fromAuth.getUserAccount, (securityGroups, account) => {
+    const accountFilter = (securityGroup: SecurityGroup) => account && securityGroup.account === account.name;
+    const onlySharedFilter = (securityGroup: SecurityGroup) =>
+      getType(securityGroup) === SecurityGroupType.Shared;
+    return securityGroups.filter((securityGroup) => accountFilter(securityGroup)
+      && onlySharedFilter(securityGroup));
   });
+
+export const selectPredefinedSecurityGroups = createSelector(
+  selectAll,
+  (securityGroups: SecurityGroup[]) => securityGroups.filter(
+    securityGroup => securityGroup.preselected)
+);
+
+export const hasOrphanSecurityGroups = createSelector(
+  selectAll,
+  (sg) => {
+    const orphans = sg.filter(group => getType(group) === SecurityGroupType.Private)
+      .find(_ => _.virtualMachineIds.length === 0);
+    return !!orphans;
+  }
+);
+

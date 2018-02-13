@@ -5,12 +5,11 @@ import { OfferingAvailability, OfferingService } from './offering.service';
 import { Observable } from 'rxjs/Observable';
 import { Zone } from '../models/zone.model';
 import { Volume } from '../models/volume.model';
-
+import { isOfferingLocal } from '../models/offering.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'DiskOffering',
-  entityModel: DiskOffering
+  entity: 'DiskOffering'
 })
 export class DiskOfferingService extends OfferingService<DiskOffering> {
   public getList(params?: any): Observable<Array<DiskOffering>> {
@@ -20,15 +19,15 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
           return list;
         }
 
-        return list.filter(offering => {
-          return offering.diskSize < params.maxSize || offering.isCustomized;
+        return list.filter((offering: DiskOffering) => {
+          return offering.disksize < params.maxSize || offering.iscustomized;
         });
       });
   }
 
   public isOfferingAvailableForVolume(diskOffering: DiskOffering, volume: Volume, zone: Zone): boolean {
-    return !diskOffering.isLocal || zone.localstorageenabled &&
-      (diskOffering.isCustomized || diskOffering.id !== volume.diskOfferingId);
+    return !isOfferingLocal(diskOffering) || zone.localstorageenabled &&
+      (diskOffering.iscustomized || diskOffering.id !== volume.diskofferingid);
   }
 
   protected isOfferingAvailableInZone(
@@ -36,6 +35,6 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
     offeringAvailability: OfferingAvailability,
     zone: Zone
   ): boolean {
-    return offeringAvailability[zone.id].diskOfferings.includes(offering.id);
+    return offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
   }
 }

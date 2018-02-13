@@ -6,6 +6,7 @@ import { TagService } from './tag.service';
 import { DescriptionTagService } from './description-tag.service';
 import { VolumeTagKeys } from './volume-tag-keys';
 
+export const VolumeResourceType = 'Volume';
 
 @Injectable()
 export class VolumeTagService {
@@ -21,6 +22,7 @@ export class VolumeTagService {
   public setDescription(volume: Volume, description: string): Observable<Volume> {
     return this.descriptionTagService.setDescription(
       volume,
+      VolumeResourceType,
       description,
       this
     ) as Observable<Volume>;
@@ -29,6 +31,7 @@ export class VolumeTagService {
   public removeDescription(volume: Volume): Observable<Volume> {
     return this.descriptionTagService.removeDescription(
       volume,
+      VolumeResourceType,
       this
     ) as Observable<Volume>;
   }
