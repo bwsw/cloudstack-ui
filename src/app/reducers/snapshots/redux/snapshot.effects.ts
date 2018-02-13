@@ -65,7 +65,7 @@ export class SnapshotEffects {
             .catch((error) => {
               this.jobsNotificationService.fail({
                 id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
               });
               return Observable.of(new snapshotActions.SnapshotUpdateError(error));
             });
