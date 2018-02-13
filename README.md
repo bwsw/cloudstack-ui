@@ -211,6 +211,7 @@ Here domain administrators can manage existing accounts, create new accounts and
 ### Proxy-conf.js file example
 
 <pre>
+const PROXY_CONFIG = [
   {
     context: [
       "/client/api",
@@ -218,6 +219,9 @@ Here domain administrators can manage existing accounts, create new accounts and
     target: "http://api.endpoint/",
     secure: false
   }
+];
+
+module.exports = PROXY_CONFIG;
 </pre>
 
 ## Deployment

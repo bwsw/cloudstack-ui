@@ -29,6 +29,7 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input() public defaultParams: ICustomServiceOffering;
   @Input() public selectedOffering: ServiceOffering;
   @Input() public isLoading = false;
+  @Input() public showFields: boolean;
   @Output() public selectedOfferingChange = new EventEmitter();
 
   public list: Array<{ soClass: ServiceOfferingClass, items: Array<ServiceOffering>}>;

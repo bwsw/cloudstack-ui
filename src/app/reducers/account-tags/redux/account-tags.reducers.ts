@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Tag } from '../../../shared/models/tag.model';
 import { AccountTagKeys } from '../../../shared/services/tags/account-tag-keys';
 
-import * as event from './account-tags.actions';
+import * as accountTagActions from './account-tags.actions';
 
 
 /**
@@ -48,16 +48,16 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: event.Actions
+  action: accountTagActions.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_ACCOUNT_TAGS_REQUEST: {
+    case accountTagActions.LOAD_ACCOUNT_TAGS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case event.LOAD_ACCOUNT_TAGS_RESPONSE: {
+    case accountTagActions.LOAD_ACCOUNT_TAGS_RESPONSE: {
       return {
         /**
          * The addMany function provided by the created adapter
@@ -70,7 +70,7 @@ export function reducer(
         loading: false
       };
     }
-    case event.UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS: {
+    case accountTagActions.UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS: {
       const id = `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`;
 
       if (state.ids.indexOf(id) > -1) {
