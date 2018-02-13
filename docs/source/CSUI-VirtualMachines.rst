@@ -583,8 +583,24 @@ Click "Show additional fields" to expand the list of optional settings. It allow
      
 Once all fields are filled in click "Create" to create the new template.
  
-.. figure:: _static/VMs_Info_Storage_Snapshot_CreateTemplate.png
- 
+.. figure:: _static/VMs_Info_Storage_Snapshot_CreateTemplate1.png
+
+- **Create Volume** - Allows creating a volume from the snapshot.
+
+Type a name for a new volume into the Name field in the modal window. Click “Create” to register a new volume.
+
+.. figure:: _static/VMs_SnapshotActions_CreateVolume.png
+
+Click “Cancel” to cancel the volume creation.
+
+- **Revert Volume To Snapshot** - Allows turning the volume back to the state of the snapshot. 
+
+In the dialogue window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
+
+.. figure:: _static/VMs_SnapshotActions_Revert.png
+   :scale: 70%
+
+
 - **Delete** - allows deleting the last-taken snapshot.
    
 Besides, you can see all the snapshots in the list by clicking the "VIEW ALL" button. In the appeared window you will see the list of all snapshots. For each snapshot in the list, the same actions are available: you can create a template, or delete a snapshot.
