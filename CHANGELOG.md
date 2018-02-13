@@ -1,3 +1,31 @@
+<a name="1.410.19"></a>
+## [1.410.19](https://github.com/ksendart/cloudstack-ui/compare/1.410.18...1.410.19) (2018-02-13)
+
+
+### Bug Fixes
+
+* **account-creation:** Fix account "create" button is enabled for User (closes [#953](https://github.com/ksendart/cloudstack-ui/issues/953)) ([#959](https://github.com/ksendart/cloudstack-ui/issues/959)) ([7733c1b](https://github.com/ksendart/cloudstack-ui/commit/7733c1b))
+* **ie-errors:** Fix several errors in IE. ([#907](https://github.com/ksendart/cloudstack-ui/issues/907)) ([d25a84b](https://github.com/ksendart/cloudstack-ui/commit/d25a84b))
+* **private-sg:** Remove private SG after VM expunge ([#915](https://github.com/ksendart/cloudstack-ui/issues/915)) ([04872ee](https://github.com/ksendart/cloudstack-ui/commit/04872ee))
+* **security-group:** Fix security group builder rule view (closes [#986](https://github.com/ksendart/cloudstack-ui/issues/986)) ([#987](https://github.com/ksendart/cloudstack-ui/issues/987)) ([e30b506](https://github.com/ksendart/cloudstack-ui/commit/e30b506))
+* **security-group:** Show only shared in VM creation (closes [#921](https://github.com/ksendart/cloudstack-ui/issues/921)) ([#922](https://github.com/ksendart/cloudstack-ui/issues/922)) ([bf964e7](https://github.com/ksendart/cloudstack-ui/commit/bf964e7))
+* **so-classes:** Store SO classes in config.json ([#955](https://github.com/ksendart/cloudstack-ui/issues/955)) ([200a401](https://github.com/ksendart/cloudstack-ui/commit/200a401))
+* **user-secret-key:** User's secret key copy button is out of the layout (closes [#927](https://github.com/ksendart/cloudstack-ui/issues/927)) ([#929](https://github.com/ksendart/cloudstack-ui/issues/929)) ([d306a07](https://github.com/ksendart/cloudstack-ui/commit/d306a07))
+* **vm card:** fix vm card state bullet when vm is stopping (closes [#923](https://github.com/ksendart/cloudstack-ui/issues/923)) ([#924](https://github.com/ksendart/cloudstack-ui/issues/924)) ([13f6a29](https://github.com/ksendart/cloudstack-ui/commit/13f6a29))
+
+
+### Features
+
+* **left-sidebar:** Configure left-side menu view in config file (closes [#814](https://github.com/ksendart/cloudstack-ui/issues/814)) ([#919](https://github.com/ksendart/cloudstack-ui/issues/919)) ([a123336](https://github.com/ksendart/cloudstack-ui/commit/a123336))
+* **security-group:** Support IPv6 (closes [#671](https://github.com/ksendart/cloudstack-ui/issues/671)) ([#957](https://github.com/ksendart/cloudstack-ui/issues/957)) ([b2a8da0](https://github.com/ksendart/cloudstack-ui/commit/b2a8da0))
+* **snapshots:** Add filter panel to the snapshots page (closes [#830](https://github.com/ksendart/cloudstack-ui/issues/830)) ([#967](https://github.com/ksendart/cloudstack-ui/issues/967)) ([0b59f68](https://github.com/ksendart/cloudstack-ui/commit/0b59f68))
+* **snapshots:** Add sidebar details panels for snapshots (closes [#831](https://github.com/ksendart/cloudstack-ui/issues/831)) ([#968](https://github.com/ksendart/cloudstack-ui/issues/968)) ([ebe02b7](https://github.com/ksendart/cloudstack-ui/commit/ebe02b7))
+* **snapshots:** add snapshot section (closes [#828](https://github.com/ksendart/cloudstack-ui/issues/828)) ([#879](https://github.com/ksendart/cloudstack-ui/issues/879)) ([bf44d0b](https://github.com/ksendart/cloudstack-ui/commit/bf44d0b))
+* **so-additional-fields:** Additional fields for SO ([#911](https://github.com/ksendart/cloudstack-ui/issues/911)) ([31e6131](https://github.com/ksendart/cloudstack-ui/commit/31e6131))
+* **vm-postdeployment:** Show "Password: no information" when template without password (closes [#888](https://github.com/ksendart/cloudstack-ui/issues/888)) ([#896](https://github.com/ksendart/cloudstack-ui/issues/896)) ([712580f](https://github.com/ksendart/cloudstack-ui/commit/712580f))
+
+
+
 <a name="1.410.18"></a>
 ## [1.410.18](https://github.com/qqcky/cloudstack-ui/compare/1.410.17...1.410.18) (2018-01-29)
 
@@ -110,7 +138,7 @@
 * **account-creation:** Both name and email are highlighted when creating an Account ([#686](https://github.com/bwsw/cloudstack-ui/issues/686)) ([720f8f9](https://github.com/bwsw/cloudstack-ui/commit/720f8f9))
 * **lists:** Selected item on listing pages is more visible now ([#677](https://github.com/bwsw/cloudstack-ui/issues/677)) ([610a7b1](https://github.com/bwsw/cloudstack-ui/commit/610a7b1))
 * **ngrx:** NGRX library updated not to show warning for angular5 ([#695](https://github.com/bwsw/cloudstack-ui/issues/695)) ([900b8f1](https://github.com/bwsw/cloudstack-ui/commit/900b8f1))
-* **sidebar-actions:** Sidebar does not close if an entity(account/vol… ([#709](https://github.com/bwsw/cloudstack-ui/issues/709)) ([fc273ee](https://github.com/bwsw/cloudstack-ui/commit/fc273ee))
+* **sidebar-actions:** Sidebar does not close if an entity(account/volâ¦ ([#709](https://github.com/bwsw/cloudstack-ui/issues/709)) ([fc273ee](https://github.com/bwsw/cloudstack-ui/commit/fc273ee))
 * **vm-creation:** Check iso size before vm creation ([#706](https://github.com/bwsw/cloudstack-ui/issues/706)) ([2d73591](https://github.com/bwsw/cloudstack-ui/commit/2d73591))
 
 
@@ -153,7 +181,7 @@
 * **mat-spinner:** Spinner has a wrong size ([#642](https://github.com/bwsw/cloudstack-ui/issues/642)) ([f528bdb](https://github.com/bwsw/cloudstack-ui/commit/f528bdb))
 * **sg-rules:** System Firewall templates view mode bug ([#634](https://github.com/bwsw/cloudstack-ui/issues/634)) ([f1b34fc](https://github.com/bwsw/cloudstack-ui/commit/f1b34fc))
 * **vm-creation:** Check Template size before VM Creation ([#620](https://github.com/bwsw/cloudstack-ui/issues/620)) ([54e28a6](https://github.com/bwsw/cloudstack-ui/commit/54e28a6))
-* **vm-creation:** Error in VM creation when affinity group contains c… ([#633](https://github.com/bwsw/cloudstack-ui/issues/633)) ([47280ac](https://github.com/bwsw/cloudstack-ui/commit/47280ac))
+* **vm-creation:** Error in VM creation when affinity group contains câ¦ ([#633](https://github.com/bwsw/cloudstack-ui/issues/633)) ([47280ac](https://github.com/bwsw/cloudstack-ui/commit/47280ac))
 * **vm-dialogs:** "Access VM" and "Save password for all VMs" dialogs have incorrect header ([#626](https://github.com/bwsw/cloudstack-ui/issues/626)) ([6fb53c7](https://github.com/bwsw/cloudstack-ui/commit/6fb53c7))
 * **vm-list:** "Cannot read property 'tokens' of undefined" in production ([#640](https://github.com/bwsw/cloudstack-ui/issues/640)) ([9602998](https://github.com/bwsw/cloudstack-ui/commit/9602998))
 
