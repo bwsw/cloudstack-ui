@@ -164,8 +164,23 @@ Once all fields are filled in click "Create" to create the new template.
 
 .. figure:: _static/Storage_CreateTemplate1.png
    :scale: 70%
-   
-- **Delete** - Allows deleting the snapshot.
+
+- **Create Volume** - Allows creating a volume from the snapshot.
+
+Type a name for a new volume into the Name field in the modal window. Click “Create” to register a new volume.
+
+.. figure:: _static/Storage_SnapshotActions_CreateVolume.png
+
+Click “Cancel” to cancel the volume creation.
+
+- **Revert Volume To Snapshot** - Allows turning the volume back to the state of the snapshot. 
+
+In the dialogue window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
+
+.. figure:: _static/Storage_SnapshotActions_Revert.png
+   :scale: 70%
+
+- **Delete** - Allows deleting the snapshot. Click “Delete” in the Action box and confirm your action in modal window. The snapshot will be deleted. Click “Cancel” to cancel the snapshot deleting.
 
 .. Find the detailed description in the :ref:`Actions_on_Snapshots` section.
 
