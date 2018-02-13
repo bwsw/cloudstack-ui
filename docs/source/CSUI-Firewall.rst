@@ -138,11 +138,12 @@ You can see the firewall rules details in the sidebar to the right.
 
 Click the template/shared/private security group in the list and open the sidebar. You will see two tabs there - Details and Tags. 
 
+The **Details** tab contains the following information:
+
 - Name of the security group;
 - :ref:`SG_Action_Box` under |actions icon|;
 - ID of the security group;
 - Description giving an idea what the security group contains (not available for private security groups);
-
 - Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``. For private security groups you will see ``private``.
 
 .. figure:: _static/Firewall_TemplateDetails1.png
