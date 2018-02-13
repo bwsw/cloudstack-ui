@@ -38,7 +38,7 @@ export const routes: Routes = [
       ...vmRoutes,
       ...volumeRoutes,
       ...templateRouting,
-      // ...snapshotRoutes,
+      ...snapshotRoutes,
       ...sgRoutes,
       ...accountsRoutes,
       {

@@ -16,6 +16,7 @@ export class SnapshotCardItemComponent extends SnapshotItemComponent {
   @Input() public volumes: Dictionary<Volume>;
   @Input() public virtualMachines: Dictionary<VirtualMachine>;
   @Input() public isSelected: (snapshot: Snapshot) => boolean;
+  @Input() public query: string;
   @Output() public onClick = new EventEmitter<Snapshot>();
   @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 

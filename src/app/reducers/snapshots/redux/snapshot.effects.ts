@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { Action, Store } from '@ngrx/store';
@@ -14,12 +15,12 @@ import { VirtualMachine, VmState } from '../../../vm';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 import { State } from '../../index';
+import * as vmActions from '../../vm/redux/vm.actions';
 import { VirtualMachinesEffects } from '../../vm/redux/vm.effects';
+import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 
 import * as snapshotActions from './snapshot.actions';
-import * as vmActions from '../../vm/redux/vm.actions';
-import * as fromVolumes from '../../volumes/redux/volumes.reducers';
-import * as fromVMs from '../../vm/redux/vm.reducers';
 
 
 @Injectable()
@@ -38,7 +39,7 @@ export class SnapshotEffects {
   @Effect()
   addSnapshot$: Observable<Action> = this.actions$
     .ofType(snapshotActions.ADD_SNAPSHOT)
-    .switchMap((action: snapshotActions.AddSnapshot) => {
+    .flatMap((action: snapshotActions.AddSnapshot) => {
       return this.dialog.open(SnapshotCreationComponent, {
         data: action.payload
       })
@@ -157,7 +158,15 @@ export class SnapshotEffects {
     .ofType(snapshotActions.DELETE_SNAPSHOT_SUCCESS)
     .do((action: snapshotActions.DeleteSnapshotSuccess) => {
       this.onNotify(action.payload, 'NOTIFICATIONS.SNAPSHOT.DELETE_SUCCESS');
-    });
+    })
+    .map((action: snapshotActions.DeleteSnapshotSuccess) => action.payload)
+    .filter((snapshot: Snapshot) => this.router.isActive(
+      `/snapshots/${snapshot.id}`,
+      false
+    ))
+    .do(() => this.router.navigate(['./snapshots'], {
+      queryParamsHandling: 'preserve'
+    }));
 
   @Effect({ dispatch: false })
   handleError$ = this.actions$
@@ -175,7 +184,8 @@ export class SnapshotEffects {
     private jobsNotificationService: JobsNotificationService,
     private dialogService: DialogService,
     private dialog: MatDialog,
-    private vmEffects: VirtualMachinesEffects
+    private vmEffects: VirtualMachinesEffects,
+    private router: Router
   ) {
   }
 
