@@ -44,8 +44,10 @@ A details sidebar presents the information on a snapshot. It appears to the righ
 .. figure:: _static/Snapshots_Details.png
 
 The following information is presented in the details sidebar:
-Date and time of creation;
-Type - Presents the snapshot type 
+
+- Date and time of creation;
+- Type - Presents the snapshot type;
+- Volume information and a virtual machine it is assigned to.
 
 Snapshot Actions Box
 -----------------------------------
@@ -95,7 +97,7 @@ Click "Cancel" to cancel the volume creation.
 
 **Revert Volume to Snapshot**
 
-This action allows turning the volume back to the state of the snapshot.
+This action allows turning the volume back to the state of the snapshot. It is available to those snapshots that have a volume.
 
 In the dialogue window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
 
