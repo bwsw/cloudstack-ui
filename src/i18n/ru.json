@@ -740,9 +740,40 @@
       "VM_DELETED": "Удалена",
       "CREATED": "Создан"
     },
+    "TYPES": {
+      "HOURLY": "Ежечасные",
+      "DAILY": "Ежедневные",
+      "WEEKLY": "Еженедельные",
+      "MONTHLY": "Ежемесячные",
+      "MANUAL": "Вручную"
+    },
     "FILTERS": {
       "VOLUME": "Диск",
-      "VM": "Виртуальные машины"
+      "VM": "Виртуальные машины",
+      "GROUP_BY": "Группировать по",
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
+      "SELECT_TYPES": "Выберите типы",
+      "GROUP_BY_TYPES": "Типам",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
+    },
+    "SIDEBAR": {
+      "DETAILS": "Детали",
+      "CREATED": "Создан",
+      "TYPE": "Тип",
+      "TYPES": {
+        "HOURLY": "Ежечасный",
+        "DAILY": "Ежедневный",
+        "WEEKLY": "Еженедельный",
+        "MONTHLY": "Ежемесячный",
+        "MANUAL": "Создан вручную"
+      },
+      "DESCRIPTION": "Описание",
+      "VOLUME_INFORMATION": {
+        "TITLE": "Информация о диске",
+        "VM": "Виртуальная машина",
+        "VOLUME": "Диск"
+      },
+      "SNAPSHOT_NOT_FOUND": "Снимок не найден"
     },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Создать шаблон",
@@ -808,21 +839,33 @@
       "ENTER_VALID_PORT": "Некорректный порт",
       "ENTER_VALID_TYPE": "Некорректный тип",
       "ENTER_VALID_CODE": "Некорректный код",
+      "ENTER_CIDR": "CIDR v4/v6",
       "ENTER_VALID_CIDR": "Некорректный CIDR",
       "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
       "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
+      "SELECT_IP_VERSION": "Выберите версию IP",
       "SELECT_TYPE": "Выберите типы",
       "SELECT_PROTOCOL": "Выберите протоколы",
-      "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
-      "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
-      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
-      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
-      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
-      "DEFAULT_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, порт: {{ startPort }}",
-      "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
-      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
-      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
-      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
+      "EGRESS_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
+      "EGRESS_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса<b> {{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
+      "EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса<b> {{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
+      "NO_TEXT_EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "NO_CODE_EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "EGRESS_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, порт: {{ startPort }}",
+      "EGRESS_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
+      "EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
+      "NO_TEXT_EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
+      "NO_CODE_EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
+      "INGRESS_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
+      "INGRESS_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
+      "INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
+      "NO_TEXT_INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "NO_CODE_INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "INGRESS_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, порт: {{ startPort }}",
+      "INGRESS_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
+      "INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
+      "NO_TEXT_INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
+      "NO_CODE_INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
       "NO_FIREWALL_RULES": "Нет правил брандмауэра"
     },
     "ICMP_TYPES": {
@@ -1030,6 +1073,213 @@
           "3": "Сбой при расшифровке",
           "4": "Требуется проверка подлинности",
           "5": "Требуется авторизация"
+        }
+      }
+    },
+    "ICMP_V6_TYPES": {
+      "1": {
+        "description": "Сообщение о недоступности назначения",
+        "codes": {
+          "0": "Никакой маршрут назначению",
+          "1": "Связь с назначением административно не запрещен, такие как фильтр межсетевого экрана",
+          "2": "Не назначенный",
+          "3": "Недостижимый адрес",
+          "4": "Недостижимый порт",
+          "5": "Source address failed ingress/egress policy",
+          "6": "Reject route to destination"
+        }
+      },
+      "2": {
+        "description": "Сообщение о слишком большом пакете",
+        "codes": {
+          "0": ""
+        }
+      },
+      "3": {
+        "description": "Time Exceeded Message",
+        "codes": {
+          "0": "Предел перехода превысил в транзите",
+          "1": "Время повторной сборки фрагмента превысило"
+        }
+      },
+      "4": {
+        "description": "Сообщение о проблеме параметра",
+        "codes": {
+          "0": "Ошибочное поле заголовка встретилось",
+          "1": "Неопознанный следующий тип заголовка встретился",
+          "2": "Unrecognized IPv6"
+        }
+      },
+      "100": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "101": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "127": {
+        "description": "Reserved for expansion of ICMPv6 error messages",
+        "codes": {
+          "0": ""
+        }
+      },
+      "128": {
+        "description": "Сообщение запроса эха",
+        "codes": {
+          "0": ""
+        }
+      },
+      "129": {
+        "description": "Сообщение эхо-ответа",
+        "codes": {
+          "0": ""
+        }
+      },
+      "130": {
+        "description": "Multicast Listener Query",
+        "codes": {
+          "0": ""
+        }
+      },
+      "131": {
+        "description": "Multicast Listener Report",
+        "codes": {
+          "0": ""
+        }
+      },
+      "132": {
+        "description": "Multicast Listener Done",
+        "codes": {
+          "0": ""
+        }
+      },
+      "133": {
+        "description": "Сообщение запроса маршрутизатора",
+        "codes": {
+          "0": ""
+        }
+      },
+      "134": {
+        "description": "Сообщение объявления маршрутизатора",
+        "codes": {
+          "0": ""
+        }
+      },
+      "135": {
+        "description": "Сообщение Neighbor Solicitation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "136": {
+        "description": "Сообщение об объявлении окружения",
+        "codes": {
+          "0": ""
+        }
+      },
+      "137": {
+        "description": "Сообщение перенаправления",
+        "codes": {
+          "0": ""
+        }
+      },
+      "138": {
+        "description": "Router Renumbering",
+        "codes": {
+          "0": "Router Renumbering Command",
+          "1": "Router Renumbering Result",
+          "255": "Sequence Number Reset"
+        }
+      },
+      "139": {
+        "description": "ICMP Node Information Query",
+        "codes": {
+          "0": "The Data field contains an IPv6 address which is the Subject of this Query.",
+          "1": "The Data field contains a name which is the Subject of this Query, or is empty, as in the case of a NOOP.",
+          "2": "The Data field contains an IPv4 address which is the Subject of this Query."
+        }
+      },
+      "140": {
+        "description": "ICMP Node Information Response",
+        "codes": {
+          "0": "A successful reply. The Reply Data field may or may not be empty.",
+          "1": "The Responder refuses to supply the answer. The Reply Data field will be empty.",
+          "2": "The Qtype of the Query is unknown to the Responder. The Reply Data field will be empty."
+        }
+      },
+      "141": {
+        "description": "Inverse Neighbor Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "142": {
+        "description": "Inverse Neighbor Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "144": {
+        "description": "Home Agent Address Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "145": {
+        "description": "Home Agent Address Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "146": {
+        "description": "Mobile Prefix Solicitation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "147": {
+        "description": "Mobile Prefix Advertisement",
+        "codes": {
+          "0": ""
+        }
+      },
+      "160": {
+        "description": "Extended Echo Request",
+        "codes": {
+          "0": "No error"
+        }
+      },
+      "161": {
+        "description": "Extended Echo Reply",
+        "codes": {
+          "0": "No error",
+          "1": "Malformed Query",
+          "2": "No Such Interface",
+          "3": "No Such Table Entry",
+          "4": "Multiple Interfaces Satisfy Query"
+        }
+      },
+      "200": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "201": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "255": {
+        "description": "Reserved for expansion of ICMPv6 informational messages",
+        "codes": {
+          "0": ""
         }
       }
     },
@@ -1254,6 +1504,8 @@
     "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
     "CPU_MHZ": "{{ count }}x{{ speed }} МГц",
     "VM_WILL_BE_REBOOTED": "Машина будет перезагружена",
+    "SHOW_ADDITIONAL_FIELDS": "Показать дополнительные параметры",
+    "HIDE_ADDITIONAL_FIELDS": "Скрыть дополнительные параметры",
     "CUSTOM_SERVICE_OFFERING": {
       "TITLE": "Настраиваемое предложение",
       "CPU_NUMBER": "Ядра CPU",
@@ -1268,7 +1520,11 @@
       "NETWORK_RATE": "Скорость сети (MБ/сек)",
       "CPU_NUMBER": "Ядра CPU",
       "CPU_SPEED": "CPU (MHz)",
-      "MEMORY": "Память (MБ)"
+      "MEMORY": "Память (MБ)",
+      "DISK_BYTES_READ": "Скорость чтения (MБ/сек)",
+      "DISK_BYTES_WRITE": "Скорость записи (MБ/сек)",
+      "DISK_IOPS_READ": "Скорость чтения (IO/сек)",
+      "DISK_IOPS_WRITE": "Скорость записи (IO/сек)"
     },
     "MODES": {
       "FIXED": "Фиксированные",

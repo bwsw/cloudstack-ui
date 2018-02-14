@@ -53,13 +53,18 @@ export class TagService extends BaseBackendCachedService<Tag> {
     })
       .map(() => {
         if (newEntity.tags) {
-          newEntity.tags.push({
+          const newTags: Tag[] = [...newEntity.tags];
+          newTags.push(<Tag>{
             resourceid: newEntity.id,
             resourcetype: entityName,
             key,
             value
           });
-          return newEntity;
+          return Object.assign(
+            {},
+            newEntity,
+            { tags: newTags }
+          );
         }
         return newEntity;
       })

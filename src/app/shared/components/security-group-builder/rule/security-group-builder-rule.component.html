@@ -1,40 +1,10 @@
 <mat-list-item class="flex-container">
   <h5 matLine>
-    <ng-template [ngIf]="item.rule.protocol === NetworkProtocols.ICMP">
-      <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
       <span
-        [matTooltip]="'SECURITY_GROUP_PAGE.RULES.NO_TEXT_ICMP_RULE_NOMARKUP' | translate: (ruleParams)"
-        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_TEXT_ICMP_RULE' | translate: (ruleParams)"
+        [matTooltip]="ruleTranslationToken.tooltip | translate: (ruleParams)"
+        [innerHTML]="ruleTranslationToken.name | translate: (ruleParams)"
       >
       </span>
-      </ng-template>
-      <ng-template [ngIf]="!ruleParams['icmpCodeText'] && !!ruleParams['icmpTypeText']">
-      <span
-        [matTooltip]="'SECURITY_GROUP_PAGE.RULES.NO_CODE_ICMP_RULE_NOMARKUP' | translate: (ruleParams)"
-        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.NO_CODE_ICMP_RULE' | translate: (ruleParams)"
-      ></span>
-      </ng-template>
-      <ng-template [ngIf]="ruleParams['icmpTypeText'] && ruleParams['icmpCodeText']">
-      <span
-        [matTooltip]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_ICMP_RULE_NOMARKUP' | translate: (ruleParams)"
-        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_ICMP_RULE' | translate: (ruleParams)"
-      ></span>
-      </ng-template>
-    </ng-template>
-    <ng-template [ngIf]="item.rule.protocol !== NetworkProtocols.ICMP">
-      <ng-template [ngIf]="item.rule.startPort === item.rule.endPort">
-      <span
-        [matTooltip]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_NOMARKUP' | translate: (ruleParams)"
-        [innerHTML]=" 'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE' | translate: (ruleParams)"
-      ></span>
-      </ng-template>
-      <ng-template [ngIf]="item.rule.startPort !== item.rule.endPort">
-      <span
-        [matTooltip]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE_NOMARKUP' | translate: (ruleParams)"
-        [innerHTML]="'SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE' | translate: (ruleParams)"
-      ></span>
-      </ng-template>
-    </ng-template>
   </h5>
   <span>
     <mat-checkbox

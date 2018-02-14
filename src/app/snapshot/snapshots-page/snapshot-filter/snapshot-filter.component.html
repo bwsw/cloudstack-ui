@@ -1,0 +1,60 @@
+<div class="filter-wrapper">
+  <mat-form-field *ngIf="accounts.length > 1">
+    <mat-select
+      multiple="true"
+      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [ngModel]="selectedAccounts"
+      (selectionChange)="selectedAccountsChange.emit($event.value)"
+    >
+      <mat-option
+        *ngFor="let account of accounts"
+        [value]="account.name"
+      >{{ account.fullDomain }}{{ account.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      multiple="true"
+      [placeholder]="'SNAPSHOT_PAGE.FILTERS.SELECT_TYPES' | translate"
+      [ngModel]="selectedTypes"
+      (selectionChange)="selectedTypesChange.emit($event.value)"
+    >
+      <mat-option *ngFor="let t of types" [value]="t.type">
+        {{ t.name | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <cs-draggable-select
+      multiple="true"
+      [placeholder]="'SNAPSHOT_PAGE.FILTERS.GROUP_BY' | translate"
+      [ngModel]="selectedGroupings"
+      [dragItems]="availableGroupings"
+      (selectionChange)="selectedGroupingsChange.emit($event.value)"
+    >
+      <ng-container *ngFor="let g of availableGroupings">
+        <mat-option *ngIf="!(g.hidden())" [value]="g">
+          {{ g.label | translate }}
+        </mat-option>
+      </ng-container>
+    </cs-draggable-select>
+  </mat-form-field>
+
+  <cs-date-picker
+    [okLabel]="'COMMON.OK' | translate"
+    [locale]="locale"
+    [firstDayOfWeek]="firstDayOfWeek"
+    [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+    [cancelLabel]="'COMMON.CANCEL' | translate"
+    [ngModel]="selectedDate"
+    (change)="selectedDateChange.emit($event)"
+  ></cs-date-picker>
+</div>
+
+<div class="filter-wrapper">
+  <cs-search
+    [ngModel]="query"
+    (ngModelChange)="queryChange.emit($event)"
+  ></cs-search>
+</div>

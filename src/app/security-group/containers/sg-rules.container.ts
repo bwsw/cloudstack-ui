@@ -37,7 +37,6 @@ export class SgRulesContainerComponent implements OnInit {
       this.vmId = data.vmId;
       this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     }
-
     this.editMode = !!data.editMode;
   }
 

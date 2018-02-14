@@ -1,6 +1,6 @@
 {
   "name": "cloudstack-ui",
-  "version": "1.410.18",
+  "version": "1.410.19",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
@@ -37,6 +37,7 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "chart.js": "2.7.0",
     "core-js": "^2.4.1",
+    "ip-address": "^5.8.9",
     "jasmine": "^2.8.0",
     "jasmine-marbles": "^0.2.0",
     "lodash": "^4.17.4",
@@ -48,6 +49,7 @@
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.5.2",
     "showdown": "^1.8.4",
+    "sprintf-js": "^1.1.1",
     "uuid": "^3.1.0",
     "web-animations-js": "2.3.1",
     "zone.js": "0.8.12"

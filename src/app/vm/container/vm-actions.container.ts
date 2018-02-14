@@ -1,7 +1,4 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
@@ -54,8 +51,8 @@ export class VmActionsContainerComponent {
     this.store.dispatch(new vmActions.ExpungeVm(vm));
   }
 
-  public onVmDestroy(event): void {
-    this.store.dispatch(new vmActions.DestroyVm(event));
+  public onVmDestroy(vm: VirtualMachine): void {
+    this.store.dispatch(new vmActions.DestroyVm(vm));
   }
 
   public onVmReboot(vm: VirtualMachine): void {

@@ -23,7 +23,7 @@ export class VmCreationSecurityGroupService {
       const data = this.securityGroupCreationData(state.displayName);
       const rules = this.getSecurityGroupCreationRules(state.securityGroupData.rules);
       return this.securityGroupService.createPrivate(data, rules)
-        .map(securityGroup => [securityGroup]);
+        .map(securityGroup => [new SecurityGroup(securityGroup)]);
     } else {
       return Observable.of(state.securityGroupData.securityGroups);
     }
