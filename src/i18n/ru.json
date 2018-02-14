@@ -740,9 +740,40 @@
       "VM_DELETED": "Удалена",
       "CREATED": "Создан"
     },
+    "TYPES": {
+      "HOURLY": "Ежечасные",
+      "DAILY": "Ежедневные",
+      "WEEKLY": "Еженедельные",
+      "MONTHLY": "Ежемесячные",
+      "MANUAL": "Вручную"
+    },
     "FILTERS": {
       "VOLUME": "Диск",
-      "VM": "Виртуальные машины"
+      "VM": "Виртуальные машины",
+      "GROUP_BY": "Группировать по",
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
+      "SELECT_TYPES": "Выберите типы",
+      "GROUP_BY_TYPES": "Типам",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
+    },
+    "SIDEBAR": {
+      "DETAILS": "Детали",
+      "CREATED": "Создан",
+      "TYPE": "Тип",
+      "TYPES": {
+        "HOURLY": "Ежечасный",
+        "DAILY": "Ежедневный",
+        "WEEKLY": "Еженедельный",
+        "MONTHLY": "Ежемесячный",
+        "MANUAL": "Создан вручную"
+      },
+      "DESCRIPTION": "Описание",
+      "VOLUME_INFORMATION": {
+        "TITLE": "Информация о диске",
+        "VM": "Виртуальная машина",
+        "VOLUME": "Диск"
+      },
+      "SNAPSHOT_NOT_FOUND": "Снимок не найден"
     },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Создать шаблон",

@@ -47,7 +47,7 @@ export class AccountTagService implements EntityTagService {
     return `${this.keys.sshDescription}.${sshKey.fingerprint}`;
   }
 
-  public writeTag(key: string, value: string): Observable<string> {
+  public writeTag(key: string, value: string): Observable<any> {
     return this.accountService.getAccount({name: this.user.account, domainid: this.user.domainid})
       .switchMap(account => {
         return this.tagService.update(

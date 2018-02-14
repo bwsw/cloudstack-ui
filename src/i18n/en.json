@@ -740,9 +740,40 @@
       "VM_DELETED": "Deleted",
       "CREATED": "Created"
     },
+    "TYPES": {
+      "HOURLY": "Hourly",
+      "DAILY": "Daily",
+      "WEEKLY": "Weekly",
+      "MONTHLY": "Monthly",
+      "MANUAL": "Manual"
+    },
     "FILTERS": {
       "VOLUME": "Volume",
-      "VM": "Virtual Machines"
+      "VM": "Virtual Machines",
+      "GROUP_BY": "Group by",
+      "SELECT_ACCOUNTS": "Select accounts",
+      "SELECT_TYPES": "Select types",
+      "GROUP_BY_TYPES": "Types",
+      "GROUP_BY_ACCOUNTS": "Accounts"
+    },
+    "SIDEBAR": {
+      "DETAILS": "Details",
+      "CREATED": "Created",
+      "TYPE": "Type",
+      "TYPES": {
+        "HOURLY": "Hourly",
+        "DAILY": "Daily",
+        "WEEKLY": "Weekly",
+        "MONTHLY": "Monthly",
+        "MANUAL": "Manual"
+      },
+      "DESCRIPTION": "Description",
+      "VOLUME_INFORMATION": {
+        "TITLE": "Volume information",
+        "VM": "Virtual Machine",
+        "VOLUME": "Volume"
+      },
+      "SNAPSHOT_NOT_FOUND": "Snapshot not found"
     },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Create template",
