@@ -58,7 +58,6 @@ export class VolumesEffects {
         .map(job => {
           const createdVolume = job.jobresult['volume'];
           this.dialog.closeAll();
-          console.log(createdVolume);
           this.onNotify(
             createdVolume,
             'NOTIFICATIONS.VOLUME.VOLUME_FROM_SNAPSHOT_CREATED'

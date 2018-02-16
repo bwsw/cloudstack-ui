@@ -18,6 +18,7 @@ Here is the documentation structure:
    CSUI-VirtualMachines
    CSUI-Storage
    CSUI-Images
+   CSUI-Snapshots
    CSUI-Firewall
    CSUI-Events
    CSUI-SSHkeys
