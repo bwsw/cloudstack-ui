@@ -77,7 +77,15 @@ In the *Create VM* form fill in the following fields:
 2. **Zone** * - A zone of VM operation. Select a zone from the drop-down list. The list of available zones is managed by a Root Administrator. More information about zones in CloudStack can be found in the `official documentation <http://docs.cloudstack.apache.org/en/latest/concepts.html?highlight=zone#about-zones>`_.
 3. **Service offerings** * -  Select a set of options and resources for a VM, such as templates for creating virtual machines, disk storage, and other. The list of available service offerings is managed by an Administrator. Service offering avaliablity is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#offering-availability>`_.
 
-Click "SELECT" in the Service Offerings block and choose a necessary option in the modal window. The list of service offerings can be of two types: Fixed and Custom. *Fixed* service offerings are the offerings with fixed parameters. They can not be changed. *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. Use the search tool to find an option in the list by a name or a part of the name.
+Click "SELECT" in the Service Offerings block and choose a necessary option in the modal window. The list of service offerings can be of two types: Fixed and Custom. *Fixed* service offerings are the offerings with fixed parameters. They can not be changed. *Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need. Use the switcher "Fixed/Custom" above the list to select a necessary type of offerings. 
+
+If service offering classes are determined in the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-classes>`_), the list of service offerings is displayed as a list grouped by the determined classes. You can filter the list by classes using the filtering tool above the list. Classes provide additional semantics defining the purpose of VM. 
+
+.. figure:: _static/VMs_Create_SOClasses.png
+
+You also can use the search tool to find an option in the list by a name or a part of the name.
+
+**Fixed Service Offerings**
 
 For fixed service offerings the parameters are provided in the table per each option. Four main parameters are provided by default. They are:
 
@@ -104,6 +112,8 @@ Choose the option in the list and click "SELECT" below.
    :scale: 70%
 
 The settings will appear for the VM service offerings. 
+
+**Custom Service Offerings**
 
 For custom service offerings the parameters are also provided in the table per each option. Besides, you can see more parameters by clicking "SHOW ADDITIONAL FIELDS". 
 
@@ -385,7 +395,17 @@ To remove the assigned group select the "Remove from the group" option and click
    
 The VM group is a custom group. It is saved to VM tags with ``csui.vm.group`` tag. From the Tags tab it also can be edited or deleted.
 
-4. Service offering - The offerings of the VM. Expand the section to view the whole list of offerings. Edit this field by clicking the "Edit" button |edit icon|. In the appeared window select a new option. 
+4. Service offering - The service offerings of the VM. Expand the section to view the whole list of offering parameters. 
+
+Edit this field by clicking the "Edit" button |edit icon|. In the appeared window you will see the list of available service offerings. 
+
+The list consists of two sections - Fixed and Custom. In each section offerings can be filtered by classes, if classes are determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-classes>`_. 
+
+.. figure:: _static/VMs_Create_SOClasses.png
+
+You can use the search tool to find an offering in the list by a name or a part of the name.
+
+Select an option from the list to change the service offering. 
 
 .. figure:: _static/VMs_Details_EditSO2.png
    :scale: 70%
@@ -720,15 +740,15 @@ Depending on the installation source (ISO or a Template) the system allows getti
 
 - Open VNC console - This button under the "Access VM" action allows opening a console.
 
-.. figure:: _static/AccessVM_OpenConsole.png
+.. figure:: _static/AccessVM_OpenConsole2.png
 
 - WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To find more information on accessing VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/107-ReleaseNotes-En#webshell-plugin-experimental-function>`_. See the detailed instructions on the deployment of WebShell Plugin `here <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment>`_.
 
-.. figure:: _static/AccessVM_WebShell.png
+.. figure:: _static/AccessVM_WebShell1.png
 
 - Access via HTTP if VM has a ``csui.vm.auth-mode`` tag with HTTP value. To configure access to VM via HTTP, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 
-.. figure:: _static/AccessVM_OpenURL.png
+.. figure:: _static/AccessVM_OpenURL2.png
 
 You can choose the way you like and make necessary settings.
 
