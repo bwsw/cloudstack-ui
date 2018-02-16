@@ -5,6 +5,7 @@ import { BackendResource } from '../decorators';
 import { AsyncJob, Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
+import { CSCommands } from './base-backend.service';
 import { SnapshotTagService } from './tags/snapshot-tag.service';
 
 
@@ -30,7 +31,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     this.invalidateCache();
 
     const params = this.getSnapshotCreationParams(volumeId, name);
-    return this.sendCommand('create', params)
+    return this.sendCommand(CSCommands.Create, params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
       .switchMap((response: AsyncJob<Snapshot>) => {
         const snapshot = response.jobresult.snapshot;
@@ -49,12 +50,12 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
 
   public remove(id: string): Observable<any> {
     this.invalidateCache();
-    return this.sendCommand('delete', { id })
+    return this.sendCommand(CSCommands.Delete, { id })
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 
   public revert(id: string): Observable<AsyncJob<Snapshot>> {
-    return this.sendCommand('revert', { id })
+    return this.sendCommand(CSCommands.Revert, { id })
       .switchMap(job => this.asyncJobService.queryJob(job.jobid));
   }
 

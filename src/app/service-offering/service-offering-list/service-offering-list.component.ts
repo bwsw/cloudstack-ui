@@ -7,7 +7,6 @@ import {
   ServiceOffering,
   ServiceOfferingClass
 } from '../../shared/models/service-offering.model';
-import { Tag } from '../../shared/models/tag.model';
 import { Language } from '../../shared/services/language.service';
 import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
 import {
@@ -25,12 +24,12 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input() public offeringList: Array<ServiceOffering>;
   @Input() public classes: Array<ServiceOfferingClass>;
   @Input() public selectedClasses: Array<string>;
-  @Input() public classTags: Array<Tag>;
   @Input() public query: string;
   @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
   @Input() public defaultParams: ICustomServiceOffering;
   @Input() public selectedOffering: ServiceOffering;
   @Input() public isLoading = false;
+  @Input() public showFields: boolean;
   @Output() public selectedOfferingChange = new EventEmitter();
 
   public list: Array<{ soClass: ServiceOfferingClass, items: Array<ServiceOffering>}>;
@@ -106,6 +105,6 @@ export class ServiceOfferingListComponent implements OnChanges {
 
   public filterOfferings(list: ServiceOffering[], soClass: ServiceOfferingClass) {
     const classesMap = [ soClass ].reduce((m, i) => ({ ...m, [i.id]: i }), {});
-    return list.filter(offering => classesFilter(offering, this.classTags, classesMap));
+    return list.filter(offering => classesFilter(offering, this.classes, classesMap));
   }
 }

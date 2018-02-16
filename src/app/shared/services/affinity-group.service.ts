@@ -8,6 +8,7 @@ import { AffinityGroup } from '../models';
 import { AffinityGroupType } from '../models/affinity-group.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
+import { CSCommands } from './base-backend.service';
 
 
 export interface AffinityGroupCreationData {
@@ -37,7 +38,7 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
     vmId: string,
     affinityGroupId: string
   ): Observable<VirtualMachine> {
-    return this.sendCommand('updateVM', {
+    return this.sendCommand(CSCommands.UpdateVM, {
       id: vmId,
       affinityGroupIds: affinityGroupId
     })

@@ -1,6 +1,12 @@
 h4, h5 {
   margin: 10px;
 }
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 table {
   thead {
     text-align: left;
@@ -9,8 +15,11 @@ table {
     cursor: pointer;
   }
   td.name-text, th.name-text, th.field {
-    max-width: 150px;
+    min-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  th.field {
+    min-width: 100px;
   }
 }

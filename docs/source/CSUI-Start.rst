@@ -21,16 +21,18 @@ To enter the platform use your credentials provided by an administrator:
 - Domain - Specify domain when you log in. CloudStak-UI supports three ways to do it. Choose the one which is more convenient for you:
   
    1) Enter a domain in the field under the "Show advanced options" button |adv icon|.
+   
+   2) Administrator can set a domain in configurations. Domain field will be prepopulated with the specified value. It is more convenient for a user as he/she does not need to enter the domain every time at logging in. In this case the domain field can be hidden by clicking |adv icon|. Find more information on the feature configuration at the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-domain-url>`_.
 
-   2) Administrator can set a domain in configurations. Domain field will be prepopulated with the specified value. It is more convenient for a user as he/she does not need to enter the domain every time at logging in. In this case the domain field can be hidden by clicking |adv icon|.
-
-   3) Other way to log in is to enter a URL in the format ``http://<ip-address>/login?domain=<domain>``. The domain will be prepopulated in the logging in form with the value that is specified in the URL. Please, note, the domain value in URL will override the domain set in the configurations by Administrator. Find more information on the feature configuration at the `Configurations page` (link here).
+   3) Other way to log in is to enter a URL in the format ``http://<ip-address>/login?domain=<domain>``. The domain will be prepopulated in the logging in form with the value that is specified in the URL. Please, note, the domain value in URL will override the domain set in the configurations by Administrator.
 
 .. figure:: _static/LoginScreen.png
 
 Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
 
-To the left you can see the main navigation bar. It allows moving from section to section. It is configured by Root Administrator in the configuration file. The administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the :ref:`Administration_Guide` for more information on configuring the navigation bar elements reordering.
+To the left you can see the main navigation bar. It allows moving from section to section. It is configured by an Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#sidebar-order>`_ by setting a list of left-sidebar sections there. The Administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#allow-reordering-sidebar>`_ for more information on configuring the navigation bar elements.
+
+The navigation bar can be hidden or extended using the icon in the upper-left corner.
 
 .. _Resource_Usage:
 
