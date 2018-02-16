@@ -24,6 +24,7 @@ export class ServiceOfferingClass {
   public id: string;
   public name?: object;
   public description?: object;
+  public serviceOfferings?: string[];
 
   constructor(id: string) {
     this.id = id;
@@ -35,6 +36,5 @@ export const ServiceOfferingType = {
   custom: 'Custom'
 };
 
-export const ServiceOfferingClassKey = AccountTagKeys.serviceOfferingClass;
 export const ServiceOfferingParamKey = AccountTagKeys.serviceOfferingParam;
 export const DefaultServiceOfferingClassId = 'common';

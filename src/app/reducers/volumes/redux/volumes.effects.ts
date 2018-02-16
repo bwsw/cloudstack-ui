@@ -21,6 +21,8 @@ import { State } from '../../index';
 
 import * as volumeActions from './volumes.actions';
 import * as fromVolumes from './volumes.reducers';
+import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
+import { VolumeDeleteDialogComponent } from '../../../shared/actions/volume-actions/volume-delete/volume-delete-dialog.component';
 
 @Injectable()
 export class VolumesEffects {
@@ -56,7 +58,6 @@ export class VolumesEffects {
         .map(job => {
           const createdVolume = job.jobresult['volume'];
           this.dialog.closeAll();
-          console.log(createdVolume);
           this.onNotify(
             createdVolume,
             'NOTIFICATIONS.VOLUME.VOLUME_FROM_SNAPSHOT_CREATED'
@@ -241,17 +242,32 @@ export class VolumesEffects {
   @Effect()
   deleteVolumes$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUMES)
-    .withLatestFrom(this.store.select(fromVolumes.selectAll))
+    .withLatestFrom(this.store.select(fromVolumes.selectVolumesWithSnapshots))
     .map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
-      return volumes.filter((volume: Volume) => !isRoot(volume)
-        && volume.virtualmachineid === action.payload.id);
+      return [volumes.filter((volume: Volume) => !isRoot(volume)
+        && volume.virtualmachineid === action.payload.vm.id), action.payload.expunged];
     })
-    .filter((volumes: Array<Volume>) => !!volumes.length)
-    .switchMap((volumes: Array<Volume>) =>
-      this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' })
+    .filter(([volumes, expunged]: [Array<Volume>, boolean]) => !!volumes.length)
+    .switchMap(([volumes, expunged]: [Array<Volume>, boolean]) =>
+      this.dialog.open(VolumeDeleteDialogComponent, {
+        data: !!volumes.find(volume => !!volume.snapshots.length)
+      }).afterClosed()
         .filter(res => Boolean(res))
-        .flatMap(() => volumes
-          .map((volume: Volume) => new volumeActions.DeleteVolume(volume))));
+        .flatMap((params) => {
+          return volumes
+            .reduce((res: Action[], volume: Volume) => {
+              const detachedVolume = expunged ?
+                Object.assign({}, volume, { virtualmachineid: '' }) :
+                volume;
+              if (params.deleteSnapshots && !!volume.snapshots.length) {
+                res.push(
+                  new snapshotActions.DeleteSnapshots(detachedVolume.snapshots),
+                  new volumeActions.DeleteVolume(detachedVolume)
+                );
+              } else res.push(new volumeActions.DeleteVolume(detachedVolume));
+              return res;
+            }, []);
+        }));
 
   @Effect()
   deleteVolume$: Observable<Action> = this.actions$
@@ -281,12 +297,8 @@ export class VolumesEffects {
       const detach = (detachVolume) => {
         return this.volumeService
           .detach(detachVolume)
-          .do((volume: Volume) => {
-            this.jobsNotificationService.finish({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-            });
-            return Observable.of(new volumeActions.ReplaceVolume(volume));
+          .map((volume: Volume) => {
+            return new volumeActions.ReplaceVolume(volume);
           })
           .catch((error: Error) => {
             this.jobsNotificationService.fail({
@@ -299,6 +311,7 @@ export class VolumesEffects {
 
       if (action.payload.virtualmachineid) {
         return detach(action.payload)
+          .filter((action: Action) => action.type === volumeActions.REPLACE_VOLUME)
           .flatMap(() => remove(action.payload));
       } else {
         return remove(action.payload);

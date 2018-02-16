@@ -9,7 +9,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
-import * as fromAccountTags from '../../reducers/account-tags/redux/account-tags.reducers';
 import { State } from '../../reducers/index';
 import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-class.actions';
 import * as fromSOClasses from '../../reducers/service-offerings/redux/service-offering-class.reducers';
@@ -29,7 +28,6 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
       [serviceOfferings]="offerings$ | async"
       [classes]="classes$ | async"
       [selectedClasses]="selectedClasses$ | async"
-      [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [isVmRunning]="isVmRunning()"
@@ -51,7 +49,6 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
   readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
-  readonly classTags$ = this.store.select(fromAccountTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 
   public virtualMachine: VirtualMachine;

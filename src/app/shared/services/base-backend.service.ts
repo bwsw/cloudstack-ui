@@ -1,15 +1,10 @@
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpParams
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import * as range from 'lodash/range';
-
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { BaseModelInterface } from '../models/base.model';
+import * as range from 'lodash/range';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -25,6 +20,37 @@ export interface FormattedResponse<M> {
   meta: {
     count: number
   }
+}
+
+export enum CSCommands {
+  AddIpTo = 'addIpTo',
+  Attach = 'attach',
+  ChangeServiceFor = 'changeServiceFor',
+  Create = 'create',
+  Delete = 'delete',
+  RemoveIpFrom = 'removeIpFrom',
+  Deploy = 'deploy',
+  Destroy = 'destroy',
+  Detach = 'detach',
+  Disable = 'disable',
+  Enable = 'enable',
+  Expunge = 'expunge',
+  GetKeys = 'get;Keys',
+  List = 'list;s',
+  ListCapabilities = 'listCapabilities',
+  QueryResult = 'query;Result',
+  Reboot = 'reboot',
+  Register = 'register',
+  RegisterKeys = 'register;Keys',
+  ResetForVM = 'reset;ForVirtualMachine',
+  ResetPasswordFor = 'resetPasswordFor',
+  Resize = 'resize',
+  Restore = 'restore',
+  Revert = 'revert',
+  Start = 'start',
+  Stop = 'stop',
+  Update = 'update',
+  UpdateVM = 'updateVM',
 }
 
 export abstract class BaseBackendService<M extends BaseModelInterface> {
@@ -89,7 +115,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
   }
 
   public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
-    const command = (customApiFormat && customApiFormat.command) || 'create';
+    const command = (customApiFormat && customApiFormat.command) || CSCommands.Create;
     const _entity = customApiFormat && customApiFormat.entity;
 
     return this.sendCommand(command, params, _entity).map(response => {
@@ -103,7 +129,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
   }
 
   public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
-    const command = (customApiFormat && customApiFormat.command) || 'delete';
+    const command = (customApiFormat && customApiFormat.command) || CSCommands.Delete;
     const entity = customApiFormat && customApiFormat.entity;
 
     return this.sendCommand(command, params, entity);
@@ -217,7 +243,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     if (cachedRequest) {
       return cachedRequest;
     }
-    const command = (customApiFormat && customApiFormat.command) || 'list;s';
+    const command = (customApiFormat && customApiFormat.command) || CSCommands.List;
     const entity = customApiFormat && customApiFormat.entity;
     const request = this.sendCommand(command, params, entity)
       .map(response => this.formatGetListResponse(response))

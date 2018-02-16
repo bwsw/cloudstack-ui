@@ -52,10 +52,10 @@ describe('Sg creation rule component', () => {
       By.css('mat-list-item h5')
     ).nativeElement.textContent;
 
-    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE_PORT_RANGE');
+    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.INGRESS_RULE_PORT_RANGE');
 
     comp.item.endport = 1;
     f.detectChanges();
-    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.DEFAULT_RULE');
+    expect(listContent).toContain('SECURITY_GROUP_PAGE.RULES.INGRESS_RULE');
   });
 });

@@ -165,6 +165,7 @@ import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
+import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
 import {
   DiskOfferingSelectorComponent
 } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
@@ -273,6 +274,7 @@ import {
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
@@ -284,6 +286,7 @@ import {
     VolumeAttachmentContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
     DiskOfferingDialogComponent,
   ],
@@ -352,6 +355,7 @@ import {
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentContainerComponent,
     VolumeAttachmentComponent,
