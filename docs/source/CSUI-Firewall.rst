@@ -185,30 +185,31 @@ Edit a Firewall Template/Security Group
 
 When clicking "Rules" |view| in the Action box you open a modal window where the rules of the template/security group are listed. The list of rules can be filtered by:
 
+- IP versions - IPv4 and/or IPv6;
 - Types - Ingress and/or Egress;
-- Protocols - TCP and/or UDP and/or ICMP;
+- Protocols - TCP and/or UDP and/or ICMP.
 
 Besides, you can group the rules by types and/or protocols.
 
-.. figure:: _static/Firewall_FilterRules.png
+.. figure:: _static/Firewall_FilterRules1.png
 
 You can edit the implemented rules right in this modal window by clicking "EDIT" below the list. When switching to the edit mode you are enabled to add rules or delete the selected ones from the list. 
 
 To add rules, please, fill in the fields in the panel above the list and click “+”:
 
-.. figure:: _static/Firewall_AddRules.png
+.. figure:: _static/Firewall_AddRules1.png
    :scale: 70%
    
 To delete rules, please, click the Delete icon in the list. The rule will be deleted from the security group.
 
-.. figure:: _static/Firewall_DeleteRules.png
+.. figure:: _static/Firewall_DeleteRules1.png
    :scale: 70%
    
 Then you can move back to the view mode, or close the window. You will see the rules are edited.
 
 Please, note, when editing shared security groups, a warning message appears:
 
-.. figure:: _static/Firewall_EditShared_Warning.png
+.. figure:: _static/Firewall_EditShared_Warning1.png
 
 Click “Yes” if you still want to edit a shared security group. You will be switched to the "Edit" mode. Change the security group as you need following the instructions above.
 
