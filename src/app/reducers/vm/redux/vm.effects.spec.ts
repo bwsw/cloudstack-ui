@@ -713,7 +713,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.DestroyVm(list[1]);
     const completion1 = new vmActions.UpdateVM(list[1]);
-    const completion2 = new volumeActions.DeleteVolumes(list[1]);
+    const completion2 = new volumeActions.DeleteVolumes({ vm: list[1], expunged: false });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-(bc)', { b: completion1, c: completion2 });
@@ -734,7 +734,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.DestroyVm(list[1]);
     const completion1 = new vmActions.ExpungeVmSuccess(list[1]);
-    const completion2 = new volumeActions.DeleteVolumes(list[1]);
+    const completion2 = new volumeActions.DeleteVolumes({ vm: list[1], expunged: true });
     const completion3 = new sgActions.DeletePrivateSecurityGroup(list[1]);
 
     actions$.stream = hot('-a', { a: action });

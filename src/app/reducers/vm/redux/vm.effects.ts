@@ -372,7 +372,7 @@ export class VirtualMachinesEffects {
               });
               return [
                 new vmActions.ExpungeVmSuccess(action.payload),
-                new volumeActions.DeleteVolumes(action.payload),
+                new volumeActions.DeleteVolumes({ vm: action.payload, expunged: true }),
                 new sgActions.DeletePrivateSecurityGroup(action.payload)
               ];
             } else {
@@ -382,7 +382,7 @@ export class VirtualMachinesEffects {
               });
               return [
                 new vmActions.UpdateVM(vm),
-                new volumeActions.DeleteVolumes(action.payload)
+                new volumeActions.DeleteVolumes({ vm: action.payload, expunged: false })
               ];
             }
           });

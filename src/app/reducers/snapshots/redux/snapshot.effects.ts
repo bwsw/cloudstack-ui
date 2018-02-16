@@ -15,34 +15,31 @@ import { VirtualMachine, VmState } from '../../../vm';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 import { State } from '../../index';
-import { VirtualMachinesEffects } from '../../vm/redux/vm.effects';
-
-import * as snapshot from './snapshot.actions';
 import * as vmActions from '../../vm/redux/vm.actions';
-import * as fromVolumes from '../../volumes/redux/volumes.reducers';
+import { VirtualMachinesEffects } from '../../vm/redux/vm.effects';
 import * as fromVMs from '../../vm/redux/vm.reducers';
+import * as fromVolumes from '../../volumes/redux/volumes.reducers';
+
+import * as snapshotActions from './snapshot.actions';
 
 
 @Injectable()
 export class SnapshotEffects {
   @Effect()
   loadSnapshots$: Observable<Action> = this.actions$
-    .ofType(snapshot.LOAD_SNAPSHOT_REQUEST)
-    .switchMap((action: snapshot.LoadSnapshotRequest) => {
-      return this.snapshotService.getListAll(action.payload)
-        .map((snapshots: Array<Snapshot>) => {
-          return new snapshot.LoadSnapshotResponse(snapshots);
-        })
-        .catch(() => {
-          return Observable.of(new snapshot.LoadSnapshotResponse([]));
-        });
+    .ofType(snapshotActions.LOAD_SNAPSHOT_REQUEST)
+    .switchMap((action: snapshotActions.LoadSnapshotRequest) => {
+      return this.snapshotService
+        .getListAll(action.payload)
+        .map((snapshots: Snapshot[]) => new snapshotActions.LoadSnapshotResponse(snapshots))
+        .catch(() => Observable.of(new snapshotActions.LoadSnapshotResponse([])));
     });
 
 
   @Effect()
   addSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshot.ADD_SNAPSHOT)
-    .flatMap((action: snapshot.AddSnapshot) => {
+    .ofType(snapshotActions.ADD_SNAPSHOT)
+    .flatMap((action: snapshotActions.AddSnapshot) => {
       return this.dialog.open(SnapshotCreationComponent, {
         data: action.payload
       })
@@ -63,50 +60,56 @@ export class SnapshotEffects {
                 id: notificationId,
                 message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
               });
-              return new snapshot.AddSnapshotSuccess(newSnap);
+              return new snapshotActions.AddSnapshotSuccess(newSnap);
             })
-            .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-            })));
+            .catch((error) => {
+              this.jobsNotificationService.fail({
+                id: notificationId,
+                message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
+              });
+              return Observable.of(new snapshotActions.SnapshotUpdateError(error));
+            });
         });
     });
 
   @Effect()
   deleteSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshot.DELETE_SNAPSHOT)
-    .flatMap((action: snapshot.DeleteSnapshot) => {
-      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .flatMap(() => {
-          const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
-          return this.snapshotService.remove(action.payload.id)
-            .map(() => {
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
-              });
-
-              return new snapshot.DeleteSnapshotSuccess(action.payload);
-            })
-            .catch(() => Observable.of(new snapshot.SnapshotUpdateError({
-              id: notificationId,
-              message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
-            })));
+    .ofType(snapshotActions.DELETE_SNAPSHOT)
+    .flatMap((action: snapshotActions.DeleteSnapshot) => {
+      const notificationId = this.jobsNotificationService.add(
+        'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
+      return this.snapshotService.remove(action.payload.id)
+        .map(() => {
+          this.jobsNotificationService.finish({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
+          });
+          return new snapshotActions.DeleteSnapshotSuccess(action.payload);
+        })
+        .catch((error) => {
+          this.jobsNotificationService.fail({
+            id: notificationId,
+            message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
+          });
+          return Observable.of(new snapshotActions.SnapshotUpdateError(error));
         });
     });
 
   @Effect()
+  deleteSnapshots$: Observable<Action> = this.actions$
+    .ofType(snapshotActions.DELETE_SNAPSHOTS)
+    .flatMap((action: snapshotActions.DeleteSnapshots) => action.payload
+      .map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot)));
+
+  @Effect()
   revertVolumeToSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshot.REVERT_VOLUME_TO_SNAPSHOT)
+    .ofType(snapshotActions.REVERT_VOLUME_TO_SNAPSHOT)
     .withLatestFrom(
       this.store.select(fromVolumes.selectEntities),
       this.store.select(fromVMs.selectEntities)
     )
     .flatMap(([action, volumes, vms]: [
-      snapshot.RevertVolumeToSnapshot, Dictionary<Volume>, Dictionary<VirtualMachine>
+      snapshotActions.RevertVolumeToSnapshot, Dictionary<Volume>, Dictionary<VirtualMachine>
       ]) => {
       const vmId = Object.entries(volumes)
         && volumes[action.payload.volumeid]
@@ -135,26 +138,28 @@ export class SnapshotEffects {
 
                 return isVmRunning
                   ? [
-                    new snapshot.RevertVolumeToSnapshotSuccess(action.payload),
+                    new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload),
                     new vmActions.StartVm(vms[vmId])
                   ]
-                  : [new snapshot.RevertVolumeToSnapshotSuccess(action.payload)];
+                  : [new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload)];
               })
-              .catch((error) => Observable.of(new snapshot.SnapshotUpdateError({
-                id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_FAILED',
-                error
-              })));
+              .catch((error) => {
+                this.jobsNotificationService.fail({
+                  id: notificationId,
+                  message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_FAILED'
+                });
+                return Observable.of(new snapshotActions.SnapshotUpdateError(error))
+              });
           }));
     });
 
   @Effect({ dispatch: false })
   deleteSnapshotSuccess$ = this.actions$
-    .ofType(snapshot.DELETE_SNAPSHOT_SUCCESS)
-    .do((action: snapshot.DeleteSnapshotSuccess) => {
+    .ofType(snapshotActions.DELETE_SNAPSHOT_SUCCESS)
+    .do((action: snapshotActions.DeleteSnapshotSuccess) => {
       this.onNotify(action.payload, 'NOTIFICATIONS.SNAPSHOT.DELETE_SUCCESS');
     })
-    .map((action: snapshot.DeleteSnapshotSuccess) => action.payload)
+    .map((action: snapshotActions.DeleteSnapshotSuccess) => action.payload)
     .filter((snapshot: Snapshot) => this.router.isActive(
       `/snapshots/${snapshot.id}`,
       false
@@ -165,9 +170,8 @@ export class SnapshotEffects {
 
   @Effect({ dispatch: false })
   handleError$ = this.actions$
-    .ofType(snapshot.SNAPSHOT_UPDATE_ERROR)
-    .do((action: snapshot.SnapshotUpdateError) => {
-      this.jobsNotificationService.fail(action.payload);
+    .ofType(snapshotActions.SNAPSHOT_UPDATE_ERROR)
+    .do((action: snapshotActions.SnapshotUpdateError) => {
       this.handleError(action.payload);
     });
 
