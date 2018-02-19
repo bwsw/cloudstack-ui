@@ -164,13 +164,9 @@ import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import {
-  DiskOfferingSelectorComponent
-} from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
-import {
-  DiskOfferingDialogComponent
-} from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
-import { CustomServiceOfferingComponent } from '../service-offering/custom-service-offering/custom-service-offering.component';
+import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
+import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
+import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 
 @NgModule({
   imports: [
@@ -274,6 +270,7 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
@@ -285,6 +282,7 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeAttachmentContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
     DiskOfferingDialogComponent
   ],
@@ -355,6 +353,7 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentContainerComponent,
     VolumeAttachmentComponent,
