@@ -1,0 +1,43 @@
+<div *loading="isLoading" >
+  <h3 class="mat-dialog-title">
+    {{ 'VOLUME_PAGE.SPARE_DRIVE_CREATION.TITLE' | translate }}</h3>
+  <form (ngSubmit)="onSubmit($event)" #volumeCreationForm="ngForm" novalidate>
+    <div class="mat-dialog-content">
+      <mat-form-field class="full-width-input">
+        <input
+          matInput
+          name="name"
+          [(ngModel)]="name"
+          [placeholder]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.NAME' | translate"
+          maxlength="255"
+          autofocus
+          required
+        >
+        <mat-hint align="end">
+          <cs-character-count
+            [value]="name"
+            [maxLength]="255"
+          ></cs-character-count>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="mat-dialog-actions">
+      <button
+        mat-button
+        color="primary"
+        matDialogClose
+        type="button"
+      >
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        mat-button
+        color="primary"
+        type="submit"
+        [disabled]="!volumeCreationForm.valid"
+      >
+        {{ 'COMMON.CREATE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

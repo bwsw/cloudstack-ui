@@ -1,0 +1,174 @@
+[
+  {
+    "account": "develop",
+    "affinitygroup": [],
+    "cpunumber": 1,
+    "cpuspeed": 500,
+    "cpuused": "0,03%",
+    "created": "2018-01-26T13:58:07+0700",
+    "details": {
+      "keyboard": "us"
+    },
+    "diskioread": 59501,
+    "diskiowrite": 75671,
+    "diskkbsread": 1485522,
+    "diskkbswrite": 1345032,
+    "displayname": "dasha1",
+    "domain": "develop",
+    "domainid": "16d7977e-43fd-47ad-9fff-6ef8d463516f",
+    "guestosid": "676ee455-c69b-11e7-bdcf-0242ac110004",
+    "haenable": false,
+    "hypervisor": "KVM",
+    "id": "e10da283-06b1-4ac5-9888-b4f3717c2fe1",
+    "isdynamicallyscalable": false,
+    "memory": 512,
+    "memoryintfreekbs": 581008,
+    "memorykbs": 524288,
+    "memorytargetkbs": 524288,
+    "name": "vm1",
+    "networkkbsread": 99146,
+    "networkkbswrite": 103731,
+    "nic": [
+      {
+        "id": "35c64c48-017b-485d-a437-a837b6685735",
+        "networkid": "23439a1d-b48b-4f9b-ba1d-ab8e696124c2"
+      }
+    ],
+    "ostypeid": 126,
+    "passwordenabled": true,
+    "rootdeviceid": 0,
+    "rootdevicetype": "ROOT",
+    "securitygroup": [],
+    "serviceofferingid": "eecf32e0-1d6c-4f5d-9bcf-1b5e86b7f814",
+    "serviceofferingname": "Small Instance",
+    "state": "Running",
+    "tags": [],
+    "templatedisplaytext": "a description",
+    "templateid": "d3b9779a-5ecb-452b-914f-7bfa6ca6f942",
+    "templatename": "template from snapshot",
+    "userid": "f2c54886-ab40-44ed-9ee4-27dbacd47ceb",
+    "username": "develop",
+    "zoneid": "d477bb3f-3592-4503-8f2a-da3d878dd476",
+    "zonename": "Tomsk"
+  },
+  {
+    "account": "develop",
+    "affinitygroup": [],
+    "cpunumber": 1,
+    "cpuspeed": 500,
+    "cpuused": "0,03%",
+    "created": "2018-01-26T13:58:07+0700",
+    "details": {
+      "keyboard": "us"
+    },
+    "diskioread": 59501,
+    "diskiowrite": 75671,
+    "diskkbsread": 1485522,
+    "diskkbswrite": 1345032,
+    "displayname": "dasha1",
+    "domain": "develop",
+    "domainid": "16d7977e-43fd-47ad-9fff-6ef8d463516f",
+    "guestosid": "676ee455-c69b-11e7-bdcf-0242ac110004",
+    "haenable": false,
+    "hypervisor": "KVM",
+    "id": "e10da283-06b1-4ac5-9888-b4f3717cfd4yth",
+    "isdynamicallyscalable": false,
+    "memory": 512,
+    "memoryintfreekbs": 581008,
+    "memorykbs": 524288,
+    "memorytargetkbs": 524288,
+    "name": "vm2",
+    "networkkbsread": 99146,
+    "networkkbswrite": 103731,
+    "nic": [
+      {
+        "id": "35c64c48-017b-485d-a437-a837b6685735",
+        "networkid": "23439a1d-b48b-4f9b-ba1d-ab8e696124c2"
+      }
+    ],
+    "ostypeid": 126,
+    "passwordenabled": true,
+    "rootdeviceid": 0,
+    "rootdevicetype": "ROOT",
+    "securitygroup": [],
+    "serviceofferingid": "eecf32e0-1d6c-4f5d-9bcf-1b5e86b7f814",
+    "serviceofferingname": "Small Instance",
+    "state": "Stopped",
+    "tags": [],
+    "templatedisplaytext": "a description",
+    "templateid": "d3b9779a-5ecb-452b-914f-7bfa6ca6f942",
+    "templatename": "template from snapshot",
+    "userid": "f2c54886-ab40-44ed-9ee4-27dbacd47ceb",
+    "username": "develop",
+    "zoneid": "d477bb3f-3592-4503-8f2a-da3d878dd476",
+    "zonename": "Tomsk"
+  },
+  {
+    "account": "develop",
+    "affinitygroup": [],
+    "cpunumber": 1,
+    "cpuspeed": 500,
+    "cpuused": "0,03%",
+    "created": "2018-01-26T13:58:07+0700",
+    "details": {
+      "keyboard": "us"
+    },
+    "diskioread": 59501,
+    "diskiowrite": 75671,
+    "diskkbsread": 1485522,
+    "diskkbswrite": 1345032,
+    "displayname": "dasha1",
+    "domain": "develop",
+    "domainid": "16d7977e-43fd-47ad-9fff-6ef8d463516f",
+    "guestosid": "676ee455-c69b-11e7-bdcf-0242ac110004",
+    "haenable": false,
+    "hypervisor": "KVM",
+    "id": "e28d6023-3c58-42e3-a2e8-4217a461d059",
+    "isdynamicallyscalable": false,
+    "memory": 512,
+    "memoryintfreekbs": 581008,
+    "memorykbs": 524288,
+    "memorytargetkbs": 524288,
+    "name": "vm3",
+    "networkkbsread": 99146,
+    "networkkbswrite": 103731,
+    "nic": [
+      {
+        "id": "35c64c48-017b-485d-a437-a837b6685735",
+        "networkid": "23439a1d-b48b-4f9b-ba1d-ab8e696124c2",
+        "secondaryip": [
+          {
+            "id": "id1",
+            "ipaddress": "ip1"
+          }
+        ]
+      }
+    ],
+    "ostypeid": 126,
+    "passwordenabled": true,
+    "rootdeviceid": 0,
+    "rootdevicetype": "ROOT",
+    "securitygroup": [
+      {
+        "account": "develop",
+        "egressrule": [],
+        "id": "d479de02-f47f-456c-a12f-1a1c58045bd3",
+        "ingressrule": [],
+        "name": "4d030fb6-1600-42dd-a439-70431c6354c8-cs-sg",
+        "tags": [],
+        "virtualmachineids": []
+      }
+    ],
+    "serviceofferingid": "eecf32e0-1d6c-4f5d-9bcf-1b5e86b7f814",
+    "serviceofferingname": "Small Instance",
+    "state": "Running",
+    "tags": [],
+    "templatedisplaytext": "a description",
+    "templateid": "d3b9779a-5ecb-452b-914f-7bfa6ca6f942",
+    "templatename": "template from snapshot",
+    "userid": "f2c54886-ab40-44ed-9ee4-27dbacd47ceb",
+    "username": "develop",
+    "zoneid": "d477bb3f-3592-4503-8f2a-da3d878dd476",
+    "zonename": "Tomsk"
+  }
+]

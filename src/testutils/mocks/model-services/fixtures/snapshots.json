@@ -1,0 +1,38 @@
+[
+  {
+    "account": "develop",
+    "created": "2018-01-31T18:03:27+0700",
+    "domain": "develop",
+    "domainid": "16d7977e-43fd-47ad-9fff-6ef8d463516f",
+    "id": "fea9a9e4-5473-44be-bd2e-54650cb4kjf78",
+    "intervaltype": "DAILY",
+    "name": "snap2",
+    "physicalsize": 3254517760,
+    "revertable": true,
+    "snapshottype": "DAILY",
+    "state": "BackedUp",
+    "tags": [],
+    "volumeid": "6305a960-881b-4d71-b75c-40f887f872ff",
+    "volumename": "3333",
+    "volumetype": "DATADISK",
+    "zoneid": "d477bb3f-3592-4503-8f2a-da3d878dd476"
+  },
+  {
+    "account": "develop",
+    "created": "2018-01-31T18:03:27+0700",
+    "domain": "develop",
+    "domainid": "16d7977e-43fd-47ad-9fff-6ef8d463516f",
+    "id": "fea9a9e4-5473-44be-dhj4-54650cb4kjf78",
+    "intervaltype": "DAILY",
+    "name": "snap3",
+    "physicalsize": 3254517760,
+    "revertable": true,
+    "snapshottype": "DAILY",
+    "state": "BackedUp",
+    "tags": [],
+    "volumeid": "6305a960-881b-4d71-b75c-40f887f872ff",
+    "volumename": "3333",
+    "volumetype": "DATADISK",
+    "zoneid": "d477bb3f-3592-4503-8f2a-da3d878dd476"
+  }
+]
