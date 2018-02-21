@@ -21,8 +21,8 @@ import { SgListContainerComponent } from '../../../container/sg-list.container';
 })
 export class FirewallRulesDetailComponent {
   @Input() public vm: VirtualMachine;
-  @Output() public detachFirewall = new EventEmitter();
-  @Output() public attachFirewall = new EventEmitter();
+  @Output() public detachFirewall: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public attachFirewall: EventEmitter<Array<SecurityGroup>> = new EventEmitter();
 
   constructor(
     private dialog: MatDialog
@@ -44,6 +44,6 @@ export class FirewallRulesDetailComponent {
       data: this.vm.securityGroup
     })
       .afterClosed()
-      .subscribe((sg: Array<SecurityGroup>) => this.attachFirewall.emit(sg));
+      .subscribe((sgs: Array<SecurityGroup>) => this.attachFirewall.emit(sgs));
   }
 }
