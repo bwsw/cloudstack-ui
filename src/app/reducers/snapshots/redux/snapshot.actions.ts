@@ -9,9 +9,11 @@ export const SNAPSHOT_FILTER_UPDATE = '[Snapshots] SNAPSHOT_FILTER_UPDATE';
 export const ADD_SNAPSHOT = '[Snapshots] ADD_SNAPSHOT';
 export const ADD_SNAPSHOT_SUCCESS = '[Snapshots] ADD_SNAPSHOT_SUCCESS';
 export const DELETE_SNAPSHOT = '[Snapshots] DELETE_SNAPSHOT';
+export const DELETE_SNAPSHOTS = '[Snapshots] DELETE_SNAPSHOTS';
 export const DELETE_SNAPSHOT_SUCCESS = '[Snapshots] DELETE_SNAPSHOT_SUCCESS';
 export const REVERT_VOLUME_TO_SNAPSHOT = '[Snapshots] REVERT_VOLUME_TO_SNAPSHOT';
 export const REVERT_VOLUME_TO_SNAPSHOT_SUCCESS = '[Snapshots] REVERT_VOLUME_TO_SNAPSHOT_SUCCESS';
+export const LOAD_SELECTED_SNAPSHOT = '[Snapshots] LOAD_SELECTED_SNAPSHOT';
 
 export const SNAPSHOT_UPDATE_ERROR = '[Snapshots] SNAPSHOT_UPDATE_ERROR';
 
@@ -50,6 +52,13 @@ export class DeleteSnapshot implements Action {
   }
 }
 
+export class DeleteSnapshots implements Action {
+  readonly type = DELETE_SNAPSHOTS;
+
+  constructor(public payload: Array<Snapshot>) {
+  }
+}
+
 export class AddSnapshotSuccess implements Action {
   readonly type = ADD_SNAPSHOT_SUCCESS;
 
@@ -67,7 +76,7 @@ export class DeleteSnapshotSuccess implements Action {
 export class SnapshotUpdateError implements Action {
   readonly type = SNAPSHOT_UPDATE_ERROR;
 
-  constructor(public payload: any) {
+    constructor(public payload: Error) {
   }
 }
 
@@ -85,6 +94,13 @@ export class RevertVolumeToSnapshotSuccess implements Action {
   }
 }
 
+export class LoadSelectedSnapshot implements Action {
+  readonly type = LOAD_SELECTED_SNAPSHOT;
+
+  constructor(public payload: string) {
+      }
+}
+
 export type Actions =
   LoadSnapshotRequest
   | LoadSnapshotResponse
@@ -95,5 +111,6 @@ export type Actions =
   | DeleteSnapshotSuccess
   | SnapshotUpdateError
   | RevertVolumeToSnapshot
-  | RevertVolumeToSnapshotSuccess;
+  | RevertVolumeToSnapshotSuccess
+  | LoadSelectedSnapshot;
 

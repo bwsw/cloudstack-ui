@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import * as fromAccountTags from '../../../reducers/account-tags/redux/account-tags.reducers';
 import { State } from '../../../reducers/index';
 import * as fromSOClasses from '../../../reducers/service-offerings/redux/service-offering-class.reducers';
 
@@ -28,7 +27,6 @@ import { ServiceOffering } from '../../../shared/models/service-offering.model';
       [serviceOfferingId]="serviceOfferingId"
       [classes]="classes$ | async"
       [selectedClasses]="selectedClasses$ | async"
-      [classTags]="classTags$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [restrictions]="customOfferingRestrictions"
@@ -47,7 +45,6 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
   readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
   readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
-  readonly classTags$ = this.store.select(fromAccountTags.selectServiceOfferingClassTags);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
 
   public formMode = ServiceOfferingFromMode.SELECT;

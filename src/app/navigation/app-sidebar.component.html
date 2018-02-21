@@ -67,9 +67,7 @@
           (change)="handleRouteChecked($event)"
           [@handleSlide]="!editing ? 'in' : ''"
         ></mat-checkbox>
-        <div [@linkSlide]="'out'">
-          <div class="link-element" [innerHTML]="route.text | translate"></div>
-        </div>
+        <div class="link-element-edit" [innerHTML]="route.text | translate"></div>
       </div>
     </ng-container>
   </div>

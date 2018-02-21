@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { BackendResource } from '../decorators';
 
 import { AsyncJob, mapCmd } from '../models';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService, CSCommands } from './base-backend.service';
 import { ErrorService } from './error.service';
 
 
@@ -74,7 +74,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     entityModel: any,
     interval?: any
   ): void {
-    this.sendCommand('query;Result', { jobId })
+    this.sendCommand(CSCommands.QueryResult, { jobId })
       .map(res => res as AsyncJob<typeof entityModel>)
       .subscribe((asyncJob) => {
         switch (asyncJob.jobstatus) {
