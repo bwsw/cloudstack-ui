@@ -8,7 +8,7 @@ Pulse Plugin
 Overview
 --------------------
 
-Pulse plugin is designed for visualization of virtual machines performance statistics. Currently this CloudStack-UI extension is only compatible with ACS clusters that use the KVM hypervisor. With help of sensors that collect virtual machines performance statistics via the Libvirt API and store them in an InfluxDB datastore and RESTful statistics server, CloudStack-UI is able to display CPU, RAM,disk IO and network traffic utilization in the form of convenient visual charts.
+Pulse plugin is designed for visualization of virtual machines performance statistics. Currently, this CloudStack-UI extension is only compatible with ACS clusters that use the KVM hypervisor. With help of sensors that collect virtual machines performance statistics via the Libvirt API and store them in an InfluxDB datastore and RESTful statistics server, CloudStack-UI is able to display CPU, RAM, disk IO and network traffic utilization in the form of convenient visual charts.
 
 Pulse allows users of Apache CloudStack to monitor current and previous operational states of virtual machines. The plugin supports various view scales like minutes, hours, days and enables data overlays to monitor peak and average values.
 
@@ -26,7 +26,7 @@ Please make sure that you have `cs-pulse-server <https://github.com/bwsw/cs-puls
 To enable Pulse Plugin you need:
 
 1. Configure Plugin in ``config.json``.
-#. Run docker container with correctly specified ``cs-pulse-server`` endpoint.
+#. Run docker container with a correctly specified ``cs-pulse-server`` endpoint.
 
 Pulse configuration
 -----------------------
