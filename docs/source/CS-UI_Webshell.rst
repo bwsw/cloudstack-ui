@@ -1,6 +1,6 @@
 .. Webshell_Plugin:
 
-Webshell Plugin
+WebShell Plugin
 =========================
 
 .. Contents::
@@ -53,7 +53,7 @@ Please configure ``webShell`` in the ``extensions`` section of the ``config.json
 
 ``webShell.address`` is the address of a WebShell backend. WebShell will not be available unless an address is specified.
 
-Running ``cloudstack-ui`` docker container with Webshell
+Running ``cloudstack-ui`` docker container with WebShell
 ----------------------------------------------------------------
 
 ::
