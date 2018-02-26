@@ -5,6 +5,16 @@ WebShell Plugin
 
 .. Contents::
 
+In clouds the most commonly used operating systems nowadays is Unix or Linux based operating systems. To control Linux system administrators use standard SSH interface. Most system administrators or cloud users have SSH client installed on their machines.
+
+First all, it is more interactive, because it allows to perform copy&paste operations, it is more performant if you need to work with text.
+
+In addition to the UI inactivity interval, SSH plugin supports its own inactivity timeout so you should not worry leaving SSH opened when you go out for a cup of coffee. In comparison to a VNC console, if you open it in your browser, it will be opened forever.
+
+This plugin is not required, but it is very helpful and easy to install and configure it. There is a docker webshell container that should be deployed. This container is a standalone shell proxy and can be used outside of the CloudStack UI, but there is an option to integrate them, Just specify the WebShell endpoint when you run the UI container. You can also disable the plugin in the UI configuration anytime you want. 
+
+Read more about it below.
+
 Overview
 -----------
 
