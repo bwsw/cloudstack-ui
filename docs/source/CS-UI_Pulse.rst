@@ -3,6 +3,8 @@
 Pulse Plugin
 ======================
 
+.. Contents::
+
 Overview
 --------------------
 
