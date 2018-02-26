@@ -15,7 +15,7 @@ The need for this extension is determined by the shortcomings of the NoVNC inter
 - Low interactivity and slow throughput of the terminal interface;
 - Lack of possibility to copy/paste text from the user's local machine;
 - Missing feature to complete the session by timeout;
-- Access to the virtual machine in out-of-band mode, which allows to perform a number of insecure operations.
+- Access to the virtual machine in out-of-band mode, which allows performing a number of insecure operations.
 
 WebShell plugin solves these problems:
 
@@ -24,9 +24,9 @@ WebShell plugin solves these problems:
 - Enables configuration of the session completion timeout, thereby improving the security of the system;
 - Does not provide an access to the VM in out-of-band mode;
 
-In future releases this plug-in will be extended with additional features such as integration with the VM access key store and dashboard for efficient work with many open SSH sessions.
+In future releases, this plugin will be extended with additional features such as integration with the VM access key store and dashboard for efficient work with many open SSH sessions.
 
-This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on the plug-in page.
+This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on the plugin page.
 
 Deployment Instructions
 ------------------------------
