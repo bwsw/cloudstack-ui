@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MarkForRemovalService } from './mark-for-removal.service';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  SecurityGroup,
+  SecurityGroupType,
+  SecurityGroupResourceType
+} from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { SecurityGroupTagKeys } from './security-group-tag-keys';
@@ -22,7 +26,7 @@ export class SecurityGroupTagService implements EntityTagService {
   public markAsTemplate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.tagService.update(
       securityGroup,
-      securityGroup.resourceType,
+      SecurityGroupResourceType,
       this.keys.type,
       SecurityGroupType.CustomTemplate
     );
@@ -31,7 +35,7 @@ export class SecurityGroupTagService implements EntityTagService {
   public markAsPrivate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.tagService.update(
       securityGroup,
-      securityGroup.resourceType,
+      SecurityGroupResourceType,
       this.keys.type,
       SecurityGroupType.Private
     );
@@ -41,7 +45,7 @@ export class SecurityGroupTagService implements EntityTagService {
     const newSecurityGroup = Object.assign({}, securityGroup);
     return this.tagService.remove({
       resourceIds: securityGroup.id,
-      resourceType: securityGroup.resourceType,
+      resourceType: SecurityGroupResourceType,
       'tag[0].key': this.keys.type
     })
       .map(() => {

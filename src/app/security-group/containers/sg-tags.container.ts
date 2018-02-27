@@ -3,7 +3,7 @@ import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
-import { SecurityGroup } from '../sg.model';
+import { SecurityGroup, SecurityGroupResourceType } from '../sg.model';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
 import { AuthService } from '../../shared/services/auth.service';
@@ -32,7 +32,7 @@ export class SecurityGroupTagsContainerComponent {
     this.sg$.take(1).subscribe((sg: SecurityGroup) => {
       const newTag: Tag = {
         resourceid: sg.id,
-        resourcetype: 'SecurityGroup',
+        resourcetype: SecurityGroupResourceType,
         key: tagEditAction.newTag.key,
         value: tagEditAction.newTag.value,
         account: sg.account,
@@ -41,11 +41,11 @@ export class SecurityGroupTagsContainerComponent {
       };
       const newTags: Tag[] = sg.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
-      const result = new SecurityGroup(Object.assign(
+      const result = Object.assign(
         {},
         sg,
         { tags: newTags }
-      ));
+      );
       this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }
@@ -65,7 +65,7 @@ export class SecurityGroupTagsContainerComponent {
     this.sg$.take(1).subscribe((sg: SecurityGroup) => {
       const newTag = {
         resourceid: sg.id,
-        resourcetype: 'SecurityGroup',
+        resourcetype: SecurityGroupResourceType,
         key: keyValuePair.key,
         value: keyValuePair.value,
         account: sg.account,
@@ -75,11 +75,11 @@ export class SecurityGroupTagsContainerComponent {
       const newTags: Tag[] = [...sg.tags];
       newTags.push(newTag);
 
-      const result = new SecurityGroup(Object.assign(
+      const result = Object.assign(
         {},
         sg,
         { tags: newTags }
-      ));
+      );
       this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }

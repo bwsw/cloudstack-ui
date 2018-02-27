@@ -2,43 +2,43 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import { Actions } from '@ngrx/effects';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { AsyncJobService } from '../../../shared/services/async-job.service';
-import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { VmService } from '../../../vm';
-import { VirtualMachinesEffects } from './vm.effects';
-import { State } from '../../index';
-import * as vmActions from './vm.actions';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
-import * as sgActions from '../../security-groups/redux/sg.actions';
-import * as fromVMs from './vm.reducers';
-import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
-import { OsTypeService } from '../../../shared/services/os-type.service';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
-import { AuthService } from '../../../shared/services/auth.service';
-import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
-import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import { VolumeService } from '../../../shared/services/volume.service';
-import { SnapshotService } from '../../../shared/services/snapshot.service';
-import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
-import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
-import { IsoService } from '../../../template/shared/iso.service';
-import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-import { Router } from '@angular/router';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { InstanceGroup } from '../../../shared/models/instance-group.model';
-import { Color } from '../../../shared/models/color.model';
-import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { Color } from '../../../shared/models/color.model';
+import { InstanceGroup } from '../../../shared/models/instance-group.model';
+import { ServiceOffering } from '../../../shared/models/service-offering.model';
+import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
+import { AsyncJobService } from '../../../shared/services/async-job.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { OsTypeService } from '../../../shared/services/os-type.service';
+import { SnapshotService } from '../../../shared/services/snapshot.service';
+import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
+import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
+import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
+import { VolumeService } from '../../../shared/services/volume.service';
+import { IsoService } from '../../../template/shared/iso.service';
+import { VmService } from '../../../vm';
+import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
+import { State } from '../../index';
+import * as sgActions from '../../security-groups/redux/sg.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as vmActions from './vm.actions';
+import { VirtualMachinesEffects } from './vm.effects';
+import * as fromVMs from './vm.reducers';
 
 @Injectable()
 class MockAsyncJobService {
@@ -557,7 +557,7 @@ describe('Virtual machine Effects', () => {
     const newNic = Object.assign(
       {},
       list[2].nic[0],
-      { secondaryIp: []
+      { secondaryip: []
       }
     );
     const newVm = Object.assign(

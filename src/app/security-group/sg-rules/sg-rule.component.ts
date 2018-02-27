@@ -5,14 +5,15 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { Utils } from '../../shared/services/utils/utils.service';
-import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { TranslateService } from '@ngx-translate/core';
 import {
   GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken, GetICMPV6CodeTranslationToken,
+  GetICMPTypeTranslationToken,
+  GetICMPV6CodeTranslationToken,
   GetICMPV6TypeTranslationToken
 } from '../../shared/icmp/icmp-types';
+import { Utils } from '../../shared/services/utils/utils.service';
+import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { IPVersion, NetworkRuleType } from '../sg.model';
 
 @Component({
@@ -50,26 +51,26 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return Utils.cidrType(this.item.CIDR) === IPVersion.ipv4
-      ? GetICMPTypeTranslationToken(this.item.icmpType)
-      : GetICMPV6TypeTranslationToken(this.item.icmpType);
+    return Utils.cidrType(this.item.cidr) === IPVersion.ipv4
+      ? GetICMPTypeTranslationToken(this.item.icmptype)
+      : GetICMPV6TypeTranslationToken(this.item.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return Utils.cidrType(this.item.CIDR) === IPVersion.ipv4
-      ? GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode)
-      : GetICMPV6CodeTranslationToken(this.item.icmpType, this.item.icmpCode);
+    return Utils.cidrType(this.item.cidr) === IPVersion.ipv4
+      ? GetICMPCodeTranslationToken(this.item.icmptype, this.item.icmpcode)
+      : GetICMPV6CodeTranslationToken(this.item.icmptype, this.item.icmpcode);
   }
 
   public get ruleParams(): Object {
-    const ipVersion = Utils.cidrType(this.item.CIDR) === IPVersion.ipv4
+    const ipVersion = Utils.cidrType(this.item.cidr) === IPVersion.ipv4
       ? IPVersion.ipv4
       : IPVersion.ipv6;
 
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.item.CIDR,
+      cidr: this.item.cidr,
       ipVersion
     };
 
@@ -86,15 +87,15 @@ export class SgRuleComponent {
       }
 
       ruleParams = Object.assign({}, params, {
-        icmpType: this.item.icmpType,
-        icmpCode: this.item.icmpCode,
+        icmptype: this.item.icmptype,
+        icmpcode: this.item.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
       ruleParams = Object.assign({}, params, {
-        startPort: this.item.startPort,
-        endPort: this.item.endPort
+        startport: this.item.startport,
+        endport: this.item.endport
       });
     }
 
@@ -108,6 +109,6 @@ export class SgRuleComponent {
     e.stopPropagation();
 
     this.deleting = true;
-    this.onRemove.emit({ type: this.item.type, id: this.item.ruleId });
+    this.onRemove.emit({ type: this.item.type, id: this.item.ruleid });
   }
 }

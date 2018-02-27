@@ -1,9 +1,8 @@
-import { BaseModel } from '../shared/models/base.model';
-import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
 import { Taggable } from '../shared/interfaces/taggable.interface';
+import { BaseModelInterface } from '../shared/models/base.model';
 import { Tag } from '../shared/models/tag.model';
-import { NetworkRule } from './network-rule.model';
 import { SecurityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
+import { NetworkRule } from './network-rule.model';
 
 
 export enum SecurityGroupType {
@@ -23,58 +22,18 @@ export enum IPVersion {
   ipv6 = 'ipv6'
 }
 
-@FieldMapper({
-  ingressrule: 'ingressRules',
-  egressrule: 'egressRules',
-  virtualmachineids: 'virtualMachineIds'
-})
-export class SecurityGroup extends BaseModel implements Taggable {
-  public resourceType = 'SecurityGroup';
-
-  public id: string;
-  public name: string;
-  public description: string;
-  public account: string;
-  public domain: string;
-  public ingressRules: Array<NetworkRule>;
-  public egressRules: Array<NetworkRule>;
-  public virtualMachineIds: Array<string>;
-  public tags: Array<Tag>;
-  public preselected: boolean;
-
-  constructor(params?: {}) {
-    super(params);
-
-    this.initializeIngressRules();
-    this.initializeEgressRules();
-    this.initializeTags();
-  }
-
-  private initializeIngressRules(): void {
-    if (!this.ingressRules) {
-      this.ingressRules = [];
-    }
-
-    this.ingressRules = this.ingressRules.map(rule => {
-      return new NetworkRule(rule);
-    });
-  }
-
-  private initializeEgressRules(): void {
-    if (!this.egressRules) {
-      this.egressRules = [];
-    }
-
-    this.egressRules = this.egressRules.map(rule => {
-      return new NetworkRule(rule);
-    });
-  }
-
-  private initializeTags(): void {
-    if (!this.tags) {
-      this.tags = [];
-    }
-  }
+export const SecurityGroupResourceType = 'SecurityGroup';
+export interface SecurityGroup extends BaseModelInterface, Taggable {
+  id: string;
+  name: string;
+  description?: string;
+  account: string;
+  domain: string;
+  ingressrule: Array<NetworkRule>;
+  egressrule: Array<NetworkRule>;
+  virtualmachineids: Array<string>;
+  tags: Array<Tag>;
+  preselected?: boolean;
 }
 
 export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {

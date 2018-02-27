@@ -16,8 +16,7 @@ export const GROUP_POSTFIX = '-cs-sg';
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup',
-  entityModel: SecurityGroup
+  entity: 'SecurityGroup'
 })
 export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
   constructor(
@@ -34,7 +33,7 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
   public getPredefinedTemplates(): Array<SecurityGroup> {
     return this.configService
       .get('securityGroupTemplates')
-      .map(group => new SecurityGroup(group));
+      .map(group => <SecurityGroup>(group));
   }
 
   public getSharedGroups(): Observable<Array<SecurityGroup>> {

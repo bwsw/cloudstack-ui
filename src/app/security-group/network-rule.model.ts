@@ -1,5 +1,4 @@
-import { FieldMapper } from '../shared/decorators/field-mapper.decorator';
-import { BaseModel } from '../shared/models/base.model';
+import { BaseModelInterface } from '../shared/models/base.model';
 
 
 export enum NetworkProtocol {
@@ -8,35 +7,27 @@ export enum NetworkProtocol {
   ICMP = 'icmp'
 }
 
-@FieldMapper({
-  ruleid: 'ruleId',
-  cidr: 'CIDR',
-  startport: 'startPort',
-  endport: 'endPort',
-  icmpcode: 'icmpCode',
-  icmptype: 'icmpType',
-})
-export class NetworkRule extends BaseModel {
-  public type?: string;
-  public ruleId: string;
-  public protocol: NetworkProtocol;
-  public CIDR: string;
-  public startPort?: number;
-  public endPort?: number;
-  public icmpCode?: number;
-  public icmpType?: number;
-
-  public isEqual(networkRule: NetworkRule): boolean {
-    if (this.CIDR !== networkRule.CIDR || this.protocol !== networkRule.protocol) {
-      return false;
-    }
-
-    if (this.protocol === NetworkProtocol.TCP || this.protocol === NetworkProtocol.UDP) {
-      return this.startPort === networkRule.startPort && this.endPort === networkRule.endPort;
-    }
-
-    if (this.protocol === NetworkProtocol.ICMP) {
-      return this.icmpCode === networkRule.icmpCode && this.icmpType === networkRule.icmpType;
-    }
+export const compareRules = (rule1: NetworkRule, rule2: NetworkRule): boolean => {
+  if (rule1.cidr !== rule2.cidr || rule1.protocol !== rule2.protocol) {
+    return false;
   }
+
+  if (rule1.protocol === NetworkProtocol.TCP || rule1.protocol === NetworkProtocol.UDP) {
+    return rule1.startport === rule2.startport && rule1.endport === rule2.endport;
+  }
+
+  if (rule1.protocol === NetworkProtocol.ICMP) {
+    return rule1.icmpcode === rule2.icmpcode && rule1.icmptype === rule2.icmptype;
+  }
+}
+
+export interface NetworkRule extends BaseModelInterface {
+  type?: string;
+  ruleid: string;
+  protocol: NetworkProtocol;
+  cidr: string;
+  startport?: number;
+  endport?: number;
+  icmpcode?: number;
+  icmptype?: number;
 }

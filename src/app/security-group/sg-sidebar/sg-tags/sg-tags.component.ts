@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { TagsComponent } from '../../../tags/tags.component';
-import { SecurityGroup } from '../../sg.model';
+import { SecurityGroup, SecurityGroupResourceType } from '../../sg.model';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { SecurityGroup } from '../../sg.model';
 })
 export class SecurityGroupTagsComponent extends TagsComponent<SecurityGroup> {
   @Input() public entity: SecurityGroup;
-  public resourceType = 'SecurityGroup';
+  public resourceType = SecurityGroupResourceType;
 
   constructor(
     protected dialogService: DialogService,

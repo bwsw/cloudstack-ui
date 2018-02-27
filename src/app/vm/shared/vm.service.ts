@@ -2,11 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../../shared/decorators';
-import {
-  OsType,
-  ServiceOffering,
-  Volume
-} from '../../shared/models';
+import { OsType, ServiceOffering, Volume } from '../../shared/models';
 import { VolumeType } from '../../shared/models/volume.model';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import {
@@ -17,9 +13,7 @@ import { OsTypeService } from '../../shared/services/os-type.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
-import {
-  VirtualMachine
-} from './vm.model';
+import { VirtualMachine } from './vm.model';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';

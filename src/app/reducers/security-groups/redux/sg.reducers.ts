@@ -237,7 +237,7 @@ export const selectFilteredSecurityGroups = createSelector(
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
     const selectedAccountIdsFilter = group => !filter.selectedAccountIds.length ||
-      group.type === SecurityGroupType.PredefinedTemplate ||
+      getType(group) === SecurityGroupType.PredefinedTemplate ||
       (accountsMap[group.account] && domainsMap[group.domainid]);
 
     const viewModeFilter = (group: SecurityGroup) => {
@@ -252,7 +252,7 @@ export const selectFilteredSecurityGroups = createSelector(
     };
 
     const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG
-      ? group.virtualMachineIds.length === 0
+      ? group.virtualmachineids.length === 0
       : true;
 
     return securityGroups.filter(group => queryFilter(group)
@@ -279,7 +279,7 @@ export const hasOrphanSecurityGroups = createSelector(
   selectAll,
   (sg) => {
     const orphans = sg.filter(group => getType(group) === SecurityGroupType.Private)
-      .find(_ => _.virtualMachineIds.length === 0);
+      .find(_ => _.virtualmachineids.length === 0);
     return !!orphans;
   }
 );

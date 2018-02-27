@@ -284,7 +284,7 @@ export class VirtualMachinesEffects {
           const newNic = Object.assign(
             {},
             action.payload.vm.nic[0],
-            { secondaryIp: newSecondaryIp }
+            { secondaryip: newSecondaryIp }
           );
           const newVm = Object.assign(
             {},

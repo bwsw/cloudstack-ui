@@ -7,6 +7,6 @@ const securityGroupTemplates: Array<Object> = require('../fixtures/securityGroup
 @Injectable()
 export class MockSecurityGroupService {
   public getList(): Observable<Array<SecurityGroup>> {
-    return Observable.of(securityGroupTemplates.map(json => new SecurityGroup(json)));
+    return Observable.of(securityGroupTemplates.map(json => <SecurityGroup>(json)));
   }
 }

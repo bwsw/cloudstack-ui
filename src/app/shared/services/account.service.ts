@@ -34,7 +34,7 @@ export class AccountService extends BaseBackendService<Account> {
       id: account.id,
       lock: false
     }).switchMap(job => this.asyncJobService.queryJob(job))
-      .switchMap(response => Observable.of(response.result.account));
+      .switchMap(response => Observable.of(response.jobresult.account));
   }
 
   public enableAccount(account: Account): Observable<Account> {
