@@ -225,11 +225,11 @@ Account tags are available only for the last API version. If you are using anoth
 "accountTagsEnabled": false
 ```
 
-### Sidebar Order
+### Configure Sidebar
 This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
 For example, 
 ```
-"sidebarOrder": [
+"configureSidebar": [
   "vms",
   "volumes",
   "templates",
