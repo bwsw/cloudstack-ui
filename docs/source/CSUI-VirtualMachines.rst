@@ -583,6 +583,8 @@ Click "Delete" in the volume Actions list and confirm your action in the dialogu
    
 The data disk will be deleted from the system right at this moment.
 
+If a disk has snapshots, the system will ask you if you want to delete the snapshots of the disk as well. Click "Yes" to delete the snapshots. Click "No" to leave the snapshots in the system after volume deleting.
+
 .. _Actions_on_Snapshots:
 
 Snapshot Action Box
