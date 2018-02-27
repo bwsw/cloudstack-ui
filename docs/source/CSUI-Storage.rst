@@ -267,9 +267,11 @@ An attached disk can be detached. Click "Detach" in the Actions list and confirm
 
 **Delete**
 
-This action can be applied to data disks. It allows deleting the data disk from the system.
+This action can be applied to data disks. It allows deleting a data disk from the system.
 
-Click "Delete" in the Actions list and confirm your action in the dialogue window. If a volume has snapshots the system will ask you if you want to delete them as well. Click "YES" to delete the snapshots of the volume. CLick "NO" to keep them.
+Click "Delete" in the Actions list and confirm your action in the dialogue window. 
+
+If a volume has snapshots the system will ask you if you want to delete them as well. Click "YES" to delete the snapshots of the volume. Click "NO" to keep them.
 
 The data disk will be deleted from the system.
 
