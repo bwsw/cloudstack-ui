@@ -96,7 +96,7 @@ This feature is not available in basic CloudStack UI and API. Plugin deployment 
 
 ## Features Yet Unsupported
 
-We intensively use features like projects in our own CloudStackcloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
+We intensively use features like projects in our own CloudStack cloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
 
 * Advanced Zones
 * Hypervisors other than KVM have not been tested
@@ -244,14 +244,14 @@ docker run -d -p 80:80 --name cloudstack-ui \
 
 `/path/to/config.json` - path to a custom configuration file named config.json (optional)
 
-Additionally, you can change favicon and Cloudstack logo on login screen and in sidebar:
+Additionally, you can change favicon and CloudStack logo on login screen and in sidebar:
 ```
 -v /path/to/favicon.ico:/static/img/favicon.ico \
 -v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \
 -v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
 -v /path/to/cloudstack_logo_dark.png:/static/img/cloudstack_logo_dark.png
 ```
-where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are Cloudstack logos displayed in sidebar with dark and light theme respectively.
+where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are CloudStack logos displayed in sidebar with dark and light theme respectively.
 ### Assisting object cleanup container
 
 Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
