@@ -58,5 +58,5 @@ __build__/**
 *.swp
 .vscode
 
-# Users config #
+# Proxy config #
 proxy-conf.js
