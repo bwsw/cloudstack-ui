@@ -29,7 +29,7 @@
     "@angular/platform-server": "5.1.0",
     "@angular/router": "5.1.0",
     "@ngrx/effects": "4.1.1",
-    "@ngrx/entity": "ngrx/entity-builds",
+    "@ngrx/entity": "4.1.1",
     "@ngrx/router-store": "4.1.1",
     "@ngrx/store": "4.1.1",
     "@ngrx/store-devtools": "4.1.1",
