@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { NetworkRule } from '../../../../security-group/network-rule.model';
 import { SecurityGroup } from '../../../../security-group/sg.model';
-import { VmCreationSecurityGroupRulesManagerComponent } from '../../../../shared/components';
-import { FancySelectComponent } from '../../../../shared/components/fancy-select/fancy-select.component';
+import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation-security-group-rules-manager.component';
+import { FancySelectComponent } from '../../../../shared/components';
 import { Rules } from '../../../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 
