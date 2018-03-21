@@ -230,7 +230,7 @@ export class VirtualMachineCreationEffects {
     .ofType(vmActions.DEPLOY_VM)
     .switchMap((action: vmActions.DeployVm) => {
       return this.templateTagService.getAgreement(action.payload.template)
-        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
+        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of({}))
         .switchMap((agreement) => {
           if (agreement) {
             this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
