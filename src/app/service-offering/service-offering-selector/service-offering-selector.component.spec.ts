@@ -25,15 +25,14 @@ const serviceOfferings = [
   `
 })
 class TestComponent {
-  @ViewChild(ServiceOfferingSelectorComponent) public serviceOfferingSelectorComponent: ServiceOfferingSelectorComponent;
+  @ViewChild(ServiceOfferingSelectorComponent)
+  public serviceOfferingSelectorComponent: ServiceOfferingSelectorComponent;
   public serviceOffering: ServiceOffering;
   public serviceOfferings: Array<ServiceOffering>;
 }
 
 describe('Test Service offering selector component', () => {
-  let component: ServiceOfferingSelectorComponent;
-  let fixture: ComponentFixture<ServiceOfferingSelectorComponent>;
-  let serviceOffering = serviceOfferings[1];
+  const serviceOffering = serviceOfferings[1];
 
   function createTestComponent() {
     const f = TestBed.createComponent(TestComponent);

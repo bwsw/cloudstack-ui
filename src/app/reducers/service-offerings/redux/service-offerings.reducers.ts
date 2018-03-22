@@ -472,13 +472,13 @@ export const getCustomOfferingWithParams = (
 
   const getValue = (param) => {
     const key = `${ServiceOfferingParamKey}.${serviceOffering.id}.${param}`;
-    const tag = tags.find(tag => tag.key === key);
+    const tag = tags.find(t => t.key === key);
     return tag && tag.value;
   };
 
-  const cpunumber = parseInt(getValue('cpuNumber'));
-  const cpuspeed = parseInt(getValue('cpuSpeed'));
-  const memory = parseInt(getValue('memory'));
+  const cpunumber = parseInt(getValue('cpuNumber'), 10);
+  const cpuspeed = parseInt(getValue('cpuSpeed'), 10);
+  const memory = parseInt(getValue('memory'), 10);
 
   if (cpunumber && cpuspeed && memory ) {
     const params = { cpunumber, cpuspeed, memory };
@@ -489,7 +489,7 @@ export const getCustomOfferingWithParams = (
 };
 
 export const getCustomRestrictions = createSelector(customOfferingRestrictions,
-  fromZones.getSelectedZone,(restrictions, zone) => {
+  fromZones.getSelectedZone, (restrictions, zone) => {
     return restrictions && zone && restrictions[zone.id] || DefaultCustomServiceOfferingRestrictions;
   });
 
@@ -508,7 +508,8 @@ export const getDefaultParams = createSelector(
     const getServiceOfferingRestriction = (param) => {
       return defaults && defaults[param]
         || customRestrictions && customRestrictions[param] && customRestrictions[param].min
-        || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param] && customRestrictionsForVmCreation[param].min
+        || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param]
+          && customRestrictionsForVmCreation[param].min
         || customServiceOfferingFallbackParams[param];
     };
 
