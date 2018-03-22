@@ -22,6 +22,21 @@ enum AuthModeType {
   HTTP = 'http'
 }
 
+export enum VmState {
+  Running = 'Running',
+  Stopped = 'Stopped',
+  Error = 'Error',
+  Destroyed = 'Destroyed',
+  Expunged = 'Expunged',
+  InProgress = 'In-progress',
+  Stopping = 'Stopping',
+  // custom states
+  Deploying = 'Deploying',
+  Expunging = 'Expunging'
+}
+
+export const VmResourceType = 'UserVm';
+
 export const getPort = (vm: VirtualMachine) => {
   const portTag = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.portToken);
   return portTag && portTag.value || '80';
@@ -55,21 +70,6 @@ export const isHttpAuthMode = (vm: VirtualMachine) => {
   return mode && vm.state === VmState.Running;
 };
 
-
-export enum VmState {
-  Running = 'Running',
-  Stopped = 'Stopped',
-  Error = 'Error',
-  Destroyed = 'Destroyed',
-  Expunged = 'Expunged',
-  InProgress = 'In-progress',
-  Stopping = 'Stopping',
-  // custom states
-  Deploying = 'Deploying',
-  Expunging = 'Expunging'
-}
-
-export const VmResourceType = 'UserVm';
 
 @ZoneName()
 @FieldMapper({
