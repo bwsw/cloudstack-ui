@@ -27,7 +27,7 @@ const getGroupName = (vm: VirtualMachine) => {
   template: `
     <cs-vm-page
       [vms]="vms$ | async"
-      [query]="query$ | async" 
+      [query]="query$ | async"
       [volumes]="volumes$ | async"
       [osTypesMap]="osTypesMap$ | async"
       [isLoading]="loading$ | async"

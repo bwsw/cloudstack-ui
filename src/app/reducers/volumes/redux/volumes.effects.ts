@@ -22,6 +22,7 @@ import { State } from '../../index';
 import * as volumeActions from './volumes.actions';
 import * as fromVolumes from './volumes.reducers';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
+// tslint:disable-next-line
 import { VolumeDeleteDialogComponent } from '../../../shared/actions/volume-actions/volume-delete/volume-delete-dialog.component';
 
 @Injectable()
@@ -264,7 +265,9 @@ export class VolumesEffects {
                   new snapshotActions.DeleteSnapshots(detachedVolume.snapshots),
                   new volumeActions.DeleteVolume(detachedVolume)
                 );
-              } else res.push(new volumeActions.DeleteVolume(detachedVolume));
+              } else {
+                res.push(new volumeActions.DeleteVolume(detachedVolume));
+              }
               return res;
             }, []);
         }));
@@ -311,7 +314,7 @@ export class VolumesEffects {
 
       if (action.payload.virtualmachineid) {
         return detach(action.payload)
-          .filter((action: Action) => action.type === volumeActions.REPLACE_VOLUME)
+          .filter((a: Action) => a.type === volumeActions.REPLACE_VOLUME)
           .flatMap(() => remove(action.payload));
       } else {
         return remove(action.payload);

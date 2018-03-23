@@ -74,9 +74,6 @@ class TestOverlayComponent {
 }
 
 describe('AccountCreationDialogComponent', () => {
-  let component: AccountCreationDialogComponent;
-  let fixture: ComponentFixture<AccountCreationDialogComponent>;
-
   function createTestComponent() {
     const f = TestBed.createComponent(TestComponent);
     const testComponent = f.componentInstance;

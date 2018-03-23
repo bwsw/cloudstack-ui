@@ -46,7 +46,7 @@ export class VmListComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    for (const propName in changes) {
+    for (const propName of Object.keys(changes)) {
       if (propName === 'volumes') {
         this.inputs.volumes = this.volumes;
       }

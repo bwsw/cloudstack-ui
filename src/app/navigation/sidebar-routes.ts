@@ -10,28 +10,6 @@ export interface SidebarRoute extends NavigationItem {
   className?: string;
 }
 
-export function navigationPredicate(order: Array<SidebarRoute>) {
-  return (a: NavigationItem, b: NavigationItem) =>
-    order.findIndex(_ => _.id === a.id) - order.findIndex(_ => _.id === b.id);
-}
-
-export function validateNavigationOrder(order: any): boolean {
-  if (
-    typeof order === 'undefined' ||
-    !Array.isArray(order) ||
-    order.length !== sideBarRoutes.length
-  ) {
-    return false;
-  }
-
-  return order.every(
-    _ =>
-      _.enabled != null &&
-      _.id != null &&
-      !!sideBarRoutes.find(route => route.id === _.id)
-  );
-}
-
 export const sideBarRoutes: Array<SidebarRoute> = [
   {
     path: '/instances',
@@ -107,3 +85,25 @@ export const nonDraggableRoutes: Array<SidebarRoute> = [
     enabled: true
   }
 ];
+
+export function navigationPredicate(order: Array<SidebarRoute>) {
+  return (a: NavigationItem, b: NavigationItem) =>
+    order.findIndex(_ => _.id === a.id) - order.findIndex(_ => _.id === b.id);
+}
+
+export function validateNavigationOrder(order: any): boolean {
+  if (
+    typeof order === 'undefined' ||
+    !Array.isArray(order) ||
+    order.length !== sideBarRoutes.length
+  ) {
+    return false;
+  }
+
+  return order.every(
+    _ =>
+      _.enabled != null &&
+      _.id != null &&
+      !!sideBarRoutes.find(route => route.id === _.id)
+  );
+}

@@ -38,6 +38,7 @@ import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { InstanceGroup } from '../../../shared/models/instance-group.model';
 import { Color } from '../../../shared/models/color.model';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
+// tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
 @Injectable()
@@ -214,28 +215,28 @@ describe('Virtual machine Effects', () => {
   it('should return a object from LoadVMRequest', () => {
     const spyGetList = spyOn(service, 'getList').and.returnValue(of([list[0]]));
 
-    const action = new vmActions.LoadVMRequest("e10da283-06b1-4ac5-9888-b4f3717c2fe1");
+    const action = new vmActions.LoadVMRequest('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
     const completion = new vmActions.UpdateVM(list[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(effects.loadVM$).toBeObservable(expected);
-    expect(spyGetList).toHaveBeenCalledWith("e10da283-06b1-4ac5-9888-b4f3717c2fe1");
+    expect(spyGetList).toHaveBeenCalledWith('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
     expect(jobsNotificationService.add).toHaveBeenCalled();
   });
 
   it('should return an error from LoadVMRequest', () => {
     const spyGetList = spyOn(service, 'getList').and.returnValue(Observable.throw(new Error('Error occurred!')));
 
-    const action = new vmActions.LoadVMRequest("e10da283-06b1-4ac5-9888-b4f3717c2fe1");
+    const action = new vmActions.LoadVMRequest('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
     actions$.stream = cold('a', { a: action });
     const expected = cold('a', { a: completion });
 
     expect(effects.loadVM$).toBeObservable(expected);
-    expect(spyGetList).toHaveBeenCalledWith("e10da283-06b1-4ac5-9888-b4f3717c2fe1");
+    expect(spyGetList).toHaveBeenCalledWith('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
     expect(jobsNotificationService.fail).toHaveBeenCalled();
   });
 
@@ -243,7 +244,7 @@ describe('Virtual machine Effects', () => {
     const spySetDesc = spyOn(tagService, 'setDescription').and.returnValue(of(list[0]));
 
     const action = new vmActions.ChangeDescription({
-      description: "description",
+      description: 'description',
       vm: list[0]
     });
     const completion = new vmActions.UpdateVM(list[0]);
@@ -260,7 +261,7 @@ describe('Virtual machine Effects', () => {
     const spyRemoveDesc = spyOn(tagService, 'removeDescription').and.returnValue(of(list[0]));
 
     const action = new vmActions.ChangeDescription({
-      description: "",
+      description: '',
       vm: list[0]
     });
     const completion = new vmActions.UpdateVM(list[0]);
@@ -278,7 +279,7 @@ describe('Virtual machine Effects', () => {
       .returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeDescription({
-      description: "desc",
+      description: 'desc',
       vm: list[0]
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
@@ -353,7 +354,7 @@ describe('Virtual machine Effects', () => {
     const spyChangeAG = spyOn(afGroupService, 'updateForVm').and.returnValue(of(list[1]));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: "af1_id",
+      affinityGroupId: 'af1_id',
       vm: list[1]
     });
     const completion = new vmActions.UpdateVM(list[1]);
@@ -372,7 +373,7 @@ describe('Virtual machine Effects', () => {
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: "af1_id",
+      affinityGroupId: 'af1_id',
       vm: list[0]
     });
     const completion = new vmActions.UpdateVM(new VirtualMachine(list[0]));
@@ -392,7 +393,7 @@ describe('Virtual machine Effects', () => {
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: "af1_id",
+      affinityGroupId: 'af1_id',
       vm: list[0]
     });
 
@@ -410,7 +411,7 @@ describe('Virtual machine Effects', () => {
       .returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: "af1_id",
+      affinityGroupId: 'af1_id',
       vm: list[1]
     });
     const completion = new vmActions.VMUpdateError({
@@ -500,8 +501,8 @@ describe('Virtual machine Effects', () => {
     const spyAddIp = spyOn(service, 'addIpToNic').and.returnValue(of({
       result: {
         nicsecondaryip: {
-          id: "id1",
-          ipaddress: "ip1",
+          id: 'id1',
+          ipaddress: 'ip1',
         }
       }
     }));
@@ -509,8 +510,8 @@ describe('Virtual machine Effects', () => {
       {},
       list[0].nic[0],
       { secondaryIp: [{
-          id: "id1",
-          ipaddress: "ip1",
+          id: 'id1',
+          ipaddress: 'ip1',
         }]
       }
     );
@@ -522,7 +523,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.AddSecondaryIp({
       vm: list[0],
-      nicId: "id1"
+      nicId: 'id1'
     });
     const completion = new vmActions.UpdateVM(newVm);
 
@@ -540,7 +541,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.AddSecondaryIp({
       vm: list[0],
-      nicId: "id1"
+      nicId: 'id1'
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -568,7 +569,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.RemoveSecondaryIp({
       vm: list[2],
-      id: "id1"
+      id: 'id1'
     });
     const completion = new vmActions.UpdateVM(newVm);
 
@@ -586,7 +587,7 @@ describe('Virtual machine Effects', () => {
 
     const action = new vmActions.RemoveSecondaryIp({
       vm: list[0],
-      id: "id1"
+      id: 'id1'
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -991,8 +992,8 @@ describe('Virtual machine Effects', () => {
     const spyAttach = spyOn(isoService, 'attach').and.returnValue(of(list[0]));
 
     const action = new vmActions.AttachIso({
-      id: "id1",
-      virtualMachineId: "e10da283-06b1-4ac5-9888-b4f3717c2fe1"
+      id: 'id1',
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
     });
     const completion = new vmActions.UpdateVM(list[0]);
 
@@ -1008,8 +1009,8 @@ describe('Virtual machine Effects', () => {
     const spyAttach = spyOn(isoService, 'attach').and.returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new vmActions.AttachIso({
-      id: "id1",
-      virtualMachineId: "e10da283-06b1-4ac5-9888-b4f3717c2fe1"
+      id: 'id1',
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 
@@ -1025,7 +1026,7 @@ describe('Virtual machine Effects', () => {
     const spyDetach = spyOn(isoService, 'detach').and.returnValue(of(list[0]));
 
     const action = new vmActions.DetachIso({
-      virtualMachineId: "e10da283-06b1-4ac5-9888-b4f3717c2fe1"
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
     });
     const completion = new vmActions.ReplaceVM(list[0]);
 
@@ -1041,7 +1042,7 @@ describe('Virtual machine Effects', () => {
     const spyDetach = spyOn(isoService, 'detach').and.returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new vmActions.DetachIso({
-      virtualMachineId: "e10da283-06b1-4ac5-9888-b4f3717c2fe1"
+      virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
     });
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
 

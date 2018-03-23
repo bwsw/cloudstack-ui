@@ -247,6 +247,134 @@ export const getSelectedOffering = createSelector(
   (entities, vm) => vm && entities[vm.serviceOfferingId]
 );
 
+export const getCustomOfferingWithParams = (
+  serviceOffering: CustomServiceOffering,
+  tags: Array<Tag>
+): CustomServiceOffering => {
+
+  const getValue = (param) => {
+    const key = `${ServiceOfferingParamKey}.${serviceOffering.id}.${param}`;
+    const tag = tags.find(t => t.key === key);
+    return tag && tag.value;
+  };
+
+  const cpunumber = parseInt(getValue('cpuNumber'), 10);
+  const cpuspeed = parseInt(getValue('cpuSpeed'), 10);
+  const memory = parseInt(getValue('memory'), 10);
+
+  if (cpunumber && cpuspeed && memory ) {
+    const params = { cpunumber, cpuspeed, memory };
+    return { ...serviceOffering, ...params };
+  } else {
+    return serviceOffering;
+  }
+};
+
+export const isOfferingAvailableInZone = (
+  offering: ServiceOffering,
+  availability: OfferingAvailability,
+  zone: Zone
+) => {
+  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
+    return true;
+  }
+  return availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+};
+
+export const getOfferingsAvailableInZone = (
+  offeringList: Array<ServiceOffering>,
+  availability: OfferingAvailability,
+  zone: Zone
+) => {
+  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
+    return offeringList;
+  }
+
+  return offeringList
+    .filter(offering => {
+      const offeringAvailableInZone = isOfferingAvailableInZone(
+        offering,
+        availability,
+        zone
+      );
+      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
+        offering);
+      return offeringAvailableInZone && localStorageCompatibility;
+    });
+};
+
+export const getAvailableByResourcesSync = (
+  serviceOfferings: Array<ServiceOffering>,
+  availability: OfferingAvailability,
+  offeringRestrictions: ICustomOfferingRestrictionsByZone,
+  resourceUsage: ResourceStats,
+  zone: Zone
+) => {
+  const availableInZone = getOfferingsAvailableInZone(
+    serviceOfferings,
+    availability,
+    zone
+  );
+
+  return availableInZone
+    .filter(offering => {
+      let enoughCpus;
+      let enoughMemory;
+
+      if (offering.iscustomized) {
+        const restrictions = merge(
+          DefaultCustomServiceOfferingRestrictions,
+          offeringRestrictions && offeringRestrictions[zone.id]
+        );
+        enoughCpus = !restrictions.cpunumber || restrictions.cpunumber.min < resourceUsage.available.cpus;
+        enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
+      } else {
+        enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
+        enoughMemory = resourceUsage.available.memory >= offering.memory;
+      }
+
+      return enoughCpus && enoughMemory;
+
+    });
+};
+
+const filterTags = (
+  tags, ignoreTags
+) => {
+  return tags.filter(t => ignoreTags.indexOf(t) === -1);
+};
+
+export const includeTags = (
+  oldTags: Array<string>,
+  newTags: Array<string>
+) => {
+  return !oldTags.find(tag => newTags.indexOf(tag) === -1);
+};
+
+export const matchHostTags = (
+  oldTags: Array<string>,
+  newTags: Array<string>,
+  compatibilityPolicy: OfferingCompatibilityPolicy
+) => {
+  const ignoreTags = compatibilityPolicy.offeringChangePolicyIgnoreTags;
+  if (ignoreTags) {
+    oldTags = filterTags(oldTags, ignoreTags);
+    newTags = filterTags(newTags, ignoreTags);
+  }
+  switch (compatibilityPolicy.offeringChangePolicy) {
+    case OfferingPolicy.CONTAINS_ALL: {
+      return includeTags(oldTags, newTags);
+    }
+    case OfferingPolicy.EXACTLY_MATCH: {
+      return oldTags.length === newTags.length ? includeTags(oldTags, newTags) : false;
+    }
+    case OfferingPolicy.NO_RESTRICTIONS:
+    default: {
+      return true;
+    }
+  }
+};
+
 export const getAvailableOfferings = createSelector(
   selectAll,
   getSelectedOffering,
@@ -396,100 +524,8 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
   }
 );
 
-
-export const getOfferingsAvailableInZone = (
-  offeringList: Array<ServiceOffering>,
-  availability: OfferingAvailability,
-  zone: Zone
-) => {
-  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
-    return offeringList;
-  }
-
-  return offeringList
-    .filter(offering => {
-      const offeringAvailableInZone = isOfferingAvailableInZone(
-        offering,
-        availability,
-        zone
-      );
-      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(
-        offering);
-      return offeringAvailableInZone && localStorageCompatibility;
-    });
-};
-
-export const isOfferingAvailableInZone = (
-  offering: ServiceOffering,
-  availability: OfferingAvailability,
-  zone: Zone
-) => {
-  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
-    return true;
-  }
-  return availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
-};
-
-export const getAvailableByResourcesSync = (
-  serviceOfferings: Array<ServiceOffering>,
-  availability: OfferingAvailability,
-  offeringRestrictions: ICustomOfferingRestrictionsByZone,
-  resourceUsage: ResourceStats,
-  zone: Zone
-) => {
-  const availableInZone = getOfferingsAvailableInZone(
-    serviceOfferings,
-    availability,
-    zone
-  );
-
-  return availableInZone
-    .filter(offering => {
-      let enoughCpus;
-      let enoughMemory;
-
-      if (offering.iscustomized) {
-        const restrictions = merge(
-          DefaultCustomServiceOfferingRestrictions,
-          offeringRestrictions && offeringRestrictions[zone.id]
-        );
-        enoughCpus = !restrictions.cpunumber || restrictions.cpunumber.min < resourceUsage.available.cpus;
-        enoughMemory = !restrictions.memory || restrictions.memory.min < resourceUsage.available.memory;
-      } else {
-        enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
-        enoughMemory = resourceUsage.available.memory >= offering.memory;
-      }
-
-      return enoughCpus && enoughMemory;
-
-    });
-};
-
-export const getCustomOfferingWithParams = (
-  serviceOffering: CustomServiceOffering,
-  tags: Array<Tag>
-): CustomServiceOffering => {
-
-  const getValue = (param) => {
-    const key = `${ServiceOfferingParamKey}.${serviceOffering.id}.${param}`;
-    const tag = tags.find(tag => tag.key === key);
-    return tag && tag.value;
-  };
-
-  const cpunumber = parseInt(getValue('cpuNumber'));
-  const cpuspeed = parseInt(getValue('cpuSpeed'));
-  const memory = parseInt(getValue('memory'));
-
-  if (cpunumber && cpuspeed && memory ) {
-    const params = { cpunumber, cpuspeed, memory };
-    return { ...serviceOffering, ...params };
-  } else {
-    return serviceOffering;
-  }
-};
-
 export const getCustomRestrictions = createSelector(customOfferingRestrictions,
-  fromZones.getSelectedZone,(restrictions, zone) => {
+  fromZones.getSelectedZone, (restrictions, zone) => {
     return restrictions && zone && restrictions[zone.id] || DefaultCustomServiceOfferingRestrictions;
   });
 
@@ -497,54 +533,6 @@ export const getCustomRestrictionsForVmCreation = createSelector(customOfferingR
   fromVMs.getVmCreationZoneId, (restrictions, zoneId) => {
     return restrictions && restrictions[zoneId] || DefaultCustomServiceOfferingRestrictions;
   });
-
-export const getDefaultParams = createSelector(
-  defaultParams,
-  getCustomRestrictions,
-  getCustomRestrictionsForVmCreation,
-  fromAuths.getUserAccount,
-  (defaults, customRestrictions, customRestrictionsForVmCreation, user ) => {
-    const resourceStats = ResourceStats.fromAccount([user]);
-    const getServiceOfferingRestriction = (param) => {
-      return defaults && defaults[param]
-        || customRestrictions && customRestrictions[param] && customRestrictions[param].min
-        || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param] && customRestrictionsForVmCreation[param].min
-        || customServiceOfferingFallbackParams[param];
-    };
-
-    const cpunumber = getServiceOfferingRestriction('cpunumber');
-    const cpuspeed = getServiceOfferingRestriction('cpuspeed');
-    const memory = getServiceOfferingRestriction('memory');
-
-    const restrictions = getRestrictionIntersection(
-      customRestrictions,
-      resourceStats
-    );
-
-    if (!restrictionsAreCompatible(restrictions)) {
-      return undefined;
-    }
-
-    const normalizedParams = clipOfferingParamsToRestrictions(
-      { cpunumber, cpuspeed, memory },
-      restrictions
-    );
-
-    return { ...normalizedParams };
-  }
-);
-
-export const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
-  return Object.keys(restrictions).reduce((acc, key) => {
-    return (
-      acc &&
-      (restrictions[key] == null ||
-        restrictions[key].min == null ||
-        restrictions[key].max == null ||
-        restrictions[key].min < restrictions[key].max)
-    );
-  }, true);
-};
 
 export const clipOfferingParamsToRestrictions = (
   offeringParams: ICustomServiceOffering,
@@ -567,6 +555,17 @@ export const clipOfferingParamsToRestrictions = (
   }, {});
 };
 
+export const restrictionsAreCompatible = (restrictions: ICustomOfferingRestrictions) => {
+  return Object.keys(restrictions).reduce((acc, key) => {
+    return (
+      acc &&
+      (restrictions[key] == null ||
+        restrictions[key].min == null ||
+        restrictions[key].max == null ||
+        restrictions[key].min < restrictions[key].max)
+    );
+  }, true);
+};
 
 export const getRestrictionIntersection = (
   customRestrictions: ICustomOfferingRestrictions,
@@ -632,40 +631,39 @@ export const getRestrictionIntersection = (
   return result;
 };
 
+export const getDefaultParams = createSelector(
+  defaultParams,
+  getCustomRestrictions,
+  getCustomRestrictionsForVmCreation,
+  fromAuths.getUserAccount,
+  (defaults, customRestrictions, customRestrictionsForVmCreation, user ) => {
+    const resourceStats = ResourceStats.fromAccount([user]);
+    const getServiceOfferingRestriction = (param) => {
+      return defaults && defaults[param]
+        || customRestrictions && customRestrictions[param] && customRestrictions[param].min
+        || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param]
+          && customRestrictionsForVmCreation[param].min
+        || customServiceOfferingFallbackParams[param];
+    };
 
-export const matchHostTags = (
-  oldTags: Array<string>,
-  newTags: Array<string>,
-  compatibilityPolicy: OfferingCompatibilityPolicy
-) => {
-  const ignoreTags = compatibilityPolicy.offeringChangePolicyIgnoreTags;
-  if (ignoreTags) {
-    oldTags = filterTags(oldTags, ignoreTags);
-    newTags = filterTags(newTags, ignoreTags);
+    const cpunumber = getServiceOfferingRestriction('cpunumber');
+    const cpuspeed = getServiceOfferingRestriction('cpuspeed');
+    const memory = getServiceOfferingRestriction('memory');
+
+    const restrictions = getRestrictionIntersection(
+      customRestrictions,
+      resourceStats
+    );
+
+    if (!restrictionsAreCompatible(restrictions)) {
+      return undefined;
+    }
+
+    const normalizedParams = clipOfferingParamsToRestrictions(
+      { cpunumber, cpuspeed, memory },
+      restrictions
+    );
+
+    return { ...normalizedParams };
   }
-  switch (compatibilityPolicy.offeringChangePolicy) {
-    case OfferingPolicy.CONTAINS_ALL: {
-      return includeTags(oldTags, newTags);
-    }
-    case OfferingPolicy.EXACTLY_MATCH: {
-      return oldTags.length === newTags.length ? includeTags(oldTags, newTags) : false;
-    }
-    case OfferingPolicy.NO_RESTRICTIONS:
-    default: {
-      return true;
-    }
-  }
-};
-
-const filterTags = (
-  tags, ignoreTags
-) => {
-  return tags.filter(t => ignoreTags.indexOf(t) === -1);
-};
-
-export const includeTags = (
-  oldTags: Array<string>,
-  newTags: Array<string>
-) => {
-  return !oldTags.find(tag => newTags.indexOf(tag) === -1);
-};
+);

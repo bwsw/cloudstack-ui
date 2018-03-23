@@ -89,7 +89,7 @@ export class ServiceOfferingListComponent implements OnChanges {
 
   public getGroupedOfferings() {
     const showClasses = this.classes
-      .filter(soClass => this.selectedClasses.indexOf(soClass.id) != -1);
+      .filter(soClass => this.selectedClasses.indexOf(soClass.id) !== -1);
     if (this.classes.length) {
       this.list = (showClasses.length ? showClasses : this.classes)
         .map(soClass => {

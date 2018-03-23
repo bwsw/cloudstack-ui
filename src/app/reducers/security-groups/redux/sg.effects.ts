@@ -69,9 +69,9 @@ export class SecurityGroupEffects {
     .ofType(securityGroup.DELETE_PRIVATE_SECURITY_GROUP)
     .withLatestFrom(this.store.select(fromSecurityGroups.selectAll))
     .map(([action, groups]: [securityGroup.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
-      const vmGroup =  groups.find((group: SecurityGroup) =>
+      const vmGroup = groups.find((group: SecurityGroup) =>
         action.payload.securityGroup &&
-        !!action.payload.securityGroup.find(vmGroup => vmGroup.id === group.id) &&
+        !!action.payload.securityGroup.find(sg => sg.id === group.id) &&
         getType(group) === SecurityGroupType.Private
       );
       return vmGroup;
