@@ -33,6 +33,7 @@ import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromTemplateGroups from '../../reducers/templates/redux/template-group.reducers';
 import { AuthService } from '../../shared/services/auth.service';
 
+const FILTER_KEY = 'templateListFilters';
 
 @Component({
   selector: 'cs-template-filter-container',
@@ -86,7 +87,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     },
     this.router,
     this.sessionStorage,
-    'eventListFilters',
+    FILTER_KEY,
     this.activatedRoute
   );
 

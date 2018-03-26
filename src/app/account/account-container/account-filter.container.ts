@@ -19,6 +19,8 @@ import {
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
+const FILTER_KEY = 'accountListFilters';
+
 @Component({
   selector: 'cs-account-filter-container',
   template: `
@@ -41,7 +43,6 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
     ></cs-account-list-filter>`
 })
 export class AccountFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-
   @Input() groupings: Array<any>;
   @Input() selectedGroupings: Array<any>;
 
@@ -55,7 +56,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   readonly selectedStates$ = this.store.select(fromAccounts.filterSelectedStates);
   readonly selectedRoleTypes$ = this.store.select(fromAccounts.filterSelectedRoleTypes);
 
-
   public states: Array<string> = ['enabled', 'disabled'];
 
   private filterService = new FilterService(
@@ -68,7 +68,7 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
     },
     this.router,
     this.sessionStorage,
-    'accountListFilters',
+    FILTER_KEY,
     this.activatedRoute
   );
 

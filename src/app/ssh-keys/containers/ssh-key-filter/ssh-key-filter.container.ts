@@ -14,7 +14,7 @@ import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions
 import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
-export const sshKeyListFilters = 'sshKeyListFilters';
+const FILTER_KEY = 'sshKeyListFilters';
 
 @Component({
   selector: 'cs-ssh-key-filter-container',
@@ -37,8 +37,6 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
   readonly selectedAccountIds$ = this.store.select(fromSshKeys.filterSelectedAccountIds);
 
-
-  private filtersKey = sshKeyListFilters;
   private filterService = new FilterService(
     {
       'accounts': { type: 'array', defaultOption: [] },
@@ -46,7 +44,7 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     },
     this.router,
     this.sessionStorage,
-    this.filtersKey,
+    FILTER_KEY,
     this.activatedRoute
   );
 

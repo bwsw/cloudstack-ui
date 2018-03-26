@@ -24,6 +24,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import * as debounce from 'lodash/debounce';
 
+const FILTER_KEY = 'vmListFilters';
 
 @Component({
   selector: 'cs-vm-filter-container',
@@ -86,7 +87,6 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     }
   ].filter(state => !state.hasOwnProperty('access') || state['access']);
 
-  private filtersKey = 'vmListFilters';
   private filterService = new FilterService({
     zones: { type: 'array', defaultOption: [] },
     groups: { type: 'array', defaultOption: [] },
@@ -94,7 +94,12 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     query: { type: 'string' },
     states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] },
     accounts: {type: 'array', defaultOption: [] }
-  }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
+  },
+    this.router,
+    this.sessionStorage,
+    FILTER_KEY,
+    this.activatedRoute
+  );
 
   constructor(
     private cd: ChangeDetectorRef,

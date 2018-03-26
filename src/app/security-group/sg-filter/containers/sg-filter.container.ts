@@ -18,6 +18,7 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import { SecurityGroupViewMode } from '../../sg-view-mode';
 
+const FILTER_KEY = 'securityGroupFilters';
 
 @Component({
   selector: 'cs-sg-filter-container',
@@ -31,7 +32,6 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
 
   public query: string;
 
-  private filtersKey = 'securityGroupFilters';
   private filterService = new FilterService(
     {
       viewMode: {
@@ -45,7 +45,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     },
     this.router,
     this.storageService,
-    this.filtersKey,
+    FILTER_KEY,
     this.activatedRoute
   );
 

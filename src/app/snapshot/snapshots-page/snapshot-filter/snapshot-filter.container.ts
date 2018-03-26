@@ -22,6 +22,8 @@ const getGroupName = (snapshot: Snapshot) => {
     : snapshot.account;
 };
 
+const FILTER_KEY = 'snapshotFilters';
+
 @Component({
   selector: 'cs-snapshots-filter-container',
   template: `
@@ -54,14 +56,18 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
   readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
   readonly firstDayOfWeek = this.language.getFirstDayOfWeek();
 
-  private filtersKey = 'snapshotFilters';
   private filterService = new FilterService({
     accounts: { type: 'array', defaultOption: [] },
     types: { type: 'array', defaultOption: [] },
     date: { type: 'string', defaultOption: moment().toString() },
     groupings: { type: 'array', defaultOption: [] },
     query: { type: 'string' }
-  }, this.router, this.storage, this.filtersKey, this.activatedRoute);
+  },
+    this.router,
+    this.storage,
+    FILTER_KEY,
+    this.activatedRoute
+  );
 
   public types = [
     {
