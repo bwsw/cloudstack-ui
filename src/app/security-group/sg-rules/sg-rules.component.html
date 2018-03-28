@@ -60,10 +60,11 @@
           <td class="mat-cell">
             <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
               <mat-form-field floatPlaceholder="never">
+                <!-- From CloudStack docs: The ICMP type (if protocol=ICMP). A value of -1 means all types. -->
                 <input
                   matInput
                   maxValue="255"
-                  minValue="0"
+                  [minValue]="cidrIpVersion === IPVersion.ipv6 ? 0 : -1"
                   #icmpTypeField="ngModel"
                   name="icmpType"
                   [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate"
@@ -105,11 +106,13 @@
           <td class="mat-cell">
             <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
               <mat-form-field floatPlaceholder="never">
+                <!-- From CloudStack docs: -->
+                <!-- The ICMP code (if protocol=ICMP). A value of -1 means all codes for the given ICMP type. -->
                 <input
                   matInput
                   name="icmpCode"
                   maxValue="255"
-                  minValue="0"
+                  [minValue]="cidrIpVersion === IPVersion.ipv6 ? 0 : -1"
                   #icmpCodeField="ngModel"
                   [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
                   [matAutocomplete]="icmpCodesAuto"
