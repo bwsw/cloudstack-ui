@@ -1,13 +1,22 @@
-language: node_js
 sudo: true
 dist: trusty
 
+language: node_js
 node_js:
   - 'stable'
 
-branches:
-  only:
-  - master
+#branches:
+#  only:
+#  - master
+
+cache:
+  directories:
+     - ./node_modules
+
+env:
+  global:
+    - DOCKER_USER=tamazlykar
+    - DOCKER_REPO=cloudstack-ui
 
 before_install:
  - export CHROME_BIN=/usr/bin/google-chrome
@@ -17,3 +26,10 @@ before_install:
  - sudo apt-get install -y libappindicator1 fonts-liberation
  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
  - sudo dpkg -i google-chrome*.deb
+
+before_deploy:
+  - docker build -t ${DOCKER_USER}/${DOCKER_REPO} .
+
+deploy:
+  provider: script
+  script: ./scripts/docker-push.sh
