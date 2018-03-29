@@ -23,7 +23,7 @@ addons:
 
 env:
   global:
-    - DOCKER_USER=bwsw
+    - DOCKER_USER=tamazlykar
     - DOCKER_REPO=cloudstack-ui
 
 before_install:
@@ -39,7 +39,7 @@ before_deploy:
   - docker build -t ${DOCKER_USER}/${DOCKER_REPO} .
 
 deploy:
-  provider: script
-  script: ./scripts/docker-push.sh
-  on:
-    branch: master
+  - provider: script
+    script: ./scripts/docker-push.sh
+    on:
+      branch: master
