@@ -16,6 +16,11 @@ cache:
   directories:
      - ./node_modules
 
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 env:
   global:
     - DOCKER_USER=tamazlykar
