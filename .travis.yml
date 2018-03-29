@@ -33,3 +33,5 @@ before_deploy:
 deploy:
   provider: script
   script: ./scripts/docker-push.sh
+  on:
+    all_branches: true
