@@ -8,9 +8,9 @@ node_js:
 services:
   - docker
 
-#branches:
-#  only:
-#  - master
+branches:
+  only:
+  - master
 
 cache:
   directories:
@@ -23,7 +23,7 @@ addons:
 
 env:
   global:
-    - DOCKER_USER=tamazlykar
+    - DOCKER_USER=bwsw
     - DOCKER_REPO=cloudstack-ui
 
 before_install:
@@ -42,4 +42,4 @@ deploy:
   provider: script
   script: ./scripts/docker-push.sh
   on:
-    all_branches: true
+    branch: master
