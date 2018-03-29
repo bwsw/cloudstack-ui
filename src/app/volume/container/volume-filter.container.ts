@@ -20,6 +20,7 @@ import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
+const FILTER_KEY = 'volumeListFilters';
 
 @Component({
   selector: 'cs-volume-filter-container',
@@ -73,7 +74,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
     },
     this.router,
     this.sessionStorage,
-    'volumeListFilters',
+    FILTER_KEY,
     this.activatedRoute
   );
 
