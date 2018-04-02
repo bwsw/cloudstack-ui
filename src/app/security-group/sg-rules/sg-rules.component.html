@@ -2,8 +2,8 @@
   <h3
     class="mat-dialog-title"
     [innerHTML]="!editMode ?
-  ('SECURITY_GROUP_PAGE.RULES.VIEW_TITLE' | translate:{ value: securityGroup?.name }) :
-  ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate:{ value: securityGroup?.name })"
+    ('SECURITY_GROUP_PAGE.RULES.VIEW_TITLE' | translate:{ value: securityGroup?.name }) :
+    ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate:{ value: securityGroup?.name })"
   >
   </h3>
   <div class="mat-dialog-content">
@@ -60,6 +60,7 @@
           <td class="mat-cell">
             <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
               <mat-form-field floatPlaceholder="never">
+                <!-- From CloudStack docs: The ICMP type (if protocol=ICMP). A value of -1 means all types. -->
                 <input
                   matInput
                   maxValue="255"
@@ -89,8 +90,8 @@
                 name="startPort"
                 type="number"
                 [(ngModel)]="startPort"
-                [minValue]="0"
-                [maxValue]="65535"
+                minValue="0"
+                maxValue="65535"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
                 integerValue
                 required
@@ -105,6 +106,8 @@
           <td class="mat-cell">
             <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
               <mat-form-field floatPlaceholder="never">
+                <!-- From CloudStack docs: -->
+                <!-- The ICMP code (if protocol=ICMP). A value of -1 means all codes for the given ICMP type. -->
                 <input
                   matInput
                   name="icmpCode"
@@ -137,8 +140,8 @@
                 name="endPort"
                 type="number"
                 [(ngModel)]="endPort"
-                [minValue]="0"
-                [maxValue]="65535"
+                minValue="0"
+                maxValue="65535"
                 [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
                 integerValue
                 required
@@ -160,8 +163,8 @@
               <mat-icon *ngIf="!adding">add</mat-icon>
               <mat-spinner
                 *ngIf="adding"
-                [diameter]="25"
-                [strokeWidth]="5"
+                diameter="25"
+                strokeWidth="5"
               ></mat-spinner>
             </button>
           </td>
