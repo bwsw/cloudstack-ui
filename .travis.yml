@@ -13,9 +13,7 @@ branches:
   - master
   - /^\d+\.\d+\.\d+$/
 
-cache:
-  directories:
-     - ./node_modules
+cache: yarn
 
 addons:
   apt:
@@ -41,6 +39,6 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: ./scripts/docker-push.sh
+    script: ./scripts/publish-docker-image.sh
     on:
       all_branches: true
