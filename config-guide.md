@@ -169,7 +169,6 @@ For example,
   "miniops"
   "maxiops"
 ]
-
 ```
 ### Template Groups
 
@@ -179,12 +178,14 @@ Template group has a required `id` parameter and an optional translations parame
 
 A TemplateGroup looks like 
 ```
-{
-  "id": "id-234", //unique key
-  "translations": {
-    "ru": "Имя Темплейта", // russian translation
-    "en": "Template Name" //english translation
-}
+"templateGroups": [
+  {
+    "id": "id-234", //unique key
+    "translations": {
+      "ru": "Имя Темплейта", // russian translation
+      "en": "Template Name" //english translation
+  }
+]
 ```
 ### Default Service Offering
 
