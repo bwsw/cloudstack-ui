@@ -6,6 +6,7 @@ import {
   MatButtonModule,
   MatCheckboxModule,
   MatDialog,
+  MatIconRegistry,
   MatIconModule,
   MatInputModule,
   MatProgressSpinnerModule,
@@ -139,4 +140,7 @@ export function InitAppFactory(
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(matIconRegistry: MatIconRegistry) {
+    matIconRegistry.setDefaultFontSetClass('mdi');
+  }
 }

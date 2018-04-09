@@ -30,14 +30,14 @@
         matTooltipPosition="above"
         (click)="$event.stopPropagation(); attachVolume()"
       >
-        <mat-icon>attach_file</mat-icon>
+        <mat-icon class="mdi-paperclip"></mat-icon>
       </button>
       <button
         *ngIf="loading"
         mat-icon-button
         disabled
       >
-        <mat-icon>attach_file</mat-icon>
+        <mat-icon class="mdi-paperclip"></mat-icon>
       </button>
     </mat-card-actions>
     <mat-card-actions *ngIf="!selectedVolume && volumes?.length">
@@ -47,7 +47,7 @@
         matTooltipPosition="above"
         (click)="$event.stopPropagation(); showDialog()"
       >
-        <mat-icon>add</mat-icon>
+        <mat-icon class="mdi-plus"></mat-icon>
       </button>
     </mat-card-actions>
   </mat-card-content>

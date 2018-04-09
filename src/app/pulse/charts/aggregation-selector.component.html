@@ -12,7 +12,6 @@
 </mat-form-field>
 <mat-form-field class="aggregation-select">
   <mat-select
-
     multiple
     [placeholder]="'PULSE.AGGREGATION' | translate"
     [(ngModel)]="selectedAggregations"
@@ -50,5 +49,5 @@
   </mat-select>
 </mat-form-field>
 <button class="refresh-button" mat-icon-button (click)="handleRefresh()">
-  <mat-icon [matTooltip]="'COMMON.REFRESH' | translate">sync</mat-icon>
+  <mat-icon [matTooltip]="'COMMON.REFRESH' | translate" class="mdi-sync"></mat-icon>
 </button>

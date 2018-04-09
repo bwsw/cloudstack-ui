@@ -9,10 +9,10 @@
     *ngIf="unseenCount"
     [csBadge]="unseenCount"
     csBadgeOverlap
+    class="mdi-bell"
   >
-    notifications
   </mat-icon>
-  <mat-icon *ngIf="!unseenCount">notifications</mat-icon>
+  <mat-icon *ngIf="!unseenCount" class="mdi-bell"></mat-icon>
 </button>
 <cs-popover #popover>
   <mat-card class="mat-elevation-z4">

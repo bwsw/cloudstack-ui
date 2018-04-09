@@ -18,7 +18,7 @@ export enum SecurityGroupActionType {
 const SecurityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
-  icon: 'delete',
+  icon: 'mdi-delete',
   canActivate: (securityGroup: SecurityGroup) =>
     getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualMachineIds.length === 0
 };
@@ -26,7 +26,7 @@ const SecurityGroupDeleteAction = {
 const SecurityGroupShowRulesAction = {
   name: 'SECURITY_GROUP_PAGE.ACTION.RULES',
   command: SecurityGroupActionType.View,
-  icon: 'visibility',
+  icon: 'mdi-eye',
   canActivate: () => true
 };
 

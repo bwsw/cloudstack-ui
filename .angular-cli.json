@@ -22,6 +22,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cs",
       "styles": [
+        "../node_modules/mdi/css/materialdesignicons.min.css",
         "style/app.scss"
       ],
       "scripts": [],

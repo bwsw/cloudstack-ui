@@ -18,29 +18,28 @@ export enum SnapshotActions {
 const CreateTemplateFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_TEMPLATE',
   command: SnapshotActions.CreateTemplate,
-  icon: 'disc',
-  className: 'disc-icon',
+  icon: 'mdi-disk',
   canActivate: (snapshot: Snapshot) => snapshot.state === SnapshotStates.BackedUp
 };
 
 const CreateVolumeFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_VOLUME',
   command: SnapshotActions.CreateVolume,
-  icon: 'dns',
+  icon: 'mdi-dns',
   canActivate: (snapshot: Snapshot) => snapshot.state === SnapshotStates.BackedUp
 };
 
 const SnapshotDeleteAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.DELETE_SNAPSHOT',
   command: SnapshotActions.Delete,
-  icon: 'delete',
+  icon: 'mdi-delete',
   canActivate: (snapshot: Snapshot) => true
 };
 
 const SnapshotRevertAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.REVERT_TO_SNAPSHOT',
   command: SnapshotActions.Revert,
-  icon: 'settings_backup_restore',
+  icon: 'mdi-backup-restore',
   canActivate: (snapshot: Snapshot) => snapshot.revertable && snapshot.state === SnapshotStates.BackedUp
 };
 

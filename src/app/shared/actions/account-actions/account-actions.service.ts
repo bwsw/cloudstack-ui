@@ -12,7 +12,7 @@ const AccountDeleteAction = {
 const AccountDisableAction = {
   name: 'ACCOUNT_ACTION.DISABLE',
   command: 'disable',
-  icon: 'remove_circle',
+  icon: 'mdi-minus-circle',
   confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_DISABLE',
   canActivate: (account: Account) => account.state !== 'disabled'
 };
@@ -20,7 +20,7 @@ const AccountDisableAction = {
 const AccountEnableAction = {
   name: 'ACCOUNT_ACTION.ENABLE',
   command: 'enable',
-  icon: 'remove_circle_outline',
+  icon: 'mdi-minus-circle-outline',
   confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_ENABLE',
   canActivate: (account: Account) => account.state !== 'enabled'
 };
