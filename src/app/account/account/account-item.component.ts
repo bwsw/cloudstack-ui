@@ -13,8 +13,8 @@ export class AccountItemComponent {
   readonly stateTranslations = stateTranslations;
 
   public get isSelf() {
-    return this.authService.user.username === this.item.name
-      && this.authService.user.domainid === this.item.domainid;
+    const account = this.item.user[0].account;
+    return this.authService.user.account === account;
   }
 
   constructor(protected authService: AuthService) {
