@@ -14,7 +14,7 @@ import {
   ResourceStats
 } from '../../services/resource-usage.service';
 import { Utils } from '../../services/utils/utils.service';
-import { Account } from '../../models/account.model';
+import { Account } from '../../models';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
@@ -148,6 +148,18 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
       case StatsMode.Used:
       default:
         this.mode = StatsMode.Used;
+    }
+
+    const typeRaw = this.storageService.read(statisticsType);
+    switch (parseInt(typeRaw, 10)) {
+      case StatsType.Account:
+        this.statsType = StatsType.Account;
+        break;
+      case StatsType.Domain:
+        this.statsType = StatsType.Domain;
+        break;
+      default:
+        this.statsType = StatsType.Account;
     }
   }
 
