@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { OsFamily, OsType } from '../../shared/models/os-type.model';
-import { Zone } from '../../shared/models/zone.model';
 import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
-import { Account } from '../../shared/models/account.model';
-import { Domain, getPath } from '../../shared/models/domain.model';
+import { Account, Domain, getPath, OsFamily, OsType, Zone } from '../../shared/models';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
+import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
 
 @Component({
@@ -78,6 +76,8 @@ export class TemplateFiltersComponent implements OnInit {
         this.selectedTypes = this.categoryFilters.concat();
       }
     }
+
+    this.availableGroupings = reorderAvailableGroupings(this.availableGroupings, this.selectedGroupings);
   }
 
   public get locale(): Language {
