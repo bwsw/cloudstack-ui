@@ -141,26 +141,10 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     }
 
     const modeRaw = this.storageService.read(statisticsMode);
-    switch (parseInt(modeRaw, 10)) {
-      case StatsMode.Free:
-        this.mode = StatsMode.Free;
-        break;
-      case StatsMode.Used:
-      default:
-        this.mode = StatsMode.Used;
-    }
+    this.mode = parseInt(modeRaw, 10) ? StatsMode.Free : StatsMode.Used;
 
     const typeRaw = this.storageService.read(statisticsType);
-    switch (parseInt(typeRaw, 10)) {
-      case StatsType.Account:
-        this.statsType = StatsType.Account;
-        break;
-      case StatsType.Domain:
-        this.statsType = StatsType.Domain;
-        break;
-      default:
-        this.statsType = StatsType.Account;
-    }
+    this.statsType = parseInt(typeRaw, 10) ? StatsType.Domain : StatsType.Account ;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
