@@ -1,5 +1,5 @@
 import { User, Account } from '../models';
 
-export function isHaveSameAccount(user: User, account: Account) {
-  return user.account === account.user[0].account;
+export function isUserBelongsToAccount(user: User, account: Account) {
+  return account.user != null && user.account === account.user[0].account;
 }

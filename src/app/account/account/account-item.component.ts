@@ -3,7 +3,7 @@ import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
 import { Account } from '../../shared/models';
 import { stateTranslations } from '../account-container/account.container';
-import { isHaveSameAccount } from '../../shared/utils/account';
+import { isUserBelongsToAccount } from '../../shared/utils/account';
 
 export class AccountItemComponent {
   public item: Account;
@@ -14,7 +14,7 @@ export class AccountItemComponent {
   readonly stateTranslations = stateTranslations;
 
   public get isSelf() {
-    return isHaveSameAccount(this.authService.user, this.item);
+    return isUserBelongsToAccount(this.authService.user, this.item);
   }
 
   constructor(protected authService: AuthService) {

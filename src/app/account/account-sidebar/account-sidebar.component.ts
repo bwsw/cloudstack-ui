@@ -3,7 +3,7 @@ import { Account } from '../../shared/models';
 import { NotificationService } from '../../shared/services/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
-import { isHaveSameAccount } from '../../shared/utils/account';
+import { isUserBelongsToAccount } from '../../shared/utils/account';
 
 @Component({
   selector: 'cs-account-sidebar',
@@ -15,7 +15,7 @@ export class AccountSidebarComponent {
   @Output() public onAccountChanged = new EventEmitter<Account>();
 
   public get isSelf() {
-    return isHaveSameAccount(this.authService.user, this.entity);
+    return isUserBelongsToAccount(this.authService.user, this.entity);
   }
 
   constructor(
