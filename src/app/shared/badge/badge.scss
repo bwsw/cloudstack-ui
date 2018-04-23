@@ -1,5 +1,4 @@
 $badge-size: 24px;
-$badge-offset: 4px;
 $badge-overlap: 14px;
 
 .badge {
@@ -14,7 +13,7 @@ $badge-overlap: 14px;
     align-items: center;
     position: absolute;
     top: -($badge-size / 2);
-    right: -($badge-size + $badge-offset);
+    right: -($badge-size - $badge-overlap);
     font-weight: 500;
     font-size: 12px;
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -23,9 +22,5 @@ $badge-overlap: 14px;
     border-radius: 50%;
     color: white;
     z-index: 2;
-  }
-
-  &.badge--overlap::before {
-    right: -($badge-size - $badge-overlap);
   }
 }

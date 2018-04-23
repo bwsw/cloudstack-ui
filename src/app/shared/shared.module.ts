@@ -60,6 +60,7 @@ import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
 import { BadgeModule } from './badge/';
 import {
+  BadgeComponent,
   CalendarComponent,
   CalendarMonthComponent,
   CalendarYearComponent,
@@ -276,6 +277,7 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    BadgeComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -360,7 +362,8 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    DiskOfferingDialogComponent
+    DiskOfferingDialogComponent,
+    BadgeComponent
   ],
   providers: [
     AccountService,
