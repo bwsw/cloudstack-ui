@@ -7,7 +7,7 @@ import { SessionStorageService } from '../../../shared/services/session-storage.
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { sshKeyGroupings } from '../ssh-key-page/ssh-key-page.container';
 import { AuthService } from '../../../shared/services/auth.service';
-import { Grouping } from '../../../shared/models/grouping.model';
+import { Grouping } from '../../../shared/models';
 
 import * as accountAction from '../../../reducers/accounts/redux/accounts.actions';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
@@ -20,6 +20,7 @@ const FILTER_KEY = 'sshKeyListFilters';
   selector: 'cs-ssh-key-filter-container',
   template: `
     <cs-ssh-key-filter
+      *loading="loading$ | async"
       [accounts]="accounts$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
@@ -32,7 +33,8 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
 
   public groupings: Array<Grouping> = sshKeyGroupings;
 
-  private filters$ = this.store.select(fromSshKeys.filters);
+  readonly filters$ = this.store.select(fromSshKeys.filters);
+  readonly loading$ = this.store.select(fromSshKeys.isLoading);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
   readonly selectedAccountIds$ = this.store.select(fromSshKeys.filterSelectedAccountIds);

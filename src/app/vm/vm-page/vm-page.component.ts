@@ -5,8 +5,7 @@ import { ListService } from '../../shared/components/list/list.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
-import { OsType } from '../../shared/models/os-type.model';
-import { Volume } from '../../shared/models/volume.model';
+import { Grouping, OsType, Volume } from '../../shared/models';
 import { Dictionary } from '@ngrx/entity/src/models';
 
 
@@ -22,8 +21,8 @@ export class VmPageComponent implements OnInit {
   @Input() public volumes: Array<Volume>;
   @Input() public osTypesMap: Dictionary<OsType>;
   @Input() public isLoading: boolean;
-  @Input() public groupings: Array<any>;
-  @Input() public selectedGroupings: Array<any>;
+  @Input() public groupings: Array<Grouping>;
+  @Input() public selectedGroupings: Array<Grouping>;
 
   public mode: ViewMode;
   public viewModeKey = 'vmPageViewMode';
