@@ -58,7 +58,6 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
-import { BadgeModule } from './badge/';
 import {
   BadgeComponent,
   CalendarComponent,
@@ -113,14 +112,7 @@ import { IntegerValidatorDirective } from './directives/integer-value.directive'
 import { LoadingDirective } from './directives/loading.directive';
 import { MaxValueValidatorDirective } from './directives/max-value.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
-import {
-  DivisionPipe,
-  HighLightPipe,
-  StringifyDatePipe,
-  StringifyTimePipe,
-  ViewValuePipe,
-  VolumeSortPipe
-} from './pipes';
+import { DivisionPipe, HighLightPipe, StringifyDatePipe, StringifyTimePipe, ViewValuePipe, VolumeSortPipe } from './pipes';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
@@ -175,7 +167,6 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
     CommonModule,
     DynamicModule.withComponents([GroupedListComponent]),
     FormsModule,
-    BadgeModule,
     CdkTableModule,
     ClipboardModule,
     DragulaModule,

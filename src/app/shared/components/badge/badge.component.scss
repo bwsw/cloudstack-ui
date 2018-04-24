@@ -1,10 +1,7 @@
 $badge-size: 24px;
-$badge-overlap: 14px;
+$badge-overlap: 18px;
 
 .badge {
-  position: relative;
-  white-space: nowrap;
-
   &[data-badge]::before {
     content: attr(data-badge);
     display: flex;
