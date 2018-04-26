@@ -112,7 +112,14 @@ import { IntegerValidatorDirective } from './directives/integer-value.directive'
 import { LoadingDirective } from './directives/loading.directive';
 import { MaxValueValidatorDirective } from './directives/max-value.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
-import { DivisionPipe, HighLightPipe, StringifyDatePipe, StringifyTimePipe, ViewValuePipe, VolumeSortPipe } from './pipes';
+import {
+  DivisionPipe,
+  HighLightPipe,
+  StringifyDatePipe,
+  StringifyTimePipe,
+  ViewValuePipe,
+  VolumeSortPipe
+} from './pipes';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
 import { AsyncJobService } from './services/async-job.service';
