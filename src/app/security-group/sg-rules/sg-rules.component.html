@@ -6,254 +6,87 @@
     ('SECURITY_GROUP_PAGE.RULES.EDIT_TITLE' | translate:{ value: securityGroup?.name })"
   >
   </h3>
+
   <div class="mat-dialog-content">
-    <form #rulesForm="ngForm" novalidate>
-      <table class="mat-table">
-        <tbody>
-        <tr
-          class="mat-row rule-row table-form"
-          *ngIf="!isPredefinedTemplate && editMode"
+    <cs-sg-rule-addition-form
+      *ngIf="!isPredefinedTemplate && editMode"
+      [isAdding]="adding"
+      (addRule)="onAddRule($event)"
+    ></cs-sg-rule-addition-form>
+
+    <div *ngIf="!editMode">
+      <mat-form-field class="form-select-control">
+        <mat-select
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_IP_VERSION' | translate"
+          [(ngModel)]="selectedIPVersion"
+          (selectionChange)="filter()"
+          name="selectedIPVersion"
         >
-          <td class="mat-cell">
-            <mat-form-field>
-              <mat-select class="type" [(ngModel)]="type" name="type">
-                <mat-option
-                  *ngFor="let t of types"
-                  [value]="t.value"
-                >
-                  {{ t.text | translate }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td class="mat-cell">
-            <mat-form-field>
-              <mat-select [(ngModel)]="protocol" name="protocol">
-                <mat-option
-                  *ngFor="let p of protocols"
-                  [value]="p.value"
-                >
-                  {{ p.text | translate }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </td>
-          <td class="cidr mat-cell">
-            <mat-form-field class="cidr">
-              <input
-                matInput
-                name="cidr"
-                type="text"
-                [(ngModel)]="cidr"
-                (change)="onCidrChange()"
-                [errorStateMatcher]="cidrMatcher"
-                [placeholder]="'SECURITY_GROUP_PAGE.RULES.ENTER_CIDR' | translate"
-                required
-                #cidrField="ngModel"
-              >
-              <mat-error *ngIf="!isCidrValid(cidr)">
-                {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
-              </mat-error>
-            </mat-form-field>
-          </td>
-
-          <td class="mat-cell">
-            <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
-              <mat-form-field floatPlaceholder="never">
-                <!-- From CloudStack docs: The ICMP type (if protocol=ICMP). A value of -1 means all types. -->
-                <input
-                  matInput
-                  maxValue="255"
-                  [minValue]="cidrIpVersion === IPVersion.ipv6 ? 0 : -1"
-                  #icmpTypeField="ngModel"
-                  name="icmpType"
-                  [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate"
-                  [matAutocomplete]="icmpTypesAuto"
-                  [(ngModel)]="selectedType"
-                  (ngModelChange)="setIcmpTypes(filterTypes(selectedType));"
-                >
-                <mat-error *ngIf="icmpTypeField.invalid">{{
-                  'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
-                </mat-error>
-
-                <mat-autocomplete #icmpTypesAuto="matAutocomplete">
-                  <mat-option *ngFor="let t of icmpTypes" [value]="t.type">
-                    {{ getIcmpTypeTranslationToken(t.type) | translate }} [{{ t.type }}]
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </ng-container>
-
-            <mat-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
-              <input
-                matInput
-                name="startPort"
-                type="number"
-                [(ngModel)]="startPort"
-                minValue="0"
-                maxValue="65535"
-                [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
-                integerValue
-                required
-                #startPortField="ngModel"
-              >
-              <mat-error *ngIf="startPortField.invalid">
-                {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
-              </mat-error>
-            </mat-form-field>
-          </td>
-
-          <td class="mat-cell">
-            <ng-container *ngIf="protocol === NetworkProtocols.ICMP">
-              <mat-form-field floatPlaceholder="never">
-                <!-- From CloudStack docs: -->
-                <!-- The ICMP code (if protocol=ICMP). A value of -1 means all codes for the given ICMP type. -->
-                <input
-                  matInput
-                  name="icmpCode"
-                  maxValue="255"
-                  [minValue]="cidrIpVersion === IPVersion.ipv6 ? 0 : -1"
-                  #icmpCodeField="ngModel"
-                  [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
-                  [matAutocomplete]="icmpCodesAuto"
-                  [(ngModel)]="selectedCode"
-                  (ngModelChange)="setIcmpCodes(filterCodes(selectedCode))"
-                >
-                <mat-error *ngIf="icmpCodeField.invalid">
-                  {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
-                </mat-error>
-
-                <mat-autocomplete
-                  #icmpCodesAuto="matAutocomplete"
-                  name="icmpCodesAuto"
-                >
-                  <mat-option *ngFor="let t of icmpCodes" [value]="t">
-                    {{ getIcmpCodeTranslationToken(icmpType, t) | translate }} [{{ t }}]
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </ng-container>
-
-            <mat-form-field *ngIf="protocol !== NetworkProtocols.ICMP">
-              <input
-                matInput
-                name="endPort"
-                type="number"
-                [(ngModel)]="endPort"
-                minValue="0"
-                maxValue="65535"
-                [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
-                integerValue
-                required
-                #endPortField="ngModel"
-              >
-              <mat-error *ngIf="endPortField.invalid">
-                {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_PORT' | translate }}
-              </mat-error>
-            </mat-form-field>
-          </td>
-
-          <td class="mat-cell">
-            <button
-              mat-icon-button
-              class="add-rule-button"
-              (click)="addRule($event)"
-              disabled="{{ isPredefinedTemplate || adding || rulesForm.form.invalid }}"
-            >
-              <mat-icon *ngIf="!adding">add</mat-icon>
-              <mat-spinner
-                *ngIf="adding"
-                diameter="25"
-                strokeWidth="5"
-              ></mat-spinner>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div *ngIf="!editMode">
-        <mat-form-field class="form-select-control">
-          <mat-select
-            multiple="true"
-            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_IP_VERSION' | translate"
-            [(ngModel)]="selectedIPVersion"
-            (selectionChange)="filter()"
-            name="selectedIPVersion"
+          <mat-option
+            *ngFor="let t of IPversions"
+            [value]="t"
           >
-            <mat-option
-              *ngFor="let t of IPversions"
-              [value]="t"
-            >
-              {{ t }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form-select-control">
-          <mat-select
-            multiple="true"
-            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
-            name="selectedTypes"
-            [(ngModel)]="selectedTypes"
-            (selectionChange)="filter()"
-          >
-            <mat-option *ngFor="let z of types" [value]="z.value">{{ z.text | translate
-              }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form-select-control">
-          <mat-select
-            multiple="true"
-            [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
-            name="selectedProtocols"
-            [(ngModel)]="selectedProtocols"
-            (selectionChange)="filter()"
-          >
-            <mat-option *ngFor="let z of protocols" [value]="z.value">
-              {{ z.text | translate }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="form-select-control">
-          <cs-draggable-select
-            name="groupBy"
-            multiple="true"
-            [placeholder]="'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY' | translate"
-            [(ngModel)]="selectedGroupings"
-            [dragItems]="groupings"
-            (change)="update()"
-          >
-            <mat-option *ngFor="let g of groupings" [value]="g">
-              {{ g.label | translate }}
-            </mat-option>
-          </cs-draggable-select>
-        </mat-form-field>
-      </div>
-      <table class="mat-table">
-        <tbody>
-        <cs-grouped-list
-          class="padding"
-          [list]="visibleRules"
-          [groupings]="selectedGroupings"
-          [component]="ruleComponent"
-          [dynamicInputs]="inputs"
-          [dynamicOutputs]="outputs"
+            {{ t }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-select-control">
+        <mat-select
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_TYPE' | translate"
+          name="selectedTypes"
+          [(ngModel)]="selectedTypes"
+          (selectionChange)="filter()"
         >
-        </cs-grouped-list>
-        <tr>
-          <td
-            colspan="6"
-            *ngIf="!visibleRules || !visibleRules.length"
-          >
-            {{ 'SECURITY_GROUP_PAGE.RULES.' +
-            'NO_FIREWALL_RULES' | translate }}
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </form>
+          <mat-option *ngFor="let z of types" [value]="z.value">
+            {{ z.text | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-select-control">
+        <mat-select
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.RULES.SELECT_PROTOCOL' | translate"
+          name="selectedProtocols"
+          [(ngModel)]="selectedProtocols"
+          (selectionChange)="filter()"
+        >
+          <mat-option *ngFor="let z of protocols" [value]="z.value">
+            {{ z.text | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <cs-draggable-select
+          name="groupBy"
+          multiple="true"
+          [placeholder]="'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY' | translate"
+          [(ngModel)]="selectedGroupings"
+          [dragItems]="groupings"
+          (change)="update()"
+        >
+          <mat-option *ngFor="let g of groupings" [value]="g">
+            {{ g.label | translate }}
+          </mat-option>
+        </cs-draggable-select>
+      </mat-form-field>
+    </div>
+
+    <cs-grouped-list
+      *ngIf="visibleRules && visibleRules.length"
+      [list]="visibleRules"
+      [groupings]="selectedGroupings"
+      [component]="ruleComponent"
+      [dynamicInputs]="inputs"
+      [dynamicOutputs]="outputs"
+    >
+    </cs-grouped-list>
+    <div *ngIf="!visibleRules || !visibleRules.length">
+      {{ 'SECURITY_GROUP_PAGE.RULES.NO_FIREWALL_RULES' | translate }}
+    </div>
   </div>
+
   <div class="mat-dialog-actions">
     <button
       *ngIf="!isPredefinedTemplate"

@@ -1,23 +1,21 @@
 import { Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA, MatAutocompleteModule, MatDialogRef
-} from '@angular/material';
+import { Router } from '@angular/router';
+import { MAT_DIALOG_DATA, MatAutocompleteModule, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+
 import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { ICMPv6Types } from '../../shared/icmp/icmp-types';
 import { NotificationService } from '../../shared/services/notification.service';
 import { SecurityGroupService } from '../services/security-group.service';
 import { IPVersion, NetworkRuleType, SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from './sg-rules.component';
-import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { NetworkProtocol } from '../network-rule.model';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { Router } from '@angular/router';
 import { LoadingDirective } from '../../shared/directives/loading.directive';
 
 const securityGroupTemplates: Array<Object> = require(
@@ -107,27 +105,12 @@ describe('Security group firewall rules component', () => {
   });
 
   class SecurityGroupServiceMock {
-    public getPredefinedTemplates(): Array<SecurityGroup> {
-      return [mockSecurityGroup];
-    }
-
     public getList(): Observable<Array<SecurityGroup>> {
       return Observable.of([mockSecurityGroup]);
     }
   }
 
   class NetworkRuleServiceMock {
-    public addRule(type: NetworkRuleType, data): Observable<NetworkRule> {
-      return Observable.of(null);
-    }
-
-    public removeRule(type: NetworkRuleType, data): Observable<null> {
-      return Observable.of(null);
-    }
-
-    public removeDuplicateRules(rules: Array<NetworkRule>): Array<NetworkRule> {
-      return [];
-    }
   }
 
   beforeEach(async(() => {
@@ -154,22 +137,6 @@ describe('Security group firewall rules component', () => {
       f = TestBed.createComponent(SgRulesComponent);
       comp = f.componentInstance;
     });
-  }));
-
-  it('filter lists of ICMP types and codes', async(() => {
-    comp.cidr = '::/128';
-    const filteredTypes = comp.filterTypes('255');
-    expect(filteredTypes.length).toEqual(1);
-
-    comp.selectedType = filteredTypes[0].type.toString();
-    comp.setIcmpTypes(filteredTypes);
-    const filteredCodes = comp.filterCodes('255');
-    expect(filteredCodes.length).toEqual(1);
-
-    comp.selectedCode = filteredCodes[0].toString();
-    comp.setIcmpCodes(comp.selectedCode);
-    expect(comp.icmpType).toEqual(255);
-    expect(comp.icmpCode).toEqual(0);
   }));
 
   it('filter network rules by IP version, type or protocol', () => {
@@ -200,12 +167,6 @@ describe('Security group firewall rules component', () => {
     expect(comp.isPredefinedTemplate).toBeTruthy();
     comp.securityGroup = mockSecurityGroupWithRules;
     expect(comp.isPredefinedTemplate).toBeFalsy();
-  }));
-
-  it('should select types by CIDR IP version', async(() => {
-    comp.cidr = '2001:DB8::/128';
-    comp.onCidrChange();
-    expect(comp.icmpTypes).toEqual(ICMPv6Types);
   }));
 
   it('should change view or edit mode', async(() => {

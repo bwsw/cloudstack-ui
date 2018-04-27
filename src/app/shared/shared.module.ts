@@ -1,7 +1,7 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -207,6 +207,7 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
     EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
+    ReactiveFormsModule
   ],
   exports: [
     CdkTableModule,
@@ -276,6 +277,7 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    ReactiveFormsModule
   ],
   entryComponents: [
     DatePickerDialogComponent,

@@ -89,12 +89,18 @@ export class Utils {
   };
 
   public static cidrIsValid(range: string): boolean {
+    if (range === null) {
+      return true;
+    }
     const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
     const cidr = new ipAddressType(range);
     return cidr.isValid();
   }
 
   public static cidrType(range: string): IPVersion {
+    if (range === null) {
+      return null;
+    }
     const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
     const cidr = new ipAddressType(range);
     return cidr.isValid() && (cidr.v4 ? IPVersion.ipv4 : IPVersion.ipv6);
