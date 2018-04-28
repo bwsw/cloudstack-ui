@@ -5,14 +5,9 @@
   popoverPositionX="end"
   (onPopoverClose)="onToggle()"
 >
-  <mat-icon
-    *ngIf="unseenCount"
-    [csBadge]="unseenCount"
-    csBadgeOverlap
-    class="mdi-bell"
-  >
-  </mat-icon>
-  <mat-icon *ngIf="!unseenCount" class="mdi-bell"></mat-icon>
+  <div [csBadge]="unseenCount">
+    <mat-icon class="mdi-bell"></mat-icon>
+  </div>
 </button>
 <cs-popover #popover>
   <mat-card class="mat-elevation-z4">
