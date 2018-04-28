@@ -36,8 +36,6 @@ export class GroupedListComponent implements OnChanges {
           items: groups[gn]
         };
       }).sort((group1, group2) => this.sortGroups(group1, group2));
-
-      // console.log(groups, this.tree);
     } else {
       this.tree = [{ items: this.list }];
     }
