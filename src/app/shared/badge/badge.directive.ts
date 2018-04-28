@@ -1,14 +1,21 @@
 import { Directive, HostBinding, Input } from '@angular/core';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Directive({
   selector: '[csBadge]'
 })
 export class BadgeDirective {
-  @HostBinding('class.badge')
-  public get isActive(): boolean {
-    return !!this.count;
+  @HostBinding('class.badge') public readonly badge = true;
+  @HostBinding('attr.data-badge') @Input() public csBadge: string;
+
+  @HostBinding('class.badge--overlap') private shouldOverlap = false;
+
+  @Input()
+  public get csBadgeOverlap(): boolean {
+    return this.shouldOverlap;
   }
 
-  // tslint:disable-next-line
-  @HostBinding('attr.data-badge') @Input('csBadge') public count: string;
+  public set csBadgeOverlap(val: boolean) {
+    this.shouldOverlap = coerceBooleanProperty(val);
+  }
 }

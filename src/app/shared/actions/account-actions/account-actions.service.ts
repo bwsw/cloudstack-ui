@@ -4,7 +4,7 @@ import { Action } from '../../models/action.model';
 const AccountDeleteAction = {
   name: 'ACCOUNT_ACTION.DELETE',
   command: 'delete',
-  icon: 'mdi-delete',
+  icon: 'delete',
   confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_DELETION',
   canActivate: (account: Account) => true
 };
