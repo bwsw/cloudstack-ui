@@ -512,6 +512,29 @@ export const selectTemplatesForIsoAttachment = createSelector(
       && currentAccountFilter(template));
   }
 );
+
+const filterForVmCreation = (templates, zoneId, account, filter) => {
+  const selectedZoneFilter = (template: BaseTemplateModel) => {
+    return template.zoneId === zoneId || template.crossZones;
+  };
+
+  const viewModeStr = filter.selectedViewMode === TemplateResourceType.iso
+    ? filter.selectedViewMode.toUpperCase()
+    : filter.selectedViewMode;
+  const selectedViewModeFilter = (template: BaseTemplateModel) => {
+    return viewModeStr === template.resourceType;
+  };
+
+  const currentAccountFilter = (template: BaseTemplateModel) => {
+    return (account && template.account === account.name && template.domainId === account.domainid)
+      || template.isFeatured || template.isPublic;
+  };
+
+  return templates.filter(template => selectedViewModeFilter(template)
+    && selectedZoneFilter(template)
+    && currentAccountFilter(template));
+};
+
 export const selectFilteredTemplatesForVmCreation = createSelector(
   selectTemplatesForAction,
   fromVMs.getVmCreationZoneId,
@@ -537,25 +560,3 @@ export const allTemplatesReadyForVmCreation = createSelector(
     filter
   ).length
 );
-
-const filterForVmCreation = (templates, zoneId, account, filter) => {
-  const selectedZoneFilter = (template: BaseTemplateModel) => {
-    return template.zoneId === zoneId || template.crossZones;
-  };
-
-  const viewModeStr = filter.selectedViewMode === TemplateResourceType.iso
-    ? filter.selectedViewMode.toUpperCase()
-    : filter.selectedViewMode;
-  const selectedViewModeFilter = (template: BaseTemplateModel) => {
-    return viewModeStr === template.resourceType;
-  };
-
-  const currentAccountFilter = (template: BaseTemplateModel) => {
-    return (account && template.account === account.name && template.domainId === account.domainid)
-      || template.isFeatured || template.isPublic;
-  };
-
-  return templates.filter(template => selectedViewModeFilter(template)
-    && selectedZoneFilter(template)
-    && currentAccountFilter(template));
-};

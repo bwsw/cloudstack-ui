@@ -8,7 +8,7 @@
     [ngClass]="statusClass"
   ></span>
   <h2 class="row-title">
-    <span [matTooltip]="item.name"> {{ item.name }} </span>
+    <span [matTooltip]="item.name" [innerHTML]="item.name | highlight:query"></span>
   </h2>
 
   <div class="info" *ngIf="item.volumeid">
@@ -20,7 +20,8 @@
   </div>
 
   <div class="info">
-    {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}: {{ snapshotCreated | stringifyDate }}
+    {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
+   <span [innerHTML]="snapshotCreated | stringifyDate"></span>
   </div>
 
   <button

@@ -26,7 +26,7 @@ export class ViewModeSwitchComponent implements OnInit {
   constructor(private storage: LocalStorageService) { }
 
   ngOnInit() {
-    const value = parseInt(this.storage.read(this.key));
+    const value = parseInt(this.storage.read(this.key), 10);
     this.mode = value ? ViewMode.LIST : ViewMode.BOX;
     this.onModeChange.emit(this.mode);
   }

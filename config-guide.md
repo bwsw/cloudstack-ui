@@ -126,11 +126,15 @@ In this section you can specify classes for service offerings in the following f
         "description": {
           "ru": "class_description_ru",
           "en": "class_description_en"
-        }
+        },
+        "serviceOfferings": [
+          "so-id1",
+          "so-id2"
+        ]
        }
     ]
     
-Each classes should have a unique id, name, and description. Name and description should be localized for used languages.
+Each classes should have a unique id, name, description and list of service offering ids, which belong to this class. Name and description should be localized for used languages.
 
 ### Session Timeout
 
@@ -165,7 +169,6 @@ For example,
   "miniops"
   "maxiops"
 ]
-
 ```
 ### Template Groups
 
@@ -175,12 +178,14 @@ Template group has a required `id` parameter and an optional translations parame
 
 A TemplateGroup looks like 
 ```
-{
-  "id": "id-234", //unique key
-  "translations": {
-    "ru": "Имя Темплейта", // russian translation
-    "en": "Template Name" //english translation
-}
+"templateGroups": [
+  {
+    "id": "id-234", //unique key
+    "translations": {
+      "ru": "Имя Темплейта", // russian translation
+      "en": "Template Name" //english translation
+  }
+]
 ```
 ### Default Service Offering
 
@@ -219,6 +224,22 @@ Account tags are available only for the last API version. If you are using anoth
 
 ```
 "accountTagsEnabled": false
+```
+
+### Configure Sidebar
+This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
+For example, 
+```
+"configureSidebar": [
+  "vms",
+  "volumes",
+  "templates",
+  "sgs",
+  "events",
+  "ssh",
+  "accounts",
+ "settings"
+]
 ```
 
 ### Extensions

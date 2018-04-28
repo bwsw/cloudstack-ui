@@ -14,7 +14,7 @@
     </mat-button-toggle>
   </mat-button-toggle-group>
 
-  <mat-form-field *ngIf="classes?.length">
+  <mat-form-field *ngIf="classes?.length > 1">
     <mat-select
       multiple="true"
       [placeholder]="'SERVICE_OFFERING.FILTERS.SELECT_CLASSES' | translate"

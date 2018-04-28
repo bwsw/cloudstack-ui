@@ -60,15 +60,34 @@ If you have just started working with CloudStack and you do not have virtual mac
 .. figure:: _static/AdditionalDiskNotification.png
    :scale: 70%
    
-To create a new volume fill in the fields:
+A creation form will appear.
 
-- Name * - Enter a name of the volume. 
-- Zone * - Select a zone from the drop-down list.
-- Disk offering * - Select from the drop-down list. If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider up to the volume size you wish.
+.. figure:: _static/Storage_Create3.png
+   :scale: 70%
+
+To create a new volume fill in the fields:
 
 .. note:: Required fields are marked with an asterisk (*).
 
-.. figure:: _static/Storage_Create1.png
+- Name * - Enter a name of the volume. 
+- Zone * - Select a zone from the drop-down list.
+- Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "Select". For each disk offering you will see a range of parameters. The following parameters are shown by default:
+
+- Read rate (MB/s);
+- Write rate (MB/s);
+- Read rate (IO/s);
+- Write rate (IO/s).
+
+More parameters can be added via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-parameters>`_ by an Administrator.
+
+Select a disk offering in the list and click "SELECT".
+
+.. figure:: _static/Storage_Create_Select.png
+   :scale: 70%
+
+If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider to the volume size you wish.
+
+.. figure:: _static/Storage_Create_ResizeDisk.png
    :scale: 70%
    
 Click "Create" to save the settings and create the new volume. You will see the drive appears in the list.
@@ -84,7 +103,7 @@ Volume Details Sidebar
 
 By clicking a disk in the list you can access the information on the volume. 
 
-.. figure:: _static/Storage_Info1.png
+.. figure:: _static/Storage_Info2.png
 
 At the right sidebar you can find two tabs:
 
@@ -93,13 +112,13 @@ At the right sidebar you can find two tabs:
 - General information - Presents disk size, date and time of creation, the storage type (shared, local).
 - Description - Allows entering a short description to the drive. Click at the Description card and enter a short description in the text block.
     
-.. figure:: _static/Storage_Description.png
+.. figure:: _static/Storage_Description1.png
 
-Click "Save" to save the description. 
+Click "Save" to save the description. Description will be saved to volume `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 
 You can edit the description by clicking the "Edit" button |edit icon| in the tab.
 
-.. figure:: _static/Storage_DescriptionEdit.png
+.. figure:: _static/Storage_DescriptionEdit1.png
    
 - Disk offering - Presents the information on the disk offering chosen at disk creation.
     
@@ -145,8 +164,23 @@ Once all fields are filled in click "Create" to create the new template.
 
 .. figure:: _static/Storage_CreateTemplate1.png
    :scale: 70%
-   
-- **Delete** - Allows deleting the snapshot.
+
+- **Create Volume** - Allows creating a volume from the snapshot.
+
+Type a name for a new volume into the Name field in the modal window. Click “Create” to register a new volume.
+
+.. figure:: _static/Storage_SnapshotActions_CreateVolume.png
+
+Click “Cancel” to cancel the volume creation.
+
+- **Revert Volume To Snapshot** - Allows turning the volume back to the state of the snapshot. 
+
+In the dialogue window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
+
+.. figure:: _static/Storage_SnapshotActions_Revert.png
+   :scale: 70%
+
+- **Delete** - Allows deleting the snapshot. Click “Delete” in the Action box and confirm your action in modal window. The snapshot will be deleted. Click “Cancel” to cancel the snapshot deleting.
 
 .. Find the detailed description in the :ref:`Actions_on_Snapshots` section.
 
@@ -217,7 +251,7 @@ You can change the disk size by selecting "Resize the disk" option in the Action
 
 In the appeared window set up a new size and click "Resize" to save the edits.
 
-.. figure:: _static/Storage_ResizeDisk1.png
+.. figure:: _static/Storage_ResizeDisk2.png
 
 Click "Cancel" to drop the size changes.
 
@@ -235,7 +269,7 @@ An attached disk can be detached. Click "Detach" in the Actions list and confirm
 
 This action can be applied to data disks. It allows deleting the data disk from the system.
 
-Click "Delete" in the Actions list and confirm your action in the dialogue window. 
+Click "Delete" in the Actions list and confirm your action in the dialogue window. If a volume has snapshots the system will ask you if you want to delete them as well. Click "YES" to delete the snapshots of the volume. CLick "NO" to keep them.
 
 The data disk will be deleted from the system.
 

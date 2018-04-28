@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
+import { CSCommands } from '../../shared/services/base-backend.service';
 import { Template } from './template.model';
 import {
   BaseTemplateService,
@@ -18,7 +19,7 @@ import {
 })
 export class TemplateService extends BaseTemplateService {
   public create(params: CreateTemplateBaseParams): Observable<Template> {
-    return this.sendCommand('create', params)
+    return this.sendCommand(CSCommands.Create, params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
       .switchMap(template => {
         if (params.groupId) {
