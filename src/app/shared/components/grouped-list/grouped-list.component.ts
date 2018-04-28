@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, Type } from '@angular/core';
-import { Grouping } from '../../models/grouping.model';
 import { BaseModelInterface } from '../../models/base.model';
-
+import { Grouping } from '../../models/grouping.model';
 import * as groupBy from 'lodash/groupBy';
 
 @Component({
@@ -37,6 +36,8 @@ export class GroupedListComponent implements OnChanges {
           items: groups[gn]
         };
       }).sort((group1, group2) => this.sortGroups(group1, group2));
+
+      // console.log(groups, this.tree);
     } else {
       this.tree = [{ items: this.list }];
     }
