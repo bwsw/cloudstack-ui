@@ -58,6 +58,7 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
+import { BadgeModule } from './badge/';
 import {
   BadgeComponent,
   CalendarComponent,
@@ -174,6 +175,7 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
     CommonModule,
     DynamicModule.withComponents([GroupedListComponent]),
     FormsModule,
+    BadgeModule,
     CdkTableModule,
     ClipboardModule,
     DragulaModule,
