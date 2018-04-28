@@ -8,7 +8,8 @@ import { Language } from '../../shared/services/language.service';
 
 @Component({
   selector: 'cs-service-offering-filter',
-  templateUrl: 'service-offering-filter.component.html'
+  templateUrl: 'service-offering-filter.component.html',
+  styleUrls: ['service-offering-filter.component.scss']
 })
 export class ServiceOfferingFilterComponent {
   @Input() public classes: Array<ServiceOfferingClass>;

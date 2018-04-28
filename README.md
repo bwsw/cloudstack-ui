@@ -32,9 +32,9 @@ Table of Contents
 
 # CloudStack-UI
 
-CloudStack-UI is a project whose purpose is to develop an easy-to-use, light, and user friendly frontend interface for the [Apache CloudStack](http://cloudstack.apache.org/) virtualization management system. Apache CloudStack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
+CloudStack-UI is a project whose purpose is to develop an easy-to-use, light, and user-friendly frontend interface for the [Apache CloudStack](http://cloudstack.apache.org/) virtualization management system. Apache CloudStack itself is a great product which is used very widely, but its frontend is developed for administrators (from our point of view), not for end cloud users. Some of the interactions are not straightforward and unnatural to an average user and require quite a long time to adapt. Other reasons to develop are connected with a lack of functions like virtual machine statistics & charting, sophisticated resource accounting, and application management. These are in our long-term TODO list.
 
-Join CloudStack-UI LinkedIn [Group](https://www.linkedin.com/groups/13540203)
+Join CloudStack-UI LinkedIn [Group](https://www.linkedin.com/groups/13540203).
 
 ## Project Story
 
@@ -79,13 +79,13 @@ So, what is supported:
 * SSH keys management
 * API keys management
 * Accounts management
-* A lot of small improvements which affect  user experience greatly
+* A lot of small improvements which affect user experience greatly
 
 ## Plugins Supported
 
 **Pulse plugin**
 
-Pulse Plugin is designed for visualization of virtual machines performance statistics. Currently this CloudStack-UI extension is only compatible with ACS clusters that use the KVM hypervisor. With help of sensors that collect virtual machines performance statistics via the Libvirt API and store them in an InfluxDB datastore and RESTful statistics server, CloudStack-UI is able to display CPU, RAM,disk IO and network traffic utilization in the form of convenient visual charts.
+Pulse Plugin is designed for visualization of virtual machines performance statistics. Currently, this CloudStack-UI extension is only compatible with ACS clusters that use the KVM hypervisor. With help of sensors that collect virtual machines performance statistics via the Libvirt API and store them in an InfluxDB datastore and RESTful statistics server, CloudStack-UI is able to display CPU, RAM, disk IO and network traffic utilization in the form of convenient visual charts.
 Pulse allows users of Apache CloudStack to monitor current and previous operational states of virtual machines. The plugin supports various view scales like minutes, hours, days and enables data overlays to monitor peak and average values.
 We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers. Read more about Plugin deployment [here](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment). 
 
@@ -96,7 +96,7 @@ This feature is not available in basic CloudStack UI and API. Plugin deployment 
 
 ## Features Yet Unsupported
 
-We intensively use features like projects in our own CloudStackcloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
+We intensively use features like projects in our own CloudStack cloud to manage resources dedicated to project groups, etc. but generic users don’t need them, so we don’t support the following features yet:
 
 * Advanced Zones
 * Hypervisors other than KVM have not been tested
@@ -121,7 +121,7 @@ We intensively use features like projects in our own CloudStackcloud to manage r
 
 #### Login view
 
-The login screen has a nice preloader which can be used to brand it for specific company. By default it shows Apache CloudStack banner. There are three possible ways to use domain (the form presented on the screen like in native UI, default domain in settings or an URL-based scheme).
+The login screen has a nice preloader which can be used to brand it for specific company. By default, it shows Apache CloudStack banner. There are three possible ways to use domain (the form presented on the screen like in native UI, default domain in settings or an URL-based scheme).
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/loginView.png" target="_blank">![Login screen](./screens/loginView_mini.png)</a>
 
@@ -129,7 +129,7 @@ The login screen has a nice preloader which can be used to brand it for specific
 
 This screen was rethought greatly. First of all, we implemented the “one step” approach everywhere, and we also made it work without moving from view to view, like ACS native interface does. Thus, all actions on VM instances are managed from the same screen. Also, the interface allows to view several zones immediately, group virtual machines by zones, by logical groups (e.g. Databases, WWW), and by colors.
 We added a feature to brush a virtual machine with a specific color to make it look unique and meaningful to users from a certain perspective.
-Also we moved most of VM information to the sidebar, which now has four tabs - General view, Storage (disks, snapshots, and ISO), Network (NICs configuration, Firewall rules) and Tags.
+Also, we moved most of VM information to the sidebar, which now has four tabs - General view, Storage (disks, snapshots, and ISO), Network (NICs configuration, Firewall rules) and Tags.
 From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones. The data representation can be changed between the "card" and "table" view. Each section contains a switch and this improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView1.png" target="_blank">![Virtual Machine View screen 1](./screens/VMView1_mini.png)</a>&nbsp;&nbsp;
@@ -163,7 +163,7 @@ This panel displays existing drives. Root disks are visually distinguished from 
 
 #### Images
 
-We changed the templates and ISOs view to make it more obvious and neat to use. Also, the user can choose the required OS family to filter out unnecessary images. Also the same concept of single view without moving between screens is applied here. Additional things are displayed in the sidebar.
+We changed the templates and ISOs view to make it more obvious and neat to use. Also, the user can choose the required OS family to filter out unnecessary images. Also, the same concept of single view without moving between screens is applied here. Additional things are displayed in the sidebar.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView.png" target="_blank">![Templates & ISOs view](./screens/templatesISOsView_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/templatesISOsView2.png" target="_blank">![Templates & ISOs view 2](./screens/templatesISOsView2_mini.png)</a>
@@ -211,6 +211,7 @@ Here domain administrators can manage existing accounts, create new accounts and
 ### Proxy-conf.js file example
 
 <pre>
+const PROXY_CONFIG = [
   {
     context: [
       "/client/api",
@@ -218,6 +219,9 @@ Here domain administrators can manage existing accounts, create new accounts and
     target: "http://api.endpoint/",
     secure: false
   }
+];
+
+module.exports = PROXY_CONFIG;
 </pre>
 
 ## Deployment
@@ -240,14 +244,14 @@ docker run -d -p 80:80 --name cloudstack-ui \
 
 `/path/to/config.json` - path to a custom configuration file named config.json (optional)
 
-Additionally, you can change favicon and Cloudstack logo on login screen and in sidebar:
+Additionally, you can change favicon and CloudStack logo on login screen and in sidebar:
 ```
 -v /path/to/favicon.ico:/static/img/favicon.ico \
 -v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \
 -v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
 -v /path/to/cloudstack_logo_dark.png:/static/img/cloudstack_logo_dark.png
 ```
-where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are Cloudstack logos displayed in sidebar with dark and light theme respectively.
+where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are CloudStack logos displayed in sidebar with dark and light theme respectively.
 ### Assisting object cleanup container
 
 Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
@@ -271,7 +275,7 @@ You can contribute to the project development in various ways:
 
 1. Share the information about the project with other people, try to install the UI and share your opinion with us and your colleagues.
 2. Propose useful features. Ideas are always welcome. 
-3. Deploy it somewhere and inform us about your success story and we will share it in the adopters section.
+3. Deploy it somewhere and inform us about your success story, and we will share it in the adopters section.
 4. Fix bugs and send us the PR.
 5. Implement a feature from the Roadmap or simply make something new.
 6. Support and promote the development of specific functions which are important to you and may be shared.

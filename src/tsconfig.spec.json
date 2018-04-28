@@ -14,7 +14,6 @@
     "test.ts"
   ],
   "include": [
-    "../node_modules/ngx-window-token/index.ts",
     "**/*.spec.ts",
     "**/*.d.ts"
   ]

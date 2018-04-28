@@ -16,6 +16,34 @@ import { MockTranslateService } from '../../../testutils/mocks/mock-translate.se
 import { NotificationService } from './notification.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
+@Directive({ selector: '[csViewContainer]' })
+class ViewContainerDirective {
+  constructor(public viewContainerRef: ViewContainerRef) {
+  }
+}
+
+@Component({
+  selector: 'cs-test-component',
+  template: `
+    <div csViewContainer></div>`,
+})
+class TestComponent {
+  @ViewChild(ViewContainerDirective) viewContainer: ViewContainerDirective;
+
+  get childViewContainer() {
+    return this.viewContainer.viewContainerRef;
+  }
+}
+
+@NgModule({
+  imports: [CommonModule, MatSnackBarModule],
+  exports: [TestComponent, ViewContainerDirective],
+  declarations: [TestComponent, ViewContainerDirective],
+  entryComponents: [TestComponent],
+})
+class NotificationTestModule {
+}
+
 describe('Service: Notification service', () => {
   let notificationService: NotificationService;
   let mdSnackBar: MatSnackBar;
@@ -102,31 +130,4 @@ describe('Service: Notification service', () => {
   });
 });
 
-@Directive({ selector: '[csViewContainer]' })
-class ViewContainerDirective {
-  constructor(public viewContainerRef: ViewContainerRef) {
-  }
-}
-
-@Component({
-  selector: 'cs-test-component',
-  template: `
-    <div csViewContainer></div>`,
-})
-class TestComponent {
-  @ViewChild(ViewContainerDirective) viewContainer: ViewContainerDirective;
-
-  get childViewContainer() {
-    return this.viewContainer.viewContainerRef;
-  }
-}
-
-@NgModule({
-  imports: [CommonModule, MatSnackBarModule],
-  exports: [TestComponent, ViewContainerDirective],
-  declarations: [TestComponent, ViewContainerDirective],
-  entryComponents: [TestComponent],
-})
-class NotificationTestModule {
-}
 

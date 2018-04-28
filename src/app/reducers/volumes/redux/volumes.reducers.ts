@@ -1,12 +1,14 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Snapshot } from '../../../shared/models';
 import { Volume, VolumeType } from '../../../shared/models/volume.model';
+import { Utils } from '../../../shared/services/utils/utils.service';
+import { getDescription } from '../../../shared/models';
 
 import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
-import { getDescription } from '../../../shared/models';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -28,12 +30,18 @@ export interface State extends EntityState<Volume> {
   }
 }
 
+interface FormState {
+  loading: boolean
+}
+
 export interface VolumesState {
   list: State;
+  form: FormState;
 }
 
 export const volumeReducers = {
   list: reducer,
+  form: formReducer
 };
 
 const sortByGroups = (a: Volume, b: Volume) => {
@@ -83,6 +91,10 @@ export const initialState: State = adapter.getInitialState({
     spareOnly: false
   }
 });
+
+const initialFormState: FormState = {
+  loading: false
+};
 
 export function reducer(
   state = initialState,
@@ -156,13 +168,31 @@ export function reducer(
       };
     }
 
-
     default: {
       return state;
     }
   }
 }
 
+export function formReducer(
+  state = initialFormState,
+  action: volumeActions.Actions
+): FormState {
+  switch (action.type) {
+    case volumeActions.CREATE_VOLUME_FROM_SNAPSHOT:
+    case volumeActions.CREATE_VOLUME: {
+      return { ...state, loading: true };
+    }
+    case volumeActions.CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS:
+    case volumeActions.VOLUME_CREATE_SUCCESS:
+    case volumeActions.VOLUME_CREATE_ERROR: {
+      return { ...state, loading: false };
+    }
+    default: {
+      return state;
+    }
+  }
+}
 
 export const getVolumesState = createFeatureSelector<VolumesState>('volumes');
 
@@ -227,6 +257,11 @@ export const filterQuery = createSelector(
 export const filterSpareOnly = createSelector(
   filters,
   state => state.spareOnly
+);
+
+export const isFormLoading = createSelector(
+  getVolumesState,
+  state => state.form.loading
 );
 
 export const selectVolumesWithSnapshots = createSelector(

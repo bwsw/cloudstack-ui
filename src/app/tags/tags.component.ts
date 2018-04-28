@@ -43,21 +43,18 @@ export abstract class TagsComponent<T extends Taggable> {
       return;
     }
 
-    Observable.of(null)
+    this.tagService.create({
+      resourceIds: tagEditAction.oldTag.resourceid,
+      resourceType: tagEditAction.oldTag.resourcetype,
+      'tags[0].key': tagEditAction.newTag.key,
+      'tags[0].value': tagEditAction.newTag.value
+    })
       .switchMap(() => {
         return this.tagService.remove({
           resourceIds: tagEditAction.oldTag.resourceid,
           resourceType: tagEditAction.oldTag.resourcetype,
           'tags[0].key': tagEditAction.oldTag.key,
           'tags[0].value': tagEditAction.oldTag.value
-        });
-      })
-      .switchMap(() => {
-        return this.tagService.create({
-          resourceIds: tagEditAction.oldTag.resourceid,
-          resourceType: tagEditAction.oldTag.resourcetype,
-          'tags[0].key': tagEditAction.newTag.key,
-          'tags[0].value': tagEditAction.newTag.value
         });
       })
       .subscribe(

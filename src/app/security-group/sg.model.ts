@@ -18,6 +18,11 @@ export enum NetworkRuleType {
   Egress = 'Egress'
 }
 
+export enum IPVersion {
+  ipv4 = 'ipv4',
+  ipv6 = 'ipv6'
+}
+
 @FieldMapper({
   ingressrule: 'ingressRules',
   egressrule: 'egressRules',
@@ -72,6 +77,18 @@ export class SecurityGroup extends BaseModel implements Taggable {
   }
 }
 
+export const isCustomTemplate = (securityGroup: SecurityGroup) => {
+  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+
+  return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
+};
+
+export const isPrivate = (securityGroup: SecurityGroup) => {
+  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+
+  return typeTag && typeTag.value === SecurityGroupType.Private;
+};
+
 export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
   if (securityGroup.id.startsWith('template')) {
     return SecurityGroupType.PredefinedTemplate;
@@ -86,16 +103,4 @@ export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
   }
 
   return SecurityGroupType.Shared;
-};
-
-export const isCustomTemplate = (securityGroup: SecurityGroup) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
-
-  return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
-};
-
-export const isPrivate = (securityGroup: SecurityGroup) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
-
-  return typeTag && typeTag.value === SecurityGroupType.Private
 };

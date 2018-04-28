@@ -7,19 +7,19 @@ import { TableDatabase, TableDataSource } from './table';
   templateUrl: 'table.component.html'
 })
 export class TableComponent implements OnChanges {
-  @Input('table-model') public model: any[];
+  @Input() public tableModel: any[];
   @Input() public columns: string[];
-  @Input('table-model-selected') public selected: any;
+  @Input() public tableModelSelected: any;
   @Input() public tableId: string;
   @Input() public selectable = false;
   @Input() public searchQuery: string;
   @Output() public selectionChange = new EventEmitter();
   public displayedColumns = [];
-  public database = new TableDatabase(this.model);
+  public database = new TableDatabase(this.tableModel);
   public dataSource = new TableDataSource(this.database);
 
   public ngOnChanges() {
-    this.database.update(this.model);
+    this.database.update(this.tableModel);
 
     this.displayedColumns = [...this.columns];
 
@@ -29,18 +29,18 @@ export class TableComponent implements OnChanges {
   }
 
   public isAllSelected() {
-    return this.model.every(data => data.selected);
+    return this.tableModel.every(data => data.selected);
   }
 
   public toggleAll() {
     const currentStatus = this.isAllSelected();
-    this.model.forEach(_ => _.selected = !currentStatus);
+    this.tableModel.forEach(_ => _.selected = !currentStatus);
     this.updateSelected();
   }
 
   private updateSelected() {
-    this.selected = this.model.filter(data => data.selected);
-    this.selectionChange.emit({ value: this.selected });
+    this.tableModelSelected = this.tableModel.filter(data => data.selected);
+    this.selectionChange.emit({ value: this.tableModelSelected });
   }
 
   protected selectionChanged(data) {

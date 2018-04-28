@@ -1,0 +1,42 @@
+<cs-list
+  [isOpen]="listService?.hasSelected()"
+  [creationEnabled]="false"
+>
+  <ng-container cs-panels>
+    <cs-top-bar cs-list>
+      <cs-snapshots-filter-container></cs-snapshots-filter-container>
+    </cs-top-bar>
+  </ng-container>
+
+  <ng-container cs-list *loading="isLoading">
+    <div class="switch-panel">
+      <cs-view-mode-switch
+        (onModeChange)="changeMode($event)"
+        [key]="viewModeKey"
+      >
+      </cs-view-mode-switch>
+    </div>
+
+    <ng-container *ngIf="snapshots && snapshots.length">
+      <cs-grouped-list
+        class="padding"
+        [list]="snapshots"
+        [groupings]="groupings"
+        [component]="itemComponent"
+        [dynamicInputs]="inputs"
+        [dynamicOutputs]="outputs"
+        cs-list
+      ></cs-grouped-list>
+    </ng-container>
+
+    <cs-no-results *ngIf="!snapshots?.length && !isLoading"></cs-no-results>
+  </ng-container>
+
+  <ng-container cs-sidebar>
+    <cs-sidebar [isOpen]="listService?.hasSelected()">
+      <router-outlet></router-outlet>
+    </cs-sidebar>
+  </ng-container>
+</cs-list>
+
+

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
+import { CSCommands } from '../../shared/services/base-backend.service';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from './base-template.model';
 import { Utils } from '../../shared/services/utils/utils.service';
@@ -180,7 +181,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
     this.invalidateCache();
 
-    return this.sendCommand('register', params)
+    return this.sendCommand(CSCommands.Register, params)
       .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
       .switchMap(template => {
         if (params.groupId) {
@@ -198,7 +199,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public remove(template: BaseTemplateModel): Observable<BaseTemplateModel> {
     this.invalidateCache();
-    return this.sendCommand('delete', {
+    return this.sendCommand(CSCommands.Delete, {
       id: template.id,
       zoneId: template.zoneId
     })

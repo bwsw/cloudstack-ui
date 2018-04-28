@@ -8,7 +8,7 @@ The *Firewall* section contains templates to create a security group for a virtu
 
 .. figure:: _static/Firewall_List816.png
 
-**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/ConfigGuide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how to create a custom firewall template at :ref:`Create_FTemplate`.
+**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how to create a custom firewall template at :ref:`Create_FTemplate`.
 
 Upon VM creation the system creates a new security group for a VM on the base of templates. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a **private security group** used for that virtual machine only. 
 
@@ -116,7 +116,7 @@ Private Security Groups
 """"""""""""""""""""""""""""
 Private security groups are listed in the *Private Security Groups* section. 
 
-Security groups appear in this section once they are created for a virtual machine (see :ref:`Create_VM`). 
+Security groups appear in this section once they are created for a virtual machine (see :ref:`Create_VM`). A private security group name has the following format - ``sg-{{ virtual machine name }}`` - containing the name of the virtual machine it is created for. 
 
 You can quickly find a group by its name or a part of the name using the searching tool above the list.
 
@@ -136,21 +136,37 @@ Security Group Details Sidebar
 """"""""""""""""""""""""""""""""""""""
 You can see the firewall rules details in the sidebar to the right. 
 
-Click the template/shared/private security group in the list and open the sidebar. You will see the information there:
+Click the template/shared/private security group in the list and open the sidebar. You will see two tabs there - Details and Tags. 
+
+The **Details** tab contains the following information:
 
 - Name of the security group;
 - :ref:`SG_Action_Box` under |actions icon|;
 - ID of the security group;
 - Description giving an idea what the security group contains (not available for private security groups);
-- Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``. For privat security groups you will see ``private``.
+- Type - Defines the security group types. For firewall templates it can be ``custom-template`` for custom templates, or ``predefined-template`` for system templates. For shared security groups it is ``shared``. For private security groups you will see ``private``.
 
-.. figure:: _static/Firewall_TemplateDetails.png
+.. figure:: _static/Firewall_TemplateDetails1.png
  
 For shared security groups you also can see what virtual machines this group is assigned to. The machine name in the list is active. You can move to the virtual machine details bar by clicking it.
  
-.. figure:: _static/Firewall_SharedSGDetails.png
+.. figure:: _static/Firewall_SharedSGDetails1.png
 
-For privat security groups a VM name is also displayed in the details sidebar, but it is not active.
+For private security groups a VM name is also displayed in the details sidebar, but it is not active.
+
+The **Tags** tab presents the list of tags assigned to the security group. Using the search tool above you can quickly find a tag by its name. 
+
+System tags are listed in a separate card.
+
+.. figure:: _static/Firewall_Tags.png
+
+Сlick |create icon| to add a tag. Enter a key and a value. 
+
+.. figure:: _static/Firewall_Details_Tags.png
+
+Click "Create" to create the new tag. It will be saved in a separate card.
+
+An existing tag can be edited or deleted by clicking a correspondent icon next to the tag's name.
 
 .. _SG_Action_Box:
 

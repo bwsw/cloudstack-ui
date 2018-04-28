@@ -154,7 +154,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   private filterTagsBySystem(): (tag: Tag) => boolean {
     return (tag) => {
-      return this.showSystemTags || !tag.key.startsWith('csui');
+      return this.showSystemTags || categoryName(tag) !== 'csui';
     };
   }
 
