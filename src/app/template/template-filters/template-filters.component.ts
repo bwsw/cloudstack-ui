@@ -77,7 +77,9 @@ export class TemplateFiltersComponent implements OnInit {
       }
     }
 
-    this.availableGroupings = reorderAvailableGroupings(this.availableGroupings, this.selectedGroupings);
+    if (this.availableGroupings && this.selectedGroupings) {
+      this.availableGroupings = reorderAvailableGroupings(this.availableGroupings, this.selectedGroupings);
+    }
   }
 
   public get locale(): Language {
