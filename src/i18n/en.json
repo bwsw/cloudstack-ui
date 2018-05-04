@@ -841,7 +841,7 @@
       "ICMP_TYPE": "ICMP type",
       "ICMP_CODE": "ICMP code",
       "ICMP_ANY": "Any",
-      "FILED_REQUIRED": "Field is required",
+      "FIELD_REQUIRED": "Field is required",
       "START_PORT_SHOULD_BE_LESS_THAN": "Start port should be less than {{ value }}",
       "START_PORT_SHOULD_BE_LESS_THAN_END_PORT": "Start port should be less than end port",
       "START_PORT_SHOULD_BE_GREATER_THAN": "Start port should be greater than {{ value }}",

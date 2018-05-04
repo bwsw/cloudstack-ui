@@ -1,5 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators
+} from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material';
@@ -10,10 +18,8 @@ import { Utils } from '../../../shared/services/utils/utils.service';
 import {
   cidrValidator,
   endPortValidator,
-  icmpV4CodeValidator,
-  icmpV4TypeValidator,
-  icmpV6CodeValidator,
-  icmpV6TypeValidator,
+  icmpCodeValidator,
+  icmpTypeValidator,
   startPortValidator
 } from '../../shared/validators';
 import {
@@ -28,14 +34,6 @@ import {
 import 'rxjs/add/operator/startWith';
 import { FirewallRule } from '../../shared/models';
 
-
-function isExist(value: any): boolean {
-  return !!value
-}
-
-function getIpVersionByCidr(cidr: string): IPVersion {
-  return Utils.cidrType(cidr);
-}
 
 export class PortsErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {
@@ -108,10 +106,9 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
 
   public createForm() {
     this.portsForm = this.fb.group({
-      startPort: [null],
-      endPort: [null]
+      startPort: [null, [Validators.required]],
+      endPort: [null, [Validators.required]]
     });
-    this.setPortFormValidators();
 
     this.icmpForm = this.fb.group({
       icmpType: [{ value: null, disabled: true }, [Validators.required]],
@@ -119,11 +116,15 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     });
 
     this.ruleForm = this.fb.group({
-      type: this.types[0].value,
-      protocol: this.protocols[0].value,
+      type: [this.types[0].value, Validators.required],
+      protocol: [this.protocols[0].value, Validators.required],
       cidr: ['', [Validators.required, cidrValidator()]],
       params: this.portsForm // Depends on initial value of protocol
     });
+
+    // Some validators required form controls and we can set them after they were created
+    this.setPortFormValidators();
+    this.setIcmpFormValidators();
   }
 
   public onSubmit() {
@@ -135,73 +136,48 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
 
   public getStartPortErrorMessage() {
     const port = this.portsForm.get('startPort');
-    let translateToken = 'SECURITY_GROUP_PAGE.RULES.';
+    let translateToken: string;
     let param: { value?: string } = {};
 
     if (port.hasError('required')) {
-      translateToken += 'FILED_REQUIRED';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED';
     } else if (port.hasError('min')) {
-      translateToken += 'START_PORT_SHOULD_BE_GREATER_THAN';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_GREATER_THAN';
       param = { value: port.errors.min.min }
     } else if (port.hasError('max')) {
-      translateToken += 'START_PORT_SHOULD_BE_LESS_THAN';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_LESS_THAN';
       param = { value: port.errors.max.max }
     } else if (port.hasError('startPortValidator')) {
-      translateToken += 'START_PORT_SHOULD_BE_LESS_THAN_END_PORT';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_LESS_THAN_END_PORT';
     }
 
-    return this.translateService.instant(translateToken, param);
+    if (translateToken) {
+      return this.translateService.instant(translateToken, param);
+    }
+    return null;
   }
 
   public getEndPortErrorMessage() {
     const port = this.portsForm.get('endPort');
-    let translateToken = 'SECURITY_GROUP_PAGE.RULES.';
+    let translateToken: string;
     let param: { value?: string } = {};
 
     if (port.hasError('required')) {
-      translateToken += 'FILED_REQUIRED';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED';
     } else if (port.hasError('min')) {
-      translateToken += 'END_PORT_SHOULD_BE_GREATER_THAN';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN';
       param = { value: port.errors.min.min }
     } else if (port.hasError('max')) {
-      translateToken += 'END_PORT_SHOULD_BE_LESS_THAN';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_LESS_THAN';
       param = { value: port.errors.max.max }
     } else if (port.hasError('endPortValidator')) {
-      translateToken += 'END_PORT_SHOULD_BE_GREATER_THAN_START_PORT';
+      translateToken = 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN_START_PORT';
     }
 
-    return this.translateService.instant(translateToken, param);
-  }
-
-  private getFormData(): FirewallRule {
-    const formModel = this.ruleForm.value;
-    const rule: FirewallRule = {
-      type: formModel.type,
-      protocol: formModel.protocol,
-      cidr: formModel.cidr
-    };
-    if (rule.protocol === NetworkProtocol.ICMP) {
-      const icmpModel = this.icmpForm.value;
-      rule.icmpType = icmpModel.icmpType;
-      rule.icmpCode = icmpModel.icmpCode;
-    } else {
-      const portsModel = this.portsForm.value;
-      rule.startPort = portsModel.startPort;
-      rule.endPort = portsModel.endPort;
+    if (translateToken) {
+      return this.translateService.instant(translateToken, param);
     }
-    return rule;
-  }
-
-  private resetForm() {
-    const paramsForm = this.ruleForm.get('protocol').value === NetworkProtocol.ICMP ? this.icmpForm : this.portsForm;
-    const formState = {
-      type: this.ruleForm.get('type').value,
-      protocol: this.ruleForm.get('protocol').value,
-      cidr: this.ruleForm.get('cidr').value,
-      params: paramsForm
-    };
-    this.mainForm.resetForm();
-    this.ruleForm.reset(formState);
+    return null;
   }
 
   private setPortFormValidators() {
@@ -210,72 +186,121 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
       Validators.min(this.minPortNumber),
       Validators.max(this.maxPortNumber)
     ];
-    const startPort = this.portsForm.get('startPort');
-    const endPort = this.portsForm.get('endPort');
-    startPort.setValidators([...portCommonValidators, startPortValidator(endPort)]);
-    endPort.setValidators([...portCommonValidators, endPortValidator(startPort)]);
+    this.startPort.setValidators([...portCommonValidators, startPortValidator(this.endPort)]);
+    this.endPort.setValidators([...portCommonValidators, endPortValidator(this.startPort)]);
+  }
+
+  private setIcmpFormValidators() {
+    this.icmpType.setValidators([Validators.required, icmpTypeValidator(this.cidr)]);
+    this.icmpCode.setValidators([Validators.required, icmpCodeValidator(this.cidr, this.icmpType)]);
+  }
+
+  private getFormData(): FirewallRule {
+    const formModel = this.ruleForm.value;
+    const commonProperties: FirewallRule = {
+      type: formModel.type,
+      protocol: formModel.protocol,
+      cidr: formModel.cidr
+    };
+    if (commonProperties.protocol === NetworkProtocol.ICMP) {
+      const icmpModel = this.icmpForm.value;
+      return {
+        ...commonProperties,
+        icmpType: icmpModel.icmpType,
+        icmpCode: icmpModel.icmpCode
+      };
+    } else {
+      const portsModel = this.portsForm.value;
+      return {
+        ...commonProperties,
+        startPort: portsModel.startPort,
+        endPort: portsModel.endPort
+      };
+    }
+  }
+
+  private resetForm() {
+    const paramsForm = this.protocol.value === NetworkProtocol.ICMP ? this.icmpForm : this.portsForm;
+    const formState = {
+      type: this.type.value,
+      protocol: this.protocol.value,
+      cidr: this.cidr.value,
+      params: paramsForm
+    };
+    this.mainForm.resetForm();
+    this.ruleForm.reset(formState);
   }
 
   private onProtocolChange() {
-    this.protocolChanges = this.ruleForm.get('protocol').valueChanges
-      .filter(isExist)
+    this.protocolChanges = this.protocol.valueChanges
+      .filter(Boolean)
       .map((protocol: NetworkProtocol) => protocol === NetworkProtocol.ICMP)
       .distinctUntilChanged()
       .filter((isIcmp: boolean) => this.isIcmpProtocol !== isIcmp)
-      .subscribe((isIcmp: boolean) => {
+      .subscribe((isIcmp: boolean) => {  // invokes only if isIcmpProtocol flag changes
         const paramsForm = isIcmp ? this.icmpForm : this.portsForm;
         this.ruleForm.setControl('params', paramsForm);
         this.isIcmpProtocol = isIcmp;
+
+        if (isIcmp) {
+          this.updateIcmpFormState();
+        }
       });
   }
 
   private onCidrChange() {
-    this.cidrChanges = this.ruleForm.get('cidr').valueChanges
-      .filter(isExist)
-      .map(getIpVersionByCidr)
+    this.cidrChanges = this.cidr.valueChanges
+      .map(Utils.cidrType)
+      .filter(Boolean)
       .distinctUntilChanged()
-      .subscribe(() => {
-        const icmpType = this.icmpForm.get('icmpType').value;
-        this.updateFilteredIcmpTypes(icmpType);
-        this.updateIcmpTypeValidators();
-        this.updateDisabledStatusOnIcmpTypeField();
-
-        const icmpCode = this.icmpForm.get('icmpCode').value;
-        this.updateFilteredIcmpCodes(icmpCode);
+      .filter(() => this.isIcmpProtocol === true)
+      .subscribe(() => {  // invokes only when cidr change IP version and protocol equals ICMP
+        this.updateIcmpFormState()
       });
+  }
+
+  private updateIcmpFormState() {
+    this.updateIcmpFormFieldsValidity();
+
+    this.updateDisabledStatusOnIcmpTypeField();
+    this.updateDisabledStatusOnIcmpCodeField();
+
+    this.updateFilteredIcmpTypes(this.icmpType.value);
+    this.updateFilteredIcmpCodes(this.icmpCode.value);
+  }
+
+  private updateIcmpFormFieldsValidity() {
+    this.icmpType.updateValueAndValidity();
+    this.icmpCode.updateValueAndValidity();
   }
 
   private onPortsChanges() {
-    this.startPortChanges = this.portsForm.get('startPort').valueChanges
+    this.startPortChanges = this.startPort.valueChanges
       .distinctUntilChanged()
       .subscribe((value: number) => {
-        this.duplicatePortForFirstFilling('endPort', value);
-        this.portsForm.get('endPort').updateValueAndValidity();
+        this.duplicatePortForFirstFilling(this.endPort, value);
       });
 
-    this.endPortChanges = this.portsForm.get('endPort').valueChanges
+    this.endPortChanges = this.endPort.valueChanges
       .distinctUntilChanged()
       .subscribe((value: number) => {
-        this.duplicatePortForFirstFilling('startPort', value);
-        this.portsForm.get('startPort').updateValueAndValidity();
+        this.duplicatePortForFirstFilling(this.startPort, value);
       });
   }
 
-  private duplicatePortForFirstFilling(portName: string, portNumber: number) {
-    const isChangedByUser = this.portsForm.get(portName).untouched;
+  private duplicatePortForFirstFilling(port: AbstractControl, portNumber: number) {
+    const isChangedByUser = port.untouched;
     if (isChangedByUser) {
-      this.portsForm.patchValue({ [portName]: portNumber });
-      this.portsForm.get(portName).markAsDirty();
+      port.setValue(portNumber);
+      port.markAsDirty();
     }
   }
 
   private onIcmpTypeChange() {
-    this.icmpTypeChanges = this.icmpForm.get('icmpType').valueChanges
+    this.icmpTypeChanges = this.icmpType.valueChanges
       .subscribe(value => {
         this.updateFilteredIcmpTypes(value);
-        const icmpCode = this.icmpForm.get('icmpCode').value;
-        this.updateFilteredIcmpCodes(icmpCode);
-        this.updateIcmpCodeValidators();
+        this.updateFilteredIcmpCodes(this.icmpCode.value);
         this.updateDisabledStatusOnIcmpCodeField();
       });
   }
@@ -284,13 +309,13 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     this.filteredIcmpTypes = this.filterIcmpTypes(value);
   }
 
-  private filterIcmpTypes(val: number | string): IcmpType[] {
-    if (!!val === false) {
+  private filterIcmpTypes(val: number | string | null): IcmpType[] {
+    if (val === null || val === '') {
       return this.getIcmpTypes();
     }
-    return this.getIcmpTypes().filter(el => {
-      const filterValue = val.toString().toLowerCase();
+    const filterValue = val.toString().toLowerCase();
 
+    return this.getIcmpTypes().filter(el => {
       return el.type.toString() === filterValue ||
         this.translateService.instant(this.getIcmpTypeTranslationToken(el.type))
           .toLowerCase()
@@ -298,28 +323,8 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     });
   }
 
-  private updateDisabledStatusOnIcmpTypeField() {
-    const isValid = this.ruleForm.get('cidr').valid;
-
-    if (isValid) {
-      this.icmpForm.get('icmpType').enable();
-    } else {
-      this.icmpForm.get('icmpType').disable();
-    }
-  }
-
-  private updateIcmpTypeValidators() {
-    const v4Validators = [Validators.required, icmpV4TypeValidator()];
-    const v6Validators = [Validators.required, icmpV6TypeValidator()];
-    const ipVersion = getIpVersionByCidr(this.getCidr());
-    const validators = ipVersion === IPVersion.ipv4 ? v4Validators : v6Validators;
-
-    this.icmpForm.get('icmpType').setValidators(validators);
-    this.icmpForm.get('icmpType').updateValueAndValidity();
-  }
-
   private onIcmpCodeChange() {
-    this.icmpCodeChanges = this.icmpForm.get('icmpCode').valueChanges
+    this.icmpCodeChanges = this.icmpCode.valueChanges
       .subscribe(value => {
         this.updateFilteredIcmpCodes(value);
       });
@@ -329,14 +334,14 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     this.filteredIcmpCodes = this.filterIcmpCodes(value);
   }
 
-  private filterIcmpCodes(val: number | string) {
-    if (!!val === false) {
+  private filterIcmpCodes(val: number | string | null) {
+    if (val === null || val === '') {
       return this.getIcmpCodes();
     }
-    return this.getIcmpCodes().filter(code => {
-      const filterValue = val.toString().toLowerCase();
-      const icmpType = this.icmpForm.get('icmpType').value;
+    const filterValue = val.toString().toLowerCase();
+    const icmpType = this.icmpType.value;
 
+    return this.getIcmpCodes().filter(code => {
       return code.toString().indexOf(filterValue) !== -1 ||
         this.translateService.instant(this.getIcmpCodeTranslationToken(icmpType, code))
           .toLowerCase()
@@ -344,32 +349,24 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     });
   }
 
-  private updateIcmpCodeValidators() {
-    const icmpTypeControl = this.icmpForm.get('icmpType');
-    if (icmpTypeControl.invalid) {
-      return;
+  private updateDisabledStatusOnIcmpTypeField() {
+    if (this.cidr.valid) {
+      this.icmpType.enable();
+    } else {
+      this.icmpType.disable();
     }
-    const ipVersion = getIpVersionByCidr(this.getCidr());
-    const v4Validators = [Validators.required, icmpV4CodeValidator(+icmpTypeControl.value)];
-    const v6Validators = [Validators.required, icmpV6CodeValidator(+icmpTypeControl.value)];
-    const validators = ipVersion === IPVersion.ipv4 ? v4Validators : v6Validators;
-
-    this.icmpForm.get('icmpCode').setValidators(validators);
-    this.icmpForm.get('icmpCode').updateValueAndValidity();
   }
 
   private updateDisabledStatusOnIcmpCodeField() {
-    const isValid = this.icmpForm.get('icmpType').valid;
-
-    if (isValid) {
-      this.icmpForm.get('icmpCode').enable();
+    if (this.icmpType.valid) {
+      this.icmpCode.enable();
     } else {
-      this.icmpForm.get('icmpCode').disable();
+      this.icmpCode.disable();
     }
   }
 
   private getIcmpTypes(): IcmpType[] {
-    const cidrIpVersion = getIpVersionByCidr(this.getCidr());
+    const cidrIpVersion = Utils.cidrType(this.cidr.value);
     if (!cidrIpVersion) {
       return [];
     }
@@ -377,19 +374,20 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private getIcmpCodes(): number[] {
-    let type = this.icmpForm.get('icmpType').value;
-    if (!type) {
+    const type: string | number = this.icmpType.value;
+    // type === 0 is valid value so we can't use !type
+    if (type === null || type === '') {
       return [];
     }
-    type = +type;
+    const numType = +type;
     const typeObj = this.getIcmpTypes().find(el => {
-      return el.type === type;
+      return el.type === numType;
     });
     return typeObj ? typeObj.codes : [];
   }
 
   private getIcmpTypeTranslationToken(type: number) {
-    const cidrIpVersion = getIpVersionByCidr(this.getCidr());
+    const cidrIpVersion = Utils.cidrType(this.cidr.value);
     if (!cidrIpVersion) {
       return;
     }
@@ -399,7 +397,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private getIcmpCodeTranslationToken(type: number, code: number) {
-    const cidrIpVersion = getIpVersionByCidr(this.getCidr());
+    const cidrIpVersion = Utils.cidrType(this.cidr.value);
     if (!cidrIpVersion) {
       return;
     }
@@ -408,7 +406,31 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
       : GetICMPCodeTranslationToken(type, code);
   }
 
-  private getCidr(): string {
-    return this.ruleForm.get('cidr').value;
+  private get type(): AbstractControl | null {
+    return this.ruleForm.get('type');
+  }
+
+  private get protocol(): AbstractControl | null {
+    return this.ruleForm.get('protocol');
+  }
+
+  private get cidr(): AbstractControl | null {
+    return this.ruleForm.get('cidr');
+  }
+
+  public get startPort(): AbstractControl | null {
+    return this.portsForm.get('startPort');
+  }
+
+  private get endPort(): AbstractControl | null {
+    return this.portsForm.get('endPort');
+  }
+
+  private get icmpType(): AbstractControl | null {
+    return this.icmpForm.get('icmpType');
+  }
+
+  private get icmpCode(): AbstractControl | null {
+    return this.icmpForm.get('icmpCode');
   }
 }

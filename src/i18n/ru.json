@@ -837,7 +837,7 @@
       "ICMP_TYPE": "Тип ICMP",
       "ICMP_CODE": "Код ICMP",
       "ICMP_ANY": "Все",
-      "FILED_REQUIRED": "Обязательное поле",
+      "FIELD_REQUIRED": "Обязательное поле",
       "START_PORT_SHOULD_BE_LESS_THAN": "Начальный порт должен быть меньше {{ value }}",
       "START_PORT_SHOULD_BE_LESS_THAN_END_PORT": "Начальный порт должен быть меньше чем конечный порт",
       "START_PORT_SHOULD_BE_GREATER_THAN": "Начальный порт должен быть больше {{ value }}",

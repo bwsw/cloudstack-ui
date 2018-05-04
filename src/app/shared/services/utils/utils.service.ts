@@ -88,7 +88,7 @@ export class Utils {
     return a.name && a.name.localeCompare(b.name);
   };
 
-  public static cidrIsValid(range: string): boolean {
+  public static cidrIsValid(range: string | null): boolean {
     if (range === null) {
       return true;
     }
@@ -97,7 +97,7 @@ export class Utils {
     return cidr.isValid();
   }
 
-  public static cidrType(range: string): IPVersion {
+  public static cidrType(range: string | null): IPVersion | null {
     if (range === null) {
       return null;
     }

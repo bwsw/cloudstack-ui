@@ -23,11 +23,8 @@
           (selectionChange)="filter()"
           name="selectedIPVersion"
         >
-          <mat-option
-            *ngFor="let t of IPversions"
-            [value]="t"
-          >
-            {{ t }}
+          <mat-option *ngFor="let ipVersion of IPversions" [value]="ipVersion">
+            {{ ipVersion }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -39,8 +36,8 @@
           [(ngModel)]="selectedTypes"
           (selectionChange)="filter()"
         >
-          <mat-option *ngFor="let z of types" [value]="z.value">
-            {{ z.text | translate }}
+          <mat-option *ngFor="let type of types" [value]="type.value">
+            {{ type.text | translate }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -52,8 +49,8 @@
           [(ngModel)]="selectedProtocols"
           (selectionChange)="filter()"
         >
-          <mat-option *ngFor="let z of protocols" [value]="z.value">
-            {{ z.text | translate }}
+          <mat-option *ngFor="let protocol of protocols" [value]="protocol.value">
+            {{ protocol.text | translate }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -66,8 +63,8 @@
           [dragItems]="groupings"
           (change)="update()"
         >
-          <mat-option *ngFor="let g of groupings" [value]="g">
-            {{ g.label | translate }}
+          <mat-option *ngFor="let grouping of groupings" [value]="grouping">
+            {{ grouping.label | translate }}
           </mat-option>
         </cs-draggable-select>
       </mat-form-field>

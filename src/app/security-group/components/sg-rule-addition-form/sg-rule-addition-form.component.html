@@ -1,16 +1,16 @@
 <form id="rule-form" [formGroup]="ruleForm" #mainForm="ngForm" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <mat-select class="type" formControlName="type">
-      <mat-option *ngFor="let t of types" [value]="t.value">
-        {{ t.text | translate }}
+      <mat-option *ngFor="let type of types" [value]="type.value">
+        {{ type.text | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field>
     <mat-select formControlName="protocol">
-      <mat-option *ngFor="let p of protocols" [value]="p.value">
-        {{ p.text | translate }}
+      <mat-option *ngFor="let protocol of protocols" [value]="protocol.value">
+        {{ protocol.text | translate }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -74,8 +74,8 @@
         {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
       </mat-error>
       <mat-autocomplete #icmpTypesAuto="matAutocomplete">
-        <mat-option *ngFor="let t of filteredIcmpTypes" [value]="t.type">
-          [{{ t.type }}] {{ getIcmpTypeTranslationToken(t.type) | translate }}
+        <mat-option *ngFor="let icmp of filteredIcmpTypes" [value]="icmp.type">
+          [{{ icmp.type }}] {{ getIcmpTypeTranslationToken(icmp.type) | translate }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
@@ -92,8 +92,8 @@
         {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
       </mat-error>
       <mat-autocomplete #icmpCodesAuto="matAutocomplete">
-        <mat-option *ngFor="let t of filteredIcmpCodes" [value]="t">
-          [{{ t }}] {{ getIcmpCodeTranslationToken(+icmpTypeField.value, t) | translate }}
+        <mat-option *ngFor="let codes of filteredIcmpCodes" [value]="codes">
+          [{{ codes }}] {{ getIcmpCodeTranslationToken(+icmpTypeField.value, codes) | translate }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

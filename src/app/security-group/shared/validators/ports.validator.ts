@@ -1,7 +1,7 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function startPortValidator(endPort: AbstractControl): ValidatorFn {
-  return (startPort: AbstractControl): { [key: string]: any } => {
+  return (startPort: AbstractControl): ValidationErrors | null => {
     if (startPort.value > endPort.value && endPort.touched) {
       return { 'startPortValidator': { endPort: endPort.value, actual: startPort.value } };
     }
@@ -10,7 +10,7 @@ export function startPortValidator(endPort: AbstractControl): ValidatorFn {
 }
 
 export function endPortValidator(startPort: AbstractControl): ValidatorFn {
-  return (endPort: AbstractControl): { [key: string]: any } => {
+  return (endPort: AbstractControl): ValidationErrors | null => {
     if (startPort.value > endPort.value && startPort.touched) {
       return { 'endPortValidator': { startPort: startPort.value, actual: endPort.value } };
     }

@@ -1,20 +1,20 @@
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+
 import { icmpV4Types, icmpV6Types } from '../../../shared/icmp/icmp-types';
+import { Utils } from '../../../shared/services/utils/utils.service';
+import { IPVersion } from '../../sg.model';
 
-export function icmpV4CodeValidator(icmpV4Type: number): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } => {
-    const typeObject = icmpV4Types.find(value => value.type === icmpV4Type);
+export function icmpCodeValidator(cidr: AbstractControl, icmpType: AbstractControl) {
+  return (control: AbstractControl): ValidationErrors | null => {
     const code = +control.value;
+    const type = +icmpType.value;
+    const types = Utils.cidrType(cidr.value) === IPVersion.ipv4 ? icmpV4Types : icmpV6Types;
+    const typeObject = types.find(value => value.type === type);
+    if (!typeObject) {
+      return null;
+    }
     const index = typeObject.codes.findIndex(value => value === code);
-    return index > -1 ? null : { 'icmpV4CodeValidator': { value: control.value } };
+    return index > -1 ? null : { 'icmpCodeValidator': { value: control.value } };
   }
 }
 
-export function icmpV6CodeValidator(icmpV6Type: number): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } => {
-    const typeObject = icmpV6Types.find(value => value.type === icmpV6Type);
-    const code = +control.value;
-    const index = typeObject.codes.findIndex(value => value === code);
-    return index > -1 ? null : { 'icmpV6CodeValidator': { value: control.value } };
-  }
-}
