@@ -3,7 +3,7 @@
   z-index: -1;
 }
 
-:host(.single-line) {
+mat-card {
   cursor: pointer;
 }
 
@@ -15,11 +15,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.multiline {
-  word-wrap: break-word;
-  overflow: hidden;
 }
 
 .template-header {
