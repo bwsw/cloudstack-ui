@@ -30,6 +30,8 @@
           *ngFor="let action of snapshotActionsService.actions"
           mat-icon-button
           class="button-18px"
+          [matTooltip]="action.name | translate"
+          matTooltipPosition="above"
           (click)="onAction(action, row)"
           [disabled]="row['loading']"
         >
