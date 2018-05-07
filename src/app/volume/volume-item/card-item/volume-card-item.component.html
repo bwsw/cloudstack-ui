@@ -21,18 +21,11 @@
   <mat-card-content>
     <div class="card-wrapper">
       <div class="flex-1">
-        <div class="row" *ngIf="descriptionIncludesQuery">
-          {{ 'VOLUME_PAGE.CARD.DESCRIPTION' | translate }}:
-        </div>
-
         <div class="row">{{ 'VOLUME_PAGE.CARD.SIZE' | translate }}:</div>
         <div class="row">{{ 'VOLUME_PAGE.CARD.STATE' | translate }}:</div>
       </div>
 
       <div class="flex-1">
-        <div class="row" *ngIf="descriptionIncludesQuery">
-          <span [innerHTML]="getDescription(item) | highlight:query"></span>
-        </div>
         <div class="row">
           <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
         </div>
