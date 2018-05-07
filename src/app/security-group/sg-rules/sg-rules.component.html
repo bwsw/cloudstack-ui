@@ -77,7 +77,9 @@
                 </mat-error>
 
                 <mat-autocomplete #icmpTypesAuto="matAutocomplete">
-                  <mat-option *ngFor="let t of icmpTypes" [value]="t.type">
+                  <mat-option *ngFor="let t of icmpTypes" [value]="t.type"
+                  matTooltip="{{ getIcmpTypeTranslationToken(t.type) | translate }} [{{ t.type }}]
+">
                     {{ getIcmpTypeTranslationToken(t.type) | translate }} [{{ t.type }}]
                   </mat-option>
                 </mat-autocomplete>
@@ -127,7 +129,10 @@
                   #icmpCodesAuto="matAutocomplete"
                   name="icmpCodesAuto"
                 >
-                  <mat-option *ngFor="let t of icmpCodes" [value]="t">
+                  <mat-option
+                    *ngFor="let t of icmpCodes" [value]="t"
+                    matTooltip="{{ getIcmpCodeTranslationToken(icmpType, t) | translate }} [{{ t }}]"
+                  >
                     {{ getIcmpCodeTranslationToken(icmpType, t) | translate }} [{{ t }}]
                   </mat-option>
                 </mat-autocomplete>
