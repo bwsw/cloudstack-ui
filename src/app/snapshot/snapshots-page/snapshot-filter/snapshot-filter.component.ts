@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Account } from '../../../shared/models/account.model';
+import { Account } from '../../../shared/models';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
 import { Language } from '../../../shared/services/language.service';
+import { reorderAvailableGroupings } from '../../../shared/utils/reorder-groupings';
 
 @Component({
   selector: 'cs-snapshots-filter',
   templateUrl: './snapshot-filter.component.html'
 })
-export class SnapshotFilterComponent {
+export class SnapshotFilterComponent  implements OnInit {
   @Input() public isLoading: boolean;
   @Input() public accounts: Array<Account> = [];
   @Input() public types: Array<any> = [];
@@ -35,5 +36,9 @@ export class SnapshotFilterComponent {
     private translate: TranslateService,
     public dateTimeFormatterService: DateTimeFormatterService
   ) {
+  }
+
+  public ngOnInit() {
+    this.availableGroupings = reorderAvailableGroupings(this.availableGroupings, this.selectedGroupings);
   }
 }

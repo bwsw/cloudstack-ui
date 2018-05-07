@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { State } from '../../../reducers/index';
+import { State } from '../../../reducers';
 import { Store } from '@ngrx/store';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 

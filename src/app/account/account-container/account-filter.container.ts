@@ -1,8 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as roleActions from '../../reducers/roles/redux/roles.actions';
@@ -10,12 +6,9 @@ import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { Store } from '@ngrx/store';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import { FilterService } from '../../shared/services/filter.service';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
@@ -25,6 +18,7 @@ const FILTER_KEY = 'accountListFilters';
   selector: 'cs-account-filter-container',
   template: `
     <cs-account-list-filter
+      *loading="loading$ | async"
       [domains]="domains$ | async"
       [roles]="roles$ | async"
       [roleTypes]="roleTypes$ | async"
@@ -47,6 +41,7 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   @Input() selectedGroupings: Array<any>;
 
   readonly filters$ = this.store.select(fromAccounts.filters);
+  readonly loading$ = this.store.select(fromAccounts.isLoading);
   readonly domains$ = this.store.select(fromDomains.selectAll);
   readonly roles$ = this.store.select(fromRoles.selectAll);
   readonly roleTypes$ = this.store.select(fromRoles.roleTypes);

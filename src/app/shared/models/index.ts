@@ -19,3 +19,5 @@ export * from './domain.model';
 export * from './account.model';
 export * from './configuration.model';
 export * from './action.model';
+export * from './grouping.model';
+export * from './user.model';
