@@ -4,7 +4,7 @@
     mat-icon-button
     (click)="toggleDrawer()"
   >
-    <mat-icon>keyboard_arrow_left</mat-icon>
+    <mat-icon class="mdi-chevron-left"></mat-icon>
   </button>
   <button
     *ngIf="canEdit"
@@ -21,15 +21,15 @@
       [style.height.px]="32"
     ></mat-progress-spinner>
     <ng-template #icon>
-      <mat-icon *ngIf="editing">lock_open</mat-icon>
-      <mat-icon *ngIf="!editing">lock_outline</mat-icon>
+      <mat-icon *ngIf="editing" class="mdi-lock-open-outline"></mat-icon>
+      <mat-icon *ngIf="!editing" class="mdi-lock-outline"></mat-icon>
     </ng-template>
   </button>
 </div>
 <div>
   <div class="logo" [style.background-image]="imgUrl"></div>
   <div class="title-header">
-    <mat-icon class="link-element">person</mat-icon>
+    <mat-icon class="link-element mdi-account"></mat-icon>
     <div class="link-element">
       {{ 'NAVIGATION_SIDEBAR.WELCOME' | translate:{ name: title } }}
     </div>
@@ -49,9 +49,7 @@
         routerLinkActive="link-active"
         (click)="linkClick(route.path)"
       >
-        <mat-icon [@linkSlide]="'in'" class="link-element" [ngClass]="route.className">
-          {{ route.icon }}
-        </mat-icon>
+        <mat-icon [@linkSlide]="'in'" class="link-element" [ngClass]="route.icon"></mat-icon>
         <div [@linkSlide]="'in'" class="link-element" [innerHTML]="route.text | translate"></div>
       </a>
       <div
@@ -79,9 +77,7 @@
       routerLinkActive="link-active"
       (click)="linkClick(route.path)"
     >
-      <mat-icon class="link-element" [ngClass]="route.className">
-        {{ route.icon }}
-      </mat-icon>
+      <mat-icon class="link-element" [ngClass]="route.icon"></mat-icon>
       <div class="link-element" [innerHTML]="route.text | translate"></div>
     </a>
   </ng-container>

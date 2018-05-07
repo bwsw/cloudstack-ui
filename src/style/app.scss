@@ -5,7 +5,7 @@
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
 @import '../app/shared/styles/mat-input';
-@import '../app/shared/badge/badge';
+@import '../app/shared/directives/badge/badge';
 @import "typography";
 @import "app-theme";
 
@@ -425,13 +425,6 @@ mat-card-actions {
   background: #ffeb3b;
 }
 
-.disc-icon {
-  width: 24px;
-  height: 24px;
-  border: 9px solid #757575;
-  border-radius: 50%;
-}
-
 .search-bar-white {
   background-color: white;
 }
@@ -585,4 +578,9 @@ h3 {
 .content-wrap {
   overflow-wrap: break-word;
   word-wrap: break-word;
+}
+
+.mdi {
+  font-size: 24px;
+  line-height: 1;
 }

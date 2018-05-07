@@ -7,70 +7,68 @@ export interface SidebarRoute extends NavigationItem {
   path: string;
   text: string;
   icon: string;
-  className?: string;
 }
 
 export const sideBarRoutes: Array<SidebarRoute> = [
   {
     path: '/instances',
     text: 'NAVIGATION_SIDEBAR.VMS',
-    icon: 'cloud',
+    icon: 'mdi-cloud',
     id: 'VMS',
     enabled: true
   },
   {
     path: '/storage',
     text: 'NAVIGATION_SIDEBAR.STORAGE',
-    icon: 'dns',
+    icon: 'mdi-server',
     id: 'VOLUMES',
     enabled: true
   },
   {
     path: '/templates',
     text: 'NAVIGATION_SIDEBAR.IMAGES',
-    icon: 'disc',
-    className: 'disc-icon',
+    icon: 'mdi-disk',
     id: 'TEMPLATES',
     enabled: true
   },  {
     path: '/snapshots',
     text: 'NAVIGATION_SIDEBAR.SNAPSHOTS',
-    icon: 'camera_alt',
+    icon: 'mdi-camera',
     id: 'SNAPSHOTS',
     enabled: true
   },
   {
     path: '/security-group',
     text: 'NAVIGATION_SIDEBAR.FIREWALL_TEMPLATES',
-    icon: 'security',
+    icon: 'mdi-security',
     id: 'SGS',
     enabled: true
   },
   {
     path: '/events',
     text: 'NAVIGATION_SIDEBAR.ACTIVITY_LOG',
-    icon: 'event_note',
+    icon: 'mdi-calendar-text',
     id: 'EVENTS',
     enabled: true
   },
   {
     path: '/ssh-keys',
     text: 'NAVIGATION_SIDEBAR.SSH_KEYS',
-    icon: 'vpn_key',
+    icon: 'mdi-key',
     id: 'SSH',
     enabled: true
   },
   {
     path: '/accounts',
     text: 'NAVIGATION_SIDEBAR.ACCOUNTS',
-    icon: 'person',
+    icon: 'mdi-account',
     id: 'ACCOUNTS',
     enabled: true
   },
   {
     path: '/settings',
     text: 'NAVIGATION_SIDEBAR.SETTINGS',
-    icon: 'settings',
+    icon: 'mdi-settings',
     id: 'SETTINGS',
     enabled: true
   }
@@ -80,7 +78,7 @@ export const nonDraggableRoutes: Array<SidebarRoute> = [
   {
     path: '/logout',
     text: 'NAVIGATION_SIDEBAR.LOGOUT',
-    icon: 'exit_to_app',
+    icon: 'mdi-exit-to-app',
     id: 'LOGOUT',
     enabled: true
   }

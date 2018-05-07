@@ -160,7 +160,7 @@
               (click)="addRule($event)"
               disabled="{{ isPredefinedTemplate || adding || rulesForm.form.invalid }}"
             >
-              <mat-icon *ngIf="!adding">add</mat-icon>
+              <mat-icon *ngIf="!adding" class="mdi-plus"></mat-icon>
               <mat-spinner
                 *ngIf="adding"
                 diameter="25"

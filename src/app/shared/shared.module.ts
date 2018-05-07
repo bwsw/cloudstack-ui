@@ -58,7 +58,7 @@ import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attac
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
-import { BadgeModule } from './badge/';
+
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -168,13 +168,13 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 // tslint:disable-next-line
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
+import { BadgeDirective } from './directives/badge/badge.directive';
 
 @NgModule({
   imports: [
     CommonModule,
     DynamicModule.withComponents([GroupedListComponent]),
     FormsModule,
-    BadgeModule,
     CdkTableModule,
     ClipboardModule,
     DragulaModule,
@@ -211,6 +211,7 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
   exports: [
     CdkTableModule,
     AccountActionsComponent,
+    BadgeDirective,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -289,6 +290,7 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
   ],
   declarations: [
     AccountActionsComponent,
+    BadgeDirective,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,

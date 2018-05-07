@@ -16,7 +16,7 @@
 <ng-container *ngIf="!error">
   <div *ngFor="let chart of charts" class="chart">
     <div *ngIf="hasDatasets(chart)" class="arrow" (click)="previous.emit()">
-      <mat-icon>keyboard_arrow_left</mat-icon>
+      <mat-icon class="mdi-chevron-left"></mat-icon>
     </div>
     <div
       *ngIf="hasDatasets(chart) && !hasData(chart)"
@@ -34,7 +34,7 @@
       [labels]="chart.labels"
     ></canvas>
     <div *ngIf="hasNext && hasDatasets(chart)" class="arrow" (click)="next.emit()">
-      <mat-icon>keyboard_arrow_right</mat-icon>
+      <mat-icon class="mdi-chevron-right"></mat-icon>
     </div>
   </div>
 </ng-container>

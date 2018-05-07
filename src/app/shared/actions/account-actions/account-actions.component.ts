@@ -16,7 +16,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
         *ngIf="action.canActivate(account)"
         mat-menu-item (click)="activateAction(action, account)"
       >
-        <mat-icon>{{ action.icon }}</mat-icon>
+        <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
     </ng-container>`

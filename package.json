@@ -41,6 +41,7 @@
     "hammerjs": "^2.0.8",
     "ip-address": "^5.8.9",
     "lodash": "^4.17.4",
+    "mdi": "^2.2.43",
     "moment": "^2.18.1",
     "ng-dynamic-component": "^2.0.3",
     "ng2-dragula": "1.5.0",
