@@ -46,19 +46,7 @@ export class TemplateFilterListSelectorContainerComponent implements AfterViewIn
 
   @Output() public selectedTemplateChange = new EventEmitter<BaseTemplateModel>();
 
-  public groupings = [
-    {
-      key: 'zones',
-      label: 'GROUP_BY_ZONES',
-      selector: (item: BaseTemplateModel) => item.zoneId || '',
-      name: (item: BaseTemplateModel) => item.zoneName || 'NO_ZONE'
-    }
-  ];
-
-  constructor(
-    private store: Store<State>,
-    private cd: ChangeDetectorRef
-  ) {
+  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {
   }
 
   public ngAfterViewInit() {
