@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { Account, Domain, getPath, OsFamily, OsType, Zone } from '../../shared/models';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { AuthService } from '../../shared/services/auth.service';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
+import { Dictionary } from '../../../ngrx.entity.dictionary';
 
 
 @Component({

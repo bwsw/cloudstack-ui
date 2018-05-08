@@ -1,6 +1,5 @@
 import { EventEmitter } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { TranslateService } from '@ngx-translate/core';
 import {
   getDateSnapshotCreated,
@@ -9,6 +8,7 @@ import {
   Volume
 } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
+import { Dictionary } from '../../../../ngrx.entity.dictionary';
 
 export class SnapshotItemComponent {
   public item: Snapshot;

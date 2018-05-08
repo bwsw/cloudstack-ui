@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { OsType } from '../../../shared/models/os-type.model';
-import { Dictionary } from '@ngrx/entity/src/models';
-
+import { Dictionary } from '../../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-template-os',

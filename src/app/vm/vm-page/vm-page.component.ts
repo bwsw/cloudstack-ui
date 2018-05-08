@@ -6,8 +6,7 @@ import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { Grouping, OsType, Volume } from '../../shared/models';
-import { Dictionary } from '@ngrx/entity/src/models';
-
+import { Dictionary } from '../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-vm-page',

@@ -9,7 +9,7 @@ import { SecurityGroup } from '../../sg.model';
 import { SecurityGroupListItemComponent } from '../security-group-list-item.component';
 import { MatMenuTrigger } from '@angular/material';
 import { VirtualMachine } from '../../../vm';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { Dictionary } from '../../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-security-group-card-item',

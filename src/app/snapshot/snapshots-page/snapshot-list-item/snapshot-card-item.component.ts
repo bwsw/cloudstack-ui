@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { TranslateService } from '@ngx-translate/core';
 import { Snapshot, Volume } from '../../../shared/models/index';
 import { VirtualMachine } from '../../../vm';
 import { SnapshotItemComponent } from './snapshot-item.component';
+import { Dictionary } from '../../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-snapshot-card-item',
