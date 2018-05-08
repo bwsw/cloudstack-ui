@@ -1,9 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Snapshot } from '../../../shared/models';
 import { Volume, VolumeType } from '../../../shared/models/volume.model';
-import { Utils } from '../../../shared/services/utils/utils.service';
-import { getDescription } from '../../../shared/models';
 
 import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
@@ -346,9 +343,7 @@ export const selectFilteredVolumes = createSelector(
 
     const spareOnlyFilter = (volume: Volume) => spareOnly ? !volume.virtualmachineid : true;
 
-    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase()
-        .includes(queryLower) ||
-      getDescription(volume).toLowerCase().includes(queryLower);
+    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase().includes(queryLower);
 
     const selectedTypesFilter =
       (volume: Volume) => !selectedTypes.length || !!typesMap[volume.type];
