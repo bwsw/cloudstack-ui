@@ -1,6 +1,4 @@
 .key {
-  flex-grow: 1;
-  flex-shrink: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -15,7 +13,6 @@
   cursor: default;
   text-align: right;
   white-space: nowrap;
-  flex-shrink: 2;
 
   input {
     text-align: end;
