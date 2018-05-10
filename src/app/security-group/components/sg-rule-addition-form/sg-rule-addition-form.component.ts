@@ -251,7 +251,6 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   private onCidrChange() {
     this.cidrChanges = this.cidr.valueChanges
       .map(Utils.cidrType)
-      .filter(Boolean)
       .distinctUntilChanged()
       .filter(() => this.isIcmpProtocol === true)
       .subscribe(() => {  // invokes only when cidr change IP version and protocol equals ICMP
@@ -279,12 +278,14 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
       .distinctUntilChanged()
       .subscribe((value: number) => {
         this.duplicatePortForFirstFilling(this.endPort, value);
+        this.endPort.updateValueAndValidity();
       });
 
     this.endPortChanges = this.endPort.valueChanges
       .distinctUntilChanged()
       .subscribe((value: number) => {
         this.duplicatePortForFirstFilling(this.startPort, value);
+        this.startPort.updateValueAndValidity();
       });
   }
 
