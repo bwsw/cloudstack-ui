@@ -1,44 +1,28 @@
 <mat-card
-  class="custom-card volume-card"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
   [class.root-disk]="isRoot"
 >
   <mat-card-header>
-    <mat-card-title>
-      <h2
-        class="mat-card-title-text"
-        [matTooltip]="item.name"
-        [innerHTML]="item.name | highlight:query"
-      ></h2>
+    <mat-card-title [matTooltip]="item.name">
+      <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <div class="mat-card-header-menu">
-      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon class="mdi-dots-vertical"></mat-icon>
-      </button>
-    </div>
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
   </mat-card-header>
-  <mat-card-content>
-    <div class="card-wrapper">
-      <div class="flex-1">
-        <div class="row">{{ 'VOLUME_PAGE.CARD.SIZE' | translate }}:</div>
-        <div class="row">{{ 'VOLUME_PAGE.CARD.STATE' | translate }}:</div>
-      </div>
 
-      <div class="flex-1">
-        <div class="row">
-          <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
-        </div>
-        <div class="row">
-          <span>{{ stateTranslationToken | translate }}</span>
-        </div>
-      </div>
+  <mat-card-content>
+    <div class="card-data-line">
+      {{ 'VOLUME_PAGE.CARD.SIZE' | translate }}: {{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}
+    </div>
+    <div class="card-data-line">
+      {{ 'VOLUME_PAGE.CARD.STATE' | translate }}: {{ stateTranslationToken | translate }}
     </div>
   </mat-card-content>
-  <mat-menu
-    #actionsMenu="matMenu"
-    [style.width.px]="300"
-  >
+
+  <mat-menu #actionsMenu="matMenu" [style.width.px]="300">
     <cs-volume-actions-container [volume]="item"></cs-volume-actions-container>
   </mat-menu>
+
 </mat-card>

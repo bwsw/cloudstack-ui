@@ -1,44 +1,56 @@
+$vm-card-title-font-size: 17px;
+
 :host {
   display: inline-flex;
-  z-index: -1;
-
-  & mat-card {
-    z-index: 0;
-    cursor: pointer;
-    line-height: normal;
-  }
-}
-
-.custom-card {
-  mat-card-header {
-    padding-bottom: 5px;
-  }
-
-  &.has-text-color {
-    mat-card-content,
-    mat-card-title {
-      color: inherit;
-    }
-  }
-  &.dark-background {
-    mat-card-content,
-    mat-card-title {
-      color: rgba(255, 255, 255, 0.87) !important;
-    }
-  }
-  &.light-background {
-    mat-card-content,
-    mat-card-title {
-      color: rgba(0, 0, 0, 0.87) !important;
-    }
-  }
-}
-
-.os-type {
-  margin-bottom: 5px;
 }
 
 mat-card {
+  cursor: pointer;
+  line-height: normal;
+
+  mat-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    cs-state-circle {
+      order: -1;
+      margin-right: 5px;
+    }
+
+    mat-card-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: $vm-card-title-font-size;
+    }
+
+    .menu {
+      margin-left: auto;
+      align-self: flex-start;
+      position: relative;
+      right: -12px;
+    }
+  }
+
+   mat-card-content {
+     table {
+       width: 100%;
+       text-align: center;
+       border-collapse: collapse;
+       table-layout: fixed;
+
+       td, th {
+         border-right: 1px solid black;
+       }
+
+       td:last-child, th:last-child {
+         border-right: 0;
+       }
+     }
+   }
+
   &.error {
     cursor: auto;
   }
@@ -47,15 +59,28 @@ mat-card {
   }
 }
 
-.vm-ip-address {
-  display: inline-block;
+.card-data-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 5px;
 }
 
-.vm-state {
-  float: right;
+.has-text-color {
+  mat-card-content,
+  mat-card-title {
+    color: inherit;
+  }
 }
-
-mat-divider {
-  flex: 1 0 100%;
-  margin: 10px 0;
+.dark-background {
+  mat-card-content,
+  mat-card-title {
+    color: rgba(255, 255, 255, 0.87) !important;
+  }
+}
+.light-background {
+  mat-card-content,
+  mat-card-title {
+    color: rgba(0, 0, 0, 0.87) !important;
+  }
 }

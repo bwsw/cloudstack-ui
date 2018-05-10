@@ -1,27 +1,26 @@
-<mat-card (click)="onClicked($event)" class="custom-card">
+<mat-card (click)="onClicked($event)">
+
   <mat-card-header>
-    <mat-card-title>
-      <mat-icon class="mdi-key"></mat-icon>
-      <h2
-        class="mat-card-title-text"
-        [matTooltip]="item.name"
-      >
-        {{ item.name }}
-      </h2>
+    <mat-icon class="mdi-key"></mat-icon>
+    <mat-card-title [matTooltip]="item.name">
+      {{ item.name }}
     </mat-card-title>
-    <div class="mat-card-header-menu">
-      <button  mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon class="mdi-dots-vertical"></mat-icon>
-      </button>
-    </div>
+    <button  mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
   </mat-card-header>
+
   <mat-card-content>
-    {{ item.fingerprint }}
+    <div class="card-data-line">
+      {{ item.fingerprint }}
+    </div>
   </mat-card-content>
+
   <mat-menu #actionsMenu="matMenu">
     <button mat-menu-item (click)="onRemoveClicked()">
       <mat-icon class="mdi-delete"></mat-icon>
       <span>{{ 'COMMON.DELETE' | translate }}</span>
     </button>
   </mat-menu>
+
 </mat-card>

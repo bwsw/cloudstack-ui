@@ -169,6 +169,7 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
+import { StateCircleComponent } from './components/status-circle/state-circle.component';
 
 @NgModule({
   imports: [
@@ -278,7 +279,8 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StateCircleComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -364,7 +366,8 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    DiskOfferingDialogComponent
+    DiskOfferingDialogComponent,
+    StateCircleComponent
   ],
   providers: [
     AccountService,

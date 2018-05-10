@@ -1,46 +1,33 @@
-<mat-card
-  class="custom-card"
-  (click)="handleClick($event)"
-  [class.card-selected]="isSelected(item)"
->
+<mat-card (click)="handleClick($event)" [class.card-selected]="isSelected(item)">
+
   <mat-card-header>
-    <mat-card-title>
-      <span
-        class="state-icon"
-        [matTooltip]="stateTranslations[item.state] | translate"
-        [ngClass]="statusClass"
-      ></span>
-      <h2
-        class="mat-card-title-text"
-        [matTooltip]="item.name"
-        [innerHTML]="item.name | highlight:query"
-      >
-      </h2>
+    <cs-state-circle
+      [state]="statusClass"
+      [matTooltip]="stateTranslations[item.state] | translate"
+    ></cs-state-circle>
+    <mat-card-title [matTooltip]="item.name">
+      <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <div class="mat-card-header-menu">
-      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon class="mdi-dots-vertical"></mat-icon>
-      </button>
-    </div>
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
   </mat-card-header>
+
   <mat-card-content>
-    <div class="row" *ngIf="!!item.volumeid">
+    <div class="card-data-line" *ngIf="!!item.volumeid">
       {{ 'SNAPSHOT_PAGE.CARD.VOLUME' | translate }}: {{ volumeName }}
     </div>
-    <div class="row" *ngIf="!!item.virtualmachineid">
+    <div class="card-data-line" *ngIf="!!item.virtualmachineid">
       {{ 'SNAPSHOT_PAGE.CARD.VM' | translate }}: {{ virtualMachineName }}
     </div>
-
-    <div class="row">
+    <div class="card-data-line">
       {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
       <span [innerHTML]="snapshotCreated | stringifyDate"></span>
     </div>
   </mat-card-content>
-  <mat-menu
-    #actionsMenu="matMenu"
-  >
-    <cs-snapshot-action-container
-      [snapshot]="item"
-    ></cs-snapshot-action-container>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-snapshot-action-container [snapshot]="item"></cs-snapshot-action-container>
   </mat-menu>
+
 </mat-card>

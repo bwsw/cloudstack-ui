@@ -1,21 +1,44 @@
+$vm-card-title-font-size: 17px;
+
 :host {
   display: inline-flex;
+}
+
+mat-card {
   cursor: pointer;
-}
-
-:host mat-card {
-  width: 340px
-}
-
-:host mat-card-title {
   line-height: normal;
+  width: 340px;
+
+  mat-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    > mat-icon {
+      order: -1;
+      margin-right: 5px;
+    }
+
+    mat-card-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: $vm-card-title-font-size;
+    }
+
+    .menu {
+      margin-left: auto;
+      align-self: flex-start;
+      position: relative;
+      right: -12px;
+    }
+  }
 }
 
-:host mat-card-title mat-icon {
-  margin-right: 10px;
-}
-
-:host mat-card-content {
+.card-data-line {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 5px;
 }

@@ -1,45 +1,33 @@
-<mat-card
-  class="custom-card"
-  (click)="handleClick($event)"
-  [class.card-selected]="isSelected(item)"
->
+<mat-card (click)="handleClick($event)" [class.card-selected]="isSelected(item)">
   <mat-card-header>
-    <mat-card-title>
-      <span
-        class="state-icon"
-        [matTooltip]="stateTranslations[item.state] | translate"
-        [ngClass]="item.state"
-      ></span>
-      <h2
-        class="mat-card-title-text"
-        [matTooltip]="item.name"
-      >{{ item.name }}
-      </h2>
+    <cs-state-circle
+      [state]="item.state"
+      [matTooltip]="stateTranslations[item.state] | translate"
+    ></cs-state-circle>
+    <mat-card-title [matTooltip]="item.name">
+      {{ item.name }}
     </mat-card-title>
-    <div class="mat-card-header-menu" *ngIf="isAdmin() && !isSelf">
-      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <ng-container *ngIf="isAdmin() && !isSelf">
+      <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
         <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
-    </div>
+    </ng-container>
   </mat-card-header>
+
   <mat-card-content>
-    <div class="row">
+    <div class="card-data-line">
       {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.rolename}}
     </div>
-
-    <div class="row">
+    <div class="card-data-line">
       {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
     </div>
-
-    <div class="row">
+    <div class="card-data-line">
       {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
     </div>
   </mat-card-content>
-  <mat-menu
-    #actionsMenu="matMenu"
-  >
-    <cs-account-action-container
-      [account]="item"
-    ></cs-account-action-container>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-account-action-container [account]="item"></cs-account-action-container>
   </mat-menu>
+
 </mat-card>

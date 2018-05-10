@@ -1,12 +1,43 @@
+$vm-card-title-font-size: 17px;
+
 :host {
   display: inline-flex;
-  cursor: pointer;
 }
 
-.row {
-  margin-bottom: 5px;
+mat-card {
+  cursor: pointer;
+  line-height: normal;
 
+  mat-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    cs-state-circle {
+      order: -1;
+      margin-right: 5px;
+    }
+
+    mat-card-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: $vm-card-title-font-size;
+    }
+
+    .menu {
+      margin-left: auto;
+      align-self: flex-start;
+      position: relative;
+      right: -12px;
+    }
+  }
+}
+
+.card-data-line {
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 5px;
 }

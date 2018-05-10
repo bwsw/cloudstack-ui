@@ -673,6 +673,7 @@
       "GENERAL": "General"
     },
     "CARD": {
+      "DESCRIPTION": "Description",
       "OS": "OS"
     },
     "SIDEBAR": {

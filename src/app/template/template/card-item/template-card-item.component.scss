@@ -1,32 +1,42 @@
+$vm-card-title-font-size: 17px;
+
 :host {
   display: inline-flex;
-  z-index: -1;
 }
 
 mat-card {
   cursor: pointer;
+  line-height: normal;
+
+  mat-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    cs-template-os-icon-container {
+      order: -1;
+    }
+
+    mat-card-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: $vm-card-title-font-size;
+    }
+
+    .menu {
+      margin-left: auto;
+      align-self: flex-start;
+      position: relative;
+      right: -12px;
+    }
+  }
 }
 
-.last {
-  margin-left: 20px;
-}
-
-.single-line {
+.card-data-line {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.template-header {
-  max-width: 210px !important;
-  margin-left: 5px;
-}
-
-mat-card-title {
-  display: flex;
-  align-items: center;
-}
-
-cs-template-os-icon {
-  flex-shrink: 0;
+  margin-bottom: 5px;
 }
