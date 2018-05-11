@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { ListService } from '../../shared/components/list/list.service';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { Snapshot, Volume } from '../../shared/models';
@@ -7,6 +6,7 @@ import { Grouping } from '../../shared/models/grouping.model';
 import { VirtualMachine } from '../../vm';
 import { SnapshotCardItemComponent } from './snapshot-list-item/snapshot-card-item.component';
 import { SnapshotListItemComponent } from './snapshot-list-item/snapshot-list-item.component';
+import { Dictionary } from '../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-snapshots-page',

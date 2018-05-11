@@ -6,8 +6,8 @@ import {
 import { getType, SecurityGroup } from '../sg.model';
 import { MatMenuTrigger } from '@angular/material';
 import { VirtualMachine } from '../../vm';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { SecurityGroupViewMode } from '../sg-view-mode';
+import { Dictionary } from '../../../ngrx.entity.dictionary';
 
 export class SecurityGroupListItemComponent implements OnChanges {
   public item: SecurityGroup;
