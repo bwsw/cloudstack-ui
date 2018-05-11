@@ -48,7 +48,7 @@
       *ngIf="canRemove"
       (click)="handleRemoveClicked($event)"
     >
-      <mat-icon *ngIf="!deleting">delete</mat-icon>
+      <mat-icon *ngIf="!deleting" class="mdi-delete"></mat-icon>
       <mat-spinner
         *ngIf="deleting"
         [diameter]="50"

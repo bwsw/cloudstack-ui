@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { Volume } from '../../shared';
+import { Grouping, Volume } from '../../shared/models';
 import { ListService } from '../../shared/components/list/list.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
@@ -18,8 +18,8 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   @Input() public volumes: Array<Volume>;
   @Input() public query: string;
   @Input() public isLoading: boolean;
-  @Input() public groupings: Array<any>;
-  @Input() public selectedGroupings: Array<any>;
+  @Input() public groupings: Array<Grouping>;
+  @Input() public selectedGroupings: Array<Grouping>;
 
   public mode: ViewMode;
   public viewModeKey = 'volumePageViewMode';
@@ -69,6 +69,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
         }
       });
   }
+
   public showCreationDialog(): void {
     this.router.navigate(['./create'], {
       queryParamsHandling: 'preserve',

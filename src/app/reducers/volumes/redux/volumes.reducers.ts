@@ -1,9 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Snapshot } from '../../../shared/models';
-import { Volume } from '../../../shared/models/volume.model';
-import { Utils } from '../../../shared/services/utils/utils.service';
-import { getDescription } from '../../../shared/models';
+import { Volume, VolumeType } from '../../../shared/models/volume.model';
 
 import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
@@ -44,6 +41,24 @@ export const volumeReducers = {
   form: formReducer
 };
 
+const sortByGroups = (a: Volume, b: Volume) => {
+  const aIsRoot = a.type === VolumeType.ROOT;
+  const bIsRoot = b.type === VolumeType.ROOT;
+  if (aIsRoot && bIsRoot) {
+    return a.name.localeCompare(b.name);
+  }
+  if (!aIsRoot && !bIsRoot) {
+    return a.name.localeCompare(b.name);
+  }
+  if (aIsRoot && !bIsRoot) {
+    return -1;
+  }
+  if (!aIsRoot && bIsRoot) {
+    return 1;
+  }
+  return 0;
+};
+
 /**
  * createEntityAdapter creates many an object of helper
  * functions for single or multiple operations
@@ -54,7 +69,7 @@ export const volumeReducers = {
  */
 export const adapter: EntityAdapter<Volume> = createEntityAdapter<Volume>({
   selectId: (item: Volume) => item.id,
-  sortComparer: Utils.sortByName
+  sortComparer: sortByGroups
 });
 
 /** getInitialState returns the default initial state
@@ -328,9 +343,7 @@ export const selectFilteredVolumes = createSelector(
 
     const spareOnlyFilter = (volume: Volume) => spareOnly ? !volume.virtualmachineid : true;
 
-    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase()
-        .includes(queryLower) ||
-      getDescription(volume).toLowerCase().includes(queryLower);
+    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase().includes(queryLower);
 
     const selectedTypesFilter =
       (volume: Volume) => !selectedTypes.length || !!typesMap[volume.type];

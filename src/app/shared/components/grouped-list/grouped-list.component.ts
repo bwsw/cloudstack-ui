@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, Type } from '@angular/core';
-import { Grouping } from '../../models/grouping.model';
 import { BaseModelInterface } from '../../models/base.model';
-
+import { Grouping } from '../../models/grouping.model';
 import * as groupBy from 'lodash/groupBy';
 
 @Component({
@@ -19,7 +18,7 @@ export class GroupedListComponent implements OnChanges {
 
   public tree: Array<{ items?, name? }>;
 
-  ngOnChanges(changes): void {
+  public ngOnChanges(changes): void {
     this.updateTree();
   }
 

@@ -1,5 +1,6 @@
-<h3 class="mat-dialog-title">{{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' |
-  translate }}</h3>
+<h3 class="mat-dialog-title">
+  {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' | translate }}
+</h3>
 <div class="mat-dialog-content" *ngIf="volume?.snapshots?.length">
   <mat-table [dataSource]="dataSource" matSort>
     <!-- Name Column -->
@@ -29,10 +30,12 @@
           *ngFor="let action of snapshotActionsService.actions"
           mat-icon-button
           class="button-18px"
+          [matTooltip]="action.name | translate"
+          matTooltipPosition="above"
           (click)="onAction(action, row)"
           [disabled]="row['loading']"
         >
-          <mat-icon>{{ action.icon }}</mat-icon>
+          <mat-icon [ngClass]="action.icon"></mat-icon>
         </button>
       </mat-cell>
     </ng-container>

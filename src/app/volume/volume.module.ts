@@ -60,6 +60,7 @@ import { userAccountReducers } from '../reducers/auth/redux/auth.reducers';
 import { UserAccountEffects } from '../reducers/auth/redux/auth.effects';
 import { VolumeSnapshotDetailsContainerComponent } from './container/volume-snapshot-details.container';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
+import { VolumeGroupedListComponent } from './volume-list/volume-grouped-list.component';
 
 
 @NgModule({
@@ -116,7 +117,8 @@ import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
     VolumeCreationDialogComponent,
     VolumeCardItemComponent,
     VolumeRowItemComponent,
-    VolumeListComponent
+    VolumeListComponent,
+    VolumeGroupedListComponent
   ],
   exports: [
     VolumePageComponent

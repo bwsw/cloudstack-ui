@@ -1,7 +1,7 @@
 <mat-card (click)="onClicked($event)" class="custom-card">
   <mat-card-header>
     <mat-card-title>
-      <mat-icon>vpn_key</mat-icon>
+      <mat-icon class="mdi-key"></mat-icon>
       <h2
         class="mat-card-title-text"
         [matTooltip]="item.name"
@@ -11,7 +11,7 @@
     </mat-card-title>
     <div class="mat-card-header-menu">
       <button  mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon>more_vert</mat-icon>
+        <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
     </div>
   </mat-card-header>
@@ -20,7 +20,7 @@
   </mat-card-content>
   <mat-menu #actionsMenu="matMenu">
     <button mat-menu-item (click)="onRemoveClicked()">
-      <mat-icon>delete</mat-icon>
+      <mat-icon class="mdi-delete"></mat-icon>
       <span>{{ 'COMMON.DELETE' | translate }}</span>
     </button>
   </mat-menu>
