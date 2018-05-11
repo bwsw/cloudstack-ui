@@ -1,18 +1,9 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import {
-  ResourcesData,
-  ResourceStats
-} from '../../services/resource-usage.service';
+import { ResourcesData, ResourceStats } from '../../services/resource-usage.service';
 import { Utils } from '../../services/utils/utils.service';
 import { Account } from '../../models';
 
