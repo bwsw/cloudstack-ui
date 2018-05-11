@@ -35,8 +35,8 @@ export interface Time {
 })
 export class TimePickerComponent implements ControlValueAccessor, OnInit {
   @Input() public timeFormat: TimeFormat;
-  @ViewChild('hourField') public hourField: MatInput;
-  @ViewChild('minuteField') public minuteField: MatInput;
+  // @ViewChild('hourField') public hourField: MatInput;
+  // @ViewChild('minuteField') public minuteField: MatInput;
 
   public _hour: number;
   public _minute: number;
@@ -108,7 +108,6 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     }
 
     this.hour = newValue;
-    this.hourField.value = this.hour;
     this.writeValue(this.time);
   }
 
@@ -128,7 +127,6 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     }
 
     this.minute = newValue;
-    this.minuteField.value = this.minute;
     this.writeValue(this.time);
   }
 

@@ -19,7 +19,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
 import { DayPeriodComponent } from './recurring-snapshots/day-period/day-period.component';
 import { DailyPolicyComponent } from './recurring-snapshots/policy-editor/daily/daily-policy.component';
-import { HourlyPolicyComponent } from './recurring-snapshots/policy-editor/hourly/hourly-policy.component';
+// import { HourlyPolicyComponent } from './recurring-snapshots/policy-editor/hourly/hourly-policy.component';
 import { MonthlyPolicyComponent } from './recurring-snapshots/policy-editor/monthly/monthly-policy.component';
 import { PolicyEditorComponent } from './recurring-snapshots/policy-editor/policy-editor.component';
 import { WeeklyPolicyComponent } from './recurring-snapshots/policy-editor/weekly/weekly-policy.component';
@@ -27,7 +27,7 @@ import { PolicyListComponent } from './recurring-snapshots/policy-list/policy-li
 import { PolicyViewBuilderService } from './recurring-snapshots/policy-list/policy-view-builder.service';
 import { RecurringSnapshotsComponent } from './recurring-snapshots/recurring-snapshots.component';
 import { SnapshotPolicyService } from './recurring-snapshots/snapshot-policy.service';
-import { StoredNumberComponent } from './recurring-snapshots/stored-number/stored-number.component';
+// import { StoredNumberComponent } from './recurring-snapshots/stored-number/stored-number.component';
 import { TimePickerComponent } from './recurring-snapshots/time-picker/time-picker.component';
 import { CreateVolumeFromSnapshotComponent } from './snapshots-page/components/create-volume/create-volume.component';
 // tslint:disable-next-line
@@ -73,14 +73,14 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
   declarations: [
     DayOfWeekComponent,
     DayPeriodComponent,
-    HourlyPolicyComponent,
+    // HourlyPolicyComponent,
     DailyPolicyComponent,
     WeeklyPolicyComponent,
     MonthlyPolicyComponent,
     PolicyEditorComponent,
     PolicyListComponent,
     RecurringSnapshotsComponent,
-    StoredNumberComponent,
+    // StoredNumberComponent,
     TimePickerComponent,
     SnapshotsPageContainerComponent,
     SnapshotsPageComponent,

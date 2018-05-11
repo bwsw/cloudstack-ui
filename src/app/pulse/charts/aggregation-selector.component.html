@@ -26,17 +26,14 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
-<mat-form-field class="shift-input">
-  <input
-    [(ngModel)]="shiftAmount"
-    matInput
-    type="number"
-    value="0"
-    [min]="0"
-    [max]="100"
-    (input)="handleShiftAmountChange($event)"
-  >
-</mat-form-field>
+<cs-input-type-number
+  [className]="'shift-input'"
+  [value]="shiftAmount"
+  (valueChange)="handleShiftAmountChange($event)"
+  [step]="1"
+  [min]="0"
+  [max]="100">
+</cs-input-type-number>
 <mat-form-field class="aggregation-select shift-select">
   <mat-select
     [(ngModel)]="selectedShift"

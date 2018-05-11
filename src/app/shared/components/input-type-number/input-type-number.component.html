@@ -1,0 +1,29 @@
+<mat-form-field [ngClass]="className">
+  <input
+    matInput
+    #selector
+    [name]="name"
+    [value]="value || ''"
+    (input)="onInputChange()"
+    (keypress)="onKeyPressEvent($event)"
+    (paste)="onPaste($event)"
+    [placeholder]="placeholder"
+    [min]="min"
+    [max]="max"
+    [attr.step]="step"
+    (blur)="onBlurEvent($event)"
+    (focus)="onFocusEvent($event)"
+    [errorStateMatcher]="matcher"
+  />
+  <mat-error>
+    Error
+  </mat-error>
+  <div class="input-type-number-controls">
+    <button mat-icon-button (click)="increase($event)">
+      <mat-icon class="mdi-menu-up"></mat-icon>
+    </button>
+    <button mat-icon-button (click)="decrease($event)">
+      <mat-icon class="mdi-menu-down"></mat-icon>
+    </button>
+  </div>
+</mat-form-field>

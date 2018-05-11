@@ -1,0 +1,23 @@
+cs-input-type-number {
+  input {
+    height: 24px;
+  }
+}
+
+.input-type-number-controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 24px;
+  > button.mat-icon-button {
+    width: 24px !important;
+    height: 16px !important;
+    line-height: 10px !important;
+
+    .mat-icon {
+      width: 24px !important;
+      height: 16px !important;
+      line-height: 10px !important;
+    }
+  }
+}

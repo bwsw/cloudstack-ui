@@ -463,7 +463,10 @@
         "DISK_OFFERING": "Disk offering",
         "NEW_SIZE": "New size",
         "NO_AVAILABLE_OFFERINGS": "No available offerings",
-        "RESIZE": "Resize"
+        "RESIZE": "Resize",
+        "SIZE_IS_REQUIRED": "Size is required",
+        "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
+        "INTEGER": "Should be integer"
       },
       "SNAPSHOT_CREATION": {
         "TAKE_SNAPSHOT": "Take a snapshot",
@@ -841,7 +844,9 @@
       "ICMP_TYPE": "ICMP type",
       "ICMP_CODE": "ICMP code",
       "ICMP_ANY": "Any",
-      "ENTER_VALID_PORT": "Enter a valid port",
+      "ENTER_REQUIRED_PORT": "Port is required",
+      "ENTER_INTEGER_PORT": "Port should be integer",
+      "ENTER_BETWEEN_PORT": "Port should be between {{ lowerLimit }} and {{ upperLimit }}",
       "ENTER_VALID_TYPE": "Enter a valid type",
       "ENTER_VALID_CODE": "Enter a valid code",
       "ENTER_CIDR": "CIDR v4/v6",
@@ -1423,7 +1428,9 @@
       "REPEAT_PASSWORD": "Repeat password",
       "PASSWORD_CHANGED_SUCCESSFULLY": "Password has been changed successfully",
       "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
-      "INACTIVITY_LIMITS": "Between 0 and 300"
+      "INACTIVITY_BETWEEN": "Timeout should be between {{ lowerLimit }} and {{ upperLimit }}",
+      "INACTIVITY_INTEGER": "Timeout should be integer",
+      "INACTIVITY_IS_REQUIRED": "Timeout is required"
     },
     "VM": {
       "SAVE_PASSWORD_FOR_ALL_VMS": "Save VM passwords by default"
@@ -1518,7 +1525,9 @@
       "MEMORY": "Memory (MB)",
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
-      "FROM": "From {{ lowerLimit }}"
+      "FROM": "From {{ lowerLimit }}",
+      "REQUIRED": "Field is required",
+      "INTEGER": "Should be integer"
     },
     "COLUMN": {
       "NAME": "Name",
@@ -1556,6 +1565,8 @@
     "WEEKLY_PERIOD": "Every {{ value }}",
     "MONTHLY_PERIOD": "day {{ value }} of month",
     "HOURLY": "Hourly",
+    "REQUIRED": "Required field",
+    "INTEGER": "Should be integer",
     "DAILY": "Daily",
     "WEEKLY": "Weekly",
     "MONTHLY": "Monthly",

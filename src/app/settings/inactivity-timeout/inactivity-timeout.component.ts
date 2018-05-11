@@ -1,58 +1,45 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
-import { NgModel } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../shared/services/user.service';
+import { integerValidator } from '../../shared/directives/integer-validator';
 
 @Component({
   selector: 'cs-inactivity-timeout',
   templateUrl: 'inactivity-timeout.component.html'
 })
 export class InactivityTimeoutComponent implements OnInit {
-  @Input() public inactivityTimeout: number;
-  @Output() public inactivityTimeoutChange: EventEmitter<number>;
-  @ViewChild('inactivityTimeoutControl') public inactivityField: NgModel;
-
-  public tempInactivityTimeout: number;
   public maxInactivityTimeout = 300;
+  public validators = [
+    Validators.required,
+    Validators.min(0),
+    Validators.max(this.maxInactivityTimeout),
+    integerValidator()
+  ];
+  public inactivityTimeoutControl = new FormControl({ value: 0 }, this.validators);
+  public validatorMessages = {
+    'required': 'SETTINGS.SECURITY.INACTIVITY_IS_REQUIRED',
+    'min': 'SETTINGS.SECURITY.INACTIVITY_BETWEEN',
+    'max': 'SETTINGS.SECURITY.INACTIVITY_BETWEEN',
+    'integerValidator': 'SETTINGS.SECURITY.INACTIVITY_INTEGER'
+  };
 
   constructor(private userService: UserService) {
-    this.inactivityTimeoutChange = new EventEmitter<number>();
   }
 
   public ngOnInit(): void {
     this.getInactivityTimeout();
   }
 
-  public onBlur(): void {
-    if (!this.inactivityField.valid) {
-      this.tempInactivityTimeout = this.inactivityTimeout;
-    }
-  }
-
-  public get changeButtonDisabled(): boolean {
-    return (
-      this.inactivityTimeout === this.tempInactivityTimeout ||
-      !this.inactivityField.valid
-    );
-  }
-
   public getInactivityTimeout(): void {
     this.userService.getInactivityTimeout().subscribe(timeout => {
-      this.inactivityTimeout = timeout;
-      this.tempInactivityTimeout = timeout;
+      this.inactivityTimeoutControl.setValue(timeout);
     });
   }
 
   public changeInactivityTimeout(event: Event): void {
     event.preventDefault();
     this.userService
-      .setInactivityTimeout(this.tempInactivityTimeout)
-      .subscribe(() => (this.inactivityTimeout = this.tempInactivityTimeout));
+      .setInactivityTimeout(this.inactivityTimeoutControl.value)
+      .subscribe((value) => this.inactivityTimeoutControl.setValue(value));
   }
 }

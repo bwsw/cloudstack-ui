@@ -28,6 +28,9 @@
             required
             #passwordControl="ngModel"
           >
+          <mat-error>
+            123
+          </mat-error>
           <mat-error *ngIf="passwordControl.hasError('required')">
             {{'AUTH.PASSWORD_REQUIRED' | translate}}
           </mat-error>

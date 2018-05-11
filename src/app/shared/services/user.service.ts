@@ -74,11 +74,12 @@ export class UserService extends BaseBackendService<AccountUser> {
     });
   }
 
-  public setInactivityTimeout(value: number): Observable<void> {
-    return this.userTagService.setSessionTimeout( value)
+  public setInactivityTimeout(value: number): Observable<number> {
+    return this.userTagService.setSessionTimeout(value)
       .map(() => {
         this.inactivityTimeout = value;
         this.resetInactivityTimer();
+        return value;
       });
   }
 

@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -30,6 +30,7 @@ import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
 import { SgRuleComponent } from './sg-rule.component';
+import { integerValidator } from '../../shared/directives/integer-validator';
 
 export class CidrStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -110,6 +111,22 @@ export class SgRulesComponent implements OnChanges {
     { value: NetworkProtocol.UDP, text: 'SECURITY_GROUP_PAGE.RULES.UDP' },
     { value: NetworkProtocol.ICMP, text: 'SECURITY_GROUP_PAGE.RULES.ICMP' }
   ];
+
+  public minPort = 0;
+  public maxPort = 65535;
+
+  public portValidators = [
+    Validators.required,
+    Validators.min(this.minPort),
+    Validators.max(this.maxPort),
+    integerValidator()
+  ];
+  public portValidatorMessages = {
+    'required': 'SECURITY_GROUP_PAGE.RULES.ENTER_REQUIRED_PORT',
+    'min': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
+    'max': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
+    'integerValidator': 'SECURITY_GROUP_PAGE.RULES.ENTER_INTEGER_PORT'
+  };
 
   private _icmpTypes: ICMPType[];
 

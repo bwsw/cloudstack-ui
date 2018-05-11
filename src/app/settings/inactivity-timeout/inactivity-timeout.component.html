@@ -5,31 +5,21 @@
   #inactivityTimeoutForm="ngForm"
   novalidate
 >
-  <mat-form-field class="full-width-input">
-    <input
-      matInput
-      name="inactivityTimeout"
-      type="number"
-      integerValue
-      [(ngModel)]="tempInactivityTimeout"
-      [min]="0"
-      [minValue]="0"
-      [max]="maxInactivityTimeout"
-      [maxValue]="maxInactivityTimeout"
-      step="1"
-      required
-      (blur)="onBlur()"
-      #inactivityTimeoutControl="ngModel"
-    >
-    <mat-error *ngIf="inactivityTimeoutControl.invalid">
-      {{ 'SETTINGS.SECURITY.INACTIVITY_LIMITS' | translate }}
-    </mat-error>
-  </mat-form-field>
+  <cs-input-type-number
+    [className]="'full-width-input'"
+    [name]="'inactivityTimeout'"
+    [control]="inactivityTimeoutControl"
+    [step]="1"
+    [min]="0"
+    [max]="maxInactivityTimeout"
+    [validators]="validators"
+    [validatorMessages]="validatorMessages">
+  </cs-input-type-number>
   <div class="pull-right-button">
     <button
       type="submit"
       mat-button
-      [disabled]="changeButtonDisabled"
+      [disabled]="inactivityTimeoutControl.invalid"
     >
       {{ 'COMMON.UPDATE' | translate }}
     </button>
