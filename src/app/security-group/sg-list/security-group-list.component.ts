@@ -15,8 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { SecurityGroupViewMode } from '../sg-view-mode';
 import { VirtualMachine } from '../../vm';
-import { Dictionary } from '@ngrx/entity/src/models';
-
+import { Dictionary } from '../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-security-group-list',
