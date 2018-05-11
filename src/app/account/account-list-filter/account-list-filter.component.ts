@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Domain, Role } from '../../shared/models';
 import { stateTranslations } from '../account-container/account.container';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';

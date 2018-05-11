@@ -104,7 +104,7 @@
     class="add-rule-button"
     [disabled]="ruleForm.invalid"
   >
-    <mat-icon *ngIf="!isAdding">add</mat-icon>
+    <mat-icon *ngIf="!isAdding" class="mdi-plus"></mat-icon>
     <mat-spinner
       *ngIf="isAdding"
       diameter="25"

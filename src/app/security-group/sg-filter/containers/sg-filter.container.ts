@@ -1,11 +1,5 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FilterService } from '../../../shared/services/filter.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';

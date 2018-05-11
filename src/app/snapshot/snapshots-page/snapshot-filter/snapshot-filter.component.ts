@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Account } from '../../../shared/models';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
