@@ -33,6 +33,7 @@ export class InputTypeNumberComponent implements OnChanges, OnDestroy, AfterView
   @Output() public valueChange = new EventEmitter();
   @Output() public onBlur = new EventEmitter<Event>();
   @Output() public onFocus = new EventEmitter<Event>();
+
   private controlSubscription: Subscription;
   private element: any;
   @ViewChild('selector') private selector: ElementRef;
@@ -72,11 +73,12 @@ export class InputTypeNumberComponent implements OnChanges, OnDestroy, AfterView
     *  Looks strange to validate here
     *  I prefer to show all validation errors
     */
-    if (this.min && this.min > +this.element.value) {
+    if (this.min != null && this.min > +this.element.value) {
       this.element.value = this.min;
-    } else if (this.max && +this.element.value > this.max) {
+    } else if (this.max != null && +this.element.value > this.max) {
       this.element.value = this.max;
     }
+    /* remove this for common behaviour */
 
     this.value = this.element.value;
     this.control.markAsDirty();

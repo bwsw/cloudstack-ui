@@ -54,7 +54,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   }
 
   public get sliderValue(): number {
-    return this.size > this.min ? this.size : this.min;
+    return this.size > this.min != null ? this.size : this.min;
   }
 
   public writeValue(value): void {

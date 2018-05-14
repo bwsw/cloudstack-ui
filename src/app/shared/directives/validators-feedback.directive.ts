@@ -1,10 +1,10 @@
-import { Directive, Input, OnChanges, ElementRef } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { Observable } from "rxjs/Observable";
-import { TranslateService } from "@ngx-translate/core";
+import { Directive, Input, OnChanges, ElementRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 @Directive({
-  selector: "[csValidatorsFeedback]",
+  selector: '[csValidatorsFeedback]',
 })
 export class ValidatorsFeedbackDirective implements OnChanges {
   @Input() control: FormControl;
@@ -26,7 +26,7 @@ export class ValidatorsFeedbackDirective implements OnChanges {
   }
 
   private _printError(): void {
-    if (this.control.invalid && this.control.dirty) {
+    if (this.control.invalid) {
       const errors: string[] = Object.keys(this.control.errors || {}); // @todo sort by priority
       // example 'required':'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.SIZE_IS_REQUIRED'
       // example 'min':'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.BETWEEN'
