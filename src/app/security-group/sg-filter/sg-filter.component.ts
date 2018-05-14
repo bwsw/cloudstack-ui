@@ -5,6 +5,7 @@ import {
   Output
 } from '@angular/core';
 import { SecurityGroupViewMode } from '../sg-view-mode';
+import { Account } from '../../shared/models';
 
 export interface SecurityGroupFilter {
   viewMode: SecurityGroupViewMode;

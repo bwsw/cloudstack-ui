@@ -11,3 +11,5 @@ export * from './sidebar';
 export * from './top-bar/top-bar.component';
 export * from './vm-statistics/vm-statistics.component';
 export * from './slider/slider.component';
+export * from './input-type-number/input-type-number.component';
+export * from '../directives/validators-feedback.directive';

@@ -1,18 +1,15 @@
 <div class="custom-slider">
   <h5 *ngIf="label">{{ label }}</h5>
   <div class="current-value">
-    <mat-form-field class="custom-slider-input">
-      <input
-        matInput
-        type="number"
-        [ngModel]="size"
-        (ngModelChange)="handleSliderChange($event)"
-        step="1"
-        [min]="min"
-        [max]="max"
-        (blur)="onBlur($event)"
-      >
-    </mat-form-field>
+    <cs-input-type-number
+      [className]="'custom-slider-input'"
+      [value]="size"
+      [step]="1"
+      [min]="min"
+      [max]="max"
+      [validators]="validators"
+      [validatorMessages]="validatorMessages">
+    </cs-input-type-number>
     <div class="custom-slider-label">{{ units }}</div>
   </div>
 </div>
@@ -22,6 +19,5 @@
   [max]="max"
   [thumb-label]="true"
   [ngModel]="sliderValue"
-  (ngModelChange)="handleSliderChange($event)"
 ></mat-slider>
 

@@ -1,27 +1,17 @@
-<mat-form-field>
-  <input
-    matInput
-    name="hour"
-    type="number"
-    [ngModel]="hour"
-    (ngModelChange)="updateHour($event)"
-    [placeholder]="'SNAPSHOT_POLICIES.TIME' | translate"
-    #hourField
-  >
-</mat-form-field>
+<cs-input-type-number
+  [name]="'hour'"
+  [value]="hour"
+  (valueChange)="updateHour($event)"
+  [placeholder]="'SNAPSHOT_POLICIES.TIME' | translate">
+</cs-input-type-number>
 
 <span class="delimiter">:</span>
 
-<mat-form-field>
-  <input
-    matInput
-    name="minute"
-    type="number"
-    [ngModel]="minute"
-    (ngModelChange)="updateMinute($event)"
-    #minuteField
-  >
-</mat-form-field>
+<cs-input-type-number
+  [name]="'minute'"
+  [value]="minute"
+  (valueChange)="updateMinute($event)">
+</cs-input-type-number>
 
 <span class="delimiter"></span>
 

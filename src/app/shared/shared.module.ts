@@ -70,6 +70,8 @@ import {
   FabComponent,
   FancySelectComponent,
   InputGroupComponent,
+  InputTypeNumberComponent,
+  ValidatorsFeedbackDirective,
   ListComponent,
   NoResultsComponent,
   NotificationBoxComponent,
@@ -110,7 +112,6 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
-import { MaxValueValidatorDirective } from './directives/max-value.directive';
 import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
@@ -228,11 +229,12 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     HighLightPipe,
     InlineEditComponent,
     InputGroupComponent,
+    InputTypeNumberComponent,
+    ValidatorsFeedbackDirective,
     IntegerValidatorDirective,
     ListComponent,
     ViewModeSwitchComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
     MatAutocompleteModule,
     MatCardModule,
     MatInputModule,
@@ -313,12 +315,13 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     HighLightPipe,
     InlineEditComponent,
     InputGroupComponent,
+    InputTypeNumberComponent,
+    ValidatorsFeedbackDirective,
     IntegerValidatorDirective,
     ListComponent,
     ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
     MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,

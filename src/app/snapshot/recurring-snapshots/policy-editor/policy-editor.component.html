@@ -4,11 +4,17 @@
   novalidate
 >
   <div [ngSwitch]="policyMode">
-    <cs-hourly-policy
-      name="hourlyPolicy"
+    <cs-input-type-number
       *ngSwitchCase="Policies.Hourly"
-      [(ngModel)]="policy"
-    ></cs-hourly-policy>
+      [name]="'hourlyPolicy'"
+      [(value)]="policy"
+      [step]="1"
+      [min]="0"
+      [max]="59"
+      [validators]="hourlyValidators"
+      [validatorMessages]="hourlyValidatorMessages"
+      [placeholder]="'SNAPSHOT_POLICIES.MINUTE' | translate">
+    </cs-input-type-number>
 
     <cs-daily-policy
       name="dailyPolicy"
@@ -39,14 +45,16 @@
     ></cs-time-zone>
     <div class="column">
 
-    <cs-stored-number
-      name="storedNumber"
-      [(ngModel)]="storedSnapshots"
-      [min]="minStoredSnapshots"
-      [max]="maxStoredSnapshots"
-      [minValue]="minStoredSnapshots"
-      [maxValue]="maxStoredSnapshots"
-    ></cs-stored-number>
+      <cs-input-type-number
+        [name]="'storedNumber'"
+        [(value)]="storedSnapshots"
+        [step]="1"
+        [min]="minStoredSnapshots"
+        [max]="maxStoredSnapshots"
+        [validators]="storedValidators"
+        [validatorMessages]="storedValidatorMessages"
+        [placeholder]="'SNAPSHOT_POLICIES.STORE_SNAPSHOTS' | translate">
+      </cs-input-type-number>
 
       <div class="button-wrapper">
         <button

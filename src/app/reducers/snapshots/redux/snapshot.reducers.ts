@@ -1,18 +1,11 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  getDateSnapshotCreated,
-  getSnapshotDescription,
-  Snapshot,
-  SnapshotPageMode,
-  SnapshotType
-} from '../../../shared/models';
-import { Language } from '../../../shared/services/language.service';
+import { getSnapshotDescription, Snapshot, SnapshotPageMode, SnapshotType } from '../../../shared/models';
 
 import * as snapshot from './snapshot.actions';
 import * as volume from '../../volumes/redux/volumes.actions';
 import * as moment from 'moment';
+import { Dictionary } from '../../../../ngrx.entity.dictionary';
 
 export interface State {
   list: ListState

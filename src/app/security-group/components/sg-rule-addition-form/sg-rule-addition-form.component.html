@@ -30,33 +30,25 @@
 
   <!--This container contains start, end port fields for protocols such TCP, UDP-->
   <ng-container *ngIf="!isIcmpProtocol" formGroupName="params">
-    <mat-form-field>
-      <input
-        matInput
-        type="number"
-        formControlName="startPort"
-        [errorStateMatcher]="portMatcher"
-        [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
-        required
-      >
-      <mat-error>
-        {{ getStartPortErrorMessage() }}
-      </mat-error>
-    </mat-form-field>
+    <cs-input-type-number
+      [control]="ruleForm.controls['params'].controls['startPort']"
+      [step]="1"
+      [min]="minPortNumber"
+      [max]="maxPortNumber"
+      [validators]="portValidators"
+      [validatorMessages]="startPortValidatorMessages"
+      [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate">
+    </cs-input-type-number>
 
-    <mat-form-field>
-      <input
-        matInput
-        type="number"
-        formControlName="endPort"
-        [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
-        [errorStateMatcher]="portMatcher"
-        required
-      >
-      <mat-error>
-        {{ getEndPortErrorMessage() }}
-      </mat-error>
-    </mat-form-field>
+    <cs-input-type-number
+      [control]="ruleForm.controls['params'].controls['endPort']"
+      [step]="1"
+      [min]="minPortNumber"
+      [max]="maxPortNumber"
+      [validators]="portValidators"
+      [validatorMessages]="endPortValidatorMessages"
+      [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate">
+    </cs-input-type-number>
   </ng-container>
 
   <!--This container contains type, code fields for ICMP protocol-->

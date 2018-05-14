@@ -15,8 +15,7 @@ import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { OsType } from '../../shared/models/os-type.model';
 import { Volume } from '../../shared/models/volume.model';
-import { Dictionary } from '@ngrx/entity/src/models';
-
+import { Dictionary } from '../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-vm-list',

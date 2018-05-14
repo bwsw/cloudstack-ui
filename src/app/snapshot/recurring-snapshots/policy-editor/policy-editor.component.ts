@@ -8,6 +8,8 @@ import {
 import { TimeFormat } from '../../../shared/services/language.service';
 import { TimeZone } from '../../../shared/components/time-zone/time-zone.service';
 import { PolicyType } from '../snapshot-policy-type';
+import { Validators } from '@angular/forms';
+import { integerValidator } from '../../../shared/directives/integer-validator';
 
 
 export type TimePolicy = any;
@@ -40,6 +42,19 @@ export class PolicyEditorComponent {
   public minStoredSnapshots = 1;
   public maxStoredSnapshots = 8;
   public storedSnapshots = 1;
+  public hourlyValidators = [Validators.required, Validators.min(0), Validators.max(59), integerValidator()];
+  public hourlyValidatorMessages = {
+    'required': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.REQUIRED',
+    'min': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
+    'max': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
+    'integerValidator': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.INTEGER',
+  };
+  public storedValidators = [Validators.min(0), Validators.max(59), integerValidator()];
+  public storedValidatorMessages = {
+    'min': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
+    'max': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
+    'integerValidator': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.INTEGER',
+  };
 
   constructor() {
     this.onPolicySave = new EventEmitter<Policy<TimePolicy>>();

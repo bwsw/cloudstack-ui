@@ -11,7 +11,7 @@ import { MatMenuTrigger } from '@angular/material';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { OsType } from '../../../shared/models/os-type.model';
 import { Volume } from '../../../shared/models/volume.model';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { Dictionary } from '../../../../ngrx.entity.dictionary';
 
 @Component({
   selector: 'cs-vm-card-list-item',

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { integerValidator } from '../../directives/integer-validator';
 
 @Component({
   selector: 'cs-slider',
@@ -21,9 +21,13 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   @Input() public units: string;
 
   public _size: number;
-
-  constructor() {
-  }
+  public validators = [Validators.required, integerValidator()];
+  public validatorMessages = {
+    'required': 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.SIZE_IS_REQUIRED',
+    'min': 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.BETWEEN',
+    'max': 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.BETWEEN',
+    'integerValidator': 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.INTEGER'
+  };
 
   public ngOnInit(): void {
     if (this.min == null) {
@@ -33,6 +37,8 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
     if (this.max == null) {
       throw new Error('Attribute \'max\' is required');
     }
+    this.validators.push(Validators.min(this.min));
+    this.validators.push(Validators.max(this.max));
   }
 
   public propagateChange: any = () => {};
@@ -48,17 +54,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   }
 
   public get sliderValue(): number {
-    return this.size > this.min ? this.size : this.min;
-  }
-
-  public handleSliderChange(newValue: number): void {
-    if (newValue > this.max) {
-      this.size = this.max + 1;
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.size = this.max);
-      return;
-    }
-    this.size = newValue;
+    return this.size > this.min != null ? this.size : this.min;
   }
 
   public writeValue(value): void {
@@ -72,15 +68,4 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   }
 
   public registerOnTouched(): void { }
-
-  public onBlur(e: Event): void {
-    const sliderElementValue = +(e.currentTarget as HTMLInputElement).value;
-
-    if (sliderElementValue < this.min) {
-      this.size = this.size + 1;
-
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.size = this.min);
-    }
-  }
 }

@@ -463,7 +463,10 @@
         "DISK_OFFERING": "Дисковое предложение",
         "NEW_SIZE": "Новый размер",
         "NO_AVAILABLE_OFFERINGS": "Нет доступных предложений",
-        "RESIZE": "Изменить размер"
+        "RESIZE": "Изменить размер",
+        "SIZE_IS_REQUIRED": "Укажите размер",
+        "BETWEEN": "Размер между {{ lowerLimit }} и {{ upperLimit }}",
+        "INTEGER": "Должно быть целым"
       },
       "SNAPSHOT_CREATION": {
         "TAKE_SNAPSHOT": "Создание снимка",
@@ -838,11 +841,12 @@
       "ICMP_CODE": "Код ICMP",
       "ICMP_ANY": "Все",
       "FIELD_REQUIRED": "Обязательное поле",
-      "START_PORT_SHOULD_BE_LESS_THAN": "Начальный порт должен быть меньше {{ value }}",
+      "FIELD_INTEGER": "Должно быть целым числом",
+      "START_PORT_SHOULD_BE_LESS_THAN": "Начальный порт должен быть меньше {{ upperLimit }}",
       "START_PORT_SHOULD_BE_LESS_THAN_END_PORT": "Начальный порт должен быть меньше чем конечный порт",
-      "START_PORT_SHOULD_BE_GREATER_THAN": "Начальный порт должен быть больше {{ value }}",
-      "END_PORT_SHOULD_BE_LESS_THAN": "Конечный порт должен быть меньше {{ value }}",
-      "END_PORT_SHOULD_BE_GREATER_THAN": "Конечный порт должен быть больше {{ value }}",
+      "START_PORT_SHOULD_BE_GREATER_THAN": "Начальный порт должен быть больше {{ lowerLimit }}",
+      "END_PORT_SHOULD_BE_LESS_THAN": "Конечный порт должен быть меньше {{ upperLimit }}",
+      "END_PORT_SHOULD_BE_GREATER_THAN": "Конечный порт должен быть больше {{ lowerLimit }}",
       "END_PORT_SHOULD_BE_GREATER_THAN_START_PORT": "Конечный порт должен быть больше чем начальный порт",
       "ENTER_VALID_PORT": "Некорректный порт",
       "ENTER_VALID_TYPE": "Некорректный тип",
@@ -1426,7 +1430,9 @@
       "REPEAT_PASSWORD": "Повторите пароль",
       "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
       "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
-      "INACTIVITY_LIMITS": "От 0 до 300"
+      "INACTIVITY_BETWEEN": "Лимит времени сеанса между {{ lowerLimit }} и {{ upperLimit }}",
+      "INACTIVITY_INTEGER": "Лимит времени сеанса должен быть целым",
+      "INACTIVITY_IS_REQUIRED": "Укажите лимит времени сеанса"
     },
     "VM": {
       "SAVE_PASSWORD_FOR_ALL_VMS": "Сохранять пароли ВМ по умолчанию"
@@ -1521,7 +1527,9 @@
       "MEMORY": "Память (МБ)",
       "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
       "UP_TO": "До {{ upperLimit }}",
-      "FROM": "От {{ lowerLimit }}"
+      "FROM": "От {{ lowerLimit }}",
+      "REQUIRED": "Обязательное поле",
+      "INTEGER": "Должно быть целым"
     },
     "COLUMN": {
       "NAME": "Имя",
@@ -1562,7 +1570,9 @@
     "DAILY": "Ежедневно",
     "WEEKLY": "Еженедельно",
     "MONTHLY": "Ежемесячно",
-    "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}"
+    "BETWEEN": "От {{ lowerLimit }} до {{ upperLimit }}",
+    "REQUIRED": "Обязательное поле",
+    "INTEGER": "Должно быть целым"
   },
   "SUGGESTION_DIALOG": {
     "WOULD_YOU_LIKE_TO_CREATE_VM": "Хотите создать виртуальную машину?",

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -21,6 +20,7 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 
 import * as snapshotActions from './snapshot.actions';
+import { Dictionary } from '../../../../ngrx.entity.dictionary';
 
 
 @Injectable()

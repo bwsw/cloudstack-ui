@@ -463,7 +463,10 @@
         "DISK_OFFERING": "Disk offering",
         "NEW_SIZE": "New size",
         "NO_AVAILABLE_OFFERINGS": "No available offerings",
-        "RESIZE": "Resize"
+        "RESIZE": "Resize",
+        "SIZE_IS_REQUIRED": "Size is required",
+        "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
+        "INTEGER": "Should be integer"
       },
       "SNAPSHOT_CREATION": {
         "TAKE_SNAPSHOT": "Take a snapshot",
@@ -842,11 +845,12 @@
       "ICMP_CODE": "ICMP code",
       "ICMP_ANY": "Any",
       "FIELD_REQUIRED": "Field is required",
-      "START_PORT_SHOULD_BE_LESS_THAN": "Start port should be less than {{ value }}",
+      "FIELD_INTEGER": "Field should be integer",
+      "START_PORT_SHOULD_BE_LESS_THAN": "Start port should be less than {{ upperLimit }}",
       "START_PORT_SHOULD_BE_LESS_THAN_END_PORT": "Start port should be less than end port",
-      "START_PORT_SHOULD_BE_GREATER_THAN": "Start port should be greater than {{ value }}",
-      "END_PORT_SHOULD_BE_LESS_THAN": "End port should be less than {{ value }}",
-      "END_PORT_SHOULD_BE_GREATER_THAN": "End port should be greater than {{ value }}",
+      "START_PORT_SHOULD_BE_GREATER_THAN": "Start port should be greater than {{ lowerLimit }}",
+      "END_PORT_SHOULD_BE_LESS_THAN": "End port should be less than {{ upperLimit }}",
+      "END_PORT_SHOULD_BE_GREATER_THAN": "End port should be greater than {{ lowerLimit }}",
       "END_PORT_SHOULD_BE_GREATER_THAN_START_PORT": "End port should be greater than start port",
       "ENTER_VALID_PORT": "Enter a valid port",
       "ENTER_VALID_TYPE": "Enter a valid type",
@@ -1430,7 +1434,9 @@
       "REPEAT_PASSWORD": "Repeat password",
       "PASSWORD_CHANGED_SUCCESSFULLY": "Password has been changed successfully",
       "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
-      "INACTIVITY_LIMITS": "Between 0 and 300"
+      "INACTIVITY_BETWEEN": "Timeout should be between {{ lowerLimit }} and {{ upperLimit }}",
+      "INACTIVITY_INTEGER": "Timeout should be integer",
+      "INACTIVITY_IS_REQUIRED": "Timeout is required"
     },
     "VM": {
       "SAVE_PASSWORD_FOR_ALL_VMS": "Save VM passwords by default"
@@ -1525,7 +1531,9 @@
       "MEMORY": "Memory (MB)",
       "BETWEEN": "Between {{ lowerLimit }} and {{ upperLimit }}",
       "UP_TO": "Up to {{ upperLimit }}",
-      "FROM": "From {{ lowerLimit }}"
+      "FROM": "From {{ lowerLimit }}",
+      "REQUIRED": "Field is required",
+      "INTEGER": "Should be integer"
     },
     "COLUMN": {
       "NAME": "Name",
@@ -1563,6 +1571,8 @@
     "WEEKLY_PERIOD": "Every {{ value }}",
     "MONTHLY_PERIOD": "day {{ value }} of month",
     "HOURLY": "Hourly",
+    "REQUIRED": "Required field",
+    "INTEGER": "Should be integer",
     "DAILY": "Daily",
     "WEEKLY": "Weekly",
     "MONTHLY": "Monthly",

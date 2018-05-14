@@ -33,14 +33,7 @@ import {
 } from '../../../shared/icmp/icmp-types';
 import 'rxjs/add/operator/startWith';
 import { FirewallRule } from '../../shared/models';
-
-
-export class PortsErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {
-    return control.invalid && control.dirty;
-  }
-}
-
+import { integerValidator } from '../../../shared/directives/integer-validator';
 
 @Component({
   selector: 'cs-sg-rule-addition-form',
@@ -59,7 +52,6 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   public isIcmpProtocol = false;
   public filteredIcmpTypes: IcmpType[];
   public filteredIcmpCodes: number[];
-  public portMatcher = new PortsErrorStateMatcher();
 
   public types = [
     { value: NetworkRuleType.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
@@ -73,11 +65,33 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   ];
 
   public ruleForm: FormGroup;
+  public readonly maxPortNumber = 65535;
+  public readonly minPortNumber = 0;
+
+  public portValidators = [
+    Validators.required,
+    Validators.min(this.minPortNumber),
+    Validators.max(this.maxPortNumber),
+    integerValidator()
+  ];
+  public startPortValidatorMessages = {
+    'required': 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED',
+    'min': 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_GREATER_THAN',
+    'max': 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_LESS_THAN',
+    'between': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
+    'integerValidator': 'SECURITY_GROUP_PAGE.RULES.FIELD_INTEGER',
+    'startPortValidator': 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_LESS_THAN_END_PORT'
+  };
+  public endPortValidatorMessages = {
+    'required': 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED',
+    'min': 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN',
+    'max': 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_LESS_THAN',
+    'between': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
+    'integerValidator': 'SECURITY_GROUP_PAGE.RULES.FIELD_INTEGER',
+    'endPortValidator': 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN_START_PORT'
+  };
   private portsForm: FormGroup;
   private icmpForm: FormGroup;
-
-  private readonly maxPortNumber = 65535;
-  private readonly minPortNumber = 0;
 
   private protocolChanges: Subscription;
   private cidrChanges: Subscription;
@@ -106,9 +120,12 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
 
   public createForm() {
     this.portsForm = this.fb.group({
-      startPort: [null, [Validators.required]],
-      endPort: [null, [Validators.required]]
+      startPort: [null],
+      endPort: [null]
     });
+
+    this.portsForm.controls.startPort.setValidators([...this.portValidators, startPortValidator(this.endPort)]);
+    this.portsForm.controls.endPort.setValidators([...this.portValidators, endPortValidator(this.startPort)]);
 
     this.icmpForm = this.fb.group({
       icmpType: [{ value: null, disabled: true }, [Validators.required]],
@@ -123,7 +140,6 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     });
 
     // Some validators required form controls and we can set them after they were created
-    this.setPortFormValidators();
     this.setIcmpFormValidators();
   }
 
@@ -132,62 +148,6 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     this.addRule.emit(rule);
 
     this.resetForm();
-  }
-
-  public getStartPortErrorMessage() {
-    const port = this.portsForm.get('startPort');
-    let translateToken: string;
-    let param: { value?: string } = {};
-
-    if (port.hasError('required')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED';
-    } else if (port.hasError('min')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_GREATER_THAN';
-      param = { value: port.errors.min.min }
-    } else if (port.hasError('max')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_LESS_THAN';
-      param = { value: port.errors.max.max }
-    } else if (port.hasError('startPortValidator')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_LESS_THAN_END_PORT';
-    }
-
-    if (translateToken) {
-      return this.translateService.instant(translateToken, param);
-    }
-    return null;
-  }
-
-  public getEndPortErrorMessage() {
-    const port = this.portsForm.get('endPort');
-    let translateToken: string;
-    let param: { value?: string } = {};
-
-    if (port.hasError('required')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED';
-    } else if (port.hasError('min')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN';
-      param = { value: port.errors.min.min }
-    } else if (port.hasError('max')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_LESS_THAN';
-      param = { value: port.errors.max.max }
-    } else if (port.hasError('endPortValidator')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN_START_PORT';
-    }
-
-    if (translateToken) {
-      return this.translateService.instant(translateToken, param);
-    }
-    return null;
-  }
-
-  private setPortFormValidators() {
-    const portCommonValidators = [
-      Validators.required,
-      Validators.min(this.minPortNumber),
-      Validators.max(this.maxPortNumber)
-    ];
-    this.startPort.setValidators([...portCommonValidators, startPortValidator(this.endPort)]);
-    this.endPort.setValidators([...portCommonValidators, endPortValidator(this.startPort)]);
   }
 
   private setIcmpFormValidators() {

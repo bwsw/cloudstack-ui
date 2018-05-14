@@ -12,7 +12,7 @@ import {
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Volume } from '../../shared/models/volume.model';
 import { OsType } from '../../shared/models/os-type.model';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { Dictionary } from '../../../ngrx.entity.dictionary';
 
 const stateTranslations = {
   RUNNING: 'VM_STATE.RUNNING',
