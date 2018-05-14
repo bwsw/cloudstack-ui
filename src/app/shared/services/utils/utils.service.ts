@@ -88,13 +88,19 @@ export class Utils {
     return a.name && a.name.localeCompare(b.name);
   };
 
-  public static cidrIsValid(range: string): boolean {
+  public static cidrIsValid(range: string | null): boolean {
+    if (range === null) {
+      return true;
+    }
     const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
     const cidr = new ipAddressType(range);
     return cidr.isValid();
   }
 
-  public static cidrType(range: string): IPVersion {
+  public static cidrType(range: string | null): IPVersion | null {
+    if (range === null) {
+      return null;
+    }
     const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
     const cidr = new ipAddressType(range);
     return cidr.isValid() && (cidr.v4 ? IPVersion.ipv4 : IPVersion.ipv6);

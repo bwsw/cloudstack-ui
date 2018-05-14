@@ -1,11 +1,4 @@
-import {
-  ComponentFactoryResolver,
-  ComponentRef,
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef
-} from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { LoaderComponent } from '../components/loader/loader.component';
 
 /*

@@ -65,6 +65,7 @@ import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { SecurityGroupTagsComponent } from './sg-sidebar/sg-tags/sg-tags.component';
 import { SecurityGroupTagsContainerComponent } from './containers/sg-tags.container';
 import { TagsModule } from '../tags/tags.module';
+import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/sg-rule-addition-form.component';
 
 
 @NgModule({
@@ -129,7 +130,8 @@ import { TagsModule } from '../tags/tags.module';
     SecurityGroupTagsContainerComponent,
     SecurityGroupSidebarComponent,
     SecurityGroupRulesDialogComponent,
-    SecurityGroupGroupedListComponent
+    SecurityGroupGroupedListComponent,
+    SGRuleAdditionFormComponent
   ],
   providers: [
     NetworkRuleService,

@@ -280,6 +280,7 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    ReactiveFormsModule
   ],
   entryComponents: [
     DatePickerDialogComponent,

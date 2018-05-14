@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccountActionsService } from './account-actions.service';
 import { Account } from '../../models/account.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
