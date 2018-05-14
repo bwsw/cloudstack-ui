@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ICustomOfferingRestrictions } from './custom-offering-restrictions';
 import { CustomServiceOffering } from './custom-service-offering';
-import { ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { integerValidator } from '../../shared/directives/integer-validator';
 
 @Component({
@@ -13,22 +13,23 @@ import { integerValidator } from '../../shared/directives/integer-validator';
 export class CustomServiceOfferingComponent {
   public restrictions: ICustomOfferingRestrictions;
   public offering: CustomServiceOffering;
+  public customOfferingForm: FormGroup;
   public validatorMessages = {
     'required': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.REQUIRED',
     'min': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.FROM',
     'max': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.UP_TO',
     'between': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
-    'integerValue': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.INTEGER',
+    'integerValidator': 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.INTEGER',
   };
-  public cpuNumberValidators: ValidatorFn[] = [
+  private cpuNumberValidators: ValidatorFn[] = [
     Validators.required,
     integerValidator()
   ];
-  public cpuSpeedValidators: ValidatorFn[] = [
+  private cpuSpeedValidators: ValidatorFn[] = [
     Validators.required,
     integerValidator()
   ];
-  public memoryValidators: ValidatorFn[] = [
+  private memoryValidators: ValidatorFn[] = [
     Validators.required,
     integerValidator()
   ];
@@ -63,9 +64,21 @@ export class CustomServiceOfferingComponent {
     if (this.restrictions.memory.max !== null) {
       this.memoryValidators.push(Validators.max(this.restrictions.memory.max));
     }
+
+    this.customOfferingForm = new FormGroup({
+      cpunumber: new FormControl(this.offering.cpunumber, this.cpuNumberValidators),
+      cpuspeed: new FormControl(this.offering.cpuspeed, this.cpuSpeedValidators),
+      memory: new FormControl(this.offering.memory, this.memoryValidators)
+    });
   }
 
   public onSubmit(): void {
+    this.offering = {
+      ...this.offering,
+      cpunumber: +this.customOfferingForm.value.cpunumber,
+      cpuspeed: +this.customOfferingForm.value.cpuspeed,
+      memory: +this.customOfferingForm.value.memory,
+    } as CustomServiceOffering;
     this.dialogRef.close(this.offering);
   }
 }

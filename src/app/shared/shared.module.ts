@@ -1,7 +1,7 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -112,6 +112,7 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
+import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
@@ -207,6 +208,7 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
     EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
+    ReactiveFormsModule
   ],
   exports: [
     CdkTableModule,
@@ -239,6 +241,7 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     MatListModule,
     MatSnackBarModule,
     MatTableModule,
+    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -318,6 +321,7 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
+    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,

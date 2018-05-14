@@ -18,7 +18,7 @@ class MockService {
   public getAccount(params: {}) {
     return {
       switchMap: (f) => {
-        return f(<Account>{ account: 'Account', domainid: 'D1'});
+        return f(<Account>{ id: '', account: 'Account', domainid: 'D1', displayName: '' });
     }
     };
   }
@@ -101,7 +101,7 @@ describe('Account tag service', () => {
     accountTagService.writeTag('key', 'value').subscribe(res =>
       expect(res).toBeTruthy());
     expect(spyUpdate).toHaveBeenCalledWith(
-      <Account>{ account: 'Account', domainid: 'D1'}, AccountResourceType, 'key', 'value');
+      <Account>{ id: '', account: 'Account', domainid: 'D1', displayName: '' }, AccountResourceType, 'key', 'value');
   });
 
   it('should set service offering params', () => {

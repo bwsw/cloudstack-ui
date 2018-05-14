@@ -1,29 +1,27 @@
-<div *ngIf="offering && restrictions">
+<div *ngIf="restrictions">
   <h3 class="mat-dialog-title">{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.TITLE' | translate }}</h3>
-  <form (ngSubmit)="onSubmit()" #customOfferingForm="ngForm" novalidate>
+  <form (submit)="onSubmit()" novalidate>
     <div class="mat-dialog-content">
       <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_NUMBER' | translate }}</h5>
       <cs-input-type-number
         [className]="'full-width-input'"
         [name]="'cpuNumber'"
-        [(value)]="offering.cpunumber"
+        [control]="customOfferingForm.controls['cpunumber']"
         [step]="1"
         [min]="restrictions.cpunumber.min"
         [max]="restrictions.cpunumber.max"
-        [validators]="cpuNumberValidators"
-        [validatorMessages]="validatorMessages">
+        [validatorMessages]="validatorMessages"
+      >
       </cs-input-type-number>
-
 
       <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_SPEED' | translate }}</h5>
       <cs-input-type-number
         [className]="'full-width-input'"
         [name]="'cpuSpeed'"
-        [(value)]="offering.cpuspeed"
+        [control]="customOfferingForm.controls['cpuspeed']"
         [step]="1"
         [min]="restrictions.cpuspeed.min"
         [max]="restrictions.cpuspeed.max"
-        [validators]="cpuSpeedValidators"
         [validatorMessages]="validatorMessages">
       </cs-input-type-number>
 
@@ -31,11 +29,10 @@
       <cs-input-type-number
         [className]="'full-width-input'"
         [name]="'cpuSpeed'"
-        [(value)]="offering.memory"
+        [control]="customOfferingForm.controls['memory']"
         [step]="1"
         [min]="restrictions.memory.min"
         [max]="restrictions.memory.max"
-        [validators]="memoryValidators"
         [validatorMessages]="validatorMessages">
       </cs-input-type-number>
     </div>
@@ -52,7 +49,7 @@
         mat-button
         color="primary"
         type="submit"
-        [disabled]="!customOfferingForm.valid"
+        [disabled]="customOfferingForm.invalid"
       >
         {{ 'COMMON.CONFIRM' | translate }}
       </button>

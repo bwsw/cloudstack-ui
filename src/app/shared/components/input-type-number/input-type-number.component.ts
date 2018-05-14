@@ -11,15 +11,8 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { ErrorStateMatcher } from '@angular/material';
-
-export class PortsErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {
-    return control.invalid;
-  }
-}
 
 @Component({
   selector: 'cs-input-type-number',
@@ -43,7 +36,6 @@ export class InputTypeNumberComponent implements OnChanges, OnDestroy, AfterView
   private controlSubscription: Subscription;
   private element: any;
   @ViewChild('selector') private selector: ElementRef;
-  public matcher = new PortsErrorStateMatcher();
 
   ngOnChanges(changes: SimpleChanges) {
     if ('control' in changes && this.control) {
@@ -80,11 +72,11 @@ export class InputTypeNumberComponent implements OnChanges, OnDestroy, AfterView
     *  Looks strange to validate here
     *  I prefer to show all validation errors
     */
-    /*if (this.min && this.min > +this.element.value) {
+    if (this.min && this.min > +this.element.value) {
       this.element.value = this.min;
     } else if (this.max && +this.element.value > this.max) {
       this.element.value = this.max;
-    }*/
+    }
 
     this.value = this.element.value;
     this.control.markAsDirty();
@@ -102,20 +94,29 @@ export class InputTypeNumberComponent implements OnChanges, OnDestroy, AfterView
 
 
   public increase(event: Event) {
-    this.element.value += this.step;
+    this.element.value = parseFloat(this.element.value) + this.step;
     this.onInputChange();
     this.prevent(event);
   }
 
   public decrease(event: Event) {
-    this.element.value -= this.step;
+    this.element.value = parseFloat(this.element.value) - this.step;
     this.onInputChange();
     this.prevent(event);
   }
 
   public onKeyPressEvent(event: KeyboardEvent) {
     if (!this.eventKeyIsDigit(event)) {
-      this.prevent(event);
+      switch (event.key) {
+        case 'ArrowDown':
+          this.decrease(event);
+          break;
+        case 'ArrowUp':
+          this.increase(event);
+          break;
+        default:
+          this.prevent(event);
+      }
     }
   }
 

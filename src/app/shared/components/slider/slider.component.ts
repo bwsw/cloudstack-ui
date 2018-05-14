@@ -29,11 +29,6 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
     'integerValidator': 'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.INTEGER'
   };
 
-  public email = new FormControl();
-
-  constructor() {
-  }
-
   public ngOnInit(): void {
     if (this.min == null) {
       throw new Error('Attribute \'min\' is required');
@@ -60,16 +55,6 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
 
   public get sliderValue(): number {
     return this.size > this.min ? this.size : this.min;
-  }
-
-  public handleSliderChange(newValue: number): void {
-    if (newValue > this.max) {
-      this.size = this.max + 1;
-      // setTimeout is used to force rerendering
-      setTimeout(() => this.size = this.max);
-      return;
-    }
-    this.size = newValue;
   }
 
   public writeValue(value): void {

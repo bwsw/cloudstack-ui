@@ -1,14 +1,9 @@
 <div class="custom-slider">
   <h5 *ngIf="label">{{ label }}</h5>
   <div class="current-value">
-    <mat-form-field class="custom-slider-input">
-      <input matInput placeholder="Enter your email" [value]="email.value" required >
-      <mat-error *ngIf="email.invalid">test</mat-error>
-    </mat-form-field>
     <cs-input-type-number
       [className]="'custom-slider-input'"
       [value]="size"
-      (valueChange)="handleSliderChange($event)"
       [step]="1"
       [min]="min"
       [max]="max"
@@ -24,6 +19,5 @@
   [max]="max"
   [thumb-label]="true"
   [ngModel]="sliderValue"
-  (ngModelChange)="handleSliderChange($event)"
 ></mat-slider>
 

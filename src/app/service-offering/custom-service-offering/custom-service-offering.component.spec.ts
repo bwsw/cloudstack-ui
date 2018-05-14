@@ -11,7 +11,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { MaxValueValidatorDirective } from '../../shared/directives/max-value.directive';
 import { MinValueValidatorDirective } from '../../shared/directives/min-value.directive';
 import { CustomServiceOffering } from './custom-service-offering';
 import { CustomServiceOfferingComponent } from './custom-service-offering.component';
@@ -62,7 +61,6 @@ describe('CustomServiceOfferingComponent', () => {
         CustomServiceOfferingComponent,
         MockTranslatePipe,
         MinValueValidatorDirective,
-        MaxValueValidatorDirective
       ],
       providers: [
         { provide: TranslateService, useClass: MockTranslateService },
