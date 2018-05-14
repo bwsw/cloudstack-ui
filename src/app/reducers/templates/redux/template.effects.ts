@@ -4,10 +4,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { TemplateService } from '../../../template/shared/template.service';
-import {
-  TemplateFilters,
-  TemplateResourceType
-} from '../../../template/shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { Template } from '../../../template/shared/template.model';
@@ -23,6 +20,7 @@ import * as uniqBy from 'lodash/uniqBy';
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
+import { truncate } from '../../../shared/utils/truncate';
 
 @Injectable()
 export class TemplateEffects {
@@ -171,7 +169,7 @@ export class TemplateEffects {
   private onNotify(template: any, message: string) {
     this.notificationService.message({
       translationToken: message,
-      interpolateParams: { name: template.name }
+      interpolateParams: { name: truncate(template.name, 40) }
     });
   }
 

@@ -1,69 +1,30 @@
-$vm-card-title-font-size: 17px;
-
 :host {
   display: inline-flex;
 }
 
-mat-card {
-  cursor: pointer;
-  line-height: normal;
+mat-card-content {
+  table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
 
-  mat-card-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-
-    cs-state-circle {
-      order: -1;
-      margin-right: 5px;
+    td, th {
+      border-right: 1px solid black;
     }
 
-    mat-card-title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: $vm-card-title-font-size;
+    td:last-child, th:last-child {
+      border-right: 0;
     }
-
-    .menu {
-      margin-left: auto;
-      align-self: flex-start;
-      position: relative;
-      right: -12px;
-    }
-  }
-
-   mat-card-content {
-     table {
-       width: 100%;
-       text-align: center;
-       border-collapse: collapse;
-       table-layout: fixed;
-
-       td, th {
-         border-right: 1px solid black;
-       }
-
-       td:last-child, th:last-child {
-         border-right: 0;
-       }
-     }
-   }
-
-  &.error {
-    cursor: auto;
-  }
-  &.destroyed {
-    opacity: 0.65;
   }
 }
 
-.card-data-line {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-bottom: 5px;
+.error {
+  cursor: auto;
+}
+
+.destroyed {
+  opacity: 0.65;
 }
 
 .has-text-color {
@@ -72,12 +33,14 @@ mat-card {
     color: inherit;
   }
 }
+
 .dark-background {
   mat-card-content,
   mat-card-title {
     color: rgba(255, 255, 255, 0.87) !important;
   }
 }
+
 .light-background {
   mat-card-content,
   mat-card-title {

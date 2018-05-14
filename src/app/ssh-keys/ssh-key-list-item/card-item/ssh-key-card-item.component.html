@@ -1,17 +1,17 @@
-<mat-card (click)="onClicked($event)">
+<mat-card (click)="onClicked($event)" class="entity-card">
 
-  <mat-card-header>
-    <mat-icon class="mdi-key"></mat-icon>
-    <mat-card-title [matTooltip]="item.name">
+  <mat-card-header class="entity-card-header">
+    <mat-icon class="mdi-key entity-card-thumbnail"></mat-icon>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       {{ item.name }}
     </mat-card-title>
-    <button  mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
+    <button  mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
 
   <mat-card-content>
-    <div class="card-data-line">
+    <div class="entity-card-data-line">
       {{ item.fingerprint }}
     </div>
   </mat-card-content>

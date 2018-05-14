@@ -102,7 +102,6 @@ import { SecurityGroupBuilderRuleComponent } from './components/security-group-b
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
 // tslint:disable-next-line
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
-import { TableComponent } from './components/table/table.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
@@ -169,7 +168,7 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
-import { StateCircleComponent } from './components/status-circle/state-circle.component';
+import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 
 @NgModule({
   imports: [
@@ -251,7 +250,6 @@ import { StateCircleComponent } from './components/status-circle/state-circle.co
     VolumeActionsComponent,
     StringifyTimePipe,
     StringifyDatePipe,
-    TableComponent,
     TemplateActionsComponent,
     MatAutocompleteModule,
     MatInputModule,
@@ -280,7 +278,8 @@ import { StateCircleComponent } from './components/status-circle/state-circle.co
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     ReactiveFormsModule,
-    StateCircleComponent
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -334,7 +333,6 @@ import { StateCircleComponent } from './components/status-circle/state-circle.co
     VolumeActionsComponent,
     StringifyDatePipe,
     StringifyTimePipe,
-    TableComponent,
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
@@ -367,7 +365,8 @@ import { StateCircleComponent } from './components/status-circle/state-circle.co
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     DiskOfferingDialogComponent,
-    StateCircleComponent
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   providers: [
     AccountService,

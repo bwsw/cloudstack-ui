@@ -1,26 +1,28 @@
-<mat-card (click)="handleClick($event)" [class.card-selected]="isSelected(item)">
+<mat-card
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+  class="entity-card"
+>
 
-  <mat-card-header>
-    <cs-state-circle
+  <mat-card-header class="entity-card-header">
+    <cs-round-state-indicator
       [state]="statusClass"
       [matTooltip]="stateTranslations[item.state] | translate"
-    ></cs-state-circle>
-    <mat-card-title [matTooltip]="item.name">
+      class="entity-card-thumbnail"
+    ></cs-round-state-indicator>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
 
   <mat-card-content>
-    <div class="card-data-line" *ngIf="!!item.volumeid">
+    <div class="entity-card-data-line" *ngIf="!!item.volumeid">
       {{ 'SNAPSHOT_PAGE.CARD.VOLUME' | translate }}: {{ volumeName }}
     </div>
-    <div class="card-data-line" *ngIf="!!item.virtualmachineid">
-      {{ 'SNAPSHOT_PAGE.CARD.VM' | translate }}: {{ virtualMachineName }}
-    </div>
-    <div class="card-data-line">
+    <div class="entity-card-data-line">
       {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
       <span [innerHTML]="snapshotCreated | stringifyDate"></span>
     </div>

@@ -1,40 +1,5 @@
-$vm-card-title-font-size: 17px;
-
 :host {
   display: inline-flex;
-}
-
-mat-card {
-  cursor: pointer;
-  line-height: normal;
-
-  mat-card-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-
-    mat-card-title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: $vm-card-title-font-size;
-    }
-
-    .menu {
-      margin-left: auto;
-      align-self: flex-start;
-      position: relative;
-      right: -12px;
-    }
-  }
-}
-
-.card-data-line {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-bottom: 5px;
 }
 
 .root-disk {

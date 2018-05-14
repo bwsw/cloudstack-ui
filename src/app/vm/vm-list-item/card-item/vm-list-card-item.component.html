@@ -3,23 +3,26 @@
   (click)="handleClick($event)"
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
+  class="entity-card"
 >
-  <mat-card-header>
-    <cs-state-circle
+
+  <mat-card-header class="entity-card-header">
+    <cs-round-state-indicator
       [state]="statusClass"
       [matTooltip]="stateTranslationToken | translate"
-    ></cs-state-circle>
-    <mat-card-title [matTooltip]="item.name">
+      class="entity-card-thumbnail"
+    ></cs-round-state-indicator>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
 
   <mat-card-content>
-    <div class="card-data-line">OS: {{ getOsDescription }}</div>
-    <div class="card-data-line">
+    <div class="entity-card-data-line">OS: {{ getOsDescription }}</div>
+    <div class="entity-card-data-line">
       {{ item.nic[0]?.ipaddress ? item.nic[0].ipaddress : ('VM_PAGE.CARD.IP_NA' | translate) }}
     </div>
     <table>

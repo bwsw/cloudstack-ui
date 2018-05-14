@@ -1,16 +1,20 @@
-<mat-card (click)="handleClick($event)" [class.card-selected]="isSelected(item)">
+<mat-card
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+  class="entity-card"
+>
 
-  <mat-card-header>
-    <mat-card-title [matTooltip]="item.name">
+  <mat-card-header class="entity-card-header">
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="menu">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </mat-card-header>
 
   <mat-card-content>
-    <div class="card-data-line" *ngIf="isPrivate">
+    <div class="entity-card-data-line" *ngIf="isPrivate">
       {{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:
       <ng-template [ngIf]="item.virtualMachineIds[0]">
         {{ sgVmName }}
@@ -20,7 +24,7 @@
       </ng-template>
     </div>
 
-    <div class="card-data-line" *ngIf="!isPrivate">
+    <div class="entity-card-data-line" *ngIf="!isPrivate">
       <!-- Visibility is used so that the context of all cards is of the same height -->
       <span [style.visibility]="item.description ? 'visible' : 'hidden'">
         {{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:
