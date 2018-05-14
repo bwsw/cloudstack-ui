@@ -121,10 +121,18 @@ export class SgRulesComponent implements OnChanges {
     Validators.max(this.maxPort),
     integerValidator()
   ];
-  public portValidatorMessages = {
+  public startPortValidatorMessages = {
     'required': 'SECURITY_GROUP_PAGE.RULES.ENTER_REQUIRED_PORT',
-    'min': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
-    'max': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
+    'min': 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_GREATER_THAN',
+    'max': 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_LESS_THAN_END_PORT',
+    'between': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
+    'integerValidator': 'SECURITY_GROUP_PAGE.RULES.ENTER_INTEGER_PORT'
+  };
+  public endPortValidatorMessages = {
+    'required': 'SECURITY_GROUP_PAGE.RULES.ENTER_REQUIRED_PORT',
+    'min': 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN',
+    'max': 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_LESS_THAN',
+    'between': 'SECURITY_GROUP_PAGE.RULES.ENTER_BETWEEN_PORT',
     'integerValidator': 'SECURITY_GROUP_PAGE.RULES.ENTER_INTEGER_PORT'
   };
 
