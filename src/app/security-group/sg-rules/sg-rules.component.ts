@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -17,7 +17,7 @@ import { FirewallRule } from '../shared/models';
   templateUrl: 'sg-rules.component.html',
   styleUrls: ['sg-rules.component.scss']
 })
-export class SgRulesComponent implements OnChanges {
+export class SgRulesComponent implements OnInit, OnChanges {
   @Input() public securityGroup: SecurityGroup;
   @Input() public editMode = false;
   @Input() public vmId: string;
@@ -79,6 +79,9 @@ export class SgRulesComponent implements OnChanges {
     private router: Router
   ) {
     this.adding = false;
+  }
+
+  public ngOnInit() {
     this.inputs = {
       type: item => item.type,
       canRemove: this.editMode && !this.isPredefinedTemplate
@@ -174,7 +177,10 @@ export class SgRulesComponent implements OnChanges {
               this.router.navigate([
                 'security-group', this.securityGroup.id, 'rules'
               ], {
-                queryParams: { vm: this.vmId }
+                queryParams: {
+                  vm: this.vmId,
+                  viewMode: 'shared'
+                }
               });
               this.onCloseDialog.emit();
             } else {
