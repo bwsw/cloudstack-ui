@@ -18,7 +18,7 @@ At this page, you can see the list of your virtual machines available to your us
 If you are a Domain Administrator you can see the virtual machines of all users in your account. Or select all accounts in the "Select accounts" option above the list to see the virtual machines for the whole domain.
 
 .. figure:: _static/VMs_List_Admin.png
-   :scale: 80%
+   :scale: 70%
    
 You can change the data representation of existing virtual machines from "card" to "list". We have added the switch |view icon|/|box icon| in the upper-right corner of each section. This improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
@@ -69,7 +69,7 @@ Creating a new VM in CloudStack-UI is a one-step action. You can select options 
 To create a new VM click the "Create" button at the bottom-right corner. 
 
 .. figure:: _static/VMs_Create1.png
-   :scale: 80%
+   :scale: 70%
    
 In the *Create VM* form fill in the following fields:
 
@@ -130,7 +130,7 @@ Administrators can set limits for custom service offerings in the `configuration
 .. figure:: _static/VMs_Create_SO_Custom2.png   
    :scale: 70%
    
-Click "CONFIRM" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings. Click "CANCEL" to drop all the settings.
+Click "CONFIRM" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings option. Click "CANCEL" to drop all the settings.
 
 Click "SELECT" below the list to assign the service offerings to your machine. The custom settings will appear for the VM service offerings. Custom service offering parameters are saved to account tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_) if they are supported for the account. This will make it easier for you to use saved custom parameters for service offerings next time at VM creation as they will be predefined in the form automatically. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#account-tags-enabled>`_  by an Administrator. 
 
@@ -179,7 +179,7 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/service_offerings.html?highlight=Disk%20offering#compute-and-disk-service-offerings>`_.
 
 6. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
-7. **Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its length should not exceed 63 symbols. What is an affinity group you can read in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?highlight=Affinity#affinity-groups>`_.
+7. **Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its length should not exceed 63 symbols. What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/virtual_machines.html?highlight=Affinity#affinity-groups>`_.
 8. **Firewall rules** - Click "Edit" to specify a security group for the VM. In the appeared window choose between "Create new" or "Select Shared" options. 
   
 **Create new security group**
@@ -629,7 +629,6 @@ In the dialogue window confirm your action. Please, note, the virtual machine th
 Besides, you can see all the snapshots in the list by clicking the "VIEW ALL" button. In the appeared window you will see the list of all snapshots. For each snapshot in the list, the same actions are available: you can create a template, or delete a snapshot.
 
 .. figure:: _static/VMs_Info_Storage_Snapshot_View1.png
-
 
 3. **ISO** - Allows attaching ISO. 
 
