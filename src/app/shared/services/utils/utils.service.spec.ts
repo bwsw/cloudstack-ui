@@ -150,6 +150,8 @@ describe('Utils service', () => {
       'invalid',
       '',
       ' ',
+      '0.0.0.0',
+      '::/',
       null,
       // IP v4
       '.100.100.100.100/16',
