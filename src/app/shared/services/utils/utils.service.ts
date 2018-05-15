@@ -2,7 +2,7 @@ import { Params, RouterState, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
 import { IPVersion } from '../../../security-group/sg.model';
 import * as uuid from 'uuid';
-import * as ipaddr from 'ip-address';
+import * as cidrRegex from 'cidr-regex';
 
 export class Utils {
   public static getUniqueId(): string {
@@ -88,22 +88,21 @@ export class Utils {
     return a.name && a.name.localeCompare(b.name);
   };
 
-  public static cidrIsValid(range: string | null): boolean {
-    if (range === null) {
-      return true;
-    }
-    const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
-    const cidr = new ipAddressType(range);
-    return cidr.isValid();
+  public static cidrIsValid(cidr: string | null): boolean {
+    return cidrRegex({exact: true}).test(cidr);
   }
 
-  public static cidrType(range: string | null): IPVersion | null {
-    if (range === null) {
+  public static cidrType(cidr: string | null): IPVersion | null {
+    if (!Utils.cidrIsValid(cidr)) {
       return null;
     }
-    const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
-    const cidr = new ipAddressType(range);
-    return cidr.isValid() && (cidr.v4 ? IPVersion.ipv4 : IPVersion.ipv6);
+    const isIPv4 = cidrRegex.v4({exact: true}).test(cidr);
+
+    if (isIPv4) {
+      return IPVersion.ipv4;
+    } else {
+      return IPVersion.ipv6;
+    }
   }
 }
 
