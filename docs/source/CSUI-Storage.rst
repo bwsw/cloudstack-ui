@@ -12,12 +12,12 @@ Drive list
 Here you can find a list of your disks existing for your user. 
 
 .. figure:: _static/Storage_List.png
-   :scale: 70%
+   :scale: 60%
    
 Domain Administrator can see disks of all accounts in the domain.
 
 .. figure:: _static/Storage_List_Admin2.png
-   :scale: 70%
+   :scale: 60%
    
 Disks can be viewed as a list or as a grid of cards. Switch the view by clicking a view icon |view icon|/|box icon| in the upper-right corner.
 
