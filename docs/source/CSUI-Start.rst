@@ -16,7 +16,7 @@ To enter the platform use your credentials provided by an administrator:
 
 .. note:: Required fields are marked with asterisks (*).
 
-- Login * -   The user ID of your account. 
+- User name * -   The user ID of your account. 
 - Password * - The password associated with the user ID.
 - Domain - Specify domain when you log in. CloudStak-UI supports three ways to do it. Choose the one which is more convenient for you:
   
