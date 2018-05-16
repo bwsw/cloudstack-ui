@@ -97,12 +97,7 @@ export class Utils {
       return null;
     }
     const isIPv4 = cidrRegex.v4({exact: true}).test(cidr);
-
-    if (isIPv4) {
-      return IPVersion.ipv4;
-    } else {
-      return IPVersion.ipv6;
-    }
+    return isIPv4 ? IPVersion.ipv4 : IPVersion.ipv6;
   }
 }
 

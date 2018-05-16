@@ -68,6 +68,37 @@ const getRouteWithoutQueryParamsFixture = [
   }
 ];
 
+const validCidrV4Values = [
+  '99.198.122.146/32',
+  '46.51.197.88/8',
+  '173.194.34.134/12',
+  '0.0.0.0/0'
+];
+const validCidrV6Values = [
+  'fe80:0000:0000:0000:0204:61ff:fe9d:f156/100',
+  '::1/128',
+  'a:b:c:d:e:f:0::/64',
+  'FE80::/10'
+];
+const invalidCidrValues = [
+  'invalid',
+  '',
+  ' ',
+  null,
+  // IP v4
+  '.100.100.100.100/16',
+  '100.100.100.100./32',
+  'http://123.123.123/28',
+  '1000.2.3.4/14',
+  // IP v6
+  'fe80:0000:0000:0000:0204:61ff:fe9d:f156/129',
+  '1::5:400.2.3.4/64',
+  '2001:0000:1234:0000:0000:C1C0:ABCD:0876  0/64',
+  '1.2.3.4::/64',
+  ':::/64',
+  '::2222:3333:4444:5555:7777:8888::/64'
+];
+
 describe('Utils service', () => {
   it('should generate unique id', () => {
     expect(Utils.getUniqueId()).toBeDefined();
@@ -134,86 +165,23 @@ describe('Utils service', () => {
   });
 
   it('should check if CIDR valid', () => {
-    const validValues = [
-      // IP v4
-      '99.198.122.146/32',
-      '46.51.197.88/8',
-      '173.194.34.134/12',
-      '0.0.0.0/0',
-      // IP v6
-      'fe80:0000:0000:0000:0204:61ff:fe9d:f156/100',
-      '::1/128',
-      'a:b:c:d:e:f:0::/64',
-      'FE80::/10'
-    ];
-    const invalidValues = [
-      'invalid',
-      '',
-      ' ',
-      '0.0.0.0',
-      '::/',
-      null,
-      // IP v4
-      '.100.100.100.100/16',
-      '100.100.100.100./32',
-      'http://123.123.123/28',
-      '1000.2.3.4/14',
-      // IP v6
-      'fe80:0000:0000:0000:0204:61ff:fe9d:f156/129',
-      '1::5:400.2.3.4/64',
-      '2001:0000:1234:0000:0000:C1C0:ABCD:0876  0/64',
-      '1.2.3.4::/64',
-      ':::/64',
-      '::2222:3333:4444:5555:7777:8888::/64'
-    ];
-
-    for (const value of validValues) {
+    const validCidrValues = [...validCidrV4Values, ...validCidrV6Values];
+    for (const value of validCidrValues) {
       expect(Utils.cidrIsValid(value)).toBe(true);
     }
-    for (const value of invalidValues) {
+    for (const value of invalidCidrValues) {
       expect(Utils.cidrIsValid(value)).toBe(false);
     }
   });
 
   it('should return proper CIDR type', () => {
-    const validV4Values = [
-      '99.198.122.146/32',
-      '46.51.197.88/8',
-      '173.194.34.134/12',
-      '0.0.0.0/0'
-    ];
-    const validV6Values = [
-      'fe80:0000:0000:0000:0204:61ff:fe9d:f156/100',
-      '::1/128',
-      'a:b:c:d:e:f:0::/64',
-      'FE80::/10'
-    ];
-    const invalidValues = [
-      'invalid',
-      '',
-      ' ',
-      null,
-      // IP v4
-      '.100.100.100.100/16',
-      '100.100.100.100./32',
-      'http://123.123.123/28',
-      '1000.2.3.4/14',
-      // IP v6
-      'fe80:0000:0000:0000:0204:61ff:fe9d:f156/129',
-      '1::5:400.2.3.4/64',
-      '2001:0000:1234:0000:0000:C1C0:ABCD:0876  0/64',
-      '1.2.3.4::/64',
-      ':::/64',
-      '::2222:3333:4444:5555:7777:8888::/64'
-    ];
-
-    for (const value of validV4Values) {
+    for (const value of validCidrV4Values) {
       expect(Utils.cidrType(value)).toBe(IPVersion.ipv4);
     }
-    for (const value of validV6Values) {
+    for (const value of validCidrV6Values) {
       expect(Utils.cidrType(value)).toBe(IPVersion.ipv6);
     }
-    for (const value of invalidValues) {
+    for (const value of invalidCidrValues) {
       expect(Utils.cidrType(value)).toBe(null);
     }
   })
