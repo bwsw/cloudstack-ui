@@ -1,21 +1,12 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, } from '@angular/core';
 
 import { ListService } from '../../shared/components/list/list.service';
-import {
-  VirtualMachine,
-  VmState
-} from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { VmListRowItemComponent } from '../vm-list-item/row-item/vm-list-row-item.component';
 import { VmListCardItemComponent } from '../vm-list-item/card-item/vm-list-card-item.component';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
-import { OsType } from '../../shared/models/os-type.model';
-import { Volume } from '../../shared/models/volume.model';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { OsType, Volume } from '../../shared/models';
+import { NgrxEntities } from '../../shared/interfaces';
 
 
 @Component({
@@ -25,7 +16,7 @@ import { Dictionary } from '@ngrx/entity/src/models';
 export class VmListComponent implements OnChanges {
   @Input() public vms: Array<VirtualMachine>;
   @Input() public volumes: Array<Volume>;
-  @Input() public osTypesMap: Dictionary<OsType>;
+  @Input() public osTypesMap: NgrxEntities<OsType>;
   @Input() public groupings: Array<any>;
   @Input() public mode: ViewMode;
   @Input() public query: string;
