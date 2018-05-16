@@ -169,8 +169,11 @@ describe('Security group firewall rules component', () => {
     expect(comp.isPredefinedTemplate).toBeFalsy();
   }));
 
-  it('should change view or edit mode', async(() => {
+  it('should change view mode for not shared group', async(() => {
     comp.editMode = false;
+    comp.inputs = {
+      canRemove: true
+    };
     comp.securityGroup = securityGroupTemplates[0];
     comp.confirmChangeMode();
     expect(comp.editMode).toBeTruthy();
