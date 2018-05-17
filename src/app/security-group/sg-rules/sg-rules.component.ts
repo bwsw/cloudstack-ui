@@ -179,7 +179,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
               ], {
                 queryParams: {
                   vm: this.vmId,
-                  viewMode: 'shared'
+                  viewMode: SecurityGroupType.Shared
                 }
               });
               this.onCloseDialog.emit();
