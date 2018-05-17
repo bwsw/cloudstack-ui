@@ -10,6 +10,7 @@ import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SgRuleComponent } from './sg-rule.component';
 import { FirewallRule } from '../shared/models';
+import { SecurityGroupViewMode } from '../sg-view-mode';
 
 
 @Component({
@@ -179,7 +180,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
               ], {
                 queryParams: {
                   vm: this.vmId,
-                  viewMode: SecurityGroupType.Shared
+                  viewMode: SecurityGroupViewMode.Shared
                 }
               });
               this.onCloseDialog.emit();
