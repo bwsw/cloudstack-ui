@@ -173,9 +173,9 @@
     tslib "^1.7.1"
     xhr2 "^0.1.4"
 
-"@angular/router@5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-5.1.0.tgz#4e7283e34cd3d244899b289d835b830640c7bad9"
+"@angular/router@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-5.2.0.tgz#0a43f1c6add592c9cb0b9846fc157fc5b23ee73d"
   dependencies:
     tslib "^1.7.1"
 
@@ -183,25 +183,25 @@
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@angularclass/hmr/-/hmr-2.1.3.tgz#34e658ed3da37f23b0a200e2da5a89be92bb209f"
 
-"@ngrx/effects@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-4.1.1.tgz#cb758b8527964b258ea41951f59aa144e3ef9fae"
+"@ngrx/effects@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-5.2.0.tgz#aa762b69cb6fd4644d724a1cecd265caa42baf09"
 
-"@ngrx/entity@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/entity/-/entity-4.1.1.tgz#ce82347ad96891955e80818c6dcc561c05c7a4ce"
+"@ngrx/entity@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/entity/-/entity-5.2.0.tgz#68b90b3159bb46ec5b2d0de3fa0bf4e80e94972d"
 
-"@ngrx/router-store@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-4.1.1.tgz#17fac7c0f5ffddef8b75e9a74ed2cb09074f3bca"
+"@ngrx/router-store@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-5.2.0.tgz#bf4b174ce19a36eba8211fc1ddeaf1e35ae74368"
 
-"@ngrx/store-devtools@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-4.1.1.tgz#20745c39c7560fdc05fa4f22638442a7ec7dd676"
+"@ngrx/store-devtools@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-5.2.0.tgz#2fff916a9aa349375826772b359dbb64b9e5d622"
 
-"@ngrx/store@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-4.1.1.tgz#680e34df2775e8852754ed777ffac95bd81b7de0"
+"@ngrx/store@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-5.2.0.tgz#627ed74c9cd95462930485d912a557117b23903e"
 
 "@ngtools/json-schema@1.2.0":
   version "1.2.0"

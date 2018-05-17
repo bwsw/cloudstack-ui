@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
-import { Account, Domain, getPath, OsFamily, OsType, Zone } from '../../shared/models';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { Account, Domain, getPath, OsFamily, OsType, TemplateGroup, Zone } from '../../shared/models';
+import { NgrxEntities } from '../../shared/interfaces';
 import { AuthService } from '../../shared/services/auth.service';
-import { TemplateGroup } from '../../shared/models/template-group.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/services/language.service';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
@@ -22,7 +21,7 @@ export class TemplateFiltersComponent implements OnInit {
   @Input() public accounts: Array<Account> = [];
   @Input() public osTypes: Array<OsType> = [];
   @Input() public zones: Array<Zone>;
-  @Input() public domains: Dictionary<Domain>;
+  @Input() public domains: NgrxEntities<Domain>;
   @Input() public groups: Array<TemplateGroup>;
   @Input() public selectedAccountIds: string[];
   @Input() public selectedGroupings: any[];
