@@ -25,7 +25,7 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
   @Input() step = '1';
   private floatNumbersRegEx: RegExp = /(?!-)[^\d.]*/g; // Remove all symbols expect digit symbols, "-", "."
   private integerNumbersRegEx: RegExp = /(?!-)[^\d]*/g; // Remove all symbols expect digit symbols, "-"
-  private onChange = (value: string) => {
+  private onChange = (value: number) => {
   }
   private onTouched = () => {
   }
@@ -43,7 +43,7 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
     }
     const regex = this.isInteger() ? this.integerNumbersRegEx : this.floatNumbersRegEx;
     const processedValue = initialValue.replace(regex, '');
-    const value: string = isNaN(processedValue) ? this.minValue.toString() : processedValue;
+    const value: number = isNaN(processedValue) ? +this.minValue : +processedValue;
     this.updateValue(value);
   }
 
@@ -56,11 +56,11 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
     this.onTouched();
   }
 
-  public writeValue(value: string): void {
+  public writeValue(value: number): void {
     this.el.nativeElement.value = value;
   }
 
-  public registerOnChange(fn: (value: string) => void): void {
+  public registerOnChange(fn: (value: number) => void): void {
     this.onChange = fn;
   }
 
@@ -68,7 +68,7 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  private updateValue(newValue: string): void {
+  private updateValue(newValue: number): void {
     // This allows you delete last symbol
     if (!newValue) {
       return this.updateElementValue(newValue);
@@ -91,7 +91,7 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
       this.setMinValue();
     } else if (!value) {
       // Workaround! For type=text minus bug
-      this.updateElementValue('');
+      this.updateElementValue(null);
     }
   }
 
@@ -103,14 +103,14 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
   }
 
   private setMaxValue() {
-    this.updateElementValue(this.maxValue.toString());
+    this.updateElementValue(+this.maxValue);
   }
 
   private setMinValue() {
-    this.updateElementValue(this.minValue.toString());
+    this.updateElementValue(+this.minValue);
   }
 
-  private updateElementValue(value: string) {
+  private updateElementValue(value: number) {
     this.writeValue(value);
     this.onChange(value); // This need to get value through 'change' event
   }
