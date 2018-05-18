@@ -110,8 +110,6 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
-import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
@@ -233,14 +231,12 @@ import { InputTypeNumberDirective } from './directives/input-type-number.directi
     ListComponent,
     ViewModeSwitchComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
     MatAutocompleteModule,
     MatCardModule,
     MatInputModule,
     MatListModule,
     MatSnackBarModule,
     MatTableModule,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -320,8 +316,6 @@ import { InputTypeNumberDirective } from './directives/input-type-number.directi
     ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
