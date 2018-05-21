@@ -1,19 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import { Utils } from '../../shared/services/utils/utils.service';
-import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import {
   GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken, GetICMPV6CodeTranslationToken,
+  GetICMPTypeTranslationToken,
+  GetICMPV6CodeTranslationToken,
   GetICMPV6TypeTranslationToken
 } from '../../shared/icmp/icmp-types';
 import { IPVersion, NetworkRuleType } from '../sg.model';
+import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { CidrUtils } from '../../shared/utils/cidr-utils';
 
 @Component({
   selector: 'cs-security-group-rule',
@@ -50,19 +46,19 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return Utils.cidrType(this.item.CIDR) === IPVersion.ipv4
+    return CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
       ? GetICMPTypeTranslationToken(this.item.icmpType)
       : GetICMPV6TypeTranslationToken(this.item.icmpType);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return Utils.cidrType(this.item.CIDR) === IPVersion.ipv4
+    return CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
       ? GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode)
       : GetICMPV6CodeTranslationToken(this.item.icmpType, this.item.icmpCode);
   }
 
   public get ruleParams(): Object {
-    const ipVersion = Utils.cidrType(this.item.CIDR) === IPVersion.ipv4
+    const ipVersion = CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
       ? IPVersion.ipv4
       : IPVersion.ipv6;
 

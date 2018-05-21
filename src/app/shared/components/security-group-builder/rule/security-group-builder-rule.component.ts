@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NetworkProtocol } from '../../../../security-group/network-rule.model';
-import {
-  GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken
-} from '../../../icmp/icmp-types';
-import { Utils } from '../../../services/utils/utils.service';
+import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../../icmp/icmp-types';
 import { RuleListItem } from '../security-group-builder.component';
+import { CidrUtils } from '../../../utils/cidr-utils';
 
 
 @Component({
@@ -85,7 +82,7 @@ export class SecurityGroupBuilderRuleComponent {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
       cidr: this.item.rule.CIDR,
-      ipVersion: Utils.cidrType(this.item.rule.CIDR)
+      ipVersion: CidrUtils.getCidrIpVersion(this.item.rule.CIDR)
     };
 
     let ruleParams;

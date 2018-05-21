@@ -1,8 +1,6 @@
 import { Params, RouterState, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
-import { IPVersion } from '../../../security-group/sg.model';
 import * as uuid from 'uuid';
-import * as cidrRegex from 'cidr-regex';
 
 export class Utils {
   public static getUniqueId(): string {
@@ -87,18 +85,6 @@ export class Utils {
   public static sortByName = (a, b) => {
     return a.name && a.name.localeCompare(b.name);
   };
-
-  public static cidrIsValid(cidr: string | null): boolean {
-    return cidrRegex({exact: true}).test(cidr);
-  }
-
-  public static cidrType(cidr: string | null): IPVersion | null {
-    if (!Utils.cidrIsValid(cidr)) {
-      return null;
-    }
-    const isIPv4 = cidrRegex.v4({exact: true}).test(cidr);
-    return isIPv4 ? IPVersion.ipv4 : IPVersion.ipv6;
-  }
 }
 
 
