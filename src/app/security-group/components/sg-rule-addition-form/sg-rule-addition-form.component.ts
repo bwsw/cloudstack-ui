@@ -14,7 +14,6 @@ import { ErrorStateMatcher } from '@angular/material';
 
 import { IPVersion, NetworkRuleType } from '../../sg.model';
 import { NetworkProtocol } from '../../network-rule.model';
-import { Utils } from '../../../shared/services/utils/utils.service';
 import {
   cidrValidator,
   endPortValidator,
@@ -31,8 +30,8 @@ import {
   icmpV4Types,
   icmpV6Types
 } from '../../../shared/icmp/icmp-types';
-import 'rxjs/add/operator/startWith';
 import { FirewallRule } from '../../shared/models';
+import { CidrUtils } from '../../../shared/utils/cidr-utils';
 
 
 export class PortsErrorStateMatcher implements ErrorStateMatcher {
@@ -250,7 +249,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
 
   private onCidrChange() {
     this.cidrChanges = this.cidr.valueChanges
-      .map(Utils.cidrType)
+      .map(CidrUtils.getCidrIpVersion)
       .distinctUntilChanged()
       .filter(() => this.isIcmpProtocol === true)
       .subscribe(() => {  // invokes only when cidr change IP version and protocol equals ICMP
@@ -367,7 +366,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private getIcmpTypes(): IcmpType[] {
-    const cidrIpVersion = Utils.cidrType(this.cidr.value);
+    const cidrIpVersion = CidrUtils.getCidrIpVersion(this.cidr.value);
     if (!cidrIpVersion) {
       return [];
     }
@@ -388,7 +387,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private getIcmpTypeTranslationToken(type: number) {
-    const cidrIpVersion = Utils.cidrType(this.cidr.value);
+    const cidrIpVersion = CidrUtils.getCidrIpVersion(this.cidr.value);
     if (!cidrIpVersion) {
       return;
     }
@@ -398,7 +397,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private getIcmpCodeTranslationToken(type: number, code: number) {
-    const cidrIpVersion = Utils.cidrType(this.cidr.value);
+    const cidrIpVersion = CidrUtils.getCidrIpVersion(this.cidr.value);
     if (!cidrIpVersion) {
       return;
     }

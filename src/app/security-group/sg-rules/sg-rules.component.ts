@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { NotificationService } from '../../shared/services/notification.service';
-import { Utils } from '../../shared/services/utils/utils.service';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { getType, IPVersion, NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
@@ -11,6 +10,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SgRuleComponent } from './sg-rule.component';
 import { FirewallRule } from '../shared/models';
 import { SecurityGroupViewMode } from '../sg-view-mode';
+import { CidrUtils } from '../../shared/utils/cidr-utils';
 
 
 @Component({
@@ -221,7 +221,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
   private filterRules(rules: NetworkRule[]) {
     return rules.filter((rule: NetworkRule) => {
       const filterByIPversion = (item: NetworkRule) => {
-        const ruleIPversion = item.CIDR && Utils.cidrType(item.CIDR) === IPVersion.ipv6
+        const ruleIPversion = item.CIDR && CidrUtils.getCidrIpVersion(item.CIDR) === IPVersion.ipv6
           ? IPVersion.ipv6
           : IPVersion.ipv4;
         return !this.selectedIPVersion.length

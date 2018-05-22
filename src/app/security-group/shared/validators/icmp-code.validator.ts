@@ -1,14 +1,14 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { icmpV4Types, icmpV6Types } from '../../../shared/icmp/icmp-types';
-import { Utils } from '../../../shared/services/utils/utils.service';
 import { IPVersion } from '../../sg.model';
+import { CidrUtils } from '../../../shared/utils/cidr-utils';
 
 export function icmpCodeValidator(cidr: AbstractControl, icmpType: AbstractControl) {
   return (control: AbstractControl): ValidationErrors | null => {
     const code = +control.value;
     const type = +icmpType.value;
-    const types = Utils.cidrType(cidr.value) === IPVersion.ipv4 ? icmpV4Types : icmpV6Types;
+    const types = CidrUtils.getCidrIpVersion(cidr.value) === IPVersion.ipv4 ? icmpV4Types : icmpV6Types;
     const typeObject = types.find(value => value.type === type);
     if (!typeObject) {
       return null;
