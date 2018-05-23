@@ -1,8 +1,8 @@
 <div class="top-row">
-  <h4>
+  <span class="disk-offering">
     <ng-container *ngIf="diskOffering">{{ diskOffering.name }}</ng-container>
     <ng-container *ngIf="!diskOffering">{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-container>
-  </h4>
+  </span>
 
   <button
     mat-button
