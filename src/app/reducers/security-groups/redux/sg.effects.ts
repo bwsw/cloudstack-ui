@@ -140,8 +140,7 @@ export class SecurityGroupEffects {
   }
 
   public createSecurityGroup({ mode, data, rules }: SecurityGroupCreationParams): Observable<SecurityGroup> {
-    return this.getSecurityGroupCreationRequest(mode, data, rules)
-      .switchMap(securityGroup => this.securityGroupService.get(securityGroup.id));
+    return this.getSecurityGroupCreationRequest(mode, data, rules);
   }
 
   private getSecurityGroupCreationRequest(

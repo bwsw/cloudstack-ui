@@ -1,13 +1,11 @@
-import {
-  Injectable,
-  Injector
-} from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
+  HttpHeaders
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NotificationService } from './notification.service';
@@ -38,9 +36,18 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     this.notificationService = this.injector.get(NotificationService);
     const user = this.authService.user;
     const sessionKey = user && user.sessionkey;
-    const request = sessionKey ? req.clone({
-      params: req.params.set('sessionKey', sessionKey)
-    }) : req;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
+      })
+    };
+    const cloneParams = sessionKey ?
+      { params: req.params.set('sessionKey', sessionKey), ...httpOptions } :
+      httpOptions;
+    const request = req.clone(cloneParams);
+
     return next.handle(request).do((event: HttpEvent<any>) => {
 
     }, (err: any) => {

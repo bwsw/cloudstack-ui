@@ -87,7 +87,11 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     const ruleCreationRequests = ingressRuleCreationRequests.concat(
       egressRuleCreationRequests);
 
-    return Observable.forkJoin(ruleCreationRequests).map(() => securityGroup);
+    const newSecurityGroup = Object.assign({}, securityGroup, {
+      ingressRules: ingressRules, egressRules: egressRules
+    });
+
+    return Observable.forkJoin(ruleCreationRequests).map(() => newSecurityGroup);
   }
 
   private getRuleCreationRequests(
