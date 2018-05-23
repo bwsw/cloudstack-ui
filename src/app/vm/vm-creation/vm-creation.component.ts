@@ -1,27 +1,28 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import * as clone from 'lodash/clone';
+
 import {
+  Account,
   AffinityGroup,
+  DiskOffering,
+  ICustomOfferingRestrictions,
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
   Zone
 } from '../../shared/models';
-import { DiskOffering, Account } from '../../shared/models';
 import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
 import { VmCreationAgreementComponent } from './template/agreement/vm-creation-agreement.component';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-// tslint:disable-next-line
-import { ICustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-// tslint:disable-next-line
-import { ProgressLoggerMessage, } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
 import { AuthService } from '../../shared/services/auth.service';
+// tslint:disable-next-line
+import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
-import * as clone from 'lodash/clone';
 
 @Component({
   selector: 'cs-vm-create',

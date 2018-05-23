@@ -1,5 +1,8 @@
-<div class="table-wrapper"
-      *ngIf="diskOfferings?.length">
+<div class="table-wrapper" *ngIf="diskOfferings?.length">
+  <h3 class="mat-dialog-title">
+    {{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}
+  </h3>
+
   <table class="mat-table">
     <thead>
     <tr class="mat-header-row">

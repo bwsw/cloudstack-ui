@@ -2,26 +2,23 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as merge from 'lodash/merge';
 import {
-  DefaultCustomServiceOfferingRestrictions,
-  ICustomOfferingRestrictions,
-  ICustomOfferingRestrictionsByZone
-} from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
-// tslint:disable-next-line
-import {
   CustomServiceOffering,
   customServiceOfferingFallbackParams,
   ICustomServiceOffering
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
 import {
+  DefaultCustomServiceOfferingRestrictions,
   DefaultServiceOfferingClassId,
+  ICustomOfferingRestrictions,
+  ICustomOfferingRestrictionsByZone,
   ServiceOffering,
+  ServiceOfferingClass,
   ServiceOfferingParamKey,
   ServiceOfferingType,
-  ServiceOfferingClass
-} from '../../../shared/models/service-offering.model';
-import { Tag } from '../../../shared/models/tag.model';
-import { Zone } from '../../../shared/models/zone.model';
+  Tag,
+  Zone
+} from '../../../shared/models';
 import {
   OfferingAvailability,
   OfferingCompatibilityPolicy,

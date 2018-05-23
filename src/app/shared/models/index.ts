@@ -22,3 +22,4 @@ export * from './action.model';
 export * from './grouping.model';
 export * from './user.model';
 export * from './template-group.model';
+export * from './custom-offering-restrictions';

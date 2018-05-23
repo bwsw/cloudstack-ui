@@ -32,15 +32,15 @@
   </div>
 </ng-container>
 
-<div *ngIf="!showOverlay">
+<ng-container *ngIf="!showOverlay">
   <h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
-  <form
-    (ngSubmit)="onVmCreationSubmit($event)"
-    #vmCreateForm="ngForm"
-    *loading="fetching"
-    novalidate
-  >
-    <div class="mat-dialog-content">
+  <div mat-dialog-content>
+    <form
+      (ngSubmit)="onVmCreationSubmit($event)"
+      #vmCreateForm="ngForm"
+      *loading="fetching"
+      novalidate
+    >
       <div class="container">
         <div *ngIf="enoughResources && vmCreationState" class="left-column">
           <div>
@@ -103,7 +103,6 @@
           </div>
 
           <div *ngIf="diskOfferingsAreAllowed">
-            <h4 class="disk-offerings">{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
             <cs-disk-offering-selector
               name="diskOffering"
               [diskOfferings]="diskOfferings"
@@ -124,7 +123,6 @@
               [units]="'UNITS.GB' | translate"
             ></cs-slider>
           </div>
-
         </div>
 
         <div *ngIf="enoughResources && vmCreationState" class="right-column">
@@ -231,25 +229,25 @@
         </div>
       </div>
 
-    </div>
-    <div class="mat-dialog-actions">
-      <button
-        mat-button
-        color="primary"
-        matDialogClose
-        type="button"
-        (click)="cancel.emit()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
-      </button>
-      <button
-        mat-button
-        color="primary"
-        type="submit"
-        [disabled]="!vmCreateForm.valid || nameIsTaken || !vmCreationState.template"
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-    </div>
-  </form>
-</div>
+      <div class="mat-dialog-actions">
+        <button
+          mat-button
+          color="primary"
+          matDialogClose
+          type="button"
+          (click)="cancel.emit()"
+        >
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="!vmCreateForm.valid || nameIsTaken || !vmCreationState.template"
+        >
+          {{ 'COMMON.CREATE' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-container>

@@ -16,7 +16,6 @@ import { CustomServiceOfferingComponent } from './custom-service-offering/custom
 import { ServiceOfferingDialogComponent } from './service-offering-dialog/service-offering-dialog.component';
 import { ServiceOfferingFilterComponent } from './service-offering-filter/service-offering-filter.component';
 import { ServiceOfferingListComponent } from './service-offering-list/service-offering-list.component';
-import { ServiceOfferingSelectorComponent } from './service-offering-selector/service-offering-selector.component';
 
 @NgModule({
   imports: [
@@ -37,20 +36,17 @@ import { ServiceOfferingSelectorComponent } from './service-offering-selector/se
   ],
   exports: [
     CustomServiceOfferingComponent,
-    ServiceOfferingDialogComponent,
-    ServiceOfferingSelectorComponent
+    ServiceOfferingDialogComponent
   ],
   declarations: [
     CustomServiceOfferingComponent,
     ServiceOfferingDialogComponent,
     ServiceOfferingFilterComponent,
-    ServiceOfferingListComponent,
-    ServiceOfferingSelectorComponent
+    ServiceOfferingListComponent
   ],
   entryComponents: [
     CustomServiceOfferingComponent,
-    ServiceOfferingDialogComponent,
-    ServiceOfferingSelectorComponent,
+    ServiceOfferingDialogComponent
   ]
 })
 export class ServiceOfferingModule {

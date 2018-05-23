@@ -2,10 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { ICustomOfferingRestrictions, ServiceOffering } from '../../../../shared/models';
 // tslint:disable-next-line
-import { VmCreationServiceOfferingContainerComponent } from '../../vm/vm-creation/service-offering/vm-creation-service-offering.container';
-import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
+import { VmCreationServiceOfferingContainerComponent } from '../../service-offering/vm-creation-service-offering.container';
 
 
 @Component({

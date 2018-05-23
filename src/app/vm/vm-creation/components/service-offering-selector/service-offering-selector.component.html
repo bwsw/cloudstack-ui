@@ -10,7 +10,7 @@
 
 <div class="mat-input-wrapper">
   <ng-container *ngIf="serviceOffering">
-    <span class="custom-offering-info" [matTooltip]="offeringName | async">
+    <span class="service-offering-info truncate" [matTooltip]="offeringName | async">
       {{ offeringName | async }}
     </span>
   </ng-container>

@@ -3,16 +3,9 @@ import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import {
-  ServiceOffering,
-  ServiceOfferingClass
-} from '../../shared/models/service-offering.model';
+import { ICustomOfferingRestrictions, ServiceOffering, ServiceOfferingClass } from '../../shared/models';
 import { Language } from '../../shared/services/language.service';
-import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
-import {
-  CustomServiceOffering,
-  ICustomServiceOffering
-} from '../custom-service-offering/custom-service-offering';
+import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 
 @Component({
@@ -32,12 +25,13 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input() public showFields: boolean;
   @Output() public selectedOfferingChange = new EventEmitter();
 
-  public list: Array<{ soClass: ServiceOfferingClass, items: Array<ServiceOffering>}>;
+  public list: Array<{ soClass: ServiceOfferingClass, items: Array<ServiceOffering> }>;
 
   constructor(
     private dialog: MatDialog,
     private translateService: TranslateService
-  ) { }
+  ) {
+  }
 
   public ngOnChanges(changes): void {
     this.getGroupedOfferings();
@@ -99,12 +93,12 @@ export class ServiceOfferingListComponent implements OnChanges {
           };
         })
     } else {
-      this.list = [ { soClass: null, items: this.offeringList } ];
+      this.list = [{ soClass: null, items: this.offeringList }];
     }
   }
 
   public filterOfferings(list: ServiceOffering[], soClass: ServiceOfferingClass) {
-    const classesMap = [ soClass ].reduce((m, i) => ({ ...m, [i.id]: i }), {});
+    const classesMap = [soClass].reduce((m, i) => ({ ...m, [i.id]: i }), {});
     return list.filter(offering => classesFilter(offering, this.classes, classesMap));
   }
 }

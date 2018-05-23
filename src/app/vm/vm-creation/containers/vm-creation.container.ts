@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { State } from '../../../reducers';
 import {
+  AccountResourceType,
   AffinityGroup,
   DiskOffering,
   InstanceGroup,
@@ -11,7 +12,6 @@ import {
   SSHKeyPair,
   Zone
 } from '../../../shared/models';
-import { AccountResourceType } from '../../../shared/models/account.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmService } from '../../shared/vm.service';
@@ -77,7 +77,8 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
       (onVmDeploymentFailed)="showOverlayChange()"
-    ></cs-vm-create>`
+    ></cs-vm-create>
+  `
 })
 export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
