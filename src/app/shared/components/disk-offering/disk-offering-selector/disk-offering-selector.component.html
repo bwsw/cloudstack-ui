@@ -8,7 +8,8 @@
 
 <div class="mat-input-wrapper">
   <span class="disk-offering-info truncate">
-    <ng-container *ngIf="diskOffering">{{ diskOffering.name }}</ng-container>
-    <ng-container *ngIf="!diskOffering">{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-container>
+    <ng-container *ngIf="diskOffering; then offeringName else nameStub"></ng-container>
+    <ng-template #offeringName>{{ diskOffering.name }}</ng-template>
+    <ng-template #nameStub>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-template>
   </span>
 </div>

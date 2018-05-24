@@ -9,15 +9,14 @@
 </div>
 
 <div class="mat-input-wrapper">
-  <ng-container *ngIf="serviceOffering">
+  <ng-container *ngIf="serviceOffering; then offeringNameBlock else nameStub"></ng-container>
+  <ng-template #offeringNameBlock>
     <span class="service-offering-info truncate" [matTooltip]="offeringName | async">
       {{ offeringName | async }}
     </span>
-  </ng-container>
-  <ng-container *ngIf="!serviceOffering">
-    <span>
-      {{ 'VM_PAGE.VM_CREATION.NO_OFFERINGS' | translate }}
-    </span>
-  </ng-container>
+  </ng-template>
+  <ng-template #nameStub>
+    {{ 'VM_PAGE.VM_CREATION.NO_OFFERINGS' | translate }}
+  </ng-template>
 </div>
 
