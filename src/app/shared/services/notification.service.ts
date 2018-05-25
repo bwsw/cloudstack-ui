@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
+export const MAX_NOTIFICATION_PARAM_LENGTH = 40;
+
 @Injectable()
 export class NotificationService {
   public snackBarConfig: MatSnackBarConfig;

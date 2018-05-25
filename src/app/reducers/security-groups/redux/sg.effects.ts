@@ -4,13 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import {
-  getType,
-  SecurityGroup,
-  SecurityGroupType
-} from '../../../security-group/sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { MAX_NOTIFICATION_PARAM_LENGTH, NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
@@ -19,6 +15,7 @@ import * as securityGroup from './sg.actions';
 import * as fromSecurityGroups from './sg.reducers';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
+import { Truncate } from '../../../shared/utils/truncate';
 
 @Injectable()
 export class SecurityGroupEffects {
@@ -167,7 +164,7 @@ export class SecurityGroupEffects {
   private onNotify(securityGroup: SecurityGroup) {
     this.notificationService.message({
       translationToken: this.createSuccessMessage[getType(securityGroup)],
-      interpolateParams: { name: securityGroup.name }
+      interpolateParams: { name: Truncate.macStyle(securityGroup.name, MAX_NOTIFICATION_PARAM_LENGTH) }
     });
   }
 
@@ -184,7 +181,7 @@ export class SecurityGroupEffects {
       .map(() => {
         this.notificationService.message({
           translationToken: this.deleteSuccessMessage[getType(securityGroup)],
-          interpolateParams: { name: securityGroup.name }
+          interpolateParams: { name: Truncate.macStyle(securityGroup.name, MAX_NOTIFICATION_PARAM_LENGTH) }
         });
       });
   }

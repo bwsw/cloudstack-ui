@@ -10,7 +10,7 @@ import { IsoService } from '../../../template/shared/iso.service';
 import { Template } from '../../../template/shared/template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { MAX_NOTIFICATION_PARAM_LENGTH, NotificationService } from '../../../shared/services/notification.service';
 import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
@@ -20,7 +20,7 @@ import * as uniqBy from 'lodash/uniqBy';
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
-import { truncate } from '../../../shared/utils/truncate';
+import { Truncate } from '../../../shared/utils/truncate';
 
 @Injectable()
 export class TemplateEffects {
@@ -169,7 +169,7 @@ export class TemplateEffects {
   private onNotify(template: any, message: string) {
     this.notificationService.message({
       translationToken: message,
-      interpolateParams: { name: truncate(template.name, 40) }
+      interpolateParams: { name: Truncate.macStyle(template.name, MAX_NOTIFICATION_PARAM_LENGTH) }
     });
   }
 

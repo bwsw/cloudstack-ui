@@ -11,7 +11,7 @@ import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-a
 import { isRoot } from '../../../shared/models';
 import { Volume } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { MAX_NOTIFICATION_PARAM_LENGTH, NotificationService } from '../../../shared/services/notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
@@ -24,6 +24,7 @@ import * as fromVolumes from './volumes.reducers';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 // tslint:disable-next-line
 import { VolumeDeleteDialogComponent } from '../../../shared/actions/volume-actions/volume-delete/volume-delete-dialog.component';
+import { Truncate } from '../../../shared/utils/truncate';
 
 @Injectable()
 export class VolumesEffects {
@@ -365,7 +366,7 @@ export class VolumesEffects {
   private onNotify(volume: Volume, message: string) {
     this.notificationService.message({
       translationToken: message,
-      interpolateParams: { name: volume.name }
+      interpolateParams: { name: Truncate.macStyle(volume.name, MAX_NOTIFICATION_PARAM_LENGTH) }
     });
   }
 

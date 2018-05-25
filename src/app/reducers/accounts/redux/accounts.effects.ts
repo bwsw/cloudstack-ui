@@ -7,13 +7,14 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models/account.model';
 import { AccountService } from '../../../shared/services/account.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { MAX_NOTIFICATION_PARAM_LENGTH, NotificationService } from '../../../shared/services/notification.service';
 import { UserService } from '../../../shared/services/user.service';
 
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import * as accountActions from './accounts.actions';
+import { Truncate } from '../../../shared/utils/truncate';
 
 @Injectable()
 export class AccountsEffects {
@@ -212,7 +213,7 @@ export class AccountsEffects {
   private onNotify(user, message) {
     this.notificationService.message({
       translationToken: message,
-      interpolateParams: { username: user.username }
+      interpolateParams: { username: Truncate.macStyle(user.username, MAX_NOTIFICATION_PARAM_LENGTH) }
     });
   }
 

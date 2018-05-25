@@ -9,7 +9,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Snapshot, Volume } from '../../../shared/models';
 import { ISnapshotData } from '../../../shared/models/volume.model';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { MAX_NOTIFICATION_PARAM_LENGTH, NotificationService } from '../../../shared/services/notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VirtualMachine, VmState } from '../../../vm';
 // tslint:disable-next-line
@@ -21,6 +21,7 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 
 import * as snapshotActions from './snapshot.actions';
+import { Truncate } from '../../../shared/utils/truncate';
 
 
 @Injectable()
@@ -192,7 +193,7 @@ export class SnapshotEffects {
   private onNotify(snapshot: Snapshot, message: string) {
     this.notificationService.message({
       translationToken: message,
-      interpolateParams: { name: snapshot.name }
+      interpolateParams: { name: Truncate.macStyle(snapshot.name, MAX_NOTIFICATION_PARAM_LENGTH) }
     });
   }
 
