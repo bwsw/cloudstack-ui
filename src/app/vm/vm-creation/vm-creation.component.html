@@ -156,7 +156,7 @@
               <input
                 name="affinityGroup"
                 matInput
-                pattern="[a-zA-ZА-яЁё]{1}[a-zA-ZА-яЁё0-9\-\_\.\!\?\ ]{0,61}[a-zA-ZА-яЁё0-9\-\_\.\!\?\ ]$"
+                pattern="[a-zA-ZА-яЁё]{1}[^,;]{0,63}$"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
                 [matAutocomplete]="affinityGroups"
                 [maxlength]="maxEntityNameLength"
