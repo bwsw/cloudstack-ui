@@ -1,6 +1,6 @@
 import { Directive, ElementRef, forwardRef, HostListener, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { cancel, debounce } from 'typescript-debounce-decorator';
+import * as debounce from 'lodash/debounce';
 
 /*
  * This directive is used to prevent user to the entry of the text values into the
@@ -25,6 +25,9 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
   @Input() step = '1';
   private floatNumbersRegEx: RegExp = /(?!-)[^\d.]*/g; // Remove all symbols expect digit symbols, "-", "."
   private integerNumbersRegEx: RegExp = /(?!-)[^\d]*/g; // Remove all symbols expect digit symbols, "-"
+  // Debounce allows, for example, to enter 11 if the minimum value is 2.
+  // Otherwise, the first unit will be changed to a minimum value of 2 and it will be 21
+  private setMinValueDebounced = debounce(this.setMinValue, 1000);
   private onChange = (value: number) => {
   }
   private onTouched = () => {
@@ -34,7 +37,7 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
   }
 
   @HostListener('input') onInputEvent() {
-    cancel(this.setMinValueDebounced);
+    this.setMinValueDebounced.cancel();
     const initialValue = this.el.nativeElement.value;
     // Workaround! If user enter "-" in empty input or "." then initialValue = ''
     // This is input type=text bug, so if initialValue empty don't do anything
@@ -93,13 +96,6 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
       // Workaround! For type=text minus bug
       this.updateElementValue(null);
     }
-  }
-
-  // Debounce allows, for example, to enter 11 if the minimum value is 2.
-  // Otherwise, the first unit will be changed to a minimum value of 2 and it will be 21
-  @debounce(500, {leading: false})
-  private setMinValueDebounced() {
-    this.setMinValue();
   }
 
   private setMaxValue() {
