@@ -4,17 +4,16 @@ import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { Account } from '../../../shared/models/account.model';
-import { AccountService } from '../../../shared/services/account.service';
-import { MAX_NOTIFICATION_PARAM_LENGTH, NotificationService } from '../../../shared/services/notification.service';
-import { UserService } from '../../../shared/services/user.service';
 
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { Account } from '../../../shared/models';
+import { AccountService } from '../../../shared/services/account.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { UserService } from '../../../shared/services/user.service';
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import * as accountActions from './accounts.actions';
-import { Truncate } from '../../../shared/utils/truncate';
 
 @Injectable()
 export class AccountsEffects {
@@ -136,10 +135,9 @@ export class AccountsEffects {
   @Effect({ dispatch: false })
   userDeleteSuccess$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_DELETE_SUCCESS)
-    .do((action: accountActions.AccountUserDeleteSuccess) => this.onNotify(
-      action.payload,
-      this.successAccountUserRemoveMessage
-    ));
+    .do(() => {
+      this.notificationService.message('NOTIFICATIONS.ACCOUNT.USER_DELETED');
+    });
 
   @Effect()
   userCreate$: Observable<Action> = this.actions$
@@ -152,8 +150,8 @@ export class AccountsEffects {
   @Effect({ dispatch: false })
   userCreateSuccess$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS)
-    .do((action: accountActions.AccountUserCreateSuccess) => {
-      this.onNotify(action.payload, this.successAccountUserCreateMessage);
+    .do(() => {
+      this.notificationService.message('NOTIFICATIONS.ACCOUNT.USER_CREATED');
       this.dialog.closeAll();
     });
 
@@ -168,10 +166,9 @@ export class AccountsEffects {
   @Effect({ dispatch: false })
   userUpdateSuccess$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_UPDATE_SUCCESS)
-    .do((action: accountActions.AccountUserUpdateSuccess) => this.onNotify(
-      action.payload,
-      this.successAccountUserUpdateMessage
-    ));
+    .do(() => {
+      this.notificationService.message('NOTIFICATIONS.ACCOUNT.USER_UPDATED');
+    });
 
   @Effect()
   userGenerateKeys$: Observable<Action> = this.actions$
@@ -195,9 +192,6 @@ export class AccountsEffects {
         }))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
-  private successAccountUserCreateMessage = 'NOTIFICATIONS.ACCOUNT.USER_CREATED';
-  private successAccountUserRemoveMessage = 'NOTIFICATIONS.ACCOUNT.USER_DELETED';
-  private successAccountUserUpdateMessage = 'NOTIFICATIONS.ACCOUNT.USER_UPDATED';
 
   constructor(
     private actions$: Actions,
@@ -208,13 +202,6 @@ export class AccountsEffects {
     private router: Router,
     private dialog: MatDialog
   ) {
-  }
-
-  private onNotify(user, message) {
-    this.notificationService.message({
-      translationToken: message,
-      interpolateParams: { username: Truncate.macStyle(user.username, MAX_NOTIFICATION_PARAM_LENGTH) }
-    });
   }
 
   private handleError(error): void {

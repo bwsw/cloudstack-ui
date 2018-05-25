@@ -254,24 +254,24 @@
   },
   "NOTIFICATIONS": {
     "TEMPLATE": {
-      "CUSTOM_TEMPLATE_CREATED": "Template {{ name }} created successfully",
-      "CUSTOM_TEMPLATE_DELETED": "Template {{ name }} deleted successfully",
+      "CUSTOM_TEMPLATE_CREATED": "Template created successfully",
+      "CUSTOM_TEMPLATE_DELETED": "Template deleted successfully",
       "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
-      "SHARED_GROUP_CREATED": "Shared group {{ name }} created successfully",
-      "SHARED_GROUP_DELETED": "Shared group {{ name }} deleted successfully",
-      "PRIVATE_GROUP_DELETED": "Private group {{ name }} deleted successfully",
-      "CONVERT_PRIVATE_TO_SHARED": "Private group {{ name }} converted to Shared successfully"
+      "SHARED_GROUP_CREATED": "Shared group created successfully",
+      "SHARED_GROUP_DELETED": "Shared group deleted successfully",
+      "PRIVATE_GROUP_DELETED": "Private group deleted successfully",
+      "CONVERT_PRIVATE_TO_SHARED": "Private group converted to Shared successfully"
     },
     "ACCOUNT": {
-      "USER_CREATED": "User {{ username }} created successfully",
-      "USER_UPDATED": "User {{ username }} updated successfully",
-      "USER_DELETED": "User {{ username }} deleted successfully"
+      "USER_CREATED": "User created successfully",
+      "USER_UPDATED": "User updated successfully",
+      "USER_DELETED": "User deleted successfully"
     },
     "VOLUME": {
-      "VOLUME_FROM_SNAPSHOT_CREATED": "Volume {{ name }} created successfully"
+      "VOLUME_FROM_SNAPSHOT_CREATED": "Volume created successfully"
     },
     "SNAPSHOT": {
-      "DELETE_SUCCESS": "Snapshot {{ name }} deleted successfully"
+      "DELETE_SUCCESS": "Snapshot deleted successfully"
     }
   },
   "AUTH": {

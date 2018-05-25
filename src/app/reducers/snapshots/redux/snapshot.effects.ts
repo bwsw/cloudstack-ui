@@ -5,23 +5,21 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { Snapshot, Volume } from '../../../shared/models';
-import { ISnapshotData } from '../../../shared/models/volume.model';
+import { ISnapshotData, Snapshot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { MAX_NOTIFICATION_PARAM_LENGTH, NotificationService } from '../../../shared/services/notification.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VirtualMachine, VmState } from '../../../vm';
+import { State } from '../../index';
 // tslint:disable-next-line
 import { SnapshotCreationComponent } from '../../../vm/vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
-import { State } from '../../index';
-import * as vmActions from '../../vm/redux/vm.actions';
 import { VirtualMachinesEffects } from '../../vm/redux/vm.effects';
+import * as vmActions from '../../vm/redux/vm.actions';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
-
 import * as snapshotActions from './snapshot.actions';
-import { Truncate } from '../../../shared/utils/truncate';
 
 
 @Injectable()
@@ -157,8 +155,8 @@ export class SnapshotEffects {
   @Effect({ dispatch: false })
   deleteSnapshotSuccess$ = this.actions$
     .ofType(snapshotActions.DELETE_SNAPSHOT_SUCCESS)
-    .do((action: snapshotActions.DeleteSnapshotSuccess) => {
-      this.onNotify(action.payload, 'NOTIFICATIONS.SNAPSHOT.DELETE_SUCCESS');
+    .do(() => {
+      this.notificationService.message('NOTIFICATIONS.SNAPSHOT.DELETE_SUCCESS');
     })
     .map((action: snapshotActions.DeleteSnapshotSuccess) => action.payload)
     .filter((snapshot: Snapshot) => this.router.isActive(
@@ -188,13 +186,6 @@ export class SnapshotEffects {
     private vmEffects: VirtualMachinesEffects,
     private router: Router
   ) {
-  }
-
-  private onNotify(snapshot: Snapshot, message: string) {
-    this.notificationService.message({
-      translationToken: message,
-      interpolateParams: { name: Truncate.macStyle(snapshot.name, MAX_NOTIFICATION_PARAM_LENGTH) }
-    });
   }
 
   private handleError(error): void {
