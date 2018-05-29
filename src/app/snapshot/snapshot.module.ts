@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SharedModule } from '../shared/shared.module';
-// tslint:disable-next-line
+import { MaterialModule } from '../material/material.module';
+
 import { DayOfWeekComponent } from './recurring-snapshots/day-of-week/day-of-week.component';
 import { DayPeriodComponent } from './recurring-snapshots/day-period/day-period.component';
 import { DailyPolicyComponent } from './recurring-snapshots/policy-editor/daily/daily-policy.component';
@@ -35,17 +35,13 @@ import { SnapshotSidebarComponent } from './snapshots-page/snapshot-sidebar/snap
 import { SnapshotSidebarContainerComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.container';
 import { SnapshotsPageComponent } from './snapshots-page/snapshots-page.component';
 import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
-import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     MaterialModule,
     DraggableSelectModule,
-    FormsModule,
-    TranslateModule,
-    SharedModule,
-    ReactiveFormsModule,
     RouterModule
   ],
   exports: [

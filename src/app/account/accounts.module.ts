@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
 import { ConfigurationEffects } from '../reducers/configuration/redux/configurations.effects';
@@ -18,8 +21,6 @@ import { ResourceLimitsEffects } from '../reducers/resource-limit/redux/resource
 import { resourceLimitsReducers } from '../reducers/resource-limit/redux/resource-limits.reducers';
 import { RolesEffects } from '../reducers/roles/redux/roles.effects';
 import { roleReducers } from '../reducers/roles/redux/roles.reducers';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SharedModule } from '../shared/shared.module';
 import { AccountActionsContainerComponent } from './account-container/account-actions.container';
 import { AccountCreationContainerComponent } from './account-container/account-creation.container';
 import { AccountDetailsContainerComponent } from './account-container/account-details.container';
@@ -48,18 +49,14 @@ import { AccountCardItemComponent } from './account/card-item/account-card-item.
 import { AccountRowItemComponent } from './account/row-item/account-row-item.component';
 import { AccountCreationDialogComponent } from './creation-form/account-creation-dialog.component';
 import { AccountCreationComponent } from './creation-form/account-creation.component';
-import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    RouterModule,
     SharedModule,
-    TranslateModule,
+    MaterialModule,
+    DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
+    RouterModule,
     DraggableSelectModule,
     StoreModule.forFeature('configurations', configurationReducers),
     StoreModule.forFeature('resourceLimits', resourceLimitsReducers),

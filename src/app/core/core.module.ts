@@ -1,13 +1,12 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { DragulaModule } from 'ng2-dragula';
+
+import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { MaterialModule } from '../material/material.module';
-import { DragulaModule } from 'ng2-dragula';
-import { TranslateModule } from '@ngx-translate/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
 
 const COMPONENTS = [
   SidenavComponent
@@ -16,10 +15,9 @@ const COMPONENTS = [
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     MaterialModule,
     DragulaModule,
-    TranslateModule,
-    FormsModule,
     RouterModule
   ],
   exports: COMPONENTS,

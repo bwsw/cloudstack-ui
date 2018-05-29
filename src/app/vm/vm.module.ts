@@ -1,14 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
-// tslint:disable max-line-length
+
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { PulseModule } from '../pulse/pulse.module';
+import { ServiceOfferingModule } from '../service-offering/service-offering.module';
+import { SnapshotModule } from '../snapshot/snapshot.module';
+import { TagsModule } from '../tags/tags.module';
+import { TemplateModule } from '../template';
+
+// tslint:disable max-line-length
 import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.effects';
 import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
@@ -22,12 +29,6 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
-import { ServiceOfferingModule } from '../service-offering/service-offering.module';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SharedModule } from '../shared/shared.module';
-import { SnapshotModule } from '../snapshot/snapshot.module';
-import { TagsModule } from '../tags/tags.module';
-import { TemplateModule } from '../template';
 import { NetworkDetailContainerComponent } from './container/network-detail.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
 import { StorageDetailContainerComponent } from './container/storage-detail.container';
@@ -98,28 +99,23 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { WebShellService } from './web-shell/web-shell.service';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
-import { MaterialModule } from '../material/material.module';
 // tslint:enable max-line-length
-
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     MaterialModule,
     DynamicModule.withComponents([VmListCardItemComponent]),
     DynamicModule.withComponents([VmListRowItemComponent]),
-    FormsModule,
     DraggableSelectModule,
     PulseModule,
-    ReactiveFormsModule,
     RouterModule,
     ServiceOfferingModule,
-    SharedModule,
     SnapshotModule,
     TagsModule,
     TemplateModule,
     TranslateModule,
-    HttpModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
     StoreModule.forFeature('account-tags', accountTagsReducers),

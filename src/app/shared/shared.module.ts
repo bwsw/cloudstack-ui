@@ -1,14 +1,14 @@
-import { CdkTableModule } from '@angular/cdk/table';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
+// tslint:disable max-line-length
+import { MemoryStorageService } from './services/memory-storage.service';
 import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
 import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
 import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
@@ -16,15 +16,12 @@ import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offe
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
-// tslint:disable-next-line
 import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
-// tslint:disable-next-line
 import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
 import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
 import { AccountActionsService } from './actions/account-actions/account-actions.service';
 import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
 import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
-// tslint:disable-next-line
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
@@ -32,11 +29,9 @@ import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-
 import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
-// tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
-
 import {
   CalendarComponent,
   CalendarMonthComponent,
@@ -59,7 +54,6 @@ import {
   VmStatisticsComponent
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-// tslint:disable-next-line
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
@@ -70,15 +64,12 @@ import { ParametersEditPairComponent } from './components/parameters-pair/parame
 import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
 import { PopoverModule } from './components/popover';
 import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
-// tslint:disable-next-line
 import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
 import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
-// tslint:disable-next-line
 import { SecurityGroupBuilderRuleComponent } from './components/security-group-builder/rule/security-group-builder-rule.component';
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
-// tslint:disable-next-line
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
@@ -140,7 +131,6 @@ import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
 import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
-// tslint:disable-next-line
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
@@ -156,26 +146,28 @@ const SHARED_DIRECTIVES = [
 ];
 
 
+// tslint:enable max-line-length
+
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
-    DynamicModule.withComponents([GroupedListComponent]),
     FormsModule,
-    CdkTableModule,
+    ReactiveFormsModule,
+    DynamicModule.withComponents([GroupedListComponent]),
     ClipboardModule,
     DragulaModule,
-    CdkTableModule,
     PopoverModule,
     TranslateModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
     EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
-    ReactiveFormsModule
   ],
   exports: [
-    CdkTableModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
     AccountActionsComponent,
     BadgeDirective,
     CharacterCountComponent,
@@ -230,7 +222,6 @@ const SHARED_DIRECTIVES = [
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    ReactiveFormsModule,
     SHARED_DIRECTIVES,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent

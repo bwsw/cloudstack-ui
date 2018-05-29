@@ -4,28 +4,28 @@
 <div class="mat-dialog-content" *ngIf="volume?.snapshots?.length">
   <mat-table [dataSource]="dataSource" matSort>
     <!-- Name Column -->
-    <ng-container cdkColumnDef="name">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NAME' | translate}}
       </mat-header-cell>
-      <mat-cell *cdkCellDef="let row"> {{ row.name }}</mat-cell>
+      <mat-cell *matCellDef="let row"> {{ row.name }}</mat-cell>
     </ng-container>
 
     <!-- Date Column -->
-    <ng-container cdkColumnDef="date">
-      <mat-header-cell *cdkHeaderCellDef mat-sort-header>
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.DATE' | translate}}
       </mat-header-cell>
-      <mat-cell *cdkCellDef="let row">
+      <mat-cell *matCellDef="let row">
         {{ snapshotCreatedDate(row) | date:'y-MM-dd H:m:s' }}</mat-cell>
     </ng-container>
 
     <!-- Actions Column -->
-    <ng-container cdkColumnDef="actions">
-      <mat-header-cell *cdkHeaderCellDef>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.ACTIONS' | translate}}
       </mat-header-cell>
-      <mat-cell *cdkCellDef="let row">
+      <mat-cell *matCellDef="let row">
         <button
           *ngFor="let action of snapshotActionsService.actions"
           mat-icon-button
@@ -40,8 +40,8 @@
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   <div class="row" *ngIf="!volume.snapshots?.length">
     {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NO_SNAPSHOTS' | translate }}

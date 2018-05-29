@@ -1,45 +1,44 @@
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { DragulaModule } from 'ng2-dragula';
 
 import { CoreModule } from './core/core.module';
-import { AppComponent } from './app.component';
-import { routes } from './app.routing';
-import { LoginComponent } from './auth/login.component';
-import { LogoutComponent } from './auth/logout.component';
+import { SharedModule } from './shared/shared.module';
+import { MaterialModule } from './material/material.module';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
 import { EventsModule } from './events/events.module';
-import { HomeComponent } from './home/home.component';
 import { SecurityGroupModule } from './security-group/sg.module';
 import { ServiceOfferingModule } from './service-offering/service-offering.module';
 import { SettingsModule } from './settings/settings.module';
-import { AuthService } from './shared/services/auth.service';
-import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
-import { SharedModule } from './shared/shared.module';
 import { SnapshotModule } from './snapshot/snapshot.module';
 import { VolumeModule } from './volume';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
 import { VmModule } from './vm';
+import { AccountModule } from './account/accounts.module';
+
+import { AppComponent } from './app.component';
+import { routes } from './app.routing';
+import { LoginComponent } from './auth/login.component';
+import { LogoutComponent } from './auth/logout.component';
+import { HomeComponent } from './home/home.component';
+import { AuthService } from './shared/services/auth.service';
+import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { ConfigService } from './shared/services/config.service';
 import { LanguageService } from './shared/services/language.service';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { environment } from '../environments/environment';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
 import { metaReducers, reducers } from './reducers/index';
 import { CustomRouterStateSerializer } from './shared/services/utils/utils.service';
-import { AccountModule } from './account/accounts.module';
-import { MaterialModule } from './material/material.module';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -63,18 +62,17 @@ export function InitAppFactory(
     // BrowserModule, as the import order matters for NgModules.
     BrowserModule,
     CoreModule,
+    SharedModule,
     MaterialModule,
     BrowserAnimationsModule,
     DialogModule,
     HttpClientModule,
-    FormsModule,
     DragulaModule,
     EventsModule,
     ScrollDispatchModule,
     SecurityGroupModule,
     ServiceOfferingModule,
     SettingsModule,
-    SharedModule,
     SnapshotModule,
     VolumeModule,
     SshKeysModule,
