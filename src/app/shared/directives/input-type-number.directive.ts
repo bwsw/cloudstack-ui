@@ -71,20 +71,18 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  private updateValue(newValue: number): void {
+  private updateValue(value: number): void {
     // This allows you delete last symbol
-    if (!newValue) {
-      return this.updateElementValue(newValue);
+    if (!value) {
+      return this.updateElementValue(value);
     }
-
-    const value: number = +newValue;
 
     if (this.isLowerThanMinValue(value)) {
       return this.setMinValueDebounced();
     } else if (this.isGreaterThanMaxValue(value)) {
       return this.setMaxValue();
     } else {
-      this.updateElementValue(newValue);
+      this.updateElementValue(value);
     }
   }
 
