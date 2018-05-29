@@ -2,28 +2,6 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSnackBarModule,
-  MatTableModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -166,6 +144,7 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
+import { MaterialModule } from '../material/material.module';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
 import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
@@ -180,36 +159,15 @@ const SHARED_DIRECTIVES = [
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     DynamicModule.withComponents([GroupedListComponent]),
     FormsModule,
     CdkTableModule,
     ClipboardModule,
     DragulaModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSnackBarModule,
-    MatTableModule,
     CdkTableModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatTabsModule,
     PopoverModule,
     TranslateModule,
-    MatButtonToggleModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
@@ -239,12 +197,6 @@ const SHARED_DIRECTIVES = [
     ListComponent,
     ViewModeSwitchComponent,
     LoadingDirective,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatInputModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatTableModule,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -256,8 +208,6 @@ const SHARED_DIRECTIVES = [
     StringifyTimePipe,
     StringifyDatePipe,
     TemplateActionsComponent,
-    MatAutocompleteModule,
-    MatInputModule,
     ProgressLoggerComponent,
     ProgressLoggerMessageComponent,
     AnimatedSlashComponent,
@@ -265,8 +215,6 @@ const SHARED_DIRECTIVES = [
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
     TemplateActionsComponent,
-    MatAutocompleteModule,
-    MatInputModule,
     TimeZoneComponent,
     TopBarComponent,
     ViewValuePipe,

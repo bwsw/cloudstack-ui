@@ -1,18 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatDialogModule,
-  MatExpansionModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -60,6 +48,7 @@ import { AccountCardItemComponent } from './account/card-item/account-card-item.
 import { AccountRowItemComponent } from './account/row-item/account-row-item.component';
 import { AccountCreationDialogComponent } from './creation-form/account-creation-dialog.component';
 import { AccountCreationComponent } from './creation-form/account-creation.component';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
@@ -67,17 +56,7 @@ import { AccountCreationComponent } from './creation-form/account-creation.compo
     DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
     FormsModule,
     ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatIconModule,
-    MatInputModule,
+    MaterialModule,
     RouterModule,
     SharedModule,
     TranslateModule,

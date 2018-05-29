@@ -1,17 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -61,27 +50,19 @@ import { UserAccountEffects } from '../reducers/auth/redux/auth.effects';
 import { VolumeSnapshotDetailsContainerComponent } from './container/volume-snapshot-details.container';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { VolumeGroupedListComponent } from './volume-list/volume-grouped-list.component';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     FormsModule,
     DynamicModule.withComponents([VolumeCardItemComponent, VolumeRowItemComponent]),
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatTooltipModule,
     RouterModule,
     SharedModule,
     SnapshotModule,
     TranslateModule,
-    MatDialogModule,
     DraggableSelectModule,
     StoreModule.forFeature('volumes', volumeReducers),
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),

@@ -2,26 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
-// tslint:disable max-line-length
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+// tslint:disable max-line-length
 import { PulseModule } from '../pulse/pulse.module';
 import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.effects';
 import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
@@ -112,28 +98,18 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { WebShellService } from './web-shell/web-shell.service';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
-
+import { MaterialModule } from '../material/material.module';
 // tslint:enable max-line-length
 
 
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     DynamicModule.withComponents([VmListCardItemComponent]),
     DynamicModule.withComponents([VmListRowItemComponent]),
     FormsModule,
     DraggableSelectModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatButtonToggleModule,
     PulseModule,
     ReactiveFormsModule,
     RouterModule,
@@ -143,7 +119,6 @@ import { ServiceOfferingSelectorComponent } from './vm-creation/components/servi
     TagsModule,
     TemplateModule,
     TranslateModule,
-    MatProgressBarModule,
     HttpModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),

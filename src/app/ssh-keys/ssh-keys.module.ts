@@ -1,15 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatSelectModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -34,22 +25,17 @@ import { SshKeyRowItemComponent } from './ssh-key-list-item/row-item/ssh-key-row
 import { SshKeyListComponent } from './ssh-key-list/ssh-key-list.component';
 import { SshKeySidebarComponent } from './ssh-key-sidebar/ssh-key-sidebar.component';
 import { SshKeysPageComponent } from './ssh-keys-page/ssh-keys-page.component';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     ClipboardModule,
     FormsModule,
     RouterModule,
     SharedModule,
     TranslateModule,
-    MatTooltipModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
     DynamicModule.withComponents([SshKeyCardItemComponent, SshKeyRowItemComponent]),
     DraggableSelectModule,
     StoreModule.forFeature('sshKeys', sshKeyReducers),

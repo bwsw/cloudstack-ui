@@ -1,19 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatProgressSpinnerModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
@@ -66,6 +53,7 @@ import { SecurityGroupTagsComponent } from './sg-sidebar/sg-tags/sg-tags.compone
 import { SecurityGroupTagsContainerComponent } from './containers/sg-tags.container';
 import { TagsModule } from '../tags/tags.module';
 import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/sg-rule-addition-form.component';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
@@ -79,18 +67,8 @@ import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/
     ]),
     RouterModule,
     TranslateModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatTooltipModule,
-    MatDialogModule,
+    MaterialModule,
     SharedModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatTabsModule,
-    MatButtonToggleModule,
-    MatProgressSpinnerModule,
     DraggableSelectModule,
     TagsModule,
     StoreModule.forFeature('securityGroups', securityGroupReducers),

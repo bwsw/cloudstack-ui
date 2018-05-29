@@ -1,19 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -27,10 +14,7 @@ import { TemplateActionsService } from '../shared/actions/template-actions/templ
 import { SharedModule } from '../shared/shared.module';
 import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
-import {
-  IsoService,
-  TemplateService
-} from './shared';
+import { IsoService, TemplateService } from './shared';
 import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
@@ -86,26 +70,17 @@ import { TemplateFilterListContainerComponent } from './template-filter-list/con
 // tslint:disable-next-line
 import { TemplateGroupSelectorContainerComponent } from './template-sidebar/template-group/containers/template-group-selector.container';
 import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-attachment-filter-selector.container';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     FormsModule,
     ClipboardModule,
     DraggableSelectModule,
     DynamicModule.withComponents([TemplateCardItemComponent, TemplateRowItemComponent]),
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatButtonToggleModule,
     RouterModule,
     SharedModule,
     TagsModule,

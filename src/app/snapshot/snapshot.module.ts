@@ -1,16 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatButtonModule, MatButtonToggleModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule, MatMenuModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
@@ -45,25 +35,17 @@ import { SnapshotSidebarComponent } from './snapshots-page/snapshot-sidebar/snap
 import { SnapshotSidebarContainerComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.container';
 import { SnapshotsPageComponent } from './snapshots-page/snapshots-page.component';
 import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    MaterialModule,
     DraggableSelectModule,
     FormsModule,
     TranslateModule,
-    MatTooltipModule,
-    MatSelectModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
     SharedModule,
     ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatTabsModule,
-    MatMenuModule,
     RouterModule
   ],
   exports: [

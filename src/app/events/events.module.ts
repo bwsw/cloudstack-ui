@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SharedModule } from '../shared/shared.module';
@@ -12,12 +11,13 @@ import { reducers } from './redux/events.reducers';
 import { EventsEffects } from './redux/events.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { EventListComponent } from './components/event-list.component';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    MatSelectModule,
+    MaterialModule,
     SharedModule,
     TranslateModule,
     StoreModule.forFeature('events', reducers),
