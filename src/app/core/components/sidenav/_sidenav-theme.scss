@@ -2,7 +2,7 @@
   $primary: map-get($theme, primary);
   $background: map-get($theme, background);
 
-  cs-app-sidebar {
+  cs-sidenav {
     background: mat-color($primary);
     color: mat-color($background, card);
 
