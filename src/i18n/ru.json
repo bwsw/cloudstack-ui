@@ -1674,26 +1674,29 @@
     "DISABLED": "Деактивирован",
     "ENABLED": "Активирован"
   },
-  "DISK_OFFERING_TABLE": {
-    "name": "",
-    "bytesreadrate": "Чтение МБайт/сек",
-    "byteswriterate": "Запись МБайт/сек",
-    "iopsreadrate": "Чтение IO/сек",
-    "iopswriterate": "Запись IO/сек",
-    "displaytext": "Описание",
-    "disksize": "Размер диска",
-    "storagetype": "Тип хранилища",
-    "provisioningtype": "Выделение ёмкости",
-    "iscustomized": "Настраиваемое",
-    "miniops": "Мин. IO/s",
-    "maxiops": "Макс. IO/s",
-    "thin": "Динамическое",
-    "thick": "Статическое",
-    "fat": "Полное",
-    "sparse": "Разреженное",
-    "shared": "Общее",
-    "created": "Создано",
-    "true": "Да",
-    "false": "Нет"
+  "DISK_OFFERING": {
+    "CHOOSE_DISK_OFFERING": "Выберете дисковое предложение",
+    "TABLE": {
+      "name": "Имя",
+      "bytesreadrate": "Чтение МБайт/сек",
+      "byteswriterate": "Запись МБайт/сек",
+      "iopsreadrate": "Чтение IO/сек",
+      "iopswriterate": "Запись IO/сек",
+      "displaytext": "Описание",
+      "disksize": "Размер диска",
+      "storagetype": "Тип хранилища",
+      "provisioningtype": "Выделение ёмкости",
+      "iscustomized": "Настраиваемое",
+      "miniops": "Мин. IO/s",
+      "maxiops": "Макс. IO/s",
+      "thin": "Динамическое",
+      "thick": "Статическое",
+      "fat": "Полное",
+      "sparse": "Разреженное",
+      "shared": "Общее",
+      "created": "Создано",
+      "true": "Да",
+      "false": "Нет"
+    }
   }
 }
