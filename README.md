@@ -195,10 +195,10 @@ Here domain administrators can manage existing accounts, create new accounts and
 
 ## Getting started guide
 
-1. Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version (We recomend Node.js v6.9.2).
+1. Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version (We recomend Node.js v8.11.2).
 2. Clone the CSUI project from GitHub.
 3. Run "npm install" command. This command installs all dependencies, which are used in the project. Also, you may use "yarn" command.
-4. Prepare your own proxy-conf.js file and set the API endpoint in this file.
+4. Put your own proxy-conf.js file in the project folder and set the API endpoint in this file.
 
 ### Main commands
 
@@ -206,7 +206,7 @@ Here domain administrators can manage existing accounts, create new accounts and
 |---------|--------|
 |npm test | use this command to execute tests via Karma|
 |npm run build| use this command to build the project, the build artifacts will be stored in the dist/ directory|
-|npm start| use this command to compile the application, it will be available at URL - "localhost:8080". Run this command with argument '-- --proxy-config proxy-conf.js' |
+|npm start| use this command to compile the application, it will be available at URL - "localhost:8080".|
 
 ### Proxy-conf.js file example
 
