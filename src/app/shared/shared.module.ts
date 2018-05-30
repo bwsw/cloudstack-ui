@@ -169,6 +169,12 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
+import { UrlDirective } from './validators/directives';
+
+
+const SHARED_DIRECTIVES = [
+  UrlDirective
+];
 
 @NgModule({
   imports: [
@@ -278,7 +284,8 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SHARED_DIRECTIVES
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -364,7 +371,8 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    DiskOfferingDialogComponent
+    DiskOfferingDialogComponent,
+    SHARED_DIRECTIVES
   ],
   providers: [
     AccountService,
