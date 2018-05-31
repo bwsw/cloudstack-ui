@@ -1675,7 +1675,7 @@
     "ENABLED": "Активирован"
   },
   "DISK_OFFERING": {
-    "CHOOSE_DISK_OFFERING": "Выберете дисковое предложение",
+    "CHOOSE_DISK_OFFERING": "Выберите дисковое предложение",
     "TABLE": {
       "name": "Имя",
       "bytesreadrate": "Чтение МБайт/сек",
