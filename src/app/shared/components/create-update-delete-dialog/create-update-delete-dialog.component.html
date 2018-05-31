@@ -45,6 +45,7 @@
         matInput
         type="text"
         name="textValue"
+        pattern="^[a-zA-ZА-яЁё]{1}[^,]*$"
         [(ngModel)]="newValue"
         [placeholder]="textFieldPlaceholder | translate"
         [maxlength]="maxLength"
