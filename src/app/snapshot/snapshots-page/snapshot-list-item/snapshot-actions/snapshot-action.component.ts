@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Snapshot } from '../../../../shared/models';
+import { Action, Snapshot } from '../../../../shared/models';
 import { SnapshotActions, SnapshotActionService } from './snapshot-action.service';
 
 @Component({
@@ -7,8 +7,9 @@ import { SnapshotActions, SnapshotActionService } from './snapshot-action.servic
   template: `
     <ng-container *ngFor="let action of actions">
       <button
-        *ngIf="action.canActivate(snapshot)"
-        mat-menu-item (click)="activateAction(action, snapshot)"
+        mat-menu-item
+        (click)="activateAction(action, snapshot)"
+        [disabled]="!action.canActivate(snapshot)"
       >
         <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
@@ -22,7 +23,7 @@ export class SnapshotActionComponent {
   @Output() public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output() public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
 
-  public actions: any[];
+  public actions: Action<Snapshot>[];
 
   constructor(private snapshotActionService: SnapshotActionService) {
     this.actions = this.snapshotActionService.actions;

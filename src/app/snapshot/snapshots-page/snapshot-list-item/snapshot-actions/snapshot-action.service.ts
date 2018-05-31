@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { Snapshot, SnapshotStates } from '../../../../shared/models';
-import { Action } from '../../../../shared/models/action.model';
+
+import { Action, Snapshot, SnapshotStates } from '../../../../shared/models';
 import { TemplateResourceType } from '../../../../template/shared/base-template.service';
 // tslint:disable-next-line
 import { TemplateCreationContainerComponent } from '../../../../template/template-creation/containers/template-creation.container';
