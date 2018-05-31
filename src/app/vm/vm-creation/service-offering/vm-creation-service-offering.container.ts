@@ -1,21 +1,14 @@
-import {
-  Component,
-  Inject,
-  AfterViewInit,
-  ChangeDetectorRef,
-  OnInit
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { State } from '../../../reducers/index';
-import * as fromSOClasses from '../../../reducers/service-offerings/redux/service-offering-class.reducers';
 
+import { State } from '../../../reducers';
+import * as fromSOClasses from '../../../reducers/service-offerings/redux/service-offering-class.reducers';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
+import { ICustomOfferingRestrictions, ServiceOffering } from '../../../shared/models';
 // tslint:disable-next-line
-import { ICustomOfferingRestrictions } from '../../../service-offering/custom-service-offering/custom-offering-restrictions';
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
 
 
 @Component({

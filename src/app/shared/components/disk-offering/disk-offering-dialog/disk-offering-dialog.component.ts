@@ -13,7 +13,7 @@ export class DiskOfferingDialogComponent {
   public diskOfferings: Array<DiskOffering>;
   public selectedDiskOffering: DiskOffering;
   public preselectedDiskOffering: DiskOffering;
-  public tableId = 'DISK_OFFERING_TABLE';
+  public tableId = 'DISK_OFFERING.TABLE';
   public columns: Array<string>;
   public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
   public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];

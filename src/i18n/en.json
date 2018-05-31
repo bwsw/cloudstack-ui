@@ -1678,26 +1678,29 @@
     "DISABLED": "Disabled",
     "ENABLED": "Enabled"
   },
-  "DISK_OFFERING_TABLE": {
-    "name": "",
-    "bytesreadrate": "Read MB/s",
-    "byteswriterate": "Write MB/s",
-    "iopsreadrate": "Read IO/s",
-    "iopswriterate": "Write IO/s",
-    "displaytext": "Description",
-    "disksize": "Disk size",
-    "storagetype": "Storage type",
-    "provisioningtype": "Provisioning type",
-    "iscustomized": "Customized",
-    "miniops": "Min IO/s",
-    "maxiops": "Max IO/s",
-    "thin": "Thin",
-    "thick": "Thick",
-    "fat": "Fat",
-    "sparse": "Sparse",
-    "shared": "Shared",
-    "created": "Created",
-    "true": "Yes",
-    "false": "No"
+  "DISK_OFFERING": {
+    "CHOOSE_DISK_OFFERING": "Choose disk offering",
+    "TABLE": {
+      "name": "Name",
+      "bytesreadrate": "Read MB/s",
+      "byteswriterate": "Write MB/s",
+      "iopsreadrate": "Read IO/s",
+      "iopswriterate": "Write IO/s",
+      "displaytext": "Description",
+      "disksize": "Disk size",
+      "storagetype": "Storage type",
+      "provisioningtype": "Provisioning type",
+      "iscustomized": "Customized",
+      "miniops": "Min IO/s",
+      "maxiops": "Max IO/s",
+      "thin": "Thin",
+      "thick": "Thick",
+      "fat": "Fat",
+      "sparse": "Sparse",
+      "shared": "Shared",
+      "created": "Created",
+      "true": "Yes",
+      "false": "No"
+    }
   }
 }

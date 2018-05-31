@@ -1,14 +1,15 @@
 <div class="top-row">
-  <h4>
-    <ng-container *ngIf="diskOffering">{{ diskOffering.name }}</ng-container>
-    <ng-container *ngIf="!diskOffering">{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-container>
-  </h4>
+  <h4 class="disk-offerings">{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
 
-  <button
-    mat-button
-    type="button"
-    (click)="changeOffering()"
-  >
+  <button mat-button type="button" (click)="changeOffering()">
     {{ 'COMMON.SELECT' | translate }}
   </button>
+</div>
+
+<div class="mat-input-wrapper">
+  <span class="disk-offering-info truncate">
+    <ng-container *ngIf="diskOffering; then offeringName else nameStub"></ng-container>
+    <ng-template #offeringName>{{ diskOffering.name }}</ng-template>
+    <ng-template #nameStub>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-template>
+  </span>
 </div>
