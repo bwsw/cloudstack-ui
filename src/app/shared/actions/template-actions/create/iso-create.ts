@@ -12,9 +12,9 @@ export class IsoCreateAction extends BaseTemplateCreateAction {
   public name = 'CREATE';
 
   protected confirmMessage = 'DIALOG_MESSAGES.ISO.CONFIRM_DELETION';
-  protected progressMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_IN_PROGRESS';
-  protected successMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_DONE';
-  protected failMessage = 'JOB_NOTIFICATIONS.ISO.DELETION_FAILED';
+  protected progressMessage = 'NOTIFICATIONS.ISO.DELETION_IN_PROGRESS';
+  protected successMessage = 'NOTIFICATIONS.ISO.DELETION_DONE';
+  protected failMessage = 'NOTIFICATIONS.ISO.DELETION_FAILED';
 
   constructor(
     protected dialogService: DialogService,

@@ -121,7 +121,7 @@
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
     }
   },
-  "JOB_NOTIFICATIONS": {
+  "NOTIFICATIONS": {
     "ACCOUNT": {
       "DELETION_IN_PROGRESS": "Удаление аккаунта",
       "DELETION_DONE": "Аккаунт успешно удален",
@@ -134,7 +134,10 @@
       "ENABLE_FAILED": "Ошибка активации аккаунта",
       "LOCK_IN_PROGRESS": "Блокирование аккаунта",
       "LOCK_DONE": "Аккаунт успешно заблокирован",
-      "LOCK_FAILED": "Ошибка блокирования аккаунта"
+      "LOCK_FAILED": "Ошибка блокирования аккаунта",
+      "USER_CREATED": "Пользователь успешно создан",
+      "USER_UPDATED": "Пользователь успешно обновлен",
+      "USER_DELETED": "Пользователь успешно удален"
     },
     "PENDING_OPERATIONS": "Текущие операции",
     "ISO": {
@@ -168,12 +171,16 @@
       "REGISTER_FAILED": "Не удалось зарегистрировать шаблон",
       "DELETION_IN_PROGRESS": "Удаление шаблона",
       "DELETION_DONE": "Шаблон удален",
-      "DELETION_FAILED": "Не удалось удалить шаблон"
+      "DELETION_FAILED": "Не удалось удалить шаблон",
+      "CUSTOM_TEMPLATE_CREATED": "Шаблон успешно создан",
+      "CUSTOM_TEMPLATE_DELETED": "Шаблон успешно удален",
+      "TEMPLATE_GROUP_SET_ERROR": "Произошла ошибка, попробуйте еще раз",
+      "SHARED_GROUP_CREATED": "Разделяемая группа успешно создана",
+      "SHARED_GROUP_DELETED": "Разделяемая группа успешно удалена",
+      "PRIVATE_GROUP_DELETED": "Приватная группа успешно удалена",
+      "CONVERT_PRIVATE_TO_SHARED": "Приватная группа успешно сконвертирована в разделяемую"
     },
     "VM": {
-      "TAG_EDIT_DONE": "Тег ВМ отредактирован",
-      "TAG_ADD_DONE": "Добавлен тег ВМ",
-      "TAG_REMOVE_DONE": "Удален тег ВМ",
       "START_IN_PROGRESS": "Запуск ВМ",
       "START_DONE": "ВМ была запущена",
       "START_FAILED": "Не удалось запустить ВМ",
@@ -249,29 +256,8 @@
       "CHANGE_DESCRIPTION_FAILED": "Не удалось изменить описание",
       "CREATION_IN_PROGRESS": "Создание диска",
       "CREATION_DONE": "Диск создан",
-      "CREATION_FAILED": "Не удалось создать диск"
-    }
-  },
-  "NOTIFICATIONS": {
-    "TEMPLATE": {
-      "CUSTOM_TEMPLATE_CREATED": "Шаблон успешно создан",
-      "CUSTOM_TEMPLATE_DELETED": "Шаблон успешно удален",
-      "TEMPLATE_GROUP_SET_ERROR": "Произошла ошибка, попробуйте еще раз",
-      "SHARED_GROUP_CREATED": "Разделяемая группа успешно создана",
-      "SHARED_GROUP_DELETED": "Разделяемая группа успешно удалена",
-      "PRIVATE_GROUP_DELETED": "Приватная группа успешно удалена",
-      "CONVERT_PRIVATE_TO_SHARED": "Приватная группа успешно сконвертирована в разделяемую"
-    },
-    "ACCOUNT": {
-      "USER_CREATED": "Пользователь успешно создан",
-      "USER_UPDATED": "Пользователь успешно обновлен",
-      "USER_DELETED": "Пользователь успешно удален"
-    },
-    "VOLUME": {
+      "CREATION_FAILED": "Не удалось создать диск",
       "VOLUME_FROM_SNAPSHOT_CREATED": "Диск успешно создан"
-    },
-    "SNAPSHOT": {
-      "DELETE_SUCCESS": "Снимок успешно удален"
     }
   },
   "AUTH": {

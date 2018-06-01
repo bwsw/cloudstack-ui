@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
-import {
-  AffinityGroupType,
-  DiskOffering,
-  ServiceOffering,
-  Zone
-} from '../../../shared/models';
+import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
@@ -17,10 +12,7 @@ import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import {
-  NotSelected,
-  VmCreationState
-} from '../../../vm/vm-creation/data/vm-creation-state';
+import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
@@ -233,7 +225,7 @@ export class VirtualMachineCreationEffects {
         .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of({}))
         .switchMap((agreement) => {
           if (agreement) {
-            this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+            this.deploymentNotificationId = this.jobsNotificationService.add('NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
             this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
 
             return Observable.of<any>(
@@ -322,7 +314,7 @@ export class VirtualMachineCreationEffects {
     .map((action: vmActions.DeploymentRequestError) => {
       this.jobsNotificationService.fail({
         id: this.deploymentNotificationId,
-        message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
+        message: 'NOTIFICATIONS.VM.DEPLOY_FAILED'
       });
 
       return new vmActions.DeploymentAddLoggerMessage({
@@ -514,7 +506,7 @@ export class VirtualMachineCreationEffects {
   private onDeployDone(): void {
     this.jobsNotificationService.finish({
       id: this.deploymentNotificationId,
-      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
+      message: 'NOTIFICATIONS.VM.DEPLOY_DONE'
     });
   }
 

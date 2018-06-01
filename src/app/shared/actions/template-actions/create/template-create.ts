@@ -9,9 +9,9 @@ import { BaseTemplateCreateAction } from './base-template-create';
 
 @Injectable()
 export class TemplateCreateAction extends BaseTemplateCreateAction {
-  public progressMessage = 'JOB_NOTIFICATIONS.TEMPLATE.REGISTER_IN_PROGRESS';
-  public successMessage = 'JOB_NOTIFICATIONS.TEMPLATE.REGISTER_DONE';
-  public failMessage = 'JOB_NOTIFICATIONS.TEMPLATE.REGISTER_FAILED';
+  public progressMessage = 'NOTIFICATIONS.TEMPLATE.REGISTER_IN_PROGRESS';
+  public successMessage = 'NOTIFICATIONS.TEMPLATE.REGISTER_DONE';
+  public failMessage = 'NOTIFICATIONS.TEMPLATE.REGISTER_FAILED';
 
   constructor(
     protected dialogService: DialogService,

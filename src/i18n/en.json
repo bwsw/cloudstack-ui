@@ -121,7 +121,7 @@
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
     }
   },
-  "JOB_NOTIFICATIONS": {
+  "NOTIFICATIONS": {
     "ACCOUNT": {
       "DELETION_IN_PROGRESS": "Deleting an account",
       "DELETION_DONE": "Account deleted successfully",
@@ -134,7 +134,10 @@
       "ENABLE_FAILED": "Failed to enable an account",
       "LOCK_IN_PROGRESS": "Locking an account",
       "LOCK_DONE": "Account locked successfully",
-      "LOCK_FAILED": "Failed to lock an account"
+      "LOCK_FAILED": "Failed to lock an account",
+      "USER_CREATED": "User created successfully",
+      "USER_UPDATED": "User updated successfully",
+      "USER_DELETED": "User deleted successfully"
     },
     "PENDING_OPERATIONS": "Pending operations",
     "ISO": {
@@ -168,12 +171,16 @@
       "REGISTER_FAILED": "Template register failed",
       "DELETION_IN_PROGRESS": "Deleting a template",
       "DELETION_DONE": "Template deleted",
-      "DELETION_FAILED": "Failed to delete an template"
+      "DELETION_FAILED": "Failed to delete an template",
+      "CUSTOM_TEMPLATE_CREATED": "Template created successfully",
+      "CUSTOM_TEMPLATE_DELETED": "Template deleted successfully",
+      "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
+      "SHARED_GROUP_CREATED": "Shared group created successfully",
+      "SHARED_GROUP_DELETED": "Shared group deleted successfully",
+      "PRIVATE_GROUP_DELETED": "Private group deleted successfully",
+      "CONVERT_PRIVATE_TO_SHARED": "Private group converted to Shared successfully"
     },
     "VM": {
-      "TAG_EDIT_DONE": "VM tag edited",
-      "TAG_ADD_DONE": "VM tag added",
-      "TAG_REMOVE_DONE": "VM tag revomed",
       "START_IN_PROGRESS": "Starting a VM",
       "START_DONE": "VM has started",
       "START_FAILED": "Failed to start VM",
@@ -249,29 +256,8 @@
       "CHANGE_DESCRIPTION_FAILED": "Failed to change description",
       "CREATION_IN_PROGRESS": "Volume is being created",
       "CREATION_DONE": "Volume has been created",
-      "CREATION_FAILED": "Failed to create a volume"
-    }
-  },
-  "NOTIFICATIONS": {
-    "TEMPLATE": {
-      "CUSTOM_TEMPLATE_CREATED": "Template created successfully",
-      "CUSTOM_TEMPLATE_DELETED": "Template deleted successfully",
-      "TEMPLATE_GROUP_SET_ERROR": "An error occurred, please try again",
-      "SHARED_GROUP_CREATED": "Shared group created successfully",
-      "SHARED_GROUP_DELETED": "Shared group deleted successfully",
-      "PRIVATE_GROUP_DELETED": "Private group deleted successfully",
-      "CONVERT_PRIVATE_TO_SHARED": "Private group converted to Shared successfully"
-    },
-    "ACCOUNT": {
-      "USER_CREATED": "User created successfully",
-      "USER_UPDATED": "User updated successfully",
-      "USER_DELETED": "User deleted successfully"
-    },
-    "VOLUME": {
+      "CREATION_FAILED": "Failed to create a volume",
       "VOLUME_FROM_SNAPSHOT_CREATED": "Volume created successfully"
-    },
-    "SNAPSHOT": {
-      "DELETE_SUCCESS": "Snapshot deleted successfully"
     }
   },
   "AUTH": {

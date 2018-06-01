@@ -47,7 +47,7 @@ export class SnapshotEffects {
         .flatMap((params: ISnapshotData) => {
 
           const notificationId = this.jobsNotificationService.add(
-            'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+            'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
 
           return this.snapshotService.create(
             action.payload.id,
@@ -57,14 +57,14 @@ export class SnapshotEffects {
             .map(newSnap => {
               this.jobsNotificationService.finish({
                 id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
+                message: 'NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
               });
               return new snapshotActions.AddSnapshotSuccess(newSnap);
             })
             .catch((error) => {
               this.jobsNotificationService.fail({
                 id: notificationId,
-                message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
+                message: 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
               });
               return Observable.of(new snapshotActions.SnapshotUpdateError(error));
             });
@@ -76,19 +76,19 @@ export class SnapshotEffects {
     .ofType(snapshotActions.DELETE_SNAPSHOT)
     .mergeMap((action: snapshotActions.DeleteSnapshot) => {
       const notificationId = this.jobsNotificationService.add(
-        'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
+        'NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
       return this.snapshotService.remove(action.payload.id)
         .map(() => {
           this.jobsNotificationService.finish({
             id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
+            message: 'NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
           });
           return new snapshotActions.DeleteSnapshotSuccess(action.payload);
         })
         .catch((error) => {
           this.jobsNotificationService.fail({
             id: notificationId,
-            message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
+            message: 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
           });
           return Observable.of(new snapshotActions.SnapshotUpdateError(error));
         });
@@ -127,12 +127,12 @@ export class SnapshotEffects {
           : Observable.of(null))
           .flatMap(() => {
             const notificationId = this.jobsNotificationService.add(
-              'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
+              'NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
             return this.snapshotService.revert(action.payload.id)
               .flatMap(() => {
                 this.jobsNotificationService.finish({
                   id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_DONE'
+                  message: 'NOTIFICATIONS.SNAPSHOT.REVERT_DONE'
                 });
 
                 return isVmRunning
@@ -145,7 +145,7 @@ export class SnapshotEffects {
               .catch((error) => {
                 this.jobsNotificationService.fail({
                   id: notificationId,
-                  message: 'JOB_NOTIFICATIONS.SNAPSHOT.REVERT_FAILED'
+                  message: 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED'
                 });
                 return Observable.of(new snapshotActions.SnapshotUpdateError(error))
               });
