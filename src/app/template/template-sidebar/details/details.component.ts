@@ -1,12 +1,12 @@
 import { BaseTemplateModel } from '../../shared/base-template.model';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { Input } from '@angular/core';
 
 
 export abstract class BaseTemplateDetailsComponent {
   @Input() public entity: BaseTemplateModel;
 
-  constructor(private notificationService: NotificationService) {
+  constructor(private notificationService: SnackBarService) {
   }
 
   public get templateTypeTranslationToken(): string {

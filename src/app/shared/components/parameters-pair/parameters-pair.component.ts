@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NotificationService } from '../../services/notification.service';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'cs-parameters-pair',
@@ -13,7 +13,7 @@ export class ParametersPairComponent {
   @Input() public canBeCopy = false;
   @Output() public onButtonClicked = new EventEmitter();
 
-  constructor(private notificationService: NotificationService) {
+  constructor(private notificationService: SnackBarService) {
   }
 
   public onCopySuccess(): void {

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { getType, IPVersion, NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
@@ -74,7 +74,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   constructor(
     private networkRuleService: NetworkRuleService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router

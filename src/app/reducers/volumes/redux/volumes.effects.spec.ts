@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { Actions } from '@ngrx/effects';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
@@ -17,7 +17,7 @@ import * as fromVolumes from './volumes.reducers';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 import { AuthService } from '../../../shared/services/auth.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import { VolumeService, VolumeResizeData } from '../../../shared/services/volume.service';
+import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
@@ -27,7 +27,7 @@ import { VolumesEffects } from './volumes.effects';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MockNotificationService } from '../../../../testutils/mocks/mock-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Injectable()
 class MockAsyncJobService {
@@ -145,7 +145,7 @@ describe('Volume Effects', () => {
         { provide: Store, useClass: MockStore },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: VolumeTagService, useClass: MockTagService },
-        { provide: NotificationService, useClass: MockNotificationService },
+        { provide: SnackBarService, useClass: MockNotificationService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: LocalStorageService, useClass: MockStorageService },
         { provide: SnapshotTagService, useClass: MockTagService },

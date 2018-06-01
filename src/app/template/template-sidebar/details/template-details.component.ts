@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BaseTemplateDetailsComponent } from './details.component';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'cs-template-details',
@@ -8,7 +8,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
   styleUrls: ['./details.component.scss']
 })
 export class TemplateDetailsComponent extends BaseTemplateDetailsComponent {
-  constructor(notificationService: NotificationService) {
+  constructor(notificationService: SnackBarService) {
     super(notificationService);
   }
 }

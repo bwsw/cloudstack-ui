@@ -105,7 +105,7 @@ import { LanguageService } from './services/language.service';
 import { LayoutService } from './services/layout.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
-import { NotificationService } from './services/notification.service';
+import { SnackBarService } from './services/snack-bar.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceCountService } from './services/resource-count.service';
 import { ResourceLimitService } from './services/resource-limit.service';
@@ -335,7 +335,7 @@ const SHARED_DIRECTIVES = [
     LoginGuard,
     MarkForRemovalService,
     MemoryStorageService,
-    NotificationService,
+    SnackBarService,
     OsTypeService,
     ResourceCountService,
     ResourceLimitService,

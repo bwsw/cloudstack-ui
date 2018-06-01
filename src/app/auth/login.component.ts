@@ -1,16 +1,9 @@
-import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ConfigService } from '../shared/services/config.service';
-import { NotificationService } from '../shared/services/notification.service';
+import { SnackBarService } from '../shared/services/snack-bar.service';
 import { LocalStorageService } from '../shared/services/local-storage.service';
 
 @Component({
@@ -32,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private notification: NotificationService,
+    private notification: SnackBarService,
     private route: ActivatedRoute,
     private router: Router,
     private configService: ConfigService,

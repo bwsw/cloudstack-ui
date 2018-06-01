@@ -18,7 +18,7 @@ import { Snapshot, SnapshotStates, SnapshotType, Volume } from '../../../shared/
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
@@ -138,7 +138,7 @@ describe('Snapshot Effects', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: SnapshotTagService, useClass: MockSnapshotTagService },
-        { provide: NotificationService, useValue: MockNotificationService },
+        { provide: SnackBarService, useValue: MockNotificationService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: DialogService, useClass: MockDialogService },
         { provide: MatDialog, useClass: MockMatDialog },

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
+
+import { State } from '../../reducers';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
 import { VirtualMachine, VmResourceType } from '../shared/vm.model';

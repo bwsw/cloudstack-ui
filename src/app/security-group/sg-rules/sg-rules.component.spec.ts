@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { SecurityGroupService } from '../services/security-group.service';
 import { IPVersion, NetworkRuleType, SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from './sg-rules.component';
@@ -124,7 +124,7 @@ describe('Security group firewall rules component', () => {
         { provide: MAT_DIALOG_DATA, useValue: { securityGroup: mockSecurityGroup } },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
         { provide: Router, useClass: MockRouter },
-        { provide: NotificationService, useClass: MockNotificationService },
+        { provide: SnackBarService, useClass: MockNotificationService },
         { provide: NetworkRuleService, useClass: NetworkRuleServiceMock },
         { provide: DialogService, useValue: dialogService }
       ],

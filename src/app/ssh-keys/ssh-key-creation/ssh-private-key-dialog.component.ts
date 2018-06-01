@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 export class SshPrivateKeyDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public privateKey: string,
-    private notificationService: NotificationService
+    private notificationService: SnackBarService
   ) { }
 
   public onCopySuccess(): void {

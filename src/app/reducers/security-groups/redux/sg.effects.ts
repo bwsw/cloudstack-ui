@@ -6,7 +6,7 @@ import { SecurityGroupService } from '../../../security-group/services/security-
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { getType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
@@ -128,7 +128,7 @@ export class SecurityGroupEffects {
     private actions$: Actions,
     private securityGroupService: SecurityGroupService,
     private dialogService: DialogService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private router: Router,
     private dialog: MatDialog,
     private sgTagService: SecurityGroupTagService

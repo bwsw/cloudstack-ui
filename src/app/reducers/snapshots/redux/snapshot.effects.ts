@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { ISnapshotData, Snapshot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VirtualMachine, VmState } from '../../../vm';
 import { State } from '../../index';
@@ -179,7 +179,7 @@ export class SnapshotEffects {
     private store: Store<State>,
     private actions$: Actions,
     private snapshotService: SnapshotService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private jobsNotificationService: JobsNotificationService,
     private dialogService: DialogService,
     private dialog: MatDialog,

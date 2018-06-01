@@ -12,7 +12,7 @@ import { IsoService } from '../../../template/shared/iso.service';
 import { Template } from '../../../template/shared/template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
@@ -153,7 +153,7 @@ export class TemplateEffects {
     private isoService: IsoService,
     private authService: AuthService,
     private dialogService: DialogService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private store: Store<State>,
     private templateTagService: TemplateTagService,
     private router: Router,

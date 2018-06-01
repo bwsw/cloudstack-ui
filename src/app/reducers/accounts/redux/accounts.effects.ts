@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models';
 import { AccountService } from '../../../shared/services/account.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { UserService } from '../../../shared/services/user.service';
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
@@ -198,7 +198,7 @@ export class AccountsEffects {
     private accountService: AccountService,
     private userService: UserService,
     private dialogService: DialogService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private router: Router,
     private dialog: MatDialog
   ) {

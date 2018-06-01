@@ -11,7 +11,7 @@ import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volu
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
 import { isRoot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
@@ -351,7 +351,7 @@ export class VolumesEffects {
     private volumeTagService: VolumeTagService,
     private router: Router,
     private snapshotService: SnapshotService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private jobsNotificationService: JobsNotificationService,
     private dialog: MatDialog,
     private store: Store<State>

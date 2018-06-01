@@ -15,7 +15,7 @@ import { InputGroupComponent } from '../../shared/components/input-group/input-g
 import { LoadingDirective } from '../../shared/directives/loading.directive';
 import { ApiKeys } from '../../shared/models/account-user.model';
 import { ConfigService } from '../../shared/services/config.service';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
 import { ApiInfoComponent } from './api-info.component';
@@ -96,7 +96,7 @@ describe('Api Info component', () => {
       providers: [
         { provide: ConfigService, useClass: MockConfigService },
         { provide: DialogService, useClass: DialogService },
-        { provide: NotificationService, useClass: MockNotificationService },
+        { provide: SnackBarService, useClass: MockNotificationService },
         { provide: RouterUtilsService, useClass: MockRouterUtilsService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: UserService, useClass: MockUserService }
