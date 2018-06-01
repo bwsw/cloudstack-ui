@@ -147,7 +147,8 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     if (this.canEdit) {
       const defaultOrder = this.configService.get<Array<string>>('configureSidebar');
       if (defaultOrder) {
-        this.routes = this.routes.filter(route => defaultOrder.some(_ => _.toUpperCase() === route.id));
+        this.routes = this.routes.filter(route =>
+          defaultOrder.some(orderElement => orderElement.toUpperCase() === route.id));
       }
     }
   }
@@ -177,16 +178,12 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
       return false;
     }
 
-    return order.every(
-      _ =>
-        _.enabled != null &&
-        _.id != null &&
-        !!sidenavRoutes.find(route => route.id === _.id)
-    );
+    return order.every(el =>
+        el.enabled != null && el.id != null && !!sidenavRoutes.find(route => route.id === el.id));
   }
 
   private navigationPredicate(order: NavigationItem[]) {
     return (a: NavigationItem, b: NavigationItem) =>
-      order.findIndex(_ => _.id === a.id) - order.findIndex(_ => _.id === b.id);
+      order.findIndex(el => el.id === a.id) - order.findIndex(el => el.id === b.id);
   }
 }
