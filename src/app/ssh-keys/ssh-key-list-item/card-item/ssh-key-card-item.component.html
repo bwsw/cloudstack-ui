@@ -1,7 +1,9 @@
 <mat-card (click)="onClicked($event)" class="entity-card">
 
   <mat-card-header class="entity-card-header">
-    <mat-icon class="mdi-key entity-card-thumbnail"></mat-icon>
+    <div class="entity-card-thumbnail">
+      <mat-icon class="mdi-key"></mat-icon>
+    </div>
     <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       {{ item.name }}
     </mat-card-title>

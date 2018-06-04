@@ -9,7 +9,7 @@
     <mat-table [dataSource]="diskOfferings">
 
       <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-        <mat-header-cell *matHeaderCellDef> {{ 'DISK_OFFERING_TABLE.' + column | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'DISK_OFFERING.TABLE.' + column | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container *ngIf="column === 'name'">
             {{ element[column] }}
@@ -21,7 +21,7 @@
             {{ (offeringCreated(element[column]) | stringifyDate)  || '-'}}
           </ng-container>
           <ng-container *ngIf="isCustomField(column, customFields)">
-            {{ ('DISK_OFFERING_TABLE.' + element[column]?.toString() | translate)  || '-'}}
+            {{ ('DISK_OFFERING.TABLE.' + element[column]?.toString() | translate)  || '-'}}
           </ng-container>
         </mat-cell>
       </ng-container>

@@ -466,3 +466,9 @@ h3 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+// !workaround ie11 alight-items: center bug
+// https://github.com/philipwalton/flexbugs/issues/231
+.mat-header-row, .mat-row {
+  height: 0;
+}

@@ -63,8 +63,9 @@
   </cs-top-bar>
 
   <div class="event-list" *loading="isLoading">
-    <ng-container *ngIf="events?.length">
+    <ng-container *ngIf="events?.length; then eventsTable else noEvents"></ng-container>
 
+    <ng-template #eventsTable>
       <mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="description">
           <mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.DESCRIPTION' | translate}} </mat-header-cell>
@@ -97,9 +98,11 @@
         <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: tableColumns;"></mat-row>
       </mat-table>
+    </ng-template>
 
+    <ng-template #noEvents>
       <span *ngIf="!events?.length">{{ 'EVENT_PAGE.NO_EVENTS' | translate }}</span>
-    </ng-container>
+    </ng-template>
   </div>
 
 </div>
