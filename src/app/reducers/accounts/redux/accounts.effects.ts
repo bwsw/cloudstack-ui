@@ -204,6 +204,13 @@ export class AccountsEffects {
   ) {
   }
 
+  private onNotify(user, message) {
+    this.notificationService.open({
+      translationToken: message,
+      interpolateParams: { username: user.username }
+    });
+  }
+
   private handleError(error): void {
     this.dialogService.alert({
       message: {

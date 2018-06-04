@@ -18,7 +18,7 @@ export class SnackBarService {
     this.snackBarConfig = { duration: 2750 };
   }
 
-  public message(
+  public open(
     message: string | ParametrizedTranslation,
     action?: string,
     config?: MatSnackBarConfig

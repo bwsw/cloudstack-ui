@@ -112,10 +112,10 @@ export class SettingsComponent implements OnInit {
       .updatePassword(this.userId, this.password)
       .subscribe(
         () =>
-          this.notificationService.message(
+          this.notificationService.open(
             'SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY'
           ),
-        error => this.notificationService.message(error.errortext)
+        error => this.notificationService.open(error.errortext)
       );
     this.passwordUpdateForm.reset();
     this.passwordForm.resetForm();

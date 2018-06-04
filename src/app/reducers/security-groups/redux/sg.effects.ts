@@ -160,6 +160,13 @@ export class SecurityGroupEffects {
     });
   }
 
+  private onNotify(securityGroup: SecurityGroup) {
+    this.notificationService.open({
+      translationToken: this.createSuccessMessage[getType(securityGroup)],
+      interpolateParams: { name: securityGroup.name }
+    });
+  }
+
   private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
     this.notificationService.message(this.createSuccessMessage[getType(securityGroup)]);
     this.dialog.closeAll();
@@ -171,7 +178,10 @@ export class SecurityGroupEffects {
   public onDeleteConfirmation(securityGroup: SecurityGroup): Observable<any> {
     return this.deleteSecurityGroup(securityGroup)
       .map(() => {
-        this.notificationService.message(this.deleteSuccessMessage[getType(securityGroup)]);
+        this.notificationService.open({
+          translationToken: this.deleteSuccessMessage[getType(securityGroup)],
+          interpolateParams: { name: securityGroup.name }
+        });
       });
   }
 

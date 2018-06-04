@@ -53,7 +53,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     }, (err: any) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
 
-        this.notificationService.message('AUTH.NOT_LOGGED_IN');
+        this.notificationService.open('AUTH.NOT_LOGGED_IN');
         const route = this.routerUtilsService.getRouteWithoutQueryParams();
         if (route !== '/login' && route !== '/logout') {
           this.router.navigate(

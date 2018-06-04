@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
   }
 
   private handleError(error: any): void {
-    this.notification.message({
+    this.notification.open({
       translationToken: error.message,
       interpolateParams: error.params
     });

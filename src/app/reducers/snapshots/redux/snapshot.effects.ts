@@ -188,6 +188,13 @@ export class SnapshotEffects {
   ) {
   }
 
+  private onNotify(snapshot: Snapshot, message: string) {
+    this.notificationService.open({
+      translationToken: message,
+      interpolateParams: { name: snapshot.name }
+    });
+  }
+
   private handleError(error): void {
     this.dialogService.alert({
       message: {

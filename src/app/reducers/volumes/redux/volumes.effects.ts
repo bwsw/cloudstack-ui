@@ -358,6 +358,13 @@ export class VolumesEffects {
   ) {
   }
 
+  private onNotify(volume: Volume, message: string) {
+    this.notificationService.open({
+      translationToken: message,
+      interpolateParams: { name: volume.name }
+    });
+  }
+
   private handleError(error): void {
     this.dialogService.alert({
       message: {

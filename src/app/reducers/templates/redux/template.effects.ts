@@ -161,6 +161,17 @@ export class TemplateEffects {
   ) {
   }
 
+  private onNotify(template: any, message: string) {
+    this.notificationService.open({
+      translationToken: message,
+      interpolateParams: { name: template.name }
+    });
+  }
+
+  private onErrorNotify(message: string) {
+    this.notificationService.open(message);
+  }
+
   private handleError(error: any): void {
     this.dialogService.alert({
       message: {

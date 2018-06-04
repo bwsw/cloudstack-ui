@@ -97,13 +97,13 @@ describe('Service: Notification service', () => {
 
   it('should call MdSnackBar method to show the notification', () => {
     const testMessage = spyOn(mdSnackBar, 'open');
-    notificationService.message('test');
+    notificationService.open('test');
     expect(testMessage).toHaveBeenCalled();
   });
 
   it('should support 3 types of notifications', () => {
     const testNotification = spyOn(mdSnackBar, 'open');
-    notificationService.message('test');
+    notificationService.open('test');
     expect(testNotification).toHaveBeenCalledTimes(3);
   });
 
@@ -117,7 +117,7 @@ describe('Service: Notification service', () => {
 
     expect(overlayContainerElement.querySelector('snack-bar-container')).toBeNull();
 
-    notificationService.message('test');
+    notificationService.open('test');
     expect(overlayContainerElement.querySelector('snack-bar-container')).not.toBeNull();
   });
 });

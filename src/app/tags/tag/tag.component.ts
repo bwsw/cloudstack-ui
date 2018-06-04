@@ -37,11 +37,11 @@ export class TagComponent {
   }
 
   public onCopySuccess(): void {
-    this.notificationService.message('CLIPBOARD.COPY_SUCCESS');
+    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.notificationService.message('CLIPBOARD.COPY_FAIL');
+    this.notificationService.open('CLIPBOARD.COPY_FAIL');
   }
 
   private remove(): void {
