@@ -8,7 +8,7 @@ import { LayoutService } from '../../../shared/services/layout.service';
 import { RouterUtilsService } from '../../../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
-import { NavigationItem, nonDraggableRoutes, sidenavRoutes } from './sidenav-routes';
+import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   @Input() public title: string;
   public imgUrl = 'url(img/cloudstack_logo_light.png)';
 
-  public routes = sidenavRoutes.slice();
+  public routes: Array<SidenavRoute> = sidenavRoutes.slice();
   public nonDraggableRoutes = nonDraggableRoutes;
 
   public navigationLoaded = false;
@@ -93,11 +93,9 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
       this.hasChanges = false;
       this.updatingOrder = true;
 
-      const newOrder: Array<{ [key: string]: boolean }> = this.routes.map(({ id, enabled }) => ({
-        [id]: enabled
-      }));
+      const menuState = this.stringifyMenuState(this.routes);
       this.userTagService
-        .setNavigationOrder(JSON.stringify(newOrder))
+        .setNavigationOrder(menuState)
         .finally(() => (this.updatingOrder = false))
         .subscribe();
     }
@@ -123,7 +121,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
       this.userTagService.getNavigationOrder().subscribe(tag => {
         this.navigationLoaded = true;
         if (tag) {
-          const order = this.convertResponseToNavigationItemArray(tag);
+          const order = this.parseMenuState(tag);
           if (this.validateNavigationOrder(order)) {
             const predicate = this.navigationPredicate(order);
             this.routes.sort(predicate);
@@ -153,28 +151,8 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     }
   }
 
-  private convertResponseToNavigationItemArray(response: string): NavigationItem[] {
-    let unconvertedArray = [];
-
-    try {
-      unconvertedArray = JSON.parse(response);
-    } catch (e) {
-      return [];
-    }
-
-    return unconvertedArray.map(element => {
-      const id: string = Object.keys(element)[0];
-      const enabled: boolean = element[id];
-      return { id, enabled };
-    });
-  }
-
   private validateNavigationOrder(order: NavigationItem[]): boolean {
-    if (
-      typeof order === 'undefined' ||
-      !Array.isArray(order) ||
-      order.length !== sidenavRoutes.length
-    ) {
+    if (order.length !== sidenavRoutes.length) {
       return false;
     }
 
@@ -185,5 +163,30 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   private navigationPredicate(order: NavigationItem[]) {
     return (a: NavigationItem, b: NavigationItem) =>
       order.findIndex(el => el.id === a.id) - order.findIndex(el => el.id === b.id);
+  }
+
+  private stringifyMenuState(routes: NavigationItem[]): string {
+    let menuState = '';
+    for (const route of routes) {
+      menuState += `${route.id}:${+route.enabled};`
+    }
+    return menuState;
+  }
+
+  private parseMenuState(menuStateString: string): NavigationItem[] {
+    let stateString = menuStateString;
+    if (menuStateString.slice(-1) === ';') {
+      stateString = menuStateString.slice(0, -1);
+    }
+
+    return stateString
+      .split(';')
+      .map((menuElement: string) => {
+        const [id, enabled] = menuElement.split(':');
+        return {
+          id,
+          enabled: enabled === '1'
+        }
+      });
   }
 }
