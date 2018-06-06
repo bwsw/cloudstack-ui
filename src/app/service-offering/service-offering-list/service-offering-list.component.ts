@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
+
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import { ICustomOfferingRestrictions, ServiceOffering, ServiceOfferingClass } from '../../shared/models';
 import { Language } from '../../shared/services/language.service';
@@ -25,7 +26,12 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input() public showFields: boolean;
   @Output() public selectedOfferingChange = new EventEmitter();
 
-  public list: Array<{ soClass: ServiceOfferingClass, items: Array<ServiceOffering> }>;
+  public list: Array<{ soClass: ServiceOfferingClass, items: MatTableDataSource<ServiceOffering> }>;
+  public columnsToDisplay = [];
+
+  private mainColumns = ['name', 'cpuCoresNumber', 'cpuSpeed', 'memory', 'networkRate'];
+  private allColumns = [...this.mainColumns, 'diskBytesRead', 'diskBytesWrite', 'diskIopsRead', 'diskIopsWrite'];
+
 
   constructor(
     private dialog: MatDialog,
@@ -33,8 +39,9 @@ export class ServiceOfferingListComponent implements OnChanges {
   ) {
   }
 
-  public ngOnChanges(changes): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.getGroupedOfferings();
+    this.onShowFieldsChange(changes.showFields);
   }
 
   public selectOffering(offering: ServiceOffering): void {
@@ -89,16 +96,26 @@ export class ServiceOfferingListComponent implements OnChanges {
         .map(soClass => {
           return {
             soClass,
-            items: this.filterOfferings(this.offeringList, soClass)
+            items: new MatTableDataSource(this.filterOfferings(this.offeringList, soClass))
           };
         })
     } else {
-      this.list = [{ soClass: null, items: this.offeringList }];
+      this.list = [{ soClass: null, items: new MatTableDataSource(this.offeringList) }];
     }
   }
 
   public filterOfferings(list: ServiceOffering[], soClass: ServiceOfferingClass) {
     const classesMap = [soClass].reduce((m, i) => ({ ...m, [i.id]: i }), {});
     return list.filter(offering => classesFilter(offering, this.classes, classesMap));
+  }
+
+  private onShowFieldsChange(showFields: SimpleChange) {
+    const radio = 'radioButton';
+    console.log('show', showFields);
+    if (!showFields) {
+      return;
+    }
+
+    this.columnsToDisplay = showFields.currentValue ? [...this.allColumns, radio] : [...this.mainColumns, radio];
   }
 }

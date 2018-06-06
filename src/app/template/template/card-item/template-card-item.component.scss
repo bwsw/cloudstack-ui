@@ -1,32 +1,3 @@
 :host {
   display: inline-flex;
-  z-index: -1;
-}
-
-mat-card {
-  cursor: pointer;
-}
-
-.last {
-  margin-left: 20px;
-}
-
-.single-line {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.template-header {
-  max-width: 210px !important;
-  margin-left: 5px;
-}
-
-mat-card-title {
-  display: flex;
-  align-items: center;
-}
-
-cs-template-os-icon {
-  flex-shrink: 0;
 }

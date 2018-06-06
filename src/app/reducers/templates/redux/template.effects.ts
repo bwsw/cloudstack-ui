@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
+import * as uniqBy from 'lodash/uniqBy';
+
 import { TemplateService } from '../../../template/shared/template.service';
-import {
-  TemplateFilters,
-  TemplateResourceType
-} from '../../../template/shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { Template } from '../../../template/shared/template.model';
@@ -18,8 +17,6 @@ import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { MatDialog } from '@angular/material';
-import * as uniqBy from 'lodash/uniqBy';
-
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
@@ -83,8 +80,8 @@ export class TemplateEffects {
   @Effect({ dispatch: false })
   removeTemplateSuccess$: Observable<BaseTemplateModel> = this.actions$
     .ofType(template.TEMPLATE_REMOVE_SUCCESS)
-    .do((action: template.RemoveTemplateSuccess) => {
-      this.onNotify(action.payload, this.successTemplateRemove);
+    .do(() => {
+      this.notificationService.message('NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED');
     })
     .map((action: template.RemoveTemplateSuccess) => action.payload)
     .filter((template: BaseTemplateModel) => {
@@ -119,8 +116,8 @@ export class TemplateEffects {
   @Effect({ dispatch: false })
   createTemplateSuccess$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE_SUCCESS)
-    .do((action: template.CreateTemplateSuccess) => {
-      this.onNotify(action.payload, this.successTemplateCreate);
+    .do(() => {
+      this.notificationService.message('NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED');
       this.dialog.closeAll();
     });
 
@@ -145,14 +142,10 @@ export class TemplateEffects {
   @Effect({ dispatch: false })
   setTemplateGroupError$: Observable<Action> = this.actions$
     .ofType(template.SET_TEMPLATE_GROUP_ERROR)
-    .do((action: template.SetTemplateGroupError) => {
-      this.onErrorNotify(this.errorTemplateGroupSet);
+    .do(() => {
+      this.notificationService.error('NOTIFICATIONS.TEMPLATE.TEMPLATE_GROUP_SET_ERROR');
     });
 
-
-  private successTemplateCreate = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_CREATED';
-  private successTemplateRemove = 'NOTIFICATIONS.TEMPLATE.CUSTOM_TEMPLATE_DELETED';
-  private errorTemplateGroupSet = 'NOTIFICATIONS.TEMPLATE.TEMPLATE_GROUP_SET_ERROR';
 
   constructor(
     private actions$: Actions,
@@ -166,17 +159,6 @@ export class TemplateEffects {
     private router: Router,
     private dialog: MatDialog
   ) {
-  }
-
-  private onNotify(template: any, message: string) {
-    this.notificationService.message({
-      translationToken: message,
-      interpolateParams: { name: template.name }
-    });
-  }
-
-  private onErrorNotify(message: string) {
-    this.notificationService.error(message);
   }
 
   private handleError(error: any): void {

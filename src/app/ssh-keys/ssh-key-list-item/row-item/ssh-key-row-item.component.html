@@ -1,17 +1,15 @@
-<mat-list-item (click)="onClicked($event)">
+<mat-list-item (click)="onClicked($event)" class="entity-list-item">
   <mat-icon class="mdi-key"></mat-icon>
-  <h2
-    class="row-title"
-    [matTooltip]="item.name"
-  >
+
+  <h2 class="entity-list-item-title" [matTooltip]="item.name">
     {{ item.name }}
   </h2>
 
-  <div class="key">
+  <div class="entity-list-item-data">
     {{ item.fingerprint }}
   </div>
 
-  <button class="row-action" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
     <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 

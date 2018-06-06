@@ -1,5 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import * as clone from 'lodash/clone';
 
@@ -17,7 +16,6 @@ import { BaseTemplateModel } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
-import { VmCreationAgreementComponent } from './template/agreement/vm-creation-agreement.component';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
 import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
@@ -25,16 +23,9 @@ import { ProgressLoggerMessage } from '../../shared/components/progress-logger/p
 
 
 @Component({
-  selector: 'cs-vm-create',
+  selector: 'cs-vm-creation',
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VmCreationAgreementComponent),
-      multi: true
-    }
-  ]
 })
 export class VmCreationComponent {
   @Input() public account: Account;

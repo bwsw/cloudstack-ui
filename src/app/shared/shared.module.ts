@@ -102,7 +102,6 @@ import { SecurityGroupBuilderRuleComponent } from './components/security-group-b
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
 // tslint:disable-next-line
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
-import { TableComponent } from './components/table/table.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
@@ -168,6 +167,7 @@ import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-o
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
+import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 
 @NgModule({
   imports: [
@@ -247,7 +247,6 @@ import { InputTypeNumberDirective } from './directives/input-type-number.directi
     VolumeActionsComponent,
     StringifyTimePipe,
     StringifyDatePipe,
-    TableComponent,
     TemplateActionsComponent,
     MatAutocompleteModule,
     MatInputModule,
@@ -276,7 +275,9 @@ import { InputTypeNumberDirective } from './directives/input-type-number.directi
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     ReactiveFormsModule,
-    InputTypeNumberDirective
+    InputTypeNumberDirective,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -328,7 +329,6 @@ import { InputTypeNumberDirective } from './directives/input-type-number.directi
     VolumeActionsComponent,
     StringifyDatePipe,
     StringifyTimePipe,
-    TableComponent,
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
@@ -361,7 +361,9 @@ import { InputTypeNumberDirective } from './directives/input-type-number.directi
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     DiskOfferingDialogComponent,
-    InputTypeNumberDirective
+    InputTypeNumberDirective,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   providers: [
     AccountService,

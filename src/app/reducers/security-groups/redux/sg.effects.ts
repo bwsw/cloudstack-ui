@@ -4,11 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import {
-  getType,
-  SecurityGroup,
-  SecurityGroupType
-} from '../../../security-group/sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Router } from '@angular/router';
@@ -104,7 +100,7 @@ export class SecurityGroupEffects {
   convertSecurityGroup$: Observable<Action> = this.actions$
     .ofType(securityGroup.CONVERT_SECURITY_GROUP)
     .switchMap((action: securityGroup.ConvertSecurityGroup) => {
-      return this.dialogService.confirm({message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT'})
+      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
         .switchMap(() => {
@@ -164,15 +160,8 @@ export class SecurityGroupEffects {
     });
   }
 
-  private onNotify(securityGroup: SecurityGroup) {
-    this.notificationService.message({
-      translationToken: this.createSuccessMessage[getType(securityGroup)],
-      interpolateParams: { name: securityGroup.name }
-    });
-  }
-
   private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
-    this.onNotify(securityGroup);
+    this.notificationService.message(this.createSuccessMessage[getType(securityGroup)]);
     this.dialog.closeAll();
     this.router.navigate(['../security-group', securityGroup.id], {
       queryParamsHandling: 'preserve'
@@ -182,10 +171,7 @@ export class SecurityGroupEffects {
   public onDeleteConfirmation(securityGroup: SecurityGroup): Observable<any> {
     return this.deleteSecurityGroup(securityGroup)
       .map(() => {
-        this.notificationService.message({
-          translationToken: this.deleteSuccessMessage[getType(securityGroup)],
-          interpolateParams: { name: securityGroup.name }
-        });
+        this.notificationService.message(this.deleteSuccessMessage[getType(securityGroup)]);
       });
   }
 
