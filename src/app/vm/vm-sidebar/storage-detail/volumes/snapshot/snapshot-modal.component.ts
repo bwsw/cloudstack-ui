@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import {
-  TableDatabase,
-  TableDataSource
-} from '../../../../../shared/components/table/table';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
+
 import { getDateSnapshotCreated, Volume } from '../../../../../shared/models';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
 import {
@@ -17,8 +15,7 @@ import {
 })
 export class SnapshotModalComponent implements OnChanges {
   public displayedColumns = ['name', 'date', 'actions'];
-  public dataBase: TableDatabase;
-  public dataSource: TableDataSource | null;
+  public dataSource: MatTableDataSource<Snapshot>;
   @Input() public volume: Volume;
   @Output() public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output() public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
@@ -28,12 +25,14 @@ export class SnapshotModalComponent implements OnChanges {
   constructor(
     public snapshotActionsService: SnapshotActionService,
   ) {
-    this.dataBase = new TableDatabase();
-    this.dataSource = new TableDataSource(this.dataBase);
+    this.dataSource = new MatTableDataSource<Snapshot>([]);
   }
 
-  public ngOnChanges() {
-    this.dataBase.update(this.volume.snapshots);
+  public ngOnChanges(changes: SimpleChanges) {
+    const volume = changes['volume'];
+    if (volume) {
+      this.dataSource.data = volume.currentValue.snapshots;
+    }
   }
 
   public onAction(action, snapshot: Snapshot) {

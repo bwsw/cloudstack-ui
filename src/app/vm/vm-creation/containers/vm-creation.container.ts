@@ -39,9 +39,9 @@ import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 
 @Component({
-  selector: 'cs-vm-create-container',
+  selector: 'cs-vm-creation-container',
   template: `
-    <cs-vm-create
+    <cs-vm-creation
       [account]="account$ | async"
       [vmCreationState]="vmFormState$ | async"
       [fetching]="isLoading$ | async"
@@ -77,7 +77,7 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
       (onVmDeploymentFailed)="showOverlayChange()"
-    ></cs-vm-create>
+    ></cs-vm-creation>
   `
 })
 export class VmCreationContainerComponent implements OnInit {

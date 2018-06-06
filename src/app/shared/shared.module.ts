@@ -102,7 +102,6 @@ import { SecurityGroupBuilderRuleComponent } from './components/security-group-b
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
 // tslint:disable-next-line
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
-import { TableComponent } from './components/table/table.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
@@ -169,6 +168,7 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
+import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 
 @NgModule({
   imports: [
@@ -250,7 +250,6 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeActionsComponent,
     StringifyTimePipe,
     StringifyDatePipe,
-    TableComponent,
     TemplateActionsComponent,
     MatAutocompleteModule,
     MatInputModule,
@@ -278,7 +277,9 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -332,7 +333,6 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeActionsComponent,
     StringifyDatePipe,
     StringifyTimePipe,
-    TableComponent,
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
@@ -364,7 +364,9 @@ import { BadgeDirective } from './directives/badge/badge.directive';
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    DiskOfferingDialogComponent
+    DiskOfferingDialogComponent,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   providers: [
     AccountService,

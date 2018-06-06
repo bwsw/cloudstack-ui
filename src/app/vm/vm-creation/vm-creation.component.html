@@ -1,23 +1,25 @@
 <ng-container *ngIf="showOverlay">
-  <div class="overlay mat-dialog-content">
-    <div class="message">
-      <cs-progress-logger
-        [messages]="loggerStageList"
-      ></cs-progress-logger>
+  <mat-dialog-content>
+    <div class="overlay message">
+      <div class="overlay-content">
+        <cs-progress-logger
+          [messages]="loggerStageList"
+        ></cs-progress-logger>
 
-      <mat-progress-bar
-        mode="indeterminate"
-        [class.progress-hidden]="!deploymentInProgress"
-      ></mat-progress-bar>
-      <cs-postdeployment-dialog
-        *ngIf="!deploymentInProgress && deployedVm"
-        [vm]="deployedVm"
-        [dialogRef]="dialogRef"
-        [title]="'VM_POST_ACTION.TITLE'"
-      >
-      </cs-postdeployment-dialog>
+        <mat-progress-bar
+          mode="indeterminate"
+          [class.progress-hidden]="!deploymentInProgress"
+        ></mat-progress-bar>
+        <cs-postdeployment-dialog
+          *ngIf="!deploymentInProgress && deployedVm"
+          [vm]="deployedVm"
+          [dialogRef]="dialogRef"
+          [title]="'VM_POST_ACTION.TITLE'"
+        >
+        </cs-postdeployment-dialog>
+      </div>
     </div>
-  </div>
+  </mat-dialog-content>
 
   <div class="mat-dialog-actions">
     <button

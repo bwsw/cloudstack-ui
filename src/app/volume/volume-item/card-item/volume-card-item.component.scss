@@ -2,18 +2,6 @@
   display: inline-flex;
 }
 
-mat-card {
-  cursor: pointer;
-}
-
-.row {
-  margin-bottom: 5px;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .root-disk {
   background: center/4px 4px repeat radial-gradient(
       circle at center,

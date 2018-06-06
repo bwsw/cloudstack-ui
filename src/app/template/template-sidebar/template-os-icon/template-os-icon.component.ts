@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { OsType } from '../../../shared/models';
@@ -7,6 +7,7 @@ import { NgrxEntities } from '../../../shared/interfaces';
 
 @Component({
   selector: 'cs-template-os-icon',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'template-os-icon.component.html',
   styleUrls: ['template-os-icon.component.scss']
 })

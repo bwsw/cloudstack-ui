@@ -5,24 +5,25 @@
   width: 100%;
 }
 
-table {
-  thead {
-    text-align: left;
-    tr {
-      white-space: nowrap;
-    }
-  }
-  tbody {
-    cursor: pointer;
-    tr {
-      white-space: nowrap;
-    }
-  }
+mat-table {
+  display: table;
+  width: 100%;
 }
 
-.name-text {
-  display: block;
-  width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+mat-row {
+  cursor: pointer;
+}
+
+mat-header-cell, mat-cell {
+  white-space: nowrap;
+}
+
+.mat-column-name {
+  flex: 2;
+}
+
+.mat-column-radioButton {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 20px; // width of radio button
 }
