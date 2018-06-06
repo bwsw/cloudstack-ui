@@ -9,6 +9,7 @@ import { Account } from '../../../shared/models';
 import { AccountService } from '../../../shared/services/account.service';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { UserService } from '../../../shared/services/user.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 
 import * as vmActions from '../../vm/redux/vm.actions';
@@ -53,12 +54,12 @@ export class AccountsEffects {
       return this.accountService.disableAccount(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -68,10 +69,14 @@ export class AccountsEffects {
     .ofType(accountActions.ENABLE_ACCOUNT)
     .mergeMap((action: accountActions.EnableAccountRequest) => {
       return this.accountService.enableAccount(action.payload)
-        .do(() => this.snackBarService.open('NOTIFICATIONS.ACCOUNT.ENABLE_DONE'))
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.ENABLE_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.ENABLE_FAILED');
+          const message = 'NOTIFICATIONS.ACCOUNT.ENABLE_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -84,12 +89,12 @@ export class AccountsEffects {
       return this.accountService.removeAccount(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.ACCOUNT.DELETION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.ACCOUNT.DELETION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -100,10 +105,14 @@ export class AccountsEffects {
     .ofType(accountActions.CREATE_ACCOUNT)
     .mergeMap((action: accountActions.CreateAccount) => {
       return this.accountService.create(action.payload)
-        .do(() => this.snackBarService.open('NOTIFICATIONS.ACCOUNT.CREATION_DONE'))
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.CREATION_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(createdAccount => new accountActions.CreateSuccess(createdAccount))
         .catch((error: Error) => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.CREATION_FAILED');
+          const message = 'NOTIFICATIONS.ACCOUNT.CREATION_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new accountActions.CreateError(error));
         });
     });
@@ -134,11 +143,13 @@ export class AccountsEffects {
     .mergeMap((action: accountActions.AccountUserDelete) =>
       this.userService.removeUser(action.payload)
         .do(() => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.DELETE_DONE');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.DELETE_DONE';
+          this.showNotificationsOnFinish(message);
         })
         .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
         .catch(error => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.DELETE_FAILED');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.DELETE_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new accountActions.AccountUpdateError(error));
         }));
 
@@ -148,11 +159,13 @@ export class AccountsEffects {
     .mergeMap((action: accountActions.AccountUserCreate) =>
       this.userService.createUser(action.payload)
         .do(() => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.CREATION_DONE');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.CREATION_DONE';
+          this.showNotificationsOnFinish(message);
         })
         .map((user) => new accountActions.AccountUserCreateSuccess(user))
         .catch(error => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.CREATION_FAILED');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.CREATION_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new accountActions.AccountUpdateError(error))
         }));
 
@@ -169,11 +182,13 @@ export class AccountsEffects {
     .mergeMap((action: accountActions.AccountUserUpdate) =>
       this.userService.updateUser(action.payload)
         .do(() => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.UPDATE_DONE');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.UPDATE_DONE';
+          this.showNotificationsOnFinish(message);
         })
         .map((user) => new accountActions.AccountUserUpdateSuccess(user))
         .catch(error => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.UPDATE_FAILED');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.UPDATE_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new accountActions.AccountUpdateError(error))
         }));
 
@@ -183,14 +198,16 @@ export class AccountsEffects {
     .mergeMap((action: accountActions.AccountUserGenerateKey) =>
       this.userService.registerKeys(action.payload.id)
         .do(() => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_DONE');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_DONE';
+          this.showNotificationsOnFinish(message);
         })
         .map(res => new accountActions.AccountLoadUserKeysSuccess({
           user: action.payload,
           userKeys: res
         }))
         .catch(error => {
-          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_FAILED');
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new accountActions.AccountUpdateError(error))
         }));
 
@@ -211,24 +228,29 @@ export class AccountsEffects {
     private userService: UserService,
     private router: Router,
     private dialog: MatDialog,
+    private dialogService: DialogService,
     private snackBarService: SnackBarService,
     private jobsNotificationService: JobsNotificationService
   ) {
   }
 
-  private showNotificationsOnFinish(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.finish({
-      id: jobNotificationId,
-      message
-    });
+  private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.finish({
+        id: jobNotificationId,
+        message
+      });
+    }
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.fail({
-      id: jobNotificationId,
-      message
-    });
-    this.snackBarService.open(message);
+  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.fail({
+        id: jobNotificationId,
+        message
+      });
+    }
+    this.dialogService.alert({ message });
   }
 }

@@ -39,12 +39,12 @@ export class SecurityGroupEffects {
       return this.createSecurityGroup(action.payload)
         .do(() => {
           const message = this.getCreateSuccessMessage(action.payload.mode);
-          this.snackBarService.open(message);
+          this.showNotificationsOnFinish(message);
         })
         .map(sg => new securityGroup.CreateSecurityGroupSuccess(sg))
         .catch(error => {
           const message = this.getCreateFailedMessage(action.payload.mode);
-          this.snackBarService.open(message);
+          this.showNotificationsOnFail(message);
           return Observable.of(new securityGroup.CreateSecurityGroupError(error))
         });
     });
@@ -62,12 +62,12 @@ export class SecurityGroupEffects {
       return this.deleteSecurityGroup(action.payload)
         .do(() => {
           const message = this.getDeleteSucessMessage(action.payload);
-          this.snackBarService.open(message);
+          this.showNotificationsOnFinish(message);
         })
         .map(() => new securityGroup.DeleteSecurityGroupSuccess(action.payload))
         .catch(error => {
           const message = this.getDeleteFailMessage(action.payload);
-          this.snackBarService.open(message);
+          this.showNotificationsOnFail(message);
           return Observable.of(new securityGroup.DeleteSecurityGroupError(error))
         });
     });
@@ -88,11 +88,13 @@ export class SecurityGroupEffects {
     .mergeMap((group: SecurityGroup) => {
       return this.deleteSecurityGroup(group)
         .do(() => {
-          this.snackBarService.open('PRIVATE_GROUP_DELETE_DONE');
+          const message = 'NOTIFICATIONS.FIREWALL.PRIVATE_GROUP_DELETE_DONE';
+          this.showNotificationsOnFinish(message);
         })
         .map(() => new securityGroup.DeleteSecurityGroupSuccess(group))
         .catch(error => {
-          this.snackBarService.open('PRIVATE_GROUP_DELETE_FAILED');
+          const message = 'NOTIFICATIONS.FIREWALL.PRIVATE_GROUP_DELETE_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new securityGroup.DeleteSecurityGroupError(error));
         });
     });
@@ -201,5 +203,13 @@ export class SecurityGroupEffects {
 
   private getDeleteFailMessage(securityGroup: SecurityGroup): string {
     return this.deleteFailMessage[getType(securityGroup)];
+  }
+
+  private showNotificationsOnFinish(message: string) {
+    this.snackBarService.open(message);
+  }
+
+  private showNotificationsOnFail(message: string) {
+    this.dialogService.alert({ message });
   }
 }

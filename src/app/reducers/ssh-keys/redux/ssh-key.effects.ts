@@ -39,10 +39,14 @@ export class SshKeyEffects {
             account: action.payload.account,
             domainid: action.payload.domainid
           })
-            .do(() => this.snackBarService.open('NOTIFICATIONS.SSH_KEY.DELETE_DONE'))
+            .do(() => {
+              const message = 'NOTIFICATIONS.SSH_KEY.DELETE_DONE';
+              this.showNotificationsOnFinish(message);
+            })
             .map(() => new sshKey.RemoveSshKeyPairSuccessAction(action.payload))
             .catch((error: Error) => {
-              this.snackBarService.open('NOTIFICATIONS.SSH_KEY.DELETE_FAILED');
+              const message = 'NOTIFICATIONS.SSH_KEY.DELETE_FAILED';
+              this.showNotificationsOnFail(message);
               return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
             });
         });
@@ -70,10 +74,14 @@ export class SshKeyEffects {
         ? this.sshKeyService.register(action.payload)
         : this.sshKeyService.create(action.payload)
       )
-        .do(() => this.snackBarService.open('NOTIFICATIONS.SSH_KEY.CREATION_DONE'))
+        .do(() => {
+          const message = 'NOTIFICATIONS.SSH_KEY.CREATION_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(createdKey => new sshKey.CreateSshKeyPairSuccessAction(createdKey))
         .catch((error: Error) => {
-          this.snackBarService.open('NOTIFICATIONS.SSH_KEY.CREATION_FAILED');
+          const message = 'NOTIFICATIONS.SSH_KEY.CREATION_FAILED';
+          this.showNotificationsOnFail(message);
           return Observable.of(new sshKey.CreateSshKeyPairErrorAction(error));
         });
     });
@@ -106,6 +114,14 @@ export class SshKeyEffects {
     })
       .beforeClose()
       .subscribe(() => this.dialog.closeAll());
+  }
+
+  private showNotificationsOnFinish(message: string) {
+    this.snackBarService.open(message);
+  }
+
+  private showNotificationsOnFail(message: string) {
+    this.dialogService.alert({ message });
   }
 
 }

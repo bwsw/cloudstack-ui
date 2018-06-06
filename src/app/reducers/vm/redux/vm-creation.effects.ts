@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
@@ -318,7 +318,7 @@ export class VirtualMachineCreationEffects {
         id: this.deploymentNotificationId,
         message
       });
-      this.snackBar.open(message);
+      this.dialogService.alert({ message });
 
       return new vmActions.DeploymentAddLoggerMessage({
         text: action.payload.params
@@ -337,6 +337,7 @@ export class VirtualMachineCreationEffects {
     private vmService: VmService,
     private jobsNotificationService: JobsNotificationService,
     private templateTagService: TemplateTagService,
+    private dialogService: DialogService,
     private dialog: MatDialog,
     private auth: AuthService,
     private resourceUsageService: ResourceUsageService,

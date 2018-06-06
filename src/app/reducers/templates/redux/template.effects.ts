@@ -5,16 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import * as uniqBy from 'lodash/uniqBy';
 
-import { TemplateService } from '../../../template/shared/template.service';
 import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { IsoService } from '../../../template/shared/iso.service';
-import { Template } from '../../../template/shared/template.model';
-import { Iso } from '../../../template/shared/iso.model';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../../../template/shared';
 import { MatDialog } from '@angular/material';
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
@@ -73,14 +70,14 @@ export class TemplateEffects {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.DELETION_DONE'
             : 'NOTIFICATIONS.TEMPLATE.DELETION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(removedTemplate => new template.RemoveTemplateSuccess(removedTemplate))
         .catch((error: Error) => {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.DELETION_FAILED'
             : 'NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new template.RemoveTemplateError(error))
         });
     });
@@ -108,14 +105,14 @@ export class TemplateEffects {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.REGISTER_DONE'
             : 'NOTIFICATIONS.TEMPLATE.REGISTER_DONE';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFinish(message);
         })
         .map(createdTemplate => new template.RegisterTemplateSuccess(createdTemplate))
         .catch((error: Error) => {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.REGISTER_FAILED'
             : 'NOTIFICATIONS.TEMPLATE.REGISTER_FAILED';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFail(message);
           return Observable.of(new template.RegisterTemplateSuccess(error))
         });
     });
@@ -128,12 +125,12 @@ export class TemplateEffects {
       return this.templateService.create(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new template.CreateTemplateError(error))
         });
     });
@@ -176,24 +173,29 @@ export class TemplateEffects {
     private templateTagService: TemplateTagService,
     private router: Router,
     private dialog: MatDialog,
+    private dialogService: DialogService,
     private snackBarService: SnackBarService,
     private jobsNotificationService: JobsNotificationService
   ) {
   }
 
-  private showNotificationsOnFinish(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.finish({
-      id: jobNotificationId,
-      message
-    });
+  private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.finish({
+        id: jobNotificationId,
+        message
+      });
+    }
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.fail({
-      id: jobNotificationId,
-      message
-    });
-    this.snackBarService.open(message);
+  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.fail({
+        id: jobNotificationId,
+        message
+      });
+    }
+    this.dialogService.alert({ message });
   }
 }

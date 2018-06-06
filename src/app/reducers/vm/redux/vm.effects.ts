@@ -53,12 +53,12 @@ export class VirtualMachinesEffects {
       return this.vmService.getList(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.FETCH_STATISTICS_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map((vms: VirtualMachine[]) => new vmActions.UpdateVM(vms[0]))
         .catch((error) => {
           const message = 'NOTIFICATIONS.VM.FETCH_STATISTICS_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -74,12 +74,12 @@ export class VirtualMachinesEffects {
         .removeDescription(action.payload.vm))
         .do(() => {
           const message = 'NOTIFICATIONS.VM.CHANGE_DESCRIPTION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(vm => new vmActions.UpdateVM(vm))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.CHANGE_DESCRIPTION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -103,7 +103,7 @@ export class VirtualMachinesEffects {
         .changeServiceOffering(changeAction.payload.offering, changeAction.payload.vm)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .switchMap((newVm) => {
           if (vmState === VmState.Running) {
@@ -114,7 +114,7 @@ export class VirtualMachinesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({
             vm: changeAction.payload.vm,
             state: VmState.Stopped,
@@ -149,7 +149,7 @@ export class VirtualMachinesEffects {
           )
             .do(() => {
               const message = 'NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .switchMap((newVm) => {
               if (vmState === VmState.Running) {
@@ -160,7 +160,7 @@ export class VirtualMachinesEffects {
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: changeAction.payload.vm,
                 state: VmState.Stopped,
@@ -185,12 +185,12 @@ export class VirtualMachinesEffects {
       return this.vmTagService.setGroup(newVm, action.payload.group)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(vm => new vmActions.UpdateVM(vm))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -205,7 +205,7 @@ export class VirtualMachinesEffects {
       return this.vmTagService.removeGroup(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(vm => {
           const newVm = Object.assign(
@@ -217,7 +217,7 @@ export class VirtualMachinesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -229,7 +229,7 @@ export class VirtualMachinesEffects {
       return this.vmService.addIpToNic(action.payload.nicId)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.ADD_SECONDARY_IP_DONE';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFinish(message);
         })
         .map(res => {
           const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip);
@@ -248,7 +248,7 @@ export class VirtualMachinesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.ADD_SECONDARY_IP_FAILED';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFail(message);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -260,7 +260,7 @@ export class VirtualMachinesEffects {
       return this.vmService.removeIpFromNic(action.payload.id)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.REMOVE_SECONDARY_IP_DONE';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFinish(message);
         })
         .map(res => {
           const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip)
@@ -279,7 +279,7 @@ export class VirtualMachinesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.REMOVE_SECONDARY_IP_FAILED';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFail(message);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -291,12 +291,12 @@ export class VirtualMachinesEffects {
       return this.vmTagService.setColor(action.payload.vm, action.payload.color)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.COLOR_CHANGE_DONE';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFinish(message);
         })
         .map(vm => new vmActions.UpdateVM(vm))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.COLOR_CHANGE_FAILED';
-          this.snackBarService.open(message);
+          this.showNotificationsOnFail(message);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -311,12 +311,12 @@ export class VirtualMachinesEffects {
       return this.vmService.command(action.payload, CSCommands.Stop)
         .do(() => {
           const message = 'NOTIFICATIONS.VM.STOP_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(vm => new vmActions.UpdateVM(vm))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.STOP_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({
             vm: action.payload,
             state: VmState.Error,
@@ -349,7 +349,7 @@ export class VirtualMachinesEffects {
             let message: string;
             if (params.expunge) {
               message = 'NOTIFICATIONS.VM.EXPUNGE_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
               return [
                 new vmActions.ExpungeVmSuccess(action.payload),
                 new volumeActions.DeleteVolumes({ vm: action.payload, expunged: true }),
@@ -357,7 +357,7 @@ export class VirtualMachinesEffects {
               ];
             } else {
               message = 'NOTIFICATIONS.VM.DESTROY_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
               return [
                 new vmActions.UpdateVM(vm),
                 new volumeActions.DeleteVolumes({ vm: action.payload, expunged: false })
@@ -369,7 +369,7 @@ export class VirtualMachinesEffects {
             .pipe(actions)
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.DESTROY_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: action.payload,
                 state: VmState.Error,
@@ -393,12 +393,12 @@ export class VirtualMachinesEffects {
           return this.vmService.command(action.payload, CSCommands.Reboot)
             .do(() => {
               const message = 'NOTIFICATIONS.VM.REBOOT_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .map(vm => new vmActions.UpdateVM(vm))
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.REBOOT_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: action.payload,
                 state: VmState.Error,
@@ -423,12 +423,12 @@ export class VirtualMachinesEffects {
           return this.vmService.command(action.payload, CSCommands.Restore)
             .do(() => {
               const message = 'NOTIFICATIONS.VM.RESTORE_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .map(newVm => new vmActions.UpdateVM(newVm))
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.RESTORE_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: action.payload,
                 state: VmState.Error,
@@ -452,12 +452,12 @@ export class VirtualMachinesEffects {
           return this.vmService.commandSync(action.payload, 'recover')
             .do(() => {
               const message = 'NOTIFICATIONS.VM.RECOVER_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .map(res => new vmActions.UpdateVM(res.virtualmachine))
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.RECOVER_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: action.payload,
                 state: VmState.Error,
@@ -487,12 +487,12 @@ export class VirtualMachinesEffects {
           return this.vmService.command(action.payload, CSCommands.Expunge)
             .do(() => {
               const message = 'NOTIFICATIONS.VM.EXPUNGE_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .pipe(actions)
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.EXPUNGE_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({ error }));
             });
         });
@@ -507,12 +507,12 @@ export class VirtualMachinesEffects {
       return this.isoService.attach(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.ISO.ATTACHMENT_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map((vm) => new vmActions.UpdateVM(vm))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.ISO.ATTACHMENT_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -526,12 +526,12 @@ export class VirtualMachinesEffects {
       return this.isoService.detach(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.ISO.DETACHMENT_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map((vm) => new vmActions.ReplaceVM(vm))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VM.DETACHMENT_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
@@ -564,7 +564,7 @@ export class VirtualMachinesEffects {
           })
             .do(() => {
               const message = 'NOTIFICATIONS.VM.CHANGE_SSH_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .switchMap((newVm) => {
               if (vmState === VmState.Running) {
@@ -575,7 +575,7 @@ export class VirtualMachinesEffects {
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.CHANGE_SSH_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: changeAction.payload.vm,
                 state: VmState.Stopped,
@@ -607,7 +607,7 @@ export class VirtualMachinesEffects {
           return this.vmService.command(resetAction.payload, CSCommands.ResetPasswordFor)
             .do(() => {
               const message = 'NOTIFICATIONS.VM.RESET_PASSWORD_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .switchMap((newVm) => {
               if (vmState === VmState.Running) {
@@ -619,7 +619,7 @@ export class VirtualMachinesEffects {
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.RESET_PASSWORD_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: resetAction.payload,
                 state: VmState.Error,
@@ -637,12 +637,12 @@ export class VirtualMachinesEffects {
         this.vmTagService.setPassword(action.payload.vm, action.payload.tag)
           .do(() => {
             const message = 'NOTIFICATIONS.VM.SAVE_PASSWORD_DONE';
-            this.snackBarService.open(message);
+            this.showNotificationsOnFinish(message);
           })
           .map((vm) => new vmActions.UpdateVM(vm))
           .catch((error: Error) => {
             const message = 'NOTIFICATIONS.VM.SAVE_PASSWORD_FAILED';
-            this.snackBarService.open(message);
+            this.showNotificationsOnFail(message);
             return Observable.of(new vmActions.VMUpdateError({ error }));
           }));
     });
@@ -787,13 +787,13 @@ export class VirtualMachinesEffects {
     return this.vmService.command(vm, CSCommands.Start)
       .do(() => {
         const message = 'NOTIFICATIONS.VM.START_DONE';
-        this.showNotificationsOnFinish(notificationId, message);
+        this.showNotificationsOnFinish(message, notificationId);
       })
       .map((newVm) => new vmActions.UpdateVM(new VirtualMachine(
         Object.assign({}, vm, newVm))))
       .catch((error: Error) => {
         const message = 'NOTIFICATIONS.VM.START_FAILED';
-        this.showNotificationsOnFail(notificationId, message);
+        this.showNotificationsOnFail(message, notificationId);
         return Observable.of(new vmActions.VMUpdateError({
           vm,
           state: VmState.Error,
@@ -807,16 +807,14 @@ export class VirtualMachinesEffects {
       'NOTIFICATIONS.VM.STOP_IN_PROGRESS');
     this.update(vm, VmState.InProgress);
     return this.vmService.command(vm, CSCommands.Stop)
-      .do(() => this.jobsNotificationService.finish({
-        id: notificationId,
-        message: 'NOTIFICATIONS.VM.STOP_DONE'
-      }))
+      .do(() => {
+        const message = 'NOTIFICATIONS.VM.STOP_DONE';
+        this.showNotificationsOnFinish(message, notificationId);
+      })
       .switchMap((newVm) => Observable.of(newVm))
       .catch((error: Error) => {
-        this.jobsNotificationService.fail({
-          id: notificationId,
-          message: 'NOTIFICATIONS.VM.STOP_FAILED'
-        });
+        const message = 'NOTIFICATIONS.VM.STOP_FAILED';
+        this.showNotificationsOnFail(message, notificationId);
         return Observable.of(new vmActions.VMUpdateError({
           vm,
           state: VmState.Error,
@@ -847,19 +845,23 @@ export class VirtualMachinesEffects {
     }
   }
 
-  private showNotificationsOnFinish(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.finish({
-      id: jobNotificationId,
-      message
-    });
+  private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.finish({
+        id: jobNotificationId,
+        message
+      });
+    }
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.fail({
-      id: jobNotificationId,
-      message
-    });
-    this.snackBarService.open(message);
+  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.fail({
+        id: jobNotificationId,
+        message
+      });
+    }
+    this.dialogService.alert({ message });
   }
 }

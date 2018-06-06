@@ -63,7 +63,7 @@ export class SnapshotEffects {
             })
             .catch((error) => {
               const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(message, notificationId);
               return Observable.of(new snapshotActions.SnapshotUpdateError(error));
             });
         });
@@ -85,7 +85,7 @@ export class SnapshotEffects {
         })
         .catch((error) => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(message, notificationId);
           return Observable.of(new snapshotActions.SnapshotUpdateError(error));
         });
     });
@@ -127,7 +127,7 @@ export class SnapshotEffects {
             return this.snapshotService.revert(action.payload.id)
               .do(() => {
                 const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_DONE';
-                this.showNotificationsOnFinish(notificationId, message);
+                this.showNotificationsOnFinish(message, notificationId);
               })
               .flatMap(() => {
                 return isVmRunning
@@ -138,11 +138,8 @@ export class SnapshotEffects {
                   : [new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload)];
               })
               .catch((error) => {
-                this.jobsNotificationService.fail({
-                  id: notificationId,
-                });
                 const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
-                this.showNotificationsOnFail(notificationId, message);
+                this.showNotificationsOnFail(message, notificationId);
                 return Observable.of(new snapshotActions.SnapshotUpdateError(error))
               });
           }));
@@ -174,19 +171,23 @@ export class SnapshotEffects {
   ) {
   }
 
-  private showNotificationsOnFinish(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.finish({
-      id: jobNotificationId,
-      message
-    });
+  private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.finish({
+        id: jobNotificationId,
+        message
+      });
+    }
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(jobNotificationId: string, message: string) {
-    this.jobsNotificationService.fail({
-      id: jobNotificationId,
-      message
-    });
-    this.snackBarService.open(message);
+  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.fail({
+        id: jobNotificationId,
+        message
+      });
+    }
+    this.dialogService.alert({ message });
   }
 }
