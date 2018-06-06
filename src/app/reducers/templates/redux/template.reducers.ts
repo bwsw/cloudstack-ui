@@ -1,11 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  TemplateFilters,
-  TemplateResourceType
-} from '../../../template/shared/base-template.service';
+import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -16,7 +14,6 @@ import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
 import * as vm from '../../vm/redux/vm.actions';
-import * as fromAuth from '../../auth/redux/auth.reducers';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -175,9 +172,12 @@ export function formReducer(
   action: template.Actions
 ): FormState {
   switch (action.type) {
+    case template.TEMPLATE_REGISTER:
     case template.TEMPLATE_CREATE: {
       return { ...state, loading: true };
     }
+    case template.TEMPLATE_REGISTER_SUCCESS:
+    case template.TEMPLATE_REGISTER_ERROR:
     case template.TEMPLATE_CREATE_SUCCESS:
     case template.TEMPLATE_CREATE_ERROR: {
       return { ...state, loading: false };

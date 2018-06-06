@@ -11,8 +11,6 @@ import { MaterialModule } from '../material/material.module';
 import { TagsModule } from '../tags/tags.module';
 import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 
-import { IsoCreateAction } from '../shared/actions/template-actions/create/iso-create';
-import { TemplateCreateAction } from '../shared/actions/template-actions/create/template-create';
 import { IsoDeleteAction } from '../shared/actions/template-actions/delete/iso-delete';
 import { TemplateDeleteAction } from '../shared/actions/template-actions/delete/template-delete';
 import { IsoActionsService } from '../shared/actions/template-actions/iso-actions.service';
@@ -151,9 +149,7 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     TemplateGroupService,
     TemplateActionsService,
     IsoActionsService,
-    TemplateCreateAction,
     TemplateDeleteAction,
-    IsoCreateAction,
     IsoDeleteAction
   ],
   entryComponents: [

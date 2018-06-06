@@ -9,7 +9,7 @@ export const MAX_NOTIFICATION_PARAM_LENGTH = 40;
 
 @Injectable()
 export class SnackBarService {
-  public snackBarConfig: MatSnackBarConfig;
+  private readonly snackBarConfig: MatSnackBarConfig;
 
   constructor(
     private snackBar: MatSnackBar,

@@ -41,12 +41,19 @@ export class VolumesEffects {
   createVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.CREATE_VOLUME)
     .mergeMap((action: volumeActions.CreateVolume) => {
+      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS');
       return this.volumeService.create(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.VOLUME.CREATION_DONE';
+          this.showNotificationsOnFinish(notificationId, message);
+        })
         .map(createdVolume => {
           this.dialog.closeAll();
           return new volumeActions.CreateSuccess(createdVolume);
         })
         .catch((error: Error) => {
+          const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
+          this.showNotificationsOnFail(notificationId, message);
           return Observable.of(new volumeActions.CreateError(error));
         });
     });
@@ -54,14 +61,20 @@ export class VolumesEffects {
   createVolumeFromSnapshot$: Observable<Action> = this.actions$
     .ofType(volumeActions.CREATE_VOLUME_FROM_SNAPSHOT)
     .mergeMap((action: volumeActions.CreateVolumeFromSnapshot) => {
+      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS');
       return this.volumeService.createFromSnapshot(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.VOLUME.CREATION_DONE';
+          this.showNotificationsOnFinish(notificationId, message);
+        })
         .map(job => {
           const createdVolume = job.jobresult['volume'];
           this.dialog.closeAll();
-          this.notificationService.message('NOTIFICATIONS.VOLUME.VOLUME_FROM_SNAPSHOT_CREATED');
           return new volumeActions.CreateVolumeFromSnapshotSuccess(createdVolume);
         })
         .catch((error: Error) => {
+          const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
+          this.showNotificationsOnFail(notificationId, message);
           return Observable.of(new volumeActions.CreateError(error));
         });
     });
@@ -79,17 +92,13 @@ export class VolumesEffects {
         : this.volumeTagService
           .removeDescription(action.payload.volume))
         .map((volume: Volume) => {
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE'
-          });
+          const message = 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE';
+          this.showNotificationsOnFinish(notificationId, message);
           return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED'
-          });
+          const message = 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED';
+          this.showNotificationsOnFail(notificationId, message);
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
@@ -118,17 +127,13 @@ export class VolumesEffects {
           return this.volumeService
             .attach(params)
             .map((volume: Volume) => {
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
-              });
+              const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_DONE';
+              this.showNotificationsOnFinish(notificationId, message);
               return new volumeActions.UpdateVolume(volume);
             })
             .catch((error: Error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
-              });
+              const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
+              this.showNotificationsOnFail(notificationId, message);
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -148,17 +153,13 @@ export class VolumesEffects {
       return this.volumeService
         .attach(params)
         .map((volume: Volume) => {
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'NOTIFICATIONS.VOLUME.ATTACHMENT_DONE'
-          });
+          const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_DONE';
+          this.showNotificationsOnFinish(notificationId, message);
           return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED'
-          });
+          const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
+          this.showNotificationsOnFail(notificationId, message);
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
@@ -176,17 +177,13 @@ export class VolumesEffects {
           return this.volumeService
             .detach(action.payload)
             .switchMap((volume: Volume) => {
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'NOTIFICATIONS.VOLUME.DETACHMENT_DONE'
-              });
+              const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_DONE';
+              this.showNotificationsOnFinish(notificationId, message);
               return Observable.of(new volumeActions.ReplaceVolume(volume));
             })
             .catch((error: Error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
-              });
+              const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
+              this.showNotificationsOnFail(notificationId, message);
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -210,18 +207,14 @@ export class VolumesEffects {
           return this.volumeService
             .resize(params)
             .map((volume: Volume) => {
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'NOTIFICATIONS.VOLUME.RESIZE_DONE'
-              });
+              const message = 'NOTIFICATIONS.VOLUME.RESIZE_DONE';
+              this.showNotificationsOnFinish(notificationId, message);
               this.dialog.closeAll();
               return new volumeActions.ResizeVolumeSuccess(volume);
             })
             .catch((error: Error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'NOTIFICATIONS.VOLUME.RESIZE_FAILED'
-              });
+              const message = 'NOTIFICATIONS.VOLUME.RESIZE_FAILED';
+              this.showNotificationsOnFail(notificationId, message);
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -278,17 +271,13 @@ export class VolumesEffects {
       const remove = (removeVolume) => {
         return this.volumeService.remove(removeVolume)
           .map(() => {
-            this.jobsNotificationService.finish({
-              id: notificationId,
-              message: 'NOTIFICATIONS.VOLUME.DELETION_DONE'
-            });
+            const message = 'NOTIFICATIONS.VOLUME.DELETION_DONE';
+            this.showNotificationsOnFinish(notificationId, message);
             return new volumeActions.DeleteSuccess(removeVolume);
           })
           .catch((error: Error) => {
-            this.jobsNotificationService.fail({
-              id: notificationId,
-              message: 'NOTIFICATIONS.VOLUME.DELETION_FAILED'
-            });
+            const message = 'NOTIFICATIONS.VOLUME.DELETION_FAILED';
+            this.showNotificationsOnFail(notificationId, message);
             return Observable.of(new volumeActions.VolumeUpdateError(error));
           });
       };
@@ -300,10 +289,8 @@ export class VolumesEffects {
             return new volumeActions.ReplaceVolume(volume);
           })
           .catch((error: Error) => {
-            this.jobsNotificationService.fail({
-              id: notificationId,
-              message: 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED'
-            });
+            const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
+            this.showNotificationsOnFail(notificationId, message);
             return Observable.of(new volumeActions.VolumeUpdateError(error));
           });
       };
@@ -330,19 +317,6 @@ export class VolumesEffects {
       });
     });
 
-  @Effect({ dispatch: false })
-  createError$: Observable<Action> = this.actions$
-    .ofType(volumeActions.VOLUME_CREATE_ERROR)
-    .do((action: volumeActions.CreateError) => {
-      this.handleError(action.payload);
-    });
-
-  @Effect({ dispatch: false })
-  updateError$: Observable<Action> = this.actions$
-    .ofType(volumeActions.VOLUME_UPDATE_ERROR)
-    .do((action: volumeActions.VolumeUpdateError) => {
-      this.handleError(action.payload);
-    });
 
   constructor(
     private actions$: Actions,
@@ -351,26 +325,26 @@ export class VolumesEffects {
     private volumeTagService: VolumeTagService,
     private router: Router,
     private snapshotService: SnapshotService,
-    private notificationService: SnackBarService,
+    private snackBarService: SnackBarService,
     private jobsNotificationService: JobsNotificationService,
     private dialog: MatDialog,
     private store: Store<State>
   ) {
   }
 
-  private onNotify(volume: Volume, message: string) {
-    this.notificationService.open({
-      translationToken: message,
-      interpolateParams: { name: volume.name }
+  private showNotificationsOnFinish(jobNotificationId: string, message: string) {
+    this.jobsNotificationService.finish({
+      id: jobNotificationId,
+      message
     });
+    this.snackBarService.open(message);
   }
 
-  private handleError(error): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
+  private showNotificationsOnFail(jobNotificationId: string, message: string) {
+    this.jobsNotificationService.fail({
+      id: jobNotificationId,
+      message
     });
+    this.snackBarService.open(message);
   }
 }

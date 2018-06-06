@@ -54,18 +54,16 @@ export class SnapshotEffects {
             params.name,
             params.desc
           )
+            .do(() => {
+              const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_DONE';
+              this.showNotificationsOnFinish(notificationId, message);
+            })
             .map(newSnap => {
-              this.jobsNotificationService.finish({
-                id: notificationId,
-                message: 'NOTIFICATIONS.SNAPSHOT.TAKE_DONE'
-              });
               return new snapshotActions.AddSnapshotSuccess(newSnap);
             })
             .catch((error) => {
-              this.jobsNotificationService.fail({
-                id: notificationId,
-                message: 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-              });
+              const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
+              this.showNotificationsOnFail(notificationId, message);
               return Observable.of(new snapshotActions.SnapshotUpdateError(error));
             });
         });
@@ -78,18 +76,16 @@ export class SnapshotEffects {
       const notificationId = this.jobsNotificationService.add(
         'NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
       return this.snapshotService.remove(action.payload.id)
+        .do(() => {
+          const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_DONE';
+          this.showNotificationsOnFinish(notificationId, message);
+        })
         .map(() => {
-          this.jobsNotificationService.finish({
-            id: notificationId,
-            message: 'NOTIFICATIONS.SNAPSHOT.DELETION_DONE'
-          });
           return new snapshotActions.DeleteSnapshotSuccess(action.payload);
         })
         .catch((error) => {
-          this.jobsNotificationService.fail({
-            id: notificationId,
-            message: 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
-          });
+          const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED';
+          this.showNotificationsOnFail(notificationId, message);
           return Observable.of(new snapshotActions.SnapshotUpdateError(error));
         });
     });
@@ -129,12 +125,11 @@ export class SnapshotEffects {
             const notificationId = this.jobsNotificationService.add(
               'NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
             return this.snapshotService.revert(action.payload.id)
+              .do(() => {
+                const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_DONE';
+                this.showNotificationsOnFinish(notificationId, message);
+              })
               .flatMap(() => {
-                this.jobsNotificationService.finish({
-                  id: notificationId,
-                  message: 'NOTIFICATIONS.SNAPSHOT.REVERT_DONE'
-                });
-
                 return isVmRunning
                   ? [
                     new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload),
@@ -145,8 +140,9 @@ export class SnapshotEffects {
               .catch((error) => {
                 this.jobsNotificationService.fail({
                   id: notificationId,
-                  message: 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED'
                 });
+                const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
+                this.showNotificationsOnFail(notificationId, message);
                 return Observable.of(new snapshotActions.SnapshotUpdateError(error))
               });
           }));
@@ -155,9 +151,6 @@ export class SnapshotEffects {
   @Effect({ dispatch: false })
   deleteSnapshotSuccess$ = this.actions$
     .ofType(snapshotActions.DELETE_SNAPSHOT_SUCCESS)
-    .do(() => {
-      this.notificationService.message('NOTIFICATIONS.SNAPSHOT.DELETE_SUCCESS');
-    })
     .map((action: snapshotActions.DeleteSnapshotSuccess) => action.payload)
     .filter((snapshot: Snapshot) => this.router.isActive(
       `/snapshots/${snapshot.id}`,
@@ -167,40 +160,33 @@ export class SnapshotEffects {
       queryParamsHandling: 'preserve'
     }));
 
-  @Effect({ dispatch: false })
-  handleError$ = this.actions$
-    .ofType(snapshotActions.SNAPSHOT_UPDATE_ERROR)
-    .do((action: snapshotActions.SnapshotUpdateError) => {
-      this.handleError(action.payload);
-    });
-
 
   constructor(
     private store: Store<State>,
     private actions$: Actions,
     private snapshotService: SnapshotService,
-    private notificationService: SnackBarService,
     private jobsNotificationService: JobsNotificationService,
     private dialogService: DialogService,
     private dialog: MatDialog,
     private vmEffects: VirtualMachinesEffects,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackBarService
   ) {
   }
 
-  private onNotify(snapshot: Snapshot, message: string) {
-    this.notificationService.open({
-      translationToken: message,
-      interpolateParams: { name: snapshot.name }
+  private showNotificationsOnFinish(jobNotificationId: string, message: string) {
+    this.jobsNotificationService.finish({
+      id: jobNotificationId,
+      message
     });
+    this.snackBarService.open(message);
   }
 
-  private handleError(error): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
+  private showNotificationsOnFail(jobNotificationId: string, message: string) {
+    this.jobsNotificationService.fail({
+      id: jobNotificationId,
+      message
     });
+    this.snackBarService.open(message);
   }
 }

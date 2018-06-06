@@ -5,11 +5,12 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Account } from '../../../shared/models';
 import { AccountService } from '../../../shared/services/account.service';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { UserService } from '../../../shared/services/user.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
@@ -48,9 +49,16 @@ export class AccountsEffects {
   disableAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DISABLE_ACCOUNT)
     .mergeMap((action: accountActions.DisableAccountRequest) => {
+      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.ACCOUNT.DISABLE_IN_PROGRESS');
       return this.accountService.disableAccount(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_DONE';
+          this.showNotificationsOnFinish(notificationId, message);
+        })
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_FAILED';
+          this.showNotificationsOnFail(notificationId, message);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -60,8 +68,10 @@ export class AccountsEffects {
     .ofType(accountActions.ENABLE_ACCOUNT)
     .mergeMap((action: accountActions.EnableAccountRequest) => {
       return this.accountService.enableAccount(action.payload)
+        .do(() => this.snackBarService.open('NOTIFICATIONS.ACCOUNT.ENABLE_DONE'))
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.ENABLE_FAILED');
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -70,9 +80,16 @@ export class AccountsEffects {
   deleteAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DELETE_ACCOUNT)
     .mergeMap((action: accountActions.DeleteAccountRequest) => {
+      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.ACCOUNT.DELETION_IN_PROGRESS');
       return this.accountService.removeAccount(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DELETION_DONE';
+          this.showNotificationsOnFinish(notificationId, message);
+        })
         .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DELETION_FAILED';
+          this.showNotificationsOnFail(notificationId, message);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -83,8 +100,10 @@ export class AccountsEffects {
     .ofType(accountActions.CREATE_ACCOUNT)
     .mergeMap((action: accountActions.CreateAccount) => {
       return this.accountService.create(action.payload)
+        .do(() => this.snackBarService.open('NOTIFICATIONS.ACCOUNT.CREATION_DONE'))
         .map(createdAccount => new accountActions.CreateSuccess(createdAccount))
         .catch((error: Error) => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.CREATION_FAILED');
           return Observable.of(new accountActions.CreateError(error));
         });
     });
@@ -109,49 +128,38 @@ export class AccountsEffects {
       });
     });
 
-
-  @Effect({ dispatch: false })
-  createError$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_CREATE_ERROR)
-    .do((action: accountActions.CreateError) => {
-      this.handleError(action.payload);
-    });
-
-  @Effect({ dispatch: false })
-  updateError$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_UPDATE_ERROR)
-    .do((action: accountActions.AccountUpdateError) => {
-      this.handleError(action.payload);
-    });
-
   @Effect()
   userDelete$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_DELETE)
     .mergeMap((action: accountActions.AccountUserDelete) =>
       this.userService.removeUser(action.payload)
+        .do(() => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.DELETE_DONE');
+        })
         .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
-
-  @Effect({ dispatch: false })
-  userDeleteSuccess$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_USER_DELETE_SUCCESS)
-    .do(() => {
-      this.notificationService.message('NOTIFICATIONS.ACCOUNT.USER_DELETED');
-    });
+        .catch(error => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.DELETE_FAILED');
+          return Observable.of(new accountActions.AccountUpdateError(error));
+        }));
 
   @Effect()
   userCreate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE)
     .mergeMap((action: accountActions.AccountUserCreate) =>
       this.userService.createUser(action.payload)
+        .do(() => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.CREATION_DONE');
+        })
         .map((user) => new accountActions.AccountUserCreateSuccess(user))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+        .catch(error => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.CREATION_FAILED');
+          return Observable.of(new accountActions.AccountUpdateError(error))
+        }));
 
   @Effect({ dispatch: false })
   userCreateSuccess$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS)
     .do(() => {
-      this.notificationService.message('NOTIFICATIONS.ACCOUNT.USER_CREATED');
       this.dialog.closeAll();
     });
 
@@ -160,26 +168,31 @@ export class AccountsEffects {
     .ofType(accountActions.ACCOUNT_USER_UPDATE)
     .mergeMap((action: accountActions.AccountUserUpdate) =>
       this.userService.updateUser(action.payload)
+        .do(() => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.UPDATE_DONE');
+        })
         .map((user) => new accountActions.AccountUserUpdateSuccess(user))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
-
-  @Effect({ dispatch: false })
-  userUpdateSuccess$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_USER_UPDATE_SUCCESS)
-    .do(() => {
-      this.notificationService.message('NOTIFICATIONS.ACCOUNT.USER_UPDATED');
-    });
+        .catch(error => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.UPDATE_FAILED');
+          return Observable.of(new accountActions.AccountUpdateError(error))
+        }));
 
   @Effect()
   userGenerateKeys$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_GENERATE_KEYS)
     .mergeMap((action: accountActions.AccountUserGenerateKey) =>
       this.userService.registerKeys(action.payload.id)
+        .do(() => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_DONE');
+        })
         .map(res => new accountActions.AccountLoadUserKeysSuccess({
           user: action.payload,
           userKeys: res
         }))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+        .catch(error => {
+          this.snackBarService.open('NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_FAILED');
+          return Observable.of(new accountActions.AccountUpdateError(error))
+        }));
 
   @Effect()
   userLoadKeys$: Observable<Action> = this.actions$
@@ -192,31 +205,30 @@ export class AccountsEffects {
         }))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
-
   constructor(
     private actions$: Actions,
     private accountService: AccountService,
     private userService: UserService,
-    private dialogService: DialogService,
-    private notificationService: SnackBarService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBarService: SnackBarService,
+    private jobsNotificationService: JobsNotificationService
   ) {
   }
 
-  private onNotify(user, message) {
-    this.notificationService.open({
-      translationToken: message,
-      interpolateParams: { username: user.username }
+  private showNotificationsOnFinish(jobNotificationId: string, message: string) {
+    this.jobsNotificationService.finish({
+      id: jobNotificationId,
+      message
     });
+    this.snackBarService.open(message);
   }
 
-  private handleError(error): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
+  private showNotificationsOnFail(jobNotificationId: string, message: string) {
+    this.jobsNotificationService.fail({
+      id: jobNotificationId,
+      message
     });
+    this.snackBarService.open(message);
   }
 }

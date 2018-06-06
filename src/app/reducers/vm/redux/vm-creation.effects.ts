@@ -34,6 +34,7 @@ import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -312,10 +313,12 @@ export class VirtualMachineCreationEffects {
   deploymentError$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_REQUEST_ERROR)
     .map((action: vmActions.DeploymentRequestError) => {
+      const message = 'NOTIFICATIONS.VM.DEPLOY_FAILED';
       this.jobsNotificationService.fail({
         id: this.deploymentNotificationId,
-        message: 'NOTIFICATIONS.VM.DEPLOY_FAILED'
+        message
       });
+      this.snackBar.open(message);
 
       return new vmActions.DeploymentAddLoggerMessage({
         text: action.payload.params
@@ -342,7 +345,8 @@ export class VirtualMachineCreationEffects {
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
     private userTagService: UserTagService,
-    private vmTagService: VmTagService
+    private vmTagService: VmTagService,
+    private snackBar: SnackBarService
   ) {
   }
 
@@ -504,10 +508,12 @@ export class VirtualMachineCreationEffects {
   }
 
   private onDeployDone(): void {
+    const message = 'NOTIFICATIONS.VM.DEPLOY_DONE';
     this.jobsNotificationService.finish({
       id: this.deploymentNotificationId,
-      message: 'NOTIFICATIONS.VM.DEPLOY_DONE'
+      message
     });
+    this.snackBar.open(message);
   }
 
 

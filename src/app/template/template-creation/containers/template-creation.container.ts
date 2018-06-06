@@ -1,9 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { Snapshot } from '../../../shared/models/snapshot.model';
 
+import { Snapshot } from '../../../shared/models';
+import { CreateTemplateBaseParams } from '../../shared/base-template.service';
+
+import { State } from '../../../reducers/index';
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
 import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
@@ -55,8 +57,12 @@ export class TemplateCreationContainerComponent {
     }
   }
 
-  public onCreate(params) {
-    this.store.dispatch(new templateActions.CreateTemplate(params));
+  public onCreate(params: CreateTemplateBaseParams) {
+    if (params.snapshotId) {
+      this.store.dispatch(new templateActions.CreateTemplate(params));
+    } else {
+      this.store.dispatch(new templateActions.RegisterTemplate(params));
+    }
   }
 }
 
