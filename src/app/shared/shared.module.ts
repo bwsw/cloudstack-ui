@@ -109,8 +109,6 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
-import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
@@ -168,6 +166,7 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
+import { InputTypeNumberDirective } from './directives/input-type-number.directive';
 import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 
 @NgModule({
@@ -232,14 +231,12 @@ import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './c
     ListComponent,
     ViewModeSwitchComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
     MatAutocompleteModule,
     MatCardModule,
     MatInputModule,
     MatListModule,
     MatSnackBarModule,
     MatTableModule,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -278,6 +275,7 @@ import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './c
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     ReactiveFormsModule,
+    InputTypeNumberDirective,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent
   ],
@@ -319,8 +317,6 @@ import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './c
     ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -365,6 +361,7 @@ import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './c
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     DiskOfferingDialogComponent,
+    InputTypeNumberDirective,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent
   ],

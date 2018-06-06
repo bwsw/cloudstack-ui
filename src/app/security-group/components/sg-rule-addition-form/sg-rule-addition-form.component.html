@@ -34,6 +34,10 @@
       <input
         matInput
         type="number"
+        [min]="minPortNumber"
+        [max]="maxPortNumber"
+        [csMinValue]="minPortNumber"
+        [csMaxValue]="maxPortNumber"
         formControlName="startPort"
         [errorStateMatcher]="portMatcher"
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
@@ -48,6 +52,10 @@
       <input
         matInput
         type="number"
+        [min]="minPortNumber"
+        [max]="maxPortNumber"
+        [csMinValue]="minPortNumber"
+        [csMaxValue]="maxPortNumber"
         formControlName="endPort"
         [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
         [errorStateMatcher]="portMatcher"
