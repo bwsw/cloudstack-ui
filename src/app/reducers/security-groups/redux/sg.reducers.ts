@@ -1,11 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
-import {
-  getType,
-  SecurityGroup,
-  SecurityGroupType
-} from '../../../security-group/sg.model';
+import { getType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
@@ -251,7 +247,7 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG
+    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG && mode === SecurityGroupViewMode.Private
       ? group.virtualMachineIds.length === 0
       : true;
 
