@@ -1,14 +1,5 @@
-import {
-  Component,
-  forwardRef,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
 import { TimeFormat } from '../../../shared/services/language.service';
 import { padStart } from '../../../shared/utils/padStart';
@@ -91,43 +82,13 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   public updateHour(value: number): void {
-    let newValue: string;
-
-    if (Number.isNaN(value) || value == null) {
-      newValue = this.hour;
-    } else {
-      if (value === this.maxHourValue + 1) {
-        newValue = this.minHourValue.toString();
-      } else if (value > this.maxHourValue) {
-        newValue = value.toString().substr(-1);
-      } else if (value < this.minHourValue) {
-        newValue = this.maxHourValue.toString();
-      } else {
-        newValue = value && value.toString();
-      }
-    }
-
-    this.hour = newValue;
+    this.hour = value.toString();
     this.hourField.value = this.hour;
     this.writeValue(this.time);
   }
 
   public updateMinute(value: number): void {
-    let newValue: string;
-
-    if (Number.isNaN(value) || value == null) {
-      newValue = this.minute;
-    } else {
-      if (value > this.maxMinuteValue) {
-        newValue = padStart(this.minMinuteValue, 2);
-      } else if (value < this.minMinuteValue) {
-        newValue = padStart(this.maxMinuteValue, 2);
-      } else {
-        newValue = padStart(value, 2);
-      }
-    }
-
-    this.minute = newValue;
+    this.minute = value.toString();
     this.minuteField.value = this.minute;
     this.writeValue(this.time);
   }

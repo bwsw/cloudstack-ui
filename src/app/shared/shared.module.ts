@@ -102,7 +102,6 @@ import { SecurityGroupBuilderRuleComponent } from './components/security-group-b
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
 // tslint:disable-next-line
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
-import { TableComponent } from './components/table/table.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
@@ -110,8 +109,6 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
-import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
@@ -169,12 +166,16 @@ import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-del
 import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
 import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
 import { BadgeDirective } from './directives/badge/badge.directive';
+import { InputTypeNumberDirective } from './directives/input-type-number.directive';
+import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
 
 
 const SHARED_DIRECTIVES = [
-  UrlDirective
+  UrlDirective,
+  InputTypeNumberDirective
 ];
+
 
 @NgModule({
   imports: [
@@ -238,14 +239,12 @@ const SHARED_DIRECTIVES = [
     ListComponent,
     ViewModeSwitchComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
     MatAutocompleteModule,
     MatCardModule,
     MatInputModule,
     MatListModule,
     MatSnackBarModule,
     MatTableModule,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -256,7 +255,6 @@ const SHARED_DIRECTIVES = [
     VolumeActionsComponent,
     StringifyTimePipe,
     StringifyDatePipe,
-    TableComponent,
     TemplateActionsComponent,
     MatAutocompleteModule,
     MatInputModule,
@@ -285,7 +283,9 @@ const SHARED_DIRECTIVES = [
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     ReactiveFormsModule,
-    SHARED_DIRECTIVES
+    SHARED_DIRECTIVES,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -325,8 +325,6 @@ const SHARED_DIRECTIVES = [
     ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -339,7 +337,6 @@ const SHARED_DIRECTIVES = [
     VolumeActionsComponent,
     StringifyDatePipe,
     StringifyTimePipe,
-    TableComponent,
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
@@ -372,7 +369,9 @@ const SHARED_DIRECTIVES = [
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     DiskOfferingDialogComponent,
-    SHARED_DIRECTIVES
+    SHARED_DIRECTIVES,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent
   ],
   providers: [
     AccountService,

@@ -1,17 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
-import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { ServiceOffering } from '../../shared/models/service-offering.model';
+import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
+import { MockTranslateService } from '../../../../../testutils/mocks/mock-translate.service.spec';
+import { ServiceOffering } from '../../../../shared/models';
 import { ServiceOfferingSelectorComponent } from './service-offering-selector.component';
 
 const serviceOfferingsRaw = require(
-  '../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
+  '../../../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
 const serviceOfferings = [
   ...serviceOfferingsRaw
 ];

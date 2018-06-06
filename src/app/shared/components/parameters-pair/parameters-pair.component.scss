@@ -1,11 +1,9 @@
 .key {
-  flex-grow: 1;
-  flex-shrink: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: default;
-  max-width: 170px;
+  max-width: 50%;
   margin-right: 5px;
 }
 
@@ -15,7 +13,7 @@
   cursor: default;
   text-align: right;
   white-space: nowrap;
-  flex-shrink: 2;
+  max-width: 50%;
 
   input {
     text-align: end;

@@ -60,6 +60,9 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   public filteredIcmpCodes: number[];
   public portMatcher = new PortsErrorStateMatcher();
 
+  public readonly maxPortNumber = 65535;
+  public readonly minPortNumber = 0;
+
   public types = [
     { value: NetworkRuleType.Ingress, text: 'SECURITY_GROUP_PAGE.RULES.INGRESS' },
     { value: NetworkRuleType.Egress, text: 'SECURITY_GROUP_PAGE.RULES.EGRESS' },
@@ -74,9 +77,6 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   public ruleForm: FormGroup;
   private portsForm: FormGroup;
   private icmpForm: FormGroup;
-
-  private readonly maxPortNumber = 65535;
-  private readonly minPortNumber = 0;
 
   private protocolChanges: Subscription;
   private cidrChanges: Subscription;
@@ -138,9 +138,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     let translateToken: string;
     let param: { value?: string } = {};
 
-    if (port.hasError('required')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED';
-    } else if (port.hasError('min')) {
+    if (port.hasError('min')) {
       translateToken = 'SECURITY_GROUP_PAGE.RULES.START_PORT_SHOULD_BE_GREATER_THAN';
       param = { value: port.errors.min.min }
     } else if (port.hasError('max')) {
@@ -161,9 +159,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     let translateToken: string;
     let param: { value?: string } = {};
 
-    if (port.hasError('required')) {
-      translateToken = 'SECURITY_GROUP_PAGE.RULES.FIELD_REQUIRED';
-    } else if (port.hasError('min')) {
+    if (port.hasError('min')) {
       translateToken = 'SECURITY_GROUP_PAGE.RULES.END_PORT_SHOULD_BE_GREATER_THAN';
       param = { value: port.errors.min.min }
     } else if (port.hasError('max')) {

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { ConfigService } from '../../../services/config.service';
 import * as moment from 'moment';
@@ -10,11 +10,11 @@ import * as moment from 'moment';
   styleUrls: ['disk-offering-dialog.component.scss'],
 })
 export class DiskOfferingDialogComponent {
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: MatTableDataSource<DiskOffering>;
   public selectedDiskOffering: DiskOffering;
   public preselectedDiskOffering: DiskOffering;
-  public tableId = 'DISK_OFFERING_TABLE';
   public columns: Array<string>;
+  public columnsToDisplay: string[];
   public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
   public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];
 
@@ -23,10 +23,11 @@ export class DiskOfferingDialogComponent {
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
     public configService: ConfigService
   ) {
-    this.diskOfferings = data.diskOfferings;
+    this.diskOfferings = new MatTableDataSource<DiskOffering>(data.diskOfferings);
     this.selectedDiskOffering = data.diskOffering;
     this.preselectedDiskOffering = data.diskOffering;
     this.columns = data.columns;
+    this.columnsToDisplay = [...this.columns, 'radioButton'];
   }
 
   public offeringCreated(date: string): Date {

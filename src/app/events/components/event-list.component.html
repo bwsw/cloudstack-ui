@@ -61,16 +61,48 @@
       ></cs-search>
     </div>
   </cs-top-bar>
-  <div class="event-list">
-    <ng-container *loading="isLoading">
-      <cs-table
-        *ngIf="events?.length"
-        [tableId]="'EVENT_PAGE'"
-        [columns]="tableColumns"
-        [tableModel]="events"
-        [searchQuery]="query"
-      ></cs-table>
+
+  <div class="event-list" *loading="isLoading">
+    <ng-container *ngIf="events?.length; then eventsTable else noEvents"></ng-container>
+
+    <ng-template #eventsTable>
+      <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.DESCRIPTION' | translate}} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span [innerHTML]="element.description | highlight:query"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="level">
+          <mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.LEVEL' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span [innerHTML]="element.level | highlight:query"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.TYPE' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span [innerHTML]="element.type | highlight:query"></span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="time">
+          <mat-header-cell *matHeaderCellDef> {{ 'EVENT_PAGE.TIME' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span [innerHTML]="element.time | highlight:query"></span>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: tableColumns;"></mat-row>
+      </mat-table>
+    </ng-template>
+
+    <ng-template #noEvents>
       <span *ngIf="!events?.length">{{ 'EVENT_PAGE.NO_EVENTS' | translate }}</span>
-    </ng-container>
+    </ng-template>
   </div>
+
 </div>

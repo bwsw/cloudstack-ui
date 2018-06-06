@@ -4,12 +4,12 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
+
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
-import { isRoot } from '../../../shared/models';
-import { Volume } from '../../../shared/models/volume.model';
+import { isRoot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
@@ -18,7 +18,6 @@ import { VolumeResizeData, VolumeService } from '../../../shared/services/volume
 // tslint:disable-next-line
 import { RecurringSnapshotsComponent } from '../../../snapshot/recurring-snapshots/recurring-snapshots.component';
 import { State } from '../../index';
-
 import * as volumeActions from './volumes.actions';
 import * as fromVolumes from './volumes.reducers';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
@@ -59,10 +58,7 @@ export class VolumesEffects {
         .map(job => {
           const createdVolume = job.jobresult['volume'];
           this.dialog.closeAll();
-          this.onNotify(
-            createdVolume,
-            'NOTIFICATIONS.VOLUME.VOLUME_FROM_SNAPSHOT_CREATED'
-          );
+          this.notificationService.message('NOTIFICATIONS.VOLUME.VOLUME_FROM_SNAPSHOT_CREATED');
           return new volumeActions.CreateVolumeFromSnapshotSuccess(createdVolume);
         })
         .catch((error: Error) => {
@@ -360,13 +356,6 @@ export class VolumesEffects {
     private dialog: MatDialog,
     private store: Store<State>
   ) {
-  }
-
-  private onNotify(volume: Volume, message: string) {
-    this.notificationService.message({
-      translationToken: message,
-      interpolateParams: { name: volume.name }
-    });
   }
 
   private handleError(error): void {
