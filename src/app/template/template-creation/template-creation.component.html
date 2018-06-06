@@ -42,9 +42,9 @@
               matInput
               type="url"
               name="url"
+              [csUrl]="{http: true, https: true}"
               [(ngModel)]="url"
               [placeholder]=" 'TEMPLATE_PAGE.TEMPLATE_CREATION.URL' | translate "
-              pattern="^(http|https):\/\/.*$"
               maxlength="255"
               required
               #urlField="ngModel"

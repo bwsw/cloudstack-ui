@@ -168,6 +168,14 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
 import { BadgeDirective } from './directives/badge/badge.directive';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
 import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
+import { UrlDirective } from './validators/directives';
+
+
+const SHARED_DIRECTIVES = [
+  UrlDirective,
+  InputTypeNumberDirective
+];
+
 
 @NgModule({
   imports: [
@@ -275,7 +283,7 @@ import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './c
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     ReactiveFormsModule,
-    InputTypeNumberDirective,
+    SHARED_DIRECTIVES,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent
   ],
@@ -361,7 +369,7 @@ import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './c
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     DiskOfferingDialogComponent,
-    InputTypeNumberDirective,
+    SHARED_DIRECTIVES,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent
   ],
