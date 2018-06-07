@@ -101,20 +101,7 @@ describe('Service: Notification service', () => {
     expect(testMessage).toHaveBeenCalled();
   });
 
-  it('should support 3 types of notifications', () => {
-    const testNotification = spyOn(mdSnackBar, 'open');
-    notificationService.open('test');
-    expect(testNotification).toHaveBeenCalledTimes(3);
-  });
-
   it('should add the notification to the DOM', () => {
-
-
-    Object.assign(
-      notificationService.snackBarConfig,
-      { viewContainerRef: testViewContainerRef }
-    );
-
     expect(overlayContainerElement.querySelector('snack-bar-container')).toBeNull();
 
     notificationService.open('test');

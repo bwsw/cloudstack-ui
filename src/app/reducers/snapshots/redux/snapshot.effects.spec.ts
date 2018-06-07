@@ -11,7 +11,7 @@ import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
-import { MockNotificationService } from '../../../../testutils/mocks/mock-notification.service';
+import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Snapshot, SnapshotStates, SnapshotType, Volume } from '../../../shared/models';
@@ -138,7 +138,7 @@ describe('Snapshot Effects', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: SnapshotTagService, useClass: MockSnapshotTagService },
-        { provide: SnackBarService, useValue: MockNotificationService },
+        { provide: SnackBarService, useClass: MockSnackBarService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: DialogService, useClass: MockDialogService },
         { provide: MatDialog, useClass: MockMatDialog },

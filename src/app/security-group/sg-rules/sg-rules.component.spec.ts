@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatAutocompleteModule, MatDialogRef } from '@angular/m
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
+import { MockSnackBarService } from '../../../testutils/mocks/mock-snack-bar.service';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
@@ -124,7 +124,7 @@ describe('Security group firewall rules component', () => {
         { provide: MAT_DIALOG_DATA, useValue: { securityGroup: mockSecurityGroup } },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
         { provide: Router, useClass: MockRouter },
-        { provide: SnackBarService, useClass: MockNotificationService },
+        { provide: SnackBarService, useClass: MockSnackBarService },
         { provide: NetworkRuleService, useClass: NetworkRuleServiceMock },
         { provide: DialogService, useValue: dialogService }
       ],

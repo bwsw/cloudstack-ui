@@ -8,7 +8,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ClipboardModule } from 'ngx-clipboard';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { MockNotificationService } from '../../../testutils/mocks/mock-notification.service';
+import { MockSnackBarService } from '../../../testutils/mocks/mock-snack-bar.service';
 import { DialogModule } from '../../dialog/dialog-service/dialog.module';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { InputGroupComponent } from '../../shared/components/input-group/input-group.component';
@@ -96,7 +96,7 @@ describe('Api Info component', () => {
       providers: [
         { provide: ConfigService, useClass: MockConfigService },
         { provide: DialogService, useClass: DialogService },
-        { provide: SnackBarService, useClass: MockNotificationService },
+        { provide: SnackBarService, useClass: MockSnackBarService },
         { provide: RouterUtilsService, useClass: MockRouterUtilsService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: UserService, useClass: MockUserService }

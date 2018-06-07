@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { Actions } from '@ngrx/effects';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
@@ -40,6 +40,8 @@ import { Color } from '../../../shared/models/color.model';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 // tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Injectable()
 class MockAsyncJobService {
@@ -141,6 +143,7 @@ describe('Virtual machine Effects', () => {
     'JobsNotificationService',
     ['add', 'finish', 'fail']
   );
+  jobsNotificationService.add.and.returnValue('id');
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -169,7 +172,8 @@ describe('Virtual machine Effects', () => {
         { provide: TemplateTagService, useClass: MockTagService },
         { provide: Router, useClass: MockRouter },
         { provide: DialogService, useClass: MockDialogService },
-        { provide: MatDialog, useClass: MockMatDialog }
+        { provide: MatDialog, useClass: MockMatDialog },
+        { provide: SnackBarService, useClass: MockSnackBarService }
       ]
     });
     actions$ = TestBed.get(Actions);

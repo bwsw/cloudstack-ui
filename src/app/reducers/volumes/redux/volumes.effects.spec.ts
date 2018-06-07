@@ -8,6 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
+import { _throw } from 'rxjs/observable/throw';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
@@ -26,7 +27,7 @@ import { Volume } from '../../../shared/models/volume.model';
 import { VolumesEffects } from './volumes.effects';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { MockNotificationService } from '../../../../testutils/mocks/mock-notification.service';
+import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Injectable()
@@ -46,6 +47,13 @@ class MockTagService {
   public removeGroup(): void {
   }
 }
+
+@Injectable()
+class MockVolumeService {
+  public create(): void {
+  }
+}
+
 
 @Injectable()
 class MockRouter {
@@ -117,7 +125,7 @@ describe('Volume Effects', () => {
   let actions$: TestActions;
   let store: MockStore;
   let router: Router;
-  let service: VolumeService;
+  let volumeService: VolumeService;
   let tagService: VolumeTagService;
   let dialogService: DialogService;
   let matDialog: MatDialog;
@@ -144,8 +152,8 @@ describe('Volume Effects', () => {
         { provide: Actions, useFactory: getActions },
         { provide: Store, useClass: MockStore },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
-        { provide: VolumeTagService, useClass: MockTagService },
-        { provide: SnackBarService, useClass: MockNotificationService },
+        { provide: VolumeTagService, useClass: MockVolumeService },
+        { provide: SnackBarService, useClass: MockSnackBarService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: LocalStorageService, useClass: MockStorageService },
         { provide: SnapshotTagService, useClass: MockTagService },
@@ -158,7 +166,7 @@ describe('Volume Effects', () => {
     actions$ = TestBed.get(Actions);
     store = TestBed.get(Store);
     router = TestBed.get(Router);
-    service = TestBed.get(VolumeService);
+    volumeService = TestBed.get(VolumeService);
     tagService = TestBed.get(VolumeTagService);
     dialogService = TestBed.get(DialogService);
     matDialog = TestBed.get(MatDialog);
@@ -166,7 +174,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return a collection from LoadVolumesResponse', () => {
-    const spyGetList = spyOn(service, 'getList').and.returnValue(of(list));
+    const spyGetList = spyOn(volumeService, 'getList').and.returnValue(of(list));
 
     const action = new volumeActions.LoadVolumesRequest();
     const completion = new volumeActions.LoadVolumesResponse(list);
@@ -179,7 +187,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an empty collection from LoadVolumesResponse', () => {
-    const spyGetList = spyOn(service, 'getList').and.returnValue(Observable.throw(new Error('Error occurred!')));
+    const spyGetList = spyOn(volumeService, 'getList').and.returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new volumeActions.LoadVolumesRequest();
     const completion = new volumeActions.LoadVolumesResponse([]);
@@ -193,7 +201,7 @@ describe('Volume Effects', () => {
 
 
   it('should create new volume', () => {
-    const spyCreate = spyOn(service, 'create').and.returnValue(of(list[0]));
+    const spyCreate = spyOn(volumeService, 'create').and.returnValue(of(list[0]));
 
     const action = new volumeActions.CreateVolume(<Volume>{});
     const completion = new volumeActions.CreateSuccess(list[0]);
@@ -206,7 +214,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during creating new volume', () => {
-    const spyCreate = spyOn(service, 'create').and
+    const spyCreate = spyOn(volumeService, 'create').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new volumeActions.CreateVolume(<Volume>{});
@@ -269,7 +277,7 @@ describe('Volume Effects', () => {
   });
 
   it('should attach volume', () => {
-    const spyAttach = spyOn(service, 'attach').and.returnValue(of(list[0]));
+    const spyAttach = spyOn(volumeService, 'attach').and.returnValue(of(list[0]));
     const spyDialog = spyOn(matDialog, 'open')
       .and.callFake(() => {
         return {
@@ -292,7 +300,7 @@ describe('Volume Effects', () => {
   });
 
   it('should not attach volume', () => {
-    const spyAttach = spyOn(service, 'attach');
+    const spyAttach = spyOn(volumeService, 'attach');
     const spyDialog = spyOn(matDialog, 'open')
       .and.callFake(() => {
         return {
@@ -310,7 +318,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during attaching volume', () => {
-    const spyAttach = spyOn(service, 'attach').and
+    const spyAttach = spyOn(volumeService, 'attach').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
     const spyDialog = spyOn(matDialog, 'open')
       .and.callFake(() => {
@@ -334,7 +342,7 @@ describe('Volume Effects', () => {
   });
 
   it('should attach volume to vm', () => {
-    const spyAttach = spyOn(service, 'attach').and.returnValue(of(list[0]));
+    const spyAttach = spyOn(volumeService, 'attach').and.returnValue(of(list[0]));
 
     const action = new volumeActions.AttachVolumeToVM({
       volumeId: '9f027074-2a1a-4745-949a-d666ccf0a8b3',
@@ -354,7 +362,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during attaching volume to vm', () => {
-    const spyAttach = spyOn(service, 'attach').and
+    const spyAttach = spyOn(volumeService, 'attach').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new volumeActions.AttachVolumeToVM({
@@ -375,7 +383,7 @@ describe('Volume Effects', () => {
   });
 
   it('should detach volume', () => {
-    const spyDetach = spyOn(service, 'detach').and.returnValue(of(list[0]));
+    const spyDetach = spyOn(volumeService, 'detach').and.returnValue(of(list[0]));
     const spyDialog = spyOn(dialogService, 'confirm')
       .and.returnValue(of(true));
 
@@ -391,7 +399,7 @@ describe('Volume Effects', () => {
   });
 
   it('should not detach volume', () => {
-    const spyDetach = spyOn(service, 'detach');
+    const spyDetach = spyOn(volumeService, 'detach');
     const spyDialog = spyOn(dialogService, 'confirm')
       .and.returnValue(of(false));
 
@@ -405,7 +413,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during detaching volume', () => {
-    const spyDetach = spyOn(service, 'detach').and
+    const spyDetach = spyOn(volumeService, 'detach').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm')
       .and.returnValue(of(true));
@@ -422,7 +430,7 @@ describe('Volume Effects', () => {
   });
 
   it('should resize volume', () => {
-    const spyResize = spyOn(service, 'resize').and.returnValue(of(list[0]));
+    const spyResize = spyOn(volumeService, 'resize').and.returnValue(of(list[0]));
     const spyDialog = spyOn(matDialog, 'open')
       .and.callFake(() => {
         return {
@@ -442,7 +450,7 @@ describe('Volume Effects', () => {
   });
 
   it('should not resize volume', () => {
-    const spyResize = spyOn(service, 'resize');
+    const spyResize = spyOn(volumeService, 'resize');
     const spyDialog = spyOn(matDialog, 'open')
       .and.callFake(() => {
         return {
@@ -460,7 +468,7 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during resizing volume', () => {
-    const spyResize = spyOn(service, 'resize').and
+    const spyResize = spyOn(volumeService, 'resize').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
     const spyDialog = spyOn(matDialog, 'open')
       .and.callFake(() => {
@@ -524,8 +532,8 @@ describe('Volume Effects', () => {
   });
 
   it('should detach and delete volume', () => {
-    const spyDetach = spyOn(service, 'detach').and.returnValue(of(list[0]));
-    const spyRemove = spyOn(service, 'remove').and.returnValue(of(<Volume>{}));
+    const spyDetach = spyOn(volumeService, 'detach').and.returnValue(of(list[0]));
+    const spyRemove = spyOn(volumeService, 'remove').and.returnValue(of(<Volume>{}));
 
     const action = new volumeActions.DeleteVolume(list[0]);
     const completion = new volumeActions.DeleteSuccess(list[0]);
@@ -540,8 +548,8 @@ describe('Volume Effects', () => {
   });
 
   it('should delete volume', () => {
-    const spyDetach = spyOn(service, 'detach');
-    const spyRemove = spyOn(service, 'remove').and.returnValue(of(<Volume>{}));
+    const spyDetach = spyOn(volumeService, 'detach');
+    const spyRemove = spyOn(volumeService, 'remove').and.returnValue(of(<Volume>{}));
 
     const action = new volumeActions.DeleteVolume(list[3]);
     const completion = new volumeActions.DeleteSuccess(list[3]);
@@ -556,9 +564,9 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during detaching volume (delete volume)', () => {
-    const spyDetach = spyOn(service, 'detach').and
+    const spyDetach = spyOn(volumeService, 'detach').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
-    const spyRemove = spyOn(service, 'remove');
+    const spyRemove = spyOn(volumeService, 'remove');
 
     const action = new volumeActions.DeleteVolume(list[0]);
 
@@ -572,8 +580,8 @@ describe('Volume Effects', () => {
   });
 
   it('should return an error during deleting volume (without detach)', () => {
-    const spyDetach = spyOn(service, 'detach');
-    const spyRemove = spyOn(service, 'remove').and
+    const spyDetach = spyOn(volumeService, 'detach');
+    const spyRemove = spyOn(volumeService, 'remove').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
 
     const action = new volumeActions.DeleteVolume(list[3]);
@@ -614,24 +622,19 @@ describe('Volume Effects', () => {
 
   it('should show alert after creation error', () => {
     const spyAlert = spyOn(dialogService, 'alert');
-    const action = new volumeActions.CreateError(new Error('Error occurred!'));
+    const error = new Error('Error');
+    spyOn(volumeService, 'create').and.returnValue(_throw(error));
+    const action = new volumeActions.CreateVolume({
+      name: '',
+      zoneid: '',
+      diskofferingid: ''
+    });
+    const completion = new volumeActions.CreateError(error);
 
-    actions$.stream = hot('a', { a: action });
-    const expected = cold('a', { a: action });
+    actions$.stream = cold('a', { a: action });
+    const expected = cold('b', { b: completion });
 
-    expect(effects.createError$).toBeObservable(expected);
+    expect(effects.createVolume$).toBeObservable(expected);
     expect(spyAlert).toHaveBeenCalled();
   });
-
-  it('should show alert after updating error', () => {
-    const spyAlert = spyOn(dialogService, 'alert');
-    const action = new volumeActions.VolumeUpdateError(new Error('Error occurred!'));
-
-    actions$.stream = hot('a', { a: action });
-    const expected = cold('a', { a: action });
-
-    expect(effects.updateError$).toBeObservable(expected);
-    expect(spyAlert).toHaveBeenCalled();
-  });
-
 });
