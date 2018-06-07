@@ -166,10 +166,6 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   }
 
   private stringifyMenuState(routes: NavigationItem[]): string {
-    let menuState = '';
-    for (const route of routes) {
-      menuState += `${route.id}:${+route.enabled};`
-    }
     return routes
       .map(el => `${el.id}:${+el.enabled}`)
       .join(';');
