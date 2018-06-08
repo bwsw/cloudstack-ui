@@ -152,12 +152,12 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   }
 
   private validateNavigationOrder(order: NavigationItem[]): boolean {
-    if (order.length !== sidenavRoutes.length) {
+    if (order.length !== this.routes.length) {
       return false;
     }
 
     return order.every(el =>
-        el.enabled != null && el.id != null && !!sidenavRoutes.find(route => route.id === el.id));
+        el.enabled != null && el.id != null && !!this.routes.find(route => route.id === el.id));
   }
 
   private navigationPredicate(order: NavigationItem[]) {
