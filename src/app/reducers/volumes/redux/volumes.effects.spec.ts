@@ -137,6 +137,7 @@ describe('Volume Effects', () => {
     'JobsNotificationService',
     ['add', 'finish', 'fail']
   );
+  jobsNotificationService.add.and.returnValue('id');
 
   beforeEach(() => {
     TestBed.configureTestingModule({

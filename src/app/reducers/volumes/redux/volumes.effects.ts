@@ -133,7 +133,7 @@ export class VolumesEffects {
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
-              this.showNotificationsOnFail(error, message, notificationId);;
+              this.showNotificationsOnFail(error, message, notificationId);
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
