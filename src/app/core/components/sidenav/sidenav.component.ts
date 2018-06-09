@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DragulaService } from 'ng2-dragula';
+import * as cloneDeep from 'lodash/cloneDeep';
+
 
 import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { ConfigService } from '../../../shared/services/config.service';
@@ -23,7 +25,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   @Input() public title: string;
   public imgUrl = 'url(img/cloudstack_logo_light.png)';
 
-  public routes: Array<SidenavRoute> = sidenavRoutes.map(route => ({...route}));
+  public routes: Array<SidenavRoute> = cloneDeep(sidenavRoutes);
   public nonDraggableRoutes = nonDraggableRoutes;
 
   public navigationLoaded = false;
