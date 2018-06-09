@@ -124,7 +124,6 @@
   "NOTIFICATIONS": {
     "ACCOUNT": {
       "CREATION_DONE": "Account created",
-      "CREATION_FAILED": "Failed to create an account",
       "DELETION_IN_PROGRESS": "Deleting an account",
       "DELETION_DONE": "Account deleted",
       "DELETION_FAILED": "Failed to delete an account",
@@ -132,16 +131,11 @@
       "DISABLE_DONE": "Account disabled",
       "DISABLE_FAILED": "Failed to disable an account",
       "ENABLE_DONE": "Account enabled",
-      "ENABLE_FAILED": "Failed to enable an account",
       "USER": {
         "CREATION_DONE": "User created",
-        "CREATION_FAILED": "Failed to create user",
         "UPDATE_DONE": "User updated",
-        "UPDATE_FAILED": "Failed to update user",
         "DELETE_DONE": "User deleted",
-        "DELETE_FAILED": "Failed to delete user",
-        "GENERATE_KEYS_DONE": "User keys generated",
-        "GENERATE_KEYS_FAILED": "Failed to generate user keys"
+        "GENERATE_KEYS_DONE": "User keys generated"
       }
     },
     "PENDING_OPERATIONS": "Pending operations",
@@ -153,7 +147,6 @@
       "DETACHMENT_DONE": "ISO detached",
       "DETACHMENT_FAILED": "Failed to detach an ISO",
       "REGISTER_DONE": "ISO registered",
-      "REGISTER_FAILED": "Failed to register an ISO",
       "DELETION_IN_PROGRESS": "Deleting an ISO",
       "DELETION_DONE": "ISO deleted",
       "DELETION_FAILED": "Failed to delete an ISO"
@@ -171,7 +164,6 @@
     },
     "TEMPLATE": {
       "REGISTER_DONE": "Template registered",
-      "REGISTER_FAILED": "Failed to register a template",
       "CREATION_IN_PROGRESS": "Creating a template",
       "CREATION_DONE": "Template created",
       "CREATION_FAILED": "Failed to create a template",
@@ -181,17 +173,11 @@
     },
     "FIREWALL": {
       "TEMPLATE_CREATION_DONE": "Firewall template created",
-      "TEMPLATE_CREATION_FAILED": "Failed to create a firewall template",
       "TEMPLATE_DELETE_DONE": "Firewall template deleted",
-      "TEMPLATE_DELETE_FAILED": "Failed to delete a firewall template",
       "SHARED_GROUP_CREATION_DONE": "Shared security group created",
-      "SHARED_GROUP_CREATION_FAILED": "Failed to create a shared security group",
       "SHARED_GROUP_DELETE_DONE": "Shared security group deleted",
-      "SHARED_GROUP_DELETE_FAILED": "Failed to delete a shared security group",
       "PRIVATE_GROUP_DELETE_DONE": "Private security group deleted",
-      "PRIVATE_GROUP_DELETE_FAILED": "Failed to delete a private security group",
-      "CONVERT_PRIVATE_TO_SHARED_DONE": "Private security group converted to shared security group",
-      "CONVERT_PRIVATE_TO_SHARED_FAILED": "Failed to convert a private security group to a shared security group"
+      "CONVERT_PRIVATE_TO_SHARED_DONE": "Private security group converted to shared security group"
     },
     "VM": {
       "START_IN_PROGRESS": "Starting a VM",
@@ -216,7 +202,6 @@
       "RESET_PASSWORD_DONE": "Password reset",
       "RESET_PASSWORD_FAILED": "Failed to reset a password",
       "SAVE_PASSWORD_DONE": "Password saved",
-      "SAVE_PASSWORD_FAILED": "Failed to save a password",
       "DESTROY_IN_PROGRESS": "Destroying a VM",
       "DESTROY_DONE": "VM destroyed",
       "DESTROY_FAILED": "Failed to destroy a VM",
@@ -242,11 +227,8 @@
       "REMOVE_INSTANCE_GROUP_DONE": "Instance group removed",
       "REMOVE_INSTANCE_GROUP_FAILED": "Failed to remove an instance group",
       "ADD_SECONDARY_IP_DONE": "Secondary IP added",
-      "ADD_SECONDARY_IP_FAILED": "Failed to add a secondary IP",
       "REMOVE_SECONDARY_IP_DONE": "Secondary IP removed",
-      "REMOVE_SECONDARY_IP_FAILED": "Failed to remove a secondary IP",
       "COLOR_CHANGE_DONE": "VM color changed",
-      "COLOR_CHANGE_FAILED": "Failed to change a VM color",
       "CHANGE_SSH_IN_PROGRESS": "Changing an SSH-key",
       "CHANGE_SSH_DONE": "SSH-key changed",
       "CHANGE_SSH_FAILED": "Failed to change an SSH-key"
@@ -273,9 +255,7 @@
     },
     "SSH_KEY": {
       "CREATION_DONE": "SSH key created",
-      "CREATION_FAILED": "Failed to create an SSH key",
-      "DELETE_DONE": "SSH key deleted",
-      "DELETE_FAILED": "Failed to delete an SSH key"
+      "DELETE_DONE": "SSH key deleted"
     }
   },
   "AUTH": {

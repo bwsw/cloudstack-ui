@@ -124,7 +124,6 @@
   "NOTIFICATIONS": {
     "ACCOUNT": {
       "CREATION_DONE": "Аккаунт создан",
-      "CREATION_FAILED": "Не удалось удалить аккаунт",
       "DELETION_IN_PROGRESS": "Удаление аккаунта",
       "DELETION_DONE": "Аккаунт удален",
       "DELETION_FAILED": "Не удалось удалить аккаунт",
@@ -132,16 +131,11 @@
       "DISABLE_DONE": "Аккаунт деактивирован",
       "DISABLE_FAILED": "Не удалось деактивировать аккаунт",
       "ENABLE_DONE": "Аккаунт активирован",
-      "ENABLE_FAILED": "Не удалось активировать аккаунт",
       "USER": {
         "CREATION_DONE": "Пользователь создан",
-        "CREATION_FAILED": "Не удалось создать пользователя",
         "UPDATE_DONE": "Пользователь отредактирован",
-        "UPDATE_FAILED": "Не удалось отредактировать пользователя",
         "DELETE_DONE": "Пользователь удален",
-        "DELETE_FAILED": "Не удалось удалить пользователя",
-        "GENERATE_KEYS_DONE": "Ключи пользователя сгенерированы",
-        "GENERATE_KEYS_FAILED": "Не удалось сгенерировать ключи пользователя"
+        "GENERATE_KEYS_DONE": "Ключи пользователя сгенерированы"
       }
     },
     "PENDING_OPERATIONS": "Текущие операции",
@@ -153,7 +147,6 @@
       "DETACHMENT_DONE": "ISO откреплен",
       "DETACHMENT_FAILED": "Не удалось открепить ISO",
       "REGISTER_DONE": "ISO зарегистрирован",
-      "REGISTER_FAILED": "Не удалось зарегистрировать ISO",
       "DELETION_IN_PROGRESS": "Удаление ISO",
       "DELETION_DONE": "ISO удален",
       "DELETION_FAILED": "Не удалось удалить ISO"
@@ -171,7 +164,6 @@
     },
     "TEMPLATE": {
       "REGISTER_DONE": "Шаблон зарегистрирован",
-      "REGISTER_FAILED": "Не удалось зарегистрировать шаблон",
       "CREATION_IN_PROGRESS": "Создание шаблона",
       "CREATION_DONE": "Шаблон создан",
       "CREATION_FAILED": "Не удалось создать шаблон",
@@ -181,17 +173,11 @@
     },
     "FIREWALL": {
       "TEMPLATE_CREATION_DONE": "Шаблон брандмауэра создан",
-      "TEMPLATE_CREATION_FAILED": "Не удалось создать шаблон брандмауэра",
       "TEMPLATE_DELETE_DONE": "Шаблон брандмауэра удален",
-      "TEMPLATE_DELETE_FAILED": "Не удалось удалить шаблон брандмауэра",
       "SHARED_GROUP_CREATION_DONE": "Разделяемая группа безопасности создана",
-      "SHARED_GROUP_CREATION_FAILED": "Не удалось создать разделяемую группу безопасности",
       "SHARED_GROUP_DELETE_DONE": "Разделяемая группа безопасности удалена",
-      "SHARED_GROUP_DELETE_FAILED": "Не удалось удалить разделяемую группу безопасности",
       "PRIVATE_GROUP_DELETE_DONE": "Приватная группа безопасности удалена",
-      "PRIVATE_GROUP_DELETE_FAILED": "Не удалось удалить приватную группу безопасности",
-      "CONVERT_PRIVATE_TO_SHARED_DONE": "Приватная группа безопасности сконвертирована в разделяемую группу безопасности",
-      "CONVERT_PRIVATE_TO_SHARED_FAILED": "Не удалось сконвертировать приватную группу безопасности в разделяемую группу безопасности"
+      "CONVERT_PRIVATE_TO_SHARED_DONE": "Приватная группа безопасности сконвертирована в разделяемую группу безопасности"
     },
     "VM": {
       "START_IN_PROGRESS": "Запуск ВМ",
@@ -216,7 +202,6 @@
       "RESET_PASSWORD_DONE": "Пароль сброшен",
       "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
       "SAVE_PASSWORD_DONE": "Пароль сохранен",
-      "SAVE_PASSWORD_FAILED": "Не удалось сохранить пароль",
       "DESTROY_IN_PROGRESS": "Удаление ВМ",
       "DESTROY_DONE": "ВМ удалена",
       "DESTROY_FAILED": "Не удалось удалить ВМ",
@@ -242,11 +227,8 @@
       "REMOVE_INSTANCE_GROUP_DONE": "Группа удалена",
       "REMOVE_INSTANCE_GROUP_FAILED": "Не удалось удалить группу",
       "ADD_SECONDARY_IP_DONE": "Дополнительный IP добавлен",
-      "ADD_SECONDARY_IP_FAILED": "Не удалось добавить дополнительный IP",
       "REMOVE_SECONDARY_IP_DONE": "Дополнительный IP удален",
-      "REMOVE_SECONDARY_IP_FAILED": "Не удалось удалить дополнительный IP",
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
-      "COLOR_CHANGE_FAILED": "Не удалось изменить цвет ВМ",
       "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
       "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ"
@@ -273,9 +255,7 @@
     },
     "SSH_KEY": {
       "CREATION_DONE": "SSH ключ создан",
-      "CREATION_FAILED": "Не удалось создать SSH ключ",
-      "DELETE_DONE": "SSH ключ удален",
-      "DELETE_FAILED": "Не удалось удалить SSH ключ"
+      "DELETE_DONE": "SSH ключ удален"
     }
   },
   "AUTH": {
