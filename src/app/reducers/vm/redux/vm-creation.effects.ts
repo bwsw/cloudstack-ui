@@ -318,7 +318,12 @@ export class VirtualMachineCreationEffects {
         id: this.deploymentNotificationId,
         message
       });
-      this.dialogService.alert({ message });
+      const error = action.payload;
+      this.dialogService.alert({ message: {
+          translationToken: error.message,
+          interpolateParams: error.params
+        }
+      });
 
       return new vmActions.DeploymentAddLoggerMessage({
         text: action.payload.params

@@ -59,7 +59,7 @@ export class AccountsEffects {
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_FAILED';
-          this.showNotificationsOnFail(message, notificationId);
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -75,8 +75,7 @@ export class AccountsEffects {
         })
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
-          const message = 'NOTIFICATIONS.ACCOUNT.ENABLE_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -94,7 +93,7 @@ export class AccountsEffects {
         .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.ACCOUNT.DELETION_FAILED';
-          this.showNotificationsOnFail(message, notificationId);
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -111,8 +110,7 @@ export class AccountsEffects {
         })
         .map(createdAccount => new accountActions.CreateSuccess(createdAccount))
         .catch((error: Error) => {
-          const message = 'NOTIFICATIONS.ACCOUNT.CREATION_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.CreateError(error));
         });
     });
@@ -148,8 +146,7 @@ export class AccountsEffects {
         })
         .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
         .catch(error => {
-          const message = 'NOTIFICATIONS.ACCOUNT.USER.DELETE_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.AccountUpdateError(error));
         }));
 
@@ -164,8 +161,7 @@ export class AccountsEffects {
         })
         .map((user) => new accountActions.AccountUserCreateSuccess(user))
         .catch(error => {
-          const message = 'NOTIFICATIONS.ACCOUNT.USER.CREATION_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.AccountUpdateError(error))
         }));
 
@@ -187,8 +183,7 @@ export class AccountsEffects {
         })
         .map((user) => new accountActions.AccountUserUpdateSuccess(user))
         .catch(error => {
-          const message = 'NOTIFICATIONS.ACCOUNT.USER.UPDATE_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.AccountUpdateError(error))
         }));
 
@@ -206,8 +201,7 @@ export class AccountsEffects {
           userKeys: res
         }))
         .catch(error => {
-          const message = 'NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.AccountUpdateError(error))
         }));
 
@@ -244,13 +238,17 @@ export class AccountsEffects {
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
         id: jobNotificationId,
         message
       });
     }
-    this.dialogService.alert({ message });
+    this.dialogService.alert({ message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

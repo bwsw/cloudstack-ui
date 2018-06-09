@@ -45,7 +45,7 @@ export class VolumesEffects {
       return this.volumeService.create(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(createdVolume => {
           this.dialog.closeAll();
@@ -53,7 +53,7 @@ export class VolumesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(error, message, notificationId);;
           return Observable.of(new volumeActions.CreateError(error));
         });
     });
@@ -65,7 +65,7 @@ export class VolumesEffects {
       return this.volumeService.createFromSnapshot(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(job => {
           const createdVolume = job.jobresult['volume'];
@@ -74,7 +74,7 @@ export class VolumesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(error, message, notificationId);;
           return Observable.of(new volumeActions.CreateError(error));
         });
     });
@@ -93,12 +93,12 @@ export class VolumesEffects {
           .removeDescription(action.payload.volume))
         .map((volume: Volume) => {
           const message = 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
           return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(error, message, notificationId);;
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
@@ -128,12 +128,12 @@ export class VolumesEffects {
             .attach(params)
             .map((volume: Volume) => {
               const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
               return new volumeActions.UpdateVolume(volume);
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(error, message, notificationId);;
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -154,12 +154,12 @@ export class VolumesEffects {
         .attach(params)
         .map((volume: Volume) => {
           const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
           return new volumeActions.UpdateVolume(volume);
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
-          this.showNotificationsOnFail(notificationId, message);
+          this.showNotificationsOnFail(error, message, notificationId);;
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
@@ -178,12 +178,12 @@ export class VolumesEffects {
             .detach(action.payload)
             .switchMap((volume: Volume) => {
               const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
               return Observable.of(new volumeActions.ReplaceVolume(volume));
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(error, message, notificationId);;
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -208,13 +208,13 @@ export class VolumesEffects {
             .resize(params)
             .map((volume: Volume) => {
               const message = 'NOTIFICATIONS.VOLUME.RESIZE_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
               this.dialog.closeAll();
               return new volumeActions.ResizeVolumeSuccess(volume);
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VOLUME.RESIZE_FAILED';
-              this.showNotificationsOnFail(notificationId, message);
+              this.showNotificationsOnFail(error, message, notificationId);;
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -277,7 +277,7 @@ export class VolumesEffects {
           })
           .catch((error: Error) => {
             const message = 'NOTIFICATIONS.VOLUME.DELETION_FAILED';
-            this.showNotificationsOnFail(notificationId, message);
+            this.showNotificationsOnFail(error, message, notificationId);;
             return Observable.of(new volumeActions.VolumeUpdateError(error));
           });
       };
@@ -290,7 +290,7 @@ export class VolumesEffects {
           })
           .catch((error: Error) => {
             const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
-            this.showNotificationsOnFail(message, notificationId);
+            this.showNotificationsOnFail(error, message, notificationId);
             return Observable.of(new volumeActions.VolumeUpdateError(error));
           });
       };
@@ -342,13 +342,17 @@ export class VolumesEffects {
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
         id: jobNotificationId,
         message
       });
     }
-    this.dialogService.alert({ message });
+    this.dialogService.alert({ message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

@@ -77,7 +77,7 @@ export class TemplateEffects {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.DELETION_FAILED'
             : 'NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
-          this.showNotificationsOnFail(message, notificationId);
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new template.RemoveTemplateError(error))
         });
     });
@@ -109,10 +109,7 @@ export class TemplateEffects {
         })
         .map(createdTemplate => new template.RegisterTemplateSuccess(createdTemplate))
         .catch((error: Error) => {
-          const message = isIso
-            ? 'NOTIFICATIONS.ISO.REGISTER_FAILED'
-            : 'NOTIFICATIONS.TEMPLATE.REGISTER_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new template.RegisterTemplateSuccess(error))
         });
     });
@@ -130,7 +127,7 @@ export class TemplateEffects {
         .map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate))
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_FAILED';
-          this.showNotificationsOnFail(message, notificationId);
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new template.CreateTemplateError(error))
         });
     });
@@ -189,13 +186,17 @@ export class TemplateEffects {
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
         id: jobNotificationId,
         message
       });
     }
-    this.dialogService.alert({ message });
+    this.dialogService.alert({ message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

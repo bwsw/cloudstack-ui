@@ -43,8 +43,7 @@ export class SecurityGroupEffects {
         })
         .map(sg => new securityGroup.CreateSecurityGroupSuccess(sg))
         .catch(error => {
-          const message = this.getCreateFailedMessage(action.payload.mode);
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new securityGroup.CreateSecurityGroupError(error))
         });
     });
@@ -61,13 +60,12 @@ export class SecurityGroupEffects {
     .mergeMap((action: securityGroup.DeleteSecurityGroup) => {
       return this.deleteSecurityGroup(action.payload)
         .do(() => {
-          const message = this.getDeleteSucessMessage(action.payload);
+          const message = this.getDeleteSuccessMessage(action.payload);
           this.showNotificationsOnFinish(message);
         })
         .map(() => new securityGroup.DeleteSecurityGroupSuccess(action.payload))
         .catch(error => {
-          const message = this.getDeleteFailMessage(action.payload);
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new securityGroup.DeleteSecurityGroupError(error))
         });
     });
@@ -93,8 +91,7 @@ export class SecurityGroupEffects {
         })
         .map(() => new securityGroup.DeleteSecurityGroupSuccess(group))
         .catch(error => {
-          const message = 'NOTIFICATIONS.FIREWALL.PRIVATE_GROUP_DELETE_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new securityGroup.DeleteSecurityGroupError(error));
         });
     });
@@ -132,12 +129,6 @@ export class SecurityGroupEffects {
     [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.FIREWALL.TEMPLATE_DELETE_DONE',
     [SecurityGroupType.Shared]: 'NOTIFICATIONS.FIREWALL.SHARED_GROUP_DELETE_DONE',
     [SecurityGroupType.Private]: 'NOTIFICATIONS.FIREWALL.PRIVATE_GROUP_DELETE_DONE'
-  };
-
-  private deleteFailMessage = {
-    [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.FIREWALL.TEMPLATE_DELETE_FAILED',
-    [SecurityGroupType.Shared]: 'NOTIFICATIONS.FIREWALL.SHARED_GROUP_DELETE_FAILED',
-    [SecurityGroupType.Private]: 'NOTIFICATIONS.FIREWALL.PRIVATE_GROUP_DELETE_FAILED'
   };
 
   constructor(
@@ -188,28 +179,19 @@ export class SecurityGroupEffects {
     }
   }
 
-  private getCreateFailedMessage(mode: SecurityGroupViewMode): string {
-    switch (mode) {
-      case SecurityGroupViewMode.Templates:
-        return 'NOTIFICATIONS.FIREWALL.TEMPLATE_CREATION_FAILED';
-      case SecurityGroupViewMode.Shared:
-        return 'NOTIFICATIONS.FIREWALL.SHARED_GROUP_CREATION_FAILED';
-    }
-  }
-
-  private getDeleteSucessMessage(securityGroup: SecurityGroup): string {
+  private getDeleteSuccessMessage(securityGroup: SecurityGroup): string {
     return this.deleteSuccessMessage[getType(securityGroup)];
-  }
-
-  private getDeleteFailMessage(securityGroup: SecurityGroup): string {
-    return this.deleteFailMessage[getType(securityGroup)];
   }
 
   private showNotificationsOnFinish(message: string) {
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(message: string) {
-    this.dialogService.alert({ message });
+  private showNotificationsOnFail(error: any) {
+    this.dialogService.alert({ message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

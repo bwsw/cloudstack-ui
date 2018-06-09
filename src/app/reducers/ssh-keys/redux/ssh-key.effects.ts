@@ -45,8 +45,7 @@ export class SshKeyEffects {
             })
             .map(() => new sshKey.RemoveSshKeyPairSuccessAction(action.payload))
             .catch((error: Error) => {
-              const message = 'NOTIFICATIONS.SSH_KEY.DELETE_FAILED';
-              this.showNotificationsOnFail(message);
+              this.showNotificationsOnFail(error);
               return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
             });
         });
@@ -80,8 +79,7 @@ export class SshKeyEffects {
         })
         .map(createdKey => new sshKey.CreateSshKeyPairSuccessAction(createdKey))
         .catch((error: Error) => {
-          const message = 'NOTIFICATIONS.SSH_KEY.CREATION_FAILED';
-          this.showNotificationsOnFail(message);
+          this.showNotificationsOnFail(error);
           return Observable.of(new sshKey.CreateSshKeyPairErrorAction(error));
         });
     });
@@ -120,8 +118,12 @@ export class SshKeyEffects {
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(message: string) {
-    this.dialogService.alert({ message });
+  private showNotificationsOnFail(error: any) {
+    this.dialogService.alert({ message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 
 }

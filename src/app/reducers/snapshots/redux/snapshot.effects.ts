@@ -56,14 +56,14 @@ export class SnapshotEffects {
           )
             .do(() => {
               const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_DONE';
-              this.showNotificationsOnFinish(notificationId, message);
+              this.showNotificationsOnFinish(message, notificationId);
             })
             .map(newSnap => {
               return new snapshotActions.AddSnapshotSuccess(newSnap);
             })
             .catch((error) => {
               const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
-              this.showNotificationsOnFail(message, notificationId);
+              this.showNotificationsOnFail(error, message, notificationId);
               return Observable.of(new snapshotActions.SnapshotUpdateError(error));
             });
         });
@@ -78,14 +78,14 @@ export class SnapshotEffects {
       return this.snapshotService.remove(action.payload.id)
         .do(() => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_DONE';
-          this.showNotificationsOnFinish(notificationId, message);
+          this.showNotificationsOnFinish(message, notificationId);
         })
         .map(() => {
           return new snapshotActions.DeleteSnapshotSuccess(action.payload);
         })
         .catch((error) => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED';
-          this.showNotificationsOnFail(message, notificationId);
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new snapshotActions.SnapshotUpdateError(error));
         });
     });
@@ -139,7 +139,7 @@ export class SnapshotEffects {
               })
               .catch((error) => {
                 const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
-                this.showNotificationsOnFail(message, notificationId);
+                this.showNotificationsOnFail(error, message, notificationId);
                 return Observable.of(new snapshotActions.SnapshotUpdateError(error))
               });
           }));
@@ -181,13 +181,17 @@ export class SnapshotEffects {
     this.snackBarService.open(message);
   }
 
-  private showNotificationsOnFail(message: string, jobNotificationId?: string) {
+  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
         id: jobNotificationId,
         message
       });
     }
-    this.dialogService.alert({ message });
+    this.dialogService.alert({ message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }
