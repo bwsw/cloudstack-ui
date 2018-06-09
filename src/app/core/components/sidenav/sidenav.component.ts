@@ -23,7 +23,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   @Input() public title: string;
   public imgUrl = 'url(img/cloudstack_logo_light.png)';
 
-  public routes: Array<SidenavRoute> = sidenavRoutes.slice();
+  public routes: Array<SidenavRoute> = sidenavRoutes.map(route => ({...route}));
   public nonDraggableRoutes = nonDraggableRoutes;
 
   public navigationLoaded = false;
