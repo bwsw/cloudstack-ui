@@ -27,15 +27,11 @@ export interface SecurityGroup {
   domain: string;
   domainid: string;
   name: string;
-  project: string;
-  projectid: string;
   virtualmachinecount: number;
   virtualmachineids: string[];
   egressrule: NetworkRule[];
   ingressrule: NetworkRule[]
   tags: Tag[];
-  jobid: string;
-  jobstatus: string;
   preselected?: boolean; // used by custom templates, described in config
 }
 

@@ -1,11 +1,5 @@
 import { SecurityGroup } from '../../../app/security-group/sg.model';
-import {
-  AffinityGroup,
-  DiskOffering,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../app/shared/models';
+import { AffinityGroup, DiskOffering, ServiceOffering, SSHKeyPair, Zone } from '../../../app/shared/models';
 import { Iso, Template } from '../../../app/template/shared';
 
 
@@ -35,7 +29,7 @@ export class MockEntityData {
     this.diskOfferings = diskOfferings;
     this.isos = isos.map(json => new Iso(json));
     this.securityGroupTemplates = securityGroupTemplates.map(
-      json => new SecurityGroup(json));
+      json => json as SecurityGroup);
     this.serviceOfferings = serviceOfferings;
     this.sshKeyPairs = sshKeyPairs;
     this.templates = templates.map(json => new Template(json));

@@ -32,77 +32,75 @@ describe('Security group firewall rules component', () => {
   let f;
   let comp;
 
-  const mockSecurityGroup = new SecurityGroup({
+  const mockSecurityGroup: SecurityGroup = {
     id: '9d1f0e3b-82a7-4528-b02e-70c4f9eff4b0',
     name: 'test',
     description: '',
     account: 'develop',
     domain: 'ROOT',
-    ingressRules: [],
+    domainid: 'id',
+    ingressrule: [],
+    egressrule: [],
     tags: [],
-    virtualMachinesCount: 0,
-    virtualMachineIds: []
-  });
-  const mockSecurityGroupWithRules = new SecurityGroup({
+    virtualmachinecount: 0,
+    virtualmachineids: []
+  };
+  const mockSecurityGroupWithRules: SecurityGroup = {
     id: '9d1f0e3b-82a7-4528-b02e-70c4f9eff4b0',
     name: 'test',
     description: '',
     account: 'develop',
     domain: 'ROOT',
-    ingressRules: [
+    domainid: 'id',
+    ingressrule: [
       {
-        ruleId: 'ed4a91f5-35f2-48a3-b706-6a00dba50708',
-        protocol: 'icmp',
-        icmpType: 3,
-        icmpCode: 2,
-        CIDR: '2001:DB8::/128',
-        tags: []
+        ruleid: 'ed4a91f5-35f2-48a3-b706-6a00dba50708',
+        protocol: NetworkProtocol.ICMP,
+        icmptype: 3,
+        icmpcode: 2,
+        cidr: '2001:DB8::/128'
       },
       {
-        ruleId: '293a8e35-7c26-4216-851e-c87a46c9620f',
-        protocol: 'tcp',
-        startPort: 0,
-        endPort: 65535,
-        CIDR: '2001:DB8::/128',
-        tags: []
+        ruleid: '293a8e35-7c26-4216-851e-c87a46c9620f',
+        protocol: NetworkProtocol.TCP,
+        startport: 0,
+        endport: 65535,
+        cidr: '2001:DB8::/128'
       },
       {
-        ruleId: 'af34ea6c-dd50-4cab-9f5e-ca4e454e59d3',
-        protocol: 'icmp',
-        icmpType: 2,
-        icmpCode: 0,
-        CIDR: '2001:DB8::/128',
-        tags: []
+        ruleid: 'af34ea6c-dd50-4cab-9f5e-ca4e454e59d3',
+        protocol: NetworkProtocol.ICMP,
+        icmptype: 2,
+        icmpcode: 0,
+        cidr: '2001:DB8::/128'
       },
       {
-        ruleId: '41ce53d6-5274-49b0-a2e9-7b0ebc87c89a',
-        protocol: 'icmp',
-        icmpType: 132,
-        icmpCode: 0,
-        CIDR: '2001:DB8::/128',
-        tags: []
+        ruleid: '41ce53d6-5274-49b0-a2e9-7b0ebc87c89a',
+        protocol: NetworkProtocol.ICMP,
+        icmptype: 132,
+        icmpcode: 0,
+        cidr: '2001:DB8::/128'
       },
       {
-        ruleId: '02990ed4-827f-49a1-bb27-4ea6d565c1fd',
-        protocol: 'icmp',
-        icmpType: 4,
-        icmpCode: 1,
-        CIDR: '2001:DB8::/128',
-        tags: []
+        ruleid: '02990ed4-827f-49a1-bb27-4ea6d565c1fd',
+        protocol: NetworkProtocol.ICMP,
+        icmptype: 4,
+        icmpcode: 1,
+        cidr: '2001:DB8::/128'
       },
       {
-        ruleId: '787ee1c9-ec5f-4612-9894-1080acec515e',
-        protocol: 'icmp',
-        icmpType: 0,
-        icmpCode: 0,
-        CIDR: '0.0.0.0/0',
-        tags: []
+        ruleid: '787ee1c9-ec5f-4612-9894-1080acec515e',
+        protocol: NetworkProtocol.ICMP,
+        icmptype: 0,
+        icmpcode: 0,
+        cidr: '0.0.0.0/0'
       }
     ],
+    egressrule: [],
     tags: [],
-    virtualMachinesCount: 0,
-    virtualMachineIds: []
-  });
+    virtualmachinecount: 0,
+    virtualmachineids: []
+  };
 
   class SecurityGroupServiceMock {
     public getList(): Observable<Array<SecurityGroup>> {
