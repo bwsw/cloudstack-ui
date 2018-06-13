@@ -4,9 +4,9 @@
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run build-themes && ng serve --port 8080",
-    "hmr": "npm run build-themes && ng serve --hmr -e=hmr --port 8080",
-    "build-themes": "sh ./src/generate-themes.sh",
+    "start": "npm run build-themes && ng serve",
+    "hmr": "npm run build-themes && ng serve --hmr -e=hmr",
+    "build-themes": "sh ./scripts/generate-themes.sh",
     "build": "npm run build-themes && ng build --prod",
     "build:aot": "npm run build-themes && ng build --prod --aot",
     "test": "ng test --code-coverage --watch=false",

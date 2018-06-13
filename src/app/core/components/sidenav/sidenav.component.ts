@@ -1,46 +1,31 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserTagService } from 'app/shared/services/tags/user-tag.service';
 import { DragulaService } from 'ng2-dragula';
-import { ConfigService } from '../shared/services/config.service';
-import { LayoutService } from '../shared/services/layout.service';
-import { RouterUtilsService } from '../shared/services/router-utils.service';
-import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-import {
-  transformHandle,
-  transformLinks
-} from './sidebar-animations';
-import {
-  NavigationItem,
-  navigationPredicate,
-  nonDraggableRoutes,
-  sideBarRoutes,
-  validateNavigationOrder
-} from './sidebar-routes';
+import * as cloneDeep from 'lodash/cloneDeep';
+
+
+import { UserTagService } from '../../../shared/services/tags/user-tag.service';
+import { ConfigService } from '../../../shared/services/config.service';
+import { LayoutService } from '../../../shared/services/layout.service';
+import { RouterUtilsService } from '../../../shared/services/router-utils.service';
+import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
+import { transformHandle, transformLinks } from './sidenav-animations';
+import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
 
 
 @Component({
-  selector: 'cs-app-sidebar',
-  templateUrl: './app-sidebar.component.html',
-  styleUrls: ['./app-sidebar.component.scss'],
+  selector: 'cs-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss'],
   animations: [transformHandle, transformLinks]
 })
-export class AppSidebarComponent extends WithUnsubscribe()
-  implements AfterViewInit, OnInit, OnDestroy {
+export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('navigationBar') public navigationBar: ElementRef;
   @Input() public open: boolean;
   @Input() public title: string;
-  public imgUrl = 'url(img/cloudstack_logo_light.png)'; // TODO
+  public imgUrl = 'url(img/cloudstack_logo_light.png)';
 
-  public routes = sideBarRoutes.slice();
+  public routes: Array<SidenavRoute> = cloneDeep(sidenavRoutes);
   public nonDraggableRoutes = nonDraggableRoutes;
 
   public navigationLoaded = false;
@@ -110,12 +95,9 @@ export class AppSidebarComponent extends WithUnsubscribe()
       this.hasChanges = false;
       this.updatingOrder = true;
 
-      const newOrder: Array<NavigationItem> = this.routes.map(({ id, enabled }) => ({
-        id,
-        enabled
-      }));
+      const menuState = this.stringifyMenuState(this.routes);
       this.userTagService
-        .setNavigationOrder(JSON.stringify(newOrder))
+        .setNavigationOrder(menuState)
         .finally(() => (this.updatingOrder = false))
         .subscribe();
     }
@@ -141,14 +123,9 @@ export class AppSidebarComponent extends WithUnsubscribe()
       this.userTagService.getNavigationOrder().subscribe(tag => {
         this.navigationLoaded = true;
         if (tag) {
-          let order;
-          try {
-            order = JSON.parse(tag);
-          } catch (e) {
-            return;
-          }
-          if (validateNavigationOrder(order)) {
-            const predicate = navigationPredicate(order);
+          const order = this.parseMenuState(tag);
+          if (this.validateNavigationOrder(order)) {
+            const predicate = this.navigationPredicate(order);
             this.routes.sort(predicate);
             this.routes.forEach((
               route,
@@ -170,8 +147,42 @@ export class AppSidebarComponent extends WithUnsubscribe()
     if (this.canEdit) {
       const defaultOrder = this.configService.get<Array<string>>('configureSidebar');
       if (defaultOrder) {
-        this.routes = this.routes.filter(route => defaultOrder.some(_ => _.toUpperCase() === route.id));
+        this.routes = this.routes.filter(route =>
+          defaultOrder.some(orderElement => orderElement.toUpperCase() === route.id));
       }
     }
+  }
+
+  private validateNavigationOrder(order: NavigationItem[]): boolean {
+    if (order.length !== this.routes.length) {
+      return false;
+    }
+
+    return order.every(el =>
+        el.enabled != null && el.id != null && !!this.routes.find(route => route.id === el.id));
+  }
+
+  private navigationPredicate(order: NavigationItem[]) {
+    return (a: NavigationItem, b: NavigationItem) =>
+      order.findIndex(el => el.id === a.id) - order.findIndex(el => el.id === b.id);
+  }
+
+  private stringifyMenuState(routes: NavigationItem[]): string {
+    return routes
+      .map(el => `${el.id}:${+el.enabled}`)
+      .join(';');
+  }
+
+  private parseMenuState(menuStateString: string): NavigationItem[] {
+    return menuStateString
+      .split(';')
+      .filter(Boolean)
+      .map((menuElement: string) => {
+        const [id, enabled] = menuElement.split(':');
+        return {
+          id,
+          enabled: enabled === '1'
+        }
+      });
   }
 }
