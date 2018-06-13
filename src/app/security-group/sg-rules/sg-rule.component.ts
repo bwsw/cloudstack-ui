@@ -8,7 +8,7 @@ import {
   GetICMPV6TypeTranslationToken
 } from '../../shared/icmp/icmp-types';
 import { IPVersion, NetworkRuleType } from '../sg.model';
-import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../network-rule.model';
 import { CidrUtils } from '../../shared/utils/cidr-utils';
 
 @Component({
@@ -46,15 +46,17 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
-      ? GetICMPTypeTranslationToken(this.item.icmptype)
-      : GetICMPV6TypeTranslationToken(this.item.icmptype);
+    const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
+    return CidrUtils.getCidrIpVersion(icmpRule.cidr) === IPVersion.ipv4
+      ? GetICMPTypeTranslationToken(icmpRule.icmptype)
+      : GetICMPV6TypeTranslationToken(icmpRule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
-      ? GetICMPCodeTranslationToken(this.item.icmptype, this.item.icmpcode)
-      : GetICMPV6CodeTranslationToken(this.item.icmptype, this.item.icmpcode);
+    const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
+    return CidrUtils.getCidrIpVersion(icmpRule.cidr) === IPVersion.ipv4
+      ? GetICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode)
+      : GetICMPV6CodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
   }
 
   public get ruleParams(): Object {
@@ -81,16 +83,18 @@ export class SgRuleComponent {
         codeTranslation = null;
       }
 
+      const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
       ruleParams = Object.assign({}, params, {
-        icmpType: this.item.icmptype,
-        icmpCode: this.item.icmpcode,
+        icmpType: icmpRule.icmptype,
+        icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
+      const portRule: PortNetworkRule = this.item as PortNetworkRule;
       ruleParams = Object.assign({}, params, {
-        startPort: this.item.startport,
-        endPort: this.item.endport
+        startPort: portRule.startport,
+        endPort: portRule.endport
       });
     }
 

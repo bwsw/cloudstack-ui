@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { NetworkProtocol, NetworkRule } from '../../network-rule.model';
+import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../../network-rule.model';
 import { NetworkRuleType, SecurityGroup } from '../../sg.model';
 import { BaseBackendService } from '../../../shared/services/base-backend.service';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
@@ -109,18 +109,18 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     securityGroup: SecurityGroup
   ): any {
     if (rule.protocol === NetworkProtocol.TCP || rule.protocol === NetworkProtocol.UDP) {
-      return this.getTcpUdpNetworkRuleCreationRequest(rule, securityGroup);
+      return this.getTcpUdpNetworkRuleCreationRequest(rule as PortNetworkRule, securityGroup);
     }
 
     if (rule.protocol === NetworkProtocol.ICMP) {
-      return this.getIcmpNetworkRuleCreationRequest(rule, securityGroup);
+      return this.getIcmpNetworkRuleCreationRequest(rule as IcmpNetworkRule, securityGroup);
     }
 
     throw new Error('Unknown protocol');
   }
 
   private getTcpUdpNetworkRuleCreationRequest(
-    rule: NetworkRule,
+    rule: PortNetworkRule,
     securityGroup: SecurityGroup
   ): TcpUdpNetworkRuleCreationParams {
     return {
@@ -134,7 +134,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   };
 
   private getIcmpNetworkRuleCreationRequest(
-    rule: NetworkRule,
+    rule: IcmpNetworkRule,
     securityGroup: SecurityGroup
   ): IcmpNetworkRuleCreationParams {
     return {

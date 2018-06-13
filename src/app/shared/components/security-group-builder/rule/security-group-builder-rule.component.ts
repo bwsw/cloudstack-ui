@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NetworkProtocol } from '../../../../security-group/network-rule.model';
+import { IcmpNetworkRule, NetworkProtocol, PortNetworkRule } from '../../../../security-group/network-rule.model';
 import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../../icmp/icmp-types';
 import { RuleListItem } from '../security-group-builder.component';
 import { CidrUtils } from '../../../utils/cidr-utils';
@@ -37,11 +37,13 @@ export class SecurityGroupBuilderRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.item.rule.icmptype);
+    const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
+    return GetICMPTypeTranslationToken(icmpRule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.item.rule.icmptype, this.item.rule.icmpcode);
+    const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
+    return GetICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
   }
 
   public get ruleTranslationToken(): { tooltip: string, name: string } {
@@ -63,7 +65,8 @@ export class SecurityGroupBuilderRuleComponent {
         };
       }
     } else {
-      if (this.item.rule.startport === this.item.rule.endport) {
+      const portRule: PortNetworkRule = this.item.rule as PortNetworkRule;
+      if (portRule.startport === portRule.endport) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_NOMARKUP`,
           name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE`
@@ -97,16 +100,18 @@ export class SecurityGroupBuilderRuleComponent {
         codeTranslation = null;
       }
 
+      const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
       ruleParams = Object.assign({}, params, {
-        icmpType: this.item.rule.icmptype,
-        icmpCode: this.item.rule.icmpcode,
+        icmpType: icmpRule.icmptype,
+        icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
+      const portRule: PortNetworkRule = this.item.rule as PortNetworkRule;
       ruleParams = Object.assign({}, params, {
-        startPort: this.item.rule.startport,
-        endPort: this.item.rule.endport
+        startPort: portRule.startport,
+        endPort: portRule.endport
       });
     }
 
