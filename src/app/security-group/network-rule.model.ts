@@ -4,18 +4,6 @@ export enum NetworkProtocol {
   ICMP = 'icmp'
 }
 
-// export interface NetworkRule extends BaseModelInterface {
-//   type?: string;
-//   cidr: string;
-//   icmpcode?: number;
-//   icmptype?: number;
-//   protocol: NetworkProtocol;
-//   endport?: number;
-//   startport?: number;
-//   ruleid: string;
-// }
-
-
 interface NetworkRuleBase {
   type?: string;
   cidr: string;
