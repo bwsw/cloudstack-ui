@@ -46,26 +46,26 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
-      ? GetICMPTypeTranslationToken(this.item.icmpType)
-      : GetICMPV6TypeTranslationToken(this.item.icmpType);
+    return CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
+      ? GetICMPTypeTranslationToken(this.item.icmptype)
+      : GetICMPV6TypeTranslationToken(this.item.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
-      ? GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode)
-      : GetICMPV6CodeTranslationToken(this.item.icmpType, this.item.icmpCode);
+    return CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
+      ? GetICMPCodeTranslationToken(this.item.icmptype, this.item.icmpcode)
+      : GetICMPV6CodeTranslationToken(this.item.icmptype, this.item.icmpcode);
   }
 
   public get ruleParams(): Object {
-    const ipVersion = CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
+    const ipVersion = CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
       ? IPVersion.ipv4
       : IPVersion.ipv6;
 
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.item.CIDR,
+      cidr: this.item.cidr,
       ipVersion
     };
 
@@ -82,15 +82,15 @@ export class SgRuleComponent {
       }
 
       ruleParams = Object.assign({}, params, {
-        icmpType: this.item.icmpType,
-        icmpCode: this.item.icmpCode,
+        icmpType: this.item.icmptype,
+        icmpCode: this.item.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
       ruleParams = Object.assign({}, params, {
-        startPort: this.item.startPort,
-        endPort: this.item.endPort
+        startPort: this.item.startport,
+        endPort: this.item.endport
       });
     }
 
@@ -104,6 +104,6 @@ export class SgRuleComponent {
     e.stopPropagation();
 
     this.deleting = true;
-    this.onRemove.emit({ type: this.item.type, id: this.item.ruleId });
+    this.onRemove.emit({ type: this.item.type, id: this.item.ruleid });
   }
 }

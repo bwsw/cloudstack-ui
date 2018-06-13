@@ -248,7 +248,7 @@ export const selectFilteredSecurityGroups = createSelector(
     };
 
     const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG && mode === SecurityGroupViewMode.Private
-      ? group.virtualMachineIds.length === 0
+      ? group.virtualmachineids.length === 0
       : true;
 
     return securityGroups.filter(group => queryFilter(group)
@@ -275,7 +275,7 @@ export const hasOrphanSecurityGroups = createSelector(
   selectAll,
   (sg) => {
     const orphans = sg.filter(group => getType(group) === SecurityGroupType.Private)
-      .find(_ => _.virtualMachineIds.length === 0);
+      .find(group => group.virtualmachineids.length === 0);
     return !!orphans;
   }
 );

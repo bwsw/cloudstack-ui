@@ -17,7 +17,7 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public query: string;
 
   public get sgVmName() {
-    const vmId = this.item.virtualMachineIds[0];
+    const vmId = this.item.virtualmachineids[0];
     const vm = this.vmList[vmId];
 
     return vm ? vm.name : '';

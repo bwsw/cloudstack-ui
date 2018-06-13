@@ -17,22 +17,22 @@ Predefined templates for security groups. You can define your own security group
           "name": "TCP Permit All",
           "description": "Permits all TPC traffic",
           "preselected": true,
-          "ingressRules": [
+          "ingressrule": [
             {
-              "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
+              "ruleid": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
               "protocol": "tcp",
-              "startPort": 1,
-              "endPort": 65535,
-              "CIDR": "0.0.0.0/0"
+              "startport": 1,
+              "endport": 65535,
+              "cidr": "0.0.0.0/0"
             }
           ],
-          "egressRules": [
+          "egressrule": [
             {
-              "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
+              "ruleid": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
               "protocol": "tcp",
-              "startPort": 1,
-              "endPort": 65535,
-              "CIDR": "0.0.0.0/0"
+              "startport": 1,
+              "endport": 65535,
+              "cidr": "0.0.0.0/0"
             }
           ]
         },

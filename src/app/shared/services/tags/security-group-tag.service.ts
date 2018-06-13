@@ -9,6 +9,7 @@ import { SecurityGroupTagKeys } from './security-group-tag-keys';
 @Injectable()
 export class SecurityGroupTagService implements EntityTagService {
   public keys = SecurityGroupTagKeys;
+  private readonly resourceType = 'SecurityGroup';
 
   constructor(
     private markForRemovalService: MarkForRemovalService,
@@ -22,7 +23,7 @@ export class SecurityGroupTagService implements EntityTagService {
   public markAsTemplate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.tagService.update(
       securityGroup,
-      securityGroup.resourceType,
+      this.resourceType,
       this.keys.type,
       SecurityGroupType.CustomTemplate
     );
@@ -31,7 +32,7 @@ export class SecurityGroupTagService implements EntityTagService {
   public markAsPrivate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.tagService.update(
       securityGroup,
-      securityGroup.resourceType,
+      this.resourceType,
       this.keys.type,
       SecurityGroupType.Private
     );
@@ -41,7 +42,7 @@ export class SecurityGroupTagService implements EntityTagService {
     const newSecurityGroup = Object.assign({}, securityGroup);
     return this.tagService.remove({
       resourceIds: securityGroup.id,
-      resourceType: securityGroup.resourceType,
+      resourceType: this.resourceType,
       'tag[0].key': this.keys.type
     })
       .map(() => {

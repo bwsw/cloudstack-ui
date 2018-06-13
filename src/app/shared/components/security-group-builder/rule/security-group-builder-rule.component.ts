@@ -37,11 +37,11 @@ export class SecurityGroupBuilderRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.item.rule.icmpType);
+    return GetICMPTypeTranslationToken(this.item.rule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.item.rule.icmpType, this.item.rule.icmpCode);
+    return GetICMPCodeTranslationToken(this.item.rule.icmptype, this.item.rule.icmpcode);
   }
 
   public get ruleTranslationToken(): { tooltip: string, name: string } {
@@ -63,7 +63,7 @@ export class SecurityGroupBuilderRuleComponent {
         };
       }
     } else {
-      if (this.item.rule.startPort === this.item.rule.endPort) {
+      if (this.item.rule.startport === this.item.rule.endport) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_NOMARKUP`,
           name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE`
@@ -81,8 +81,8 @@ export class SecurityGroupBuilderRuleComponent {
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.item.rule.CIDR,
-      ipVersion: CidrUtils.getCidrIpVersion(this.item.rule.CIDR)
+      cidr: this.item.rule.cidr,
+      ipVersion: CidrUtils.getCidrIpVersion(this.item.rule.cidr)
     };
 
     let ruleParams;
@@ -98,15 +98,15 @@ export class SecurityGroupBuilderRuleComponent {
       }
 
       ruleParams = Object.assign({}, params, {
-        icmpType: this.item.rule.icmpType,
-        icmpCode: this.item.rule.icmpCode,
+        icmpType: this.item.rule.icmptype,
+        icmpCode: this.item.rule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
       });
     } else {
       ruleParams = Object.assign({}, params, {
-        startPort: this.item.rule.startPort,
-        endPort: this.item.rule.endPort
+        startPort: this.item.rule.startport,
+        endPort: this.item.rule.endport
       });
     }
 

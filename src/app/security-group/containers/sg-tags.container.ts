@@ -41,11 +41,7 @@ export class SecurityGroupTagsContainerComponent {
       };
       const newTags: Tag[] = sg.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
-      const result = new SecurityGroup(Object.assign(
-        {},
-        sg,
-        { tags: newTags }
-      ));
+      const result = Object.assign({}, sg, { tags: newTags });
       this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }
@@ -75,11 +71,7 @@ export class SecurityGroupTagsContainerComponent {
       const newTags: Tag[] = [...sg.tags];
       newTags.push(newTag);
 
-      const result = new SecurityGroup(Object.assign(
-        {},
-        sg,
-        { tags: newTags }
-      ));
+      const result = Object.assign({}, sg, { tags: newTags });
       this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }
