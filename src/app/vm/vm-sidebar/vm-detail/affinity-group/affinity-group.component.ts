@@ -12,7 +12,7 @@ import { VirtualMachine, VmState } from '../../../shared/vm.model';
 })
 export class AffinityGroupComponent {
   @Input() public vm: VirtualMachine;
-  @Output() public onAffinityGroupChange = new EventEmitter();
+  @Output() public onAffinityGroupChange = new EventEmitter<string>();
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
