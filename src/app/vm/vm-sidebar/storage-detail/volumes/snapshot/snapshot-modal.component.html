@@ -33,7 +33,7 @@
           [matTooltip]="action.name | translate"
           matTooltipPosition="above"
           (click)="onAction(action, row)"
-          [disabled]="row['loading']"
+          [disabled]="!action.canActivate(row)"
         >
           <mat-icon [ngClass]="action.icon"></mat-icon>
         </button>

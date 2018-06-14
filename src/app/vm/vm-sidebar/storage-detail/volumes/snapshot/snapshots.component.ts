@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { getDateSnapshotCreated, Volume } from '../../../../../shared/models';
-import { Action } from '../../../../../shared/models/action.model';
-import { Snapshot } from '../../../../../shared/models/snapshot.model';
+import { Action, getDateSnapshotCreated, Snapshot, Volume } from '../../../../../shared/models';
 import {
   SnapshotActions,
   SnapshotActionService
@@ -15,19 +13,26 @@ import { SnapshotModalContainerComponent } from './snapshot-modal.container';
   templateUrl: 'snapshots.component.html',
   styleUrls: ['snapshots.component.scss']
 })
-export class SnapshotsComponent {
+export class SnapshotsComponent implements OnInit {
   @Input() public volume: Volume;
   @Output() public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output() public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output() public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output() public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   public actions: Array<Action<Snapshot>>;
+  public lastSnapshot: Snapshot;
 
   constructor(
-    public snapshotActionsService: SnapshotActionService,
+    private snapshotActionsService: SnapshotActionService,
     private dialog: MatDialog,
   ) {
     this.actions = snapshotActionsService.actions;
+  }
+
+  public ngOnInit() {
+    if (this.volume && this.volume.snapshots) {
+      this.lastSnapshot = this.volume.snapshots[0];
+    }
   }
 
   public showSnapshots(): void {

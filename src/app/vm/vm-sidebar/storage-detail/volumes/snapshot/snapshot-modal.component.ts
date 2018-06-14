@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 
-import { getDateSnapshotCreated, Volume } from '../../../../../shared/models';
-import { Snapshot } from '../../../../../shared/models/snapshot.model';
+import { getDateSnapshotCreated, Snapshot, Volume } from '../../../../../shared/models';
 import {
   SnapshotActions,
   SnapshotActionService
