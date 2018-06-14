@@ -53,7 +53,7 @@ export class VolumesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);;
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new volumeActions.CreateError(error));
         });
     });
@@ -74,7 +74,7 @@ export class VolumesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);;
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new volumeActions.CreateError(error));
         });
     });
@@ -98,7 +98,7 @@ export class VolumesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);;
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
@@ -159,7 +159,7 @@ export class VolumesEffects {
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);;
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new volumeActions.VolumeUpdateError(error));
         });
     });
@@ -183,7 +183,7 @@ export class VolumesEffects {
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
-              this.showNotificationsOnFail(error, message, notificationId);;
+              this.showNotificationsOnFail(error, message, notificationId);
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -214,7 +214,7 @@ export class VolumesEffects {
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VOLUME.RESIZE_FAILED';
-              this.showNotificationsOnFail(error, message, notificationId);;
+              this.showNotificationsOnFail(error, message, notificationId);
               return Observable.of(new volumeActions.VolumeUpdateError(error));
             });
         });
@@ -277,7 +277,7 @@ export class VolumesEffects {
           })
           .catch((error: Error) => {
             const message = 'NOTIFICATIONS.VOLUME.DELETION_FAILED';
-            this.showNotificationsOnFail(error, message, notificationId);;
+            this.showNotificationsOnFail(error, message, notificationId);
             return Observable.of(new volumeActions.VolumeUpdateError(error));
           });
       };
