@@ -84,18 +84,20 @@ export class SgRuleComponent {
       }
 
       const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
-      ruleParams = Object.assign({}, params, {
+      ruleParams = {
+        ...params,
         icmpType: icmpRule.icmptype,
         icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
-      });
+      }
     } else {
       const portRule: PortNetworkRule = this.item as PortNetworkRule;
-      ruleParams = Object.assign({}, params, {
+      ruleParams = {
+        ...params,
         startPort: portRule.startport,
         endPort: portRule.endport
-      });
+      }
     }
 
     return ruleParams;

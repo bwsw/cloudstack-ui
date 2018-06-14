@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
+
+import { State } from '../../reducers';
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
 import { SecurityGroup } from '../sg.model';
@@ -41,19 +42,15 @@ export class SecurityGroupTagsContainerComponent {
       };
       const newTags: Tag[] = sg.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
-      const result = Object.assign({}, sg, { tags: newTags });
+      const result = { ...sg, tags: newTags };
       this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }
 
   public deleteTag(tag: Tag) {
     this.sg$.take(1).subscribe((sg: SecurityGroup) => {
-      const newTags = Object.assign([], sg.tags).filter(_ => tag.key !== _.key);
-      this.store.dispatch(new sgActions.UpdateSecurityGroup(Object.assign(
-        {},
-        sg,
-        { tags: newTags}
-      )))
+      const newTags = [...sg.tags].filter(_ => tag.key !== _.key);
+      this.store.dispatch(new sgActions.UpdateSecurityGroup({ ...sg, tags: newTags }));
     });
   }
 
@@ -71,7 +68,7 @@ export class SecurityGroupTagsContainerComponent {
       const newTags: Tag[] = [...sg.tags];
       newTags.push(newTag);
 
-      const result = Object.assign({}, sg, { tags: newTags });
+      const result = { ...sg, tags: newTags };
       this.store.dispatch(new sgActions.UpdateSecurityGroup(result));
     });
   }

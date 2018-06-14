@@ -101,18 +101,20 @@ export class SecurityGroupBuilderRuleComponent {
       }
 
       const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
-      ruleParams = Object.assign({}, params, {
+      ruleParams = {
+        ...params,
         icmpType: icmpRule.icmptype,
         icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
-      });
+      };
     } else {
       const portRule: PortNetworkRule = this.item.rule as PortNetworkRule;
-      ruleParams = Object.assign({}, params, {
+      ruleParams = {
+        ...params,
         startPort: portRule.startport,
         endPort: portRule.endport
-      });
+      };
     }
 
     return ruleParams;

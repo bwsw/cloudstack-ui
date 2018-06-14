@@ -39,7 +39,7 @@ export class SecurityGroupTagService implements EntityTagService {
   }
 
   public convertToShared(securityGroup: SecurityGroup): Observable<SecurityGroup> {
-    const newSecurityGroup = Object.assign({}, securityGroup);
+    const newSecurityGroup = {...securityGroup};
     return this.tagService.remove({
       resourceIds: securityGroup.id,
       resourceType: this.resourceType,
@@ -47,7 +47,10 @@ export class SecurityGroupTagService implements EntityTagService {
     })
       .map(() => {
         newSecurityGroup.tags = newSecurityGroup.tags.filter(_ => this.keys.type !== _.key);
-        return Object.assign({}, newSecurityGroup, { type: 'shared' }) as SecurityGroup;
+        return {
+          ...newSecurityGroup,
+          type: 'shared'
+        };
       })
   }
 }

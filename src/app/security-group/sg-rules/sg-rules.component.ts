@@ -237,9 +237,11 @@ export class SgRulesComponent implements OnInit, OnChanges {
   }
 
   private emitChanges() {
-    const updatedSecurityGroup = Object.assign({}, this.securityGroup);
-    updatedSecurityGroup.ingressrule = this.ingressRules;
-    updatedSecurityGroup.egressrule = this.egressRules;
+    const updatedSecurityGroup = {
+      ...this.securityGroup,
+      ingressrule: this.ingressRules,
+      egressrule: this.egressRules
+    };
     this.onFirewallRulesChange.emit(updatedSecurityGroup);
   }
 }
