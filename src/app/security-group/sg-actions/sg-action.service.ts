@@ -1,5 +1,5 @@
 import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
-import { Action } from '../../shared/models/action.model';
+import { Action } from '../../shared/models';
 
 export enum SecurityGroupActionType {
   View = 'view',

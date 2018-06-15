@@ -21,9 +21,6 @@ export const CONVERT_SECURITY_GROUP = '[SecurityGroups] CONVERT_SECURITY_GROUP';
 
 export class LoadSecurityGroupRequest implements Action {
   readonly type = LOAD_SECURITY_GROUP_REQUEST;
-
-  constructor(public payload?: any) {
-  }
 }
 
 export class LoadSecurityGroupResponse implements Action {
@@ -116,6 +113,7 @@ export class ConvertSecurityGroup implements Action {
   constructor(public payload: SecurityGroup) {
   }
 }
+
 export class UpdateSecurityGroupError implements Action {
   type = UPDATE_SECURITY_GROUP_ERROR;
 

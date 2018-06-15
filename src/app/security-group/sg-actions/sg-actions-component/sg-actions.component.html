@@ -1,7 +1,7 @@
 <ng-container *ngFor="let action of securityGroupActionService.actions">
   <button
     mat-menu-item
-    *ngIf="action.canActivate(securityGroup)"
+    [disabled]="!action.canActivate(securityGroup)"
     (click)="onAction(action)"
   >
     <mat-icon [ngClass]="action.icon"></mat-icon>
