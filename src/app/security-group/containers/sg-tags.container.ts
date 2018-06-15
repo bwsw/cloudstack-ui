@@ -49,7 +49,7 @@ export class SecurityGroupTagsContainerComponent {
 
   public deleteTag(tag: Tag) {
     this.sg$.take(1).subscribe((sg: SecurityGroup) => {
-      const newTags = [...sg.tags].filter(_ => tag.key !== _.key);
+      const newTags = sg.tags.filter(_ => tag.key !== _.key);
       this.store.dispatch(new sgActions.UpdateSecurityGroup({ ...sg, tags: newTags }));
     });
   }
