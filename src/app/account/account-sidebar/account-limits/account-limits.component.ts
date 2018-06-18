@@ -1,29 +1,22 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {
-  ResourceLimit,
-  ResourceType
-} from '../../../shared/models/resource-limit.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import * as cloneDeep from 'lodash/cloneDeep';
+
+
+import { ResourceLimit, ResourceType } from '../../../shared/models';
 
 
 @Component({
   selector: 'cs-account-limits',
   templateUrl: 'account-limits.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['account-limits.component.scss']
+  styleUrls: ['account-limits.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountLimitsComponent {
-  @Input() public limits: Array<ResourceLimit>;
+  @Input() public limits: ResourceLimit[];
   @Input() public isAdmin: boolean;
-  @Output() public onLimitsEdit: EventEmitter<Array<ResourceLimit>>;
+  @Output() public limitsUpdate = new EventEmitter<ResourceLimit[]>();
   public isEdit = false;
-
-  public localLimits = [];
+  public localLimits: ResourceLimit[] = [];
 
   public limitLabels = {
     [ResourceType.Instance]: 'ACCOUNT_PAGE.CONFIGURATION.VM_LIMIT',
@@ -40,19 +33,13 @@ export class AccountLimitsComponent {
     [ResourceType.SecondaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_LIMIT',
   };
 
-  constructor() {
-    this.onLimitsEdit = new EventEmitter<Array<ResourceLimit>>();
-  }
-
   public onSave(): void {
-    this.onLimitsEdit.emit(this.localLimits);
+    this.limitsUpdate.emit(this.localLimits);
     this.isEdit = false;
   }
 
   public editLimits() {
-    this.localLimits =  Object.assign([], this.limits.map(
-      limit => ({resourcetype: limit.resourcetype, max: limit.max})));
+    this.localLimits = cloneDeep(this.limits);
     this.isEdit = !this.isEdit;
   }
-
 }
