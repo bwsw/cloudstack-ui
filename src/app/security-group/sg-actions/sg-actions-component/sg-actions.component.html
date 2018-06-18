@@ -1,4 +1,4 @@
-<ng-container *ngFor="let action of securityGroupActionService.actions">
+<ng-container *ngFor="let action of actions">
   <button
     mat-menu-item
     [disabled]="!action.canActivate(securityGroup)"

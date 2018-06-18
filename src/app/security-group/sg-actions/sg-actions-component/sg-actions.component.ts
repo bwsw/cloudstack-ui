@@ -1,26 +1,36 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { SecurityGroup } from '../../sg.model';
-import {
-  SecurityGroupActionService,
-  SecurityGroupActionType
-} from '../sg-action.service';
+import { SecurityGroupActionService, SecurityGroupActionType } from '../sg-action.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { Action } from '../../../shared/models';
 
 
 @Component({
   selector: 'cs-security-group-actions',
   templateUrl: 'sg-actions.component.html'
 })
-export class SecurityGroupActionsComponent {
+export class SecurityGroupActionsComponent implements OnInit {
   @Input() public securityGroup: SecurityGroup;
   @Output() public onSecurityGroupDelete = new EventEmitter<SecurityGroup>();
   @Output() public onSecurityGroupView = new EventEmitter<SecurityGroup>();
   @Output() public onSecurityGroupConvert = new EventEmitter<SecurityGroup>();
+  public actions: Action<SecurityGroup>[];
 
   constructor(
-    public securityGroupActionService: SecurityGroupActionService,
+    private securityGroupActionService: SecurityGroupActionService,
     private dialogService: DialogService
   ) {
+  }
+
+
+  public ngOnInit() {
+    if (this.securityGroup && this.securityGroup.preselected) {
+      this.actions = this.securityGroupActionService.actions
+        .filter(action => action.command !== SecurityGroupActionType.Delete);
+    } else {
+      this.actions = this.securityGroupActionService.actions;
+    }
   }
 
   public onAction(action): void {
