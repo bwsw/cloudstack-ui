@@ -21,6 +21,9 @@ export const CONVERT_SECURITY_GROUP = '[SecurityGroups] CONVERT_SECURITY_GROUP';
 
 export class LoadSecurityGroupRequest implements Action {
   readonly type = LOAD_SECURITY_GROUP_REQUEST;
+
+  constructor(public payload?: any) {
+  }
 }
 
 export class LoadSecurityGroupResponse implements Action {
