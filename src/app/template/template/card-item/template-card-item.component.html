@@ -21,8 +21,7 @@
 
   <mat-card-content>
     <div class="entity-card-data-line">
-     {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:&nbsp;
-      <span [innerHTML]="item.osTypeName | highlight:query"></span>
+     {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:&nbsp;{{ item.osTypeName }}
     </div>
     <div class="entity-card-data-line">
       {{ 'TEMPLATE_PAGE.CARD.DESCRIPTION' | translate }}:

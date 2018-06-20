@@ -12,8 +12,7 @@
   ></h2>
 
   <div class="entity-list-item-data">
-    {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:
-    <span [innerHTML]="item.osTypeName | highlight:query"></span>
+    {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}: {{ item.osTypeName }}
   </div>
 
   <div class="entity-list-item-data">
