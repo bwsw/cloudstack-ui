@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
@@ -192,7 +193,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
     });
   }
 
-  private pushIngressRule(rule, checked, type): void {
+  private pushIngressRule(rule: NetworkRule, checked: boolean, type: NetworkRuleType): void {
     this.selectedRules.ingress.push({
       rule,
       checked,
@@ -200,7 +201,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
     });
   }
 
-  private pushEgressRule(rule, checked, type): void {
+  private pushEgressRule(rule: NetworkRule, checked: boolean, type: NetworkRuleType): void {
     this.selectedRules.egress.push({
       rule,
       checked,

@@ -112,4 +112,20 @@ export class SgRuleComponent {
     this.deleting = true;
     this.onRemove.emit({ type: this.item.type, id: this.item.ruleid });
   }
+
+  public get startPort(): number | null {
+    if (this.item.protocol === NetworkProtocol.ICMP) {
+      return null;
+    }
+
+    return (this.item as PortNetworkRule).startport;
+  }
+
+  public get endPort(): number | null {
+    if (this.item.protocol === NetworkProtocol.ICMP) {
+      return null;
+    }
+
+    return (this.item as PortNetworkRule).endport;
+  }
 }
