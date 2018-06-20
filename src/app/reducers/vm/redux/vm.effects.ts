@@ -18,13 +18,7 @@ import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
-import {
-  getPath,
-  getPort,
-  getProtocol,
-  VirtualMachine,
-  VmState
-} from '../../../vm/shared/vm.model';
+import { getPath, getPort, getProtocol, VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
 // tslint:disable-next-line
@@ -73,7 +67,7 @@ export class VirtualMachinesEffects {
   @Effect()
   changeDescription$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_DESCRIPTION)
-    .switchMap((action: vmActions.ChangeDescription) => {
+    .mergeMap((action: vmActions.ChangeDescription) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VM.CHANGE_DESCRIPTION_IN_PROGRESS');
       return (action.payload.description ? this.vmTagService
@@ -96,7 +90,7 @@ export class VirtualMachinesEffects {
   @Effect()
   changeServiceOffering$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_SERVICE_OFFERING)
-    .switchMap((action: vmActions.ChangeServiceOffering) => {
+    .mergeMap((action: vmActions.ChangeServiceOffering) => {
       if (action.payload.vm.state === VmState.Running) {
         return this.stop(action.payload.vm).map(() => action);
       } else {
@@ -137,7 +131,7 @@ export class VirtualMachinesEffects {
   @Effect()
   changeAffinityGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_AFFINITY_GROUP)
-    .switchMap((action: vmActions.ChangeAffinityGroup) => {
+    .mergeMap((action: vmActions.ChangeAffinityGroup) => {
       return this.askToStopVM(
         action.payload.vm,
         'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.STOP_MACHINE_FOR_AG'
@@ -186,7 +180,7 @@ export class VirtualMachinesEffects {
   @Effect()
   changeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_INSTANCE_GROUP)
-    .switchMap((action: vmActions.ChangeInstanceGroup) => {
+    .mergeMap((action: vmActions.ChangeInstanceGroup) => {
       const newVm = Object.assign(
         {},
         action.payload.vm,
@@ -213,7 +207,7 @@ export class VirtualMachinesEffects {
   @Effect()
   removeInstanceGroup$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_REMOVE_INSTANCE_GROUP)
-    .switchMap((action: vmActions.RemoveInstanceGroup) => {
+    .mergeMap((action: vmActions.RemoveInstanceGroup) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_IN_PROGRESS');
 
@@ -242,7 +236,7 @@ export class VirtualMachinesEffects {
   @Effect()
   addSecondaryIp$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_ADD_SECONDARY_IP)
-    .switchMap((action: vmActions.AddSecondaryIp) => {
+    .mergeMap((action: vmActions.AddSecondaryIp) => {
       return this.vmService.addIpToNic(action.payload.nicId)
         .do(() => this.jobsNotificationService.finish({
           message: 'JOB_NOTIFICATIONS.VM.ADD_SECONDARY_IP_DONE'
@@ -273,7 +267,7 @@ export class VirtualMachinesEffects {
   @Effect()
   removeSecondaryIp$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_REMOVE_SECONDARY_IP)
-    .switchMap((action: vmActions.RemoveSecondaryIp) => {
+    .mergeMap((action: vmActions.RemoveSecondaryIp) => {
       return this.vmService.removeIpFromNic(action.payload.id)
         .do(() => this.jobsNotificationService.finish({
           message: 'JOB_NOTIFICATIONS.VM.REMOVE_SECONDARY_IP_DONE'
@@ -304,7 +298,7 @@ export class VirtualMachinesEffects {
   @Effect()
   changeColor$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_CHANGE_COLOR)
-    .switchMap((action: vmActions.ChangeVmColor) => {
+    .mergeMap((action: vmActions.ChangeVmColor) => {
       return this.vmTagService.setColor(action.payload.vm, action.payload.color)
         .do(() => this.jobsNotificationService.finish({
           message: 'JOB_NOTIFICATIONS.VM.COLOR_CHANGE_DONE'
@@ -321,7 +315,7 @@ export class VirtualMachinesEffects {
   @Effect()
   stopVm$: Observable<Action> = this.actions$
     .ofType(vmActions.STOP_VM)
-    .flatMap((action: vmActions.StopVm) => {
+    .mergeMap((action: vmActions.StopVm) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VM.STOP_IN_PROGRESS');
       this.update(action.payload, VmState.Stopping);
@@ -347,14 +341,14 @@ export class VirtualMachinesEffects {
   @Effect()
   startVm$: Observable<Action> = this.actions$
     .ofType(vmActions.START_VM)
-    .flatMap((action: vmActions.StartVm) => {
+    .mergeMap((action: vmActions.StartVm) => {
       return this.start(action.payload);
     });
 
   @Effect()
   destroyVm$: Observable<Action> = this.actions$
     .ofType(vmActions.DESTROY_VM)
-    .flatMap((action: vmActions.DestroyVm) => {
+    .mergeMap((action: vmActions.DestroyVm) => {
       return this.dialog.open(VmDestroyDialogComponent, {
         data: this.authService.canExpungeOrRecoverVm()
       }).afterClosed()
@@ -406,7 +400,7 @@ export class VirtualMachinesEffects {
   @Effect()
   rebootVm$: Observable<Action> = this.actions$
     .ofType(vmActions.REBOOT_VM)
-    .flatMap((action: vmActions.RebootVm) => {
+    .mergeMap((action: vmActions.RebootVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_REBOOT' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -437,7 +431,7 @@ export class VirtualMachinesEffects {
   @Effect()
   restoreVm$: Observable<Action> = this.actions$
     .ofType(vmActions.RESTORE_VM)
-    .flatMap((action: vmActions.RestoreVm) => {
+    .mergeMap((action: vmActions.RestoreVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -469,7 +463,7 @@ export class VirtualMachinesEffects {
   @Effect()
   recoverVm$: Observable<Action> = this.actions$
     .ofType(vmActions.RECOVER_VM)
-    .flatMap((action: vmActions.RecoverVm) => {
+    .mergeMap((action: vmActions.RecoverVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RECOVER' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -500,7 +494,7 @@ export class VirtualMachinesEffects {
   @Effect()
   expungeVm$: Observable<Action> = this.actions$
     .ofType(vmActions.EXPUNGE_VM)
-    .flatMap((action: vmActions.ExpungeVm) => {
+    .mergeMap((action: vmActions.ExpungeVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_EXPUNGE' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -533,7 +527,7 @@ export class VirtualMachinesEffects {
   @Effect()
   attachIso$: Observable<Action> = this.actions$
     .ofType(vmActions.ATTACH_ISO)
-    .switchMap((action: vmActions.AttachIso) => {
+    .mergeMap((action: vmActions.AttachIso) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.ISO.ATTACHMENT_IN_PROGRESS');
       return this.isoService.attach(action.payload)
@@ -554,7 +548,7 @@ export class VirtualMachinesEffects {
   @Effect()
   detachIso$: Observable<Action> = this.actions$
     .ofType(vmActions.DETACH_ISO)
-    .switchMap((action: vmActions.DetachIso) => {
+    .mergeMap((action: vmActions.DetachIso) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.ISO.DETACHMENT_IN_PROGRESS');
       return this.isoService.detach(action.payload)
@@ -575,7 +569,7 @@ export class VirtualMachinesEffects {
   @Effect()
   changeSshKey$: Observable<Action> = this.actions$
     .ofType(vmActions.CHANGE_SSH_KEY)
-    .switchMap((action: vmActions.ChangeSshKey) => {
+    .mergeMap((action: vmActions.ChangeSshKey) => {
       return this.askToStopVM(
         action.payload.vm,
         'VM_PAGE.VM_DETAILS.SSH_KEY.STOP_MACHINE_FOR_SSH'
@@ -626,7 +620,7 @@ export class VirtualMachinesEffects {
   @Effect()
   resetPassword$: Observable<Action> = this.actions$
     .ofType(vmActions.RESET_PASSWORD_VM)
-    .flatMap((action: vmActions.ResetPasswordVm) => {
+    .mergeMap((action: vmActions.ResetPasswordVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -672,7 +666,7 @@ export class VirtualMachinesEffects {
   @Effect()
   saveNewPassword$: Observable<Action> = this.actions$
     .ofType(vmActions.SAVE_NEW_VM_PASSWORD)
-    .switchMap((action: vmActions.SaveNewPassword) => {
+    .mergeMap((action: vmActions.SaveNewPassword) => {
       return this.showConfirmDialog().switchMap(() =>
         this.vmTagService.setPassword(action.payload.vm, action.payload.tag)
           .do(() => this.jobsNotificationService.finish({

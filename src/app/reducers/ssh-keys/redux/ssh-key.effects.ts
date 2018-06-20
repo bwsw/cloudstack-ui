@@ -26,7 +26,7 @@ export class SshKeyEffects {
   @Effect()
   removeSshKeyPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_REMOVE)
-    .switchMap((action: sshKey.RemoveSshKeyPair) => {
+    .mergeMap((action: sshKey.RemoveSshKeyPair) => {
       return this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY' })
         .onErrorResumeNext()
         .filter(res => !!res)
@@ -60,7 +60,7 @@ export class SshKeyEffects {
   @Effect()
   createSshKeyPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_CREATE)
-    .switchMap((action: sshKey.CreateSshKeyPair) => {
+    .mergeMap((action: sshKey.CreateSshKeyPair) => {
       return (action.payload.publicKey
         ? this.sshKeyService.register(action.payload)
         : this.sshKeyService.create(action.payload))

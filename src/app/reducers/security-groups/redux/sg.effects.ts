@@ -34,7 +34,7 @@ export class SecurityGroupEffects {
   @Effect()
   createSecurityGroup$: Observable<Action> = this.actions$
     .ofType(securityGroup.CREATE_SECURITY_GROUP)
-    .switchMap((action: securityGroup.CreateSecurityGroup) => {
+    .mergeMap((action: securityGroup.CreateSecurityGroup) => {
       return this.createSecurityGroup(action.payload)
         .map(sg => new securityGroup.CreateSecurityGroupSuccess(sg))
         .catch(error => Observable.of(new securityGroup.CreateSecurityGroupError(error)));
@@ -54,7 +54,7 @@ export class SecurityGroupEffects {
   @Effect()
   deleteSecurityGroup$: Observable<Action> = this.actions$
     .ofType(securityGroup.DELETE_SECURITY_GROUP)
-    .switchMap((action: securityGroup.DeleteSecurityGroup) => {
+    .mergeMap((action: securityGroup.DeleteSecurityGroup) => {
       return this.onDeleteConfirmation(action.payload)
         .map(() => new securityGroup.DeleteSecurityGroupSuccess(action.payload))
         .catch(error => Observable.of(new securityGroup.DeleteSecurityGroupError(error)));
@@ -73,7 +73,7 @@ export class SecurityGroupEffects {
       return vmGroup;
     })
     .filter((group: SecurityGroup) => !!group)
-    .switchMap((group: SecurityGroup) => {
+    .mergeMap((group: SecurityGroup) => {
       return this.deleteSecurityGroup(group)
         .map(() => new securityGroup.DeleteSecurityGroupSuccess(group));
     });
@@ -99,7 +99,7 @@ export class SecurityGroupEffects {
   @Effect()
   convertSecurityGroup$: Observable<Action> = this.actions$
     .ofType(securityGroup.CONVERT_SECURITY_GROUP)
-    .switchMap((action: securityGroup.ConvertSecurityGroup) => {
+    .mergeMap((action: securityGroup.ConvertSecurityGroup) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
