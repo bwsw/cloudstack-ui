@@ -13,8 +13,12 @@
     <mat-card-title [matTooltip]="item.name" class="entity-card-title">
       {{ item.name }}
     </mat-card-title>
-    <ng-container *ngIf="isAdmin() && !isSelf">
-      <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
+    <ng-container *ngIf="isAdmin()">
+      <button
+        [style.visibility]="!isSelf ? 'visible' : 'hidden'"
+        mat-icon-button
+        [matMenuTriggerFor]="actionsMenu"
+        class="entity-card-menu">
         <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
     </ng-container>
