@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../dialog/dialog-service/dialog.service';
 import { Taggable } from '../shared/interfaces/taggable.interface';
 import { Tag } from '../shared/models';
@@ -43,20 +42,22 @@ export abstract class TagsComponent<T extends Taggable> {
       return;
     }
 
-    this.tagService.create({
+    const oldTagParams = {
+      resourceIds: tagEditAction.oldTag.resourceid,
+      resourceType: tagEditAction.oldTag.resourcetype,
+      'tags[0].key': tagEditAction.oldTag.key,
+      'tags[0].value': tagEditAction.oldTag.value
+    };
+
+    const newTagParams = {
       resourceIds: tagEditAction.oldTag.resourceid,
       resourceType: tagEditAction.oldTag.resourcetype,
       'tags[0].key': tagEditAction.newTag.key,
       'tags[0].value': tagEditAction.newTag.value
-    })
-      .switchMap(() => {
-        return this.tagService.remove({
-          resourceIds: tagEditAction.oldTag.resourceid,
-          resourceType: tagEditAction.oldTag.resourcetype,
-          'tags[0].key': tagEditAction.oldTag.key,
-          'tags[0].value': tagEditAction.oldTag.value
-        });
-      })
+    };
+
+    this.tagService.remove(oldTagParams)
+      .switchMap(() => this.tagService.create(newTagParams))
       .subscribe(
         res => this.onTagEdit.emit(tagEditAction),
         error => this.onError(error)
