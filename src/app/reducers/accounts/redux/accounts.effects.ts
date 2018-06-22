@@ -47,7 +47,7 @@ export class AccountsEffects {
   @Effect()
   disableAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DISABLE_ACCOUNT)
-    .switchMap((action: accountActions.DisableAccountRequest) => {
+    .mergeMap((action: accountActions.DisableAccountRequest) => {
       return this.accountService.disableAccount(action.payload)
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
@@ -58,7 +58,7 @@ export class AccountsEffects {
   @Effect()
   enableAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.ENABLE_ACCOUNT)
-    .switchMap((action: accountActions.EnableAccountRequest) => {
+    .mergeMap((action: accountActions.EnableAccountRequest) => {
       return this.accountService.enableAccount(action.payload)
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
@@ -69,7 +69,7 @@ export class AccountsEffects {
   @Effect()
   deleteAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DELETE_ACCOUNT)
-    .switchMap((action: accountActions.DeleteAccountRequest) => {
+    .mergeMap((action: accountActions.DeleteAccountRequest) => {
       return this.accountService.removeAccount(action.payload)
         .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
@@ -81,7 +81,7 @@ export class AccountsEffects {
   @Effect()
   createAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.CREATE_ACCOUNT)
-    .switchMap((action: accountActions.CreateAccount) => {
+    .mergeMap((action: accountActions.CreateAccount) => {
       return this.accountService.create(action.payload)
         .map(createdAccount => new accountActions.CreateSuccess(createdAccount))
         .catch((error: Error) => {
@@ -127,7 +127,7 @@ export class AccountsEffects {
   @Effect()
   userDelete$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_DELETE)
-    .switchMap((action: accountActions.AccountUserDelete) =>
+    .mergeMap((action: accountActions.AccountUserDelete) =>
       this.userService.removeUser(action.payload)
         .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
@@ -142,7 +142,7 @@ export class AccountsEffects {
   @Effect()
   userCreate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE)
-    .switchMap((action: accountActions.AccountUserCreate) =>
+    .mergeMap((action: accountActions.AccountUserCreate) =>
       this.userService.createUser(action.payload)
         .map((user) => new accountActions.AccountUserCreateSuccess(user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
@@ -158,7 +158,7 @@ export class AccountsEffects {
   @Effect()
   userUpdate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_UPDATE)
-    .switchMap((action: accountActions.AccountUserUpdate) =>
+    .mergeMap((action: accountActions.AccountUserUpdate) =>
       this.userService.updateUser(action.payload)
         .map((user) => new accountActions.AccountUserUpdateSuccess(user))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
@@ -173,7 +173,7 @@ export class AccountsEffects {
   @Effect()
   userGenerateKeys$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_GENERATE_KEYS)
-    .switchMap((action: accountActions.AccountUserGenerateKey) =>
+    .mergeMap((action: accountActions.AccountUserGenerateKey) =>
       this.userService.registerKeys(action.payload.id)
         .map(res => new accountActions.AccountLoadUserKeysSuccess({
           user: action.payload,

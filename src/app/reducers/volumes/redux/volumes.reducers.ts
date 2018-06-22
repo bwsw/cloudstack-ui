@@ -6,6 +6,7 @@ import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -291,13 +292,13 @@ export const getSelectedVolumeWithSnapshots = createSelector(
 
 
 export const selectSpareOnlyVolumes = createSelector(
-  selectVolumesWithSnapshots,
+  selectAll,
   fromVMs.getSelectedVM,
-  (volumes, vm) => {
-    const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
-    const spareOnlyFilter = volume => !volume.virtualMachineId;
+  (volumes: Volume[], vm: VirtualMachine) => {
+    const zoneFilter = (volume: Volume) => vm && volume.zoneid === vm.zoneId;
+    const spareOnlyFilter = (volume: Volume) => !volume.virtualmachineid;
     const accountFilter =
-      volume => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
+      (volume: Volume) => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
 
     return volumes.filter(
       volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume));
@@ -309,7 +310,7 @@ export const selectVmVolumes = createSelector(
   fromVMs.getSelectedId,
   (volumes, virtualMachineId) => {
 
-    const virtualMachineIdFilter = volume => !virtualMachineId ||
+    const virtualMachineIdFilter = (volume: Volume) => !virtualMachineId ||
       volume.virtualmachineid === virtualMachineId;
 
     return volumes.filter(volume => {

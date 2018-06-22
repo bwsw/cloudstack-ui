@@ -38,7 +38,7 @@ export class SnapshotEffects {
   @Effect()
   addSnapshot$: Observable<Action> = this.actions$
     .ofType(snapshotActions.ADD_SNAPSHOT)
-    .flatMap((action: snapshotActions.AddSnapshot) => {
+    .mergeMap((action: snapshotActions.AddSnapshot) => {
       return this.dialog.open(SnapshotCreationComponent, {
         data: action.payload
       })
@@ -74,7 +74,7 @@ export class SnapshotEffects {
   @Effect()
   deleteSnapshot$: Observable<Action> = this.actions$
     .ofType(snapshotActions.DELETE_SNAPSHOT)
-    .flatMap((action: snapshotActions.DeleteSnapshot) => {
+    .mergeMap((action: snapshotActions.DeleteSnapshot) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
       return this.snapshotService.remove(action.payload.id)
@@ -97,7 +97,7 @@ export class SnapshotEffects {
   @Effect()
   deleteSnapshots$: Observable<Action> = this.actions$
     .ofType(snapshotActions.DELETE_SNAPSHOTS)
-    .flatMap((action: snapshotActions.DeleteSnapshots) => action.payload
+    .mergeMap((action: snapshotActions.DeleteSnapshots) => action.payload
       .map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot)));
 
   @Effect()
@@ -107,7 +107,7 @@ export class SnapshotEffects {
       this.store.select(fromVolumes.selectEntities),
       this.store.select(fromVMs.selectEntities)
     )
-    .flatMap(([action, volumes, vms]: [
+    .mergeMap(([action, volumes, vms]: [
       snapshotActions.RevertVolumeToSnapshot, Dictionary<Volume>, Dictionary<VirtualMachine>
       ]) => {
       const vmId = Object.entries(volumes)

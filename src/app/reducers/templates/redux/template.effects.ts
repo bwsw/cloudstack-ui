@@ -62,7 +62,7 @@ export class TemplateEffects {
   @Effect()
   removeTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_REMOVE)
-    .switchMap((action: template.RemoveTemplate) => {
+    .mergeMap((action: template.RemoveTemplate) => {
       return (action.payload.resourceType === TemplateResourceType.iso.toUpperCase()
         ? this.isoService.remove(action.payload)
         : this.templateService.remove(action.payload))
@@ -96,7 +96,7 @@ export class TemplateEffects {
   @Effect()
   createTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_CREATE)
-    .switchMap((action: template.CreateTemplate) => {
+    .mergeMap((action: template.CreateTemplate) => {
       return (action.payload.entity === TemplateResourceType.iso
         ? this.isoService.register(action.payload)
         : action.payload.snapshotId
@@ -124,7 +124,7 @@ export class TemplateEffects {
   @Effect()
   setTemplateGroup$: Observable<Action> = this.actions$
     .ofType(template.SET_TEMPLATE_GROUP)
-    .switchMap((action: template.SetTemplateGroup) => this.templateTagService.setGroup(
+    .mergeMap((action: template.SetTemplateGroup) => this.templateTagService.setGroup(
       action.payload.template,
       action.payload.templateGroup
     )
@@ -134,7 +134,7 @@ export class TemplateEffects {
   @Effect()
   resetTemplateGroup$: Observable<Action> = this.actions$
     .ofType(template.RESET_TEMPLATE_GROUP)
-    .switchMap((action: template.ResetTemplateGroup) =>
+    .mergeMap((action: template.ResetTemplateGroup) =>
       this.templateTagService.resetGroup(action.payload)
         .map(temp => new template.ResetTemplateGroupSuccess(action.payload))
         .catch(error => Observable.of(new template.SetTemplateGroupError(error))));

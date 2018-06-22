@@ -40,7 +40,7 @@ export class VolumesEffects {
   @Effect()
   createVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.CREATE_VOLUME)
-    .switchMap((action: volumeActions.CreateVolume) => {
+    .mergeMap((action: volumeActions.CreateVolume) => {
       return this.volumeService.create(action.payload)
         .map(createdVolume => {
           this.dialog.closeAll();
@@ -53,7 +53,7 @@ export class VolumesEffects {
   @Effect()
   createVolumeFromSnapshot$: Observable<Action> = this.actions$
     .ofType(volumeActions.CREATE_VOLUME_FROM_SNAPSHOT)
-    .switchMap((action: volumeActions.CreateVolumeFromSnapshot) => {
+    .mergeMap((action: volumeActions.CreateVolumeFromSnapshot) => {
       return this.volumeService.createFromSnapshot(action.payload)
         .map(job => {
           const createdVolume = job.jobresult['volume'];
@@ -69,7 +69,7 @@ export class VolumesEffects {
   @Effect()
   changeDescription$: Observable<Action> = this.actions$
     .ofType(volumeActions.VOLUME_CHANGE_DESCRIPTION)
-    .switchMap((action: volumeActions.ChangeDescription) => {
+    .mergeMap((action: volumeActions.ChangeDescription) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_IN_PROGRESS');
 
@@ -97,7 +97,7 @@ export class VolumesEffects {
   @Effect()
   attachVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.ATTACH_VOLUME)
-    .switchMap((action: volumeActions.AttachVolume) => {
+    .mergeMap((action: volumeActions.AttachVolume) => {
       return this.dialog.open(VolumeAttachmentContainerComponent, {
         data: {
           volume: action.payload,
@@ -137,7 +137,7 @@ export class VolumesEffects {
   @Effect()
   attachVolumeToVM$: Observable<Action> = this.actions$
     .ofType(volumeActions.ATTACH_VOLUME_TO_VM)
-    .switchMap((action: volumeActions.AttachVolumeToVM) => {
+    .mergeMap((action: volumeActions.AttachVolumeToVM) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS');
 
@@ -166,7 +166,7 @@ export class VolumesEffects {
   @Effect()
   detachVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DETACH_VOLUME)
-    .switchMap((action: volumeActions.DetachVolume) => {
+    .mergeMap((action: volumeActions.DetachVolume) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DETACHMENT' })
         .onErrorResumeNext()
         .filter(res => Boolean(res))
@@ -195,7 +195,7 @@ export class VolumesEffects {
   @Effect()
   resizeVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.RESIZE_VOLUME)
-    .switchMap((action: volumeActions.ResizeVolume) => {
+    .mergeMap((action: volumeActions.ResizeVolume) => {
       return this.dialog.open(VolumeResizeContainerComponent, {
         data: {
           volume: action.payload
@@ -230,7 +230,7 @@ export class VolumesEffects {
   @Effect({ dispatch: false })
   addSnapshotSchedule$: Observable<Action> = this.actions$
     .ofType(volumeActions.ADD_SNAPSHOT_SCHEDULE)
-    .switchMap((action: volumeActions.AddSnapshotSchedule) => {
+    .mergeMap((action: volumeActions.AddSnapshotSchedule) => {
       return this.dialog.open(RecurringSnapshotsComponent, {
         data: action.payload
       }).afterClosed();
@@ -271,7 +271,7 @@ export class VolumesEffects {
   @Effect()
   deleteVolume$: Observable<Action> = this.actions$
     .ofType(volumeActions.DELETE_VOLUME)
-    .flatMap((action: volumeActions.DeleteVolume) => {
+    .mergeMap((action: volumeActions.DeleteVolume) => {
       const notificationId = this.jobsNotificationService.add(
         'JOB_NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS');
 

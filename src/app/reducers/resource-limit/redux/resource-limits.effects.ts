@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import * as resourceLimitActions from './resource-limits.actions';
 import { Action } from '@ngrx/store';
@@ -27,7 +24,7 @@ export class ResourceLimitsEffects {
   @Effect()
   updateResourceLimits$: Observable<Action> = this.actions$
     .ofType(resourceLimitActions.UPDATE_RESOURCE_LIMITS_REQUEST)
-    .switchMap((action: resourceLimitActions.UpdateResourceLimitsRequest) => {
+    .mergeMap((action: resourceLimitActions.UpdateResourceLimitsRequest) => {
       const observes = action.payload.limits.map(limit =>
         this.resourceLimitService.updateResourceLimit(limit, action.payload.account));
       return Observable.forkJoin(observes)
