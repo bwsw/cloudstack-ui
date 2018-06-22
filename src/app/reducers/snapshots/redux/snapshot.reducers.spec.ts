@@ -31,7 +31,6 @@ describe('Snapshot Reducer', () => {
     }
   ];
   const entities = { 2: snapshots[1], 1: snapshots[0] };
-  const snapshotIdsByVolumesIds = { 'volume-id': ['1'], 'volume-id-1': ['2'] };
 
   it('undefined action should return default state', () => {
     const { initialListState }: any = fromSnapshots;
@@ -57,7 +56,6 @@ describe('Snapshot Reducer', () => {
 
     expect(state.entities).toEqual(entities);
     expect(state.loading).toEqual(false);
-    expect(state.snapshotIdsByVolumeId).toEqual(snapshotIdsByVolumesIds);
     expect(state.ids).toEqual(['2', '1']);
   });
 
@@ -83,8 +81,7 @@ describe('Snapshot Reducer', () => {
       {
         ...initialListState,
         ids: ['2', '1'],
-        entities: entities,
-        snapshotIdsByVolumeId: snapshotIdsByVolumesIds
+        entities: entities
       },
       action
     );
