@@ -1,14 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  getDateSnapshotCreated,
-  getSnapshotDescription,
-  Snapshot,
-  SnapshotPageMode,
-  SnapshotType
-} from '../../../shared/models';
-import { Language } from '../../../shared/services/language.service';
+import { getSnapshotDescription, Snapshot, SnapshotPageMode, SnapshotType } from '../../../shared/models';
 
 import * as snapshot from './snapshot.actions';
 import * as volume from '../../volumes/redux/volumes.actions';
@@ -28,7 +20,6 @@ export interface ListState extends EntityState<Snapshot> {
     selectedGroupings: any[],
     query: string
   }
-  snapshotIdsByVolumeId: Dictionary<string[]>,
   selectedSnapshotId: string | null
 }
 
@@ -78,28 +69,7 @@ export function listReducer(
       };
     }
     case snapshot.LOAD_SNAPSHOT_RESPONSE: {
-      const reduceByVolumeId = action.payload.reduce(
-        (m, i) => ({
-          ...m,
-          [i.volumeid]: (m[i.volumeid] ? [...m[i.volumeid], i.id] : [i.id])
-        }), {}
-      );
-
-      const newState = {
-        ...state,
-        loading: false,
-        snapshotIdsByVolumeId: reduceByVolumeId
-      };
-      return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
-        ...adapter.addAll([...action.payload], newState)
-      };
+      return adapter.addAll([...action.payload], state);
     }
     case snapshot.SNAPSHOT_FILTER_UPDATE: {
       return { ...state, filters: { ...state.filters, ...action.payload } };
@@ -111,31 +81,11 @@ export function listReducer(
       };
     }
     case snapshot.ADD_SNAPSHOT_SUCCESS: {
-      const newState = {
-        ...state,
-        snapshotIdsByVolumeId: {
-          ...state.snapshotIdsByVolumeId,
-          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
-            ? [action.payload.id, ...state.snapshotIdsByVolumeId[action.payload.volumeid]]
-            : [action.payload.id]
-        }
-      };
-      return {
-        ...adapter.addOne(action.payload, newState)
-      };
+      const snapshot = action.payload;
+      return adapter.upsertOne({ id: snapshot.id, changes: snapshot }, state)
     }
     case snapshot.DELETE_SNAPSHOT_SUCCESS: {
-      const newState = {
-        ...state,
-        snapshotIdsByVolumeId: {
-          ...state.snapshotIdsByVolumeId,
-          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
-            .filter(snapshotId => snapshotId !== action.payload.id)
-        }
-      };
-      return {
-        ...adapter.removeOne(action.payload.id, newState)
-      };
+      return adapter.removeOne(action.payload.id, state);
     }
     default: {
       return state;
@@ -160,11 +110,6 @@ export const {
 export const isLoading = createSelector(
   getSnapshotEntitiesState,
   state => state.loading
-);
-
-export const selectSnapshotsByVolumeId = createSelector(
-  getSnapshotEntitiesState,
-  state => state.snapshotIdsByVolumeId
 );
 
 export const getSelectedSnapshot = createSelector(
