@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { BackendResource } from '../decorators';
 
-import { AffinityGroup } from '../models';
+import { AffinityGroup, AsyncJob } from '../models';
 import { AffinityGroupType } from '../models/affinity-group.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
@@ -31,7 +31,8 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
 
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
     return super.create(params)
-      .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel));
+      .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel))
+      .map((job: AsyncJob<any>) => job.jobresult.affinitygroup);
   }
 
   public updateForVm(
