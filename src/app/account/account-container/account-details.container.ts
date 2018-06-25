@@ -110,7 +110,8 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
   }
 
   private setInfinityToNoLimit(limit: ResourceLimit) {
-    if (limit.max !== Infinity) {
+    const max: number | string = limit.max as number | string;
+    if (max !== Infinity && max !== 'Infinity') {
       return limit;
     }
     return {
