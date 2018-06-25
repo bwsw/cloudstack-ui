@@ -25,13 +25,13 @@ export class SecurityGroupActionsComponent implements OnInit {
 
 
   public ngOnInit() {
+    this.actions = this.securityGroupActionService.actions;
+
     if (this.securityGroup && this.securityGroup.preselected) {
-      this.actions = this.securityGroupActionService.actions
-        .filter(action => action.command !== SecurityGroupActionType.Delete);
-    } else {
-      this.actions = this.securityGroupActionService.actions;
+      this.actions = this.actions.filter(action => action.command !== SecurityGroupActionType.Delete);
     }
   }
+
 
   public onAction(action): void {
     switch (action.command) {
