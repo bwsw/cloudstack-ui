@@ -20,7 +20,7 @@ const SecurityGroupDeleteAction = {
   command: SecurityGroupActionType.Delete,
   icon: 'mdi-delete',
   canActivate: (securityGroup: SecurityGroup) =>
-    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualMachineIds.length === 0
+    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0
 };
 
 const SecurityGroupShowRulesAction = {

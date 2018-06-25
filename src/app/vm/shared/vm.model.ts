@@ -1,18 +1,7 @@
 import { SecurityGroup } from '../../security-group/sg.model';
-import {
-  FieldMapper,
-  ZoneName
-} from '../../shared/decorators';
+import { FieldMapper, ZoneName } from '../../shared/decorators';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
-import {
-  BaseModel,
-  InstanceGroup,
-  NIC,
-  OsType,
-  ServiceOffering,
-  Tag,
-  Volume
-} from '../../shared/models';
+import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { BaseTemplateModel } from '../../template/shared';
@@ -154,7 +143,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     super(params);
 
     this.initializeNic();
-    this.initializeSecurityGroups();
     this.initializeTags();
     this.initializeInstanceGroup();
   }
@@ -173,16 +161,6 @@ export class VirtualMachine extends BaseModel implements Taggable {
     if (!this.nic) {
       this.nic = [];
     }
-  }
-
-  private initializeSecurityGroups(): void {
-    if (!this.securityGroup) {
-      this.securityGroup = [];
-    }
-
-    this.securityGroup = this.securityGroup.map(securityGroup => {
-      return new SecurityGroup(securityGroup);
-    });
   }
 
   private initializeTags(): void {

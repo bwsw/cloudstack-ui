@@ -8,7 +8,7 @@ import {
   GetICMPV6TypeTranslationToken
 } from '../../shared/icmp/icmp-types';
 import { IPVersion, NetworkRuleType } from '../sg.model';
-import { NetworkProtocol, NetworkRule } from '../network-rule.model';
+import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../network-rule.model';
 import { CidrUtils } from '../../shared/utils/cidr-utils';
 
 @Component({
@@ -46,26 +46,28 @@ export class SgRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
-      ? GetICMPTypeTranslationToken(this.item.icmpType)
-      : GetICMPV6TypeTranslationToken(this.item.icmpType);
+    const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
+    return CidrUtils.getCidrIpVersion(icmpRule.cidr) === IPVersion.ipv4
+      ? GetICMPTypeTranslationToken(icmpRule.icmptype)
+      : GetICMPV6TypeTranslationToken(icmpRule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
-      ? GetICMPCodeTranslationToken(this.item.icmpType, this.item.icmpCode)
-      : GetICMPV6CodeTranslationToken(this.item.icmpType, this.item.icmpCode);
+    const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
+    return CidrUtils.getCidrIpVersion(icmpRule.cidr) === IPVersion.ipv4
+      ? GetICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode)
+      : GetICMPV6CodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
   }
 
   public get ruleParams(): Object {
-    const ipVersion = CidrUtils.getCidrIpVersion(this.item.CIDR) === IPVersion.ipv4
+    const ipVersion = CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
       ? IPVersion.ipv4
       : IPVersion.ipv6;
 
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.item.CIDR,
+      cidr: this.item.cidr,
       ipVersion
     };
 
@@ -81,17 +83,21 @@ export class SgRuleComponent {
         codeTranslation = null;
       }
 
-      ruleParams = Object.assign({}, params, {
-        icmpType: this.item.icmpType,
-        icmpCode: this.item.icmpCode,
+      const icmpRule: IcmpNetworkRule = this.item as IcmpNetworkRule;
+      ruleParams = {
+        ...params,
+        icmpType: icmpRule.icmptype,
+        icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
-      });
+      }
     } else {
-      ruleParams = Object.assign({}, params, {
-        startPort: this.item.startPort,
-        endPort: this.item.endPort
-      });
+      const portRule: PortNetworkRule = this.item as PortNetworkRule;
+      ruleParams = {
+        ...params,
+        startPort: portRule.startport,
+        endPort: portRule.endport
+      }
     }
 
     return ruleParams;
@@ -104,6 +110,22 @@ export class SgRuleComponent {
     e.stopPropagation();
 
     this.deleting = true;
-    this.onRemove.emit({ type: this.item.type, id: this.item.ruleId });
+    this.onRemove.emit({ type: this.item.type, id: this.item.ruleid });
+  }
+
+  public get startPort(): number | null {
+    if (this.item.protocol === NetworkProtocol.ICMP) {
+      return null;
+    }
+
+    return (this.item as PortNetworkRule).startport;
+  }
+
+  public get endPort(): number | null {
+    if (this.item.protocol === NetworkProtocol.ICMP) {
+      return null;
+    }
+
+    return (this.item as PortNetworkRule).endport;
   }
 }

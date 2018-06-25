@@ -16,10 +16,10 @@
   <mat-card-content>
     <div class="entity-card-data-line" *ngIf="isPrivate">
       {{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:
-      <ng-template [ngIf]="item.virtualMachineIds[0]">
+      <ng-template [ngIf]="item.virtualmachineids[0]">
         {{ sgVmName }}
       </ng-template>
-      <ng-template [ngIf]="!item.virtualMachineIds[0]">
+      <ng-template [ngIf]="!item.virtualmachineids[0]">
         {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
       </ng-template>
     </div>

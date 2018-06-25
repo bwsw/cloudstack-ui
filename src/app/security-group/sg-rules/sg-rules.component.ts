@@ -101,7 +101,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
     this.adding = true;
 
     const data: any = {
-      securityGroupId: this.securityGroup.id,
+      securitygroupid: this.securityGroup.id,
       protocol: rule.protocol,
       cidrList: rule.cidr
     };
@@ -141,7 +141,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
         const rules = type === NetworkRuleType.Ingress
           ? this.ingressRules
           : this.egressRules;
-        const ind = rules.findIndex(rule => rule.ruleId === id);
+        const ind = rules.findIndex(rule => rule.ruleid === id);
         if (ind === -1) {
           return;
         }
@@ -202,9 +202,9 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   private update() {
     if (this.securityGroup) {
-      this.ingressRules = this.securityGroup.ingressRules
+      this.ingressRules = this.securityGroup.ingressrule
         .map(rule => ({ ...rule, type: NetworkRuleType.Ingress }));
-      this.egressRules = this.securityGroup.egressRules
+      this.egressRules = this.securityGroup.egressrule
         .map(rule => ({ ...rule, type: NetworkRuleType.Egress }));
     }
 
@@ -221,7 +221,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
   private filterRules(rules: NetworkRule[]) {
     return rules.filter((rule: NetworkRule) => {
       const filterByIPversion = (item: NetworkRule) => {
-        const ruleIPversion = item.CIDR && CidrUtils.getCidrIpVersion(item.CIDR) === IPVersion.ipv6
+        const ruleIPversion = item.cidr && CidrUtils.getCidrIpVersion(item.cidr) === IPVersion.ipv6
           ? IPVersion.ipv6
           : IPVersion.ipv4;
         return !this.selectedIPVersion.length
@@ -237,9 +237,11 @@ export class SgRulesComponent implements OnInit, OnChanges {
   }
 
   private emitChanges() {
-    const updatedSecurityGroup = new SecurityGroup(this.securityGroup);
-    updatedSecurityGroup.ingressRules = this.ingressRules;
-    updatedSecurityGroup.egressRules = this.egressRules;
+    const updatedSecurityGroup = {
+      ...this.securityGroup,
+      ingressrule: this.ingressRules,
+      egressrule: this.egressRules
+    };
     this.onFirewallRulesChange.emit(updatedSecurityGroup);
   }
 }
