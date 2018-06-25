@@ -2,15 +2,14 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { State } from '../../reducers';
-import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
-import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
-import { SecurityGroup } from '../sg.model';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
-import { AuthService } from '../../shared/services/auth.service';
+import { SecurityGroup } from '../sg.model';
+import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
+import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
 
 @Component({
-  selector: 'cs-vm-tags-container',
+  selector: 'cs-sg-tags-container',
   template: `
     <cs-sg-tags
       [entity]="sg$ | async"
@@ -23,10 +22,7 @@ import { AuthService } from '../../shared/services/auth.service';
 export class SecurityGroupTagsContainerComponent {
   readonly sg$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
 
-  constructor(
-    private store: Store<State>,
-    private authService: AuthService
-  ) {
+  constructor(private store: Store<State>) {
   }
 
   public editTag(tagEditAction: TagEditAction) {
@@ -38,7 +34,7 @@ export class SecurityGroupTagsContainerComponent {
         value: tagEditAction.newTag.value,
         account: sg.account,
         domain: sg.domain,
-        domainid: this.authService.user.domainid
+        domainid: sg.domainid
       };
       const newTags: Tag[] = sg.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
@@ -63,7 +59,7 @@ export class SecurityGroupTagsContainerComponent {
         value: keyValuePair.value,
         account: sg.account,
         domain: sg.domain,
-        domainid: this.authService.user.domainid
+        domainid: sg.domainid
       };
       const newTags: Tag[] = [...sg.tags];
       newTags.push(newTag);
