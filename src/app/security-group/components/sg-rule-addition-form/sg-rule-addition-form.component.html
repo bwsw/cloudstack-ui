@@ -81,7 +81,7 @@
       <mat-error>
         {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
       </mat-error>
-      <mat-autocomplete #icmpTypesAuto="matAutocomplete">
+      <mat-autocomplete #icmpTypesAuto="matAutocomplete" class="icmp-autocomplete-width">
         <mat-option *ngFor="let icmp of filteredIcmpTypes" [value]="icmp.type">
           [{{ icmp.type }}] {{ getIcmpTypeTranslationToken(icmp.type) | translate }}
         </mat-option>
@@ -99,7 +99,7 @@
       <mat-error>
         {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
       </mat-error>
-      <mat-autocomplete #icmpCodesAuto="matAutocomplete">
+      <mat-autocomplete #icmpCodesAuto="matAutocomplete" class="icmp-autocomplete-width">
         <mat-option *ngFor="let codes of filteredIcmpCodes" [value]="codes">
           [{{ codes }}] {{ getIcmpCodeTranslationToken(+icmpTypeField.value, codes) | translate }}
         </mat-option>
