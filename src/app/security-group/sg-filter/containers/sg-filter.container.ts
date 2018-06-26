@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FilterService } from '../../../shared/services/filter.service';
-import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { Store } from '@ngrx/store';
+
+import { FilterService } from '../../../shared/services/filter.service';
+import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { State } from '../../../reducers';
 
 import * as  securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
@@ -11,6 +11,7 @@ import * as  fromSecurityGroups from '../../../reducers/security-groups/redux/sg
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import { SecurityGroupViewMode } from '../../sg-view-mode';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
 const FILTER_KEY = 'securityGroupFilters';
 
@@ -43,7 +44,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
       accounts: { type: 'array', defaultOption: [] }
     },
     this.router,
-    this.storageService,
+    this.sessionStorage,
     FILTER_KEY,
     this.activatedRoute
   );
@@ -52,7 +53,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     private store: Store<State>,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private storageService: LocalStorageService
+    private sessionStorage: SessionStorageService,
   ) {
     super();
   }
