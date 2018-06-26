@@ -47,12 +47,12 @@ Parameters:
 * name
 * description
 * preselected (true or false) - specifies whether network rules from this template will be automatically applied for newly created virtual machines
-* ingress and egress rules:
-   * ruleId: a unique identifier
+* ingress and egress rules (ingressrule and egressrule respectively):
+   * ruleid: a unique identifier
    * protocol: either 'tcp', 'udp' or 'icmp'
-   * CIDR: subnet mask (e.g. 0.0.0.0/0)
-   * For TCP and UDP: startPort and endPort
-   * For ICMP: icmpCode and icmpType
+   * cidr: subnet mask (e.g. 0.0.0.0/0)
+   * For TCP and UDP: startport and endport
+   * For ICMP: icmpcode and icmptype
 
 ### VM Colors
 
