@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { Account } from '../models/account.model';
+
+import { BackendResource } from '../decorators';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService, CSCommands } from './base-backend.service';
+import { Account, AsyncJob } from '../models';
 
 @Injectable()
 @BackendResource({
@@ -34,7 +35,7 @@ export class AccountService extends BaseBackendService<Account> {
       id: account.id,
       lock: false
     }).switchMap(job => this.asyncJobService.queryJob(job))
-      .switchMap(response => Observable.of(response.result.account));
+      .switchMap((response: AsyncJob<any>) => Observable.of(response.jobresult.account));
   }
 
   public enableAccount(account: Account): Observable<Account> {
