@@ -3,12 +3,13 @@
   style="overflow: visible;"
   [csPopoverTrigger]="popover"
   popoverPositionX="end"
-  (onPopoverClose)="onToggle()"
+  (onPopoverClose)="onClose()"
 >
   <div [csBadge]="unseenCount">
     <mat-icon class="mdi-bell"></mat-icon>
   </div>
 </button>
+
 <cs-popover #popover>
   <mat-card class="mat-elevation-z4">
     <mat-card-header class="mat-card-header">

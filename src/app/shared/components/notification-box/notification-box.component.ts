@@ -17,8 +17,8 @@ export class NotificationBoxComponent implements OnInit, OnDestroy {
   constructor(public jobsNotificationService: JobsNotificationService) {}
 
   public ngOnInit(): void {
-    this.unseenCountStream = this.jobsNotificationService.unseenJobs.subscribe(
-      count => (this.unseenCount += count)
+    this.unseenCountStream = this.jobsNotificationService.unseenJobsCount$.subscribe(
+      count => this.unseenCount = count
     );
   }
 
@@ -26,8 +26,8 @@ export class NotificationBoxComponent implements OnInit, OnDestroy {
     this.unseenCountStream.unsubscribe();
   }
 
-  public onToggle(): void {
-    this.unseenCount = this.jobsNotificationService.pendingJobsCount;
+  public onClose(): void {
+    this.jobsNotificationService.resetUnseenJobsCount();
   }
 
   public close(id: string): void {
@@ -42,7 +42,6 @@ export class NotificationBoxComponent implements OnInit, OnDestroy {
 
   public removeCompleted(): void {
     this.jobsNotificationService.removeCompleted();
-    this.unseenCount = 0;
     this.popover.closePopover();
   }
 }

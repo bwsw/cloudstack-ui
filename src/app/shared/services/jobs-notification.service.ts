@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Utils } from './utils/utils.service';
 
 
@@ -20,16 +20,18 @@ export interface INotification {
 export class JobsNotificationService {
   public notifications: Array<INotification>;
   private _pendingJobsCount: number;
-  private _unseenJobs: Subject<number>;
+  private _unseenJobsCount$: BehaviorSubject<number>;
 
-  constructor() { }
+  constructor() {
+    this._unseenJobsCount$ = new BehaviorSubject<number>(0);
+  }
 
   public get pendingJobsCount(): number {
     return this._pendingJobsCount;
   }
 
-  public get unseenJobs(): Observable<number> {
-    return this._unseenJobs.asObservable();
+  public get unseenJobsCount$(): Observable<number> {
+    return this._unseenJobsCount$.asObservable();
   }
 
   public add(notification: INotification | string): string {
@@ -43,7 +45,7 @@ export class JobsNotificationService {
 
       this.notifications.unshift(n);
       this._pendingJobsCount++;
-      this._unseenJobs.next(1);
+      this.incrementUnseenJobsCount();
 
       return id;
     }
@@ -60,7 +62,7 @@ export class JobsNotificationService {
       if (notification.status === INotificationStatus.Pending) {
         this._pendingJobsCount++;
       }
-      this._unseenJobs.next(1);
+      this.incrementUnseenJobsCount();
 
       return notification.id;
     }
@@ -106,6 +108,15 @@ export class JobsNotificationService {
   public reset(): void {
     this.notifications = [];
     this._pendingJobsCount = 0;
-    this._unseenJobs = new Subject<number>();
+    this._unseenJobsCount$.next(0);
+  }
+
+  public resetUnseenJobsCount() {
+    this._unseenJobsCount$.next(0);
+  }
+
+  private incrementUnseenJobsCount() {
+    const unseenCount = this._unseenJobsCount$.getValue();
+    this._unseenJobsCount$.next(unseenCount + 1);
   }
 }
