@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChange,
+  SimpleChanges
+} from '@angular/core';
 import * as cloneDeep from 'lodash/cloneDeep';
 
 
@@ -11,7 +20,7 @@ import { ResourceLimit, ResourceType } from '../../../shared/models';
   styleUrls: ['account-limits.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccountLimitsComponent {
+export class AccountLimitsComponent implements  OnChanges {
   @Input() public limits: ResourceLimit[];
   @Input() public isAdmin: boolean;
   @Output() public limitsUpdate = new EventEmitter<ResourceLimit[]>();
@@ -33,13 +42,42 @@ export class AccountLimitsComponent {
     [ResourceType.SecondaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_LIMIT',
   };
 
+  public ngOnChanges(changes: SimpleChanges) {
+    const limits: SimpleChange = changes.limits;
+    if (limits) {
+      this.limits = limits.currentValue.map(this.setNoLimitToInfinity)
+    }
+  }
+
   public onSave(): void {
-    this.limitsUpdate.emit(this.localLimits);
+    const newLimits = this.localLimits.map(this.setInfinityToNoLimit);
+    this.limitsUpdate.emit(newLimits);
     this.isEdit = false;
   }
 
   public editLimits() {
     this.localLimits = cloneDeep(this.limits);
     this.isEdit = !this.isEdit;
+  }
+
+  private setNoLimitToInfinity(limit: ResourceLimit) {
+    if (limit.max !== -1) {
+      return limit;
+    }
+    return {
+      ...limit,
+      max: Infinity
+    };
+  }
+
+  private setInfinityToNoLimit(limit: ResourceLimit) {
+    const max: number | string = limit.max as number | string;
+    if (max !== Infinity && max !== 'Infinity') {
+      return limit;
+    }
+    return {
+      ...limit,
+      max: -1
+    };
   }
 }

@@ -40,8 +40,7 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
 
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
   readonly configurations$ = this.store.select(fromConfigurations.selectAll);
-  readonly limits$ = this.store.select(fromResourceLimits.getAllLimits)
-    .map((limits: ResourceLimit[]) => limits.map(this.setNoLimitToInfinity));
+  readonly limits$ = this.store.select(fromResourceLimits.getAllLimits);
   readonly stats$ = this.store.select(fromResourceCounts.selectAll);
 
   public account: Account;
@@ -62,8 +61,7 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
   }
 
   public onLimitsUpdate(limits: ResourceLimit[]) {
-    const updatedLimits = limits.map(this.setInfinityToNoLimit);
-    this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest(updatedLimits));
+    this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest(limits));
   }
 
   public onStatisticsUpdate() {
@@ -97,26 +95,5 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
 
   public isAdmin() {
     return this.authService.isAdmin();
-  }
-
-  private setNoLimitToInfinity(limit: ResourceLimit) {
-    if (limit.max !== -1) {
-      return limit;
-    }
-    return {
-      ...limit,
-      max: Infinity
-    };
-  }
-
-  private setInfinityToNoLimit(limit: ResourceLimit) {
-    const max: number | string = limit.max as number | string;
-    if (max !== Infinity && max !== 'Infinity') {
-      return limit;
-    }
-    return {
-      ...limit,
-      max: -1
-    };
   }
 }
