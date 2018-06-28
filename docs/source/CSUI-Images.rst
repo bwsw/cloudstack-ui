@@ -12,7 +12,7 @@ ISO files are another installation source for virtual machines.
 
 You can switch from Templates to ISOs by selecting a corresponding option above:
 
-.. figure:: _static/Images_TempISO1.png
+.. figure:: _static/Images_TempISO2.png
 
 Images List
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,7 +33,7 @@ The list of templates/ISOs can be filtered using the filtering tool. The filteri
 - Zones;
 - Groups.
 
-.. figure:: _static/Images_TempList_Admin1.png
+.. figure:: _static/Images_TempList_Admin2.png
 
 Besides, you can adjust the list view using the grouping tool. Templates/ISOs can be grouped by zones or/and groups. Administrators can group the list by accounts.
 
@@ -139,19 +139,19 @@ The information on each template/ISO is presented in the sidebar to the right. I
    - URL - The URL provided for this template/ISO. Next to it you can see the "Copy" icon |copy icon|. Click it to copy the URL to clipboard and then paste it in the address line.
    - Group - Template/ISO group. You can change the group by clicking "Edit" |edit icon|. Choose an existing group in the appeared window and click "ASSIGN" to assign the template/ISO to the selected group. 
    
-.. figure:: _static/Images_Temp_Details_GroupEdit.png
+.. figure:: _static/Images_Temp_Details_GroupEdit1.png
    
 From this window, you can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
 
-.. figure:: _static/Images_Temp_Details_GroupRemove.png
+.. figure:: _static/Images_Temp_Details_GroupRemove1.png
 
 2. Zones tab - Shows the zone where the template/ISO is available. If the zone has "Yes" for the *Ready* status, the template/ISO can be used for VM creation. 
 
-.. figure:: _static/Images_Temp_Details_Zone.png
+.. figure:: _static/Images_Temp_Details_Zone1.png
 
 3. Tags tab - Presents the list of tags assigned to the template/ISO.
 
-.. figure:: _static/Images_Details_Tags.png
+.. figure:: _static/Images_Temp_Details_Tags1.png
 
 Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the template. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. Uncheck the "Show system tags" checkbox to hide system tags from the list. 
 
@@ -173,19 +173,19 @@ To add a tag for the template/ISO click "Create" |create icon|. In the appeared 
 
 Click "Create" to assign a new tag to the template/ISO. 
 
-.. figure:: _static/Images_TagCreate.png
+.. figure:: _static/Images_TagCreate1.png
 
 When adding a system tag, click "+" in the card to open the creation form. You will see that the ``csui`` prefix is automatically prepopulated here. 
 
-.. figure:: _static/Images_SysTagCreate.png
+.. figure:: _static/Images_SysTagCreate1.png
 
 If you create a non-system tag, it will be saved in a new card. If you have entered a key in the format ``<prefix>.<example>``, a card will be named as "<prefix>". When creating a new tag from this card, click "+" in the card and in the tag creation form the *Key* field will be prepopulated with the <prefix>.
 
-.. figure:: _static/Images_OtherTagCreate.png
+.. figure:: _static/Images_OtherTagCreate1.png
 
 Tags can be edited or/and deleted. Mouse over the tag in the list and see "Edit" and "Delete" buttons.
 
-.. figure:: _static/Images_TagActions.png
+.. figure:: _static/Images_TagActions1.png
 
 Click "Edit" to change the tag's key or value in the appeared form. Save the edits.
 
