@@ -52,12 +52,10 @@ You can switch between used or free resources by clicking the option you need ab
 A user can see the resource usage statistics for his/her user only.
 
 .. figure:: _static/VMs_ResourceUsage_User.png
-   :scale: 80%
    
 A Domain Administrator can view resources for his/her account and for the whole domain.
 
 .. figure:: _static/VMs_ResourceUsage.png
-   :scale: 80%
    
 Notifications on Pending Operations 
 -----------------------------------------
@@ -65,8 +63,6 @@ Notifications on Pending Operations
 In the upper-right corner of the screen, you can see the list of pending operations by clicking a bell button |bell icon|. It informs you of the latest operations in the system. You can clear the list after its reviewing by deleting every notification one by one or by clicking "CLEAR ALL" at the list bottom.
 
 .. figure:: _static/VMs_Alerts1.png
-   :scale: 80%
-
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
