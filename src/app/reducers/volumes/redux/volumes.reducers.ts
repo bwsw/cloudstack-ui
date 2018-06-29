@@ -267,12 +267,24 @@ export const selectVolumesWithSnapshots = createSelector(
   selectAll,
   fromSnapshots.selectAll,
   (volumes: Volume[], snapshots: Snapshot[]) => {
-    return volumes.map(volume => {
-      const snapshotsOfVolume = snapshots.filter(snapshot => snapshot.volumeid === volume.id);
+    // return volumes.map(volume => {
+    //   const snapshotsOfVolume = snapshots.filter(snapshot => snapshot.volumeid === volume.id);
+    //   return {
+    //     ...volume,
+    //     snapshots: snapshotsOfVolume
+    //   };
+    // });
+    const snapshotsByVolumeMap = snapshots.reduce((dictionary, snapshot: Snapshot) => {
+      const snapshotsByVolume = dictionary[snapshot.volumeid];
+      dictionary[snapshot.volumeid] = snapshotsByVolume ? [...snapshotsByVolume, snapshot] : [snapshot];
+      return dictionary;
+    }, {});
+
+    return volumes.map((volume: Volume) => {
       return {
         ...volume,
-        snapshots: snapshotsOfVolume
-      };
+        snapshots: snapshotsByVolumeMap[volume.id]
+      }
     });
   }
 );

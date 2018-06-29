@@ -69,7 +69,11 @@ export function listReducer(
       };
     }
     case snapshot.LOAD_SNAPSHOT_RESPONSE: {
-      return adapter.addAll([...action.payload], state);
+      const newState = {
+        ...state,
+        loading: false
+      };
+      return adapter.addAll([...action.payload], newState);
     }
     case snapshot.SNAPSHOT_FILTER_UPDATE: {
       return { ...state, filters: { ...state.filters, ...action.payload } };
