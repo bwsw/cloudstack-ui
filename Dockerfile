@@ -8,7 +8,7 @@ RUN yarn install
 COPY . /tmp/cloudstackui
 RUN yarn run build:aot
 
-FROM nginx:stable-alpine
+FROM firesh/nginx-lua
 
 COPY .build/nginx.conf /etc/nginx/conf.d/default.conf
 COPY .build/startup.sh /etc/nginx/startup.sh
