@@ -232,7 +232,7 @@ export class VirtualMachinesEffects {
           this.showNotificationsOnFinish(message);
         })
         .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip);
+          const newSecondaryIp = [...action.payload.vm.nic[0].secondaryip];
           newSecondaryIp.push(res.result.nicsecondaryip);
           const newNic = Object.assign(
             {},
@@ -338,8 +338,10 @@ export class VirtualMachinesEffects {
       }).afterClosed()
         .filter(res => Boolean(res))
         .switchMap((params) => {
-          const notificationId = this.jobsNotificationService.add(
-            'NOTIFICATIONS.VM.DESTROY_IN_PROGRESS');
+          const inProgressMessage = params.expunge
+            ? 'NOTIFICATIONS.VM.EXPUNGE_IN_PROGRESS'
+            : 'NOTIFICATIONS.VM.DESTROY_IN_PROGRESS';
+          const notificationId = this.jobsNotificationService.add(inProgressMessage);
           this.update(action.payload, VmState.InProgress);
 
           const actions = flatMap((vm: VirtualMachine): Action[] => {
@@ -347,10 +349,14 @@ export class VirtualMachinesEffects {
             if (params.expunge) {
               message = 'NOTIFICATIONS.VM.EXPUNGE_DONE';
               this.showNotificationsOnFinish(message, notificationId);
+              // workaround! Delete Private SG notification show over Expunge done notification
+              setTimeout(() => {
+                this.store.dispatch(new sgActions.DeletePrivateSecurityGroup(action.payload))
+              }, 2000);
+
               return [
                 new vmActions.ExpungeVmSuccess(action.payload),
-                new volumeActions.DeleteVolumes({ vm: action.payload, expunged: true }),
-                new sgActions.DeletePrivateSecurityGroup(action.payload)
+                new volumeActions.DeleteVolumes({ vm: action.payload, expunged: true })
               ];
             } else {
               message = 'NOTIFICATIONS.VM.DESTROY_DONE';
@@ -365,7 +371,9 @@ export class VirtualMachinesEffects {
           return this.vmService.command(action.payload, CSCommands.Destroy, params)
             .pipe(actions)
             .catch((error: Error) => {
-              const message = 'NOTIFICATIONS.VM.DESTROY_FAILED';
+              const message = params.expunge
+                ? 'NOTIFICATIONS.VM.EXPUNGE_FAILED'
+                : 'NOTIFICATIONS.VM.DESTROY_FAILED';
               this.showNotificationsOnFail(error, message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
                 vm: action.payload,

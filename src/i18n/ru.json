@@ -159,7 +159,7 @@
       "DELETION_DONE": "Снимок удален",
       "DELETION_FAILED": "Не удалось удалить снимок",
       "REVERT_IN_PROGRESS": "Возвращение диска к снимку",
-      "REVERT_DONE": "Диск возращен к снимку",
+      "REVERT_DONE": "Диск возвращен к снимку",
       "REVERT_FAILED": "Не удалось вернуть диск к снимку"
     },
     "TEMPLATE": {

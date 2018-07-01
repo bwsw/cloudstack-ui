@@ -1,23 +1,10 @@
 import { Injectable } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef
-} from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Rx';
 
-import {
-  AlertDialogComponent,
-  AlertDialogConfiguration
-} from './alert-dialog/alert-dialog.component';
-import {
-  AskDialogComponent,
-  AskDialogConfiguration
-} from './ask-dialog/ask-dialog.component';
-import {
-  ConfirmDialogComponent,
-  ConfirmDialogConfiguration
-} from './confirm-dialog/confirm-dialog.component';
+import { AlertDialogComponent, AlertDialogConfiguration } from './alert-dialog/alert-dialog.component';
+import { AskDialogComponent, AskDialogConfiguration } from './ask-dialog/ask-dialog.component';
+import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
 
 const defaultConfirmDialogConfirmText = 'COMMON.YES';
 const defaultConfirmDialogDeclineText = 'COMMON.NO';
@@ -43,7 +30,7 @@ export class DialogService {
 
   constructor(private dialog: MatDialog) { }
 
-  public confirm(config: ConfirmDialogConfiguration): Observable<void> {
+  public confirm(config: ConfirmDialogConfiguration): Observable<any> {
     let dialogRef: MatDialogRef<ConfirmDialogComponent>;
     if (!config.confirmText) {
       config.confirmText = defaultConfirmDialogConfirmText;

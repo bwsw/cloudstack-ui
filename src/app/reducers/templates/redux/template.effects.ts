@@ -110,7 +110,7 @@ export class TemplateEffects {
         .map(createdTemplate => new template.RegisterTemplateSuccess(createdTemplate))
         .catch((error: Error) => {
           this.showNotificationsOnFail(error);
-          return Observable.of(new template.RegisterTemplateSuccess(error))
+          return Observable.of(new template.RegisterTemplateError(error))
         });
     });
 
@@ -130,16 +130,6 @@ export class TemplateEffects {
           this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new template.CreateTemplateError(error))
         });
-    });
-
-  @Effect({ dispatch: false })
-  createTemplateSuccess$: Observable<Action> = this.actions$
-    .ofType(
-      template.TEMPLATE_CREATE_SUCCESS,
-      template.TEMPLATE_REGISTER_SUCCESS
-    )
-    .do(() => {
-      this.dialog.closeAll();
     });
 
   @Effect()

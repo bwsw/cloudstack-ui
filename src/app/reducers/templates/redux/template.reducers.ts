@@ -31,10 +31,6 @@ export interface ListState extends EntityState<BaseTemplateModel> {
   }
 }
 
-export interface FormState {
-  loading: boolean
-}
-
 export interface VmCreationTemplatesState {
   filters: {
     selectedViewMode: string,
@@ -68,10 +64,6 @@ const initialListState: ListState = adapter.getInitialState({
   }
 });
 
-const initialFormState: FormState = {
-  loading: false
-};
-
 const initialVmCreationTemplatesState: VmCreationTemplatesState = {
   filters: {
     selectedViewMode: TemplateResourceType.template,
@@ -85,13 +77,11 @@ const initialVmCreationTemplatesState: VmCreationTemplatesState = {
 
 export interface TemplatesState {
   list: ListState,
-  form: FormState,
   vmCreationList: VmCreationTemplatesState
 }
 
 export const templateReducers = {
   list: listReducer,
-  form: formReducer,
   vmCreationList: vmCreationListReducer
 };
 
@@ -117,21 +107,15 @@ export function listReducer(
     }
     case template.LOAD_TEMPLATE_RESPONSE: {
       return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
         ...adapter.addAll([...action.payload], state),
         loading: false
       };
     }
     case template.TEMPLATE_CREATE_SUCCESS: {
-      return {
-        ...adapter.addOne(action.payload, state)
-      };
+      return adapter.addOne(action.payload, state);
+    }
+    case template.TEMPLATE_REGISTER_SUCCESS: {
+      return adapter.addOne(action.payload, state);
     }
     case template.TEMPLATE_REMOVE_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
@@ -160,27 +144,6 @@ export function listReducer(
           tags: action.payload.tags.filter(_ => _.key !== TemplateTagKeys.group)
         }
       }, state);
-    }
-    default: {
-      return state;
-    }
-  }
-}
-
-export function formReducer(
-  state = initialFormState,
-  action: template.Actions
-): FormState {
-  switch (action.type) {
-    case template.TEMPLATE_REGISTER:
-    case template.TEMPLATE_CREATE: {
-      return { ...state, loading: true };
-    }
-    case template.TEMPLATE_REGISTER_SUCCESS:
-    case template.TEMPLATE_REGISTER_ERROR:
-    case template.TEMPLATE_CREATE_SUCCESS:
-    case template.TEMPLATE_CREATE_ERROR: {
-      return { ...state, loading: false };
     }
     default: {
       return state;
@@ -305,11 +268,6 @@ export const filterSelectedOsFamilies = createSelector(
 export const filterQuery = createSelector(
   filters,
   state => state.query
-);
-
-export const isFormLoading = createSelector(
-  getTemplatesState,
-  state => state.form.loading
 );
 
 export const vmCreationListFilters = createSelector(
