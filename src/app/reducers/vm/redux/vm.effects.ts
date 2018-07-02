@@ -231,9 +231,10 @@ export class VirtualMachinesEffects {
           const message = 'NOTIFICATIONS.VM.ADD_SECONDARY_IP_DONE';
           this.showNotificationsOnFinish(message);
         })
-        .map(res => {
-          const newSecondaryIp = [...action.payload.vm.nic[0].secondaryip];
-          newSecondaryIp.push(res.result.nicsecondaryip);
+        .map(res => res.result.nicsecondaryip)
+        .map(nicsecondaryip => {
+          const vm: VirtualMachine = action.payload.vm;
+          const newSecondaryIp = vm.nic[0].secondaryip ? [...vm.nic[0].secondaryip, nicsecondaryip] : [nicsecondaryip];
           const newNic = Object.assign(
             {},
             action.payload.vm.nic[0],

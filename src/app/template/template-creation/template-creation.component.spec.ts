@@ -37,7 +37,6 @@ describe('Template creation component', () => {
       component.account = {} as Account;
       component.osTypes = [];
       component.zones = [];
-      component.isLoading = false;
       component.groups = [];
       fixture.detectChanges();
     });
