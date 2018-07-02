@@ -153,7 +153,6 @@
       "value": "#ECEFF1"
     }
   ],
-  "defaultThemeName": "blue-red",
   "offeringAvailability": {
     "filterOfferings": false
   },
@@ -173,5 +172,9 @@
   "serviceOfferingClasses": [],
   "diskOfferingParameters": [
     "displaytext"
-  ]
+  ],
+  "defaultFirstDayOfWeek": "mon",
+  "defaultInterfaceLanguage": "en",
+  "defaultTimeFormat": "hour24",
+  "defaultThemeName": "blue-red"
 }
