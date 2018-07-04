@@ -114,9 +114,8 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <div class="additional">
+        <div class="additional" *ngIf="mode === TemplateResourceType.template">
           <mat-checkbox
-            *ngIf="mode === TemplateResourceType.template"
             name="passwordEnabled"
             [(ngModel)]="passwordEnabled"
             ngDefaultControl
@@ -126,7 +125,6 @@
           <mat-checkbox
             name="dynamicallyScalable"
             [(ngModel)]="dynamicallyScalable"
-            *ngIf="mode === TemplateResourceType.template"
             ngDefaultControl
           >
             {{ 'TEMPLATE_PAGE.TEMPLATE_CREATION.DYNAMICALLY_SCALABLE' | translate }}
