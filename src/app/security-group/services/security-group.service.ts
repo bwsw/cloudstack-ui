@@ -4,13 +4,13 @@ import { Observable } from 'rxjs/Observable';
 
 import { Rules } from '../../shared/components/security-group-builder/rules';
 import { BackendResource } from '../../shared/decorators';
+import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { ConfigService } from '../../shared/services/config.service';
 import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
 import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
-import { BaseBackendService } from '../../shared/services/base-backend.service';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
@@ -34,7 +34,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   public getPredefinedTemplates(): Array<SecurityGroup> {
     return this.configService
       .get('securityGroupTemplates')
-      .map(group => ({...group}));
+      .map(group => ({ ...group }));
   }
 
   public getSharedGroups(): Observable<Array<SecurityGroup>> {
