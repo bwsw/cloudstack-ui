@@ -6,6 +6,7 @@ import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
+import { Snapshot } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 
 /**
@@ -264,19 +265,20 @@ export const isFormLoading = createSelector(
 
 export const selectVolumesWithSnapshots = createSelector(
   selectAll,
-  fromSnapshots.selectEntities,
-  fromSnapshots.selectSnapshotsByVolumeId,
-  (volumes, snapshots, snapshotIdsByVolumeId) => {
-    return volumes.map(
-      volume => {
-        const snapshotsOfVolume = snapshotIdsByVolumeId[volume.id]
-          ? snapshotIdsByVolumeId[volume.id].map(snapshotId => snapshots[snapshotId])
-          : [];
-        return {
-          ...volume,
-          snapshots: snapshotsOfVolume
-        };
-      });
+  fromSnapshots.selectAll,
+  (volumes: Volume[], snapshots: Snapshot[]) => {
+    const snapshotsByVolumeMap = snapshots.reduce((dictionary, snapshot: Snapshot) => {
+      const snapshotsByVolume = dictionary[snapshot.volumeid];
+      dictionary[snapshot.volumeid] = snapshotsByVolume ? [...snapshotsByVolume, snapshot] : [snapshot];
+      return dictionary;
+    }, {});
+
+    return volumes.map((volume: Volume) => {
+      return {
+        ...volume,
+        snapshots: snapshotsByVolumeMap[volume.id]
+      }
+    });
   }
 );
 
