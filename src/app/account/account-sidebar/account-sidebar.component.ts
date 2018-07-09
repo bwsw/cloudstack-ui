@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Account } from '../../shared/models';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { isUserBelongsToAccount } from '../../shared/utils/account';
@@ -19,7 +19,7 @@ export class AccountSidebarComponent {
   }
 
   constructor(
-    protected notificationService: NotificationService,
+    protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected authService: AuthService

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { getType, IPVersion, NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
@@ -74,7 +74,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   constructor(
     private networkRuleService: NetworkRuleService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router
@@ -129,7 +129,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
           this.adding = false;
         },
         () => {
-          this.notificationService.message('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
+          this.notificationService.open('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
           this.adding = false;
         }
       );
@@ -151,7 +151,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
       }, () => {
         this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
           .subscribe((translations) => {
-            this.notificationService.message(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
+            this.notificationService.open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
           });
       });
   }

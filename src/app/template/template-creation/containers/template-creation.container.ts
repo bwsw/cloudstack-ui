@@ -1,9 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { State } from '../../../reducers/index';
 import { Store } from '@ngrx/store';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { Snapshot } from '../../../shared/models/snapshot.model';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
+import { Snapshot } from '../../../shared/models';
+import { CreateTemplateBaseParams } from '../../shared/base-template.service';
+
+import { State } from '../../../reducers/index';
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
 import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
@@ -21,7 +23,6 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
       [mode]="viewMode$ | async"
       [osTypes]="osTypes$ | async"
       [zones]="zones$ | async"
-      [isLoading]="isFormLoading$ | async"
       [groups]="groups$ | async"
       [snapshot]="snapshot"
       [account]="account$ | async"
@@ -34,12 +35,12 @@ export class TemplateCreationContainerComponent {
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
-  readonly isFormLoading$ = this.store.select(fromTemplates.isFormLoading);
 
   public snapshot: Snapshot;
 
   constructor(
     private store: Store<State>,
+    public dialogRef: MatDialogRef<TemplateCreationContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.snapshot = data.snapshot;
@@ -55,8 +56,13 @@ export class TemplateCreationContainerComponent {
     }
   }
 
-  public onCreate(params) {
-    this.store.dispatch(new templateActions.CreateTemplate(params));
+  public onCreate(params: CreateTemplateBaseParams) {
+    if (params.snapshotId) {
+      this.store.dispatch(new templateActions.CreateTemplate(params));
+    } else {
+      this.store.dispatch(new templateActions.RegisterTemplate(params));
+    }
+    this.dialogRef.close();
   }
 }
 

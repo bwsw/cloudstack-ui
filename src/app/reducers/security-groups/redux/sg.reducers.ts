@@ -83,16 +83,7 @@ export function listReducer(
       };
     }
     case securityGroup.LOAD_SECURITY_GROUP_RESPONSE: {
-      return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
-        ...adapter.addAll([...action.payload], { ...state, loading: false }),
-      };
+      return adapter.addAll([...action.payload], { ...state, loading: false });
     }
     case securityGroup.LOAD_SELECTED_SECURITY_GROUP: {
       return {
@@ -101,22 +92,16 @@ export function listReducer(
       };
     }
     case securityGroup.CREATE_SECURITY_GROUP_SUCCESS: {
-      return {
-        ...adapter.addOne(action.payload, state)
-      };
+      return adapter.addOne(action.payload, state);
     }
     case securityGroup.CREATE_SECURITY_GROUPS_SUCCESS: {
-      return {
-        ...adapter.addMany(action.payload, state)
-      };
+      return adapter.addMany(action.payload, state);
     }
     case securityGroup.DELETE_SECURITY_GROUP_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
     case securityGroup.UPDATE_SECURITY_GROUP: {
-      return {
-        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state)
-      };
+      return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
     default: {
       return state;

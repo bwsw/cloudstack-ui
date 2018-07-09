@@ -3,12 +3,12 @@ import {
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
-  HttpRequest,
-  HttpHeaders
+  HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { NotificationService } from './notification.service';
+import { SnackBarService } from './snack-bar.service';
 import { Router } from '@angular/router';
 import { RouterUtilsService } from './router-utils.service';
 import { AuthService } from './auth.service';
@@ -18,7 +18,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
   private authService: AuthService;
   private router: Router;
   private routerUtilsService: RouterUtilsService;
-  private notificationService: NotificationService;
+  private notificationService: SnackBarService;
 
   constructor(
     private injector: Injector
@@ -33,7 +33,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     this.authService = this.injector.get(AuthService);
     this.router = this.injector.get(Router);
     this.routerUtilsService = this.injector.get(RouterUtilsService);
-    this.notificationService = this.injector.get(NotificationService);
+    this.notificationService = this.injector.get(SnackBarService);
     const user = this.authService.user;
     const sessionKey = user && user.sessionkey;
     const httpOptions = {
@@ -53,7 +53,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     }, (err: any) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
 
-        this.notificationService.message('AUTH.NOT_LOGGED_IN');
+        this.notificationService.open('AUTH.NOT_LOGGED_IN');
         const route = this.routerUtilsService.getRouteWithoutQueryParams();
         if (route !== '/login' && route !== '/logout') {
           this.router.navigate(

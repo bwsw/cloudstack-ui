@@ -5,7 +5,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ApiKeys } from '../../shared/models/account-user.model';
 import { BACKEND_API_URL } from '../../shared/services/base-backend.service';
 import { ConfigService } from '../../shared/services/config.service';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { UserService } from '../../shared/services/user.service';
 
@@ -46,7 +46,7 @@ export class ApiInfoComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private dialogService: DialogService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private userService: UserService,
     private routerUtilsService: RouterUtilsService
   ) {
@@ -107,11 +107,11 @@ export class ApiInfoComponent implements OnInit {
   }
 
   public onCopySuccess(): void {
-    this.notificationService.message('CLIPBOARD.COPY_SUCCESS');
+    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.notificationService.message('CLIPBOARD.COPY_FAIL');
+    this.notificationService.open('CLIPBOARD.COPY_FAIL');
   }
 
   private getApiKeys(): Observable<ApiKeys> {

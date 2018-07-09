@@ -1,19 +1,13 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 
-import {
-  Component,
-  Directive,
-  NgModule,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
+import { Component, Directive, NgModule, ViewChild, ViewContainerRef } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { NotificationService } from './notification.service';
+import { SnackBarService } from './snack-bar.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Directive({ selector: '[csViewContainer]' })
@@ -45,7 +39,7 @@ class NotificationTestModule {
 }
 
 describe('Service: Notification service', () => {
-  let notificationService: NotificationService;
+  let notificationService: SnackBarService;
   let mdSnackBar: MatSnackBar;
   let liveAnnouncer: LiveAnnouncer;
   let overlayContainerElement: HTMLElement;
@@ -56,7 +50,7 @@ describe('Service: Notification service', () => {
     TestBed.configureTestingModule({
       imports: [MatSnackBarModule, NotificationTestModule, NoopAnimationsModule],
       providers: [
-        NotificationService,
+        SnackBarService,
         { provide: TranslateService, useClass: MockTranslateService },
         {
           provide: OverlayContainer, useFactory: () => {
@@ -69,9 +63,9 @@ describe('Service: Notification service', () => {
   }));
 
   beforeEach(async(inject(
-    [NotificationService, MatSnackBar, LiveAnnouncer],
+    [SnackBarService, MatSnackBar, LiveAnnouncer],
     (
-      service: NotificationService,
+      service: SnackBarService,
       snackBar: MatSnackBar,
       lAnnouncer: LiveAnnouncer
     ) => {
@@ -97,35 +91,20 @@ describe('Service: Notification service', () => {
   });
 
   it('should be defined', () => {
-    expect(NotificationService).toBeDefined();
-    expect(notificationService instanceof NotificationService).toBeTruthy();
+    expect(SnackBarService).toBeDefined();
+    expect(notificationService instanceof SnackBarService).toBeTruthy();
   });
 
   it('should call MdSnackBar method to show the notification', () => {
     const testMessage = spyOn(mdSnackBar, 'open');
-    notificationService.message('test');
+    notificationService.open('test');
     expect(testMessage).toHaveBeenCalled();
   });
 
-  it('should support 3 types of notifications', () => {
-    const testNotification = spyOn(mdSnackBar, 'open');
-    notificationService.message('test');
-    notificationService.warning('test', 'test');
-    notificationService.error('test');
-    expect(testNotification).toHaveBeenCalledTimes(3);
-  });
-
   it('should add the notification to the DOM', () => {
-
-
-    Object.assign(
-      notificationService.snackBarConfig,
-      { viewContainerRef: testViewContainerRef }
-    );
-
     expect(overlayContainerElement.querySelector('snack-bar-container')).toBeNull();
 
-    notificationService.message('test');
+    notificationService.open('test');
     expect(overlayContainerElement.querySelector('snack-bar-container')).not.toBeNull();
   });
 });

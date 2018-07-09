@@ -142,13 +142,6 @@ export function listReducer(
 
     case vmActions.LOAD_VMS_RESPONSE: {
       return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
         ...adapter.addAll([...action.payload], state),
         loading: false
       };

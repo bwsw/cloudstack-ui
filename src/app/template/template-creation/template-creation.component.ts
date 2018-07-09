@@ -6,10 +6,7 @@ import { Snapshot } from '../../shared/models/snapshot.model';
 import { TemplateGroup } from '../../shared/models/template-group.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { Language } from '../../shared/services/language.service';
-import {
-  CreateTemplateBaseParams,
-  TemplateResourceType
-} from '../shared/base-template.service';
+import { CreateTemplateBaseParams, TemplateResourceType } from '../shared/base-template.service';
 
 interface TemplateFormat {
   name: string;
@@ -26,7 +23,6 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public account: Account;
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
-  @Input() public isLoading: boolean;
   @Input() public groups: Array<TemplateGroup>;
   @Input() public snapshot?: Snapshot;
 

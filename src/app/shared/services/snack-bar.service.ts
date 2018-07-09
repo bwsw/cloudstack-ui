@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
 export const MAX_NOTIFICATION_PARAM_LENGTH = 40;
 
 @Injectable()
-export class NotificationService {
-  public snackBarConfig: MatSnackBarConfig;
+export class SnackBarService {
+  private readonly snackBarConfig: MatSnackBarConfig;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -17,34 +18,18 @@ export class NotificationService {
     this.snackBarConfig = { duration: 2750 };
   }
 
-  public message(
-    message: string | ParametrizedTranslation,
-    config?: MatSnackBarConfig
-  ): any {
-    return this.getTranslatedMessage(message)
-      .subscribe(translatedMessage => this.snackBar
-        .open(translatedMessage, null, this.getConfig(config)));
-  }
-
-  public warning(
-    message: string | ParametrizedTranslation,
-    action: string,
-    config?: MatSnackBarConfig
-  ) {
-    return this.getTranslatedMessage(message)
-      .subscribe(translatedMessage => this.snackBar
-        .open(translatedMessage, action, this.getConfig(config)));
-  }
-
-  public error(
+  public open(
     message: string | ParametrizedTranslation,
     action?: string,
     config?: MatSnackBarConfig
   ) {
-    return this.getTranslatedMessage(message)
-      .subscribe(translatedMessage => this.snackBar
-        .open(translatedMessage, action, this.getConfig(config)));
+    this.getTranslatedMessage(message).subscribe(translatedMessage => {
+      const _action = action ? action : null;
+      const _config = config ? config : this.snackBarConfig;
+      this.snackBar.open(translatedMessage, _action, _config);
+    });
   }
+
 
   private getTranslatedMessage(message: string | ParametrizedTranslation): Observable<string> {
     if (typeof message === 'string') {
@@ -55,9 +40,5 @@ export class NotificationService {
         message.interpolateParams
       );
     }
-  }
-
-  private getConfig(config): MatSnackBarConfig {
-    return config ? config : this.snackBarConfig;
   }
 }

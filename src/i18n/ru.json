@@ -121,20 +121,22 @@
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
     }
   },
-  "JOB_NOTIFICATIONS": {
+  "NOTIFICATIONS": {
     "ACCOUNT": {
+      "CREATION_DONE": "Аккаунт создан",
       "DELETION_IN_PROGRESS": "Удаление аккаунта",
-      "DELETION_DONE": "Аккаунт успешно удален",
-      "DELETION_FAILED": "Ошибка удаления аккаунта",
+      "DELETION_DONE": "Аккаунт удален",
+      "DELETION_FAILED": "Не удалось удалить аккаунт",
       "DISABLE_IN_PROGRESS": "Деактивация аккаунта",
-      "DISABLE_DONE": "Аккаунт успешно деактивирован",
-      "DISABLE_FAILED": "Ошибка деактивации аккаунта",
-      "ENABLE_IN_PROGRESS": "Активация аккаунта",
-      "ENABLE_DONE": "Аккаунт успешно активирован",
-      "ENABLE_FAILED": "Ошибка активации аккаунта",
-      "LOCK_IN_PROGRESS": "Блокирование аккаунта",
-      "LOCK_DONE": "Аккаунт успешно заблокирован",
-      "LOCK_FAILED": "Ошибка блокирования аккаунта"
+      "DISABLE_DONE": "Аккаунт деактивирован",
+      "DISABLE_FAILED": "Не удалось деактивировать аккаунт",
+      "ENABLE_DONE": "Аккаунт активирован",
+      "USER": {
+        "CREATION_DONE": "Пользователь создан",
+        "UPDATE_DONE": "Пользователь отредактирован",
+        "DELETE_DONE": "Пользователь удален",
+        "GENERATE_KEYS_DONE": "Ключи пользователя сгенерированы"
+      }
     },
     "PENDING_OPERATIONS": "Текущие операции",
     "ISO": {
@@ -144,9 +146,7 @@
       "DETACHMENT_IN_PROGRESS": "Открепление ISO",
       "DETACHMENT_DONE": "ISO откреплен",
       "DETACHMENT_FAILED": "Не удалось открепить ISO",
-      "REGISTER_IN_PROGRESS": "Регистрация ISO",
       "REGISTER_DONE": "ISO зарегистрирован",
-      "REGISTER_FAILED": "ISO не добавлен",
       "DELETION_IN_PROGRESS": "Удаление ISO",
       "DELETION_DONE": "ISO удален",
       "DELETION_FAILED": "Не удалось удалить ISO"
@@ -159,26 +159,32 @@
       "DELETION_DONE": "Снимок удален",
       "DELETION_FAILED": "Не удалось удалить снимок",
       "REVERT_IN_PROGRESS": "Возвращение диска к снимку",
-      "REVERT_DONE": "Диск возращен к снимку",
-      "REVERT_FAILED": "Вернуть диск к снимку не удалось"
+      "REVERT_DONE": "Диск возвращен к снимку",
+      "REVERT_FAILED": "Не удалось вернуть диск к снимку"
     },
     "TEMPLATE": {
-      "REGISTER_IN_PROGRESS": "Регистрация шаблона",
       "REGISTER_DONE": "Шаблон зарегистрирован",
-      "REGISTER_FAILED": "Не удалось зарегистрировать шаблон",
+      "CREATION_IN_PROGRESS": "Создание шаблона",
+      "CREATION_DONE": "Шаблон создан",
+      "CREATION_FAILED": "Не удалось создать шаблон",
       "DELETION_IN_PROGRESS": "Удаление шаблона",
       "DELETION_DONE": "Шаблон удален",
       "DELETION_FAILED": "Не удалось удалить шаблон"
     },
+    "FIREWALL": {
+      "TEMPLATE_CREATION_DONE": "Шаблон брандмауэра создан",
+      "TEMPLATE_DELETE_DONE": "Шаблон брандмауэра удален",
+      "SHARED_GROUP_CREATION_DONE": "Разделяемая группа безопасности создана",
+      "SHARED_GROUP_DELETE_DONE": "Разделяемая группа безопасности удалена",
+      "PRIVATE_GROUP_DELETE_DONE": "Приватная группа безопасности удалена",
+      "CONVERT_PRIVATE_TO_SHARED_DONE": "Приватная группа безопасности сконвертирована в разделяемую группу безопасности"
+    },
     "VM": {
-      "TAG_EDIT_DONE": "Тег ВМ отредактирован",
-      "TAG_ADD_DONE": "Добавлен тег ВМ",
-      "TAG_REMOVE_DONE": "Удален тег ВМ",
       "START_IN_PROGRESS": "Запуск ВМ",
-      "START_DONE": "ВМ была запущена",
+      "START_DONE": "ВМ запущена",
       "START_FAILED": "Не удалось запустить ВМ",
       "STOP_IN_PROGRESS": "Остановка ВМ",
-      "STOP_DONE": "ВМ была остановлена",
+      "STOP_DONE": "ВМ остановлена",
       "STOP_FAILED": "Не удалось остановить ВМ",
       "FETCH_STATISTICS_IN_PROGRESS": "Получение статистики",
       "FETCH_STATISTICS_DONE": "Статистика получена",
@@ -187,31 +193,30 @@
       "CHANGE_DESCRIPTION_DONE": "Описание изменено",
       "CHANGE_DESCRIPTION_FAILED": "Не удалось изменить описание",
       "REBOOT_IN_PROGRESS": "Перезапуск ВМ",
-      "REBOOT_DONE": "ВМ была перезапущена",
+      "REBOOT_DONE": "ВМ перезапущена",
       "REBOOT_FAILED": "Не удалось перезапустить ВМ",
       "RESTORE_IN_PROGRESS": "Переустановка ВМ",
-      "RESTORE_DONE": "ВМ была переустановлена",
+      "RESTORE_DONE": "ВМ переустановлена",
       "RESTORE_FAILED": "Не удалось переустановить ВМ",
       "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
       "RESET_PASSWORD_DONE": "Пароль сброшен",
       "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
       "SAVE_PASSWORD_DONE": "Пароль сохранен",
-      "SAVE_PASSWORD_FAILED": "Не удалось сохранить пароль",
       "DESTROY_IN_PROGRESS": "Удаление ВМ",
-      "DESTROY_DONE": "ВМ была удалена",
+      "DESTROY_DONE": "ВМ удалена",
       "DESTROY_FAILED": "Не удалось удалить ВМ",
       "EXPUNGE_IN_PROGRESS": "Уничтожение ВМ",
-      "EXPUNGE_DONE": "ВМ была уничтожена",
+      "EXPUNGE_DONE": "ВМ уничтожена",
       "EXPUNGE_FAILED": "Не удалось уничтожить ВМ",
       "RECOVER_IN_PROGRESS": "Идет восстановление ВМ",
-      "RECOVER_DONE": "ВМ была восстановлена",
+      "RECOVER_DONE": "ВМ восстановлена",
       "RECOVER_FAILED": "Не удалось восстановить ВМ",
       "DEPLOY_IN_PROGRESS": "Развертывание ВМ",
-      "DEPLOY_DONE": "ВМ была развернута",
+      "DEPLOY_DONE": "ВМ развернута",
       "DEPLOY_FAILED": "Не удалось развернуть ВМ",
-      "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
-      "CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
-      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение",
+      "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение вычислительного предложения",
+      "CHANGE_SERVICE_OFFERING_DONE": "Вычислительное предложение изменено",
+      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить вычислительное предложение",
       "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Изменение аффинитетной группы",
       "CHANGE_AFFINITY_GROUP_DONE": "Аффинитетная группа изменена",
       "CHANGE_AFFINITY_GROUP_FAILED": "Не удалось изменить аффинитетную группу",
@@ -222,21 +227,18 @@
       "REMOVE_INSTANCE_GROUP_DONE": "Группа удалена",
       "REMOVE_INSTANCE_GROUP_FAILED": "Не удалось удалить группу",
       "ADD_SECONDARY_IP_DONE": "Дополнительный IP добавлен",
-      "ADD_SECONDARY_IP_FAILED": "Не удалось добавить дополнительный IP",
       "REMOVE_SECONDARY_IP_DONE": "Дополнительный IP удален",
-      "REMOVE_SECONDARY_IP_FAILED": "Не удалось удалить дополнительный IP",
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
-      "COLOR_CHANGE_FAILED": "Не удалось изменить цвет ВМ",
       "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
       "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
-      "DETACHMENT_DONE": "Диск успешно откреплен",
+      "DETACHMENT_DONE": "Диск откреплен",
       "DETACHMENT_FAILED": "Не удалось открепить диск",
       "DELETION_IN_PROGRESS": "Удаление диска",
-      "DELETION_DONE": "Диск успешно удален",
+      "DELETION_DONE": "Диск удален",
       "DELETION_FAILED": "Не удалось удалить диск",
       "RESIZE_IN_PROGRESS": "Изменение размера диска",
       "RESIZE_DONE": "Размер диска изменен",
@@ -250,28 +252,10 @@
       "CREATION_IN_PROGRESS": "Создание диска",
       "CREATION_DONE": "Диск создан",
       "CREATION_FAILED": "Не удалось создать диск"
-    }
-  },
-  "NOTIFICATIONS": {
-    "TEMPLATE": {
-      "CUSTOM_TEMPLATE_CREATED": "Шаблон успешно создан",
-      "CUSTOM_TEMPLATE_DELETED": "Шаблон успешно удален",
-      "TEMPLATE_GROUP_SET_ERROR": "Произошла ошибка, попробуйте еще раз",
-      "SHARED_GROUP_CREATED": "Разделяемая группа успешно создана",
-      "SHARED_GROUP_DELETED": "Разделяемая группа успешно удалена",
-      "PRIVATE_GROUP_DELETED": "Приватная группа успешно удалена",
-      "CONVERT_PRIVATE_TO_SHARED": "Приватная группа успешно сконвертирована в разделяемую"
     },
-    "ACCOUNT": {
-      "USER_CREATED": "Пользователь успешно создан",
-      "USER_UPDATED": "Пользователь успешно обновлен",
-      "USER_DELETED": "Пользователь успешно удален"
-    },
-    "VOLUME": {
-      "VOLUME_FROM_SNAPSHOT_CREATED": "Диск успешно создан"
-    },
-    "SNAPSHOT": {
-      "DELETE_SUCCESS": "Снимок успешно удален"
+    "SSH_KEY": {
+      "CREATION_DONE": "SSH ключ создан",
+      "DELETE_DONE": "SSH ключ удален"
     }
   },
   "AUTH": {

@@ -11,14 +11,14 @@ import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
-import { MockNotificationService } from '../../../../testutils/mocks/mock-notification.service';
+import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Snapshot, SnapshotStates, SnapshotType, Volume } from '../../../shared/models';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
@@ -138,7 +138,7 @@ describe('Snapshot Effects', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: SnapshotTagService, useClass: MockSnapshotTagService },
-        { provide: NotificationService, useValue: MockNotificationService },
+        { provide: SnackBarService, useClass: MockSnackBarService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: DialogService, useClass: MockDialogService },
         { provide: MatDialog, useClass: MockMatDialog },
