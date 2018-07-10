@@ -51,8 +51,7 @@ export class SecurityGroupEffects {
   @Effect({ dispatch: false })
   createSecurityGroupSuccess$: Observable<Action> = this.actions$
     .ofType(securityGroup.CREATE_SECURITY_GROUP_SUCCESS)
-    .do((action: securityGroup.CreateSecurityGroupSuccess) =>
-      this.onSecurityGroupCreated(action.payload));
+    .do(() => this.onSecurityGroupCreated());
 
   @Effect()
   deleteSecurityGroup$: Observable<Action> = this.actions$
@@ -159,9 +158,9 @@ export class SecurityGroupEffects {
     }
   }
 
-  private onSecurityGroupCreated(securityGroup: SecurityGroup): void {
+  private onSecurityGroupCreated(): void {
     this.dialog.closeAll();
-    this.router.navigate(['../security-group', securityGroup.id], {
+    this.router.navigate(['../security-group'], {
       queryParamsHandling: 'preserve'
     });
   }
