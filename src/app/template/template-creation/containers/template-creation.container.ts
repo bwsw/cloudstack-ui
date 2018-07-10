@@ -62,7 +62,6 @@ export class TemplateCreationContainerComponent {
     } else {
       this.store.dispatch(new templateActions.RegisterTemplate(params));
     }
-    this.dialogRef.close();
   }
 }
 

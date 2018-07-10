@@ -132,6 +132,14 @@ export class TemplateEffects {
         });
     });
 
+  @Effect({ dispatch: false })
+  registerAndCreateTemplateSuccess$: Observable<Action> = this.actions$
+    .ofType(
+      template.TEMPLATE_REGISTER_SUCCESS,
+      template.TEMPLATE_CREATE_SUCCESS
+    )
+    .do(() => this.dialog.closeAll());
+
   @Effect()
   setTemplateGroup$: Observable<Action> = this.actions$
     .ofType(template.SET_TEMPLATE_GROUP)
