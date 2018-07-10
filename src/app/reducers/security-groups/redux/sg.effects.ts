@@ -51,7 +51,7 @@ export class SecurityGroupEffects {
   @Effect({ dispatch: false })
   createSecurityGroupSuccess$: Observable<Action> = this.actions$
     .ofType(securityGroup.CREATE_SECURITY_GROUP_SUCCESS)
-    .do(() => this.onSecurityGroupCreated());
+    .do(() => this.dialog.closeAll());
 
   @Effect()
   deleteSecurityGroup$: Observable<Action> = this.actions$
@@ -156,13 +156,6 @@ export class SecurityGroupEffects {
     } else {
       return this.securityGroupService.createShared(data, rules);
     }
-  }
-
-  private onSecurityGroupCreated(): void {
-    this.dialog.closeAll();
-    this.router.navigate(['../security-group'], {
-      queryParamsHandling: 'preserve'
-    });
   }
 
   private deleteSecurityGroup(securityGroup: SecurityGroup): Observable<any> {
