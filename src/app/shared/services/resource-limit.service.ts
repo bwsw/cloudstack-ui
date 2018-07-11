@@ -4,7 +4,6 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ResourceLimit } from '../models/resource-limit.model';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
-import { Account } from '../models/account.model';
 import { CSCommands } from './base-backend.service';
 
 
@@ -17,15 +16,13 @@ export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit
     super(http);
   }
 
-  public updateResourceLimit(
-    resourceLimit: ResourceLimit,
-    account: Account
-  ): Observable<ResourceLimit> {
+  public updateResourceLimit(resourceLimit: ResourceLimit): Observable<ResourceLimit> {
+    this.invalidateCache();
     return this.sendCommand(CSCommands.Update, {
       resourceType: resourceLimit.resourcetype,
       max: resourceLimit.max,
-      domainid: account.domainid,
-      account: account.name
+      domainid: resourceLimit.domainid,
+      account: resourceLimit.account
     });
   }
 }

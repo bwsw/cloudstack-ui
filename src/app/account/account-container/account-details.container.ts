@@ -9,9 +9,9 @@ import * as resourceCountAction from '../../reducers/resource-count/redux/resour
 import * as fromResourceCounts from '../../reducers/resource-count/redux/resource-counts.reducers';
 import * as resourceLimitAction from '../../reducers/resource-limit/redux/resource-limits.actions';
 import * as fromResourceLimits from '../../reducers/resource-limit/redux/resource-limits.reducers';
-import { Account } from '../../shared/models/account.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { Account, ResourceLimit } from '../../shared/models';
 
 @Component({
   selector: 'cs-account-page-container',
@@ -28,19 +28,19 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
     <cs-account-limits
       [limits]="limits$ | async"
       [isAdmin]="isAdmin()"
-      (onLimitsEdit)="onLimitsEdit($event)"
+      (limitsUpdate)="onLimitsUpdate($event)"
     ></cs-account-limits>
     <cs-account-statistics
       *ngIf="isAdmin()"
       [stats]="stats$ | async"
-      (onStatsUpdate)="onStatsUpdate($event)"
+      (statisticsUpdate)="onStatisticsUpdate()"
     ></cs-account-statistics>`
 })
 export class AccountDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
 
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
   readonly configurations$ = this.store.select(fromConfigurations.selectAll);
-  readonly limits$ = this.store.select(fromResourceLimits.updatedLimits);
+  readonly limits$ = this.store.select(fromResourceLimits.getAllLimits);
   readonly stats$ = this.store.select(fromResourceCounts.selectAll);
 
   public account: Account;
@@ -60,14 +60,11 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
     }));
   }
 
-  public onLimitsEdit(limits) {
-    this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest({
-      limits,
-      account: this.account
-    }));
+  public onLimitsUpdate(limits: ResourceLimit[]) {
+    this.store.dispatch(new resourceLimitAction.UpdateResourceLimitsRequest(limits));
   }
 
-  public onStatsUpdate(stats) {
+  public onStatisticsUpdate() {
     this.store.dispatch(new resourceCountAction.LoadResourceCountsRequest({
       account: this.account.name,
       domainid: this.account.domainid
@@ -96,9 +93,7 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
       });
   }
 
-
   public isAdmin() {
     return this.authService.isAdmin();
   }
-
 }
