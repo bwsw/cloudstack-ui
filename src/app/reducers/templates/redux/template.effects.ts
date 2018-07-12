@@ -181,7 +181,7 @@ export class TemplateEffects {
         message
       });
     }
-    this.snackBarService.open(message);
+    this.snackBarService.open(message).subscribe();
   }
 
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {

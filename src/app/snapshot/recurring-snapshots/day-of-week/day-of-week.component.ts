@@ -2,8 +2,10 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { LanguageService } from '../../../shared/services/language.service';
-import { DayOfWeek } from '../../../shared/types/day-of-week';
+
+import { DayOfWeek } from '../../../shared/types';
+import { State, UserTagsSelectors } from '../../../root-store'
+import { Store } from '@ngrx/store';
 
 
 export interface DayOfWeekName {
@@ -26,10 +28,7 @@ export class DayOfWeekComponent {
   public _dayOfWeek: DayOfWeek;
   readonly daysOfWeek$: Observable<Array<DayOfWeekName>> = this.getDaysOfWeek();
 
-  constructor(
-    private languageService: LanguageService,
-    private translateService: TranslateService
-  ) {
+  constructor(private store: Store<State>, private translateService: TranslateService) {
   }
 
 
@@ -45,7 +44,8 @@ export class DayOfWeekComponent {
     ];
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   @Input()
   public get dayOfWeek(): number {
@@ -61,7 +61,8 @@ export class DayOfWeekComponent {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {
+  }
 
   public writeValue(value: any): void {
     if (value) {
@@ -70,10 +71,10 @@ export class DayOfWeekComponent {
   }
 
   private getDaysOfWeek(): Observable<Array<DayOfWeekName>> {
-    const dayNames = this.daysOfWeekList.map(_ => _.name);
+    const dayNames = this.daysOfWeekList.map(day => day.name);
 
     return Observable.forkJoin(
-      this.languageService.getFirstDayOfWeek(),
+      this.store.select(UserTagsSelectors.getFirstDayOfWeek).first(),
       this.translateService.get(dayNames),
     )
       .map(([firstDayOfWeek, translations]) => {

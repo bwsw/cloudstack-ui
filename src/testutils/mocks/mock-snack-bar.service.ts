@@ -1,5 +1,7 @@
+import { MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+
 import { ParametrizedTranslation } from '../../app/dialog/dialog-service/dialog.service';
-import { MatSnackBarConfig } from '@angular/material';
 
 
 export class MockSnackBarService {
@@ -7,6 +9,7 @@ export class MockSnackBarService {
     message: string | ParametrizedTranslation,
     action?: string,
     config?: MatSnackBarConfig
-  ): void {
+  ): Observable<MatSnackBarRef<SimpleSnackBar>> {
+    return Observable.of({} as MatSnackBarRef<SimpleSnackBar>)
   }
 }

@@ -52,6 +52,6 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
   }
 
   private onError(error: any): void {
-    this.notificationService.open(error.message);
+    this.notificationService.open(error.message).subscribe();
   }
 }

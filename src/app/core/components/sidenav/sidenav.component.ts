@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { DragulaService } from 'ng2-dragula';
 import * as cloneDeep from 'lodash/cloneDeep';
 
-
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { ConfigService } from '../../../shared/services/config.service';
 import { LayoutService } from '../../../shared/services/layout.service';
 import { RouterUtilsService } from '../../../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
+import { State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     private layoutService: LayoutService,
     private routerUtilsService: RouterUtilsService,
     private router: Router,
-    private userTagService: UserTagService
+    private store: Store<State>
   ) {
     super();
   }
@@ -96,10 +96,8 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
       this.updatingOrder = true;
 
       const menuState = this.stringifyMenuState(this.routes);
-      this.userTagService
-        .setNavigationOrder(menuState)
-        .finally(() => (this.updatingOrder = false))
-        .subscribe();
+      this.store.dispatch(new UserTagsActions.UpdateNavigationOrderTag({ value: menuState }));
+      this.updatingOrder = false;
     }
     this.toggleState();
   }
@@ -120,7 +118,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
 
   private initNavigationOrder() {
     if (this.canEdit) {
-      this.userTagService.getNavigationOrder().subscribe(tag => {
+      this.store.select(UserTagsSelectors.getNavigationOrder).first().subscribe(tag => {
         this.navigationLoaded = true;
         if (tag) {
           const order = this.parseMenuState(tag);

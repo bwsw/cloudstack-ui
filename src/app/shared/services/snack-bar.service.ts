@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
-export const MAX_NOTIFICATION_PARAM_LENGTH = 40;
 
 @Injectable()
 export class SnackBarService {
@@ -22,16 +22,19 @@ export class SnackBarService {
     message: string | ParametrizedTranslation,
     action?: string,
     config?: MatSnackBarConfig
-  ) {
-    this.getTranslatedMessage(message).subscribe(translatedMessage => {
-      const _action = action ? action : null;
-      const _config = config ? config : this.snackBarConfig;
-      this.snackBar.open(translatedMessage, _action, _config);
-    });
+  ): Observable<MatSnackBarRef<SimpleSnackBar>> {
+    const message$ = this.getTranslatedString(message);
+    const action$ = action ? this.getTranslatedString(action) : of(null);
+    const _config = config ? config : this.snackBarConfig;
+
+    return Observable.zip(
+      message$,
+      action$
+    ).map(([translatedMessage, translatedAction]) => this.snackBar.open(translatedMessage, translatedAction, _config));
   }
 
 
-  private getTranslatedMessage(message: string | ParametrizedTranslation): Observable<string> {
+  private getTranslatedString(message: string | ParametrizedTranslation): Observable<string> {
     if (typeof message === 'string') {
       return this.translateService.get(message);
     } else {

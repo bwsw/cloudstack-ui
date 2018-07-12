@@ -6,7 +6,6 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 import { State } from '../../reducers/index';
 import { ConfigService } from '../../shared/services/config.service';
@@ -30,7 +29,6 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
     protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router,
-    protected userTagService: UserTagService,
     protected store: Store<State>,
     protected configService: ConfigService,
     protected accountTagService: AccountTagService

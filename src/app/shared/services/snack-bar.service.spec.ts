@@ -95,16 +95,16 @@ describe('Service: Notification service', () => {
     expect(notificationService instanceof SnackBarService).toBeTruthy();
   });
 
-  it('should call MdSnackBar method to show the notification', () => {
+  it('should call open method to show the SnackBar', () => {
     const testMessage = spyOn(mdSnackBar, 'open');
-    notificationService.open('test');
+    notificationService.open('test').subscribe();
     expect(testMessage).toHaveBeenCalled();
   });
 
   it('should add the notification to the DOM', () => {
     expect(overlayContainerElement.querySelector('snack-bar-container')).toBeNull();
 
-    notificationService.open('test');
+    notificationService.open('test').subscribe();
     expect(overlayContainerElement.querySelector('snack-bar-container')).not.toBeNull();
   });
 });

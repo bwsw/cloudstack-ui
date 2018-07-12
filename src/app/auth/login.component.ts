@@ -87,6 +87,6 @@ export class LoginComponent implements OnInit {
     this.notification.open({
       translationToken: error.message,
       interpolateParams: error.params
-    });
+    }).subscribe();
   }
 }

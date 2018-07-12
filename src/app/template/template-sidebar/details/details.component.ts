@@ -1,13 +1,10 @@
-import { BaseTemplateModel } from '../../shared/base-template.model';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { Input } from '@angular/core';
+
+import { BaseTemplateModel } from '../../shared/base-template.model';
 
 
 export abstract class BaseTemplateDetailsComponent {
   @Input() public entity: BaseTemplateModel;
-
-  constructor(private notificationService: SnackBarService) {
-  }
 
   public get templateTypeTranslationToken(): string {
     const type = this.entity && (this.entity as any).type || '';
@@ -18,13 +15,4 @@ export abstract class BaseTemplateDetailsComponent {
 
     return templateTypeTranslations[type];
   }
-
-  public onCopySuccess(): void {
-    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
-  }
-
-  public onCopyFail(): void {
-    this.notificationService.open('CLIPBOARD.COPY_FAIL');
-  }
-
 }
