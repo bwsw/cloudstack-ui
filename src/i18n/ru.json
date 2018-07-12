@@ -256,7 +256,8 @@
     "SSH_KEY": {
       "CREATION_DONE": "SSH ключ создан",
       "DELETE_DONE": "SSH ключ удален"
-    }
+    },
+    "ERROR_WHILE_LOADING_DATA": "Ошибка при загрузке данных. Обновите страницу."
   },
   "AUTH": {
     "USERNAME": "Имя пользователя",
@@ -562,7 +563,6 @@
     "OPEN_URL": "Открыть URL",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
-    "NO_INFORMATION": "Нет информации",
     "LOGIN": "Логин",
     "VM": "Имя машины",
     "VM_IP": "IP адрес"
@@ -1409,9 +1409,10 @@
       "CHANGE_PASSWORD": "Изменение пароля",
       "NEW_PASSWORD": "Новый пароль",
       "REPEAT_PASSWORD": "Повторите пароль",
+      "PASSWORD_DOES_NOT_MATCH": "Пароль не совпадает",
+      "ASK_TO_UPDATE_PASSWORD": "Вы уверены, что хотите обновить пароль?",
       "PASSWORD_CHANGED_SUCCESSFULLY": "Пароль был успешно изменен",
-      "INACTIVITY_TIMEOUT": "Лимит времени сеанса (в&nbsp;минутах)",
-      "INACTIVITY_LIMITS": "От 0 до 300"
+      "SESSION_TIMEOUT": "Лимит времени сеанса (в минутах)"
     },
     "VM": {
       "SAVE_PASSWORD_FOR_ALL_VMS": "Сохранять пароли ВМ по умолчанию"
