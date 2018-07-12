@@ -1,13 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { EffectsModule } from '@ngrx/effects';
 import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
 
-import { ApiInfoComponent } from './api-info/api-info.component';
-import { InactivityTimeoutComponent } from './inactivity-timeout/inactivity-timeout.component';
-import { SettingsComponent } from './settings.component';
+import { SettingsEffects } from './store/settings.effects';
+
+import { SettingsComponent } from './containers';
+import {
+  ApiSettingsComponentComponent,
+  InterfaceSettingsComponent,
+  PasswordUpdateFormComponent,
+  SecuritySettingsComponent,
+  SessionTimeoutComponent,
+  ThemeSelectorComponent
+} from './components';
+import { SettingsSectionContentDirective, SettingsSectionNameDirective } from './directives';
 
 
 @NgModule({
@@ -15,20 +25,21 @@ import { SettingsComponent } from './settings.component';
     CommonModule,
     SharedModule,
     MaterialModule,
-    ClipboardModule
+    ClipboardModule,
+    EffectsModule.forFeature([SettingsEffects])
   ],
-  exports: [
-    SettingsComponent
-  ],
-
-  providers: [
-    ClipboardService
-  ],
-
+  exports: [SettingsComponent],
+  providers: [ClipboardService],
   declarations: [
-    ApiInfoComponent,
-    InactivityTimeoutComponent,
-    SettingsComponent
+    SettingsComponent,
+    SecuritySettingsComponent,
+    ApiSettingsComponentComponent,
+    InterfaceSettingsComponent,
+    ThemeSelectorComponent,
+    PasswordUpdateFormComponent,
+    SessionTimeoutComponent,
+    SettingsSectionNameDirective,
+    SettingsSectionContentDirective
   ]
 })
 export class SettingsModule {

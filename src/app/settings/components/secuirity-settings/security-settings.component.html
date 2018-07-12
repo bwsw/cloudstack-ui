@@ -1,0 +1,23 @@
+<section>
+  <h2 csSettingsSectionName>{{ 'SETTINGS.SECURITY.TITLE' | translate }}</h2>
+  <div csSettingsSectionContent>
+
+    <cs-password-update-form
+      (updatePassword)="updatePassword.emit($event)"
+    ></cs-password-update-form>
+
+    <cs-session-timeout
+      [sessionTimeout]="settings.sessionTimeout"
+      (updateSessionTimeout)="onUpdateSessionTimeout($event)"
+    ></cs-session-timeout>
+
+    <mat-checkbox
+      name="saveVmPassword"
+      [checked]="settings.isSavePasswordForVMs"
+      (change)="onSavePasswordsForVMs($event.checked)"
+    >
+      {{ 'SETTINGS.VM.SAVE_PASSWORD_FOR_ALL_VMS' | translate }}
+    </mat-checkbox>
+
+  </div>
+</section>
