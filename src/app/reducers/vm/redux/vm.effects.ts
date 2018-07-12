@@ -16,7 +16,6 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { CSCommands } from '../../../shared/services/base-backend.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
@@ -620,23 +619,6 @@ export class VirtualMachinesEffects {
         });
     });
 
-  @Effect()
-  saveNewPassword$: Observable<Action> = this.actions$
-    .ofType(vmActions.SAVE_NEW_VM_PASSWORD)
-    .mergeMap((action: vmActions.SaveNewPassword) => {
-      return this.showConfirmDialog().switchMap(() =>
-        this.vmTagService.setPassword(action.payload.vm, action.payload.tag)
-          .do(() => {
-            const message = 'NOTIFICATIONS.VM.SAVE_PASSWORD_DONE';
-            this.showNotificationsOnFinish(message);
-          })
-          .map((vm) => new vmActions.UpdateVM(vm))
-          .catch((error: Error) => {
-            this.showNotificationsOnFail(error);
-            return Observable.of(new vmActions.VMUpdateError({ error }));
-          }));
-    });
-
   @Effect({ dispatch: false })
   updateError$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_UPDATE_ERROR)
@@ -740,7 +722,6 @@ export class VirtualMachinesEffects {
     private authService: AuthService,
     private vmService: VmService,
     private vmTagService: VmTagService,
-    private userTagService: UserTagService,
     private affinityGroupService: AffinityGroupService,
     private sshService: SSHKeyPairService,
     private isoService: IsoService,
@@ -759,15 +740,8 @@ export class VirtualMachinesEffects {
     });
   }
 
-  private showConfirmDialog(): Observable<any> {
-    return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_SAVE_PASSWORD' })
-      .onErrorResumeNext()
-      .switchMap((res) => {
-        if (res) {
-          this.userTagService.setSavePasswordForAllVms(true);
-        }
-        return Observable.of(null);
-      });
+  private isVMStopped(vm: VirtualMachine): boolean {
+    return vm.state === VmState.Stopped;
   }
 
   private start(vm) {
@@ -842,7 +816,7 @@ export class VirtualMachinesEffects {
         message
       });
     }
-    this.snackBarService.open(message);
+    this.snackBarService.open(message).subscribe();
   }
 
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {

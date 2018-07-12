@@ -261,16 +261,6 @@ export class ResetPasswordVm implements Action {
   }
 }
 
-export class SaveNewPassword implements Action {
-  readonly type = SAVE_NEW_VM_PASSWORD;
-
-  constructor(public payload: {
-    vm: VirtualMachine,
-    tag: { key: string, value: string }
-  }) {
-  }
-}
-
 export class RebootVm implements Action {
   readonly type = REBOOT_VM;
 
@@ -512,7 +502,6 @@ export type Actions = LoadVMsRequest
   | StartVm
   | RestoreVm
   | ResetPasswordVm
-  | SaveNewPassword
   | RebootVm
   | DestroyVm
   | RecoverVm

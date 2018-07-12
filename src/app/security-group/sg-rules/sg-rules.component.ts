@@ -129,7 +129,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
           this.adding = false;
         },
         () => {
-          this.notificationService.open('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE');
+          this.notificationService.open('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE').subscribe();
           this.adding = false;
         }
       );
@@ -151,7 +151,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
       }, () => {
         this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
           .subscribe((translations) => {
-            this.notificationService.open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']);
+            this.notificationService.open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']).subscribe();
           });
       });
   }

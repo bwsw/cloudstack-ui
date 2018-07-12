@@ -9,15 +9,17 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
+
 import { categoryName, defaultCategoryName, keyWithoutCategory, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import { filterWithPredicates } from '../../shared/utils/filter';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
 
 export interface TagEditAction {
@@ -51,7 +53,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   constructor(
     private cd: ChangeDetectorRef,
     private dialog: MatDialog,
-    private userTagService: UserTagService
+    private store: Store<State>
   ) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
@@ -59,7 +61,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.userTagService.getShowSystemTags()
+    this.store.select(UserTagsSelectors.getIsShowSystemTags)
       .subscribe(show => {
         this.showSystemTags = show;
         this.updateFilterResults();
@@ -104,9 +106,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public onShowSystemTagsChange(): void {
     this.updateFilterResults();
-    this.userTagService
-      .setShowSystemTags(this.showSystemTags)
-      .subscribe();
+    this.store.dispatch(new UserTagsActions.UpdateShowSystemTagsTag({ value: this.showSystemTags}));
   }
 
   public removeTag(tag: Tag): void {
@@ -162,7 +162,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   private getCategories(): Array<TagCategory> {
     const groupedTags = groupBy(
-      this.tags.map(_ => Object.assign({}, _, {categoryName: categoryName(_)})),
+      this.tags.map(_ => Object.assign({}, _, { categoryName: categoryName(_) })),
       'categoryName');
 
     const categories = Object.keys(groupedTags)

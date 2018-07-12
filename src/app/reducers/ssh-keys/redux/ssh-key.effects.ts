@@ -115,7 +115,7 @@ export class SshKeyEffects {
   }
 
   private showNotificationsOnFinish(message: string) {
-    this.snackBarService.open(message);
+    this.snackBarService.open(message).subscribe();
   }
 
   private showNotificationsOnFail(error: any) {

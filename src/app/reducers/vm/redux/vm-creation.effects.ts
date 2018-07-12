@@ -6,6 +6,8 @@ import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../..
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
+import { MatDialog } from '@angular/material';
+
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 import {
@@ -17,7 +19,6 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmService } from '../../../vm/shared/vm.service';
-import { MatDialog } from '@angular/material';
 import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
@@ -28,7 +29,6 @@ import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { TagService } from '../../../shared/services/tags/tag.service';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
@@ -44,6 +44,7 @@ import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.re
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import { UserTagsSelectors } from '../../../root-store';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -275,8 +276,8 @@ export class VirtualMachineCreationEffects {
                 temporaryVm.state = VmState.Deploying;
                 this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
 
-                return this.vmService.incrementNumberOfVms()
-                  .switchMap(() => this.vmService.registerVmJob(deployResponse));
+                this.vmService.incrementNumberOfVms();
+                return this.vmService.registerVmJob(deployResponse);
               })
               .switchMap((deployedVm: VirtualMachine) => {
                 this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
@@ -344,7 +345,6 @@ export class VirtualMachineCreationEffects {
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
-    private userTagService: UserTagService,
     private vmTagService: VmTagService,
     private snackBar: SnackBarService
   ) {
@@ -513,7 +513,7 @@ export class VirtualMachineCreationEffects {
       id: this.deploymentNotificationId,
       message
     });
-    this.snackBar.open(message);
+    this.snackBar.open(message).subscribe();
   }
 
 
@@ -594,9 +594,7 @@ export class VirtualMachineCreationEffects {
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
     return this.vmTagService.copyTagsToEntity(state.template.tags, vm)
-      .switchMap(() => {
-        return this.userTagService.getSavePasswordForAllVms();
-      })
+      .switchMap(() => this.store.select(UserTagsSelectors.getIsSavePasswordForVMs))
       .switchMap((tag) => {
         if (tag) {
           return this.tagService.update(

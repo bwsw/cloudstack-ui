@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../../shared/decorators';
-import { OsType, ServiceOffering, Volume } from '../../shared/models';
-import { VolumeType } from '../../shared/models/volume.model';
+import { OsType, ServiceOffering, Volume, VolumeType } from '../../shared/models';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendService, CSCommands } from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
+import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -27,28 +27,23 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(
     private asyncJobService: AsyncJobService,
     private osTypesService: OsTypeService,
-    private userTagService: UserTagService,
     private volumeService: VolumeService,
-    http: HttpClient
+    private store: Store<State>,
+    protected http: HttpClient
   ) {
     super(http);
   }
 
   public getNumberOfVms(): Observable<number> {
-    return this.userTagService.getLastVmId()
-      .switchMap(numberOfVms => {
-        if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
-          return Observable.of(+numberOfVms);
-        }
-
-        return this.getListWithDetails(undefined, true)
-          .switchMap(vmList => this.userTagService.setLastVmId(vmList.length));
-      });
+    return this.store.select(UserTagsSelectors.getLastVMId).first();
   }
 
-  public incrementNumberOfVms(): Observable<number> {
+  public incrementNumberOfVms() {
     return this.getNumberOfVms()
-      .switchMap(numberOfVms => this.userTagService.setLastVmId(numberOfVms + 1));
+      .subscribe(numberOfVms =>
+        this.store.dispatch(new UserTagsActions.UpdateLastVMIdTag({
+          value: numberOfVms + 1
+        })));
   }
 
   public getWithDetails(id: string): Observable<VirtualMachine> {
@@ -83,14 +78,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   public deploy(params: {}): Observable<any> {
     return this.sendCommand(CSCommands.Deploy, params);
   }
-
-  /*   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
-       return this.asyncJobService.getList().map(jobs => {
-         return jobs.filter(job => !job.jobstatus && mapCmd(job))
-           .map(job => this.registerVmJob(job));
-       });
-     }*/
-
 
   public command(
     vm: VirtualMachine,
@@ -160,17 +147,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.sendCommand(CSCommands.ChangeServiceFor, params)
       .map(result => this.prepareModel(result['virtualmachine']));
   }
-
-  /*public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
-    // instanceof check is needed because API response for
-    // VM restore doesn't contain the jobinstancetype field
-
-    return (
-      job.jobresult &&
-      (job.jobinstancetype === VirtualMachineEntityName ||
-        job.jobresult instanceof VirtualMachine)
-    );
-  }*/
 
   private commandInternal(
     vm: VirtualMachine,
