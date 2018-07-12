@@ -173,7 +173,7 @@
   "diskOfferingParameters": [
     "displaytext"
   ],
-  "defaultFirstDayOfWeek": "mon",
+  "defaultFirstDayOfWeek": 1,
   "defaultInterfaceLanguage": "en",
   "defaultTimeFormat": "hour24",
   "defaultThemeName": "blue-red"
