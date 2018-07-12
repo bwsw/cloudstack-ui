@@ -1,15 +1,18 @@
 {
   "USER": {
-    "csui.user.ask-to-create-vm": "true",
-    "csui.user.ask-to-create-volume": "true",
+    "csui.user.ask-to-create-vm": true,
+    "csui.user.ask-to-create-volume": true,
     "csui.user.save-password-for-all-vms": null,
-    "csui.user.first-day-of-week": "mon",
+    "csui.user.first-day-of-week": 1,
     "csui.user.lang": "en",
-    "csui.user.last-vm-id": "1",
-    "csui.user.session-timeout": "30",
-    "csui.user.show-system-tags": "false",
-    "csui.user.time-format": "hour24",
+    "csui.user.last-vm-id": 1,
+    "csui.user.session-timeout": 30,
+    "csui.user.show-system-tags": false,
+    "csui.user.time-format": "auto",
     "csui.user.theme": "blue-red",
     "csui.user.navigation-order": null
+  },
+  "INFO": {
+    "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.10/"
   }
 }
