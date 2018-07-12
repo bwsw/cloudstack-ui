@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { JobsNotificationService } from '../../services/jobs-notification.service';
 import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'cs-notification-box',
@@ -9,33 +10,47 @@ import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
   styleUrls: ['notification-box.component.scss']
 })
 export class NotificationBoxComponent implements OnInit, OnDestroy {
-  public unseenCount = 0;
   @ViewChild(PopoverTriggerDirective) public popover: PopoverTriggerDirective;
+  public notificationCount$: Observable<number>;
+  private isOpen = false;
+  private autoResetCompletedNotification: Subscription;
 
-  private unseenCountStream: Subscription;
-
-  constructor(public jobsNotificationService: JobsNotificationService) {}
-
-  public ngOnInit(): void {
-    this.unseenCountStream = this.jobsNotificationService.unseenJobsCount$.subscribe(
-      count => this.unseenCount = count
-    );
+  constructor(public jobsNotificationService: JobsNotificationService) {
   }
 
-  public ngOnDestroy(): void {
-    this.unseenCountStream.unsubscribe();
+  public ngOnInit(): void {
+    this.notificationCount$ = Observable.combineLatest(
+      this.jobsNotificationService.unseenCompletedJobsCount$,
+      this.jobsNotificationService.pendingJobsCount$,
+      (unseenCount, pendingCount) => unseenCount + pendingCount
+    );
+
+    this.autoResetCompletedNotification = this.jobsNotificationService.unseenCompletedJobsCount$
+      .filter(count => count > 0 && this.isOpen)
+      .delay(1)
+      .do(() => this.resetCompletedNotificationCount()).subscribe()
+  }
+
+  public ngOnDestroy() {
+    this.autoResetCompletedNotification.unsubscribe();
+  }
+
+  public onOpen(): void {
+    this.resetCompletedNotificationCount();
+    this.isOpen = true;
   }
 
   public onClose(): void {
-    this.jobsNotificationService.resetUnseenJobsCount();
+    this.isOpen = false;
   }
 
-  public close(id: string): void {
-    const pendingJobsCount = this.jobsNotificationService.pendingJobsCount;
-    const notificationsCount = this.jobsNotificationService.notifications.length;
-    if (pendingJobsCount === 0 && notificationsCount === 1) {
-      this.popover.closePopover();
-    }
+  public onCloseJobNotification(id: string): void {
+    this.jobsNotificationService.pendingJobsCount$.first().subscribe(pendingJobsCount => {
+      const notificationsCount = this.jobsNotificationService.notifications.length;
+      if (pendingJobsCount === 0 && notificationsCount === 1) {
+        this.popover.closePopover();
+      }
+    });
 
     this.jobsNotificationService.remove(id);
   }
@@ -43,5 +58,9 @@ export class NotificationBoxComponent implements OnInit, OnDestroy {
   public removeCompleted(): void {
     this.jobsNotificationService.removeCompleted();
     this.popover.closePopover();
+  }
+
+  private resetCompletedNotificationCount() {
+    this.jobsNotificationService.resetUnseenCompletedJobsCount();
   }
 }

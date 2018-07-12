@@ -10,77 +10,54 @@ export enum INotificationStatus {
   Failed
 }
 
-export interface INotification {
-  id?: string;
-  message?: string;
+export interface JobNotification {
+  id: string;
+  message: string;
   status?: INotificationStatus;
 }
 
 @Injectable()
 export class JobsNotificationService {
-  public notifications: Array<INotification>;
-  private _pendingJobsCount: number;
-  private _unseenJobsCount$: BehaviorSubject<number>;
+  public notifications: Array<JobNotification>;
+  /*
+   * pendingJobsCount not included in unseenCompletedJobsCount
+   * Only after the end of the pending job, the counter of unseen jobs is increased
+   */
+  private readonly _pendingJobsCount$ = new BehaviorSubject<number>(0);
+  private readonly _unseenCompletedJobsCount$ = new BehaviorSubject<number>(0);
 
-  constructor() {
-    this._unseenJobsCount$ = new BehaviorSubject<number>(0);
+  public get pendingJobsCount$(): Observable<number> {
+    return this._pendingJobsCount$.asObservable();
   }
 
-  public get pendingJobsCount(): number {
-    return this._pendingJobsCount;
+  public get unseenCompletedJobsCount$(): Observable<number> {
+    return this._unseenCompletedJobsCount$.asObservable();
   }
 
-  public get unseenJobsCount$(): Observable<number> {
-    return this._unseenJobsCount$.asObservable();
+  public add(message: string): string {
+    const id = Utils.getUniqueId();
+    const n: JobNotification = {
+      id,
+      message: message,
+      status: INotificationStatus.Pending
+    };
+
+    this.notifications.unshift(n);
+    this.incrementPendingJobsCount();
+
+    return id;
   }
 
-  public add(notification: INotification | string): string {
-    if (typeof notification === 'string') {
-      const id = Utils.getUniqueId();
-      const n: INotification = {
-        id,
-        message: notification,
-        status: INotificationStatus.Pending
-      };
-
-      this.notifications.unshift(n);
-      this._pendingJobsCount++;
-      this.incrementUnseenJobsCount();
-
-      return id;
-    }
-
-    if (!notification.id) {
-      notification.id = Utils.getUniqueId();
-    }
-
-    const ind = this.notifications.findIndex((el: INotification) => el.id === notification.id);
-    if (ind === -1) {
-      // vvv relies on Pending being 0 (1st field in enum) vvv
-      notification.status = notification.status || INotificationStatus.Pending;
-      this.notifications.unshift(notification);
-      if (notification.status === INotificationStatus.Pending) {
-        this._pendingJobsCount++;
-      }
-      this.incrementUnseenJobsCount();
-
-      return notification.id;
-    }
-    Object.assign(this.notifications[ind], notification);
-    this._pendingJobsCount--;
-    return notification.id;
-  }
-
-  public finish(notification: INotification): string {
-    return this.add({
+  public finish(notification: JobNotification): void {
+    this.completeJob({
       id: notification.id,
       message: notification.message,
       status: INotificationStatus.Finished
     });
   }
 
-  public fail(notification: INotification): string {
-    return this.add({
+  public fail(notification: JobNotification): void {
+    this.completeJob({
       id: notification.id,
       message: notification.message,
       status: INotificationStatus.Failed
@@ -88,7 +65,7 @@ export class JobsNotificationService {
   }
 
   public remove(id: string): void {
-    const ind = this.notifications.findIndex((el: INotification) => el.id === id);
+    const ind = this.notifications.findIndex((el: JobNotification) => el.id === id);
     if (ind === -1) {
       return;
     }
@@ -101,22 +78,44 @@ export class JobsNotificationService {
   }
 
   public removeCompleted(): void {
-    this.notifications = this.notifications.filter((n: INotification) => n.status === INotificationStatus.Pending);
-    this._pendingJobsCount = this.notifications.length;
+    this.notifications = this.notifications.filter((n: JobNotification) => n.status === INotificationStatus.Pending);
+    this._pendingJobsCount$.next(this.notifications.length);
   }
 
   public reset(): void {
     this.notifications = [];
-    this._pendingJobsCount = 0;
-    this._unseenJobsCount$.next(0);
+    this._pendingJobsCount$.next( 0);
+    this._unseenCompletedJobsCount$.next(0);
   }
 
-  public resetUnseenJobsCount() {
-    this._unseenJobsCount$.next(0);
+  public resetUnseenCompletedJobsCount() {
+    this._unseenCompletedJobsCount$.next(0);
   }
 
-  private incrementUnseenJobsCount() {
-    const unseenCount = this._unseenJobsCount$.getValue();
-    this._unseenJobsCount$.next(unseenCount + 1);
+  private completeJob(notification: JobNotification) {
+    const index = this.notifications.findIndex(el => el.id === notification.id);
+    if (index === -1) {
+      this.notifications.unshift(notification);
+    } else {
+      this.notifications[index] = notification;
+    }
+
+    this.incrementUnseenCompletedJobsCount();
+    this.decrementPendingJobsCount();
+  }
+
+  private incrementUnseenCompletedJobsCount() {
+    const unseenCount = this._unseenCompletedJobsCount$.getValue();
+    this._unseenCompletedJobsCount$.next(unseenCount + 1);
+  }
+
+  private incrementPendingJobsCount() {
+    const pendingJobsCount = this._pendingJobsCount$.getValue();
+    this._pendingJobsCount$.next(pendingJobsCount + 1);
+  }
+
+  private decrementPendingJobsCount() {
+    const pendingJobsCount = this._pendingJobsCount$.getValue();
+    this._pendingJobsCount$.next(pendingJobsCount - 1);
   }
 }

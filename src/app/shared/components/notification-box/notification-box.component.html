@@ -3,9 +3,10 @@
   style="overflow: visible;"
   [csPopoverTrigger]="popover"
   popoverPositionX="end"
+  (onPopoverOpen)="onOpen()"
   (onPopoverClose)="onClose()"
 >
-  <div [csBadge]="unseenCount">
+  <div [csBadge]="notificationCount$ | async">
     <mat-icon class="mdi-bell"></mat-icon>
   </div>
 </button>
@@ -21,9 +22,9 @@
     </mat-card-header>
     <mat-list>
       <cs-notification-box-item
-        *ngFor="let notification of jobsNotificationService.notifications"
+        *ngFor="let notification of jobsNotificationService.notifications; trackBy: trackById;"
         [notification]="notification"
-        (onClose)="close($event)"
+        (onClose)="onCloseJobNotification($event)"
       >
       </cs-notification-box-item>
     </mat-list>
