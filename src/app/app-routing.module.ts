@@ -1,23 +1,25 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from './auth/login.component';
-import { LogoutComponent } from './auth/logout.component';
-import { HomeComponent } from './home/home.component';
-import { sgRoutes } from './security-group/sg.routing';
-import { SettingsComponent } from './settings/settings.component';
-import { ReloadComponent } from './shared/components/reload/reload.component';
-import { AuthGuard } from './shared/services/auth-guard.service';
-import { LoginGuard } from './shared/services/login-guard.service';
-import { snapshotRoutes } from './snapshot/snapshot.routing';
-import { volumeRoutes } from './volume/volume.routing';
-import { sshRoutes } from './ssh-keys/ssh-keys.routing';
-import { templateRouting } from './template/template.routing';
 import { vmRoutes } from './vm/vm.routing';
-import { accountsRoutes } from './account/accounts.routing';
+import { AuthGuard } from './shared/services/auth-guard.service';
+import { sgRoutes } from './security-group/sg.routing';
+import { LogoutComponent } from './auth/logout.component';
+import { templateRouting } from './template/template.routing';
+import { ReloadComponent } from './shared/components/reload/reload.component';
+import { snapshotRoutes } from './snapshot/snapshot.routing';
+import { SettingsComponent } from './settings/containers/settings.component';
 import { EventListContainerComponent } from './events/containers/event-list.container';
+import { sshRoutes } from './ssh-keys/ssh-keys.routing';
+import { volumeRoutes } from './volume/volume.routing';
+import { accountsRoutes } from './account/accounts.routing';
+import { HomeComponent } from './home/home.component';
+import { LoginGuard } from './shared/services/login-guard.service';
+import { LoginComponent } from './auth/login.component';
+import { UserSettingsResolver } from './home/user-settings-resolver.service';
 
 
-export const routes: Routes = [
+const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
@@ -34,6 +36,9 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    resolve: {
+      userSettings: UserSettingsResolver
+    },
     children: [
       ...vmRoutes,
       ...volumeRoutes,
@@ -63,3 +68,13 @@ export const routes: Routes = [
     redirectTo: ''
   }
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+  providers: [
+    UserSettingsResolver
+  ]
+})
+export class AppRoutingModule {
+}
