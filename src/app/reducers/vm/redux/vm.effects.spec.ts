@@ -503,79 +503,33 @@ describe('Virtual machine Effects', () => {
 
   it('should add secondary ip', () => {
     const spyAddIp = spyOn(service, 'addIpToNic').and.returnValue(of({
-      result: {
-        nicsecondaryip: {
-          id: 'id1',
-          ipaddress: 'ip1',
-        }
+      nicsecondaryip: {
+        id: 'id1',
+        ipaddress: 'ip1',
       }
     }));
-    const newNic = Object.assign(
-      {},
-      list[0].nic[0],
-      { secondaryIp: [{
-          id: 'id1',
-          ipaddress: 'ip1',
-        }]
-      }
-    );
-    const newVm = Object.assign(
-      {},
-      list[0],
-      { nic: [newNic] }
-    );
 
     const action = new vmActions.AddSecondaryIp({
       vm: list[0],
       nicId: 'id1'
     });
-    const completion = new vmActions.UpdateVM(newVm);
+    const completion = new vmActions.LoadVirtualMachine({ id: list[0].id});
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(effects.addSecondaryIp$).toBeObservable(expected);
     expect(spyAddIp).toHaveBeenCalled();
-    expect(jobsNotificationService.add).toHaveBeenCalled();
-  });
-
-  it('should return an error during adding secondary ip', () => {
-    const spyAddIp = spyOn(service, 'addIpToNic').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
-
-    const action = new vmActions.AddSecondaryIp({
-      vm: list[0],
-      nicId: 'id1'
-    });
-    const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
-
-    actions$.stream = cold('a', { a: action });
-    const expected = cold('a', { a: completion });
-
-    expect(effects.addSecondaryIp$).toBeObservable(expected);
-    expect(spyAddIp).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
   });
 
   it('should remove secondary ip', () => {
     const spyRemoveIp = spyOn(service, 'removeIpFromNic').and.returnValue(of(list[2]));
-    const newNic = Object.assign(
-      {},
-      list[2].nic[0],
-      { secondaryIp: []
-      }
-    );
-    const newVm = Object.assign(
-      {},
-      list[2],
-      { nic: [newNic] }
-    );
 
     const action = new vmActions.RemoveSecondaryIp({
       vm: list[2],
       id: 'id1'
     });
-    const completion = new vmActions.UpdateVM(newVm);
+    const completion = new vmActions.LoadVirtualMachine({ id: list[2].id });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -583,24 +537,6 @@ describe('Virtual machine Effects', () => {
     expect(effects.removeSecondaryIp$).toBeObservable(expected);
     expect(spyRemoveIp).toHaveBeenCalled();
     expect(jobsNotificationService.add).toHaveBeenCalled();
-  });
-
-  it('should return an error during removing secondary ip', () => {
-    const spyRemoveIp = spyOn(service, 'removeIpFromNic').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
-
-    const action = new vmActions.RemoveSecondaryIp({
-      vm: list[0],
-      id: 'id1'
-    });
-    const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
-
-    actions$.stream = cold('a', { a: action });
-    const expected = cold('a', { a: completion });
-
-    expect(effects.removeSecondaryIp$).toBeObservable(expected);
-    expect(spyRemoveIp).toHaveBeenCalled();
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
   });
 
   it('should change vm color', () => {

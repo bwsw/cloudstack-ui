@@ -113,6 +113,11 @@ export function listReducer(
       };
     }
 
+    case vmActions.VIRTUAL_MACHINE_LOADED: {
+      const vm = action.payload.vm;
+      return adapter.updateOne({ id: vm.id, changes: vm }, state);
+    }
+
     case vmActions.VM_FILTER_UPDATE: {
       return {
         ...state,

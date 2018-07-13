@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { flatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators/mergeMap';
+import { map } from 'rxjs/operators/map';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
 // tslint:disable-next-line
@@ -28,6 +30,7 @@ import { State } from '../../index';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
 import * as vmActions from './vm.actions';
+import { LoadVirtualMachine, VirtualMachineLoaded } from './vm.actions';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 
@@ -62,6 +65,17 @@ export class VirtualMachinesEffects {
           return Observable.of(new vmActions.VMUpdateError({ error }));
         });
     });
+
+  @Effect()
+  loadVirtualMachine$: Observable<Action> = this.actions$.pipe(
+    ofType<LoadVirtualMachine>(vmActions.LOAD_VIRTUAL_MACHINE),
+    map(action => action.payload),
+    mergeMap(({ id }) =>
+      this.vmService.getList({ id }).pipe(
+        map(vms => new VirtualMachineLoaded({ vm: vms[0] }))
+      )
+    )
+  );
 
   @Effect()
   changeDescription$: Observable<Action> = this.actions$
@@ -231,25 +245,10 @@ export class VirtualMachinesEffects {
           const message = 'NOTIFICATIONS.VM.ADD_SECONDARY_IP_DONE';
           this.showNotificationsOnFinish(message);
         })
-        .map(res => res.result.nicsecondaryip)
-        .map(nicsecondaryip => {
-          const vm: VirtualMachine = action.payload.vm;
-          const newSecondaryIp = vm.nic[0].secondaryip ? [...vm.nic[0].secondaryip, nicsecondaryip] : [nicsecondaryip];
-          const newNic = Object.assign(
-            {},
-            action.payload.vm.nic[0],
-            { secondaryIp: newSecondaryIp }
-          );
-          const newVm = Object.assign(
-            {},
-            action.payload.vm,
-            { nic: [newNic] }
-          );
-          return new vmActions.UpdateVM(newVm);
-        })
+        .map(() => new LoadVirtualMachine({ id: action.payload.vm.id }))
         .catch((error: Error) => {
           this.showNotificationsOnFail(error);
-          return Observable.of(new vmActions.VMUpdateError({ error }));
+          return Observable.of(null);
         });
     });
 
@@ -262,24 +261,10 @@ export class VirtualMachinesEffects {
           const message = 'NOTIFICATIONS.VM.REMOVE_SECONDARY_IP_DONE';
           this.showNotificationsOnFinish(message);
         })
-        .map(res => {
-          const newSecondaryIp = Object.assign([], action.payload.vm.nic[0].secondaryip)
-            .filter(ip => ip.id !== action.payload.id);
-          const newNic = Object.assign(
-            {},
-            action.payload.vm.nic[0],
-            { secondaryIp: newSecondaryIp }
-          );
-          const newVm = Object.assign(
-            {},
-            action.payload.vm,
-            { nic: [newNic] }
-          );
-          return new vmActions.UpdateVM(newVm);
-        })
+        .map(() => new LoadVirtualMachine({ id: action.payload.vm.id }))
         .catch((error: Error) => {
           this.showNotificationsOnFail(error);
-          return Observable.of(new vmActions.VMUpdateError({ error }));
+          return Observable.of(null);
         });
     });
 
