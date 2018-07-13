@@ -15,7 +15,7 @@ export class UserSettingsResolver implements Resolve<boolean> {
     this.store.dispatch(new UserTagsActions.LoadUserTags());
 
     return this.store.select(UserTagsSelectors.getIsLoading)
-      .filter(loading => loading === false)
+      .filter(loading => !loading)
       .first();
   }
 }
