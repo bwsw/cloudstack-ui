@@ -69,12 +69,4 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       this.serviceOffering && this.serviceOffering.id !== this.serviceOfferingId
       && this.isVmRunning;
   }
-
-  public get disableSubmitButton(): boolean {
-    return !this.serviceOffering ||
-      !this.serviceOffering.iscustomized && this.serviceOffering.id === this.serviceOfferingId ||
-      this.serviceOffering.iscustomized && !this.serviceOffering.cpuspeed
-      && !this.serviceOffering.cpunumber && !this.serviceOffering.memory;
-  }
-
 }
