@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { UserTagsState } from './user-tags.state';
+import { adapter, UserTagsState } from './user-tags.state';
 import { userTagKeys } from './user-tag-keys';
 import { DayOfWeek, Language, TimeFormat } from '../../shared/types';
 
@@ -14,15 +14,12 @@ function convertToBoolean(input: string): boolean | undefined {
 
 const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
 
-const getUserTagsEntities = createSelector(
-  getUserTagsState,
-  (state: UserTagsState) => state.entities
-);
-
 export const getIsLoading = createSelector(
   getUserTagsState,
   (state: UserTagsState) => state.isLoading
 );
+
+const { selectEntities: getUserTagsEntities } = adapter.getSelectors(getUserTagsState);
 
 // Selectors based on supported tags
 // https://github.com/bwsw/cloudstack-ui/wiki/Tags

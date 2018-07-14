@@ -1,12 +1,21 @@
 import { userTagKeys } from './user-tag-keys';
 import { AppConfiguration } from '../../shared/classes/app-configuration';
 import { Tag } from '../../shared/models';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export interface UserTagsState {
   isLoading: boolean;
   ids: string[];
   entities: { [id: string]: Tag };
 }
+
+export interface UserTagsState extends EntityState<Tag> {
+  isLoading: boolean;
+}
+
+export const adapter: EntityAdapter<Tag> = createEntityAdapter<Tag>({
+  selectId: (tag: Tag) => tag.key
+});
 
 const initialIds = [
   userTagKeys.askToCreateVM,
@@ -69,8 +78,8 @@ const initialEntities = {
   }
 };
 
-export const initialState: UserTagsState = {
+export const initialState: UserTagsState = adapter.getInitialState({
   isLoading: false,
   ids: initialIds,
   entities: initialEntities
-};
+});
