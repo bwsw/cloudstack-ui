@@ -35,6 +35,8 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
+// tslint:disable-next-line
+import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/custom-service-offering';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -170,7 +172,17 @@ export class VirtualMachineCreationEffects {
           && templates.find(_ => _.id === vmCreationState.template.id);
 
         if (!selectedServiceOfferingStillAvailable) {
-          updates = { ...updates, serviceOffering: serviceOfferings[0] };
+          // temporary workaround for initial default parameters for custom service offering
+          let serviceOffering: ServiceOffering = serviceOfferings[0];
+          if (serviceOffering.iscustomized) {
+            serviceOffering = {
+              ...serviceOffering,
+              cpunumber: serviceOffering.cpunumber || customServiceOfferingFallbackParams.cpunumber,
+              cpuspeed: serviceOffering.cpuspeed || customServiceOfferingFallbackParams.cpuspeed,
+              memory: serviceOffering.memory || customServiceOfferingFallbackParams.memory
+            }
+          }
+          updates = { ...updates, serviceOffering };
         }
 
         if (!selectedTemplateStillAvailable) {
