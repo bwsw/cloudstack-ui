@@ -15,7 +15,9 @@ import { LocalStorageService } from './local-storage.service';
 import { RouterUtilsService } from './router-utils.service';
 import { UserService } from './user.service';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { async, discardPeriodicTasks, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { TestStore } from '../../../testutils/ngrx-test-store';
+import { AppConfiguration } from '../classes/app-configuration';
 
 
 @Component({
@@ -49,17 +51,6 @@ class MockStorageService {
 
   public resetInMemoryStorage(): void {
     this.storage = {};
-  }
-}
-
-class MockStore<T> {
-  private value = new BehaviorSubject<number>(0);
-
-  select(): Observable<number> {
-    return this.value.asObservable();
-  }
-  dispatch(action: { type: any, payload: number }) {
-    this.value.next(action.payload);
   }
 }
 
@@ -123,95 +114,113 @@ const testBedConfig = {
     { provide: Router, useClass: MockRouter },
     { provide: RouterUtilsService, useClass: MockRouterUtilsService },
     { provide: LocalStorageService, useClass: MockStorageService },
-    { provide: Store, useClass: MockStore }
+    { provide: Store, useClass: TestStore }
   ],
   imports: [
     HttpClientTestingModule
   ]
 };
-//
-// describe('User service session', () => {
-//   let userService: UserService;
-//   let configService: ConfigService;
-//   let store: Store<any>;
-//
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule(testBedConfig);
-//
-//     userService = TestBed.get(UserService);
-//     configService = TestBed.get(ConfigService);
-//     store = TestBed.get(Store);
-//   }));
-//
-//   it('should refresh session', fakeAsync(() => {
-//     const refresh = spyOn(userService, 'sendRefreshRequest').and.callThrough();
-//     const getList = spyOn(userService, 'getList').and.returnValue(Observable.of(null));
-//     const inactivityTimeout = 10;
-//     const refreshInterval = 60;
-//
-//     setRefreshInterval(refreshInterval);
-//     store.dispatch({ type: null, payload: inactivityTimeout });
-//
-//     tick(getRefreshInterval() * inactivityTimeout * 60 / refreshInterval);
-//     expect(refresh).toHaveBeenCalledTimes(inactivityTimeout - 1);
-//     expect(getList).toHaveBeenCalled();
-//   }));
-//
-//   it('should stop refreshing if inactivity interval=0', fakeAsync(() => {
-//     const refresh = spyOn(userService, 'sendRefreshRequest');
-//     const inactivityTimeout = 10;
-//
-//     userService.setInactivityTimeout(inactivityTimeout).subscribe();
-//     tick(getRefreshInterval());
-//     expect(refresh).toHaveBeenCalledTimes(1);
-//     userService.setInactivityTimeout(0).subscribe();
-//     tick(getRefreshInterval() * 10);
-//     expect(refresh).toHaveBeenCalledTimes(1);
-//   }));
-//
-//   it('should extend logout delay on user input', fakeAsync(() => {
-//     const authService = TestBed.get(AuthService);
-//     const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
-//     userService.setInactivityTimeout(1).subscribe();
-//     tick(getRefreshInterval() - 100);
-//     document.dispatchEvent(new MouseEvent('mousemove', {}));
-//     tick(200);
-//     expect(logout).toHaveBeenCalledTimes(0);
-//     discardPeriodicTasks();
-//   }));
-// });
-//
-// describe('User service session', () => {
-//   let userService: UserService;
-//   let configService: ConfigService;
-//   let router: Router;
-//   let routerUtils: RouterUtilsService;
-//   const refreshInterval = 1;
-//
-//   beforeEach(async(() => {
-//     setRefreshInterval(refreshInterval);
-//     TestBed.configureTestingModule(testBedConfig);
-//
-//     userService = TestBed.get(UserService);
-//     configService = TestBed.get(ConfigService);
-//     router = TestBed.get(Router);
-//     routerUtils = TestBed.get(RouterUtilsService);
-//   }));
-//
-//   it('should logout after session expires', fakeAsync(() => {
-//     const inactivityTimeout = 10;
-//     const logout = spyOn(router, 'navigate').and.callThrough();
-//     const refresh = spyOn(userService, 'sendRefreshRequest');
-//     userService.startIdleMonitor();
-//     userService.setInactivityTimeout(inactivityTimeout).subscribe();
-//
-//     tick(getRefreshInterval() * (inactivityTimeout - 1) * 60 / refreshInterval);
-//     expect(refresh).toHaveBeenCalledTimes(540);
-//     expect(logout).toHaveBeenCalledTimes(0);
-//
-//     tick(getRefreshInterval() * 60);
-//     expect(logout).toHaveBeenCalledTimes(1);
-//     expect(logout)
-//       .toHaveBeenCalledWith(['/logout'], routerUtils.getRedirectionQueryParams());
-//   }));
-// });
+
+describe('User service session', () => {
+  let userService: UserService;
+  let configService: ConfigService;
+  let store: TestStore<number>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule(testBedConfig);
+
+    userService = TestBed.get(UserService);
+    configService = TestBed.get(ConfigService);
+  }));
+
+  beforeEach(inject([Store], (testStore: TestStore<number>) => {
+    store = testStore;
+    store.setState(AppConfiguration.sessionTimeout);
+  }));
+
+  it('should refresh session', fakeAsync(() => {
+    const refresh = spyOn(userService, 'sendRefreshRequest').and.callThrough();
+    const getList = spyOn(userService, 'getList').and.returnValue(Observable.of(null));
+    const sessionTimeout = 10;
+    const refreshInterval = 60;
+
+    userService.startIdleMonitor(); // initialize subscription
+
+    setRefreshInterval(refreshInterval);
+    store.setState(sessionTimeout);
+
+    tick(getRefreshInterval() * sessionTimeout * 60 / refreshInterval);
+    expect(refresh).toHaveBeenCalledTimes(sessionTimeout - 1);
+    expect(getList).toHaveBeenCalled();
+  }));
+
+  it('should stop refreshing if inactivity interval=0', fakeAsync(() => {
+    const refresh = spyOn(userService, 'sendRefreshRequest');
+    const sessionTimeout = 10;
+
+    userService.startIdleMonitor(); // initialize subscription
+
+    store.setState(sessionTimeout);
+    tick(getRefreshInterval());
+    expect(refresh).toHaveBeenCalledTimes(1);
+    store.setState(0);
+    tick(getRefreshInterval() * 10);
+    expect(refresh).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should extend logout delay on user input', fakeAsync(() => {
+    const authService = TestBed.get(AuthService);
+    const logout = spyOn(authService, 'logout').and.returnValue(Observable.of(null));
+
+    userService.startIdleMonitor(); // initialize subscription
+
+    store.setState(1);
+    tick(getRefreshInterval() - 100);
+    document.dispatchEvent(new MouseEvent('mousemove', {}));
+    tick(200);
+    expect(logout).toHaveBeenCalledTimes(0);
+    discardPeriodicTasks();
+  }));
+});
+
+describe('User service session', () => {
+  let userService: UserService;
+  let configService: ConfigService;
+  let router: Router;
+  let routerUtils: RouterUtilsService;
+  let store: TestStore<number>;
+  const refreshInterval = 1;
+
+  beforeEach(async(() => {
+    setRefreshInterval(refreshInterval);
+    TestBed.configureTestingModule(testBedConfig);
+
+    userService = TestBed.get(UserService);
+    configService = TestBed.get(ConfigService);
+    router = TestBed.get(Router);
+    routerUtils = TestBed.get(RouterUtilsService);
+  }));
+
+  beforeEach(inject([Store], (testStore: TestStore<number>) => {
+    store = testStore;
+    store.setState(AppConfiguration.sessionTimeout);
+  }));
+
+  it('should logout after session expires', fakeAsync(() => {
+    const inactivityTimeout = 10;
+    const logout = spyOn(router, 'navigate').and.callThrough();
+    const refresh = spyOn(userService, 'sendRefreshRequest');
+    userService.startIdleMonitor();
+
+    store.setState(inactivityTimeout);
+
+    tick(getRefreshInterval() * (inactivityTimeout - 1) * 60 / refreshInterval);
+    expect(refresh).toHaveBeenCalledTimes(540);
+    expect(logout).toHaveBeenCalledTimes(0);
+
+    tick(getRefreshInterval() * 60);
+    expect(logout).toHaveBeenCalledTimes(1);
+    expect(logout)
+      .toHaveBeenCalledWith(['/logout'], routerUtils.getRedirectionQueryParams());
+  }));
+});
