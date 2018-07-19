@@ -3,7 +3,6 @@ import { AccountItemComponent } from './account-item.component';
 import { AuthService } from '../../shared/services/auth.service';
 import { User } from '../../shared/models/user.model';
 import { Account } from '../../shared/models';
-import { AccountUser } from '../../shared/models/account-user.model';
 
 class MockAuthService {
   _user: User;
@@ -33,7 +32,7 @@ describe('AccountItemComponent class only', () => {
     const account1 = 'Jonn Doe';
     const account2 = 'admin';
     const spy = spyOnProperty(authService, 'user', 'get');
-    comp.item = {user: [{account: account1} as AccountUser]} as Account;
+    comp.item = { id: '2', name: account1 } as Account;
 
     spy.and.returnValue({
       account: account1
