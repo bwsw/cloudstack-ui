@@ -63,6 +63,7 @@
     mat-button
     color="primary"
     type="submit"
+    [disabled]="!selectedDiskOffering"
     (click)="onSubmit()"
   >
     {{ 'COMMON.SELECT' | translate }}

@@ -12,7 +12,6 @@ import * as moment from 'moment';
 export class DiskOfferingDialogComponent {
   public diskOfferings: MatTableDataSource<DiskOffering>;
   public selectedDiskOffering: DiskOffering;
-  public preselectedDiskOffering: DiskOffering;
   public columns: Array<string>;
   public columnsToDisplay: string[];
   public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
@@ -25,7 +24,6 @@ export class DiskOfferingDialogComponent {
   ) {
     this.diskOfferings = new MatTableDataSource<DiskOffering>(data.diskOfferings);
     this.selectedDiskOffering = data.diskOffering;
-    this.preselectedDiskOffering = data.diskOffering;
     this.columns = data.columns;
     this.columnsToDisplay = [...this.columns, 'radioButton'];
   }
