@@ -52,15 +52,10 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
             }
           })
           .switchMap(sshKeyPair => {
-            return this.showDescription ?
-               Observable.forkJoin(
+            return Observable.forkJoin(
                 Observable.of(sshKeyPair),
                 this.accountTagService.getSshKeyDescription(sshKeyPair)
               )
-            :
-              Observable.forkJoin(
-                Observable.of(sshKeyPair)
-              );
             })
           .map(([sshKeyPair, description]) => {
             this.description = description;
