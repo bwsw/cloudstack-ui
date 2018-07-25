@@ -4,15 +4,15 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators/tap';
 
-import { SnackBarService } from '../../shared/services/snack-bar.service';
-import { UserTagsActionTypes } from '../user-tags/user-tags.actions';
+import { SnackBarService } from '../../core/services';
+import { UserTagsActionTypes } from '../server-data/user-tags/user-tags.actions';
 
 @Injectable()
 export class NotificationsEffects {
   @Effect({ dispatch: false })
   loadingDataError$: Observable<Action> = this.actions$.pipe(
     ofType(
-      UserTagsActionTypes.USER_TAGS_LOAD_ERROR
+      UserTagsActionTypes.LoadUserTagsError
     ),
     tap(() => {
       const message = 'NOTIFICATIONS.ERROR_WHILE_LOADING_DATA';

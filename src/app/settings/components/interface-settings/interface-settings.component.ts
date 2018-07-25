@@ -8,12 +8,15 @@ import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
   selector: 'cs-interface-settings',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './interface-settings.component.html',
-  styleUrls: ['./interface-settings.component.scss']
+  styleUrls: ['./interface-settings.component.scss', '../../styles/settings-section.scss']
 })
 
 export class InterfaceSettingsComponent {
   @Input() settings: SettingsViewModel;
-  @Output() settingsChange = new EventEmitter<SettingsViewModel>();
+  @Output() interfaceLanguageChange = new EventEmitter<Language>();
+  @Output() firstDayOfWeekChange = new EventEmitter<DayOfWeek>();
+  @Output() timeFormatChange = new EventEmitter<TimeFormat>();
+  @Output() themeChange = new EventEmitter<string>();
 
   public languages = [
     { value: Language.en, text: 'English' },
@@ -29,12 +32,4 @@ export class InterfaceSettingsComponent {
     { value: TimeFormat.hour24, text: 'SETTINGS.LOOK_AND_FEEL.hour24' },
   ];
   public themes = themesList;
-
-  public onChange(value: string, settingName: string) {
-    this.settingsChange.emit({
-      ...this.settings,
-      [settingName]: value
-    });
-  }
-
 }

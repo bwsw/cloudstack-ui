@@ -1,7 +1,8 @@
-import { userTagKeys } from './user-tag-keys';
-import { AppConfiguration } from '../../shared/classes/app-configuration';
-import { Tag } from '../../shared/models';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+
+import { userTagKeys } from '../../../tags/tag-keys';
+import { defaultConfig } from '../../../core/config';
+import { Tag } from '../../../shared/models';
 
 export interface UserTagsState {
   isLoading: boolean;
@@ -34,47 +35,47 @@ const initialIds = [
 const initialEntities = {
   [userTagKeys.askToCreateVM]: {
     key: userTagKeys.askToCreateVM,
-    value: AppConfiguration.askToCreateVM.toString()
+    value: defaultConfig.askToCreateVM.toString()
   },
   [userTagKeys.askToCreateVolume]: {
     key: userTagKeys.askToCreateVolume,
-    value: AppConfiguration.askToCreateVolume.toString()
+    value: defaultConfig.askToCreateVolume.toString()
   },
   [userTagKeys.savePasswordForAllVMs]: {
     key: userTagKeys.savePasswordForAllVMs,
-    value: AppConfiguration.savePasswordForAllVMs === null ? null : AppConfiguration.savePasswordForAllVMs.toString()
+    value: defaultConfig.savePasswordForAllVMs === null ? null : defaultConfig.savePasswordForAllVMs.toString()
   },
   [userTagKeys.firstDayOfWeek]: {
     key: userTagKeys.firstDayOfWeek,
-    value: AppConfiguration.firstDayOfWeek
+    value: defaultConfig.defaultFirstDayOfWeek.toString()
   },
   [userTagKeys.lang]: {
     key: userTagKeys.lang,
-    value: AppConfiguration.interfaceLanguage
+    value: defaultConfig.defaultInterfaceLanguage
   },
   [userTagKeys.lastVMId]: {
     key: userTagKeys.lastVMId,
-    value: AppConfiguration.lastVMId.toString()
+    value: defaultConfig.lastVMId.toString()
   },
   [userTagKeys.sessionTimeout]: {
     key: userTagKeys.sessionTimeout,
-    value: AppConfiguration.sessionTimeout.toString()
+    value: defaultConfig.sessionTimeout.toString()
   },
   [userTagKeys.showSystemTags]: {
     key: userTagKeys.showSystemTags,
-    value: AppConfiguration.showSystemTags.toString()
+    value: defaultConfig.showSystemTags.toString()
   },
   [userTagKeys.timeFormat]: {
     key: userTagKeys.timeFormat,
-    value: AppConfiguration.timeFormat
+    value: defaultConfig.defaultTimeFormat
   },
   [userTagKeys.theme]: {
     key: userTagKeys.theme,
-    value: AppConfiguration.theme
+    value: defaultConfig.defaultThemeName
   },
   [userTagKeys.navigationOrder]: {
     key: userTagKeys.navigationOrder,
-    value: AppConfiguration.navigationOrder
+    value: defaultConfig.navigationOrder
   }
 };
 

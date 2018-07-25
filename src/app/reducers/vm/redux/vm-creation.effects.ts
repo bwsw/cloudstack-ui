@@ -34,7 +34,7 @@ import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -44,7 +44,7 @@ import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.re
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
-import { UserTagsSelectors } from '../../../root-store';
+import { UserTagsActions, UserTagsSelectors } from '../../../root-store';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -276,7 +276,7 @@ export class VirtualMachineCreationEffects {
                 temporaryVm.state = VmState.Deploying;
                 this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
 
-                this.vmService.incrementNumberOfVms();
+                this.store.dispatch(new UserTagsActions.IncrementLastVMId());
                 return this.vmService.registerVmJob(deployResponse);
               })
               .switchMap((deployedVm: VirtualMachine) => {

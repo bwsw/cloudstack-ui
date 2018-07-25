@@ -83,7 +83,7 @@ export class VmPageComponent implements OnInit {
             },
             {
               handler: () => {
-                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVMTag({ value: false }));
+                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
               },
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }

@@ -3,7 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { ConfigService } from '../../../shared/services/config.service';
+import { ConfigService } from '../../../core/services';
 import { AccountTagService } from '../../../shared/services/tags/account-tag.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import * as actions from './account-tags.actions';

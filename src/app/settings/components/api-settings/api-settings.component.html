@@ -1,6 +1,6 @@
 <section>
   <div class="title-with-icon">
-    <h2 csSettingsSectionName>{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h2>
+    <h2 class="settings-section-name">{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h2>
     <button
       mat-icon-button
       type="button"
@@ -12,7 +12,7 @@
     </button>
   </div>
 
-  <div csSettingsSectionContent>
+  <div class="settings-section-content">
 
     <ng-container *ngIf="userKeys?.apikey && userKeys?.secretkey">
       <h3 class="no-margin">{{ 'SETTINGS.API_CONFIGURATION.API_KEY' | translate }}</h3>

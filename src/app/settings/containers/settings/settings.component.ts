@@ -1,54 +1,29 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/first';
 
-import { State } from '../../root-store';
-import { SettingsViewModel } from '../view-models';
-import { getSettingsViewModel } from '../store/settings.selectors';
-import { UpdateSettings } from '../store/settings.action';
-import { UserService } from '../../shared/services/user.service';
-import { AuthService } from '../../shared/services/auth.service';
-import { AppConfiguration } from '../../shared/classes/app-configuration';
-import { RouterUtilsService } from '../../shared/services/router-utils.service';
-import { ApiKeys } from '../../shared/models/account-user.model';
-import { BACKEND_API_URL } from '../../shared/services/base-backend.service';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { State, UserTagsActions } from '../../../root-store/index';
+import { SettingsViewModel } from '../../view-models';
+import { getSettingsViewModel } from '../../selectors';
+import { UserService } from '../../../shared/services/user.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { RouterUtilsService } from '../../../shared/services/router-utils.service';
+import { ApiKeys } from '../../../shared/models/account-user.model';
+import { BACKEND_API_URL } from '../../../shared/services/base-backend.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { ConfigService, SnackBarService } from '../../../core/services';
+import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
 
 @Component({
   selector: 'cs-settings',
-  template: `
-    <cs-top-bar></cs-top-bar>
-    <div class="settings-container">
-      <cs-security-settings
-        [settings]="settings$ | async"
-        (settingsChange)="onSettingsChange($event)"
-        (updatePassword)="onUpdatePassword($event)"
-      ></cs-security-settings>
-      <cs-api-settings
-        [userKeys]="userKeys"
-        [apiUrl]="apiUrl"
-        [apiDocumentationLink]="apiDocumentationLink"
-        (regenerateKeys)="onRegenerateKeys()"
-      ></cs-api-settings>
-      <cs-interface-settings
-        [settings]="settings$ | async"
-        (settingsChange)="onSettingsChange($event)"
-      ></cs-interface-settings>
-    </div>
-  `,
-  styles: [`
-    .settings-container {
-      margin: 20px;
-    }
-  `]
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
   public settings$: Observable<SettingsViewModel>;
   public userKeys: ApiKeys;
-  public apiUrl = 'http';
-  public apiDocumentationLink = 'http';
+  public apiUrl: string;
+  public apiDocumentationLink: string;
 
   private readonly userId: string;
 
@@ -58,17 +33,14 @@ export class SettingsComponent {
     private authService: AuthService,
     private routerUtilsService: RouterUtilsService,
     private dialogService: DialogService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private configService: ConfigService
   ) {
     this.settings$ = this.store.select(getSettingsViewModel);
     this.userId = this.authService.user.userid;
     this.userService.getUserKeys(this.userId).subscribe(keys => this.userKeys = keys);
-    this.apiDocumentationLink = AppConfiguration.apiDocumentationLink;
+    this.apiDocumentationLink = this.configService.get('apiDocLink');
     this.apiUrl = this.getApiUrl();
-  }
-
-  public onSettingsChange(updatedSettings: SettingsViewModel) {
-    this.store.dispatch(new UpdateSettings(updatedSettings));
   }
 
   public onRegenerateKeys() {
@@ -92,6 +64,30 @@ export class SettingsComponent {
             this.handleError
           )
       )
+  }
+
+  public onSessionTimeoutChange(timeout: number) {
+    this.store.dispatch(new UserTagsActions.UpdateSessionTimeout({ value: timeout }));
+  }
+
+  public onIsSavePasswordForVMsChange(value: boolean) {
+    this.store.dispatch(new UserTagsActions.UpdateSavePasswordForAllVMs({ value }));
+  }
+
+  public onInterfaceLanguageChange(lang: Language) {
+    this.store.dispatch(new UserTagsActions.UpdateInterfaceLanguage({ value: lang }));
+  }
+
+  public onFirstDayOfWeekChange(day: DayOfWeek) {
+    this.store.dispatch(new UserTagsActions.UpdateFirstDayOfWeek({ value: day }));
+  }
+
+  public onTimeFormatChange(timeFormat: TimeFormat) {
+    this.store.dispatch(new UserTagsActions.UpdateTimeFormat({ value: timeFormat }));
+  }
+
+  public onThemeChange(theme: string) {
+    this.store.dispatch(new UserTagsActions.UpdateTheme({ value: theme }));
   }
 
   private getApiUrl() {

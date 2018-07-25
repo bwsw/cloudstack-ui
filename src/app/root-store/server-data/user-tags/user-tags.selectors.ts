@@ -1,14 +1,14 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { adapter, UserTagsState } from './user-tags.state';
-import { userTagKeys } from './user-tag-keys';
-import { DayOfWeek, Language, TimeFormat } from '../../shared/types';
+import { userTagKeys } from '../../../tags/tag-keys';
+import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
 
-function convertToBoolean(input: string): boolean | undefined {
+function convertToBoolean(input: string): boolean {
   try {
     return JSON.parse(input);
   } catch (e) {
-    return undefined;
+    return false;
   }
 }
 
@@ -88,5 +88,5 @@ export const getTheme = createSelector(
 
 export const getNavigationOrder = createSelector(
   getUserTagsEntities,
-  (entities): string | null => entities[userTagKeys.navigationOrder].value
+  (entities): string => entities[userTagKeys.navigationOrder].value
 );

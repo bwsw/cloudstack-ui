@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../core/services';
 
 
 @Component({

@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EffectsModule } from '@ngrx/effects';
 import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
-
-import { SettingsEffects } from './store/settings.effects';
 
 import { SettingsComponent } from './containers';
 import {
@@ -17,7 +14,6 @@ import {
   SessionTimeoutComponent,
   ThemeSelectorComponent
 } from './components';
-import { SettingsSectionContentDirective, SettingsSectionNameDirective } from './directives';
 
 
 @NgModule({
@@ -25,8 +21,7 @@ import { SettingsSectionContentDirective, SettingsSectionNameDirective } from '.
     CommonModule,
     SharedModule,
     MaterialModule,
-    ClipboardModule,
-    EffectsModule.forFeature([SettingsEffects])
+    ClipboardModule
   ],
   exports: [SettingsComponent],
   providers: [ClipboardService],
@@ -37,9 +32,7 @@ import { SettingsSectionContentDirective, SettingsSectionNameDirective } from '.
     InterfaceSettingsComponent,
     ThemeSelectorComponent,
     PasswordUpdateFormComponent,
-    SessionTimeoutComponent,
-    SettingsSectionNameDirective,
-    SettingsSectionContentDirective
+    SessionTimeoutComponent
   ]
 })
 export class SettingsModule {

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../core/services';
 
 
 @Component({

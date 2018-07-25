@@ -3,12 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
-import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SSHKeyPair } from '../../shared/models';
+import { ConfigService, SnackBarService } from '../../core/services';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 import { State } from '../../reducers/index';
-import { ConfigService } from '../../shared/services/config.service';
 import { AccountTagService } from '../../shared/services/tags/account-tag.service';
 
 import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';

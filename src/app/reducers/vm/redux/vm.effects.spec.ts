@@ -40,7 +40,7 @@ import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 // tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 
 @Injectable()
 class MockAsyncJobService {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { VirtualMachine, VmState } from '../shared/vm.model';
-import { ConfigService } from '../../shared/services/config.service';
+import { ConfigService } from '../../core/services';
 
 
 const portToken = 'csui.vm.ssh.port';

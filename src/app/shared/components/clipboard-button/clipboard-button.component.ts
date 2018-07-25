@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SnackBarService } from '../../services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 
 @Component({
   selector: 'cs-clipboard-button',

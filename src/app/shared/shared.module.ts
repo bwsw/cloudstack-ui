@@ -93,7 +93,6 @@ import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CacheService } from './services/cache.service';
-import { ConfigService } from './services/config.service';
 import { ConfigurationService } from './services/configuration.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
@@ -105,7 +104,6 @@ import { JobsNotificationService } from './services/jobs-notification.service';
 import { LayoutService } from './services/layout.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
-import { SnackBarService } from './services/snack-bar.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceCountService } from './services/resource-count.service';
 import { ResourceLimitService } from './services/resource-limit.service';
@@ -323,7 +321,6 @@ const SHARED_COMPONENTS = [
     AuthGuard,
     AuthService,
     CacheService,
-    ConfigService,
     ConfigurationService,
     DateTimeFormatterService,
     DescriptionTagService,
@@ -337,7 +334,6 @@ const SHARED_COMPONENTS = [
     LoginGuard,
     MarkForRemovalService,
     MemoryStorageService,
-    SnackBarService,
     OsTypeService,
     ResourceCountService,
     ResourceLimitService,

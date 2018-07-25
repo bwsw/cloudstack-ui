@@ -107,7 +107,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
             { text: 'COMMON.NO' },
             {
               handler: () => {
-                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolumeTag({ value: false }))
+                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }))
               },
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }

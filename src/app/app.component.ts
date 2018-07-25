@@ -32,12 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.auth.loggedIn.subscribe(isLoggedIn => {
-      if (isLoggedIn) {
-        this.userService.startIdleMonitor();
-      } else {
-        this.userService.stopIdleMonitor();
-      }
+    this.auth.loggedIn.subscribe(() => {
       this.asyncJobService.completeAllJobs();
       CacheService.invalidateAll();
       this.storageReset();
