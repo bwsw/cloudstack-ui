@@ -89,7 +89,6 @@ export const defaultConfig: ConfigInterface = {
   defaultDomain: '',
   sessionRefreshInterval: 60,
   apiDocLink: 'https://cloudstack.apache.org/api/apidocs-4.11/',
-  accountTagsEnabled: true,
   extensions: {
     webShell: false,
     pulse: false

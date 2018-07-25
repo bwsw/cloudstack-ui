@@ -5,7 +5,6 @@ export interface ConfigInterface {
   defaultDomain: string;
   sessionRefreshInterval: number;
   apiDocLink: string;
-  accountTagsEnabled: boolean;
   extensions: Object;
   /*
    * Virtual machines settings
