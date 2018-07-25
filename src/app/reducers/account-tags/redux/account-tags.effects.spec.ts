@@ -130,19 +130,6 @@ describe('Account tags Effects', () => {
     expect(spyGetList).toHaveBeenCalled();
   });
 
-  it('should not return a collection from LoadAccountTagsResponse', () => {
-    const spyGetList = spyOn(service, 'getList');
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(false);
-
-    const action = new accountTagActions.LoadAccountTagsRequest();
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('', []);
-
-    expect(effects.loadAccountTags$).toBeObservable(expected);
-    expect(spyGetList).not.toHaveBeenCalled();
-  });
-
   it('should return an empty collection from LoadAccountTagsResponse', () => {
     const spyGetList = spyOn(service, 'getList').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
@@ -174,24 +161,6 @@ describe('Account tags Effects', () => {
 
     expect(effects.updateCustomServiceOfferingParams$).toBeObservable(expected);
     expect(spySetParam).toHaveBeenCalled();
-  });
-
-  it('should not update custom SO params', () => {
-    const offering = <ServiceOffering>{
-      id: '1', name: 'off1', hosttags: 't1,t2',
-      storagetype: StorageTypes.local,
-      cpunumber: 2, memory: 2, iscustomized: true
-    };
-    const spySetParam = spyOn(accountService, 'setServiceOfferingParams');
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(false);
-
-    const action = new accountTagActions.UpdateCustomServiceOfferingParams(offering);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('', []);
-
-    expect(effects.updateCustomServiceOfferingParams$).toBeObservable(expected);
-    expect(spySetParam).not.toHaveBeenCalled();
   });
 
   it('should return an error during updating custom SO params', () => {
