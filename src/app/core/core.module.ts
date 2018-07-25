@@ -6,10 +6,17 @@ import { DragulaModule } from 'ng2-dragula';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 
-import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { SidenavComponent } from './components';
+import { ConfigService, SnackBarService, SystemTagsService } from './services';
 
 const COMPONENTS = [
   SidenavComponent
+];
+
+const SERVICES = [
+  ConfigService,
+  SnackBarService,
+  SystemTagsService
 ];
 
 @NgModule({
@@ -22,10 +29,10 @@ const COMPONENTS = [
   ],
   exports: COMPONENTS,
   declarations: COMPONENTS,
-  providers: [],
+  providers: SERVICES,
 })
 export class CoreModule {
-  constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
       throw new Error(`CoreModule has already been loaded. Import CoreModule in the AppModule only.`);
     }

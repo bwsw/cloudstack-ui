@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import { SettingsViewModel } from '../view-models';
-import * as userTags from '../../root-store/user-tags/user-tags.selectors';
+import * as userTags from '../../root-store/server-data/user-tags/user-tags.selectors';
 
 export const getSettingsViewModel = createSelector(
   userTags.getSessionTimeout,

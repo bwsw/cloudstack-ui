@@ -8,7 +8,7 @@ import { LogoutComponent } from './auth/logout.component';
 import { templateRouting } from './template/template.routing';
 import { ReloadComponent } from './shared/components/reload/reload.component';
 import { snapshotRoutes } from './snapshot/snapshot.routing';
-import { SettingsComponent } from './settings/containers/settings.component';
+import { SettingsComponent } from './settings/containers';
 import { EventListContainerComponent } from './events/containers/event-list.container';
 import { sshRoutes } from './ssh-keys/ssh-keys.routing';
 import { volumeRoutes } from './volume/volume.routing';
@@ -16,7 +16,6 @@ import { accountsRoutes } from './account/accounts.routing';
 import { HomeComponent } from './home/home.component';
 import { LoginGuard } from './shared/services/login-guard.service';
 import { LoginComponent } from './auth/login.component';
-import { UserSettingsResolver } from './home/user-settings-resolver.service';
 
 
 const routes: Routes = [
@@ -36,9 +35,6 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    resolve: {
-      userSettings: UserSettingsResolver
-    },
     children: [
       ...vmRoutes,
       ...volumeRoutes,
@@ -71,10 +67,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: [
-    UserSettingsResolver
-  ]
+  exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

@@ -7,15 +7,18 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers } from './meta-reducers';
 import { environment } from '../../environments/environment';
 import { CustomRouterStateSerializer } from './custom-router-state-serializer';
+
+import { IdleEffects } from './idle-monitor';
 import { NotificationsEffects } from './notifications';
 
-import { UserTagsStoreModule } from './user-tags';
+import { UserTagsStoreModule } from './server-data/user-tags';
 
 const reducers = {
   router: routerReducer
 };
 
 const EFFECTS = [
+  IdleEffects,
   NotificationsEffects
 ];
 

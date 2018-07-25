@@ -79,6 +79,7 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/withLatestFrom';
 // static operator imports ( e.g. Observable.merge )
+import 'rxjs/add/observable/defer';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromEvent';

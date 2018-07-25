@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { BackendResource } from '../../shared/decorators';
@@ -12,7 +11,6 @@ import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
-import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -28,22 +26,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private asyncJobService: AsyncJobService,
     private osTypesService: OsTypeService,
     private volumeService: VolumeService,
-    private store: Store<State>,
     protected http: HttpClient
   ) {
     super(http);
-  }
-
-  public getNumberOfVms(): Observable<number> {
-    return this.store.select(UserTagsSelectors.getLastVMId).first();
-  }
-
-  public incrementNumberOfVms() {
-    return this.getNumberOfVms()
-      .subscribe(numberOfVms =>
-        this.store.dispatch(new UserTagsActions.UpdateLastVMIdTag({
-          value: numberOfVms + 1
-        })));
   }
 
   public getWithDetails(id: string): Observable<VirtualMachine> {

@@ -106,7 +106,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public onShowSystemTagsChange(): void {
     this.updateFilterResults();
-    this.store.dispatch(new UserTagsActions.UpdateShowSystemTagsTag({ value: this.showSystemTags}));
+    this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags}));
   }
 
   public removeTag(tag: Tag): void {
@@ -162,12 +162,11 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   private getCategories(): Array<TagCategory> {
     const groupedTags = groupBy(
-      this.tags.map(_ => Object.assign({}, _, { categoryName: categoryName(_) })),
-      'categoryName');
+      this.tags.map(tag => ({ ...tag, categoryName: categoryName(tag) })), 'categoryName');
 
     const categories = Object.keys(groupedTags)
       .map(categoryName => this.getCategory(groupedTags, categoryName))
-      .filter(_ => _.tags.length);
+      .filter(category => category.tags.length);
 
     categories.sort(this.compareCategories);
 

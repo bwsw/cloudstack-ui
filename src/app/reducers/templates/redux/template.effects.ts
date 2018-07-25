@@ -7,7 +7,7 @@ import * as uniqBy from 'lodash/uniqBy';
 
 import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';

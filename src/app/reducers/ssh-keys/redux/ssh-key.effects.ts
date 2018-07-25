@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 import { SSHKeyPair } from '../../../shared/models';

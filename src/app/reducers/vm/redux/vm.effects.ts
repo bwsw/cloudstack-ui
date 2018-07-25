@@ -30,7 +30,7 @@ import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
 import * as vmActions from './vm.actions';
 import { LoadVirtualMachine, VirtualMachineLoaded } from './vm.actions';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 
 
 @Injectable()
@@ -826,7 +826,8 @@ export class VirtualMachinesEffects {
         message
       });
     }
-    this.dialogService.alert({ message: {
+    this.dialogService.alert({
+      message: {
         translationToken: error.message,
         interpolateParams: error.params
       }

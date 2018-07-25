@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { DragulaService } from 'ng2-dragula';
 import * as cloneDeep from 'lodash/cloneDeep';
 
-import { ConfigService } from '../../../shared/services/config.service';
+import { ConfigService } from '../../services';
 import { LayoutService } from '../../../shared/services/layout.service';
 import { RouterUtilsService } from '../../../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
@@ -96,7 +96,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
       this.updatingOrder = true;
 
       const menuState = this.stringifyMenuState(this.routes);
-      this.store.dispatch(new UserTagsActions.UpdateNavigationOrderTag({ value: menuState }));
+      this.store.dispatch(new UserTagsActions.UpdateNavigationOrder({ value: menuState }));
       this.updatingOrder = false;
     }
     this.toggleState();
@@ -118,10 +118,13 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
 
   private initNavigationOrder() {
     if (this.canEdit) {
-      this.store.select(UserTagsSelectors.getNavigationOrder).first().subscribe(tag => {
-        this.navigationLoaded = true;
-        if (tag) {
+      this.store.select(UserTagsSelectors.getNavigationOrder)
+        .first()
+        .do(() => this.navigationLoaded = true)
+        .filter(Boolean)
+        .subscribe(tag => {
           const order = this.parseMenuState(tag);
+
           if (this.validateNavigationOrder(order)) {
             const predicate = this.navigationPredicate(order);
             this.routes.sort(predicate);
@@ -130,7 +133,6 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
               i
             ) => route.enabled = (!this.canEdit || (this.canEdit && order[i].enabled)));
           }
-        }
       });
     } else {
       this.navigationLoaded = true;

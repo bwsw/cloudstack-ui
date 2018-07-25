@@ -8,7 +8,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { SnackBarService } from './snack-bar.service';
+import { SnackBarService } from '../../core/services';
 import { Router } from '@angular/router';
 import { RouterUtilsService } from './router-utils.service';
 import { AuthService } from './auth.service';

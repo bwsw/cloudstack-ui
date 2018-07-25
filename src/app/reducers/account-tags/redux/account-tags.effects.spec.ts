@@ -15,7 +15,7 @@ import { AccountTagsEffects } from './account-tags.effects';
 import { Tag } from '../../../shared/models/tag.model';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AccountTagService } from '../../../shared/services/tags/account-tag.service';
-import { ConfigService } from '../../../shared/services/config.service';
+import { ConfigService } from '../../../core/services';
 import { ServiceOffering } from '../../../shared/models/service-offering.model';
 import { StorageTypes } from '../../../shared/models/offering.model';
 

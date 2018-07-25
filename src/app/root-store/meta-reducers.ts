@@ -1,8 +1,10 @@
 // console.log all actions
 import { ActionReducer, MetaReducer } from '@ngrx/store';
+import { storeFreeze } from 'ngrx-store-freeze';
+
 import { State } from './state';
 import { environment } from '../../environments/environment';
-import { storeFreeze } from 'ngrx-store-freeze';
+import { AuthActionTypes } from '../auth/store/auth.actions';
 
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
   return function (state: State, action: any): State {
@@ -16,7 +18,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 // clear store if user logs out
 export function logout(reducer: ActionReducer<State>) {
   return function (state: State, action: any): State {
-    if (action.type === '[USER ACCOUNT] LOG_OUT_USER_ACCOUNT') {
+    if (action.type === AuthActionTypes.LogoutComplete) {
       state = undefined;
     }
 

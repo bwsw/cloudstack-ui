@@ -74,7 +74,7 @@ export class VmPasswordComponent implements OnInit {
     this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_SAVE_PASSWORD' })
       .subscribe((res) => {
         const value = !!res;
-        this.store.dispatch(new UserTagsActions.UpdateSavePasswordForAllVMsTag({ value }));
+        this.store.dispatch(new UserTagsActions.SetSavePasswordForAllVMs({ value }));
       })
   }
 }

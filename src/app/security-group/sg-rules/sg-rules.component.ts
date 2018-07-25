@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../core/services';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { getType, IPVersion, NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';

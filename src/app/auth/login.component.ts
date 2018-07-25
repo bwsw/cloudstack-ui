@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { AuthService } from '../shared/services/auth.service';
-import { ConfigService } from '../shared/services/config.service';
-import { SnackBarService } from '../shared/services/snack-bar.service';
+import { ConfigService } from '../core/services';
+import { SnackBarService } from '../core/services/';
 import { LocalStorageService } from '../shared/services/local-storage.service';
 
 @Component({
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private configService: ConfigService,
     private storage: LocalStorageService
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
     const value = this.storage.read(this.key);
