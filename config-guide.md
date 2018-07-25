@@ -221,12 +221,6 @@ You can set a type of comparing and ignoring VM tags, when changing service offe
 }
 ```
 
-### Account Tags Enabled
-Account tags are available only for the last API version. If you are using another API version, the property should be false in config:
-```
-"accountTagsEnabled": false
-```
-
 ### Configure Sidebar
 This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
 For example, 

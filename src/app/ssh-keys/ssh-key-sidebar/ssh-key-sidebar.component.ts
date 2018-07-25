@@ -19,10 +19,6 @@ import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
 export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
 
-  public get showDescription(): boolean {
-    return this.configService.get<boolean>('accountTagsEnabled');
-  }
-
   constructor(
     protected entityService: SSHKeyPairService,
     protected notificationService: SnackBarService,
