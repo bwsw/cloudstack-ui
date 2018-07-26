@@ -62,20 +62,6 @@ import { State } from '../../state';
 import * as userTagsSelectors from './user-tags.selectors';
 import { StartIdleMonitor, UpdateIdleMonitorTimeout } from '../../idle-monitor/idle-monitor.actions';
 
-const castValueToString = (value: any): string => {
-  switch (typeof value) {
-    case 'boolean': {
-      return value ? 'true' : 'false';
-    }
-    case 'number': {
-      return `${value}`;
-    }
-    default: {
-      return value;
-    }
-  }
-};
-
 @Injectable()
 export class UserTagsEffects {
   @Effect()
@@ -98,8 +84,8 @@ export class UserTagsEffects {
   @Effect()
   updateAskToCreateVM$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateAskToCreateVM>(UserTagsActionTypes.UpdateAskToCreateVM),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
       const key = userTagKeys.askToCreateVM;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateAskToCreateVMSuccess({ key, value })),
@@ -111,8 +97,8 @@ export class UserTagsEffects {
   @Effect()
   updateAskToCreateVolume$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateAskToCreateVolume>(UserTagsActionTypes.UpdateAskToCreateVolume),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
       const key = userTagKeys.askToCreateVolume;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateAskToCreateVolumeSuccess({ key, value })),
@@ -124,8 +110,8 @@ export class UserTagsEffects {
   @Effect()
   updateSPFAVM$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateSavePasswordForAllVMs>(UserTagsActionTypes.UpdateSPFAVM),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
       const key = userTagKeys.savePasswordForAllVMs;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateSavePasswordForAllVMsSuccess({ key, value })),
@@ -137,8 +123,8 @@ export class UserTagsEffects {
   @Effect()
   updateFirstDayOfWeek$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateFirstDayOfWeek>(UserTagsActionTypes.UpdateFirstDayOfWeek),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
       const key = userTagKeys.firstDayOfWeek;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateFirstDayOfWeekSuccess({ key, value })),
@@ -150,8 +136,8 @@ export class UserTagsEffects {
   @Effect()
   updateInterfaceLanguage$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateInterfaceLanguage>(UserTagsActionTypes.UpdateInterfaceLanguage),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
       const key = userTagKeys.lang;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateInterfaceLanguageSuccess({ key, value })),
@@ -163,8 +149,8 @@ export class UserTagsEffects {
   @Effect()
   updateLastVmId$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateLastVMId>(UserTagsActionTypes.UpdateLastVMId),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
       const key = userTagKeys.lastVMId;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateLastVMIdSuccess({ key, value })),
@@ -176,8 +162,8 @@ export class UserTagsEffects {
   @Effect()
   updateSessionTimeout$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateSessionTimeout>(UserTagsActionTypes.UpdateSessionTimeout),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
       const key = userTagKeys.sessionTimeout;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateSessionTimeoutSuccess({ key, value })),
@@ -195,8 +181,8 @@ export class UserTagsEffects {
   @Effect()
   updateShowSystemTags$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateShowSystemTags>(UserTagsActionTypes.UpdateShowSystemTags),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => `${action.payload.value}`),
+    mergeMap((value: string) => {
       const key = userTagKeys.showSystemTags;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateShowSystemTagsSuccess({ key, value })),
@@ -208,8 +194,8 @@ export class UserTagsEffects {
   @Effect()
   updateTimeFormat$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateTimeFormat>(UserTagsActionTypes.UpdateTimeFormat),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
       const key = userTagKeys.timeFormat;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateTimeFormatSuccess({ key, value })),
@@ -221,8 +207,8 @@ export class UserTagsEffects {
   @Effect()
   updateTheme$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateTheme>(UserTagsActionTypes.UpdateTheme),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
       const key = userTagKeys.theme;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateThemeSuccess({ key, value })),
@@ -234,8 +220,8 @@ export class UserTagsEffects {
   @Effect()
   updateNavigationOrder$: Observable<Action> = this.actions$.pipe(
     ofType<UpdateNavigationOrder>(UserTagsActionTypes.UpdateNavigationOrder),
-    map(action => castValueToString(action.payload.value)),
-    mergeMap(value => {
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
       const key = userTagKeys.navigationOrder;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateNavigationOrderSuccess({ key, value })),
@@ -247,8 +233,8 @@ export class UserTagsEffects {
   @Effect()
   setSavePasswordForAllVms$: Observable<Action> = this.actions$.pipe(
     ofType<SetSavePasswordForAllVMs>(UserTagsActionTypes.SetSPFAVM),
-    map(action => castValueToString(action.payload.value)),
-    exhaustMap(value => {
+    map(action => `${action.payload.value}`),
+    exhaustMap((value: string) => {
         const key = userTagKeys.savePasswordForAllVMs;
         return this.createTag(key, value).pipe(
           map(() => new SetSavePasswordForAllVMsSuccess({ key, value })),
@@ -264,7 +250,7 @@ export class UserTagsEffects {
     mergeMap(() => this.store.select(userTagsSelectors.getLastVMId).first()),
     mergeMap(id => {
       const key = userTagKeys.lastVMId;
-      const value = castValueToString(id + 1);
+      const value = `${id + 1}`;
       return this.upsertTag(key, value).pipe(
         map(() => new IncrementLastVMIdSuccess({ key, value })),
         catchError((error) => of(new IncrementLastVMIdError({ error })))
