@@ -300,12 +300,12 @@ export class VirtualMachineCreationEffects {
       this.handleDeploymentMessages(action.payload);
     });
 
-  @Effect({ dispatch: false })
+  @Effect()
   deploymentSuccess$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
-    .do((action: vmActions.DeploymentRequestSuccess) => {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED });
-    });
+    .ofType<vmActions.DeploymentRequestSuccess>(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
+    .do(() =>
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED }))
+    .map(action => new vmActions.LoadVirtualMachine({ id: action.payload.id }));
 
   @Effect()
   deploymentError$: Observable<Action> = this.actions$
