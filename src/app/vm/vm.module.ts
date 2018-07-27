@@ -98,6 +98,7 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { WebShellService } from './web-shell/web-shell.service';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
+import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
 
 // tslint:enable max-line-length
@@ -201,6 +202,7 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     PostdeploymentComponent,
     VmResetPasswordComponent,
     ServiceOfferingSelectorComponent,
+    InstallationSourceDialogComponent
     VmPasswordComponent
   ],
   providers: [
@@ -214,7 +216,7 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     InstanceGroupSelectorComponent,
     VmCreationContainerComponent,
     VmDestroyDialogComponent,
-    VmTemplateDialogComponent,
+    InstallationSourceDialogComponent,
     VmCreationAgreementComponent,
     SnapshotCreationComponent,
     SnapshotModalContainerComponent,

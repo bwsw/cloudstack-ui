@@ -70,11 +70,17 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       && this.isVmRunning;
   }
 
-  public get disableSubmitButton(): boolean {
-    return !this.serviceOffering ||
-      !this.serviceOffering.iscustomized && this.serviceOffering.id === this.serviceOfferingId ||
-      this.serviceOffering.iscustomized && !this.serviceOffering.cpuspeed
-      && !this.serviceOffering.cpunumber && !this.serviceOffering.memory;
+  public isDisableSelectButton(): boolean {
+    const isOfferingNotSelected = !this.serviceOffering;
+    const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
+    const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
+      && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
+    const isSelectedOfferingDoNotHaveParams = this.serviceOffering
+      && !this.serviceOffering.cpunumber && !this.serviceOffering.cpuspeed && !this.serviceOffering.memory;
+    return isOfferingNotSelected
+          || isNoOfferingsInCurrentViewMode
+          || isSelectedOfferingFromDifferentViewMode
+          || isSelectedOfferingDoNotHaveParams;
   }
 
 }

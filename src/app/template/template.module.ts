@@ -63,7 +63,6 @@ import { BaseTemplateSidebarContainerComponent } from './template-sidebar/contai
 import { DetailsContainerComponent } from './template-sidebar/containers/details.container';
 import { TemplateZonesContainerComponent } from './template-sidebar/containers/template-zones.container';
 import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
-import { TemplateFilterListSelectorContainerComponent } from './containers/template-filter-selector.container';
 import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zones.container';
 import { TemplateFilterListContainerComponent } from './template-filter-list/containers/template-filter-list.container';
 // tslint:disable-next-line
@@ -118,7 +117,6 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
-    TemplateFilterListSelectorContainerComponent,
     TemplateGroupSelectorContainerComponent,
     TemplateGroupSelectorComponent,
     TemplateGroupContainerComponent,
@@ -135,7 +133,6 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     DetailsContainerComponent,
   ],
   exports: [
-    TemplateFilterListSelectorContainerComponent,
     TemplateFilterListSelectorComponent,
     TemplateFilterListContainerComponent,
     IsoAttachmentFilterSelectorContainerComponent,

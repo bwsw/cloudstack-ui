@@ -40,10 +40,9 @@
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
-        *ngIf="serviceOfferings?.length"
         mat-button
         color="primary"
-        [disabled]="disableSubmitButton"
+        [disabled]="isDisableSelectButton()"
         (click)="onChange()"
       >
         {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}
