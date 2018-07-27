@@ -352,9 +352,19 @@ export const selectFilteredTemplates = createSelector(
     const queryLower = listFilters.query && listFilters.query.toLowerCase();
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
+      const selfFilter = !!typesMap[TemplateFilters.self]
+        && (template.account === user.name && template.domainId === user.domainid);
+      const sharedFilter = (typesMap[TemplateFilters.sharedExecutable]
+        && template.account !== user.name
+        && template.domainId !== user.domainid
+        && template.isReady);
       const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
-      const selfFilter = !!typesMap[TemplateFilters.self] && (template.account === user.name);
-      return !listFilters.selectedTypes.length || featuredFilter || selfFilter;
+      const communityFilter = (typesMap[TemplateFilters.community] && template.isPublic && !template.isFeatured);
+      return !listFilters.selectedTypes.length
+        || selfFilter
+        || sharedFilter
+        || featuredFilter
+        || communityFilter;
     });
 
     const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {
@@ -407,10 +417,19 @@ export const selectTemplatesForAction = createSelector(
       .reduce((m, i) => ({ ...m, [i]: i }), {});
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
-      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
       const selfFilter = !!typesMap[TemplateFilters.self]
         && (template.account === user.name && template.domainId === user.domainid);
-      return !vmFilters.selectedTypes.length || featuredFilter || selfFilter;
+      const sharedFilter = (typesMap[TemplateFilters.sharedExecutable]
+        && (template.account !== user.name)
+        && template.domainId !== user.domainid
+        && template.isReady);
+      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
+      const communityFilter = (typesMap[TemplateFilters.community] && template.isPublic && !template.isFeatured);
+      return !vmFilters.selectedTypes.length
+        || selfFilter
+        || sharedFilter
+        || featuredFilter
+        || communityFilter;
     });
 
     const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {

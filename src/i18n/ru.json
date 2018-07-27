@@ -652,6 +652,8 @@
       "NO_ZONE": "Вне зоны",
       "FEATURED": "Рекомендованные",
       "SELF": "Мои",
+      "SHARED": "Общие",
+      "COMMUNITY": "Сообщество",
       "SELFEXECUTABLE": "Мои",
       "ALL": "Все",
       "GENERAL": "Общие"

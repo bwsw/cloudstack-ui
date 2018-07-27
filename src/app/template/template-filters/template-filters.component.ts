@@ -44,8 +44,10 @@ export class TemplateFiltersComponent implements OnInit {
   @Output() public queryChange = new EventEmitter();
 
   public filterTranslations = {
+    [TemplateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',
+    [TemplateFilters.sharedExecutable]: 'TEMPLATE_PAGE.FILTERS.SHARED',
     [TemplateFilters.featured]: 'TEMPLATE_PAGE.FILTERS.FEATURED',
-    [TemplateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF'
+    [TemplateFilters.community]: 'TEMPLATE_PAGE.FILTERS.COMMUNITY',
   };
 
   public osFamilies: Array<OsFamily> = [
@@ -56,8 +58,10 @@ export class TemplateFiltersComponent implements OnInit {
   ];
 
   public categoryFilters = [
+    TemplateFilters.self,
+    TemplateFilters.sharedExecutable,
     TemplateFilters.featured,
-    TemplateFilters.self
+    TemplateFilters.community
   ];
 
   constructor(
