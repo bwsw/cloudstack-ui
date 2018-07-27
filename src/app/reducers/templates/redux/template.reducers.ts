@@ -354,15 +354,10 @@ export const selectFilteredTemplates = createSelector(
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const selfFilter = !!typesMap[TemplateFilters.self]
         && (template.account === user.name && template.domainId === user.domainid);
-      const sharedFilter = (typesMap[TemplateFilters.sharedExecutable]
-        && template.account !== user.name
-        && template.domainId !== user.domainid
-        && template.isReady);
       const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
       const communityFilter = (typesMap[TemplateFilters.community] && template.isPublic && !template.isFeatured);
       return !listFilters.selectedTypes.length
         || selfFilter
-        || sharedFilter
         || featuredFilter
         || communityFilter;
     });
@@ -419,15 +414,10 @@ export const selectTemplatesForAction = createSelector(
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const selfFilter = !!typesMap[TemplateFilters.self]
         && (template.account === user.name && template.domainId === user.domainid);
-      const sharedFilter = (typesMap[TemplateFilters.sharedExecutable]
-        && (template.account !== user.name)
-        && template.domainId !== user.domainid
-        && template.isReady);
       const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
       const communityFilter = (typesMap[TemplateFilters.community] && template.isPublic && !template.isFeatured);
       return !vmFilters.selectedTypes.length
         || selfFilter
-        || sharedFilter
         || featuredFilter
         || communityFilter;
     });

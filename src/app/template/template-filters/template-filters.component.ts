@@ -45,7 +45,6 @@ export class TemplateFiltersComponent implements OnInit {
 
   public filterTranslations = {
     [TemplateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',
-    [TemplateFilters.sharedExecutable]: 'TEMPLATE_PAGE.FILTERS.SHARED',
     [TemplateFilters.featured]: 'TEMPLATE_PAGE.FILTERS.FEATURED',
     [TemplateFilters.community]: 'TEMPLATE_PAGE.FILTERS.COMMUNITY',
   };
@@ -59,7 +58,6 @@ export class TemplateFiltersComponent implements OnInit {
 
   public categoryFilters = [
     TemplateFilters.self,
-    TemplateFilters.sharedExecutable,
     TemplateFilters.featured,
     TemplateFilters.community
   ];
