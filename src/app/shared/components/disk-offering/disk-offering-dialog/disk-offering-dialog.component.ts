@@ -17,7 +17,6 @@ export class DiskOfferingDialogComponent {
   public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
   public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];
 
-
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
