@@ -1,25 +1,48 @@
 h4, h5 {
   margin: 10px;
 }
+
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-table {
-  thead {
-    text-align: left;
-  }
-  tbody {
-    cursor: pointer;
-  }
-  td.name-text, th.name-text, th.field {
+mat-table {
+  display: table;
+  width: 100%;
+}
+
+mat-header-cell {
+  min-width: 100px;
+
+  &.mat-column-name {
     min-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
-  th.field {
-    min-width: 100px;
+
+  &.mat-column-radioButton {
+    min-width: 20px;
   }
+}
+
+mat-cell {
+  min-width: 100px;
+
+  &.mat-column-name {
+    min-width: 150px;
+  }
+
+  &.mat-column-radioButton {
+    min-width: 20px;
+  }
+}
+
+mat-row {
+  cursor: pointer;
+}
+
+.mat-column-radioButton {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 20px; // width of radio button
 }

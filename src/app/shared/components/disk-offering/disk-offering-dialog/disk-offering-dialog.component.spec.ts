@@ -1,15 +1,12 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef, MatRadioModule
-} from '@angular/material';
-import { ConfigService } from '../../../services/config.service';
+import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatRadioModule, MatTableModule } from '@angular/material';
+import { ConfigService } from '../../../services/config.service';
+
 import { DiskOfferingDialogComponent } from './disk-offering-dialog.component';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { DiskOffering } from '../../../models';
 import { StringifyDatePipe } from '../../../pipes/stringifyDate.pipe';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
@@ -31,7 +28,7 @@ describe('Disk Offering dialog', () => {
   let component: DiskOfferingDialogComponent;
   let dialog: MatDialogRef<DiskOfferingDialogComponent>;
 
-  const diskOffering =  {
+  const diskOffering = {
     displaytext: 'test snapshot',
     id: 'test-id',
     disksize: 2,
@@ -48,15 +45,14 @@ describe('Disk Offering dialog', () => {
   };
 
   const diskOfferings: Array<DiskOffering> = [
-   diskOffering
+    diskOffering
   ];
 
-  beforeEach(
-    async(() => {
+  beforeEach(async(() => {
       dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
 
       TestBed.configureTestingModule({
-        imports: [FormsModule, MatDialogModule, MatRadioModule],
+        imports: [FormsModule, MatDialogModule, MatRadioModule, MatTableModule],
         declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
         providers: [
           { provide: ConfigService, useClass: MockConfigService },
@@ -66,7 +62,11 @@ describe('Disk Offering dialog', () => {
           },
           {
             provide: MAT_DIALOG_DATA,
-            useValue: true },
+            useValue: {
+              diskOffering,
+              columns: []
+            }
+          },
           {
             provide: 'mockConfigServiceConfig',
             useValue: { value: {} }
@@ -101,7 +101,6 @@ describe('Disk Offering dialog', () => {
   }));
 
   it('should send disk offering', () => {
-    component.selectedDiskOffering = diskOffering;
     component.onSubmit();
     expect(dialog.close).toHaveBeenCalledWith(diskOffering);
   });

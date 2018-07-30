@@ -1,9 +1,8 @@
 :host {
-  position: relative;
   display: block;
 }
 
-:host .overlay {
+.overlay {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,19 +13,17 @@
     transform: none;
   }
 
-  mat-progress-bar {
+  mat-progress-bar, .overlay-content {
     width: 500px;
   }
 }
 
-:host {
-  mat-form-field {
-    width: 100%;
-  }
+mat-form-field {
+  width: 100%;
+}
 
-  .mat-dialog-content {
-    overflow: visible;
-  }
+.mat-dialog-content {
+  overflow: visible;
 }
 
 .vm-creation-container {
@@ -47,7 +44,6 @@
   display: flex;
   padding: 15px 0;
   justify-content: space-between;
-  overflow: auto;
 }
 
 h4 {

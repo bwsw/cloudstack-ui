@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Volume } from '../../../../../shared/models';
 import { VolumeAttachmentDialogComponent } from '../volume-attchment-dialog/volume-attachment-dialog.component';
@@ -16,9 +11,8 @@ import { VolumeAttachmentDialogComponent } from '../volume-attchment-dialog/volu
 })
 export class VolumeAttachmentDetailComponent {
   @Input() public volumes: Array<Volume>;
-  @Output() public onAttach = new EventEmitter();
+  @Output() public onAttach = new EventEmitter<Volume>();
 
-  public loading: boolean;
   public selectedVolume: Volume;
 
   constructor(

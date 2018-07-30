@@ -32,8 +32,6 @@ export class TemplateService extends BaseTemplateService {
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
-    // stub
-
     const requestParams = Object.assign({}, params);
 
     requestParams['hypervisor'] = requestParams['hypervisor'] || 'KVM';

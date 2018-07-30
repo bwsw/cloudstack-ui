@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-// tslint:disable-next-line
 import {
   DefaultCustomServiceOfferingRestrictions,
-  ICustomOfferingRestrictionsByZone
-} from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-import { BackendResource } from '../decorators/backend-resource.decorator';
-import { ServiceOffering } from '../models/service-offering.model';
-import { Zone } from '../models/zone.model';
+  ICustomOfferingRestrictionsByZone,
+  ServiceOffering,
+  Zone
+} from '../models';
+import { BackendResource } from '../decorators';
 import { OfferingAvailability, OfferingService } from './offering.service';
 import { ResourceStats } from './resource-usage.service';
-// tslint:disable-next-line
 import * as merge from 'lodash/merge';
 
 

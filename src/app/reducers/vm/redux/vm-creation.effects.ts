@@ -2,25 +2,17 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel } from '../../../template/shared';
-import {
-  AffinityGroupType,
-  DiskOffering,
-  ServiceOffering,
-  Zone
-} from '../../../shared/models';
+import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import {
-  NotSelected,
-  VmCreationState
-} from '../../../vm/vm-creation/data/vm-creation-state';
+import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
@@ -42,6 +34,7 @@ import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -230,10 +223,10 @@ export class VirtualMachineCreationEffects {
     .ofType(vmActions.DEPLOY_VM)
     .switchMap((action: vmActions.DeployVm) => {
       return this.templateTagService.getAgreement(action.payload.template)
-        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
+        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of({}))
         .switchMap((agreement) => {
           if (agreement) {
-            this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+            this.deploymentNotificationId = this.jobsNotificationService.add('NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
             this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
 
             return Observable.of<any>(
@@ -320,9 +313,10 @@ export class VirtualMachineCreationEffects {
   deploymentError$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_REQUEST_ERROR)
     .map((action: vmActions.DeploymentRequestError) => {
+      const message = 'NOTIFICATIONS.VM.DEPLOY_FAILED';
       this.jobsNotificationService.fail({
         id: this.deploymentNotificationId,
-        message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
+        message
       });
 
       return new vmActions.DeploymentAddLoggerMessage({
@@ -342,6 +336,7 @@ export class VirtualMachineCreationEffects {
     private vmService: VmService,
     private jobsNotificationService: JobsNotificationService,
     private templateTagService: TemplateTagService,
+    private dialogService: DialogService,
     private dialog: MatDialog,
     private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
@@ -350,7 +345,8 @@ export class VirtualMachineCreationEffects {
     private instanceGroupService: InstanceGroupService,
     private tagService: TagService,
     private userTagService: UserTagService,
-    private vmTagService: VmTagService
+    private vmTagService: VmTagService,
+    private snackBar: SnackBarService
   ) {
   }
 
@@ -512,10 +508,12 @@ export class VirtualMachineCreationEffects {
   }
 
   private onDeployDone(): void {
+    const message = 'NOTIFICATIONS.VM.DEPLOY_DONE';
     this.jobsNotificationService.finish({
       id: this.deploymentNotificationId,
-      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
+      message
     });
+    this.snackBar.open(message);
   }
 
 

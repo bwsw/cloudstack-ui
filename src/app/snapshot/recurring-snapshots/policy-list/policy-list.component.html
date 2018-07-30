@@ -1,41 +1,46 @@
-<table class="mat-table">
-  <thead>
-  <tr class="mat-header-row">
-    <th class="mat-header-cell">
-      {{ 'SNAPSHOT_POLICIES.TIME' | translate }}
-    </th>
-    <th class="mat-header-cell"></th>
-    <th class="mat-header-cell">{{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }}</th>
-    <th class="mat-header-cell">{{ 'SNAPSHOT_POLICIES.KEEP' | translate }}</th>
-    <th class="mat-header-cell"></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr class="mat-row"
-    *ngFor="let p of policyViews"
-    (click)="handlePolicyRowClick(p)"
-  >
-    <td class="mat-cell">
-      {{ p.timeToken | translate:{ value: p.timeValue } }}
-    </td>
-    <td class="mat-cell">
-      {{ p.periodToken | translate: { value: p.periodValue | translate } }}
-    </td>
-    <td class="mat-cell">
-      {{ p.timeZone }}
-    </td>
-    <td class="mat-cell">
-      {{ p.keep }}
-    </td>
-    <td class="mat-cell">
+<mat-table [dataSource]="policyViews">
+
+  <ng-container matColumnDef="time">
+    <mat-header-cell *matHeaderCellDef> {{ 'SNAPSHOT_POLICIES.TIME' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.timeToken | translate:{ value: element.timeValue } }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="period">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.periodToken | translate: { value: element.periodValue | translate } }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="timeZone">
+    <mat-header-cell *matHeaderCellDef> {{ 'SNAPSHOT_POLICIES.TIME_ZONE' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.timeZone }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="keep">
+    <mat-header-cell *matHeaderCellDef> {{ 'SNAPSHOT_POLICIES.KEEP' | translate }} </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{ element.keep }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element">
       <button
         mat-icon-button
-        (click)="deletePolicy(p)"
+        (click)="deletePolicy(element)"
         [matTooltip]="'COMMON.DELETE' | translate"
       >
-        <mat-icon>delete</mat-icon>
+        <mat-icon class="mdi-delete"></mat-icon>
       </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row
+    *matRowDef="let row; columns: columnsToDisplay"
+    (click)="handlePolicyRowClick(row)"
+  ></mat-row>
+
+</mat-table>

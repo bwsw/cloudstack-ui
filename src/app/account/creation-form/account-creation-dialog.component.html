@@ -13,6 +13,7 @@
           autocomplete="new-username"
           [placeholder]="'ACCOUNT_PAGE.CREATION.USER_NAME' | translate"
           autofocus
+          required
           formControlName="username"
         >
       </mat-form-field>
@@ -22,6 +23,7 @@
           type="email"
           name="email"
           [placeholder]="'ACCOUNT_PAGE.CREATION.EMAIL' | translate"
+          required
           formControlName="email"
         >
       </mat-form-field>
@@ -32,12 +34,13 @@
           name="password"
           autocomplete="new-password"
           [placeholder]="'ACCOUNT_PAGE.CREATION.PASSWORD' | translate"
+          required
           formControlName="password"
         >
         <mat-icon
           matSuffix
           (click)="showPassword = !showPassword"
-          [innerHTML]="showPassword ? 'visibility' : 'visibility_off'"
+          [ngClass]="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
         >
         </mat-icon>
       </mat-form-field>
@@ -46,6 +49,7 @@
           matInput
           name="firstname"
           [placeholder]="'ACCOUNT_PAGE.CREATION.FIRST_NAME' | translate"
+          required
           formControlName="firstname"
         >
       </mat-form-field>
@@ -55,6 +59,7 @@
           name="lastname"
           [placeholder]="'ACCOUNT_PAGE.CREATION.LAST_NAME' | translate"
           formControlName="lastname"
+          required
           [formGroup]="accountForm"
         >
       </mat-form-field>
@@ -63,6 +68,7 @@
           class="form-select-control"
           name="domainid"
           [placeholder]="'ACCOUNT_PAGE.CREATION.DOMAIN' | translate"
+          required
           formControlName="domainid"
         >
           <mat-option
@@ -78,6 +84,7 @@
           class="form-select-control"
           name="roleid"
           [placeholder]="'ACCOUNT_PAGE.CREATION.ROLE' | translate"
+          required
           formControlName="roleid"
         >
           <mat-option

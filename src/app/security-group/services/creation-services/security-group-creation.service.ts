@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { NetworkProtocol, NetworkRule } from '../../network-rule.model';
+import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../../network-rule.model';
 import { NetworkRuleType, SecurityGroup } from '../../sg.model';
 import { BaseBackendService } from '../../../shared/services/base-backend.service';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
@@ -30,8 +30,7 @@ interface IcmpNetworkRuleCreationParams {
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup',
-  entityModel: SecurityGroup
+  entity: 'SecurityGroup'
 })
 export abstract class SecurityGroupCreationService extends BaseBackendService<SecurityGroup> {
   constructor(
@@ -87,7 +86,13 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     const ruleCreationRequests = ingressRuleCreationRequests.concat(
       egressRuleCreationRequests);
 
-    return Observable.forkJoin(ruleCreationRequests).map(() => securityGroup);
+    const newSecurityGroup: SecurityGroup = {
+      ...securityGroup,
+      ingressrule: ingressRules,
+      egressrule: egressRules
+    };
+
+    return Observable.forkJoin(ruleCreationRequests).map(() => newSecurityGroup);
   }
 
   private getRuleCreationRequests(
@@ -106,41 +111,41 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     securityGroup: SecurityGroup
   ): any {
     if (rule.protocol === NetworkProtocol.TCP || rule.protocol === NetworkProtocol.UDP) {
-      return this.getTcpUdpNetworkRuleCreationRequest(rule, securityGroup);
+      return this.getTcpUdpNetworkRuleCreationRequest(rule as PortNetworkRule, securityGroup);
     }
 
     if (rule.protocol === NetworkProtocol.ICMP) {
-      return this.getIcmpNetworkRuleCreationRequest(rule, securityGroup);
+      return this.getIcmpNetworkRuleCreationRequest(rule as IcmpNetworkRule, securityGroup);
     }
 
     throw new Error('Unknown protocol');
   }
 
   private getTcpUdpNetworkRuleCreationRequest(
-    rule: NetworkRule,
+    rule: PortNetworkRule,
     securityGroup: SecurityGroup
   ): TcpUdpNetworkRuleCreationParams {
     return {
       securityGroupId: securityGroup.id,
-      ruleId: rule.ruleId,
+      ruleId: rule.ruleid,
       protocol: rule.protocol.toLowerCase(),
-      cidrList: rule.CIDR,
-      startPort: rule.startPort,
-      endPort: rule.endPort
+      cidrList: rule.cidr,
+      startPort: rule.startport,
+      endPort: rule.endport
     };
   };
 
   private getIcmpNetworkRuleCreationRequest(
-    rule: NetworkRule,
+    rule: IcmpNetworkRule,
     securityGroup: SecurityGroup
   ): IcmpNetworkRuleCreationParams {
     return {
       securityGroupId: securityGroup.id,
-      ruleId: rule.ruleId,
+      ruleId: rule.ruleid,
       protocol: rule.protocol.toLowerCase(),
-      cidrList: rule.CIDR,
-      icmpCode: rule.icmpCode,
-      icmpType: rule.icmpType
+      cidrList: rule.cidr,
+      icmpCode: rule.icmpcode,
+      icmpType: rule.icmptype
     };
   }
 }

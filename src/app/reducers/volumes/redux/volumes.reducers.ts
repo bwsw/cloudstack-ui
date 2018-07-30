@@ -1,14 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Snapshot } from '../../../shared/models';
-import { Volume } from '../../../shared/models/volume.model';
-import { Utils } from '../../../shared/services/utils/utils.service';
-import { getDescription } from '../../../shared/models';
+import { Volume, VolumeType } from '../../../shared/models/volume.model';
 
 import * as volumeActions from './volumes.actions';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromSnapshots from '../../snapshots/redux/snapshot.reducers';
+import { Snapshot } from '../../../shared/models';
+import { VirtualMachine } from '../../../vm/shared/vm.model';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -44,6 +43,24 @@ export const volumeReducers = {
   form: formReducer
 };
 
+const sortByGroups = (a: Volume, b: Volume) => {
+  const aIsRoot = a.type === VolumeType.ROOT;
+  const bIsRoot = b.type === VolumeType.ROOT;
+  if (aIsRoot && bIsRoot) {
+    return a.name.localeCompare(b.name);
+  }
+  if (!aIsRoot && !bIsRoot) {
+    return a.name.localeCompare(b.name);
+  }
+  if (aIsRoot && !bIsRoot) {
+    return -1;
+  }
+  if (!aIsRoot && bIsRoot) {
+    return 1;
+  }
+  return 0;
+};
+
 /**
  * createEntityAdapter creates many an object of helper
  * functions for single or multiple operations
@@ -54,7 +71,7 @@ export const volumeReducers = {
  */
 export const adapter: EntityAdapter<Volume> = createEntityAdapter<Volume>({
   selectId: (item: Volume) => item.id,
-  sortComparer: Utils.sortByName
+  sortComparer: sortByGroups
 });
 
 /** getInitialState returns the default initial state
@@ -248,19 +265,20 @@ export const isFormLoading = createSelector(
 
 export const selectVolumesWithSnapshots = createSelector(
   selectAll,
-  fromSnapshots.selectEntities,
-  fromSnapshots.selectSnapshotsByVolumeId,
-  (volumes, snapshots, snapshotIdsByVolumeId) => {
-    return volumes.map(
-      volume => {
-        const snapshotsOfVolume = snapshotIdsByVolumeId[volume.id]
-          ? snapshotIdsByVolumeId[volume.id].map(snapshotId => snapshots[snapshotId])
-          : [];
-        return {
-          ...volume,
-          snapshots: snapshotsOfVolume
-        };
-      });
+  fromSnapshots.selectAll,
+  (volumes: Volume[], snapshots: Snapshot[]) => {
+    const snapshotsByVolumeMap = snapshots.reduce((dictionary, snapshot: Snapshot) => {
+      const snapshotsByVolume = dictionary[snapshot.volumeid];
+      dictionary[snapshot.volumeid] = snapshotsByVolume ? [...snapshotsByVolume, snapshot] : [snapshot];
+      return dictionary;
+    }, {});
+
+    return volumes.map((volume: Volume) => {
+      return {
+        ...volume,
+        snapshots: snapshotsByVolumeMap[volume.id]
+      }
+    });
   }
 );
 
@@ -276,13 +294,13 @@ export const getSelectedVolumeWithSnapshots = createSelector(
 
 
 export const selectSpareOnlyVolumes = createSelector(
-  selectVolumesWithSnapshots,
+  selectAll,
   fromVMs.getSelectedVM,
-  (volumes, vm) => {
-    const zoneFilter = (volume) => vm && volume.zoneId === vm.zoneId;
-    const spareOnlyFilter = volume => !volume.virtualMachineId;
+  (volumes: Volume[], vm: VirtualMachine) => {
+    const zoneFilter = (volume: Volume) => vm && volume.zoneid === vm.zoneId;
+    const spareOnlyFilter = (volume: Volume) => !volume.virtualmachineid;
     const accountFilter =
-      volume => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
+      (volume: Volume) => vm && (volume.account === vm.account && volume.domainid === vm.domainid);
 
     return volumes.filter(
       volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume));
@@ -294,7 +312,7 @@ export const selectVmVolumes = createSelector(
   fromVMs.getSelectedId,
   (volumes, virtualMachineId) => {
 
-    const virtualMachineIdFilter = volume => !virtualMachineId ||
+    const virtualMachineIdFilter = (volume: Volume) => !virtualMachineId ||
       volume.virtualmachineid === virtualMachineId;
 
     return volumes.filter(volume => {
@@ -328,9 +346,7 @@ export const selectFilteredVolumes = createSelector(
 
     const spareOnlyFilter = (volume: Volume) => spareOnly ? !volume.virtualmachineid : true;
 
-    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase()
-        .includes(queryLower) ||
-      getDescription(volume).toLowerCase().includes(queryLower);
+    const queryFilter = (volume: Volume) => !query || volume.name.toLowerCase().includes(queryLower);
 
     const selectedTypesFilter =
       (volume: Volume) => !selectedTypes.length || !!typesMap[volume.type];

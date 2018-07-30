@@ -1,10 +1,13 @@
-export interface ICMPType {
+export interface IcmpType {
   type: number,
   codes: number[],
   text?: string
 }
 
-export const ICMPtypes = [
+// CloudStack docs:
+// The ICMP type. A value of -1 means all types.
+// The ICMP code. A value of -1 means all codes for the given ICMP type.
+export const icmpV4Types: IcmpType[] = [
   { type: -1, codes: [-1] },
   { type: 0, codes: [0] },
   { type: 3, codes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] },
@@ -35,7 +38,7 @@ export const ICMPtypes = [
   { type: 40, codes: [0, 1, 2, 3, 4, 5] },
 ];
 
-export const ICMPv6Types = [
+export const icmpV6Types: IcmpType[] = [
   { type: 1, codes: [0, 1, 2, 3, 4, 5, 6] },
   { type: 2, codes: [0] },
   { type: 3, codes: [0, 1] },

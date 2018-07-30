@@ -1,35 +1,17 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {
-  InstanceGroup,
-  Zone
-} from '../../shared/models';
-import { VmState } from '../shared/vm.model';
-import { Account } from '../../shared/models/account.model';
-
-export interface VmFilter {
-  selectedGroups: Array<InstanceGroup | noGroup>;
-  selectedStates: Array<VmState>;
-  selectedZones: Array<Zone>;
-  groupings: Array<any>;
-  accounts: Array<Account>;
-}
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Account, Grouping, Zone } from '../../shared/models';
+import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
 export type noGroup = '-1';
 export const noGroup: noGroup = '-1';
-export type InstanceGroupOrNoGroup = InstanceGroup | noGroup;
 
 @Component({
   selector: 'cs-vm-filter',
   templateUrl: 'vm-filter.component.html'
 })
-export class VmFilterComponent {
-  @Input() public selectedGroupings: Array<any>;
-  @Input() public groupings: Array<any>;
+export class VmFilterComponent implements OnInit {
+  @Input() public selectedGroupings: Array<Grouping>;
+  @Input() public groupings: Array<Grouping>;
   @Input() public groups: Array<any>;
   @Input() public states: Array<any>;
   @Input() public zones: Array<Zone>;
@@ -47,4 +29,8 @@ export class VmFilterComponent {
   @Output() public onStatesChange = new EventEmitter();
 
   public noGroup = noGroup;
+
+  public ngOnInit() {
+    this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
 }

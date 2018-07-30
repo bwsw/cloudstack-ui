@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { ICustomOfferingRestrictions } from './custom-offering-restrictions';
+import { ICustomOfferingRestrictions } from '../../shared/models';
 import { CustomServiceOffering } from './custom-service-offering';
 
 @Component({

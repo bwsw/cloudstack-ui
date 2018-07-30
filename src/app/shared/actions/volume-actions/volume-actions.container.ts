@@ -39,6 +39,12 @@ export class VolumeActionsContainerComponent {
       .onErrorResumeNext()
       .filter(res => Boolean(res))
       .subscribe(() => {
+        if (!!volume.snapshots.length) {
+          this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
+            .onErrorResumeNext()
+            .filter(res => Boolean(res))
+            .subscribe(() => this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots)));
+        }
         this.store.dispatch(new volumeActions.DeleteVolume(volume));
       });
   }

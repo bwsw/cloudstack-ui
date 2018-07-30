@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/index';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
 // tslint:disable-next-line
@@ -11,6 +11,7 @@ import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
 import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
 import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
 import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.reducers';
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'cs-snapshot-modal-container',
@@ -32,8 +33,8 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<SnapshotModalContainerComponent>,
-    public dialog: MatDialog,
     private store: Store<State>,
+    private dialogService: DialogService,
     private snapshotActionService: SnapshotActionService
   ) {
     super();
@@ -62,7 +63,12 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
-    this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+      .onErrorResumeNext()
+      .filter(res => Boolean(res))
+      .subscribe(() => {
+        this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+      });
   }
 
   public onSnapshotRevert(snapshot: Snapshot): void {

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { Volume } from '../../shared/models';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { VolumeService } from '../../shared/services/volume.service';
 
 
@@ -18,7 +18,7 @@ export class VolumeSidebarComponent extends SidebarComponent<Volume> {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    protected notificationService: NotificationService,
+    protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected volumeService: VolumeService,

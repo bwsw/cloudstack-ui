@@ -406,31 +406,31 @@ describe('Test service offering reducer', () => {
       iscustomized: true, cpunumber: 2, memory: 2
     };
     const tag1 = <Tag>{
-      key: "csui.service-offering.param.2.cpuNumber",
-      value: "2",
-      resourcetype: "User",
-      resourceid: "1",
-      account: "1",
-      domainid: "1",
-      domain: "1"
+      key: 'csui.service-offering.param.2.cpuNumber',
+      value: '2',
+      resourcetype: 'User',
+      resourceid: '1',
+      account: '1',
+      domainid: '1',
+      domain: '1'
     };
     const tag2 = <Tag>{
-      key: "csui.service-offering.param.2.cpuSpeed",
-      value: "1",
-      resourcetype: "User",
-      resourceid: "1",
-      account: "1",
-      domainid: "1",
-      domain: "1"
+      key: 'csui.service-offering.param.2.cpuSpeed',
+      value: '1',
+      resourcetype: 'User',
+      resourceid: '1',
+      account: '1',
+      domainid: '1',
+      domain: '1'
     };
     const tag3 = <Tag>{
-      key: "csui.service-offering.param.2.memory",
-      value: "2",
-      resourcetype: "User",
-      resourceid: "1",
-      account: "1",
-      domainid: "1",
-      domain: "1"
+      key: 'csui.service-offering.param.2.memory',
+      value: '2',
+      resourcetype: 'User',
+      resourceid: '1',
+      account: '1',
+      domainid: '1',
+      domain: '1'
     };
     const resourceUsage = {
       available: new ResourcesData(),
@@ -548,36 +548,36 @@ describe('Test service offering reducer', () => {
 
     const soClasses = [
       {
-        "id": "testClass1",
-        "name": {
-          "ru": "Тест1",
-          "en": "Test1"
+        'id': 'testClass1',
+        'name': {
+          'ru': 'Тест1',
+          'en': 'Test1'
         },
-        "description": {
-          "ru": "тестовое описание 1",
-          "en": "test description 1"
+        'description': {
+          'ru': 'тестовое описание 1',
+          'en': 'test description 1'
         },
-        "serviceOfferings": [
-          "1"
+        'serviceOfferings': [
+          '1'
         ]
       },
       {
-        "id": "testClass2",
-        "name": {
-          "ru": "Тест2",
-          "en": "Test2"
+        'id': 'testClass2',
+        'name': {
+          'ru': 'Тест2',
+          'en': 'Test2'
         },
-        "description": {
-          "ru": "тестовое описание 2",
-          "en": "test description 2"
+        'description': {
+          'ru': 'тестовое описание 2',
+          'en': 'test description 2'
         },
-        "serviceOfferings": [
-          "2"
+        'serviceOfferings': [
+          '2'
         ]
       }
     ];
 
-    const classesMap = { "testClass2": "testClass2" };
+    const classesMap = { 'testClass2': 'testClass2' };
     const res = list.filter(item => fromSOs.classesFilter(item, soClasses, classesMap));
 
     expect(res).toEqual(filtered);
@@ -604,36 +604,36 @@ describe('Test service offering reducer', () => {
 
     const soClasses = [
       {
-        "id": "testClass1",
-        "name": {
-          "ru": "Тест1",
-          "en": "Test1"
+        'id': 'testClass1',
+        'name': {
+          'ru': 'Тест1',
+          'en': 'Test1'
         },
-        "description": {
-          "ru": "тестовое описание 1",
-          "en": "test description 1"
+        'description': {
+          'ru': 'тестовое описание 1',
+          'en': 'test description 1'
         },
-        "serviceOfferings": [
-          "1"
+        'serviceOfferings': [
+          '1'
         ]
       },
       {
-        "id": "testClass2",
-        "name": {
-          "ru": "Тест2",
-          "en": "Test2"
+        'id': 'testClass2',
+        'name': {
+          'ru': 'Тест2',
+          'en': 'Test2'
         },
-        "description": {
-          "ru": "тестовое описание 2",
-          "en": "test description 2"
+        'description': {
+          'ru': 'тестовое описание 2',
+          'en': 'test description 2'
         },
-        "serviceOfferings": [
-          "2"
+        'serviceOfferings': [
+          '2'
         ]
       }
     ];
 
-    const selectedClasses = ["testClass2"];
+    const selectedClasses = ['testClass2'];
     const query = 'off2';
     const viewMode = ServiceOfferingType.custom;
 
@@ -663,31 +663,31 @@ describe('Test service offering reducer', () => {
 
     const soClasses = [
       {
-        "id": "testClass1",
-        "name": {
-          "ru": "Тест1",
-          "en": "Test1"
+        'id': 'testClass1',
+        'name': {
+          'ru': 'Тест1',
+          'en': 'Test1'
         },
-        "description": {
-          "ru": "тестовое описание 1",
-          "en": "test description 1"
+        'description': {
+          'ru': 'тестовое описание 1',
+          'en': 'test description 1'
         },
-        "serviceOfferings": [
-          "1"
+        'serviceOfferings': [
+          '1'
         ]
       },
       {
-        "id": "testClass2",
-        "name": {
-          "ru": "Тест2",
-          "en": "Test2"
+        'id': 'testClass2',
+        'name': {
+          'ru': 'Тест2',
+          'en': 'Test2'
         },
-        "description": {
-          "ru": "тестовое описание 2",
-          "en": "test description 2"
+        'description': {
+          'ru': 'тестовое описание 2',
+          'en': 'test description 2'
         },
-        "serviceOfferings": [
-          "2"
+        'serviceOfferings': [
+          '2'
         ]
       }
     ];

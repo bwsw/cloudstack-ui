@@ -11,7 +11,6 @@
     "**/*.spec.ts"
   ],
   "include": [
-    "**/*.ts",
-    "../node_modules/ngx-window-token/index.ts"
+    "**/*.ts"
   ]
 }

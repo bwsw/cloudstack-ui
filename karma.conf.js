@@ -44,15 +44,13 @@ module.exports = function (config) {
     retryLimit: 5,                        // default 2
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessNoSandbox'],
     customLaunchers: {
-      ChromeHeadless: {
-        base: 'Chrome',
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
         flags: [
           '--no-sandbox',
-          '--headless',
-          '--disable-gpu',
-          ' --remote-debugging-port=9876'
+          '--remote-debugging-port=9876'
         ]
       }
     },

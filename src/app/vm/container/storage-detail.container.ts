@@ -23,8 +23,8 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
       [volumes]="volumes$ | async"
     ></cs-volumes>
     <cs-volume-attachment-detail
-      (onAttach)="onVolumeAttach($event)"
       [volumes]="allVolumes$ | async"
+      (onAttach)="onVolumeAttach($event)"
     ></cs-volume-attachment-detail>
     <cs-iso
       [iso]="iso$ | async"

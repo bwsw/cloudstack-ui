@@ -10,13 +10,14 @@
         step="1"
         [min]="min"
         [max]="max"
+        [csMinValue]="min"
+        [csMaxValue]="max"
         (blur)="onBlur($event)"
       >
     </mat-form-field>
     <div class="custom-slider-label">{{ units }}</div>
   </div>
 </div>
-
 <mat-slider
   [min]="min"
   [max]="max"

@@ -1,22 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatProgressSpinnerModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { DynamicModule } from 'ng-dynamic-component';
+
 import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import { TagsModule } from '../tags/tags.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 // tslint:disable-next-line
 import { PrivateSecurityGroupCreationService } from './services/creation-services/private-security-group-creation.service';
 // tslint:disable-next-line
@@ -40,16 +32,12 @@ import { SecurityGroupCreationComponent } from './sg-creation/security-group-cre
 import { SecurityGroupCardItemComponent } from './sg-list-item/card-item/security-group-card-item.component';
 import { SecurityGroupPageComponent } from './sg-page/security-group-page.component';
 import { SecurityGroupRowItemComponent } from './sg-list-item/row-item/security-group-row-item.component';
-import { DynamicModule } from 'ng-dynamic-component';
 import { SecurityGroupListComponent } from './sg-list/security-group-list.component';
-import { StoreModule } from '@ngrx/store';
 import { securityGroupReducers } from '../reducers/security-groups/redux/sg.reducers';
 import { SecurityGroupPageContainerComponent } from './containers/security-group-page.container';
-import { EffectsModule } from '@ngrx/effects';
 import { SecurityGroupEffects } from '../reducers/security-groups/redux/sg.effects';
 import { SgFilterContainerComponent } from './sg-filter/containers/sg-filter.container';
 import { SgRulesContainerComponent } from './containers/sg-rules.container';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { SecurityGroupActionsContainerComponent } from './containers/sg-actions.container';
 import { SecurityGroupSidebarContainerComponent } from './containers/security-group-sidebar.container';
 import { SecurityGroupDetailsContainerComponent } from './containers/security-group-details.container';
@@ -64,32 +52,20 @@ import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { SecurityGroupTagsComponent } from './sg-sidebar/sg-tags/sg-tags.component';
 import { SecurityGroupTagsContainerComponent } from './containers/sg-tags.container';
-import { TagsModule } from '../tags/tags.module';
+import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/sg-rule-addition-form.component';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+    SharedModule,
+    MaterialModule,
     DynamicModule.withComponents([
       SecurityGroupCardItemComponent,
       SecurityGroupRowItemComponent,
       SgRuleComponent
     ]),
     RouterModule,
-    TranslateModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatTooltipModule,
-    MatDialogModule,
-    SharedModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatTabsModule,
-    MatButtonToggleModule,
-    MatProgressSpinnerModule,
     DraggableSelectModule,
     TagsModule,
     StoreModule.forFeature('securityGroups', securityGroupReducers),
@@ -129,7 +105,8 @@ import { TagsModule } from '../tags/tags.module';
     SecurityGroupTagsContainerComponent,
     SecurityGroupSidebarComponent,
     SecurityGroupRulesDialogComponent,
-    SecurityGroupGroupedListComponent
+    SecurityGroupGroupedListComponent,
+    SGRuleAdditionFormComponent
   ],
   providers: [
     NetworkRuleService,

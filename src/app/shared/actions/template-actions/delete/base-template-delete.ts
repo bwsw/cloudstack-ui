@@ -7,7 +7,7 @@ import { BaseTemplateAction } from '../base-template-action';
 @Injectable()
 export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
   public name = 'COMMON.DELETE';
-  public icon = 'delete';
+  public icon = 'mdi-delete';
 
   protected abstract confirmMessage;
   protected abstract progressMessage;

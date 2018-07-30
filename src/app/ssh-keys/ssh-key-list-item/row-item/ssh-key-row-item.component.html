@@ -1,23 +1,21 @@
-<mat-list-item (click)="onClicked($event)">
-  <mat-icon>vpn_key</mat-icon>
-  <h2
-    class="row-title"
-    [matTooltip]="item.name"
-  >
+<mat-list-item (click)="onClicked($event)" class="entity-list-item">
+  <mat-icon class="mdi-key"></mat-icon>
+
+  <h2 class="entity-list-item-title" [matTooltip]="item.name">
     {{ item.name }}
   </h2>
 
-  <div class="key">
+  <div class="entity-list-item-data">
     {{ item.fingerprint }}
   </div>
 
-  <button class="row-action" mat-icon-button [matMenuTriggerFor]="actionsMenu">
-    <mat-icon>more_vert</mat-icon>
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 
   <mat-menu #actionsMenu="matMenu">
     <button mat-menu-item (click)="onRemoveClicked()">
-      <mat-icon>delete</mat-icon>
+      <mat-icon class="mdi-delete"></mat-icon>
       <span>{{ 'COMMON.DELETE' | translate }}</span>
     </button>
   </mat-menu>

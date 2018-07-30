@@ -10,7 +10,7 @@ import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
 @Component({
-  selector: 'cs-snapshots-container',
+  selector: 'cs-snapshots-page-container',
   template: `
     <cs-snapshots-page
       [snapshots]="snapshots$ | async"

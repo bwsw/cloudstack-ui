@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
-import { OsType } from '../../shared/models/os-type.model';
-import { Volume } from '../../shared/models/volume.model';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { Grouping, OsType, Volume } from '../../shared/models';
+import { NgrxEntities } from '../../shared/interfaces';
 
 
 @Component({
@@ -20,10 +20,10 @@ export class VmPageComponent implements OnInit {
   @Input() public vms: Array<VirtualMachine>;
   @Input() public query: string;
   @Input() public volumes: Array<Volume>;
-  @Input() public osTypesMap: Dictionary<OsType>;
+  @Input() public osTypesMap: NgrxEntities<OsType>;
   @Input() public isLoading: boolean;
-  @Input() public groupings: Array<any>;
-  @Input() public selectedGroupings: Array<any>;
+  @Input() public groupings: Array<Grouping>;
+  @Input() public selectedGroupings: Array<Grouping>;
 
   public mode: ViewMode;
   public viewModeKey = 'vmPageViewMode';

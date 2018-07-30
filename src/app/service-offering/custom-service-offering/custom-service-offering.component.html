@@ -10,9 +10,8 @@
         [(ngModel)]="offering.cpunumber"
         [min]="restrictions.cpunumber.min"
         [max]="restrictions.cpunumber.max"
-        [minValue]="restrictions.cpunumber.min"
-        [maxValue]="restrictions.cpunumber.max"
-        step="1"
+        [csMinValue]="restrictions.cpunumber.min"
+        [csMaxValue]="restrictions.cpunumber.max"
         required
         #cpuNumberControl="ngModel"
       >
@@ -30,9 +29,8 @@
         [(ngModel)]="offering.cpuspeed"
         [min]="restrictions.cpuspeed.min"
         [max]="restrictions.cpuspeed.max"
-        [minValue]="restrictions.cpuspeed.min"
-        [maxValue]="restrictions.cpuspeed.max"
-        step="1"
+        [csMinValue]="restrictions.cpuspeed.min"
+        [csMaxValue]="restrictions.cpuspeed.max"
         required
         #cpuSpeedControl="ngModel"
       >
@@ -50,9 +48,8 @@
         [(ngModel)]="offering.memory"
         [min]="restrictions.memory.min"
         [max]="restrictions.memory.max"
-        [minValue]="restrictions.memory.min"
-        [maxValue]="restrictions.memory.max"
-        step="1"
+        [csMinValue]="restrictions.memory.min"
+        [csMaxValue]="restrictions.memory.max"
         required
         #memoryControl="ngModel"
       >

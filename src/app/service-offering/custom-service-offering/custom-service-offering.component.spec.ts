@@ -1,20 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-  MatInputModule
-} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatInputModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateService } from '@ngx-translate/core';
+
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { MaxValueValidatorDirective } from '../../shared/directives/max-value.directive';
-import { MinValueValidatorDirective } from '../../shared/directives/min-value.directive';
 import { CustomServiceOffering } from './custom-service-offering';
 import { CustomServiceOfferingComponent } from './custom-service-offering.component';
+import { InputTypeNumberDirective } from '../../shared/directives/input-type-number.directive';
 
 const so = require(
   '../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
@@ -61,8 +56,7 @@ describe('CustomServiceOfferingComponent', () => {
       declarations: [
         CustomServiceOfferingComponent,
         MockTranslatePipe,
-        MinValueValidatorDirective,
-        MaxValueValidatorDirective
+        InputTypeNumberDirective
       ],
       providers: [
         { provide: TranslateService, useClass: MockTranslateService },

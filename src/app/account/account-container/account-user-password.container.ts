@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 @Component({
-  selector: 'cs-account-user-edit-container',
+  selector: 'cs-account-user-password-container',
   template: `
     <cs-account-user-password-form
       (changePassword)="changePassword($event)"

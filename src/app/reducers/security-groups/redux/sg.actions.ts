@@ -116,6 +116,7 @@ export class ConvertSecurityGroup implements Action {
   constructor(public payload: SecurityGroup) {
   }
 }
+
 export class UpdateSecurityGroupError implements Action {
   type = UPDATE_SECURITY_GROUP_ERROR;
 
