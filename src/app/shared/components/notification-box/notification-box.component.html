@@ -22,7 +22,7 @@
     </mat-card-header>
     <mat-list>
       <cs-notification-box-item
-        *ngFor="let notification of jobsNotificationService.notifications; trackBy: trackById;"
+        *ngFor="let notification of jobsNotificationService.notifications"
         [notification]="notification"
         (onClose)="onCloseJobNotification($event)"
       >
