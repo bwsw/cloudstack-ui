@@ -17,7 +17,9 @@ export const DELETE_SECURITY_GROUP = '[SecurityGroups] DELETE_SECURITY_GROUP';
 export const DELETE_PRIVATE_SECURITY_GROUP = '[SecurityGroups] DELETE_PRIVATE_SECURITY_GROUP';
 export const DELETE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] DELETE_SECURITY_GROUP_SUCCESS';
 export const DELETE_SECURITY_GROUP_ERROR = '[SecurityGroups] DELETE_SECURITY_GROUP_ERROR';
-export const CONVERT_SECURITY_GROUP = '[SecurityGroups] CONVERT_SECURITY_GROUP';
+export const CONVERT_SECURITY_GROUP = '[Security Groups list] Convert private security group to shared';
+export const CONVERT_SECURITY_GROUP_SUCCESS = '[Security Groups list] Convert private security group to shared success';
+export const CONVERT_SECURITY_GROUP_ERROR = '[Security Groups list] Convert private security group to shared error';
 
 export class LoadSecurityGroupRequest implements Action {
   readonly type = LOAD_SECURITY_GROUP_REQUEST;
@@ -117,6 +119,20 @@ export class ConvertSecurityGroup implements Action {
   }
 }
 
+export class ConvertSecurityGroupSuccess implements Action {
+  type = CONVERT_SECURITY_GROUP_SUCCESS;
+
+  constructor(public payload: SecurityGroup) {
+  }
+}
+
+export class ConvertSecurityGroupError implements Action {
+  type = CONVERT_SECURITY_GROUP_ERROR;
+
+  constructor(public payload: string) {
+  }
+}
+
 export class UpdateSecurityGroupError implements Action {
   type = UPDATE_SECURITY_GROUP_ERROR;
 
@@ -140,4 +156,6 @@ export type Actions =
   | DeletePrivateSecurityGroup
   | DeleteSecurityGroupSuccess
   | DeleteSecurityGroupError
-  | ConvertSecurityGroup;
+  | ConvertSecurityGroup
+  | ConvertSecurityGroupSuccess
+  | ConvertSecurityGroupError;

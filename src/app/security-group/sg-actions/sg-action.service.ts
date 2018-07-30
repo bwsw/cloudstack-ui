@@ -10,7 +10,7 @@ export enum SecurityGroupActionType {
 const SecurityGroupConvertAction = {
   name: 'SECURITY_GROUP_PAGE.ACTION.CONVERT',
   command: SecurityGroupActionType.Convert,
-  icon: 'transform',
+  icon: 'mdi-transfer',
   canActivate: (securityGroup: SecurityGroup) => getType(securityGroup) === SecurityGroupType.Private
 };
 
@@ -31,8 +31,8 @@ const SecurityGroupShowRulesAction = {
 
 export class SecurityGroupActionService {
   public actions: Array<Action<SecurityGroup>> = [
+    SecurityGroupConvertAction,
     SecurityGroupShowRulesAction,
     SecurityGroupDeleteAction,
-    SecurityGroupConvertAction
   ];
 }

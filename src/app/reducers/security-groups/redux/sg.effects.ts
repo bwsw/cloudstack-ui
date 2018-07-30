@@ -117,10 +117,17 @@ export class SecurityGroupEffects {
         .filter(res => Boolean(res))
         .switchMap(() => {
           return this.sgTagService.convertToShared(action.payload)
-            .map(newSG => {
-              return new securityGroup.UpdateSecurityGroup(newSG)
+            .do(() => {
+              const message = 'NOTIFICATIONS.FIREWALL.CONVERT_PRIVATE_TO_SHARED_DONE';
+              this.showNotificationsOnFinish(message);
             })
-            .catch(error => Observable.of(new securityGroup.UpdateSecurityGroupError(error)));
+            .map((response: SecurityGroup) => {
+              return new securityGroup.ConvertSecurityGroupSuccess(response);
+            })
+            .catch(error => {
+              this.showNotificationsOnFail(error);
+              return Observable.of(new securityGroup.ConvertSecurityGroupError(error));
+            });
         });
     });
 
