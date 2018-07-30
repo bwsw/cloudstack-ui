@@ -43,7 +43,6 @@
         *ngIf="serviceOfferings?.length"
         mat-button
         color="primary"
-        [disabled]="disableSubmitButton"
         (click)="onChange()"
       >
         {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}
