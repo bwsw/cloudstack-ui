@@ -231,7 +231,7 @@ The message will show the list of all creation steps and the virtual machine inf
 
 The system will ask you if you wish to save passwords to VM tags by default for the virtual machines created in the future. Click "Yes" and the "Save VM password by default" option will be activated in the account settings:
 
-.. figure:: _static/Settings_SavePass.png
+.. figure:: _static/Settings_SavePass1.png
 
 It means the password will be saved to tags automatically for all created virtual machines.
 
@@ -272,7 +272,7 @@ VM Action Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the "Actions" button |actions icon| to the right from each virtual machine in the list. 
 
-.. figure:: _static/VMs_ActionBox.png
+.. figure:: _static/VMs_ActionBox1.png
    
 It allows performing the following actions with the VM:
 
@@ -445,11 +445,11 @@ Additional volume (a data disk) can be attached to the VM. Click "Select" to sel
    
 The chosen data disk will appear for the virtual machine with the "Attach" button. Click "Attach" to attach the selected disk to the virtual machine.
 
-.. figure:: _static/VMs_AttachVolume_Attach2.png
+.. figure:: _static/VMs_AttachVolume_Attach3.png
 
 If there are no available spare drives yet, you can create one right from this panel. 
 
-.. figure:: _static/VMs_Details_Storage_CreateNewVolume.png
+.. figure:: _static/VMs_Details_Storage_CreateNewVolume1.png
 
 Click "Create new volume" and you will be moved to the Storage section. A "New volume" form will appear where you should specify the following information:
 
@@ -465,7 +465,6 @@ Once all fields are filled in, click "Create" to save the new volume.
 Click "Cancel" to drop the new volume creation.
 
 .. figure:: _static/VMs_AttachVolume_Create1.png
-   :scale: 70%
    
 Move back to the virtual machine information sidebar. Under the "Storage" tab in the "Attach a volume" section click "+" to select an additional disk. Select a data disk in the drop-down list and click "Select" to add it to the "Attach a volume" section. To attach the volume press the "Attach" button.
 
@@ -540,8 +539,7 @@ This action can be applied to data disks. It allows detaching the data disk from
 
 Click "Detach" in the Actions list and confirm your action in the dialogue window.
 
-.. figure:: _static/VMs_Details_Storage_Detach1.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_Storage_Detach2.png
    
 The data disk will be detached. It will be in the list of **Spare** drives in the *Storage* section.
 
@@ -551,8 +549,7 @@ This action can be applied to data disks. It allows deleting a data disk from th
 
 Click "Delete" in the volume Actions list and confirm your action in the dialogue window. 
 
-.. figure:: _static/VMs_Details_Storage_DeleteDisk1.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_Storage_DeleteDisk2.png
    
 The data disk will be deleted from the system right at this moment.
 
