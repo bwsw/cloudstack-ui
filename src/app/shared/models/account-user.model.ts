@@ -1,28 +1,29 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountType } from './account.model';
+import { BaseModelInterface } from './base.model';
 
-export class AccountUser {
-  id?: string;
-  username?: string;
-  firstname?: string;
-  lastname?: string;
-  email?: string;
+export interface AccountUser extends BaseModelInterface {
+  id: string;
+  username: string;
+  firstname: string;
+  lastname: string;
+  email: string;
   password?: string;
-  created?: string;
-  state?: string;
-  account?: string;
-  accounttype?: number;
-  roleid?: string;
-  roletype?: AccountType;
-  rolename?: AccountType;
-  domain?: string;
-  domainid?: string;
-  timezone?: string;
-  accountid?: string;
-  iscallerchilddomain?: boolean;
-  isdefault?: boolean;
-  secretkey?: string;
-  apikey?: string;
+  created: string;
+  state: string;
+  account: string;
+  accounttype: number;
+  roleid: string;
+  roletype: AccountType;
+  rolename: AccountType;
+  domain: string;
+  domainid: string;
+  timezone: string;
+  accountid: string;
+  iscallerchilddomain: boolean;
+  isdefault: boolean;
+  secretkey: string;
+  apikey: string;
 }
 
 export interface ApiKeys {

@@ -44,7 +44,7 @@ export class AccountUserEditComponent implements OnInit {
   }
 
   public prepareData(data: AccountUserForm): AccountUser {
-    const result: AccountUser = new AccountUser();
+    const result: AccountUser = {} as AccountUser;
     result.username = data.username;
     result.email = data.email;
     if (data.password) {
@@ -55,6 +55,6 @@ export class AccountUserEditComponent implements OnInit {
     if (data.timezone) {
       result.timezone = data.timezone.geo;
     }
-    return result;
+    return result as AccountUser;
   }
 }

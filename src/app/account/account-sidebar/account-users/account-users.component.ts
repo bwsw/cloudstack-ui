@@ -49,7 +49,7 @@ export class AccountUsersComponent {
     this.dialog.open(AccountUserPasswordFormContainerComponent, {
       width: '375px',
       data: {
-        userId: user.id
+        user: user
       }
     })
       .afterClosed()

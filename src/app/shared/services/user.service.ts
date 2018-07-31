@@ -15,8 +15,7 @@ const DEFAULT_SESSION_TIMEOUT = 30;
 
 @Injectable()
 @BackendResource({
-  entity: 'User',
-  entityModel: AccountUser
+  entity: 'User'
 })
 export class UserService extends BaseBackendService<AccountUser> {
   private refreshTimer: any;
