@@ -4,7 +4,7 @@ Snapshots
 
 The *Snapshots* section contains the information on snapshots existing in the system.
 
-.. figure:: _static/Snapshots.png
+.. figure:: _static/Snapshots1.png
 
 Snapshots List
 -------------------
