@@ -12,13 +12,11 @@ Virtual Machines List
 
 At this page, you can see the list of your virtual machines available to your user only.
 
-.. figure:: _static/VMs_List_User.png
-   :scale: 80%
+.. figure:: _static/VMs_List_User1.png
 
 If you are a Domain Administrator you can see the virtual machines of all users in your account. Or select all accounts in the "Select accounts" option above the list to see the virtual machines for the whole domain.
 
-.. figure:: _static/VMs_List_Admin.png
-   :scale: 70%
+.. figure:: _static/VMs_List_Admin1.png
    
 You can change the data representation of existing virtual machines from "card" to "list". We have added the switch |view icon|/|box icon| in the upper-right corner of each section. This improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
@@ -46,15 +44,13 @@ Filtering of Virtual Machines
 
 The filtering and search tool will help you to find a virtual machine in the list. 
 
-.. figure:: _static/VMs_FilterAndSearch_User.png
-   :scale: 80%
+.. figure:: _static/VMs_FilterAndSearch_User1.png
    
 You can filter the VM list by accounts (available for Domain Administrators) and/or zones and/or groups and/or states. In the drop-down lists tick the filtering parameters and see the immediate result.
 
 Besides, VMs can be grouped by zones and/or groups and/or colors and/or accounts. Grouping makes it easier to identify necessary VMs on the list.
 
 .. figure:: _static/VMs_Filter.png
-   :scale: 80%
    
 Use the search tool to find a virtual machine by its name or a part of the name.
 
@@ -69,7 +65,6 @@ Creating a new VM in CloudStack-UI is a one-step action. You can select options 
 To create a new VM click the "Create" button at the bottom-right corner. 
 
 .. figure:: _static/VMs_Create1.png
-   :scale: 70%
    
 In the *Create VM* form fill in the following fields:
 
@@ -104,12 +99,10 @@ Click "SHOW ADDITIONAL FIELDS" to the right to expand the range of parameters. S
 You can hide the additional parameters by clicking "HIDE ADDITIONAL FIELDS".
 
 .. figure:: _static/VMs_Create_SO_AdditionalFields.png   
-   :scale: 70%
 
 Choose the option in the list and click "SELECT" below.
 
 .. figure:: _static/VMs_Create_SO_Select1.png   
-   :scale: 70%
 
 The settings will appear for the VM service offerings. 
 
@@ -128,7 +121,6 @@ These parameters can be predefined in the `configuration file <https://github.co
 Administrators can set limits for custom service offerings in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-offering-restrictions>`_. That means you cannot set values large than the limits specified for custom service offerings.
 
 .. figure:: _static/VMs_Create_SO_Custom2.png   
-   :scale: 70%
    
 Click "CONFIRM" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings option. Click "CANCEL" to drop all the settings.
 
@@ -137,7 +129,6 @@ Click "SELECT" below the list to assign the service offerings to your machine. T
 You can change service offerings by clicking "SELECT" next to the settings in the creation form and choosing other parameters.  Click "CHANGE" below to assign the selected option to the VM.
    
 .. figure:: _static/VMs_Create_SO_Custom_Change2.png
-   :scale: 70%
    
 4. **Installation source** * - Click "Select" to choose an installation source. Traditionally, there are two options of the virtual machine creation:
     
@@ -153,7 +144,6 @@ You can change service offerings by clicking "SELECT" next to the settings in th
    Click "CANCEL" to drop selected options. No source will be selected then.   
 
 .. figure:: _static/VMs_Create_IstallationSource1.png
-   :scale: 80%
     
 5. **Disk offering** - Available if ISO is selected as a source. Open a modal window where available disk offerings are listed by clicking "SELECT" in the disk offering section. The list of available options is managed by an Administrator. Disk offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#offering-availability>`_.
 
@@ -169,12 +159,10 @@ More parameters can be added via the `configuration file <https://github.com/bws
 Select a disk offering in the list and click "SELECT".
 
 .. figure:: _static/VMs_Create_DO.png
-   :scale: 80%
 
 If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size. Change the disk size moving the slider up to the volume size you wish.
 
 .. figure:: _static/VMs_Create_DO_ChangeSize.png
-   :scale: 80%
 
 Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/latest/service_offerings.html?highlight=Disk%20offering#compute-and-disk-service-offerings>`_.
 
@@ -189,7 +177,6 @@ A new security group is created on the base of predefined templates. This securi
 When creating a new security group, you can see all the templates are selected by default in the modal window. To form your custom security group, select a template in the "All templates" list at the left and move it to the "Selected templates" list at the right by clicking the arrow icon:
    
 .. figure:: _static/VMs_Create_AddSecGr_New.png
-   :scale: 80%
    
 Click "Select All" to move all templates from left to right at once.
 
@@ -206,7 +193,6 @@ Click "Cancel" to drop the selected options. No rules will be assigned to the vi
 If you would like to select an existing group of firewall rules, you can click the "Select Shared" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. That means you won't be able to uncheck some rules in the group that you do not want to include into the list (like at creating VM from a template). You can assign only the whole shared security group to your VM. 
    
 .. figure:: _static/VMs_Create_AddSecGr_Shared.png
-   :scale: 70%
 
 You can edit a shared security group after VM is created. In the *Network* tab of the VM details sidebar the assigned shared security group(s) can be viewed and edited. Please, find more information on security group editing in the :ref:`VM_Network_Tab` section.
 
@@ -231,12 +217,10 @@ Click "Cancel" to close the terms and move back to the creation form. Change the
 After clicking "Create", a dialogue window will appear where you can monitor the VM creation process: security group creation, virtual machine deployment, template tags copying, etc. These procedures are fulfilled one by one. A procedure in progress is marked with a spinner in the message. In case of an error occurring at any VM creation step, a user can understand at what step it has happened.
 
 .. figure:: _static/VMs_Create_Logger.png
-   :scale: 70%
 
 Once the VM creation process finishes, the success message will inform you of that. 
 
 .. figure:: _static/VMs_Create_SuccessMessage.png
-   :scale: 70%
    
 The message will show the list of all creation steps and the virtual machine information:
 
@@ -289,7 +273,6 @@ VM Action Box
 Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the "Actions" button |actions icon| to the right from each virtual machine in the list. 
 
 .. figure:: _static/VMs_ActionBox.png
-   :scale: 70%
    
 It allows performing the following actions with the VM:
 
@@ -354,8 +337,7 @@ For each virtual machine, you can get the details.
 
 By clicking a VM line or card you can open a sidebar to the right. 
 
-.. figure:: _static/VMs_Details1.png
-   :scale: 70%
+.. figure:: _static/VMs_Details2.png
    
 There you will find the information on the selected virtual machine:
 
@@ -373,18 +355,17 @@ The Virtual Machine tab contains the general setting of the VM. Some settings ca
 
 The description can be edited. Click "Edit" |edit icon| to change the description. 
 
-.. figure:: _static/VMs_Details_EditDescription.png
+.. figure:: _static/VMs_Details_EditDescription1.png
 
 It also can be edited from the Tags tab. Click "Edit" next to the ``csui.vm.description`` tag and change the description text in the appeared form.
 
-.. figure:: _static/VMs_Tags_EditDescription.png
+.. figure:: _static/VMs_Tags_EditDescription1.png
 
 2. Zone - A zone selected for the VM to be available in.
 
 #. Group - A custom group assigned to the VM. Edit this field by clicking the "Edit" button |edit icon|. In the appeared dialogue window choose a group from the drop-down list. Click "Assign" to assign the chosen group to the VM. 
 
-.. figure:: _static/VMs_Details_EditGroup.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_EditGroup1.png
    
 Or you can create a new group right from this window selecting the "Create a new group" option. Click "Assign" to assign the created group to the VM. 
 
@@ -392,8 +373,7 @@ Or you can create a new group right from this window selecting the "Create a new
    
 To remove the assigned group select the "Remove from the group" option and click "Remove" to eliminate the assigned group from the VM.
 
-.. figure:: _static/VMs_Details_RemoveGroup.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_RemoveGroup1.png
    
 The VM group is a custom group. It is saved to VM tags with ``csui.vm.group`` tag. From the Tags tab, it also can be edited or deleted.
 
@@ -409,8 +389,7 @@ You can use the search tool to find an offering in the list by a name or a part 
 
 Select an option from the list to change the service offering. 
 
-.. figure:: _static/VMs_Details_EditSO2.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_EditSO3.png
 
 Click "Change" to implement the edits. 
 
@@ -419,24 +398,20 @@ A started virtual machine will be rebooted at editing the service offering.
 5. Affinity Group - The affinity group assigned to the virtual machine. Edit this field by clicking the "Edit" button. In the dialogue window, choose an existing group or create a new one right in the dialogue window. Click "Assign" to assign the group to the VM. 
 
 .. figure:: _static/VMs_Details_CreateAffGroup1.png
-   :scale: 70%
    
 When assigning an affinity group to the started virtual machine, the system will suggest you stopping the VM. Click "OK" in the dialogue window. Then the VM will be started again.
 
 .. figure:: _static/VMs_Details_EditAffGroup.png
-   :scale: 70%
    
 The selected group can be removed by clicking "Edit" and choosing "Remove from the group" in the dialogue window.
 
-.. figure:: _static/VMs_Details_RemoveAffGroup.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_RemoveAffGroup1.png
    
 6. Template - Shows the template used to create the virtual machine.
 
 #. SSH key - Shows the SSH key of the virtual machine. Add the SSH key by clicking "+". In the appeared window select the SSH key in the drop-down list and click "Change":
 
-.. figure:: _static/VMs_Details_AddSSH.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_AddSSH1.png
    
 At saving the new SSH key for a started VM you will see the warning: "You need to stop the virtual machine to reset SSH key." Click "OK" if you want to stop it right now. Click "Cancel" to drop the edits.
 
@@ -447,7 +422,6 @@ Storage Tab
 The second tab - Storage - contains the information on the volumes allocated to the virtual machine.
 
 .. figure:: _static/VMs_Details_Storage1.png
-   :scale: 70%
    
 In this tab the following information is presented:
 
@@ -467,8 +441,7 @@ The following general information on a root disk is presented (expand the card t
 
 Additional volume (a data disk) can be attached to the VM. Click "Select" to select a data disk. Select a disk in the drop-down list and click "Select". 
 
-.. figure:: _static/VMs_AttachVolume_Select.png
-   :scale: 70%
+.. figure:: _static/VMs_AttachVolume_Select1.png
    
 The chosen data disk will appear for the virtual machine with the "Attach" button. Click "Attach" to attach the selected disk to the virtual machine.
 
