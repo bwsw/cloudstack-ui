@@ -5,22 +5,22 @@
       "name": "TCP Permit All",
       "description": "Permits all TPC traffic",
       "preselected": true,
-      "ingressRules": [
+      "ingressrule": [
         {
-          "ruleId": "templateTCP-rule-ingress",
+          "ruleid": "templateTCP-rule-ingress",
           "protocol": "tcp",
-          "startPort": 1,
-          "endPort": 65535,
-          "CIDR": "0.0.0.0/0"
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
         }
       ],
-      "egressRules": [
+      "egressrule": [
         {
-          "ruleId": "templateTCP-rule-egress",
+          "ruleid": "templateTCP-rule-egress",
           "protocol": "tcp",
-          "startPort": 1,
-          "endPort": 65535,
-          "CIDR": "0.0.0.0/0"
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
         }
       ]
     },
@@ -29,22 +29,22 @@
       "name": "UDP Permit All",
       "description": "Permits all UDP traffic",
       "preselected": true,
-      "ingressRules": [
+      "ingressrule": [
         {
-          "ruleId": "templateUDP-rule-ingress",
+          "ruleid": "templateUDP-rule-ingress",
           "protocol": "udp",
-          "startPort": 1,
-          "endPort": 65535,
-          "CIDR": "0.0.0.0/0"
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
         }
       ],
-      "egressRules": [
+      "egressrule": [
         {
-          "ruleId": "templateUDP-rule-egress",
+          "ruleid": "templateUDP-rule-egress",
           "protocol": "udp",
-          "startPort": 1,
-          "endPort": 65535,
-          "CIDR": "0.0.0.0/0"
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
         }
       ]
     },
@@ -53,22 +53,22 @@
       "name": "ICMP Permit All",
       "description": "Permits all ICMP traffic",
       "preselected": true,
-      "ingressRules": [
+      "ingressrule": [
         {
-          "ruleId": "templateICMP-rule-ingress",
-          "icmpCode": -1,
-          "icmpType": -1,
+          "ruleid": "templateICMP-rule-ingress",
+          "icmpcode": -1,
+          "icmptype": -1,
           "protocol": "icmp",
-          "CIDR": "0.0.0.0/0"
+          "cidr": "0.0.0.0/0"
         }
       ],
-      "egressRules": [
+      "egressrule": [
         {
-          "ruleId": "templateICMP-rule-egress",
-          "icmpCode": -1,
-          "icmpType": -1,
+          "ruleid": "templateICMP-rule-egress",
+          "icmpcode": -1,
+          "icmptype": -1,
           "protocol": "icmp",
-          "CIDR": "0.0.0.0/0"
+          "cidr": "0.0.0.0/0"
         }
       ]
     }

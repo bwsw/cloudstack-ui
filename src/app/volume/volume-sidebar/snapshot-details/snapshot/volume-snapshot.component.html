@@ -8,18 +8,18 @@
         mat-icon-button
         [matMenuTriggerFor]="actionsMenu"
       >
-        <mat-icon>more_vert</mat-icon>
+        <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
     </div>
   </mat-card-header>
   <mat-card-content>
-    <div>{{ snapshotDescription }}</div>
+    <div class="truncate">{{ snapshotDescription }}</div>
     <div>{{ snapshotCreated | stringifyDate }}</div>
   </mat-card-content>
   <mat-menu
     #actionsMenu="matMenu"
     [style.width.px]="300"
   >
-    <cs-snapshot-actions [snapshot]="snapshot" [volume]="volume"></cs-snapshot-actions>
+    <cs-snapshot-action-container [snapshot]="snapshot"></cs-snapshot-action-container>
   </mat-menu>
 </mat-card>

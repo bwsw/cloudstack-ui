@@ -6,6 +6,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import * as authActions from './auth.actions';
 import { Action } from '@ngrx/store';
+import { Account } from '../../../shared/models';
 import { AccountService } from '../../../shared/services/account.service';
 
 @Injectable()

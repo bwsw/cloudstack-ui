@@ -1,11 +1,5 @@
 import { SecurityGroup } from '../../../app/security-group/sg.model';
-import {
-  AffinityGroup,
-  DiskOffering,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../app/shared/models';
+import { AffinityGroup, DiskOffering, ServiceOffering, SSHKeyPair, Zone } from '../../../app/shared/models';
 import { Iso, Template } from '../../../app/template/shared';
 
 

@@ -37,7 +37,6 @@ describe('Template creation component', () => {
       component.account = {} as Account;
       component.osTypes = [];
       component.zones = [];
-      component.isLoading = false;
       component.groups = [];
       fixture.detectChanges();
     });
@@ -241,7 +240,7 @@ describe('Template creation component', () => {
       ispublic: true,
     };
 
-    component.account = { accounttype: 1 } as Account;
+    component.account = <Account>{ accounttype: '1' };
 
     component.showAdditional = true;
     component.templateGroup = { id: 'testG1' };

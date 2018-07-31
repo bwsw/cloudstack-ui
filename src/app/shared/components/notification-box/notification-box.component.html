@@ -5,21 +5,16 @@
   popoverPositionX="end"
   (onPopoverClose)="onToggle()"
 >
-  <mat-icon
-    *ngIf="unseenCount"
-    [csBadge]="unseenCount"
-    csBadgeOverlap
-  >
-    notifications
-  </mat-icon>
-  <mat-icon *ngIf="!unseenCount">notifications</mat-icon>
+  <div [csBadge]="unseenCount">
+    <mat-icon class="mdi-bell"></mat-icon>
+  </div>
 </button>
 <cs-popover #popover>
   <mat-card class="mat-elevation-z4">
     <mat-card-header class="mat-card-header">
       <mat-card-title>
         <h2 class="mat-card-title-text">
-          {{ 'JOB_NOTIFICATIONS.PENDING_OPERATIONS' | translate }}
+          {{ 'NOTIFICATIONS.PENDING_OPERATIONS' | translate }}
         </h2>
       </mat-card-title>
     </mat-card-header>

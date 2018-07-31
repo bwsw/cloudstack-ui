@@ -17,7 +17,7 @@ export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
   @Input() public tags: Array<Tag>;
 
   public get hasPermissions(): boolean {
-    return this.entity.account === this.authService.user.username || this.authService.isAdmin();
+    return this.entity.account === this.authService.user.account || this.authService.isAdmin();
   }
 
   constructor(

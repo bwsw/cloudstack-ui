@@ -1,5 +1,5 @@
 import { BaseTemplateModel } from '../../shared/base-template.model';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { Input } from '@angular/core';
 import moment = require('moment');
 import { downloadUrl } from '../../shared';
@@ -8,7 +8,7 @@ import { downloadUrl } from '../../shared';
 export abstract class BaseTemplateDetailsComponent {
   @Input() public entity: BaseTemplateModel;
 
-  constructor(private notificationService: NotificationService) {
+  constructor(private notificationService: SnackBarService) {
   }
 
   public get templateTypeTranslationToken(): string {
@@ -30,11 +30,11 @@ export abstract class BaseTemplateDetailsComponent {
   }
 
   public onCopySuccess(): void {
-    this.notificationService.message('CLIPBOARD.COPY_SUCCESS');
+    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.notificationService.message('CLIPBOARD.COPY_FAIL');
+    this.notificationService.open('CLIPBOARD.COPY_FAIL');
   }
 
 }

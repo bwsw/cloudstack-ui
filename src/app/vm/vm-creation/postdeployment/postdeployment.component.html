@@ -1,6 +1,8 @@
 <div *ngIf="vm">
   <h3>{{ title | translate }}</h3>
-  <h4><b>{{ 'VM_POST_ACTION.VM' | translate }}:</b> {{ vm.name }}</h4>
+  <h4 class="truncate">
+    <b>{{ 'VM_POST_ACTION.VM' | translate }}: </b> {{ vm.name }}
+  </h4>
   <h4 *ngIf="!vm.isoId">
     <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b>
     <span *ngIf="getPassword()">{{ getPassword() }}</span>
@@ -17,7 +19,8 @@
         *ngIf="!canSavePassword"
         matTooltipPosition="below"
         [matTooltip]="'COMMON.SAVED' | translate"
-      >check_circle
+        class="mdi-check-circle"
+      >
       </mat-icon>
     </div>
   </h4>

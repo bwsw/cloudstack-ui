@@ -113,6 +113,11 @@ export function listReducer(
       };
     }
 
+    case vmActions.VIRTUAL_MACHINE_LOADED: {
+      const vm = action.payload.vm;
+      return adapter.updateOne({ id: vm.id, changes: vm }, state);
+    }
+
     case vmActions.VM_FILTER_UPDATE: {
       return {
         ...state,
@@ -142,13 +147,6 @@ export function listReducer(
 
     case vmActions.LOAD_VMS_RESPONSE: {
       return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
         ...adapter.addAll([...action.payload], state),
         loading: false
       };

@@ -1,11 +1,6 @@
-import * as uuid from 'uuid';
-import {
-  Params,
-  RouterState,
-  RouterStateSnapshot
-} from '@angular/router';
+import { Params, RouterState, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
-
+import * as uuid from 'uuid';
 
 export class Utils {
   public static getUniqueId(): string {
@@ -82,13 +77,13 @@ export class Utils {
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
 
-    const darkness = 1 - ( 0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    const darkness = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
     return darkness > 0.5;
   }
 
   public static sortByName = (a, b) => {
-    return a.name.localeCompare(b.name);
+    return a.name && a.name.localeCompare(b.name);
   };
 }
 

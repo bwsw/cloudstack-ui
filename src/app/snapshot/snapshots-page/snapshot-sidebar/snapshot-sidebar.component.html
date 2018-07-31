@@ -1,0 +1,88 @@
+<div *ngIf="snapshot">
+  <div class="title-container">
+    <h4 class="details-header">
+      <span
+        class="state-icon"
+        [matTooltip]="stateTranslations[snapshot.state] | translate"
+        [ngClass]="statusClass"
+      ></span>
+      <span>{{ snapshot.name }}</span></h4>
+    <div class="vm-actions-container">
+      <button
+        class="vm-actions-button"
+        mat-icon-button
+        [matMenuTriggerFor]="actionsMenu"
+      >
+        <mat-icon class="mdi-dots-vertical"></mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">
+          {{ 'SNAPSHOT_PAGE.SIDEBAR.DETAILS' | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <cs-parameters-pair
+        *ngIf="snapshotCreated"
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.CREATED'"
+        [value]="snapshotCreated | stringifyDate"
+      ></cs-parameters-pair>
+
+      <cs-parameters-pair
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.TYPE'"
+        [value]="snapshotType | translate"
+      ></cs-parameters-pair>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="snapshotDescription">
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">
+          {{ 'SNAPSHOT_PAGE.SIDEBAR.DESCRIPTION' | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="content-wrap">
+      {{ snapshotDescription }}
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="volume">
+    <mat-card-header>
+      <mat-card-title>
+        <h2 class="mat-card-title-text">
+          {{ 'SNAPSHOT_PAGE.SIDEBAR.VOLUME_INFORMATION.TITLE' | translate }}</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <cs-parameters-pair
+        *ngIf="volume.vmdisplayname"
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.VOLUME_INFORMATION.VM'"
+        [value]="volume.vmdisplayname"
+      ></cs-parameters-pair>
+
+      <cs-parameters-pair
+        [name]="'SNAPSHOT_PAGE.SIDEBAR.VOLUME_INFORMATION.VOLUME'"
+        [value]="volume.name"
+      ></cs-parameters-pair>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<cs-no-results
+  *ngIf="notFound && !isLoading"
+  [text]="'SNAPSHOT_PAGE.SIDEBAR.SNAPSHOT_NOT_FOUND' | translate"
+></cs-no-results>
+
+<cs-overlay-loading [active]="isLoading"></cs-overlay-loading>
+
+<mat-menu #actionsMenu="matMenu">
+  <cs-snapshot-action-container
+    *ngIf="snapshot"
+    [snapshot]="snapshot"
+  ></cs-snapshot-action-container>
+</mat-menu>

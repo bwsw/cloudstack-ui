@@ -3,7 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges, OnInit,
+  OnChanges,
+  OnInit,
   Output,
   SimpleChanges
 } from '@angular/core';
@@ -11,7 +12,7 @@ import { MatDialog } from '@angular/material';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
-import { defaultCategoryName, Tag, categoryName, keyWithoutCategory } from '../../shared/models';
+import { categoryName, defaultCategoryName, keyWithoutCategory, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
@@ -72,11 +73,10 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public addTag(category?: TagCategory): void {
-    const forbiddenKeys = category ? category.tags.map(_ => _.key) : [];
     this.dialog.open(TagEditComponent, {
       width: '375px',
       data: {
-        forbiddenKeys: forbiddenKeys,
+        forbiddenKeys: this.getKeysOfExistingTags(),
         title: 'TAGS.CREATE_NEW_TAG',
         confirmButtonText: 'COMMON.CREATE',
         categoryName: category && category.name
@@ -87,9 +87,11 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public editTag(tag: Tag): void {
+    const forbiddenKeys = this.getKeysOfExistingTags().filter(key => key !== tag.key);
     this.dialog.open(TagEditComponent, {
       width: '375px',
       data: {
+        forbiddenKeys,
         title: 'TAGS.EDIT_TAG',
         confirmButtonText: 'COMMON.EDIT',
         categoryName: categoryName(tag),
@@ -154,7 +156,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   private filterTagsBySystem(): (tag: Tag) => boolean {
     return (tag) => {
-      return this.showSystemTags || !tag.key.startsWith('csui');
+      return this.showSystemTags || categoryName(tag) !== 'csui';
     };
   }
 
@@ -211,5 +213,9 @@ export class TagsViewComponent implements OnInit, OnChanges {
       name,
       tags: sortedTags
     };
+  }
+
+  private getKeysOfExistingTags(): string[] {
+    return this.tags.map(tag => tag.key);
   }
 }

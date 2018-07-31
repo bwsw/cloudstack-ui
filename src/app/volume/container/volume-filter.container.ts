@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as debounce from 'lodash/debounce';
@@ -15,16 +9,18 @@ import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
-import { VolumeType } from '../../shared/models/volume.model';
+import { Grouping, VolumeType } from '../../shared/models';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
+const FILTER_KEY = 'volumeListFilters';
 
 @Component({
   selector: 'cs-volume-filter-container',
   template: `
     <cs-volume-filter
+      *loading="loading$ | async"
       [zones]="zones$ | async"
       [accounts]="accounts$ | async"
       [types]="types"
@@ -40,13 +36,12 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       (onZonesChange)="onZonesChange($event)"
       (onAccountsChange)="onAccountsChange($event)"
       (onTypesChange)="onTypesChange($event)"
-      (onGroupingsChange)="update($event)"
+      (onGroupingsChange)="onGroupingsChange($event)"
     ></cs-volume-filter>`
 })
 export class VolumeFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
-
-  @Input() groupings: Array<any>;
-  @Input() selectedGroupings: Array<any>;
+  @Input() groupings: Array<Grouping>;
+  @Input() selectedGroupings: Array<Grouping>;
 
   readonly filters$ = this.store.select(fromVolumes.filters);
   readonly query$ = this.store.select(fromVolumes.filterQuery);
@@ -59,7 +54,6 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
   readonly selectedTypes$ = this.store.select(fromVolumes.filterSelectedTypes);
   readonly selectedAccountIds$ = this.store.select(fromVolumes.filterSelectedAccountIds);
 
-
   public types = [VolumeType.ROOT, VolumeType.DATADISK];
 
   private filterService = new FilterService(
@@ -69,11 +63,11 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
       types: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] },
       query: { type: 'string' },
-      accounts: {type: 'array', defaultOption: [] }
+      accounts: { type: 'array', defaultOption: [] }
     },
     this.router,
     this.sessionStorage,
-    'volumeListFilters',
+    FILTER_KEY,
     this.activatedRoute
   );
 
@@ -108,12 +102,11 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new volumeActions.VolumeFilterUpdate({ selectedTypes }));
   }
 
-  public update(selectedGroupings) {
+  public onGroupingsChange(selectedGroupings) {
     this.store.dispatch(new volumeActions.VolumeFilterUpdate({ selectedGroupings }));
   }
 
   private initFilters(): void {
-
     const params = this.filterService.getParams();
     const spareOnly = params.spareOnly;
     const query = params.query;
@@ -139,7 +132,6 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
       selectedAccountIds,
       selectedGroupings
     }));
-
   }
 
   public ngOnInit() {

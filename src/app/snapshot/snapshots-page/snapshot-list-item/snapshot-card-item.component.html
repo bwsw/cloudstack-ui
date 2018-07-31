@@ -1,0 +1,35 @@
+<mat-card
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+  class="entity-card"
+>
+
+  <mat-card-header class="entity-card-header">
+    <cs-round-state-indicator
+      [state]="statusClass"
+      [matTooltip]="stateTranslations[item.state] | translate"
+      class="entity-card-thumbnail"
+    ></cs-round-state-indicator>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
+      <span [innerHTML]="item.name | highlight:query"></span>
+    </mat-card-title>
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="entity-card-data-line" *ngIf="!!item.volumeid">
+      {{ 'SNAPSHOT_PAGE.CARD.VOLUME' | translate }}: {{ volumeName }}
+    </div>
+    <div class="entity-card-data-line">
+      {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
+      <span [innerHTML]="snapshotCreated | stringifyDate"></span>
+    </div>
+  </mat-card-content>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-snapshot-action-container [snapshot]="item"></cs-snapshot-action-container>
+  </mat-menu>
+
+</mat-card>

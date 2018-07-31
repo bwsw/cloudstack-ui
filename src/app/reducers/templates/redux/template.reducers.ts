@@ -3,6 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { BaseTemplateModel, resourceType } from '../../../template/shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
+import * as fromAuth from '../../auth/redux/auth.reducers';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -13,7 +14,6 @@ import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
 import * as template from './template.actions';
 import * as vm from '../../vm/redux/vm.actions';
-import * as fromAuth from '../../auth/redux/auth.reducers';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -107,21 +107,15 @@ export function listReducer(
     }
     case template.LOAD_TEMPLATE_RESPONSE: {
       return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
         ...adapter.addAll([...action.payload], state),
         loading: false
       };
     }
     case template.TEMPLATE_CREATE_SUCCESS: {
-      return {
-        ...adapter.addOne(action.payload, state)
-      };
+      return adapter.addOne(action.payload, state);
+    }
+    case template.TEMPLATE_REGISTER_SUCCESS: {
+      return adapter.addOne(action.payload, state);
     }
     case template.TEMPLATE_REMOVE_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
@@ -156,7 +150,6 @@ export function listReducer(
     }
   }
 }
-
 
 export function vmCreationListReducer(
   state = initialVmCreationTemplatesState,
@@ -476,19 +469,6 @@ export const selectTemplatesForIsoAttachment = createSelector(
       && currentAccountFilter(template));
   }
 );
-export const selectFilteredTemplatesForVmCreation = createSelector(
-  selectTemplatesForAction,
-  fromVMs.getVmCreationZoneId,
-  fromAuth.getUserAccount,
-  vmCreationListFilters,
-  (templates, zoneId, account, filter) => filterForVmCreation(templates, zoneId, account, filter));
-
-export const allTemplatesReadyForVmCreation = createSelector(
-  selectAll,
-  fromVMs.getVmCreationZoneId,
-  fromAuth.getUserAccount,
-  vmCreationListFilters,
-  (templates, zoneId, account, filter) => filterForVmCreation(templates, zoneId, account, filter).length);
 
 const filterForVmCreation = (templates, zoneId, account, filter) => {
   const selectedZoneFilter = (template: BaseTemplateModel) => {
@@ -511,3 +491,29 @@ const filterForVmCreation = (templates, zoneId, account, filter) => {
     && selectedZoneFilter(template)
     && currentAccountFilter(template));
 };
+
+export const selectFilteredTemplatesForVmCreation = createSelector(
+  selectTemplatesForAction,
+  fromVMs.getVmCreationZoneId,
+  fromAuth.getUserAccount,
+  vmCreationListFilters,
+  (templates, zoneId, account, filter) => filterForVmCreation(
+    templates,
+    zoneId,
+    account,
+    filter
+  )
+);
+
+export const allTemplatesReadyForVmCreation = createSelector(
+  selectAll,
+  fromVMs.getVmCreationZoneId,
+  fromAuth.getUserAccount,
+  vmCreationListFilters,
+  (templates, zoneId, account, filter) => filterForVmCreation(
+    templates,
+    zoneId,
+    account,
+    filter
+  ).length
+);

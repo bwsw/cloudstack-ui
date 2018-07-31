@@ -1,21 +1,14 @@
-import {
-  Component,
-  Input,
-  OnChanges
-} from '@angular/core';
-import {
-  getType,
-  SecurityGroup,
-  SecurityGroupType
-} from '../sg.model';
+import { Component, Input, OnChanges } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
+import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { SecurityGroupCardItemComponent } from '../sg-list-item/card-item/security-group-card-item.component';
 import { SecurityGroupRowItemComponent } from '../sg-list-item/row-item/security-group-row-item.component';
-import { TranslateService } from '@ngx-translate/core';
 import { ListService } from '../../shared/components/list/list.service';
 import { SecurityGroupViewMode } from '../sg-view-mode';
 import { VirtualMachine } from '../../vm';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { NgrxEntities } from '../../shared/interfaces';
 
 
 @Component({
@@ -27,7 +20,7 @@ export class SecurityGroupListComponent implements OnChanges {
   @Input() public query: string;
   @Input() public mode: ViewMode;
   @Input() public viewMode: SecurityGroupViewMode;
-  @Input() public vmList: Dictionary<VirtualMachine>;
+  @Input() public vmList: NgrxEntities<VirtualMachine>;
   public groupings = [];
 
   public inputs;

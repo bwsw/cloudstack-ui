@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class HighLightPipe implements PipeTransform {
   public transform(text: string, search: string): string {
-    if (!search) {
+    if (!search || !text) {
       return text;
     }
 

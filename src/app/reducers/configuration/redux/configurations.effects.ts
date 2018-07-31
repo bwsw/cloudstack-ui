@@ -32,7 +32,7 @@ export class ConfigurationEffects {
   @Effect()
   updateConfiguration$: Observable<Action> = this.actions$
     .ofType(configurationActions.UPDATE_CONFIGURATIONS_REQUEST)
-    .switchMap((action: configurationActions.UpdateConfigurationRequest) => {
+    .mergeMap((action: configurationActions.UpdateConfigurationRequest) => {
       return this.configurationService.updateConfiguration(
         action.payload.configuration,
         action.payload.account)

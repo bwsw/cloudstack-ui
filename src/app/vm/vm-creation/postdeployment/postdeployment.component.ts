@@ -1,15 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import {
-  getLogin,
-  getPassword,
-  isHttpAuthMode,
-  VirtualMachine,
-  VmState,
-  VmResourceType
-} from '../../shared/vm.model';
+import { getLogin, getPassword, isHttpAuthMode, VirtualMachine, VmState } from '../../shared/vm.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
 import { TagService } from '../../../shared/services/tags/tag.service';
@@ -87,23 +79,13 @@ export class PostdeploymentComponent {
 
   public savePassword() {
     this.disableButton = true;
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_SAVE_PASSWORD' })
-      .onErrorResumeNext()
-      .switchMap((res) => {
-        if (res) {
-          return this.userTagService.setSavePasswordForAllVms(true);
-        }
-        return Observable.of(null);
-      })
-      .switchMap(() =>
-        this.tagService.update(
-          this.vm,
-          VmResourceType,
-          VirtualMachineTagKeys.passwordTag,
-          this.vm.password
-        )
-      ).subscribe(() => {
-      this.canSavePassword = false;
-    });
+    this.store.dispatch(new vmActions.SaveNewPassword({
+      vm: this.vm,
+      tag: {
+        key: VirtualMachineTagKeys.passwordTag,
+        value: this.vm.password
+      }
+    }));
+    this.canSavePassword = false;
   }
 }

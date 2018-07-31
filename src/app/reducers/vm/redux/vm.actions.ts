@@ -2,13 +2,7 @@ import { Action } from '@ngrx/store';
 import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import {
-  Color,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair,
-  Tag
-} from '../../../shared/models';
+import { Color, InstanceGroup, ServiceOffering, SSHKeyPair, Tag } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
 import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
@@ -18,6 +12,8 @@ import { FormState } from './vm.reducers';
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
 export const LOAD_VMS_RESPONSE = '[VM] LOAD_VMS_RESPONSE';
+export const LOAD_VIRTUAL_MACHINE = '[VM] Load virtual machine';
+export const VIRTUAL_MACHINE_LOADED = '[VM] Virtual Machine Loaded';
 export const VM_FILTER_UPDATE = '[VM] VM_FILTER_UPDATE';
 export const VM_ATTACHMENT_FILTER_UPDATE = '[VM] VM_ATTACHMENT_FILTER_UPDATE';
 export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
@@ -81,6 +77,20 @@ export class LoadVMRequest implements Action {
   type = LOAD_VM_REQUEST;
 
   constructor(public payload?: any) {
+  }
+}
+
+export class LoadVirtualMachine implements Action {
+  readonly type = LOAD_VIRTUAL_MACHINE;
+
+  constructor(public payload: { id: string }) {
+  }
+}
+
+export class VirtualMachineLoaded implements Action {
+  readonly type = VIRTUAL_MACHINE_LOADED;
+
+  constructor(public payload: { vm: VirtualMachine }) {
   }
 }
 
@@ -476,6 +486,8 @@ export class VmDeploymentCopyTags implements Action {
 
 export type Actions = LoadVMsRequest
   | LoadVMsResponse
+  | LoadVirtualMachine
+  | VirtualMachineLoaded
   | AccessVm
   | PulseVm
   | ConsoleVm

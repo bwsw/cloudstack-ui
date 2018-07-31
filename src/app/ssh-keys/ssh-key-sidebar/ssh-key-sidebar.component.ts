@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
@@ -27,7 +27,7 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
 
   constructor(
     protected entityService: SSHKeyPairService,
-    protected notificationService: NotificationService,
+    protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected userTagService: UserTagService,

@@ -1,0 +1,32 @@
+<mat-list-item
+  (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+  class="entity-list-item"
+>
+  <cs-square-state-indicator
+    [state]="statusClass"
+    [matTooltip]="stateTranslations[item.state] | translate"
+    class="entity-list-item-status-indicator"
+  ></cs-square-state-indicator>
+
+  <h2 class="entity-list-item-title">
+    <span [matTooltip]="item.name" [innerHTML]="item.name | highlight:query"></span>
+  </h2>
+
+  <div class="entity-list-item-data" *ngIf="item.volumeid">
+    {{ 'SNAPSHOT_PAGE.CARD.VOLUME' | translate }}: {{ volumeName }}
+  </div>
+
+  <div class="entity-list-item-data">
+    {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
+   <span [innerHTML]="snapshotCreated | stringifyDate"></span>
+  </div>
+
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <mat-icon class="mdi-dots-vertical"></mat-icon>
+  </button>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-snapshot-action-container [snapshot]="item"></cs-snapshot-action-container>
+  </mat-menu>
+</mat-list-item>

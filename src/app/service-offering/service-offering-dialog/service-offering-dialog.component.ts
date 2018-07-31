@@ -1,19 +1,10 @@
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnInit,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
-import {
+  ICustomOfferingRestrictions,
   ServiceOffering,
   ServiceOfferingClass,
   ServiceOfferingType
-} from '../../shared/models/service-offering.model';
-import { Tag } from '../../shared/models/tag.model';
-import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
+} from '../../shared/models';
 import { ICustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 
 export enum ServiceOfferingFromMode {
@@ -31,7 +22,6 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public serviceOfferings: Array<ServiceOffering>;
   @Input() public classes: Array<ServiceOfferingClass>;
   @Input() public selectedClasses: Array<string>;
-  @Input() public classTags: Array<Tag>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
   @Input() public restrictions: ICustomOfferingRestrictions;
@@ -46,6 +36,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Output() public queryChange = new EventEmitter();
   public serviceOffering: ServiceOffering;
   public loading: boolean;
+  public showFields = false;
 
   public ngOnInit() {
     this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
@@ -77,6 +68,13 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       this.serviceOfferings.length &&
       this.serviceOffering && this.serviceOffering.id !== this.serviceOfferingId
       && this.isVmRunning;
+  }
+
+  public get disableSubmitButton(): boolean {
+    return !this.serviceOffering ||
+      !this.serviceOffering.iscustomized && this.serviceOffering.id === this.serviceOfferingId ||
+      this.serviceOffering.iscustomized && !this.serviceOffering.cpuspeed
+      && !this.serviceOffering.cpunumber && !this.serviceOffering.memory;
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Tag } from '../../shared/models';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class TagComponent {
 
   constructor(
     private dialogService: DialogService,
-    private notificationService: NotificationService
+    private notificationService: SnackBarService
   ) {
     this.onTagEdit = new EventEmitter<Tag>();
     this.onTagRemove = new EventEmitter<Tag>();
@@ -37,11 +37,11 @@ export class TagComponent {
   }
 
   public onCopySuccess(): void {
-    this.notificationService.message('CLIPBOARD.COPY_SUCCESS');
+    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
   }
 
   public onCopyFail(): void {
-    this.notificationService.message('CLIPBOARD.COPY_FAIL');
+    this.notificationService.open('CLIPBOARD.COPY_FAIL');
   }
 
   private remove(): void {

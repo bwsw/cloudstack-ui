@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { Action } from '@ngrx/store';
-import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
-import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
-import { SshPrivateKeyDialogComponent } from '../../../ssh-keys/ssh-key-creation/ssh-private-key-dialog.component';
-import { MatDialog } from '@angular/material';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { Actions, Effect } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+
+import { SSHKeyPair } from '../../../shared/models';
+import { SshPrivateKeyDialogComponent } from '../../../ssh-keys/ssh-key-creation/ssh-private-key-dialog.component';
 
 import * as sshKey from './ssh-key.actions';
 
@@ -26,7 +29,7 @@ export class SshKeyEffects {
   @Effect()
   removeSshKeyPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_REMOVE)
-    .switchMap((action: sshKey.RemoveSshKeyPair) => {
+    .mergeMap((action: sshKey.RemoveSshKeyPair) => {
       return this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY' })
         .onErrorResumeNext()
         .filter(res => !!res)
@@ -36,8 +39,13 @@ export class SshKeyEffects {
             account: action.payload.account,
             domainid: action.payload.domainid
           })
+            .do(() => {
+              const message = 'NOTIFICATIONS.SSH_KEY.DELETE_DONE';
+              this.showNotificationsOnFinish(message);
+            })
             .map(() => new sshKey.RemoveSshKeyPairSuccessAction(action.payload))
             .catch((error: Error) => {
+              this.showNotificationsOnFail(error);
               return Observable.of(new sshKey.RemoveSshKeyPairErrorAction(error));
             });
         });
@@ -60,12 +68,18 @@ export class SshKeyEffects {
   @Effect()
   createSshKeyPair$: Observable<Action> = this.actions$
     .ofType(sshKey.SSH_KEY_PAIR_CREATE)
-    .switchMap((action: sshKey.CreateSshKeyPair) => {
+    .mergeMap((action: sshKey.CreateSshKeyPair) => {
       return (action.payload.publicKey
         ? this.sshKeyService.register(action.payload)
-        : this.sshKeyService.create(action.payload))
+        : this.sshKeyService.create(action.payload)
+      )
+        .do(() => {
+          const message = 'NOTIFICATIONS.SSH_KEY.CREATION_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(createdKey => new sshKey.CreateSshKeyPairSuccessAction(createdKey))
         .catch((error: Error) => {
+          this.showNotificationsOnFail(error);
           return Observable.of(new sshKey.CreateSshKeyPairErrorAction(error));
         });
     });
@@ -81,26 +95,13 @@ export class SshKeyEffects {
       }
     });
 
-  @Effect({ dispatch: false })
-  createSshKeyErrorPair$: Observable<Action> = this.actions$
-    .ofType(sshKey.SSH_KEY_PAIR_CREATE_ERROR)
-    .do((action: sshKey.CreateSshKeyPairErrorAction) => {
-      this.handleError(action.payload);
-    });
-
-  @Effect({ dispatch: false })
-  removeSshKeyErrorPair$: Observable<Action> = this.actions$
-    .ofType(sshKey.SSH_KEY_PAIR_REMOVE_ERROR)
-    .do((action: sshKey.RemoveSshKeyPairErrorAction) => {
-      this.handleError(action.payload);
-    });
-
   constructor(
     private actions$: Actions,
     private sshKeyService: SSHKeyPairService,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackBarService
   ) {
   }
 
@@ -113,9 +114,12 @@ export class SshKeyEffects {
       .subscribe(() => this.dialog.closeAll());
   }
 
-  private handleError(error): void {
-    this.dialogService.alert({
-      message: {
+  private showNotificationsOnFinish(message: string) {
+    this.snackBarService.open(message);
+  }
+
+  private showNotificationsOnFail(error: any) {
+    this.dialogService.alert({ message: {
         translationToken: error.message,
         interpolateParams: error.params
       }

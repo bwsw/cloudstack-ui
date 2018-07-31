@@ -1,23 +1,11 @@
-:host {
-  cursor: pointer;
-  z-index: -1;
+.has-text-color {
+  .mat-list-item-content {
+    color: inherit;
+  }
 }
-
-.info {
-  flex-grow: 2;
-  flex-basis: 100px;
+.dark-background {
+  color: rgba(255, 255, 255, 0.87) !important;
 }
-
-.custom-row {
-  &.has-text-color {
-    .mat-list-item-content {
-      color: inherit;
-    }
-  }
-  &.dark-background {
-    color: rgba(255, 255, 255, 0.87) !important;
-  }
-  &.light-background {
-    color: rgba(0, 0, 0, 0.87) !important;
-  }
+.light-background {
+  color: rgba(0, 0, 0, 0.87) !important;
 }

@@ -14,11 +14,11 @@
       [classes]="classes"
       [selectedClasses]="selectedClasses"
       [query]="query"
-      [classTags]="classTags"
       [offeringList]="serviceOfferings"
       [customOfferingRestrictions]="restrictions"
       [defaultParams]="defaultParams"
       [selectedOffering]="serviceOffering"
+      [showFields]="showFields"
       (selectedOfferingChange)="updateOffering($event)"
     ></cs-service-offering-list>
 
@@ -29,17 +29,25 @@
     </div>
   </div>
   <div class="mat-dialog-actions">
-    <button mat-button color="primary" matDialogClose>
-      {{ 'COMMON.CANCEL' | translate }}
-    </button>
-    <button
-      *ngIf="serviceOfferings?.length"
-      mat-button
-      color="primary"
-      [disabled]="!serviceOffering || !serviceOffering.iscustomized && serviceOffering.id === serviceOfferingId"
-      (click)="onChange()"
-    >
-      {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}
-    </button>
+    <div>
+      <button mat-button color="primary" (click)="showFields = !showFields">
+        {{ (showFields ? 'SERVICE_OFFERING.HIDE_ADDITIONAL_FIELDS'
+        : 'SERVICE_OFFERING.SHOW_ADDITIONAL_FIELDS' )| translate }}
+      </button>
+    </div>
+    <div>
+      <button mat-button color="primary" matDialogClose>
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button
+        *ngIf="serviceOfferings?.length"
+        mat-button
+        color="primary"
+        [disabled]="disableSubmitButton"
+        (click)="onChange()"
+      >
+        {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}
+      </button>
+    </div>
   </div>
 </div>

@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ResourceCount } from '../../../shared/models/resource-count.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { ResourceType } from '../../../shared/models/resource-limit.model';
@@ -14,7 +9,7 @@ import { ResourceType } from '../../../shared/models/resource-limit.model';
 })
 export class AccountStatisticsComponent {
   @Input() public stats: Array<ResourceCount>;
-  @Output() public onStatsUpdate = new EventEmitter();
+  @Output() public statisticsUpdate = new EventEmitter();
 
   public resourceLabels = {
     [ResourceType.Instance]: 'ACCOUNT_PAGE.CONFIGURATION.VM_COUNT',
@@ -42,6 +37,6 @@ export class AccountStatisticsComponent {
     })
       .onErrorResumeNext()
       .filter(res => Boolean(res))
-      .subscribe(res => this.onStatsUpdate.emit(res));
+      .subscribe(res => this.statisticsUpdate.emit(res));
   }
 }

@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { Account } from '../../../shared/models/account.model';
+
+import { Account } from '../../../shared/models';
 import { AccountService } from '../../../shared/services/account.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 import { UserService } from '../../../shared/services/user.service';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
+import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 
 import * as vmActions from '../../vm/redux/vm.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
@@ -47,10 +49,17 @@ export class AccountsEffects {
   @Effect()
   disableAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DISABLE_ACCOUNT)
-    .switchMap((action: accountActions.DisableAccountRequest) => {
+    .mergeMap((action: accountActions.DisableAccountRequest) => {
+      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.ACCOUNT.DISABLE_IN_PROGRESS');
       return this.accountService.disableAccount(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_DONE';
+          this.showNotificationsOnFinish(message, notificationId);
+        })
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_FAILED';
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -58,10 +67,15 @@ export class AccountsEffects {
   @Effect()
   enableAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.ENABLE_ACCOUNT)
-    .switchMap((action: accountActions.EnableAccountRequest) => {
+    .mergeMap((action: accountActions.EnableAccountRequest) => {
       return this.accountService.enableAccount(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.ENABLE_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(updatedAccount => new accountActions.UpdateAccount(updatedAccount))
         .catch((error: Error) => {
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -69,10 +83,17 @@ export class AccountsEffects {
   @Effect()
   deleteAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.DELETE_ACCOUNT)
-    .switchMap((action: accountActions.DeleteAccountRequest) => {
+    .mergeMap((action: accountActions.DeleteAccountRequest) => {
+      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.ACCOUNT.DELETION_IN_PROGRESS');
       return this.accountService.removeAccount(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DELETION_DONE';
+          this.showNotificationsOnFinish(message, notificationId);
+        })
         .map(() => new accountActions.DeleteSuccess(action.payload))
         .catch((error: Error) => {
+          const message = 'NOTIFICATIONS.ACCOUNT.DELETION_FAILED';
+          this.showNotificationsOnFail(error, message, notificationId);
           return Observable.of(new accountActions.AccountUpdateError(error));
         });
     });
@@ -81,10 +102,15 @@ export class AccountsEffects {
   @Effect()
   createAccount$: Observable<Action> = this.actions$
     .ofType(accountActions.CREATE_ACCOUNT)
-    .switchMap((action: accountActions.CreateAccount) => {
+    .mergeMap((action: accountActions.CreateAccount) => {
       return this.accountService.create(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.CREATION_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(createdAccount => new accountActions.CreateSuccess(createdAccount))
         .catch((error: Error) => {
+          this.showNotificationsOnFail(error);
           return Observable.of(new accountActions.CreateError(error));
         });
     });
@@ -109,79 +135,75 @@ export class AccountsEffects {
       });
     });
 
-
-  @Effect({ dispatch: false })
-  createError$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_CREATE_ERROR)
-    .do((action: accountActions.CreateError) => {
-      this.handleError(action.payload);
-    });
-
-  @Effect({ dispatch: false })
-  updateError$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_UPDATE_ERROR)
-    .do((action: accountActions.AccountUpdateError) => {
-      this.handleError(action.payload);
-    });
-
   @Effect()
   userDelete$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_DELETE)
-    .switchMap((action: accountActions.AccountUserDelete) =>
+    .mergeMap((action: accountActions.AccountUserDelete) =>
       this.userService.removeUser(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.DELETE_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(() => new accountActions.AccountUserDeleteSuccess(action.payload))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
-
-  @Effect({ dispatch: false })
-  userDeleteSuccess$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_USER_DELETE_SUCCESS)
-    .do((action: accountActions.AccountUserDeleteSuccess) => this.onNotify(
-      action.payload,
-      this.successAccountUserRemoveMessage
-    ));
+        .catch(error => {
+          this.showNotificationsOnFail(error);
+          return Observable.of(new accountActions.AccountUpdateError(error));
+        }));
 
   @Effect()
   userCreate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE)
-    .switchMap((action: accountActions.AccountUserCreate) =>
+    .mergeMap((action: accountActions.AccountUserCreate) =>
       this.userService.createUser(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.CREATION_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map((user) => new accountActions.AccountUserCreateSuccess(user))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+        .catch(error => {
+          this.showNotificationsOnFail(error);
+          return Observable.of(new accountActions.AccountUpdateError(error))
+        }));
 
   @Effect({ dispatch: false })
   userCreateSuccess$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS)
-    .do((action: accountActions.AccountUserCreateSuccess) => {
-      this.onNotify(action.payload, this.successAccountUserCreateMessage);
+    .do(() => {
       this.dialog.closeAll();
     });
 
   @Effect()
   userUpdate$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_UPDATE)
-    .switchMap((action: accountActions.AccountUserUpdate) =>
+    .mergeMap((action: accountActions.AccountUserUpdate) =>
       this.userService.updateUser(action.payload)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.UPDATE_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map((user) => new accountActions.AccountUserUpdateSuccess(user))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
-
-  @Effect({ dispatch: false })
-  userUpdateSuccess$: Observable<Action> = this.actions$
-    .ofType(accountActions.ACCOUNT_USER_UPDATE_SUCCESS)
-    .do((action: accountActions.AccountUserUpdateSuccess) => this.onNotify(
-      action.payload,
-      this.successAccountUserUpdateMessage
-    ));
+        .catch(error => {
+          this.showNotificationsOnFail(error);
+          return Observable.of(new accountActions.AccountUpdateError(error))
+        }));
 
   @Effect()
   userGenerateKeys$: Observable<Action> = this.actions$
     .ofType(accountActions.ACCOUNT_USER_GENERATE_KEYS)
-    .switchMap((action: accountActions.AccountUserGenerateKey) =>
+    .mergeMap((action: accountActions.AccountUserGenerateKey) =>
       this.userService.registerKeys(action.payload.id)
+        .do(() => {
+          const message = 'NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_DONE';
+          this.showNotificationsOnFinish(message);
+        })
         .map(res => new accountActions.AccountLoadUserKeysSuccess({
           user: action.payload,
           userKeys: res
         }))
-        .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
+        .catch(error => {
+          this.showNotificationsOnFail(error);
+          return Observable.of(new accountActions.AccountUpdateError(error))
+        }));
 
   @Effect()
   userLoadKeys$: Observable<Action> = this.actions$
@@ -194,31 +216,36 @@ export class AccountsEffects {
         }))
         .catch(error => Observable.of(new accountActions.AccountUpdateError(error))));
 
-  private successAccountUserCreateMessage = 'NOTIFICATIONS.ACCOUNT.USER_CREATED';
-  private successAccountUserRemoveMessage = 'NOTIFICATIONS.ACCOUNT.USER_DELETED';
-  private successAccountUserUpdateMessage = 'NOTIFICATIONS.ACCOUNT.USER_UPDATED';
-
   constructor(
     private actions$: Actions,
     private accountService: AccountService,
     private userService: UserService,
-    private dialogService: DialogService,
-    private notificationService: NotificationService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogService: DialogService,
+    private snackBarService: SnackBarService,
+    private jobsNotificationService: JobsNotificationService
   ) {
   }
 
-  private onNotify(user, message) {
-    this.notificationService.message({
-      translationToken: message,
-      interpolateParams: { username: user.username }
-    });
+  private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.finish({
+        id: jobNotificationId,
+        message
+      });
+    }
+    this.snackBarService.open(message);
   }
 
-  private handleError(error): void {
-    this.dialogService.alert({
-      message: {
+  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
+    if (jobNotificationId) {
+      this.jobsNotificationService.fail({
+        id: jobNotificationId,
+        message
+      });
+    }
+    this.dialogService.alert({ message: {
         translationToken: error.message,
         interpolateParams: error.params
       }

@@ -1,0 +1,124 @@
+<form id="rule-form" [formGroup]="ruleForm" #mainForm="ngForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-select class="type" formControlName="type">
+      <mat-option *ngFor="let type of types" [value]="type.value">
+        {{ type.text | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select formControlName="protocol">
+      <mat-option *ngFor="let protocol of protocols" [value]="protocol.value">
+        {{ protocol.text | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="cidr">
+    <input
+      matInput
+      type="text"
+      formControlName="cidr"
+      [placeholder]="'SECURITY_GROUP_PAGE.RULES.ENTER_CIDR' | translate"
+      required
+    >
+    <mat-error>
+      {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CIDR' | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!--This container contains start, end port fields for protocols such TCP, UDP-->
+  <ng-container *ngIf="!isIcmpProtocol" formGroupName="params">
+    <mat-form-field>
+      <input
+        matInput
+        type="number"
+        [min]="minPortNumber"
+        [max]="maxPortNumber"
+        [csMinValue]="minPortNumber"
+        [csMaxValue]="maxPortNumber"
+        formControlName="startPort"
+        [errorStateMatcher]="portMatcher"
+        [placeholder]="'SECURITY_GROUP_PAGE.RULES.START_PORT' | translate"
+        required
+      >
+      <mat-error>
+        {{ getStartPortErrorMessage() }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="number"
+        [min]="minPortNumber"
+        [max]="maxPortNumber"
+        [csMinValue]="minPortNumber"
+        [csMaxValue]="maxPortNumber"
+        formControlName="endPort"
+        [placeholder]="'SECURITY_GROUP_PAGE.RULES.END_PORT' | translate"
+        [errorStateMatcher]="portMatcher"
+        required
+      >
+      <mat-error>
+        {{ getEndPortErrorMessage() }}
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+
+  <!--This container contains type, code fields for ICMP protocol-->
+  <ng-container *ngIf="isIcmpProtocol" formGroupName="params">
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="icmpType"
+        [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_TYPE' | translate"
+        [matAutocomplete]="icmpTypesAuto"
+        #icmpTypeField
+        required
+      >
+      <mat-error>
+        {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_TYPE' | translate }}
+      </mat-error>
+      <mat-autocomplete #icmpTypesAuto="matAutocomplete" class="icmp-autocomplete-width">
+        <mat-option *ngFor="let icmp of filteredIcmpTypes" [value]="icmp.type">
+          [{{ icmp.type }}] {{ getIcmpTypeTranslationToken(icmp.type) | translate }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="icmpCode"
+        [placeholder]="'SECURITY_GROUP_PAGE.RULES.ICMP_CODE' | translate"
+        [matAutocomplete]="icmpCodesAuto"
+        required
+      >
+      <mat-error>
+        {{ 'SECURITY_GROUP_PAGE.RULES.ENTER_VALID_CODE' | translate }}
+      </mat-error>
+      <mat-autocomplete #icmpCodesAuto="matAutocomplete" class="icmp-autocomplete-width">
+        <mat-option *ngFor="let codes of filteredIcmpCodes" [value]="codes">
+          [{{ codes }}] {{ getIcmpCodeTranslationToken(+icmpTypeField.value, codes) | translate }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </ng-container>
+
+  <button
+    mat-icon-button
+    class="add-rule-button"
+    [disabled]="ruleForm.invalid"
+  >
+    <mat-icon *ngIf="!isAdding" class="mdi-plus"></mat-icon>
+    <mat-spinner
+      *ngIf="isAdding"
+      diameter="25"
+      strokeWidth="5"
+    ></mat-spinner>
+  </button>
+</form>
+
+<hr>

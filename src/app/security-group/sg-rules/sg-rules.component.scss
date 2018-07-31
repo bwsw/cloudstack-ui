@@ -1,8 +1,3 @@
-.cidr {
-  width: 150px;
-  text-align: left;
-}
-
 .mat-dialog-content {
   table {
     width: 100%;
@@ -11,50 +6,9 @@
 
 mat-form-field {
   width: 120px !important;
+  display: inline-block !important;
   &.form-select-control {
     width: 170px !important;
-    margin-left: 20px;
+    margin-right: 20px;
   }
-}
-
-:host /deep/ mat-spinner {
-  position: relative;
-  top: 2px;
-}
-
-.add-rule-button,
-/deep/ .delete-rule-button {
-  color: black;
-}
-
-:host /deep/ .mat-table th {
-  text-align: left;
-}
-
-:host /deep/ .mat-table td {
-  text-align: left;
-}
-
-:host /deep/ .mat-table td {
-  text-align: left;
-}
-
-:host /deep/ .delete-button-cell {
-  text-align: right !important;
-}
-
-.mat-row:hover {
-  background-color: transparent;
-}
-
-.table-form:hover {
-  background-color: #eeeeee !important;
-}
-
-.mat-form-field {
-  font-size: 16px;
-}
-
-mat-form-field {
-  display: inline-block !important;
 }

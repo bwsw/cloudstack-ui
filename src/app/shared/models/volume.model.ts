@@ -40,6 +40,7 @@ export interface Volume extends BaseModelInterface {
   state: VolumeState;
   size: number;
   virtualmachineid: string;
+  vmdisplayname?: string;
   provisioningtype: string;
   serviceOffering: ServiceOffering;
   serviceofferingid: string;

@@ -1,3 +1,4 @@
+/* tslint:disable:use-input-property-decorator use-host-property-decorator */
 import { Directionality } from '@angular/cdk/bidi';
 import { ViewportRuler } from '@angular/cdk/overlay';
 import {
@@ -63,8 +64,7 @@ import * as uuid from 'uuid';
     fadeInContent
   ]
 })
-export class DraggableSelectComponent extends MatSelect implements AfterContentInit,
-  MatFormFieldControl<any> {
+export class DraggableSelectComponent extends MatSelect implements AfterContentInit, MatFormFieldControl<any> {
   @Input() public dragItems: Array<any>;
   public bagId: string = uuid.v4();
 

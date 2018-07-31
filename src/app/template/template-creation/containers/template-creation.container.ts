@@ -1,10 +1,11 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
-import { State } from '../../../reducers/index';
+import { Component, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
+import { Snapshot } from '../../../shared/models';
+import { CreateTemplateBaseParams } from '../../shared/base-template.service';
+
+import { State } from '../../../reducers/index';
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
 import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
@@ -14,12 +15,6 @@ import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
 import * as zoneActions from '../../../reducers/templates/redux/zone.actions';
 import * as templateActions from '../../../reducers/templates/redux/template.actions';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
-import { Snapshot } from '../../../shared/models/snapshot.model';
-
 
 @Component({
   selector: 'cs-template-create-dialog-container',
@@ -28,7 +23,6 @@ import { Snapshot } from '../../../shared/models/snapshot.model';
       [mode]="viewMode$ | async"
       [osTypes]="osTypes$ | async"
       [zones]="zones$ | async"
-      [isLoading]="loading$ | async"
       [groups]="groups$ | async"
       [snapshot]="snapshot"
       [account]="account$ | async"
@@ -40,13 +34,13 @@ export class TemplateCreationContainerComponent {
   readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly loading$ = this.store.select(fromTemplates.isLoading);
   readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
 
   public snapshot: Snapshot;
 
   constructor(
     private store: Store<State>,
+    public dialogRef: MatDialogRef<TemplateCreationContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.snapshot = data.snapshot;
@@ -62,8 +56,12 @@ export class TemplateCreationContainerComponent {
     }
   }
 
-  public onCreate(params) {
-    this.store.dispatch(new templateActions.CreateTemplate(params));
+  public onCreate(params: CreateTemplateBaseParams) {
+    if (params.snapshotId) {
+      this.store.dispatch(new templateActions.CreateTemplate(params));
+    } else {
+      this.store.dispatch(new templateActions.RegisterTemplate(params));
+    }
   }
 }
 

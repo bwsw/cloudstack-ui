@@ -1,23 +1,25 @@
 <ng-container *ngIf="showOverlay">
-  <div class="overlay mat-dialog-content">
-    <div class="message">
-      <cs-progress-logger
-        [messages]="loggerStageList"
-      ></cs-progress-logger>
+  <mat-dialog-content>
+    <div class="overlay message">
+      <div class="overlay-content">
+        <cs-progress-logger
+          [messages]="loggerStageList"
+        ></cs-progress-logger>
 
-      <mat-progress-bar
-        mode="indeterminate"
-        [class.progress-hidden]="!deploymentInProgress"
-      ></mat-progress-bar>
-      <cs-postdeployment-dialog
-        *ngIf="!deploymentInProgress && deployedVm"
-        [vm]="deployedVm"
-        [dialogRef]="dialogRef"
-        [title]="'VM_POST_ACTION.TITLE'"
-      >
-      </cs-postdeployment-dialog>
+        <mat-progress-bar
+          mode="indeterminate"
+          [class.progress-hidden]="!deploymentInProgress"
+        ></mat-progress-bar>
+        <cs-postdeployment-dialog
+          *ngIf="!deploymentInProgress && deployedVm"
+          [vm]="deployedVm"
+          [dialogRef]="dialogRef"
+          [title]="'VM_POST_ACTION.TITLE'"
+        >
+        </cs-postdeployment-dialog>
+      </div>
     </div>
-  </div>
+  </mat-dialog-content>
 
   <div class="mat-dialog-actions">
     <button
@@ -32,15 +34,15 @@
   </div>
 </ng-container>
 
-<div *ngIf="!showOverlay">
+<ng-container *ngIf="!showOverlay">
   <h3 class="mat-dialog-title">{{ 'VM_PAGE.VM_CREATION.NEW_VM' | translate }}</h3>
-  <form
-    (ngSubmit)="onVmCreationSubmit($event)"
-    #vmCreateForm="ngForm"
-    *loading="fetching"
-    novalidate
-  >
-    <div class="mat-dialog-content">
+  <div mat-dialog-content>
+    <form
+      (ngSubmit)="onVmCreationSubmit($event)"
+      #vmCreateForm="ngForm"
+      *loading="fetching"
+      novalidate
+    >
       <div class="container">
         <div *ngIf="enoughResources && vmCreationState" class="left-column">
           <div>
@@ -103,7 +105,6 @@
           </div>
 
           <div *ngIf="diskOfferingsAreAllowed">
-            <h4 class="disk-offerings">{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
             <cs-disk-offering-selector
               name="diskOffering"
               [diskOfferings]="diskOfferings"
@@ -124,7 +125,6 @@
               [units]="'UNITS.GB' | translate"
             ></cs-slider>
           </div>
-
         </div>
 
         <div *ngIf="enoughResources && vmCreationState" class="right-column">
@@ -156,7 +156,7 @@
               <input
                 name="affinityGroup"
                 matInput
-                pattern="[a-zA-ZА-яЁё]{1}[a-zA-ZА-яЁё0-9\-\_\.\!\?\ ]{0,61}[a-zA-ZА-яЁё0-9\-\_\.\!\?\ ]$"
+                pattern="^[a-zA-ZА-яЁё]{1}[^,]*$"
                 [placeholder]="'VM_PAGE.VM_CREATION.NO_GROUP' | translate"
                 [matAutocomplete]="affinityGroups"
                 [maxlength]="maxEntityNameLength"
@@ -231,25 +231,25 @@
         </div>
       </div>
 
-    </div>
-    <div class="mat-dialog-actions">
-      <button
-        mat-button
-        color="primary"
-        matDialogClose
-        type="button"
-        (click)="cancel.emit()"
-      >
-        {{ 'COMMON.CANCEL' | translate }}
-      </button>
-      <button
-        mat-button
-        color="primary"
-        type="submit"
-        [disabled]="!vmCreateForm.valid || nameIsTaken || !vmCreationState.template"
-      >
-        {{ 'COMMON.CREATE' | translate }}
-      </button>
-    </div>
-  </form>
-</div>
+      <div class="mat-dialog-actions">
+        <button
+          mat-button
+          color="primary"
+          matDialogClose
+          type="button"
+          (click)="cancel.emit()"
+        >
+          {{ 'COMMON.CANCEL' | translate }}
+        </button>
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="!vmCreateForm.valid || nameIsTaken || !vmCreationState.template"
+        >
+          {{ 'COMMON.CREATE' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-container>

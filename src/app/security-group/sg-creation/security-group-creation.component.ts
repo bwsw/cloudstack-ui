@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Rules } from '../../shared/components/security-group-builder/rules';
 import { SecurityGroupViewMode } from '../sg-view-mode';
 
@@ -26,7 +20,6 @@ export interface SecurityGroupCreationParams {
 export class SecurityGroupCreationComponent {
   @Input() public creationInProgress = false;
   @Input() public mode: SecurityGroupViewMode;
-  @Output() public cancel = new EventEmitter();
   @Output() public createSecurityGroup = new EventEmitter<SecurityGroupCreationParams>();
 
   public name = '';

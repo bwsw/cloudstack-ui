@@ -7,11 +7,14 @@ import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as osTypesActions from '../../reducers/templates/redux/ostype.actions';
+import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
+import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import { AuthService } from '../../shared/services/auth.service';
 import { VirtualMachine } from '../shared/vm.model';
 
 import { noGroup } from '../vm-filter/vm-filter.component';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
+import { Grouping } from '../../shared/models';
 
 const getGroupName = (vm: VirtualMachine) => {
   return vm.domain !== 'ROOT'
@@ -25,7 +28,7 @@ const getGroupName = (vm: VirtualMachine) => {
   template: `
     <cs-vm-page
       [vms]="vms$ | async"
-      [query]="query$ | async" 
+      [query]="query$ | async"
       [volumes]="volumes$ | async"
       [osTypesMap]="osTypesMap$ | async"
       [isLoading]="loading$ | async"
@@ -42,7 +45,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
   readonly loading$ = this.store.select(fromVMs.isLoading);
   readonly selectedGroupings$ = this.store.select(fromVMs.filterSelectedGroupings);
 
-  public groupings = [
+  public groupings: Array<Grouping> = [
     {
       key: 'zones',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ZONES',
@@ -71,12 +74,6 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     },
   ];
 
-  public ngOnInit() {
-    this.store.dispatch(new vmActions.LoadVMsRequest());
-    this.store.dispatch(new volumeActions.LoadVolumesRequest());
-    this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
-  }
-
   constructor(
     private store: Store<State>,
     private authService: AuthService,
@@ -86,6 +83,14 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     if (!this.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }
+  }
+
+  public ngOnInit() {
+    this.store.dispatch(new vmActions.LoadVMsRequest());
+    this.store.dispatch(new volumeActions.LoadVolumesRequest());
+    this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
+    this.store.dispatch(new osTypesActions.LoadOsTypesRequest());
+    this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
   }
 
   public isAdmin() {

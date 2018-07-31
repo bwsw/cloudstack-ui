@@ -1,45 +1,43 @@
 <mat-card
-  class="custom-card"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
+  class="entity-card"
 >
-  <mat-card-header>
-    <mat-card-title>
-      <span
-        class="state-icon"
-        [matTooltip]="stateTranslations[item.state] | translate"
-        [ngClass]="item.state"
-      ></span>
-      <h2
-        class="mat-card-title-text"
-        [matTooltip]="item.name"
-      >{{ item.name }}
-      </h2>
+
+  <mat-card-header class="entity-card-header">
+    <cs-round-state-indicator
+      [state]="item.state"
+      [matTooltip]="stateTranslations[item.state] | translate"
+      class="entity-card-thumbnail"
+    ></cs-round-state-indicator>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
+      {{ item.name }}
     </mat-card-title>
-    <div class="mat-card-header-menu" *ngIf="isAdmin() && !isSelf">
-      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon>more_vert</mat-icon>
+    <ng-container *ngIf="isAdmin()">
+      <button
+        [style.visibility]="!isSelf ? 'visible' : 'hidden'"
+        mat-icon-button
+        [matMenuTriggerFor]="actionsMenu"
+        class="entity-card-menu">
+        <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
-    </div>
+    </ng-container>
   </mat-card-header>
+
   <mat-card-content>
-    <div class="row">
+    <div class="entity-card-data-line">
       {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.rolename}}
     </div>
-
-    <div class="row">
+    <div class="entity-card-data-line">
       {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
     </div>
-
-    <div class="row">
+    <div class="entity-card-data-line">
       {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
     </div>
   </mat-card-content>
-  <mat-menu
-    #actionsMenu="matMenu"
-  >
-    <cs-account-action-container
-      [account]="item"
-    ></cs-account-action-container>
+
+  <mat-menu #actionsMenu="matMenu">
+    <cs-account-action-container [account]="item"></cs-account-action-container>
   </mat-menu>
+
 </mat-card>

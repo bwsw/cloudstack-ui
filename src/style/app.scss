@@ -5,9 +5,12 @@
 @import '../app/shared/styles/overlay';
 @import '../app/shared/styles/text-overflow-tooltip-fix';
 @import '../app/shared/styles/mat-input';
-@import '../app/shared/badge/badge';
+@import '../app/shared/styles/entity-cards';
+@import '../app/shared/styles/entity-list-item';
+@import '../app/shared/directives/badge/badge';
 @import "typography";
 @import "app-theme";
+
 
 @include mat-core();
 
@@ -62,7 +65,7 @@ mat-list-item {
 }
 
 .row-title {
-  margin: 0;
+  margin: 0 5px 0 0;
   font-size: 15px;
   line-height: normal;
   flex-grow: 2;
@@ -166,38 +169,6 @@ mat-card.custom-card {
   }
 }
 
-.custom-card {
-  & table {
-    margin-top: 10px;
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
-    table-layout: fixed;
-  }
-
-  & table td, table th {
-    border: 1px solid black;
-    border-top: 0;
-    border-bottom: 0;
-  }
-
-  & table tr:first-child th {
-    border-top: 0;
-  }
-  & table tr:last-child td {
-    border-bottom: 0;
-  }
-
-  & table tr td:first-child,
-  & table tr th:first-child {
-    border-left: 0;
-  }
-  & table tr td:last-child,
-  & table tr th:last-child {
-    border-right: 0;
-  }
-}
-
 .options-panel {
   box-sizing: border-box;
   z-index: 1;
@@ -216,27 +187,6 @@ mat-card.custom-card {
 
   &.delimiter {
     border-bottom: 1px solid #dedede;
-  }
-}
-
-.card-wrapper {
-  display: flex;
-  padding: 2px;
-
-  & > div.flex-1 {
-    flex: 1;
-  }
-
-  & > div.flex-2 {
-    flex: 2;
-
-    & span.fixed-length-span {
-      display: block;
-      width: 215px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
   }
 }
 
@@ -302,7 +252,7 @@ mat-form-field.form-select-control {
   }
 }
 
-.mat-dialog-content .filter-wrapper{
+.mat-dialog-content .filter-wrapper {
   padding: 0;
 }
 
@@ -353,42 +303,6 @@ mat-card-actions {
   cursor: initial;
 }
 
-.state-icon {
-  display: inline-block;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  margin: 8px 8px 5px;
-  box-shadow: 0 0 1px 1px white;
-
-  &.destroyed {
-    background-color: #212121;
-  }
-}
-
-.state-row-icon {
-  display: block;
-  position: relative;
-  left: -15px;
-  width: 15px;
-  height: 100%;
-  margin-right: 8px;
-  box-shadow: 0 0 0px 1px white;
-}
-
-.running, .enabled {
-  background-color: #388E3C;
-}
-
-.in-progress, .stopping {
-  background-color: #FFA726;
-}
-
-.stopped, .disabled, .locked,
-.error {
-  background-color: #B71C1C;
-}
-
 .dialog-container {
   position: absolute;
   top: 0;
@@ -422,13 +336,6 @@ mat-card-actions {
   background: #ffeb3b;
 }
 
-.disc-icon {
-  width: 24px;
-  height: 24px;
-  border: 9px solid #757575;
-  border-radius: 50%;
-}
-
 .search-bar-white {
   background-color: white;
 }
@@ -454,43 +361,8 @@ h4.details-header {
   background-color: #eeeeee;
 }
 
-mat-table,
-.mat-table {
-  font-family: "Helvetica", "Arial", sans-serif;
+mat-cell.mat-cell {
   font-size: 13px;
-  display: table !important;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-mat-table mat-row,
-.mat-table .mat-row {
-  min-height: 48px;
-  height: 100%;
-  display: table-row;
-  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
-}
-
-mat-table mat-header-row,
-.mat-table .mat-header-row {
-  display: table-row;
-  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
-}
-
-mat-table mat-cell,
-.mat-table .mat-cell {
-  min-height: 48px;
-  height: 100%;
-  font-size: 13px;
-  padding: 12px 18px;
-  display: table-cell;
-}
-
-mat-table mat-header-cell,
-.mat-table .mat-header-cell {
-  height: 48px;
-  padding: 12px 18px;
-  display: table-cell;
 }
 
 .table-form {
@@ -503,7 +375,6 @@ mat-table mat-header-cell,
     margin: 0 0 10px !important;
   }
 }
-
 
 .mat-dialog-actions {
   justify-content: flex-end;
@@ -580,4 +451,29 @@ h3 {
   font-size: 18px !important;
 }
 
+.content-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
 
+.mdi {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// !workaround ie11 alight-items: center bug
+// https://github.com/philipwalton/flexbugs/issues/231
+.mat-header-row, .mat-row {
+  height: 0;
+}
+
+.icmp-autocomplete-width {
+  width: 294px;
+  left: -72px;
+}

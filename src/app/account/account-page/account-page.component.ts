@@ -33,7 +33,7 @@ export class AccountPageComponent {
     private activatedRoute: ActivatedRoute
   ) { }
 
-  public isAdmin() {
+  public isAdmin(): boolean {
     return this.authService.isAdmin();
   }
 

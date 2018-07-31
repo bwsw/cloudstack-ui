@@ -1,24 +1,12 @@
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
-import { OsFamily } from '../../shared/models/os-type.model';
-import {
-  TemplateFilters,
-  TemplateResourceType
-} from '../shared/base-template.service';
+import { OsFamily } from '../../shared/models';
+import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { Store } from '@ngrx/store';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
@@ -33,6 +21,7 @@ import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromTemplateGroups from '../../reducers/templates/redux/template-group.reducers';
 import { AuthService } from '../../shared/services/auth.service';
 
+const FILTER_KEY = 'templateListFilters';
 
 @Component({
   selector: 'cs-template-filter-container',
@@ -40,6 +29,7 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class TemplateFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   readonly filters$ = this.store.select(fromTemplates.filters);
+  readonly loading$ = this.store.select(fromTemplates.isLoading);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly domains$ = this.store.select(fromDomains.selectEntities);
@@ -86,7 +76,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     },
     this.router,
     this.sessionStorage,
-    'eventListFilters',
+    FILTER_KEY,
     this.activatedRoute
   );
 

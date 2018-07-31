@@ -85,7 +85,7 @@ export class VmDetailContainerComponent implements OnInit {
     });
   }
 
-  public changeAffinityGroup(affinityGroupId) {
+  public changeAffinityGroup(affinityGroupId: string) {
     this.vm$.take(1).subscribe((vm: VirtualMachine) => {
       this.store.dispatch(new vmActions.ChangeAffinityGroup({
         vm,

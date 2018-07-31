@@ -3,12 +3,8 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatSelectChange } from '@angular/material';
 import { Color } from '../shared/models/color.model';
 import { AuthService } from '../shared/services/auth.service';
-import {
-  Language,
-  LanguageService,
-  TimeFormat
-} from '../shared/services/language.service';
-import { NotificationService } from '../shared/services/notification.service';
+import { Language, LanguageService, TimeFormat } from '../shared/services/language.service';
+import { SnackBarService } from '../shared/services/snack-bar.service';
 import { StyleService, themes } from '../shared/services/style.service';
 import { UserTagService } from '../shared/services/tags/user-tag.service';
 import { UserService } from '../shared/services/user.service';
@@ -55,7 +51,7 @@ export class SettingsComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private languageService: LanguageService,
-    private notificationService: NotificationService,
+    private notificationService: SnackBarService,
     private styleService: StyleService,
     private userService: UserService,
     private userTagService: UserTagService
@@ -116,10 +112,10 @@ export class SettingsComponent implements OnInit {
       .updatePassword(this.userId, this.password)
       .subscribe(
         () =>
-          this.notificationService.message(
+          this.notificationService.open(
             'SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY'
           ),
-        error => this.notificationService.error(error.errortext)
+        error => this.notificationService.open(error.errortext)
       );
     this.passwordUpdateForm.reset();
     this.passwordForm.resetForm();
