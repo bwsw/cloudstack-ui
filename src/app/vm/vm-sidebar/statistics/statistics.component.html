@@ -18,31 +18,31 @@
     <div class="grid statistics">
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.CPU_UTILIZED' | translate }}</div>
-        <div>{{ vm.cpuUsed || 0 }}</div>
+        <div>{{ vm.cpuused || 0 }}</div>
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.NETWORK_READ' | translate }}</div>
-        <div>{{ vm.networkKbsRead || 0 }} KB</div>
+        <div>{{ vm.networkkbsread || 0 }} KB</div>
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.NETWORK_WRITE' | translate }}</div>
-        <div>{{ vm.networkKbsWrite || 0 }} KB</div>
+        <div>{{ vm.networkkbswrite || 0 }} KB</div>
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_READ' | translate }}</div>
-        <div>{{ vm.diskKbsRead || 0 }} KB</div>
+        <div>{{ vm.diskkbsread || 0 }} KB</div>
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_WRITE' | translate }}</div>
-        <div>{{ vm.diskKbsWrite || 0 }} KB</div>
+        <div>{{ vm.diskkbswrite || 0 }} KB</div>
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_READ_IO' | translate }}</div>
-        <div>{{ 'IOPS' | translate:{ value: vm.diskIoRead || 0 } }}</div>
+        <div>{{ 'IOPS' | translate:{ value: vm.diskioread || 0 } }}</div>
       </div>
       <div class="row">
         <div>{{ 'VM_PAGE.VM_DETAILS.STATISTICS.DISK_WRITE_IO' | translate }}</div>
-        <div>{{ 'IOPS' | translate:{ value: vm.diskIoWrite || 0 } }}</div>
+        <div>{{ 'IOPS' | translate:{ value: vm.diskiowrite || 0 } }}</div>
       </div>
     </div>
   </mat-card-content>

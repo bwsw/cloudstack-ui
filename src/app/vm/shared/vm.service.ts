@@ -19,8 +19,7 @@ export const VirtualMachineEntityName = 'VirtualMachine';
 
 @Injectable()
 @BackendResource({
-  entity: VirtualMachineEntityName,
-  entityModel: VirtualMachine
+  entity: VirtualMachineEntityName
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
 
@@ -124,7 +123,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
     return this.getListWithDetails()
-      .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
+      .map(vmList => vmList.filter(vm => vm.isoid === iso.id));
   }
 
   public addIpToNic(nicId: string): Observable<IpAddress> {
@@ -218,7 +217,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private addOsType(vm: VirtualMachine, osTypes: Array<OsType>): VirtualMachine {
-    vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
+    vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestosid);
     return vm;
   }
 }

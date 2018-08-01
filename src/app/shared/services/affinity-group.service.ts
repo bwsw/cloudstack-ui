@@ -44,7 +44,7 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
       affinityGroupIds: affinityGroupId
     })
       .switchMap(
-        job => this.asyncJob.queryJob(job.jobid, 'virtualmachine', VirtualMachine));
+        job => this.asyncJob.queryJob(job.jobid, 'virtualmachine'));
   }
 
 }

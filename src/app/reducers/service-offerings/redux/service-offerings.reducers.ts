@@ -241,7 +241,7 @@ export const offeringCompatibilityPolicy = createSelector(
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVMs.getSelectedVM,
-  (entities, vm) => vm && entities[vm.serviceOfferingId]
+  (entities, vm) => vm && entities[vm.serviceofferingid]
 );
 
 export const getCustomOfferingWithParams = (

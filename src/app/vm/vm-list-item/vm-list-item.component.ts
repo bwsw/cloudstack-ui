@@ -120,7 +120,7 @@ export abstract class VmListItemComponent implements OnInit {
   }
 
   public get getOsDescription(): string {
-    return this.osTypesMap && this.osTypesMap[this.item.guestOsId] && this.osTypesMap[this.item.guestOsId].description;
+    return this.osTypesMap && this.osTypesMap[this.item.guestosid] && this.osTypesMap[this.item.guestosid].description;
   }
 
   private updateColor(): void {

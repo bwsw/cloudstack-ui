@@ -699,7 +699,7 @@ export class VirtualMachinesEffects {
       const address = WebShellService.getWebShellAddress(vm);
       window.open(
         address,
-        vm.displayName,
+        vm.displayname,
         'resizable=0,width=820,height=640'
       );
     });
@@ -711,7 +711,7 @@ export class VirtualMachinesEffects {
     .do((vm: VirtualMachine) => {
       window.open(
         `client/console?cmd=access&vm=${vm.id}`,
-        vm.displayName,
+        vm.displayname,
         'resizable=0,width=820,height=640'
       );
     });
@@ -729,7 +729,7 @@ export class VirtualMachinesEffects {
       const address = `${protocol}://${ip}:${port}/${path}`;
       window.open(
         address,
-        vm.displayName,
+        vm.displayname,
         'resizable=0,width=820,height=640'
       );
     });
@@ -779,8 +779,8 @@ export class VirtualMachinesEffects {
         const message = 'NOTIFICATIONS.VM.START_DONE';
         this.showNotificationsOnFinish(message, notificationId);
       })
-      .map((newVm) => new vmActions.UpdateVM(new VirtualMachine(
-        Object.assign({}, vm, newVm))))
+      .map((newVm) => new vmActions.UpdateVM(
+        Object.assign({}, vm, newVm) as VirtualMachine))
       .catch((error: Error) => {
         const message = 'NOTIFICATIONS.VM.START_FAILED';
         this.showNotificationsOnFail(error, message, notificationId);
@@ -814,11 +814,11 @@ export class VirtualMachinesEffects {
   }
 
   private update(vm, state: VmState) {
-    this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(Object.assign(
+    this.store.dispatch(new vmActions.UpdateVM(Object.assign(
       {},
       vm,
       { state: state }
-    ))));
+    ) as VirtualMachine));
   }
 
   private askToStopVM(vm: VirtualMachine, message: string): Observable<any> {

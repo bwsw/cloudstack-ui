@@ -41,7 +41,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
   }
 
   public get groupName(): string {
-    return this.vm.affinityGroup.length && this.vm.affinityGroup[0].name;
+    return this.vm.affinitygroup.length && this.vm.affinitygroup[0].name;
   }
 
   public get groupNames(): Array<string> {

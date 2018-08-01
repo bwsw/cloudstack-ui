@@ -26,7 +26,7 @@ export class VmEntityDeletionService {
   }
 
   public markSecurityGroupsForDeletion(vm: VirtualMachine): Observable<any[]> {
-    const osb = vm.securityGroup.map(
+    const osb = vm.securitygroup.map(
       sg => this.securityGroupService.markForRemoval(sg));
     return Observable.forkJoin(...osb);
   }

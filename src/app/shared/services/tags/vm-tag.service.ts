@@ -31,7 +31,7 @@ export class VmTagService implements EntityTagService {
   public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
     let tagValue = color.value;
     if (color.textColor) {
-      tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
+      tagValue += `${';'}${color.textColor}`;
     }
     return this.tagService.update(
       vm,
@@ -117,7 +117,7 @@ export class VmTagService implements EntityTagService {
 
   private getColorFromColorTag(colorTag: Tag): Color {
     if (colorTag) {
-      const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
+      const [backgroundColor, textColor] = colorTag.value.split(';');
       return new Color(backgroundColor, backgroundColor, textColor || '');
     }
     return new Color('white', '#FFFFFF', '');
