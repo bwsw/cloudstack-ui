@@ -658,8 +658,7 @@ Tags Tab
 
 Under this tab, you can create and see the VM tags. 
 
-.. figure:: _static/VMs_Details_Tags.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_Tags1.png
    
 CloudStack-UI uses tags very extensively to provide additional UX capabilities. Tags are key-value pairs. So it makes a kind of a key-value storage for the meta-information - VM description or group, or a user language. The tags used by Cloudstack-UI are system tags. They are prefixed with ``csui``. You can find the full list of system tags supported by CloudStack-UI at the `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 
@@ -667,7 +666,7 @@ System tags are used to provide functionality from the user interface perspectiv
 
 To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.
 
-.. figure:: _static/VMs_Tag_Search.png
+.. figure:: _static/VMs_Tag_Search1.png
 
 The tags assigned to the virtual machine are presented in the list. System tags are presented in one card, other tags - in a separate card. For each tag in the list the following actions are available when hovering the mouse over the tag key:
 
@@ -675,8 +674,7 @@ The tags assigned to the virtual machine are presented in the list. System tags 
   
  - Delete - Allows deleting the tag. Click "Delete" and confirm your action in the dialogue window.
 
-.. figure:: _static/VMs_Details_Tags_Actions1.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_Tags_Actions3.png
    
 **Create Tags**
 
@@ -690,15 +688,15 @@ Click "Create" |create icon| and fill in the appeared form:
  
 - Value * - Enter the value here.
 
-.. figure:: _static/VMs_Tag_CreateNew.png
+.. figure:: _static/VMs_Tag_CreateNew1.png
 
 When adding a system tag, click "+" in the card to open the creation form. You will see that the ``csui`` prefix is automatically prepopulated here. 
 
-.. figure:: _static/VMs_SystemTag_Create.png
+.. figure:: _static/VMs_SystemTag_Create1.png
 
 If you create a non-system tag, it will be saved in a new card. If you have entered a key in the format ``<prefix>.<example>``, a card will be named as "<prefix>". When creating a new tag from this card, click "+" in the card and in the tag creation form the *Key* field will be prepopulated with the <prefix>.
 
-.. figure:: _static/VMs_Tag_Create1.png
+.. figure:: _static/VMs_Tag_Create2.png
 
 .. _VM_Access:
 
