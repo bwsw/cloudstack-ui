@@ -306,11 +306,8 @@ export const selectByViewModeAndAccounts = createSelector(
   fromAccounts.selectEntities,
   filterSelectedAccountIds,
   (templates, viewMode, accountEntities, selectedAccountIds) => {
-    const viewModeStr = viewMode === TemplateResourceType.iso
-      ? viewMode
-      : viewMode;
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
-      return viewModeStr === resourceType(template);
+      return viewMode === resourceType(template);
     };
 
     const accountDomainMap = selectedAccountIds
@@ -456,7 +453,7 @@ export const selectTemplatesForIsoAttachment = createSelector(
     };
 
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
-      return resourceType(template) === TemplateResourceType.iso.toUpperCase();
+      return resourceType(template) === TemplateResourceType.iso;
     };
 
     const currentAccountFilter = (template: BaseTemplateModel) => {
@@ -475,11 +472,8 @@ const filterForVmCreation = (templates, zoneId, account, filter) => {
     return template.zoneid === zoneId || template.crossZones;
   };
 
-  const viewModeStr = filter.selectedViewMode === TemplateResourceType.iso
-    ? filter.selectedViewMode.toUpperCase()
-    : filter.selectedViewMode;
   const selectedViewModeFilter = (template: BaseTemplateModel) => {
-    return viewModeStr === resourceType(template);
+    return filter.selectedViewMode === resourceType(template);
   };
 
   const currentAccountFilter = (template: BaseTemplateModel) => {

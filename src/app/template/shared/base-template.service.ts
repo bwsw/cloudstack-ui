@@ -199,7 +199,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     this.invalidateCache();
     return this.sendCommand(CSCommands.Delete, {
       id: template.id,
-      zoneid: template.zoneid
+      zoneId: template.zoneid
     })
       .switchMap(job => this.asyncJobService.queryJob(job.jobid))
       .map(() => {
