@@ -3,8 +3,11 @@ import { OsType } from '../../shared/models/os-type.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { Utils } from '../../shared/services/utils/utils.service';
-import { Iso } from './iso.model';
 
+export enum TemplateResourceType {
+  Iso = 'Iso',
+  Template = 'Template'
+}
 
 export interface BaseTemplateModel extends BaseModelInterface, Taggable {
   id: string;
@@ -46,11 +49,11 @@ export const sizeInGB = (template: BaseTemplateModel): number => {
 };
 
 export const isTemplate = (template: BaseTemplateModel): boolean =>
-  template && template['bootable'] !== undefined ? false : true;
+  template && template.bootable !== undefined ? false : true;
 
-export const resourceType = (template: BaseTemplateModel) =>
-  template && template['bootable'] !== undefined ? 'Iso' : 'Template';
+export const resourceType = (template: BaseTemplateModel): TemplateResourceType =>
+  template && template.bootable !== undefined ? TemplateResourceType.Iso : TemplateResourceType.Template;
 
 export const getPath = (template: BaseTemplateModel) =>
-  template && template['bootable'] !== undefined ? 'iso' : 'template';
+  template && template.bootable !== undefined ? 'iso' : 'template';
 

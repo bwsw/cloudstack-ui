@@ -3,11 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { Iso } from '../../../../app/template/shared';
 
 
-const isos: Array<Object> = require('../fixtures/diskOfferings.json');
+const isos: Array<Iso> = require('../fixtures/diskOfferings.json');
 
 @Injectable()
 export class MockIsoService {
   public getList(): Observable<Array<Iso>> {
-    return Observable.of(isos.map((json: Iso) => json));
+    return Observable.of(isos);
   }
 }
