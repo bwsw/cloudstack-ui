@@ -607,7 +607,7 @@ Attach ISO by clicking the "Attach" button in the ISO card. In the dialogue wind
    
 You can detach the ISO file by clicking the "Detach" button.
 
-.. figure:: _static/VMs_ISO_Detach1.png
+.. figure:: _static/VMs_ISO_Detach2.png
 
 .. _VM_Network_Tab:
 
@@ -615,42 +615,39 @@ Network Tab
 """"""""""""""""""""""""""
 Under the Network tab the network configurations of the VM are presented.
 
-.. figure:: _static/VMs_Details_Network.png
-   :scale: 70%
+.. figure:: _static/VMs_Details_Network1.png
    
 1. **NIC information** - VM network details are shown here: Network namе, Netmask, Gateway, IP, Broadcast URI, Traffic Type, Type, Default, MAC address.
 
 You can add a secondary IP for the VM from this tab. Click "+" next to the Secondary IP option and confirm your action in the dialogue window. The IP appears for the VM.
 
-.. figure:: _static/VMs_Network_SecIP.png
+.. figure:: _static/VMs_Network_SecIP1.png
 
 You can delete the secondary IP by clicking the "Delete" button next to it.
 
 2. **Firewall rules** - Allows viewing the security group assigned to the virtual machine. Click |view| to open the list of assigned security group(-s). 
 
-.. figure:: _static/VMs_SG_View1.png
+.. figure:: _static/VMs_SG_View2.png
 
 You can filter the list by IP version, types and/or protocols. Or you can adjust the view by grouping the list by types and/or protocols.
 
-.. figure:: _static/VMs_SG_Filter1.png
+.. figure:: _static/VMs_SG_Filter2.png
 
 In the modal window you can edit a security group. Click "Edit" to move to editing form. There you will be able to add rules, or delete the selected ones from the list.
 
 To add rules, please, fill in the fields in the bar above the list and click "+":
 
 .. figure:: _static/VMs_SG_Edit_Add1.png
-   :scale: 70%
    
 To delete rules, please, click Delete icon in the list. The rule will be deleted from the security group.
 
 .. figure:: _static/VMs_SG_Edit_Delete1.png
-   :scale: 70%
    
 Then you can move back to the view mode, or close the window. 
 
 Please, note, when editing shared security groups, a warning message appears:
 
-.. figure:: _static/VMs_SharedSG_EditWarning1.png
+.. figure:: _static/VMs_SharedSG_EditWarning2.png
 
 Click "Yes" if you still want to edit a shared security group. You will be moved to the "Firewall" section where you can edit the security group. After editing, go back to the virtual machine that uses this group. You will see the rules are edited.
 
