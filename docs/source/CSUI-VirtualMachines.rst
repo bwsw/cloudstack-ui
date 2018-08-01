@@ -421,7 +421,7 @@ Storage Tab
 """""""""""""""""""""""""""
 The second tab - Storage - contains the information on the volumes allocated to the virtual machine.
 
-.. figure:: _static/VMs_Details_Storage1.png
+.. figure:: _static/VMs_Details_Storage.png
    
 In this tab the following information is presented:
 
@@ -577,13 +577,13 @@ Click "Show additional fields" to expand the list of optional settings. It allow
      
 Once all fields are filled in click "Create" to create the new template.
  
-.. figure:: _static/VMs_Info_Storage_Snapshot_CreateTemplate1.png
+.. figure:: _static/VMs_Info_Storage_Snapshot_CreateTemplate2.png
 
 - **Create Volume** - Allows creating a volume from the snapshot.
 
 Type a name for a new volume into the Name field in the modal window. Click “Create” to register a new volume.
 
-.. figure:: _static/VMs_SnapshotActions_CreateVolume.png
+.. figure:: _static/VMs_SnapshotActions_CreateVolume1.png
 
 Click “Cancel” to cancel the volume creation.
 
@@ -591,21 +591,19 @@ Click “Cancel” to cancel the volume creation.
 
 In the dialogue window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
 
-.. figure:: _static/VMs_SnapshotActions_Revert.png
-   :scale: 70%
+.. figure:: _static/VMs_SnapshotActions_Revert1.png
 
 - **Delete** - allows deleting the last-taken snapshot.
    
 Besides, you can see all the snapshots in the list by clicking the "VIEW ALL" button. In the appeared window you will see the list of all snapshots. For each snapshot in the list, the same actions are available: you can create a template, or delete a snapshot.
 
-.. figure:: _static/VMs_Info_Storage_Snapshot_View1.png
+.. figure:: _static/VMs_Info_Storage_Snapshot_View2.png
 
 3. **ISO** - Allows attaching ISO. 
 
 Attach ISO by clicking the "Attach" button in the ISO card. In the dialogue window you will see the list of available ISO files. To easily find the ISO file you need, please, use the search tool above the list. Additionally, you can filter the list by OS family(-ies), by type(-s), by group(-s). Tick the ISO file you wish in the list and click "Attach". The ISO will be attached to the VM.
 
-.. figure:: _static/VMs_AddISO2.png
-   :scale: 70%
+.. figure:: _static/VMs_AddISO3.png
    
 You can detach the ISO file by clicking the "Detach" button.
 
