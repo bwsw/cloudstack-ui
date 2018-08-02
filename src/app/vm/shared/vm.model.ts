@@ -32,10 +32,12 @@ export const getPort = (vm: VirtualMachine) => {
   const portTag = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.portToken);
   return portTag && portTag.value || '80';
 };
+
 export const getPath = (vm: VirtualMachine) => {
   const pathTag = vm.tags.find(tag => tag.key === VirtualMachineTagKeys.pathToken);
   return pathTag && pathTag.value || '';
 };
+
 export const getProtocol = (vm: VirtualMachine) => {
   const protocolTag = vm.tags.find(
     tag => tag.key === VirtualMachineTagKeys.protocolToken);
