@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators/take';
 import { State } from '../../../reducers/index';
 import { Template } from '../../shared';
 import { Tag } from '../../../shared/models';
@@ -27,20 +28,12 @@ export class TagsContainerComponent {
   }
 
   public editTag(tagEdit: TagEditAction) {
-    this.template$.take(1).subscribe((template: Template) => {
-      const newTag: Tag = {
-        resourceid: template.id,
-        resourcetype: 'Template',
-        key: tagEdit.newTag.key,
-        value: tagEdit.newTag.value,
-        account: template.account,
-        domain: template.domain,
-        domainid: template.domainId
-      };
-      const newTags: Tag[] = template.tags.filter(t => tagEdit.oldTag.key !== t.key);
-      newTags.push(newTag);
-      const result = { ...template, tags: newTags };
-      this.store.dispatch(new templateActions.UpdateTemplate(result));
+    this.template$.pipe(
+      take(1),
+    ).subscribe((template: Template) => {
+      const newTag: Tag = this.createTag(template, tagEdit.newTag);
+      const newTags: Tag[] = [...template.tags.filter(t => tagEdit.oldTag.key !== t.key), newTag];
+      this.store.dispatch(new templateActions.UpdateTemplate({ ...template, tags: newTags }));
     });
   }
 
@@ -52,21 +45,24 @@ export class TagsContainerComponent {
   }
 
   public addTag(keyValuePair: KeyValuePair) {
-    this.template$.take(1).subscribe((template: Template) => {
-      const newTag = {
-        resourceid: template.id,
-        resourcetype: 'SecurityGroup',
-        key: keyValuePair.key,
-        value: keyValuePair.value,
-        account: template.account,
-        domain: template.domain,
-        domainid: template.domainId
-      };
-      const newTags: Tag[] = [...template.tags];
-      newTags.push(newTag);
-
-      const result = { ...template, tags: newTags };
-      this.store.dispatch(new templateActions.UpdateTemplate(result));
+    this.template$.pipe(
+      take(1),
+    ).subscribe((template: Template) => {
+      const newTag: Tag = this.createTag(template, keyValuePair);
+      const newTags: Tag[] = [...template.tags, newTag];
+      this.store.dispatch(new templateActions.UpdateTemplate({...template, tags: newTags}));
     });
+  }
+
+  private createTag(template: Template, keyValuePair: KeyValuePair): Tag {
+    return {
+      resourceid: template.id,
+      resourcetype: 'Template',
+      key: keyValuePair.key,
+      value: keyValuePair.value,
+      account: template.account,
+      domain: template.domain,
+      domainid: template.domainId
+    }
   }
 }
