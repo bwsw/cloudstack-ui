@@ -32,7 +32,8 @@ export class TagsContainerComponent {
       take(1),
     ).subscribe((template: Template) => {
       const newTag: Tag = this.createTag(template, tagEdit.newTag);
-      const newTags: Tag[] = [...template.tags.filter(t => tagEdit.oldTag.key !== t.key), newTag];
+      const filteredTags: Tag[] = template.tags.filter(t => tagEdit.oldTag.key !== t.key);
+      const newTags: Tag[] = [...filteredTags, newTag];
       this.store.dispatch(new templateActions.UpdateTemplate({ ...template, tags: newTags }));
     });
   }
