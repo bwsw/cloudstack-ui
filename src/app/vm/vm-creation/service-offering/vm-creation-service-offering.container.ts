@@ -9,6 +9,7 @@ import * as fromServiceOfferings from '../../../reducers/service-offerings/redux
 import { ICustomOfferingRestrictions, ServiceOffering } from '../../../shared/models';
 // tslint:disable-next-line
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
+import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/custom-service-offering';
 
 
 @Component({
@@ -33,7 +34,22 @@ import { ServiceOfferingFromMode } from '../../../service-offering/service-offer
     </cs-service-offering-dialog>`
 })
 export class VmCreationServiceOfferingContainerComponent implements OnInit, AfterViewInit {
-  readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferingsForVmCreation);
+  readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferingsForVmCreation)
+    // temporary workaround for initial default parameters for custom service offering
+    .map(offerings =>
+      offerings.map(offering => {
+        if (offering.iscustomized) {
+          const customOfferingWithDefaultParams: ServiceOffering = {
+            ...offering,
+            cpunumber: offering.cpunumber || customServiceOfferingFallbackParams.cpunumber,
+            cpuspeed: offering.cpuspeed || customServiceOfferingFallbackParams.cpuspeed,
+            memory: offering.memory || customServiceOfferingFallbackParams.memory
+          };
+          return customOfferingWithDefaultParams;
+        }
+        return offering;
+      })
+    );
   readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
   readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
