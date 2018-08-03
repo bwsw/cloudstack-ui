@@ -1,4 +1,4 @@
-.. Webshell_Plugin:
+.. _Webshell_Plugin:
 
 WebShell Plugin
 =========================
