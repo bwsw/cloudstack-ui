@@ -13,7 +13,7 @@ import { Role } from '../../../shared/models/role.model';
 export class RolesEffects {
 
   @Effect()
-  loadRoless$: Observable<Action> = this.actions$
+  loadRoles$: Observable<Action> = this.actions$
     .ofType(roleActions.LOAD_ROLES_REQUEST)
     .switchMap((action: roleActions.LoadRolesRequest) => {
       return this.roleService.getList(action.payload)
