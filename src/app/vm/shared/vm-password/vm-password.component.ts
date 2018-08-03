@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { VirtualMachine, VmResourceType } from '../vm.model';
+import { VirtualMachine } from '../vm.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 import { TagService } from '../../../shared/services/tags/tag.service';
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
+import { SaveVMPassword } from '../../../reducers/vm/redux/vm.actions';
 
 @Component({
   selector: 'cs-vm-password',
@@ -57,12 +57,7 @@ export class VmPasswordComponent implements OnInit {
   }
 
   public savePassword() {
-    this.tagService.update(
-      this.vm,
-      VmResourceType,
-      VirtualMachineTagKeys.passwordTag,
-      this.vm.password
-    );
+    this.store.dispatch(new SaveVMPassword({ vm: this.vm, password: this.vm.password }));
     this.saved = true;
 
     if (this.isAutoSave === null) {

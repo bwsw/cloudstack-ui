@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { flatMap } from 'rxjs/operators';
+import { catchError, flatMap } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators/mergeMap';
 import { map } from 'rxjs/operators/map';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -31,6 +31,7 @@ import * as sgActions from '../../security-groups/redux/sg.actions';
 import * as vmActions from './vm.actions';
 import { LoadVirtualMachine, VirtualMachineLoaded } from './vm.actions';
 import { SnackBarService } from '../../../core/services';
+import { of } from 'rxjs/observable/of';
 
 
 @Injectable()
@@ -618,6 +619,17 @@ export class VirtualMachinesEffects {
             });
         });
     });
+
+  @Effect()
+  saveVMPassword$: Observable<Action> = this.actions$.pipe(
+    ofType<vmActions.SaveVMPassword>(vmActions.SAVE_VM_PASSWORD),
+    map(action => action.payload),
+    mergeMap(({ vm, password }) => this.vmTagService.setPassword(vm, password).pipe(
+      map(() => new vmActions.SaveVMPasswordSuccess({ vm, password })),
+      catchError((error) => of(new vmActions.SaveVMPasswordError({ error })))
+    ))
+  );
+
 
   @Effect({ dispatch: false })
   updateError$: Observable<Action> = this.actions$
