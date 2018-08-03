@@ -593,7 +593,7 @@ export class VirtualMachineCreationEffects {
     return this.vmTagService.copyTagsToEntity(state.template.tags, vm)
       .switchMap(() => this.store.select(UserTagsSelectors.getIsSavePasswordForVMs))
       .switchMap((tag) => {
-        if (tag) {
+        if (tag && vm.password) {
           return this.tagService.update(
             vm,
             VmResourceType,
