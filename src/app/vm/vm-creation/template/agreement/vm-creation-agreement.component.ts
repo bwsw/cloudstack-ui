@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Converter } from 'showdown';
 import { TemplateTagService } from '../../../../shared/services/tags/template-tag.service';
@@ -10,7 +10,13 @@ import { UserTagService } from '../../../../shared/services/tags/user-tag.servic
 
 @Component({
   selector: 'cs-vm-creation-template-agreement',
-  templateUrl: 'vm-creation-agreement.component.html'
+  templateUrl: 'vm-creation-agreement.component.html',
+  styles: [`
+    .agreement-wrapper {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+  `]
 })
 export class VmCreationAgreementComponent implements OnInit {
   private _agreement: string;
@@ -24,7 +30,7 @@ export class VmCreationAgreementComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<VmCreationAgreementComponent>,
-    private http: Http,
+    private http: HttpClient,
     private templateTagService: TemplateTagService,
     private userTagService: UserTagService
   ) {
@@ -46,8 +52,7 @@ export class VmCreationAgreementComponent implements OnInit {
   protected readFile() {
     this.userTagService.getLang()
       .switchMap(res => this.templateTagService.getAgreement(this.template, res))
-      .switchMap(path => this.http.get(path))
-      .map(response => response.text())
+      .switchMap(path => this.http.get(path, { responseType: 'text' }))
       .map(text => {
         const converter = new Converter();
         return converter.makeHtml(text);
