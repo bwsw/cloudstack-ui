@@ -119,7 +119,6 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   private initNavigationOrder() {
     if (this.canEdit) {
       this.store.select(UserTagsSelectors.getNavigationOrder)
-        .first()
         .do(() => this.navigationLoaded = true)
         .filter(Boolean)
         .subscribe(tag => {
