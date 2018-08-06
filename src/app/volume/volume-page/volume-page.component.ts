@@ -37,7 +37,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.volumes.length && this.shouldShowSuggestionDialog) {
+    if (this.volumes.length === 0 && this.shouldShowSuggestionDialog) {
       this.showSuggestionDialog();
     }
   }
@@ -97,25 +97,26 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       .first()
       .filter(Boolean)
       .subscribe(() => {
-        this.dialogService.askDialog({
-          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
-          actions: [
-            {
-              handler: () => this.activate(),
-              text: 'COMMON.YES'
-            },
-            { text: 'COMMON.NO' },
-            {
-              handler: () => {
-                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }))
+        setTimeout(() => {
+          this.dialogService.askDialog({
+            message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
+            actions: [
+              {
+                handler: () => this.activate(),
+                text: 'COMMON.YES'
               },
-              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-            }
-          ],
-          disableClose: false,
-          width: '320px'
-        });
-
+              { text: 'COMMON.NO' },
+              {
+                handler: () => {
+                  this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }))
+                },
+                text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
+              }
+            ],
+            disableClose: false,
+            width: '320px'
+          });
+        }, 10);
       });
   }
 }

@@ -39,7 +39,7 @@ export class VolumeActionsContainerComponent {
       .onErrorResumeNext()
       .filter(res => Boolean(res))
       .subscribe(() => {
-        if (!!volume.snapshots.length) {
+        if (volume.snapshots && !!volume.snapshots.length) {
           this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
             .onErrorResumeNext()
             .filter(res => Boolean(res))

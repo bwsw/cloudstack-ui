@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -39,7 +39,7 @@ export class VmPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.vms.length && this.shouldShowSuggestionDialog) {
+    if (this.vms.length === 0 && this.shouldShowSuggestionDialog) {
       this.showSuggestionDialog();
     }
   }
@@ -71,26 +71,28 @@ export class VmPageComponent implements OnInit {
       .first()
       .filter(Boolean)
       .subscribe(tag => {
-        this.dialogService.askDialog({
-          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
-          actions: [
-            {
-              handler: () => this.showVmCreationDialog(),
-              text: 'COMMON.YES'
-            },
-            {
-              text: 'COMMON.NO'
-            },
-            {
-              handler: () => {
-                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
+        setTimeout(() => {
+          this.dialogService.askDialog({
+            message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
+            actions: [
+              {
+                handler: () => this.showVmCreationDialog(),
+                text: 'COMMON.YES'
               },
-              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-            }
-          ],
-          disableClose: false,
-          width: '320px'
-        });
+              {
+                text: 'COMMON.NO'
+              },
+              {
+                handler: () => {
+                  this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
+                },
+                text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
+              }
+            ],
+            disableClose: false,
+            width: '320px'
+          });
+        }, 10);
       });
   }
 
