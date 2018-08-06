@@ -1,4 +1,4 @@
-<div [class.error-message]="isErrorMessage" [class.highlighted-message]="isHighlighted">
+<div [class.error-message]="isErrorMessage" [class.highlighted-message]="isHighlighted" class="progress-text">
   <ng-container *ngIf="!isInProgress && !isDone && !isError">
     {{ translatedMessage | async }}
   </ng-container>

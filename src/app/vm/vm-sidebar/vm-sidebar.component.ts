@@ -1,15 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
-import { NotificationService } from '../../shared/services/notification.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 
@@ -24,7 +16,7 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
 
   constructor(
     protected vmService: VmService,
-    protected notificationService: NotificationService,
+    protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router
   ) {

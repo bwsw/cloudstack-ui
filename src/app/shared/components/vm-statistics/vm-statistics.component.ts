@@ -1,20 +1,11 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../services/auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import {
-  ResourcesData,
-  ResourceStats
-} from '../../services/resource-usage.service';
+import { ResourcesData, ResourceStats } from '../../services/resource-usage.service';
 import { Utils } from '../../services/utils/utils.service';
-import { Account } from '../../models/account.model';
+import { Account } from '../../models';
 
 const showStatistics = 'showStatistics';
 const statisticsMode = 'statisticsMode';
@@ -141,14 +132,10 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     }
 
     const modeRaw = this.storageService.read(statisticsMode);
-    switch (parseInt(modeRaw, 10)) {
-      case StatsMode.Free:
-        this.mode = StatsMode.Free;
-        break;
-      case StatsMode.Used:
-      default:
-        this.mode = StatsMode.Used;
-    }
+    this.mode = parseInt(modeRaw, 10) ? StatsMode.Free : StatsMode.Used;
+
+    const typeRaw = this.storageService.read(statisticsType);
+    this.statsType = parseInt(typeRaw, 10) ? StatsType.Domain : StatsType.Account ;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

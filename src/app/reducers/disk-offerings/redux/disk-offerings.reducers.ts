@@ -117,31 +117,18 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
+const isOfferingAvailableInZone = (
+  offering: DiskOffering,
+  offeringAvailability: OfferingAvailability,
+  zone: Zone
+) => {
+  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+};
+
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVolumes.getSelectedVolume,
   (entities, volume) => volume && entities[volume.diskofferingid]
-);
-
-export const getAvailableOfferings = createSelector(
-  selectAll,
-  fromServiceOfferings.offeringAvailability,
-  fromZones.getSelectedZone,
-  (
-    diskOfferings, availability,
-    zone
-  ) => {
-    if (zone && availability) {
-      const availableOfferings = getOfferingsAvailableInZone(
-        diskOfferings,
-        availability,
-        zone
-      );
-      return availableOfferings;
-    } else {
-      return [];
-    }
-  }
 );
 
 const getOfferingsAvailableInZone = (
@@ -166,12 +153,23 @@ const getOfferingsAvailableInZone = (
     });
 };
 
-const isOfferingAvailableInZone = (
-  offering: DiskOffering,
-  offeringAvailability: OfferingAvailability,
-  zone: Zone
-) => {
-  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
-};
-
-
+export const getAvailableOfferings = createSelector(
+  selectAll,
+  fromServiceOfferings.offeringAvailability,
+  fromZones.getSelectedZone,
+  (
+    diskOfferings, availability,
+    zone
+  ) => {
+    if (zone && availability) {
+      const availableOfferings = getOfferingsAvailableInZone(
+        diskOfferings,
+        availability,
+        zone
+      );
+      return availableOfferings;
+    } else {
+      return [];
+    }
+  }
+);

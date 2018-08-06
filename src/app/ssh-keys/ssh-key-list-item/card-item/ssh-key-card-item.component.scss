@@ -1,21 +1,7 @@
 :host {
   display: inline-flex;
-  cursor: pointer;
 }
 
-:host mat-card {
-  width: 340px
-}
-
-:host mat-card-title {
-  line-height: normal;
-}
-
-:host mat-card-title mat-icon {
-  margin-right: 10px;
-}
-
-:host mat-card-content {
-  overflow: hidden;
-  text-overflow: ellipsis;
+mat-card {
+  width: 340px;
 }

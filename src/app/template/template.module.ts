@@ -1,36 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ClipboardModule } from 'ngx-clipboard';
-import { IsoCreateAction } from '../shared/actions/template-actions/create/iso-create';
-import { TemplateCreateAction } from '../shared/actions/template-actions/create/template-create';
+
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import { TagsModule } from '../tags/tags.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+
 import { IsoDeleteAction } from '../shared/actions/template-actions/delete/iso-delete';
 import { TemplateDeleteAction } from '../shared/actions/template-actions/delete/template-delete';
 import { IsoActionsService } from '../shared/actions/template-actions/iso-actions.service';
 import { TemplateActionsService } from '../shared/actions/template-actions/template-actions.service';
-import { SharedModule } from '../shared/shared.module';
-import { TagsModule } from '../tags/tags.module';
 import { IsoAttachmentComponent } from './iso-attachment/iso-attachment.component';
-import {
-  IsoService,
-  TemplateService
-} from './shared';
+import { IsoService, TemplateService } from './shared';
 import { TemplateCreationDialogComponent } from './template-creation/template-creation-dialog.component';
 import { TemplateCreationComponent } from './template-creation/template-creation.component';
 import { TemplateFilterListSelectorComponent } from './template-filter-list/template-filter-list-selector.component';
@@ -51,8 +37,6 @@ import { TemplateZonesComponent } from './template-sidebar/zones/template-zones.
 import { TemplateTagsComponent } from './template-tags/template-tags.component';
 // tslint:disable-next-line
 import { TemplateActionsSidebarComponent } from './template-sidebar/template-actions-sidebar/template-actions-sidebar.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { TemplateEffects } from '../reducers/templates/redux/template.effects';
 import { templateReducers } from '../reducers/templates/redux/template.reducers';
 import { osTypeReducers } from '../reducers/templates/redux/ostype.reducers';
@@ -76,7 +60,6 @@ import { templateGroupReducers } from '../reducers/templates/redux/template-grou
 import { TemplateGroupEffects } from '../reducers/templates/redux/template-group.effects';
 import { TemplateGroupContainerComponent } from './template-sidebar/template-group/containers/template-group.container';
 import { BaseTemplateSidebarContainerComponent } from './template-sidebar/containers/base-template-sidebar.container';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { DetailsContainerComponent } from './template-sidebar/containers/details.container';
 import { TemplateZonesContainerComponent } from './template-sidebar/containers/template-zones.container';
 import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
@@ -91,25 +74,13 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
+    SharedModule,
+    MaterialModule,
     ClipboardModule,
     DraggableSelectModule,
     DynamicModule.withComponents([TemplateCardItemComponent, TemplateRowItemComponent]),
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatButtonToggleModule,
     RouterModule,
-    SharedModule,
     TagsModule,
-    TranslateModule,
     StoreModule.forFeature('templates', templateReducers),
     StoreModule.forFeature('osTypes', osTypeReducers),
     StoreModule.forFeature('zones', zoneReducers),
@@ -178,9 +149,7 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     TemplateGroupService,
     TemplateActionsService,
     IsoActionsService,
-    TemplateCreateAction,
     TemplateDeleteAction,
-    IsoCreateAction,
     IsoDeleteAction
   ],
   entryComponents: [

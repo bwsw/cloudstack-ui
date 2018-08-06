@@ -8,7 +8,7 @@ import { BaseModelStub } from '../models';
 import { AccountType } from '../models/account.model';
 import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
-import { BaseBackendService } from './base-backend.service';
+import { BaseBackendService, CSCommands } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
 import { Store } from '@ngrx/store';
@@ -17,19 +17,21 @@ import * as authActions from '../../reducers/auth/redux/auth.actions';
 import { JobsNotificationService } from './jobs-notification.service';
 
 export interface Capabilities {
-  securitygroupsenabled: boolean;
-  dynamicrolesenabled: boolean;
-  cloudstackversion: string;
-  userpublictemplateenabled: boolean;
-  supportELB: string; // boolean string
-  projectinviterequired: boolean;
   allowusercreateprojects: boolean;
-  customdiskofferingminsize: number;
-  customdiskofferingmaxsize: number;
-  regionsecondaryenabled: boolean;
-  kvmsnapshotenabled: boolean;
-  allowuserviewdestroyedvm: boolean;
   allowuserexpungerecovervm: boolean;
+  allowuserviewdestroyedvm: boolean;
+  apilimitinterval: number,
+  apilimitmax: number,
+  cloudstackversion: string;
+  customdiskofferingmaxsize: number;
+  customdiskofferingminsize: number;
+  dynamicrolesenabled: boolean;
+  kvmsnapshotenabled: boolean;
+  projectinviterequired: boolean;
+  regionsecondaryenabled: boolean;
+  securitygroupsenabled: boolean;
+  supportELB: string; // boolean string
+  userpublictemplateenabled: boolean;
 }
 
 @Injectable()
@@ -133,7 +135,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private getCapabilities(): Observable<void> {
-    return this.sendCommand('listCapabilities', {}, '')
+    return this.sendCommand(CSCommands.ListCapabilities, {}, '')
       .map(({ capability }) => (this.capabilities = capability))
       .catch(() => this.logout());
   }

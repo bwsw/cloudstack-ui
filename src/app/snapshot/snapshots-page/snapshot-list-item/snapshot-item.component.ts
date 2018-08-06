@@ -2,12 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  getDateSnapshotCreated,
-  Snapshot,
-  SnapshotStates,
-  Volume
-} from '../../../shared/models';
+import { getDateSnapshotCreated, Snapshot, SnapshotStates, Volume } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
 
 export class SnapshotItemComponent {
@@ -15,6 +10,7 @@ export class SnapshotItemComponent {
   public volumes: Dictionary<Volume>;
   public virtualMachines: Dictionary<VirtualMachine>;
   public isSelected: (snapshot: Snapshot) => boolean;
+  public query: string;
   public onClick = new EventEmitter<Snapshot>();
   public matMenuTrigger: MatMenuTrigger;
 
@@ -52,20 +48,13 @@ export class SnapshotItemComponent {
       || this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED');
   }
 
-  public get virtualMachineName() {
-    return (this.virtualMachines
-      && this.virtualMachines[this.item.virtualmachineid]
-      && this.virtualMachines[this.item.virtualmachineid].name)
-      || this.translate.instant('SNAPSHOT_PAGE.CARD.VM_DELETED');
-  }
-
   constructor(private translate: TranslateService) {
   }
 
   public handleClick(e: MouseEvent): void {
-    // e.stopPropagation();
-    // if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
-    //   this.onClick.emit(this.item);
-    // }
+    e.stopPropagation();
+    if (!this.matMenuTrigger || !this.matMenuTrigger.menuOpen) {
+      this.onClick.emit(this.item);
+    }
   }
 }

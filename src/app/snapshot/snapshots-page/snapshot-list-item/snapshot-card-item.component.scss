@@ -1,15 +1,3 @@
 :host {
   display: inline-flex;
-  //cursor: pointer;
-}
-
-.row {
-  margin-bottom: 5px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-mat-card mat-card-header h2.mat-card-title-text {
-  max-width: 220px !important;
 }

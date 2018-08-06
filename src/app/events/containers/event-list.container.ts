@@ -20,6 +20,8 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
 import moment = require('moment');
 
+const FILTER_KEY = 'eventListFilters';
+
 @Component({
   selector: 'cs-event-list-container',
   template: `
@@ -73,7 +75,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     },
     this.router,
     this.sessionStorage,
-    'eventListFilters',
+    FILTER_KEY,
     this.activatedRoute
   );
 

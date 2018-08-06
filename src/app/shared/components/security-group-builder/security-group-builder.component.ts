@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
@@ -111,14 +112,17 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   public get rules(): Rules {
-    return new Rules(this.securityGroups.selected,
+    return new Rules(
+      this.securityGroups.selected,
       this.checkedIngressRules,
-      this.checkedEgressRules);
+      this.checkedEgressRules
+    );
   }
 
   public onRulesChange(ruleItem: RuleListItem) {
-    const findByRuleId = (_: RuleListItem) => _.rule.ruleId === ruleItem.rule.ruleId;
-    const changedRule = this.selectedRules.ingress.find(findByRuleId) || this.selectedRules.egress.find(findByRuleId);
+    const findByRuleId = (_: RuleListItem) => _.rule.ruleid === ruleItem.rule.ruleid;
+    const changedRule = this.selectedRules.ingress.find(findByRuleId)
+      || this.selectedRules.egress.find(findByRuleId);
     if (changedRule) {
       changedRule.checked = ruleItem.checked;
     }
@@ -160,37 +164,36 @@ export class SecurityGroupBuilderComponent implements OnInit {
       this.securityGroups.available.splice(ind, 1);
     }
 
-    for (let i = 0; i < this.securityGroups.selected.length; i++) {
-      const group = this.securityGroups.selected[i];
-      for (let j = 0; j < group.ingressRules.length; j++) {
+    for (const selectedSecurityGroup of this.securityGroups.selected) {
+      for (const ingressRule of selectedSecurityGroup.ingressrule) {
         const ind = this.inputRules.ingress.findIndex(rule => {
-          return rule.ruleId === group.ingressRules[j].ruleId;
+          return rule.ruleid === ingressRule.ruleid;
         });
-        this.pushIngressRule(group.ingressRules[j], ind !== -1, NetworkRuleType.Ingress);
+        this.pushIngressRule(ingressRule, ind !== -1, NetworkRuleType.Ingress);
       }
 
-      for (let j = 0; j < group.egressRules.length; j++) {
+      for (const egressRule of selectedSecurityGroup.egressrule) {
         const ind = this.inputRules.egress.findIndex(rule => {
-          return rule.ruleId === group.egressRules[j].ruleId;
+          return rule.ruleid === egressRule.ruleid;
         });
-        this.pushEgressRule(group.egressRules[j], ind !== -1, NetworkRuleType.Egress);
+        this.pushEgressRule(egressRule, ind !== -1, NetworkRuleType.Egress);
       }
     }
   }
 
   private pushAllIngressRulesOfGroup(group: SecurityGroup): void {
-    group.ingressRules.forEach(rule => {
+    group.ingressrule.forEach(rule => {
       this.pushIngressRule(rule, true, NetworkRuleType.Ingress);
     });
   }
 
   private pushAllEgressRulesOfGroup(group: SecurityGroup): void {
-    group.egressRules.forEach(rule => {
+    group.egressrule.forEach(rule => {
       this.pushEgressRule(rule, true, NetworkRuleType.Egress);
     });
   }
 
-  private pushIngressRule(rule, checked, type): void {
+  private pushIngressRule(rule: NetworkRule, checked: boolean, type: NetworkRuleType): void {
     this.selectedRules.ingress.push({
       rule,
       checked,
@@ -198,7 +201,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
     });
   }
 
-  private pushEgressRule(rule, checked, type): void {
+  private pushEgressRule(rule: NetworkRule, checked: boolean, type: NetworkRuleType): void {
     this.selectedRules.egress.push({
       rule,
       checked,
@@ -211,10 +214,10 @@ export class SecurityGroupBuilderComponent implements OnInit {
     let startIndex = 0;
 
     for (let i = 0; i < this.selectedGroupIndex; i++) {
-      startIndex += this.securityGroups.selected[i].ingressRules.length;
+      startIndex += this.securityGroups.selected[i].ingressrule.length;
     }
 
-    this.selectedRules.ingress.splice(startIndex, group.ingressRules.length);
+    this.selectedRules.ingress.splice(startIndex, group.ingressrule.length);
   }
 
   private removeEgressRulesOfSelectedGroup(): void {
@@ -222,10 +225,10 @@ export class SecurityGroupBuilderComponent implements OnInit {
     let startIndex = 0;
 
     for (let i = 0; i < this.selectedGroupIndex; i++) {
-      startIndex += this.securityGroups.selected[i].egressRules.length;
+      startIndex += this.securityGroups.selected[i].egressrule.length;
     }
 
-    this.selectedRules.egress.splice(startIndex, group.egressRules.length);
+    this.selectedRules.egress.splice(startIndex, group.egressrule.length);
   }
 
   private resetSelectedGroup(): void {

@@ -1,18 +1,12 @@
 import { SecurityGroup } from '../../../app/security-group/sg.model';
-import {
-  AffinityGroup,
-  DiskOffering,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../app/shared/models';
+import { AffinityGroup, DiskOffering, ServiceOffering, SSHKeyPair, Zone } from '../../../app/shared/models';
 import { Iso, Template } from '../../../app/template/shared';
 
 
 const affinityGroups: Array<AffinityGroup> = require('./fixtures/affinityGroups.json');
 const diskOfferings: Array<DiskOffering> = require('./fixtures/diskOfferings.json');
 const isos: Array<Object> = require('./fixtures/isos.json');
-const securityGroupTemplates: Array<Object> = require(
+const securityGroupTemplates: Array<SecurityGroup> = require(
   './fixtures/securityGroupTemplates.json');
 const serviceOfferings: Array<ServiceOffering> = require(
   './fixtures/serviceOfferings.json');
@@ -34,8 +28,7 @@ export class MockEntityData {
     this.affinityGroups = affinityGroups;
     this.diskOfferings = diskOfferings;
     this.isos = isos.map(json => new Iso(json));
-    this.securityGroupTemplates = securityGroupTemplates.map(
-      json => new SecurityGroup(json));
+    this.securityGroupTemplates = securityGroupTemplates;
     this.serviceOfferings = serviceOfferings;
     this.sshKeyPairs = sshKeyPairs;
     this.templates = templates.map(json => new Template(json));

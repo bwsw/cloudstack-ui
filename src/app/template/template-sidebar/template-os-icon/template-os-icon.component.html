@@ -5,27 +5,15 @@
   mat-card-avatar
 >
   <ng-template [ngSwitchCase]="'Linux'">
-    <img
-      src="img/os/linux.png"
-      width="36"
-      height="36"
-    >
+    <img src="img/os/linux.png">
   </ng-template>
   <ng-template [ngSwitchCase]="'Windows'">
-    <img
-      src="img/os/windows.png"
-      width="36"
-      height="36"
-    >
+    <img src="img/os/windows.png">
   </ng-template>
   <ng-template [ngSwitchCase]="'Mac OS'">
-    <img
-      src="img/os/osx.png"
-      width="36"
-      height="36"
-    >
+    <img src="img/os/osx.png">
   </ng-template>
   <ng-template ngSwitchDefault>
-    <mat-icon class="os-icon">help</mat-icon>
+    <mat-icon class="mdi-help-circle mdi-36px"></mat-icon>
   </ng-template>
 </div>

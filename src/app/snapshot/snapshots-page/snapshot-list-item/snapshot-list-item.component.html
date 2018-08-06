@@ -1,41 +1,32 @@
 <mat-list-item
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
+  class="entity-list-item"
 >
-  <span
-    class="state-row-icon"
+  <cs-square-state-indicator
+    [state]="statusClass"
     [matTooltip]="stateTranslations[item.state] | translate"
-    [ngClass]="statusClass"
-  ></span>
-  <h2 class="row-title">
-    <span [matTooltip]="item.name"> {{ item.name }} </span>
+    class="entity-list-item-status-indicator"
+  ></cs-square-state-indicator>
+
+  <h2 class="entity-list-item-title">
+    <span [matTooltip]="item.name" [innerHTML]="item.name | highlight:query"></span>
   </h2>
 
-  <div class="info" *ngIf="item.volumeid">
+  <div class="entity-list-item-data" *ngIf="item.volumeid">
     {{ 'SNAPSHOT_PAGE.CARD.VOLUME' | translate }}: {{ volumeName }}
   </div>
 
-  <div class="info" *ngIf="item.virtualmachineid">
-    {{ 'SNAPSHOT_PAGE.CARD.VM' | translate }}: {{ virtualMachineName }}
+  <div class="entity-list-item-data">
+    {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}:
+   <span [innerHTML]="snapshotCreated | stringifyDate"></span>
   </div>
 
-  <div class="info">
-    {{ 'SNAPSHOT_PAGE.CARD.CREATED' | translate }}: {{ snapshotCreated | stringifyDate }}
-  </div>
-
-  <button
-    class="row-action"
-    mat-icon-button
-    [matMenuTriggerFor]="actionsMenu"
-  >
-    <mat-icon>more_vert</mat-icon>
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 
-  <mat-menu
-    #actionsMenu="matMenu"
-  >
-    <cs-snapshot-action-container
-      [snapshot]="item"
-    ></cs-snapshot-action-container>
+  <mat-menu #actionsMenu="matMenu">
+    <cs-snapshot-action-container [snapshot]="item"></cs-snapshot-action-container>
   </mat-menu>
 </mat-list-item>

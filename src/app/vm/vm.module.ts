@@ -1,27 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
 import { PulseModule } from '../pulse/pulse.module';
+import { ServiceOfferingModule } from '../service-offering/service-offering.module';
+import { SnapshotModule } from '../snapshot/snapshot.module';
+import { TagsModule } from '../tags/tags.module';
+import { TemplateModule } from '../template';
+
+// tslint:disable max-line-length
 import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.effects';
 import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
@@ -35,13 +29,6 @@ import { VirtualMachinesEffects } from '../reducers/vm/redux/vm.effects';
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
-import { ServiceOfferingModule } from '../service-offering/service-offering.module';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SharedModule } from '../shared/shared.module';
-// tslint:disable-next-line
-import { SnapshotModule } from '../snapshot/snapshot.module';
-import { TagsModule } from '../tags/tags.module';
-import { TemplateModule } from '../template';
 import { NetworkDetailContainerComponent } from './container/network-detail.container';
 import { ServiceOfferingDialogContainerComponent } from './container/service-offering-dialog.container';
 import { StorageDetailContainerComponent } from './container/storage-detail.container';
@@ -59,17 +46,13 @@ import { VmService } from './shared/vm.service';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
 import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
-// tslint:disable-next-line
 import { SecurityGroupManagerExistingGroupComponent } from './vm-creation/components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
 import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/components/security-group-rules-manager/vm-creation-security-group-rules-manager.component';
-// tslint:disable-next-line
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
-// tslint:disable-next-line
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
 import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
 import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
-// tslint:disable-next-line
 import { VmCreationServiceOfferingContainerComponent } from './vm-creation/service-offering/vm-creation-service-offering.container';
 import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
 import { VmCreationAgreementComponent } from './vm-creation/template/agreement/vm-creation-agreement.component';
@@ -86,24 +69,18 @@ import { VmPageComponent } from './vm-page/vm-page.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
-// tslint:disable-next-line
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
-// tslint:disable-next-line
 import { FirewallRulesDetailContainerComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.container';
 import { NicListComponent } from './vm-sidebar/network-detail/nics/nic-list/nic-list.component';
 import { NicFieldsComponent } from './vm-sidebar/network-detail/nics/nic/nic-fields/nic-fields.component';
 import { NicComponent } from './vm-sidebar/network-detail/nics/nic/nic.component';
-// tslint:disable-next-line
 import { SecondaryIpListComponent } from './vm-sidebar/network-detail/nics/secondary-ip-list/secondary-ip-list.component';
 import { SecondaryIpComponent } from './vm-sidebar/network-detail/nics/secondary-ip/secondary-ip.component';
 import { SshKeypairResetComponent } from './vm-sidebar/ssh-selector/ssh-keypair-reset.component';
 import { StatisticsComponent } from './vm-sidebar/statistics/statistics.component';
 import { IsoComponent } from './vm-sidebar/storage-detail/iso/iso.component';
-// tslint:disable-next-line
 import { VolumeAttachmentDetailComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attachment-detail/volume-attachment-detail.component';
-// tslint:disable-next-line
 import { VolumeAttachmentDialogComponent } from './vm-sidebar/storage-detail/volume-attachment/volume-attchment-dialog/volume-attachment-dialog.component';
-// tslint:disable-next-line
 import { SnapshotCreationComponent } from './vm-sidebar/storage-detail/volumes/snapshot-creation/snapshot-creation.component';
 import { SnapshotModalComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshot-modal.component';
 import { SnapshotModalContainerComponent } from './vm-sidebar/storage-detail/volumes/snapshot/snapshot-modal.container';
@@ -114,45 +91,31 @@ import { VolumeComponent } from './vm-sidebar/storage-detail/volumes/volume/volu
 import { VolumesComponent } from './vm-sidebar/storage-detail/volumes/volumes.component';
 import { AffinityGroupComponent } from './vm-sidebar/vm-detail/affinity-group/affinity-group.component';
 import { InstanceGroupComponent } from './vm-sidebar/vm-detail/instance-group/instance-group.component';
-// tslint:disable-next-line
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-offering-details/service-offering-details.component';
 import { SshKeypairComponent } from './vm-sidebar/vm-detail/ssh/ssh-keypair.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
 import { VmDetailZoneComponent } from './vm-sidebar/vm-detail/zone/zone.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
-
 import { WebShellService } from './web-shell/web-shell.service';
+import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
+// tslint:enable max-line-length
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
+    MaterialModule,
     DynamicModule.withComponents([VmListCardItemComponent]),
     DynamicModule.withComponents([VmListRowItemComponent]),
-    FormsModule,
     DraggableSelectModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatTooltipModule,
-    MatButtonToggleModule,
     PulseModule,
-    ReactiveFormsModule,
     RouterModule,
     ServiceOfferingModule,
-    SharedModule,
     SnapshotModule,
     TagsModule,
     TemplateModule,
     TranslateModule,
-    MatProgressBarModule,
-    HttpModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
     StoreModule.forFeature('account-tags', accountTagsReducers),
@@ -236,6 +199,7 @@ import { WebShellService } from './web-shell/web-shell.service';
     NicFieldsComponent,
     PostdeploymentComponent,
     VmResetPasswordComponent,
+    ServiceOfferingSelectorComponent
   ],
   providers: [
     VmActionsService,

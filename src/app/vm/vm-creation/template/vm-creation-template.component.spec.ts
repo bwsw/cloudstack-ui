@@ -40,8 +40,7 @@ class TestComponent {
 }
 
 describe('VmCreationTemplateComponent', () => {
-  let component: VmCreationTemplateComponent;
-  let fixture: ComponentFixture<VmCreationTemplateComponent>;
+  // tslint:disable-next-line
   let template: BaseTemplateModel;
 
   function createTestComponent() {

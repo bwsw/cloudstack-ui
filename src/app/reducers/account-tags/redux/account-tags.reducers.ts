@@ -73,7 +73,7 @@ export function reducer(
     case accountTagActions.UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS: {
       const id = `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`;
 
-      if (state.ids.indexOf(id) > -1) {
+      if ((state.ids as string[]).indexOf(id) > -1) {
         return {
           ...adapter.updateMany([
             {
@@ -132,13 +132,6 @@ export const {
 export const isLoading = createSelector(
   getAccountTagsEntitiesState,
   state => state.loading
-);
-
-export const selectServiceOfferingClassTags = createSelector(
-  selectAll,
-  (tags) => {
-    return tags.filter(tag => tag.key.includes(AccountTagKeys.serviceOfferingClass));
-  }
 );
 
 export const selectServiceOfferingParamTags = createSelector(

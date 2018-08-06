@@ -53,7 +53,8 @@
     "SNAPSHOT": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот снимок?",
       "CONFIRM_REVERTING": "Вы уверены, что хотите вернуть владеющий диск к состоянию этого снимка?",
-      "CONFIRM_REVERTING_WITH_VM_REBOOT": "Вы уверены, что хотите вернуть владеющий диск к состоянию этого снимка? <b>Виртуальная машина, к которой прикреплен диск, будет перезагружена.</b>"
+      "CONFIRM_REVERTING_WITH_VM_REBOOT": "Вы уверены, что хотите вернуть владеющий диск к состоянию этого снимка? <b>Виртуальная машина, к которой прикреплен диск, будет перезагружена.</b>",
+      "CONFIRM_ALL_DELETION": "Удалить снимки этого диска?"
     },
     "TAG": {
       "CONFIRM_DELETION": "Вы уверены, что хотите удалить этот тег?"
@@ -120,20 +121,22 @@
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
     }
   },
-  "JOB_NOTIFICATIONS": {
+  "NOTIFICATIONS": {
     "ACCOUNT": {
+      "CREATION_DONE": "Аккаунт создан",
       "DELETION_IN_PROGRESS": "Удаление аккаунта",
-      "DELETION_DONE": "Аккаунт успешно удален",
-      "DELETION_FAILED": "Ошибка удаления аккаунта",
+      "DELETION_DONE": "Аккаунт удален",
+      "DELETION_FAILED": "Не удалось удалить аккаунт",
       "DISABLE_IN_PROGRESS": "Деактивация аккаунта",
-      "DISABLE_DONE": "Аккаунт успешно деактивирован",
-      "DISABLE_FAILED": "Ошибка деактивации аккаунта",
-      "ENABLE_IN_PROGRESS": "Активация аккаунта",
-      "ENABLE_DONE": "Аккаунт успешно активирован",
-      "ENABLE_FAILED": "Ошибка активации аккаунта",
-      "LOCK_IN_PROGRESS": "Блокирование аккаунта",
-      "LOCK_DONE": "Аккаунт успешно заблокирован",
-      "LOCK_FAILED": "Ошибка блокирования аккаунта"
+      "DISABLE_DONE": "Аккаунт деактивирован",
+      "DISABLE_FAILED": "Не удалось деактивировать аккаунт",
+      "ENABLE_DONE": "Аккаунт активирован",
+      "USER": {
+        "CREATION_DONE": "Пользователь создан",
+        "UPDATE_DONE": "Пользователь отредактирован",
+        "DELETE_DONE": "Пользователь удален",
+        "GENERATE_KEYS_DONE": "Ключи пользователя сгенерированы"
+      }
     },
     "PENDING_OPERATIONS": "Текущие операции",
     "ISO": {
@@ -143,9 +146,7 @@
       "DETACHMENT_IN_PROGRESS": "Открепление ISO",
       "DETACHMENT_DONE": "ISO откреплен",
       "DETACHMENT_FAILED": "Не удалось открепить ISO",
-      "REGISTER_IN_PROGRESS": "Регистрация ISO",
       "REGISTER_DONE": "ISO зарегистрирован",
-      "REGISTER_FAILED": "ISO не добавлен",
       "DELETION_IN_PROGRESS": "Удаление ISO",
       "DELETION_DONE": "ISO удален",
       "DELETION_FAILED": "Не удалось удалить ISO"
@@ -158,26 +159,32 @@
       "DELETION_DONE": "Снимок удален",
       "DELETION_FAILED": "Не удалось удалить снимок",
       "REVERT_IN_PROGRESS": "Возвращение диска к снимку",
-      "REVERT_DONE": "Диск возращен к снимку",
-      "REVERT_FAILED": "Вернуть диск к снимку не удалось"
+      "REVERT_DONE": "Диск возвращен к снимку",
+      "REVERT_FAILED": "Не удалось вернуть диск к снимку"
     },
     "TEMPLATE": {
-      "REGISTER_IN_PROGRESS": "Регистрация шаблона",
       "REGISTER_DONE": "Шаблон зарегистрирован",
-      "REGISTER_FAILED": "Не удалось зарегистрировать шаблон",
+      "CREATION_IN_PROGRESS": "Создание шаблона",
+      "CREATION_DONE": "Шаблон создан",
+      "CREATION_FAILED": "Не удалось создать шаблон",
       "DELETION_IN_PROGRESS": "Удаление шаблона",
       "DELETION_DONE": "Шаблон удален",
       "DELETION_FAILED": "Не удалось удалить шаблон"
     },
+    "FIREWALL": {
+      "TEMPLATE_CREATION_DONE": "Шаблон брандмауэра создан",
+      "TEMPLATE_DELETE_DONE": "Шаблон брандмауэра удален",
+      "SHARED_GROUP_CREATION_DONE": "Разделяемая группа безопасности создана",
+      "SHARED_GROUP_DELETE_DONE": "Разделяемая группа безопасности удалена",
+      "PRIVATE_GROUP_DELETE_DONE": "Приватная группа безопасности удалена",
+      "CONVERT_PRIVATE_TO_SHARED_DONE": "Приватная группа безопасности сконвертирована в разделяемую группу безопасности"
+    },
     "VM": {
-      "TAG_EDIT_DONE": "Тег ВМ отредактирован",
-      "TAG_ADD_DONE": "Добавлен тег ВМ",
-      "TAG_REMOVE_DONE": "Удален тег ВМ",
       "START_IN_PROGRESS": "Запуск ВМ",
-      "START_DONE": "ВМ была запущена",
+      "START_DONE": "ВМ запущена",
       "START_FAILED": "Не удалось запустить ВМ",
       "STOP_IN_PROGRESS": "Остановка ВМ",
-      "STOP_DONE": "ВМ была остановлена",
+      "STOP_DONE": "ВМ остановлена",
       "STOP_FAILED": "Не удалось остановить ВМ",
       "FETCH_STATISTICS_IN_PROGRESS": "Получение статистики",
       "FETCH_STATISTICS_DONE": "Статистика получена",
@@ -186,31 +193,30 @@
       "CHANGE_DESCRIPTION_DONE": "Описание изменено",
       "CHANGE_DESCRIPTION_FAILED": "Не удалось изменить описание",
       "REBOOT_IN_PROGRESS": "Перезапуск ВМ",
-      "REBOOT_DONE": "ВМ была перезапущена",
+      "REBOOT_DONE": "ВМ перезапущена",
       "REBOOT_FAILED": "Не удалось перезапустить ВМ",
       "RESTORE_IN_PROGRESS": "Переустановка ВМ",
-      "RESTORE_DONE": "ВМ была переустановлена",
+      "RESTORE_DONE": "ВМ переустановлена",
       "RESTORE_FAILED": "Не удалось переустановить ВМ",
       "RESET_PASSWORD_IN_PROGRESS": "Сброс пароля",
       "RESET_PASSWORD_DONE": "Пароль сброшен",
       "RESET_PASSWORD_FAILED": "Не удалось сбросить пароль",
       "SAVE_PASSWORD_DONE": "Пароль сохранен",
-      "SAVE_PASSWORD_FAILED": "Не удалось сохранить пароль",
       "DESTROY_IN_PROGRESS": "Удаление ВМ",
-      "DESTROY_DONE": "ВМ была удалена",
+      "DESTROY_DONE": "ВМ удалена",
       "DESTROY_FAILED": "Не удалось удалить ВМ",
       "EXPUNGE_IN_PROGRESS": "Уничтожение ВМ",
-      "EXPUNGE_DONE": "ВМ была уничтожена",
+      "EXPUNGE_DONE": "ВМ уничтожена",
       "EXPUNGE_FAILED": "Не удалось уничтожить ВМ",
       "RECOVER_IN_PROGRESS": "Идет восстановление ВМ",
-      "RECOVER_DONE": "ВМ была восстановлена",
+      "RECOVER_DONE": "ВМ восстановлена",
       "RECOVER_FAILED": "Не удалось восстановить ВМ",
       "DEPLOY_IN_PROGRESS": "Развертывание ВМ",
-      "DEPLOY_DONE": "ВМ была развернута",
+      "DEPLOY_DONE": "ВМ развернута",
       "DEPLOY_FAILED": "Не удалось развернуть ВМ",
-      "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение предложения",
-      "CHANGE_SERVICE_OFFERING_DONE": "Предложение изменено",
-      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить предложение",
+      "CHANGE_SERVICE_OFFERING_IN_PROGRESS": "Изменение вычислительного предложения",
+      "CHANGE_SERVICE_OFFERING_DONE": "Вычислительное предложение изменено",
+      "CHANGE_SERVICE_OFFERING_FAILED": "Не удалось изменить вычислительное предложение",
       "CHANGE_AFFINITY_GROUP_IN_PROGRESS": "Изменение аффинитетной группы",
       "CHANGE_AFFINITY_GROUP_DONE": "Аффинитетная группа изменена",
       "CHANGE_AFFINITY_GROUP_FAILED": "Не удалось изменить аффинитетную группу",
@@ -221,21 +227,18 @@
       "REMOVE_INSTANCE_GROUP_DONE": "Группа удалена",
       "REMOVE_INSTANCE_GROUP_FAILED": "Не удалось удалить группу",
       "ADD_SECONDARY_IP_DONE": "Дополнительный IP добавлен",
-      "ADD_SECONDARY_IP_FAILED": "Не удалось добавить дополнительный IP",
       "REMOVE_SECONDARY_IP_DONE": "Дополнительный IP удален",
-      "REMOVE_SECONDARY_IP_FAILED": "Не удалось удалить дополнительный IP",
       "COLOR_CHANGE_DONE": "Цвет ВМ изменен",
-      "COLOR_CHANGE_FAILED": "Не удалось изменить цвет ВМ",
       "CHANGE_SSH_IN_PROGRESS": "Изменение SSH-ключа",
       "CHANGE_SSH_DONE": "SSH-ключ изменен",
       "CHANGE_SSH_FAILED": "Не удалось изменить SSH-ключ"
     },
     "VOLUME": {
       "DETACHMENT_IN_PROGRESS": "Открепление диска",
-      "DETACHMENT_DONE": "Диск успешно откреплен",
+      "DETACHMENT_DONE": "Диск откреплен",
       "DETACHMENT_FAILED": "Не удалось открепить диск",
       "DELETION_IN_PROGRESS": "Удаление диска",
-      "DELETION_DONE": "Диск успешно удален",
+      "DELETION_DONE": "Диск удален",
       "DELETION_FAILED": "Не удалось удалить диск",
       "RESIZE_IN_PROGRESS": "Изменение размера диска",
       "RESIZE_DONE": "Размер диска изменен",
@@ -249,28 +252,10 @@
       "CREATION_IN_PROGRESS": "Создание диска",
       "CREATION_DONE": "Диск создан",
       "CREATION_FAILED": "Не удалось создать диск"
-    }
-  },
-  "NOTIFICATIONS": {
-    "TEMPLATE": {
-      "CUSTOM_TEMPLATE_CREATED": "Шаблон {{ name }} успешно создан",
-      "CUSTOM_TEMPLATE_DELETED": "Шаблон {{ name }} успешно удален",
-      "TEMPLATE_GROUP_SET_ERROR": "Произошла ошибка, попробуйте еще раз",
-      "SHARED_GROUP_CREATED": "Разделяемая группа {{ name }} успешно создана",
-      "SHARED_GROUP_DELETED": "Разделяемая группа {{ name }} успешно удалена",
-      "PRIVATE_GROUP_DELETED": "Приватная группа {{ name }} успешно удалена",
-      "CONVERT_PRIVATE_TO_SHARED": "Приватная группа {{ name }} успешно сконвертирована в разделяемую"
     },
-    "ACCOUNT": {
-      "USER_CREATED": "Пользователь {{ username }} успешно создан",
-      "USER_UPDATED": "Пользователь {{ username }} успешно обновлен",
-      "USER_DELETED": "Пользователь {{ username }} успешно удален"
-    },
-    "VOLUME": {
-      "VOLUME_FROM_SNAPSHOT_CREATED": "Диск {{ name }} успешно создан"
-    },
-    "SNAPSHOT": {
-      "DELETE_SUCCESS": "Снимок {{ name }} успешно удален"
+    "SSH_KEY": {
+      "CREATION_DONE": "SSH ключ создан",
+      "DELETE_DONE": "SSH ключ удален"
     }
   },
   "AUTH": {
@@ -672,6 +657,7 @@
       "GENERAL": "Общие"
     },
     "CARD": {
+      "DESCRIPTION": "Описание",
       "OS": "ОС"
     },
     "SIDEBAR": {
@@ -740,9 +726,40 @@
       "VM_DELETED": "Удалена",
       "CREATED": "Создан"
     },
+    "TYPES": {
+      "HOURLY": "Ежечасные",
+      "DAILY": "Ежедневные",
+      "WEEKLY": "Еженедельные",
+      "MONTHLY": "Ежемесячные",
+      "MANUAL": "Вручную"
+    },
     "FILTERS": {
       "VOLUME": "Диск",
-      "VM": "Виртуальные машины"
+      "VM": "Виртуальные машины",
+      "GROUP_BY": "Группировать по",
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
+      "SELECT_TYPES": "Выберите типы",
+      "GROUP_BY_TYPES": "Типам",
+      "GROUP_BY_ACCOUNTS": "Аккаунтам"
+    },
+    "SIDEBAR": {
+      "DETAILS": "Детали",
+      "CREATED": "Создан",
+      "TYPE": "Тип",
+      "TYPES": {
+        "HOURLY": "Ежечасный",
+        "DAILY": "Ежедневный",
+        "WEEKLY": "Еженедельный",
+        "MONTHLY": "Ежемесячный",
+        "MANUAL": "Создан вручную"
+      },
+      "DESCRIPTION": "Описание",
+      "VOLUME_INFORMATION": {
+        "TITLE": "Информация о диске",
+        "VM": "Виртуальная машина",
+        "VOLUME": "Диск"
+      },
+      "SNAPSHOT_NOT_FOUND": "Снимок не найден"
     },
     "ACTIONS": {
       "CREATE_TEMPLATE": "Создать шаблон",
@@ -805,24 +822,43 @@
       "ICMP_TYPE": "Тип ICMP",
       "ICMP_CODE": "Код ICMP",
       "ICMP_ANY": "Все",
+      "FIELD_REQUIRED": "Обязательное поле",
+      "START_PORT_SHOULD_BE_LESS_THAN": "Начальный порт должен быть меньше {{ value }}",
+      "START_PORT_SHOULD_BE_LESS_THAN_END_PORT": "Начальный порт должен быть меньше чем конечный порт",
+      "START_PORT_SHOULD_BE_GREATER_THAN": "Начальный порт должен быть больше {{ value }}",
+      "END_PORT_SHOULD_BE_LESS_THAN": "Конечный порт должен быть меньше {{ value }}",
+      "END_PORT_SHOULD_BE_GREATER_THAN": "Конечный порт должен быть больше {{ value }}",
+      "END_PORT_SHOULD_BE_GREATER_THAN_START_PORT": "Конечный порт должен быть больше чем начальный порт",
       "ENTER_VALID_PORT": "Некорректный порт",
       "ENTER_VALID_TYPE": "Некорректный тип",
       "ENTER_VALID_CODE": "Некорректный код",
+      "ENTER_CIDR": "CIDR v4/v6",
       "ENTER_VALID_CIDR": "Некорректный CIDR",
       "FAILED_TO_ADD_RULE": "Не удалось добавить правило",
       "FAILED_TO_REMOVE_RULE": "Не удалось удалить правило",
+      "SELECT_IP_VERSION": "Выберите версию IP",
       "SELECT_TYPE": "Выберите типы",
       "SELECT_PROTOCOL": "Выберите протоколы",
-      "DEFAULT_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
-      "DEFAULT_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
-      "DEFAULT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
-      "NO_TEXT_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
-      "NO_CODE_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
-      "DEFAULT_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, порт: {{ startPort }}",
-      "DEFAULT_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
-      "DEFAULT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
-      "NO_TEXT_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
-      "NO_CODE_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
+      "EGRESS_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
+      "EGRESS_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса<b> {{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
+      "EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса<b> {{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
+      "NO_TEXT_EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "NO_CODE_EGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик до {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "EGRESS_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, порт: {{ startPort }}",
+      "EGRESS_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
+      "EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
+      "NO_TEXT_EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
+      "NO_CODE_EGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик до {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
+      "INGRESS_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, порт: <b>{{ startPort }}</b>",
+      "INGRESS_RULE_PORT_RANGE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, интервал портов: <b>{{ startPort }}-{{ endPort }}</b>",
+      "INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCodeText }} [{{ icmpCode }}]</b>",
+      "NO_TEXT_INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpType }}</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "NO_CODE_INGRESS_ICMP_RULE": "{{ type }} <b>{{ protocol }}</b> трафик с {{ ipVersion }} адреса <b>{{ cidr }}</b>, ICMP тип: <b>{{ icmpTypeText }} [{{ icmpType }}]</b>, ICMP код: <b>{{ icmpCode }}</b>",
+      "INGRESS_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, порт: {{ startPort }}",
+      "INGRESS_RULE_PORT_RANGE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, интервал портов: {{ startPort }}-{{ endPort }}",
+      "INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCodeText }} [{{ icmpCode }}]",
+      "NO_TEXT_INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpType }}, ICMP код: {{ icmpCode }}",
+      "NO_CODE_INGRESS_ICMP_RULE_NOMARKUP": "{{ type }} {{ protocol }} трафик с {{ ipVersion }} адреса {{ cidr }}, ICMP тип: {{ icmpTypeText }} [{{ icmpType }}], ICMP код: {{ icmpCode }}",
       "NO_FIREWALL_RULES": "Нет правил брандмауэра"
     },
     "ICMP_TYPES": {
@@ -1030,6 +1066,213 @@
           "3": "Сбой при расшифровке",
           "4": "Требуется проверка подлинности",
           "5": "Требуется авторизация"
+        }
+      }
+    },
+    "ICMP_V6_TYPES": {
+      "1": {
+        "description": "Сообщение о недоступности назначения",
+        "codes": {
+          "0": "Никакой маршрут назначению",
+          "1": "Связь с назначением административно не запрещен, такие как фильтр межсетевого экрана",
+          "2": "Не назначенный",
+          "3": "Недостижимый адрес",
+          "4": "Недостижимый порт",
+          "5": "Source address failed ingress/egress policy",
+          "6": "Reject route to destination"
+        }
+      },
+      "2": {
+        "description": "Сообщение о слишком большом пакете",
+        "codes": {
+          "0": ""
+        }
+      },
+      "3": {
+        "description": "Time Exceeded Message",
+        "codes": {
+          "0": "Предел перехода превысил в транзите",
+          "1": "Время повторной сборки фрагмента превысило"
+        }
+      },
+      "4": {
+        "description": "Сообщение о проблеме параметра",
+        "codes": {
+          "0": "Ошибочное поле заголовка встретилось",
+          "1": "Неопознанный следующий тип заголовка встретился",
+          "2": "Unrecognized IPv6"
+        }
+      },
+      "100": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "101": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "127": {
+        "description": "Reserved for expansion of ICMPv6 error messages",
+        "codes": {
+          "0": ""
+        }
+      },
+      "128": {
+        "description": "Сообщение запроса эха",
+        "codes": {
+          "0": ""
+        }
+      },
+      "129": {
+        "description": "Сообщение эхо-ответа",
+        "codes": {
+          "0": ""
+        }
+      },
+      "130": {
+        "description": "Multicast Listener Query",
+        "codes": {
+          "0": ""
+        }
+      },
+      "131": {
+        "description": "Multicast Listener Report",
+        "codes": {
+          "0": ""
+        }
+      },
+      "132": {
+        "description": "Multicast Listener Done",
+        "codes": {
+          "0": ""
+        }
+      },
+      "133": {
+        "description": "Сообщение запроса маршрутизатора",
+        "codes": {
+          "0": ""
+        }
+      },
+      "134": {
+        "description": "Сообщение объявления маршрутизатора",
+        "codes": {
+          "0": ""
+        }
+      },
+      "135": {
+        "description": "Сообщение Neighbor Solicitation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "136": {
+        "description": "Сообщение об объявлении окружения",
+        "codes": {
+          "0": ""
+        }
+      },
+      "137": {
+        "description": "Сообщение перенаправления",
+        "codes": {
+          "0": ""
+        }
+      },
+      "138": {
+        "description": "Router Renumbering",
+        "codes": {
+          "0": "Router Renumbering Command",
+          "1": "Router Renumbering Result",
+          "255": "Sequence Number Reset"
+        }
+      },
+      "139": {
+        "description": "ICMP Node Information Query",
+        "codes": {
+          "0": "The Data field contains an IPv6 address which is the Subject of this Query.",
+          "1": "The Data field contains a name which is the Subject of this Query, or is empty, as in the case of a NOOP.",
+          "2": "The Data field contains an IPv4 address which is the Subject of this Query."
+        }
+      },
+      "140": {
+        "description": "ICMP Node Information Response",
+        "codes": {
+          "0": "A successful reply. The Reply Data field may or may not be empty.",
+          "1": "The Responder refuses to supply the answer. The Reply Data field will be empty.",
+          "2": "The Qtype of the Query is unknown to the Responder. The Reply Data field will be empty."
+        }
+      },
+      "141": {
+        "description": "Inverse Neighbor Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "142": {
+        "description": "Inverse Neighbor Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "144": {
+        "description": "Home Agent Address Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "145": {
+        "description": "Home Agent Address Discovery",
+        "codes": {
+          "0": ""
+        }
+      },
+      "146": {
+        "description": "Mobile Prefix Solicitation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "147": {
+        "description": "Mobile Prefix Advertisement",
+        "codes": {
+          "0": ""
+        }
+      },
+      "160": {
+        "description": "Extended Echo Request",
+        "codes": {
+          "0": "No error"
+        }
+      },
+      "161": {
+        "description": "Extended Echo Reply",
+        "codes": {
+          "0": "No error",
+          "1": "Malformed Query",
+          "2": "No Such Interface",
+          "3": "No Such Table Entry",
+          "4": "Multiple Interfaces Satisfy Query"
+        }
+      },
+      "200": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "201": {
+        "description": "Private experimentation",
+        "codes": {
+          "0": ""
+        }
+      },
+      "255": {
+        "description": "Reserved for expansion of ICMPv6 informational messages",
+        "codes": {
+          "0": ""
         }
       }
     },
@@ -1278,7 +1521,7 @@
     },
     "MODES": {
       "FIXED": "Фиксированные",
-      "CUSTOM": "Настраеваемые"
+      "CUSTOM": "Настраиваемые"
     },
     "FILTERS": {
       "SELECT_CLASSES": "Выберите классы",
@@ -1397,7 +1640,8 @@
     "SNAPSHOT_SCHEDULE": "Настроить создание снимков",
     "RESIZE": "Изменить размер диска",
     "ATTACH": "Прикрепить",
-    "DETACH": "Открепить"
+    "DETACH": "Открепить",
+    "DELETE_SNAPSHOTS": "Удалить снимки"
   },
   "ACCOUNT_ACTION": {
     "DELETE": "Удалить аккаунт",
@@ -1415,26 +1659,29 @@
     "DISABLED": "Деактивирован",
     "ENABLED": "Активирован"
   },
-  "DISK_OFFERING_TABLE": {
-    "name": "",
-    "bytesreadrate": "Чтение МБайт/сек",
-    "byteswriterate": "Запись МБайт/сек",
-    "iopsreadrate": "Чтение IO/сек",
-    "iopswriterate": "Запись IO/сек",
-    "displaytext": "Описание",
-    "disksize": "Размер диска",
-    "storagetype": "Тип хранилища",
-    "provisioningtype": "Выделение ёмкости",
-    "iscustomized": "Настраиваемое",
-    "miniops": "Мин. IO/s",
-    "maxiops": "Макс. IO/s",
-    "thin": "Динамическое",
-    "thick": "Статическое",
-    "fat": "Полное",
-    "sparse": "Разреженное",
-    "shared": "Общее",
-    "created": "Создано",
-    "true": "Да",
-    "false": "Нет"
+  "DISK_OFFERING": {
+    "CHOOSE_DISK_OFFERING": "Выберите дисковое предложение",
+    "TABLE": {
+      "name": "Имя",
+      "bytesreadrate": "Чтение МБайт/сек",
+      "byteswriterate": "Запись МБайт/сек",
+      "iopsreadrate": "Чтение IO/сек",
+      "iopswriterate": "Запись IO/сек",
+      "displaytext": "Описание",
+      "disksize": "Размер диска",
+      "storagetype": "Тип хранилища",
+      "provisioningtype": "Выделение ёмкости",
+      "iscustomized": "Настраиваемое",
+      "miniops": "Мин. IO/s",
+      "maxiops": "Макс. IO/s",
+      "thin": "Динамическое",
+      "thick": "Статическое",
+      "fat": "Полное",
+      "sparse": "Разреженное",
+      "shared": "Общее",
+      "created": "Создано",
+      "true": "Да",
+      "false": "Нет"
+    }
   }
 }

@@ -1,51 +1,54 @@
-<div class="table-wrapper"
-      *ngIf="diskOfferings?.length">
-  <table class="mat-table">
-    <thead>
-    <tr class="mat-header-row">
-      <ng-container *ngFor="let column of columns">
-        <th class="mat-header-cell"> {{ tableId + '.' + column | translate }}</th>
-      </ng-container>
-      <th class="mat-header-cell"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="mat-row"
-        *ngFor="let offering of diskOfferings"
-        (click)="selectOffering(offering)"
-    >
-      <ng-container *ngFor="let column of columns">
-        <td class="mat-cell">
+<h3 class="mat-dialog-title">
+  {{ 'DISK_OFFERING.CHOOSE_DISK_OFFERING' | translate }}
+</h3>
+
+<ng-container *ngIf="diskOfferings.data?.length; then dataTable else noResults"></ng-container>
+
+<ng-template #dataTable>
+  <div class="table-wrapper">
+    <mat-table [dataSource]="diskOfferings">
+
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef> {{ 'DISK_OFFERING.TABLE.' + column | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element">
           <ng-container *ngIf="column === 'name'">
-            <span
-              class="name-text"
-              [matTooltip]="offering[column]">
-            {{ offering[column] }}
-            </span>
+            {{ element[column] }}
           </ng-container>
           <ng-container *ngIf="!isCustomField(column, notCustomFields)">
-            <span>{{ offering[column] || '-'}}</span>
+            {{ element[column] || '-'}}
+          </ng-container>
+          <ng-container *ngIf="column === 'created'">
+            {{ (offeringCreated(element[column]) | stringifyDate)  || '-'}}
           </ng-container>
           <ng-container *ngIf="isCustomField(column, customFields)">
-            <span>{{ (tableId + '.' + offering[column]?.toString() | translate)  || '-'}}</span>
+            {{ ('DISK_OFFERING.TABLE.' + element[column]?.toString() | translate)  || '-'}}
           </ng-container>
-          <ng-container *ngIf="column === 'created' && offering">
-            <span>{{ (offeringCreated(offering[column]) | stringifyDate)  || '-'}}</span>
-          </ng-container>
-        </td>
+        </mat-cell>
       </ng-container>
-      <td class="mat-cell">
-      <span>
-        <mat-radio-button
-          [checked]="selectedDiskOffering && offering?.id === selectedDiskOffering.id"></mat-radio-button>
-      </span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
 
-<cs-no-results *ngIf="!diskOfferings?.length"></cs-no-results>
+      <ng-container matColumnDef="radioButton">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-radio-button
+            name="disk-offering"
+            [checked]="selectedDiskOffering && element?.id === selectedDiskOffering.id"
+          ></mat-radio-button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: columnsToDisplay"
+        (click)="selectOffering(row)"
+      ></mat-row>
+
+    </mat-table>
+  </div>
+</ng-template>
+
+<ng-template #noResults>
+  <cs-no-results></cs-no-results>
+</ng-template>
 
 <div class="mat-dialog-actions">
   <button

@@ -17,22 +17,22 @@ Predefined templates for security groups. You can define your own security group
           "name": "TCP Permit All",
           "description": "Permits all TPC traffic",
           "preselected": true,
-          "ingressRules": [
+          "ingressrule": [
             {
-              "ruleId": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
+              "ruleid": "9552c7e9-9421-4a16-8a09-00a6bab4aa5a",
               "protocol": "tcp",
-              "startPort": 1,
-              "endPort": 65535,
-              "CIDR": "0.0.0.0/0"
+              "startport": 1,
+              "endport": 65535,
+              "cidr": "0.0.0.0/0"
             }
           ],
-          "egressRules": [
+          "egressrule": [
             {
-              "ruleId": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
+              "ruleid": "dcaeefe0-0014-4431-b21d-db2e66f9162d",
               "protocol": "tcp",
-              "startPort": 1,
-              "endPort": 65535,
-              "CIDR": "0.0.0.0/0"
+              "startport": 1,
+              "endport": 65535,
+              "cidr": "0.0.0.0/0"
             }
           ]
         },
@@ -47,12 +47,12 @@ Parameters:
 * name
 * description
 * preselected (true or false) - specifies whether network rules from this template will be automatically applied for newly created virtual machines
-* ingress and egress rules:
-   * ruleId: a unique identifier
+* ingress and egress rules (ingressrule and egressrule respectively):
+   * ruleid: a unique identifier
    * protocol: either 'tcp', 'udp' or 'icmp'
-   * CIDR: subnet mask (e.g. 0.0.0.0/0)
-   * For TCP and UDP: startPort and endPort
-   * For ICMP: icmpCode and icmpType
+   * cidr: subnet mask (e.g. 0.0.0.0/0)
+   * For TCP and UDP: startport and endport
+   * For ICMP: icmpcode and icmptype
 
 ### VM Colors
 
@@ -126,11 +126,15 @@ In this section you can specify classes for service offerings in the following f
         "description": {
           "ru": "class_description_ru",
           "en": "class_description_en"
-        }
+        },
+        "serviceOfferings": [
+          "so-id1",
+          "so-id2"
+        ]
        }
     ]
     
-Each classes should have a unique id, name, and description. Name and description should be localized for used languages.
+Each classes should have a unique id, name, description and list of service offering ids, which belong to this class. Name and description should be localized for used languages.
 
 ### Session Timeout
 
@@ -165,7 +169,6 @@ For example,
   "miniops"
   "maxiops"
 ]
-
 ```
 ### Template Groups
 
@@ -175,12 +178,14 @@ Template group has a required `id` parameter and an optional translations parame
 
 A TemplateGroup looks like 
 ```
-{
-  "id": "id-234", //unique key
-  "translations": {
-    "ru": "Имя Темплейта", // russian translation
-    "en": "Template Name" //english translation
-}
+"templateGroups": [
+  {
+    "id": "id-234", //unique key
+    "translations": {
+      "ru": "Имя Темплейта", // russian translation
+      "en": "Template Name" //english translation
+  }
+]
 ```
 ### Default Service Offering
 
@@ -221,11 +226,11 @@ Account tags are available only for the last API version. If you are using anoth
 "accountTagsEnabled": false
 ```
 
-### Sidebar Order
+### Configure Sidebar
 This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
 For example, 
 ```
-"sidebarOrder": [
+"configureSidebar": [
   "vms",
   "volumes",
   "templates",

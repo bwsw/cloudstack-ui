@@ -1,18 +1,13 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import { Role } from '../../shared/models/role.model';
-import { Domain } from '../../shared/models/domain.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Domain, Role } from '../../shared/models';
 import { stateTranslations } from '../account-container/account.container';
+import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 
 @Component({
   selector: 'cs-account-list-filter',
   templateUrl: 'account-list-filter.component.html'
 })
-export class AccountListFilterComponent {
+export class AccountListFilterComponent implements OnInit {
   @Input() public domains: Array<Domain>;
   @Input() public roleTypes: Array<string>;
   @Input() public roles: Array<Role>;
@@ -33,4 +28,7 @@ export class AccountListFilterComponent {
     return stateTranslations[state];
   }
 
+  public ngOnInit() {
+    this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);
+  }
 }

@@ -1,29 +1,30 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {
-  ResourceLimit,
-  ResourceType
-} from '../../../shared/models/resource-limit.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import * as cloneDeep from 'lodash/cloneDeep';
+
+
+import { ResourceLimit, ResourceType } from '../../../shared/models';
 
 
 @Component({
   selector: 'cs-account-limits',
   templateUrl: 'account-limits.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['account-limits.component.scss']
+  styleUrls: ['account-limits.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountLimitsComponent {
-  @Input() public limits: Array<ResourceLimit>;
-  @Input() public isAdmin: boolean;
-  @Output() public onLimitsEdit: EventEmitter<Array<ResourceLimit>>;
-  public isEdit = false;
+  @Input()
+  public set limits(limits: ResourceLimit[]) {
+    this._limits = limits.map(this.setNoLimitToInfinity);
+  }
 
-  public localLimits = [];
+  public get limits(): ResourceLimit[] {
+    return this._limits;
+  }
+
+  @Input() public isAdmin: boolean;
+  @Output() public limitsUpdate = new EventEmitter<ResourceLimit[]>();
+  public isEdit = false;
+  public localLimits: ResourceLimit[] = [];
 
   public limitLabels = {
     [ResourceType.Instance]: 'ACCOUNT_PAGE.CONFIGURATION.VM_LIMIT',
@@ -40,19 +41,36 @@ export class AccountLimitsComponent {
     [ResourceType.SecondaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_LIMIT',
   };
 
-  constructor() {
-    this.onLimitsEdit = new EventEmitter<Array<ResourceLimit>>();
-  }
+  private _limits: ResourceLimit[];
 
   public onSave(): void {
-    this.onLimitsEdit.emit(this.localLimits);
+    const newLimits = this.localLimits.map(this.setInfinityToNoLimit);
+    this.limitsUpdate.emit(newLimits);
     this.isEdit = false;
   }
 
   public editLimits() {
-    this.localLimits =  Object.assign([], this.limits.map(
-      limit => ({resourcetype: limit.resourcetype, max: limit.max})));
+    this.localLimits = cloneDeep(this.limits);
     this.isEdit = !this.isEdit;
   }
 
+  private setNoLimitToInfinity(limit: ResourceLimit) {
+    if (limit.max !== -1) {
+      return limit;
+    }
+    return {
+      ...limit,
+      max: Infinity
+    };
+  }
+
+  private setInfinityToNoLimit(limit: ResourceLimit & { max: string | number }) {
+    if (limit.max === Infinity || (typeof limit.max === 'string' && limit.max.toLowerCase() === 'infinity')) {
+      return {
+        ...limit,
+        max: -1
+      };
+    }
+    return limit;
+  }
 }

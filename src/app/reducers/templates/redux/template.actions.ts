@@ -6,6 +6,9 @@ export const LOAD_TEMPLATE_REQUEST = '[Templates] LOAD_TEMPLATE_REQUEST';
 export const LOAD_TEMPLATE_RESPONSE = '[Templates] LOAD_TEMPLATE_RESPONSE';
 export const LOAD_SELECTED_TEMPLATE = '[Templates] LOAD_SELECTED_TEMPLATE';
 export const TEMPLATE_FILTER_UPDATE = '[Templates] TEMPLATE_FILTER_UPDATE';
+export const TEMPLATE_REGISTER = '[Templates] TEMPLATE_REGISTER';
+export const TEMPLATE_REGISTER_SUCCESS = '[Templates] TEMPLATE_REGISTER_SUCCESS';
+export const TEMPLATE_REGISTER_ERROR = '[Templates] TEMPLATE_REGISTER_ERROR';
 export const TEMPLATE_CREATE = '[Templates] TEMPLATE_CREATE';
 export const TEMPLATE_CREATE_SUCCESS = '[Templates] TEMPLATE_CREATE_SUCCESS';
 export const TEMPLATE_CREATE_ERROR = '[Templates] TEMPLATE_CREATE_ERROR';
@@ -56,9 +59,30 @@ export class DialogTemplatesFilterUpdate implements Action {
   }
 }
 
+export class RegisterTemplate implements Action {
+  readonly type = TEMPLATE_REGISTER;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class RegisterTemplateSuccess implements Action {
+  readonly type = TEMPLATE_REGISTER_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class RegisterTemplateError implements Action {
+  readonly type = TEMPLATE_REGISTER_ERROR;
+
+
+  constructor(public payload: Error) {
+  }
+}
+
 export class CreateTemplate implements Action {
   readonly type = TEMPLATE_CREATE;
-
 
   constructor(public payload: any) {
   }
@@ -151,6 +175,9 @@ export type Actions =
   | RemoveTemplate
   | RemoveTemplateError
   | RemoveTemplateSuccess
+  | RegisterTemplate
+  | RegisterTemplateSuccess
+  | RegisterTemplateError
   | CreateTemplate
   | CreateTemplateSuccess
   | CreateTemplateError

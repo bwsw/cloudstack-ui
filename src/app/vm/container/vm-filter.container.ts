@@ -1,11 +1,5 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
-import { State } from '../../reducers/index';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
@@ -15,15 +9,14 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VmState } from '../shared/vm.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import * as debounce from 'lodash/debounce';
+import { Grouping } from '../../shared/models';
 
+const FILTER_KEY = 'vmListFilters';
 
 @Component({
   selector: 'cs-vm-filter-container',
@@ -51,8 +44,8 @@ import * as debounce from 'lodash/debounce';
 })
 export class VMFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
 
-  @Input() groupings: Array<any>;
-  @Input() selectedGroupings: Array<any>;
+  @Input() groupings: Array<Grouping>;
+  @Input() selectedGroupings: Array<Grouping>;
 
   readonly filters$ = this.store.select(fromVMs.filters);
   readonly query$ = this.store.select(fromVMs.filterQuery);
@@ -86,15 +79,19 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     }
   ].filter(state => !state.hasOwnProperty('access') || state['access']);
 
-  private filtersKey = 'vmListFilters';
   private filterService = new FilterService({
-    zones: { type: 'array', defaultOption: [] },
-    groups: { type: 'array', defaultOption: [] },
-    groupings: { type: 'array', defaultOption: [] },
-    query: { type: 'string' },
-    states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] },
-    accounts: {type: 'array', defaultOption: [] }
-  }, this.router, this.sessionStorage, this.filtersKey, this.activatedRoute);
+      zones: { type: 'array', defaultOption: [] },
+      groups: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] },
+      query: { type: 'string' },
+      states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] },
+      accounts: { type: 'array', defaultOption: [] }
+    },
+    this.router,
+    this.sessionStorage,
+    FILTER_KEY,
+    this.activatedRoute
+  );
 
   constructor(
     private cd: ChangeDetectorRef,

@@ -1,4 +1,4 @@
-import { SnapshotPageMode, SnapshotStates } from '../../../shared/models';
+import { SnapshotPageMode, SnapshotStates, SnapshotType } from '../../../shared/models';
 import * as fromSnapshots from './snapshot.reducers';
 import * as snapshotActions from './snapshot.actions';
 
@@ -14,7 +14,8 @@ describe('Snapshot Reducer', () => {
       name: 'snapshot for testing',
       tags: [],
       state: SnapshotStates.BackedUp,
-      revertable: true
+      revertable: true,
+      snapshottype: SnapshotType.Manual
     }, {
       description: 'test snapshot #2',
       id: '2',
@@ -25,11 +26,11 @@ describe('Snapshot Reducer', () => {
       name: 'snapshot for testing',
       tags: [],
       state: SnapshotStates.BackedUp,
-      revertable: false
+      revertable: false,
+      snapshottype: SnapshotType.Manual
     }
   ];
   const entities = { 2: snapshots[1], 1: snapshots[0] };
-  const snapshotIdsByVolumesIds = { 'volume-id': ['1'], 'volume-id-1': ['2'] };
 
   it('undefined action should return default state', () => {
     const { initialListState }: any = fromSnapshots;
@@ -55,7 +56,6 @@ describe('Snapshot Reducer', () => {
 
     expect(state.entities).toEqual(entities);
     expect(state.loading).toEqual(false);
-    expect(state.snapshotIdsByVolumeId).toEqual(snapshotIdsByVolumesIds);
     expect(state.ids).toEqual(['2', '1']);
   });
 
@@ -81,8 +81,7 @@ describe('Snapshot Reducer', () => {
       {
         ...initialListState,
         ids: ['2', '1'],
-        entities: entities,
-        snapshotIdsByVolumeId: snapshotIdsByVolumesIds
+        entities: entities
       },
       action
     );
@@ -92,7 +91,6 @@ describe('Snapshot Reducer', () => {
   });
 
   it('should select filtered snapshots', () => {
-    const { initialListState }: any = fromSnapshots;
     const differentSnapshots = [
       {
         description: 'test snapshot #1',
@@ -104,23 +102,81 @@ describe('Snapshot Reducer', () => {
         name: 'snapshot for testing',
         tags: [],
         state: SnapshotStates.BackedUp,
-        revertable: true
+        revertable: true,
+        snapshottype: SnapshotType.Daily,
+        account: 'develop'
       }, {
         description: 'test snapshot #2',
-        id: '2',
-        created: '2018-01-10T15:59:42+0700',
+        id: '1',
+        created: '2016-01-11T15:59:42+0700',
         physicalsize: 100,
-        volumeid: 'volume-id-1',
+        volumeid: 'volume-id-2',
         virtualmachineid: undefined,
         name: 'snapshot for testing',
         tags: [],
         state: SnapshotStates.BackedUp,
-        revertable: false
+        revertable: true,
+        snapshottype: SnapshotType.Daily,
+        account: 'develop'
+      }, {
+        description: 'test snapshot #3',
+        id: '2',
+        created: '2017-10-15T15:59:42+0700',
+        physicalsize: 100,
+        volumeid: 'volume-id-3',
+        virtualmachineid: undefined,
+        name: 'snapshot for testing',
+        tags: [],
+        state: SnapshotStates.BackedUp,
+        revertable: false,
+        snapshottype: SnapshotType.Manual,
+        account: 'test'
       }
     ];
-    const slice = fromSnapshots.selectFilteredSnapshots.projector(
+    let slice = fromSnapshots.selectFilteredSnapshots.projector(
       differentSnapshots,
-      { mode: SnapshotPageMode.Volume }
+      {
+        mode: SnapshotPageMode.Volume,
+        selectedDate: null,
+        selectedAccounts: [],
+        selectedTypes: []
+      }
+    );
+
+    expect(slice).toEqual([differentSnapshots[1], differentSnapshots[2]]);
+
+    slice = fromSnapshots.selectFilteredSnapshots.projector(
+      differentSnapshots,
+      {
+        mode: SnapshotPageMode.Volume,
+        selectedDate: '2017-10-15T00:00:00.000Z',
+        selectedAccounts: [],
+        selectedTypes: []
+      }
+    );
+
+    expect(slice).toEqual([differentSnapshots[2]]);
+
+    slice = fromSnapshots.selectFilteredSnapshots.projector(
+      differentSnapshots,
+      {
+        mode: SnapshotPageMode.Volume,
+        selectedDate: null,
+        selectedAccounts: [],
+        selectedTypes: [SnapshotType.Daily]
+      }
+    );
+
+    expect(slice).toEqual([differentSnapshots[1]]);
+
+    slice = fromSnapshots.selectFilteredSnapshots.projector(
+      differentSnapshots,
+      {
+        mode: SnapshotPageMode.Volume,
+        selectedDate: null,
+        selectedTypes: [],
+        selectedAccounts: ['develop']
+      }
     );
 
     expect(slice).toEqual([differentSnapshots[1]]);

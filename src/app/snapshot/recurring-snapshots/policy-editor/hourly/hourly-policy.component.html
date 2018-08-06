@@ -3,6 +3,10 @@
     matInput
     type="number"
     name="minute"
+    [min]="minValue"
+    [max]="maxValue"
+    [csMinValue]="minValue"
+    [csMaxValue]="maxValue"
     [ngModel]="minute"
     (ngModelChange)="updateMinute($event)"
     [placeholder]="'SNAPSHOT_POLICIES.MINUTE' | translate"

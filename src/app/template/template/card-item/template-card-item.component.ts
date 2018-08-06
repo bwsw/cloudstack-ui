@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../shared';
@@ -18,7 +11,6 @@ import { TemplateComponent } from '../template.component';
   styleUrls: ['template-card-item.component.scss']
 })
 export class TemplateCardItemComponent extends TemplateComponent {
-  @HostBinding('class.single-line') @Input() public singleLine = true;
   @Input() public item: BaseTemplateModel;
   @Input() public isSelected: (item: BaseTemplateModel) => boolean;
   @Input() public searchQuery: () => string;

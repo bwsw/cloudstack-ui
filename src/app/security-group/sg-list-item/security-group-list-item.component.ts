@@ -1,13 +1,10 @@
-import {
-  EventEmitter,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
-import { getType, SecurityGroup } from '../sg.model';
+import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
+
+import { getType, SecurityGroup } from '../sg.model';
 import { VirtualMachine } from '../../vm';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { SecurityGroupViewMode } from '../sg-view-mode';
+import { NgrxEntities } from '../../shared/interfaces';
 
 export class SecurityGroupListItemComponent implements OnChanges {
   public item: SecurityGroup;
@@ -15,12 +12,15 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;
   public isSelected: (securityGroup) => boolean;
-  public vmList: Dictionary<VirtualMachine>;
+  public vmList: NgrxEntities<VirtualMachine>;
 
   public query: string;
 
   public get sgVmName() {
-    return this.vmList[this.item.virtualMachineIds[0]].name;
+    const vmId = this.item.virtualmachineids[0];
+    const vm = this.vmList[vmId];
+
+    return vm ? vm.name : '';
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

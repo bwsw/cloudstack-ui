@@ -160,7 +160,6 @@ describe('User service session', () => {
     userService.getInactivityTimeout()
       .subscribe(timeout => expect(timeout).toBe(30));
     expect(spyTagSessionTimeout).toHaveBeenCalled();
-    //expect(spySessionTimeout).toHaveBeenCalled();
 
     setSessionTimeout(10);
     userService.getInactivityTimeout()

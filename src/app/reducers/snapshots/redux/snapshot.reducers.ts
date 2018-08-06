@@ -1,7 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Snapshot, SnapshotPageMode } from '../../../shared/models';
+import { getSnapshotDescription, Snapshot, SnapshotPageMode, SnapshotType } from '../../../shared/models';
 
 import * as snapshot from './snapshot.actions';
 import * as volume from '../../volumes/redux/volumes.actions';
@@ -14,9 +13,14 @@ export interface State {
 export interface ListState extends EntityState<Snapshot> {
   loading: boolean,
   filters: {
-    mode: SnapshotPageMode
+    mode: SnapshotPageMode,
+    selectedAccounts: string[],
+    selectedTypes: SnapshotType[],
+    selectedDate: Date,
+    selectedGroupings: any[],
+    query: string
   }
-  snapshotIdsByVolumeId: Dictionary<string[]>
+  selectedSnapshotId: string | null
 }
 
 const sortByCreation = (snapshot1: Snapshot, snapshot2: Snapshot) => {
@@ -33,9 +37,15 @@ export const adapter: EntityAdapter<Snapshot> = createEntityAdapter<Snapshot>({
 export const initialListState: ListState = adapter.getInitialState({
   loading: false,
   filters: {
-    mode: SnapshotPageMode.Volume
+    mode: SnapshotPageMode.Volume,
+    selectedAccounts: [],
+    selectedTypes: [],
+    selectedDate: moment().toDate(),
+    selectedGroupings: [],
+    query: ''
   },
-  snapshotIdsByVolumeId: {}
+  snapshotIdsByVolumeId: {},
+  selectedSnapshotId: ''
 });
 
 export interface SnapshotState {
@@ -59,58 +69,27 @@ export function listReducer(
       };
     }
     case snapshot.LOAD_SNAPSHOT_RESPONSE: {
-      const reduceByVolumeId = action.payload.reduce(
-        (m, i) => ({
-          ...m,
-          [i.volumeid]: (m[i.volumeid] ? [...m[i.volumeid], i.id] : [i.id])
-        }), {}
-      );
-
       const newState = {
         ...state,
-        loading: false,
-        snapshotIdsByVolumeId: reduceByVolumeId
+        loading: false
       };
-      return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
-        ...adapter.addAll([...action.payload], newState)
-      };
+      return adapter.addAll([...action.payload], newState);
     }
     case snapshot.SNAPSHOT_FILTER_UPDATE: {
       return { ...state, filters: { ...state.filters, ...action.payload } };
     }
-    case snapshot.ADD_SNAPSHOT_SUCCESS: {
-      const newState = {
-        ...state,
-        snapshotIdsByVolumeId: {
-          ...state.snapshotIdsByVolumeId,
-          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
-            ? [action.payload.id, ...state.snapshotIdsByVolumeId[action.payload.volumeid]]
-            : [action.payload.id]
-        }
-      };
+    case snapshot.LOAD_SELECTED_SNAPSHOT: {
       return {
-        ...adapter.addOne(action.payload, newState)
+        ...state,
+        selectedSnapshotId: action.payload
       };
     }
+    case snapshot.ADD_SNAPSHOT_SUCCESS: {
+      const snapshot = action.payload;
+      return adapter.upsertOne({ id: snapshot.id, changes: snapshot }, state)
+    }
     case snapshot.DELETE_SNAPSHOT_SUCCESS: {
-      const newState = {
-        ...state,
-        snapshotIdsByVolumeId: {
-          ...state.snapshotIdsByVolumeId,
-          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
-            .filter(snapshotId => snapshotId !== action.payload.id)
-        }
-      };
-      return {
-        ...adapter.removeOne(action.payload.id, newState)
-      };
+      return adapter.removeOne(action.payload.id, state);
     }
     default: {
       return state;
@@ -137,9 +116,9 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-export const selectSnapshotsByVolumeId = createSelector(
+export const getSelectedSnapshot = createSelector(
   getSnapshotEntitiesState,
-  state => state.snapshotIdsByVolumeId
+  state => state.entities[state.selectedSnapshotId]
 );
 
 export const filters = createSelector(
@@ -151,6 +130,30 @@ export const viewMode = createSelector(
   filters,
   state => state.mode
 );
+export const filterSelectedAccounts = createSelector(
+  filters,
+  state => state.selectedAccounts
+);
+
+export const filterSelectedTypes = createSelector(
+  filters,
+  state => state.selectedTypes
+);
+
+export const filterSelectedDate = createSelector(
+  filters,
+  state => state.selectedDate
+);
+
+export const filterSelectedGroupings = createSelector(
+  filters,
+  state => state.selectedGroupings
+);
+
+export const filterQuery = createSelector(
+  filters,
+  state => state.query
+);
 
 export const selectFilteredSnapshots = createSelector(
   selectAll,
@@ -159,6 +162,32 @@ export const selectFilteredSnapshots = createSelector(
     const filterByViewMode = (snapshot: Snapshot) =>
       (filter.mode === SnapshotPageMode.Volume && !!snapshot.volumeid)
       || (filter.mode === SnapshotPageMode.VM && !!snapshot.virtualmachineid);
-    return snapshots.filter((snapshot: Snapshot) => filterByViewMode(snapshot));
+
+    const filterByTypes = (snapshot: Snapshot) => !filter.selectedTypes.length
+      || !!filter.selectedTypes.find(type => type === snapshot.snapshottype);
+
+    const filterByAccount = (snapshot: Snapshot) => !filter.selectedAccounts.length
+      || !!filter.selectedAccounts.find(id => id === snapshot.account);
+
+    const filterByDate = (snapshot: Snapshot) => !filter.selectedDate
+      || moment(snapshot.created).isBetween(
+        moment(filter.selectedDate).startOf('day'),
+        moment(filter.selectedDate).endOf('day')
+      );
+
+    const queryLower = filter.query && filter.query.toLowerCase();
+    const filterByQuery = (snapshot: Snapshot) => {
+      return !filter.query
+        || snapshot.name.toLowerCase().indexOf(queryLower) > -1
+        || getSnapshotDescription(snapshot)
+        && getSnapshotDescription(snapshot).toLowerCase().indexOf(queryLower) > -1;
+    };
+
+    return snapshots.filter((snapshot: Snapshot) =>
+      filterByViewMode(snapshot)
+      && filterByAccount(snapshot)
+      && filterByTypes(snapshot)
+      && filterByDate(snapshot)
+      && filterByQuery(snapshot));
   }
 );

@@ -1,38 +1,37 @@
 <mat-card
-  class="custom-card"
   [ngClass]="itemClass"
   (click)="handleClick($event)"
   [style.background-color]="color.value"
   [style.color]="color?.textColor"
+  class="entity-card"
 >
-  <mat-card-header>
-    <mat-card-title>
-      <span
-        class="state-icon"
-        [ngClass]="statusClass"
-        [matTooltip]="stateTranslationToken | translate"
-      ></span>
-      <h2 class="mat-card-title-text" [matTooltip]="item.name" [innerHTML]="item.name | highlight:query">
-      </h2>
+
+  <mat-card-header class="entity-card-header">
+    <cs-round-state-indicator
+      [state]="statusClass"
+      [matTooltip]="stateTranslationToken | translate"
+      class="entity-card-thumbnail"
+    ></cs-round-state-indicator>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
+      <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <div class="mat-card-header-menu">
-      <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-    </div>
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
   </mat-card-header>
+
   <mat-card-content>
-    <div class="os-type">OS {{ getOsDescription }}</div>
-    <div class="vm-ip-address">
+    <div class="entity-card-data-line">OS: {{ getOsDescription }}</div>
+    <div class="entity-card-data-line">
       {{ item.nic[0]?.ipaddress ? item.nic[0].ipaddress : ('VM_PAGE.CARD.IP_NA' | translate) }}
     </div>
-    <table style="width: 100%; text-align: center;">
+    <table>
       <thead>
-      <tr>
-        <th>{{ 'VM_PAGE.CARD.CPU' | translate }}</th>
-        <th>{{ 'VM_PAGE.CARD.RAM' | translate }}</th>
-        <th>{{ 'VM_PAGE.CARD.DISKS' | translate }}</th>
-      </tr>
+        <tr>
+          <th>{{ 'VM_PAGE.CARD.CPU' | translate }}</th>
+          <th>{{ 'VM_PAGE.CARD.RAM' | translate }}</th>
+          <th>{{ 'VM_PAGE.CARD.DISKS' | translate }}</th>
+        </tr>
       </thead>
       <tr>
         <td>{{ 'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpuNumber, speed: item.cpuSpeed }) }}</td>
@@ -47,9 +46,10 @@
         <td>{{ 'UNITS.GB_VALUE' | translate:({ value: getDisksSize.toFixed(2) }) }}</td>
       </tr>
     </table>
-
   </mat-card-content>
+
   <mat-menu #actionsMenu="matMenu">
     <cs-vm-actions-container [vm]="item"></cs-vm-actions-container>
   </mat-menu>
+
 </mat-card>

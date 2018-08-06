@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import * as zoneActions from './zones.actions';
 import { Action } from '@ngrx/store';
+import { Actions, Effect } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
+
 import { ZoneService } from '../../../shared/services/zone.service';
-import { Zone } from '../../../shared/models/zone.model';
+import { Zone } from '../../../shared/models';
+import * as zoneActions from './zones.actions';
 
 @Injectable()
 export class ZonesEffects {
@@ -26,5 +24,6 @@ export class ZonesEffects {
   constructor(
     private actions$: Actions,
     private zoneService: ZoneService
-  ) { }
+  ) {
+  }
 }

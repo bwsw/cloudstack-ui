@@ -11,6 +11,7 @@ $list-height: 187px;
 .left-list,
 .right-list {
   flex: 1;
+  min-width: 45%;
 }
 
 .left-list > mat-list,
