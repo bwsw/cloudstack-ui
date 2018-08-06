@@ -1,0 +1,25 @@
+<h3 class="no-margin nowrap">{{ 'SETTINGS.SECURITY.SESSION_TIMEOUT' | translate }}</h3>
+<mat-form-field>
+  <input
+    #timeoutField
+    matInput
+    type="number"
+    [value]="sessionTimeout"
+    min="0"
+    csMinValue="0"
+    [max]="maxSessionTimeout"
+    [csMaxValue]="maxSessionTimeout"
+    step="1"
+    required
+  >
+</mat-form-field>
+
+<div class="update-button">
+  <button
+    mat-button
+    [disabled]="sessionTimeout == +timeoutField.value"
+    (click)="updateSessionTimeout.emit(+timeoutField.value)"
+  >
+    {{ 'COMMON.UPDATE' | translate }}
+  </button>
+</div>

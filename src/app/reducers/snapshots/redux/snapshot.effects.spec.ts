@@ -18,7 +18,7 @@ import { Snapshot, SnapshotStates, SnapshotType, Volume } from '../../../shared/
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
 import { VirtualMachine } from '../../../vm/shared/vm.model';

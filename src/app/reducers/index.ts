@@ -1,18 +1,13 @@
-import {
-  ActionReducerMap,
-  ActionReducer,
-  MetaReducer,
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer, } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import * as fromRouter from '@ngrx/router-store';
-
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
 import { storeFreeze } from 'ngrx-store-freeze';
-import { RouterStateUrl } from '../shared/services/utils/utils.service';
+import { RouterStateUrl } from '../root-store/custom-router-state-serializer';
 
 /**
  * Every reducer module's default export is the reducer function itself. In

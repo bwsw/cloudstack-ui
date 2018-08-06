@@ -1,0 +1,18 @@
+.title-with-icon {
+  display: flex;
+  width: 280px;
+
+  .mat-icon-button {
+    margin-left: auto;
+    align-self: center;
+  }
+}
+
+cs-input-group, mat-form-field {
+  width: 100%;
+}
+
+a {
+  display: block;
+  margin: 10px 0;
+}

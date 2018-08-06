@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Rules } from '../../shared/components/security-group-builder/rules';
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
-import { ConfigService } from '../../shared/services/config.service';
+import { ConfigService } from '../../core/services';
 import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
 import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';

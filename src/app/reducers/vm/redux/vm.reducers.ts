@@ -3,7 +3,7 @@ import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { InstanceGroup } from '../../../shared/models';
+import { InstanceGroup, Tag } from '../../../shared/models';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -175,6 +175,19 @@ export function listReducer(
       return {
         ...adapter.removeOne(action.payload.id, state),
       };
+    }
+
+    case vmActions.SAVE_VM_PASSWORD_SUCCESS: {
+      const tagsWithoutPassword: Tag[] = action.payload.vm.tags
+        .filter((tag: Tag) => tag.key !== VirtualMachineTagKeys.passwordTag);
+      const passwordTag: Tag = {
+        key: VirtualMachineTagKeys.passwordTag,
+        value: action.payload.password
+      };
+      const tagsWithNewPassword: Tag[] = [...tagsWithoutPassword, passwordTag];
+      return {
+        ...adapter.updateOne({ id: action.payload.vm.id, changes: { tags: tagsWithNewPassword } }, state)
+      }
     }
 
     default: {

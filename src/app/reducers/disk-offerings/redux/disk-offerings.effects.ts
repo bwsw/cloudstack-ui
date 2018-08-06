@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions,
-  Effect
-} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import * as diskOfferingActions from './disk-offerings.actions';
 import { Action } from '@ngrx/store';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
-import { ConfigService } from '../../../shared/services/config.service';
+import { ConfigService } from '../../../core/services';
 
 const defaultDiskOfferingParams: Array<string> = [
   'name',

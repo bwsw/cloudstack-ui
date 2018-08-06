@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { Account } from '../../../shared/models';
+import { Language } from '../../../shared/types';
 import { DateTimeFormatterService } from '../../../shared/services/date-time-formatter.service';
-import { Language } from '../../../shared/services/language.service';
 import { reorderAvailableGroupings } from '../../../shared/utils/reorder-groupings';
 
 @Component({
