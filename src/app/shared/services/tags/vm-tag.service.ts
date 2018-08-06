@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { Color } from '../../models/color.model';
 import { Tag } from '../../models/tag.model';
@@ -8,9 +8,7 @@ import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { VirtualMachineTagKeys } from './vm-tag-keys';
-import { KeyValuePair } from '../../../tags/tags-view/tags-view.component';
 import { Taggable } from '../../interfaces/taggable.interface';
-import { VmResourceType } from '../../../vm/shared/vm.model';
 
 
 @Injectable()
@@ -61,8 +59,8 @@ export class VmTagService implements EntityTagService {
     ) as Observable<VirtualMachine>;
   }
 
-  public setPassword(vm: VirtualMachine, tag: KeyValuePair): Observable<VirtualMachine> {
-    return this.tagService.update(vm, VmResourceType, tag.key, tag.value);
+  public setPassword(vm: VirtualMachine, password: string): Observable<VirtualMachine> {
+    return this.tagService.update(vm, VmResourceType, VirtualMachineTagKeys.passwordTag, password);
   }
 
   public setGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {

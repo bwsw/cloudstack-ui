@@ -36,6 +36,7 @@ import {
   CalendarComponent,
   CalendarMonthComponent,
   CalendarYearComponent,
+  ClipboardButtonComponent,
   ColorPickerComponent,
   DateDisplayComponent,
   DatePickerComponent,
@@ -92,7 +93,6 @@ import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CacheService } from './services/cache.service';
-import { ConfigService } from './services/config.service';
 import { ConfigurationService } from './services/configuration.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
@@ -101,11 +101,9 @@ import { ErrorService } from './services/error.service';
 import { HypervisorService } from './services/hypervisor.service';
 import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
-import { LanguageService } from './services/language.service';
 import { LayoutService } from './services/layout.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
-import { SnackBarService } from './services/snack-bar.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceCountService } from './services/resource-count.service';
 import { ResourceLimitService } from './services/resource-limit.service';
@@ -124,7 +122,6 @@ import { SecurityGroupTagService } from './services/tags/security-group-tag.serv
 import { SnapshotTagService } from './services/tags/snapshot-tag.service';
 import { TagService } from './services/tags/tag.service';
 import { TemplateTagService } from './services/tags/template-tag.service';
-import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
@@ -139,14 +136,16 @@ import { InputTypeNumberDirective } from './directives/input-type-number.directi
 import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
 
+// tslint:enable max-line-length
 
 const SHARED_DIRECTIVES = [
   UrlDirective,
   InputTypeNumberDirective
 ];
 
-
-// tslint:enable max-line-length
+const SHARED_COMPONENTS = [
+  ClipboardButtonComponent
+];
 
 @NgModule({
   imports: [
@@ -223,6 +222,7 @@ const SHARED_DIRECTIVES = [
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
     SHARED_DIRECTIVES,
+    SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent
   ],
@@ -309,6 +309,7 @@ const SHARED_DIRECTIVES = [
     DiskOfferingSelectorComponent,
     DiskOfferingDialogComponent,
     SHARED_DIRECTIVES,
+    SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent
   ],
@@ -320,7 +321,6 @@ const SHARED_DIRECTIVES = [
     AuthGuard,
     AuthService,
     CacheService,
-    ConfigService,
     ConfigurationService,
     DateTimeFormatterService,
     DescriptionTagService,
@@ -329,13 +329,11 @@ const SHARED_DIRECTIVES = [
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,
-    LanguageService,
     LayoutService,
     LocalStorageService,
     LoginGuard,
     MarkForRemovalService,
     MemoryStorageService,
-    SnackBarService,
     OsTypeService,
     ResourceCountService,
     ResourceLimitService,
@@ -355,7 +353,6 @@ const SHARED_DIRECTIVES = [
     TemplateActionsService,
     TemplateTagService,
     UserService,
-    UserTagService,
     AccountTagService,
     VmTagService,
     ZoneService,

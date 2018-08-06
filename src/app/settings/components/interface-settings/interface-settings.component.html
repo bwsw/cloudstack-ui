@@ -1,0 +1,49 @@
+<section>
+  <h2 class="settings-section-name">{{ 'SETTINGS.LOOK_AND_FEEL.TITLE' | translate }}</h2>
+  <div class="settings-section-content">
+
+    <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.LANGUAGE' | translate }}</h3>
+    <mat-form-field class="form-select-control">
+      <mat-select
+        [value]="settings.interfaceLanguage"
+        (selectionChange)="interfaceLanguageChange.emit($event.value)"
+      >
+        <mat-option *ngFor="let language of languages" [value]="language.value">
+          {{ language.text }}
+        </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.FIRST_DAY_OF_WEEK' | translate }}</h3>
+    <mat-form-field class="form-select-control">
+      <mat-select
+        [value]="settings.firstDayOfWeek"
+        (selectionChange)="firstDayOfWeekChange.emit($event.value)"
+      >
+        <mat-option *ngFor="let day of daysOfTheWeek" [value]="day.value">
+          {{ day.text | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.TIME_FORMAT' | translate }}</h3>
+    <mat-form-field class="form-select-control">
+      <mat-select
+        [value]="settings.timeFormat"
+        (selectionChange)="timeFormatChange.emit($event.value)"
+      >
+        <mat-option *ngFor="let timeFormat of timeFormats" [value]="timeFormat.value">
+          {{ timeFormat.text | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h3 class="no-margin">{{ 'SETTINGS.LOOK_AND_FEEL.THEME' | translate }}</h3>
+    <cs-theme-selector
+      [themes]="themes"
+      [currentThemeName]="settings.theme"
+      (selectionChange)="themeChange.emit($event.name)"
+    ></cs-theme-selector>
+
+  </div>
+</section>

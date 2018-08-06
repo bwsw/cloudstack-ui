@@ -11,7 +11,7 @@ import { VolumeAttachmentContainerComponent } from '../../../shared/actions/volu
 import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-actions/volume-resize.container';
 import { isRoot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
@@ -339,7 +339,7 @@ export class VolumesEffects {
         message
       });
     }
-    this.snackBarService.open(message);
+    this.snackBarService.open(message).subscribe();
   }
 
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {

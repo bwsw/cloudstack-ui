@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ConfigService } from './config.service';
+import { ConfigService } from '../../core/services';
 import { TemplateGroup } from '../models/template-group.model';
 
 @Injectable()

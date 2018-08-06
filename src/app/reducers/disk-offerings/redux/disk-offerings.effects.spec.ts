@@ -8,7 +8,7 @@ import { of } from 'rxjs/observable/of';
 import { DiskOffering } from '../../../shared/models';
 import { DiskOfferingEffects } from './disk-offerings.effects';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
-import { ConfigService } from '../../../shared/services/config.service';
+import { ConfigService } from '../../../core/services';
 import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
 
 import * as actions from './disk-offerings.actions';

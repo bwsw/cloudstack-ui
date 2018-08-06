@@ -12,8 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Event } from '../event.model';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
-import { Language } from '../../shared/services/language.service';
 import { Account } from '../../shared/models/account.model';
+import { Language } from '../../shared/types';
 
 @Component({
   selector: 'cs-event-list',
