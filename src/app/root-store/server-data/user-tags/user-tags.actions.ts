@@ -63,6 +63,10 @@ export enum UserTagsActionTypes {
   IncrementLastVMId = '[VM creation] Increment "csui.user.last-vm-id" tag',
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
+
+  UpdateSidebarDrawerState = '[Menu] Update "csui.user.sidebar-drawer-state" tag',
+  UpdateSidebarDrawerStateSuccess = '[Resource tags API] Update "csui.user.sidebar-drawer-state" tag success',
+  UpdateSidebarDrawerStateError = '[Resource tags API] Update "csui.user.sidebar-drawer-state" tag error'
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -395,6 +399,29 @@ export class IncrementLastVMIdError implements Action {
   }
 }
 
+// Keep the position of a left-side bar
+
+export class UpdateSidebarDrawerState implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarDrawerState;
+
+  constructor(public payload: { value: string }) {
+  }
+}
+
+export class UpdateSidebarDrawerStateSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarDrawerStateSuccess;
+
+  constructor(public payload: { key: string, value: string }) {
+  }
+}
+
+export class UpdateSidebarDrawerStateError implements Action {
+  readonly type = UserTagsActionTypes.UpdateSidebarDrawerStateError;
+
+  constructor(public payload: { error: Error }) {
+  }
+}
+
 export type UserTagsActionsUnion =
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
@@ -439,4 +466,7 @@ export type UserTagsActionsUnion =
   | SetSavePasswordForAllVMsError
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
-  | IncrementLastVMIdError;
+  | IncrementLastVMIdError
+  | UpdateSidebarDrawerState
+  | UpdateSidebarDrawerStateSuccess
+  | UpdateSidebarDrawerStateError;

@@ -1,21 +1,28 @@
 import { Injectable } from '@angular/core';
+import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
-import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class LayoutService {
   public drawerOpen: boolean;
   public drawerToggled: Subject<void>;
 
-  constructor(
-    protected localStorageService: LocalStorageService
-  ) {
-    this.drawerOpen = this.localStorageService.read('sidebarDrawer') === 'true';
+  constructor(private store: Store<State>) {
     this.drawerToggled = new Subject<void>();
+    this.initSidebarDrawerState();
   }
 
   public toggleDrawer(): void {
     this.drawerOpen = !this.drawerOpen;
-    this.localStorageService.write('sidebarDrawer', this.drawerOpen.toString());
+    this.store.dispatch(new UserTagsActions.UpdateSidebarDrawerState({ value: this.drawerOpen.toString() }));
+  }
+
+  public initSidebarDrawerState() {
+    this.store.select(UserTagsSelectors.getSidebarDrawerState)
+      .filter(Boolean)
+      .subscribe(state => {
+        this.drawerOpen = state === 'true';
+      })
   }
 }

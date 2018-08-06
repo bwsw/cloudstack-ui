@@ -90,3 +90,8 @@ export const getNavigationOrder = createSelector(
   getUserTagsEntities,
   (entities): string => entities[userTagKeys.navigationOrder].value
 );
+
+export const getSidebarDrawerState = createSelector(
+  getUserTagsEntities,
+  (entities): string => entities[userTagKeys.sidebarDrawerState] && entities[userTagKeys.sidebarDrawerState].value
+);

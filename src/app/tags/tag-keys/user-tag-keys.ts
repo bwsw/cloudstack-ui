@@ -9,5 +9,6 @@ export const userTagKeys = {
   showSystemTags: 'csui.user.show-system-tags',
   timeFormat: 'csui.user.time-format',
   theme: 'csui.user.theme',
-  navigationOrder: 'csui.user.navigation-order'
+  navigationOrder: 'csui.user.navigation-order',
+  sidebarDrawerState: 'csui.user.sidebar-drawer-state'
 };

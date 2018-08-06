@@ -46,6 +46,9 @@ import {
   UpdateShowSystemTags,
   UpdateShowSystemTagsError,
   UpdateShowSystemTagsSuccess,
+  UpdateSidebarDrawerState,
+  UpdateSidebarDrawerStateSuccess,
+  UpdateSidebarDrawerStateError,
   UpdateTheme,
   UpdateThemeError,
   UpdateThemeSuccess,
@@ -254,6 +257,19 @@ export class UserTagsEffects {
       return this.upsertTag(key, value).pipe(
         map(() => new IncrementLastVMIdSuccess({ key, value })),
         catchError((error) => of(new IncrementLastVMIdError({ error })))
+      )
+    })
+  );
+
+  @Effect()
+  updateSidebarDrawer$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateNavigationOrder>(UserTagsActionTypes.UpdateSidebarDrawerState),
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
+      const key = userTagKeys.sidebarDrawerState;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateNavigationOrderSuccess({ key, value })),
+        catchError((error) => of(new UpdateNavigationOrderError({ error })))
       )
     })
   );
