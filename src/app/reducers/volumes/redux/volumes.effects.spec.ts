@@ -28,7 +28,7 @@ import { VolumesEffects } from './volumes.effects';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 
 @Injectable()
 class MockAsyncJobService {

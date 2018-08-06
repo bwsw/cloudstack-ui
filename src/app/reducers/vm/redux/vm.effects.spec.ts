@@ -21,7 +21,6 @@ import * as sgActions from '../../security-groups/redux/sg.actions';
 import * as fromVMs from './vm.reducers';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { OsTypeService } from '../../../shared/services/os-type.service';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
@@ -41,7 +40,7 @@ import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 // tslint:disable-next-line
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 
 @Injectable()
 class MockAsyncJobService {
@@ -131,7 +130,6 @@ describe('Virtual machine Effects', () => {
   let isoService: IsoService;
   let sshService: SSHKeyPairService;
   let tagService: VmTagService;
-  let userTagService: UserTagService;
   let afGroupService: AffinityGroupService;
   let dialogService: DialogService;
   let matDialog: MatDialog;
@@ -166,7 +164,6 @@ describe('Virtual machine Effects', () => {
         { provide: VmTagService, useClass: MockTagService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: LocalStorageService, useClass: MockStorageService },
-        { provide: UserTagService, useClass: MockTagService },
         { provide: SnapshotTagService, useClass: MockTagService },
         { provide: VolumeTagService, useClass: MockTagService },
         { provide: TemplateTagService, useClass: MockTagService },
@@ -183,7 +180,6 @@ describe('Virtual machine Effects', () => {
     isoService = TestBed.get(IsoService);
     sshService = TestBed.get(SSHKeyPairService);
     tagService = TestBed.get(VmTagService);
-    userTagService = TestBed.get(UserTagService);
     afGroupService = TestBed.get(AffinityGroupService);
     dialogService = TestBed.get(DialogService);
     matDialog = TestBed.get(MatDialog);
@@ -1139,67 +1135,6 @@ describe('Virtual machine Effects', () => {
 
     expect(effects.resetPassword$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalledWith(list[1], 'resetPasswordFor');
-    expect(jobsNotificationService.fail).toHaveBeenCalled();
-  });
-
-  it('should save password for vm and for all vms', () => {
-    const spySaveForAll = spyOn(userTagService, 'setSavePasswordForAllVms');
-    const spySaveForVM = spyOn(tagService, 'setPassword').and.returnValue(of(list[0]));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
-
-    const action = new vmActions.SaveNewPassword({
-      vm: list[0],
-      tag: { key: 'key', value: 'pass' }
-    });
-    const completion = new vmActions.UpdateVM(list[0]);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
-
-    expect(effects.saveNewPassword$).toBeObservable(expected);
-    expect(spyDialog).toHaveBeenCalled();
-    expect(spySaveForVM).toHaveBeenCalled();
-    expect(spySaveForAll).toHaveBeenCalledWith(true);
-    expect(jobsNotificationService.finish).toHaveBeenCalled();
-  });
-
-  it('should save password for vm', () => {
-    const spySaveForAll = spyOn(userTagService, 'setSavePasswordForAllVms');
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
-    const spySaveForVM = spyOn(tagService, 'setPassword').and.returnValue(of(list[0]));
-
-    const action = new vmActions.SaveNewPassword({
-      vm: list[0],
-      tag: { key: 'key', value: 'pass' }
-    });
-    const completion = new vmActions.UpdateVM(list[0]);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
-
-    expect(effects.saveNewPassword$).toBeObservable(expected);
-    expect(spyDialog).toHaveBeenCalled();
-    expect(spySaveForAll).not.toHaveBeenCalled();
-  });
-
-  it('should return an error during saving password', () => {
-    const spySaveForVM = spyOn(tagService, 'setPassword').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
-    const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
-
-    const action = new vmActions.SaveNewPassword({
-      vm: list[0],
-      tag: { key: 'key', value: 'pass' }
-    });
-    const completion = new vmActions.VMUpdateError({
-      error: new Error('Error occurred!')
-    });
-
-    actions$.stream = cold('a', { a: action });
-    const expected = cold('a', { a: completion });
-
-    expect(effects.saveNewPassword$).toBeObservable(expected);
-    expect(spySaveForVM).toHaveBeenCalled();
     expect(jobsNotificationService.fail).toHaveBeenCalled();
   });
 

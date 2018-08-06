@@ -8,7 +8,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { SnackBarService } from './snack-bar.service';
+import { SnackBarService } from '../../core/services';
 import { Router } from '@angular/router';
 import { RouterUtilsService } from './router-utils.service';
 import { AuthService } from './auth.service';
@@ -53,7 +53,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     }, (err: any) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
 
-        this.notificationService.open('AUTH.NOT_LOGGED_IN');
+        this.notificationService.open('AUTH.NOT_LOGGED_IN').subscribe();
         const route = this.routerUtilsService.getRouteWithoutQueryParams();
         if (route !== '/login' && route !== '/logout') {
           this.router.navigate(

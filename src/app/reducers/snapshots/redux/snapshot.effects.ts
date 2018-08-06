@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { ISnapshotData, Snapshot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VirtualMachine, VmState } from '../../../vm';
 import { State } from '../../index';
@@ -178,7 +178,7 @@ export class SnapshotEffects {
         message
       });
     }
-    this.snackBarService.open(message);
+    this.snackBarService.open(message).subscribe();
   }
 
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {

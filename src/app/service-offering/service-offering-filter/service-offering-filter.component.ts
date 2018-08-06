@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  ServiceOfferingClass,
-  ServiceOfferingType
-} from '../../shared/models/service-offering.model';
-import { Language } from '../../shared/services/language.service';
+
+import { ServiceOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { Language } from '../../shared/types';
 
 @Component({
   selector: 'cs-service-offering-filter',

@@ -1,21 +1,15 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import { State } from '../../reducers/index';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import * as debounce from 'lodash/debounce';
+
+import { State, UserTagsSelectors } from '../../root-store';
 import * as eventAction from '../redux/events.actions';
 import * as accountAction from '../../reducers/accounts/redux/accounts.actions';
-import * as debounce from 'lodash/debounce';
 import { FilterService } from '../../shared/services/filter.service';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import * as fromEvents from '../redux/events.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import { LanguageService } from '../../shared/services/language.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
 import moment = require('moment');
@@ -46,7 +40,7 @@ const FILTER_KEY = 'eventListFilters';
 })
 export class EventListContainerComponent extends WithUnsubscribe() implements OnInit {
 
-  readonly firstDayOfWeek$ = this.languageService.getFirstDayOfWeek();
+  readonly firstDayOfWeek$ = this.store.select(UserTagsSelectors.getFirstDayOfWeek);
   readonly events$ = this.store.select(fromEvents.selectFilteredEvents);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly query$ = this.store.select(fromEvents.filterQuery);
@@ -84,7 +78,6 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private languageService: LanguageService,
     private authService: AuthService,
   ) {
     super();
