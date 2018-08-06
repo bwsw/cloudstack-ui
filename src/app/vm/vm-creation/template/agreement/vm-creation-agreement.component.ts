@@ -11,12 +11,7 @@ import { UserTagService } from '../../../../shared/services/tags/user-tag.servic
 @Component({
   selector: 'cs-vm-creation-template-agreement',
   templateUrl: 'vm-creation-agreement.component.html',
-  styles: [`
-    .agreement-wrapper {
-      max-height: 70vh;
-      overflow-y: auto;
-    }
-  `]
+  styleUrls: ['vm-creation-agreement.component.scss']
 })
 export class VmCreationAgreementComponent implements OnInit {
   private _agreement: string;
