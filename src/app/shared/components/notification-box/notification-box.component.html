@@ -24,7 +24,6 @@
       <cs-notification-box-item
         *ngFor="let notification of jobsNotificationService.notifications"
         [notification]="notification"
-        (onClose)="onCloseJobNotification($event)"
       >
       </cs-notification-box-item>
     </mat-list>
