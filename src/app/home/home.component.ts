@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-import { State } from '../reducers/index';
+
+import { State, UserTagsActions } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
 import { LayoutService } from '../shared/services/layout.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-import { getName } from '../shared/models/user.model';
+import { getName } from '../shared/models';
 import * as authActions from '../reducers/auth/redux/auth.actions';
 import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
 
@@ -26,6 +26,8 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.store.dispatch(new UserTagsActions.LoadUserTags());
+
     this.auth.loggedIn
       .takeUntil(this.unsubscribe$)
       .filter(isLoggedIn => !!isLoggedIn)

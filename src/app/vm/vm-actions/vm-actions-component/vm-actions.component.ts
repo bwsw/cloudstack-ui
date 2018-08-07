@@ -1,15 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import { ConfigService } from '../../../shared/services/config.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ConfigService } from '../../../core/services';
 import { VmActionsService } from '../../shared/vm-actions.service';
-import {
-  VirtualMachine,
-  VmState
-} from '../../shared/vm.model';
+import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VmActions } from '../vm-action';
 

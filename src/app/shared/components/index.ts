@@ -11,3 +11,4 @@ export * from './sidebar';
 export * from './top-bar/top-bar.component';
 export * from './vm-statistics/vm-statistics.component';
 export * from './slider/slider.component';
+export * from './clipboard-button/clipboard-button.component';
