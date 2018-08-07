@@ -10,6 +10,7 @@ export interface SecurityGroupFilter {
   viewMode: SecurityGroupViewMode;
   query: string;
   selectedAccountIds: Array<string>;
+  selectOrphanSG: boolean;
 }
 
 
@@ -36,6 +37,7 @@ export class SgFilterComponent {
     this.viewMode = filter.viewMode;
     this.query = filter.query;
     this.selectedAccountIds = filter.selectedAccountIds;
+    this.orphan = filter.selectOrphanSG;
   }
 
   public get SecurityGroupViewMode() {

@@ -79,7 +79,8 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
       .subscribe(filters => this.filterService.update({
         viewMode: filters.viewMode,
         query: filters.query,
-        accounts: filters.selectedAccountIds
+        accounts: filters.selectedAccountIds,
+        orphan: filters.selectOrphanSG
       }));
   }
 
