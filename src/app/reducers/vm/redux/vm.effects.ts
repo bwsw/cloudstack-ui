@@ -19,7 +19,7 @@ import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service'
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
-import { getPath, getPort, getProtocol, VirtualMachine, VmState } from '../../../vm/shared/vm.model';
+import { getPath, getPort, getProtocol, VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
 // tslint:disable-next-line
@@ -32,6 +32,8 @@ import * as vmActions from './vm.actions';
 import { LoadVirtualMachine, VirtualMachineLoaded } from './vm.actions';
 import { SnackBarService } from '../../../core/services';
 import { of } from 'rxjs/observable/of';
+import { TagService } from '../../../shared/services/tags/tag.service';
+import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 
 
 @Injectable()
@@ -590,12 +592,16 @@ export class VirtualMachinesEffects {
             return Observable.of(action);
           }
         })
-        .switchMap(resetAction => {
-          const vmState = resetAction.payload.state;
+        .switchMap(() =>  this.tagService.remove({
+          resourceIds: action.payload.id,
+          resourceType: VmResourceType,
+          'tags[0].key': VirtualMachineTagKeys.passwordTag
+        }))
+        .switchMap(() => {
+          const vmState = action.payload.state;
           const notificationId = this.jobsNotificationService.add(
             'NOTIFICATIONS.VM.RESET_PASSWORD_IN_PROGRESS');
-
-          return this.vmService.command(resetAction.payload, CSCommands.ResetPasswordFor)
+          return this.vmService.command(action.payload, CSCommands.ResetPasswordFor)
             .do(() => {
               const message = 'NOTIFICATIONS.VM.RESET_PASSWORD_DONE';
               this.showNotificationsOnFinish(message, notificationId);
@@ -612,7 +618,7 @@ export class VirtualMachinesEffects {
               const message = 'NOTIFICATIONS.VM.RESET_PASSWORD_FAILED';
               this.showNotificationsOnFail(error, message, notificationId);
               return Observable.of(new vmActions.VMUpdateError({
-                vm: resetAction.payload,
+                vm: action.payload,
                 state: VmState.Error,
                 error
               }));
@@ -741,7 +747,8 @@ export class VirtualMachinesEffects {
     private dialogService: DialogService,
     private dialog: MatDialog,
     private router: Router,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private tagService: TagService
   ) {
   }
 

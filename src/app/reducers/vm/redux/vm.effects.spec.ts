@@ -41,6 +41,8 @@ import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { ProgressLoggerMessageStatus } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { SnackBarService } from '../../../core/services';
+import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-tag.service';
+import { TagService } from '../../../shared/services/tags/tag.service';
 
 @Injectable()
 class MockAsyncJobService {
@@ -49,7 +51,7 @@ class MockAsyncJobService {
 }
 
 @Injectable()
-class MockTagService {
+class MockVMTagService {
   public setDescription(): void {
   }
   public removeDescription(): void {
@@ -161,16 +163,17 @@ describe('Virtual machine Effects', () => {
         VirtualMachinesEffects,
         { provide: Actions, useFactory: getActions },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
-        { provide: VmTagService, useClass: MockTagService },
+        { provide: VmTagService, useClass: MockVMTagService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: LocalStorageService, useClass: MockStorageService },
-        { provide: SnapshotTagService, useClass: MockTagService },
-        { provide: VolumeTagService, useClass: MockTagService },
-        { provide: TemplateTagService, useClass: MockTagService },
+        { provide: SnapshotTagService, useClass: MockVMTagService },
+        { provide: VolumeTagService, useClass: MockVMTagService },
+        { provide: TemplateTagService, useClass: MockVMTagService },
         { provide: Router, useClass: MockRouter },
         { provide: DialogService, useClass: MockDialogService },
         { provide: MatDialog, useClass: MockMatDialog },
-        { provide: SnackBarService, useClass: MockSnackBarService }
+        { provide: SnackBarService, useClass: MockSnackBarService },
+        { provide: TagService, useClass: MockTagService }
       ]
     });
     actions$ = TestBed.get(Actions);

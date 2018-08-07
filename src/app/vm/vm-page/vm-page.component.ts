@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -39,7 +39,7 @@ export class VmPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.vms.length === 0 && this.shouldShowSuggestionDialog) {
+    if (this.vms.length && this.shouldShowSuggestionDialog) {
       this.showSuggestionDialog();
     }
   }
