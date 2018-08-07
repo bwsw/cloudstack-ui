@@ -180,10 +180,7 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.template) {
-        if (action.payload.template.resourceType === TemplateResourceType.template) {
-          const rootDiskSize = Utils.convertToGb(action.payload.template.size);
-          return new vmActions.VmFormUpdate({ rootDiskSize });
-        } else if (!vmCreationState.diskOffering) {
+        if (action.payload.template.resourceType !== TemplateResourceType.template && !vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
         }
       }
