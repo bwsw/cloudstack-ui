@@ -30,7 +30,8 @@ export interface ConfigInterface {
    * Menu settings
    */
   allowReorderingSidebar: boolean;
-  configureSidebar: Array<any>;
+  sidenavList: Array<string>;
+  configureSidenav: Array<{link: string, visible: boolean}>;
   /*
    * Service offering setting
    */

@@ -13,7 +13,6 @@
     display: block;
     padding: 12px 30px !important;
     flex-shrink: 0;
-    color: #757575;
     text-decoration: none;
     margin: 0;
     font-size: 13px;
@@ -21,6 +20,12 @@
     line-height: 24px;
     letter-spacing: 0;
     opacity: .87;
+    color: inherit !important;
+    text-decoration: none;
+
+    &-disable {
+      pointer-events: none;
+    }
 
     mat-icon {
       margin-right: 10px;
@@ -43,11 +48,6 @@
   &-edit {
     transform: translateX(60px);
   }
-}
-
-a {
-  color: inherit !important;
-  text-decoration: none;
 }
 
 .title-header {

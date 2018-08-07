@@ -1,6 +1,6 @@
 export interface NavigationItem {
   id: string;
-  enabled: boolean;
+  visible: boolean;
 }
 
 export interface SidenavRoute extends NavigationItem {
@@ -15,62 +15,63 @@ export const sidenavRoutes: Array<SidenavRoute> = [
     text: 'NAVIGATION_SIDEBAR.VMS',
     icon: 'mdi-cloud',
     id: 'VMS',
-    enabled: true
+    visible: true
   },
   {
     path: '/storage',
     text: 'NAVIGATION_SIDEBAR.STORAGE',
     icon: 'mdi-server',
     id: 'VOLUMES',
-    enabled: true
+    // enabled: true,
+    visible: true
   },
   {
     path: '/templates',
     text: 'NAVIGATION_SIDEBAR.IMAGES',
     icon: 'mdi-disk',
     id: 'TEMPLATES',
-    enabled: true
+    visible: true
   },  {
     path: '/snapshots',
     text: 'NAVIGATION_SIDEBAR.SNAPSHOTS',
     icon: 'mdi-camera',
     id: 'SNAPSHOTS',
-    enabled: true
+    visible: true
   },
   {
     path: '/security-group',
     text: 'NAVIGATION_SIDEBAR.FIREWALL_TEMPLATES',
     icon: 'mdi-security',
     id: 'SGS',
-    enabled: true
+    visible: true
   },
   {
     path: '/events',
     text: 'NAVIGATION_SIDEBAR.ACTIVITY_LOG',
     icon: 'mdi-calendar-text',
     id: 'EVENTS',
-    enabled: true
+    visible: true
   },
   {
     path: '/ssh-keys',
     text: 'NAVIGATION_SIDEBAR.SSH_KEYS',
     icon: 'mdi-key',
     id: 'SSH',
-    enabled: true
+    visible: true
   },
   {
     path: '/accounts',
     text: 'NAVIGATION_SIDEBAR.ACCOUNTS',
     icon: 'mdi-account',
     id: 'ACCOUNTS',
-    enabled: true
+    visible: true
   },
   {
     path: '/settings',
     text: 'NAVIGATION_SIDEBAR.SETTINGS',
     icon: 'mdi-settings',
     id: 'SETTINGS',
-    enabled: true
+    visible: true
   }
 ];
 
@@ -80,6 +81,6 @@ export const nonDraggableRoutes: Array<SidenavRoute> = [
     text: 'NAVIGATION_SIDEBAR.LOGOUT',
     icon: 'mdi-exit-to-app',
     id: 'LOGOUT',
-    enabled: true
+    visible: true
   }
 ];

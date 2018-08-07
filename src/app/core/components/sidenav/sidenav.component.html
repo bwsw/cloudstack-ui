@@ -44,10 +44,11 @@
   >
     <ng-container *ngFor="let route of routes">
       <a
-        *ngIf="!editing && route.enabled"
+        *ngIf="!editing"
         class="navigation-link link-container"
         [routerLink]="route.path"
         routerLinkActive="link-active"
+        [ngClass]="{'navigation-link-disable': !route.visible}"
         (click)="linkClick(route.path)"
       >
         <mat-icon [@linkSlide]="'in'" class="link-element" [ngClass]="route.icon"></mat-icon>
@@ -72,10 +73,11 @@
   </div>
   <ng-container *ngFor="let route of nonDraggableRoutes">
     <a
-      *ngIf="!editing && route.enabled"
+      *ngIf="!editing"
       class="navigation-link link-container"
       [routerLink]="route.path"
       routerLinkActive="link-active"
+      [ngClass]="{'navigation-link-disable': !route.visible}"
       (click)="linkClick(route.path)"
     >
       <mat-icon class="link-element" [ngClass]="route.icon"></mat-icon>
