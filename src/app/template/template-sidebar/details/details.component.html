@@ -67,21 +67,11 @@
         <mat-form-field class="full-width-input" cs-input-group-textbox>
           <input matInput [value]="entity?.downloadUrl" readonly>
         </mat-form-field>
-        <button
-          mat-icon-button
+        <cs-clipboard-button
           cs-input-group-button
-          ngxClipboard
-          [cbContent]="entity?.downloadUrl"
-          (cbOnSuccess)="onCopySuccess()"
-          (cbOnError)="onCopyFail()"
-        >
-          <mat-icon
-            matTooltipPosition="below"
-            [matTooltip]="'CLIPBOARD.COPY' | translate"
-            class="mdi-content-copy"
-          >
-          </mat-icon>
-        </button>
+          [value]="entity?.downloadUrl"
+          tooltipPosition="below"
+        ></cs-clipboard-button>
       </cs-input-group>
     </mat-card-content>
   </mat-card>

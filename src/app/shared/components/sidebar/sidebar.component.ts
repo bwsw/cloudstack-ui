@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BaseModelInterface } from '../../models/base.model';
 import { BaseBackendService } from '../../services/base-backend.service';
-import { SnackBarService } from '../../services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { EntityDoesNotExistError } from './entity-does-not-exist-error';
 
 
@@ -52,6 +52,6 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
   }
 
   private onError(error: any): void {
-    this.notificationService.open(error.message);
+    this.notificationService.open(error.message).subscribe();
   }
 }

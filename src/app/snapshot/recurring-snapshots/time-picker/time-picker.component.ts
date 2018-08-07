@@ -1,9 +1,10 @@
 import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
-import { TimeFormat } from '../../../shared/services/language.service';
+
 import { padStart } from '../../../shared/utils/padStart';
 import { DayPeriod } from '../day-period/day-period.component';
+import { TimeFormat } from '../../../shared/types';
 
 
 export interface Time {

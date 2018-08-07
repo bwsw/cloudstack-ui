@@ -4,14 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { BackendResource } from '../../decorators/backend-resource.decorator';
 import { Tag } from '../../models/tag.model';
 import { AsyncJobService } from '../async-job.service';
-import { BaseBackendCachedService } from '../base-backend-cached.service';
+import { BaseBackendService } from '../base-backend.service';
 
 
 @Injectable()
 @BackendResource({
   entity: 'Tag'
 })
-export class TagService extends BaseBackendCachedService<Tag> {
+export class TagService extends BaseBackendService<Tag> {
   constructor(
     private asyncJob: AsyncJobService,
     protected http: HttpClient
@@ -21,15 +21,13 @@ export class TagService extends BaseBackendCachedService<Tag> {
 
   public create(params?: {}): Observable<any> {
     return super.create(params)
-      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid))
-      .do(() => this.invalidateCache());
+      .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid));
   }
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params)
       .switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid))
-      .catch(() => Observable.of(null))
-      .do(() => this.invalidateCache());
+      .catch(() => Observable.of(null));
   }
 
   public getList(params?: {}): Observable<Array<Tag>> {
@@ -67,8 +65,7 @@ export class TagService extends BaseBackendCachedService<Tag> {
           );
         }
         return newEntity;
-      })
-      .do(() => this.invalidateCache());
+      });
 
     return this.getTag(newEntity, key)
       .switchMap(tag => {

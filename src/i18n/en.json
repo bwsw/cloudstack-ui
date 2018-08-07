@@ -256,7 +256,8 @@
     "SSH_KEY": {
       "CREATION_DONE": "SSH key created",
       "DELETE_DONE": "SSH key deleted"
-    }
+    },
+    "ERROR_WHILE_LOADING_DATA": "An error occurred while loading the data. Please refresh the page."
   },
   "AUTH": {
     "USERNAME": "Username",
@@ -562,7 +563,6 @@
     "OPEN_URL": "Open URL",
     "VM_PASSWORD": "Password",
     "UNKNOWN": "Unknown",
-    "NO_INFORMATION": "No information",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
     "VM_IP": "IP"
@@ -1414,9 +1414,10 @@
       "CHANGE_PASSWORD": "Change password",
       "NEW_PASSWORD": "New password",
       "REPEAT_PASSWORD": "Repeat password",
+      "PASSWORD_DOES_NOT_MATCH": "Password doesn't match",
+      "ASK_TO_UPDATE_PASSWORD": "Are you sure you want to update your password?",
       "PASSWORD_CHANGED_SUCCESSFULLY": "Password has been changed successfully",
-      "INACTIVITY_TIMEOUT": "Session timeout (in&nbsp;minutes)",
-      "INACTIVITY_LIMITS": "Between 0 and 300"
+      "SESSION_TIMEOUT": "Session timeout (in minutes)"
     },
     "VM": {
       "SAVE_PASSWORD_FOR_ALL_VMS": "Save VM passwords by default"
