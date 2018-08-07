@@ -22,7 +22,6 @@ export const sidenavRoutes: Array<SidenavRoute> = [
     text: 'NAVIGATION_SIDEBAR.STORAGE',
     icon: 'mdi-server',
     id: 'VOLUMES',
-    // enabled: true,
     visible: true
   },
   {
