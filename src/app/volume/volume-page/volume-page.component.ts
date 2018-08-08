@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { delay, filter, first, map } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Grouping, Volume } from '../../shared/models';
@@ -37,9 +39,12 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.volumes.length && this.shouldShowSuggestionDialog) {
-      this.showSuggestionDialog();
-    }
+    this.shouldShowSuggestionDialog.pipe(
+      filter(Boolean),
+      // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
+      // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
+      delay(1)
+    ).subscribe(() => this.showSuggestionDialog())
   }
 
   public changeMode(mode) {
@@ -79,8 +84,11 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     });
   }
 
-  private get shouldShowSuggestionDialog(): boolean {
-    return !this.volumes.length && !this.isCreateVolumeInUrl;
+  private get shouldShowSuggestionDialog(): Observable<boolean> {
+    return this.store.select(UserTagsSelectors.getIsAskToCreateVolume).pipe(
+      first(),
+      map(isAskToCreateVolume => isAskToCreateVolume && !this.volumes.length && !this.isCreateVolumeInUrl)
+    );
   }
 
   private get isCreateVolumeInUrl(): boolean {
@@ -89,33 +97,23 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    if (this.isCreateVolumeInUrl) {
-      return;
-    }
-
-    this.store.select(UserTagsSelectors.getIsAskToCreateVolume)
-      .first()
-      .filter(Boolean)
-      .subscribe(() => {
-        this.dialogService.askDialog({
-          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
-          actions: [
-            {
-              handler: () => this.activate(),
-              text: 'COMMON.YES'
-            },
-            { text: 'COMMON.NO' },
-            {
-              handler: () => {
-                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }))
-              },
-              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-            }
-          ],
-          disableClose: false,
-          width: '320px'
-        });
-
-      });
+    this.dialogService.askDialog({
+      message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
+      actions: [
+        {
+          handler: () => this.activate(),
+          text: 'COMMON.YES'
+        },
+        { text: 'COMMON.NO' },
+        {
+          handler: () => {
+            this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }))
+          },
+          text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
+        }
+      ],
+      disableClose: false,
+      width: '320px'
+    });
   }
 }
