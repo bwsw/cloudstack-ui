@@ -42,7 +42,7 @@
       <button
         mat-button
         color="primary"
-        [disabled]="isDisableSelectButton()"
+        [disabled]="isSubmitButtonDisabled()"
         (click)="onChange()"
       >
         {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}

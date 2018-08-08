@@ -44,7 +44,7 @@ export class DiskOfferingDialogComponent {
     this.dialogRef.close(this.selectedDiskOffering);
   }
 
-  public isDisableSelectButton() {
+  public isSubmitButtonDisabled() {
     const isDiskOfferingNotSelected = !this.selectedDiskOffering;
     const isNoDiskOfferings = !this.diskOfferings.data.length;
     return isDiskOfferingNotSelected || isNoDiskOfferings;

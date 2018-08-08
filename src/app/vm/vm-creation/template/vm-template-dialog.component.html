@@ -31,7 +31,7 @@
 
   <button
     mat-button
-    [disabled]="isDisableSelectButton()"
+    [disabled]="isSubmitButtonDisabled()"
     color="primary"
     (click)="select.emit(selectedTemplate)"
   >

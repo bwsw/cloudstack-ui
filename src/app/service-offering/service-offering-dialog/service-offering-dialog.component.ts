@@ -70,7 +70,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       && this.isVmRunning;
   }
 
-  public isDisableSelectButton(): boolean {
+  public isSubmitButtonDisabled(): boolean {
     const isOfferingNotSelected = !this.serviceOffering;
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
     const isSelectedOfferingFromDifferentViewMode = this.serviceOffering

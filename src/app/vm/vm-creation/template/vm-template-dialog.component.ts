@@ -23,12 +23,12 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   @Input() preselectedTemplate: BaseTemplateModel;
 
   @Output() viewModeChange = new EventEmitter<string>();
-  @Output() selectedTypesChange = new EventEmitter();
-  @Output() selectedOsFamiliesChange = new EventEmitter();
-  @Output() selectedGroupsChange = new EventEmitter();
-  @Output() queryChange = new EventEmitter();
-  @Output() cancel = new EventEmitter();
-  @Output() select = new EventEmitter();
+  @Output() selectedTypesChange = new EventEmitter<string[]>();
+  @Output() selectedOsFamiliesChange = new EventEmitter<string[]>();
+  @Output() selectedGroupsChange = new EventEmitter<string[]>();
+  @Output() queryChange = new EventEmitter<string>();
+  @Output() cancel = new EventEmitter<boolean>();
+  @Output() select = new EventEmitter<BaseTemplateModel>();
 
   public selectedTemplate: BaseTemplateModel;
 
@@ -47,7 +47,7 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     this.selectedTemplate = template;
   }
 
-  public isDisableSelectButton() {
+  public isSubmitButtonDisabled() {
     const isTemplateNotSelected = !this.selectedTemplate;
     const isNoTemplatesInCurrentViewMode = !this.templates.length;
     const isSelectedTemplateFromDifferentViewMode = this.selectedTemplate

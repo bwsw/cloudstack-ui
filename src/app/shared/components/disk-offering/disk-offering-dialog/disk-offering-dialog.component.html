@@ -63,7 +63,7 @@
     mat-button
     color="primary"
     type="submit"
-    [disabled]="isDisableSelectButton()"
+    [disabled]="isSubmitButtonDisabled()"
     (click)="onSubmit()"
   >
     {{ 'COMMON.SELECT' | translate }}
