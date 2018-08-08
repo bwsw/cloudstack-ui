@@ -202,7 +202,7 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     PostdeploymentComponent,
     VmResetPasswordComponent,
     ServiceOfferingSelectorComponent,
-    InstallationSourceDialogComponent
+    InstallationSourceDialogComponent,
     VmPasswordComponent
   ],
   providers: [
