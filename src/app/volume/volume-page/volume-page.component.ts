@@ -37,7 +37,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.volumes.length && this.shouldShowSuggestionDialog) {
+    if (this.volumes.length === 0 && this.shouldShowSuggestionDialog) {
       this.showSuggestionDialog();
     }
   }

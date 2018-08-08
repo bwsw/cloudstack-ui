@@ -71,26 +71,28 @@ export class VmPageComponent implements OnInit {
       .first()
       .filter(Boolean)
       .subscribe(tag => {
-        this.dialogService.askDialog({
-          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
-          actions: [
-            {
-              handler: () => this.showVmCreationDialog(),
-              text: 'COMMON.YES'
-            },
-            {
-              text: 'COMMON.NO'
-            },
-            {
-              handler: () => {
-                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
+        setTimeout(() => {
+          this.dialogService.askDialog({
+            message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
+            actions: [
+              {
+                handler: () => this.showVmCreationDialog(),
+                text: 'COMMON.YES'
               },
-              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-            }
-          ],
-          disableClose: false,
-          width: '320px'
-        });
+              {
+                text: 'COMMON.NO'
+              },
+              {
+                handler: () => {
+                  this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
+                },
+                text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
+              }
+            ],
+            disableClose: false,
+            width: '320px'
+          });
+        }, 10);
       });
   }
 
