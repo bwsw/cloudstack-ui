@@ -178,16 +178,16 @@ export function listReducer(
     }
 
     case vmActions.SAVE_VM_PASSWORD_SUCCESS: {
-      const { vm, password } = action.payload;
+      const { vmId, password } = action.payload;
       const passwordTag: Tag = {
         key: VirtualMachineTagKeys.passwordTag,
         value: password
       };
       // vm tags are empty during this operation
-      const tags = state.entities[vm.id].tags;
+      const tags = state.entities[vmId].tags;
       const tagsWithNewPassword: Tag[] = [...tags, passwordTag];
       return {
-        ...adapter.updateOne({ id: vm.id, changes: { tags: tagsWithNewPassword } }, state)
+        ...adapter.updateOne({ id: vmId, changes: { tags: tagsWithNewPassword } }, state)
       }
     }
 

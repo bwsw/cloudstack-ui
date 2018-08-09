@@ -122,7 +122,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   public osType: OsType;
   public guestOsId: string;
   // CUSTOM
-  public pending: boolean;
+  public pending?: boolean;
   // statistics
   public cpuUsed: string;
   public networkKbsRead: number;
