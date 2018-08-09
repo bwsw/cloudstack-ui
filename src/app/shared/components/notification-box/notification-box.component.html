@@ -24,13 +24,12 @@
       <cs-notification-box-item
         *ngFor="let notification of jobsNotificationService.notifications"
         [notification]="notification"
-        (onClose)="onCloseJobNotification($event)"
       >
       </cs-notification-box-item>
     </mat-list>
     <mat-card-actions>
       <button mat-button (click)="removeCompleted()">
-        {{ 'COMMON.CLEAR_ALL' | translate }}
+        {{ 'COMMON.CLEAR_COMPLETED' | translate }}
       </button>
     </mat-card-actions>
   </mat-card>

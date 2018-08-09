@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { JobsNotificationService } from '../../services/jobs-notification.service';
-import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -10,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['notification-box.component.scss']
 })
 export class NotificationBoxComponent implements OnInit, OnDestroy {
-  @ViewChild(PopoverTriggerDirective) public popover: PopoverTriggerDirective;
   public notificationCount$: Observable<number>;
   private isOpen = false;
   private autoResetCompletedNotification: Subscription;
@@ -44,20 +42,8 @@ export class NotificationBoxComponent implements OnInit, OnDestroy {
     this.isOpen = false;
   }
 
-  public onCloseJobNotification(id: string): void {
-    this.jobsNotificationService.pendingJobsCount$.first().subscribe(pendingJobsCount => {
-      const notificationsCount = this.jobsNotificationService.notifications.length;
-      if (pendingJobsCount === 0 && notificationsCount === 1) {
-        this.popover.closePopover();
-      }
-    });
-
-    this.jobsNotificationService.remove(id);
-  }
-
   public removeCompleted(): void {
     this.jobsNotificationService.removeCompleted();
-    this.popover.closePopover();
   }
 
   private resetCompletedNotificationCount() {
