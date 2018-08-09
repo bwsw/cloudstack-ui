@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { INotificationStatus, JobNotification } from '../../services/jobs-notification.service';
 
 @Component({
@@ -9,10 +9,5 @@ import { INotificationStatus, JobNotification } from '../../services/jobs-notifi
 export class NotificationBoxItemComponent {
   public notificationStatus = INotificationStatus;
 
-  @Output() public onClose = new EventEmitter<string>();
   @Input() public notification: JobNotification;
-
-  public remove(): void {
-    this.onClose.emit(this.notification.id);
-  }
 }

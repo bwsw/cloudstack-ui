@@ -26,18 +26,4 @@
     >
     </span>
   </h4>
-  <span>
-    <mat-icon
-      *ngIf="notification.status !== notificationStatus.Pending"
-      (click)="remove()"
-      matListIcon
-      class="close mdi-close"
-    >
-    </mat-icon>
-    <mat-icon
-      *ngIf="notification.status === notificationStatus.Pending"
-      class="close"
-      matListIcon
-    ></mat-icon>
-  </span>
 </mat-list-item>
