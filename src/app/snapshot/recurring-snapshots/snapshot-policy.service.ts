@@ -22,8 +22,7 @@ export interface SnapshotPolicyCreationParams {
 
 @Injectable()
 @BackendResource({
-  entity: 'SnapshotPolicy',
-  entityModel: SnapshotPolicy
+  entity: 'SnapshotPolicy'
 })
 export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
   constructor(protected http: HttpClient) {
@@ -148,10 +147,10 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
   private transformPolicy(policy: SnapshotPolicy): Policy<TimePolicy> {
     return {
       id: policy.id,
-      storedSnapshots: policy.maxSnaps,
-      timePolicy: this.transformScheduleToTimePolicy(policy.schedule, policy.intervalType),
-      timeZone: { geo: policy.timeZone },
-      type: policy.intervalType
+      storedSnapshots: policy.maxsnaps,
+      timePolicy: this.transformScheduleToTimePolicy(policy.schedule, policy.intervaltype),
+      timeZone: { geo: policy.timezone },
+      type: policy.intervaltype
     };
   }
 }
