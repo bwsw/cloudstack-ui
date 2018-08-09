@@ -256,12 +256,3 @@ export const selectPredefinedSecurityGroups = createSelector(
     securityGroup => securityGroup.preselected)
 );
 
-export const hasOrphanSecurityGroups = createSelector(
-  selectAll,
-  (sg) => {
-    const orphans = sg.filter(group => getType(group) === SecurityGroupType.Private)
-      .find(group => group.virtualmachineids.length === 0);
-    return !!orphans;
-  }
-);
-

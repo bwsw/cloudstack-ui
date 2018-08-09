@@ -1,19 +1,9 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
-import { Store } from '@ngrx/store';
-import { State } from '../../../reducers/index';
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { VirtualMachine } from '../../shared/vm.model';
-import { Observable } from 'rxjs/Observable';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
-import * as vmActions from '../../../reducers/vm/redux/vm.actions';
+import { Observable } from 'rxjs/Observable';
+
+import { VirtualMachine } from '../../shared/vm.model';
 
 @Component({
   selector: 'cs-vm-reset-password',
@@ -23,29 +13,20 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 export class VmResetPasswordComponent {
   public message;
   public vm: VirtualMachine;
-  public showSaveButton: boolean;
-  public disableButton = false;
 
   constructor(
     public dialogRef: MatDialogRef<VmResetPasswordComponent>,
     private translateService: TranslateService,
-    private userTagService: UserTagService,
-    private store: Store<State>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.vm = data;
     this.message = {
-        translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
-        interpolateParams: {
-          vmName: this.vm.name,
-          vmPassword: this.vm.password,
-        }
-      };
-    this.userTagService.getSavePasswordForAllVms()
-      .subscribe(tag => {
-        this.showSaveButton = !tag;
-      });
-
+      translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
+      interpolateParams: {
+        vmName: this.vm.name,
+        vmPassword: this.vm.password,
+      }
+    };
   }
 
   public get translatedMessage(): Observable<string> {
@@ -54,17 +35,4 @@ export class VmResetPasswordComponent {
       this.message.interpolateParams
     );
   }
-
-  public savePassword() {
-    this.disableButton = true;
-    this.store.dispatch(new vmActions.SaveNewPassword({
-      vm: this.vm,
-      tag: {
-        key: VirtualMachineTagKeys.passwordTag,
-        value: this.vm.password
-      }
-    }));
-    this.showSaveButton = false;
-  }
-
 }

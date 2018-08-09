@@ -33,7 +33,6 @@ export const STOP_VM = '[VM] STOP_VM';
 export const START_VM = '[VM] START_VM';
 export const RESTORE_VM = '[VM] RESTORE_VM';
 export const RESET_PASSWORD_VM = '[VM] RESET_PASSWORD_VM';
-export const SAVE_NEW_VM_PASSWORD = '[VM] SAVE_NEW_VM_PASSWORD';
 export const REBOOT_VM = '[VM] REBOOT_VM';
 export const DESTROY_VM = '[VM] DESTROY_VM';
 export const RECOVER_VM = '[VM] RECOVER_VM';
@@ -65,6 +64,10 @@ export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_A
 export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
 export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
+
+export const SAVE_VM_PASSWORD = '[VM password component] Save VM password';
+export const SAVE_VM_PASSWORD_SUCCESS = '[Resource tag API] Save VM password success';
+export const SAVE_VM_PASSWORD_ERROR = '[Resource tag API] Save VM password error';
 
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
@@ -258,16 +261,6 @@ export class ResetPasswordVm implements Action {
   readonly type = RESET_PASSWORD_VM;
 
   constructor(public payload: VirtualMachine) {
-  }
-}
-
-export class SaveNewPassword implements Action {
-  readonly type = SAVE_NEW_VM_PASSWORD;
-
-  constructor(public payload: {
-    vm: VirtualMachine,
-    tag: { key: string, value: string }
-  }) {
   }
 }
 
@@ -484,6 +477,28 @@ export class VmDeploymentCopyTags implements Action {
   }
 }
 
+export class SaveVMPassword implements Action {
+  readonly type = SAVE_VM_PASSWORD;
+
+  constructor(public payload: { vm: VirtualMachine, password: string }) {
+  }
+}
+
+export class SaveVMPasswordSuccess implements Action {
+  readonly type = SAVE_VM_PASSWORD_SUCCESS;
+
+  constructor(public payload: { vm: VirtualMachine, password: string }) {
+  }
+}
+
+export class SaveVMPasswordError implements Action {
+  readonly type = SAVE_VM_PASSWORD_ERROR;
+
+  constructor(public payload: { error: Error }) {
+  }
+}
+
+
 export type Actions = LoadVMsRequest
   | LoadVMsResponse
   | LoadVirtualMachine
@@ -512,7 +527,6 @@ export type Actions = LoadVMsRequest
   | StartVm
   | RestoreVm
   | ResetPasswordVm
-  | SaveNewPassword
   | RebootVm
   | DestroyVm
   | RecoverVm
@@ -536,4 +550,7 @@ export type Actions = LoadVMsRequest
   | DeploymentRequest
   | DeploymentRequestSuccess
   | DeploymentRequestError
-  | VmDeploymentCopyTags;
+  | VmDeploymentCopyTags
+  | SaveVMPassword
+  | SaveVMPasswordSuccess
+  | SaveVMPasswordError;

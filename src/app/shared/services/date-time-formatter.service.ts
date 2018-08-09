@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TimeFormat } from './language.service';
 import { dateTimeFormat as enDateTimeFormat } from '../components/date-picker/dateUtils';
+import { TimeFormat } from '../types';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 

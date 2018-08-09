@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { ConfigService } from '../shared/services/config.service';
+import { ConfigService } from '../core/services';
 import { CpuStats, DiskStats, NetworkStats, RamStats } from './stats';
 
 interface TimeParams {
