@@ -18,7 +18,6 @@ Clicking *Accounts* in the left-side navigation bar you open the *Accounts* sect
 You can switch the view from list to box using the switch tool |view icon|/|box icon| in the upper-right corner.
 
 .. figure:: _static/Accounts_ListSwitch.png
-   :scale: 70%
    
 For each account in the list you can see the following information:
 
@@ -44,7 +43,6 @@ You can filter the list by:
 Besides, accounts can be grouped by the parameters mentioned above.
 
 .. figure:: _static/Accounts_Filtering.png
-   :scale: 70%
 
 Create an Account
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,7 +53,7 @@ An Administrator can create a new account in the domain.
 
 By clicking "Create" |create icon| in the bottom-right corner you will open a form where the following fields should be completed:
 
-.. note:: Required fields are marked with asterisks (*).
+.. note:: Required fields are marked with an asterisk (*).
 
 - Name * - Enter any desired login ID for the account name. It should be unique within the domain.
 - Email * - Enter the accounts email address.
@@ -69,9 +67,11 @@ By clicking "Create" |create icon| in the bottom-right corner you will open a fo
 
 .. figure:: _static/Accounts_Create.png
 
-Click "Create" to create the new account. Make sure it has appeared in the list of accounts.
+Click "CREATE" to create the new account. Make sure it has appeared in the list of accounts.
 
 A user is created automatically for the new account. User's name corresponds to the first and the last name specified in the account creation form. This user inherits account's email and time zone.
+
+Click "CANCEL" to leave the account creation form. No account will be created then.
 
 Account Details Sidebar
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,7 +79,6 @@ Account Details Sidebar
 For each account, the information is available in the details sidebar to the right. Click the account in the list to open the sidebar:
 
 .. figure:: _static/Accounts_Details.png
-   :scale: 70%
    
 There are two tabs in the sidebar: General and Users.
 
@@ -88,7 +87,6 @@ The *General* tab contains the general information on the account: details, limi
 Administrators can edit the limits. Click "Edit" |edit icon| in the Limits block and change the values right in the block.
 
 .. figure:: _static/Accounts_EditLimits.png
-   :scale: 70%
    
 Administrators can see the statistics on resource usage at the bottom. Refresh the data by clicking |refresh icon|.
 
@@ -180,7 +178,7 @@ The list of actions allows an Administrator to:
 
 - Enable account - Allows activating a disabled account. Click "Enable account" and confirm your action in the dialogue window. The account will be activated.
 
-- Delete account - Allows deleting an account from the system. Confirm your action in the dialogue window, and the account will be deleted.
+- Delete account - Allows an Administrator to delete an account from the system. Confirm your action in the dialogue window, and the account will be deleted.
 
 .. - Lock account - Allows locking an account from its users. By locking the account all users for this account will no longer be able to manage their cloud resources. Existing resources can still be accessed. Click "Lock account" and confirm your action in the dialogue window. The account will be locked.
 
