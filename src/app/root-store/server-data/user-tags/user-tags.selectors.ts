@@ -76,6 +76,14 @@ export const getIsShowSystemTags = createSelector(
   }
 );
 
+export const getIsShowSidenav = createSelector(
+  getUserTagsEntities,
+  (entities): boolean => {
+    const value = entities[userTagKeys.showSidenav].value;
+    return convertToBoolean(value);
+  }
+);
+
 export const getTimeFormat = createSelector(
   getUserTagsEntities,
   (entities): TimeFormat => entities[userTagKeys.timeFormat].value as TimeFormat

@@ -1,8 +1,8 @@
 <div class="top-bar">
   <div
-    *ngIf="!isDrawerOpen"
+    *ngIf="!(isShowSidenav$ | async)"
     class="drawer-button"
-    (click)="toggleDrawer()"
+    (click)="openSidenav()"
   >
     <mat-icon class="mdi-menu"></mat-icon>
   </div>

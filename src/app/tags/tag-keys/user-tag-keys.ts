@@ -6,6 +6,7 @@ export const userTagKeys = {
   lang: 'csui.user.lang',
   lastVMId: 'csui.user.last-vm-id',
   sessionTimeout: 'csui.user.session-timeout',
+  showSidenav: 'csui.user.show-sidenav',
   showSystemTags: 'csui.user.show-system-tags',
   timeFormat: 'csui.user.time-format',
   theme: 'csui.user.theme',

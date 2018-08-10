@@ -1,9 +1,7 @@
-<div class="wrapper">
-  <mat-sidenav-container>
-    <mat-sidenav [opened]="isDrawerOpen" mode="side">
-      <cs-sidenav [title]="title"></cs-sidenav>
-    </mat-sidenav>
+<mat-sidenav-container fullscreen>
+  <mat-sidenav [opened]="showSidenav$ | async" mode="side">
+    <cs-sidenav [title]="title"></cs-sidenav>
+  </mat-sidenav>
 
-    <router-outlet></router-outlet>
-  </mat-sidenav-container>
-</div>
+  <router-outlet></router-outlet>
+</mat-sidenav-container>

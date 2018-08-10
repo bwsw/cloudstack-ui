@@ -1,7 +1,8 @@
 import { Component, Optional } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LayoutService } from '../../services/layout.service';
+import { Store } from '@ngrx/store';
 import { ListService } from '../list/list.service';
+import { layoutActions, layoutSelectors, State } from '../../../root-store';
 
 @Component({
   selector: 'cs-top-bar',
@@ -9,19 +10,17 @@ import { ListService } from '../list/list.service';
   styleUrls: ['top-bar.component.scss']
 })
 export class TopBarComponent {
+  public isShowSidenav$ = this.store.select(layoutSelectors.getIsShowSidenav);
+
   constructor(
     @Optional() private listService: ListService,
     private activatedRoute: ActivatedRoute,
-    private layoutService: LayoutService
+    private store: Store<State>
   ) {
   }
 
-  public toggleDrawer(): void {
-    this.layoutService.drawerToggled.next();
-  }
-
-  public get isDrawerOpen(): boolean {
-    return this.layoutService.drawerOpen;
+  public openSidenav(): void {
+    this.store.dispatch(new layoutActions.OpenSidenav());
   }
 
   public get sidebarOpen(): boolean {

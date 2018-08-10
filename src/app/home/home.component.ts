@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { State, UserTagsActions } from '../root-store';
+import { layoutSelectors, State, UserTagsActions } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
-import { LayoutService } from '../shared/services/layout.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { getName } from '../shared/models';
 import * as authActions from '../reducers/auth/redux/auth.actions';
@@ -16,10 +15,10 @@ import * as serviceOfferingActions from '../reducers/service-offerings/redux/ser
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
+  public showSidenav$ = this.store.select(layoutSelectors.getIsShowSidenav);
 
   constructor(
     private auth: AuthService,
-    private layoutService: LayoutService,
     private store: Store<State>
   ) {
     super();
@@ -43,9 +42,5 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
 
   public get title(): string {
     return this.auth.user ? getName(this.auth.user) : '';
-  }
-
-  public get isDrawerOpen(): boolean {
-    return this.layoutService.drawerOpen;
   }
 }

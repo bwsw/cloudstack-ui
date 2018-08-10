@@ -1,16 +1,15 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DragulaService } from 'ng2-dragula';
 import * as cloneDeep from 'lodash/cloneDeep';
 
 import { ConfigService } from '../../services';
-import { LayoutService } from '../../../shared/services/layout.service';
 import { RouterUtilsService } from '../../../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
-import { State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import { layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 
 
 @Component({
@@ -19,7 +18,7 @@ import { State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
   styleUrls: ['./sidenav.component.scss'],
   animations: [transformHandle, transformLinks]
 })
-export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit, OnInit, OnDestroy {
+export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
   @ViewChild('navigationBar') public navigationBar: ElementRef;
   @Input() public open: boolean;
   @Input() public title: string;
@@ -38,7 +37,6 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   constructor(
     private configService: ConfigService,
     private dragula: DragulaService,
-    private layoutService: LayoutService,
     private routerUtilsService: RouterUtilsService,
     private router: Router,
     private store: Store<State>
@@ -50,12 +48,6 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     this.setUpRoutes();
     this.setUpDragula();
     this.initNavigationOrder();
-  }
-
-  public ngAfterViewInit(): void {
-    this.layoutService.drawerToggled
-      .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.toggleDrawer());
   }
 
   public ngOnDestroy(): void {
@@ -83,8 +75,8 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     return new Date().getFullYear().toString();
   }
 
-  public toggleDrawer(): void {
-    this.layoutService.toggleDrawer();
+  public closeSidenav(): void {
+    this.store.dispatch(new layoutActions.CloseSidenav);
   }
 
   public toggleEditing(): void {

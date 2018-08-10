@@ -3,6 +3,7 @@ import { Update } from '@ngrx/entity';
 import { UserTagsActionsUnion, UserTagsActionTypes } from './user-tags.actions';
 import { adapter, initialState, UserTagsState } from './user-tags.state';
 import { Tag } from '../../../shared/models';
+import { userTagKeys } from '../../../tags/tag-keys';
 
 export function reducer(state = initialState, action: UserTagsActionsUnion): UserTagsState {
   switch (action.type) {
@@ -44,6 +45,16 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.SetSPFAVMSuccess:
     case UserTagsActionTypes.IncrementLastVMIdSuccess: {
       const update: Update<Tag> = { id: action.payload.key, changes: action.payload };
+      return adapter.updateOne(update, state);
+    }
+
+    case UserTagsActionTypes.OpenSidenav: {
+      const update: Update<Tag> = { id: userTagKeys.showSidenav, changes: { value: 'true' } };
+      return adapter.updateOne(update, state);
+    }
+
+    case UserTagsActionTypes.CloseSidenav: {
+      const update: Update<Tag> = { id: userTagKeys.showSidenav, changes: { value: 'false '} };
       return adapter.updateOne(update, state);
     }
 

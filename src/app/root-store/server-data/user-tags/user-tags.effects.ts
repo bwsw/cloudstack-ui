@@ -10,12 +10,14 @@ import { mergeMap } from 'rxjs/operators/mergeMap';
 import { catchError } from 'rxjs/operators/catchError';
 
 import {
+  CloseSidenav,
   IncrementLastVMId,
   IncrementLastVMIdError,
   IncrementLastVMIdSuccess,
   LoadUserTags,
   LoadUserTagsError,
   LoadUserTagsSuccess,
+  OpenSidenav,
   SetSavePasswordForAllVMs,
   SetSavePasswordForAllVMsError,
   SetSavePasswordForAllVMsSuccess,
@@ -256,6 +258,21 @@ export class UserTagsEffects {
         catchError((error) => of(new IncrementLastVMIdError({ error })))
       )
     })
+  );
+
+  // We omit the result of setting the value on the server, because we have already changed the value in the store
+  // This is required so that the UI reacts instantly and does not wait until an answer comes from the server.
+  // Downsides: if the tag is not set, the user selected state will not be saved
+  @Effect({ dispatch: false })
+  openSidenav$: Observable<Action> = this.actions$.pipe(
+    ofType<OpenSidenav>(UserTagsActionTypes.OpenSidenav),
+    mergeMap(() => this.upsertTag(userTagKeys.showSidenav, 'true'))
+  );
+
+  @Effect({ dispatch: false })
+  closeSidenav$: Observable<Action> = this.actions$.pipe(
+    ofType<CloseSidenav>(UserTagsActionTypes.CloseSidenav),
+    mergeMap(() => this.upsertTag(userTagKeys.showSidenav, 'false'))
   );
 
   private readonly resourceType = 'User';

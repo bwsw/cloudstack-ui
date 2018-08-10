@@ -47,6 +47,7 @@ export interface ConfigInterface {
   askToCreateVolume: boolean;
   savePasswordForAllVMs: boolean | null;
   lastVMId: number;
+  showSidenav: boolean;
   showSystemTags: boolean;
   navigationOrder: string;
 }
