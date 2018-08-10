@@ -9,6 +9,8 @@ In the *Storage* section, you can create and manage drives for virtual machines.
 Drive list
 ~~~~~~~~~~~~
 
+.. note:: If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. Once you create a VM, a root disk is created for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional data disk. 
+
 Here you can find a list of your disks existing for your user. 
 
 .. figure:: _static/Storage_List1.png
@@ -18,8 +20,6 @@ Domain Administrator can see disks of all accounts in the domain.
 .. figure:: _static/Storage_List_Admin3.png
    
 Disks can be viewed as a list or as a grid of cards. Switch the view by clicking a view icon |view icon|/|box icon| in the upper-right corner.
-
-.. note:: If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. Once you create a VM, a root disk is created for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional data disk.
 
 Filtering of Drives
 """"""""""""""""""""""""""
@@ -52,7 +52,7 @@ In the *Storage* section you can create new volumes.
 
 By clicking the "Create" button |create icon| in the bottom-right corner you will open a creation form. 
 
-If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. At creating a VM, a root disk is added for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional disk. When clicking "Create", a dialogue window will ask you if you are surely want to create a drive. Confirm your creation action by clicking "Yes":
+If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. At creating a VM, a root disk is added for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional disk. When clicking "Create", a dialogue window will ask you if you are surely want to create a drive. Confirm your creation action by clicking "CONTINUE":
 
 .. figure:: _static/AdditionalDiskNotification.png
    
@@ -66,7 +66,9 @@ To create a new volume fill in the fields:
 
 - Name * - Enter a name of the volume. 
 - Zone * - Select a zone from the drop-down list.
-- Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "Select". For each disk offering you will see a range of parameters. The following parameters are shown by default:
+- Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "SELECT". The list of available disk offerings is determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#offering-availability>`_ by Administrator. 
+
+For each disk offering you will see a range of parameters. The following parameters are shown by default:
 
 - Read rate (MB/s);
 - Write rate (MB/s);
@@ -83,11 +85,11 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 
 .. figure:: _static/Storage_Create_ResizeDisk.png
    
-Click "Create" to save the settings and create the new volume. You will see the drive appears in the list.
+Click "CREATE" to save the settings and create the new volume. You will see the drive appears in the list.
 
 .. figure:: _static/Storage_Created1.png
 
-Click "Cancel" to drop all the settings. The drive will not be created then.
+Click "CANCEL" to drop all the settings. The drive will not be created then.
 
 .. _Storage_Info:
 
@@ -138,19 +140,19 @@ Snapshots Action Box
 Like in the Virtual Machine information tab the same actions are available for a snapshot:
      
 - **Create a template** - Allows creating a template from the snapshot. This template can be used for VM creation.
-  
-   Fill in the form to register a new template:
-     
-    - Name * - Enter a name of the new template.
-    - Description * - Provide a short description of the template.
-    - OS type * - Select an OS type from the drop-down list.
-    - Group - Select a group from the drop-down list.
-    - Password enabled - Tick this option if the template has the password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
-    - Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support the dynamic scaling of VM CPU/memory.
+
+Fill in the form to register a new template:
+   
+.. note:: Required fields are marked with an asterisk (*).  
+   
+- Name * - Enter a name of the new template.
+- Description * - Provide a short description of the template.
+- OS type * - Select an OS type from the drop-down list.
+- Group - Select a group from the drop-down list.
+- Password enabled - Tick this option if the template has the password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
+- Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support the dynamic scaling of VM CPU/memory.
  
-.. note:: Required fields are marked with an asterisk (*).
- 
-Click "Show additional fields" to expand the list of optional settings. It allows creating a template that requires HVM.
+Click "SHOW ADDITIONAL FIELDS" to expand the list of optional settings. It allows creating a template that requires HVM.
      
 Once all fields are filled in click "Create" to create the new template.
 
@@ -238,7 +240,7 @@ Click "+" to save the schedule. You can add more than one schedule but only one 
 
 You can change the disk size by selecting "Resize the disk" option in the Actions list. You are able to enlarge disk size only.
 
-In the appeared window set up a new size and click "Resize" to save the edits.
+In the appeared window set up a new size and click "RESIZE" to save the edits.
 
 .. figure:: _static/Storage_ResizeDisk2.png
 
@@ -248,7 +250,7 @@ Click "Cancel" to drop the size changes.
 
 This action can be applied to data disks. It allows attaching/detaching the data disk to/from the virtual machine.
 
-Click "Attach" in the Actions list and in the dialogue window select a virtual machine to attach the disk to. Click "Attach" to perform the attachment.
+Click "Attach" in the Actions list and in the dialogue window select a virtual machine to attach the disk to. Click "ATTACH" to perform the attachment.
 
 .. figure:: _static/Storage_AttachDisk1.png
 
