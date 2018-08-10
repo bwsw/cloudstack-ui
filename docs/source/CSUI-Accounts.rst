@@ -105,11 +105,10 @@ The *Users* tab contains the list of users in the account. For each user you can
 
 An Administrator has a list of actions available for each user. A user can manage his/her user only. A list of actions is available under the |actions icon| button. It contains the following actions:
 
+- Edit user;
 - Change password;
-- Regenerate key.
-
-.. figure:: _static/Accounts_SelfUserActions.png
-   :scale: 70%
+- Regenerate key;
+- Delete user (available for Administrators).
 
 Find more about actions for users in the :ref:`User_Action_Box` section.
 
