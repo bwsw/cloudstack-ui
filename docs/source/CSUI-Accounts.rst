@@ -117,7 +117,6 @@ Create a User
 Administrators can create a new user from the *Users* tab of the Account Details sidebar by clicking "Create" |create icon|. 
 
 .. figure:: _static/Accounts_CreateUser.png
-   :scale: 70%
 
 In the appeared form fill in the following fields:
 
@@ -131,7 +130,6 @@ In the appeared form fill in the following fields:
 - Time zone * - Set the timezone that corresponds to the user's locale. Select an option from the drop-down list.
 
 .. figure:: _static/Accounts_CreateUser2.png
-   :scale: 80%
    
 Click "CREATE" to create the new user. It will appear in the list of users for this account.
 
@@ -150,12 +148,10 @@ The list of actions allows an Administrator to:
 - Edit user - Opens a form to edit user's settings (name, email, timezone). Edit the information and click "SAVE" to save the edits.
 
 .. figure:: _static/Accounts_UserActions_Edit.png
-   :scale: 70%
    
 - Change password - Opens a modal window with two fields for you to enter a new password and confirm it. Use the view tool |view| to view or hide a password while entering. Click "SAVE" to save the new password.
 
 .. figure:: _static/Accounts_UserActions_ChangePass.png
-   :scale: 70%
    
 - Regenerate key - Allows changing the keys - secret and API - for the user. Confirm your action in the dialogue window, and the keys will be changed.
  
@@ -169,7 +165,6 @@ Account Action Box
 Administrators can manage an account via the Action box under |actions icon|. 
 
 .. figure:: _static/Accounts_Actions887.png
-   :scale: 70%
    
 The list of actions allows an Administrator to:
 
