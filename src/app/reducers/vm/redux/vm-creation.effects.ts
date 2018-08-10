@@ -27,13 +27,11 @@ import { ResourceUsageService } from '../../../shared/services/resource-usage.se
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { TagService } from '../../../shared/services/tags/tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
+import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -44,7 +42,7 @@ import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.re
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
-import { UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import { UserTagsActions } from '../../../root-store';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -341,7 +339,6 @@ export class VirtualMachineCreationEffects {
     private affinityGroupService: AffinityGroupService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private instanceGroupService: InstanceGroupService,
-    private tagService: TagService,
     private vmTagService: VmTagService,
     private snackBar: SnackBarService
   ) {
@@ -591,19 +588,6 @@ export class VirtualMachineCreationEffects {
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
     return this.vmTagService.copyTagsToEntity(state.template.tags, vm)
-      .switchMap(() => this.store.select(UserTagsSelectors.getIsSavePasswordForVMs))
-      .switchMap((tag) => {
-        if (tag && vm.password) {
-          return this.tagService.update(
-            vm,
-            VmResourceType,
-            VirtualMachineTagKeys.passwordTag,
-            vm.password
-          );
-        } else {
-          return Observable.of(null);
-        }
-      })
       .switchMap(() => {
         if (state.agreement) {
           return this.vmTagService.setAgreement(vm);
