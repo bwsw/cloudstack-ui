@@ -44,7 +44,7 @@ import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
-import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
+import { VmPasswordDialogComponent } from './vm-actions/vm-reset-password-component/vm-password-dialog.component';
 import { SecurityGroupManagerExistingGroupComponent } from './vm-creation/components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
 import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/components/security-group-rules-manager/vm-creation-security-group-rules-manager.component';
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
@@ -199,7 +199,7 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     SecondaryIpListComponent,
     NicFieldsComponent,
     PostdeploymentComponent,
-    VmResetPasswordComponent,
+    VmPasswordDialogComponent,
     ServiceOfferingSelectorComponent,
     VmPasswordComponent
   ],
@@ -223,7 +223,7 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     VmCreationSecurityGroupContainerComponent,
     VmCreationServiceOfferingContainerComponent,
     PostdeploymentComponent,
-    VmResetPasswordComponent,
+    VmPasswordDialogComponent,
     VmAccessComponent,
     ServiceOfferingDialogContainerComponent
   ]

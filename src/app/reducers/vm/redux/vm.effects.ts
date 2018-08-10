@@ -23,7 +23,7 @@ import { getPath, getPort, getProtocol, VirtualMachine, VmResourceType, VmState 
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
 // tslint:disable-next-line
-import { VmResetPasswordComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-reset-password.component';
+import { VmPasswordDialogComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-password-dialog.component';
 import { WebShellService } from '../../../vm/web-shell/web-shell.service';
 import { State } from '../../index';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
@@ -609,10 +609,10 @@ export class VirtualMachinesEffects {
             .switchMap((newVm) => {
               if (vmState === VmState.Running) {
                 return this.start(newVm)
-                  .do(() => this.showPasswordDialog(newVm));
+                  .do(() => this.showPasswordDialog(newVm, 'VM_PASSWORD.PASSWORD_HAS_BEEN_RESET'));
               }
-              this.showPasswordDialog(newVm);
-              return Observable.of(new vmActions.UpdateVM(newVm));
+              this.showPasswordDialog(newVm, 'VM_PASSWORD.PASSWORD_HAS_BEEN_RESET');
+              return of(new vmActions.UpdateVM(newVm));
             })
             .catch((error: Error) => {
               const message = 'NOTIFICATIONS.VM.RESET_PASSWORD_FAILED';
@@ -752,9 +752,12 @@ export class VirtualMachinesEffects {
   ) {
   }
 
-  private showPasswordDialog(vm: VirtualMachine) {
-    this.dialog.open(VmResetPasswordComponent, {
-      data: vm,
+  private showPasswordDialog(vm: VirtualMachine, translationToken: string) {
+    this.dialog.open(VmPasswordDialogComponent, {
+      data: {
+        vm,
+        translationToken
+      },
       width: '400px'
     });
   }
@@ -768,9 +771,12 @@ export class VirtualMachinesEffects {
       'NOTIFICATIONS.VM.START_IN_PROGRESS');
     this.update(vm, VmState.InProgress);
     return this.vmService.command(vm, CSCommands.Start)
-      .do(() => {
+      .do((runningVm) => {
         const message = 'NOTIFICATIONS.VM.START_DONE';
         this.showNotificationsOnFinish(message, notificationId);
+        if (runningVm.password) {
+          this.showPasswordDialog(runningVm, 'VM_PASSWORD.PASSWORD_HAS_BEEN_SET');
+        }
       })
       .map((newVm) => new vmActions.UpdateVM(new VirtualMachine(
         Object.assign({}, vm, newVm))))
