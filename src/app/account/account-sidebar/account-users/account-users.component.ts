@@ -48,9 +48,7 @@ export class AccountUsersComponent {
   public onUserChangePassword(user) {
     this.dialog.open(AccountUserPasswordFormContainerComponent, {
       width: '375px',
-      data: {
-        userId: user.id
-      }
+      data: { user }
     })
       .afterClosed()
       .subscribe(() => this.setStep(user.id));
