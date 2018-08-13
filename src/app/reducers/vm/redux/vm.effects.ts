@@ -631,7 +631,7 @@ export class VirtualMachinesEffects {
     ofType<vmActions.SaveVMPassword>(vmActions.SAVE_VM_PASSWORD),
     map(action => action.payload),
     mergeMap(({ vm, password }) => this.vmTagService.setPassword(vm, password).pipe(
-      map(() => new vmActions.SaveVMPasswordSuccess({ vm, password })),
+      map(() => new vmActions.SaveVMPasswordSuccess({ vmId: vm.id, password })),
       catchError((error) => of(new vmActions.SaveVMPasswordError({ error })))
     ))
   );

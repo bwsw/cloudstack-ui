@@ -1,13 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash/cloneDeep';
@@ -51,7 +42,6 @@ export class TagsViewComponent implements OnInit, OnChanges {
   public showSystemTags = false;
 
   constructor(
-    private cd: ChangeDetectorRef,
     private dialog: MatDialog,
     private store: Store<State>
   ) {
@@ -106,7 +96,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public onShowSystemTagsChange(): void {
     this.updateFilterResults();
-    this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags}));
+    this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags }));
   }
 
   public removeTag(tag: Tag): void {
@@ -120,7 +110,6 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public updateFilterResults(): void {
     this.visibleCategories = this.getFilterResults();
-    this.cd.detectChanges();
   }
 
   private getFilterResults(): Array<TagCategory> {
