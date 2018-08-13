@@ -10,7 +10,7 @@ import { layoutActions, layoutSelectors, State } from '../../../root-store';
   styleUrls: ['top-bar.component.scss']
 })
 export class TopBarComponent {
-  public isShowSidenav$ = this.store.select(layoutSelectors.getIsShowSidenav);
+  public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
 
   constructor(
     @Optional() private listService: ListService,

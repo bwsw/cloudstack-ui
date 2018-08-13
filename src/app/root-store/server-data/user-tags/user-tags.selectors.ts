@@ -76,10 +76,10 @@ export const getIsShowSystemTags = createSelector(
   }
 );
 
-export const getIsShowSidenav = createSelector(
+export const isSidenavVisible = createSelector(
   getUserTagsEntities,
   (entities): boolean => {
-    const value = entities[userTagKeys.showSidenav].value;
+    const value = entities[userTagKeys.sidenavVisible].value;
     return convertToBoolean(value);
   }
 );

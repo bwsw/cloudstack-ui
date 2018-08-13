@@ -76,7 +76,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
   }
 
   public closeSidenav(): void {
-    this.store.dispatch(new layoutActions.CloseSidenav);
+    this.store.dispatch(new layoutActions.CloseSidenav());
   }
 
   public toggleEditing(): void {

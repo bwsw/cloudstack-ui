@@ -15,7 +15,7 @@ import * as serviceOfferingActions from '../reducers/service-offerings/redux/ser
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
-  public showSidenav$ = this.store.select(layoutSelectors.getIsShowSidenav);
+  public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
 
   constructor(
     private auth: AuthService,

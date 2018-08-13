@@ -42,8 +42,8 @@ export class SystemTagsService {
           value: `${this.configService.get<number>('sessionTimeout')}`
         },
         {
-          key: userTagKeys.showSidenav,
-          value: `${this.configService.get<boolean>('showSidenav')}`
+          key: userTagKeys.sidenavVisible,
+          value: `${this.configService.get<boolean>('isSidenavVisible')}`
         },
         {
           key: userTagKeys.showSystemTags,

@@ -1,6 +1,6 @@
 <div class="top-bar">
   <div
-    *ngIf="!(isShowSidenav$ | async)"
+    *ngIf="!(isSidenavVisible$ | async)"
     class="drawer-button"
     (click)="openSidenav()"
   >

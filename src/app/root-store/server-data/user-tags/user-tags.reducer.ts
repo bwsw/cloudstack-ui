@@ -49,12 +49,12 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     }
 
     case UserTagsActionTypes.OpenSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.showSidenav, changes: { value: 'true' } };
+      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'true' } };
       return adapter.updateOne(update, state);
     }
 
     case UserTagsActionTypes.CloseSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.showSidenav, changes: { value: 'false '} };
+      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'false '} };
       return adapter.updateOne(update, state);
     }
 

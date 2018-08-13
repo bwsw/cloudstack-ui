@@ -266,13 +266,13 @@ export class UserTagsEffects {
   @Effect({ dispatch: false })
   openSidenav$: Observable<Action> = this.actions$.pipe(
     ofType<OpenSidenav>(UserTagsActionTypes.OpenSidenav),
-    mergeMap(() => this.upsertTag(userTagKeys.showSidenav, 'true'))
+    mergeMap(() => this.upsertTag(userTagKeys.sidenavVisible, 'true'))
   );
 
   @Effect({ dispatch: false })
   closeSidenav$: Observable<Action> = this.actions$.pipe(
     ofType<CloseSidenav>(UserTagsActionTypes.CloseSidenav),
-    mergeMap(() => this.upsertTag(userTagKeys.showSidenav, 'false'))
+    mergeMap(() => this.upsertTag(userTagKeys.sidenavVisible, 'false'))
   );
 
   private readonly resourceType = 'User';
