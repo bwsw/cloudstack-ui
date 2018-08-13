@@ -111,7 +111,6 @@ export class ServiceOfferingListComponent implements OnChanges {
 
   private onShowFieldsChange(showFields: SimpleChange) {
     const radio = 'radioButton';
-    console.log('show', showFields);
     if (!showFields) {
       return;
     }
