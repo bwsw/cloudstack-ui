@@ -130,7 +130,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
             this.routes.forEach((
               route,
               i
-            ) => route.enabled = (!this.canEdit || (this.canEdit && order[i].enabled)));
+            ) => route.visible = (!this.canEdit || (this.canEdit && order[i].visible)));
           }
       });
     } else {
@@ -144,10 +144,19 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
 
   public setUpRoutes() {
     if (this.canEdit) {
-      const defaultOrder = this.configService.get<Array<string>>('configureSidebar');
+      const sidenavList = this.configService.get<Array<string>>('sidenavList');
+      const configureSidenav = this.configService.get<Array<{link: string, visible: boolean}>>('configureSidenav');
+      const defaultOrder = sidenavList.map(nav => {
+        const configuredNav = configureSidenav.find(_ => _.link === nav);
+        return configuredNav || { link: nav, visible: false };
+      });
+
       if (defaultOrder) {
-        this.routes = this.routes.filter(route =>
-          defaultOrder.some(orderElement => orderElement.toUpperCase() === route.id));
+        this.routes.forEach(route => {
+          const element = defaultOrder.find(orderElement => orderElement.link.toUpperCase() === route.id);
+          route.visible = element && element.visible;
+          return route;
+        });
       }
     }
   }
@@ -158,7 +167,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     }
 
     return order.every(el =>
-        el.enabled != null && el.id != null && !!this.routes.find(route => route.id === el.id));
+      el.id != null && !!this.routes.find(route => route.id === el.id));
   }
 
   private navigationPredicate(order: NavigationItem[]) {
@@ -168,7 +177,7 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
 
   private stringifyMenuState(routes: NavigationItem[]): string {
     return routes
-      .map(el => `${el.id}:${+el.enabled}`)
+      .map(el => `${el.id}:${+el.visible}`)
       .join(';');
   }
 
@@ -177,10 +186,10 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
       .split(';')
       .filter(Boolean)
       .map((menuElement: string) => {
-        const [id, enabled] = menuElement.split(':');
+        const [id, visible] = menuElement.split(':');
         return {
           id,
-          enabled: enabled === '1'
+          visible: visible === '1'
         }
       });
   }

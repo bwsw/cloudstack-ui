@@ -117,7 +117,7 @@ export const defaultConfig: ConfigInterface = {
    * Menu settings
    */
   allowReorderingSidebar: true,
-  configureSidebar: [
+  sidenavList: [
     'vms',
     'volumes',
     'templates',
@@ -126,6 +126,16 @@ export const defaultConfig: ConfigInterface = {
     'ssh',
     'accounts',
     'settings'
+  ],
+  configureSidenav: [
+    { link: 'vms', visible: true },
+    { link: 'volumes', visible: true},
+    { link: 'templates', visible: true},
+    { link: 'sgs', visible: true},
+    { link: 'events', visible: true},
+    { link: 'ssh', visible: true},
+    { link: 'accounts', visible: true},
+    { link: 'settings', visible: true}
   ],
   /*
    * Service offering setting

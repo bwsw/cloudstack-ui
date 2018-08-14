@@ -222,20 +222,35 @@ You can set a type of comparing and ignoring VM tags, when changing service offe
 ```
 
 ### Configure Sidebar
-This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
-For example, 
+This configuration allows a user to set a list of left-sidebar sections. Configure possible if property “allowReorderingSidebar” is true and property "sidenavList" for full list of left-sidebar sections was set.
+Full list of left-sidebar sections:
 ```
-"configureSidebar": [
-  "vms",
-  "volumes",
-  "templates",
-  "sgs",
-  "events",
-  "ssh",
-  "accounts",
- "settings"
+"sidenavList":
+[
+   "vms",
+   "volumes",
+   "templates",
+   "sgs",
+   "events",
+   "ssh",
+   "accounts",
+   "settings"
+ ]
+```
+Section configuration:
+```
+"configureSidenav": [
+  {link: "vms" , visible: true},
+  {link: "volumes" , visible: true},
+  {link: "templates" , visible: true},
+  {link: "sgs" , visible: true},
+  {link: "events" , visible: true},
+  {link: "ssh" , visible: true},
+  {link: "accounts" , visible: true},
+  {link: "settings" , visible: false}
 ]
 ```
+If the property from the sidenavList is not present in the configureSidenav, then the default value will be "visible: false".
 
 ### Default First Day Of Week
 Allows you to predefine the setting of the first day in the app. Possible values: 
