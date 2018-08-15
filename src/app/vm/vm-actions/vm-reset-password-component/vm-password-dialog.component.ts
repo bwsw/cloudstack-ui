@@ -10,21 +10,22 @@ import { VirtualMachine } from '../../shared/vm.model';
   templateUrl: 'vm-reset-password.component.html',
   styleUrls: ['vm-reset-password.component.scss']
 })
-export class VmResetPasswordComponent {
+export class VmPasswordDialogComponent {
   public message;
   public vm: VirtualMachine;
 
   constructor(
-    public dialogRef: MatDialogRef<VmResetPasswordComponent>,
+    public dialogRef: MatDialogRef<VmPasswordDialogComponent>,
     private translateService: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.vm = data;
+    this.vm = data.vm;
+    const { translationToken } = data;
+
     this.message = {
-      translationToken: 'DIALOG_MESSAGES.VM.PASSWORD_DIALOG_MESSAGE',
+      translationToken,
       interpolateParams: {
         vmName: this.vm.name,
-        vmPassword: this.vm.password,
       }
     };
   }
