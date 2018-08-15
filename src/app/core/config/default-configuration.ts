@@ -156,6 +156,7 @@ export const defaultConfig: ConfigInterface = {
    // The application will ask him about autosave passwords and set the value based on the user's choice.
   savePasswordForAllVMs: null,
   lastVMId: 1,
+  isSidenavVisible: true,
   showSystemTags: false,
   navigationOrder: ''
 };

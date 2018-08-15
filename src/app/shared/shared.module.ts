@@ -101,7 +101,6 @@ import { ErrorService } from './services/error.service';
 import { HypervisorService } from './services/hypervisor.service';
 import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
-import { LayoutService } from './services/layout.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
 import { OsTypeService } from './services/os-type.service';
@@ -329,7 +328,6 @@ const SHARED_COMPONENTS = [
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,
-    LayoutService,
     LocalStorageService,
     LoginGuard,
     MarkForRemovalService,
