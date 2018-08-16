@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ConfigService } from '../config';
+import { ConfigService } from '../config/config.service';
 import { Tag } from '../../shared/models';
 import { userTagKeys } from '../../tags/tag-keys';
 
