@@ -33,6 +33,7 @@ import { AppComponent } from './app.component';
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { ConfigService, SystemTagsService } from './core/services';
+import { ConfigValidationService } from './core/config';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -43,13 +44,17 @@ export function InitAppFactory(
   http: HttpClient,
   translateService: TranslateService,
   configService: ConfigService,
+  configValidationService: ConfigValidationService,
   store: Store<State>,
   systemTagsService: SystemTagsService
 ) {
   return () => http.get('config/config.json').toPromise()
     .then(
-      data => configService.initialize(data),
-      () => configService.initialize()
+      data => {
+        const validConfig = configValidationService.validate(data);
+        configService.setConfig(validConfig);
+      },
+      () => {}
     )
     .then(() => translateService.setDefaultLang(configService.get('defaultInterfaceLanguage')))
     .then(() => auth.initUser())
@@ -101,7 +106,15 @@ export function InitAppFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,
-      deps: [AuthService, HttpClient, TranslateService, ConfigService, Store, SystemTagsService],
+      deps: [
+        AuthService,
+        HttpClient,
+        TranslateService,
+        ConfigService,
+        ConfigValidationService,
+        Store,
+        SystemTagsService
+      ],
       multi: true
     },
     {

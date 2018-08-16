@@ -1,4 +1,4 @@
-import { ConfigInterface } from './config-interface';
+import { Config, CustomizableConfig, NonCustomizableConfig } from './config.interface';
 
 const COLORS = [
   {
@@ -81,8 +81,7 @@ const COLORS = [
   }
 ];
 
-
-export const defaultConfig: ConfigInterface = {
+export const customizableProperties: Readonly<CustomizableConfig> = {
   /*
    * General
    */
@@ -146,17 +145,19 @@ export const defaultConfig: ConfigInterface = {
   ],
   offeringAvailability: {
     'filterOfferings': false
-  },
-  /*
-   * Non-user configurable parameters
-   */
+  }
+};
+
+export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
   askToCreateVM: true,
   askToCreateVolume: true,
-   // null means that the user has not yet set this option.
-   // The application will ask him about autosave passwords and set the value based on the user's choice.
+  // null means that the user has not yet set this option.
+  // The application will ask him about autosave passwords and set the value based on the user's choice.
   savePasswordForAllVMs: null,
   lastVMId: 1,
   isSidenavVisible: true,
   showSystemTags: false,
   navigationOrder: ''
 };
+
+export const defaultConfig: Readonly<Config> = {...customizableProperties, ...nonCustomizableProperties};
