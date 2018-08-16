@@ -3,11 +3,14 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DefaultCustomServiceOfferingRestrictions, ServiceOffering } from '../../../shared/models';
+// tslint:disable max-line-length
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { ConfigService } from '../../../core/services';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
 import * as accountTagActions from '../../account-tags/redux/account-tags.actions';
 import * as serviceOfferingActions from './service-offerings.actions';
+
+// tslint:enable max-line-length
 
 @Injectable()
 export class ServiceOfferingEffects {
