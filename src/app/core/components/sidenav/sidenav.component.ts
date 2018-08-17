@@ -1,16 +1,15 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { DragulaService } from 'ng2-dragula';
 import * as cloneDeep from 'lodash/cloneDeep';
 
-
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
-import { ConfigService } from '../../../shared/services/config.service';
-import { LayoutService } from '../../../shared/services/layout.service';
+import { ConfigService } from '../../services';
 import { RouterUtilsService } from '../../../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
+import { layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 
 
 @Component({
@@ -19,7 +18,7 @@ import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from 
   styleUrls: ['./sidenav.component.scss'],
   animations: [transformHandle, transformLinks]
 })
-export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit, OnInit, OnDestroy {
+export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDestroy {
   @ViewChild('navigationBar') public navigationBar: ElementRef;
   @Input() public open: boolean;
   @Input() public title: string;
@@ -38,10 +37,9 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
   constructor(
     private configService: ConfigService,
     private dragula: DragulaService,
-    private layoutService: LayoutService,
     private routerUtilsService: RouterUtilsService,
     private router: Router,
-    private userTagService: UserTagService
+    private store: Store<State>
   ) {
     super();
   }
@@ -50,12 +48,6 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     this.setUpRoutes();
     this.setUpDragula();
     this.initNavigationOrder();
-  }
-
-  public ngAfterViewInit(): void {
-    this.layoutService.drawerToggled
-      .takeUntil(this.unsubscribe$)
-      .subscribe(() => this.toggleDrawer());
   }
 
   public ngOnDestroy(): void {
@@ -83,8 +75,8 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
     return new Date().getFullYear().toString();
   }
 
-  public toggleDrawer(): void {
-    this.layoutService.toggleDrawer();
+  public closeSidenav(): void {
+    this.store.dispatch(new layoutActions.CloseSidenav());
   }
 
   public toggleEditing(): void {
@@ -96,10 +88,8 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
       this.updatingOrder = true;
 
       const menuState = this.stringifyMenuState(this.routes);
-      this.userTagService
-        .setNavigationOrder(menuState)
-        .finally(() => (this.updatingOrder = false))
-        .subscribe();
+      this.store.dispatch(new UserTagsActions.UpdateNavigationOrder({ value: menuState }));
+      this.updatingOrder = false;
     }
     this.toggleState();
   }
@@ -120,10 +110,12 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
 
   private initNavigationOrder() {
     if (this.canEdit) {
-      this.userTagService.getNavigationOrder().subscribe(tag => {
-        this.navigationLoaded = true;
-        if (tag) {
+      this.store.select(UserTagsSelectors.getNavigationOrder)
+        .do(() => this.navigationLoaded = true)
+        .filter(Boolean)
+        .subscribe(tag => {
           const order = this.parseMenuState(tag);
+
           if (this.validateNavigationOrder(order)) {
             const predicate = this.navigationPredicate(order);
             this.routes.sort(predicate);
@@ -132,7 +124,6 @@ export class SidenavComponent extends WithUnsubscribe() implements AfterViewInit
               i
             ) => route.enabled = (!this.canEdit || (this.canEdit && order[i].enabled)));
           }
-        }
       });
     } else {
       this.navigationLoaded = true;

@@ -6,7 +6,7 @@ import { StorageTypes } from '../models/offering.model';
 import { ServiceOffering } from '../models/service-offering.model';
 import { Zone } from '../models/zone.model';
 import { CacheService } from './cache.service';
-import { ConfigService } from './config.service';
+import { ConfigService } from '../../core/services';
 import { ErrorService } from './error.service';
 import { OfferingAvailability } from './offering.service';
 import { ResourcesData } from './resource-usage.service';

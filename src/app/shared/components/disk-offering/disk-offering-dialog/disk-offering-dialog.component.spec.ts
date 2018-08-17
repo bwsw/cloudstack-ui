@@ -3,7 +3,7 @@ import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testi
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatRadioModule, MatTableModule } from '@angular/material';
-import { ConfigService } from '../../../services/config.service';
+import { ConfigService } from '../../../../core/services';
 
 import { DiskOfferingDialogComponent } from './disk-offering-dialog.component';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';

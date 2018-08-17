@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../core/services';
 import { VirtualMachine } from '../shared/vm.model';
 import { VmService } from '../shared/vm.service';
 

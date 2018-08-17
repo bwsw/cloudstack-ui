@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Language } from '../../app/shared/services/language.service';
+import { Language } from '../../app/shared/types';
 
 
 export class MockTranslateService {

@@ -7,8 +7,7 @@ import { BaseBackendCachedService } from './base-backend-cached.service';
 
 @Injectable()
 @BackendResource({
-  entity: 'Hypervisor',
-  entityModel: Hypervisor
+  entity: 'Hypervisor'
 })
 export class HypervisorService extends BaseBackendCachedService<Hypervisor> {
   constructor(

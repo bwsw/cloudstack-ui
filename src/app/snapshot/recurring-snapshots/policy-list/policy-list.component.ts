@@ -10,10 +10,10 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { MatTableDataSource } from '@angular/material';
 
-import { TimeFormat } from '../../../shared/services/language.service';
 import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { PolicyViewBuilderService } from './policy-view-builder.service';
 import { PolicyType } from '../snapshot-policy-type';
+import { TimeFormat } from '../../../shared/types';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 

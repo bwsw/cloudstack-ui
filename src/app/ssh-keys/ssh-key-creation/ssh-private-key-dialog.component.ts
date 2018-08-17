@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../core/services';
 
 
 @Component({
@@ -15,10 +15,10 @@ export class SshPrivateKeyDialogComponent {
   ) { }
 
   public onCopySuccess(): void {
-    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
+    this.notificationService.open('CLIPBOARD.COPY_SUCCESS').subscribe();
   }
 
   public onCopyFail(): void {
-    this.notificationService.open('CLIPBOARD.COPY_FAIL');
+    this.notificationService.open('CLIPBOARD.COPY_FAIL').subscribe();
   }
 }

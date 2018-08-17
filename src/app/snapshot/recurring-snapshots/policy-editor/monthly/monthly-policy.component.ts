@@ -1,16 +1,10 @@
-import {
-  Component,
-  forwardRef,
-  Input
-} from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as isEqual from 'lodash/isEqual';
 import * as range from 'lodash/range';
-import { TimeFormat } from '../../../../shared/services/language.service';
+
 import { Time } from '../../time-picker/time-picker.component';
+import { TimeFormat } from '../../../../shared/types';
 
 
 export interface MonthlyPolicy extends Time {
@@ -47,7 +41,8 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
     this.writeValue(this.policy);
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   @Input()
   public get policy(): MonthlyPolicy {
@@ -71,7 +66,8 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {
+  }
 
   public writeValue(value: any): void {
     if (value != null) {

@@ -1,16 +1,18 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { Http } from '@angular/http';
-
+import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import { Converter } from 'showdown';
+
 import { TemplateTagService } from '../../../../shared/services/tags/template-tag.service';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
-import { UserTagService } from '../../../../shared/services/tags/user-tag.service';
+import { State, UserTagsSelectors } from '../../../../root-store';
 
 
 @Component({
   selector: 'cs-vm-creation-template-agreement',
-  templateUrl: 'vm-creation-agreement.component.html'
+  templateUrl: 'vm-creation-agreement.component.html',
+  styleUrls: ['vm-creation-agreement.component.scss']
 })
 export class VmCreationAgreementComponent implements OnInit {
   private _agreement: string;
@@ -24,9 +26,9 @@ export class VmCreationAgreementComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<VmCreationAgreementComponent>,
-    private http: Http,
+    private http: HttpClient,
     private templateTagService: TemplateTagService,
-    private userTagService: UserTagService
+    private store: Store<State>
   ) {
     this.template = data;
   }
@@ -44,10 +46,10 @@ export class VmCreationAgreementComponent implements OnInit {
   }
 
   protected readFile() {
-    this.userTagService.getLang()
+    this.store.select(UserTagsSelectors.getInterfaceLanguage)
+      .first()
       .switchMap(res => this.templateTagService.getAgreement(this.template, res))
-      .switchMap(path => this.http.get(path))
-      .map(response => response.text())
+      .switchMap(path => this.http.get(path, { responseType: 'text' }))
       .map(text => {
         const converter = new Converter();
         return converter.makeHtml(text);

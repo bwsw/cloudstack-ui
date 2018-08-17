@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { MockSnackBarService } from '../../../testutils/mocks/mock-snack-bar.service';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../core/services';
 import { SecurityGroupService } from '../services/security-group.service';
 import { IPVersion, NetworkRuleType, SecurityGroup } from '../sg.model';
 import { SgRulesComponent } from './sg-rules.component';

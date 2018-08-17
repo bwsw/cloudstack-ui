@@ -14,7 +14,6 @@ import { ServiceOfferingModule } from '../service-offering/service-offering.modu
 import { SnapshotModule } from '../snapshot/snapshot.module';
 import { TagsModule } from '../tags/tags.module';
 import { TemplateModule } from '../template';
-
 // tslint:disable max-line-length
 import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.effects';
 import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
@@ -45,7 +44,7 @@ import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
-import { VmResetPasswordComponent } from './vm-actions/vm-reset-password-component/vm-reset-password.component';
+import { VmPasswordDialogComponent } from './vm-actions/vm-reset-password-component/vm-password-dialog.component';
 import { SecurityGroupManagerExistingGroupComponent } from './vm-creation/components/security-group-rules-manager/security-group-manager-existing-group/security-group-manager-existing-group.component';
 import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/components/security-group-rules-manager/vm-creation-security-group-rules-manager.component';
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
@@ -99,6 +98,8 @@ import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { WebShellService } from './web-shell/web-shell.service';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
+import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
+
 // tslint:enable max-line-length
 
 @NgModule({
@@ -118,7 +119,7 @@ import { ServiceOfferingSelectorComponent } from './vm-creation/components/servi
     TranslateModule,
     StoreModule.forFeature('virtualMachines', virtualMachineReducers),
     StoreModule.forFeature('accounts', accountReducers),
-    StoreModule.forFeature('account-tags', accountTagsReducers),
+    StoreModule.forFeature('tags', accountTagsReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
     StoreModule.forFeature('service-offering-class', serviceOfferingClassReducers),
@@ -198,8 +199,9 @@ import { ServiceOfferingSelectorComponent } from './vm-creation/components/servi
     SecondaryIpListComponent,
     NicFieldsComponent,
     PostdeploymentComponent,
-    VmResetPasswordComponent,
-    ServiceOfferingSelectorComponent
+    VmPasswordDialogComponent,
+    ServiceOfferingSelectorComponent,
+    VmPasswordComponent
   ],
   providers: [
     VmActionsService,
@@ -221,7 +223,7 @@ import { ServiceOfferingSelectorComponent } from './vm-creation/components/servi
     VmCreationSecurityGroupContainerComponent,
     VmCreationServiceOfferingContainerComponent,
     PostdeploymentComponent,
-    VmResetPasswordComponent,
+    VmPasswordDialogComponent,
     VmAccessComponent,
     ServiceOfferingDialogContainerComponent
   ]

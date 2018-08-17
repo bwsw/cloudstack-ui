@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { Volume } from '../../shared/models';
 import { DateTimeFormatterService } from '../../shared/services/date-time-formatter.service';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../core/services';
 import { VolumeService } from '../../shared/services/volume.service';
 
 

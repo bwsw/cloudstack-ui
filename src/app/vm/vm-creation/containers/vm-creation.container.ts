@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { State } from '../../../reducers';
+import { State, UserTagsSelectors } from '../../../root-store';
 import {
   AccountResourceType,
   AffinityGroup,
@@ -207,8 +207,8 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   private getDefaultVmName(): Observable<string> {
-    return this.virtualMachineService.getNumberOfVms().map(numberOfVms => {
-      return `vm-${this.authService.user.username}-${numberOfVms + 1}`;
-    });
+    return this.store.select(UserTagsSelectors.getLastVMId)
+      .first()
+      .map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`);
   }
 }
