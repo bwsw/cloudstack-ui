@@ -8,7 +8,6 @@ import { TemplateTagService } from '../../shared/services/tags/template-tag.serv
 import { BaseTemplateService } from './base-template.service';
 import { Template } from './template.model';
 import { TemplateService } from './template.service';
-import { BaseTemplateModel } from './base-template.model';
 
 describe('Template service test', () => {
 
@@ -64,11 +63,10 @@ describe('Template service test', () => {
       entity: 'Template'
     };
     const template1 = params;
-    const template2 = Object.assign(
-      {},
-      params,
-      { tags: [{ key: TemplateTagKeys.group, value: 'group1' }] }
-    );
+    const template2 = {
+        ...params,
+      tags: [{ key: TemplateTagKeys.group, value: 'group1' }]
+    };
 
     const spySend = spyOn(testService, 'sendCommand').and.callFake(() => {
       return Observable.of({

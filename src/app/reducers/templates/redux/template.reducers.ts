@@ -349,9 +349,9 @@ export const selectFilteredTemplates = createSelector(
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const selfFilter = !!typesMap[TemplateFilters.self]
-        && (template.account === user.name && template.domainId === user.domainid);
-      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
-      const communityFilter = (typesMap[TemplateFilters.community] && template.isPublic && !template.isFeatured);
+        && (template.account === user.name && template.domainid === user.domainid);
+      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isfeatured);
+      const communityFilter = (typesMap[TemplateFilters.community] && template.ispublic && !template.isfeatured);
       return !listFilters.selectedTypes.length
         || selfFilter
         || featuredFilter
@@ -409,7 +409,7 @@ export const selectTemplatesForAction = createSelector(
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const selfFilter = !!typesMap[TemplateFilters.self]
-        && (template.account === user.name && template.domainId === user.domainid);
+        && (template.account === user.name && template.domainid === user.domainid);
       const featuredFilter = (typesMap[TemplateFilters.featured] && template.isfeatured);
       const communityFilter = (typesMap[TemplateFilters.community] && template.ispublic && !template.isfeatured);
       return !vmFilters.selectedTypes.length

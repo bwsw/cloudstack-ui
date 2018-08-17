@@ -45,7 +45,7 @@ export class TemplateCardListComponent {
   }
 
   public selectTemplate(template: BaseTemplateModel): void {
-    this.listService.showDetails(`${getPath(template)}/${template.id}`); // getPath(template)
+    this.listService.showDetails(`${getPath(template)}/${template.id}`);
   }
 
   public removeTemplate(template: Template): void {

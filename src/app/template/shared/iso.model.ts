@@ -1,8 +1,7 @@
 import { BaseTemplateModel } from './base-template.model';
-import { Taggable } from '../../shared/interfaces/taggable.interface';
 
 
-export interface Iso extends BaseTemplateModel, Taggable {
+export interface Iso extends BaseTemplateModel {
   bootable: boolean;
   checksum: string;
   size: number;

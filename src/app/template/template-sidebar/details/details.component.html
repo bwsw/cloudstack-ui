@@ -45,7 +45,7 @@
         </div>
         <div class="row">
           <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.CREATED' | translate }}</div>
-          <div>{{ entityCreated | stringifyDate }}</div>
+          <div>{{ templateCreated | stringifyDate }}</div>
         </div>
         <div *ngIf="entity.type" class="row">
           <div>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.TYPE' | translate }}</div>
@@ -58,18 +58,18 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <mat-card *ngIf="getDownloadUrl">
+  <mat-card *ngIf="downloadUrl(entity)">
     <mat-card-header>
       <mat-card-title><h2>{{ 'TEMPLATE_PAGE.TEMPLATE_DETAILS.DOWNLOAD_URL' | translate }}</h2></mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <cs-input-group class="full-width-input">
         <mat-form-field class="full-width-input" cs-input-group-textbox>
-          <input matInput [value]="entity?.downloadUrl" readonly>
+          <input matInput [value]="downloadUrl(entity)" readonly>
         </mat-form-field>
         <cs-clipboard-button
           cs-input-group-button
-          [value]="entity?.downloadUrl"
+          [value]="downloadUrl(entity)"
           tooltipPosition="below"
         ></cs-clipboard-button>
       </cs-input-group>

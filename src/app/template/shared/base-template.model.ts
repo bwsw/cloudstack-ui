@@ -28,13 +28,21 @@ export interface BaseTemplateModel extends BaseModelInterface, Taggable {
   osType: OsType;
   size: number;
   status: string;
-  tags: Array<Tag>;
   zoneid: string;
   zonename: string;
-  agreementAccepted?: boolean;
-
+  // custom
   zones?: Array<Partial<BaseTemplateModel>>;
+  agreementAccepted?: boolean;
 }
+
+export const isTemplate = (template: BaseTemplateModel): boolean =>
+  !(template && template.bootable !== undefined);
+
+export const resourceType = (template: BaseTemplateModel): TemplateResourceType =>
+  template && isTemplate(template) ? TemplateResourceType.Template : TemplateResourceType.Iso;
+
+export const getPath = (template: BaseTemplateModel) =>
+  template && isTemplate(template) ? 'template' : 'iso';
 
 export const downloadUrl = (template: BaseTemplateModel): string => {
   const tag = template.tags.find(_ => _.key === TemplateTagKeys.downloadUrl);
@@ -47,13 +55,4 @@ export const downloadUrl = (template: BaseTemplateModel): string => {
 export const sizeInGB = (template: BaseTemplateModel): number => {
   return Utils.convertToGb(template.size);
 };
-
-export const isTemplate = (template: BaseTemplateModel): boolean =>
-  template && template.bootable !== undefined ? false : true;
-
-export const resourceType = (template: BaseTemplateModel): TemplateResourceType =>
-  template && template.bootable !== undefined ? TemplateResourceType.Iso : TemplateResourceType.Template;
-
-export const getPath = (template: BaseTemplateModel) =>
-  template && template.bootable !== undefined ? 'iso' : 'template';
 
