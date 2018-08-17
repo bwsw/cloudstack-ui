@@ -5,7 +5,7 @@
     "AUTO": "Auto",
     "CANCEL": "Cancel",
     "CHANGE": "Change",
-    "CLEAR_ALL": "Clear all",
+    "CLEAR_COMPLETED": "Clear completed",
     "CLOSE": "CLOSE",
     "CONFIRM": "Confirm",
     "CREATE": "Create",
@@ -71,7 +71,6 @@
       "CONFIRM_EXPUNGE": "Are you sure you want to expunge this virtual machine?<br><b>This cannot be undone.</b>",
       "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
-      "PASSWORD_DIALOG_MESSAGE": "Password for {{ vmName }} has been reset to <b>{{ vmPassword }}</b>",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
       "CONFIRM_SAVE_PASSWORD": "Do you want to save a password for all VMs?"
     },
@@ -1689,5 +1688,10 @@
       "true": "Yes",
       "false": "No"
     }
+  },
+  "VM_PASSWORD": {
+    "VM_PASSWORD": "Virtual machine password",
+    "PASSWORD_HAS_BEEN_RESET": "Password for {{ vmName }} has been reset",
+    "PASSWORD_HAS_BEEN_SET": "Password for {{ vmName }} has been set"
   }
 }

@@ -1,20 +1,4 @@
-:host {
-  height: 100%;
-}
-
-.wrapper {
-  display: flex;
-  flex: 1 1 auto;
-  height: 100%;
-}
-
 mat-sidenav-container {
-  flex-grow: 1;
-  min-height: 100%;
-  height: auto !important;
-  max-width: 100%;
-  margin: 0;
-
   mat-sidenav {
     display: flex;
     flex-direction: column;

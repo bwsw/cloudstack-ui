@@ -487,7 +487,7 @@ export class SaveVMPassword implements Action {
 export class SaveVMPasswordSuccess implements Action {
   readonly type = SAVE_VM_PASSWORD_SUCCESS;
 
-  constructor(public payload: { vm: VirtualMachine, password: string }) {
+  constructor(public payload: { vmId: string, password: string }) {
   }
 }
 

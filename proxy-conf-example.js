@@ -1,4 +1,4 @@
-const CLOUDSTACK_ENDPOINT = 'https://example.com/';
+const CLOUDSTACK_ENDPOINT = 'https://example.com';
 /*
 * Plugins endpoint
 * https://github.com/bwsw/cloudstack-ui#plugins-supported

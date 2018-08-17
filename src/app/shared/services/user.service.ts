@@ -8,8 +8,7 @@ import { BaseBackendService, CSCommands } from './base-backend.service';
 
 @Injectable()
 @BackendResource({
-  entity: 'User',
-  entityModel: AccountUser
+  entity: 'User'
 })
 export class UserService extends BaseBackendService<AccountUser> {
   constructor(protected http: HttpClient) {

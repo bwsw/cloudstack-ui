@@ -11,7 +11,8 @@ import { State, UserTagsSelectors } from '../../../../root-store';
 
 @Component({
   selector: 'cs-vm-creation-template-agreement',
-  templateUrl: 'vm-creation-agreement.component.html'
+  templateUrl: 'vm-creation-agreement.component.html',
+  styleUrls: ['vm-creation-agreement.component.scss']
 })
 export class VmCreationAgreementComponent implements OnInit {
   private _agreement: string;
