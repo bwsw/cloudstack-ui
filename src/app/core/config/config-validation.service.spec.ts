@@ -6,6 +6,7 @@ describe('ConfigValidationService', () => {
 
   beforeEach(() => {
     configValidationService = new ConfigValidationService();
+    spyOn(console, 'warn').and.stub();
   });
 
   it('should return a config with all properties', () => {
@@ -59,7 +60,6 @@ describe('ConfigValidationService', () => {
   });
 
   it('should log a warning message to the console if a user\'s key is unknown', () => {
-    spyOn(console, 'warn');
     const config = {
       noSuchProperty: true
     };
@@ -68,7 +68,6 @@ describe('ConfigValidationService', () => {
   });
 
   it('should log a warning message to the console if a user\'s value is incorrect', () => {
-    spyOn(console, 'warn');
     const config = {
       defaultFirstDayOfWeek: 'monday'
     };
@@ -77,7 +76,6 @@ describe('ConfigValidationService', () => {
   });
 
   it('should log a warning message to the console if a user\'s config is incorrect', () => {
-    spyOn(console, 'warn');
     const config = 'defaultFirstDayOfWeek: "monday"';
     configValidationService.validate(config);
     expect(console.warn).toHaveBeenCalledTimes(1);
