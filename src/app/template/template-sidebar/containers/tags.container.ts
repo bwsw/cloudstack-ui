@@ -58,7 +58,7 @@ export class TagsContainerComponent {
   private createTag(template: Template, keyValuePair: KeyValuePair): Tag {
     return {
       resourceid: template.id,
-      resourcetype: 'Template',
+      resourcetype: template.resourceType,
       key: keyValuePair.key,
       value: keyValuePair.value,
       account: template.account,
