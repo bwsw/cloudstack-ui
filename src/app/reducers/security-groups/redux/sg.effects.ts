@@ -16,10 +16,7 @@ import * as securityGroup from './sg.actions';
 import * as fromSecurityGroups from './sg.reducers';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
-import { map } from 'rxjs/operators/map';
-import { tap } from 'rxjs/operators/tap';
-import { mergeMap } from 'rxjs/operators/mergeMap';
-import { catchError } from 'rxjs/operators/catchError';
+import { map, tap, mergeMap, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class SecurityGroupEffects {
