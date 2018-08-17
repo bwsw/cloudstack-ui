@@ -22,6 +22,7 @@
   cs-input-group {
     mat-form-field {
       padding-top: 0.2em;
+      max-width: 100px;
 
       /deep/ div.mat-input-infix {
         width: auto !important;
