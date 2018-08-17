@@ -115,7 +115,7 @@ export function reducer(
 }
 
 
-export const getAccountTagsState = createFeatureSelector<AccountTagsState>('account-tags');
+export const getAccountTagsState = createFeatureSelector<AccountTagsState>('tags');
 
 export const getAccountTagsEntitiesState = createSelector(
   getAccountTagsState,

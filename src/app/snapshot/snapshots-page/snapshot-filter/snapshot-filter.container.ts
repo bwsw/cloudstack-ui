@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
+
 import { State } from '../../../reducers';
 import { Snapshot, SnapshotType } from '../../../shared/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { FilterService } from '../../../shared/services/filter.service';
-import { LanguageService } from '../../../shared/services/language.service';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
+import { UserTagsSelectors } from '../../../root-store'
 
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
 import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.actions';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
-import * as moment from 'moment';
 
 const getGroupName = (snapshot: Snapshot) => {
   return snapshot.domain !== 'ROOT'
@@ -54,15 +55,15 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
   readonly query$ = this.store.select(fromSnapshots.filterQuery);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
   readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
-  readonly firstDayOfWeek = this.language.getFirstDayOfWeek();
+  readonly firstDayOfWeek = this.store.select(UserTagsSelectors.getFirstDayOfWeek);
 
   private filterService = new FilterService({
-    accounts: { type: 'array', defaultOption: [] },
-    types: { type: 'array', defaultOption: [] },
-    date: { type: 'string', defaultOption: moment().toString() },
-    groupings: { type: 'array', defaultOption: [] },
-    query: { type: 'string' }
-  },
+      accounts: { type: 'array', defaultOption: [] },
+      types: { type: 'array', defaultOption: [] },
+      date: { type: 'string', defaultOption: moment().toString() },
+      groupings: { type: 'array', defaultOption: [] },
+      query: { type: 'string' }
+    },
     this.router,
     this.storage,
     FILTER_KEY,
@@ -109,7 +110,6 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     private router: Router,
     private storage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
-    private language: LanguageService,
     private authService: AuthService
   ) {
     super();

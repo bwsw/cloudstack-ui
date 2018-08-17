@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { isOfferingLocal, Offering } from '../models/offering.model';
 import { Zone } from '../models';
 import { BaseBackendService } from './base-backend.service';
-import { ConfigService } from './config.service';
+import { ConfigService } from '../../core/services';
 
 
 export interface OfferingAvailability {

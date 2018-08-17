@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource } from '@angular/material';
 import { DiskOffering } from '../../../models';
-import { ConfigService } from '../../../services/config.service';
+import { ConfigService } from '../../../../core/services';
 import * as moment from 'moment';
 
 @Component({

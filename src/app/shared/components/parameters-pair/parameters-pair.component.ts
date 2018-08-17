@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'cs-parameters-pair',
@@ -13,14 +12,6 @@ export class ParametersPairComponent {
   @Input() public canBeCopy = false;
   @Output() public onButtonClicked = new EventEmitter();
 
-  constructor(private notificationService: SnackBarService) {
-  }
-
-  public onCopySuccess(): void {
-    this.notificationService.open('CLIPBOARD.COPY_SUCCESS');
-  }
-
-  public onCopyFail(): void {
-    this.notificationService.open('CLIPBOARD.COPY_FAIL');
+  constructor() {
   }
 }

@@ -9,7 +9,7 @@ import { SecurityGroupService } from '../../../security-group/services/security-
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { getType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
 import { State } from '../../index';
 import * as securityGroup from './sg.actions';
@@ -176,7 +176,7 @@ export class SecurityGroupEffects {
   }
 
   private showNotificationsOnFinish(message: string) {
-    this.snackBarService.open(message);
+    this.snackBarService.open(message).subscribe();
   }
 
   private showNotificationsOnFail(error: any) {

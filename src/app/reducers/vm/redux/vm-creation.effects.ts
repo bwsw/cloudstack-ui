@@ -6,6 +6,8 @@ import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../..
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import { Actions, Effect } from '@ngrx/effects';
+import { MatDialog } from '@angular/material';
+
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 import {
@@ -17,7 +19,6 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmService } from '../../../vm/shared/vm.service';
-import { MatDialog } from '@angular/material';
 import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
@@ -26,15 +27,13 @@ import { ResourceUsageService } from '../../../shared/services/resource-usage.se
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { TagService } from '../../../shared/services/tags/tag.service';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
+import { SnackBarService } from '../../../core/services';
+import { UserTagsActions } from '../../../root-store';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -180,10 +179,7 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.template) {
-        if (resourceType(action.payload.template) === TemplateResourceType.template) {
-          const rootDiskSize = Utils.convertToGb(action.payload.template.size);
-          return new vmActions.VmFormUpdate({ rootDiskSize });
-        } else if (!vmCreationState.diskOffering) {
+        if (resourceType(action.payload.template) !== TemplateResourceType.template && !vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
         }
       }
@@ -275,8 +271,8 @@ export class VirtualMachineCreationEffects {
                 temporaryVm.state = VmState.Deploying;
                 this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
 
-                return this.vmService.incrementNumberOfVms()
-                  .switchMap(() => this.vmService.registerVmJob(deployResponse));
+                this.store.dispatch(new UserTagsActions.IncrementLastVMId());
+                return this.vmService.registerVmJob(deployResponse);
               })
               .switchMap((deployedVm: VirtualMachine) => {
                 this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
@@ -302,12 +298,12 @@ export class VirtualMachineCreationEffects {
       this.handleDeploymentMessages(action.payload);
     });
 
-  @Effect({ dispatch: false })
+  @Effect()
   deploymentSuccess$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
-    .do((action: vmActions.DeploymentRequestSuccess) => {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED });
-    });
+    .ofType<vmActions.DeploymentRequestSuccess>(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
+    .do(() =>
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED }))
+    .map(action => new vmActions.LoadVirtualMachine({ id: action.payload.id }));
 
   @Effect()
   deploymentError$: Observable<Action> = this.actions$
@@ -343,8 +339,6 @@ export class VirtualMachineCreationEffects {
     private affinityGroupService: AffinityGroupService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private instanceGroupService: InstanceGroupService,
-    private tagService: TagService,
-    private userTagService: UserTagService,
     private vmTagService: VmTagService,
     private snackBar: SnackBarService
   ) {
@@ -513,7 +507,7 @@ export class VirtualMachineCreationEffects {
       id: this.deploymentNotificationId,
       message
     });
-    this.snackBar.open(message);
+    this.snackBar.open(message).subscribe();
   }
 
 
@@ -594,21 +588,6 @@ export class VirtualMachineCreationEffects {
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
     return this.vmTagService.copyTagsToEntity(state.template.tags, vm)
-      .switchMap(() => {
-        return this.userTagService.getSavePasswordForAllVms();
-      })
-      .switchMap((tag) => {
-        if (tag) {
-          return this.tagService.update(
-            vm,
-            VmResourceType,
-            VirtualMachineTagKeys.passwordTag,
-            vm.password
-          );
-        } else {
-          return Observable.of(null);
-        }
-      })
       .switchMap(() => {
         if (state.agreement) {
           return this.vmTagService.setAgreement(vm);

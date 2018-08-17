@@ -3,13 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
-import { SSHKeyPair } from '../../shared/models/ssh-keypair.model';
-import { SnackBarService } from '../../shared/services/snack-bar.service';
+import { SSHKeyPair } from '../../shared/models';
+import { ConfigService, SnackBarService } from '../../core/services';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
 import { State } from '../../reducers/index';
-import { ConfigService } from '../../shared/services/config.service';
 import { AccountTagService } from '../../shared/services/tags/account-tag.service';
 
 import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
@@ -21,16 +19,11 @@ import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
 export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
 
-  public get showDescription(): boolean {
-    return this.configService.get<boolean>('accountTagsEnabled');
-  }
-
   constructor(
     protected entityService: SSHKeyPairService,
     protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router,
-    protected userTagService: UserTagService,
     protected store: Store<State>,
     protected configService: ConfigService,
     protected accountTagService: AccountTagService
@@ -59,15 +52,10 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
             }
           })
           .switchMap(sshKeyPair => {
-            return this.showDescription ?
-               Observable.forkJoin(
+            return Observable.forkJoin(
                 Observable.of(sshKeyPair),
                 this.accountTagService.getSshKeyDescription(sshKeyPair)
               )
-            :
-              Observable.forkJoin(
-                Observable.of(sshKeyPair)
-              );
             })
           .map(([sshKeyPair, description]) => {
             this.description = description;

@@ -3,16 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
+import { AccountModule } from './account/accounts.module';
+import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { RootStoreModule, State, UserTagsActions } from './root-store';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
@@ -24,21 +24,15 @@ import { SnapshotModule } from './snapshot/snapshot.module';
 import { VolumeModule } from './volume';
 import { SshKeysModule } from './ssh-keys/ssh-keys.module';
 import { TemplateModule } from './template';
+import { AuthModule } from './auth/auth.module';
 import { VmModule } from './vm';
-import { AccountModule } from './account/accounts.module';
 
-import { AppComponent } from './app.component';
-import { routes } from './app.routing';
-import { LoginComponent } from './auth/login.component';
-import { LogoutComponent } from './auth/logout.component';
 import { HomeComponent } from './home/home.component';
+import { AppComponent } from './app.component';
+
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
-import { ConfigService } from './shared/services/config.service';
-import { LanguageService } from './shared/services/language.service';
-import { environment } from '../environments/environment';
-import { metaReducers, reducers } from './reducers/index';
-import { CustomRouterStateSerializer } from './shared/services/utils/utils.service';
+import { ConfigService, SystemTagsService } from './core/services';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -47,13 +41,21 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 export function InitAppFactory(
   auth: AuthService,
   http: HttpClient,
-  languageService: LanguageService,
-  configService: ConfigService
+  translateService: TranslateService,
+  configService: ConfigService,
+  store: Store<State>,
+  systemTagsService: SystemTagsService
 ) {
   return () => http.get('config/config.json').toPromise()
-    .then(data => configService.parse(data))
-    .then(() => languageService.applyLanguage(languageService.defaultLanguage))
-    .then(() => auth.initUser());
+    .then(
+      data => configService.initialize(data),
+      () => configService.initialize()
+    )
+    .then(() => translateService.setDefaultLang(configService.get('defaultInterfaceLanguage')))
+    .then(() => auth.initUser())
+    .then(() => store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({
+      tags: systemTagsService.getDefaultUserTags()
+    })));
 }
 
 @NgModule({
@@ -65,9 +67,12 @@ export function InitAppFactory(
     SharedModule,
     MaterialModule,
     BrowserAnimationsModule,
+    AppRoutingModule,
+    RootStoreModule,
     DialogModule,
     HttpClientModule,
     DragulaModule,
+    AuthModule,
     EventsModule,
     ScrollDispatchModule,
     SecurityGroupModule,
@@ -79,6 +84,7 @@ export function InitAppFactory(
     TemplateModule,
     VmModule,
     AccountModule,
+    NgIdleKeepaliveModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -86,31 +92,16 @@ export function InitAppFactory(
         deps: [HttpClient]
       }
     }),
-    RouterModule.forRoot(routes),
-    StoreModule.forRoot(reducers, { metaReducers }),
-
-    /**
-     * @ngrx/router-store keeps router state up-to-date in the store.
-     */
-    StoreRouterConnectingModule,
-
-
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-
-    EffectsModule.forRoot([]),
   ],
   declarations: [
     AppComponent,
-    LoginComponent,
-    LogoutComponent,
     HomeComponent
   ],
   providers: [
-    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,
-      deps: [AuthService, HttpClient, LanguageService, ConfigService],
+      deps: [AuthService, HttpClient, TranslateService, ConfigService, Store, SystemTagsService],
       multi: true
     },
     {

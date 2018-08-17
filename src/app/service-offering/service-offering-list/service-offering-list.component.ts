@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import { ICustomOfferingRestrictions, ServiceOffering, ServiceOfferingClass } from '../../shared/models';
-import { Language } from '../../shared/services/language.service';
 import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering/custom-service-offering';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
+import { Language } from '../../shared/types';
 
 @Component({
   selector: 'cs-service-offering-list',
@@ -111,7 +111,6 @@ export class ServiceOfferingListComponent implements OnChanges {
 
   private onShowFieldsChange(showFields: SimpleChange) {
     const radio = 'radioButton';
-    console.log('show', showFields);
     if (!showFields) {
       return;
     }

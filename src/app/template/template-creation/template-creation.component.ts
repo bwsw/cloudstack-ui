@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { Hypervisor, OsType, Zone } from '../../shared';
-import { Account, isRootAdmin } from '../../shared/models/account.model';
-import { Snapshot } from '../../shared/models/snapshot.model';
-import { TemplateGroup } from '../../shared/models/template-group.model';
+import { Account, isRootAdmin, Snapshot, TemplateGroup } from '../../shared/models';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { Language } from '../../shared/services/language.service';
 import { CreateTemplateBaseParams, TemplateResourceType } from '../shared/base-template.service';
+import { Language } from '../../shared/types';
 
 interface TemplateFormat {
   name: string;

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Store } from '@ngrx/store';
-import { State } from '../reducers/index';
+
+import { layoutSelectors, State, UserTagsActions } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
-import { LayoutService } from '../shared/services/layout.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-import { getName } from '../shared/models/user.model';
+import { getName } from '../shared/models';
 import * as authActions from '../reducers/auth/redux/auth.actions';
 import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
 
@@ -16,16 +15,18 @@ import * as serviceOfferingActions from '../reducers/service-offerings/redux/ser
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
+  public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
 
   constructor(
     private auth: AuthService,
-    private layoutService: LayoutService,
     private store: Store<State>
   ) {
     super();
   }
 
   public ngOnInit(): void {
+    this.store.dispatch(new UserTagsActions.LoadUserTags());
+
     this.auth.loggedIn
       .takeUntil(this.unsubscribe$)
       .filter(isLoggedIn => !!isLoggedIn)
@@ -41,9 +42,5 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
 
   public get title(): string {
     return this.auth.user ? getName(this.auth.user) : '';
-  }
-
-  public get isDrawerOpen(): boolean {
-    return this.layoutService.drawerOpen;
   }
 }

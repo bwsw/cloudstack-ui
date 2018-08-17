@@ -1,15 +1,16 @@
-import '../style/app.scss';
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
 import { CacheService } from './shared/services/cache.service';
-import { LanguageService } from './shared/services/language.service';
 import { MemoryStorageService } from './shared/services/memory-storage.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
 import { UserService } from './shared/services/user.service';
 import { DateTimeFormatterService } from './shared/services/date-time-formatter.service';
-import { TranslateService } from '@ngx-translate/core';
+import { State, UserTagsSelectors } from './root-store';
 
 @Component({
   selector: 'cs-app',
@@ -19,50 +20,43 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent implements OnInit {
   constructor(
     private auth: AuthService,
-    private languageService: LanguageService,
     private dateTimeFormatterService: DateTimeFormatterService,
     private translateService: TranslateService,
     private asyncJobService: AsyncJobService,
     private sessionStorage: SessionStorageService,
     private memoryStorage: MemoryStorageService,
     private styleService: StyleService,
-    private userService: UserService
+    private userService: UserService,
+    private store: Store<State>
   ) {
   }
 
   public ngOnInit(): void {
-    this.languageService
-      .applyLanguage(this.languageService.defaultLanguage)
-      .subscribe();
-
-    this.auth.loggedIn.subscribe(isLoggedIn => {
-      if (isLoggedIn) {
-        this.userService.startIdleMonitor();
-        this.languageService.getTimeFormat()
-          .subscribe(timeFormat => {
-            this.dateTimeFormatterService.updateFormatters(timeFormat);
-          });
-        this.translateService.onLangChange
-          .switchMap(() => this.languageService.getTimeFormat())
-          .subscribe((format) =>
-            this.dateTimeFormatterService.updateFormatters(format)
-          );
-        this.loadSettings();
-      } else {
-        this.userService.stopIdleMonitor();
-      }
+    this.auth.loggedIn.subscribe(() => {
       this.asyncJobService.completeAllJobs();
       CacheService.invalidateAll();
       this.storageReset();
     });
+
+    this.configureInterface();
   }
 
-  private loadSettings(): void {
-    this.languageService.getLanguage()
-      .switchMap(language => this.languageService.applyLanguage(language))
-      .subscribe();
-    this.styleService.getTheme()
-      .subscribe(theme => this.styleService.updateTheme(theme));
+
+  private configureInterface() {
+    this.store.select(UserTagsSelectors.getInterfaceLanguage)
+      .subscribe(language => this.translateService.use(language));
+
+    this.store.select(UserTagsSelectors.getTimeFormat)
+      .subscribe(timeFormat => this.dateTimeFormatterService.updateFormatters(timeFormat));
+
+    this.store.select(UserTagsSelectors.getTheme)
+      .subscribe(themeName => this.styleService.useTheme(themeName));
+
+    this.translateService.onLangChange
+      .switchMap(() => this.store.select(UserTagsSelectors.getTimeFormat).first())
+      .subscribe((format) =>
+        this.dateTimeFormatterService.updateFormatters(format)
+      );
   }
 
   private storageReset() {

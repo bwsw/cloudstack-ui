@@ -207,7 +207,9 @@ For custom service offerings there can be predefined offering parameters: number
 ### Session Refresh Interval
 
 You can set interval for updating the session (_in seconds_):
-`"sessionRefreshInterval": 60,`
+```
+"sessionRefreshInterval": 60
+```
 
 ### Offering Compatibility Policy
 
@@ -217,13 +219,6 @@ You can set a type of comparing and ignoring VM tags, when changing service offe
  "offeringChangePolicy": "exactly-match",
  "offeringChangePolicyIgnoreTags": ["t1"]
 }
-```
-
-### Account Tags Enabled
-Account tags are available only for the last API version. If you are using another API version, the property should be false in config:
-
-```
-"accountTagsEnabled": false
 ```
 
 ### Configure Sidebar
@@ -240,6 +235,37 @@ For example,
   "accounts",
  "settings"
 ]
+```
+
+### Default First Day Of Week
+Allows you to predefine the setting of the first day in the app. Possible values: 
+- 0 - sunday
+- 1 - monday (default)
+
+For example, 
+```
+"defaultFirstDayOfWeek": 0
+```
+
+### Default Interface Language
+Allows you to predefine the setting of the app interface language. Possible values: 
+- "en" (default)
+- "ru"
+
+For example, 
+```
+"defaultInterfaceLanguage": "en"
+```
+
+### Default Time Format
+Allows you to predefine the setting of the time format. Possible values:
+- "auto" - value depends on the interface language (default)
+- "hour12" - 12-hour time
+- "hour24" - 24-hour time
+
+For example, 
+```
+"defaultTimeFormat": "hour24",
 ```
 
 ### Extensions

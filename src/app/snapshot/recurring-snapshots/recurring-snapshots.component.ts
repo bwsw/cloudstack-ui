@@ -1,24 +1,16 @@
-import {
-  Component,
-  forwardRef,
-  Inject,
-  OnInit
-} from '@angular/core';
+import { Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../shared/models';
-import {
-  LanguageService,
-  TimeFormat
-} from '../../shared/services/language.service';
-import {
-  Policy,
-  TimePolicy
-} from './policy-editor/policy-editor.component';
+import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { SnapshotPolicyService } from './snapshot-policy.service';
 import { PolicyType } from './snapshot-policy-type';
+import { TimeFormat } from '../../shared/types';
+import { State, UserTagsSelectors } from '../../root-store';
 
 
 @Component({
@@ -38,7 +30,7 @@ export class RecurringSnapshotsComponent implements OnInit {
   public policies: Array<Policy<TimePolicy>>;
   public loading: boolean;
 
-  readonly timeFormat$: Observable<TimeFormat> = this.languageService.getTimeFormat()
+  readonly timeFormat$: Observable<TimeFormat> = this.store.select(UserTagsSelectors.getTimeFormat)
     .map(format => {
       if (format === TimeFormat.hour24) {
         return format;
@@ -49,8 +41,8 @@ export class RecurringSnapshotsComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public volume: Volume,
     private dialogService: DialogService,
-    private languageService: LanguageService,
-    private snapshotPolicyService: SnapshotPolicyService
+    private snapshotPolicyService: SnapshotPolicyService,
+    private store: Store<State>
   ) {
     this.updatePolicies().subscribe();
   }
@@ -60,7 +52,8 @@ export class RecurringSnapshotsComponent implements OnInit {
     this.updatePolicies()
       .finally(() => this.loading = false)
       .subscribe(
-        () => {},
+        () => {
+        },
         error => this.onError(error)
       );
   }
@@ -81,7 +74,8 @@ export class RecurringSnapshotsComponent implements OnInit {
     })
       .switchMap(() => this.updatePolicies())
       .subscribe(
-        () => {},
+        () => {
+        },
         error => this.onError(error)
       );
   }
@@ -90,7 +84,8 @@ export class RecurringSnapshotsComponent implements OnInit {
     this.snapshotPolicyService.remove(policy.id)
       .switchMap(() => this.updatePolicies())
       .subscribe(
-        () => {},
+        () => {
+        },
         error => this.onError(error)
       );
   }

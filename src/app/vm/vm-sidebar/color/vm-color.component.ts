@@ -1,15 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Color } from '../../../shared/models';
-import { ConfigService } from '../../../shared/services/config.service';
+import { ConfigService } from '../../../core/services';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 

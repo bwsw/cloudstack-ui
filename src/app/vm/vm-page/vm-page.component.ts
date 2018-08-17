@@ -1,13 +1,14 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VirtualMachine } from '../shared/vm.model';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { Grouping, OsType, Volume } from '../../shared/models';
 import { NgrxEntities } from '../../shared/interfaces';
+import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
 
 @Component({
@@ -31,9 +32,9 @@ export class VmPageComponent implements OnInit {
   constructor(
     public listService: ListService,
     private dialogService: DialogService,
-    private userTagService: UserTagService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store: Store<State>
   ) {
   }
 
@@ -66,30 +67,31 @@ export class VmPageComponent implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    this.userTagService.getAskToCreateVm().subscribe(tag => {
-      if (tag === false) {
-        return;
-      }
-
-      this.dialogService.askDialog({
-        message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
-        actions: [
-          {
-            handler: () => this.showVmCreationDialog(),
-            text: 'COMMON.YES'
-          },
-          {
-            text: 'COMMON.NO'
-          },
-          {
-            handler: () => this.userTagService.setAskToCreateVm(false).subscribe(),
-            text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-          }
-        ],
-        disableClose: false,
-        width: '320px'
+    this.store.select(UserTagsSelectors.getIsAskToCreateVM)
+      .first()
+      .filter(Boolean)
+      .subscribe(tag => {
+        this.dialogService.askDialog({
+          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
+          actions: [
+            {
+              handler: () => this.showVmCreationDialog(),
+              text: 'COMMON.YES'
+            },
+            {
+              text: 'COMMON.NO'
+            },
+            {
+              handler: () => {
+                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
+              },
+              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
+            }
+          ],
+          disableClose: false,
+          width: '320px'
+        });
       });
-    });
   }
 
 }

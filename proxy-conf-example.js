@@ -1,4 +1,4 @@
-const CLOUDSTACK_ENDPOINT = 'https://example.com/';
+const CLOUDSTACK_ENDPOINT = 'https://example.com';
 /*
 * Plugins endpoint
 * https://github.com/bwsw/cloudstack-ui#plugins-supported
@@ -9,7 +9,6 @@ const WEBSHELL_PLUGIN_ENDPOINT = 'http://example.com:8082';
 function onProxyRes(proxyRes, req, res) {
   var cookies = proxyRes.headers[ 'set-cookie' ];
   var cookieRegex = /Secure/i;
-  console.log(cookies);
 
   if (cookies) {
     var newCookie = cookies.map(function (cookie) {

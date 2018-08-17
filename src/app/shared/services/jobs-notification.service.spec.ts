@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  async,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs/Subject';
 import { AuthService } from './auth.service';
-import {
-  INotificationStatus,
-  JobsNotificationService
-} from './jobs-notification.service';
+import { INotificationStatus, JobsNotificationService } from './jobs-notification.service';
 
 
 @Injectable()
@@ -33,21 +26,9 @@ describe('Jobs notification service', () => {
     expect(jobsNotificationService.notifications.length).toBe(1);
     expect(jobsNotificationService.notifications[0].message).toBe('new job');
 
-    jobsNotificationService.add({ id: '123', message: 'another job'});
+    jobsNotificationService.add('another job');
     expect(jobsNotificationService.notifications.length).toBe(2);
-    expect(jobsNotificationService.notifications[0].id).toBe('123');
     expect(jobsNotificationService.notifications[0].message).toBe('another job');
-  }));
-
-  it('should modify existing notification', inject([JobsNotificationService], jobsNotificationService => {
-    jobsNotificationService.reset();
-    jobsNotificationService.add({ id: '0', message: 'new job'});
-    jobsNotificationService.add({ id: '1', message: 'another job'});
-
-    expect(jobsNotificationService.notifications[0].status).toBe(INotificationStatus.Pending);
-
-    jobsNotificationService.add({ id: '1', status: INotificationStatus.Finished });
-    expect(jobsNotificationService.notifications[0].status).toBe(INotificationStatus.Finished);
   }));
 
   it('should update the status to "finished"', inject([JobsNotificationService], jobsNotifications => {
@@ -66,20 +47,22 @@ describe('Jobs notification service', () => {
     expect(jobsNotifications.notifications[0].status).toBe(INotificationStatus.Failed);
   }));
 
-  it('should remove notification by id', inject([JobsNotificationService], jobsNotificationService => {
+  it('should remove notification by id if it ends', inject([JobsNotificationService], jobsNotificationService => {
     jobsNotificationService.reset();
-    jobsNotificationService.add({ id: '0', message: 'new job'});
-    jobsNotificationService.add({ id: '1', message: 'another job'});
+    jobsNotificationService.add('new job');
+    const id = jobsNotificationService.add('another job');
 
     jobsNotificationService.remove('non-existent');
     expect(jobsNotificationService.notifications.length).toBe(2);
 
-    jobsNotificationService.add({ id: '0', status: INotificationStatus.Finished });
-    jobsNotificationService.remove('0');
+    jobsNotificationService.remove(id); // operation in pending state
+    expect(jobsNotificationService.notifications.length).toBe(2);
 
+    jobsNotificationService.finish({ id, message: 'done' });
+    jobsNotificationService.remove(id);
     expect(jobsNotificationService.notifications.length).toBe(1);
-    expect(jobsNotificationService.notifications[0].id).toBe('1');
-    expect(jobsNotificationService.notifications[0].message).toBe('another job');
+
+    expect(jobsNotificationService.notifications[0].message).toBe('new job');
   }));
 
   it('should remove all finished jobs', inject([JobsNotificationService], jobsNotificationService => {
@@ -88,8 +71,8 @@ describe('Jobs notification service', () => {
     const id2 = jobsNotificationService.add('another job');
     jobsNotificationService.add('another one');
 
-    jobsNotificationService.add({ id: id1, status: INotificationStatus.Finished });
-    jobsNotificationService.add({ id: id2, status: INotificationStatus.Finished });
+    jobsNotificationService.finish({ id: id1, message: 'done' });
+    jobsNotificationService.finish({ id: id2, message: 'done' });
 
     jobsNotificationService.removeCompleted();
 

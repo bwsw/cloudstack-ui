@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
 import { BaseTemplateModel } from '../../../shared/base-template.model';
 import { Mode } from '../../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
-import { TemplateGroup } from '../../../../shared/models/template-group.model';
-import { TranslateService } from '@ngx-translate/core';
-import { Language } from '../../../../shared/services/language.service';
+import { TemplateGroup } from '../../../../shared/models';
 import { getTemplateGroupId } from '../../../template-filter-list/template-filter-list.component';
+import { Language } from '../../../../shared/types';
 
 
 @Component({
