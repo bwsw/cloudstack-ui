@@ -38,6 +38,8 @@ export interface Snapshot extends Taggable, BaseModelInterface {
   tags: Array<Tag>;
   state: SnapshotStates;
   revertable: boolean;
+  account?: string;
+  domain?: string;
 }
 
 export const getDateSnapshotCreated = (snapshot: Snapshot) => {

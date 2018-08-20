@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
+import { VirtualMachine, VmResourceType, ColorDelimeter } from '../../../vm/shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { Color } from '../../models/color.model';
 import { Tag } from '../../models/tag.model';
@@ -29,7 +29,7 @@ export class VmTagService implements EntityTagService {
   public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
     let tagValue = color.value;
     if (color.textColor) {
-      tagValue += `${';'}${color.textColor}`;
+      tagValue += `${ColorDelimeter}${color.textColor}`;
     }
     return this.tagService.update(
       vm,
@@ -115,7 +115,7 @@ export class VmTagService implements EntityTagService {
 
   private getColorFromColorTag(colorTag: Tag): Color {
     if (colorTag) {
-      const [backgroundColor, textColor] = colorTag.value.split(';');
+      const [backgroundColor, textColor] = colorTag.value.split(ColorDelimeter);
       return new Color(backgroundColor, backgroundColor, textColor || '');
     }
     return new Color('white', '#FFFFFF', '');
