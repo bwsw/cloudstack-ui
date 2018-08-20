@@ -9,9 +9,14 @@ import { customizableProperties, defaultConfig } from './default-configuration';
 import { Config } from './config.interface';
 import * as validationSchemes from './validation-schemes';
 
+enum ErrorType {
+  InvalidConfig,
+  InvalidKey,
+  InvalidValue
+}
 
 abstract class ValidationError {
-  protected constructor(public readonly message: string) {
+  protected constructor(readonly type: ErrorType, readonly message: string) {
   }
 
   public getErrorText(): string {
@@ -22,7 +27,7 @@ abstract class ValidationError {
 class InvalidConfigError extends ValidationError {
   constructor() {
     const message = 'Incorrect configuration file structure.\nThe default configuration is used.';
-    super(message);
+    super(ErrorType.InvalidConfig, message);
   }
 }
 
@@ -31,7 +36,7 @@ class InvalidKeyError extends ValidationError {
 
   constructor(key: string) {
     const message = `Unknown configuration property "${key}".`;
-    super(message);
+    super(ErrorType.InvalidKey, message);
     this.key = key;
   }
 }
@@ -41,7 +46,7 @@ class InvalidValueError extends ValidationError {
 
   constructor(key: string, message: string) {
     const extendedMessage = `"${key}" property: ${message}.\nThe default value is used.`;
-    super(extendedMessage);
+    super(ErrorType.InvalidValue, extendedMessage);
     this.key = key;
   }
 }
@@ -132,11 +137,11 @@ export class ConfigValidationService {
   }
 
   private getKeyErrors(errors: ValidationError[]): InvalidKeyError[] {
-    return errors.filter(error => error instanceof InvalidKeyError) as InvalidKeyError[];
+    return errors.filter(error => error.type === ErrorType.InvalidKey) as InvalidKeyError[];
   }
 
   private getValueErrors(errors: ValidationError[]): InvalidValueError[] {
-    return errors.filter(error => error instanceof InvalidValueError) as InvalidValueError[];
+    return errors.filter(error => error.type === ErrorType.InvalidValue) as InvalidValueError[];
   }
 
   private printErrors(errors: ValidationError[]) {
