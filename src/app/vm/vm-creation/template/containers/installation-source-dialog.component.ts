@@ -27,7 +27,7 @@ import * as templateActions from '../../../../reducers/templates/redux/template.
       (selectedGroupsChange)="onSelectedGroupsChange($event)"
       (queryChange)="onQueryChange($event)"
       (cancel)="onCancel()"
-      (select)="onSelect($event)"
+      (selectionChange)="onSelect($event)"
     ></cs-vm-creation-template-dialog>
   `
 })

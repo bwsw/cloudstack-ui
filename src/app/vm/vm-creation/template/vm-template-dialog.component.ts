@@ -28,7 +28,7 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   @Output() selectedGroupsChange = new EventEmitter<string[]>();
   @Output() queryChange = new EventEmitter<string>();
   @Output() cancel = new EventEmitter<boolean>();
-  @Output() select = new EventEmitter<BaseTemplateModel>();
+  @Output() selectionChange = new EventEmitter<BaseTemplateModel>();
 
   public selectedTemplate: BaseTemplateModel;
 
