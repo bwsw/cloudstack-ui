@@ -1,35 +1,35 @@
 import { VirtualMachine, VmState } from '../../app/vm';
 
-export const vm: VirtualMachine = new VirtualMachine({
+export const vm: VirtualMachine = <VirtualMachine>{
   id: 'e3a74eef-46bf-4d77-90e2-fef2c5470ced',
   name: 'vm-admin-12',
-  displayName: 'vm-admin-12',
+  displayname: 'vm-admin-12',
   account: 'admin',
   domainid: '931b7464-63aa-11e8-946f-0242ac110002',
   domain: 'ROOT',
   created: '2018-08-08T04:57:08+0000',
   state: VmState.Running,
-  zoneId: 'd40f917e-b553-4daa-bc4a-77393a27076e',
-  zoneName: 'Sandbox-simulator',
+  zoneid: 'd40f917e-b553-4daa-bc4a-77393a27076e',
+  zonename: 'Sandbox-simulator',
   template: undefined,
-  templateId: 'af729204-63aa-11e8-946f-0242ac110002',
-  templateName: 'CentOS 5.6 (64-bit) no GUI (Simulator)',
-  passwordEnabled: false,
+  templateid: 'af729204-63aa-11e8-946f-0242ac110002',
+  templatename: 'CentOS 5.6 (64-bit) no GUI (Simulator)',
+  passwordenabled: false,
   serviceOffering: undefined,
-  serviceOfferingId: '5549f95c-1f14-4690-9f79-00e439fa3ac8',
-  serviceOfferingName: 'Small Offering',
-  cpuNumber: 1,
-  cpuSpeed: 2000,
+  serviceofferingid: '5549f95c-1f14-4690-9f79-00e439fa3ac8',
+  serviceofferingname: 'Small Offering',
+  cpunumber: 1,
+  cpuspeed: 2000,
   memory: 512,
-  cpuUsed: '10%',
-  networkKbsRead: 3997696,
-  networkKbsWrite: 1998848,
-  diskKbsRead: 0,
-  diskKbsWrite: 0,
-  diskIoRead: 0,
-  diskIoWrite: 0,
-  guestOsId: '930438a9-63aa-11e8-946f-0242ac110002',
-  securityGroup: [
+  cpuused: '10%',
+  networkkbsread: 3997696,
+  networkkbswrite: 1998848,
+  diskkbsread: 0,
+  diskkbswrite: 0,
+  diskioread: 0,
+  diskiowrite: 0,
+  guestosid: '930438a9-63aa-11e8-946f-0242ac110002',
+  securitygroup: [
     {
       id: '67dd0d1b-7b55-11e8-967a-0242ac110002',
       name: 'default',
@@ -68,7 +68,7 @@ export const vm: VirtualMachine = new VirtualMachine({
       virtualmachineid: undefined
     }
   ],
-  affinityGroup: [],
+  affinitygroup: [],
   tags: [
     {
       key: 'any',
@@ -98,4 +98,4 @@ export const vm: VirtualMachine = new VirtualMachine({
       domain: 'ROOT'
     }
   ]
-});
+};
