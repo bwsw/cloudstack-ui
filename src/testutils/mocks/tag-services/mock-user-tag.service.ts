@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs/Observable';
-import { Color } from '../../../app/shared/models/color.model';
-import { Language, TimeFormat } from '../../../app/shared/services/language.service';
-import { DayOfWeek } from '../../../app/shared/types/day-of-week';
+import { Color } from '../../../app/shared/models';
+import { DayOfWeek, Language, TimeFormat } from '../../../app/shared/types';
 
 
 interface UserIdObject {

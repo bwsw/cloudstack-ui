@@ -41,7 +41,7 @@
         </mat-card-header>
         <mat-card-content *loading="fetching">
           <div
-            *ngFor="let bar of stat.bars; first as f; last as l"
+            *ngFor="let bar of stat.bars; first as f; last as language"
             class="bar"
             [class.single-bar]="f && l"
           >

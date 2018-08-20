@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { ConfigService } from './config.service';
-import { UserTagService } from './tags/user-tag.service';
 
-interface Theme {
+export interface Theme {
   name: string;
   href: string;
   primaryColor: string;
@@ -29,34 +26,8 @@ export class StyleService {
   public styleElement: HTMLLinkElement;
   private _activeTheme: Theme;
 
-  constructor(
-    private configService: ConfigService,
-    private userTagService: UserTagService
-  ) {
+  constructor() {
     this.initStyleSheet();
-  }
-
-  public getTheme(): Observable<Theme> {
-    const defaultThemeName =
-      this.configService.get<string>('defaultThemeName');
-    return this.userTagService.getTheme()
-      .map(themeName => {
-        let theme = themes.find(t => t.name === themeName);
-        if (!theme) {
-          // if the tag has incorrect theme name, we fallback to default theme
-          // from the config
-          theme = themes.find(t => t.name === defaultThemeName);
-        }
-
-        // if the config has incorrect theme name too, we just grab the first one
-
-        return theme || preferredTheme;
-      });
-  }
-
-  public setTheme(theme: Theme): Observable<string> {
-    this.updateTheme(theme);
-    return this.userTagService.setTheme(theme.name);
   }
 
   private initStyleSheet(): void {
@@ -81,5 +52,10 @@ export class StyleService {
       styleElement.href = theme.href;
     }
     this._activeTheme = theme;
+  }
+
+  public useTheme(themeName: string) {
+    const newTheme = themes.find(theme => theme.name === themeName);
+    this.updateTheme(newTheme);
   }
 }

@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TimeFormat } from '../../../../shared/services/language.service';
+
 import { DayPeriodName } from '../../day-period/day-period.component';
 import { Time } from '../../time-picker/time-picker.component';
+import { TimeFormat } from '../../../../shared/types'
 
 
 export type DailyPolicy = Time;
@@ -35,15 +36,18 @@ export class DailyPolicyComponent implements ControlValueAccessor {
     this.propagateChange(this.policy);
   }
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef) {
+  }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {
+  }
 
   public writeValue(value: any): void {
     if (value) {

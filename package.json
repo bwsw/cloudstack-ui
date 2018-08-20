@@ -29,6 +29,8 @@
     "@angular/platform-browser-dynamic": "5.1.0",
     "@angular/platform-server": "5.1.0",
     "@angular/router": "5.2.0",
+    "@ng-idle/core": "2.0.0-beta.15",
+    "@ng-idle/keepalive": "2.0.0-beta.15",
     "@ngrx/effects": "5.2.0",
     "@ngrx/entity": "5.2.0",
     "@ngrx/router-store": "5.2.0",

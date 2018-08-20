@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Account } from '../../../shared/models';
 import { AccountService } from '../../../shared/services/account.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { SnackBarService } from '../../../core/services';
 import { UserService } from '../../../shared/services/user.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
@@ -235,7 +235,7 @@ export class AccountsEffects {
         message
       });
     }
-    this.snackBarService.open(message);
+    this.snackBarService.open(message).subscribe();
   }
 
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {

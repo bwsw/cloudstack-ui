@@ -1,14 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
+
 import { getLogin, getPassword, isHttpAuthMode, VirtualMachine, VmState } from '../../shared/vm.model';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
-import { TagService } from '../../../shared/services/tags/tag.service';
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { WebShellService } from '../../web-shell/web-shell.service';
 import { VmCreationComponent } from '../vm-creation.component';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
 @Component({
@@ -20,9 +17,6 @@ export class PostdeploymentComponent {
   @Input() public vm: VirtualMachine;
   @Input() public dialogRef: MatDialogRef<VmCreationComponent>;
   @Input() public title: string;
-
-  public canSavePassword: boolean;
-  public disableButton = false;
 
   public actions: any[] = [
     {
@@ -49,21 +43,10 @@ export class PostdeploymentComponent {
 
   constructor(
     private store: Store<State>,
-    private webShellService: WebShellService,
-    private dialogService: DialogService,
-    private tagService: TagService,
-    private userTagService: UserTagService
+    private webShellService: WebShellService
   ) {
-    this.userTagService.getSavePasswordForAllVms().subscribe(tag => {
-      this.canSavePassword = !tag;
-    });
   }
 
-  public getPassword() {
-    const pass = this.vm.tags.find(tag => tag.key === VirtualMachineTagKeys.passwordTag);
-    const vmPass = this.vm && this.vm.password || pass && pass.value;
-    return vmPass !== 'undefined' ? vmPass : false;
-  }
 
   public isHttpAuthMode(vm): boolean {
     return isHttpAuthMode(vm);
@@ -75,17 +58,5 @@ export class PostdeploymentComponent {
 
   public getUrlPassword(vm) {
     return getPassword(vm);
-  }
-
-  public savePassword() {
-    this.disableButton = true;
-    this.store.dispatch(new vmActions.SaveNewPassword({
-      vm: this.vm,
-      tag: {
-        key: VirtualMachineTagKeys.passwordTag,
-        value: this.vm.password
-      }
-    }));
-    this.canSavePassword = false;
   }
 }

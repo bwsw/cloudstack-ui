@@ -3,7 +3,7 @@ import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { InstanceGroup } from '../../../shared/models';
+import { InstanceGroup, Tag } from '../../../shared/models';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -175,6 +175,20 @@ export function listReducer(
       return {
         ...adapter.removeOne(action.payload.id, state),
       };
+    }
+
+    case vmActions.SAVE_VM_PASSWORD_SUCCESS: {
+      const { vmId, password } = action.payload;
+      const passwordTag: Tag = {
+        key: VirtualMachineTagKeys.passwordTag,
+        value: password
+      };
+      // vm tags are empty during this operation
+      const tags = state.entities[vmId].tags;
+      const tagsWithNewPassword: Tag[] = [...tags, passwordTag];
+      return {
+        ...adapter.updateOne({ id: vmId, changes: { tags: tagsWithNewPassword } }, state)
+      }
     }
 
     default: {
@@ -355,7 +369,7 @@ export const initialFormState: FormState = {
     doStartVm: true,
     instanceGroup: null,
     keyboard: KeyboardLayout.us,
-    rootDiskSize: 0,
+    rootDiskSize: null,
     rootDiskMinSize: 0,
     securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules()),
     serviceOffering: null,

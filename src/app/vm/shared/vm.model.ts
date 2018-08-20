@@ -98,7 +98,7 @@ export interface VirtualMachine extends BaseModelInterface, Taggable {
   osType: OsType;
   guestosid: string;
   // CUSTOM
-  pending: boolean;
+  pending?: boolean;
   // statistics
   cpuused: string;
   networkkbsread: number;

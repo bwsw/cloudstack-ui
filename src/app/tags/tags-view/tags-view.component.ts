@@ -1,23 +1,16 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
+
 import { categoryName, defaultCategoryName, keyWithoutCategory, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import { filterWithPredicates } from '../../shared/utils/filter';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
 
 export interface TagEditAction {
@@ -49,9 +42,8 @@ export class TagsViewComponent implements OnInit, OnChanges {
   public showSystemTags = false;
 
   constructor(
-    private cd: ChangeDetectorRef,
     private dialog: MatDialog,
-    private userTagService: UserTagService
+    private store: Store<State>
   ) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
@@ -59,7 +51,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.userTagService.getShowSystemTags()
+    this.store.select(UserTagsSelectors.getIsShowSystemTags)
       .subscribe(show => {
         this.showSystemTags = show;
         this.updateFilterResults();
@@ -104,9 +96,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public onShowSystemTagsChange(): void {
     this.updateFilterResults();
-    this.userTagService
-      .setShowSystemTags(this.showSystemTags)
-      .subscribe();
+    this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags }));
   }
 
   public removeTag(tag: Tag): void {
@@ -120,7 +110,6 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public updateFilterResults(): void {
     this.visibleCategories = this.getFilterResults();
-    this.cd.detectChanges();
   }
 
   private getFilterResults(): Array<TagCategory> {
@@ -162,12 +151,11 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   private getCategories(): Array<TagCategory> {
     const groupedTags = groupBy(
-      this.tags.map(_ => Object.assign({}, _, {categoryName: categoryName(_)})),
-      'categoryName');
+      this.tags.map(tag => ({ ...tag, categoryName: categoryName(tag) })), 'categoryName');
 
     const categories = Object.keys(groupedTags)
       .map(categoryName => this.getCategory(groupedTags, categoryName))
-      .filter(_ => _.tags.length);
+      .filter(category => category.tags.length);
 
     categories.sort(this.compareCategories);
 

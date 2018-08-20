@@ -1,13 +1,14 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Grouping, Volume } from '../../shared/models';
 import { ListService } from '../../shared/components/list/list.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VmService } from '../../vm/shared/vm.service';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
-
+import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
 @Component({
   selector: 'cs-volume-page',
@@ -29,8 +30,9 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
-    private userTagService: UserTagService,
-    private vmService: VmService) {
+    private vmService: VmService,
+    private store: Store<State>
+  ) {
     super();
   }
 
@@ -91,12 +93,10 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
       return;
     }
 
-    this.userTagService.getAskToCreateVolume()
-      .subscribe(tag => {
-        if (tag === false) {
-          return;
-        }
-
+    this.store.select(UserTagsSelectors.getIsAskToCreateVolume)
+      .first()
+      .filter(Boolean)
+      .subscribe(() => {
         this.dialogService.askDialog({
           message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VOLUME',
           actions: [
@@ -106,7 +106,9 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
             },
             { text: 'COMMON.NO' },
             {
-              handler: () => this.userTagService.setAskToCreateVolume(false).subscribe(),
+              handler: () => {
+                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVolume({ value: false }))
+              },
               text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
             }
           ],
