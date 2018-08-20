@@ -5,7 +5,7 @@ import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TemplateTagKeys } from './template-tag-keys';
 import { TemplateGroup } from '../../models/template-group.model';
-import { TemplateResourceType } from '../../../template/shared/base-template.model';
+import { resourceType } from '../../../template/shared/base-template.model';
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class TemplateTagService implements EntityTagService {
   ): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
-      this.getResourceType(template),
+      resourceType(template),
       this.keys.downloadUrl,
       downloadUrl
     );
@@ -33,7 +33,7 @@ export class TemplateTagService implements EntityTagService {
   ): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
-      this.getResourceType(template),
+      resourceType(template),
       this.keys.group,
       group && group.id
     );
@@ -62,9 +62,5 @@ export class TemplateTagService implements EntityTagService {
     }
 
     return Observable.of(this.tagService.getValueFromTag(agreement) || null);
-  }
-
-  public getResourceType(template: BaseTemplateModel): TemplateResourceType {
-    return template && template.bootable !== undefined ? TemplateResourceType.Iso : TemplateResourceType.Template;
   }
 }

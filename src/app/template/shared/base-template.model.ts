@@ -39,10 +39,10 @@ export const isTemplate = (template: BaseTemplateModel): boolean =>
   !(template && template.bootable !== undefined);
 
 export const resourceType = (template: BaseTemplateModel): TemplateResourceType =>
-  template && isTemplate(template) ? TemplateResourceType.Template : TemplateResourceType.Iso;
+  isTemplate(template) ? TemplateResourceType.Template : TemplateResourceType.Iso;
 
 export const getPath = (template: BaseTemplateModel) =>
-  template && isTemplate(template) ? 'template' : 'iso';
+  isTemplate(template) ? 'template' : 'iso';
 
 export const downloadUrl = (template: BaseTemplateModel): string => {
   const tag = template.tags.find(_ => _.key === TemplateTagKeys.downloadUrl);
