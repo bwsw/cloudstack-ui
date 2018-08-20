@@ -31,7 +31,7 @@ import { VirtualMachine, VmState } from '../shared/vm.model';
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [isVmRunning]="isVmRunning()"
-      [serviceOfferingId]="virtualMachine.serviceOfferingId"
+      [serviceOfferingId]="virtualMachine.serviceofferingid"
       [restrictions]="customOfferingRestrictions$ | async"
       [defaultParams]="defaultParams$ | async"
       (onServiceOfferingChange)="changeServiceOffering($event)"
