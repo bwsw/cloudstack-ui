@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { delay, filter, first, map } from 'rxjs/operators';
+import { delay, filter, first, map, mergeMap } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
@@ -11,6 +11,7 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 import { Grouping, OsType, Volume } from '../../shared/models';
 import { NgrxEntities } from '../../shared/interfaces';
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
+import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 
 
 @Component({
@@ -61,13 +62,25 @@ export class VmPageComponent implements OnInit {
   }
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
-    return this.store.select(UserTagsSelectors.getIsAskToCreateVM).pipe(
-      first(),
-      map(isAskToCreateVM => isAskToCreateVM && !this.vms.length && !this.isCreateVmInUrl)
+    const isAsk$ = this.store.select(UserTagsSelectors.getIsAskToCreateVM);
+    const vmCount$ = this.store.select(fromVMs.getVMCount);
+    const dataReceivedAndUpdated$ = Observable.combineLatest(
+      this.store.select(fromVMs.isLoading),
+      this.store.select(fromVMs.isLoaded)
+    ).pipe(
+      map(([loading, loaded]) => !loading && loaded),
+      filter(Boolean),
+      first()
+    );
+
+    return dataReceivedAndUpdated$.pipe(
+      mergeMap(() => Observable.zip(isAsk$, vmCount$).pipe(
+        map(([isAsk, vmCount]) => isAsk && vmCount === 0 && !this.isCreationFormOpen)
+      ))
     );
   }
 
-  private get isCreateVmInUrl(): boolean {
+  private get isCreationFormOpen(): boolean {
     return (
       this.activatedRoute.children.length &&
       this.activatedRoute.children[0].snapshot.url[0].path === 'create'

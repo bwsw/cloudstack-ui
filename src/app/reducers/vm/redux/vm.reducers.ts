@@ -30,6 +30,7 @@ import * as affinityGroupActions from '../../affinity-groups/redux/affinity-grou
  */
 export interface State extends EntityState<VirtualMachine> {
   loading: boolean,
+  loaded: boolean,
   selectedVMId: string,
   filters: {
     selectedZoneIds: string[],
@@ -86,6 +87,7 @@ export const adapter: EntityAdapter<VirtualMachine> = createEntityAdapter<Virtua
  */
 export const initialListState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
   selectedVMId: null,
   filters: {
     selectedZoneIds: [],
@@ -148,7 +150,8 @@ export function listReducer(
     case vmActions.LOAD_VMS_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
-        loading: false
+        loading: false,
+        loaded: true
       };
     }
 
@@ -208,12 +211,17 @@ export const {
   selectIds,
   selectEntities,
   selectAll,
-  selectTotal,
+  selectTotal: getVMCount,
 } = adapter.getSelectors(getVMsEntitiesState);
 
 export const isLoading = createSelector(
   getVMsEntitiesState,
   state => state.loading
+);
+
+export const isLoaded = createSelector(
+  getVMsEntitiesState,
+  state => state.loaded
 );
 
 export const getSelectedId = createSelector(

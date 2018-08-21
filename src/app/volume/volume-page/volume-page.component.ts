@@ -2,7 +2,7 @@ import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { delay, filter, first, map } from 'rxjs/operators';
+import { delay, filter, first, map, mergeMap } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Grouping, Volume } from '../../shared/models';
@@ -11,6 +11,8 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VmService } from '../../vm/shared/vm.service';
 import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-switch.component';
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
+import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
+
 
 @Component({
   selector: 'cs-volume-page',
@@ -85,13 +87,25 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
-    return this.store.select(UserTagsSelectors.getIsAskToCreateVolume).pipe(
-      first(),
-      map(isAskToCreateVolume => isAskToCreateVolume && !this.volumes.length && !this.isCreateVolumeInUrl)
+    const isAsk$ = this.store.select(UserTagsSelectors.getIsAskToCreateVolume);
+    const volumesCount$ = this.store.select(fromVolumes.getVolumesCount);
+    const dataReceivedAndUpdated$ = Observable.combineLatest(
+      this.store.select(fromVolumes.isLoading),
+      this.store.select(fromVolumes.isLoaded)
+    ).pipe(
+      map(([loading, loaded]) => !loading && loaded),
+      filter(Boolean),
+      first()
+    );
+
+    return dataReceivedAndUpdated$.pipe(
+      mergeMap(() => Observable.zip(isAsk$, volumesCount$).pipe(
+        map(([isAsk, volumeCount]) => isAsk && volumeCount === 0 && !this.isCreationFormOpen)
+      ))
     );
   }
 
-  private get isCreateVolumeInUrl(): boolean {
+  private get isCreationFormOpen(): boolean {
     return this.activatedRoute.children.length
       && this.activatedRoute.children[0].snapshot.url[0].path === 'create';
   }
