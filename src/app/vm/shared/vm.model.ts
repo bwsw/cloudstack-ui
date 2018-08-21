@@ -1,8 +1,7 @@
 import { SecurityGroup } from '../../security-group/sg.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import {
-  BaseModelInterface, InstanceGroup, NIC, OsType, ServiceOffering, Tag,
-  Volume
+  BaseModelInterface, InstanceGroup, NIC, OsType, ServiceOffering, Volume
 } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
