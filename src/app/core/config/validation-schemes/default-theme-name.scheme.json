@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "DefaultThemeName",
+  "$id": "defaultThemeName",
   "type": "string",
   "enum": [
     "blue-red",
