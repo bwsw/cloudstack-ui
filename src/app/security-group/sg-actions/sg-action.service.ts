@@ -11,13 +11,15 @@ const SecurityGroupConvertAction = {
   name: 'SECURITY_GROUP_PAGE.ACTION.CONVERT',
   command: SecurityGroupActionType.Convert,
   icon: 'mdi-transfer',
-  canActivate: (securityGroup: SecurityGroup) => getType(securityGroup) === SecurityGroupType.Private
+  canShow: (securityGroup: SecurityGroup) => getType(securityGroup) === SecurityGroupType.Private,
+  canActivate: () => true
 };
 
 const SecurityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
   icon: 'mdi-delete',
+  canShow: () => true,
   canActivate: (securityGroup: SecurityGroup) =>
     getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0
 };
@@ -26,6 +28,7 @@ const SecurityGroupShowRulesAction = {
   name: 'SECURITY_GROUP_PAGE.ACTION.RULES',
   command: SecurityGroupActionType.View,
   icon: 'mdi-eye',
+  canShow: () => true,
   canActivate: () => true
 };
 
