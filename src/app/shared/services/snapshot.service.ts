@@ -33,8 +33,8 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     const params = this.getSnapshotCreationParams(volumeId, name);
     return this.sendCommand(CSCommands.Create, params)
       .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .switchMap((response: AsyncJob<any>) => {
-        const snapshot = response.jobresult.snapshot;
+      .switchMap((response: AsyncJob<Snapshot>) => {
+        const snapshot = response.jobresult['snapshot'];
 
         if (description) {
           return this.snapshotTagService.setDescription(snapshot, description);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachine, VmResourceType, ColorDelimeter } from '../../../vm/shared/vm.model';
+import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
 import { Observable } from 'rxjs/Observable';
 import { Color } from '../../models/color.model';
 import { Tag } from '../../models/tag.model';
@@ -10,6 +10,7 @@ import { DescriptionTagService } from './description-tag.service';
 import { VirtualMachineTagKeys } from './vm-tag-keys';
 import { Taggable } from '../../interfaces/taggable.interface';
 
+const ColorDelimeter = ';';
 
 @Injectable()
 export class VmTagService implements EntityTagService {

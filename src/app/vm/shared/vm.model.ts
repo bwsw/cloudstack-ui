@@ -63,9 +63,6 @@ export const isHttpAuthMode = (vm: VirtualMachine) => {
   return mode && vm.state === VmState.Running;
 };
 
-export const ColorDelimeter = ';';
-
-
 export interface VirtualMachine extends BaseModelInterface, Taggable {
   id: string;
   displayname: string;

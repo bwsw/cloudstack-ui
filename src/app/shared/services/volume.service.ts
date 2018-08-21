@@ -6,8 +6,6 @@ import { BackendResource } from '../decorators';
 import { Volume, isDeleted, VolumeCreationData } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService, CSCommands } from './base-backend.service';
-import { SnapshotService } from './snapshot.service';
-import { VolumeTagService } from './tags/volume-tag.service';
 import { AsyncJob } from '../models/async-job.model';
 
 export interface VolumeFromSnapshotCreationData {
@@ -35,8 +33,6 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   constructor(
     private asyncJobService: AsyncJobService,
-    private snapshotService: SnapshotService,
-    private volumeTagService: VolumeTagService,
     protected http: HttpClient
   ) {
     super(http);
@@ -93,14 +89,5 @@ export class VolumeService extends BaseBackendService<Volume> {
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
       )
       .switchMap((response: AsyncJob<Volume>) => Observable.of(response.jobresult['volume']));
-  }
-
-  public markForRemoval(volume: Volume): Observable<any> {
-    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(
-      snapshot));
-    return Observable.forkJoin(
-      ...observers,
-      this.volumeTagService.markForRemoval(volume)
-    );
   }
 }

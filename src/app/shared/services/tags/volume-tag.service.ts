@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Volume } from '../../models/volume.model';
 import { Observable } from 'rxjs/Observable';
-import { MarkForRemovalService } from './mark-for-removal.service';
 import { TagService } from './tag.service';
 import { DescriptionTagService } from './description-tag.service';
 import { VolumeTagKeys } from './volume-tag-keys';
@@ -14,7 +13,6 @@ export class VolumeTagService {
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
-    protected markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
   ) {
   }
@@ -34,9 +32,5 @@ export class VolumeTagService {
       VolumeResourceType,
       this
     ) as Observable<Volume>;
-  }
-
-  public markForRemoval(volume: Volume): Observable<Volume> {
-    return this.markForRemovalService.markForRemoval(volume) as Observable<Volume>;
   }
 }

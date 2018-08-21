@@ -6,7 +6,6 @@ import { Rules } from '../../shared/components/security-group-builder/rules';
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { ConfigService } from '../../core/services';
-import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
 import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
@@ -24,7 +23,6 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     protected http: HttpClient,
     private configService: ConfigService,
     private privateSecurityGroupCreation: PrivateSecurityGroupCreationService,
-    private securityGroupTagService: SecurityGroupTagService,
     private sharedSecurityGroupCreation: SharedSecurityGroupCreationService,
     private templateSecurityGroupCreation: TemplateSecurityGroupCreationService
   ) {
@@ -65,9 +63,5 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
           return Observable.throw(result);
         }
       });
-  }
-
-  public markForRemoval(securityGroup: SecurityGroup): Observable<any> {
-    return this.securityGroupTagService.markForRemoval(securityGroup);
   }
 }

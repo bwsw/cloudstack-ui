@@ -10,7 +10,6 @@ import { NetworkRuleService } from '../../../security-group/services/network-rul
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { ConfigService } from '../../../core/services';
-import { MarkForRemovalService } from '../../../shared/services/tags/mark-for-removal.service';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { VmCreationSecurityGroupService } from './vm-creation-security-group.service';
@@ -28,7 +27,6 @@ describe('VM creation security group service', () => {
         PrivateSecurityGroupCreationService,
         SharedSecurityGroupCreationService,
         SecurityGroupTagService,
-        MarkForRemovalService,
         TagService,
         AsyncJobService,
         NetworkRuleService

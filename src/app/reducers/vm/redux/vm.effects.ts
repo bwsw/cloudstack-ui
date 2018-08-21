@@ -778,8 +778,7 @@ export class VirtualMachinesEffects {
           this.showPasswordDialog(runningVm, 'VM_PASSWORD.PASSWORD_HAS_BEEN_SET');
         }
       })
-      .map((newVm: VirtualMachine) => new vmActions.UpdateVM(
-        { ...newVm }))
+      .map((newVm: VirtualMachine) => new vmActions.UpdateVM(newVm))
       .catch((error: Error) => {
         const message = 'NOTIFICATIONS.VM.START_FAILED';
         this.showNotificationsOnFail(error, message, notificationId);

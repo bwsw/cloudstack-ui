@@ -116,7 +116,6 @@ import { SSHKeyPairService } from './services/ssh-keypair.service';
 import { StyleService } from './services/style.service';
 import { AccountTagService } from './services/tags/account-tag.service';
 import { DescriptionTagService } from './services/tags/description-tag.service';
-import { MarkForRemovalService } from './services/tags/mark-for-removal.service';
 import { SecurityGroupTagService } from './services/tags/security-group-tag.service';
 import { SnapshotTagService } from './services/tags/snapshot-tag.service';
 import { TagService } from './services/tags/tag.service';
@@ -330,7 +329,6 @@ const SHARED_COMPONENTS = [
     JobsNotificationService,
     LocalStorageService,
     LoginGuard,
-    MarkForRemovalService,
     MemoryStorageService,
     OsTypeService,
     ResourceCountService,
