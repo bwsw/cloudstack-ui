@@ -1,15 +1,21 @@
-export interface ConfigInterface {
+export interface Config extends CustomizableConfig, NonCustomizableConfig {
+}
+
+export interface CustomizableConfig {
   /*
    * General
    */
   defaultDomain: string;
   sessionRefreshInterval: number;
   apiDocLink: string;
-  extensions: Object;
+  extensions: {
+    webShell: boolean,
+    pulse: boolean
+  };
   /*
    * Virtual machines settings
    */
-  vmColors: Array<any>;
+  vmColors: Array<{ value: string }>;
   /*
    * Firewall (Security groups) settings
    */
@@ -34,15 +40,15 @@ export interface ConfigInterface {
   /*
    * Service offering setting
    */
-  customOfferingRestrictions: Object;
-  defaultServiceOfferingConfig: Object;
-  offeringCompatibilityPolicy: Object;
+  customOfferingRestrictions: any;
+  defaultServiceOfferingConfig: any;
+  offeringCompatibilityPolicy: any;
   serviceOfferingClasses: Array<any>;
   diskOfferingParameters: Array<any>;
-  offeringAvailability: Object;
-  /*
-   * Non-user configurable parameters
-   */
+  offeringAvailability: any;
+}
+
+export interface NonCustomizableConfig {
   askToCreateVM: boolean;
   askToCreateVolume: boolean;
   savePasswordForAllVMs: boolean | null;

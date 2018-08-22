@@ -60,7 +60,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
   }
 
   public get canEdit(): boolean {
-    return this.configService.get<boolean>('allowReorderingSidebar');
+    return this.configService.get('allowReorderingSidebar');
   }
 
   public linkClick(routerLink: string): void {
@@ -136,7 +136,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
   public setUpRoutes() {
     if (this.canEdit) {
-      const defaultOrder = this.configService.get<Array<string>>('configureSidebar');
+      const defaultOrder = this.configService.get('configureSidebar');
       if (defaultOrder) {
         this.routes = this.routes.filter(route =>
           defaultOrder.some(orderElement => orderElement.toUpperCase() === route.id));

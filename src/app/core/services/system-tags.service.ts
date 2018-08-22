@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ConfigService } from './config.service';
+import { ConfigService } from '../config/config.service';
 import { Tag } from '../../shared/models';
 import { userTagKeys } from '../../tags/tag-keys';
 
@@ -13,53 +13,53 @@ export class SystemTagsService {
       return  [
         {
           key: userTagKeys.askToCreateVM,
-          value: `${this.configService.get<boolean>('askToCreateVM')}`
+          value: `${this.configService.get('askToCreateVM')}`
         },
         {
           key: userTagKeys.askToCreateVolume,
-          value: `${(this.configService.get<boolean>('askToCreateVolume'))}`
+          value: `${(this.configService.get('askToCreateVolume'))}`
         },
         {
           key: userTagKeys.savePasswordForAllVMs,
-          value: this.configService.get<boolean | null>('savePasswordForAllVMs') === null
+          value: this.configService.get('savePasswordForAllVMs') === null
             ? null
-            : `${this.configService.get<boolean>('savePasswordForAllVMs')}`
+            : `${this.configService.get('savePasswordForAllVMs')}`
         },
         {
           key: userTagKeys.firstDayOfWeek,
-          value: `${this.configService.get<number>('defaultFirstDayOfWeek')}`
+          value: `${this.configService.get('defaultFirstDayOfWeek')}`
         },
         {
           key: userTagKeys.lang,
-          value: this.configService.get<string>('defaultInterfaceLanguage')
+          value: this.configService.get('defaultInterfaceLanguage')
         },
         {
           key: userTagKeys.lastVMId,
-          value: `${this.configService.get<number>('lastVMId')}`
+          value: `${this.configService.get('lastVMId')}`
         },
         {
           key: userTagKeys.sessionTimeout,
-          value: `${this.configService.get<number>('sessionTimeout')}`
+          value: `${this.configService.get('sessionTimeout')}`
         },
         {
           key: userTagKeys.sidenavVisible,
-          value: `${this.configService.get<boolean>('isSidenavVisible')}`
+          value: `${this.configService.get('isSidenavVisible')}`
         },
         {
           key: userTagKeys.showSystemTags,
-          value: `${this.configService.get<boolean>('showSystemTags')}`
+          value: `${this.configService.get('showSystemTags')}`
         },
         {
           key: userTagKeys.timeFormat,
-          value: this.configService.get<string>('defaultTimeFormat')
+          value: this.configService.get('defaultTimeFormat')
         },
         {
           key: userTagKeys.theme,
-          value: this.configService.get<string>('defaultThemeName')
+          value: this.configService.get('defaultThemeName')
         },
         {
           key: userTagKeys.navigationOrder,
-          value: this.configService.get<string>('navigationOrder')
+          value: this.configService.get('navigationOrder')
         }
       ];
     }

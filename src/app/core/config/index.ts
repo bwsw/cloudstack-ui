@@ -1,3 +1,3 @@
-export * from './config-interface';
-export * from './config-validators';
-export * from './default-configuration';
+export { Config } from './config.interface';
+export { defaultConfig } from './default-configuration';
+export * from './config-validation.service';

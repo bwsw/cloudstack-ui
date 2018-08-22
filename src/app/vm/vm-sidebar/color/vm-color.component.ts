@@ -16,7 +16,7 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   @Output() public onColorChange = new EventEmitter();
 
   public color: Color;
-  public colorList: Array<Color>;
+  public colorList: Array<Color> = [];
 
   // todo set inProgress while color is updating
   public colorUpdateInProgress: boolean;
@@ -28,7 +28,10 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.colorList = this.configService.get('vmColors');
+    const configColors = this.configService.get('vmColors');
+    for (const color of configColors) {
+      this.colorList.push(new Color('', color.value));
+    }
 
     this.colorSubject
       .debounceTime(1000)
