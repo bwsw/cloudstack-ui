@@ -42,7 +42,7 @@ export class SecurityGroupTagService implements EntityTagService {
     return this.tagService.remove({
       resourceIds: securityGroup.id,
       resourceType: this.resourceType,
-      'tag[0].key': this.keys.type
+      'tags[0].key': this.keys.type
     })
       .map(() => {
         const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);

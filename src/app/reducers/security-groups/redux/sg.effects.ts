@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 
@@ -16,6 +16,7 @@ import * as securityGroup from './sg.actions';
 import * as fromSecurityGroups from './sg.reducers';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
+import { map, tap, mergeMap, catchError, filter, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class SecurityGroupEffects {
@@ -110,19 +111,32 @@ export class SecurityGroupEffects {
 
   @Effect()
   convertSecurityGroup$: Observable<Action> = this.actions$
-    .ofType(securityGroup.CONVERT_SECURITY_GROUP)
-    .mergeMap((action: securityGroup.ConvertSecurityGroup) => {
-      return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT' })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .switchMap(() => {
-          return this.sgTagService.convertToShared(action.payload)
-            .map(newSG => {
-              return new securityGroup.UpdateSecurityGroup(newSG)
+    .pipe(
+      ofType(securityGroup.CONVERT_SECURITY_GROUP),
+      mergeMap((action: securityGroup.ConvertSecurityGroup) => {
+        return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT' })
+          .pipe(
+            filter(res => Boolean(res)),
+            switchMap(() => {
+              return this.sgTagService.convertToShared(action.payload)
+                .pipe(
+                  tap(() => {
+                    const message = 'NOTIFICATIONS.FIREWALL.CONVERT_PRIVATE_TO_SHARED_DONE';
+                    this.showNotificationsOnFinish(message);
+                  }),
+                  map((response: SecurityGroup) => {
+                    return new securityGroup.ConvertSecurityGroupSuccess(response);
+                  }),
+                  catchError(error => {
+                    this.showNotificationsOnFail(error);
+                    return Observable.of(new securityGroup.ConvertSecurityGroupError(error));
+                  })
+                )
             })
-            .catch(error => Observable.of(new securityGroup.UpdateSecurityGroupError(error)));
-        });
-    });
+          );
+      })
+    );
+
 
   private deleteSuccessMessage = {
     [SecurityGroupType.CustomTemplate]: 'NOTIFICATIONS.FIREWALL.TEMPLATE_DELETE_DONE',
