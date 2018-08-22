@@ -6,7 +6,7 @@ import * as AjvErrors from 'ajv-errors';
 import * as omit from 'lodash/omit';
 
 import { customizableProperties, defaultConfig } from './default-configuration';
-import { Config } from './config.interface';
+import { Config } from './interfaces';
 import * as validationSchemes from './validation-schemes';
 
 enum ErrorType {
@@ -66,7 +66,8 @@ export class ConfigValidationService {
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
     defaultThemeName: validationSchemes.defaultThemeName,
-    sessionTimeout: validationSchemes.sessionTimeout
+    sessionTimeout: validationSchemes.sessionTimeout,
+    configureSidenav: validationSchemes.configureSidenav,
   };
 
   constructor() {

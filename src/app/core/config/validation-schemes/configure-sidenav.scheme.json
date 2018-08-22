@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "configureSidenav",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/SidenavElement"
+  },
+  "minItems": 9,
+  "maxItems": 9,
+  "uniqueItemProperties": ["id"],
+  "definitions": {
+    "SidenavElement": {
+      "type": "object",
+      "required": ["id", "visible"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "VMS",
+            "VOLUMES",
+            "TEMPLATES",
+            "SNAPSHOTS",
+            "SGS",
+            "EVENTS",
+            "SSH",
+            "ACCOUNTS",
+            "SETTINGS"
+          ]
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "errorMessage": {
+    "uniqueItemProperties": "should NOT contain objects with the same id",
+    "minItems": "should contain all menu items",
+    "maxItems": "should contain all menu items"
+  }
+}

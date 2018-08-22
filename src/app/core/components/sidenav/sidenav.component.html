@@ -44,7 +44,7 @@
   >
     <ng-container *ngFor="let route of routes">
       <a
-        *ngIf="!editing && route.enabled"
+        *ngIf="!editing && route.visible"
         class="navigation-link link-container"
         [routerLink]="route.path"
         routerLinkActive="link-active"
@@ -62,7 +62,7 @@
           [@handleSlide]="'in'"
         ></span>
         <mat-checkbox
-          [(ngModel)]="route.enabled"
+          [(ngModel)]="route.visible"
           (change)="handleRouteChecked($event)"
           [@handleSlide]="!editing ? 'in' : ''"
         ></mat-checkbox>
@@ -72,7 +72,7 @@
   </div>
   <ng-container *ngFor="let route of nonDraggableRoutes">
     <a
-      *ngIf="!editing && route.enabled"
+      *ngIf="!editing && route.visible"
       class="navigation-link link-container"
       [routerLink]="route.path"
       routerLinkActive="link-active"
