@@ -2,7 +2,7 @@ import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { delay, filter, first, map, mergeMap } from 'rxjs/operators';
+import { delay, filter, first, map, withLatestFrom } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Grouping, Volume } from '../../shared/models';
@@ -87,8 +87,6 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
-    const isAsk$ = this.store.select(UserTagsSelectors.getIsAskToCreateVolume);
-    const volumesCount$ = this.store.select(fromVolumes.getVolumesCount);
     const dataReceivedAndUpdated$ = Observable.combineLatest(
       this.store.select(fromVolumes.isLoading),
       this.store.select(fromVolumes.isLoaded)
@@ -99,9 +97,11 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     );
 
     return dataReceivedAndUpdated$.pipe(
-      mergeMap(() => Observable.zip(isAsk$, volumesCount$).pipe(
-        map(([isAsk, volumeCount]) => isAsk && volumeCount === 0 && !this.isCreationFormOpen)
-      ))
+      withLatestFrom(
+        this.store.select(UserTagsSelectors.getIsAskToCreateVolume),
+        this.store.select(fromVolumes.getVolumesCount)
+      ),
+      map(([dataReadyFlag, isAsk, volumeCount]) => isAsk && volumeCount === 0 && !this.isCreationFormOpen)
     );
   }
 
