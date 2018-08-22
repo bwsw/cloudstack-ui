@@ -73,7 +73,7 @@ export class CreateSecurityGroupsSuccess implements Action {
 export class CreateSecurityGroupError implements Action {
   readonly type = CREATE_SECURITY_GROUP_ERROR;
 
-  constructor(readonly payload: any) {
+  constructor(readonly payload: Error) {
   }
 }
 
@@ -108,7 +108,7 @@ export class DeleteSecurityGroupSuccess implements Action {
 export class DeleteSecurityGroupError implements Action {
   readonly type = DELETE_SECURITY_GROUP_ERROR;
 
-  constructor(readonly payload: any) {
+  constructor(readonly payload: Error) {
   }
 }
 
@@ -129,7 +129,7 @@ export class ConvertSecurityGroupSuccess implements Action {
 export class ConvertSecurityGroupError implements Action {
   readonly type = CONVERT_SECURITY_GROUP_ERROR;
 
-  constructor(readonly payload: any) {
+  constructor(readonly payload: Error) {
   }
 }
 
@@ -137,7 +137,7 @@ export class UpdateSecurityGroupError implements Action {
   readonly type = UPDATE_SECURITY_GROUP_ERROR;
 
 
-  constructor(readonly payload: any) {
+  constructor(readonly payload: Error) {
   }
 }
 
