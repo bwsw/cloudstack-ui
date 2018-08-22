@@ -1,10 +1,11 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { BaseTemplateModel } from '../../../template/shared';
-import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+
+import { BaseTemplateModel } from '../../../template/shared';
+import { InstallationSourceDialogComponent } from './containers/installation-source-dialog.component';
 
 
 @Component({
@@ -78,7 +79,7 @@ export class VmCreationTemplateComponent {
   }
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
-    return this.dialog.open(VmTemplateDialogComponent, {
+    return this.dialog.open(InstallationSourceDialogComponent, {
       width: '776px',
       data: {
         template: this.template

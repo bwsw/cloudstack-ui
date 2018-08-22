@@ -480,16 +480,9 @@ export const selectTemplatesForIsoAttachment = createSelector(
   }
 );
 
-const filterForVmCreation = (templates, zoneId, account, filter) => {
+const filterForVmCreation = (templates, zoneId, account) => {
   const selectedZoneFilter = (template: BaseTemplateModel) => {
     return template.zoneId === zoneId || template.crossZones;
-  };
-
-  const viewModeStr = filter.selectedViewMode === TemplateResourceType.iso
-    ? filter.selectedViewMode.toUpperCase()
-    : filter.selectedViewMode;
-  const selectedViewModeFilter = (template: BaseTemplateModel) => {
-    return viewModeStr === template.resourceType;
   };
 
   const currentAccountFilter = (template: BaseTemplateModel) => {
@@ -497,9 +490,18 @@ const filterForVmCreation = (templates, zoneId, account, filter) => {
       || template.isFeatured || template.isPublic;
   };
 
-  return templates.filter(template => selectedViewModeFilter(template)
-    && selectedZoneFilter(template)
-    && currentAccountFilter(template));
+  return templates.filter(template => selectedZoneFilter(template) && currentAccountFilter(template));
+};
+
+const filterForVmCreationWithFilter = (templates, zoneId, account, filter) => {
+   const viewModeStr = filter.selectedViewMode === TemplateResourceType.iso
+    ? filter.selectedViewMode.toUpperCase()
+    : filter.selectedViewMode;
+  const selectedViewModeFilter = (template: BaseTemplateModel) => {
+    return viewModeStr === template.resourceType;
+  };
+
+  return filterForVmCreation(templates, zoneId, account).filter(template => selectedViewModeFilter(template));
 };
 
 export const selectFilteredTemplatesForVmCreation = createSelector(
@@ -507,7 +509,7 @@ export const selectFilteredTemplatesForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
   vmCreationListFilters,
-  (templates, zoneId, account, filter) => filterForVmCreation(
+  (templates, zoneId, account, filter) => filterForVmCreationWithFilter(
     templates,
     zoneId,
     account,
@@ -515,15 +517,13 @@ export const selectFilteredTemplatesForVmCreation = createSelector(
   )
 );
 
-export const allTemplatesReadyForVmCreation = createSelector(
+export const numOfTemplatesReadyForVmCreation = createSelector(
   selectAll,
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
-  vmCreationListFilters,
-  (templates, zoneId, account, filter) => filterForVmCreation(
+  (templates, zoneId, account) => filterForVmCreation(
     templates,
     zoneId,
-    account,
-    filter
+    account
   ).length
 );
