@@ -5,7 +5,7 @@ import { BaseTemplateModel } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { MatDialog } from '@angular/material';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -33,6 +33,8 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
+import { UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -42,7 +44,6 @@ import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.re
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
-import { UserTagsActions } from '../../../root-store';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -240,58 +241,64 @@ export class VirtualMachineCreationEffects {
 
   @Effect()
   deploying$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_REQUEST)
-    .switchMap((action: vmActions.DeploymentRequest) => {
+    .pipe(
+      ofType(vmActions.VM_DEPLOYMENT_REQUEST),
+      withLatestFrom(this.store.select(UserTagsSelectors.getKeyboardLayout)),
+      switchMap(([action, keyboard]: [vmActions.DeploymentRequest, string]) => {
       return this.doCreateAffinityGroup(action.payload)
-        .switchMap(() => this.doCreateSecurityGroup(action.payload)
-          .switchMap((securityGroups) => {
-            if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
-              this.store.dispatch(new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups));
-            }
-            this.store.dispatch(new vmActions.DeploymentChangeStatus({
-              stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
-            }));
+        .pipe(
+          switchMap(() => this.doCreateSecurityGroup(action.payload)
+            .pipe(
+              switchMap((securityGroups) => {
+              if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
+                this.store.dispatch(new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups));
+              }
+              this.store.dispatch(new vmActions.DeploymentChangeStatus({
+                stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
+              }));
 
-            this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
-            const params = this.getVmCreationParams(action.payload, securityGroups);
-            let deployResponse;
+              this.handleDeploymentMessages({stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS});
+              const params = this.getVmCreationParams(action.payload, keyboard, securityGroups);
+              let deployResponse;
 
-            return this.vmService.deploy(params)
-              .switchMap(response => {
-                deployResponse = response;
-                return this.vmService.get(deployResponse.id);
-              })
-              .switchMap(vm => {
-                const temporaryVm = vm;
+              return this.vmService.deploy(params)
+                .pipe(
+                  switchMap(response => {
+                    deployResponse = response;
+                    return this.vmService.get(deployResponse.id);
+                  }),
+                  switchMap(vm => {
+                    const temporaryVm = vm;
 
-                if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
-                  temporaryVm.instanceGroup = action.payload.instanceGroup;
-                }
+                    if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
+                      temporaryVm.instanceGroup = action.payload.instanceGroup;
+                    }
 
-                temporaryVm.state = VmState.Deploying;
-                this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
+                    temporaryVm.state = VmState.Deploying;
+                    this.handleDeploymentMessages({stage: VmDeploymentStage.TEMP_VM});
 
-                this.store.dispatch(new UserTagsActions.IncrementLastVMId());
-                return this.vmService.registerVmJob(deployResponse);
-              })
-              .switchMap((deployedVm: VirtualMachine) => {
-                this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
+                    this.store.dispatch(new UserTagsActions.IncrementLastVMId());
+                    return this.vmService.registerVmJob(deployResponse);
+                  }),
+                  switchMap((deployedVm: VirtualMachine) => {
+                    this.handleDeploymentMessages({stage: VmDeploymentStage.VM_DEPLOYED});
 
-                return this.doCreateInstanceGroup(deployedVm, action.payload)
-                  .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
-              })
-              .map((vmWithTags) => {
-                if (action.payload.doStartVm) {
-                  vmWithTags.state = VmState.Running;
-                }
-                return new vmActions.DeploymentRequestSuccess(vmWithTags);
-              })
-              .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
-          })
-          .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
-    });
+                    return this.doCreateInstanceGroup(deployedVm, action.payload)
+                      .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
+                  }),
+                  map((vmWithTags) => {
+                    if (action.payload.doStartVm) {
+                      vmWithTags.state = VmState.Running;
+                    }
+                    return new vmActions.DeploymentRequestSuccess(vmWithTags);
+                  }),
+                  catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
+          }))
+          .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)))));
+    }));
 
-  @Effect({ dispatch: false })
+
+  @Effect({dispatch: false})
   changeStatusOfDeployment$ = this.actions$
     .ofType(vmActions.VM_DEPLOYMENT_CHANGE_STATUS)
     .do((action: vmActions.DeploymentChangeStatus) => {
@@ -603,7 +610,7 @@ export class VirtualMachineCreationEffects {
       });
   }
 
-  private getVmCreationParams(state: VmCreationState, securityGroups?: SecurityGroup[]) {
+  private getVmCreationParams(state: VmCreationState, keyboard: string, securityGroups?: SecurityGroup[]) {
     const params: VmCreationParams = {};
 
     if (state.affinityGroup) {
@@ -611,7 +618,7 @@ export class VirtualMachineCreationEffects {
     }
 
     params.startVm = state.doStartVm.toString();
-    params.keyboard = state.keyboard;
+    params.keyboard = keyboard;
     params.name = state.displayName;
     params.serviceOfferingId = state.serviceOffering.id;
     params.templateId = state.template.id;

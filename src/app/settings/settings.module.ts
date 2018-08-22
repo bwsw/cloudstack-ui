@@ -12,8 +12,10 @@ import {
   PasswordUpdateFormComponent,
   SecuritySettingsComponent,
   SessionTimeoutComponent,
-  ThemeSelectorComponent
+  ThemeSelectorComponent,
+  VmSettingsComponent
 } from './components';
+import { KeyboardsComponent } from '../vm/vm-creation/keyboards/keyboards.component';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import {
   declarations: [
     SettingsComponent,
     SecuritySettingsComponent,
+    VmSettingsComponent,
+    KeyboardsComponent,
     ApiSettingsComponentComponent,
     InterfaceSettingsComponent,
     ThemeSelectorComponent,

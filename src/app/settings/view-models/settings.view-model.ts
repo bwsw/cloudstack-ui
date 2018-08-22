@@ -7,4 +7,5 @@ export interface SettingsViewModel {
   firstDayOfWeek: DayOfWeek;
   timeFormat: TimeFormat;
   theme: string;
+  keyboardLayout: string;
 }

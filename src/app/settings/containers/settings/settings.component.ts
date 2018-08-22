@@ -90,6 +90,10 @@ export class SettingsComponent {
     this.store.dispatch(new UserTagsActions.UpdateTheme({ value: theme }));
   }
 
+  public keyboardChange(keyboard: string) {
+    this.store.dispatch(new UserTagsActions.UpdateKeyboardLayoutForVms({ value: keyboard }));
+  }
+
   private getApiUrl() {
     const origin = this.routerUtilsService.getLocationOrigin();
     const baseHref = this.routerUtilsService.getBaseHref();

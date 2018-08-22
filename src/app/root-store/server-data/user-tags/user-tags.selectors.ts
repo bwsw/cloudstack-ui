@@ -98,3 +98,8 @@ export const getNavigationOrder = createSelector(
   getUserTagsEntities,
   (entities): string => entities[userTagKeys.navigationOrder].value
 );
+
+export const getKeyboardLayout = createSelector(
+  getUserTagsEntities,
+  (entities): string => entities[userTagKeys.keyboardLayoutForVms] && entities[userTagKeys.keyboardLayoutForVms].value
+);

@@ -12,6 +12,10 @@
     [apiDocumentationLink]="apiDocumentationLink"
     (regenerateKeys)="onRegenerateKeys()"
   ></cs-api-settings>
+  <cs-vm-settings
+    [settings]="settings$ | async"
+    (updateKeyboardLayout)="keyboardChange($event)"
+  ></cs-vm-settings>
   <cs-interface-settings
     [settings]="settings$ | async"
     (interfaceLanguageChange)="onInterfaceLanguageChange($event)"

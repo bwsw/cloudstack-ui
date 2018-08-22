@@ -56,6 +56,10 @@ export enum UserTagsActionTypes {
   UpdateNavigationOrderSuccess = '[Resource tags API] Update "csui.user.navigation-order" tag success',
   UpdateNavigationOrderError = '[Resource tags API] Update "csui.user.navigation-order" tag error',
 
+  UpdateKeyboardLayoutForVms = '[Keyboard layout] Update "csui.user.vm-keyboard-layout" tag',
+  UpdateKeyboardLayoutForVmsSuccess = '[Keyboard layout] Update "csui.user.vm-keyboard-layout" tag success',
+  UpdateKeyboardLayoutForVmsError = '[Keyboard layout] Update "csui.user.vm-keyboard-layout" tag error',
+
   SetSPFAVM = '[Dialog] Set "csui.user.save-password-for-all-vms" tag',
   SetSPFAVMSuccess = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag success',
   SetSPFAVMError = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag error',
@@ -357,6 +361,29 @@ export class UpdateNavigationOrderError implements Action {
   }
 }
 
+// Keyboard
+
+export class UpdateKeyboardLayoutForVms implements Action {
+  readonly type = UserTagsActionTypes.UpdateKeyboardLayoutForVms;
+
+  constructor(readonly payload: { value: string }) {
+  }
+}
+
+export class UpdateKeyboardLayoutForVmsSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess;
+
+  constructor(readonly payload: { key: string, value: string }) {
+  }
+}
+
+export class UpdateKeyboardLayoutForVmsError implements Action {
+  readonly type = UserTagsActionTypes.UpdateKeyboardLayoutForVmsError;
+
+  constructor(readonly payload: { error: Error }) {
+  }
+}
+
 // Save password for all VMs
 
 export class SetSavePasswordForAllVMs implements Action {
@@ -449,6 +476,9 @@ export type UserTagsActionsUnion =
   | UpdateNavigationOrder
   | UpdateNavigationOrderSuccess
   | UpdateNavigationOrderError
+  | UpdateKeyboardLayoutForVms
+  | UpdateKeyboardLayoutForVmsSuccess
+  | UpdateKeyboardLayoutForVmsError
   | SetSavePasswordForAllVMs
   | SetSavePasswordForAllVMsSuccess
   | SetSavePasswordForAllVMsError
