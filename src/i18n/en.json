@@ -1074,6 +1074,12 @@
       }
     },
     "ICMP_V6_TYPES": {
+      "-1": {
+        "description": "Any",
+        "codes": {
+          "-1": "Any"
+        }
+      },
       "1": {
         "description": "Destination Unreachable Message",
         "codes": {
