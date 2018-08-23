@@ -56,9 +56,9 @@ export enum UserTagsActionTypes {
   UpdateNavigationOrderSuccess = '[Resource tags API] Update "csui.user.navigation-order" tag success',
   UpdateNavigationOrderError = '[Resource tags API] Update "csui.user.navigation-order" tag error',
 
-  UpdateKeyboardLayoutForVms = '[Keyboard layout] Update "csui.user.vm-keyboard-layout" tag',
-  UpdateKeyboardLayoutForVmsSuccess = '[Keyboard layout] Update "csui.user.vm-keyboard-layout" tag success',
-  UpdateKeyboardLayoutForVmsError = '[Keyboard layout] Update "csui.user.vm-keyboard-layout" tag error',
+  UpdateKeyboardLayoutForVms = '[Settings Page] Update "csui.user.vm-keyboard-layout" tag',
+  UpdateKeyboardLayoutForVmsSuccess = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag success',
+  UpdateKeyboardLayoutForVmsError = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag error',
 
   SetSPFAVM = '[Dialog] Set "csui.user.save-password-for-all-vms" tag',
   SetSPFAVMSuccess = '[Resource tags API] Set "csui.user.save-password-for-all-vms" tag success',

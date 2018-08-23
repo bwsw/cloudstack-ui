@@ -293,8 +293,8 @@ export class VirtualMachineCreationEffects {
                     return new vmActions.DeploymentRequestSuccess(vmWithTags);
                   }),
                   catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
-          }))
-          .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)))));
+          })),
+          catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error)))));
     }));
 
 

@@ -56,4 +56,5 @@ export interface NonCustomizableConfig {
   isSidenavVisible: boolean;
   showSystemTags: boolean;
   navigationOrder: string;
+  keyboardLayoutForVms: string;
 }

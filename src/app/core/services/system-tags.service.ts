@@ -60,6 +60,10 @@ export class SystemTagsService {
         {
           key: userTagKeys.navigationOrder,
           value: this.configService.get('navigationOrder')
+        },
+        {
+          key: userTagKeys.keyboardLayoutForVms,
+          value: this.configService.get('keyboardLayoutForVms')
         }
       ];
     }

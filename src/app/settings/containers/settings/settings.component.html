@@ -14,7 +14,7 @@
   ></cs-api-settings>
   <cs-vm-settings
     [settings]="settings$ | async"
-    (updateKeyboardLayout)="keyboardChange($event)"
+    (updateKeyboardLayout)="onUpdateKeyboardLayout($event)"
   ></cs-vm-settings>
   <cs-interface-settings
     [settings]="settings$ | async"

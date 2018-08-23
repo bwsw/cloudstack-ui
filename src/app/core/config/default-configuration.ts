@@ -157,7 +157,8 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
   lastVMId: 1,
   isSidenavVisible: true,
   showSystemTags: false,
-  navigationOrder: ''
+  navigationOrder: '',
+  keyboardLayoutForVms: 'en'
 };
 
 export const defaultConfig: Readonly<Config> = {...customizableProperties, ...nonCustomizableProperties};

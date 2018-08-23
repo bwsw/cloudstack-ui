@@ -13,9 +13,9 @@ import {
   SecuritySettingsComponent,
   SessionTimeoutComponent,
   ThemeSelectorComponent,
-  VmSettingsComponent
+  VmSettingsComponent,
+  KeyboardsComponent
 } from './components';
-import { KeyboardsComponent } from '../vm/vm-creation/keyboards/keyboards.component';
 
 
 @NgModule({

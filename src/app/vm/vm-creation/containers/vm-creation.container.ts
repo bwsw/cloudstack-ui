@@ -16,7 +16,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmService } from '../../shared/vm.service';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
-import { KeyboardLayout } from '../keyboards/keyboards.component';
+import { KeyboardLayout } from '../../../settings/components/keyboards/keyboards.component';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
 import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
