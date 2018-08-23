@@ -2,7 +2,7 @@
 <div class="settings-container">
   <cs-security-settings
     [settings]="settings$ | async"
-    (updatePassword)="onUpdatePassword($event)"
+    (passwordChange)="onPasswordChange($event)"
     (sessionTimeoutChange)="onSessionTimeoutChange($event)"
     (isSavePasswordForVMsChange)="onIsSavePasswordForVMsChange($event)"
   ></cs-security-settings>
@@ -14,7 +14,7 @@
   ></cs-api-settings>
   <cs-vm-settings
     [settings]="settings$ | async"
-    (updateKeyboardLayout)="onUpdateKeyboardLayout($event)"
+    (keyboardLayoutChange)="onKeyboardLayoutChange($event)"
   ></cs-vm-settings>
   <cs-interface-settings
     [settings]="settings$ | async"

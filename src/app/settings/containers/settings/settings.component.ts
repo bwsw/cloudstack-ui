@@ -53,7 +53,7 @@ export class SettingsComponent {
         ));
   }
 
-  public onUpdatePassword(password: string) {
+  public onPasswordChange(password: string) {
     this.askToUpdatePassword()
       .filter(Boolean)
       .subscribe(() =>
@@ -90,7 +90,7 @@ export class SettingsComponent {
     this.store.dispatch(new UserTagsActions.UpdateTheme({ value: theme }));
   }
 
-  public onUpdateKeyboardLayout(keyboard: string) {
+  public onKeyboardLayoutChange(keyboard: string) {
     this.store.dispatch(new UserTagsActions.UpdateKeyboardLayoutForVms({ value: keyboard }));
   }
 

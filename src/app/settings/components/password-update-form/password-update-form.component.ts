@@ -39,7 +39,7 @@ export class PasswordUpdateFormComponent {
   // We need manually reset FormGroupDirective via resetForm() method otherwise,
   // the form will be invalid and errors are shown
   @ViewChild(FormGroupDirective) myForm;
-  @Output() updatePassword = new EventEmitter<string>();
+  @Output() passwordChange = new EventEmitter<string>();
   public passwordForm: FormGroup;
   public errorStateMatcher = new PasswordErrorStateMatcher();
 
@@ -47,9 +47,9 @@ export class PasswordUpdateFormComponent {
     this.createForm();
   }
 
-  public onPasswordUpdate() {
+  public onPasswordChange() {
     const password = this.passwordForm.get('password').value;
-    this.updatePassword.emit(password);
+    this.passwordChange.emit(password);
     this.myForm.resetForm();
   }
 

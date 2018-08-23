@@ -10,5 +10,5 @@ import { SettingsViewModel } from '../../view-models';
 
 export class VmSettingsComponent {
   @Input() settings: SettingsViewModel;
-  @Output() updateKeyboardLayout = new EventEmitter<string>();
+  @Output() keyboardLayoutChange = new EventEmitter<string>();
 }
