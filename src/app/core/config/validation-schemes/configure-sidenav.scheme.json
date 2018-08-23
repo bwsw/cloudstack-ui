@@ -3,13 +3,16 @@
   "$id": "configureSidenav",
   "type": "array",
   "items": {
-    "$ref": "#/definitions/SidenavElement"
+    "oneOf": [
+      { "$ref": "#/definitions/VMSidenavElement" },
+      { "$ref": "#/definitions/SidenavElementExceptVM" }
+    ]
   },
   "minItems": 9,
   "maxItems": 9,
   "uniqueItemProperties": ["id"],
   "definitions": {
-    "SidenavElement": {
+    "SidenavElementExceptVM": {
       "type": "object",
       "required": ["id", "visible"],
       "additionalProperties": false,
@@ -17,7 +20,6 @@
         "id": {
           "type": "string",
           "enum": [
-            "VMS",
             "VOLUMES",
             "TEMPLATES",
             "SNAPSHOTS",
@@ -27,6 +29,22 @@
             "ACCOUNTS",
             "SETTINGS"
           ]
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      }
+    },
+    "VMSidenavElement": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "const": "VMS"
         },
         "visible": {
           "type": "boolean"

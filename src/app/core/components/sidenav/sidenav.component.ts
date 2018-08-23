@@ -10,6 +10,7 @@ import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
 import { layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import { SidenavRouteId } from '../../config';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
   public routes: Array<SidenavRoute> = cloneDeep(sidenavRoutes);
   public nonDraggableRoutes = nonDraggableRoutes;
+  public alwaysVisibleRouteId: SidenavRouteId = 'VMS';
 
   public navigationLoaded = false;
   public updatingOrder = false;

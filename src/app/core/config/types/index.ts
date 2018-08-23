@@ -1,1 +1,1 @@
-export * from './sidenav-links.type';
+export * from './sidenav-route-id';

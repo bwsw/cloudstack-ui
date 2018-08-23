@@ -221,20 +221,24 @@ You can set a type of comparing and ignoring VM tags, when changing service offe
 }
 ```
 
-### Configure Sidebar
-This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
-For example, 
+### Configure Sidenav
+Allows you to predefine the order and visibility of menu items. The order of the menu items is determined by the order of the elements in the array. The VMS menu item can not be made invisible, the visibility property will be ignored.
+For configuration, you must specify all menu items and the "allowReorderingSidebar" parameter must be true.
+
+For example (default values),
 ```
-"configureSidebar": [
-  "vms",
-  "volumes",
-  "templates",
-  "sgs",
-  "events",
-  "ssh",
-  "accounts",
- "settings"
-]
+"allowReorderingSidebar": true,
+"configureSidenav": [
+    { "id": "VMS", "visible": true },
+    { "id": "VOLUMES", "visible": true },
+    { "id": "TEMPLATES", "visible": true },
+    { "id": "SNAPSHOTS", "visible": true },
+    { "id": "SGS", "visible": true },
+    { "id": "EVENTS", "visible": true },
+    { "id": "SSH", "visible": true },
+    { "id": "ACCOUNTS", "visible": true },
+    { "id": "SETTINGS", "visible": true }
+  ]
 ```
 
 ### Default First Day Of Week
