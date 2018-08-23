@@ -1565,7 +1565,8 @@
     "TAG_KEY": "Key",
     "TAG_VALUE": "Value",
     "TAG_ALREADY_EXISTS": "Tag already exists",
-    "EDIT_TAG": "Edit tag"
+    "EDIT_TAG": "Edit tag",
+    "TAG_INVALID": "Value shouldn't started from space"
   },
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Shared",

@@ -12,7 +12,7 @@
         [forbiddenValues]="forbiddenKeys || []"
         [placeholder]="'TAGS.TAG_KEY' | translate"
         [maxlength]="maxKeyLength"
-        pattern="^[a-zA-ZА-яЁё]{1}[^,]*$"
+        pattern="[\S]{1}[^,]*$"
         autofocus
         required
         #keyField="ngModel"
@@ -32,9 +32,13 @@
         [(ngModel)]="value"
         [placeholder]="'TAGS.TAG_VALUE' | translate"
         [maxlength]="maxValueLength"
-        pattern="^[a-zA-ZА-яЁё]{1}[^,]*$"
+        pattern="[\S]{1}[^,]*$"
         required
+        #valueField="ngModel"
       >
+      <mat-error *ngIf="valueField.invalid && valueField.errors['pattern']">
+        {{ 'TAGS.TAG_INVALID' | translate }}
+      </mat-error>
       <mat-hint align="end">
         <cs-character-count
           [value]="value"
