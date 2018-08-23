@@ -46,7 +46,7 @@ export class TagEditComponent {
     if (this.keyField.errors && this.keyField.errors.forbiddenValuesValidator) {
       return 'TAGS.TAG_ALREADY_EXISTS';
     } else if (this.keyField.errors && this.keyField.errors.pattern) {
-      return 'TAGS.TAG_INVALID';
+      return 'TAGS.TAG_START_FROM_SPACE';
     }
 
     return '';

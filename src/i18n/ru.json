@@ -1562,7 +1562,7 @@
     "TAG_VALUE": "Значение",
     "TAG_ALREADY_EXISTS": "Тег уже существует",
     "EDIT_TAG": "Редактировать тег",
-    "TAG_INVALID": "Значение не может начинаться с пробела"
+    "TAG_START_FROM_SPACE": "Значение не может начинаться с пробела"
   },
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Общее",

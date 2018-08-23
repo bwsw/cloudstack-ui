@@ -5,7 +5,7 @@ export function forbiddenValuesValidator(
   forbiddenValues: Array<string>
 ): ValidatorFn {
   return (c: AbstractControl) => {
-    const isValid = c.value && !forbiddenValues.find(_ => _ === c.value.trim());
+    const isValid = !forbiddenValues.find(_ => _ === c.value && c.value.trim());
 
     if (isValid) {
       return null;
