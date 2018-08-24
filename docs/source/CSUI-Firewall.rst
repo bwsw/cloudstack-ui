@@ -209,6 +209,28 @@ Click “Yes” if you still want to edit a shared security group. You will be s
 
 .. note:: Editing is not available for system firewall templates and security groups of other users. You can view the rules only.
 
+"Convert to Shared" Action for Private Security Groups
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+For private security groups you can find a "Convert to shared" action in the Action box. It allows making a shared SG from a private SG so that it can be used for VMs by other users.
+
+To convert a private security group into a shared one, please, follow the steps:
+
+1) Move to the list of Private Security groups,
+
+2) Select "Convert to shared" option in action box for a security group,
+
+.. figure:: _static/Firewall_ConvertToSharedAction.png
+
+3) A warning dialog appears. Click "YES" to confirm your action. 
+
+.. figure:: _static/Firewall_ConvertToSharedDialogue.png
+
+The security group will be moved to the list of "Shared Security Groups". The tag "is private" will be removed. 
+
+Click "NO" to cancel the convertion, the security group will stay private.
+  
+
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
 .. |view icon| image:: _static/view_list_icon.png
