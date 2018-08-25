@@ -193,11 +193,28 @@ You can edit the implemented rules right in this modal window by clicking "EDIT"
 
 To add rules, please, fill in the fields in the panel above the list and click “+”:
 
-.. figure:: _static/Firewall_AddRules1.png
-   
+.. figure:: _static/Firewall_AddRules.png
+
+**Validation**
+
+Please, make sure you enter valid values for Start and End ports:
+
+* Start port can be less or equal to End port. For more convenience, we added the autocomplete, that is, when entering a Start port value, the End port field is prepopulated with an equal value.
+* The values in these fields cannot be greater/less than maximum/minimum allowed values (for TCP/UDP max port is 65535, for ICMP - 255).
+* The fields cannot be empty.
+
+For ICMP type make sure you input a valid CIDR, ICMP type and code. 
+
+* You will not be able to enter an ICMP type and a code until a valid CIDR is specified. Likewise, you will not be able to enter an ICMP code until a valid ICMP type is specified. 
+* CIDR allows entering IP addresses in both IPv4 and IPv6 formats.
+* ICMP IPv6 the "[-1] Any" value is supported for type and code.
+* ICMP type and code fields cannot be empty. 
+
+For invalid values the add button "+" is disabled.
+
 To delete rules, please, click the Delete icon in the list. The rule will be deleted from the security group.
 
-.. figure:: _static/Firewall_DeleteRules1.png
+.. figure:: _static/Firewall_DeleteRules.png
    
 Then you can move back to the view mode, or close the window. You will see the rules are edited.
 
@@ -226,7 +243,7 @@ To convert a private security group into a shared one, please, follow the steps:
 
 .. figure:: _static/Firewall_ConvertToSharedDialogue.png
 
-The security group will be moved to the list of "Shared Security Groups". The tag "is private" will be removed. 
+The security group will be moved to the list of "Shared Security Groups". The tag "is private" will be removed for this security group. 
 
 Click "NO" to cancel the convertion, the security group will stay private.
   
