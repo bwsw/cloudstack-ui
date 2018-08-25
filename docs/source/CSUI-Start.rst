@@ -66,6 +66,11 @@ In the upper-right corner of the screen, you can see the list of pending operati
 
 .. figure:: _static/VMs_Alerts1.png
 
+A snackbar notification additionally appears at the page bottom and notifies about errors at data loading. This snackbar has a refresh button that refreshes the whole app.
+
+.. figure:: _static/VMs_Snackbar.png
+
+
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
 .. |view icon| image:: _static/view_list_icon.png
