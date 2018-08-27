@@ -8,13 +8,13 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
-import { KeyboardLayout } from '../../../settings/components/keyboards/keyboards.component';
 // tslint:disable-next-line
 import {
   ProgressLoggerMessage,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { NotSelectedSshKey } from '../../../vm/vm-creation/ssh-key-selector/ssh-key-selector.component';
+import { KeyboardLayout } from '../../../shared/types';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as vmActions from './vm.actions';
