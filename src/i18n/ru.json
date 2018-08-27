@@ -474,9 +474,9 @@
       "SPARE_DRIVE_ATTACHMENT": {
         "ATTACH_VOLUME": "Прикрепление диска",
         "SELECT_VOLUME": "Выберите диск",
-        "NO_AVAILABLE_VOLUMES_1": "Доступные дополнительные диски отсутствуют.",
-        "NO_AVAILABLE_VOLUMES_2": "Нажмите, если хотите создать новый.",
-        "NO_AVAILABLE_VOLUMES_3": "Альтернативно, можете изменить размер существующего диска.",
+        "NO_AVAILABLE_VOLUMES_1": "Доступные дополнительные диски отсутствуют. Нажмите, если хотите ",
+        "NO_AVAILABLE_VOLUMES_2": "создать новый",
+        "NO_AVAILABLE_VOLUMES_3": ".",
         "ATTACH": "Прикрепить"
       },
       "ISO": {
