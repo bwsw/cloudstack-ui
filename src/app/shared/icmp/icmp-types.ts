@@ -39,6 +39,7 @@ export const icmpV4Types: IcmpType[] = [
 ];
 
 export const icmpV6Types: IcmpType[] = [
+  { type: -1, codes: [-1] },
   { type: 1, codes: [0, 1, 2, 3, 4, 5, 6] },
   { type: 2, codes: [0] },
   { type: 3, codes: [0, 1] },

@@ -3,14 +3,14 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { DefaultCustomServiceOfferingRestrictions, ServiceOffering } from '../../../shared/models';
-import {
-  customServiceOfferingFallbackParams,
-  DefaultServiceOfferingConfigurationByZone
-} from '../../../service-offering/custom-service-offering/custom-service-offering';
+// tslint:disable max-line-length
+import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { ConfigService } from '../../../core/services';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
 import * as accountTagActions from '../../account-tags/redux/account-tags.actions';
 import * as serviceOfferingActions from './service-offerings.actions';
+
+// tslint:enable max-line-length
 
 @Injectable()
 export class ServiceOfferingEffects {
@@ -40,7 +40,7 @@ export class ServiceOfferingEffects {
     .ofType(serviceOfferingActions.LOAD_DEFAULT_PARAMS_REQUEST)
     .map((action: serviceOfferingActions.LoadDefaultParamsRequest) => {
       const paramsFromConfig = this.configService
-        .get<DefaultServiceOfferingConfigurationByZone>('defaultServiceOfferingConfig');
+        .get('defaultServiceOfferingConfig');
       const params = paramsFromConfig && Object.entries(paramsFromConfig).length
         ? paramsFromConfig : customServiceOfferingFallbackParams;
 
