@@ -30,11 +30,16 @@ To enter the platform use your credentials provided by an administrator:
 
 Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
 
-To the left you can see the . It allows moving from section to section. It is configured by an Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#sidebar-order>`_ by setting a list of left-sidebar sections there. The Administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#allow-reordering-sidebar>`_ for more information on configuring the navigation bar elements.
+To the left you can see the main navigation bar. It allows moving from section to section. It is configured by an Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#sidebar-order>`_ by setting a list of left-sidebar sections there. The Administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#allow-reordering-sidebar>`_ for more information on configuring the navigation bar elements.
 
-The system remembers the main navigation bar position (collapsed/expanded) after login/logout, reloading a page, moving between sections and within the section.
+If the main navigation bar is set to adjustable, you will see a lock |lock| at the top. To change the section order in the menu click the lock to unlock it and change the section order by:
 
-The navigation bar can be hidden or extended using the icon in the upper-left corner.
+- dragging the section up and down the list,
+- enabling/disabling a section by ticking a section in the list.
+
+.. _static/NavBar_Adjust.png
+
+The navigation bar can be hidden or extended using the |hide menu| icon in the upper-left corner. The system remembers the main navigation bar position (collapsed/expanded) after login/logout, reloading a page, moving between sections and within the section.
 
 .. _Resource_Usage:
 
@@ -83,3 +88,5 @@ A snackbar notification additionally appears at the page bottom and notifies abo
 .. |copy icon| image:: _static/copy_icon.png
 .. |color picker| image:: _static/color-picker_icon.png
 .. |adv icon| image:: _static/adv_icon.png
+.. |lock| image:: _static/NavBar_Locked.png
+.. |hide menu| image:: _static/NavBar_HideIcon.png
