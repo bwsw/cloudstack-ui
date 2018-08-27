@@ -15,7 +15,7 @@ export abstract class BaseTemplateDetailsComponent {
   }
 
   public get templateTypeTranslationToken(): string {
-    const type = this.entity && (this.entity as any).type || '';
+    const type = this.entity && (this.entity as any).templatetype || '';
     const templateTypeTranslations = {
       'BUILTIN': 'Built-in',
       'USER': 'User'
