@@ -136,7 +136,7 @@ For each snapshot the list of actions is available. Find more information on sna
 
 Snapshots Action Box 
 """"""""""""""""""""""""""""
-.. note:: For a newly taken snapshot all actions except "Delete snapshot" are disabled until the snapshot is backed up to the Secondary Storage that may take some time. Once it is backed up, a full range of actions is available to a user.
+.. note:: For a newly taken snapshot all actions except "Delete" are disabled until the snapshot is backed up to the Secondary Storage that may take some time. Once it is backed up, a full range of actions is available to a user.
 
 
 Likewise the Virtual Machine information tab, the same actions are available for a snapshot:
