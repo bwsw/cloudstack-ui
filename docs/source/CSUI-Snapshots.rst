@@ -61,6 +61,8 @@ The following actions are available for snapshots:
 
 .. figure:: _static/Snapshots_Actions.png
 
+.. note:: For a newly created snapshots the "Delete snapshot" action is available only till the snapshot is backed up to the Secondary Storage that may take some time. Once it is backed up (marked with a green state icon), a full range of actions is available to a user.
+
 Below you will find details for each action.
 
 **Create Template**
