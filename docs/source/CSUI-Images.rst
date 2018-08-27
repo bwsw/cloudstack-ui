@@ -29,7 +29,12 @@ The list of templates/ISOs can be filtered using the filtering tool. The filteri
 
 - Accounts (for Domain Administrators);
 - OS families;
-- Types;
+- Types of templates/ISO:
+
+  - My - for user's templates or ISOs, 
+  - Featured - for templates marked by an Administrator as most prominent for users to select, 
+  - Community - for templates accessible to all users of this CloudStack installation (Public);
+  
 - Zones.
 
 .. figure:: _static/Images_TempList_Admin2.png
