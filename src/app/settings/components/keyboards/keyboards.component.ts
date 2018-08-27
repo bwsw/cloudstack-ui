@@ -1,6 +1,12 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { KeyboardLayout } from '../../../shared/types';
+
+export enum KeyboardLayout {
+  us = 'us',
+  uk = 'uk',
+  jp = 'jp',
+  sc = 'sc'
+}
 
 @Component({
   selector: 'cs-keyboards',

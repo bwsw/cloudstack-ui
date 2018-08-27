@@ -14,7 +14,6 @@ import {
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { NotSelectedSshKey } from '../../../vm/vm-creation/ssh-key-selector/ssh-key-selector.component';
-import { KeyboardLayout } from '../../../shared/types';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as vmActions from './vm.actions';
@@ -368,7 +367,6 @@ export const initialFormState: FormState = {
     displayName: '',
     doStartVm: true,
     instanceGroup: null,
-    keyboard: KeyboardLayout.us,
     rootDiskSize: null,
     rootDiskMinSize: 0,
     securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules()),

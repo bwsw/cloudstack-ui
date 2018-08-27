@@ -1,7 +1,6 @@
 import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
-import { KeyboardLayout } from '../../../shared/types';
 
 export interface NotSelected {
   name: string;
@@ -15,7 +14,6 @@ export interface VmCreationState {
   displayName: string;
   doStartVm: boolean;
   instanceGroup: InstanceGroup;
-  keyboard: KeyboardLayout;
   rootDiskSize: number;
   rootDiskMinSize: number;
   securityGroupData: VmCreationSecurityGroupData;
