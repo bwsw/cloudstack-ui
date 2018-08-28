@@ -6,7 +6,7 @@ COPY package.json yarn.lock /tmp/cloudstackui/
 RUN yarn install
 
 COPY . /tmp/cloudstackui
-RUN yarn run build:aot
+RUN yarn build --prod --aot
 
 FROM firesh/nginx-lua
 
