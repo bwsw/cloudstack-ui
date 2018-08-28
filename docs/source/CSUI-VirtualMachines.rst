@@ -570,12 +570,12 @@ For each snapshot the following actions are available:
 
 .. note:: Required fields are marked with an asterisk (*).
 
-    - Name * - Enter a name of the new template.
-    - Description * - Provide a short description of the template.
-    - OS type * - Select an OS type from the drop-down list.
-    - Group - Select a group from the drop-down list.
-    - Password enabled - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
-    - Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory.
+- Name * - Enter a name of the new template.
+- Description * - Provide a short description of the template.
+- OS type * - Select an OS type from the drop-down list.
+- Group - Select a group from the drop-down list.
+- Password enabled - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
+- Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory.
  
 Click "SHOW ADDITIONAL FIELDS" to expand the list of optional settings. It allows creating a template that requires HVM. Tick this option in this case.
      
@@ -641,11 +641,11 @@ In the modal window you can edit a security group. Click "EDIT" to move to editi
 
 To add rules, please, fill in the fields in the bar above the list and click "+":
 
-.. figure:: _static/VMs_SG_Edit_Add1.png
+.. figure:: _static/VMs_SG_Edit_Add.png
    
-To delete rules, please, click Delete icon in the list. The rule will be deleted from the security group.
+To delete rules, please, click "Delete" icon in the list. The rule will be deleted from the security group.
 
-.. figure:: _static/VMs_SG_Edit_Delete1.png
+.. figure:: _static/VMs_SG_Edit_Delete.png
    
 Then you can move back to the view mode, or close the window. 
 
