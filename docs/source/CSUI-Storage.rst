@@ -11,7 +11,7 @@ Drive list
 
 .. note:: If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. Once you create a VM, a root disk is created for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional data disk. 
 
-Here you can find a list of your disks existing for your user. 
+Here you can find a list of disks existing for your user. 
 
 .. figure:: _static/Storage_List1.png
    
