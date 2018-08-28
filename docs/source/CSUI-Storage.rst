@@ -200,6 +200,8 @@ For data disks:
  - Detach;
  - Resize the disk;
  - Delete.
+ 
+.. figure:: _static/Storage_Actions.png
 
 **Take a snapshot**
   
