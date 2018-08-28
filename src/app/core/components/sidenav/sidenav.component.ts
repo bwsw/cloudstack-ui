@@ -10,6 +10,7 @@ import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
 import { layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import { SidenavRouteId } from '../../config';
 
 
 @Component({
@@ -98,6 +99,11 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
     this.hasChanges = true;
   }
 
+  public isAlwaysVisible(route: SidenavRoute): boolean {
+    const visibleRouteIds: SidenavRouteId[] = ['VMS'];
+    return visibleRouteIds.findIndex((id => id === route.id)) >= 0;
+  }
+
   private setUpDragula(): void {
     this.dragula.setOptions(this.dragulaContainerName, {
       moves: () => this.editing
@@ -122,7 +128,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
             this.routes.forEach((
               route,
               i
-            ) => route.enabled = (!this.canEdit || (this.canEdit && order[i].enabled)));
+            ) => route.visible = (!this.canEdit || (this.canEdit && order[i].visible)));
           }
       });
     } else {
@@ -136,12 +142,21 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
   public setUpRoutes() {
     if (this.canEdit) {
-      const defaultOrder = this.configService.get('configureSidebar');
-      if (defaultOrder) {
-        this.routes = this.routes.filter(route =>
-          defaultOrder.some(orderElement => orderElement.toUpperCase() === route.id));
-      }
+      const sidenavConfiguration = this.configService.get('configureSidenav');
+      const routesMap = this.getRoutesMap();
+      this.routes = sidenavConfiguration.map(confElement => {
+        const route = routesMap[confElement.id];
+        route.visible = confElement.visible;
+        return route;
+      });
     }
+  }
+
+  private getRoutesMap(): { [id: string]: SidenavRoute } {
+    return this.routes.reduce((map, route) => {
+      map[route.id] = route;
+      return map;
+    }, {});
   }
 
   private validateNavigationOrder(order: NavigationItem[]): boolean {
@@ -150,7 +165,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
     }
 
     return order.every(el =>
-        el.enabled != null && el.id != null && !!this.routes.find(route => route.id === el.id));
+        el.visible != null && el.id != null && !!this.routes.find(route => route.id === el.id));
   }
 
   private navigationPredicate(order: NavigationItem[]) {
@@ -160,7 +175,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
   private stringifyMenuState(routes: NavigationItem[]): string {
     return routes
-      .map(el => `${el.id}:${+el.enabled}`)
+      .map(el => `${el.id}:${+el.visible}`)
       .join(';');
   }
 
@@ -169,10 +184,10 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
       .split(';')
       .filter(Boolean)
       .map((menuElement: string) => {
-        const [id, enabled] = menuElement.split(':');
+        const [id, visible] = menuElement.split(':');
         return {
           id,
-          enabled: enabled === '1'
+          visible: visible === '1'
         }
       });
   }

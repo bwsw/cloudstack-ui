@@ -1,3 +1,5 @@
+import { SidenavConfigElement } from './sidenav-config-element.interface';
+
 export interface Config extends CustomizableConfig, NonCustomizableConfig {
 }
 
@@ -36,7 +38,7 @@ export interface CustomizableConfig {
    * Menu settings
    */
   allowReorderingSidebar: boolean;
-  configureSidebar: Array<any>;
+  configureSidenav: Array<SidenavConfigElement>;
   /*
    * Service offering setting
    */
