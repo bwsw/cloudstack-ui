@@ -27,7 +27,6 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
   public routes: Array<SidenavRoute> = cloneDeep(sidenavRoutes);
   public nonDraggableRoutes = nonDraggableRoutes;
-  public alwaysVisibleRouteId: SidenavRouteId = 'VMS';
 
   public navigationLoaded = false;
   public updatingOrder = false;
@@ -98,6 +97,11 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
   public handleRouteChecked() {
     this.hasChanges = true;
+  }
+
+  public isAlwaysVisible(route: SidenavRoute): boolean {
+    const visibleRouteIds: SidenavRouteId[] = ['VMS'];
+    return visibleRouteIds.findIndex((id => id === route.id)) >= 0;
   }
 
   private setUpDragula(): void {

@@ -52,7 +52,7 @@
             [@handleSlide]="'in'"
           ></span>
           <mat-checkbox
-            *ngIf="route.id !== alwaysVisibleRouteId"
+            *ngIf="!isAlwaysVisible(route)"
             [(ngModel)]="route.visible"
             (change)="handleRouteChecked($event)"
             [@handleSlide]="!editing ? 'in' : ''"
@@ -63,7 +63,7 @@
 
       <ng-template #normalMode>
         <a
-          *ngIf="route.visible || route.id === alwaysVisibleRouteId"
+          *ngIf="route.visible || isAlwaysVisible(route)"
           class="navigation-link link-container"
           [routerLink]="route.path"
           routerLinkActive="link-active"
