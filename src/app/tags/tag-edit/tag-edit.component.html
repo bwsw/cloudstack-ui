@@ -37,7 +37,7 @@
         #valueField="ngModel"
       >
       <mat-error *ngIf="valueField.invalid && valueField.errors['pattern']">
-        {{ 'TAGS.TAG_INVALID' | translate }}
+        {{ 'TAGS.TAG_START_FROM_SPACE' | translate }}
       </mat-error>
       <mat-hint align="end">
         <cs-character-count
