@@ -503,8 +503,8 @@ Click "Take a snapshot" in the disk Actions list and in the dialogue window ente
 
 .. note:: Required fields are marked with an asterisk (*).
 
- - Name of the snapshot * - Define a name for the snapshot. It is auto-generated in the form ``<date>-<time>``. But you can specify any name you wish.
- - Description - Add a description of the snapshot to know what it contains. 
+- Name of the snapshot * - Define a name for the snapshot. It is auto-generated in the form ``<date>-<time>``. But you can specify any name you wish.
+- Description - Add a description of the snapshot to know what it contains. 
 
 .. figure:: _static/VMs_Info_Storage_Snapshot.png
 
