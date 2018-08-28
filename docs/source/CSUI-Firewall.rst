@@ -82,9 +82,9 @@ If you would like to create a new shared security group, click "Create" in the b
 
 .. note:: Required fields are marked with an asterisk (*).
 
- - Name * - Enter a name for the group.
- - Description - Provide a short description for the group.
- - Basic rules - Click "ADD" to open the list of rules to assign them to the group. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
+- Name * - Enter a name for the group.
+- Description - Provide a short description for the group.
+- Basic rules - Click "ADD" to open the list of rules to assign them to the group. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
  
 .. figure:: _static/Firewall_SelectRules.png
    
