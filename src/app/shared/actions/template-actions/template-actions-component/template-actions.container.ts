@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { State } from '../../../../reducers/index';
 import { Store } from '@ngrx/store';
-import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
+import { BaseTemplateModel, isTemplate } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
 
 import * as templateActions from '../../../../reducers/templates/redux/template.actions';
@@ -33,7 +33,7 @@ export class TemplateActionsContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.template && this.template.isTemplate) {
+    if (this.template && isTemplate(this.template)) {
       this.actions = this.templateActionsService.actions;
     } else {
       this.actions = this.isoActionsService.actions;

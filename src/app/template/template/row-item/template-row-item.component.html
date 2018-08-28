@@ -12,12 +12,12 @@
   ></h2>
 
   <div class="entity-list-item-data">
-    {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}: {{ item.osTypeName }}
+    {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}: {{ item.ostypename }}
   </div>
 
   <div class="entity-list-item-data">
     {{ 'TEMPLATE_PAGE.CARD.DESCRIPTION' | translate }}:
-    <span [innerHTML]="item.displayText | highlight:query"></span>
+    <span [innerHTML]="item.displaytext | highlight:query"></span>
   </div>
 
   <!-- Use visibility to make the element take up space and not broke the layout -->

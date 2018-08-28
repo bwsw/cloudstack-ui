@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { BaseTemplateModel } from '../../../template/shared';
+import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { Observable } from 'rxjs/Observable';
 import { TemplateResourceType } from '../../../template/shared/base-template.service';
@@ -33,6 +33,7 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
+import { UserTagsActions } from '../../../root-store';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
@@ -42,7 +43,6 @@ import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.re
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
-import { UserTagsActions } from '../../../root-store';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -179,7 +179,7 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.template) {
-        if (action.payload.template.resourceType !== TemplateResourceType.template && !vmCreationState.diskOffering) {
+        if (resourceType(action.payload.template) !== TemplateResourceType.template && !vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
         }
       }
@@ -621,7 +621,7 @@ export class VirtualMachineCreationEffects {
       params.keyPair = state.sshKeyPair.name;
     }
 
-    if (state.diskOffering && !state.template.isTemplate) {
+    if (state.diskOffering && !isTemplate(state.template)) {
       params.diskofferingid = state.diskOffering.id;
       params.hypervisor = 'KVM';
     }
@@ -640,9 +640,9 @@ export class VirtualMachineCreationEffects {
       ];
     }
 
-    if ((state.rootDiskSize != null && state.template.isTemplate) ||
+    if ((state.rootDiskSize != null && isTemplate(state.template)) ||
       (state.diskOffering && state.diskOffering.iscustomized)) {
-      if (state.template.isTemplate) {
+      if (isTemplate(state.template)) {
         params.rootDiskSize = state.rootDiskSize;
       } else {
         params.size = state.rootDiskSize;

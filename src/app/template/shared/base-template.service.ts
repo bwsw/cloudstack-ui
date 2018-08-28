@@ -164,10 +164,10 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
           templates.forEach(template => {
             templates[0].zones.push({
               created: template.created,
-              zoneId: template.zoneId,
-              zoneName: template.zoneName,
+              zoneid: template.zoneid,
+              zonename: template.zonename,
               status: template.status,
-              isReady: template.isReady
+              isready: template.isready
             });
           });
         }
@@ -199,7 +199,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     this.invalidateCache();
     return this.sendCommand(CSCommands.Delete, {
       id: template.id,
-      zoneId: template.zoneId
+      zoneId: template.zoneid
     })
       .switchMap(job => this.asyncJobService.queryJob(job.jobid))
       .map(() => {
