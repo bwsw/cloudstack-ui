@@ -141,12 +141,10 @@ The information on each template/ISO is presented in the sidebar to the right. I
    - OS - The OS selected for this template/ISO. 
    - General Information - The settings saved for this template/ISO: size, creation date, type, hypervisor, other settings. 
    - Download URL - The URL provided for this template/ISO. Next to it you can see the "Copy" icon |copy icon|. Click it to copy the URL to clipboard and then paste it in the address line.
-..  - Group - Template/ISO group. You can change the group by clicking "Edit" |edit icon|. Choose an existing group in the appeared window and click "ASSIGN" to assign the template/ISO to the selected group. 
-   
+   - Group - Shows the template/ISO group if it is enabled via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups>. You can change the group by clicking "Edit" |edit icon|. Choose an existing group in the appeared window and click "ASSIGN" to assign the template/ISO to the selected group. 
+     You can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
+    
 .. _static/Images_Temp_Details_GroupEdit1.png
-   
-.. From this window, you can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
-
 .. _static/Images_Temp_Details_GroupRemove1.png
 
 2. Zones tab - Shows the zone where the template/ISO is available. If the zone has "Yes" for the *Ready* status, the template/ISO can be used for VM creation. 
