@@ -35,7 +35,7 @@ To the left you can see the main navigation bar. It allows moving from section t
 If the main navigation bar is set to adjustable, you will see a lock |lock| at the top. To change the section order in the menu click the lock to unlock it and change the section order by:
 
 - dragging the section up and down the list,
-- enabling/disabling a section by ticking a section in the list.
+- enabling/disabling a section by ticking it in the list.
 
 .. _static/NavBar_Adjust.png
 
