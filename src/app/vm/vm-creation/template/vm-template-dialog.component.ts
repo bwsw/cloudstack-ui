@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { BaseTemplateModel } from '../../../template/shared';
+import { BaseTemplateModel, resourceType } from '../../../template/shared';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { AuthService } from '../../../shared/services/auth.service';
 import { OsFamily } from '../../../shared/models';
@@ -51,7 +51,7 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
     const isTemplateNotSelected = !this.selectedTemplate;
     const isNoTemplatesInCurrentViewMode = !this.templates.length;
     const isSelectedTemplateFromDifferentViewMode = this.selectedTemplate
-      && this.selectedTemplate.resourceType.toUpperCase() !== this.viewMode.toUpperCase();
+      && resourceType(this.selectedTemplate) !== this.viewMode;
     return isTemplateNotSelected || isNoTemplatesInCurrentViewMode || isSelectedTemplateFromDifferentViewMode;
   }
 }
