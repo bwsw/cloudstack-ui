@@ -22,9 +22,9 @@ export class CustomServiceOfferingComponent {
     const { offering, restriction, defaultParams } = data;
     this.offering = {
       ...offering,
-      cpunumber: offering.cpunumber || defaultParams.cpunumber,
-      cpuspeed: offering.cpuspeed || defaultParams.cpuspeed,
-      memory: offering.memory || defaultParams.memory
+      cpunumber: defaultParams.cpunumber || offering.cpunumber,
+      cpuspeed: defaultParams.cpuspeed || offering.cpuspeed,
+      memory: defaultParams.memory || offering.memory
     };
     this.restrictions = restriction;
   }

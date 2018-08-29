@@ -4,7 +4,7 @@ import * as merge from 'lodash/merge';
 import {
   CustomServiceOffering,
   customServiceOfferingFallbackParams,
-  ICustomServiceOffering
+  ICustomServiceOffering,
 } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { isOfferingLocal } from '../../../shared/models/offering.model';
 import {
@@ -633,10 +633,13 @@ export const getDefaultParams = createSelector(
   getCustomRestrictions,
   getCustomRestrictionsForVmCreation,
   fromAuths.getUserAccount,
-  (defaults, customRestrictions, customRestrictionsForVmCreation, user ) => {
+  fromVMs.getVmCreationZoneId,
+  (defaults, customRestrictions, customRestrictionsForVmCreation, user, zone ) => {
     const resourceStats = ResourceStats.fromAccount([user]);
     const getServiceOfferingRestriction = (param) => {
-      return defaults && defaults[param]
+      return defaults[zone] && defaults[zone].customOfferingParams
+          && defaults[zone].customOfferingParams[param]
+        || defaults && defaults[param]
         || customRestrictions && customRestrictions[param] && customRestrictions[param].min
         || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param]
           && customRestrictionsForVmCreation[param].min
