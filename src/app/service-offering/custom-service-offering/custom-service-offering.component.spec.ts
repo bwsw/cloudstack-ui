@@ -45,9 +45,14 @@ describe('CustomServiceOfferingComponent', () => {
         }
       },
       defaultParams: {
-        cpunumber: 1,
-        cpuspeed: 1500,
-        memory: 1000,
+        'zoneId': {
+          'offering': '3890f81e-62aa-4a50-971a-f066223d623d',
+          'customOfferingParams': {
+            'cpunumber': 1,
+            'cpuspeed': 1024,
+            'memory': 512
+          }
+        }
       }
     };
 

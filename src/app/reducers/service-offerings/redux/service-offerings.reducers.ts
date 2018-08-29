@@ -637,7 +637,7 @@ export const getDefaultParams = createSelector(
   (defaults, customRestrictions, customRestrictionsForVmCreation, user, zone ) => {
     const resourceStats = ResourceStats.fromAccount([user]);
     const getServiceOfferingRestriction = (param) => {
-      return defaults[zone] && defaults[zone].customOfferingParams
+      return defaults && defaults[zone]
           && defaults[zone].customOfferingParams[param]
         || defaults && defaults[param]
         || customRestrictions && customRestrictions[param] && customRestrictions[param].min
