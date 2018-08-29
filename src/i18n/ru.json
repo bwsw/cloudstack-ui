@@ -1567,7 +1567,8 @@
     "TAG_KEY": "Ключ",
     "TAG_VALUE": "Значение",
     "TAG_ALREADY_EXISTS": "Тег уже существует",
-    "EDIT_TAG": "Редактировать тег"
+    "EDIT_TAG": "Редактировать тег",
+    "TAG_START_FROM_SPACE": "Значение не может начинаться с пробела"
   },
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Общее",
