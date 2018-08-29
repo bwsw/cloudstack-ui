@@ -31,7 +31,7 @@ The list of templates/ISOs can be filtered using the filtering tool. The filteri
 - OS families;
 - Types of templates/ISO:
 
-  - My - for user's templates or ISOs, 
+  - My - for user's templates or ISOs (Private), 
   - Featured - for templates marked by an Administrator as most prominent for users to select, 
   - Community - for templates accessible to all users of this CloudStack installation (Public);
   
@@ -141,7 +141,7 @@ The information on each template/ISO is presented in the sidebar to the right. I
    - OS - The OS selected for this template/ISO. 
    - General Information - The settings saved for this template/ISO: size, creation date, type, hypervisor, other settings. 
    - Download URL - The URL provided for this template/ISO. Next to it you can see the "Copy" icon |copy icon|. Click it to copy the URL to clipboard and then paste it in the address line.
-   - Group - Shows the template/ISO group if it is enabled via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups>. You can change the group by clicking "Edit" |edit icon|. Choose an existing group in the appeared window and click "ASSIGN" to assign the template/ISO to the selected group. 
+   - Group - Shows the template/ISO group if it is enabled via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups>`_. You can change the group by clicking "Edit" |edit icon|. Choose an existing group in the appeared window and click "ASSIGN" to assign the template/ISO to the selected group. 
      You can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
     
 .. _static/Images_Temp_Details_GroupEdit1.png
