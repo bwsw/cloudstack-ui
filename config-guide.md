@@ -193,7 +193,7 @@ For custom service offerings there can be predefined offering parameters: number
 
 ```
 "defaultServiceOfferingConfig": {
-   "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+   "zoneId": {
 	   "offeringId": "3890f81e-62aa-4a50-971a-f066223d623d",
 	   "customOfferingParams": {
 	      "cpunumber": 2,
