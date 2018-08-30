@@ -256,9 +256,9 @@ export const getCustomOfferingWithParams = (
     return tag && tag.value;
   };
 
-  const cpunumber = defaults.cpunumber || parseInt(getValue('cpuNumber'), 10);
-  const cpuspeed = defaults.cpuspeed || parseInt(getValue('cpuSpeed'), 10);
-  const memory = defaults.memory || parseInt(getValue('memory'), 10);
+  const cpunumber = defaults && defaults.cpunumber || parseInt(getValue('cpuNumber'), 10);
+  const cpuspeed = defaults && defaults.cpuspeed || parseInt(getValue('cpuSpeed'), 10);
+  const memory = defaults && defaults.memory || parseInt(getValue('memory'), 10);
 
   if (cpunumber && cpuspeed && memory ) {
     const params = { cpunumber, cpuspeed, memory };
