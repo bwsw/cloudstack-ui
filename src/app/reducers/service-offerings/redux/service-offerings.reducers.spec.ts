@@ -703,9 +703,14 @@ describe('Test service offering reducer', () => {
 
   it('should get default params for offering', () => {
     const defaults = {
-      cpunumber: 1,
-      cpuspeed: 1024,
-      memory: 512
+      'zoneId': {
+        'offering': '3890f81e-62aa-4a50-971a-f066223d623d',
+        'customOfferingParams': {
+          'cpunumber': 1,
+          'cpuspeed': 1024,
+          'memory': 512
+        }
+      }
     };
     const customRestrictions = { cpunumber: { min: 1 }, memory: { min: 1 } };
     const resourceUsage = {
@@ -727,9 +732,9 @@ describe('Test service offering reducer', () => {
       memory: 1
     };
 
-    expect(fromSOs.getDefaultParams.projector(defaults, customRestrictions, null, null)).toEqual(params1);
-    expect(fromSOs.getDefaultParams.projector(null, customRestrictions, null, null)).toEqual(params2);
-    expect(fromSOs.getDefaultParams.projector(null, null, customRestrictions, null)).toEqual(params2);
+    expect(fromSOs.getDefaultParams.projector(defaults, customRestrictions, null, null, 'zoneId')).toEqual(params1);
+    expect(fromSOs.getDefaultParams.projector(null, customRestrictions, null, null, 'zoneId')).toEqual(params2);
+    expect(fromSOs.getDefaultParams.projector(null, null, customRestrictions, null, 'zoneId')).toEqual(params2);
   });
 
 
