@@ -62,6 +62,16 @@ Create a Virtual Machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Creating a new VM in CloudStack-UI is a one-step action. You can select options from one screen without additional steps.
 
+At creating a virtual machine you must select:
+
+- a service offering
+- an installation source
+- the rules of the security group
+
+Please, note that a virtual machine is created with a root disk so you do not need to add any volume at the VM creation step. If necessary, you can add data disk to the VM later.
+
+.. figure:: _static/VMs_CreationOverview.png
+
 To create a new VM click the "Create" button |create icon| at the bottom-right corner. 
 
 .. figure:: _static/VMs_Create1.png
