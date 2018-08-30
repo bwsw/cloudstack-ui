@@ -198,7 +198,7 @@ Template/ISO Action Box
 
 By clicking "Actions" |actions icon| you can expand the list of actions for those templates/ISO that belong to your user only (corresponding to "My" type). The deleting action is available here.
 
-.. figure:: _static/Images_Temp_ActionBox.png
+.. figure:: _static/Images_Temp_ActionBox1.png
 
 Click "Delete" to delete the template/ISO and then confirm your action in the dialogue window. The template/ISO will be deleted. 
 
