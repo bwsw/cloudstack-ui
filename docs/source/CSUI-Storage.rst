@@ -51,11 +51,11 @@ The Actions button |actions icon| is available to the right. It expands the list
 Create New Volume
 ~~~~~~~~~~~~~~~~~~~
 
-In the *Storage* section you can create new volumes.
+In the *Storage* section you can create new volumes. Please, note that if you are aimed at creation of a virtual machine, we do not recommend starting from adding new disks to the system. You can go right to the *Virtual Machines* section and create a VM. A root disk will be cerated for the VM automatically.
 
-By clicking the "Create" button |create icon| in the bottom-right corner you will open a creation form. 
-
-If you have just started working with CloudStack and you do not have virtual machines yet, you have no disks in the list. At creating a VM, a root disk is added for it automatically. Creation of an additional disk takes resources and requires expenses. Please, make sure you definitely need an additional disk. When clicking "Create", a dialogue window will ask you if you are surely want to create a drive. Confirm your creation action by clicking "CONTINUE":
+.. figure:: _static/CreateVMwithRD.png
+ 
+If necessary, you can create a data disk and attach it to your VM. By clicking the "Create" button |create icon| in the bottom-right corner you will open a creation form. Please, make sure you definitely need an additional disk as it takes resources and requires expenses. If you do not have disks yet, when clicking "Create", a dialogue window will ask you if you are surely want to create a drive. Confirm your creation action by clicking "CONTINUE":
 
 .. figure:: _static/AdditionalDiskNotification.png
    
