@@ -272,10 +272,7 @@ export const isOfferingAvailableInZone = (
   availability: OfferingAvailability,
   zone: Zone
 ) => {
-  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
-    return true;
-  }
-  return availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+  return availability[zone.id] && availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1
 };
 
 export const getOfferingsAvailableInZone = (
@@ -283,7 +280,7 @@ export const getOfferingsAvailableInZone = (
   availability: OfferingAvailability,
   zone: Zone
 ) => {
-  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
+  if (!availability.filterOfferings) {
     return offeringList;
   }
 

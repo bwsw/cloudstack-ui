@@ -56,8 +56,8 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
     availability: OfferingAvailability,
     zone: Zone
   ): boolean {
-    if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
-      return true;
+    if (!availability.filterOfferings) {
+        return true;
     }
     return availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
   }

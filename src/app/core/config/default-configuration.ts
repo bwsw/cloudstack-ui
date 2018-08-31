@@ -93,7 +93,11 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     'maxiops'
   ],
   offeringAvailability: {
-    'filterOfferings': false
+    'filterOfferings': true,
+    '7e396bd4-897d-4280-a2dd-67db595b85e9': {
+      'diskOfferings': ['6c6c4e20-9086-4484-8cc7-bfc868eeb235'],
+      'serviceOfferings': ['76f51ecf-f3bf-4f1d-afe8-2f735fe42145']
+    }
   }
 };
 
