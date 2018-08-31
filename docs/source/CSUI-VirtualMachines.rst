@@ -579,6 +579,7 @@ If a disk has snapshots, the system will ask you if you want to delete the snaps
 
 Snapshot Action Box
 `````````````````````````````````
+.. note:: For a newly taken snapshot all actions except "Delete" are disabled until the snapshot is backed up to the Secondary Storage that may take some time. Once it is backed up, a full range of actions is available to a user.
 
 For each snapshot the following actions are available:
 
