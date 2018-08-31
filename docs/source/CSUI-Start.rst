@@ -73,6 +73,8 @@ In the upper-right corner of the screen, you can see the list of pending operati
 
 Alongside with the notification panel, the action completion confirmation additionally appears in the snackbar notification at the page bottom.
 
+.. figure:: _static/Snackbar.png
+
 In case of errors at data loading the snackbar also notifies of them. In this case it has a refresh button that refreshes the whole app.
 
 .. figure:: _static/VMs_Snackbar.png
