@@ -71,7 +71,9 @@ In the upper-right corner of the screen, you can see the list of pending operati
 
 .. figure:: _static/VMs_Alerts1.png
 
-A snackbar notification additionally appears at the page bottom and notifies about errors at data loading. This snackbar has a refresh button that refreshes the whole app.
+Alonside with the notification panel, the action completion confirmation additionally appears in the snackbar notification at the page bottom.
+
+In case of errors at data loading the snackbar also notifies of them. In this case it has a refresh button that refreshes the whole app.
 
 .. figure:: _static/VMs_Snackbar.png
 
