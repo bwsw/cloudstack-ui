@@ -9,7 +9,7 @@ import { ConfigService } from '../../core/services';
 
 export interface OfferingAvailability {
   filterOfferings: boolean;
-  zones: {
+  zones?: {
     [zoneId: string]: {
       diskOfferings: Array<string>,
       serviceOfferings: Array<string>

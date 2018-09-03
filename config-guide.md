@@ -79,12 +79,12 @@ Is not specified, blue-red one is used.
 
 In this section you can specify which offerings will be available for which zones. Format:
     "offeringAvailability": {
+      "filterOfferings": true,
       "zones": {
-        "filterOfferings": true,
-          "zoneId": {
-            "diskOfferings": ["offeringId1", "offeringId2"],
-            "serviceOfferings": ["offeringId3", "offeringId4"]
-          }
+        "zoneId": {
+          "diskOfferings": ["offeringId1", "offeringId2"],
+          "serviceOfferings": ["offeringId3", "offeringId4"]
+        }
       }
     }
 
