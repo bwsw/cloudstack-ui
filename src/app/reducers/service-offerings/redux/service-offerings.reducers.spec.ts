@@ -267,7 +267,7 @@ describe('Test service offering reducer', () => {
       cpunumber: 2, memory: 2, storagetype: StorageTypes.shared
     };
 
-    const result1 = fromSOs.isOfferingAvailableInZone(
+    const result1 = fromSOs.isComputeOfferingAvailableInZone(
       offering,
       {
         filterOfferings: true,
@@ -282,7 +282,7 @@ describe('Test service offering reducer', () => {
     );
     expect(result1).toEqual(true);
 
-    const result2 = fromSOs.isOfferingAvailableInZone(
+    const result2 = fromSOs.isComputeOfferingAvailableInZone(
       offering,
       {
         filterOfferings: false,

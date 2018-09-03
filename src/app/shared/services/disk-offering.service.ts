@@ -35,6 +35,10 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
     offeringAvailability: OfferingAvailability,
     zone: Zone
   ): boolean {
-    return offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+    if (offeringAvailability.zones[zone.id]) {
+      const isOfferingExist = offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+      return isOfferingExist;
+    }
+    return false;
   }
 }

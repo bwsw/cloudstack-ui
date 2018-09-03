@@ -267,13 +267,16 @@ export const getCustomOfferingWithParams = (
   }
 };
 
-export const isOfferingAvailableInZone = (
+export const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,
   availability: OfferingAvailability,
   zone: Zone
 ) => {
-  return availability.zones[zone.id]
-    && availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+  if (availability.zones[zone.id]) {
+    const isOfferingExist = availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+    return isOfferingExist;
+  }
+  return false;
 };
 
 export const getOfferingsAvailableInZone = (
@@ -287,7 +290,7 @@ export const getOfferingsAvailableInZone = (
 
   return offeringList
     .filter(offering => {
-      const offeringAvailableInZone = isOfferingAvailableInZone(
+      const offeringAvailableInZone = isComputeOfferingAvailableInZone(
         offering,
         availability,
         zone

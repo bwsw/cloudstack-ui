@@ -10,6 +10,8 @@ import * as sessionTimeout from './session-timeout.scheme.json';
 
 import * as configureSidenav from './configure-sidenav.scheme.json';
 
+import * as offeringAvailability from './offering-availability.scheme.json';
+
 export {
   // General
   defaultDomain,
@@ -22,5 +24,7 @@ export {
   defaultThemeName,
   sessionTimeout,
   // Menu setting
-  configureSidenav
+  configureSidenav,
+  // Offerings
+  offeringAvailability,
 }

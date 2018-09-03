@@ -68,7 +68,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   public updateZone(zone: Zone) {
     this.account$
       .take(1)
-      .filter(account => !!account)
+      .filter(Boolean)
       .subscribe((account) => {
         if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
           this.handleInsufficientResources();
