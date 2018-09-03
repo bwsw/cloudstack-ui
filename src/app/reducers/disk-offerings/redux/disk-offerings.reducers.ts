@@ -122,7 +122,8 @@ const isOfferingAvailableInZone = (
   offeringAvailability: OfferingAvailability,
   zone: Zone
 ) => {
-  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+  return offeringAvailability.zones[zone.id]
+    && offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
 };
 
 export const getSelectedOffering = createSelector(

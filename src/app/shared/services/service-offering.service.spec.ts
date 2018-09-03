@@ -66,10 +66,12 @@ describe('Service-offering service', () => {
     let result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
       <OfferingAvailability>{
-        1: {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: []
+        filterOfferings: true,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: []
+          }
         }
       },
       <Zone>{ id: '1' }
@@ -80,10 +82,12 @@ describe('Service-offering service', () => {
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
       <OfferingAvailability>{
-        1: {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: ['1']
+        filterOfferings: true,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: ['1']
+          }
         }
       },
       <Zone>{ id: '1' }
@@ -93,10 +97,12 @@ describe('Service-offering service', () => {
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
       <OfferingAvailability>{
-        1: {
-          filterOfferings: false,
-          diskOfferings: [],
-          serviceOfferings: []
+        filterOfferings: false,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: []
+          }
         }
       },
       <Zone>{ id: '1' }
@@ -115,10 +121,12 @@ describe('Service-offering service', () => {
     const result = serviceOfferingService.getAvailableByResourcesSync(
       availableOfferings,
       <OfferingAvailability>{
-        1: {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: []
+        filterOfferings: false,
+        zones: {
+          '1': {
+            diskOfferings: [],
+            serviceOfferings: []
+          }
         }
       },
       undefined,
@@ -193,10 +201,12 @@ describe('Service-offering service', () => {
     let result = serviceOfferingService.getAvailableByResourcesSync(
       [newSO],
       <OfferingAvailability>{
-        1: {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: []
+        filterOfferings: true,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: []
+          }
         }
       },
       { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
@@ -210,10 +220,12 @@ describe('Service-offering service', () => {
     result = serviceOfferingService.getAvailableByResourcesSync(
       [newSO],
       <OfferingAvailability>{
-        1: {
           filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: []
+          zones: {
+            1: {
+            diskOfferings: [],
+            serviceOfferings: []
+          }
         }
       },
       { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },

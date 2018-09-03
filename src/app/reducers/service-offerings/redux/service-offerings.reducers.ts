@@ -89,7 +89,7 @@ export const initialFilters = {
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  offeringAvailability: {},
+  offeringAvailability: <OfferingAvailability>{},
   defaultParams: {},
   customOfferingRestrictions: {},
   offeringCompatibilityPolicy: {
@@ -272,7 +272,8 @@ export const isOfferingAvailableInZone = (
   availability: OfferingAvailability,
   zone: Zone
 ) => {
-  return availability[zone.id] && availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1
+  return availability.zones[zone.id]
+    && availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
 };
 
 export const getOfferingsAvailableInZone = (

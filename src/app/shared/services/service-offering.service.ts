@@ -59,6 +59,6 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
     if (!availability.filterOfferings) {
         return true;
     }
-    return availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+    return availability.zones[zone.id] && availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
   }
 }
