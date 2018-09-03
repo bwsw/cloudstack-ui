@@ -7,10 +7,8 @@ import { DefaultCustomServiceOfferingRestrictions, ServiceOffering } from '../..
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { ConfigService } from '../../../core/services';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
-import * as accountTagActions from '../../account-tags/redux/account-tags.actions';
 import * as serviceOfferingActions from './service-offerings.actions';
-
-// tslint:enable max-line-length
+import * as userTagAction from '../../../root-store/server-data/user-tags/user-tags.actions';
 
 @Injectable()
 export class ServiceOfferingEffects {
@@ -72,7 +70,7 @@ export class ServiceOfferingEffects {
   updateCustomServiceOffering$: Observable<Action> = this.actions$
     .ofType(serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING)
     .map((action: serviceOfferingActions.UpdateCustomServiceOffering) => {
-      return new accountTagActions.UpdateCustomServiceOfferingParams(action.payload);
+      return new userTagAction.UpdateCustomServiceOfferingParams(action.payload);
     });
 
 

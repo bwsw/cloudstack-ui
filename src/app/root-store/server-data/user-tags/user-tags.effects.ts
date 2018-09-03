@@ -3,11 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { switchMap } from 'rxjs/operators/switchMap';
-import { exhaustMap } from 'rxjs/operators/exhaustMap';
-import { map } from 'rxjs/operators/map';
-import { mergeMap } from 'rxjs/operators/mergeMap';
-import { catchError } from 'rxjs/operators/catchError';
+import { switchMap, exhaustMap, map, mergeMap, catchError, tap } from 'rxjs/operators';
 
 import {
   CloseSidenav,
@@ -26,7 +22,7 @@ import {
   UpdateAskToCreateVMSuccess,
   UpdateAskToCreateVolume,
   UpdateAskToCreateVolumeError,
-  UpdateAskToCreateVolumeSuccess,
+  UpdateAskToCreateVolumeSuccess, UpdateCustomServiceOfferingParamsError, UpdateCustomServiceOfferingParamsSuccess,
   UpdateFirstDayOfWeek,
   UpdateFirstDayOfWeekError,
   UpdateFirstDayOfWeekSuccess,
@@ -58,11 +54,12 @@ import {
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { Tag } from '../../../shared/models';
+import { ServiceOffering, Tag } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { State } from '../../state';
 import * as userTagsSelectors from './user-tags.selectors';
 import { StartIdleMonitor, UpdateIdleMonitorTimeout } from '../../idle-monitor/idle-monitor.actions';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class UserTagsEffects {
@@ -275,6 +272,22 @@ export class UserTagsEffects {
     mergeMap(() => this.upsertTag(userTagKeys.sidenavVisible, 'false'))
   );
 
+  @Effect()
+  updateCustomServiceOfferingParams$: Observable<Action> = this.actions$.pipe(
+    ofType(UserTagsActionTypes.UpdateCustomServiceOfferingParams),
+    switchMap((action) => {
+      return this.setServiceOfferingParams(action['payload']).pipe(
+        map((offering) => new UpdateCustomServiceOfferingParamsSuccess(offering)),
+        catchError((error: Error) => of(new UpdateCustomServiceOfferingParamsError({error})))
+      )
+    }));
+  @Effect({ dispatch: false })
+  updateCustomServiceOfferingParamsError$ = this.actions$.pipe(
+    ofType(UserTagsActionTypes.UpdateCustomServiceOfferingParamsError),
+    tap((action) => {
+      this.handleError(action['payload']);
+    }));
+
   private readonly resourceType = 'User';
 
   private get resourceId(): string | null {
@@ -285,8 +298,17 @@ export class UserTagsEffects {
     private actions$: Actions,
     private tagService: TagService,
     private authService: AuthService,
-    private store: Store<State>
+    private store: Store<State>,
+    private dialogService: DialogService
   ) {
+  }
+
+  public setServiceOfferingParams(offering: ServiceOffering): Observable<ServiceOffering> {
+    return Observable.forkJoin(
+      this.upsertTag(this.getSOCpuNumberKey(offering), offering.cpunumber && offering.cpunumber.toString()),
+      this.upsertTag(this.getSOCpuSpeedKey(offering), offering.cpuspeed && offering.cpuspeed.toString()),
+      this.upsertTag(this.getSOMemoryKey(offering), offering.memory && offering.memory.toString()),
+    ).map(() => offering);
   }
 
   private loadTags() {
@@ -317,5 +339,23 @@ export class UserTagsEffects {
       'tags[0].key': key,
       'tags[0].value': value
     })
+  }
+
+  private getSOCpuNumberKey(offering: ServiceOffering): string {
+    return `${userTagKeys.serviceOfferingParam}.${offering.id}.cpuNumber`;
+  }
+  private getSOCpuSpeedKey(offering: ServiceOffering): string {
+    return `${userTagKeys.serviceOfferingParam}.${offering.id}.cpuSpeed`;
+  }
+  private getSOMemoryKey(offering: ServiceOffering): string {
+    return `${userTagKeys.serviceOfferingParam}.${offering.id}.memory`;
+  }
+  private handleError(error: any): void {
+    this.dialogService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Tag } from '../../../shared/models';
+import { ServiceOffering, Tag } from '../../../shared/models';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
 
 
@@ -68,6 +68,11 @@ export enum UserTagsActionTypes {
   // These actions will be exported through layoutActions
   OpenSidenav = '[Layout] Open Sidenav',
   CloseSidenav = '[Layout] Close Sidenav',
+
+  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
+  UpdateCustomServiceOfferingParamsSuccess =
+    '[Resource tags API] Set "csui.user.service-offering.param" tag success',
+  UpdateCustomServiceOfferingParamsError = '[Resource tags API] Set "csui.user.service-offering.param" tag error',
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -410,6 +415,22 @@ export class CloseSidenav implements Action {
   readonly type = UserTagsActionTypes.CloseSidenav;
 }
 
+export class UpdateCustomServiceOfferingParams implements Action {
+  readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParams;
+  constructor(readonly payload: ServiceOffering) {
+  }
+}
+export class UpdateCustomServiceOfferingParamsSuccess implements Action {
+  readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParamsSuccess;
+  constructor(readonly payload: ServiceOffering) {
+  }
+}
+export class UpdateCustomServiceOfferingParamsError implements Action {
+  readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParamsError;
+  constructor(readonly payload:  {error: Error }) {
+  }
+}
+
 export type UserTagsActionsUnion =
   | SetDefaultUserTagsAtStartup
   | SetDefaultUserTagsDueToLogout
@@ -456,4 +477,7 @@ export type UserTagsActionsUnion =
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
   | OpenSidenav
-  | CloseSidenav;
+  | CloseSidenav
+  | UpdateCustomServiceOfferingParams
+  | UpdateCustomServiceOfferingParamsSuccess
+  | UpdateCustomServiceOfferingParamsError;

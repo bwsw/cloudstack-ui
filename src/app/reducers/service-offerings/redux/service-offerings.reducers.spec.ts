@@ -402,11 +402,16 @@ describe('Test service offering reducer', () => {
 
   it('should get custom offering with set params', () => {
     const offering = <ServiceOffering>{
-      id: '2', name: 'off2', hosttags: 't1',
-      iscustomized: true, cpunumber: 2, memory: 2
+      id: '2',
+      name: 'off2',
+      hosttags: 't1',
+      iscustomized: true,
+      cpunumber: 2,
+      memory: 2,
+      cpuspeed: 1
     };
     const tag1 = <Tag>{
-      key: 'csui.service-offering.param.2.cpuNumber',
+      key: 'csui.service-offering.param.2.cpunumber',
       value: '2',
       resourcetype: 'User',
       resourceid: '1',
@@ -415,7 +420,7 @@ describe('Test service offering reducer', () => {
       domain: '1'
     };
     const tag2 = <Tag>{
-      key: 'csui.service-offering.param.2.cpuSpeed',
+      key: 'csui.service-offering.param.2.cpuspeed',
       value: '1',
       resourcetype: 'User',
       resourceid: '1',
@@ -424,7 +429,7 @@ describe('Test service offering reducer', () => {
       domain: '1'
     };
     const tag3 = <Tag>{
-      key: 'csui.service-offering.param.2.memory',
+      key: 'csui.user.service-offering.param.2.memory',
       value: '2',
       resourcetype: 'User',
       resourceid: '1',

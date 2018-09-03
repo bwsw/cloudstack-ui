@@ -14,6 +14,17 @@ function convertToBoolean(input: string): boolean {
 
 const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
 
+export const getAccountTagsEntitiesState = createSelector(
+  getUserTagsState,
+  state => state
+);
+export const {
+  selectIds,
+  selectEntities,
+  selectAll,
+  selectTotal,
+} = adapter.getSelectors(getAccountTagsEntitiesState);
+
 export const getIsLoading = createSelector(
   getUserTagsState,
   (state: UserTagsState) => state.isLoading
@@ -97,4 +108,11 @@ export const getTheme = createSelector(
 export const getNavigationOrder = createSelector(
   getUserTagsEntities,
   (entities): string => entities[userTagKeys.navigationOrder].value
+);
+
+export const selectServiceOfferingParamTags = createSelector(
+  selectAll,
+  (tags) => {
+    return tags && tags.filter(tag => tag.key.indexOf(userTagKeys.serviceOfferingParam) !== -1);
+  }
 );
