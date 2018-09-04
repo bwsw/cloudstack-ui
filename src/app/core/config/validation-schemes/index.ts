@@ -1,6 +1,7 @@
 import * as sessionRefreshInterval from './session-refresh-interval.scheme.json';
 import * as defaultDomain from './default-domain.scheme.json';
 import * as extensions from './extensions.scheme.json';
+import * as templateGroups from './template-groups.scheme.json';
 
 import * as defaultFirstDayOfWeek from './default-first-day-of-week.scheme.json';
 import * as defaultInterfaceLanguage from './default-interface-language.scheme.json';
@@ -15,6 +16,7 @@ export {
   defaultDomain,
   sessionRefreshInterval,
   extensions,
+  templateGroups,
   // User app settings
   defaultFirstDayOfWeek,
   defaultInterfaceLanguage,

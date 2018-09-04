@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "templateGroups",
+  "type": "array",
+  "minimum": 0,
+  "items": {
+    "type": "object",
+    "required": ["id", "translations"],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "translations": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
