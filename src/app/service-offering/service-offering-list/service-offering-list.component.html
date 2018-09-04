@@ -5,7 +5,6 @@
 
     <div class="table-wrapper">
       <mat-table [dataSource]="group.items">
-
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element">
@@ -60,10 +59,13 @@
         <ng-container matColumnDef="radioButton">
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <mat-radio-button
-              name="service-offering"
-              [checked]="selectedOffering && element.id === selectedOffering.id"
-            ></mat-radio-button>
+            <mat-radio-group
+            >
+              <mat-radio-button
+                name="service-offering"
+                [checked]="selectedOffering && element.id === selectedOffering.id"
+              ></mat-radio-button>
+            </mat-radio-group>
           </mat-cell>
         </ng-container>
 
