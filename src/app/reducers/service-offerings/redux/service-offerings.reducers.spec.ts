@@ -5,7 +5,7 @@ import {
 } from '../../../shared/models/service-offering.model';
 import { Tag } from '../../../shared/models/tag.model';
 import { Zone } from '../../../shared/models/zone.model';
-import { OfferingPolicy } from '../../../shared/services/offering.service';
+import { OfferingAvailability, OfferingPolicy } from '../../../shared/services/offering.service';
 import {
   ResourcesData,
   ResourceStats
@@ -29,7 +29,7 @@ describe('Test service offering reducer', () => {
         ids: [],
         entities: {},
         loading: false,
-        offeringAvailability: {},
+        offeringAvailability: <OfferingAvailability>{},
         defaultParams: {},
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
@@ -50,7 +50,7 @@ describe('Test service offering reducer', () => {
         ids: [],
         entities: {},
         loading: true,
-        offeringAvailability: {},
+        offeringAvailability: <OfferingAvailability>{},
         defaultParams: {},
         customOfferingRestrictions: {},
         offeringCompatibilityPolicy: {
@@ -245,10 +245,12 @@ describe('Test service offering reducer', () => {
     const result = fromSOs.getAvailableByResourcesSync(
       list,
       {
-        '1': {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: ['1', '2'],
+        filterOfferings: true,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: ['1', '2']
+          }
         }
       },
       { '1': { cpunumber: { min: 1 }, memory: { min: 1 } } },
@@ -265,26 +267,30 @@ describe('Test service offering reducer', () => {
       cpunumber: 2, memory: 2, storagetype: StorageTypes.shared
     };
 
-    const result1 = fromSOs.isOfferingAvailableInZone(
+    const result1 = fromSOs.isComputeOfferingAvailableInZone(
       offering,
       {
-        '1': {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: ['1', '2'],
+        filterOfferings: true,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: ['1', '2']
+          }
         }
       },
       <Zone>{ id: '1' }
     );
     expect(result1).toEqual(true);
 
-    const result2 = fromSOs.isOfferingAvailableInZone(
+    const result2 = fromSOs.isComputeOfferingAvailableInZone(
       offering,
       {
-        '1': {
-          filterOfferings: false,
-          diskOfferings: [],
-          serviceOfferings: ['1', '2'],
+        filterOfferings: false,
+        zones: {
+          '1': {
+            diskOfferings: [],
+            serviceOfferings: ['1', '2']
+          }
         }
       },
       <Zone>{ id: '1' }
@@ -307,10 +313,12 @@ describe('Test service offering reducer', () => {
     const result1 = fromSOs.getOfferingsAvailableInZone(
       list,
       {
-        '1': {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: ['1', '2'],
+        filterOfferings: true,
+        zones: {
+          '1': {
+            diskOfferings: [],
+            serviceOfferings: ['1', '2']
+          }
         }
       },
       <Zone>{ id: '1', localstorageenabled: false }
@@ -320,10 +328,12 @@ describe('Test service offering reducer', () => {
     const result2 = fromSOs.getOfferingsAvailableInZone(
       list,
       {
-        '1': {
-          filterOfferings: false,
-          diskOfferings: [],
-          serviceOfferings: ['1', '2'],
+        filterOfferings: false,
+        zones: {
+          '1': {
+            diskOfferings: [],
+            serviceOfferings: ['1', '2']
+          }
         }
       },
       <Zone>{ id: '1', localstorageenabled: false }
