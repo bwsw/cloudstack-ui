@@ -5,7 +5,7 @@
   "minimum": 0,
   "items": {
     "type": "object",
-    "required": ["id", "translations"],
+    "required": ["id"],
     "additionalProperties": false,
     "properties": {
       "id": {
