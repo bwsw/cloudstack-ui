@@ -8,11 +8,13 @@ import { ConfigService } from '../../core/services';
 
 
 export interface OfferingAvailability {
-  [zoneId: string]: {
-    filterOfferings: boolean;
-    diskOfferings: Array<string>;
-    serviceOfferings: Array<string>;
-  };
+  filterOfferings: boolean;
+  zones?: {
+    [zoneId: string]: {
+      diskOfferings: Array<string>,
+      serviceOfferings: Array<string>
+    }
+  }
 }
 
 export interface OfferingCompatibilityPolicy {

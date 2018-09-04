@@ -78,16 +78,19 @@ Is not specified, blue-red one is used.
 ### Offering Availability
 
 In this section you can specify which offerings will be available for which zones. Format:
-
-    offeringAvailability: {
+    "offeringAvailability": {
       "filterOfferings": true,
+      "zones": {
         "zoneId": {
           "diskOfferings": ["offeringId1", "offeringId2"],
           "serviceOfferings": ["offeringId3", "offeringId4"]
         }
+      }
     }
 
 If filterOfferings is set to false, all offerings will be available for all zones.
+List of available disk offerings in a Storage creation.
+List of Disk Offerings available in a VM creation.
 
 ### Custom Offering Restrictions
 

@@ -117,12 +117,16 @@ export const isLoading = createSelector(
   state => state.loading
 );
 
-const isOfferingAvailableInZone = (
+const isDiskOfferingAvailableInZone = (
   offering: DiskOffering,
   offeringAvailability: OfferingAvailability,
   zone: Zone
 ) => {
-  return offeringAvailability[zone.id] && offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+  if (offeringAvailability.zones[zone.id]) {
+    const isOfferingExist = offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+    return isOfferingExist;
+  }
+  return false;
 };
 
 export const getSelectedOffering = createSelector(
@@ -142,7 +146,7 @@ const getOfferingsAvailableInZone = (
 
   return offeringList
     .filter(offering => {
-      const offeringAvailableInZone = isOfferingAvailableInZone(
+      const offeringAvailableInZone = isDiskOfferingAvailableInZone(
         offering,
         offeringAvailability,
         zone

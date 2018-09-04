@@ -15,13 +15,13 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
   public getList(params?: any): Observable<Array<DiskOffering>> {
     return super.getList(params)
       .map(list => {
-        if (!params || !params.maxSize) {
+        if (!params || params.maxSize === 'Unlimited' || !params.maxSize ) {
           return list;
+        } else {
+          return list.filter((offering: DiskOffering) => {
+            return offering.disksize < params.maxSize || offering.iscustomized;
+          });
         }
-
-        return list.filter((offering: DiskOffering) => {
-          return offering.disksize < params.maxSize || offering.iscustomized;
-        });
       });
   }
 
@@ -35,6 +35,10 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
     offeringAvailability: OfferingAvailability,
     zone: Zone
   ): boolean {
-    return offeringAvailability[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+    if (offeringAvailability.zones[zone.id]) {
+      const isOfferingExist = offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+      return isOfferingExist;
+    }
+    return false;
   }
 }
