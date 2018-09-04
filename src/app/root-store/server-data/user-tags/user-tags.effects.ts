@@ -293,10 +293,14 @@ export class UserTagsEffects {
   }
 
   private setComputeOfferingParams(offering: ServiceOffering) {
+    const cpuNumberKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpunumber`;
+    const cpuSpeedKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpuspeed`;
+    const memoryKey = `${userTagKeys.computeOfferingParam}.${offering.id}.memory`;
+
     return Observable.forkJoin(
-      this.upsertTag(this.getCpuNumberKey(offering), offering.cpunumber && offering.cpunumber.toString()),
-      this.upsertTag(this.getCpuSpeedKey(offering), offering.cpuspeed && offering.cpuspeed.toString()),
-      this.upsertTag(this.getMemoryKey(offering), offering.memory && offering.memory.toString()),
+      this.upsertTag(cpuNumberKey, offering.cpunumber && offering.cpunumber.toString()),
+      this.upsertTag(cpuSpeedKey, offering.cpuspeed && offering.cpuspeed.toString()),
+      this.upsertTag(memoryKey, offering.memory && offering.memory.toString()),
     );
   }
 
@@ -328,17 +332,5 @@ export class UserTagsEffects {
       'tags[0].key': key,
       'tags[0].value': value
     })
-  }
-
-  private getCpuNumberKey(offering: ServiceOffering): string {
-    return `${userTagKeys.computeOfferingParam}.${offering.id}.cpunumber`;
-  }
-
-  private getCpuSpeedKey(offering: ServiceOffering): string {
-    return `${userTagKeys.computeOfferingParam}.${offering.id}.cpuspeed`;
-  }
-
-  private getMemoryKey(offering: ServiceOffering): string {
-    return `${userTagKeys.computeOfferingParam}.${offering.id}.memory`;
   }
 }
