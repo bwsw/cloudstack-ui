@@ -11,5 +11,5 @@ export const userTagKeys = {
   timeFormat: 'csui.user.time-format',
   theme: 'csui.user.theme',
   navigationOrder: 'csui.user.navigation-order',
-  serviceOfferingParam: 'csui.user.service-offering.param',
+  computeOfferingParam: 'csui.user.compute-offering.param',
 };

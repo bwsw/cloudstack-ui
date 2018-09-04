@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { switchMap, exhaustMap, map, mergeMap, catchError, tap } from 'rxjs/operators';
+import { switchMap, exhaustMap, map, mergeMap, catchError } from 'rxjs/operators';
 
 import {
   CloseSidenav,
@@ -22,7 +22,8 @@ import {
   UpdateAskToCreateVMSuccess,
   UpdateAskToCreateVolume,
   UpdateAskToCreateVolumeError,
-  UpdateAskToCreateVolumeSuccess, UpdateCustomServiceOfferingParamsError, UpdateCustomServiceOfferingParamsSuccess,
+  UpdateAskToCreateVolumeSuccess,
+  UpdateCustomServiceOfferingParams,
   UpdateFirstDayOfWeek,
   UpdateFirstDayOfWeekError,
   UpdateFirstDayOfWeekSuccess,
@@ -59,7 +60,6 @@ import { userTagKeys } from '../../../tags/tag-keys';
 import { State } from '../../state';
 import * as userTagsSelectors from './user-tags.selectors';
 import { StartIdleMonitor, UpdateIdleMonitorTimeout } from '../../idle-monitor/idle-monitor.actions';
-import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class UserTagsEffects {
@@ -272,21 +272,11 @@ export class UserTagsEffects {
     mergeMap(() => this.upsertTag(userTagKeys.sidenavVisible, 'false'))
   );
 
-  @Effect()
-  updateCustomServiceOfferingParams$: Observable<Action> = this.actions$.pipe(
-    ofType(UserTagsActionTypes.UpdateCustomServiceOfferingParams),
-    switchMap((action) => {
-      return this.setServiceOfferingParams(action['payload']).pipe(
-        map((offering) => new UpdateCustomServiceOfferingParamsSuccess(offering)),
-        catchError((error: Error) => of(new UpdateCustomServiceOfferingParamsError({error})))
-      )
-    }));
   @Effect({ dispatch: false })
-  updateCustomServiceOfferingParamsError$ = this.actions$.pipe(
-    ofType(UserTagsActionTypes.UpdateCustomServiceOfferingParamsError),
-    tap((action) => {
-      this.handleError(action['payload']);
-    }));
+  updateCustomServiceOfferingParams$: Observable<any> = this.actions$.pipe(
+    ofType<UpdateCustomServiceOfferingParams>(UserTagsActionTypes.UpdateCustomServiceOfferingParams),
+    mergeMap((action) => this.setComputeOfferingParams(action.payload.offering))
+  );
 
   private readonly resourceType = 'User';
 
@@ -298,17 +288,16 @@ export class UserTagsEffects {
     private actions$: Actions,
     private tagService: TagService,
     private authService: AuthService,
-    private store: Store<State>,
-    private dialogService: DialogService
+    private store: Store<State>
   ) {
   }
 
-  public setServiceOfferingParams(offering: ServiceOffering): Observable<ServiceOffering> {
+  private setComputeOfferingParams(offering: ServiceOffering) {
     return Observable.forkJoin(
-      this.upsertTag(this.getSOCpuNumberKey(offering), offering.cpunumber && offering.cpunumber.toString()),
-      this.upsertTag(this.getSOCpuSpeedKey(offering), offering.cpuspeed && offering.cpuspeed.toString()),
-      this.upsertTag(this.getSOMemoryKey(offering), offering.memory && offering.memory.toString()),
-    ).map(() => offering);
+      this.upsertTag(this.getCpuNumberKey(offering), offering.cpunumber && offering.cpunumber.toString()),
+      this.upsertTag(this.getCpuSpeedKey(offering), offering.cpuspeed && offering.cpuspeed.toString()),
+      this.upsertTag(this.getMemoryKey(offering), offering.memory && offering.memory.toString()),
+    );
   }
 
   private loadTags() {
@@ -341,21 +330,15 @@ export class UserTagsEffects {
     })
   }
 
-  private getSOCpuNumberKey(offering: ServiceOffering): string {
-    return `${userTagKeys.serviceOfferingParam}.${offering.id}.cpuNumber`;
+  private getCpuNumberKey(offering: ServiceOffering): string {
+    return `${userTagKeys.computeOfferingParam}.${offering.id}.cpunumber`;
   }
-  private getSOCpuSpeedKey(offering: ServiceOffering): string {
-    return `${userTagKeys.serviceOfferingParam}.${offering.id}.cpuSpeed`;
+
+  private getCpuSpeedKey(offering: ServiceOffering): string {
+    return `${userTagKeys.computeOfferingParam}.${offering.id}.cpuspeed`;
   }
-  private getSOMemoryKey(offering: ServiceOffering): string {
-    return `${userTagKeys.serviceOfferingParam}.${offering.id}.memory`;
-  }
-  private handleError(error: any): void {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
-    });
+
+  private getMemoryKey(offering: ServiceOffering): string {
+    return `${userTagKeys.computeOfferingParam}.${offering.id}.memory`;
   }
 }

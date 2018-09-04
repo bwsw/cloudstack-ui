@@ -31,43 +31,24 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       };
     }
 
-    case UserTagsActionTypes.UpdateCustomServiceOfferingParamsSuccess: {
-      const id = `${userTagKeys.serviceOfferingParam}.${action.payload.id.toString()}.cpunumber`;
-      if ((state.ids as string[]).indexOf(id) > -1) {
-        return {
-          ...adapter.updateMany([
-            {
-              id: `${userTagKeys.serviceOfferingParam}.${action.payload.id}.cpunumber`,
-              changes: { value: action.payload.cpunumber.toString() }
-            },
-            {
-              id: `${userTagKeys.serviceOfferingParam}.${action.payload.id}.cpuspeed`,
-              changes: { value: action.payload.cpuspeed.toString() }
-            },
-            {
-              id: `${userTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
-              changes: { value: action.payload.memory.toString() }
-            }
-          ], state)
-        };
-      } else {
-        return {
-          ...adapter.addMany([
-            {
-              key: `${userTagKeys.serviceOfferingParam}.${action.payload.id}.cpunumber`,
-              value: action.payload.cpunumber.toString()
-            },
-            {
-              key: `${userTagKeys.serviceOfferingParam}.${action.payload.id}.cpuspeed`,
-              value: action.payload.cpuspeed.toString()
-            },
-            {
-              key: `${userTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
-              value: action.payload.memory.toString()
-            }
-          ], state)
-        };
-      }
+    case UserTagsActionTypes.UpdateCustomServiceOfferingParams: {
+      const { offering } = action.payload;
+      const id = `${userTagKeys.computeOfferingParam}.${offering.id}`;
+      const updates: Update<Tag>[] = [
+        {
+          id: `${id}.cpunumber`,
+          changes: { key: `${id}.cpunumber`, value: offering.cpunumber.toString() }
+        },
+        {
+          id: `${id}.cpuspeed`,
+          changes: { key: `${id}.cpuspeed`, value: offering.cpuspeed.toString() }
+        },
+        {
+          id: `${id}.memory`,
+          changes: { key: `${id}.memory`, value: offering.memory.toString() }
+        }
+      ];
+      return adapter.upsertMany(updates, state);
     }
 
     case UserTagsActionTypes.UpdateAskToCreateVMSuccess:

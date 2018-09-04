@@ -3,6 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { adapter, UserTagsState } from './user-tags.state';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
+import { Tag } from '../../../shared/models';
 
 function convertToBoolean(input: string): boolean {
   try {
@@ -14,16 +15,12 @@ function convertToBoolean(input: string): boolean {
 
 const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
 
-export const getAccountTagsEntitiesState = createSelector(
-  getUserTagsState,
-  state => state
-);
 export const {
   selectIds,
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getAccountTagsEntitiesState);
+} = adapter.getSelectors(getUserTagsState);
 
 export const getIsLoading = createSelector(
   getUserTagsState,
@@ -112,7 +109,7 @@ export const getNavigationOrder = createSelector(
 
 export const selectServiceOfferingParamTags = createSelector(
   selectAll,
-  (tags) => {
-    return tags && tags.filter(tag => tag.key.indexOf(userTagKeys.serviceOfferingParam) !== -1);
+  (tags): Tag[] => {
+    return tags.filter(tag => tag.key.startsWith(userTagKeys.computeOfferingParam));
   }
 );

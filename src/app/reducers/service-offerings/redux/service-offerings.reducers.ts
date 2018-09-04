@@ -25,13 +25,13 @@ import {
   OfferingPolicy
 } from '../../../shared/services/offering.service';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
+import { UserTagsSelectors } from '../../../root-store';
 
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as fromSOClass from './service-offering-class.reducers';
 import * as serviceOfferingActions from './service-offerings.actions';
-import { selectServiceOfferingParamTags } from '../../../root-store/server-data/user-tags/user-tags.selectors';
 
 
 /**
@@ -374,7 +374,7 @@ export const getAvailableOfferings = createSelector(
   offeringCompatibilityPolicy,
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
-  selectServiceOfferingParamTags,
+  UserTagsSelectors.selectServiceOfferingParamTags,
   (
     serviceOfferings, currentOffering, availability,
     customRestrictions, compatibilityPolicy,
@@ -443,8 +443,7 @@ export const selectFilteredOfferings = createSelector(
       return true;
     };
 
-    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase()
-      .includes(queryLower);
+    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase().includes(queryLower);
 
     return offerings.filter((offering: ServiceOffering) => selectedViewModeFilter(
       offering) && queryFilter(offering) && selectedClassesFilter(offering));
@@ -505,7 +504,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromZones.selectEntities,
   fromAuths.getUserAccount,
-  selectServiceOfferingParamTags,
+  UserTagsSelectors.selectServiceOfferingParamTags,
   getDefaultParams,
   (
     serviceOfferings, availability, customRestrictions,

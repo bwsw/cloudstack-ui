@@ -7,8 +7,9 @@ import { DefaultCustomServiceOfferingRestrictions, ServiceOffering } from '../..
 import { customServiceOfferingFallbackParams } from '../../../service-offering/custom-service-offering/custom-service-offering';
 import { ConfigService } from '../../../core/services';
 import { ServiceOfferingService } from '../../../shared/services/service-offering.service';
+import { UserTagsActions } from '../../../root-store';
+
 import * as serviceOfferingActions from './service-offerings.actions';
-import * as userTagAction from '../../../root-store/server-data/user-tags/user-tags.actions';
 
 @Injectable()
 export class ServiceOfferingEffects {
@@ -66,19 +67,10 @@ export class ServiceOfferingEffects {
       );
     });
 
-  @Effect()
-  updateCustomServiceOffering$: Observable<Action> = this.actions$
-    .ofType(serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING)
-    .map((action: serviceOfferingActions.UpdateCustomServiceOffering) => {
-      return new userTagAction.UpdateCustomServiceOfferingParams(action.payload);
-    });
-
-
   constructor(
     private actions$: Actions,
     private offeringService: ServiceOfferingService,
     private configService: ConfigService
   ) {
   }
-
 }

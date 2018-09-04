@@ -37,5 +37,5 @@ export const ServiceOfferingType = {
   custom: 'Custom'
 };
 
-export const ServiceOfferingParamKey = userTagKeys.serviceOfferingParam;
+export const ServiceOfferingParamKey = userTagKeys.computeOfferingParam;
 export const DefaultServiceOfferingClassId = 'common';

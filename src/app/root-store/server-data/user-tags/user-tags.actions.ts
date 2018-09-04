@@ -69,10 +69,7 @@ export enum UserTagsActionTypes {
   OpenSidenav = '[Layout] Open Sidenav',
   CloseSidenav = '[Layout] Close Sidenav',
 
-  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
-  UpdateCustomServiceOfferingParamsSuccess =
-    '[Resource tags API] Set "csui.user.service-offering.param" tag success',
-  UpdateCustomServiceOfferingParamsError = '[Resource tags API] Set "csui.user.service-offering.param" tag error',
+  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag'
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -417,17 +414,8 @@ export class CloseSidenav implements Action {
 
 export class UpdateCustomServiceOfferingParams implements Action {
   readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParams;
-  constructor(readonly payload: ServiceOffering) {
-  }
-}
-export class UpdateCustomServiceOfferingParamsSuccess implements Action {
-  readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParamsSuccess;
-  constructor(readonly payload: ServiceOffering) {
-  }
-}
-export class UpdateCustomServiceOfferingParamsError implements Action {
-  readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParamsError;
-  constructor(readonly payload:  {error: Error }) {
+
+  constructor(readonly payload: { offering: ServiceOffering }) {
   }
 }
 
@@ -478,6 +466,4 @@ export type UserTagsActionsUnion =
   | IncrementLastVMIdError
   | OpenSidenav
   | CloseSidenav
-  | UpdateCustomServiceOfferingParams
-  | UpdateCustomServiceOfferingParamsSuccess
-  | UpdateCustomServiceOfferingParamsError;
+  | UpdateCustomServiceOfferingParams;
