@@ -2,7 +2,6 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "templateGroups",
   "type": "array",
-  "minimum": 0,
   "items": {
     "type": "object",
     "required": ["id"],
@@ -13,8 +12,20 @@
         "minLength": 1
       },
       "translations": {
-        "type": "object",
-        "additionalProperties": {
+        "$ref": "#/definitions/Translations"
+      }
+    }
+  },
+  "definitions": {
+    "Translations": {
+      "type": "object",
+      "required": ["ru", "en"],
+      "additionalProperties": false,
+      "properties": {
+        "ru": {
+          "type": "string"
+        },
+        "en": {
           "type": "string"
         }
       }
