@@ -25,8 +25,7 @@ export {
   sessionTimeout,
   // Menu setting
   configureSidenav,
-  // Offerings
-  offeringAvailability,
   // Service offering setting
+  offeringAvailability,
   serviceOfferingClasses
 }
