@@ -26,10 +26,6 @@ export class SecurityGroupActionsComponent implements OnInit {
 
   public ngOnInit() {
     this.actions = this.securityGroupActionService.actions;
-
-    if (this.securityGroup && this.securityGroup.preselected) {
-      this.actions = this.actions.filter(action => action.command !== SecurityGroupActionType.Delete);
-    }
   }
 
 
