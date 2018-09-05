@@ -1,6 +1,8 @@
 <div *ngFor="let group of list">
   <ng-container *ngIf="group.items.data.length">
-    <h4>{{ getName(group.soClass) | translate }}</h4>
+    <h4 [style.visibility]="getName(group.soClass) === 'empty' ? 'hidden' : 'visible'">
+      {{ getName(group.soClass) | translate }}
+    </h4>
     <h5>{{ getDescription(group.soClass) | translate }}</h5>
 
     <div class="table-wrapper">
@@ -63,6 +65,7 @@
             >
               <mat-radio-button
                 name="service-offering"
+                [value]="element"
                 [checked]="selectedOffering && element.id === selectedOffering.id"
               ></mat-radio-button>
             </mat-radio-group>
