@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { State, UserTagsActions } from '../../../root-store/index';
+import { State, UserTagsActions } from '../../../root-store';
 import { SettingsViewModel } from '../../view-models';
 import { getSettingsViewModel } from '../../selectors';
 import { UserService } from '../../../shared/services/user.service';

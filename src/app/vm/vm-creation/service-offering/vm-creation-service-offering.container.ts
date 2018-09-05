@@ -9,7 +9,7 @@ import * as fromServiceOfferings from '../../../reducers/service-offerings/redux
 import { ICustomOfferingRestrictions, ServiceOffering } from '../../../shared/models';
 // tslint:disable-next-line
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
-
+import { UserTagsActions } from '../../../root-store';
 
 @Component({
   selector: 'cs-vm-creation-service-offering-container',
@@ -79,8 +79,8 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ query }));
   }
 
-  public updateServiceOffering(serviceOffering) {
-    this.store.dispatch(new serviceOfferingActions.UpdateCustomServiceOffering(serviceOffering));
+  public updateServiceOffering(offering) {
+    this.store.dispatch(new UserTagsActions.UpdateCustomServiceOfferingParams({ offering }));
   }
 
   public changeServiceOffering(serviceOffering) {

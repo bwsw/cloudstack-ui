@@ -103,20 +103,4 @@ describe('Account tag service', () => {
     expect(spyUpdate).toHaveBeenCalledWith(
       <Account>{ account: 'Account', domainid: 'D1'}, AccountResourceType, 'key', 'value');
   });
-
-  it('should set service offering params', () => {
-    const spyWrite = spyOn(accountTagService, 'writeTag').and.returnValue(of(true));
-    const offering = <ServiceOffering>{
-      id: '1', name: 'off1', hosttags: 't1,t2',
-      storagetype: StorageTypes.local, cpuspeed: 1,
-      cpunumber: 2, memory: 2, iscustomized: true
-    };
-
-    accountTagService.setServiceOfferingParams(offering).subscribe(res =>
-      expect(res).toEqual(offering));
-    expect(spyWrite).toHaveBeenCalledWith('csui.service-offering.param.1.cpuNumber', '2');
-    expect(spyWrite).toHaveBeenCalledWith('csui.service-offering.param.1.cpuSpeed', '1');
-    expect(spyWrite).toHaveBeenCalledWith('csui.service-offering.param.1.memory', '2');
-  });
-
 });

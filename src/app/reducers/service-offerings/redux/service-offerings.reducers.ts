@@ -25,12 +25,12 @@ import {
   OfferingPolicy
 } from '../../../shared/services/offering.service';
 import { ResourceStats } from '../../../shared/services/resource-usage.service';
-import * as fromAccountTags from '../../account-tags/redux/account-tags.reducers';
+import { UserTagsSelectors } from '../../../root-store';
+
 import * as fromAuths from '../../auth/redux/auth.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as fromSOClass from './service-offering-class.reducers';
-
 import * as serviceOfferingActions from './service-offerings.actions';
 
 
@@ -132,12 +132,6 @@ export function reducer(
          */
         ...adapter.addAll(offerings, state),
         loading: false
-      };
-    }
-
-    case serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING: {
-      return {
-        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state)
       };
     }
 
@@ -246,18 +240,18 @@ export const getSelectedOffering = createSelector(
 
 export const getCustomOfferingWithParams = (
   serviceOffering: CustomServiceOffering,
-  tags: Array<Tag>
+  tags: Array<Tag>,
+  defaults?
 ): CustomServiceOffering => {
-
   const getValue = (param) => {
     const key = `${ServiceOfferingParamKey}.${serviceOffering.id}.${param}`;
     const tag = tags.find(t => t.key === key);
     return tag && tag.value;
   };
 
-  const cpunumber = parseInt(getValue('cpuNumber'), 10);
-  const cpuspeed = parseInt(getValue('cpuSpeed'), 10);
-  const memory = parseInt(getValue('memory'), 10);
+  const cpunumber = parseInt(getValue('cpunumber'), 10) || defaults && defaults.cpunumber;
+  const cpuspeed = parseInt(getValue('cpuspeed'), 10) || defaults && defaults.cpuspeed;
+  const memory = parseInt(getValue('memory'), 10) || defaults && defaults.memory;
 
   if (cpunumber && cpuspeed && memory ) {
     const params = { cpunumber, cpuspeed, memory };
@@ -381,7 +375,7 @@ export const getAvailableOfferings = createSelector(
   offeringCompatibilityPolicy,
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
-  fromAccountTags.selectServiceOfferingParamTags,
+  UserTagsSelectors.selectServiceOfferingParamTags,
   (
     serviceOfferings, currentOffering, availability,
     customRestrictions, compatibilityPolicy,
@@ -450,27 +444,72 @@ export const selectFilteredOfferings = createSelector(
       return true;
     };
 
-    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase()
-        .includes(queryLower);
+    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase().includes(queryLower);
 
     return offerings.filter((offering: ServiceOffering) => selectedViewModeFilter(
       offering) && queryFilter(offering) && selectedClassesFilter(offering));
   }
 );
 
+export const getCustomRestrictions = createSelector(customOfferingRestrictions,
+  fromZones.getSelectedZone, (restrictions, zone) => {
+    return restrictions && zone && restrictions[zone.id] || DefaultCustomServiceOfferingRestrictions;
+  });
+
+export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,
+  fromVMs.getVmCreationZoneId, (restrictions, zoneId) => {
+    return restrictions && restrictions[zoneId] || DefaultCustomServiceOfferingRestrictions;
+  });
+
+export const getDefaultParams = createSelector(
+  defaultParams,
+  getCustomRestrictions,
+  getCustomRestrictionsForVmCreation,
+  fromAuths.getUserAccount,
+  (defaults, customRestrictions, customRestrictionsForVmCreation, user ) => {
+    const resourceStats = ResourceStats.fromAccount([user]);
+    const getServiceOfferingRestriction = (param) => {
+      return defaults && defaults[param]
+        || customRestrictions && customRestrictions[param] && customRestrictions[param].min
+        || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param]
+        && customRestrictionsForVmCreation[param].min
+        || customServiceOfferingFallbackParams[param];
+    };
+
+    const cpunumber = getServiceOfferingRestriction('cpunumber');
+    const cpuspeed = getServiceOfferingRestriction('cpuspeed');
+    const memory = getServiceOfferingRestriction('memory');
+
+    const restrictions = getRestrictionIntersection(
+      customRestrictions,
+      resourceStats
+    );
+
+    if (!restrictionsAreCompatible(restrictions)) {
+      return undefined;
+    }
+
+    const normalizedParams = clipOfferingParamsToRestrictions(
+      { cpunumber, cpuspeed, memory },
+      restrictions
+    );
+
+    return { ...normalizedParams };
+  }
+);
+
 export const getAvailableOfferingsForVmCreation = createSelector(
   selectAll,
   offeringAvailability,
-  defaultParams,
   customOfferingRestrictions,
   fromVMs.getVmCreationZoneId,
   fromZones.selectEntities,
   fromAuths.getUserAccount,
-  fromAccountTags.selectServiceOfferingParamTags,
+  UserTagsSelectors.selectServiceOfferingParamTags,
+  getDefaultParams,
   (
-    serviceOfferings, availability,
-    defaults, customRestrictions,
-    zoneId, zones, user, paramTags
+    serviceOfferings, availability, customRestrictions,
+    zoneId, zones, user, paramTags, defaults
   ) => {
     const zone = zones && zones[zoneId];
     if (zone && user) {
@@ -485,7 +524,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
       return availableOfferings.map((offering: ServiceOffering) => {
         return !offering.iscustomized
           ? offering
-          : getCustomOfferingWithParams(offering, paramTags);
+          : getCustomOfferingWithParams(offering, paramTags, defaults);
       }).filter(item => item);
     } else {
       return [];
@@ -521,16 +560,6 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
       offering) && queryFilter(offering) && selectedClassesFilter(offering));
   }
 );
-
-export const getCustomRestrictions = createSelector(customOfferingRestrictions,
-  fromZones.getSelectedZone, (restrictions, zone) => {
-    return restrictions && zone && restrictions[zone.id] || DefaultCustomServiceOfferingRestrictions;
-  });
-
-export const getCustomRestrictionsForVmCreation = createSelector(customOfferingRestrictions,
-  fromVMs.getVmCreationZoneId, (restrictions, zoneId) => {
-    return restrictions && restrictions[zoneId] || DefaultCustomServiceOfferingRestrictions;
-  });
 
 export const clipOfferingParamsToRestrictions = (
   offeringParams: ICustomServiceOffering,
@@ -628,40 +657,3 @@ export const getRestrictionIntersection = (
 
   return result;
 };
-
-export const getDefaultParams = createSelector(
-  defaultParams,
-  getCustomRestrictions,
-  getCustomRestrictionsForVmCreation,
-  fromAuths.getUserAccount,
-  (defaults, customRestrictions, customRestrictionsForVmCreation, user ) => {
-    const resourceStats = ResourceStats.fromAccount([user]);
-    const getServiceOfferingRestriction = (param) => {
-      return defaults && defaults[param]
-        || customRestrictions && customRestrictions[param] && customRestrictions[param].min
-        || customRestrictionsForVmCreation && customRestrictionsForVmCreation[param]
-          && customRestrictionsForVmCreation[param].min
-        || customServiceOfferingFallbackParams[param];
-    };
-
-    const cpunumber = getServiceOfferingRestriction('cpunumber');
-    const cpuspeed = getServiceOfferingRestriction('cpuspeed');
-    const memory = getServiceOfferingRestriction('memory');
-
-    const restrictions = getRestrictionIntersection(
-      customRestrictions,
-      resourceStats
-    );
-
-    if (!restrictionsAreCompatible(restrictions)) {
-      return undefined;
-    }
-
-    const normalizedParams = clipOfferingParamsToRestrictions(
-      { cpunumber, cpuspeed, memory },
-      restrictions
-    );
-
-    return { ...normalizedParams };
-  }
-);
