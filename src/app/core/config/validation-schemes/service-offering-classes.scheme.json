@@ -29,6 +29,7 @@
     "Translations": {
       "type": "object",
       "additionalProperties": false,
+      "required": ["ru", "en"],
       "properties": {
         "ru": {
           "type": "string"
