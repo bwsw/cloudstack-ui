@@ -78,6 +78,7 @@ Is not specified, blue-red one is used.
 ### Offering Availability
 
 In this section you can specify which offerings will be available for which zones. Format:
+
     "offeringAvailability": {
       "filterOfferings": true,
       "zones": {

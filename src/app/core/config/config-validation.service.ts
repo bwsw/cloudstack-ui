@@ -68,6 +68,7 @@ export class ConfigValidationService {
     defaultThemeName: validationSchemes.defaultThemeName,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
+    customComputeOfferingRestrictions: validationSchemes.customComputeOfferingRestrictions,
     offeringAvailability: validationSchemes.offeringAvailability,
     templateGroups: validationSchemes.templateGroups
   };

@@ -10,6 +10,7 @@ import * as sessionTimeout from './session-timeout.scheme.json';
 
 import * as configureSidenav from './configure-sidenav.scheme.json';
 import * as offeringAvailability from './offering-availability.scheme.json';
+import * as customComputeOfferingRestrictions from './custom-compute-offering-restrictions.scheme.json';
 import * as templateGroups from './template-groups.scheme.json';
 
 export {
@@ -25,7 +26,8 @@ export {
   sessionTimeout,
   // Menu setting
   configureSidenav,
-  // Offerings
+  // Service offering setting
+  customComputeOfferingRestrictions,
   offeringAvailability,
   // Images settings
   templateGroups,
