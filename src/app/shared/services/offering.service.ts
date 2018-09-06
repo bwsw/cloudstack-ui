@@ -5,31 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 import { isOfferingLocal, Offering } from '../models/offering.model';
-import { Zone } from '../models';
+import { OfferingAvailability, Zone } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { configSelectors, State } from '../../root-store';
-
-
-export interface OfferingAvailability {
-  filterOfferings: boolean;
-  zones?: {
-    [zoneId: string]: {
-      diskOfferings: Array<string>,
-      serviceOfferings: Array<string>
-    }
-  }
-}
-
-export interface OfferingCompatibilityPolicy {
-  offeringChangePolicy?: OfferingPolicy,
-  offeringChangePolicyIgnoreTags?: string[]
-}
-
-export enum OfferingPolicy {
-  CONTAINS_ALL = 'contains-all',
-  EXACTLY_MATCH = 'exactly-match',
-  NO_RESTRICTIONS = 'no-restrictions'
-}
 
 @Injectable()
 export abstract class OfferingService<T extends Offering> extends BaseBackendService<T> {

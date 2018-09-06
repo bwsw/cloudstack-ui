@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
@@ -17,10 +13,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
 import { Zone } from '../../shared/models/zone.model';
-import {
-  VolumeCreationData,
-  VolumeType
-} from '../../shared/models/volume.model';
+import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
 
 
 @Component({

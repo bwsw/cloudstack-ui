@@ -2,9 +2,9 @@ import { createSelector } from '@ngrx/store';
 
 import { VmCompatibilityPolicy } from '../shared/vm-compatibility-policy';
 import { ResourceStats } from '../../shared/services/resource-usage.service';
-import { OfferingAvailability } from '../../shared/services/offering.service';
 import { ComputeOfferingViewModel } from '../view-models';
 import { isOfferingLocal } from '../../shared/models/offering.model';
+import { OfferingAvailability } from '../../shared/models/config';
 import {
   DefaultServiceOfferingClassId,
   ServiceOffering,

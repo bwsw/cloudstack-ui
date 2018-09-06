@@ -10,8 +10,6 @@ import { TagService } from './tag.service';
 import { Tag } from '../../models/tag.model';
 import { SSHKeyPair } from '../../models/ssh-keypair.model';
 import { AccountResourceType } from '../../models/account.model';
-import { StorageTypes } from '../../models/offering.model';
-import { ServiceOffering } from '../../models/service-offering.model';
 
 @Injectable()
 class MockService {

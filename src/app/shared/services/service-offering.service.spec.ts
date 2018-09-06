@@ -5,10 +5,9 @@ import { Store } from '@ngrx/store';
 
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { StorageTypes } from '../models/offering.model';
-import { ServiceOffering, Zone } from '../models';
+import { OfferingAvailability, ServiceOffering, Zone } from '../models';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-import { OfferingAvailability } from './offering.service';
 import { ServiceOfferingService } from './service-offering.service';
 import { TestStore } from '../../../testutils/ngrx-test-store';
 
@@ -97,14 +96,17 @@ describe('Service-offering service', () => {
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
       <OfferingAvailability>{
-        1: {
-          filterOfferings: false,
-          diskOfferings: [],
-          serviceOfferings: []
+        filterOfferings: true,
+        zones: {
+          1: {
+            filterOfferings: false,
+            diskOfferings: [],
+            serviceOfferings: []
+          }
         }
       },
       <Zone>{ id: '1' }
     );
-    expect(result).toBe(true);
+    expect(result).toBe(false);
   });
 });

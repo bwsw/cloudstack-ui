@@ -3,8 +3,7 @@ import { createSelector } from '@ngrx/store';
 import { ServiceOffering, ServiceOfferingParamKey, Tag } from '../../../shared/models';
 import { CustomComputeOfferingRestrictions } from '../../../shared/models/config';
 import { ComputeOfferingViewModel } from '../../view-models';
-import { configSelectors } from '../../../root-store';
-import * as fromAccountTags from '../../../reducers/account-tags/redux/account-tags.reducers';
+import { configSelectors, UserTagsSelectors } from '../../../root-store';
 import * as computeOffering from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 
 
@@ -55,7 +54,7 @@ export const getComputeOfferingViewModel = createSelector(
   configSelectors.get('customComputeOfferingRestrictions'),
   configSelectors.get('defaultCustomComputeOfferingRestrictions'),
   configSelectors.get('customComputeOfferingParams'),
-  fromAccountTags.selectServiceOfferingParamTags,
+  UserTagsSelectors.getServiceOfferingParamTags,
   (offerings, restrictions, defaultRestrictions, hardwareParams, tags): ComputeOfferingViewModel[] => {
     const { customOfferings, fixedOfferings } = getFixedAndCustomOfferingsArrays(offerings);
 

@@ -1,5 +1,5 @@
 import { ServiceOffering } from '../../shared/models';
-import { OfferingCompatibilityPolicy, OfferingPolicy } from '../../shared/services/offering.service';
+import { OfferingCompatibilityPolicy, OfferingPolicy } from '../../shared/models/config';
 
 export class VmCompatibilityPolicy {
   public static getFilter(compatibilityPolicy: OfferingCompatibilityPolicy, currentOffering: ServiceOffering) {

@@ -1,4 +1,3 @@
-import { AccountTagKeys } from '../services/tags/account-tag-keys';
 import { Offering } from './offering.model';
 import { Tag } from './tag.model';
 import { userTagKeys } from '../../tags/tag-keys';

@@ -1,7 +1,6 @@
 import { StorageTypes } from '../../shared/models/offering.model';
-import { ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
+import { OfferingPolicy, ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
 import { ResourcesData, ResourceStats } from '../../shared/services/resource-usage.service';
-import { OfferingPolicy } from '../../shared/services/offering.service';
 import * as serviceOfferingSelectors from './service-offering.selectors';
 
 describe('Service Offering Selectors (VM module)', () => {
@@ -226,7 +225,8 @@ describe('Service Offering Selectors (VM module)', () => {
     const query = '';
     const viewMode = ServiceOfferingType.fixed;
 
-    const res = serviceOfferingSelectors.selectFilteredOfferings.projector(list, viewMode, selectedClasses, query, soClasses);
+    const res = serviceOfferingSelectors.selectFilteredOfferings
+      .projector(list, viewMode, selectedClasses, query, soClasses);
 
     expect(res).toEqual(filtered);
   });

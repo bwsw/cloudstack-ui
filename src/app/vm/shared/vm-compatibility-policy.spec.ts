@@ -1,6 +1,5 @@
-import { OfferingPolicy } from '../../shared/services/offering.service';
 import { VmCompatibilityPolicy } from './vm-compatibility-policy';
-import { ServiceOffering } from '../../shared/models';
+import { OfferingPolicy, ServiceOffering } from '../../shared/models';
 
 const serviceOfferingList = require('../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
 

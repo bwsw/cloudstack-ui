@@ -2,8 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { isOfferingLocal } from '../../../shared/models/offering.model';
-import { DiskOffering, Zone } from '../../../shared/models';
-import { OfferingAvailability } from '../../../shared/services/offering.service';
+import { DiskOffering, OfferingAvailability, Zone } from '../../../shared/models';
 import { configSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';

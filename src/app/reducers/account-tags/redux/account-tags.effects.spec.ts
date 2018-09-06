@@ -12,10 +12,9 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import * as fromAccountTags from './account-tags.reducers';
 import * as accountTagActions from './account-tags.actions';
 import { AccountTagsEffects } from './account-tags.effects';
-import { ServiceOffering, Tag } from '../../../shared/models';
+import { Tag } from '../../../shared/models';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AccountTagService } from '../../../shared/services/tags/account-tag.service';
-import { StorageTypes } from '../../../shared/models/offering.model';
 
 @Injectable()
 class MockAsyncJobService {

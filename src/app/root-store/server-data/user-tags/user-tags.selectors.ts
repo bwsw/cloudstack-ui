@@ -107,7 +107,7 @@ export const getNavigationOrder = createSelector(
   (entities): string => entities[userTagKeys.navigationOrder].value
 );
 
-export const selectServiceOfferingParamTags = createSelector(
+export const getServiceOfferingParamTags = createSelector(
   selectAll,
   (tags): Tag[] => {
     return tags.filter(tag => tag.key.startsWith(userTagKeys.computeOfferingParam));
