@@ -1,0 +1,143 @@
+{
+  "defaultDomain": "root",
+  "sessionRefreshInterval": 300,
+  "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.11/",
+  "extensions": {
+    "webShell": true,
+    "pulse": false
+  },
+  "vmColors": [
+    { "value": "#F44336" }
+  ],
+  "securityGroupTemplates": [
+    {
+      "id": "templateTCP",
+      "name": "TCP Permit All",
+      "description": "Permits all TPC traffic",
+      "preselected": false,
+      "ingressrule": [
+        {
+          "ruleid": "templateTCP-rule-ingress",
+          "protocol": "tcp",
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
+        }
+      ],
+      "egressrule": [
+        {
+          "ruleid": "templateTCP-rule-egress",
+          "protocol": "tcp",
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
+        }
+      ]
+    }
+  ],
+  "templateGroups": [
+    {
+      "id": "id-234",
+      "translations": {
+        "ru": "Имя Темплейта",
+        "en": "Template Name"
+      }
+    }
+  ],
+  "defaultFirstDayOfWeek": 0,
+  "defaultInterfaceLanguage": "en",
+  "defaultTimeFormat": "hour24",
+  "defaultTheme": "blue-red",
+  "sessionTimeout": 30,
+  "allowReorderingSidebar": true,
+  "configureSidenav": [
+    { "id": "VMS", "visible": true },
+    { "id": "VOLUMES", "visible": true },
+    { "id": "TEMPLATES", "visible": true },
+    { "id": "SNAPSHOTS", "visible": true },
+    { "id": "SGS", "visible": true },
+    { "id": "EVENTS", "visible": true },
+    { "id": "SSH", "visible": true },
+    { "id": "ACCOUNTS", "visible": true },
+    { "id": "SETTINGS", "visible": true }
+  ],
+  "customComputeOfferingRestrictions": [
+    {
+      "offeringId": "3890f81e-62aa-4a50-971a-f066223d623d",
+      "cpunumber": {
+        "min": 2,
+        "max": 8
+      },
+      "cpuspeed": {
+        "min": 2,
+        "max": 8
+      },
+      "memory": {
+        "min": 2,
+        "max": 8
+      }
+    }
+  ],
+  "defaultComputeOffering": {
+    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
+      "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
+      "customOfferingParams": {
+        "cpuNumber": 2,
+        "cpuSpeed": 1000,
+        "memory": 1024
+      }
+    }
+  },
+  "offeringCompatibilityPolicy": {
+    "offeringChangePolicy": "exactly-match",
+    "offeringChangePolicyIgnoreTags": ["t1"]
+  },
+  "computeOfferingClasses": [
+    {
+      "id": "second",
+      "name": {
+        "ru": "second",
+        "en": "second"
+      },
+      "description": {
+        "ru": "second",
+        "en": "second"
+      },
+      "computeOfferings": [
+        "9c81af12-f15b-41f0-9dec-2a837e1dec29"
+      ]
+    }, {
+      "id": "first",
+      "name": {
+        "ru": "",
+        "en": ""
+      },
+      "description": {
+        "ru": "",
+        "en": ""
+      },
+      "computeOfferings": [
+        "9c81af12-f15b-41f0-9dec-2a837e1dec29"
+      ]
+    }
+  ],
+  "diskOfferingParameters": [
+    "displaytext",
+    "disksize",
+    "created",
+    "storagetype",
+    "provisioningtype",
+    "iscustomized",
+    "miniops",
+    "maxiops"
+  ],
+  "offeringAvailability": {
+    "filterOfferings": true,
+    "zones": {
+      "9c81af12-f15b-41f0-9dec-2a837e1dec29": {
+        "diskOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1d23er"],
+        "computeOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1dec29"]
+      }
+    }
+  }
+}
