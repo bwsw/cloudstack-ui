@@ -70,7 +70,8 @@ export class ConfigValidationService {
     configureSidenav: validationSchemes.configureSidenav,
     customComputeOfferingRestrictions: validationSchemes.customComputeOfferingRestrictions,
     offeringAvailability: validationSchemes.offeringAvailability,
-    templateGroups: validationSchemes.templateGroups
+    templateGroups: validationSchemes.templateGroups,
+    serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
   };
 
   constructor() {
