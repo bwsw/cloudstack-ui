@@ -26,11 +26,16 @@ import {
 import * as fromSOClass from '../../reducers/service-offerings/redux/service-offering-class.reducers';
 
 
-const isOfferingAvailableInZone = (offering: ServiceOffering, availability: OfferingAvailability, zone: Zone) => {
-  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
-    return true;
+const isComputeOfferingAvailableInZone = (
+  offering: ServiceOffering,
+  availability: OfferingAvailability,
+  zone: Zone
+) => {
+  if (availability.zones[zone.id]) {
+    const isOfferingExist = availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+    return isOfferingExist;
   }
-  return availability[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+  return false;
 };
 
 const getOfferingsAvailableInZone = (
@@ -38,12 +43,12 @@ const getOfferingsAvailableInZone = (
   availability: OfferingAvailability,
   zone: Zone
 ) => {
-  if (!availability[zone.id] || !availability[zone.id].filterOfferings) {
+  if (!availability.filterOfferings) {
     return offeringList;
   }
 
   return offeringList.filter(offering => {
-    const offeringAvailableInZone = isOfferingAvailableInZone(offering, availability, zone);
+    const offeringAvailableInZone = isComputeOfferingAvailableInZone(offering, availability, zone);
     const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(offering);
     return offeringAvailableInZone && localStorageCompatibility;
   });

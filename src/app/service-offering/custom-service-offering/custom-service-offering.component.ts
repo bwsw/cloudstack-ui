@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { ComputeOfferingViewModel } from '../../vm/view-models';
-import { HardwareParameterLimits } from '../../shared/models';
 
 @Component({
   selector: 'cs-custom-service-offering',
@@ -24,27 +23,6 @@ export class CustomServiceOfferingComponent {
     this.createForm();
   }
 
-  public getDefaultCpuNumber() {
-    const defaultValue = this.offering.defaultValues.cpunumber;
-    const restrictions = this.offering.restrictions.cpunumber;
-
-    return this.getValueThatSatisfiesRestrictions(defaultValue, restrictions);
-  }
-
-  public getDefaultCpuSpeed() {
-    const defaultValue = this.offering.defaultValues.cpuspeed;
-    const restrictions = this.offering.restrictions.cpuspeed;
-
-    return this.getValueThatSatisfiesRestrictions(defaultValue, restrictions);
-  }
-
-  public getDefaultMemory() {
-    const defaultValue = this.offering.defaultValues.memory;
-    const restrictions = this.offering.restrictions.memory;
-
-    return this.getValueThatSatisfiesRestrictions(defaultValue, restrictions);
-  }
-
   public onSubmit(): void {
     const formModel = this.hardwareForm.value;
     const updatedOffering: ComputeOfferingViewModel = {
@@ -59,19 +37,9 @@ export class CustomServiceOfferingComponent {
   private createForm() {
     // input text=number provide all other validation for current restrictions
     this.hardwareForm = new FormGroup({
-      cpuNumber: new FormControl(this.getDefaultCpuNumber(), Validators.required),
-      cpuSpeed: new FormControl(this.getDefaultCpuSpeed(), Validators.required),
-      memory: new FormControl(this.getDefaultMemory(), Validators.required),
+      cpuNumber: new FormControl(this.offering.cpunumber, Validators.required),
+      cpuSpeed: new FormControl(this.offering.cpuspeed, Validators.required),
+      memory: new FormControl(this.offering.memory, Validators.required),
     });
-  }
-
-  private getValueThatSatisfiesRestrictions(defaultValue: number, restrictions: HardwareParameterLimits) {
-    if (restrictions.min > defaultValue) {
-      return restrictions.min;
-    } else if (defaultValue > restrictions.max) {
-      return restrictions.max;
-    }
-
-    return defaultValue;
   }
 }

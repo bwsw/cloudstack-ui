@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import { ServiceOffering, ServiceOfferingParamKey, Tag } from '../../../shared/models';
-import { CustomComputeOfferingRestrictions } from '../../../shared/models/config';
+import { CustomComputeOfferingRestrictions, HardwareParameterLimits } from '../../../shared/models/config';
 import { ComputeOfferingViewModel } from '../../view-models';
 import { configSelectors, UserTagsSelectors } from '../../../root-store';
 import * as computeOffering from '../../../reducers/service-offerings/redux/service-offerings.reducers';
@@ -39,14 +39,24 @@ const getHardwareParamsFromTags = (
     return tag && tag.value;
   };
 
-  const cpunumber = parseInt(getValue('cpuNumber'), 10);
-  const cpuspeed = parseInt(getValue('cpuSpeed'), 10);
+  const cpunumber = parseInt(getValue('cpunumber'), 10);
+  const cpuspeed = parseInt(getValue('cpuspeed'), 10);
   const memory = parseInt(getValue('memory'), 10);
 
   if (cpunumber && cpuspeed && memory) {
     return { cpunumber, cpuspeed, memory };
   }
   return null;
+};
+
+const getValueThatSatisfiesRestrictions = (defaultValue: number, restrictions: HardwareParameterLimits) => {
+  if (restrictions.min > defaultValue) {
+    return restrictions.min;
+  } else if (defaultValue > restrictions.max) {
+    return restrictions.max;
+  }
+
+  return defaultValue;
 };
 
 export const getComputeOfferingViewModel = createSelector(
@@ -62,10 +72,22 @@ export const getComputeOfferingViewModel = createSelector(
       const customRestrictions = getCustomOfferingRestrictions(offering, restrictions);
       const hardwareParamsFromTags = getHardwareParamsFromTags(offering, tags);
 
+      const prioritizedHardwareParams = hardwareParamsFromTags || hardwareParams;
+      const prioritizedRestrictions = customRestrictions || defaultRestrictions;
+
+      const cpunumber = getValueThatSatisfiesRestrictions(
+        prioritizedHardwareParams.cpunumber, prioritizedRestrictions.cpunumber);
+      const cpuspeed = getValueThatSatisfiesRestrictions(
+        prioritizedHardwareParams.cpuspeed, prioritizedRestrictions.cpuspeed);
+      const memory = getValueThatSatisfiesRestrictions(
+        prioritizedHardwareParams.memory, prioritizedRestrictions.memory);
+
       return {
         ...offering,
-        restrictions: customRestrictions || defaultRestrictions,
-        defaultValues: hardwareParamsFromTags || hardwareParams
+        cpunumber,
+        cpuspeed,
+        memory,
+        restrictions: prioritizedRestrictions
       }
     });
 
