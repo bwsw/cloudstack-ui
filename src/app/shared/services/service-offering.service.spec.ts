@@ -66,10 +66,12 @@ describe('Service-offering service', () => {
     let result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
       <OfferingAvailability>{
-        1: {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: []
+        filterOfferings: true,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: []
+          }
         }
       },
       <Zone>{ id: '1' }
@@ -80,10 +82,12 @@ describe('Service-offering service', () => {
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
       <OfferingAvailability>{
-        1: {
-          filterOfferings: true,
-          diskOfferings: [],
-          serviceOfferings: ['1']
+        filterOfferings: true,
+        zones: {
+          1: {
+            diskOfferings: [],
+            serviceOfferings: ['1']
+          }
         }
       },
       <Zone>{ id: '1' }

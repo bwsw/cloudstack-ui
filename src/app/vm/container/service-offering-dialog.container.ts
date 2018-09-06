@@ -4,16 +4,17 @@ import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
 import { State } from '../../reducers';
+// tslint:disable-next-line
+import { Account, AccountResourceType } from '../../shared/models/account.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
+import { UserTagsActions } from '../../root-store';
+
 import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-class.actions';
 import * as fromSOClasses from '../../reducers/service-offerings/redux/service-offering-class.reducers';
-
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
-// tslint:disable-next-line
-import { Account, AccountResourceType } from '../../shared/models/account.model';
-import { VirtualMachine, VmState } from '../shared/vm.model';
 import { selectFilteredOfferings } from '../selectors'
 
 @Component({
@@ -78,9 +79,9 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ query }));
   }
 
-  public updateServiceOffering(serviceOffering) {
-    if (serviceOffering.iscustomized) {
-      this.store.dispatch(new serviceOfferingActions.UpdateCustomServiceOffering(serviceOffering));
+  public updateServiceOffering(offering) {
+    if (offering.iscustomized) {
+      this.store.dispatch(new UserTagsActions.UpdateCustomServiceOfferingParams({ offering }));
     }
   }
 

@@ -59,18 +59,6 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
     this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
-
-    this.account$
-      .take(1)
-      .filter(account => !!account)
-      .subscribe((account) => {
-        if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
-          this.handleInsufficientResources();
-          return;
-        }
-        this.maxSize = account.primarystorageavailable;
-      });
-
   }
 
   public createVolume(data: VolumeCreationData) {
@@ -78,10 +66,20 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public updateZone(zone: Zone) {
-    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
-      zone: zone,
-      maxSize: this.maxSize
-    }));
+    this.account$
+      .take(1)
+      .filter(Boolean)
+      .subscribe((account) => {
+        if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
+          this.handleInsufficientResources();
+          return;
+        }
+        this.maxSize = account.primarystorageavailable;
+        this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
+          zone: zone,
+          maxSize: this.maxSize
+        }));
+      });
   }
 
   private handleInsufficientResources(): void {

@@ -57,24 +57,4 @@ export class AccountTagService implements EntityTagService {
           value)
       });
   }
-
-  public setServiceOfferingParams(offering: ServiceOffering): Observable<ServiceOffering> {
-    return Observable.forkJoin(
-      this.writeTag(this.getSOCpuNumberKey(offering), offering.cpunumber.toString()),
-      this.writeTag(this.getSOCpuSpeedKey(offering), offering.cpuspeed.toString()),
-      this.writeTag(this.getSOMemoryKey(offering), offering.memory.toString()),
-    ).map(() => offering);
-  }
-
-  private getSOCpuNumberKey(offering: ServiceOffering): string {
-    return `${this.keys.serviceOfferingParam}.${offering.id}.cpuNumber`;
-  }
-
-  private getSOCpuSpeedKey(offering: ServiceOffering): string {
-    return `${this.keys.serviceOfferingParam}.${offering.id}.cpuSpeed`;
-  }
-
-  private getSOMemoryKey(offering: ServiceOffering): string {
-    return `${this.keys.serviceOfferingParam}.${offering.id}.memory`;
-  }
 }

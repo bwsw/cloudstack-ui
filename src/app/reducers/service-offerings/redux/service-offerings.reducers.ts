@@ -70,12 +70,6 @@ export function reducer(state = initialState, action: serviceOfferingActions.Act
       };
     }
 
-    case serviceOfferingActions.UPDATE_CUSTOM_SERVICE_OFFERING: {
-      return {
-        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state)
-      };
-    }
-
     default: {
       return state;
     }

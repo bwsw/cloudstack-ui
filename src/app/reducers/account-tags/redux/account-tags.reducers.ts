@@ -70,44 +70,6 @@ export function reducer(
         loading: false
       };
     }
-    case accountTagActions.UPDATE_CUSTOM_SERVICE_OFFERING_PARAMS_SUCCESS: {
-      const id = `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`;
-
-      if ((state.ids as string[]).indexOf(id) > -1) {
-        return {
-          ...adapter.updateMany([
-            {
-              id: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`,
-              changes: { value: action.payload.cpunumber }
-            },
-            {
-              id: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuSpeed`,
-              changes: { value: action.payload.cpuspeed }
-            },
-            {
-              id: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
-              changes: { value: action.payload.memory }
-            }
-          ], state)
-        };
-      }
-      return {
-        ...adapter.addMany([
-          {
-            key: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuNumber`,
-            value: action.payload.cpunumber
-          },
-          {
-            key: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.cpuSpeed`,
-            value: action.payload.cpuspeed
-          },
-          {
-            key: `${AccountTagKeys.serviceOfferingParam}.${action.payload.id}.memory`,
-            value: action.payload.memory
-          }
-        ], state)
-      };
-    }
     default: {
       return state;
     }
@@ -133,12 +95,3 @@ export const isLoading = createSelector(
   getAccountTagsEntitiesState,
   state => state.loading
 );
-
-export const selectServiceOfferingParamTags = createSelector(
-  selectAll,
-  (tags) => {
-    return tags.filter(tag => tag.key.includes(AccountTagKeys.serviceOfferingParam));
-  }
-);
-
-
