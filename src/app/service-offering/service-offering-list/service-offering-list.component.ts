@@ -84,8 +84,11 @@ export class ServiceOfferingListComponent implements OnChanges {
   }
 
   public getName(soClass: ServiceOfferingClass) {
-    return soClass && soClass.name
-      && soClass.name[this.locale] || 'SERVICE_OFFERING.FILTERS.COMMON';
+    if (soClass.id === 'common') {
+      return 'SERVICE_OFFERING.FILTERS.COMMON';
+    } else {
+      return soClass && soClass.name && soClass.name[this.locale] || 'empty';
+    }
   }
 
   public getGroupedOfferings() {

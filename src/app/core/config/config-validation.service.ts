@@ -69,7 +69,8 @@ export class ConfigValidationService {
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
     offeringAvailability: validationSchemes.offeringAvailability,
-    templateGroups: validationSchemes.templateGroups
+    templateGroups: validationSchemes.templateGroups,
+    serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
   };
 
   constructor() {
