@@ -1,4 +1,9 @@
 import { SidenavConfigElement } from './sidenav-config-element.interface';
+import { CustomComputeOfferingParams } from './custom-compute-offering-params.interface';
+import {
+  CustomComputeOfferingRestrictions,
+  DefaultCustomComputeOfferingRestrictions
+} from './compute-offering-restrictions';
 
 export interface Config extends CustomizableConfig, NonCustomizableConfig {
 }
@@ -38,11 +43,11 @@ export interface CustomizableConfig {
    * Menu settings
    */
   allowReorderingSidebar: boolean;
-  configureSidenav: Array<SidenavConfigElement>;
+  configureSidenav: SidenavConfigElement[];
   /*
    * Service offering setting
    */
-  customOfferingRestrictions: any;
+  customComputeOfferingRestrictions: CustomComputeOfferingRestrictions[];
   defaultServiceOfferingConfig: any;
   offeringCompatibilityPolicy: any;
   serviceOfferingClasses: Array<any>;
@@ -51,6 +56,9 @@ export interface CustomizableConfig {
 }
 
 export interface NonCustomizableConfig {
+  /*
+   * User tags
+   */
   askToCreateVM: boolean;
   askToCreateVolume: boolean;
   savePasswordForAllVMs: boolean | null;
@@ -58,4 +66,9 @@ export interface NonCustomizableConfig {
   isSidenavVisible: boolean;
   showSystemTags: boolean;
   navigationOrder: string;
+  /*
+   * Offerings
+   */
+  customComputeOfferingParams: CustomComputeOfferingParams;
+  defaultCustomComputeOfferingRestrictions: DefaultCustomComputeOfferingRestrictions;
 }

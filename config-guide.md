@@ -89,26 +89,27 @@ In this section you can specify which offerings will be available for which zone
 
 If filterOfferings is set to false, all offerings will be available for all zones.
 
-### Custom Offering Restrictions
+### Custom Compute Offering Restrictions
 
-In this sections you can specify limits for custom offerings in the following format:
+In this sections you can specify limits for custom compute offerings in the following format:
 
-    "customOfferingRestrictions": {
-      "offeringId1": {
-        "cpuNumber": {
-          "min": number,
-          "max": number
-        },
-        "cpuSpeed": {
-          "min": speed_in_mhz,
-          "max": speed_in_mhz
-        },
-        "memory": {
-          "min": memory_in_mb,
-          "max": memory_in_mb
+    "customComputeOfferingRestrictions": [
+        {
+          "offeringId": "73cdef05-d01f-49ad-8ecb-4f2ffd7d8e26",
+          "cpunumber": {
+            "min": 2,
+            "max": 8
+          },
+          "cpuspeed": {
+            "min": 1000,
+            "max": 3000
+          },
+          "memory": {
+            "min": 512,
+            "max": 8192
+          }
         }
-      }
-    }
+    ]
     
 Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
 

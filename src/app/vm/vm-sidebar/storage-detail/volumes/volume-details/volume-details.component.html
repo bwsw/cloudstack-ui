@@ -17,7 +17,7 @@
     </div>
     <div class="row"  *ngIf="volume.storagetype">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.STORAGE_TYPE' | translate }}</div>
-      <div>{{ storageTypeTranslationToken | translate }}</div><!--todo-->
+      <div>{{ storageTypeTranslationToken | translate }}</div>
     </div>
     <div class="row"
          *ngIf="volume?.diskOffering?.name"

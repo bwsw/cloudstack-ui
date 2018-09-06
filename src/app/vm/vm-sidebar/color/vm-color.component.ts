@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { Store } from '@ngrx/store';
+import { first } from 'rxjs/operators';
+
 import { Color } from '../../../shared/models';
-import { ConfigService } from '../../../core/services';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { configSelectors, State } from '../../../root-store';
 
 
 @Component({
@@ -23,15 +26,19 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   private colorSubject = new Subject<Color>();
 
   constructor(
-    private configService: ConfigService,
-    private vmTagService: VmTagService
-  ) {}
+    private vmTagService: VmTagService,
+    private store: Store<State>,
+  ) {
+  }
 
   public ngOnInit(): void {
-    const configColors = this.configService.get('vmColors');
-    for (const color of configColors) {
-      this.colorList.push(new Color('', color.value));
-    }
+    this.store.select(configSelectors.get('vmColors')).pipe(
+      first()
+    ).subscribe(colors => {
+      for (const color of colors) {
+        this.colorList.push(new Color('', color.value));
+      }
+    });
 
     this.colorSubject
       .debounceTime(1000)

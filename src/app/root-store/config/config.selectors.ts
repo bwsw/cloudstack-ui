@@ -1,8 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { ConfigState } from './config.reducer';
-import { Config } from '../../core/config';
-import { Tag } from '../../shared/models';
+import { Config, Tag } from '../../shared/models';
 import { userTagKeys } from '../../tags/tag-keys';
 
 const getConfigState = createFeatureSelector<ConfigState>('config');

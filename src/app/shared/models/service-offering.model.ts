@@ -3,7 +3,6 @@ import { Offering } from './offering.model';
 import { Tag } from './tag.model';
 
 export interface ServiceOffering extends Offering {
-  resourceType: 'ServiceOffering';
   created: string;
   cpunumber: number;
   cpuspeed: number;

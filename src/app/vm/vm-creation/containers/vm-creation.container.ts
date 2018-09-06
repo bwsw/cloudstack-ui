@@ -37,6 +37,7 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
+import { getAvailableOfferingsForVmCreation } from '../../selectors';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -57,7 +58,6 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
       [insufficientResources]="insufficientResources$ | async"
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
-      [customOfferingRestrictions]="customOfferingRestrictions$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
       [diskOfferingParams]="diskOfferingParams$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
@@ -91,8 +91,7 @@ export class VmCreationContainerComponent implements OnInit {
       this.store.select(fromAffinityGroups.isLoading)
     )
     .map((loadings: boolean[]) => loadings.find(loading => loading));
-  readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
-  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
+  readonly serviceOfferings$ = this.store.select(getAvailableOfferingsForVmCreation);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
   readonly deploymentInProgress$ = this.store.select(fromVMs.deploymentInProgress);
   readonly diskOfferings$ = this.store.select(fromDiskOfferings.selectAll);
@@ -121,9 +120,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
     this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());

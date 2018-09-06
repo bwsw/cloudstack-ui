@@ -7,7 +7,7 @@
     <mat-icon class="mdi-chevron-left"></mat-icon>
   </button>
   <button
-    *ngIf="canEdit"
+    *ngIf="allowConfiguring"
     class="lock-button"
     mat-icon-button
     [disabled]="updatingOrder"

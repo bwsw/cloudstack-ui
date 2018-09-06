@@ -1,5 +1,6 @@
 import { ConfigActionsUnion, ConfigActionTypes } from './config.actions';
-import { Config, defaultConfig } from '../../core/config';
+import { Config } from '../../shared/models';
+import { defaultConfig } from '../../core/config';
 
 export interface ConfigState {
   config: Config;

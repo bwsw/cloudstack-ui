@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
-import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
-import { Observable } from 'rxjs/Observable';
-import { TemplateResourceType } from '../../../template/shared/base-template.service';
-import { Actions, Effect } from '@ngrx/effects';
 import { MatDialog } from '@angular/material';
+import { Action, Store } from '@ngrx/store';
+import { Actions, Effect } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
+import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
+import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
@@ -38,11 +38,11 @@ import { UserTagsActions } from '../../../root-store';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
 import * as securityGroupActions from '../../security-groups/redux/sg.actions';
-import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import * as fromVMModule from '../../../vm/selectors';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -152,7 +152,7 @@ export class VirtualMachineCreationEffects {
       this.store.select(fromVMs.getVmFormState),
       this.store.select(fromZones.selectAll),
       this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation),
-      this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation),
+      this.store.select(fromVMModule.getAvailableOfferingsForVmCreation),
       this.store.select(fromDiskOfferings.selectAll)
     )
     .map((

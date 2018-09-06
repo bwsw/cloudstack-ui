@@ -4,10 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import { ICustomOfferingRestrictions, ServiceOffering, ServiceOfferingClass } from '../../shared/models';
-import { CustomServiceOffering, ICustomServiceOffering } from '../custom-service-offering/custom-service-offering';
+import { ServiceOffering, ServiceOfferingClass } from '../../shared/models';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 import { Language } from '../../shared/types';
+import { ComputeOfferingViewModel } from '../../vm/view-models';
 
 @Component({
   selector: 'cs-service-offering-list',
@@ -15,18 +15,16 @@ import { Language } from '../../shared/types';
   styleUrls: ['service-offering-list.component.scss']
 })
 export class ServiceOfferingListComponent implements OnChanges {
-  @Input() public offeringList: Array<ServiceOffering>;
+  @Input() public offeringList: ComputeOfferingViewModel[];
   @Input() public classes: Array<ServiceOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public query: string;
-  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
-  @Input() public defaultParams: ICustomServiceOffering;
   @Input() public selectedOffering: ServiceOffering;
   @Input() public isLoading = false;
   @Input() public showFields: boolean;
-  @Output() public selectedOfferingChange = new EventEmitter();
+  @Output() public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
 
-  public list: Array<{ soClass: ServiceOfferingClass, items: MatTableDataSource<ServiceOffering> }>;
+  public list: Array<{ soClass: ServiceOfferingClass, items: MatTableDataSource<ComputeOfferingViewModel> }>;
   public columnsToDisplay = [];
 
   private mainColumns = ['name', 'cpuCoresNumber', 'cpuSpeed', 'memory', 'networkRate'];
@@ -44,9 +42,9 @@ export class ServiceOfferingListComponent implements OnChanges {
     this.onShowFieldsChange(changes.showFields);
   }
 
-  public selectOffering(offering: ServiceOffering): void {
+  public selectOffering(offering: ComputeOfferingViewModel): void {
     if (offering.iscustomized) {
-      this.showCustomOfferingDialog(offering, this.customOfferingRestrictions, this.defaultParams)
+      this.showCustomOfferingDialog(offering)
         .filter(res => Boolean(res))
         .subscribe(customOffering => {
           this.selectedOffering = customOffering;
@@ -58,17 +56,11 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
-  private showCustomOfferingDialog(
-    offering: ServiceOffering,
-    restriction: ICustomOfferingRestrictions,
-    defaultParams: ICustomServiceOffering
-  ): Observable<CustomServiceOffering> {
+  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
     return this.dialog.open(CustomServiceOfferingComponent, {
       width: '370px',
       data: {
-        offering,
-        defaultParams,
-        restriction
+        offering
       }
     }).afterClosed();
 

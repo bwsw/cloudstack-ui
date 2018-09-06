@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Config } from '../../core/config';
+import { Config } from '../../shared/models';
 
 export enum ConfigActionTypes {
   LoadConfig = '[Effect initializing] Load config',

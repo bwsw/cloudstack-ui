@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
+import { catchError, filter, first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
@@ -16,7 +17,7 @@ import * as securityGroup from './sg.actions';
 import * as fromSecurityGroups from './sg.reducers';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
-import { map, tap, mergeMap, catchError, filter, switchMap } from 'rxjs/operators';
+import { configSelectors } from '../../../root-store';
 
 @Injectable()
 export class SecurityGroupEffects {
@@ -26,7 +27,7 @@ export class SecurityGroupEffects {
     .switchMap(() => {
       return Observable.forkJoin([
         this.securityGroupService.getList(),
-        Observable.of(this.securityGroupService.getPredefinedTemplates())
+        this.store.select(configSelectors.get('securityGroupTemplates')).pipe(first())
       ])
         .map(([groups, templates]) => new securityGroup
           .LoadSecurityGroupResponse(groups.concat(templates)))

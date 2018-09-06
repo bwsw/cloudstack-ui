@@ -6,7 +6,6 @@ import {
   Account,
   AffinityGroup,
   DiskOffering,
-  ICustomOfferingRestrictions,
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
@@ -36,7 +35,6 @@ export class VmCreationComponent {
   @Input() public zones: Zone[];
   @Input() public sshKeyPairs: SSHKeyPair[];
   @Input() public serviceOfferings: ServiceOffering[];
-  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
 
   @Input() public fetching: boolean;
   @Input() public diskOfferingsAreLoading: boolean;

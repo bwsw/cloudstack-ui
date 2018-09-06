@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { VirtualMachine, VmState } from '../shared/vm.model';
-import { ConfigService } from '../../core/services';
+import { configSelectors, State } from '../../root-store';
 
 
 const portToken = 'csui.vm.ssh.port';
@@ -18,6 +20,8 @@ export const WebShellAddress = 'cs-extensions/webshell';
 
 @Injectable()
 export class WebShellService {
+  private isEnabled = false;
+
   public static getWebShellAddress(vm: VirtualMachine): string {
 
     const getPort = (machine: VirtualMachine): string => {
@@ -50,12 +54,13 @@ export class WebShellService {
     return sshEnabledOnVm && vmIsRunning;
   }
 
-  constructor(public configService: ConfigService) {
+  constructor(public store: Store<State>) {
+    this.store.select(configSelectors.get('extensions'))
+      .subscribe(extensions => this.isEnabled = extensions.webShell);
   }
 
   public get isWebShellEnabled(): boolean {
-    const extensions = this.configService.get('extensions');
-    return extensions && extensions.webShell;
+    return this.isEnabled;
   }
 
 

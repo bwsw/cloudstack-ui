@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { ConfigService } from '../../../core/services';
 import { AccountTagService } from '../../../shared/services/tags/account-tag.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import * as actions from './account-tags.actions';
 
 @Injectable()
 export class AccountTagsEffects {
-
   @Effect()
   loadAccountTags$: Observable<Action> = this.actions$
     .ofType(actions.LOAD_ACCOUNT_TAGS_REQUEST)
@@ -36,14 +35,13 @@ export class AccountTagsEffects {
       this.handleError(action.payload);
     });
 
-
   constructor(
     private actions$: Actions,
     private tagService: TagService,
     private accountTagService: AccountTagService,
-    private configService: ConfigService,
     private dialogService: DialogService
-  ) { }
+  ) {
+  }
 
   private handleError(error: any): void {
     this.dialogService.alert({
