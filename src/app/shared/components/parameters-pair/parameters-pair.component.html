@@ -1,11 +1,10 @@
 <div class="height-container">
   <div class="flex-container container">
-    <div class="key">
-      <div
-        [innerHTML]="name | translate"
-        [matTooltip]="name | translate"
-      ></div>
-    </div>
+    <div
+      class="key"
+      [innerHTML]="name | translate"
+      [matTooltip]="name | translate"
+    ></div>
     <div *ngIf="canBeEdit" class="buttons">
       <button
         class="button-18px"
