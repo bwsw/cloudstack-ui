@@ -4,7 +4,7 @@
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.11/",
   "extensions": {
     "webShell": true,
-    "pulse": false
+    "pulse": true
   },
   "vmColors": [
     { "value": "#F44336" },
@@ -89,12 +89,12 @@
         "max": 8
       },
       "cpuspeed": {
-        "min": 2,
-        "max": 8
+        "min": 1000,
+        "max": 3500
       },
       "memory": {
-        "min": 2,
-        "max": 8
+        "min": 512,
+        "max": 8192
       }
     }
   ],
