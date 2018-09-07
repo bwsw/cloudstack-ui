@@ -75,8 +75,10 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ query }));
   }
 
-  public updateServiceOffering(offering) {
-    this.store.dispatch(new UserTagsActions.UpdateCustomServiceOfferingParams({ offering }));
+  public updateServiceOffering(offering: ComputeOfferingViewModel) {
+    if (offering.iscustomized) {
+      this.store.dispatch(new UserTagsActions.UpdateCustomServiceOfferingParams({ offering }));
+    }
   }
 
   public changeServiceOffering(serviceOffering) {
