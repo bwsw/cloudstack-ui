@@ -7,7 +7,11 @@
     "pulse": false
   },
   "vmColors": [
-    { "value": "#F44336" }
+    { "value": "#F44336" },
+    { "value": "#E91E63" },
+    { "value": "#9C27B0" },
+    { "value": "#673AB7" },
+    { "value": "#3F51B5" }
   ],
   "securityGroupTemplates": [
     {
@@ -33,14 +37,30 @@
           "cidr": "0.0.0.0/0"
         }
       ]
+    },
+    {
+      "id": "templateICMP",
+      "name": "ICMP Permit Egress",
+      "description": "Permits all egress ICMP traffic",
+      "preselected": true,
+      "ingressrule": [],
+      "egressrule": [
+        {
+          "ruleid": "templateICMP-rule-egress",
+          "icmpcode": -1,
+          "icmptype": -1,
+          "protocol": "icmp",
+          "cidr": "0.0.0.0/0"
+        }
+      ]
     }
   ],
-  "templateGroups": [
+  "imageGroups": [
     {
       "id": "id-234",
       "translations": {
-        "ru": "Имя Темплейта",
-        "en": "Template Name"
+        "ru": "Имя группы",
+        "en": "Group Name"
       }
     }
   ],
@@ -51,7 +71,7 @@
   "sessionTimeout": 30,
   "allowReorderingSidebar": true,
   "configureSidenav": [
-    { "id": "VMS", "visible": true },
+    { "id": "VMS" },
     { "id": "VOLUMES", "visible": true },
     { "id": "TEMPLATES", "visible": true },
     { "id": "SNAPSHOTS", "visible": true },
