@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
 import { VmCreationComponent } from '../vm-creation.component';
-import { HttpModeService } from '../../auth-mode/http-mode.service';
-import { SshModeService } from '../../auth-mode/ssh-mode.service';
+import { SshAccessService, HttpAccessService } from '../../services';
 
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
@@ -29,14 +28,14 @@ export class PostdeploymentComponent {
       name: 'VM_POST_ACTION.OPEN_SHELL_CONSOLE',
       hidden: (vm) => {
         return !vm
-          || !this.sshMode.isWebShellEnabled
-          || !SshModeService.isWebShellEnabledForVm(vm);
+          || !this.sshAccessService.isWebShellEnabled
+          || !this.sshAccessService.isWebShellEnabledForVm(vm);
       },
       activate: (vm) => this.store.dispatch(new vmActions.WebShellVm(vm))
     },
     {
       name: 'VM_POST_ACTION.OPEN_URL',
-      hidden: (vm) => !vm || !HttpModeService.isHttpAuthMode(vm),
+      hidden: (vm) => !vm || !this.httpAccessService.isHttpAuthMode(vm),
       activate: (vm) => this.store.dispatch(new vmActions.OpenUrlVm(vm))
     }
   ];
@@ -44,20 +43,21 @@ export class PostdeploymentComponent {
 
   constructor(
     private store: Store<State>,
-    private sshMode: SshModeService
+    private httpAccessService: HttpAccessService,
+    private sshAccessService: SshAccessService
   ) {
   }
 
 
   public isHttpAuthMode(vm): boolean {
-    return HttpModeService.isHttpAuthMode(vm);
+    return this.httpAccessService.isHttpAuthMode(vm);
   }
 
   public getUrlLogin(vm) {
-    return HttpModeService.getHttpLogin(vm);
+    return this.httpAccessService.getHttpLogin(vm);
   }
 
   public getUrlPassword(vm) {
-    return HttpModeService.getHttpPassword(vm);
+    return this.httpAccessService.getHttpPassword(vm);
   }
 }

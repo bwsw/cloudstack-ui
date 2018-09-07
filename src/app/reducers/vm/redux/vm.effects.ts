@@ -30,12 +30,11 @@ import { SnackBarService } from '../../../core/services';
 import { of } from 'rxjs/observable/of';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { HttpModeService } from '../../../vm/auth-mode/http-mode.service';
+import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
 
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
 import * as vmActions from './vm.actions';
-import { SshModeService } from '../../../vm/auth-mode/ssh-mode.service';
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -695,39 +694,19 @@ export class VirtualMachinesEffects {
   vmWebShell$: Observable<VirtualMachine> = this.actions$
     .ofType(vmActions.WEB_SHELL_VM)
     .map((action: vmActions.WebShellVm) => action.payload)
-    .do((vm: VirtualMachine) => {
-      const address = SshModeService.getAddress(vm);
-      window.open(
-        address,
-        'WebShell',
-        'resizable=0,width=820,height=640'
-      );
-    });
+    .do((vm: VirtualMachine) => this.sshModeService.openWindow(vm));
 
   @Effect({ dispatch: false })
   vmConsole$: Observable<VirtualMachine> = this.actions$
     .ofType(vmActions.CONSOLE_VM)
     .map((action: vmActions.ConsoleVm) => action.payload)
-    .do((vm: VirtualMachine) => {
-      window.open(
-        `client/console?cmd=access&vm=${vm.id}`,
-        'Console',
-        'resizable=0,width=820,height=640'
-      );
-    });
+    .do((vm: VirtualMachine) => this.vncModeService.openWindow(vm));
 
   @Effect({ dispatch: false })
   vmUrlAction$: Observable<VirtualMachine> = this.actions$
     .ofType(vmActions.OPEN_URL_VM)
     .map((action: vmActions.OpenUrlVm) => action.payload)
-    .do((vm: VirtualMachine) => {
-      const address = HttpModeService.getAddress(vm);
-      window.open(
-        address,
-        'URL',
-        'resizable=0,width=820,height=640'
-      );
-    });
+    .do((vm: VirtualMachine) => this.httpModeService.openWindow(vm));
 
   constructor(
     private store: Store<State>,
@@ -743,7 +722,10 @@ export class VirtualMachinesEffects {
     private dialog: MatDialog,
     private router: Router,
     private snackBarService: SnackBarService,
-    private tagService: TagService
+    private tagService: TagService,
+    private httpModeService: HttpAccessService,
+    private sshModeService: SshAccessService,
+    private vncModeService: VncAccessService
   ) {
   }
 
