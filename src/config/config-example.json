@@ -114,27 +114,28 @@
   },
   "computeOfferingClasses": [
     {
-      "id": "second",
+      "id": "classId-1",
       "name": {
-        "ru": "second",
-        "en": "second"
+        "ru": "Имя класса - 1",
+        "en": "Class name - 1"
       },
       "description": {
-        "ru": "second",
-        "en": "second"
+        "ru": "Описание класса - 1",
+        "en": "Class description - 1"
       },
       "computeOfferings": [
         "9c81af12-f15b-41f0-9dec-2a837e1dec29"
       ]
-    }, {
-      "id": "first",
+    },
+    {
+      "id": "classId-2",
       "name": {
-        "ru": "",
-        "en": ""
+        "ru": "Имя класса - 2",
+        "en": "Class name - 2"
       },
       "description": {
-        "ru": "",
-        "en": ""
+        "ru": "Описание класса - 2",
+        "en": "Class description - 2"
       },
       "computeOfferings": [
         "9c81af12-f15b-41f0-9dec-2a837e1dec29"
