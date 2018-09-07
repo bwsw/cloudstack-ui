@@ -6,7 +6,8 @@ import { AccessService, AuthModeType } from './access.service';
 
 @Injectable()
 export class HttpAccessService extends AccessService {
-  readonly authMode = AuthModeType.HTTP;
+  protected readonly authMode = AuthModeType.HTTP;
+
   readonly defaultPort = '80';
   readonly defaultProtocol = 'http';
   readonly defaultPath = '';
@@ -21,8 +22,11 @@ export class HttpAccessService extends AccessService {
 
   public isHttpAuthMode(vm: VirtualMachine): boolean {
     const authMode = this.getTagValue(vm.tags, VirtualMachineTagKeys.authModeToken);
-    const authModes = authMode.replace(/\s/g, '').split(',');
-    return !!authModes.find(m => m.toLowerCase() === this.authMode);
+    if (authMode) {
+      const authModes = authMode.replace(/\s/g, '').split(',');
+      return !!authModes.find(m => m.toLowerCase() === this.authMode);
+    }
+   return false;
   }
 
   public getHttpLogin(vm: VirtualMachine) {

@@ -35,9 +35,11 @@ export class SshAccessService extends AccessService {
     }
 
     const authMode = this.getTagValue(vm.tags, VirtualMachineTagKeys.authModeToken);
-    const authModes = authMode.replace(/\s/g, '').split(',');
-    const sshEnabledOnVm = !!authModes.find(mode => mode.toLowerCase() === this.authMode);
-    return sshEnabledOnVm;
+    if (authMode) {
+      const authModes = authMode.replace(/\s/g, '').split(',');
+      return !!authModes.find(mode => mode.toLowerCase() === this.authMode);
+    }
+    return false;
   }
 
   private getPort(vm: VirtualMachine): string {

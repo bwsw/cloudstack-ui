@@ -99,8 +99,7 @@ import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
 import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
-import { HttpAccessService } from './services/http-access.service';
-import { SshAccessService } from './services/ssh-access.service';
+import { HttpAccessService, VncAccessService, SshAccessService } from './services';
 
 // tslint:enable max-line-length
 
@@ -211,7 +210,8 @@ import { SshAccessService } from './services/ssh-access.service';
     VmEntityDeletionService,
     VmService,
     SshAccessService,
-    HttpAccessService
+    HttpAccessService,
+    VncAccessService
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,
