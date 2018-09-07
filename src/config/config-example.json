@@ -1,6 +1,6 @@
 {
-  "defaultDomain": "root",
-  "sessionRefreshInterval": 300,
+  "defaultDomain": "domain",
+  "sessionRefreshInterval": 60,
   "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.11/",
   "extensions": {
     "webShell": true,
