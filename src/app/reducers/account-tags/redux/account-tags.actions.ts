@@ -8,7 +8,7 @@ export const LOAD_ACCOUNT_TAGS_RESPONSE = '[ACCOUNT_TAGS] LOAD_ACCOUNT_TAGS_RESP
 export class LoadAccountTagsRequest implements Action {
   readonly type = LOAD_ACCOUNT_TAGS_REQUEST;
 
-  constructor() {
+  constructor(public payload?: any) {
   }
 }
 
