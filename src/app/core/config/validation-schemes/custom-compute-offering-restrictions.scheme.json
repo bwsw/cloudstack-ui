@@ -38,7 +38,8 @@
           "minimum": 1
         },
         "max": {
-          "type": "number"
+          "type": "number",
+          "minimum": 1
         }
       }
     }

@@ -9,8 +9,9 @@ import { RouterUtilsService } from '../../../shared/services/router-utils.servic
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
-import { configSelectors, layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 import { SidenavRouteId } from '../../config';
+import { SidenavConfigElement } from '../../../shared/models/config';
+import { configSelectors, layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 
 
 @Component({
@@ -121,10 +122,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
           if (this.validateNavigationOrder(order)) {
             const predicate = this.navigationPredicate(order);
             this.routes.sort(predicate);
-            this.routes.forEach((
-              route,
-              i
-            ) => route.visible = (!this.allowConfiguring || (this.allowConfiguring && order[i].visible)));
+            this.routes.forEach((route, i) => route.visible = order[i].visible);
           }
         });
     } else {
@@ -143,7 +141,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
     this.store.select(configSelectors.get('configureSidenav')).pipe(
       first()
-    ).subscribe(sidenavConfiguration => {
+    ).subscribe((sidenavConfiguration: SidenavConfigElement[]) => {
       const routesMap = this.getRoutesMap();
       this.routes = sidenavConfiguration.map(confElement => {
         const route = routesMap[confElement.id];
