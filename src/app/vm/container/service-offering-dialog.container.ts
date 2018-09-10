@@ -1,10 +1,4 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  AfterViewInit,
-  ChangeDetectorRef
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -33,6 +27,7 @@ import * as zoneActions from '../../reducers/zones/redux/zones.actions';
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [isVmRunning]="isVmRunning()"
+      [virtualMachine]="virtualMachine"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       [restrictions]="customOfferingRestrictions$ | async"
       [defaultParams]="defaultParams$ | async"
