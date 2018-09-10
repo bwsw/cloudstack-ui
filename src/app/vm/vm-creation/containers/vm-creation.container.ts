@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { State, UserTagsSelectors } from '../../../root-store';
+import { map } from 'rxjs/operators';
+
 import {
   AccountResourceType,
   AffinityGroup,
@@ -19,6 +20,7 @@ import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
+import { State, UserTagsSelectors } from '../../../root-store';
 import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
@@ -82,15 +84,16 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 })
 export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
-  readonly isLoading$ = this.store.select(fromVMs.formIsLoading)
-    .withLatestFrom(
-      this.store.select(fromZones.isLoading),
-      this.store.select(fromServiceOfferings.isLoading),
-      this.store.select(fromAuth.isLoading),
-      this.store.select(fromTemplates.isLoading),
-      this.store.select(fromAffinityGroups.isLoading)
-    )
-    .map((loadings: boolean[]) => loadings.find(loading => loading));
+  readonly isLoading$ = Observable.combineLatest(
+    this.store.select(fromVMs.formIsLoading),
+    this.store.select(fromZones.isLoading),
+    this.store.select(fromServiceOfferings.isLoading),
+    this.store.select(fromAuth.isLoading),
+    this.store.select(fromTemplates.isLoading),
+    this.store.select(fromAffinityGroups.isLoading)
+  ).pipe(
+    map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
+  );
   readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
   readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
