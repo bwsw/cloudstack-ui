@@ -1,8 +1,10 @@
-import { ConfigService } from '../../core/services';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { AccessService, AuthModeType } from './access.service';
 import { VirtualMachine } from '../';
+import { configSelectors, State } from '../../root-store';
 
 @Injectable()
 export class SshAccessService extends AccessService {
@@ -11,14 +13,17 @@ export class SshAccessService extends AccessService {
   private readonly WebShellAddress = 'cs-extensions/webshell';
   private readonly defaultPort = '22';
   private readonly defaultLogin = 'root';
+  private webShellEnabled: boolean;
 
-  public get isWebShellEnabled(): boolean {
-    const extensions = this.configService.get('extensions');
-    return extensions && extensions.webShell;
+  public isWebShellEnabled(): boolean {
+    return this.webShellEnabled;
   }
 
-  constructor(public configService: ConfigService) {
+  constructor(store: Store<State>) {
     super();
+    store.select(configSelectors.get('extensions')).subscribe(extensions => {
+      this.webShellEnabled = extensions.webShell;
+    });
   }
 
   public getAddress(vm): string {

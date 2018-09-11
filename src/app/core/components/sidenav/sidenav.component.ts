@@ -3,14 +3,15 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DragulaService } from 'ng2-dragula';
 import * as cloneDeep from 'lodash/cloneDeep';
+import { first } from 'rxjs/operators';
 
-import { ConfigService } from '../../services';
 import { RouterUtilsService } from '../../../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
-import { layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 import { SidenavRouteId } from '../../config';
+import { SidenavConfigElement } from '../../../shared/models/config';
+import { configSelectors, layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
   @ViewChild('navigationBar') public navigationBar: ElementRef;
   @Input() public open: boolean;
   @Input() public title: string;
+  @Input() public allowConfiguring: boolean;
   public imgUrl = 'url(img/cloudstack_logo_light.png)';
 
   public routes: Array<SidenavRoute> = cloneDeep(sidenavRoutes);
@@ -36,7 +38,6 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
   private hasChanges = false;
 
   constructor(
-    private configService: ConfigService,
     private dragula: DragulaService,
     private routerUtilsService: RouterUtilsService,
     private router: Router,
@@ -58,10 +59,6 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
 
   public get editing(): boolean {
     return this._editing;
-  }
-
-  public get canEdit(): boolean {
-    return this.configService.get('allowReorderingSidebar');
   }
 
   public linkClick(routerLink: string): void {
@@ -115,7 +112,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
   }
 
   private initNavigationOrder() {
-    if (this.canEdit) {
+    if (this.allowConfiguring) {
       this.store.select(UserTagsSelectors.getNavigationOrder)
         .do(() => this.navigationLoaded = true)
         .filter(Boolean)
@@ -125,12 +122,9 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
           if (this.validateNavigationOrder(order)) {
             const predicate = this.navigationPredicate(order);
             this.routes.sort(predicate);
-            this.routes.forEach((
-              route,
-              i
-            ) => route.visible = (!this.canEdit || (this.canEdit && order[i].visible)));
+            this.routes.forEach((route, i) => route.visible = order[i].visible);
           }
-      });
+        });
     } else {
       this.navigationLoaded = true;
     }
@@ -141,15 +135,20 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
   }
 
   public setUpRoutes() {
-    if (this.canEdit) {
-      const sidenavConfiguration = this.configService.get('configureSidenav');
+    if (!this.allowConfiguring) {
+      return;
+    }
+
+    this.store.select(configSelectors.get('configureSidenav')).pipe(
+      first()
+    ).subscribe((sidenavConfiguration: SidenavConfigElement[]) => {
       const routesMap = this.getRoutesMap();
       this.routes = sidenavConfiguration.map(confElement => {
         const route = routesMap[confElement.id];
         route.visible = confElement.visible;
         return route;
       });
-    }
+    });
   }
 
   private getRoutesMap(): { [id: string]: SidenavRoute } {
@@ -165,7 +164,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
     }
 
     return order.every(el =>
-        el.visible != null && el.id != null && !!this.routes.find(route => route.id === el.id));
+      el.visible != null && el.id != null && !!this.routes.find(route => route.id === el.id));
   }
 
   private navigationPredicate(order: NavigationItem[]) {

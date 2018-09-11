@@ -8,7 +8,7 @@ export enum AuthModeType {
 }
 
 export abstract class AccessService {
-  protected readonly abstract authMode: AuthModeType;
+  protected readonly authMode: AuthModeType;
 
   public openWindow(vm: VirtualMachine) {
     const address = this.getAddress(vm);

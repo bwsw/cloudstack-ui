@@ -73,7 +73,7 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
 
   private updateValue(value: number): void {
     // This allows you delete last symbol
-    if (!value) {
+    if (value == null) {
       return this.updateElementValue(value);
     }
 

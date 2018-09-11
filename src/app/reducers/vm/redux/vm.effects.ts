@@ -25,6 +25,7 @@ import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/v
 // tslint:disable-next-line
 import { VmPasswordDialogComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-password-dialog.component';
 import { State } from '../../index';
+import * as vmActions from './vm.actions';
 import { LoadVirtualMachine, VirtualMachineLoaded } from './vm.actions';
 import { SnackBarService } from '../../../core/services';
 import { of } from 'rxjs/observable/of';
@@ -34,7 +35,6 @@ import { HttpAccessService, SshAccessService, VncAccessService } from '../../../
 
 import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as sgActions from '../../security-groups/redux/sg.actions';
-import * as vmActions from './vm.actions';
 
 @Injectable()
 export class VirtualMachinesEffects {

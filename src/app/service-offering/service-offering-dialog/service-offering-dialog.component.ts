@@ -1,11 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import {
-  ICustomOfferingRestrictions,
-  ServiceOffering,
-  ServiceOfferingClass,
-  ServiceOfferingType
-} from '../../shared/models';
-import { ICustomServiceOffering } from '../custom-service-offering/custom-service-offering';
+import { ServiceOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { ComputeOfferingViewModel } from '../../vm/view-models';
 
 export enum ServiceOfferingFromMode {
   CHANGE,
@@ -19,22 +14,20 @@ export enum ServiceOfferingFromMode {
 })
 export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
-  @Input() public serviceOfferings: Array<ServiceOffering>;
+  @Input() public serviceOfferings: ComputeOfferingViewModel[];
   @Input() public classes: Array<ServiceOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
-  @Input() public restrictions: ICustomOfferingRestrictions;
-  @Input() public defaultParams: ICustomServiceOffering;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
   @Input() public isVmRunning: boolean;
-  @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();
-  @Output() public onServiceOfferingUpdate = new EventEmitter<ServiceOffering>();
+  @Output() public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
+  @Output() public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
   @Output() public viewModeChange = new EventEmitter();
   @Output() public selectedClassesChange = new EventEmitter();
   @Output() public queryChange = new EventEmitter();
-  public serviceOffering: ServiceOffering;
+  public serviceOffering: ComputeOfferingViewModel;
   public loading: boolean;
   public showFields = false;
 
@@ -54,7 +47,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
     }
   }
 
-  public updateOffering(offering: ServiceOffering): void {
+  public updateOffering(offering: ComputeOfferingViewModel): void {
     this.serviceOffering = offering;
     this.onServiceOfferingUpdate.emit(this.serviceOffering);
   }
@@ -78,9 +71,9 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
     const isSelectedOfferingDoNotHaveParams = this.serviceOffering
       && !this.serviceOffering.cpunumber && !this.serviceOffering.cpuspeed && !this.serviceOffering.memory;
     return isOfferingNotSelected
-          || isNoOfferingsInCurrentViewMode
-          || isSelectedOfferingFromDifferentViewMode
-          || isSelectedOfferingDoNotHaveParams;
+      || isNoOfferingsInCurrentViewMode
+      || isSelectedOfferingFromDifferentViewMode
+      || isSelectedOfferingDoNotHaveParams;
   }
 
 }

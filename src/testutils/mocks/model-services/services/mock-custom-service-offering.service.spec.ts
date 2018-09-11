@@ -1,31 +1,29 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-// tslint:disable-next-line
-import { CustomServiceOffering } from '../../../../app/service-offering/custom-service-offering/custom-service-offering';
-import { ICustomOfferingRestrictionsByZone } from '../../../../app/shared/models';
+import { CustomComputeOfferingRestrictions, ServiceOffering } from '../../../../app/shared/models';
 
 
 @Injectable()
 export class MockCustomServiceOfferingService {
   constructor(@Inject('mockCustomServiceOfferingServiceConfig') public config: {
-    customOffering: CustomServiceOffering,
-    customOfferingRestrictionsByZone: ICustomOfferingRestrictionsByZone
+    customOffering: ServiceOffering,
+    customOfferingRestrictionsByZone: CustomComputeOfferingRestrictions
   }) {
   }
 
-  public getCustomOfferingWithSetParams(): Observable<CustomServiceOffering> {
+  public getCustomOfferingWithSetParams(): Observable<ServiceOffering> {
     return Observable.of(this.config.customOffering);
   }
 
-  public getCustomOfferingWithSetParamsSync(): CustomServiceOffering {
+  public getCustomOfferingWithSetParamsSync(): ServiceOffering {
     return this.config.customOffering;
   }
 
-  public getCustomOfferingRestrictionsByZone(): Observable<ICustomOfferingRestrictionsByZone> {
+  public getCustomOfferingRestrictionsByZone(): Observable<CustomComputeOfferingRestrictions> {
     return Observable.of(this.config.customOfferingRestrictionsByZone);
   }
 
-  public getCustomOfferingRestrictionsByZoneSync(): ICustomOfferingRestrictionsByZone {
+  public getCustomOfferingRestrictionsByZoneSync(): CustomComputeOfferingRestrictions {
     return this.config.customOfferingRestrictionsByZone;
   }
 }

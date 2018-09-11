@@ -11,6 +11,7 @@ import { CustomRouterStateSerializer } from './custom-router-state-serializer';
 import { IdleEffects } from './idle-monitor';
 import { NotificationsEffects } from './notifications';
 
+import { ConfigStoreModule } from './config';
 import { UserTagsStoreModule } from './server-data/user-tags';
 
 const reducers = {
@@ -24,6 +25,7 @@ const EFFECTS = [
 
 @NgModule({
   imports: [
+    ConfigStoreModule,
     UserTagsStoreModule,
     StoreModule.forRoot( reducers, { metaReducers }),
     EffectsModule.forRoot(EFFECTS),

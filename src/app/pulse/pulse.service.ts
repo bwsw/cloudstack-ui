@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { ConfigService } from '../core/services';
 import { CpuStats, DiskStats, NetworkStats, RamStats } from './stats';
 
 interface TimeParams {
@@ -17,8 +16,7 @@ export interface Interval {
 
 @Injectable()
 export class PulseService {
-  private pulseUrl: string;
-  constructor(protected http: HttpClient, protected config: ConfigService) {
+  constructor(protected http: HttpClient) {
   }
 
   public getPermittedIntervals() {

@@ -99,7 +99,7 @@ import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
 import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
-import { HttpAccessService, VncAccessService, SshAccessService } from './services';
+import { HttpAccessService, SshAccessService, VncAccessService } from './services';
 
 // tslint:enable max-line-length
 

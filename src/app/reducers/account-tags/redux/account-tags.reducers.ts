@@ -1,7 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Tag } from '../../../shared/models/tag.model';
-import { AccountTagKeys } from '../../../shared/services/tags/account-tag-keys';
 
 import * as accountTagActions from './account-tags.actions';
 
