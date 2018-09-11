@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
 import { VmCreationComponent } from '../vm-creation.component';
-import { SshAccessService, HttpAccessService } from '../../services';
+import { HttpAccessService, SshAccessService } from '../../services';
 
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
@@ -28,7 +28,7 @@ export class PostdeploymentComponent {
       name: 'VM_POST_ACTION.OPEN_SHELL_CONSOLE',
       hidden: (vm) => {
         return !vm
-          || !this.sshAccessService.isWebShellEnabled
+          || !this.sshAccessService.isWebShellEnabled()
           || !this.sshAccessService.isWebShellEnabledForVm(vm);
       },
       activate: (vm) => this.store.dispatch(new vmActions.WebShellVm(vm))
