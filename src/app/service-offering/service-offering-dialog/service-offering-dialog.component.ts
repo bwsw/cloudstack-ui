@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+
 import { ServiceOfferingClass, ServiceOfferingType } from '../../shared/models';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
+import { VirtualMachine } from '../../vm/shared/vm.model';
 
 export enum ServiceOfferingFromMode {
   CHANGE,
@@ -19,6 +21,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public selectedClasses: Array<string>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
+  @Input() public virtualMachine: VirtualMachine;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
   @Input() public isVmRunning: boolean;
@@ -57,9 +60,9 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   }
 
   public get showRebootMessage(): boolean {
-    return !this.formMode &&
-      this.serviceOfferings.length &&
-      this.serviceOffering && this.serviceOffering.id !== this.serviceOfferingId
+    return !this.formMode
+      && this.serviceOfferings.length
+      && this.isSelectedOfferingDifferent()
       && this.isVmRunning;
   }
 
@@ -70,10 +73,30 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
     const isSelectedOfferingDoNotHaveParams = this.serviceOffering
       && !this.serviceOffering.cpunumber && !this.serviceOffering.cpuspeed && !this.serviceOffering.memory;
+
+    const isSelectedOfferingDifferentFromCurrent = this.formMode === ServiceOfferingFromMode.CHANGE
+      && !this.isSelectedOfferingDifferent();
+
     return isOfferingNotSelected
       || isNoOfferingsInCurrentViewMode
       || isSelectedOfferingFromDifferentViewMode
-      || isSelectedOfferingDoNotHaveParams;
+      || isSelectedOfferingDoNotHaveParams
+      || isSelectedOfferingDifferentFromCurrent;
+  }
+
+  private isSelectedOfferingDifferent(): boolean {
+    if (!this.virtualMachine || !this.serviceOffering) {
+      return true;
+    }
+
+    const isDifferentOfferingId = this.virtualMachine.serviceOfferingId !== this.serviceOffering.id;
+    const isSameCustomOfferingWithDifferentParams =
+      !isDifferentOfferingId
+      && (this.virtualMachine.cpuNumber !== this.serviceOffering.cpunumber
+      || this.virtualMachine.cpuSpeed !== this.serviceOffering.cpuspeed
+      || this.virtualMachine.memory !== this.serviceOffering.memory);
+
+    return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
   }
 
 }

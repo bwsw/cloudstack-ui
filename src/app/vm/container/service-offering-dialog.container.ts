@@ -27,6 +27,7 @@ import { selectFilteredOfferings } from '../selectors'
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [isVmRunning]="isVmRunning()"
+      [virtualMachine]="virtualMachine"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
       (onServiceOfferingChange)="changeServiceOffering($event)"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
