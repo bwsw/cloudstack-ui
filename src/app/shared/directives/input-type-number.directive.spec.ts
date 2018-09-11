@@ -85,9 +85,14 @@ describe('InputTypeNumberDirective', () => {
     inputEl.dispatchEvent(new Event('input'));
     tick(1000);
     expect(inputEl.value).toBe(component.minValue.toString());
+
+    inputEl.value = '0';
+    inputEl.dispatchEvent(new Event('input'));
+    tick(1000);
+    expect(inputEl.value).toBe(component.minValue.toString());
   }));
 
-  it('should set the maximum value immediately if current value are beyond the maximum limit', () => {
+  it('should set the positive maximum value immediately if current value are beyond the maximum limit', () => {
     component.maxValue = 1000;
     fixture.detectChanges();
 
@@ -96,6 +101,19 @@ describe('InputTypeNumberDirective', () => {
     expect(inputEl.value).toBe('777');
 
     inputEl.value = '7777';
+    inputEl.dispatchEvent(new Event('input'));
+    expect(inputEl.value).toBe(component.maxValue.toString());
+  });
+
+  it('should set the negative maximum value immediately if current value are beyond the maximum limit', () => {
+    component.maxValue = -1;
+    fixture.detectChanges();
+
+    inputEl.value = '-5';
+    inputEl.dispatchEvent(new Event('input'));
+    expect(inputEl.value).toBe('-5');
+
+    inputEl.value = '0';
     inputEl.dispatchEvent(new Event('input'));
     expect(inputEl.value).toBe(component.maxValue.toString());
   });

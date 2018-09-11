@@ -114,8 +114,6 @@ In this sections you can specify limits for custom compute offerings in the foll
           }
         }
     ]
-    
-Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
 
 ### Service Offering Classes
 
