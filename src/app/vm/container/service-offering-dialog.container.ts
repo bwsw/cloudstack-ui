@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 // tslint:disable-next-line
 import { Account, AccountResourceType } from '../../shared/models/account.model';
 import { VirtualMachine, VmState } from '../shared/vm.model';
@@ -15,7 +15,7 @@ import * as serviceOfferingActions from '../../reducers/service-offerings/redux/
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
-
+import { selectFilteredOfferings } from '../selectors'
 
 @Component({
   selector: 'cs-service-offering-dialog-container',
@@ -29,8 +29,6 @@ import * as zoneActions from '../../reducers/zones/redux/zones.actions';
       [isVmRunning]="isVmRunning()"
       [virtualMachine]="virtualMachine"
       [serviceOfferingId]="virtualMachine.serviceOfferingId"
-      [restrictions]="customOfferingRestrictions$ | async"
-      [defaultParams]="defaultParams$ | async"
       (onServiceOfferingChange)="changeServiceOffering($event)"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
       (viewModeChange)="onViewModeChange($event)"
@@ -40,10 +38,8 @@ import * as zoneActions from '../../reducers/zones/redux/zones.actions';
     </cs-service-offering-dialog>`,
 })
 export class ServiceOfferingDialogContainerComponent implements OnInit, AfterViewInit {
-  readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferings);
-  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictions);
+  readonly offerings$ = this.store.select(selectFilteredOfferings);
   readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
-  readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
   readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
@@ -63,9 +59,6 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneId));
-    this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
     this.store.dispatch(new soGroupActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));

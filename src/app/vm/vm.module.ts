@@ -96,10 +96,10 @@ import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-de
 import { VmDetailZoneComponent } from './vm-sidebar/vm-detail/zone/zone.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
-import { WebShellService } from './web-shell/web-shell.service';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
 import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
+import { HttpAccessService, SshAccessService, VncAccessService } from './services';
 
 // tslint:enable max-line-length
 
@@ -203,13 +203,15 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     VmPasswordDialogComponent,
     ServiceOfferingSelectorComponent,
     InstallationSourceDialogComponent,
-    VmPasswordComponent
+    VmPasswordComponent,
   ],
   providers: [
     VmActionsService,
     VmEntityDeletionService,
     VmService,
-    WebShellService
+    SshAccessService,
+    HttpAccessService,
+    VncAccessService
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,

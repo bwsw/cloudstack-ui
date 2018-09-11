@@ -1,15 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
+
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { StorageTypes } from '../models/offering.model';
-import { ServiceOffering } from '../models/service-offering.model';
-import { Zone } from '../models/zone.model';
+import { OfferingAvailability, ServiceOffering, Zone } from '../models';
 import { CacheService } from './cache.service';
-import { ConfigService } from '../../core/services';
 import { ErrorService } from './error.service';
-import { OfferingAvailability } from './offering.service';
 import { ServiceOfferingService } from './service-offering.service';
+import { TestStore } from '../../../testutils/ngrx-test-store';
 
 @Injectable()
 class MockErrorService {
@@ -50,9 +50,9 @@ describe('Service-offering service', () => {
     TestBed.configureTestingModule({
       providers: [
         ServiceOfferingService,
-        ConfigService,
         { provide: ErrorService, useClass: MockErrorService },
         { provide: CacheService, useClass: MockCacheService },
+        { provide: Store, useClass: TestStore },
       ],
       imports: [
         HttpClientTestingModule
@@ -92,5 +92,21 @@ describe('Service-offering service', () => {
       <Zone>{ id: '1' }
     );
     expect(result).toBe(true);
+
+    result = serviceOfferingService['isOfferingAvailableInZone'](
+      newSO,
+      <OfferingAvailability>{
+        filterOfferings: true,
+        zones: {
+          1: {
+            filterOfferings: false,
+            diskOfferings: [],
+            serviceOfferings: []
+          }
+        }
+      },
+      <Zone>{ id: '1' }
+    );
+    expect(result).toBe(false);
   });
 });

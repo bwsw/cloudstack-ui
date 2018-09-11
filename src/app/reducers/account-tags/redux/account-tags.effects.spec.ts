@@ -12,12 +12,9 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import * as fromAccountTags from './account-tags.reducers';
 import * as accountTagActions from './account-tags.actions';
 import { AccountTagsEffects } from './account-tags.effects';
-import { Tag } from '../../../shared/models/tag.model';
+import { Tag } from '../../../shared/models';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AccountTagService } from '../../../shared/services/tags/account-tag.service';
-import { ConfigService } from '../../../core/services';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { StorageTypes } from '../../../shared/models/offering.model';
 
 @Injectable()
 class MockAsyncJobService {
@@ -85,7 +82,6 @@ describe('Account tags Effects', () => {
   let actions$: TestActions;
   let service: TagService;
   let accountService: AccountTagService;
-  let configService: ConfigService;
   let dialogService: DialogService;
 
   let effects: AccountTagsEffects;
@@ -101,7 +97,6 @@ describe('Account tags Effects', () => {
       ],
       providers: [
         AccountTagsEffects,
-        ConfigService,
         { provide: Actions, useFactory: getActions },
         { provide: TagService, useClass: MockTagService },
         { provide: AccountTagService, useClass: MockTagService },
@@ -111,14 +106,12 @@ describe('Account tags Effects', () => {
     actions$ = TestBed.get(Actions);
     service = TestBed.get(TagService);
     accountService = TestBed.get(AccountTagService);
-    configService = TestBed.get(ConfigService);
     dialogService = TestBed.get(DialogService);
     effects = TestBed.get(AccountTagsEffects);
   });
 
   it('should return a collection from LoadAccountTagsResponse', () => {
     const spyGetList = spyOn(service, 'getList').and.returnValue(of(list));
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(true);
 
     const action = new accountTagActions.LoadAccountTagsRequest();
     const completion = new accountTagActions.LoadAccountTagsResponse(list);
@@ -133,7 +126,6 @@ describe('Account tags Effects', () => {
   it('should return an empty collection from LoadAccountTagsResponse', () => {
     const spyGetList = spyOn(service, 'getList').and
       .returnValue(Observable.throw(new Error('Error occurred!')));
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(true);
 
     const action = new accountTagActions.LoadAccountTagsRequest();
     const completion = new accountTagActions.LoadAccountTagsResponse([]);

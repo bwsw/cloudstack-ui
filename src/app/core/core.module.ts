@@ -7,7 +7,7 @@ import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { SidenavComponent } from './components';
-import { ConfigService, SnackBarService, SystemTagsService } from './services';
+import { SnackBarService } from './services';
 import { ConfigValidationService } from './config';
 
 const COMPONENTS = [
@@ -15,10 +15,8 @@ const COMPONENTS = [
 ];
 
 const SERVICES = [
-  ConfigService,
   ConfigValidationService,
-  SnackBarService,
-  SystemTagsService
+  SnackBarService
 ];
 
 @NgModule({

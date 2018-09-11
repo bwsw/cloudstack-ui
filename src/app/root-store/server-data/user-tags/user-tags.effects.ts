@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { switchMap, exhaustMap, map, mergeMap, catchError } from 'rxjs/operators';
+import { catchError, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import {
   CloseSidenav,

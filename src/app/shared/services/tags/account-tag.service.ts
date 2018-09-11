@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AccountResourceType } from '../../models/account.model';
-import { ServiceOffering } from '../../models/service-offering.model';
 import { SSHKeyPair } from '../../models/ssh-keypair.model';
 import { User } from '../../models/user.model';
 import { AccountService } from '../account.service';

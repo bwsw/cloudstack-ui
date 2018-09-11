@@ -19,22 +19,22 @@ import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service'
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { IsoService } from '../../../template/shared/iso.service';
 import { VmDestroyDialogComponent } from '../../../vm/shared/vm-destroy-dialog/vm-destroy-dialog.component';
-import { getPath, getPort, getProtocol, VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
+import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { VmAccessComponent } from '../../../vm/vm-actions/vm-actions-component/vm-access.component';
 // tslint:disable-next-line
 import { VmPasswordDialogComponent } from '../../../vm/vm-actions/vm-reset-password-component/vm-password-dialog.component';
-import { WebShellService } from '../../../vm/web-shell/web-shell.service';
 import { State } from '../../index';
-import * as volumeActions from '../../volumes/redux/volumes.actions';
-import * as sgActions from '../../security-groups/redux/sg.actions';
 import * as vmActions from './vm.actions';
 import { LoadVirtualMachine, VirtualMachineLoaded } from './vm.actions';
 import { SnackBarService } from '../../../core/services';
 import { of } from 'rxjs/observable/of';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
+import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
 
+import * as volumeActions from '../../volumes/redux/volumes.actions';
+import * as sgActions from '../../security-groups/redux/sg.actions';
 
 @Injectable()
 export class VirtualMachinesEffects {
@@ -47,7 +47,6 @@ export class VirtualMachinesEffects {
         .map((vms: VirtualMachine[]) => new vmActions.LoadVMsResponse(vms))
         .catch(() => Observable.of(new vmActions.LoadVMsResponse([])));
     });
-
 
   @Effect()
   loadVM$: Observable<Action> = this.actions$
@@ -695,44 +694,19 @@ export class VirtualMachinesEffects {
   vmWebShell$: Observable<VirtualMachine> = this.actions$
     .ofType(vmActions.WEB_SHELL_VM)
     .map((action: vmActions.WebShellVm) => action.payload)
-    .do((vm: VirtualMachine) => {
-      const address = WebShellService.getWebShellAddress(vm);
-      window.open(
-        address,
-        vm.displayName,
-        'resizable=0,width=820,height=640'
-      );
-    });
+    .do((vm: VirtualMachine) => this.sshModeService.openWindow(vm));
 
   @Effect({ dispatch: false })
   vmConsole$: Observable<VirtualMachine> = this.actions$
     .ofType(vmActions.CONSOLE_VM)
     .map((action: vmActions.ConsoleVm) => action.payload)
-    .do((vm: VirtualMachine) => {
-      window.open(
-        `client/console?cmd=access&vm=${vm.id}`,
-        vm.displayName,
-        'resizable=0,width=820,height=640'
-      );
-    });
+    .do((vm: VirtualMachine) => this.vncModeService.openWindow(vm));
 
   @Effect({ dispatch: false })
   vmUrlAction$: Observable<VirtualMachine> = this.actions$
     .ofType(vmActions.OPEN_URL_VM)
     .map((action: vmActions.OpenUrlVm) => action.payload)
-    .do((vm: VirtualMachine) => {
-      const protocol = getProtocol(vm);
-      const port = getPort(vm);
-      const path = getPath(vm);
-      const ip = vm.nic[0].ipaddress;
-
-      const address = `${protocol}://${ip}:${port}/${path}`;
-      window.open(
-        address,
-        vm.displayName,
-        'resizable=0,width=820,height=640'
-      );
-    });
+    .do((vm: VirtualMachine) => this.httpModeService.openWindow(vm));
 
   constructor(
     private store: Store<State>,
@@ -748,7 +722,10 @@ export class VirtualMachinesEffects {
     private dialog: MatDialog,
     private router: Router,
     private snackBarService: SnackBarService,
-    private tagService: TagService
+    private tagService: TagService,
+    private httpModeService: HttpAccessService,
+    private sshModeService: SshAccessService,
+    private vncModeService: VncAccessService
   ) {
   }
 

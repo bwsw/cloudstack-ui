@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ServiceOffering, Zone } from '../models';
+
+import { OfferingAvailability, ServiceOffering, Zone } from '../models';
 import { BackendResource } from '../decorators';
-import { OfferingAvailability, OfferingService } from './offering.service';
+import { OfferingService } from './offering.service';
+
 
 @Injectable()
 @BackendResource({

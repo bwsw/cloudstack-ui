@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { State, UserTagsSelectors } from '../../../root-store';
+import { map } from 'rxjs/operators';
+
 import {
   AccountResourceType,
   AffinityGroup,
@@ -19,6 +20,7 @@ import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
+import { State, UserTagsSelectors } from '../../../root-store';
 import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
@@ -37,6 +39,7 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
+import { getAvailableOfferingsForVmCreation } from '../../selectors';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -57,7 +60,6 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
       [insufficientResources]="insufficientResources$ | async"
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
-      [customOfferingRestrictions]="customOfferingRestrictions$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
       [diskOfferingParams]="diskOfferingParams$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
@@ -82,17 +84,17 @@ import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 })
 export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
-  readonly isLoading$ = this.store.select(fromVMs.formIsLoading)
-    .withLatestFrom(
-      this.store.select(fromZones.isLoading),
-      this.store.select(fromServiceOfferings.isLoading),
-      this.store.select(fromAuth.isLoading),
-      this.store.select(fromTemplates.isLoading),
-      this.store.select(fromAffinityGroups.isLoading)
-    )
-    .map((loadings: boolean[]) => loadings.find(loading => loading));
-  readonly serviceOfferings$ = this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation);
-  readonly customOfferingRestrictions$ = this.store.select(fromServiceOfferings.getCustomRestrictionsForVmCreation);
+  readonly isLoading$ = Observable.combineLatest(
+    this.store.select(fromVMs.formIsLoading),
+    this.store.select(fromZones.isLoading),
+    this.store.select(fromServiceOfferings.isLoading),
+    this.store.select(fromAuth.isLoading),
+    this.store.select(fromTemplates.isLoading),
+    this.store.select(fromAffinityGroups.isLoading)
+  ).pipe(
+    map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
+  );
+  readonly serviceOfferings$ = this.store.select(getAvailableOfferingsForVmCreation);
   readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
   readonly deploymentInProgress$ = this.store.select(fromVMs.deploymentInProgress);
   readonly diskOfferings$ = this.store.select(fromDiskOfferings.selectAll);
@@ -121,9 +123,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadCustomRestrictionsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadDefaultParamsRequest());
-    this.store.dispatch(new serviceOfferingActions.LoadOfferingAvailabilityRequest());
     this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
     this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());

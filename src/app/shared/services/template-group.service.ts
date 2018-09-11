@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ConfigService } from '../../core/services';
-import { TemplateGroup } from '../models/template-group.model';
+import { Store } from '@ngrx/store';
+
+import { TemplateGroup } from '../models';
+import { configSelectors, State } from '../../root-store';
 
 @Injectable()
 export class TemplateGroupService {
-  constructor(private configService: ConfigService) {
+  constructor(private store: Store<State>) {
   }
 
   public getList(): Observable<Array<TemplateGroup>> {
-    return Observable.of(this.configService.get('templateGroups'));
+    return this.store.select(configSelectors.get('templateGroups'));
   }
 }

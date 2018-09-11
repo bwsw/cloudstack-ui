@@ -11,7 +11,6 @@ import { filter } from 'rxjs/operators/filter';
 import { withLatestFrom } from 'rxjs/operators/withLatestFrom';
 
 import { State } from '../state';
-import { ConfigService } from '../../core/services';
 import {
   IdleMonitorActionTypes,
   RefreshSessionRequest,
@@ -21,26 +20,31 @@ import {
 import { IdleLogout } from '../../auth/store/auth.actions';
 import { AuthService } from '../../shared/services/auth.service';
 import { TagService } from '../../shared/services/tags/tag.service';
-import { getSessionTimeout } from '../server-data/user-tags/user-tags.selectors';
-
+import { UserTagsSelectors } from '../server-data/user-tags';
+import { configSelectors } from '../config';
 
 @Injectable()
 export class IdleEffects {
   @Effect({ dispatch: false })
-  startIdleMonitor$: Observable<[Action, number]> = this.actions$.pipe(
+  startIdleMonitor$: Observable<[Action, number, number]> = this.actions$.pipe(
     ofType(IdleMonitorActionTypes.StartIdleMonitor),
-    withLatestFrom(this.store.select(getSessionTimeout)),
-    filter(([action, sessionTimeout]) => sessionTimeout > 0), // timeout = 0 - disable idle monitor
-    tap(([action, sessionTimeout]) => this.startIdleMonitor(sessionTimeout))
+    withLatestFrom(
+      this.store.select(UserTagsSelectors.getSessionTimeout),
+      this.store.select(configSelectors.get('sessionRefreshInterval'))
+    ),
+    // timeout = 0 - disable idle monitor
+    filter(([action, timeout, refreshInterval]) => timeout > 0),
+    tap(([action, timeout, refreshInterval]) => this.startIdleMonitor(timeout, refreshInterval))
   );
 
   @Effect({ dispatch: false })
-  updateIdleMonitorTimeout$: Observable<number> = this.actions$.pipe(
+  updateIdleMonitorTimeout$: Observable<{ timeout: number, refreshInterval: number }> = this.actions$.pipe(
     ofType<UpdateIdleMonitorTimeout>(IdleMonitorActionTypes.UpdateIdleMonitorTimeout),
-    map(action => action.payload.timeout),
-    tap((timeout) => {
+    withLatestFrom(this.store.select(configSelectors.get('sessionRefreshInterval'))),
+    map(([action, refreshInterval]) => ({ timeout: action.payload.timeout, refreshInterval })),
+    tap(({ timeout, refreshInterval }) => {
       if (timeout > 0) {
-        this.startIdleMonitor(timeout)
+        this.startIdleMonitor(timeout, refreshInterval)
       } else {
         this.stopIdleMonitor()
       }
@@ -65,17 +69,15 @@ export class IdleEffects {
     private keepalive: Keepalive,
     private store: Store<State>,
     private authService: AuthService,
-    private tagService: TagService,
-    private configService: ConfigService,
+    private tagService: TagService
   ) {
     this.setupPersistentIdleServiceParameters();
   }
 
-  private startIdleMonitor(sessionTimeout: number) {
+  private startIdleMonitor(sessionTimeout: number, sessionRefreshInterval: number) {
     this.idle.setIdle(sessionTimeout * 60);
     // The Session Refresh Interval can't be moved to setupPersistentIdleServiceParameters() function
     // because the ConfigService service will not have any config values when this service is initialized
-    const sessionRefreshInterval = this.configService.get('sessionRefreshInterval');
     this.keepalive.interval(sessionRefreshInterval);
 
     this.idle.watch();

@@ -1,4 +1,4 @@
-import { Config, CustomizableConfig, NonCustomizableConfig } from './interfaces';
+import { Config, CustomizableConfig, NonCustomizableConfig } from '../../shared/models/config';
 
 const COLORS = [
   { value: '#F44336' },
@@ -78,7 +78,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   /*
    * Service offering setting
    */
-  customOfferingRestrictions: {},
+  customComputeOfferingRestrictions: [],
   defaultServiceOfferingConfig: {},
   offeringCompatibilityPolicy: {},
   serviceOfferingClasses: [],
@@ -98,6 +98,9 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
 };
 
 export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
+  /*
+   * User tags
+   */
   askToCreateVM: true,
   askToCreateVolume: true,
   // null means that the user has not yet set this option.
@@ -107,7 +110,29 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
   isSidenavVisible: true,
   showSystemTags: false,
   // Should be empty string. Use configureSidenav instead
-  navigationOrder: ''
+  navigationOrder: '',
+  /*
+   * Offerings
+   */
+  customComputeOfferingParams: {
+    cpunumber: 1,
+    cpuspeed: 1000,
+    memory: 512
+  },
+  defaultCustomComputeOfferingRestrictions: {
+    cpunumber: {
+      min: 1,
+      max: Number.POSITIVE_INFINITY
+    },
+    cpuspeed: {
+      min: 1000,
+      max: Number.POSITIVE_INFINITY
+    },
+    memory: {
+      min: 512,
+      max: Number.POSITIVE_INFINITY
+    }
+  }
 };
 
 export const defaultConfig: Readonly<Config> = {...customizableProperties, ...nonCustomizableProperties};

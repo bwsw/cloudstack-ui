@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { layoutSelectors, State, UserTagsActions } from '../root-store';
+import { configSelectors, layoutSelectors, State, UserTagsActions } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { getName } from '../shared/models';
 import * as authActions from '../reducers/auth/redux/auth.actions';
-import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
 
 @Component({
   selector: 'cs-home',
@@ -16,6 +15,7 @@ import * as serviceOfferingActions from '../reducers/service-offerings/redux/ser
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
   public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
+  public allowReorderingSidebar$ = this.store.select(configSelectors.get('allowReorderingSidebar'));
 
   constructor(
     private auth: AuthService,
@@ -31,7 +31,6 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
       .takeUntil(this.unsubscribe$)
       .filter(isLoggedIn => !!isLoggedIn)
       .subscribe(() => {
-        this.store.dispatch(new serviceOfferingActions.LoadCompatibilityPolicyRequest());
         this.store.dispatch(new authActions.LoadUserAccountRequest({
           name: this.auth.user.account,
           domainid: this.auth.user.domainid

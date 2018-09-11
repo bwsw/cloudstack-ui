@@ -7,7 +7,6 @@ import * as actions from './account-tags.actions';
 
 @Injectable()
 export class AccountTagsEffects {
-
   @Effect()
   loadAccountTags$: Observable<Action> = this.actions$
     .ofType(actions.LOAD_ACCOUNT_TAGS_REQUEST)

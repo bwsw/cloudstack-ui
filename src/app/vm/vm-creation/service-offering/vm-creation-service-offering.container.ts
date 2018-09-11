@@ -2,11 +2,12 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@an
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 
+import { ComputeOfferingViewModel } from '../../view-models';
 import { State } from '../../../reducers';
+import { selectFilteredOfferingsForVmCreation } from '../../selectors';
 import * as fromSOClasses from '../../../reducers/service-offerings/redux/service-offering-class.reducers';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
-import { ICustomOfferingRestrictions, ServiceOffering } from '../../../shared/models';
 // tslint:disable-next-line
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { UserTagsActions } from '../../../root-store';
@@ -22,8 +23,6 @@ import { UserTagsActions } from '../../../root-store';
       [selectedClasses]="selectedClasses$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
-      [restrictions]="customOfferingRestrictions"
-      [defaultParams]="defaultParams$ | async"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
       (onServiceOfferingChange)="changeServiceOffering($event)"
       (viewModeChange)="onViewModeChange($event)"
@@ -33,8 +32,7 @@ import { UserTagsActions } from '../../../root-store';
     </cs-service-offering-dialog>`
 })
 export class VmCreationServiceOfferingContainerComponent implements OnInit, AfterViewInit {
-  readonly offerings$ = this.store.select(fromServiceOfferings.selectFilteredOfferingsForVmCreation);
-  readonly defaultParams$ = this.store.select(fromServiceOfferings.getDefaultParams);
+  readonly offerings$ = this.store.select(selectFilteredOfferingsForVmCreation);
   readonly classes$ = this.store.select(fromSOClasses.selectAll);
   readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
   readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
@@ -42,8 +40,7 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
 
   public formMode = ServiceOfferingFromMode.SELECT;
 
-  public serviceOffering: ServiceOffering;
-  public customOfferingRestrictions: ICustomOfferingRestrictions;
+  public serviceOffering: ComputeOfferingViewModel;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -52,7 +49,6 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
     private cd: ChangeDetectorRef
   ) {
     this.serviceOffering = data.serviceOffering;
-    this.customOfferingRestrictions = data.restriction;
   }
 
   ngOnInit() {
@@ -79,8 +75,10 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ query }));
   }
 
-  public updateServiceOffering(offering) {
-    this.store.dispatch(new UserTagsActions.UpdateCustomServiceOfferingParams({ offering }));
+  public updateServiceOffering(offering: ComputeOfferingViewModel) {
+    if (offering.iscustomized) {
+      this.store.dispatch(new UserTagsActions.UpdateCustomServiceOfferingParams({ offering }));
+    }
   }
 
   public changeServiceOffering(serviceOffering) {

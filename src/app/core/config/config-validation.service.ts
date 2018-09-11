@@ -5,8 +5,8 @@ import * as AjvUniqueItemProperties from 'ajv-keywords/keywords/uniqueItemProper
 import * as AjvErrors from 'ajv-errors';
 import * as omit from 'lodash/omit';
 
+import { Config } from '../../shared/models/config';
 import { customizableProperties, defaultConfig } from './default-configuration';
-import { Config } from './interfaces';
 import * as validationSchemes from './validation-schemes';
 
 enum ErrorType {
@@ -68,6 +68,7 @@ export class ConfigValidationService {
     defaultThemeName: validationSchemes.defaultThemeName,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
+    customComputeOfferingRestrictions: validationSchemes.customComputeOfferingRestrictions,
     offeringAvailability: validationSchemes.offeringAvailability,
     templateGroups: validationSchemes.templateGroups,
     serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
