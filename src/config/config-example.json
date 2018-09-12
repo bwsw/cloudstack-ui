@@ -152,7 +152,7 @@
     "miniops",
     "maxiops"
   ],
-  "offeringAvailability": {
+  "serviceOfferingAvailability": {
     "filterOfferings": true,
     "zones": {
       "9c81af12-f15b-41f0-9dec-2a837e1dec29": {
