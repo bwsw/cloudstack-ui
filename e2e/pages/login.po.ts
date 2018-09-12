@@ -42,14 +42,10 @@ export class Login extends CloudstackUiPage {
   }
 
   logout() {
-    element(by.css('a[ng-reflect-router-link=\"/logout\"]')).click();
+    element(by.css('.link-element.mat-icon.mdi-exit-to-app.mdi')).click();
   }
 
-  checkDomainIsPresent() {
-    return expect(element(by.name('domain')).isPresent()).toBeTruthy();
-  }
-
-  checkDomainIsNotPresent() {
-    return expect(element(by.name('domain')).isPresent()).toBeFalsy();
+  domainIsPresent() {
+    return element(by.name('domain')).isPresent();
   }
 }

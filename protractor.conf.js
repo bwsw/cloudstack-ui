@@ -4,13 +4,27 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
-  allScriptsTimeout: 11000,
+  allScriptsTimeout: 15000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
+  /*
+  multiCapabilities: [{
+    'browserName': 'firefox',
+    firefoxOptions: {
+      args: ['--headless']
+    },
+    'moz:firefoxOptions': {
+      args: [ '--headless' ]
+    }
+  }, {
+    'browserName': 'chrome'
+  }],
+  */
   capabilities: {
     'browserName': 'chrome'
   },
+
   suites: {
     login: './e2e/login.e2e-spec.ts'
   },
