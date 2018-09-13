@@ -6,13 +6,11 @@ import {
   EventEmitter,
   Input,
   Output,
-  Renderer,
+  Renderer2,
   ViewChild
 } from '@angular/core';
 
-import {
-  cloneDate,
-} from './dateUtils';
+import { cloneDate } from './dateUtils';
 
 
 @Component({
@@ -35,8 +33,9 @@ export class CalendarYearComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private renderer: Renderer
-  ) { }
+    private renderer: Renderer2
+  ) {
+  }
 
   public ngAfterViewInit(): void {
     this.scrollIntoSelectedYear();
