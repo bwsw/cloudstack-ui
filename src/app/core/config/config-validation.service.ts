@@ -66,6 +66,7 @@ export class ConfigValidationService {
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
     defaultThemeName: validationSchemes.defaultThemeName,
+    defaultComputeOffering: validationSchemes.defaultComputeOffering,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
     customComputeOfferingRestrictions: validationSchemes.customComputeOfferingRestrictions,

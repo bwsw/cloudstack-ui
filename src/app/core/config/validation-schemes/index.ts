@@ -9,6 +9,7 @@ import * as defaultThemeName from './default-theme-name.scheme.json';
 import * as sessionTimeout from './session-timeout.scheme.json';
 
 import * as configureSidenav from './configure-sidenav.scheme.json';
+import * as defaultComputeOffering from './default-compute-offering.scheme.json';
 import * as serviceOfferingClasses from './service-offering-classes.scheme.json';
 import * as offeringAvailability from './offering-availability.scheme.json';
 import * as customComputeOfferingRestrictions from './custom-compute-offering-restrictions.scheme.json';
@@ -29,6 +30,7 @@ export {
   configureSidenav,
   // Service offering setting
   customComputeOfferingRestrictions,
+  defaultComputeOffering,
   offeringAvailability,
   serviceOfferingClasses,
   // Images settings

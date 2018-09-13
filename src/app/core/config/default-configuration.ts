@@ -79,7 +79,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    * Service offering setting
    */
   customComputeOfferingRestrictions: [],
-  defaultServiceOfferingConfig: {},
+  defaultComputeOffering: [],
   offeringCompatibilityPolicy: {},
   serviceOfferingClasses: [],
   diskOfferingParameters: [
