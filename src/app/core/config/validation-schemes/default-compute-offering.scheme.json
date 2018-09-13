@@ -5,10 +5,7 @@
   "items": {
     "type": "object",
     "additionalProperties": false,
-    "required": [
-      "zoneId",
-      "offeringId"
-    ],
+    "required": ["zoneId", "offeringId"],
     "properties": {
       "zoneId": {
         "type": "string"
@@ -18,5 +15,8 @@
       }
     }
   },
-  "uniqueItemProperties": ["offeringId"]
+  "uniqueItemProperties": ["zoneId"],
+  "errorMessage": {
+    "uniqueItemProperties": "should NOT contain objects with the same zoneId"
+  }
 }
