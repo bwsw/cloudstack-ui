@@ -69,7 +69,7 @@ export class ConfigValidationService {
     defaultComputeOffering: validationSchemes.defaultComputeOffering,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
-    customComputeOfferingRestrictions: validationSchemes.customComputeOfferingRestrictions,
+    customComputeOfferingParameters: validationSchemes.customComputeOfferingParameters,
     offeringAvailability: validationSchemes.offeringAvailability,
     templateGroups: validationSchemes.templateGroups,
     serviceOfferingClasses: validationSchemes.serviceOfferingClasses,

@@ -12,7 +12,7 @@ import * as configureSidenav from './configure-sidenav.scheme.json';
 import * as defaultComputeOffering from './default-compute-offering.scheme.json';
 import * as serviceOfferingClasses from './service-offering-classes.scheme.json';
 import * as offeringAvailability from './offering-availability.scheme.json';
-import * as customComputeOfferingRestrictions from './custom-compute-offering-restrictions.scheme.json';
+import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
 import * as templateGroups from './template-groups.scheme.json';
 
 export {
@@ -29,7 +29,7 @@ export {
   // Menu setting
   configureSidenav,
   // Service offering setting
-  customComputeOfferingRestrictions,
+  customComputeOfferingParameters,
   defaultComputeOffering,
   offeringAvailability,
   serviceOfferingClasses,

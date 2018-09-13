@@ -67,8 +67,8 @@ const getAvailableByResourcesSync = (
     let enoughMemory;
 
     if (offering.iscustomized) {
-      enoughCpus = resourceUsage.available.cpus >= offering.restrictions.cpunumber.min;
-      enoughMemory = resourceUsage.available.memory >= offering.restrictions.memory.min;
+      enoughCpus = resourceUsage.available.cpus >= offering.customOfferingRestrictions.cpunumber.min;
+      enoughMemory = resourceUsage.available.memory >= offering.customOfferingRestrictions.memory.min;
     } else {
       enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
       enoughMemory = resourceUsage.available.memory >= offering.memory;

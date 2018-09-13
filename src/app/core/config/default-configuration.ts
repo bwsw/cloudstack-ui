@@ -78,7 +78,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   /*
    * Service offering setting
    */
-  customComputeOfferingRestrictions: [],
+  customComputeOfferingParameters: [],
   defaultComputeOffering: [],
   offeringCompatibilityPolicy: {},
   serviceOfferingClasses: [],
@@ -114,7 +114,7 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
   /*
    * Offerings
    */
-  customComputeOfferingParams: {
+  customComputeOfferingHardwareValues: {
     cpunumber: 1,
     cpuspeed: 1000,
     memory: 512
