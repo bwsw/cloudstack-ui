@@ -69,7 +69,7 @@
   "defaultTimeFormat": "hour24",
   "defaultTheme": "blue-red",
   "sessionTimeout": 30,
-  "allowReorderingSidebar": true,
+  "allowReorderingSidenav": true,
   "configureSidenav": [
     { "id": "VMS" },
     { "id": "VOLUMES", "visible": true },
@@ -81,33 +81,32 @@
     { "id": "ACCOUNTS", "visible": true },
     { "id": "SETTINGS", "visible": true }
   ],
-  "customComputeOfferingRestrictions": [
+  "customComputeOfferingParameters": [
     {
-      "offeringId": "3890f81e-62aa-4a50-971a-f066223d623d",
+      "offeringId": "73cdef05-d01f-49ad-8ecb-4f2ffd7d8e26",
       "cpunumber": {
         "min": 2,
-        "max": 8
+        "max": 8,
+        "value": 4
       },
       "cpuspeed": {
         "min": 1000,
-        "max": 3500
+        "max": 3000,
+        "value": 1500
       },
       "memory": {
         "min": 512,
-        "max": 8192
+        "max": 8192,
+        "value": 512
       }
     }
   ],
-  "defaultComputeOffering": {
-    "031a55bb-5d6b-4336-ab93-d5dead28a887": {
-      "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
-      "customOfferingParams": {
-        "cpuNumber": 2,
-        "cpuSpeed": 1000,
-        "memory": 1024
-      }
+  "defaultComputeOffering": [
+    {
+      "zoneId": "415db026-1135-496e-9383-0c820a75694e",
+      "offeringId": "f216bd08-947a-4022-8271-c29e9acfffb9"
     }
-  },
+  ],
   "offeringCompatibilityPolicy": {
     "offeringChangePolicy": "exactly-match",
     "offeringChangePolicyIgnoreTags": ["t1"]

@@ -1,11 +1,40 @@
-#Config Guide
+# Config Guide
 
-See the [config-example.json](https://github.com/bwsw/cloudstack-ui/blob/master/src/config/config-example.json) of a config.json
+You can see examples of the configurations in the [config-example.json](https://github.com/bwsw/cloudstack-ui/blob/master/src/config/config-example.json)
+
+* [General](#general)
+  * [Default Domain](#default-domain)
+  * [Session Refresh Interval](#session-refresh-interval)
+  * [API Doc Link](#api-doc-link)
+  * [Extensions](#extensions)
+* [Virtual Machines Settings](#virtual-machines-settings)
+  * [VM Colors](#vm-colors)
+* [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
+  * [Security Group Templates](#security-group-templates)
+* [Images Settings](#images-settings)
+  * [Image Groups](#image-groups)
+* [User App Settings](#user-app-settings)
+  * [Default First Day Of Week](#default-first-day-of-week)
+  * [Default Interface Language](#default-interface-language)
+  * [Default Time Format](#default-time-format)
+  * [Default Theme Name](#default-theme-name)
+  * [Session Timeout](#session-timeout)
+* [Menu Settings](#menu-settings)
+  * [Allow Reordering Sidebar](#allow-reordering-sidebar)
+  * [Configure Sidenav](#configure-sidenav)
+* [Service Offering Setting](#service-offering-setting)
+  * [Custom Compute Offering Restrictions](#custom-compute-offering-restrictions)
+  * [Default Compute Offering](#default-compute-offering)
+  * [Offering Compatibility Policy](#offering-compatibility-policy)
+  * [Compute Offering Classes](#compute-offering-classes)
+  * [Disk Offering Parameters](#disk-offering-parameters)
+  * [Service Offering Availability](#service-offering-availability)
+
 
 ## General
 
-### Default domain
-Default domain used to fill the 'Domain' field in the login form. The default value is an empty value.
+### Default Domain
+Default domain is used to fill in the 'Domain' field in the login form. The default value is an empty value.
 
 For example,
 ```
@@ -41,9 +70,9 @@ For example,
 }
 ```
 
-Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for full extension configuration.
+Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for a detailed information about plugins.
 
-## Virtual machines settings
+## Virtual Machines Settings
 
 ### VM Colors
 Allows you to predefine a set of colors for virtual machines in hexadecimal format. You can specify any colors you like.
@@ -59,7 +88,7 @@ For example,
 ]
 ```
 
-## Firewall (Security groups) settings
+## Firewall (Security Groups) Settings
 
 ### Security Group Templates
 Predefined templates for security groups. You can define your own security groups that will be available for all users by default. 
@@ -126,10 +155,10 @@ Parameters:
    * For ICMP: icmpcode and icmptype
 
 
-## Images settings
+## Images Settings
 
 ### Image Groups
-You can define groups for sorting installation sources (templates and ISOs). 
+Allows you to define groups for installation sources (templates and ISOs). 
 
 Image group has a required `id` parameter and an optional `translations` parameter. If there are no translations defined for the template group, group's ID will be used.
 
@@ -148,7 +177,7 @@ For example,
 ]
 ```
 
-## User app settings
+## User App Settings
 
 ### Default First Day Of Week
 Allows you to predefine the setting of the first day in the app. Possible values: 
@@ -192,9 +221,9 @@ For example,
 ```
 
 ### Session Timeout
-Allows you to predefine the setting of the session timeout. This setting determines the number of minutes a user's session should stay active. After this time passes the user is
-logged out. 
-You can set it to `0` to turn this off, although in this case the session is likely to expire on the server side.
+Allows you to predefine the setting of the session timeout. This setting determines a number of minutes a user's session should stay active.
+After this time passes a user is logged out. 
+You can set it to `0` to turn it off, although in this case the session is likely to expire on the server side.
 
 The default value is `30`.
 
@@ -203,17 +232,19 @@ For example,
 "sessionTimeout": 30
 ```
 
-## Menu settings
+## Menu Settings
 
-### Allow Reordering Sidebar
-A boolean value which allows or forbids a user to reorder links in the main sidebar. 
+### Allow Reordering Sidenav
+A boolean value which allows or forbids a user to reorder links in the left-side menu. 
 ```
- "allowReorderingSidebar": false
+ "allowReorderingSidenav": false
 ```
 
 ### Configure Sidenav
-Allows you to predefine the order and visibility of menu items. The order of the menu items is determined by the order of the elements in the array. The VMS menu item can not be made invisible, the visibility property will be ignored.
-For configuration, you must specify all menu items and the "allowReorderingSidebar" parameter must be true.
+Allows you to predefine the order and visibility of menu elements. 
+The order and the presence of the left-side menu elements is determined by the order of the elements in the array. 
+The VMS menu element can not be made invisible, the visibility property will be ignored.
+For configuration, you must specify all menu elements and the "allowReorderingSidebar" parameter must be true.
 
 For example (default values),
 ```
@@ -231,28 +262,32 @@ For example (default values),
   ]
 ```
 
-## Service offering setting
+## Service Offering Setting
 
-### Custom Compute Offering Restrictions
-Allows you to specify limits for custom compute offerings hardware parameters for VM creation.
-By default, all compute offerings have a minimum restrictions of 1 CPU number, 1000 CPU speed, 512 memory and the maximum values are not limited. 
+### Custom Compute Offering Parameters
+Allows you to specify default values and limits for custom compute offering hardware parameters in VM creation.
+By default, all compute offerings have a minimum restrictions of "1" CPU number, "1000" CPU speed, "512" memory 
+and the maximum values are not limited, default values are equal to minimum restrictions.  
 
 For example,
 ```
-"customComputeOfferingRestrictions": [
+"customComputeOfferingParameters": [
   {
     "offeringId": "73cdef05-d01f-49ad-8ecb-4f2ffd7d8e26",
     "cpunumber": {
       "min": 2,
-      "max": 8
+      "max": 8,
+      "value": 4
     },
     "cpuspeed": {
       "min": 1000,
-      "max": 3000
+      "max": 3000,
+      "value": 1500
     },
     "memory": {
       "min": 512,
-      "max": 8192
+      "max": 8192,
+      "value": 512
     }
   }
 ]
@@ -260,24 +295,19 @@ For example,
 
 ### Default Compute Offering
 Allows you to specify compute offering that will be automatically preselected in the VM creation form for each zone.
-For custom service offerings there can be predefined offering parameters: number of CPUs, speed of CPU and/or memory. 
 
 For example,
 ```
-"defaultComputeOffering": {
-   "031a55bb-5d6b-4336-ab93-d5dead28a887": {
-	   "offering": "3890f81e-62aa-4a50-971a-f066223d623d",
-	   "customOfferingParams": {
-	      "cpuNumber": 2,
-	      "cpuSpeed": 1000,
-	      "memory": 1024
-	   }
-	}
-}
+"defaultComputeOffering": [
+  {
+    "zoneId": "415db026-1135-496e-9383-0c820a75694e",
+    "offeringId": "f216bd08-947a-4022-8271-c29e9acfffb9"
+  }
+]
 ```
 
 ### Offering Compatibility Policy
-Offering Compatibility Policy restrict compute offering change based on the compute offering host tags.
+This configuration allows to restrict compute offering change based on the compute offering host tags.
 
 This is very useful when you have several clusters in one zone and you want to protect a user from converting
 offerings between incompatible states because it might happen that selected offering is not supported in the cluster where storage of
@@ -298,7 +328,7 @@ You can ignore tags that don't influence compatibility with `offeringChangePolic
 ```
 
 ### Compute Offering Classes
-Allows you to group compute offerings into the classes while choosing a compute offering for new VM.
+Allows you to group compute offerings into the classes when choosing a compute offering in VM creation.
 
 By default, there are no predefined compute offering classes.
 
@@ -367,7 +397,7 @@ For example,
 Allows you to specify which service offerings will be available for which zones.
 If `filterOfferings` is set to `false`, all offerings will be available for all zones.
 
-By default, all offerings will be available for all zones.
+By default, all offerings are available for all zones.
 
 For example,
 ```
