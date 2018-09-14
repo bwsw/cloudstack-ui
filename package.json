@@ -35,8 +35,8 @@
     "@ngrx/router-store": "6.1.0",
     "@ngrx/store": "6.1.0",
     "@ngrx/store-devtools": "6.1.0",
-    "@ngx-translate/core": "^8.0.0",
-    "@ngx-translate/http-loader": "^2.0.0",
+    "@ngx-translate/core": "^10.0.2",
+    "@ngx-translate/http-loader": "^3.0.1",
     "ajv": "^6.5.2",
     "ajv-errors": "^1.0.0",
     "ajv-keywords": "^3.2.0",
@@ -85,7 +85,7 @@
     "ngrx-store-freeze": "^0.2.0",
     "protractor": "~5.1.2",
     "ts-node": "^3.3.0",
-    "tslint": "~5.3.2",
+    "tslint": "~5.11.0",
     "typescript": "2.9.2"
   }
 }
