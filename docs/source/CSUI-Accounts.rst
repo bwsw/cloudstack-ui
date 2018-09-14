@@ -23,7 +23,7 @@ For each account in the list you can see the following information:
 
  - Account name;
  - State - Shows the account state by color spot: green for Enabled, red for Disabled statuses; 
- - Role - A role assigned to the account - Root Administrator, Resource Administrator, Domain Administrator, User. Find more information on roles in CloudStack in the `official documentation <http://docs.cloudstack.apache.org/projects/cloudstack-administration/en/4.9/accounts.html>`_.
+ - Role - A role assigned to the account - Root Administrator, Resource Administrator, Domain Administrator, User. Find more information on roles in CloudStack in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/accounts.html#roles>`_.
  - Role type - A role type connected to the role.
  - Domain - The domain which the account belongs to.
  - Action list - Allows an Administrator to manage the account - to disable or delete it. Find more details at :ref:`Account_Action_Box`. 
@@ -78,7 +78,7 @@ Account Details Sidebar
 
 For each account, the information is available in the details sidebar to the right. Click the account in the list to open the sidebar:
 
-.. figure:: _static/Accounts_Details.png
+.. figure:: _static/Accounts_Details1.png
    
 There are two tabs in the sidebar: General and Users.
 
