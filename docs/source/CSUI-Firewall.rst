@@ -158,6 +158,8 @@ System tags are listed in a separate card.
 
 Сlick |create icon| to add a tag. Enter a key and a value. 
 
+.. note:: Both fields are required. The input values for both fields cannot start with a space.
+
 .. figure:: _static/Firewall_Details_Tags.png
 
 Click "CREATE" to create the new tag. It will be saved in a separate card.
