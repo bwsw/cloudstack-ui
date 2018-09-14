@@ -53,7 +53,7 @@ Create New Volume
 
 In the *Storage* section you can create new volumes. Please, note that if you are aimed at creation of a virtual machine, we do not recommend starting from adding new disks to the system. You can go right to the *Virtual Machines* section and create a VM. A root disk will be cerated for the VM automatically.
 
-.. figure:: _static/CreateVMwithRD.png
+.. _static/CreateVMwithRD.png
  
 If necessary, you can create a data disk and attach it to your VM. By clicking the "Create" button |create icon| in the bottom-right corner you will open a creation form. Please, make sure you definitely need an additional disk as it takes resources and requires expenses. If you do not have disks yet, when clicking "Create", a dialogue window will ask you if you are surely want to create a drive. Confirm your creation action by clicking "CONTINUE":
 
@@ -69,7 +69,7 @@ To create a new volume fill in the fields:
 
 - Name * - Enter a name of the volume. 
 - Zone * - Select a zone from the drop-down list.
-- Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "SELECT". The list of available disk offerings is determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#offering-availability>`_ by Administrator. 
+- Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "SELECT". The list of available disk offerings is determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_ by Administrator. 
 
 For each disk offering you will see a range of parameters. The following parameters are shown by default:
 
