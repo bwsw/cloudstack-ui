@@ -196,7 +196,7 @@ Click "Delete" to delete the tag from the list for this template. Confirm your a
 Template/ISO Action Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By clicking "Actions" |actions icon| you can expand the list of actions for those templates/ISO that belong to your user only (corresponding to "My" type). The deleting action is available here.
+By clicking "Actions" |actions icon| you can expand the list of actions for those templates/ISO that are in the account your user belongs to (corresponding to "My" type). The deleting action is available here.
 
 .. figure:: _static/Images_Temp_ActionBox1.png
 
