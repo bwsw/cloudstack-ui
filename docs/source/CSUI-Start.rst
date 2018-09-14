@@ -37,6 +37,8 @@ If the main navigation bar is set to adjustable, you will see a lock |lock| at t
 - dragging the section up and down the list,
 - enabling/disabling a section by ticking it in the list.
 
+.. note:: You cannot disable the Virtual Machines section. You can only move it within the section list.
+
 .. figure:: _static/NavBar_Adjust.png
 
 The navigation bar can be hidden or extended using the |hide menu| icon in the upper-left corner. The system remembers the main navigation bar position (collapsed/expanded) after login/logout, reloading a page, moving between sections and within the section.
