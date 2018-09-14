@@ -33,8 +33,8 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
-import { UserTagsActions } from '../../../root-store';
 
+import { configSelectors, UserTagsActions } from '../../../root-store';
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
 import * as securityGroupActions from '../../security-groups/redux/sg.actions';
@@ -43,6 +43,7 @@ import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
 import * as fromVMModule from '../../../vm/selectors';
+import { DefaultComputeOffering } from '../../../shared/models/config';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -153,11 +154,13 @@ export class VirtualMachineCreationEffects {
       this.store.select(fromZones.selectAll),
       this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation),
       this.store.select(fromVMModule.getAvailableOfferingsForVmCreation),
-      this.store.select(fromDiskOfferings.selectAll)
+      this.store.select(fromDiskOfferings.selectAll),
+      this.store.select(configSelectors.get('defaultComputeOffering'))
     )
     .map((
-      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings]: [
-        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
+      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, defaultComputeOfferings]: [
+        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[],
+        DefaultComputeOffering[]
         ]) => {
 
       if (action.payload.zone) {
@@ -169,7 +172,9 @@ export class VirtualMachineCreationEffects {
           && templates.find(_ => _.id === vmCreationState.template.id);
 
         if (!selectedServiceOfferingStillAvailable) {
-          updates = { ...updates, serviceOffering: serviceOfferings[0] };
+          const offering = this.getPreselectedOffering(serviceOfferings, vmCreationState.zone, defaultComputeOfferings);
+
+          updates = { ...updates, serviceOffering: offering };
         }
 
         if (!selectedTemplateStillAvailable) {
@@ -203,7 +208,9 @@ export class VirtualMachineCreationEffects {
 
       if (vmCreationState.zone) {
         if (!vmCreationState.serviceOffering && serviceOfferings.length) {
-          return new vmActions.VmFormUpdate({ serviceOffering: serviceOfferings[0] });
+          const offering = this.getPreselectedOffering(serviceOfferings, vmCreationState.zone, defaultComputeOfferings);
+
+          return new vmActions.VmFormUpdate({ serviceOffering: offering });
         }
 
         if (!vmCreationState.template && templates.length) {
@@ -650,5 +657,20 @@ export class VirtualMachineCreationEffects {
     }
 
     return params;
+  }
+
+  private getPreselectedOffering(
+    offerings: ServiceOffering[],
+    zone: Zone,
+    defaultComputeOfferingConfiguration: DefaultComputeOffering[]
+  ): ServiceOffering {
+    const firstOffering = offerings[0];
+    const configForCurrentZone = defaultComputeOfferingConfiguration.find(config => config.zoneId === zone.id);
+    if (!configForCurrentZone) {
+      return firstOffering;
+    }
+    const preselectedOffering = offerings.find(offering => offering.id === configForCurrentZone.offeringId);
+
+    return preselectedOffering ? preselectedOffering : firstOffering;
   }
 }

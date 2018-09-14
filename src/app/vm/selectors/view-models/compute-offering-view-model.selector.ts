@@ -1,11 +1,15 @@
 import { createSelector } from '@ngrx/store';
 
 import { ServiceOffering, ServiceOfferingParamKey, Tag } from '../../../shared/models';
-import { CustomComputeOfferingRestrictions, HardwareParameterLimits } from '../../../shared/models/config';
+import {
+  CustomComputeOfferingHardwareRestrictions,
+  CustomComputeOfferingHardwareValues,
+  CustomComputeOfferingParameters,
+  HardwareLimits
+} from '../../../shared/models/config';
 import { ComputeOfferingViewModel } from '../../view-models';
 import { configSelectors, UserTagsSelectors } from '../../../root-store';
 import * as computeOffering from '../../../reducers/service-offerings/redux/service-offerings.reducers';
-
 
 const getFixedAndCustomOfferingsArrays = (offerings: ServiceOffering[]) => {
   const offeringsArrays = {
@@ -22,17 +26,54 @@ const getFixedAndCustomOfferingsArrays = (offerings: ServiceOffering[]) => {
   }, offeringsArrays);
 };
 
-const getCustomOfferingRestrictions = (
+const getCustomOfferingHardwareParameters = (
   offering: ServiceOffering,
-  customRestrictions: CustomComputeOfferingRestrictions[]
-) => {
-  return customRestrictions.find(restriction => restriction.offeringId === offering.id)
+  offeringsParameters: CustomComputeOfferingParameters[]
+): CustomComputeOfferingParameters | undefined => {
+  return offeringsParameters.find(parameters => parameters.offeringId === offering.id)
 };
 
-const getHardwareParamsFromTags = (
+const getCustomHardwareValues = (
+  params: CustomComputeOfferingParameters | undefined
+): CustomComputeOfferingHardwareValues | null => {
+  if (!params) {
+    return null;
+  }
+
+  return {
+    cpunumber: params.cpunumber.value,
+    cpuspeed: params.cpuspeed.value,
+    memory: params.memory.value
+  }
+};
+
+const getCustomHardwareRestrictions = (
+  params: CustomComputeOfferingParameters | undefined
+): CustomComputeOfferingHardwareRestrictions | null => {
+  if (!params) {
+    return null;
+  }
+
+  return {
+    cpunumber: {
+      min: params.cpunumber.min,
+      max: params.cpunumber.max
+    },
+    cpuspeed: {
+      min: params.cpuspeed.min,
+      max: params.cpuspeed.max
+    },
+    memory: {
+      min: params.memory.min,
+      max: params.memory.max
+    }
+  }
+};
+
+const getHardwareValuesFromTags = (
   serviceOffering: ComputeOfferingViewModel,
   tags: Tag[]
-): { cpunumber: number, cpuspeed: number, memory: number } | null => {
+): CustomComputeOfferingHardwareValues | null => {
   const getValue = (param) => {
     const key = `${ServiceOfferingParamKey}.${serviceOffering.id}.${param}`;
     const tag = tags.find(t => t.key === key);
@@ -49,7 +90,7 @@ const getHardwareParamsFromTags = (
   return null;
 };
 
-const getValueThatSatisfiesRestrictions = (defaultValue: number, restrictions: HardwareParameterLimits) => {
+const getValueThatSatisfiesRestrictions = (defaultValue: number, restrictions: HardwareLimits) => {
   if (restrictions.min > defaultValue) {
     return restrictions.min;
   } else if (defaultValue > restrictions.max) {
@@ -61,35 +102,46 @@ const getValueThatSatisfiesRestrictions = (defaultValue: number, restrictions: H
 
 export const getComputeOfferingViewModel = createSelector(
   computeOffering.selectAll,
-  configSelectors.get('customComputeOfferingRestrictions'),
+  configSelectors.get('customComputeOfferingParameters'),
   configSelectors.get('defaultCustomComputeOfferingRestrictions'),
-  configSelectors.get('customComputeOfferingParams'),
+  configSelectors.get('customComputeOfferingHardwareValues'),
   UserTagsSelectors.getServiceOfferingParamTags,
-  (offerings, restrictions, defaultRestrictions, hardwareParams, tags): ComputeOfferingViewModel[] => {
+  (
+    offerings,
+    customComputeOfferingParameters,
+    defaultRestrictions,
+    defaultHardwareValues,
+    tags
+  ): ComputeOfferingViewModel[] => {
     const { customOfferings, fixedOfferings } = getFixedAndCustomOfferingsArrays(offerings);
 
-    const customOfferingsWithMetadata: ComputeOfferingViewModel[] = customOfferings.map(offering => {
-      const customRestrictions = getCustomOfferingRestrictions(offering, restrictions);
-      const hardwareParamsFromTags = getHardwareParamsFromTags(offering, tags);
+    const customOfferingsWithMetadata: ComputeOfferingViewModel[] = customOfferings
+      .map((offering: ServiceOffering) => {
+        const customParameters = getCustomOfferingHardwareParameters(offering, customComputeOfferingParameters);
+        const customHardwareValues = getCustomHardwareValues(customParameters);
+        const customHardwareRestrictions = getCustomHardwareRestrictions(customParameters);
+        const hardwareValuesFromTags = getHardwareValuesFromTags(offering, tags);
 
-      const prioritizedHardwareParams = hardwareParamsFromTags || hardwareParams;
-      const prioritizedRestrictions = customRestrictions || defaultRestrictions;
+        const prioritizedHardwareValues = hardwareValuesFromTags || customHardwareValues || defaultHardwareValues;
+        const prioritizedRestrictions = customHardwareRestrictions || defaultRestrictions;
 
-      const cpunumber = getValueThatSatisfiesRestrictions(
-        prioritizedHardwareParams.cpunumber, prioritizedRestrictions.cpunumber);
-      const cpuspeed = getValueThatSatisfiesRestrictions(
-        prioritizedHardwareParams.cpuspeed, prioritizedRestrictions.cpuspeed);
-      const memory = getValueThatSatisfiesRestrictions(
-        prioritizedHardwareParams.memory, prioritizedRestrictions.memory);
+        const cpunumber = getValueThatSatisfiesRestrictions(
+          prioritizedHardwareValues.cpunumber, prioritizedRestrictions.cpunumber);
+        const cpuspeed = getValueThatSatisfiesRestrictions(
+          prioritizedHardwareValues.cpuspeed, prioritizedRestrictions.cpuspeed);
+        const memory = getValueThatSatisfiesRestrictions(
+          prioritizedHardwareValues.memory, prioritizedRestrictions.memory);
 
-      return {
-        ...offering,
-        cpunumber,
-        cpuspeed,
-        memory,
-        restrictions: prioritizedRestrictions
-      }
-    });
+
+        const offeringViewModel: ComputeOfferingViewModel = {
+          ...offering,
+          cpunumber,
+          cpuspeed,
+          memory,
+          customOfferingRestrictions: prioritizedRestrictions
+        };
+        return offeringViewModel;
+      });
 
     return [...fixedOfferings, ...customOfferingsWithMetadata];
   }
