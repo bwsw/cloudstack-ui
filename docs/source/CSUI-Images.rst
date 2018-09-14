@@ -171,7 +171,7 @@ To add a tag for the template/ISO click "Create" |create icon|. In the appeared 
 - Key * 
 - Value * 
 
-.. note:: Required fields are marked with an asterisk (*).
+.. note:: Required fields are marked with an asterisk (*). The values in the fields cannot start with a space.
 
 Click "Create" to assign a new tag to the template/ISO. 
 
