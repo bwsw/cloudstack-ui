@@ -76,7 +76,7 @@ At creating a virtual machine you must select:
 
 Please, note that a virtual machine is created with a root disk so you do not need to add any volume at the VM creation step. If necessary, you can add data disk to the VM later.
 
-.. figure:: _static/VMs_CreationOverview.png
+.. _static/VMs_CreationOverview.png
 
 To create a new VM click the "Create" button |create icon| at the bottom-right corner. 
 
