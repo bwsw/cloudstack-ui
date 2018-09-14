@@ -4,7 +4,7 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
@@ -12,13 +12,13 @@ module.exports = function (config) {
       require('karma-mocha-reporter'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      dir: 'reports/coverage',
+      dir: require('path').join(__dirname, 'reports/coverage'),
       'report-config': {
         cobertura: {
           file: 'cobertura/cobertura.xml'
@@ -26,9 +26,6 @@ module.exports = function (config) {
       },
       reports: ['html', 'lcovonly', 'cobertura'],
       fixWebpackSourcePaths: true
-    },
-    angularCli: {
-      environment: 'dev'
     },
     reporters: ['mocha', 'junit', 'kjhtml', 'coverage-istanbul'],
     port: 9876,

@@ -1,17 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import {
-  MatDialog,
-  MatTooltipModule
-} from '@angular/material';
+import { MatDialog, MatTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
 import { Template } from '../../../template/shared/template.model';
-import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { VmCreationTemplateComponent } from './vm-creation-template.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../../testutils/mocks/mock-translate.service.spec';
@@ -100,7 +96,7 @@ describe('VmCreationTemplateComponent', () => {
     await f.whenStable();
     f.detectChanges();
 
-    const messageContainer = f.debugElement.query(By.css('.mat-input-wrapper'));
+    const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
       `VM_PAGE.VM_CREATION.NO_TEMPLATES`
     );

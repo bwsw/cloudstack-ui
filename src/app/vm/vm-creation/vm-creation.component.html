@@ -47,7 +47,7 @@
         <div *ngIf="enoughResources && vmCreationState" class="left-column">
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h4>
-            <mat-form-field floatPlaceholder="never" class="full-width-input">
+            <mat-form-field floatLabel="never" class="full-width-input">
               <input
                 matInput
                 name="name"
@@ -129,7 +129,7 @@
         <div *ngIf="enoughResources && vmCreationState" class="right-column">
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
-            <mat-form-field floatPlaceholder="never">
+            <mat-form-field floatLabel="never">
               <input
                 name="instanceGroup"
                 matInput
@@ -151,7 +151,7 @@
 
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h4>
-            <mat-form-field floatPlaceholder="never">
+            <mat-form-field floatLabel="never">
               <input
                 name="affinityGroup"
                 matInput

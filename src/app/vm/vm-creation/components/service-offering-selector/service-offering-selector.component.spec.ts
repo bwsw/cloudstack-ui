@@ -76,7 +76,7 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
 
-    const messageContainer = f.debugElement.query(By.css('.mat-input-wrapper'));
+    const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
       `VM_PAGE.VM_CREATION.NO_OFFERINGS`
     );
@@ -89,7 +89,7 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
 
-    const messageContainer = f.debugElement.query(By.css('.mat-input-wrapper'));
+    const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.query(By.css('span.custom-offering-info'))).toBeDefined();
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[0];
     await f.whenStable();
@@ -107,7 +107,7 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
 
-    const messageContainer = f.debugElement.query(By.css('.mat-input-wrapper'));
+    const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.query(By.css('span.custom-offering-info'))).toBeDefined();
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[2];
     await f.whenStable();
