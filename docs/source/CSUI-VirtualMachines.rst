@@ -9,7 +9,7 @@ Virtual Machines
 
 In this section you can perform actions over a VM that is create, start, stop, delete it. Besides, here you can configure the machine editing its service offering parameters, group, firewall rules. Finally, you can access a VM selecting the most appropriate way. We support three options for accessing a VM: via the console, via Webshell and via HTTP.
 
-.. figure:: _static/VMs_Management.png
+.. _static/VMs_Management.png
 
 Below you will find the detailed information on the aforementioned options for VM management via CloudStack-UI.
 
@@ -703,7 +703,7 @@ You can create a tag right from *Tags* tab.
 
 Click "Create" |create icon| and fill in the appeared form:
 
-.. note:: Required fields are marked with an asterisk (*).
+.. note:: Required fields are marked with an asterisk (*). You cannot use space as the first symbol.
 
 - Key * - Enter a key here. 
  
