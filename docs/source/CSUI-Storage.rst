@@ -6,7 +6,7 @@ Storage
 
 In the *Storage* section, you can create and manage drives for virtual machines. Here you can add new disks, create templates and snapshots of a volume, view the list of snapshots for each volume.
 
-.. figure:: _static/Storage_VolumeManagement.png
+.. _static/Storage_VolumeManagement.png
 
 
 Drive list
