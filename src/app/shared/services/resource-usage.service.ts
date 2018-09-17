@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Account, ResourceLimit, ResourceType } from '../models';
 import { AccountService } from './account.service';
 import { AuthService } from './auth.service';
@@ -105,7 +107,8 @@ export class ResourceUsageService {
   constructor(
     private authService: AuthService,
     private accountService: AccountService
-  ) {}
+  ) {
+  }
 
   public getResourceUsage(forDomain = false): Observable<ResourceStats> {
     const params = forDomain
@@ -113,7 +116,6 @@ export class ResourceUsageService {
       : { account: this.authService.user.account };
 
     return this.accountService
-      .getList(params)
-      .map(accounts => ResourceStats.fromAccount(accounts));
+      .getList(params).pipe(map(accounts => ResourceStats.fromAccount(accounts)));
   }
 }

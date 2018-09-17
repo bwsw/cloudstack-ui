@@ -1,10 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { filter } from 'rxjs/operators';
+
 import { VirtualMachine } from '../../../shared/vm.model';
 import { InstanceGroupSelectorComponent } from '../../instance-group-selector/instance-group-selector.component';
 import { InstanceGroup } from '../../../../shared/models/instance-group.model';
@@ -20,7 +17,8 @@ export class InstanceGroupComponent {
   @Input() public groups: Array<InstanceGroup>;
   @Output() public onGroupChange = new EventEmitter();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) {
+  }
 
   public get groupName(): string {
     return this.vm && this.vm.instanceGroup && this.vm.instanceGroup.name;
@@ -31,8 +29,8 @@ export class InstanceGroupComponent {
     this.dialog.open(InstanceGroupSelectorComponent, {
       width: '400px',
       data: { vm: this.vm, groups: groupNames }
-    }).afterClosed()
-      .filter(res => Boolean(res))
+    }).afterClosed().pipe(
+      filter(res => Boolean(res)))
       .subscribe(group => this.onGroupChange.emit(group));
   }
 }

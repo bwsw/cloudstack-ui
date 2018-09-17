@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Keepalive } from '@ng-idle/keepalive';
 import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
-
-import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators/tap';
-import { map } from 'rxjs/operators/map';
-import { filter } from 'rxjs/operators/filter';
-import { withLatestFrom } from 'rxjs/operators/withLatestFrom';
+import { Observable } from 'rxjs';
+import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { State } from '../state';
 import {
@@ -29,8 +25,8 @@ export class IdleEffects {
   startIdleMonitor$: Observable<[Action, number, number]> = this.actions$.pipe(
     ofType(IdleMonitorActionTypes.StartIdleMonitor),
     withLatestFrom(
-      this.store.select(UserTagsSelectors.getSessionTimeout),
-      this.store.select(configSelectors.get('sessionRefreshInterval'))
+      this.store.pipe(select(UserTagsSelectors.getSessionTimeout)),
+      this.store.pipe(select(configSelectors.get('sessionRefreshInterval')))
     ),
     // timeout = 0 - disable idle monitor
     filter(([action, timeout, refreshInterval]) => timeout > 0),

@@ -1,10 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 import * as debounce from 'lodash/debounce';
+
+import { State } from '../../reducers';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import { State } from '../../reducers/index';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
@@ -138,8 +140,8 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => {
         this.filterService.update({
           spareOnly: filters.spareOnly,

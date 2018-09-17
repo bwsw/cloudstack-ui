@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { TemplateGroup } from '../models';
 import { configSelectors, State } from '../../root-store';
@@ -11,6 +11,6 @@ export class TemplateGroupService {
   }
 
   public getList(): Observable<Array<TemplateGroup>> {
-    return this.store.select(configSelectors.get('templateGroups'));
+    return this.store.pipe(select(configSelectors.get('templateGroups')));
   }
 }

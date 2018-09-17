@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { configSelectors, layoutSelectors, State, UserTagsActions } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
@@ -14,8 +15,8 @@ import * as authActions from '../reducers/auth/redux/auth.actions';
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
-  public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
-  public allowReorderingSidebar$ = this.store.select(configSelectors.get('allowReorderingSidebar'));
+  public isSidenavVisible$ = this.store.pipe(select(layoutSelectors.isSidenavVisible));
+  public allowReorderingSidebar$ = this.store.pipe(select(configSelectors.get('allowReorderingSidebar')));
 
   constructor(
     private auth: AuthService,
@@ -27,9 +28,9 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new UserTagsActions.LoadUserTags());
 
-    this.auth.loggedIn
-      .takeUntil(this.unsubscribe$)
-      .filter(isLoggedIn => !!isLoggedIn)
+    this.auth.loggedIn.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(isLoggedIn => !!isLoggedIn))
       .subscribe(() => {
         this.store.dispatch(new authActions.LoadUserAccountRequest({
           name: this.auth.user.account,

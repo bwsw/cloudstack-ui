@@ -77,6 +77,6 @@ export class CalendarYearComponent implements AfterViewInit {
     const selectedYearNodeOffsetTop = selectedYear.parentNode.offsetTop;
 
     const scrollYOffset = (selectedYearNodeOffsetTop + selectedYearNodeHeight / 2) - containerHeight / 2;
-    this.renderer.setElementProperty(calendarYear, 'scrollTop', scrollYOffset);
+    this.renderer.setProperty(calendarYear, 'scrollTop', scrollYOffset);
   }
 }

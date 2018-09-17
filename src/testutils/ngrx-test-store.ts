@@ -1,5 +1,4 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export class TestStore<T> {
   private state: BehaviorSubject<T> = new BehaviorSubject<T>(undefined);

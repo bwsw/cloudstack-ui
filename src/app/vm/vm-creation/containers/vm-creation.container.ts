@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import {
   AccountResourceType,
@@ -84,31 +84,31 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
 })
 export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
-  readonly isLoading$ = Observable.combineLatest(
-    this.store.select(fromVMs.formIsLoading),
-    this.store.select(fromZones.isLoading),
-    this.store.select(fromServiceOfferings.isLoading),
-    this.store.select(fromAuth.isLoading),
-    this.store.select(fromTemplates.isLoading),
-    this.store.select(fromAffinityGroups.isLoading)
+  readonly isLoading$ = combineLatest(
+    this.store.pipe(select(fromVMs.formIsLoading)),
+    this.store.pipe(select(fromZones.isLoading)),
+    this.store.pipe(select(fromServiceOfferings.isLoading)),
+    this.store.pipe(select(fromAuth.isLoading)),
+    this.store.pipe(select(fromTemplates.isLoading)),
+    this.store.pipe(select(fromAffinityGroups.isLoading))
   ).pipe(
     map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
   );
-  readonly serviceOfferings$ = this.store.select(getAvailableOfferingsForVmCreation);
-  readonly showOverlay$ = this.store.select(fromVMs.showOverlay);
-  readonly deploymentInProgress$ = this.store.select(fromVMs.deploymentInProgress);
-  readonly diskOfferings$ = this.store.select(fromDiskOfferings.selectAll);
-  readonly diskOfferingsAreLoading$ = this.store.select(fromDiskOfferings.isLoading);
-  readonly deployedVm$ = this.store.select(fromVMs.getDeployedVM);
-  readonly enoughResources$ = this.store.select(fromVMs.enoughResources);
-  readonly insufficientResources$ = this.store.select(fromVMs.insufficientResources);
-  readonly loggerStageList$ = this.store.select(fromVMs.loggerStageList);
-  readonly instanceGroups$ = this.store.select(fromVMs.selectVmGroups);
-  readonly affinityGroups$ = this.store.select(fromAffinityGroups.selectAll);
-  readonly account$ = this.store.select(fromAuth.getUserAccount);
-  readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly sshKeyPairs$ = this.store.select(fromSshKeys.selectSshKeysForAccount);
-  readonly diskOfferingParams$ = this.store.select(fromDiskOfferings.getParams);
+  readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
+  readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
+  readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
+  readonly diskOfferings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
+  readonly diskOfferingsAreLoading$ = this.store.pipe(select(fromDiskOfferings.isLoading));
+  readonly deployedVm$ = this.store.pipe(select(fromVMs.getDeployedVM));
+  readonly enoughResources$ = this.store.pipe(select(fromVMs.enoughResources));
+  readonly insufficientResources$ = this.store.pipe(select(fromVMs.insufficientResources));
+  readonly loggerStageList$ = this.store.pipe(select(fromVMs.loggerStageList));
+  readonly instanceGroups$ = this.store.pipe(select(fromVMs.selectVmGroups));
+  readonly affinityGroups$ = this.store.pipe(select(fromAffinityGroups.selectAll));
+  readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
+  readonly zones$ = this.store.pipe(select(fromZones.selectAll));
+  readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
+  readonly diskOfferingParams$ = this.store.pipe(select(fromDiskOfferings.getParams));
 
   constructor(
     private store: Store<State>,
@@ -206,8 +206,9 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   private getDefaultVmName(): Observable<string> {
-    return this.store.select(UserTagsSelectors.getLastVMId)
-      .first()
-      .map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`);
+    return this.store.pipe(
+      select(UserTagsSelectors.getLastVMId),
+      first(),
+      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
   }
 }

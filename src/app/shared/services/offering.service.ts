@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 import { isOfferingLocal, Offering } from '../models/offering.model';
@@ -31,7 +31,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
     delete modifiedParams.zone;
 
     return super.getList(modifiedParams).pipe(
-      withLatestFrom(this.store.select(configSelectors.get('offeringAvailability'))),
+      withLatestFrom(this.store.pipe(select(configSelectors.get('offeringAvailability')))),
       map(([offeringList, offeringAvailability]) =>
         this.getOfferingsAvailableInZone(offeringList, offeringAvailability, zone)
       )

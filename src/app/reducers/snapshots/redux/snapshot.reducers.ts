@@ -68,6 +68,7 @@ export function listReducer(
         loading: true,
       };
     }
+
     case snapshot.LOAD_SNAPSHOT_RESPONSE: {
       const newState = {
         ...state,
@@ -75,19 +76,22 @@ export function listReducer(
       };
       return adapter.addAll([...action.payload], newState);
     }
+
     case snapshot.SNAPSHOT_FILTER_UPDATE: {
       return { ...state, filters: { ...state.filters, ...action.payload } };
     }
+
     case snapshot.LOAD_SELECTED_SNAPSHOT: {
       return {
         ...state,
         selectedSnapshotId: action.payload
       };
     }
+
     case snapshot.ADD_SNAPSHOT_SUCCESS: {
-      const snapshot = action.payload;
-      return adapter.upsertOne({ id: snapshot.id, changes: snapshot }, state)
+      return adapter.upsertOne(action.payload, state)
     }
+
     case snapshot.DELETE_SNAPSHOT_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }

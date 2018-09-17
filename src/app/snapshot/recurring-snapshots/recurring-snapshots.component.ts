@@ -2,7 +2,8 @@ import { Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { finalize, map, switchMap } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Volume } from '../../shared/models';
@@ -30,13 +31,13 @@ export class RecurringSnapshotsComponent implements OnInit {
   public policies: Array<Policy<TimePolicy>>;
   public loading: boolean;
 
-  readonly timeFormat$: Observable<TimeFormat> = this.store.select(UserTagsSelectors.getTimeFormat)
-    .map(format => {
+  readonly timeFormat$: Observable<TimeFormat> = this.store.select(UserTagsSelectors.getTimeFormat).pipe(
+    map(format => {
       if (format === TimeFormat.hour24) {
         return format;
       }
       return TimeFormat.hour12;
-    });
+    }));
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public volume: Volume,
@@ -49,8 +50,8 @@ export class RecurringSnapshotsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.loading = true;
-    this.updatePolicies()
-      .finally(() => this.loading = false)
+    this.updatePolicies().pipe(
+      finalize(() => this.loading = false))
       .subscribe(
         () => {
         },
@@ -71,8 +72,8 @@ export class RecurringSnapshotsComponent implements OnInit {
       policy,
       policyType: this.policyMode,
       volumeId: this.volume.id
-    })
-      .switchMap(() => this.updatePolicies())
+    }).pipe(
+      switchMap(() => this.updatePolicies()))
       .subscribe(
         () => {
         },
@@ -81,8 +82,8 @@ export class RecurringSnapshotsComponent implements OnInit {
   }
 
   public deletePolicy(policy: Policy<TimePolicy>): void {
-    this.snapshotPolicyService.remove(policy.id)
-      .switchMap(() => this.updatePolicies())
+    this.snapshotPolicyService.remove(policy.id).pipe(
+      switchMap(() => this.updatePolicies()))
       .subscribe(
         () => {
         },
@@ -91,11 +92,11 @@ export class RecurringSnapshotsComponent implements OnInit {
   }
 
   private updatePolicies(): Observable<Array<Policy<TimePolicy>>> {
-    return this.snapshotPolicyService.getPolicyList(this.volume.id)
-      .map(policies => {
+    return this.snapshotPolicyService.getPolicyList(this.volume.id).pipe(
+      map(policies => {
         this.policies = policies;
         return policies;
-      })
+      }))
   }
 
   private onError(error): void {

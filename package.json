@@ -51,7 +51,6 @@
     "ngx-clipboard": "^11.1.7",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^6.3.2",
-    "rxjs-compat": "^6.0.0-rc.0",
     "showdown": "^1.8.4",
     "sprintf-js": "^1.1.1",
     "uuid": "^3.1.0",

@@ -1,7 +1,8 @@
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { delay, filter, map, tap } from 'rxjs/operators';
+
 import { JobsNotificationService } from '../../services/jobs-notification.service';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'cs-notification-box',
@@ -17,16 +18,17 @@ export class NotificationBoxComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.notificationCount$ = Observable.combineLatest(
+    this.notificationCount$ = combineLatest(
       this.jobsNotificationService.unseenCompletedJobsCount$,
       this.jobsNotificationService.pendingJobsCount$,
-      (unseenCount, pendingCount) => unseenCount + pendingCount
+    ).pipe(
+      map(([unseenCount, pendingCount]) => unseenCount + pendingCount)
     );
 
-    this.autoResetCompletedNotification = this.jobsNotificationService.unseenCompletedJobsCount$
-      .filter(count => count > 0 && this.isOpen)
-      .delay(1)
-      .do(() => this.resetCompletedNotificationCount()).subscribe()
+    this.autoResetCompletedNotification = this.jobsNotificationService.unseenCompletedJobsCount$.pipe(
+      filter(count => count > 0 && this.isOpen),
+      delay(1),
+      tap(() => this.resetCompletedNotificationCount()),).subscribe()
   }
 
   public ngOnDestroy() {
