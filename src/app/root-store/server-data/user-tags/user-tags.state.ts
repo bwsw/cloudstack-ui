@@ -76,6 +76,10 @@ const initialEntities = {
   [userTagKeys.navigationOrder]: {
     key: userTagKeys.navigationOrder,
     value: defaultConfig.navigationOrder
+  },
+  [userTagKeys.keyboardLayoutForVms]: {
+    key: userTagKeys.keyboardLayoutForVms,
+    value: defaultConfig.keyboardLayoutForVms
   }
 };
 

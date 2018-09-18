@@ -1,5 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export enum KeyboardLayout {
   us = 'us',
@@ -11,16 +10,11 @@ export enum KeyboardLayout {
 @Component({
   selector: 'cs-keyboards',
   templateUrl: 'keyboards.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => KeyboardsComponent),
-      multi: true
-    }
-  ]
 })
-export class KeyboardsComponent implements ControlValueAccessor {
-  private _keyboardLayout: KeyboardLayout;
+export class KeyboardsComponent {
+  @Input() public keyboardLayout: KeyboardLayout;
+  @Output() public keyboardChange = new EventEmitter<string>();
+
   public keyboardLayouts = [
     {
       value: KeyboardLayout.us,
@@ -39,30 +33,4 @@ export class KeyboardsComponent implements ControlValueAccessor {
       name: 'VM_PAGE.VM_CREATION.KB_SC'
     }
   ];
-
-  @Input()
-  public get keyboardLayout(): KeyboardLayout {
-    return this._keyboardLayout;
-  }
-
-  public set keyboardLayout(layout: KeyboardLayout) {
-    this._keyboardLayout = layout;
-    this.propagateChange(this.keyboardLayout);
-  }
-
-  public propagateChange: any = () => {
-  };
-
-  public writeValue(value): void {
-    if (value) {
-      this.keyboardLayout = value;
-    }
-  }
-
-  public registerOnChange(fn): void {
-    this.propagateChange = fn;
-  }
-
-  public registerOnTouched(): void {
-  }
 }

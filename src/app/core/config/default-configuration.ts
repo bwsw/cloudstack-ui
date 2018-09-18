@@ -133,7 +133,7 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
       max: Number.POSITIVE_INFINITY
     }
   },
-  keyboardLayoutForVms: 'en'
+  keyboardLayoutForVms: 'us'
 };
 
 export const defaultConfig: Readonly<Config> = {...customizableProperties, ...nonCustomizableProperties};

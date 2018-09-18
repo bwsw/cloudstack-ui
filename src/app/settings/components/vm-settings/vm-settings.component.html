@@ -6,8 +6,8 @@
       <div>
         <cs-keyboards
           name="keyboard"
-          [ngModel]="settings.keyboardLayout"
-          (ngModelChange)="keyboardLayoutChange.emit($event)"
+          [keyboardLayout]="settings.keyboardLayout"
+          (keyboardChange)="keyboardLayoutChange.emit($event)"
         ></cs-keyboards>
       </div>
     </div>

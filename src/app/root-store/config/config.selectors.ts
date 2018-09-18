@@ -35,7 +35,8 @@ export const getDefaultUserTags = createSelector(
       { key: userTagKeys.showSystemTags, value: `${config.showSystemTags}` },
       { key: userTagKeys.timeFormat, value: config.defaultTimeFormat },
       { key: userTagKeys.theme, value: config.defaultThemeName },
-      { key: userTagKeys.navigationOrder, value: config.navigationOrder }
+      { key: userTagKeys.navigationOrder, value: config.navigationOrder },
+      { key: userTagKeys.keyboardLayoutForVms, value: config.keyboardLayoutForVms }
     ] : [];
   }
 );
