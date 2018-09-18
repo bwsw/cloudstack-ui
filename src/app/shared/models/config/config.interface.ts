@@ -1,3 +1,10 @@
+import { SidenavConfigElement } from './sidenav-config-element.interface';
+import { OfferingAvailability, OfferingCompatibilityPolicy } from '../../../shared/models/config';
+import { CustomComputeOfferingHardwareValues } from './custom-compute-offering-hardware-values.interface';
+import { DefaultComputeOffering } from './default-compute-offering.interface';
+import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offering-hardware-restrictions.interface';
+import { CustomComputeOfferingParameters } from './custom-compute-offering-parameters.interface';
+
 export interface Config extends CustomizableConfig, NonCustomizableConfig {
 }
 
@@ -36,19 +43,22 @@ export interface CustomizableConfig {
    * Menu settings
    */
   allowReorderingSidebar: boolean;
-  configureSidebar: Array<any>;
+  configureSidenav: SidenavConfigElement[];
   /*
    * Service offering setting
    */
-  customOfferingRestrictions: any;
-  defaultServiceOfferingConfig: any;
-  offeringCompatibilityPolicy: any;
+  customComputeOfferingParameters: CustomComputeOfferingParameters[];
+  defaultComputeOffering: DefaultComputeOffering[];
+  offeringCompatibilityPolicy: OfferingCompatibilityPolicy;
   serviceOfferingClasses: Array<any>;
   diskOfferingParameters: Array<any>;
-  offeringAvailability: any;
+  offeringAvailability: OfferingAvailability;
 }
 
 export interface NonCustomizableConfig {
+  /*
+   * User tags
+   */
   askToCreateVM: boolean;
   askToCreateVolume: boolean;
   savePasswordForAllVMs: boolean | null;
@@ -56,5 +66,10 @@ export interface NonCustomizableConfig {
   isSidenavVisible: boolean;
   showSystemTags: boolean;
   navigationOrder: string;
+  /*
+   * Offerings
+   */
+  customComputeOfferingHardwareValues: CustomComputeOfferingHardwareValues;
+  defaultCustomComputeOfferingRestrictions: CustomComputeOfferingHardwareRestrictions;
   keyboardLayoutForVms: string;
 }

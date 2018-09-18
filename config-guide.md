@@ -79,38 +79,41 @@ Is not specified, blue-red one is used.
 
 In this section you can specify which offerings will be available for which zones. Format:
 
-    offeringAvailability: {
+    "offeringAvailability": {
       "filterOfferings": true,
+      "zones": {
         "zoneId": {
           "diskOfferings": ["offeringId1", "offeringId2"],
           "serviceOfferings": ["offeringId3", "offeringId4"]
         }
+      }
     }
 
 If filterOfferings is set to false, all offerings will be available for all zones.
+List of available disk offerings in a Storage creation.
+List of Disk Offerings available in a VM creation.
 
-### Custom Offering Restrictions
+### Custom Compute Offering Restrictions
 
-In this sections you can specify limits for custom offerings in the following format:
+In this sections you can specify limits for custom compute offerings in the following format:
 
-    "customOfferingRestrictions": {
-      "offeringId1": {
-        "cpuNumber": {
-          "min": number,
-          "max": number
-        },
-        "cpuSpeed": {
-          "min": speed_in_mhz,
-          "max": speed_in_mhz
-        },
-        "memory": {
-          "min": memory_in_mb,
-          "max": memory_in_mb
+    "customComputeOfferingRestrictions": [
+        {
+          "offeringId": "73cdef05-d01f-49ad-8ecb-4f2ffd7d8e26",
+          "cpunumber": {
+            "min": 2,
+            "max": 8
+          },
+          "cpuspeed": {
+            "min": 1000,
+            "max": 3000
+          },
+          "memory": {
+            "min": 512,
+            "max": 8192
+          }
         }
-      }
-    }
-    
-Any of these parameters may be left unspecified, in which case 0 will be used for min and infinity will be used for max.
+    ]
 
 ### Service Offering Classes
 
@@ -221,20 +224,24 @@ You can set a type of comparing and ignoring VM tags, when changing service offe
 }
 ```
 
-### Configure Sidebar
-This configuration allows a user to set a list of left-sidebar sections. Configure possible if  property “allowReorderingSidebar” is true.
-For example, 
+### Configure Sidenav
+Allows you to predefine the order and visibility of menu items. The order of the menu items is determined by the order of the elements in the array. The VMS menu item can not be made invisible, the visibility property will be ignored.
+For configuration, you must specify all menu items and the "allowReorderingSidebar" parameter must be true.
+
+For example (default values),
 ```
-"configureSidebar": [
-  "vms",
-  "volumes",
-  "templates",
-  "sgs",
-  "events",
-  "ssh",
-  "accounts",
- "settings"
-]
+"allowReorderingSidebar": true,
+"configureSidenav": [
+    { "id": "VMS", "visible": true },
+    { "id": "VOLUMES", "visible": true },
+    { "id": "TEMPLATES", "visible": true },
+    { "id": "SNAPSHOTS", "visible": true },
+    { "id": "SGS", "visible": true },
+    { "id": "EVENTS", "visible": true },
+    { "id": "SSH", "visible": true },
+    { "id": "ACCOUNTS", "visible": true },
+    { "id": "SETTINGS", "visible": true }
+  ]
 ```
 
 ### Default First Day Of Week

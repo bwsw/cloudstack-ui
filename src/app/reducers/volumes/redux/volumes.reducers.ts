@@ -18,6 +18,7 @@ import { VirtualMachine } from '../../../vm/shared/vm.model';
  */
 export interface State extends EntityState<Volume> {
   loading: boolean,
+  loaded: boolean,
   selectedVolumeId: string | null;
   filters: {
     selectedZoneIds: string[],
@@ -80,6 +81,7 @@ export const adapter: EntityAdapter<Volume> = createEntityAdapter<Volume>({
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
   selectedVolumeId: null,
   filters: {
     selectedZoneIds: [],
@@ -118,19 +120,11 @@ export function reducer(
     }
 
     case volumeActions.LOAD_VOLUMES_RESPONSE: {
-
       const volumes = action.payload;
-
       return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
         ...adapter.addAll([...volumes], state),
-        loading: false
+        loading: false,
+        loaded: true
       };
     }
 
@@ -204,12 +198,17 @@ export const {
   selectIds,
   selectEntities,
   selectAll,
-  selectTotal,
+  selectTotal: getVolumesCount,
 } = adapter.getSelectors(getVolumesEntitiesState);
 
 export const isLoading = createSelector(
   getVolumesEntitiesState,
   state => state.loading
+);
+
+export const isLoaded = createSelector(
+  getVolumesEntitiesState,
+  state => state.loaded
 );
 
 export const getSelectedId = createSelector(

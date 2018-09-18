@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { BaseTemplateModel, resourceType } from '../../../template/shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
@@ -306,11 +306,8 @@ export const selectByViewModeAndAccounts = createSelector(
   fromAccounts.selectEntities,
   filterSelectedAccountIds,
   (templates, viewMode, accountEntities, selectedAccountIds) => {
-    const viewModeStr = viewMode === TemplateResourceType.iso
-      ? viewMode.toUpperCase()
-      : viewMode;
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
-      return viewModeStr === template.resourceType;
+      return viewMode === resourceType(template);
     };
 
     const accountDomainMap = selectedAccountIds
@@ -321,7 +318,7 @@ export const selectByViewModeAndAccounts = createSelector(
       }, {});
 
     const selectedAccountIdsFilter = template => !selectedAccountIds.length ||
-      (accountDomainMap[`${template.account}_${template.domainId}`]);
+      (accountDomainMap[`${template.account}_${template.domainid}`]);
 
     return templates.filter((template: BaseTemplateModel) => selectedViewModeFilter(
       template) && selectedAccountIdsFilter(template));
@@ -341,7 +338,6 @@ export const selectFilteredTemplates = createSelector(
     user,
     templateGroupEntities
   ) => {
-
     const osFamiliesMap = listFilters.selectedOsFamilies.reduce((m, i) => ({
       ...m,
       [i]: i
@@ -353,9 +349,9 @@ export const selectFilteredTemplates = createSelector(
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const selfFilter = !!typesMap[TemplateFilters.self]
-        && (template.account === user.name && template.domainId === user.domainid);
-      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
-      const communityFilter = (typesMap[TemplateFilters.community] && template.isPublic && !template.isFeatured);
+        && (template.account === user.name && template.domainid === user.domainid);
+      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isfeatured);
+      const communityFilter = (typesMap[TemplateFilters.community] && template.ispublic && !template.isfeatured);
       return !listFilters.selectedTypes.length
         || selfFilter
         || featuredFilter
@@ -363,14 +359,14 @@ export const selectFilteredTemplates = createSelector(
     });
 
     const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {
-      const osFamily = osTypesEntities[template.osTypeId]
-        ? osTypesEntities[template.osTypeId].osFamily
+      const osFamily = osTypesEntities[template.ostypeid]
+        ? osTypesEntities[template.ostypeid].osFamily
         : '';
       return !listFilters.selectedOsFamilies.length || !!osFamiliesMap[osFamily];
     };
 
     const selectedZonesFilter = (template: BaseTemplateModel) => {
-      return !listFilters.selectedZones.length || !!zonesMap[template.zoneId];
+      return !listFilters.selectedZones.length || !!zonesMap[template.zoneid];
     };
 
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
@@ -386,7 +382,7 @@ export const selectFilteredTemplates = createSelector(
 
     const queryFilter = (template: BaseTemplateModel) => !listFilters.query || template.name.toLowerCase()
         .includes(queryLower) ||
-      template.displayText.toLowerCase().includes(queryLower);
+      template.displaytext.toLowerCase().includes(queryLower);
 
     return templates.filter(template =>
       selectedZonesFilter(template)
@@ -413,9 +409,9 @@ export const selectTemplatesForAction = createSelector(
 
     const selectedTypesFilter = ((template: BaseTemplateModel) => {
       const selfFilter = !!typesMap[TemplateFilters.self]
-        && (template.account === user.name && template.domainId === user.domainid);
-      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isFeatured);
-      const communityFilter = (typesMap[TemplateFilters.community] && template.isPublic && !template.isFeatured);
+        && (template.account === user.name && template.domainid === user.domainid);
+      const featuredFilter = (typesMap[TemplateFilters.featured] && template.isfeatured);
+      const communityFilter = (typesMap[TemplateFilters.community] && template.ispublic && !template.isfeatured);
       return !vmFilters.selectedTypes.length
         || selfFilter
         || featuredFilter
@@ -423,8 +419,8 @@ export const selectTemplatesForAction = createSelector(
     });
 
     const selectedOsFamiliesFilter = (template: BaseTemplateModel) => {
-      const osFamily = osTypesEntities[template.osTypeId]
-        ? osTypesEntities[template.osTypeId].osFamily
+      const osFamily = osTypesEntities[template.ostypeid]
+        ? osTypesEntities[template.ostypeid].osFamily
         : '';
       return !vmFilters.selectedOsFamilies.length || !!osFamiliesMap[osFamily];
     };
@@ -443,9 +439,9 @@ export const selectTemplatesForAction = createSelector(
     const queryLower = vmFilters.query && vmFilters.query.toLowerCase();
     const queryFilter = (template: BaseTemplateModel) => !vmFilters.query || template.name.toLowerCase()
         .includes(queryLower) ||
-      template.displayText.toLowerCase().includes(queryLower);
+      template.displaytext.toLowerCase().includes(queryLower);
 
-    const availableTemplatesFilter = (template: BaseTemplateModel) => template.isReady;
+    const availableTemplatesFilter = (template: BaseTemplateModel) => template.isready;
 
     return templates.filter((template) =>
       availableTemplatesFilter(template)
@@ -462,16 +458,16 @@ export const selectTemplatesForIsoAttachment = createSelector(
   fromVMs.getSelectedVM,
   (templates, account, vm) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
-      return template.zoneId === vm.zoneId || template.crossZones;
+      return template.zoneid === vm.zoneId || template.crossZones;
     };
 
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
-      return template.resourceType === TemplateResourceType.iso.toUpperCase();
+      return resourceType(template) === TemplateResourceType.iso;
     };
 
     const currentAccountFilter = (template: BaseTemplateModel) => {
-      return (account && template.account === account.name && template.domainId === account.domainid)
-        || template.isFeatured || template.isPublic;
+      return (account && template.account === account.name && template.domainid === account.domainid)
+        || template.isfeatured || template.ispublic;
     };
 
     return templates.filter(template => selectedZoneFilter(template)
@@ -482,12 +478,12 @@ export const selectTemplatesForIsoAttachment = createSelector(
 
 const filterForVmCreation = (templates, zoneId, account) => {
   const selectedZoneFilter = (template: BaseTemplateModel) => {
-    return template.zoneId === zoneId || template.crossZones;
+    return template.zoneid === zoneId || template.crossZones;
   };
 
   const currentAccountFilter = (template: BaseTemplateModel) => {
-    return (account && template.account === account.name && template.domainId === account.domainid)
-      || template.isFeatured || template.isPublic;
+    return (account && template.account === account.name && template.domainid === account.domainid)
+      || template.isfeatured || template.ispublic;
   };
 
   return templates.filter(template => selectedZoneFilter(template) && currentAccountFilter(template));
@@ -498,7 +494,7 @@ const filterForVmCreationWithFilter = (templates, zoneId, account, filter) => {
     ? filter.selectedViewMode.toUpperCase()
     : filter.selectedViewMode;
   const selectedViewModeFilter = (template: BaseTemplateModel) => {
-    return viewModeStr === template.resourceType;
+    return filter.selectedViewMode === resourceType(template);
   };
 
   return filterForVmCreation(templates, zoneId, account).filter(template => selectedViewModeFilter(template));

@@ -36,7 +36,10 @@ export class ServiceOfferingFilterComponent {
   }
 
   public getName(soClass: ServiceOfferingClass) {
-    return soClass && soClass.name
-      && soClass.name[this.locale] || 'SERVICE_OFFERING.FILTERS.COMMON';
+    if (soClass.id === 'common') {
+      return 'SERVICE_OFFERING.FILTERS.COMMON';
+    } else {
+      return soClass && soClass.name && soClass.name[this.locale] || '';
+    }
   }
 }

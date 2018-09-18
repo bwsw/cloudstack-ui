@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource } from '@angular/material';
-import { DiskOffering } from '../../../models';
-import { ConfigService } from '../../../../core/services';
 import * as moment from 'moment';
+
+import { DiskOffering } from '../../../models';
 
 @Component({
   selector: 'cs-disk-offering-dialog',
@@ -20,7 +20,6 @@ export class DiskOfferingDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
-    public configService: ConfigService
   ) {
     this.diskOfferings = new MatTableDataSource<DiskOffering>(data.diskOfferings);
     this.selectedDiskOffering = data.diskOffering;

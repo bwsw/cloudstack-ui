@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { first } from 'rxjs/operators';
 
 import { AuthService } from '../shared/services/auth.service';
-import { ConfigService } from '../core/services';
 import { SnackBarService } from '../core/services/';
 import { LocalStorageService } from '../shared/services/local-storage.service';
+import { configSelectors, State } from '../root-store';
 
 @Component({
   selector: 'cs-login',
@@ -29,17 +31,20 @@ export class LoginComponent implements OnInit {
     private notification: SnackBarService,
     private route: ActivatedRoute,
     private router: Router,
-    private configService: ConfigService,
-    private storage: LocalStorageService
+    private storage: LocalStorageService,
+    private store: Store<State>,
   ) {
   }
 
   public ngOnInit(): void {
     const value = this.storage.read(this.key);
     this.showDomain = value === 'true';
-    const domainFromConfig = this.configService.get('defaultDomain');
     const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
-    this.domain = domainFromQueryParams || domainFromConfig || '';
+    this.store.select(configSelectors.get('defaultDomain')).pipe(
+      first()
+    ).subscribe(domainFromConfig => {
+      this.domain = domainFromQueryParams || domainFromConfig || '';
+    });
     this.loading = false;
   }
 

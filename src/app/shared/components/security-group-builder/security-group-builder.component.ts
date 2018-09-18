@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { withLatestFrom } from 'rxjs/operators';
 
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
 import { Rules } from './rules';
+import { configSelectors, State } from '../../../root-store';
 
 export interface RuleListItem {
   rule: NetworkRule;
@@ -40,20 +43,21 @@ export class SecurityGroupBuilderComponent implements OnInit {
     return NetworkRuleType;
   }
 
-  constructor(private securityGroupService: SecurityGroupService) {
+  constructor(private securityGroupService: SecurityGroupService, private store: Store<State>) {
     this.securityGroups = { available: [], selected: [] };
     this.selectedRules = { ingress: [], egress: [] };
   }
 
   public ngOnInit(): void {
-    const templates = this.securityGroupService.getPredefinedTemplates();
     const accountSecurityGroups = this.securityGroupService.getList({
       'tags[0].key': SecurityGroupTagKeys.type,
       'tags[0].value': SecurityGroupType.CustomTemplate
     });
 
-    accountSecurityGroups
-      .subscribe(groups => {
+    accountSecurityGroups.pipe(
+      withLatestFrom(this.store.select(configSelectors.get('securityGroupTemplates')))
+    )
+      .subscribe(([groups, templates]) => {
         this.securityGroups.available = templates.concat(groups);
 
         this.initRulesList();

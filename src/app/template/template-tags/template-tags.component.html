@@ -1,6 +1,6 @@
 <cs-tags-view
   [tags]="tags$ | async"
-  [canAddTag]="!entity.isFeatured"
+  [canAddTag]="!entity.isfeatured"
   [hasPermissions]="hasPermissions"
   (onTagAdd)="onTagAdd($event)"
   (onTagEdit)="onTagEdit($event)"

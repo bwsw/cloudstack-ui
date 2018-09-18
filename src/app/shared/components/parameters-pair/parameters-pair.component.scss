@@ -1,10 +1,12 @@
 .key {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   cursor: default;
   max-width: 50%;
   margin-right: 5px;
+  /* For Firefox */
+  word-wrap: break-word;
+  /* For Chrome and IE */
+  word-break: break-word;
+  user-select: text !important;
 }
 
 .value {
@@ -14,6 +16,7 @@
   text-align: right;
   white-space: nowrap;
   max-width: 50%;
+  user-select: text !important;
 
   input {
     text-align: end;

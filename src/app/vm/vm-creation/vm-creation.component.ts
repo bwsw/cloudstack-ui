@@ -6,13 +6,12 @@ import {
   Account,
   AffinityGroup,
   DiskOffering,
-  ICustomOfferingRestrictions,
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
   Zone
 } from '../../shared/models';
-import { BaseTemplateModel } from '../../template/shared';
+import { BaseTemplateModel, isTemplate } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
@@ -36,7 +35,6 @@ export class VmCreationComponent {
   @Input() public zones: Zone[];
   @Input() public sshKeyPairs: SSHKeyPair[];
   @Input() public serviceOfferings: ServiceOffering[];
-  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
 
   @Input() public fetching: boolean;
   @Input() public diskOfferingsAreLoading: boolean;
@@ -88,12 +86,12 @@ export class VmCreationComponent {
 
   public get diskOfferingsAreAllowed(): boolean {
     return this.vmCreationState.template
-      && !this.vmCreationState.template.isTemplate;
+      && !isTemplate(this.vmCreationState.template);
   }
 
   public get showResizeSlider(): boolean {
     return this.vmCreationState.template
-      && !this.vmCreationState.template.isTemplate
+      && !isTemplate(this.vmCreationState.template)
       && this.showRootDiskResize
       && !!this.vmCreationState.rootDiskMinSize;
   }

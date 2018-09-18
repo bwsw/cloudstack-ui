@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
-import { ICustomOfferingRestrictions, ServiceOffering } from '../../../../shared/models';
+
+import { ServiceOffering } from '../../../../shared/models';
+import { ComputeOfferingViewModel } from '../../../view-models';
 // tslint:disable-next-line
 import { VmCreationServiceOfferingContainerComponent } from '../../service-offering/vm-creation-service-offering.container';
 
@@ -13,12 +15,10 @@ import { VmCreationServiceOfferingContainerComponent } from '../../service-offer
   styleUrls: ['service-offering-selector.component.scss'],
 })
 export class ServiceOfferingSelectorComponent {
-  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
-  @Input() public serviceOfferings: Array<ServiceOffering>;
+  @Input() public serviceOfferings: Array<ComputeOfferingViewModel>;
   @Output() public change: EventEmitter<ServiceOffering>;
 
   private _serviceOffering: ServiceOffering;
-  private previousOffering: ServiceOffering;
 
   constructor(
     private dialog: MatDialog,
@@ -41,8 +41,7 @@ export class ServiceOfferingSelectorComponent {
       width: '700px',
       disableClose: true,
       data: {
-        serviceOffering: this.serviceOffering,
-        restriction: this.customOfferingRestrictions
+        serviceOffering: this.serviceOffering
       }
     })
       .afterClosed()

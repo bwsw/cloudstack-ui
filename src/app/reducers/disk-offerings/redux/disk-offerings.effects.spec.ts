@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
@@ -8,8 +9,7 @@ import { of } from 'rxjs/observable/of';
 import { DiskOffering } from '../../../shared/models';
 import { DiskOfferingEffects } from './disk-offerings.effects';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
-import { ConfigService } from '../../../core/services';
-import { MockConfigService } from '../../../../testutils/mocks/model-services/services/mock-config.service.spec';
+import { TestStore } from '../../../../testutils/ngrx-test-store';
 
 import * as actions from './disk-offerings.actions';
 
@@ -49,6 +49,7 @@ describe('Disk Offering Effects', () => {
   let actions$: TestActions;
   let service: DiskOfferingService;
   let effects: DiskOfferingEffects;
+  let store: TestStore<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,12 +58,13 @@ describe('Disk Offering Effects', () => {
         DiskOfferingService,
         DiskOfferingEffects,
         { provide: Actions, useFactory: getActions },
-        { provide: ConfigService, useValue: MockConfigService }
+        { provide: Store, useClass: TestStore }
       ]
     });
     actions$ = TestBed.get(Actions);
     service = TestBed.get(DiskOfferingService);
     effects = TestBed.get(DiskOfferingEffects);
+    store = TestBed.get(Store);
 
     spyOn(service, 'getList').and.returnValue(of(diskOfferings));
   });
@@ -70,6 +72,7 @@ describe('Disk Offering Effects', () => {
   it('should return a collection from LoadOfferingsResponse', () => {
     const action = new actions.LoadOfferingsRequest();
     const completion = new actions.LoadOfferingsResponse(diskOfferings);
+    store.setState([]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });

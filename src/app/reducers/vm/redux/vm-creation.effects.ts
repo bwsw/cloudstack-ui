@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
-import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { BaseTemplateModel } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
-import { Observable } from 'rxjs/Observable';
-import { TemplateResourceType } from '../../../template/shared/base-template.service';
-import { Actions, Effect, ofType } from '@ngrx/effects';
 import { MatDialog } from '@angular/material';
+import { Action, Store } from '@ngrx/store';
+import { Actions, Effect } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { Rules } from '../../../shared/components/security-group-builder/rules';
+import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
+import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
@@ -33,17 +33,18 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
-import { UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import { UserTagsActions, UserTagsSelectors, configSelectors } from '../../../root-store';
 import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
+import { DefaultComputeOffering } from '../../../shared/models/config';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
 import * as securityGroupActions from '../../security-groups/redux/sg.actions';
-import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import * as fromVMModule from '../../../vm/selectors';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -153,12 +154,14 @@ export class VirtualMachineCreationEffects {
       this.store.select(fromVMs.getVmFormState),
       this.store.select(fromZones.selectAll),
       this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation),
-      this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation),
-      this.store.select(fromDiskOfferings.selectAll)
+      this.store.select(fromVMModule.getAvailableOfferingsForVmCreation),
+      this.store.select(fromDiskOfferings.selectAll),
+      this.store.select(configSelectors.get('defaultComputeOffering'))
     )
     .map((
-      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings]: [
-        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
+      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, defaultComputeOfferings]: [
+        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[],
+        DefaultComputeOffering[]
         ]) => {
 
       if (action.payload.zone) {
@@ -170,7 +173,9 @@ export class VirtualMachineCreationEffects {
           && templates.find(_ => _.id === vmCreationState.template.id);
 
         if (!selectedServiceOfferingStillAvailable) {
-          updates = { ...updates, serviceOffering: serviceOfferings[0] };
+          const offering = this.getPreselectedOffering(serviceOfferings, vmCreationState.zone, defaultComputeOfferings);
+
+          updates = { ...updates, serviceOffering: offering };
         }
 
         if (!selectedTemplateStillAvailable) {
@@ -180,7 +185,7 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.template) {
-        if (action.payload.template.resourceType !== TemplateResourceType.template && !vmCreationState.diskOffering) {
+        if (resourceType(action.payload.template) !== TemplateResourceType.template && !vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
         }
       }
@@ -204,7 +209,9 @@ export class VirtualMachineCreationEffects {
 
       if (vmCreationState.zone) {
         if (!vmCreationState.serviceOffering && serviceOfferings.length) {
-          return new vmActions.VmFormUpdate({ serviceOffering: serviceOfferings[0] });
+          const offering = this.getPreselectedOffering(serviceOfferings, vmCreationState.zone, defaultComputeOfferings);
+
+          return new vmActions.VmFormUpdate({ serviceOffering: offering });
         }
 
         if (!vmCreationState.template && templates.length) {
@@ -628,7 +635,7 @@ export class VirtualMachineCreationEffects {
       params.keyPair = state.sshKeyPair.name;
     }
 
-    if (state.diskOffering && !state.template.isTemplate) {
+    if (state.diskOffering && !isTemplate(state.template)) {
       params.diskofferingid = state.diskOffering.id;
       params.hypervisor = 'KVM';
     }
@@ -647,9 +654,9 @@ export class VirtualMachineCreationEffects {
       ];
     }
 
-    if ((state.rootDiskSize != null && state.template.isTemplate) ||
+    if ((state.rootDiskSize != null && isTemplate(state.template)) ||
       (state.diskOffering && state.diskOffering.iscustomized)) {
-      if (state.template.isTemplate) {
+      if (isTemplate(state.template)) {
         params.rootDiskSize = state.rootDiskSize;
       } else {
         params.size = state.rootDiskSize;
@@ -657,5 +664,20 @@ export class VirtualMachineCreationEffects {
     }
 
     return params;
+  }
+
+  private getPreselectedOffering(
+    offerings: ServiceOffering[],
+    zone: Zone,
+    defaultComputeOfferingConfiguration: DefaultComputeOffering[]
+  ): ServiceOffering {
+    const firstOffering = offerings[0];
+    const configForCurrentZone = defaultComputeOfferingConfiguration.find(config => config.zoneId === zone.id);
+    if (!configForCurrentZone) {
+      return firstOffering;
+    }
+    const preselectedOffering = offerings.find(offering => offering.id === configForCurrentZone.offeringId);
+
+    return preselectedOffering ? preselectedOffering : firstOffering;
   }
 }

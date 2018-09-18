@@ -31,6 +31,26 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       };
     }
 
+    case UserTagsActionTypes.UpdateCustomServiceOfferingParams: {
+      const { offering } = action.payload;
+      const id = `${userTagKeys.computeOfferingParam}.${offering.id}`;
+      const updates: Update<Tag>[] = [
+        {
+          id: `${id}.cpunumber`,
+          changes: { key: `${id}.cpunumber`, value: offering.cpunumber.toString() }
+        },
+        {
+          id: `${id}.cpuspeed`,
+          changes: { key: `${id}.cpuspeed`, value: offering.cpuspeed.toString() }
+        },
+        {
+          id: `${id}.memory`,
+          changes: { key: `${id}.memory`, value: offering.memory.toString() }
+        }
+      ];
+      return adapter.upsertMany(updates, state);
+    }
+
     case UserTagsActionTypes.UpdateAskToCreateVMSuccess:
     case UserTagsActionTypes.UpdateAskToCreateVolumeSuccess:
     case UserTagsActionTypes.UpdateSPFAVMSuccess:

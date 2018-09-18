@@ -140,7 +140,6 @@ describe('Test Service offering selector component', () => {
       disableClose: true,
       data: {
         serviceOffering: serviceOfferings[0],
-        restriction: undefined
       }
     });
 

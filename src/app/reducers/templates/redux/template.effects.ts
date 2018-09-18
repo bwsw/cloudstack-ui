@@ -11,7 +11,15 @@ import { SnackBarService } from '../../../core/services';
 import { State } from '../../../reducers/index';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { BaseTemplateModel, Iso, IsoService, Template, TemplateService } from '../../../template/shared';
+import {
+  BaseTemplateModel,
+  getPath,
+  Iso,
+  IsoService,
+  resourceType,
+  Template,
+  TemplateService
+} from '../../../template/shared';
 import { MatDialog } from '@angular/material';
 import * as template from './template.actions';
 import * as templateGroup from './template-group.actions';
@@ -60,7 +68,7 @@ export class TemplateEffects {
   removeTemplate$: Observable<Action> = this.actions$
     .ofType(template.TEMPLATE_REMOVE)
     .mergeMap((action: template.RemoveTemplate) => {
-      const isIso = action.payload.resourceType === TemplateResourceType.iso.toUpperCase();
+      const isIso = resourceType(action.payload) === TemplateResourceType.iso;
       const progressMessage = isIso
         ? 'NOTIFICATIONS.ISO.DELETION_IN_PROGRESS'
         : 'NOTIFICATIONS.TEMPLATE.DELETION_IN_PROGRESS';
@@ -87,7 +95,7 @@ export class TemplateEffects {
     .ofType(template.TEMPLATE_REMOVE_SUCCESS)
     .map((action: template.RemoveTemplateSuccess) => action.payload)
     .filter((template: BaseTemplateModel) => {
-      return this.router.isActive(`/templates/${template.path}/${template.id}`, false);
+      return this.router.isActive(`/templates/${getPath(template)}/${template.id}`, false);
     })
     .do(() => {
       this.router.navigate(['./templates'], {

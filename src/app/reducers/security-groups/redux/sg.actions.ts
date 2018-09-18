@@ -17,111 +17,127 @@ export const DELETE_SECURITY_GROUP = '[SecurityGroups] DELETE_SECURITY_GROUP';
 export const DELETE_PRIVATE_SECURITY_GROUP = '[SecurityGroups] DELETE_PRIVATE_SECURITY_GROUP';
 export const DELETE_SECURITY_GROUP_SUCCESS = '[SecurityGroups] DELETE_SECURITY_GROUP_SUCCESS';
 export const DELETE_SECURITY_GROUP_ERROR = '[SecurityGroups] DELETE_SECURITY_GROUP_ERROR';
-export const CONVERT_SECURITY_GROUP = '[SecurityGroups] CONVERT_SECURITY_GROUP';
+export const CONVERT_SECURITY_GROUP = '[Security Groups list] Convert private security group to shared';
+export const CONVERT_SECURITY_GROUP_SUCCESS = '[Security Groups list] Convert private security group to shared success';
+export const CONVERT_SECURITY_GROUP_ERROR = '[Security Groups list] Convert private security group to shared error';
 
 export class LoadSecurityGroupRequest implements Action {
   readonly type = LOAD_SECURITY_GROUP_REQUEST;
 
-  constructor(public payload?: any) {
+  constructor(readonly payload?: any) {
   }
 }
 
 export class LoadSecurityGroupResponse implements Action {
   readonly type = LOAD_SECURITY_GROUP_RESPONSE;
 
-  constructor(public payload: SecurityGroup[]) {
+  constructor(readonly payload: SecurityGroup[]) {
   }
 }
 
 export class SecurityGroupFilterUpdate implements Action {
   readonly type = SECURITY_GROUP_FILTER_UPDATE;
 
-  constructor(public payload?: any) {
+  constructor(readonly payload?: any) {
   }
 }
 
 export class LoadSelectedSecurityGroup implements Action {
-  type = LOAD_SELECTED_SECURITY_GROUP;
+  readonly type = LOAD_SELECTED_SECURITY_GROUP;
 
-  constructor(public payload: string) {
+  constructor(readonly payload: string) {
   }
 }
 
 export class CreateSecurityGroup implements Action {
-  type = CREATE_SECURITY_GROUP;
+  readonly type = CREATE_SECURITY_GROUP;
 
-  constructor(public payload: SecurityGroupCreationParams) {
+  constructor(readonly payload: SecurityGroupCreationParams) {
   }
 }
 
 export class CreateSecurityGroupSuccess implements Action {
-  type = CREATE_SECURITY_GROUP_SUCCESS;
+  readonly type = CREATE_SECURITY_GROUP_SUCCESS;
 
-  constructor(public payload: SecurityGroup) {
+  constructor(readonly payload: SecurityGroup) {
   }
 }
 
 export class CreateSecurityGroupsSuccess implements Action {
-  type = CREATE_SECURITY_GROUPS_SUCCESS;
+  readonly type = CREATE_SECURITY_GROUPS_SUCCESS;
 
-  constructor(public payload: SecurityGroup[]) {
+  constructor(readonly payload: SecurityGroup[]) {
   }
 }
 
 export class CreateSecurityGroupError implements Action {
-  type = CREATE_SECURITY_GROUP_ERROR;
+  readonly type = CREATE_SECURITY_GROUP_ERROR;
 
-  constructor(public payload: any) {
+  constructor(readonly payload: Error) {
   }
 }
 
 export class UpdateSecurityGroup implements Action {
-  type = UPDATE_SECURITY_GROUP;
+  readonly type = UPDATE_SECURITY_GROUP;
 
-  constructor(public payload: SecurityGroup) {
+  constructor(readonly payload: SecurityGroup) {
   }
 }
 
 export class DeleteSecurityGroup implements Action {
-  type = DELETE_SECURITY_GROUP;
+  readonly type = DELETE_SECURITY_GROUP;
 
-  constructor(public payload: SecurityGroup) {
+  constructor(readonly payload: SecurityGroup) {
   }
 }
 
 export class DeletePrivateSecurityGroup implements Action {
-  type = DELETE_PRIVATE_SECURITY_GROUP;
+  readonly type = DELETE_PRIVATE_SECURITY_GROUP;
 
-  constructor(public payload: VirtualMachine) {
+  constructor(readonly payload: VirtualMachine) {
   }
 }
 
 export class DeleteSecurityGroupSuccess implements Action {
-  type = DELETE_SECURITY_GROUP_SUCCESS;
+  readonly type = DELETE_SECURITY_GROUP_SUCCESS;
 
-  constructor(public payload: SecurityGroup) {
+  constructor(readonly payload: SecurityGroup) {
   }
 }
 
 export class DeleteSecurityGroupError implements Action {
-  type = DELETE_SECURITY_GROUP_ERROR;
+  readonly type = DELETE_SECURITY_GROUP_ERROR;
 
-  constructor(public payload: any) {
+  constructor(readonly payload: Error) {
   }
 }
 
 export class ConvertSecurityGroup implements Action {
-  type = CONVERT_SECURITY_GROUP;
+  readonly type = CONVERT_SECURITY_GROUP;
 
-  constructor(public payload: SecurityGroup) {
+  constructor(readonly payload: SecurityGroup) {
+  }
+}
+
+export class ConvertSecurityGroupSuccess implements Action {
+  readonly type = CONVERT_SECURITY_GROUP_SUCCESS;
+
+  constructor(readonly payload: SecurityGroup) {
+  }
+}
+
+export class ConvertSecurityGroupError implements Action {
+  readonly type = CONVERT_SECURITY_GROUP_ERROR;
+
+  constructor(readonly payload: Error) {
   }
 }
 
 export class UpdateSecurityGroupError implements Action {
-  type = UPDATE_SECURITY_GROUP_ERROR;
+  readonly type = UPDATE_SECURITY_GROUP_ERROR;
 
 
-  constructor(public payload: any) {
+  constructor(readonly payload: Error) {
   }
 }
 
@@ -140,4 +156,6 @@ export type Actions =
   | DeletePrivateSecurityGroup
   | DeleteSecurityGroupSuccess
   | DeleteSecurityGroupError
-  | ConvertSecurityGroup;
+  | ConvertSecurityGroup
+  | ConvertSecurityGroupSuccess
+  | ConvertSecurityGroupError;

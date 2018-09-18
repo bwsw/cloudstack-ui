@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
+import { map, withLatestFrom } from 'rxjs/operators';
+
 import * as diskOfferingActions from './disk-offerings.actions';
-import { Action } from '@ngrx/store';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { DiskOffering } from '../../../shared/models/disk-offering.model';
-import { ConfigService } from '../../../core/services';
+import { configSelectors, State } from '../../../root-store';
 
 const defaultDiskOfferingParams: Array<string> = [
   'name',
@@ -30,23 +32,24 @@ export class DiskOfferingEffects {
     });
 
   @Effect()
-  loadDefaultParams$: Observable<Action> = this.actions$
-    .ofType(diskOfferingActions.LOAD_DEFAULT_DISK_PARAMS_REQUEST)
-    .map((action: diskOfferingActions.LoadDefaultParamsRequest) => {
-      const paramsFromConfig = this.configService
-        .get('diskOfferingParameters');
+  loadDefaultParams$: Observable<Action> = this.actions$.pipe(
+    ofType<diskOfferingActions.LoadDefaultParamsRequest>(diskOfferingActions.LOAD_DEFAULT_DISK_PARAMS_REQUEST),
+    withLatestFrom(this.store.select(configSelectors.get('diskOfferingParameters'))),
+    map(([action, diskOfferingParams]) => {
       let params = defaultDiskOfferingParams;
 
-      if (paramsFromConfig && Object.entries(paramsFromConfig).length) {
-        params = params.concat(paramsFromConfig);
+      if (diskOfferingParams && Object.entries(diskOfferingParams).length) {
+        params = params.concat(diskOfferingParams);
       }
 
       return new diskOfferingActions.LoadDefaultParamsResponse(params);
-    });
+    })
+  );
 
   constructor(
     private actions$: Actions,
     private offeringService: DiskOfferingService,
-    private configService: ConfigService
-  ) { }
+    private store: Store<State>
+  ) {
+  }
 }

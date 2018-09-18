@@ -1,5 +1,6 @@
 import { ConfigValidationService } from './config-validation.service';
-import { Config, defaultConfig } from './index';
+import { defaultConfig } from './default-configuration';
+import { Config } from '../../shared/models/config';
 
 describe('ConfigValidationService', () => {
   let configValidationService: ConfigValidationService;

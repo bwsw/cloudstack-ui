@@ -10,7 +10,7 @@
       <cs-template-os-icon-container matListAvatar [template]="template"></cs-template-os-icon-container>
       <h5 matLine>
         <span [innerHTML]="template.name | highlight:query"></span>
-        <ng-container *ngIf="!template.isReady">
+        <ng-container *ngIf="!template.isready">
           <div
             class="state-icon"
             [class.in-progress]="true"
@@ -22,7 +22,7 @@
       <p
         matLine
         class="matLine-secondary"
-        [innerHTML]="template.displayText | highlight:query"
+        [innerHTML]="template.displaytext | highlight:query"
       ></p>
       <span *ngIf="radio">
         <mat-radio-button [checked]="template?.id === selectedTemplate?.id"></mat-radio-button>

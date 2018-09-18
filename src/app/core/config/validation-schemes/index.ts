@@ -8,6 +8,12 @@ import * as defaultTimeFormat from './default-time-format.scheme.json';
 import * as defaultThemeName from './default-theme-name.scheme.json';
 import * as sessionTimeout from './session-timeout.scheme.json';
 
+import * as configureSidenav from './configure-sidenav.scheme.json';
+import * as defaultComputeOffering from './default-compute-offering.scheme.json';
+import * as serviceOfferingClasses from './service-offering-classes.scheme.json';
+import * as offeringAvailability from './offering-availability.scheme.json';
+import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
+import * as templateGroups from './template-groups.scheme.json';
 
 export {
   // General
@@ -19,5 +25,14 @@ export {
   defaultInterfaceLanguage,
   defaultTimeFormat,
   defaultThemeName,
-  sessionTimeout
+  sessionTimeout,
+  // Menu setting
+  configureSidenav,
+  // Service offering setting
+  customComputeOfferingParameters,
+  defaultComputeOffering,
+  offeringAvailability,
+  serviceOfferingClasses,
+  // Images settings
+  templateGroups,
 }

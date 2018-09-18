@@ -38,6 +38,6 @@ export abstract class BaseTemplateZonesComponent implements OnInit {
   }
 
   private checkZones(template: BaseTemplateModel): void {
-    this.readyInEveryZone = template && template.zones.every(_ => _.isReady);
+    this.readyInEveryZone = template && template.zones.every(_ => _.isready);
   }
 }

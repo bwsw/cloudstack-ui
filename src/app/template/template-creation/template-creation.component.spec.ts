@@ -79,13 +79,13 @@ describe('Template creation component', () => {
     expect(result).toEqual('TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_TEMPLATE');
   });
 
-  it('should create template with main params', () => {
+ it('should create template with main params', () => {
     const params = {
       name: 'test1',
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       url: 'testUrl',
       zoneId: 'testZone',
       entity: TemplateResourceType.template
@@ -111,7 +111,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       snapshotId: 'snap1',
       entity: TemplateResourceType.template
     };
@@ -158,7 +158,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
@@ -186,7 +186,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
@@ -225,7 +225,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
@@ -266,6 +266,4 @@ describe('Template creation component', () => {
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });
-
-
 });

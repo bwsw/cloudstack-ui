@@ -3,11 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { switchMap } from 'rxjs/operators/switchMap';
-import { exhaustMap } from 'rxjs/operators/exhaustMap';
-import { map } from 'rxjs/operators/map';
-import { mergeMap } from 'rxjs/operators/mergeMap';
-import { catchError } from 'rxjs/operators/catchError';
+import { catchError, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import {
   CloseSidenav,
@@ -27,6 +23,7 @@ import {
   UpdateAskToCreateVolume,
   UpdateAskToCreateVolumeError,
   UpdateAskToCreateVolumeSuccess,
+  UpdateCustomServiceOfferingParams,
   UpdateFirstDayOfWeek,
   UpdateFirstDayOfWeekError,
   UpdateFirstDayOfWeekSuccess,
@@ -61,7 +58,7 @@ import {
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { Tag } from '../../../shared/models';
+import { ServiceOffering, Tag } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { State } from '../../state';
 import * as userTagsSelectors from './user-tags.selectors';
@@ -291,6 +288,12 @@ export class UserTagsEffects {
     mergeMap(() => this.upsertTag(userTagKeys.sidenavVisible, 'false'))
   );
 
+  @Effect({ dispatch: false })
+  updateCustomServiceOfferingParams$: Observable<any> = this.actions$.pipe(
+    ofType<UpdateCustomServiceOfferingParams>(UserTagsActionTypes.UpdateCustomServiceOfferingParams),
+    mergeMap((action) => this.setComputeOfferingParams(action.payload.offering))
+  );
+
   private readonly resourceType = 'User';
 
   private get resourceId(): string | null {
@@ -303,6 +306,18 @@ export class UserTagsEffects {
     private authService: AuthService,
     private store: Store<State>
   ) {
+  }
+
+  private setComputeOfferingParams(offering: ServiceOffering) {
+    const cpuNumberKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpunumber`;
+    const cpuSpeedKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpuspeed`;
+    const memoryKey = `${userTagKeys.computeOfferingParam}.${offering.id}.memory`;
+
+    return Observable.forkJoin(
+      this.upsertTag(cpuNumberKey, offering.cpunumber && offering.cpunumber.toString()),
+      this.upsertTag(cpuSpeedKey, offering.cpuspeed && offering.cpuspeed.toString()),
+      this.upsertTag(memoryKey, offering.memory && offering.memory.toString()),
+    );
   }
 
   private loadTags() {

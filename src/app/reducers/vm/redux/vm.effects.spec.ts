@@ -43,6 +43,11 @@ import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.
 import { SnackBarService } from '../../../core/services';
 import { MockTagService } from '../../../../testutils/mocks/tag-services/mock-tag.service';
 import { TagService } from '../../../shared/services/tags/tag.service';
+import { HttpAccessService, SshAccessService, VncAccessService } from '../../../vm/services';
+
+@Injectable()
+export class MockAccessService {
+}
 
 @Injectable()
 class MockAsyncJobService {
@@ -173,7 +178,10 @@ describe('Virtual machine Effects', () => {
         { provide: DialogService, useClass: MockDialogService },
         { provide: MatDialog, useClass: MockMatDialog },
         { provide: SnackBarService, useClass: MockSnackBarService },
-        { provide: TagService, useClass: MockTagService }
+        { provide: TagService, useClass: MockTagService },
+        { provide: HttpAccessService, useClass: MockAccessService },
+        { provide: SshAccessService, useClass: MockAccessService },
+        { provide: VncAccessService, useClass: MockAccessService }
       ]
     });
     actions$ = TestBed.get(Actions);

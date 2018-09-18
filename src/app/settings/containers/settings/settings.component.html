@@ -9,7 +9,7 @@
   <cs-api-settings
     [userKeys]="userKeys"
     [apiUrl]="apiUrl"
-    [apiDocumentationLink]="apiDocumentationLink"
+    [apiDocumentationLink]="apiDocumentationLink$ | async"
     (regenerateKeys)="onRegenerateKeys()"
   ></cs-api-settings>
   <cs-vm-settings

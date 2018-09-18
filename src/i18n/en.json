@@ -72,7 +72,7 @@
       "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
-      "CONFIRM_SAVE_PASSWORD": "Do you want to save a password for all VMs?"
+      "CONFIRM_SAVE_PASSWORD": "Do you want to always save passwords for newly created VMs?"
     },
     "SECURITY_GROUPS": {
       "CONFIRM_EDIT_FROM_VM": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group in the Security Group management area?",
@@ -1073,6 +1073,12 @@
       }
     },
     "ICMP_V6_TYPES": {
+      "-1": {
+        "description": "Any",
+        "codes": {
+          "-1": "Any"
+        }
+      },
       "1": {
         "description": "Destination Unreachable Message",
         "codes": {
@@ -1504,7 +1510,7 @@
     "CHOOSE_SERVICE_OFFERING": "Choose service offering",
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
     "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
-    "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
+    "VM_WILL_BE_RESTARTED": "Virtual machine will be restarted",
     "SHOW_ADDITIONAL_FIELDS": "Show additional fields",
     "HIDE_ADDITIONAL_FIELDS": "Hide additional fields",
     "CUSTOM_SERVICE_OFFERING": {
@@ -1568,7 +1574,8 @@
     "TAG_KEY": "Key",
     "TAG_VALUE": "Value",
     "TAG_ALREADY_EXISTS": "Tag already exists",
-    "EDIT_TAG": "Edit tag"
+    "EDIT_TAG": "Edit tag",
+    "TAG_START_FROM_SPACE": "Field value must start with 'non-space' character"
   },
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Shared",

@@ -15,8 +15,6 @@
       [selectedClasses]="selectedClasses"
       [query]="query"
       [offeringList]="serviceOfferings"
-      [customOfferingRestrictions]="restrictions"
-      [defaultParams]="defaultParams"
       [selectedOffering]="serviceOffering"
       [showFields]="showFields"
       (selectedOfferingChange)="updateOffering($event)"
@@ -25,7 +23,7 @@
     <div
       class="message warning"
       *ngIf="showRebootMessage"
-    >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
+    >{{ "SERVICE_OFFERING.VM_WILL_BE_RESTARTED" | translate }}
     </div>
   </div>
   <div class="mat-dialog-actions">

@@ -10,5 +10,6 @@
     "pulse": {
       "type": "boolean"
     }
-  }
+  },
+  "required": ["webShell", "pulse"]
 }

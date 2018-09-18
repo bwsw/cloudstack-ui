@@ -3,19 +3,13 @@ import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testi
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatRadioModule, MatTableModule } from '@angular/material';
-import { ConfigService } from '../../../../core/services';
 
 import { DiskOfferingDialogComponent } from './disk-offering-dialog.component';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { DiskOffering } from '../../../models';
-import { StringifyDatePipe } from '../../../pipes/stringifyDate.pipe';
+import { StringifyDatePipe } from '../../../pipes';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
 
-class MockConfigService {
-  public get(key: string) {
-    return ['created'];
-  }
-}
 
 class MockConfigServiceDateTimeFormatterService {
   public stringifyToTime() {
@@ -55,7 +49,6 @@ describe('Disk Offering dialog', () => {
         imports: [FormsModule, MatDialogModule, MatRadioModule, MatTableModule],
         declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
         providers: [
-          { provide: ConfigService, useClass: MockConfigService },
           {
             provide: MatDialogRef,
             useValue: dialog
