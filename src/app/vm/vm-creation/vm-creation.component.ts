@@ -19,7 +19,7 @@ import { VmCreationContainerComponent } from './containers/vm-creation.container
 import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cs-vm-creation',
@@ -45,6 +45,7 @@ export class VmCreationComponent {
   @Input() public enoughResources: boolean;
   @Input() public insufficientResources: Array<string>;
   @Input() public diskOfferingParams: Array<string>;
+  @Input() public maxRootDiskSize: number;
 
   @Output() public displayNameChange = new EventEmitter<string>();
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
@@ -64,7 +65,6 @@ export class VmCreationComponent {
   @Output() public deploy = new EventEmitter<VmCreationState>();
   @Output() public cancel = new EventEmitter();
   @Output() public onError = new EventEmitter();
-
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
@@ -91,14 +91,18 @@ export class VmCreationComponent {
   }
 
   public get showResizeSlider(): boolean {
-    return this.vmCreationState.template
-      && !isTemplate(this.vmCreationState.template)
-      && this.showRootDiskResize
-      && !!this.vmCreationState.rootDiskMinSize;
+    return !!this.vmCreationState.template;
   }
 
   public get rootDiskSizeLimit(): number {
-    return this.account && this.account.primarystorageavailable;
+    const storageAvailable = this.account && this.account.primarystorageavailable;
+    if (storageAvailable.toString() === 'Unlimited' && this.maxRootDiskSize) {
+      return this.maxRootDiskSize
+    } else if (storageAvailable < this.maxRootDiskSize) {
+      return storageAvailable;
+    } else {
+      return this.maxRootDiskSize || storageAvailable;
+    }
   }
 
   public get showRootDiskResize(): boolean {
@@ -114,7 +118,8 @@ export class VmCreationComponent {
 
   constructor(
     public dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private auth: AuthService
+    private auth: AuthService,
+    private route: ActivatedRoute,
   ) {
   }
 
@@ -151,5 +156,11 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
+  }
+
+  public tabIsActive(tabId: string) {
+    const path = this.route.snapshot;
+    const pathLastChild = path.firstChild ? path.firstChild.routeConfig.path : null;
+    return (tabId === pathLastChild);
   }
 }

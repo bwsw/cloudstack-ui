@@ -39,8 +39,6 @@ Predefined templates for security groups. You can define your own security group
         {...}
     ]
 
-
-
 Parameters:
 
 * id: a unique identifier
@@ -54,6 +52,14 @@ Parameters:
    * For TCP and UDP: startport and endport
    * For ICMP: icmpcode and icmptype
 
+### Default Group Name
+Define the name for Firewall default group.
+
+```
+"defaultGroupName": "default name"
+```
+A default name is `default`.
+
 ### VM Colors
 
 The set of colors for virtual machines in hexadecimal format. You can specify any colors you like.
@@ -64,6 +70,17 @@ The set of colors for virtual machines in hexadecimal format. You can specify an
     }
  ]
 ```
+
+### Max Root Disk Size 
+
+Define the max root disk size. 
+
+```
+"maxRootDiskSize": 512
+```
+
+A default value is `1024` GB.
+
 ### Default Theme Name
 
 Preferred color theme for the app. Available themes are:
