@@ -6,10 +6,7 @@ import { Router } from '@angular/router';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
-import { Subject } from 'rxjs/Subject';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
@@ -65,16 +62,17 @@ class MockRouter {
 @Injectable()
 export class MockVmEffects {
   public stop(vm: VirtualMachine) {
-    return Observable.of(vm);
+    return of(vm);
   }
 }
 
 class MockMatDialog {
   public open() {
     return {
-      afterClosed: () => Observable.of(snapshots[0])
+      afterClosed: () => of(snapshots[0])
     };
   }
+
   public closeAll(): void {
   }
 }
@@ -85,7 +83,7 @@ export class MockVmService {
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   public set stream(source: Observable<Snapshot>) {
@@ -120,7 +118,7 @@ describe('Snapshot Effects', () => {
   );
 
   const MockVirtualMachinesEffects = jasmine.createSpyObj(
-    'VirtualMachinesEffects', [ 'stop' ]
+    'VirtualMachinesEffects', ['stop']
   );
 
 
@@ -301,6 +299,4 @@ describe('Snapshot Effects', () => {
 
     expect(effects.deleteSnapshot$).toBeObservable(expected);
   });
-
-
 });

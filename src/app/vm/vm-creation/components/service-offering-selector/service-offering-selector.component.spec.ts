@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog, MatTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../../../testutils/mocks/mock-translate.service.spec';
 import { ServiceOffering } from '../../../../shared/models';
@@ -46,7 +46,7 @@ describe('Test Service offering selector component', () => {
   const mockDialog = {
     open: jasmine.createSpy('open').and.callFake(() => {
       return {
-        afterClosed: () => Observable.of(serviceOffering)
+        afterClosed: () => of(serviceOffering)
       };
     })
   };

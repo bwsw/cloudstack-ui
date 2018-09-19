@@ -3,7 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
 import { Iso } from '../../../template/shared/iso.model';
@@ -51,7 +51,7 @@ describe('VmCreationTemplateComponent', () => {
   const mockDialog = {
     open: jasmine.createSpy('open').and.callFake(() => {
       return {
-        afterClosed: () => Observable.of(template)
+        afterClosed: () => of(template)
       };
     })
   };

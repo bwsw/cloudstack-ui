@@ -1,5 +1,5 @@
 // Karma configuration file, see link for more information
-// https://karma-runner.github.io/0.13/config/configuration-file.html
+// https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
   config.set({
@@ -34,6 +34,9 @@ module.exports = function (config) {
       outputFile: 'junit.xml', // if included, results will be saved as $outputDir/$browserName/$outputFile
       suite: '', // suite will become the package name attribute in xml testsuite element
       useBrowserName: false // add browser name to report and classes names
+    },
+    mochaReporter: {
+      ignoreSkipped: true,
     },
     colors: true,
     browserNoActivityTimeout: 100000,     // default 10,000ms

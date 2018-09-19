@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, } from '@angular/core/testing';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { AccountTagService } from './account-tag.service';
 import { Injectable } from '@angular/core';
 import { AccountService } from '../account.service';
@@ -13,12 +13,14 @@ import { AccountResourceType } from '../../models/account.model';
 
 @Injectable()
 class MockService {
-  public getAccount(params: {}) {
-    return {
-      switchMap: (f) => {
-        return f(<Account>{ account: 'Account', domainid: 'D1'});
-    }
-    };
+  public getAccount(params: {}): Observable<Account> {
+    return of(<Account>{
+          account: 'Account',
+          displayName: '',
+          id: '1',
+          rpDisplayName: '',
+          domainid: 'D1'
+        })
   }
 }
 
@@ -98,7 +100,14 @@ describe('Account tag service', () => {
 
     accountTagService.writeTag('key', 'value').subscribe(res =>
       expect(res).toBeTruthy());
-    expect(spyUpdate).toHaveBeenCalledWith(
-      <Account>{ account: 'Account', domainid: 'D1'}, AccountResourceType, 'key', 'value');
+
+    const account = {
+      displayName: '',
+      id: '1',
+      rpDisplayName: '',
+      account: 'Account',
+      domainid: 'D1'
+    };
+    expect(spyUpdate).toHaveBeenCalledWith(account, AccountResourceType, 'key', 'value');
   });
 });

@@ -11,6 +11,13 @@ export class TestStore<T> {
     return this.state.asObservable();
   }
 
+  // read discussion how to mock pipeable store
+  // https://github.com/ngrx/platform/issues/915
+
+  pipe(selector?: any): Observable<T> {
+    return this.state.asObservable();
+  }
+
   dispatch(action: any) {
   }
 }
