@@ -16,10 +16,21 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public diskOfferingParams: Array<string>;
+  @Input() public maxRootDiskSize: number;
   @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
 
   public diskOffering: DiskOffering;
   public newSize: number;
+
+  public get rootDiskSizeLimit(): number {
+    if (this.maxSize.toString() === 'Unlimited' && this.maxRootDiskSize) {
+      return this.maxRootDiskSize
+    } else if (this.maxSize < this.maxRootDiskSize) {
+      return this.maxSize;
+    } else {
+      return this.maxRootDiskSize || this.maxSize
+    }
+  }
 
   constructor(
     public dialogRef: MatDialogRef<VolumeResizeComponent>

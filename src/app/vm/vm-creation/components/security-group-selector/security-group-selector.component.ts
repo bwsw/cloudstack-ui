@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SecurityGroup } from '../../../../security-group/sg.model';
+import { SecurityGroup, isDefault } from '../../../../security-group/sg.model';
 
 
 @Component({
@@ -17,11 +17,16 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
 })
 export class SecurityGroupSelectorComponent implements ControlValueAccessor {
   @Input() public securityGroups: Array<SecurityGroup>;
+  @Input() public defaultGroupName: string;
   public _selectedSecurityGroups: Array<SecurityGroup> = [];
 
   @Input()
   public get selectedSecurityGroups(): Array<SecurityGroup> {
     return this._selectedSecurityGroups;
+  }
+
+  public get isDefault() {
+    return isDefault;
   }
 
   public writeValue(value: Array<SecurityGroup>): void {

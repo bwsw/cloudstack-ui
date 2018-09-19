@@ -73,6 +73,8 @@ export class ConfigValidationService {
     offeringAvailability: validationSchemes.offeringAvailability,
     templateGroups: validationSchemes.templateGroups,
     serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
+    maxRootDiskSize: validationSchemes.maxRootDiskSize,
+    defaultGroupName: validationSchemes.defaultGroupName
   };
 
   constructor() {

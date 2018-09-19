@@ -3,16 +3,17 @@ import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { SecurityGroup } from '../sg.model';
+import { configSelectors } from '../../root-store';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
-
 
 @Component({
   selector: 'cs-sg-rules-container',
   template: `
     <cs-security-group-rules
       [securityGroup]="securityGroup$ | async"
+      [defaultGroupName]="defaultGroupName$ | async"
       [vmId]="vmId"
       [editMode]="editMode"
       (onFirewallRulesChange)="onFirewallRulesChange($event)"
@@ -21,7 +22,7 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
 })
 export class SgRulesContainerComponent implements OnInit {
   readonly securityGroup$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
-
+  readonly defaultGroupName$ = this.store.select(configSelectors.get('defaultGroupName'));
   public id: string;
   public vmId: string;
   public editMode = false;

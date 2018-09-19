@@ -2,7 +2,7 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { getType, SecurityGroup, SecurityGroupType } from '../../sg.model';
+import { getType, isDefault, SecurityGroup, SecurityGroupType } from '../../sg.model';
 
 
 @Component({
@@ -11,6 +11,7 @@ import { getType, SecurityGroup, SecurityGroupType } from '../../sg.model';
 })
 export class SecurityGroupDetailsComponent {
   @Input() public securityGroup: SecurityGroup;
+  @Input() public defaultGroupName: string;
 
   public get isPrivate() {
     return getType(this.securityGroup) === SecurityGroupType.Private;
@@ -20,4 +21,11 @@ export class SecurityGroupDetailsComponent {
     return getType(this.securityGroup);
   }
 
+  public get securityGroupName(): string {
+    if (isDefault(this.securityGroup)) {
+      return this.defaultGroupName || this.securityGroup.name;
+    } else {
+      return this.securityGroup.name;
+    }
+  }
 }

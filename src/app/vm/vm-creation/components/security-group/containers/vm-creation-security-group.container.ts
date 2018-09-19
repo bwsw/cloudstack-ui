@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/vm/redux/vm.reducers';
 import { VmCreationSecurityGroupData } from '../../../security-group/vm-creation-security-group-data';
+import { configSelectors } from '../../../../../root-store';
 
 import * as fromSecurityGroups from '../../../../../reducers/security-groups/redux/sg.reducers';
 
@@ -11,13 +12,15 @@ import * as fromSecurityGroups from '../../../../../reducers/security-groups/red
   template: `
     <cs-vm-creation-security-group
       [sharedGroups]="sharedGroups$ | async"
+      [defaultGroupName]="defaultGroupName$ | async"
       [savedData]="savedData"
       (onSave)="onSave($event)"
       (onCancel)="onCancel()"
     ></cs-vm-creation-security-group>`
 })
 export class VmCreationSecurityGroupContainerComponent {
-  public sharedGroups$ = this.store.select(fromSecurityGroups.selectSecurityGroupsForVmCreation);
+  readonly sharedGroups$ = this.store.select(fromSecurityGroups.selectSecurityGroupsForVmCreation);
+  readonly defaultGroupName$ = this.store.select(configSelectors.get('defaultGroupName'));
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public savedData: VmCreationSecurityGroupData,

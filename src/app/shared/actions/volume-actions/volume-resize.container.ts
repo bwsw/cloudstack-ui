@@ -13,6 +13,7 @@ import { Account } from '../../models/account.model';
 import { Volume } from '../../models/volume.model';
 import { VolumeResizeData } from '../../services/volume.service';
 import { VolumeType } from '../../models';
+import { configSelectors } from '../../../root-store';
 
 @Component({
   selector: 'cs-volume-resize-container',
@@ -22,6 +23,7 @@ import { VolumeType } from '../../models';
       [volume]="volume"
       [diskOfferings]="offerings$ | async"
       [diskOfferingParams]="diskOfferingParams$ | async"
+      [maxRootDiskSize]="maxRootDiskSize$ | async"
       (onDiskResized)="resizeDisk($event)"
     >
     </cs-volume-resize>`,
@@ -30,6 +32,7 @@ export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.select(fromDiskOfferings.getAvailableOfferings);
   readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly diskOfferingParams$ = this.store.select(fromDiskOfferings.getParams);
+  readonly maxRootDiskSize$ = this.store.select(configSelectors.get('maxRootDiskSize'));
 
   public volume: Volume;
 

@@ -12,7 +12,8 @@
       (click)="$event.stopPropagation(); selectSecurityGroup(sg)">
 
         <h4 matLine>
-          <span>{{ sg.name }}</span>
+          <span *ngIf="isDefault(sg) && defaultGroupName">{{ defaultGroupName }}</span>
+          <span *ngIf="!isDefault(sg) || !defaultGroupName">{{ sg.name }}</span>
         </h4>
         <p
           matLine

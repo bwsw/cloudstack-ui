@@ -5,6 +5,7 @@ import {
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
+import { configSelectors } from '../../root-store';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
@@ -14,11 +15,12 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
   template: `
     <cs-sg-sidebar
       [entity]="securityGroup$ | async"
+      [defaultGroupName]="defaultGroupName$ | async"
     ></cs-sg-sidebar>`
 })
 export class SecurityGroupSidebarContainerComponent implements OnInit {
-
   readonly securityGroup$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
+  readonly defaultGroupName$ = this.store.select(configSelectors.get('defaultGroupName'));
 
   constructor(
     private store: Store<State>,

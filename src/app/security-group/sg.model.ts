@@ -62,3 +62,7 @@ export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
 
   return SecurityGroupType.Shared;
 };
+
+export const isDefault = (securityGroup: SecurityGroup) => {
+  return securityGroup.name === 'default';
+};

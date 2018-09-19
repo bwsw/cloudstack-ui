@@ -259,3 +259,9 @@ export const selectPredefinedSecurityGroups = createSelector(
     securityGroup => securityGroup.preselected)
 );
 
+export const selectDefaultSecurityGroup = createSelector(
+  selectAll,
+  (securityGroups: SecurityGroup[]) => securityGroups.find(
+    sg => sg.name === 'default')
+);
+

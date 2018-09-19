@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SnackBarService } from '../../core/services';
 import { NetworkRuleService } from '../services/network-rule.service';
-import { getType, IPVersion, NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import { getType, IPVersion, isDefault, NetworkRuleType, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { NetworkProtocol, NetworkRule } from '../network-rule.model';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { SgRuleComponent } from './sg-rule.component';
@@ -22,6 +22,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
   @Input() public securityGroup: SecurityGroup;
   @Input() public editMode = false;
   @Input() public vmId: string;
+  @Input() public defaultGroupName: string;
   @Output() public onCloseDialog = new EventEmitter();
   @Output() public onFirewallRulesChange = new EventEmitter<SecurityGroup>();
 
@@ -70,6 +71,14 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   public get isPredefinedTemplate(): boolean {
     return this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate;
+  }
+
+  public get securityGroupName(): string {
+    if (isDefault(this.securityGroup)) {
+      return this.defaultGroupName || this.securityGroup.name;
+    } else {
+      return this.securityGroup.name;
+    }
   }
 
   constructor(

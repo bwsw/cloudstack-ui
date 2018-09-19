@@ -20,7 +20,7 @@ import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
-import { State, UserTagsSelectors } from '../../../root-store';
+import { State, UserTagsSelectors, configSelectors } from '../../../root-store';
 import * as accountTagsActions from '../../../reducers/account-tags/redux/account-tags.actions';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
 import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
@@ -62,6 +62,7 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
       [diskOfferingParams]="diskOfferingParams$ | async"
+      [maxRootDiskSize]="maxRootDiskSize$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
@@ -109,6 +110,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly sshKeyPairs$ = this.store.select(fromSshKeys.selectSshKeysForAccount);
   readonly diskOfferingParams$ = this.store.select(fromDiskOfferings.getParams);
+  readonly maxRootDiskSize$ = this.store.select(configSelectors.get('maxRootDiskSize'));
 
   constructor(
     private store: Store<State>,

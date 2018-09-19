@@ -21,7 +21,7 @@
       <cs-slider
         *ngIf="isCustomizedForVolume(diskOffering) || volumeIsRoot"
         [min]="volume.size | division:2:30"
-        [max]="maxSize"
+        [max]="rootDiskSizeLimit"
         [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
         [(ngModel)]="newSize"
         name="new-size"

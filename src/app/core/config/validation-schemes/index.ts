@@ -14,6 +14,8 @@ import * as serviceOfferingClasses from './service-offering-classes.scheme.json'
 import * as offeringAvailability from './offering-availability.scheme.json';
 import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
 import * as templateGroups from './template-groups.scheme.json';
+import * as maxRootDiskSize from './max-root-disk-size.scheme.json';
+import * as defaultGroupName from './default-group-name.scheme.json';
 
 export {
   // General
@@ -35,4 +37,7 @@ export {
   serviceOfferingClasses,
   // Images settings
   templateGroups,
+  // Virtual machines settings
+  maxRootDiskSize,
+  defaultGroupName
 }

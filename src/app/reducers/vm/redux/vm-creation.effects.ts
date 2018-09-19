@@ -128,12 +128,17 @@ export class VirtualMachineCreationEffects {
   @Effect()
   vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$
     .ofType(vmActions.VM_SECURITY_GROUPS_SELECT)
-    .withLatestFrom(this.store.select(fromSecurityGroups.selectPredefinedSecurityGroups)
-      .filter(groups => !!groups.length))
-    .map(([action, securityGroups]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[]]) => {
+    .withLatestFrom(
+      this.store.select(fromSecurityGroups.selectPredefinedSecurityGroups)
+      .filter(groups => !!groups.length),
+      this.store.select(fromSecurityGroups.selectDefaultSecurityGroup)
+    )
+    .map(([action, securityGroups, defaultSecurityGroup]: [
+      vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[], SecurityGroup
+      ]) => {
       return new vmActions.VmFormUpdate({
         securityGroupData: VmCreationSecurityGroupData
-          .fromRules(Rules.createWithAllRulesSelected(securityGroups))
+          .fromRules(Rules.createWithAllRulesSelected(securityGroups), [defaultSecurityGroup])
       });
     });
 

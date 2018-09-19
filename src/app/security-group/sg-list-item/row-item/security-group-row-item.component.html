@@ -3,7 +3,7 @@
   [class.card-selected]="isSelected(item)"
   class="entity-list-item"
 >
-  <h2 class="entity-list-item-title" [innerHTML]="item.name | highlight:query"></h2>
+  <h2 class="entity-list-item-title" [innerHTML]="securityGroupName | highlight:query"></h2>
 
   <div class="entity-list-item-data" *ngIf="isPrivate">
     {{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:

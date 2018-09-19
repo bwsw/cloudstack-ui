@@ -13,6 +13,7 @@ import { VmCreationSecurityGroupMode } from '../../security-group/vm-creation-se
 export class VmCreationSecurityGroupComponent {
   @Input() public sharedGroups: Array<SecurityGroup>;
   @Input() public savedData: VmCreationSecurityGroupData;
+  @Input() public defaultGroupName: string;
   @Output() public onSave = new EventEmitter<VmCreationSecurityGroupData>();
   @Output() public onCancel = new EventEmitter();
 

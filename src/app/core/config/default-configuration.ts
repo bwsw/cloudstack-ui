@@ -44,6 +44,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    * Virtual machines settings
    */
   vmColors: COLORS,
+  maxRootDiskSize: 2048,
+  defaultGroupName: 'Test name',
   /*
    * Firewall (Security groups) settings
    */
@@ -94,7 +96,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   ],
   offeringAvailability: {
     'filterOfferings': false
-  }
+  },
 };
 
 export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {

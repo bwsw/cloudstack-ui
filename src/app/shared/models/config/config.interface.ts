@@ -27,6 +27,8 @@ export interface CustomizableConfig {
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: Array<any>;
+  defaultGroupName: string;
+  maxRootDiskSize: number;
   /*
    * Images settings
    */
