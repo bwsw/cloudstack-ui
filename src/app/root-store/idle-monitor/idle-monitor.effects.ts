@@ -56,7 +56,7 @@ export class IdleEffects {
   @Effect({ dispatch: false })
   refreshSessionRequest$: Observable<Action> = this.actions$.pipe(
     ofType<RefreshSessionRequest>(IdleMonitorActionTypes.RefreshSessionRequest),
-    tap(() => this.tagService.getList({ resourceid: this.authService.user.userid }))
+    tap(() => this.tagService.getList({ resourceid: this.authService.user.userid }).subscribe())
   );
 
   constructor(
