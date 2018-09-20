@@ -18,7 +18,7 @@ export enum SnapshotActions {
 const CreateTemplateFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_TEMPLATE',
   command: SnapshotActions.CreateTemplate,
-  icon: 'mdi-disk',
+  icon: 'mdi-disc',
   canActivate: (snapshot: Snapshot) => snapshot.state === SnapshotStates.BackedUp
 };
 
