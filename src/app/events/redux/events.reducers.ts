@@ -1,13 +1,6 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
-import * as event from './events.actions';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import * as eventActions from './events.actions';
 import { Event } from '../event.model';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import moment = require('moment');
@@ -70,16 +63,16 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: event.Actions
+  action: eventActions.Actions
 ): State {
   switch (action.type) {
-    case event.LOAD_EVENTS_REQUEST: {
+    case eventActions.LOAD_EVENTS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case event.EVENT_FILTER_UPDATE: {
+    case eventActions.EVENT_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -88,7 +81,7 @@ export function reducer(
         }
       };
     }
-    case event.LOAD_EVENTS_RESPONSE: {
+    case eventActions.LOAD_EVENTS_RESPONSE: {
 
       const events = action.payload;
       const types = Object.keys(events.reduce((memo, event) => {

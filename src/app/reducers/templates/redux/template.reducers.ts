@@ -12,8 +12,8 @@ import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
 import * as fromTemplateGroups from './template-group.reducers';
-import * as template from './template.actions';
-import * as vm from '../../vm/redux/vm.actions';
+import * as templateActions from './template.actions';
+import * as vmActions from '../../vm/redux/vm.actions';
 
 
 export interface ListState extends EntityState<BaseTemplateModel> {
@@ -87,16 +87,16 @@ export const templateReducers = {
 
 export function listReducer(
   state = initialListState,
-  action: template.Actions
+  action: templateActions.Actions
 ): ListState {
   switch (action.type) {
-    case template.LOAD_TEMPLATE_REQUEST: {
+    case templateActions.LOAD_TEMPLATE_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case template.TEMPLATE_FILTER_UPDATE: {
+    case templateActions.TEMPLATE_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -105,31 +105,31 @@ export function listReducer(
         }
       };
     }
-    case template.LOAD_TEMPLATE_RESPONSE: {
+    case templateActions.LOAD_TEMPLATE_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false
       };
     }
-    case template.TEMPLATE_CREATE_SUCCESS: {
+    case templateActions.TEMPLATE_CREATE_SUCCESS: {
       return adapter.addOne(action.payload, state);
     }
-    case template.TEMPLATE_REGISTER_SUCCESS: {
+    case templateActions.TEMPLATE_REGISTER_SUCCESS: {
       return adapter.addOne(action.payload, state);
     }
-    case template.TEMPLATE_REMOVE_SUCCESS: {
+    case templateActions.TEMPLATE_REMOVE_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
-    case template.LOAD_SELECTED_TEMPLATE: {
+    case templateActions.LOAD_SELECTED_TEMPLATE: {
       return {
         ...state,
         selectedTemplateId: action.payload
       };
     }
-    case template.UPDATE_TEMPLATE: {
+    case templateActions.UPDATE_TEMPLATE: {
       return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
-    case template.SET_TEMPLATE_GROUP_SUCCESS: {
+    case templateActions.SET_TEMPLATE_GROUP_SUCCESS: {
       return adapter.updateOne({
         id: action.payload.id,
         changes: {
@@ -137,7 +137,7 @@ export function listReducer(
         }
       }, state);
     }
-    case template.RESET_TEMPLATE_GROUP_SUCCESS: {
+    case templateActions.RESET_TEMPLATE_GROUP_SUCCESS: {
       return adapter.updateOne({
         id: action.payload.id,
         changes: {
@@ -153,10 +153,10 @@ export function listReducer(
 
 export function vmCreationListReducer(
   state = initialVmCreationTemplatesState,
-  action: template.Actions | vm.Actions
+  action: templateActions.Actions | vmActions.Actions
 ): VmCreationTemplatesState {
   switch (action.type) {
-    case template.DIALOG_TEMPLATE_FILTER_UPDATE: {
+    case templateActions.DIALOG_TEMPLATE_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -165,7 +165,7 @@ export function vmCreationListReducer(
         }
       };
     }
-    case vm.VM_FORM_INIT: {
+    case vmActions.VM_FORM_INIT: {
       return {
         ...initialVmCreationTemplatesState,
       };

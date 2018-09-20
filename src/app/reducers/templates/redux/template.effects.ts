@@ -23,7 +23,7 @@ import {
   TemplateService
 } from '../../../template/shared';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import * as template from './template.actions';
+import * as templateActions from './template.actions';
 import * as templateGroup from './template-group.actions';
 import * as fromTemplateGroups from './template-group.reducers';
 
@@ -31,8 +31,8 @@ import * as fromTemplateGroups from './template-group.reducers';
 export class TemplateEffects {
   @Effect()
   loadTemplates$: Observable<Action> = this.actions$.pipe(
-    ofType(template.LOAD_TEMPLATE_REQUEST),
-    switchMap((action: template.LoadTemplatesRequest) => {
+    ofType(templateActions.LOAD_TEMPLATE_REQUEST),
+    switchMap((action: templateActions.LoadTemplatesRequest) => {
       let filters = [
         TemplateFilters.featured,
         TemplateFilters.self
@@ -56,19 +56,19 @@ export class TemplateEffects {
           [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups]),
         switchMap(([[templates, isos], groups]) => {
           return groups && groups.length
-            ? of(new template.LoadTemplatesResponse([...templates, ...isos]))
+            ? of(new templateActions.LoadTemplatesResponse([...templates, ...isos]))
             : [
-              new template.LoadTemplatesResponse([...templates, ...isos]),
+              new templateActions.LoadTemplatesResponse([...templates, ...isos]),
               new templateGroup.LoadTemplateGroupsRequest()
             ];
         }),
-        catchError(error => of(new template.LoadTemplatesResponse([]))));
+        catchError(error => of(new templateActions.LoadTemplatesResponse([]))));
     }));
 
   @Effect()
   removeTemplate$: Observable<Action> = this.actions$.pipe(
-    ofType(template.TEMPLATE_REMOVE),
-    mergeMap((action: template.RemoveTemplate) => {
+    ofType(templateActions.TEMPLATE_REMOVE),
+    mergeMap((action: templateActions.RemoveTemplate) => {
       const isIso = resourceType(action.payload) === TemplateResourceType.iso;
       const progressMessage = isIso
         ? 'NOTIFICATIONS.ISO.DELETION_IN_PROGRESS'
@@ -81,20 +81,20 @@ export class TemplateEffects {
             : 'NOTIFICATIONS.TEMPLATE.DELETION_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         }),
-        map(removedTemplate => new template.RemoveTemplateSuccess(removedTemplate)),
+        map(removedTemplate => new templateActions.RemoveTemplateSuccess(removedTemplate)),
         catchError((error: Error) => {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.DELETION_FAILED'
             : 'NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
-          return of(new template.RemoveTemplateError(error))
+          return of(new templateActions.RemoveTemplateError(error))
         }));
     }));
 
   @Effect({ dispatch: false })
   removeTemplateSuccess$: Observable<BaseTemplateModel> = this.actions$.pipe(
-    ofType(template.TEMPLATE_REMOVE_SUCCESS),
-    map((action: template.RemoveTemplateSuccess) => action.payload),
+    ofType(templateActions.TEMPLATE_REMOVE_SUCCESS),
+    map((action: templateActions.RemoveTemplateSuccess) => action.payload),
     filter((template: BaseTemplateModel) => {
       return this.router.isActive(`/templates/${getPath(template)}/${template.id}`, false);
     }),
@@ -106,8 +106,8 @@ export class TemplateEffects {
 
   @Effect()
   registerTemplate$: Observable<Action> = this.actions$.pipe(
-    ofType(template.TEMPLATE_REGISTER),
-    switchMap((action: template.RegisterTemplate) => {
+    ofType(templateActions.TEMPLATE_REGISTER),
+    switchMap((action: templateActions.RegisterTemplate) => {
       const isIso = action.payload.entity === TemplateResourceType.iso;
       return (isIso ? this.isoService.register(action.payload) : this.templateService.register(action.payload)).pipe(
         tap(() => {
@@ -116,57 +116,57 @@ export class TemplateEffects {
             : 'NOTIFICATIONS.TEMPLATE.REGISTER_DONE';
           this.showNotificationsOnFinish(message);
         }),
-        map(createdTemplate => new template.RegisterTemplateSuccess(createdTemplate)),
+        map(createdTemplate => new templateActions.RegisterTemplateSuccess(createdTemplate)),
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
-          return of(new template.RegisterTemplateError(error))
+          return of(new templateActions.RegisterTemplateError(error))
         }));
     }));
 
   @Effect()
   createTemplate$: Observable<Action> = this.actions$.pipe(
-    ofType(template.TEMPLATE_CREATE),
-    mergeMap((action: template.CreateTemplate) => {
+    ofType(templateActions.TEMPLATE_CREATE),
+    mergeMap((action: templateActions.CreateTemplate) => {
       const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.TEMPLATE.CREATION_IN_PROGRESS');
       return this.templateService.create(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         }),
-        map(createdTemplate => new template.CreateTemplateSuccess(createdTemplate)),
+        map(createdTemplate => new templateActions.CreateTemplateSuccess(createdTemplate)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
-          return of(new template.CreateTemplateError(error))
+          return of(new templateActions.CreateTemplateError(error))
         }));
     }));
 
   @Effect({ dispatch: false })
   registerAndCreateTemplateSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(
-      template.TEMPLATE_REGISTER_SUCCESS,
-      template.TEMPLATE_CREATE_SUCCESS
+      templateActions.TEMPLATE_REGISTER_SUCCESS,
+      templateActions.TEMPLATE_CREATE_SUCCESS
     ),
     tap(() => this.dialog.closeAll())
   );
 
   @Effect()
   setTemplateGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(template.SET_TEMPLATE_GROUP),
-    mergeMap((action: template.SetTemplateGroup) => this.templateTagService.setGroup(
+    ofType(templateActions.SET_TEMPLATE_GROUP),
+    mergeMap((action: templateActions.SetTemplateGroup) => this.templateTagService.setGroup(
       action.payload.template,
       action.payload.templateGroup
     ).pipe(
-      map(temp => new template.SetTemplateGroupSuccess(temp)),
-      catchError(error => of(new template.SetTemplateGroupError(error))))));
+      map(temp => new templateActions.SetTemplateGroupSuccess(temp)),
+      catchError(error => of(new templateActions.SetTemplateGroupError(error))))));
 
   @Effect()
   resetTemplateGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(template.RESET_TEMPLATE_GROUP),
-    mergeMap((action: template.ResetTemplateGroup) =>
+    ofType(templateActions.RESET_TEMPLATE_GROUP),
+    mergeMap((action: templateActions.ResetTemplateGroup) =>
       this.templateTagService.resetGroup(action.payload).pipe(
-        map(temp => new template.ResetTemplateGroupSuccess(action.payload)),
-        catchError(error => of(new template.SetTemplateGroupError(error))))));
+        map(temp => new templateActions.ResetTemplateGroupSuccess(action.payload)),
+        catchError(error => of(new templateActions.SetTemplateGroupError(error))))));
 
 
   constructor(

@@ -29,7 +29,7 @@ export class AccountsEffects {
         map((accounts: Account[]) => {
           return new accountActions.LoadAccountsResponse(accounts);
         }),
-        catchError(() => of(new accountActions.LoadAccountsResponse([]))),);
+        catchError(() => of(new accountActions.LoadAccountsResponse([]))));
     }));
 
   @Effect()

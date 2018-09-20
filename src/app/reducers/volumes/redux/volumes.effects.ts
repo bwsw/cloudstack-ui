@@ -299,7 +299,7 @@ export class VolumesEffects {
       if (action.payload.virtualmachineid) {
         return detach(action.payload).pipe(
           filter((a: Action) => a.type === volumeActions.REPLACE_VOLUME),
-          mergeMap(() => remove(action.payload)),);
+          mergeMap(() => remove(action.payload)));
       } else {
         return remove(action.payload);
       }

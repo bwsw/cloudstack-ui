@@ -13,24 +13,24 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SSHKeyPair } from '../../../shared/models';
 import { SshPrivateKeyDialogComponent } from '../../../ssh-keys/ssh-key-creation/ssh-private-key-dialog.component';
 
-import * as sshKey from './ssh-key.actions';
+import * as sshKeyActions from './ssh-key.actions';
 
 @Injectable()
 export class SshKeyEffects {
   @Effect()
   loadSshKeys$: Observable<Action> = this.actions$.pipe(
-    ofType(sshKey.LOAD_SSH_KEYS_REQUEST),
-    switchMap((action: sshKey.LoadSshKeyRequest) => {
+    ofType(sshKeyActions.LOAD_SSH_KEYS_REQUEST),
+    switchMap((action: sshKeyActions.LoadSshKeyRequest) => {
       return this.sshKeyService
         .getListAll(action.payload).pipe(
-          map((sshKeys: SSHKeyPair[]) => new sshKey.LoadSshKeyResponse(sshKeys)),
-          catchError(() => of(new sshKey.LoadSshKeyResponse([]))));
+          map((sshKeys: SSHKeyPair[]) => new sshKeyActions.LoadSshKeyResponse(sshKeys)),
+          catchError(() => of(new sshKeyActions.LoadSshKeyResponse([]))));
     }));
 
   @Effect()
   removeSshKeyPair$: Observable<Action> = this.actions$.pipe(
-    ofType(sshKey.SSH_KEY_PAIR_REMOVE),
-    mergeMap((action: sshKey.RemoveSshKeyPair) => {
+    ofType(sshKeyActions.SSH_KEY_PAIR_REMOVE),
+    mergeMap((action: sshKeyActions.RemoveSshKeyPair) => {
       return this.dialogService.confirm({ message: 'SSH_KEYS.REMOVE_THIS_KEY' }).pipe(
         onErrorResumeNext(),
         filter(res => !!res),
@@ -44,18 +44,18 @@ export class SshKeyEffects {
               const message = 'NOTIFICATIONS.SSH_KEY.DELETE_DONE';
               this.showNotificationsOnFinish(message);
             }),
-            map(() => new sshKey.RemoveSshKeyPairSuccessAction(action.payload)),
+            map(() => new sshKeyActions.RemoveSshKeyPairSuccessAction(action.payload)),
             catchError((error: Error) => {
               this.showNotificationsOnFail(error);
-              return of(new sshKey.RemoveSshKeyPairErrorAction(error));
+              return of(new sshKeyActions.RemoveSshKeyPairErrorAction(error));
             }));
         }));
     }));
 
   @Effect({ dispatch: false })
   removeSshKeyPairSuccessNavigate$: Observable<SSHKeyPair> = this.actions$.pipe(
-    ofType(sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS),
-    map((action: sshKey.RemoveSshKeyPairSuccessAction) => action.payload),
+    ofType(sshKeyActions.SSH_KEY_PAIR_REMOVE_SUCCESS),
+    map((action: sshKeyActions.RemoveSshKeyPairSuccessAction) => action.payload),
     filter((sshKey: SSHKeyPair) => {
       return this.router.isActive(`/ssh-keys/view/${sshKey.name}`, false)
         && this.router.routerState.root.snapshot.queryParams.account === sshKey.account;
@@ -68,8 +68,8 @@ export class SshKeyEffects {
 
   @Effect()
   createSshKeyPair$: Observable<Action> = this.actions$.pipe(
-    ofType(sshKey.SSH_KEY_PAIR_CREATE),
-    mergeMap((action: sshKey.CreateSshKeyPair) => {
+    ofType(sshKeyActions.SSH_KEY_PAIR_CREATE),
+    mergeMap((action: sshKeyActions.CreateSshKeyPair) => {
       return (action.payload.publicKey
           ? this.sshKeyService.register(action.payload)
           : this.sshKeyService.create(action.payload)
@@ -78,17 +78,17 @@ export class SshKeyEffects {
           const message = 'NOTIFICATIONS.SSH_KEY.CREATION_DONE';
           this.showNotificationsOnFinish(message);
         }),
-        map(createdKey => new sshKey.CreateSshKeyPairSuccessAction(createdKey)),
+        map(createdKey => new sshKeyActions.CreateSshKeyPairSuccessAction(createdKey)),
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
-          return of(new sshKey.CreateSshKeyPairErrorAction(error));
+          return of(new sshKeyActions.CreateSshKeyPairErrorAction(error));
         }));
     }));
 
   @Effect({ dispatch: false })
   createSshKeySuccessPair$: Observable<Action> = this.actions$.pipe(
-    ofType(sshKey.SSH_KEY_PAIR_CREATE_SUCCESS),
-    tap((action: sshKey.CreateSshKeyPairSuccessAction) => {
+    ofType(sshKeyActions.SSH_KEY_PAIR_CREATE_SUCCESS),
+    tap((action: sshKeyActions.CreateSshKeyPairSuccessAction) => {
       if (action.payload.privatekey) {
         this.showPrivateKey(action.payload.privatekey);
       } else {

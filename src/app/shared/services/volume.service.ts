@@ -84,7 +84,7 @@ export class VolumeService extends BaseBackendService<Volume> {
       switchMap(job =>
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
       ),
-      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume'])),);
+      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume'])));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {

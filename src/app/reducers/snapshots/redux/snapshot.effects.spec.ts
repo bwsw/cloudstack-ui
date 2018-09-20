@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { EMPTY, Observable, of, Subject, throwError } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
@@ -165,7 +165,7 @@ describe('Snapshot Effects', () => {
   it('should return an empty collection with error from LoadSnapshotResponse', () => {
     const spyGetList = spyOn(service, 'getListAll')
       .and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const action = new snapshotActions.LoadSnapshotRequest();
     const completion = new snapshotActions.LoadSnapshotResponse([]);
 
@@ -210,7 +210,7 @@ describe('Snapshot Effects', () => {
   it('should catch error while adding a new snapshot', () => {
     const spyCommand = spyOn(service, 'create')
       .and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new snapshotActions.AddSnapshot(<Volume>{ id: 'volume-id' });
@@ -241,7 +241,7 @@ describe('Snapshot Effects', () => {
   it('should catch error while removing a snapshot', () => {
     const spyCommand = spyOn(service, 'remove')
       .and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new snapshotActions.DeleteSnapshot(snapshots[0]);
@@ -255,7 +255,7 @@ describe('Snapshot Effects', () => {
   });
 
   it('should return an empty collection from LoadSnapshotResponse', () => {
-    spyOn(service, 'getListAll').and.returnValue(Observable.throw(new Error('Error occurred!')));
+    spyOn(service, 'getListAll').and.returnValue(throwError(new Error('Error occurred!')));
     const action = new snapshotActions.LoadSnapshotRequest();
     const completion = new snapshotActions.LoadSnapshotResponse([]);
 
@@ -289,7 +289,7 @@ describe('Snapshot Effects', () => {
   });
 
   it('should return an error during deleting one snapshot', () => {
-    spyOn(service, 'remove').and.returnValue(Observable.throw(new Error('Error occurred!')));
+    spyOn(service, 'remove').and.returnValue(throwError(new Error('Error occurred!')));
 
     const action = new snapshotActions.DeleteSnapshot(list[0]);
     const completion = new snapshotActions.SnapshotUpdateError(new Error('Error occurred!'));

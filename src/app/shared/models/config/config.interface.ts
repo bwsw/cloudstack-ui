@@ -6,9 +6,6 @@ import {
   DefaultCustomComputeOfferingRestrictions
 } from './compute-offering-restrictions.interface';
 
-export interface Config extends CustomizableConfig, NonCustomizableConfig {
-}
-
 export interface CustomizableConfig {
   /*
    * General
@@ -72,4 +69,7 @@ export interface NonCustomizableConfig {
    */
   customComputeOfferingParams: CustomComputeOfferingParams;
   defaultCustomComputeOfferingRestrictions: DefaultCustomComputeOfferingRestrictions;
+}
+
+export interface Config extends CustomizableConfig, NonCustomizableConfig {
 }

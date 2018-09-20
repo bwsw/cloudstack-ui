@@ -13,7 +13,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { SnackBarService } from '../../../core/services';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
 import { State } from '../../index';
-import * as securityGroup from './sg.actions';
+import * as securityGroupActions from './sg.actions';
 import * as fromSecurityGroups from './sg.reducers';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
@@ -23,59 +23,59 @@ import { configSelectors } from '../../../root-store';
 export class SecurityGroupEffects {
   @Effect()
   loadSecurityGroups$: Observable<Action> = this.actions$.pipe(
-    ofType(securityGroup.LOAD_SECURITY_GROUP_REQUEST),
+    ofType(securityGroupActions.LOAD_SECURITY_GROUP_REQUEST),
     switchMap(() => {
       return forkJoin([
         this.securityGroupService.getList(),
         this.store.pipe(select(configSelectors.get('securityGroupTemplates')), first())
       ]).pipe(
-        map(([groups, templates]) => new securityGroup
+        map(([groups, templates]) => new securityGroupActions
           .LoadSecurityGroupResponse(groups.concat(templates))),
-        catchError(() => of(new securityGroup.LoadSecurityGroupResponse([]))));
+        catchError(() => of(new securityGroupActions.LoadSecurityGroupResponse([]))));
     }));
 
   @Effect()
   createSecurityGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(securityGroup.CREATE_SECURITY_GROUP),
-    mergeMap((action: securityGroup.CreateSecurityGroup) => {
+    ofType(securityGroupActions.CREATE_SECURITY_GROUP),
+    mergeMap((action: securityGroupActions.CreateSecurityGroup) => {
       return this.createSecurityGroup(action.payload).pipe(
         tap(() => {
           const message = this.getCreateSuccessMessage(action.payload.mode);
           this.showNotificationsOnFinish(message);
         }),
-        map(sg => new securityGroup.CreateSecurityGroupSuccess(sg)),
+        map(sg => new securityGroupActions.CreateSecurityGroupSuccess(sg)),
         catchError(error => {
           this.showNotificationsOnFail(error);
-          return of(new securityGroup.CreateSecurityGroupError(error))
+          return of(new securityGroupActions.CreateSecurityGroupError(error))
         }));
     }));
 
   @Effect({ dispatch: false })
   createSecurityGroupSuccess$: Observable<Action> = this.actions$.pipe(
-    ofType(securityGroup.CREATE_SECURITY_GROUP_SUCCESS),
+    ofType(securityGroupActions.CREATE_SECURITY_GROUP_SUCCESS),
     tap(() => this.dialog.closeAll()));
 
   @Effect()
   deleteSecurityGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(securityGroup.DELETE_SECURITY_GROUP),
-    mergeMap((action: securityGroup.DeleteSecurityGroup) => {
+    ofType(securityGroupActions.DELETE_SECURITY_GROUP),
+    mergeMap((action: securityGroupActions.DeleteSecurityGroup) => {
       return this.deleteSecurityGroup(action.payload).pipe(
         tap(() => {
           const message = this.getDeleteSuccessMessage(action.payload);
           this.showNotificationsOnFinish(message);
         }),
-        map(() => new securityGroup.DeleteSecurityGroupSuccess(action.payload)),
+        map(() => new securityGroupActions.DeleteSecurityGroupSuccess(action.payload)),
         catchError(error => {
           this.showNotificationsOnFail(error);
-          return of(new securityGroup.DeleteSecurityGroupError(error))
+          return of(new securityGroupActions.DeleteSecurityGroupError(error))
         }));
     }));
 
   @Effect()
   deletePrivateSecurityGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(securityGroup.DELETE_PRIVATE_SECURITY_GROUP),
+    ofType(securityGroupActions.DELETE_PRIVATE_SECURITY_GROUP),
     withLatestFrom(this.store.pipe(select(fromSecurityGroups.selectAll))),
-    map(([action, groups]: [securityGroup.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
+    map(([action, groups]: [securityGroupActions.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
       const vmGroup = groups.find((group: SecurityGroup) =>
         action.payload.securityGroup &&
         !!action.payload.securityGroup.find(sg => sg.id === group.id) &&
@@ -90,17 +90,17 @@ export class SecurityGroupEffects {
           const message = 'NOTIFICATIONS.FIREWALL.PRIVATE_GROUP_DELETE_DONE';
           this.showNotificationsOnFinish(message);
         }),
-        map(() => new securityGroup.DeleteSecurityGroupSuccess(group)),
+        map(() => new securityGroupActions.DeleteSecurityGroupSuccess(group)),
         catchError(error => {
           this.showNotificationsOnFail(error);
-          return of(new securityGroup.DeleteSecurityGroupError(error));
+          return of(new securityGroupActions.DeleteSecurityGroupError(error));
         }));
     }));
 
   @Effect({ dispatch: false })
   deleteSecurityGroupSuccessNavigate$ = this.actions$.pipe(
-    ofType(securityGroup.DELETE_SECURITY_GROUP_SUCCESS),
-    map((action: securityGroup.DeleteSecurityGroupSuccess) => action.payload),
+    ofType(securityGroupActions.DELETE_SECURITY_GROUP_SUCCESS),
+    map((action: securityGroupActions.DeleteSecurityGroupSuccess) => action.payload),
     filter((sg: SecurityGroup) => {
       return this.router.isActive(`/security-group/${sg.id}`, false);
     }),
@@ -112,8 +112,8 @@ export class SecurityGroupEffects {
 
   @Effect()
   convertSecurityGroup$: Observable<Action> = this.actions$.pipe(
-    ofType(securityGroup.CONVERT_SECURITY_GROUP),
-    mergeMap((action: securityGroup.ConvertSecurityGroup) => {
+    ofType(securityGroupActions.CONVERT_SECURITY_GROUP),
+    mergeMap((action: securityGroupActions.ConvertSecurityGroup) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT' })
         .pipe(
           filter(res => Boolean(res)),
@@ -125,11 +125,11 @@ export class SecurityGroupEffects {
                   this.showNotificationsOnFinish(message);
                 }),
                 map((response: SecurityGroup) => {
-                  return new securityGroup.ConvertSecurityGroupSuccess(response);
+                  return new securityGroupActions.ConvertSecurityGroupSuccess(response);
                 }),
                 catchError(error => {
                   this.showNotificationsOnFail(error);
-                  return of(new securityGroup.ConvertSecurityGroupError(error));
+                  return of(new securityGroupActions.ConvertSecurityGroupError(error));
                 })
               )
           })

@@ -154,7 +154,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
       this.tags.map(tag => ({ ...tag, categoryName: categoryName(tag) })), 'categoryName');
 
     const categories = Object.keys(groupedTags)
-      .map(categoryName => this.getCategory(groupedTags, categoryName))
+      .map(name => this.getCategory(groupedTags, name))
       .filter(category => category.tags.length);
 
     categories.sort(this.compareCategories);

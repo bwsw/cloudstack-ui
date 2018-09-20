@@ -193,7 +193,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       switchMap(template => {
         return this.templateTagService.setDownloadUrl(template, params.url).pipe(
           catchError(() => of(null)),
-          tap(tag => template.tags.push(tag)),);
+          tap(tag => template.tags.push(tag)));
       }));
   }
 

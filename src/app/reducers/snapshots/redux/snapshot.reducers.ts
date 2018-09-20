@@ -2,8 +2,8 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { getSnapshotDescription, Snapshot, SnapshotPageMode, SnapshotType } from '../../../shared/models';
 
-import * as snapshot from './snapshot.actions';
-import * as volume from '../../volumes/redux/volumes.actions';
+import * as snapshotActions from './snapshot.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as moment from 'moment';
 
 export interface State {
@@ -59,17 +59,17 @@ export const snapshotReducers = {
 
 export function listReducer(
   state = initialListState,
-  action: snapshot.Actions | volume.Actions
+  action: snapshotActions.Actions | volumeActions.Actions
 ): ListState {
   switch (action.type) {
-    case snapshot.LOAD_SNAPSHOT_REQUEST: {
+    case snapshotActions.LOAD_SNAPSHOT_REQUEST: {
       return {
         ...state,
         loading: true,
       };
     }
 
-    case snapshot.LOAD_SNAPSHOT_RESPONSE: {
+    case snapshotActions.LOAD_SNAPSHOT_RESPONSE: {
       const newState = {
         ...state,
         loading: false
@@ -77,22 +77,22 @@ export function listReducer(
       return adapter.addAll([...action.payload], newState);
     }
 
-    case snapshot.SNAPSHOT_FILTER_UPDATE: {
+    case snapshotActions.SNAPSHOT_FILTER_UPDATE: {
       return { ...state, filters: { ...state.filters, ...action.payload } };
     }
 
-    case snapshot.LOAD_SELECTED_SNAPSHOT: {
+    case snapshotActions.LOAD_SELECTED_SNAPSHOT: {
       return {
         ...state,
         selectedSnapshotId: action.payload
       };
     }
 
-    case snapshot.ADD_SNAPSHOT_SUCCESS: {
+    case snapshotActions.ADD_SNAPSHOT_SUCCESS: {
       return adapter.upsertOne(action.payload, state)
     }
 
-    case snapshot.DELETE_SNAPSHOT_SUCCESS: {
+    case snapshotActions.DELETE_SNAPSHOT_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
     default: {
