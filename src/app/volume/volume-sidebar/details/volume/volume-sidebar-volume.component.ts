@@ -22,6 +22,15 @@ export class VolumeSidebarVolumeComponent {
     return storageTypeTranslations[this.volume.storagetype.toUpperCase()];
   }
 
+  public get stateTranslationToken(): string {
+    const stateTranslations = {
+      'ALLOCATED': 'VOLUME_STATE.ALLOCATED',
+      'READY': 'VOLUME_STATE.READY'
+    };
+
+    return stateTranslations[this.volume.state.toUpperCase()];
+  }
+
   public get volumeCreated(): Date {
     return moment(this.volume.created).toDate();
   }

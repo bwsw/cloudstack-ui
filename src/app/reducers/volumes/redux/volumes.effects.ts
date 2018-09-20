@@ -42,14 +42,24 @@ export class VolumesEffects {
     .ofType(volumeActions.CREATE_VOLUME)
     .mergeMap((action: volumeActions.CreateVolume) => {
       const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS');
+      const attachedVmId = action.payload['virtualmachineid'];
       return this.volumeService.create(action.payload)
         .do(() => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         })
-        .map(createdVolume => {
+        .switchMap(createdVolume => {
           this.dialog.closeAll();
-          return new volumeActions.CreateSuccess(createdVolume);
+          if (!!attachedVmId) {
+            return [
+              new volumeActions.CreateSuccess(createdVolume),
+              new volumeActions.AttachVolumeToVM({
+                volumeId: createdVolume.id, virtualMachineId: attachedVmId
+              })
+            ];
+          } else {
+            return [new volumeActions.CreateSuccess(createdVolume)];
+         }
         })
         .catch((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';

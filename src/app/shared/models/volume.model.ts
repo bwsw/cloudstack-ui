@@ -10,6 +10,7 @@ export class VolumeCreationData {
   public zoneid: string;
   public diskofferingid: string;
   public size?: number;
+  public vmid?: number
 }
 
 export enum VolumeType {
@@ -41,6 +42,8 @@ export interface Volume extends BaseModelInterface {
   size: number;
   virtualmachineid: string;
   vmdisplayname?: string;
+  vmname?: string;
+  vmstate?: string;
   provisioningtype: string;
   serviceOffering: ServiceOffering;
   serviceofferingid: string;
