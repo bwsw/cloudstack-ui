@@ -111,7 +111,7 @@ describe('Auth service', () => {
         expect(testService._user).toEqual(user);
       })));
 
-  it('should return Promise if user is undefine', async(inject([AuthService], (testService) => {
-    expect(testService.initUser()).toEqual(Promise.resolve());
+  it('should return Promise if user is undefined', async(inject([AuthService], (testService) => {
+    expect(testService.initUser()).toEqual(jasmine.any(Promise));
   })));
 });
