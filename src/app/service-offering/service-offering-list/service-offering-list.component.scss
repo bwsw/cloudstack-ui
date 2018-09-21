@@ -8,12 +8,11 @@ h4, h5 {
   overflow-y: hidden;
 }
 
-mat-table {
-  display: table;
+table {
   width: 100%;
 }
 
-mat-header-cell {
+th, td {
   min-width: 100px;
 
   &.mat-column-name {
@@ -21,28 +20,12 @@ mat-header-cell {
   }
 
   &.mat-column-radioButton {
-    min-width: 20px;
+    min-width: 48px;
+    max-width: 48px;
+    width: 48px;
   }
 }
 
-mat-cell {
-  min-width: 100px;
-
-  &.mat-column-name {
-    min-width: 150px;
-  }
-
-  &.mat-column-radioButton {
-    min-width: 20px;
-  }
-}
-
-mat-row {
+tr {
   cursor: pointer;
-}
-
-.mat-column-radioButton {
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: 20px; // width of radio button
 }
