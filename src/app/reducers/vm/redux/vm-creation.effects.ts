@@ -300,10 +300,9 @@ export class VirtualMachineCreationEffects {
                     return new vmActions.DeploymentRequestSuccess(vmWithTags);
                   }),
                   catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
-          })),
-          catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error)))));
+          }),
+              catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error))))));
     }));
-
 
   @Effect({dispatch: false})
   changeStatusOfDeployment$ = this.actions$
