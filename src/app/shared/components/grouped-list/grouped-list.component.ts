@@ -15,8 +15,9 @@ export class GroupedListComponent implements OnChanges {
   @Input() public groupings: Array<Grouping>;
   @Input() dynamicInputs: { [k: string]: any } = {};
   @Input() dynamicOutputs: { [k: string]: Function } = {};
-
   public tree: Array<{ items?, name? }>;
+
+  readonly emptyName = 'COMMON.EMPTY_GROUP_NAME';
 
   public ngOnChanges(changes): void {
     this.updateTree();
@@ -32,7 +33,7 @@ export class GroupedListComponent implements OnChanges {
       const groups = groupBy(this.list, groupings[this.level].selector);
       this.tree = Object.keys(groups).map(gn => {
         return {
-          name: groupings[this.level].name(groups[gn][0]),
+          name: groupings[this.level].name(groups[gn][0]) || this.emptyName,
           items: groups[gn]
         };
       }).sort((group1, group2) => this.sortGroups(group1, group2));
