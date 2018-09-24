@@ -34,7 +34,7 @@ You can see examples of the configurations in the [config-example.json](https://
 ## General
 
 ### Default Domain
-Default domain is used to fill in the 'Domain' field in the login form. The default value is an empty value.
+A default domain is used to fill in the 'Domain' field in the login form. The default value is an empty value.
 
 For example,
 ```
@@ -310,7 +310,7 @@ For example,
 ```
 
 ### Offering Compatibility Policy
-This configuration allows to restrict compute offering change based on the compute offering host tags.
+This configuration allows you to restrict compute offering change based on the compute offering host tags.
 
 This is very useful when you have several clusters in one zone and you want to protect a user from converting
 offerings between incompatible states because it might happen that selected offering is not supported in the cluster where storage of
