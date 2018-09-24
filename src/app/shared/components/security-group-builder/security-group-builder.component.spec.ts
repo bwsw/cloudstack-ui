@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
 import { NetworkProtocol, NetworkRule } from '../../../security-group/network-rule.model';
@@ -95,7 +95,7 @@ describe('Sg creation component', () => {
 
   class SecurityGroupServiceMock {
     public getList(): Observable<Array<SecurityGroup>> {
-      return Observable.of([mockSg2]);
+      return of([mockSg2]);
     }
   }
 

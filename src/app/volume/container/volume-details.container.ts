@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { Volume, getDescription } from '../../shared/models/volume.model';
+import { take } from 'rxjs/operators';
 
+import { State } from '../../reducers/index';
+import { getDescription, Volume } from '../../shared/models/volume.model';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
@@ -36,7 +37,7 @@ export class VolumeDetailsContainerComponent implements OnInit {
   }
 
   public changeDescription(description) {
-    this.volume$.take(1).subscribe((volume: Volume) => {
+    this.volume$.pipe(take(1)).subscribe((volume: Volume) => {
       this.store.dispatch(new volumeActions.ChangeDescription({
         volume,
         description

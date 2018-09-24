@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { AffinityGroup } from '../../../shared/models/index';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
+import { AffinityGroup } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 
 import * as affinityGroupActions from './affinity-groups.actions';
@@ -11,13 +13,13 @@ import * as affinityGroupActions from './affinity-groups.actions';
 export class AffinityGroupsEffects {
 
   @Effect()
-  loadAffinityGroups$: Observable<Action> = this.actions$
-    .ofType(affinityGroupActions.LOAD_AFFINITY_GROUPS_REQUEST)
-    .switchMap((action: affinityGroupActions.LoadAffinityGroupsRequest) => {
-      return this.affinityGroupService.getList()
-        .map((affinityGroups: AffinityGroup[]) => new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups))
-        .catch(() => Observable.of(new affinityGroupActions.LoadAffinityGroupsResponse([])));
-    });
+  loadAffinityGroups$: Observable<Action> = this.actions$.pipe(
+    ofType(affinityGroupActions.LOAD_AFFINITY_GROUPS_REQUEST),
+    switchMap((action: affinityGroupActions.LoadAffinityGroupsRequest) => {
+      return this.affinityGroupService.getList().pipe(
+        map((affinityGroups: AffinityGroup[]) => new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups)),
+        catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([]))));
+    }));
 
   constructor(
     private actions$: Actions,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as diskOfferingActions from './disk-offerings.actions';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
@@ -21,20 +21,20 @@ const defaultDiskOfferingParams: Array<string> = [
 export class DiskOfferingEffects {
 
   @Effect()
-  loadOfferings$: Observable<Action> = this.actions$
-    .ofType(diskOfferingActions.LOAD_DISK_OFFERINGS_REQUEST)
-    .switchMap((action: diskOfferingActions.LoadOfferingsRequest) => {
-      return this.offeringService.getList(action.payload)
-        .map((offerings: DiskOffering[]) => {
+  loadOfferings$: Observable<Action> = this.actions$.pipe(
+    ofType(diskOfferingActions.LOAD_DISK_OFFERINGS_REQUEST),
+    switchMap((action: diskOfferingActions.LoadOfferingsRequest) => {
+      return this.offeringService.getList(action.payload).pipe(
+        map((offerings: DiskOffering[]) => {
           return new diskOfferingActions.LoadOfferingsResponse(offerings);
-        })
-        .catch(() => Observable.of(new diskOfferingActions.LoadOfferingsResponse([])));
-    });
+        }),
+        catchError(() => of(new diskOfferingActions.LoadOfferingsResponse([]))));
+    }));
 
   @Effect()
   loadDefaultParams$: Observable<Action> = this.actions$.pipe(
     ofType<diskOfferingActions.LoadDefaultParamsRequest>(diskOfferingActions.LOAD_DEFAULT_DISK_PARAMS_REQUEST),
-    withLatestFrom(this.store.select(configSelectors.get('diskOfferingParameters'))),
+    withLatestFrom(this.store.pipe(select(configSelectors.get('diskOfferingParameters')))),
     map(([action, diskOfferingParams]) => {
       let params = defaultDiskOfferingParams;
 

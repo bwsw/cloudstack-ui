@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
 import { delay, filter, first, map, withLatestFrom } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -62,7 +62,7 @@ export class VmPageComponent implements OnInit {
   }
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
-    const dataReceivedAndUpdated$ = Observable.combineLatest(
+    const dataReceivedAndUpdated$ = combineLatest(
       this.store.select(fromVMs.isLoading),
       this.store.select(fromVMs.isLoaded)
     ).pipe(
@@ -73,8 +73,8 @@ export class VmPageComponent implements OnInit {
 
     return dataReceivedAndUpdated$.pipe(
       withLatestFrom(
-        this.store.select(UserTagsSelectors.getIsAskToCreateVM),
-        this.store.select(fromVMs.getVMCount)
+        this.store.pipe(select(UserTagsSelectors.getIsAskToCreateVM)),
+        this.store.pipe(select(fromVMs.getVMCount))
       ),
       map(([dataReadyFlag, isAsk, vmCount]) => isAsk && vmCount === 0 && !this.isCreationFormOpen)
     );

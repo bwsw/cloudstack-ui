@@ -3,11 +3,12 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "commonjs",
-    "baseUrl": "",
-    "types": []
+    "types": [
+      "node"
+    ]
   },
   "exclude": [
-    "test.ts",
+    "src/test.ts",
     "**/*.spec.ts"
   ],
   "include": [

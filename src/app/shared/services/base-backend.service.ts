@@ -1,10 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { catchError, map, share, switchMap } from 'rxjs/operators';
+import * as range from 'lodash/range';
+
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { BaseModelInterface } from '../models/base.model';
-import * as range from 'lodash/range';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -55,7 +57,7 @@ export enum CSCommands {
 
 export abstract class BaseBackendService<M extends BaseModelInterface> {
   protected entity: string;
-  protected entityModel?: { new (params?): M };
+  protected entityModel?: { new(params?): M };
 
   protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
@@ -70,16 +72,16 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
       throw Error('BaseBackendService.get id not specified!');
     }
 
-    return this.getList().map(res => res.find(entity => entity.id === id));
+    return this.getList().pipe(map(res => res.find(entity => entity.id === id)));
   }
 
   public getListAll(params, customApiFormat?: ApiFormat): Observable<Array<M>> {
     const requestParams = Object.assign({}, this.extendParams(params), { all: true });
-    return this.makeGetListObservable(requestParams, customApiFormat)
-      .switchMap(result => {
+    return this.makeGetListObservable(requestParams, customApiFormat).pipe(
+      switchMap(result => {
         if (result.meta.count > result.list.length) {
           const numberOfCalls = Math.ceil(result.meta.count / MAX_PAGE_SIZE);
-          return Observable.forkJoin(...range(2, numberOfCalls + 1).map(page => {
+          return forkJoin(...range(2, numberOfCalls + 1).map(page => {
             return this.makeGetListObservable(
               Object.assign(
                 {},
@@ -91,23 +93,23 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
               ),
               customApiFormat
             );
-          })).map((results: Array<FormattedResponse<M>>) => {
+          })).pipe(map((results: Array<FormattedResponse<M>>) => {
             return results.reduce((memo, res) => {
               return Object.assign(memo, {
                 list: memo.list.concat(res.list)
               });
             }, result);
-          });
+          }));
         } else {
-          return Observable.of(result);
+          return of(result);
         }
-      })
-      .map(r => r.list);
+      }),
+      map(r => r.list));
   }
 
   public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    return this.makeGetListObservable(this.extendParams(params), customApiFormat)
-      .map(r => r.list);
+    return this.makeGetListObservable(this.extendParams(params), customApiFormat).pipe(
+      map(r => r.list));
   }
 
   public extendParams(params = {}) {
@@ -118,14 +120,14 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const command = (customApiFormat && customApiFormat.command) || CSCommands.Create;
     const _entity = customApiFormat && customApiFormat.entity;
 
-    return this.sendCommand(command, params, _entity).map(response => {
+    return this.sendCommand(command, params, _entity).pipe(map(response => {
       const entity = this.entity.toLowerCase();
       if (entity === 'tag' || entity === 'affinitygroup') {
         return response;
       }
 
       return this.prepareModel(response[entity] as M);
-    });
+    }));
   }
 
   public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
@@ -209,13 +211,13 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     params?: {},
     entity?: string
   ): Observable<any> {
-    return this.getRequest(command, params, entity)
-      .map(res => this.getResponse(res))
-      .catch(e => this.handleCommandError(e.error));
+    return this.getRequest(command, params, entity).pipe(
+      map(res => this.getResponse(res)),
+      catchError(e => this.handleCommandError(e.error)));
   }
 
   protected handleCommandError(error): Observable<any> {
-    return Observable.throw(ErrorService.parseError(this.getResponse(error)));
+    return throwError(ErrorService.parseError(this.getResponse(error)));
   }
 
   protected formatGetListResponse(response: any): FormattedResponse<M> {
@@ -245,9 +247,9 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     }
     const command = (customApiFormat && customApiFormat.command) || CSCommands.List;
     const entity = customApiFormat && customApiFormat.entity;
-    const request = this.sendCommand(command, params, entity)
-      .map(response => this.formatGetListResponse(response))
-      .share();
+    const request = this.sendCommand(command, params, entity).pipe(
+      map(response => this.formatGetListResponse(response)),
+      share());
     this.requestCache.set({ params, result: request });
     return request;
   }

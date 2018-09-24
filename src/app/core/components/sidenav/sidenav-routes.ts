@@ -27,7 +27,7 @@ export const sidenavRoutes: Array<SidenavRoute> = [
   {
     path: '/templates',
     text: 'NAVIGATION_SIDEBAR.IMAGES',
-    icon: 'mdi-disk',
+    icon: 'mdi-disc',
     id: 'TEMPLATES',
     visible: true
   },  {
