@@ -35,7 +35,6 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
 import { DefaultComputeOffering } from '../../../shared/models/config';
-import { map, withLatestFrom } from 'rxjs/operators';
 
 import { configSelectors, UserTagsActions } from '../../../root-store';
 import * as fromZones from '../../zones/redux/zones.reducers';
