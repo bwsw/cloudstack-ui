@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+
 import { BaseTemplateModel } from '../../../template/shared';
-import { Observable } from 'rxjs/Observable';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TemplateTagKeys } from './template-tag-keys';
@@ -61,6 +62,6 @@ export class TemplateTagService implements EntityTagService {
       agreement = template.tags.find(item => item.key === defaultAgreement);
     }
 
-    return Observable.of(this.tagService.getValueFromTag(agreement) || null);
+    return of(this.tagService.getValueFromTag(agreement) || null);
   }
 }

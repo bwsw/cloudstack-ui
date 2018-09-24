@@ -3,9 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { EMPTY, Observable, of } from 'rxjs';
 import { DiskOffering } from '../../../shared/models';
 import { DiskOfferingEffects } from './disk-offerings.effects';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
@@ -33,7 +31,7 @@ const diskOfferings: Array<DiskOffering> = [
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   public set stream(source: Observable<DiskOffering>) {

@@ -7,8 +7,10 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Volume, isRoot } from '../../../shared/models/volume.model';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+
+import { isRoot, Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
 import { humanReadableSize } from '../../unitsUtils';
@@ -93,8 +95,8 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
     );
 
     this.setLoading(!forceUpdate);
-    Observable.forkJoin(...requests)
-      .finally(() => this.setLoading(false))
+    forkJoin(...requests).pipe(
+      finalize(() => this.setLoading(false)))
       .subscribe(data => {
         const sets = {
           bytes: [],

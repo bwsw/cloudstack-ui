@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { filter, first, takeUntil, tap } from 'rxjs/operators';
 import { DragulaService } from 'ng2-dragula';
 import * as cloneDeep from 'lodash/cloneDeep';
-import { first } from 'rxjs/operators';
 
 import { RouterUtilsService } from '../../../shared/services/router-utils.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
@@ -106,16 +106,17 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
       moves: () => this.editing
     });
 
-    this.dragula.dropModel
-      .takeUntil(this.unsubscribe$)
+    this.dragula.dropModel.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(() => (this.hasChanges = true));
   }
 
   private initNavigationOrder() {
     if (this.allowConfiguring) {
-      this.store.select(UserTagsSelectors.getNavigationOrder)
-        .do(() => this.navigationLoaded = true)
-        .filter(Boolean)
+      this.store.pipe(
+        select(UserTagsSelectors.getNavigationOrder),
+        tap(() => this.navigationLoaded = true),
+        filter(Boolean))
         .subscribe(tag => {
           const order = this.parseMenuState(tag);
 
@@ -139,7 +140,8 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
       return;
     }
 
-    this.store.select(configSelectors.get('configureSidenav')).pipe(
+    this.store.pipe(
+      select(configSelectors.get('configureSidenav')),
       first()
     ).subscribe((sidenavConfiguration: SidenavConfigElement[]) => {
       const routesMap = this.getRoutesMap();

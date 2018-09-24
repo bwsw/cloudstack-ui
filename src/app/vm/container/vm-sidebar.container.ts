@@ -1,13 +1,12 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import { State } from '../../reducers';
-import { Store } from '@ngrx/store';
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
+import { select, Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+
+import { State } from '../../reducers';
 import { VirtualMachine } from '../shared/vm.model';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 
 @Component({
   selector: 'cs-vm-sidebar-container',
@@ -19,7 +18,7 @@ import { VirtualMachine } from '../shared/vm.model';
 })
 export class VmSidebarContainerComponent implements OnInit {
 
-  readonly vm$ = this.store.select(fromVMs.getSelectedVM);
+  readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
 
   constructor(
     private store: Store<State>,
@@ -28,7 +27,7 @@ export class VmSidebarContainerComponent implements OnInit {
   }
 
   public changeColor(color) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       this.store.dispatch(new vmActions.ChangeVmColor({ color, vm }));
     });
   }

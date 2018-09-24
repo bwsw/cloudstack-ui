@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { of, throwError } from 'rxjs';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
@@ -23,9 +23,9 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
   const isListError = listResponse instanceof Error;
   const isCreateError = createRespone instanceof Error;
   const isRemoveError = removeResponce instanceof Error;
-  const _listResponse = isListError ? Observable.throw(listResponse) : Observable.of(listResponse);
-  const _createResponse = isCreateError ? Observable.throw(createRespone) : Observable.of(createRespone);
-  const _removeResponse = isRemoveError ? Observable.throw(removeResponce) : Observable.of(removeResponce);
+  const _listResponse = isListError ? throwError(listResponse) : of(listResponse);
+  const _createResponse = isCreateError ? throwError(createRespone) : of(createRespone);
+  const _removeResponse = isRemoveError ? throwError(removeResponce) : of(removeResponce);
 
   service.getList.and.returnValue(_listResponse);
   service.create.and.returnValue(_createResponse);

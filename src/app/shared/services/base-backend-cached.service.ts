@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import { BaseModelInterface } from '../models';
 import { ApiFormat, BaseBackendService } from './base-backend.service';
 import { Cache } from './cache';
@@ -22,23 +24,23 @@ export abstract class BaseBackendCachedService<M extends BaseModelInterface> ext
     if (useCache) {
       const cachedResult = this.cache.get(params);
       if (cachedResult) {
-        return Observable.of(cachedResult);
+        return of(cachedResult);
       }
     }
-    return super.getList(params, customApiFormat)
-      .map(result => {
+    return super.getList(params, customApiFormat).pipe(
+      map(result => {
         this.cache.set({ params, result });
         return result;
-      });
+      }));
   }
 
   public create(params?: {}): Observable<any> {
-    return super.create(params).do(() => this.invalidateCache());
+    return super.create(params).pipe(tap(() => this.invalidateCache()));
   }
 
   public remove(params?: {}): Observable<any> {
-    return super.remove(params)
-      .do(() => this.invalidateCache());
+    return super.remove(params).pipe(
+      tap(() => this.invalidateCache()));
   }
 
   public invalidateCache(): void {

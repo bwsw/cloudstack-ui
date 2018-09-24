@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
-import { Actions, Effect } from '@ngrx/effects';
-import { Dictionary } from '@ngrx/entity/src/models';
-import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, onErrorResumeNext, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { ISnapshotData, Snapshot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
+import { NgrxEntities } from '../../../shared/interfaces';
 import { SnackBarService } from '../../../core/services';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VirtualMachine, VmState } from '../../../vm';
@@ -25,86 +26,86 @@ import * as snapshotActions from './snapshot.actions';
 @Injectable()
 export class SnapshotEffects {
   @Effect()
-  loadSnapshots$: Observable<Action> = this.actions$
-    .ofType(snapshotActions.LOAD_SNAPSHOT_REQUEST)
-    .switchMap((action: snapshotActions.LoadSnapshotRequest) => {
+  loadSnapshots$: Observable<Action> = this.actions$.pipe(
+    ofType(snapshotActions.LOAD_SNAPSHOT_REQUEST),
+    switchMap((action: snapshotActions.LoadSnapshotRequest) => {
       return this.snapshotService
-        .getListAll(action.payload)
-        .map((snapshots: Snapshot[]) => new snapshotActions.LoadSnapshotResponse(snapshots))
-        .catch(() => Observable.of(new snapshotActions.LoadSnapshotResponse([])));
-    });
+        .getListAll(action.payload).pipe(
+          map((snapshots: Snapshot[]) => new snapshotActions.LoadSnapshotResponse(snapshots)),
+          catchError(() => of(new snapshotActions.LoadSnapshotResponse([]))));
+    }));
 
 
   @Effect()
-  addSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshotActions.ADD_SNAPSHOT)
-    .mergeMap((action: snapshotActions.AddSnapshot) => {
+  addSnapshot$: Observable<Action> = this.actions$.pipe(
+    ofType(snapshotActions.ADD_SNAPSHOT),
+    mergeMap((action: snapshotActions.AddSnapshot) => {
       return this.dialog.open(SnapshotCreationComponent, {
         data: action.payload
       })
-        .afterClosed()
-        .filter(res => Boolean(res))
-        .flatMap((params: ISnapshotData) => {
+        .afterClosed().pipe(
+          filter(res => Boolean(res)),
+          mergeMap((params: ISnapshotData) => {
 
-          const notificationId = this.jobsNotificationService.add(
-            'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+            const notificationId = this.jobsNotificationService.add(
+              'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
 
-          return this.snapshotService.create(
-            action.payload.id,
-            params.name,
-            params.desc
-          )
-            .do(() => {
-              const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_DONE';
-              this.showNotificationsOnFinish(message, notificationId);
-            })
-            .map(newSnap => {
-              return new snapshotActions.AddSnapshotSuccess(newSnap);
-            })
-            .catch((error) => {
-              const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
-              this.showNotificationsOnFail(error, message, notificationId);
-              return Observable.of(new snapshotActions.SnapshotUpdateError(error));
-            });
-        });
-    });
+            return this.snapshotService.create(
+              action.payload.id,
+              params.name,
+              params.desc
+            ).pipe(
+              tap(() => {
+                const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_DONE';
+                this.showNotificationsOnFinish(message, notificationId);
+              }),
+              map(newSnap => {
+                return new snapshotActions.AddSnapshotSuccess(newSnap);
+              }),
+              catchError((error) => {
+                const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
+                this.showNotificationsOnFail(error, message, notificationId);
+                return of(new snapshotActions.SnapshotUpdateError(error));
+              }));
+          }));
+    }));
 
   @Effect()
-  deleteSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshotActions.DELETE_SNAPSHOT)
-    .mergeMap((action: snapshotActions.DeleteSnapshot) => {
+  deleteSnapshot$: Observable<Action> = this.actions$.pipe(
+    ofType(snapshotActions.DELETE_SNAPSHOT),
+    mergeMap((action: snapshotActions.DeleteSnapshot) => {
       const notificationId = this.jobsNotificationService.add(
         'NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
-      return this.snapshotService.remove(action.payload.id)
-        .do(() => {
+      return this.snapshotService.remove(action.payload.id).pipe(
+        tap(() => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_DONE';
           this.showNotificationsOnFinish(message, notificationId);
-        })
-        .map(() => {
+        }),
+        map(() => {
           return new snapshotActions.DeleteSnapshotSuccess(action.payload);
-        })
-        .catch((error) => {
+        }),
+        catchError((error) => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
-          return Observable.of(new snapshotActions.SnapshotUpdateError(error));
-        });
-    });
+          return of(new snapshotActions.SnapshotUpdateError(error));
+        }));
+    }));
 
   @Effect()
-  deleteSnapshots$: Observable<Action> = this.actions$
-    .ofType(snapshotActions.DELETE_SNAPSHOTS)
-    .mergeMap((action: snapshotActions.DeleteSnapshots) => action.payload
-      .map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot)));
+  deleteSnapshots$: Observable<Action> = this.actions$.pipe(
+    ofType(snapshotActions.DELETE_SNAPSHOTS),
+    mergeMap((action: snapshotActions.DeleteSnapshots) => action.payload
+      .map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot))));
 
   @Effect()
-  revertVolumeToSnapshot$: Observable<Action> = this.actions$
-    .ofType(snapshotActions.REVERT_VOLUME_TO_SNAPSHOT)
-    .withLatestFrom(
-      this.store.select(fromVolumes.selectEntities),
-      this.store.select(fromVMs.selectEntities)
-    )
-    .mergeMap(([action, volumes, vms]: [
-      snapshotActions.RevertVolumeToSnapshot, Dictionary<Volume>, Dictionary<VirtualMachine>
+  revertVolumeToSnapshot$: Observable<Action> = this.actions$.pipe(
+    ofType(snapshotActions.REVERT_VOLUME_TO_SNAPSHOT),
+    withLatestFrom(
+      this.store.pipe(select(fromVolumes.selectEntities)),
+      this.store.pipe(select(fromVMs.selectEntities))
+    ),
+    mergeMap(([action, volumes, vms]: [
+      snapshotActions.RevertVolumeToSnapshot, NgrxEntities<Volume>, NgrxEntities<VirtualMachine>
       ]) => {
       const vmId = Object.entries(volumes)
         && volumes[action.payload.volumeid]
@@ -115,47 +116,47 @@ export class SnapshotEffects {
         message: isVmRunning
           ? 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_REVERTING_WITH_VM_REBOOT'
           : 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_REVERTING'
-      })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
-        .flatMap(() => (isVmRunning
+      }).pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res)),
+        mergeMap(() => (isVmRunning
           ? this.vmEffects.stop(vms[vmId])
-          : Observable.of(null))
-          .flatMap(() => {
+          : of(null)).pipe(
+          mergeMap(() => {
             const notificationId = this.jobsNotificationService.add(
               'NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
-            return this.snapshotService.revert(action.payload.id)
-              .do(() => {
+            return this.snapshotService.revert(action.payload.id).pipe(
+              tap(() => {
                 const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_DONE';
                 this.showNotificationsOnFinish(message, notificationId);
-              })
-              .flatMap(() => {
+              }),
+              mergeMap(() => {
                 return isVmRunning
                   ? [
                     new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload),
                     new vmActions.StartVm(vms[vmId])
                   ]
                   : [new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload)];
-              })
-              .catch((error) => {
+              }),
+              catchError((error) => {
                 const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
                 this.showNotificationsOnFail(error, message, notificationId);
-                return Observable.of(new snapshotActions.SnapshotUpdateError(error))
-              });
-          }));
-    });
+                return of(new snapshotActions.SnapshotUpdateError(error))
+              }));
+          }))));
+    }));
 
   @Effect({ dispatch: false })
-  deleteSnapshotSuccess$ = this.actions$
-    .ofType(snapshotActions.DELETE_SNAPSHOT_SUCCESS)
-    .map((action: snapshotActions.DeleteSnapshotSuccess) => action.payload)
-    .filter((snapshot: Snapshot) => this.router.isActive(
+  deleteSnapshotSuccess$ = this.actions$.pipe(
+    ofType(snapshotActions.DELETE_SNAPSHOT_SUCCESS),
+    map((action: snapshotActions.DeleteSnapshotSuccess) => action.payload),
+    filter((snapshot: Snapshot) => this.router.isActive(
       `/snapshots/${snapshot.id}`,
       false
-    ))
-    .do(() => this.router.navigate(['./snapshots'], {
+    )),
+    tap(() => this.router.navigate(['./snapshots'], {
       queryParamsHandling: 'preserve'
-    }));
+    })));
 
 
   constructor(
@@ -188,7 +189,8 @@ export class SnapshotEffects {
         message
       });
     }
-    this.dialogService.alert({ message: {
+    this.dialogService.alert({
+      message: {
         translationToken: error.message,
         interpolateParams: error.params
       }

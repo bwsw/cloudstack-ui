@@ -21,6 +21,13 @@ export function reducer(state = initialState, action: ConfigActionsUnion) {
       }
     }
 
+    case ConfigActionTypes.LoadConfigError: {
+      return {
+        config: defaultConfig,
+        isLoaded: true
+      }
+    }
+
     default: {
       return state;
     }

@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '../../../../../reducers/index';
-import { Volume } from '../../../../../shared/models/volume.model';
-import { Snapshot } from '../../../../../shared/models/snapshot.model';
+import { filter, onErrorResumeNext } from 'rxjs/operators';
+
+import { State } from '../../../../../reducers';
+import { Snapshot, Volume } from '../../../../../shared/models';
 // tslint:disable-next-line
 import { SnapshotActionService } from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 
 import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
-import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'cs-snapshots-container',
@@ -40,9 +41,9 @@ export class SnapshotsContainerComponent {
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
-      .onErrorResumeNext()
-      .filter(res => Boolean(res))
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' }).pipe(
+      onErrorResumeNext(),
+      filter(res => Boolean(res)))
       .subscribe(() => {
         this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
       });

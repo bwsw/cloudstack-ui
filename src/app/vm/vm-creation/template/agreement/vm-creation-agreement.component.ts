@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { first, map, switchMap } from 'rxjs/operators';
 import { Converter } from 'showdown';
 
 import { TemplateTagService } from '../../../../shared/services/tags/template-tag.service';
@@ -46,14 +47,15 @@ export class VmCreationAgreementComponent implements OnInit {
   }
 
   protected readFile() {
-    this.store.select(UserTagsSelectors.getInterfaceLanguage)
-      .first()
-      .switchMap(res => this.templateTagService.getAgreement(this.template, res))
-      .switchMap(path => this.http.get(path, { responseType: 'text' }))
-      .map(text => {
+    this.store.pipe(
+      select(UserTagsSelectors.getInterfaceLanguage),
+      first(),
+      switchMap(res => this.templateTagService.getAgreement(this.template, res)),
+      switchMap(path => this.http.get(path, { responseType: 'text' })),
+      map(text => {
         const converter = new Converter();
         return converter.makeHtml(text);
-      })
+      }))
       .subscribe(agreement => {
         this._agreement = agreement;
       });

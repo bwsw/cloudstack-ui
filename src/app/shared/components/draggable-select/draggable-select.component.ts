@@ -18,10 +18,12 @@ import {
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import {
   ErrorStateMatcher,
-  fadeInContent, MAT_OPTION_PARENT_COMPONENT,
-  MAT_SELECT_SCROLL_STRATEGY, MatFormField, MatFormFieldControl,
+  MAT_OPTION_PARENT_COMPONENT,
+  MAT_SELECT_SCROLL_STRATEGY,
+  MatFormField,
+  MatFormFieldControl,
   MatSelect,
-  transformPanel
+  matSelectAnimations
 } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
 import * as uuid from 'uuid';
@@ -60,8 +62,8 @@ import * as uuid from 'uuid';
     '(blur)': '_onBlur()',
   },
   animations: [
-    transformPanel,
-    fadeInContent
+    matSelectAnimations.transformPanel,
+    matSelectAnimations.fadeInContent
   ]
 })
 export class DraggableSelectComponent extends MatSelect implements AfterContentInit, MatFormFieldControl<any> {

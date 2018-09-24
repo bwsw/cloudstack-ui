@@ -1,6 +1,6 @@
 ///<reference path="../../node_modules/protractor/built/index.d.ts"/>
-import {by, element} from 'protractor';
-import {CloudstackUiPage} from './app.po';
+import { by, element } from 'protractor';
+import { CloudstackUiPage } from './app.po';
 
 export class Login extends CloudstackUiPage {
 

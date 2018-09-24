@@ -1,10 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
-import {
-  ProgressLoggerMessage,
-  ProgressLoggerMessageStatus
-} from './progress-logger-message';
+import { Observable } from 'rxjs';
+
+import { ProgressLoggerMessage, ProgressLoggerMessageStatus } from './progress-logger-message';
 
 
 @Component({

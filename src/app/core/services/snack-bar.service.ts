@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
@@ -27,10 +27,11 @@ export class SnackBarService {
     const action$ = action ? this.getTranslatedString(action) : of(null);
     const _config = config ? config : this.snackBarConfig;
 
-    return Observable.zip(
-      message$,
-      action$
-    ).map(([translatedMessage, translatedAction]) => this.snackBar.open(translatedMessage, translatedAction, _config));
+    return zip(message$, action$).pipe(
+      map(([translatedMessage, translatedAction]) =>
+        this.snackBar.open(translatedMessage, translatedAction, _config)
+      )
+    );
   }
 
 

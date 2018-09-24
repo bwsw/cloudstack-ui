@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { BackendResource } from '../decorators';
 import { AccountUser, ApiKeys } from '../models/account-user.model';
@@ -16,13 +17,13 @@ export class UserService extends BaseBackendService<AccountUser> {
   }
 
   public createUser(user: AccountUser): Observable<AccountUser> {
-    return this.sendCommand(CSCommands.Create, user)
-      .map(res => res.user);
+    return this.sendCommand(CSCommands.Create, user).pipe(
+      map(res => res.user));
   }
 
   public updateUser(user: AccountUser): Observable<AccountUser> {
-    return this.sendCommand(CSCommands.Update, user)
-      .map(res => res.user);
+    return this.sendCommand(CSCommands.Update, user).pipe(
+      map(res => res.user));
   }
 
   public removeUser(user: AccountUser): Observable<any> {
@@ -36,11 +37,11 @@ export class UserService extends BaseBackendService<AccountUser> {
   }
 
   public registerKeys(id: string): Observable<ApiKeys> {
-    return this.sendCommand(CSCommands.RegisterKeys, { id }).map(res => res.userkeys);
+    return this.sendCommand(CSCommands.RegisterKeys, { id }).pipe(map(res => res.userkeys));
   }
 
   public getUserKeys(id: string): Observable<ApiKeys> {
-    return this.sendCommand(CSCommands.GetKeys, { id }).map(res => res.userkeys);
+    return this.sendCommand(CSCommands.GetKeys, { id }).pipe(map(res => res.userkeys));
   }
 
   protected prepareModel(res, entityModel?): AccountUser {
