@@ -9,11 +9,21 @@ import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate
 import { DiskOffering } from '../../../models';
 import { StringifyDatePipe } from '../../../pipes';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
+import { User } from '../../../models/user.model';
+import { AuthService } from '../../../services/auth.service';
 
 
 class MockConfigServiceDateTimeFormatterService {
   public stringifyToTime() {
     return;
+  }
+}
+
+class MockAuthService {
+  _user: User;
+
+  get user() {
+    return this._user;
   }
 }
 
@@ -71,6 +81,10 @@ describe('Disk Offering dialog', () => {
           {
             provide: DateTimeFormatterService,
             useClass: MockConfigServiceDateTimeFormatterService
+          },
+          {
+            provide: AuthService,
+            useClass: MockAuthService
           }
         ],
         schemas: [NO_ERRORS_SCHEMA]
