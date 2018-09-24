@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Action, select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { AuthActionTypes, IdleLogout, LogoutComplete } from './auth.actions';
@@ -21,7 +21,7 @@ export class AuthEffects {
   @Effect()
   logoutSuccess$: Observable<Action> = this.actions$.pipe(
     ofType<LogoutComplete>(AuthActionTypes.LogoutComplete),
-    withLatestFrom(this.store.select(configSelectors.getDefaultUserTags)),
+    withLatestFrom(this.store.pipe(select(configSelectors.getDefaultUserTags))),
     mergeMap(([action, tags]) => [
       new IdleMonitorActions.StopIdleMonitor(),
       new UserTagsActions.SetDefaultUserTagsDueToLogout({ tags })

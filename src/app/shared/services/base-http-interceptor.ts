@@ -1,4 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -7,9 +8,10 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import { SnackBarService } from '../../core/services';
-import { Router } from '@angular/router';
 import { RouterUtilsService } from './router-utils.service';
 import { AuthService } from './auth.service';
 
@@ -48,9 +50,8 @@ export class BaseHttpInterceptor implements HttpInterceptor {
       httpOptions;
     const request = req.clone(cloneParams);
 
-    return next.handle(request).do((event: HttpEvent<any>) => {
-
-    }, (err: any) => {
+    return next.handle(request).pipe(
+      tap((event: HttpEvent<any>) => {}, (err: any) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
 
         this.notificationService.open('AUTH.NOT_LOGGED_IN').subscribe();
@@ -62,8 +63,6 @@ export class BaseHttpInterceptor implements HttpInterceptor {
           );
         }
       }
-
-    });
-
+    }));
   }
 }

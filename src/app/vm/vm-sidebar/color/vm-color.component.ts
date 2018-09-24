@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Store } from '@ngrx/store';
-import { first } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { debounceTime, first } from 'rxjs/operators';
 
 import { Color } from '../../../shared/models';
 import { VirtualMachine } from '../../shared/vm.model';
@@ -32,7 +32,8 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.store.select(configSelectors.get('vmColors')).pipe(
+    this.store.pipe(
+      select(configSelectors.get('vmColors')),
       first()
     ).subscribe(colors => {
       for (const color of colors) {
@@ -40,8 +41,8 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
       }
     });
 
-    this.colorSubject
-      .debounceTime(1000)
+    this.colorSubject.pipe(
+      debounceTime(1000))
       .subscribe(color => {
         this.onColorChange.emit(color);
       });

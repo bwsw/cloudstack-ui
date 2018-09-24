@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { Account } from '../../shared/models/account.model';
@@ -48,7 +48,7 @@ describe('Template creation component', () => {
 
   it('should get hypervisors', () => {
     const spyGetList = spyOn(HypervisorService.prototype, 'getList').and
-      .returnValue(Observable.of([]));
+      .returnValue(of([]));
     component.getHypervisors();
     expect(spyGetList).toHaveBeenCalled();
   });

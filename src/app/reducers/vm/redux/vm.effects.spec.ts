@@ -5,9 +5,7 @@ import { MatDialog } from '@angular/material';
 import { Actions } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
@@ -114,7 +112,7 @@ class MockMatDialog {
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   public set stream(source: Observable<VirtualMachine>) {
@@ -211,7 +209,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an empty collection from LoadVMsRequest', () => {
-    const spyGetList = spyOn(service, 'getList').and.returnValue(Observable.throw(new Error('Error occurred!')));
+    const spyGetList = spyOn(service, 'getList').and.returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.LoadVMsRequest();
     const completion = new vmActions.LoadVMsResponse([]);
@@ -238,7 +236,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error from LoadVMRequest', () => {
-    const spyGetList = spyOn(service, 'getList').and.returnValue(Observable.throw(new Error('Error occurred!')));
+    const spyGetList = spyOn(service, 'getList').and.returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.LoadVMRequest('e10da283-06b1-4ac5-9888-b4f3717c2fe1');
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
@@ -287,7 +285,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing description', () => {
     const spySetDesc = spyOn(tagService, 'setDescription').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeDescription({
       description: 'desc',
@@ -341,7 +339,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing service offering', () => {
     const spyChangeSO = spyOn(service, 'changeServiceOffering').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeServiceOffering({
       offering: <ServiceOffering>{},
@@ -419,7 +417,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing affinity group', () => {
     const spyChangeAG = spyOn(afGroupService, 'updateForVm').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeAffinityGroup({
       affinityGroupId: 'af1_id',
@@ -458,7 +456,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing instance group', () => {
     const spyChangeGroup = spyOn(tagService, 'setGroup').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeInstanceGroup({
       group: <InstanceGroup>{},
@@ -495,7 +493,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during removing instance group', () => {
     const spyRemoveGroup = spyOn(tagService, 'removeGroup').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.RemoveInstanceGroup(list[0]);
     const completion = new vmActions.VMUpdateError({ error: new Error('Error occurred!') });
@@ -565,7 +563,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing vm color', () => {
     const spyChangeColor = spyOn(tagService, 'setColor').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeVmColor({
       color: new Color(),
@@ -598,7 +596,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during stopping vm', () => {
     const spyCommand = spyOn(service, 'command').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.StopVm(list[0]);
@@ -633,7 +631,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during starting vm', () => {
     const spyCommand = spyOn(service, 'command').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.StartVm(list[1]);
@@ -713,7 +711,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during destroying vm', () => {
     const spyCommand = spyOn(service, 'command').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(matDialog, 'open').and.callFake(() => {
       return {
         afterClosed: () => of(true)
@@ -766,7 +764,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during rebooting vm', () => {
     const spyCommand = spyOn(service, 'command').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.RebootVm(list[0]);
@@ -815,7 +813,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during restoring vm', () => {
     const spyCommand = spyOn(service, 'command').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.RestoreVm(list[0]);
@@ -866,7 +864,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during recovering vm', () => {
     const spyCommand = spyOn(service, 'commandSync').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.RecoverVm(list[0]);
@@ -918,7 +916,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during expunging vm', () => {
     const spyCommand = spyOn(service, 'command').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ExpungeVm(list[0]);
@@ -952,7 +950,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during attaching Iso', () => {
-    const spyAttach = spyOn(isoService, 'attach').and.returnValue(Observable.throw(new Error('Error occurred!')));
+    const spyAttach = spyOn(isoService, 'attach').and.returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.AttachIso({
       id: 'id1',
@@ -985,7 +983,7 @@ describe('Virtual machine Effects', () => {
   });
 
   it('should return an error during detaching Iso', () => {
-    const spyDetach = spyOn(isoService, 'detach').and.returnValue(Observable.throw(new Error('Error occurred!')));
+    const spyDetach = spyOn(isoService, 'detach').and.returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.DetachIso({
       virtualMachineId: 'e10da283-06b1-4ac5-9888-b4f3717c2fe1'
@@ -1058,7 +1056,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during changing ssh-key', () => {
     const spyChangeKey = spyOn(sshService, 'reset').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeSshKey({
       keyPair: <SSHKeyPair>{},
@@ -1131,7 +1129,7 @@ describe('Virtual machine Effects', () => {
 
   it('should return an error during reseting password', () => {
     const spyCommand = spyOn(service, 'command').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ResetPasswordVm(list[1]);

@@ -14,8 +14,7 @@ export class DiskOfferingDialogComponent {
   public selectedDiskOffering: DiskOffering;
   public columns: Array<string>;
   public columnsToDisplay: string[];
-  public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
-  public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];
+  public fieldsToBeTranslated = ['provisioningtype', 'iscustomized'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -31,7 +30,7 @@ export class DiskOfferingDialogComponent {
     return moment(date).toDate();
   }
 
-  public isCustomField(column: string, columns: Array<string>): boolean {
+  public isElementInArray(column: string, columns: Array<string>): boolean {
     return 0 <= columns.indexOf(column);
   }
 

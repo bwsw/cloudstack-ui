@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 
 import { FilterService } from '../../../shared/services/filter.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
@@ -74,8 +75,8 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
       selectedAccountIds
     }));
 
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => this.filterService.update({
         viewMode: filters.viewMode,
         query: filters.query,

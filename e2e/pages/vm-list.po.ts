@@ -1,5 +1,5 @@
-import {CloudstackUiPage} from './app.po';
-import {browser, by, element, protractor} from 'protractor';
+import { CloudstackUiPage } from './app.po';
+import { browser, by, element, protractor } from 'protractor';
 
 export class VMList extends CloudstackUiPage {
 

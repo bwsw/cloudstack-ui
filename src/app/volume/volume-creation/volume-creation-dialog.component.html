@@ -25,7 +25,7 @@
             name="zone"
             formControlName="zone"
             required
-            (change)="updateZone($event.value)"
+            (selectionChange)="updateZone($event.value)"
           >
             <mat-option
               *ngFor="let z of zones"

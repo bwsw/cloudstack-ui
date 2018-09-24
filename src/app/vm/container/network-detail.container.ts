@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+
+import { State } from '../../reducers/index';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import { IpAddress } from '../../shared/models/ip-address.model';
@@ -28,7 +30,7 @@ export class NetworkDetailContainerComponent {
   }
 
   public addSecondaryIp(nicId: string) {
-    this.vm$.take(1).subscribe(vm => {
+    this.vm$.pipe(take(1)).subscribe(vm => {
       this.store.dispatch(new vmActions.AddSecondaryIp({
         vm,
         nicId
@@ -37,7 +39,7 @@ export class NetworkDetailContainerComponent {
   }
 
   public removeSecondaryIp(secondaryIp: IpAddress) {
-    this.vm$.take(1).subscribe(vm => {
+    this.vm$.pipe(take(1)).subscribe(vm => {
       this.store.dispatch(new vmActions.RemoveSecondaryIp({
         vm,
         id: secondaryIp.id

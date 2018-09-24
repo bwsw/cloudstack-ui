@@ -30,7 +30,7 @@
   display: inline-flex;
 }
 
-mat-table {
+table {
   width: 100%;
   min-width: 840px;
   border: 1px solid rgba(0, 0, 0, .12);
@@ -41,7 +41,7 @@ mat-table {
   flex: 2;
 }
 
-mat-cell {
+td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,12 +1,6 @@
-import {
-  async,
-  fakeAsync,
-  inject,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { LocalStorageService } from './local-storage.service';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { AsyncJobService } from './async-job.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from './auth.service';
@@ -53,8 +47,8 @@ describe('Auth service', () => {
         AsyncJobService,
         HttpClient,
         JobsNotificationService,
-        {provide: LocalStorageService, useClass: MockStorageService},
-        {provide: Store, useClass: MockStore}
+        { provide: LocalStorageService, useClass: MockStorageService },
+        { provide: Store, useClass: MockStore }
       ],
       imports: [
         HttpClientTestingModule
@@ -72,11 +66,11 @@ describe('Auth service', () => {
     };
 
     const spyPostRequest = spyOn(testService, 'postRequest').and.callFake(() => {
-      return Observable.of(params);
+      return of(params);
     });
 
     const spyGetResponse = spyOn(testService, 'getResponse').and.callFake(() => {
-      return Observable.of(params);
+      return of(params);
     });
 
     testService.login('username', 'password', 'domain').subscribe();
@@ -90,7 +84,7 @@ describe('Auth service', () => {
 
   it('should logout', fakeAsync(inject([AuthService, LocalStorageService], (testService, testStorage) => {
     const spySend = spyOn(testService, 'postRequest').and.callFake(() => {
-      return Observable.of({});
+      return of({});
     });
 
     testService.logout();
@@ -101,23 +95,23 @@ describe('Auth service', () => {
 
   it('should call getCapabilities if user is define', fakeAsync(
     inject(
-    [AuthService, LocalStorageService],
-    (testService, testStorage) => {
-    const spySendCommand = spyOn(testService, 'sendCommand').and.callFake(() => {
-      return Observable.of({})
-    });
+      [AuthService, LocalStorageService],
+      (testService, testStorage) => {
+        const spySendCommand = spyOn(testService, 'sendCommand').and.callFake(() => {
+          return of({})
+        });
 
-    const user = {userid: '1'};
+        const user = { userid: '1' };
 
-    testStorage.write('user', JSON.stringify(user));
-    testService.initUser();
+        testStorage.write('user', JSON.stringify(user));
+        testService.initUser();
 
-    expect(spySendCommand).toHaveBeenCalled();
-    expect(spySendCommand).toHaveBeenCalledWith('listCapabilities', {}, '');
-    expect(testService._user).toEqual(user);
-  })));
+        expect(spySendCommand).toHaveBeenCalled();
+        expect(spySendCommand).toHaveBeenCalledWith('listCapabilities', {}, '');
+        expect(testService._user).toEqual(user);
+      })));
 
-  it('should return Promise if user is undefine', async(inject([AuthService], (testService) => {
-    expect(testService.initUser()).toEqual(Promise.resolve());
+  it('should return Promise if user is undefined', async(inject([AuthService], (testService) => {
+    expect(testService.initUser()).toEqual(jasmine.any(Promise));
   })));
 });

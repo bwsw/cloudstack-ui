@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
-import { State } from '../../reducers/index';
+import { filter, take } from 'rxjs/operators';
 
+import { State } from '../../reducers/index';
+import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
@@ -64,9 +65,9 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public updateZone(zone: Zone) {
-    this.account$
-      .take(1)
-      .filter(Boolean)
+    this.account$.pipe(
+      take(1),
+      filter(Boolean))
       .subscribe((account) => {
         if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
           this.handleInsufficientResources();

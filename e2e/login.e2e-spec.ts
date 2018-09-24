@@ -1,6 +1,6 @@
-import {Login} from './pages/login.po';
-import {browser} from 'protractor';
-import {VMList} from './pages/vm-list.po';
+import { Login } from './pages/login.po';
+import { browser } from 'protractor';
+import { VMList } from './pages/vm-list.po';
 
 
 describe('e2e-test-login', () => {

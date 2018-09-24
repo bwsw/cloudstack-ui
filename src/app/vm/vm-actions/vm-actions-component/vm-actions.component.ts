@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { VmActionsService } from '../../shared/vm-actions.service';
@@ -35,7 +35,8 @@ export class VmActionsComponent {
     private authService: AuthService,
     private store: Store<State>
   ) {
-    this.vmActions$ = store.select(configSelectors.get('extensions')).pipe(
+    this.vmActions$ = store.pipe(
+      select(configSelectors.get('extensions')),
       map(extensions => this.actionListDependingOnExtension(extensions.pulse))
     );
     this.destroyedVmActions = this.vmActionsService.destroyedActions;

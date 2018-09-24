@@ -37,6 +37,7 @@ import { AccountDetailsComponent } from './account-sidebar/account-details/accou
 import { AccountLimitsComponent } from './account-sidebar/account-limits/account-limits.component';
 // tslint:disable-next-line
 import { AccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/account-configuration.component';
+// tslint:disable-next-line
 import { EditAccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/edit-account-configuration.component';
 import { AccountSettingsComponent } from './account-sidebar/account-settings/account-settings.component';
 import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';

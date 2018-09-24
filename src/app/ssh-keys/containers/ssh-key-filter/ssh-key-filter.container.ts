@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { ActivatedRoute, Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
+
 import { State } from '../../../reducers';
 import { FilterService } from '../../../shared/services/filter.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { sshKeyGroupings } from '../ssh-key-page/ssh-key-page.container';
@@ -33,11 +35,11 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
 
   public groupings: Array<Grouping> = sshKeyGroupings;
 
-  readonly filters$ = this.store.select(fromSshKeys.filters);
-  readonly loading$ = this.store.select(fromSshKeys.isLoading);
-  readonly accounts$ = this.store.select(fromAccounts.selectAll);
-  readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
-  readonly selectedAccountIds$ = this.store.select(fromSshKeys.filterSelectedAccountIds);
+  readonly filters$ = this.store.pipe(select(fromSshKeys.filters));
+  readonly loading$ = this.store.pipe(select(fromSshKeys.isLoading));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
+  readonly selectedGroupings$ = this.store.pipe(select(fromSshKeys.filterSelectedGroupings));
+  readonly selectedAccountIds$ = this.store.pipe(select(fromSshKeys.filterSelectedAccountIds));
 
   private filterService = new FilterService(
     {
@@ -95,8 +97,8 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
       selectedGroupings
     }));
 
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => this.filterService.update({
         'groupings': filters.selectedGroupings.map(g => g.key),
         'accounts': filters.selectedAccountIds

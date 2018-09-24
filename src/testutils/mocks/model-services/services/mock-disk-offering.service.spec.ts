@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { DiskOffering } from '../../../../app/shared/models';
 
 
@@ -8,6 +8,6 @@ const diskOfferings: Array<DiskOffering> = require('../fixtures/diskOfferings.js
 @Injectable()
 export class MockDiskOfferingService {
   public getList(): Observable<Array<DiskOffering>> {
-    return Observable.of(diskOfferings);
+    return of(diskOfferings);
   }
 }

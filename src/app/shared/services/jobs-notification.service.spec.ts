@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { async, inject, TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { INotificationStatus, JobsNotificationService } from './jobs-notification.service';
 

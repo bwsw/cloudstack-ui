@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import { ServiceOffering, ServiceOfferingClass } from '../../shared/models';
@@ -44,8 +45,8 @@ export class ServiceOfferingListComponent implements OnChanges {
 
   public selectOffering(offering: ComputeOfferingViewModel): void {
     if (offering.iscustomized) {
-      this.showCustomOfferingDialog(offering)
-        .filter(res => Boolean(res))
+      this.showCustomOfferingDialog(offering).pipe(
+        filter(res => Boolean(res)))
         .subscribe(customOffering => {
           this.selectedOffering = customOffering;
           this.selectedOfferingChange.emit(this.selectedOffering);

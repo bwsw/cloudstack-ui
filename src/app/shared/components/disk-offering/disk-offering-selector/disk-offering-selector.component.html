@@ -6,7 +6,7 @@
   </button>
 </div>
 
-<div class="mat-input-wrapper">
+<div class="mat-form-field-wrapper">
   <span class="disk-offering-info truncate">
     <ng-container *ngIf="diskOffering; then offeringName else nameStub"></ng-container>
     <ng-template #offeringName>{{ diskOffering.name }}</ng-template>

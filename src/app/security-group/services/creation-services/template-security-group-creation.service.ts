@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { SecurityGroupCreationService } from './security-group-creation.service';
-import { Observable } from 'rxjs/Observable';
 import { SecurityGroup } from '../../sg.model';
 
 
