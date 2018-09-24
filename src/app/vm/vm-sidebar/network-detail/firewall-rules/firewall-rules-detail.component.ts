@@ -6,7 +6,7 @@ import {
   MatDialog,
   MatDialogConfig
 } from '@angular/material';
-import { isDefault, SecurityGroup } from '../../../../security-group/sg.model';
+import { SecurityGroup } from '../../../../security-group/sg.model';
 import { VirtualMachine } from '../../../shared/vm.model';
 import { SgRulesContainerComponent } from '../../../../security-group/containers/sg-rules.container';
 
@@ -17,11 +17,6 @@ import { SgRulesContainerComponent } from '../../../../security-group/containers
 })
 export class FirewallRulesDetailComponent {
   @Input() public vm: VirtualMachine;
-  @Input() public defaultGroupName: string;
-
-  public get isDefault() {
-    return isDefault;
-  }
 
   constructor(
     private dialog: MatDialog

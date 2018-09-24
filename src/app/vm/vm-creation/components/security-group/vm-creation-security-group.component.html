@@ -23,7 +23,6 @@
   <cs-security-group-selector
     *ngIf="isModeSelector && sharedGroups"
     [securityGroups]="sharedGroups"
-    [defaultGroupName]="defaultGroupName"
     [(ngModel)]="savedData.securityGroups"
   ></cs-security-group-selector>
 </div>

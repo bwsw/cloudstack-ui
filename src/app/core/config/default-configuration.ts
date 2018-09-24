@@ -44,12 +44,15 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    * Virtual machines settings
    */
   vmColors: COLORS,
-  maxRootDiskSize: 2048,
-  defaultGroupName: 'Test name',
+  maxRootDiskSize: 1024,
   /*
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: [],
+  defaultSecurityGroupName: {
+    en: 'dfd',
+    ru: 'по умолчанию'
+  },
   /*
   * Images settings
   */

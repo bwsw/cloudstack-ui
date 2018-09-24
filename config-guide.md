@@ -52,13 +52,17 @@ Parameters:
    * For TCP and UDP: startport and endport
    * For ICMP: icmpcode and icmptype
 
-### Default Group Name
-Define the name for Firewall default group.
+### Default Security Group Name
+
+Allow you to set a name for Default Firewall group
 
 ```
-"defaultGroupName": "default name"
+"defaultGroupName": {
+  "en": "value",
+  "ru": "значение"
 ```
-A default name is `default`.
+
+The default name is `default`.
 
 ### VM Colors
 
@@ -73,13 +77,14 @@ The set of colors for virtual machines in hexadecimal format. You can specify an
 
 ### Max Root Disk Size 
 
-Define the max root disk size. 
+Allow you to set the max root disk size. 
 
 ```
 "maxRootDiskSize": 512
 ```
 
-A default value is `1024` GB.
+The default value is `1024` GB.
+The minimum value for root disk size is `10` GB.
 
 ### Default Theme Name
 

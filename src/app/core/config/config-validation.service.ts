@@ -74,7 +74,7 @@ export class ConfigValidationService {
     templateGroups: validationSchemes.templateGroups,
     serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
     maxRootDiskSize: validationSchemes.maxRootDiskSize,
-    defaultGroupName: validationSchemes.defaultGroupName
+    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName
   };
 
   constructor() {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -33,6 +33,8 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
+import { DefaultComputeOffering } from '../../../shared/models/config';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 import { configSelectors, UserTagsActions } from '../../../root-store';
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -43,7 +45,6 @@ import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
 import * as fromVMModule from '../../../vm/selectors';
-import { DefaultComputeOffering } from '../../../shared/models/config';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -126,21 +127,21 @@ export class VirtualMachineCreationEffects {
       new vmActions.VmFormUpdate({ zone: zones[0] }));
 
   @Effect()
-  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_SECURITY_GROUPS_SELECT)
-    .withLatestFrom(
+  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
+    withLatestFrom(
       this.store.select(fromSecurityGroups.selectPredefinedSecurityGroups)
       .filter(groups => !!groups.length),
       this.store.select(fromSecurityGroups.selectDefaultSecurityGroup)
-    )
-    .map(([action, securityGroups, defaultSecurityGroup]: [
+    ),
+    map(([action, securityGroups, defaultSecurityGroup]: [
       vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[], SecurityGroup
       ]) => {
       return new vmActions.VmFormUpdate({
         securityGroupData: VmCreationSecurityGroupData
           .fromRules(Rules.createWithAllRulesSelected(securityGroups), [defaultSecurityGroup])
       });
-    });
+    }));
 
   @Effect()
   vmCreationFormUpdate$: Observable<Action> = this.actions$

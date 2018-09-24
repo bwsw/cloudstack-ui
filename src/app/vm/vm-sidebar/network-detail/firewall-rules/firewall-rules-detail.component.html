@@ -12,12 +12,7 @@
         *ngFor="let group of vm.securityGroup"
       >
         <span class="sg-name">
-          <ng-container *ngIf="isDefault(group) && defaultGroupName">
-          {{ defaultGroupName }}
-          </ng-container>
-          <ng-container *ngIf="!isDefault(group) || !defaultGroupName">
           {{ group.name }}
-          </ng-container>
         </span>
         <button
           mat-icon-button

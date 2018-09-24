@@ -21,7 +21,6 @@ export class SecurityGroupListComponent implements OnChanges {
   @Input() public mode: ViewMode;
   @Input() public viewMode: SecurityGroupViewMode;
   @Input() public vmList: NgrxEntities<VirtualMachine>;
-  @Input() public defaultGroupName: string;
   public groupings = [];
 
   public inputs;
@@ -35,7 +34,6 @@ export class SecurityGroupListComponent implements OnChanges {
       searchQuery: () => this.query,
       isSelected: (item: SecurityGroup) => this.listService.isSelected(item.id),
       vmList: this.vmList,
-      defaultGroupName: this.defaultGroupName
     };
 
     this.outputs = {
@@ -66,10 +64,6 @@ export class SecurityGroupListComponent implements OnChanges {
 
     if (changes['vmList']) {
       this.inputs.vmList = this.vmList;
-    }
-
-    if (changes['defaultGroupName']) {
-      this.inputs.defaultGroupName = this.defaultGroupName;
     }
   }
 

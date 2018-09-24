@@ -15,7 +15,7 @@ import * as offeringAvailability from './offering-availability.scheme.json';
 import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
 import * as templateGroups from './template-groups.scheme.json';
 import * as maxRootDiskSize from './max-root-disk-size.scheme.json';
-import * as defaultGroupName from './default-group-name.scheme.json';
+import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
 
 export {
   // General
@@ -39,5 +39,6 @@ export {
   templateGroups,
   // Virtual machines settings
   maxRootDiskSize,
-  defaultGroupName
+  // Firewall (Security groups) settings
+  defaultSecurityGroupName
 }

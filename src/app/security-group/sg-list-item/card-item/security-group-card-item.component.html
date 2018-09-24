@@ -5,8 +5,8 @@
 >
 
   <mat-card-header class="entity-card-header">
-    <mat-card-title [matTooltip]="securityGroupName" class="entity-card-title">
-      <span [innerHTML]="securityGroupName | highlight:query"></span>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
+      <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
     <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
       <mat-icon class="mdi-dots-vertical"></mat-icon>

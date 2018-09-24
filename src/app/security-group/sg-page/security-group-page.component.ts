@@ -21,7 +21,6 @@ export class SecurityGroupPageComponent {
   @Input() public viewMode: SecurityGroupViewMode;
   @Input() public query: string;
   @Input() public vmList: NgrxEntities<VirtualMachine>;
-  @Input() public defaultGroupName: string;
 
   public mode: ViewMode;
   public viewModeKey = 'sgPageViewMode';

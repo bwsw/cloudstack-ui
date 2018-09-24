@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SecurityGroup, isDefault } from '../../../../../security-group/sg.model';
-import { Store } from '@ngrx/store';
-import { State, configSelectors } from '../../../../../root-store';
-import { first } from 'rxjs/operators';
+import { SecurityGroup } from '../../../../../security-group/sg.model';
 
 @Component({
   selector: 'cs-security-group-manager-existing-group',
@@ -11,23 +8,13 @@ import { first } from 'rxjs/operators';
 })
 export class SecurityGroupManagerExistingGroupComponent implements OnInit {
   @Input() public securityGroups: Array<SecurityGroup>;
-  public defaultGroupName: string;
-
-  constructor(private store: Store<State>) {
-  }
 
   public ngOnInit() {
-    this.store.select(configSelectors.get('defaultGroupName')).pipe(first())
-      .subscribe(groupName => this.defaultGroupName = groupName)
   }
 
   public get securityGroupsLine(): string {
     return this.securityGroups.map(securityGroup => {
-      if (isDefault(securityGroup)) {
-        return this.defaultGroupName;
-      } else {
-        return securityGroup.name;
-      }
+      return securityGroup.name;
     })
       .join(', ');
   }

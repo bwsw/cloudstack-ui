@@ -13,7 +13,6 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public matMenuTrigger: MatMenuTrigger;
   public isSelected: (securityGroup) => boolean;
   public vmList: NgrxEntities<VirtualMachine>;
-  public defaultGroupName: string;
 
   public query: string;
 

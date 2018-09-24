@@ -17,13 +17,11 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
     ></cs-nic-list>
     <cs-firewall-rules-detail-container
       [vm]="vm$ | async"
-      [defaultGroupName]="defaultGroupName$ | async"
     ></cs-firewall-rules-detail-container>
   `
 })
 export class NetworkDetailContainerComponent {
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
-  readonly defaultGroupName$ = this.store.select(configSelectors.get('defaultGroupName'));
 
   constructor(
     private store: Store<State>,

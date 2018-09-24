@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
-import { configSelectors } from '../../root-store';
 
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
@@ -17,7 +16,6 @@ import * as fromVM from '../../reducers/vm/redux/vm.reducers';
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [vmList]="vmList$ | async"
-      [defaultGroupName]="defaultGroupName$ | async"
     ></cs-security-group-page>
   `
 })
@@ -27,7 +25,6 @@ export class SecurityGroupPageContainerComponent implements OnInit, AfterViewIni
   readonly viewMode$ = this.store.select(fromSecurityGroups.viewMode);
   readonly query$ = this.store.select(fromSecurityGroups.query);
   readonly vmList$ = this.store.select(fromVM.selectEntities);
-  readonly defaultGroupName$ = this.store.select(configSelectors.get('defaultGroupName'));
 
   constructor(
     private store: Store<State>,
