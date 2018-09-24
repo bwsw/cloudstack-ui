@@ -52,7 +52,8 @@ import {
   SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
-  VmStatisticsComponent
+  VmStatisticsComponent,
+  KeyboardsComponent
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
@@ -223,7 +224,8 @@ const SHARED_COMPONENTS = [
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
-    SquareStateIndicatorComponent
+    SquareStateIndicatorComponent,
+    KeyboardsComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -310,7 +312,8 @@ const SHARED_COMPONENTS = [
     SHARED_DIRECTIVES,
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
-    SquareStateIndicatorComponent
+    SquareStateIndicatorComponent,
+    KeyboardsComponent
   ],
   providers: [
     AccountService,
