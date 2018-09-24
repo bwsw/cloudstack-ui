@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { CustomComputeOfferingRestrictions, ServiceOffering } from '../../../../app/shared/models';
+import { CustomComputeOfferingParameters, ServiceOffering } from '../../../../app/shared/models';
 
 
 @Injectable()
 export class MockCustomServiceOfferingService {
   constructor(@Inject('mockCustomServiceOfferingServiceConfig') public config: {
     customOffering: ServiceOffering,
-    customOfferingRestrictionsByZone: CustomComputeOfferingRestrictions
+    customOfferingRestrictionsByZone: CustomComputeOfferingParameters
   }) {
   }
 
@@ -19,11 +19,11 @@ export class MockCustomServiceOfferingService {
     return this.config.customOffering;
   }
 
-  public getCustomOfferingRestrictionsByZone(): Observable<CustomComputeOfferingRestrictions> {
+  public getCustomOfferingRestrictionsByZone(): Observable<CustomComputeOfferingParameters> {
     return Observable.of(this.config.customOfferingRestrictionsByZone);
   }
 
-  public getCustomOfferingRestrictionsByZoneSync(): CustomComputeOfferingRestrictions {
+  public getCustomOfferingRestrictionsByZoneSync(): CustomComputeOfferingParameters {
     return this.config.customOfferingRestrictionsByZone;
   }
 }
