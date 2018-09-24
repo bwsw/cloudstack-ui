@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { BackendResource } from '../decorators';
 import { BaseModelStub } from '../models';
@@ -11,8 +11,6 @@ import { AsyncJobService } from './async-job.service';
 import { BaseBackendService, CSCommands } from './base-backend.service';
 import { LocalStorageService } from './local-storage.service';
 import { Utils } from './utils/utils.service';
-import { Store } from '@ngrx/store';
-import { State } from '../../reducers/index';
 import { JobsNotificationService } from './jobs-notification.service';
 
 export interface Capabilities {
@@ -47,7 +45,6 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
     protected http: HttpClient,
-    private store: Store<State>,
     protected jobsNotificationService: JobsNotificationService
   ) {
     super(http);
@@ -58,7 +55,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       const userRaw = this.storage.read('user');
       const user: User = Utils.parseJsonString(userRaw);
       this._user = user;
-    } catch (e) {}
+    } catch (e) {
+    }
 
     this.loggedIn = new BehaviorSubject<boolean>(
       !!(this._user && this._user.userid)
@@ -79,22 +77,22 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     password: string,
     domain?: string
   ): Observable<void> {
-    return this.postRequest('login', { username, password, domain })
-      .map(res => this.getResponse(res))
-      .do((res) => this.saveUserDataToLocalStorage(res))
-      .switchMap(() => this.getCapabilities())
-      .do(() => this.loggedIn.next(true))
-      .catch(error => this.handleCommandError(error.error));
+    return this.postRequest('login', { username, password, domain }).pipe(
+      map(res => this.getResponse(res)),
+      tap((res) => this.saveUserDataToLocalStorage(res)),
+      switchMap(() => this.getCapabilities()),
+      tap(() => this.loggedIn.next(true)),
+      catchError(error => this.handleCommandError(error.error)));
   }
 
   public logout(): Observable<void> {
-    return this.postRequest('logout')
-      .do(() => this.setLoggedOut())
-      .catch(error => Observable.throw('Unable to log out.'));
+    return this.postRequest('logout').pipe(
+      tap(() => this.setLoggedOut()),
+      catchError(error => throwError('Unable to log out.')));
   }
 
   public isLoggedIn(): Observable<boolean> {
-    return Observable.of(!!(this._user && this._user.userid));
+    return of(!!(this._user && this._user.userid));
   }
 
   public isAdmin(): boolean {
@@ -133,8 +131,8 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   }
 
   private getCapabilities(): Observable<void> {
-    return this.sendCommand(CSCommands.ListCapabilities, {}, '')
-      .map(({ capability }) => (this.capabilities = capability))
-      .catch(() => this.logout());
+    return this.sendCommand(CSCommands.ListCapabilities, {}, '').pipe(
+      map(({ capability }) => (this.capabilities = capability)),
+      catchError(() => this.logout()));
   }
 }

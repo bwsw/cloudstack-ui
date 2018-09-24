@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { Template } from '../../../../app/template/shared';
 import { GroupedTemplates } from '../../../../app/template/shared/base-template.service';
 
@@ -11,10 +11,10 @@ export class MockTemplateService {
   constructor(@Inject('mockTemplateServiceConfig') public config: { templates: any, groupedTemplates: any }) {}
 
   public getList(): Observable<Array<Template>> {
-    return Observable.of(templates);
+    return of(templates);
   }
 
   public getGroupedTemplates(): Observable<GroupedTemplates<Template>> {
-    return Observable.of(this.config.groupedTemplates);
+    return of(this.config.groupedTemplates);
   }
 }

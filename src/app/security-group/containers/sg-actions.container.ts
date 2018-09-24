@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State } from '../../reducers/index';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 
+import { State } from '../../reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 import { SecurityGroup } from '../sg.model';
 
@@ -36,7 +36,7 @@ export class SecurityGroupActionsContainerComponent {
       { queryParamsHandling: 'preserve' }
     );
 
-    return Observable.of(securityGroup);
+    return of(securityGroup);
   }
 
   public onSecurityGroupConvert(securityGroup: SecurityGroup) {

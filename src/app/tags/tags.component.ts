@@ -1,9 +1,11 @@
+import { EventEmitter, Input, Output } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
+
 import { DialogService } from '../dialog/dialog-service/dialog.service';
-import { Taggable } from '../shared/interfaces/taggable.interface';
+import { Taggable } from '../shared/interfaces';
 import { Tag } from '../shared/models';
 import { TagService } from '../shared/services/tags/tag.service';
 import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
-import { EventEmitter, Input, Output } from '@angular/core';
 
 
 export abstract class TagsComponent<T extends Taggable> {
@@ -56,8 +58,8 @@ export abstract class TagsComponent<T extends Taggable> {
       'tags[0].value': tagEditAction.newTag.value
     };
 
-    this.tagService.remove(oldTagParams)
-      .switchMap(() => this.tagService.create(newTagParams))
+    this.tagService.remove(oldTagParams).pipe(
+      switchMap(() => this.tagService.create(newTagParams)))
       .subscribe(
         res => this.onTagEdit.emit(tagEditAction),
         error => this.onError(error)

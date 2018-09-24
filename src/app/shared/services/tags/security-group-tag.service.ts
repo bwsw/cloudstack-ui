@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { MarkForRemovalService } from './mark-for-removal.service';
 import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
@@ -14,7 +16,8 @@ export class SecurityGroupTagService implements EntityTagService {
   constructor(
     private markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
-  ) {}
+  ) {
+  }
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.markForRemovalService.markForRemoval(securityGroup) as Observable<SecurityGroup>;
@@ -43,14 +46,14 @@ export class SecurityGroupTagService implements EntityTagService {
       resourceIds: securityGroup.id,
       resourceType: this.resourceType,
       'tags[0].key': this.keys.type
-    })
-      .map(() => {
+    }).pipe(
+      map(() => {
         const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);
         return {
           ...securityGroup,
           tags: filteredTags,
           type: 'shared'
         };
-      })
+      }))
   }
 }

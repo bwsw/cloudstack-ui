@@ -40,7 +40,7 @@ export const VolumeSnapshotAction = {
 export const VolumeRecurringSnapshotsAction = {
   name: 'VOLUME_ACTIONS.SNAPSHOT_SCHEDULE',
   command: 'schedule',
-  icon: 'mdi-clock',
+  icon: 'mdi-clock-outline',
   canActivate: (volume: Volume) => volume.state === VolumeState.Ready,
   hidden: (volume: Volume) => false
 };

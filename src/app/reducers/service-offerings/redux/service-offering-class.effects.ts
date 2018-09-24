@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { catchError, first, map, switchMap } from 'rxjs/operators';
 
 import * as actions from './service-offering-class.actions';
@@ -16,7 +16,7 @@ export class ServiceOfferingClassEffects {
     switchMap(() => this.store.select(configSelectors.get('serviceOfferingClasses')).pipe(
       first(),
       map(classList => new actions.LoadServiceOfferingClassResponse(classList)),
-      catchError(() => Observable.of(new actions.LoadServiceOfferingClassResponse([])))
+      catchError(() => of(new actions.LoadServiceOfferingClassResponse([])))
     ))
   );
 

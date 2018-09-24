@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { CpuStats, DiskStats, NetworkStats, RamStats } from './stats';
 
 interface TimeParams {
@@ -76,7 +78,7 @@ export class PulseService {
     }
 
     return this.http
-      .get(`cs-extensions/pulse/${endpoint}/${params}/${t}`, { params: requestParams })
-      .map(res => res['result']);
+      .get(`cs-extensions/pulse/${endpoint}/${params}/${t}`, { params: requestParams }).pipe(
+        map(res => res['result']));
   }
 }

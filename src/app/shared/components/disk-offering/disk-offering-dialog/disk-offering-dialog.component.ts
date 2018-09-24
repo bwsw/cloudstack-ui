@@ -14,9 +14,8 @@ export class DiskOfferingDialogComponent {
   public selectedDiskOffering: DiskOffering;
   public columns: Array<string>;
   public columnsToDisplay: string[];
+  public fieldsToBeTranslated = ['provisioningtype', 'iscustomized'];
   public account: Account;
-  public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
-  public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];
   public resourcesLimitExceeded = false;
   public minSize = 1;
 
@@ -36,7 +35,7 @@ export class DiskOfferingDialogComponent {
     return moment(date).toDate();
   }
 
-  public isCustomField(column: string, columns: Array<string>): boolean {
+  public isElementInArray(column: string, columns: Array<string>): boolean {
     return 0 <= columns.indexOf(column);
   }
 

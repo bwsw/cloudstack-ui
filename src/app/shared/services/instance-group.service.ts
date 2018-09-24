@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { InstanceGroup } from '../models';
 import { VmTagService } from './tags/vm-tag.service';
@@ -14,9 +15,9 @@ export class InstanceGroupService {
   }
 
   public add(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
-    const newVm = Object.assign({}, vm, {instanceGroup: group});
+    const newVm = Object.assign({}, vm, { instanceGroup: group });
     this.groupsUpdates.next();
-    return this.vmTagService.setGroup(newVm, group)
-      .catch(() => Observable.of(vm));
+    return this.vmTagService.setGroup(newVm, group).pipe(
+      catchError(() => of(vm)));
   }
 }
