@@ -20,10 +20,10 @@ You can see examples of the configurations in the [config-example.json](https://
   * [Default Theme Name](#default-theme-name)
   * [Session Timeout](#session-timeout)
 * [Menu Settings](#menu-settings)
-  * [Allow Reordering Sidebar](#allow-reordering-sidebar)
+  * [Allow Reordering Sidenav](#allow-reordering-sidenav)
   * [Configure Sidenav](#configure-sidenav)
 * [Service Offering Setting](#service-offering-setting)
-  * [Custom Compute Offering Restrictions](#custom-compute-offering-restrictions)
+  * [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
   * [Default Compute Offering](#default-compute-offering)
   * [Offering Compatibility Policy](#offering-compatibility-policy)
   * [Compute Offering Classes](#compute-offering-classes)
@@ -51,7 +51,7 @@ For example,
 ```
 
 ### API Doc Link
-URL address to the API documentation. This address is displayed in the settings section.
+A URL address to the API documentation. This address is displayed in the "Settings" section.
 The default value is a link to the Apache Cloudstack API.
 
 For example,
@@ -75,7 +75,8 @@ Please check [Wiki](https://github.com/bwsw/cloudstack-ui/wiki/Plugins) for a de
 ## Virtual Machines Settings
 
 ### VM Colors
-Allows you to predefine a set of colors for virtual machines in hexadecimal format. You can specify any colors you like.
+Allows you to predefine a set of colors for virtual machines in the hexadecimal format. 
+You can specify any colors you like.
 
 For example,
 ```
@@ -160,7 +161,8 @@ Parameters:
 ### Image Groups
 Allows you to define groups for installation sources (templates and ISOs). 
 
-Image group has a required `id` parameter and an optional `translations` parameter. If there are no translations defined for the template group, group's ID will be used.
+An image group has a required `id` parameter and an optional `translations` parameter. 
+If there are no translations defined for the template group, the group ID will be used.
 
 By default, there are no predefined image groups.
 
@@ -181,8 +183,8 @@ For example,
 
 ### Default First Day Of Week
 Allows you to predefine the setting of the first day in the app. Possible values: 
-- 0 - sunday
-- 1 - monday (default)
+- 0 - Sunday
+- 1 - Monday (default)
 
 For example, 
 ```
@@ -221,7 +223,8 @@ For example,
 ```
 
 ### Session Timeout
-Allows you to predefine the setting of the session timeout. This setting determines a number of minutes a user's session should stay active.
+Allows you to predefine the setting of the session timeout. 
+This setting determines the number of minutes the user's session should stay active.
 After this time passes a user is logged out. 
 You can set it to `0` to turn it off, although in this case the session is likely to expire on the server side.
 
@@ -244,11 +247,11 @@ A boolean value which allows or forbids a user to reorder links in the left-side
 Allows you to predefine the order and visibility of menu elements. 
 The order and the presence of the left-side menu elements is determined by the order of the elements in the array. 
 The VMS menu element can not be made invisible, the visibility property will be ignored.
-For configuration, you must specify all menu elements and the "allowReorderingSidebar" parameter must be true.
+For the configuration, you must specify all menu elements and the "allowReorderingSidenav" parameter must be true.
 
 For example (default values),
 ```
-"allowReorderingSidebar": true,
+"allowReorderingSidenav": true,
 "configureSidenav": [
     { "id": "VMS", "visible": true },
     { "id": "VOLUMES", "visible": true },
@@ -266,7 +269,7 @@ For example (default values),
 
 ### Custom Compute Offering Parameters
 Allows you to specify default values and limits for custom compute offering hardware parameters in VM creation.
-By default, all compute offerings have a minimum restrictions of "1" CPU number, "1000" CPU speed, "512" memory 
+By default, all compute offerings have the minimum restrictions of "1" CPU number, "1000" CPU speed, "512" memory 
 and the maximum values are not limited, default values are equal to minimum restrictions.  
 
 For example,
@@ -328,7 +331,7 @@ You can ignore tags that don't influence compatibility with `offeringChangePolic
 ```
 
 ### Compute Offering Classes
-Allows you to group compute offerings into the classes when choosing a compute offering in VM creation.
+Allows you to group compute offerings into classes when choosing a compute offering in the VM creation form.
 
 By default, there are no predefined compute offering classes.
 
@@ -367,7 +370,7 @@ For example,
 ```
     
 ### Disk Offering Parameters
-Allows you to add additional parameters of disk offerings that will be shown in disk offerings table.
+Allows you to add additional parameters of disk offerings that will be shown in the disk offerings table.
 
 Available parameters:
 - "displaytext"
@@ -397,7 +400,7 @@ For example,
 Allows you to specify which service offerings will be available for which zones.
 If `filterOfferings` is set to `false`, all offerings will be available for all zones.
 
-By default, all offerings are available for all zones.
+By default, `filterOfferings` is set to `false`.
 
 For example,
 ```
