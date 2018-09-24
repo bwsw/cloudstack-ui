@@ -49,7 +49,9 @@
 <ng-template #noResults>
   <cs-no-results></cs-no-results>
 </ng-template>
-
+<mat-error *ngIf="resourcesLimitExceeded">
+  {{ "ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED" | translate }}
+</mat-error>
 <div class="mat-dialog-actions">
   <button
     mat-button
@@ -63,7 +65,7 @@
     mat-button
     color="primary"
     type="submit"
-    [disabled]="isSubmitButtonDisabled()"
+    [disabled]="isSubmitButtonDisabled() || resourcesLimitExceeded"
     (click)="onSubmit()"
   >
     {{ 'COMMON.SELECT' | translate }}

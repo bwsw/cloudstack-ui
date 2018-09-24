@@ -25,6 +25,7 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
       [maxSize]="maxSize"
       [zones]="zones$ | async"
       [params]="params$ | async"
+      [account]="account$ | async"
       (onVolumeCreate)="createVolume($event)"
       (onZoneUpdated)="updateZone($event)"
     >
@@ -32,7 +33,6 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
 })
 export class VolumeCreationContainerComponent extends WithUnsubscribe() implements OnInit {
   @ViewChild(VolumeCreationDialogComponent) public volumeCreationDialogComponent: VolumeCreationDialogComponent;
-
   public loading$ = this.store.select(fromVolumes.isLoading);
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);

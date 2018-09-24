@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource } from '@angular/material';
 import * as moment from 'moment';
-
-import { DiskOffering } from '../../../models';
+import { Account, DiskOffering } from '../../../models';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'cs-disk-offering-dialog',
@@ -14,17 +14,22 @@ export class DiskOfferingDialogComponent {
   public selectedDiskOffering: DiskOffering;
   public columns: Array<string>;
   public columnsToDisplay: string[];
+  public account: Account;
   public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
   public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];
+  public resourcesLimitExceeded = false;
+  public minSize = 1;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
+    public authService: AuthService
   ) {
     this.diskOfferings = new MatTableDataSource<DiskOffering>(data.diskOfferings);
     this.selectedDiskOffering = data.diskOffering;
     this.columns = data.columns;
     this.columnsToDisplay = [...this.columns, 'radioButton'];
+    this.account = data.account;
   }
 
   public offeringCreated(date: string): Date {
@@ -37,6 +42,7 @@ export class DiskOfferingDialogComponent {
 
   public selectOffering(offering: DiskOffering) {
     this.selectedDiskOffering = offering;
+    this.checkResourcesLimit();
   }
 
   public onSubmit(): void {
@@ -47,5 +53,11 @@ export class DiskOfferingDialogComponent {
     const isDiskOfferingNotSelected = !this.selectedDiskOffering;
     const isNoDiskOfferings = !this.diskOfferings.data.length;
     return isDiskOfferingNotSelected || isNoDiskOfferings;
+  }
+
+  private checkResourcesLimit() {
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    const diskSize = this.selectedDiskOffering.disksize === 0 ? this.minSize : this.selectedDiskOffering.disksize;
+    this.resourcesLimitExceeded = Number(this.account.primarystorageavailable) < diskSize;
   }
 }

@@ -41,6 +41,7 @@
         <cs-disk-offering-selector
           name="diskOffering"
           [diskOfferings]="diskOfferings"
+          [account]="account"
           [params]="params"
           [ngModel]="diskOffering"
           (change)="updateDiskOffering($event)"

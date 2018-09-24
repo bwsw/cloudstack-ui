@@ -25,6 +25,7 @@ export class VolumeCreationDialogComponent {
   @Input() public zones: Array<Zone>;
   @Input() public maxSize: number;
   @Input() public params: Array<string>;
+  @Input() public account: Account;
   @Output() public onVolumeCreate = new EventEmitter<VolumeCreationData>();
   @Output() public onZoneUpdated = new EventEmitter<Zone>();
 
