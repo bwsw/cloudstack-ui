@@ -529,7 +529,6 @@
       "NO_GROUP": "No group",
       "AFFINITY_GROUP": "Affinity group",
       "SECURITY_GROUPS": "Firewall rules",
-      "KEYBOARD_LAYOUT": "Keyboard layout",
       "KB_US": "Standard (US) keyboard",
       "KB_UK": "UK keyboard",
       "KB_JP": "Japanese keyboard",
@@ -1448,6 +1447,10 @@
       "hour24": "24-Hours Time",
       "AUTO": "Auto",
       "THEME": "Theme Color"
+    },
+    "VM_PREFERENCES": {
+      "TITLE": "VM preferences",
+      "KEYBOARD_LAYOUT": "Keyboard layout"
     }
   },
   "CLIPBOARD": {

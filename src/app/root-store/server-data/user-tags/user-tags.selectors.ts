@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { adapter, UserTagsState } from './user-tags.state';
 import { userTagKeys } from '../../../tags/tag-keys';
-import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
+import { DayOfWeek, KeyboardLayout, Language, TimeFormat } from '../../../shared/types';
 import { Tag } from '../../../shared/models';
 
 function convertToBoolean(input: string): boolean {
@@ -112,4 +112,9 @@ export const getServiceOfferingParamTags = createSelector(
   (tags): Tag[] => {
     return tags.filter(tag => tag.key.startsWith(userTagKeys.computeOfferingParam));
   }
+);
+
+export const getKeyboardLayout = createSelector(
+  getUserTagsEntities,
+  (entities): KeyboardLayout => <KeyboardLayout>entities[userTagKeys.keyboardLayoutForVms].value
 );

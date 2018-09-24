@@ -9,7 +9,6 @@ import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-gr
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
-import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
 // tslint:disable-next-line
 import {
   ProgressLoggerMessage,
@@ -372,7 +371,6 @@ export const initialFormState: FormState = {
     displayName: '',
     doStartVm: true,
     instanceGroup: null,
-    keyboard: KeyboardLayout.us,
     rootDiskSize: null,
     rootDiskMinSize: 0,
     securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules()),
