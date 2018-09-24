@@ -30,10 +30,10 @@ module.exports = function (config) {
     reporters: ['mocha', 'junit', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
     junitReporter: {
-      outputDir: 'reports', // results will be saved as $outputDir/$browserName.xml
-      outputFile: 'junit.xml', // if included, results will be saved as $outputDir/$browserName/$outputFile
-      suite: '', // suite will become the package name attribute in xml testsuite element
-      useBrowserName: false // add browser name to report and classes names
+      outputDir: require('path').join(__dirname, '../reports'),
+      outputFile: 'junit.xml',
+      suite: '',
+      useBrowserName: false
     },
     mochaReporter: {
       ignoreSkipped: true,
