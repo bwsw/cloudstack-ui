@@ -1,12 +1,5 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
-import {
-  async,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 import { BackendResource } from '../decorators';
 
 import { BaseModel } from '../models';
@@ -105,40 +98,26 @@ describe('Base backend service', () => {
 
   it('should merge concurrent requests with identical parameters', async(() => {
     const testService = TestBed.get(TestBackendService);
+    const testData = test[0];
 
-    testService.getList({ id: 'id1' }).subscribe(
-      res => expect(res).toEqual([new TestModel(test[0])])
+    testService.getList({ id: testData.id }).subscribe(
+      res => expect(res).toEqual([new TestModel(testData)])
     );
-    testService.getList({ id: 'id1' }).subscribe(
-      res => expect(res).toEqual([new TestModel(test[0])])
+    testService.getList({ id: testData.id }).subscribe(
+      res => expect(res).toEqual([new TestModel(testData)])
     );
 
     mockBackend = TestBed.get(HttpTestingController);
-    mockBackend.expectOne((req) => {
-      const params = req.params;
-      const mockResponse = {
-        status: 200,
-        body: {
-          'listtestsresponse': {}
-        }
-      };
-      if (!params.has('id')) {
-        (mockResponse.body.listtestsresponse as any).count = test.length;
-        (mockResponse.body.listtestsresponse as any).test = test;
-      } else {
-        const id = params.get('id');
+    const response = mockBackend.expectOne({});
 
-        const item = test.find(m => m.id === id);
-
-        if (item === undefined) {
-          return new Error('Wrong arguments');
-        }
-
-        (mockResponse.body.listtestsresponse as any).count = 1;
-        (mockResponse.body.listtestsresponse as any).test = [item];
+    const mockResponse = {
+      listtestsresponse: {
+        count: 1,
+        test: [testData]
       }
-      return mockResponse;
-    });
+    };
+
+    response.flush(mockResponse);
   }));
 
   it('should merge concurrent requests without parameters', async(() => {
@@ -149,32 +128,17 @@ describe('Base backend service', () => {
     testService.getList().subscribe(
       res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
     );
-    mockBackend = TestBed.get(HttpTestingController);
-    mockBackend.expectOne((req) => {
-      const params = req.params;
-      const mockResponse = {
-        status: 200,
-        body: {
-          'listtestsresponse': {}
-        }
-      };
-      if (!params.has('id')) {
-        (mockResponse.body.listtestsresponse as any).count = test.length;
-        (mockResponse.body.listtestsresponse as any).test = test;
-      } else {
-        const id = params.get('id');
 
-        const item = test.find(m => m.id === id);
-
-        if (item === undefined) {
-          return new Error('Wrong arguments');
-        }
-
-        (mockResponse.body.listtestsresponse as any).count = 1;
-        (mockResponse.body.listtestsresponse as any).test = [item];
+    const mockResponse = {
+      listtestsresponse: {
+        count: test.length,
+        test: test
       }
-      return mockResponse;
-    });
+    };
+
+    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const response = httpTestingController.expectOne({});
+    response.flush(mockResponse);
   }));
 
   it('should not merge concurrent requests with different parameters', async(() => {
@@ -186,31 +150,25 @@ describe('Base backend service', () => {
       res => expect(res).toEqual([new TestModel(test[1])])
     );
     mockBackend = TestBed.get(HttpTestingController);
-    mockBackend.match((req) => {
-      const params = req.params;
-      const mockResponse = {
-        status: 200,
-        body: {
-          'listtestsresponse': {}
-        }
-      };
-      if (!params.has('id')) {
-        (mockResponse.body.listtestsresponse as any).count = test.length;
-        (mockResponse.body.listtestsresponse as any).test = test;
-      } else {
-        const id = params.get('id');
+    const requests = mockBackend.match({});
 
-        const item = test.find(m => m.id === id);
-
-        if (item === undefined) {
-          return new Error('Wrong arguments');
-        }
-
-        (mockResponse.body.listtestsresponse as any).count = 1;
-        (mockResponse.body.listtestsresponse as any).test = [item];
+    const mockResponse1 = {
+      listtestsresponse: {
+        count: test.length,
+        test: [test[0]]
       }
-      return mockResponse;
-    });
+    };
+
+    const mockResponse2 = {
+      listtestsresponse: {
+        count: test.length,
+        test: [test[1]]
+      }
+    };
+
+    expect(requests.length).toBe(2);
+    requests[0].flush(mockResponse1);
+    requests[1].flush(mockResponse2);
   }));
 });
 

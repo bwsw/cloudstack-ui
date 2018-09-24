@@ -1,10 +1,10 @@
 // Karma configuration file, see link for more information
-// https://karma-runner.github.io/0.13/config/configuration-file.html
+// https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
@@ -12,13 +12,13 @@ module.exports = function (config) {
       require('karma-mocha-reporter'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular/cli/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      dir: 'reports/coverage',
+      dir: require('path').join(__dirname, '../reports/coverage'),
       'report-config': {
         cobertura: {
           file: 'cobertura/cobertura.xml'
@@ -27,16 +27,16 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly', 'cobertura'],
       fixWebpackSourcePaths: true
     },
-    angularCli: {
-      environment: 'dev'
-    },
     reporters: ['mocha', 'junit', 'kjhtml', 'coverage-istanbul'],
     port: 9876,
     junitReporter: {
-      outputDir: 'reports', // results will be saved as $outputDir/$browserName.xml
-      outputFile: 'junit.xml', // if included, results will be saved as $outputDir/$browserName/$outputFile
-      suite: '', // suite will become the package name attribute in xml testsuite element
-      useBrowserName: false // add browser name to report and classes names
+      outputDir: require('path').join(__dirname, '../reports'),
+      outputFile: 'junit.xml',
+      suite: '',
+      useBrowserName: false
+    },
+    mochaReporter: {
+      ignoreSkipped: true,
     },
     colors: true,
     browserNoActivityTimeout: 100000,     // default 10,000ms

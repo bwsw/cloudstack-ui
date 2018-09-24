@@ -5,25 +5,24 @@
   width: 100%;
 }
 
-mat-table {
+table {
   display: table;
   width: 100%;
 }
 
-mat-row {
+tr {
   cursor: pointer;
 }
 
-mat-header-cell, mat-cell {
+th, td {
   white-space: nowrap;
 }
 
-.mat-column-name {
-  flex: 2;
+td.mat-column-star {
+  width: 20px;
+  padding-right: 8px;
 }
 
 .mat-column-radioButton {
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: 20px; // width of radio button
+  width: 48px;
 }

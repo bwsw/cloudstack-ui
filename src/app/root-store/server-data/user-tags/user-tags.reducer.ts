@@ -20,8 +20,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     }
 
     case UserTagsActionTypes.LoadUserTagsSuccess: {
-      const updates: Update<Tag>[] = action.payload.tags.map(tag => ({ id: tag.key, changes: tag }));
-      return adapter.upsertMany(updates, { ...state, isLoading: false });
+      return adapter.upsertMany(action.payload.tags, { ...state, isLoading: false });
     }
 
     case UserTagsActionTypes.LoadUserTagsError: {
@@ -34,18 +33,18 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateCustomServiceOfferingParams: {
       const { offering } = action.payload;
       const id = `${userTagKeys.computeOfferingParam}.${offering.id}`;
-      const updates: Update<Tag>[] = [
+      const updates = [
         {
-          id: `${id}.cpunumber`,
-          changes: { key: `${id}.cpunumber`, value: offering.cpunumber.toString() }
+          key: `${id}.cpunumber`,
+          value: offering.cpunumber.toString()
         },
         {
-          id: `${id}.cpuspeed`,
-          changes: { key: `${id}.cpuspeed`, value: offering.cpuspeed.toString() }
+          key: `${id}.cpuspeed`,
+          value: offering.cpuspeed.toString()
         },
         {
-          id: `${id}.memory`,
-          changes: { key: `${id}.memory`, value: offering.memory.toString() }
+          key: `${id}.memory`,
+          value: offering.memory.toString()
         }
       ];
       return adapter.upsertMany(updates, state);
@@ -75,7 +74,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     }
 
     case UserTagsActionTypes.CloseSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'false '} };
+      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'false ' } };
       return adapter.updateOne(update, state);
     }
 

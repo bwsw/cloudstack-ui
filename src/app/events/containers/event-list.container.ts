@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
 import * as debounce from 'lodash/debounce';
 
 import { State, UserTagsSelectors } from '../../root-store';
@@ -40,22 +41,23 @@ const FILTER_KEY = 'eventListFilters';
 })
 export class EventListContainerComponent extends WithUnsubscribe() implements OnInit {
 
-  readonly firstDayOfWeek$ = this.store.select(UserTagsSelectors.getFirstDayOfWeek);
-  readonly events$ = this.store.select(fromEvents.selectFilteredEvents);
-  readonly accounts$ = this.store.select(fromAccounts.selectAll);
-  readonly query$ = this.store.select(fromEvents.filterQuery);
-  readonly loading$ = this.store.select(fromEvents.isLoading);
-  readonly filters$ = this.store.select(fromEvents.filters);
-  readonly selectedTypes$ = this.store.select(fromEvents.filterSelectedTypes);
-  readonly selectedLevels$ = this.store.select(fromEvents.filterSelectedLevels);
-  readonly selectedAccountIds$ = this.store.select(fromEvents.filterSelectedAccountIds);
-  readonly eventTypes$ = this.store.select(fromEvents.eventTypes)
-    .withLatestFrom(this.selectedTypes$)
-    .map(([all, selected]) => {
+  readonly firstDayOfWeek$ = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
+  readonly events$ = this.store.pipe(select(fromEvents.selectFilteredEvents));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
+  readonly query$ = this.store.pipe(select(fromEvents.filterQuery));
+  readonly loading$ = this.store.pipe(select(fromEvents.isLoading));
+  readonly filters$ = this.store.pipe(select(fromEvents.filters));
+  readonly selectedTypes$ = this.store.pipe(select(fromEvents.filterSelectedTypes));
+  readonly selectedLevels$ = this.store.pipe(select(fromEvents.filterSelectedLevels));
+  readonly selectedAccountIds$ = this.store.pipe(select(fromEvents.filterSelectedAccountIds));
+  readonly eventTypes$ = this.store.pipe(
+    select(fromEvents.eventTypes),
+    withLatestFrom(this.selectedTypes$),
+    map(([all, selected]) => {
       const set = new Set(all.concat(selected));
       return [...Array.from(set)];
-    });
-  readonly date$ = this.store.select(fromEvents.filterDate);
+    }));
+  readonly date$ = this.store.pipe(select(fromEvents.filterDate));
 
   public levels = ['INFO', 'WARN', 'ERROR'];
 
@@ -113,8 +115,8 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     this.store.dispatch(new accountAction.LoadAccountsRequest());
 
     this.initFilters();
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => {
         this.filterService.update({
           'date': moment(filters.date).format('YYYY-MM-DD'),

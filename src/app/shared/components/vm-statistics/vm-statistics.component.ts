@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { AuthService } from '../../services/auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { ResourcesData, ResourceStats } from '../../services/resource-usage.service';
@@ -135,7 +137,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     this.mode = parseInt(modeRaw, 10) ? StatsMode.Free : StatsMode.Used;
 
     const typeRaw = this.storageService.read(statisticsType);
-    this.statsType = parseInt(typeRaw, 10) ? StatsType.Domain : StatsType.Account ;
+    this.statsType = parseInt(typeRaw, 10) ? StatsType.Domain : StatsType.Account;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -195,20 +197,20 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     const max = Utils.divide(this.resourceUsage.max.memory, 2, 10);
 
     return this.translateService
-      .get('UNITS.GB')
-      .switchMap(gb => this.getStatsString(consumed, max, gb, 1));
+      .get('UNITS.GB').pipe(
+        switchMap(gb => this.getStatsString(consumed, max, gb, 1)));
   }
 
   public get primaryStorage(): Observable<string> {
     return this.translateService
-      .get('UNITS.GB')
-      .switchMap(gb => this.getStatsStringFor('primaryStorage', gb));
+      .get('UNITS.GB').pipe(
+        switchMap(gb => this.getStatsStringFor('primaryStorage', gb)));
   }
 
   public get secondaryStorage(): Observable<string> {
     return this.translateService
-      .get('UNITS.GB')
-      .switchMap(gb => this.getStatsStringFor('secondaryStorage', gb));
+      .get('UNITS.GB').pipe(
+        switchMap(gb => this.getStatsStringFor('secondaryStorage', gb)));
   }
 
   public progressFor(resource: keyof ResourcesData): number {
@@ -255,7 +257,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     const val = precision ? value.toFixed(precision) : value;
     const m = precision ? max.toFixed(precision) : max;
 
-    return Observable.of(`${val}/${m} ${units || ''} (${percents}%)`);
+    return of(`${val}/${m} ${units || ''} (${percents}%)`);
   }
 
   private getStatsStringWithNoRestrictions(
@@ -264,12 +266,12 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     precision?: number
   ): Observable<string> {
     if (this.mode === StatsMode.Free) {
-      return Observable.of('∞');
+      return of('∞');
     }
 
     if (this.mode === StatsMode.Used) {
       const val = precision ? value.toFixed(precision) : value;
-      return Observable.of(`${val} ${units || ''}`);
+      return of(`${val} ${units || ''}`);
     }
   }
 }

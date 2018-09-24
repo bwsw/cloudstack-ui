@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators/take';
-import { State } from '../../../reducers/index';
+import { take } from 'rxjs/operators';
+
+import { State } from '../../../reducers';
 import { Template } from '../../shared';
 import { Tag } from '../../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../../tags/tags-view/tags-view.component';
@@ -39,7 +40,7 @@ export class TagsContainerComponent {
   }
 
   public deleteTag(tag: Tag) {
-    this.template$.take(1).subscribe((template: Template) => {
+    this.template$.pipe(take(1)).subscribe((template: Template) => {
       const newTags = template.tags.filter(_ => tag.key !== _.key);
       this.store.dispatch(new templateActions.UpdateTemplate({ ...template, tags: newTags }));
     });

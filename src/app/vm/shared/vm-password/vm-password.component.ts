@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { filter, first, tap } from 'rxjs/operators';
 
 import { VirtualMachine } from '../vm.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -49,10 +50,11 @@ export class VmPasswordComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.select(UserTagsSelectors.getIsSavePasswordForVMs)
-      .first()
-      .do(value => this.isAutoSave = value)
-      .filter(Boolean)
+    this.store.pipe(
+      select(UserTagsSelectors.getIsSavePasswordForVMs),
+      first(),
+      tap(value => this.isAutoSave = value),
+      filter(Boolean))
       .subscribe(() => this.savePassword());
   }
 

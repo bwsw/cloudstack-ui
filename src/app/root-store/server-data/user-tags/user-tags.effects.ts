@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { catchError, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, exhaustMap, first, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import {
   CloseSidenav,
@@ -249,7 +248,7 @@ export class UserTagsEffects {
   @Effect()
   incrementLastVMId$: Observable<Action> = this.actions$.pipe(
     ofType<IncrementLastVMId>(UserTagsActionTypes.IncrementLastVMId),
-    mergeMap(() => this.store.select(userTagsSelectors.getLastVMId).first()),
+    mergeMap(() => this.store.select(userTagsSelectors.getLastVMId).pipe(first())),
     mergeMap(id => {
       const key = userTagKeys.lastVMId;
       const value = `${id + 1}`;
@@ -313,7 +312,7 @@ export class UserTagsEffects {
     const cpuSpeedKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpuspeed`;
     const memoryKey = `${userTagKeys.computeOfferingParam}.${offering.id}.memory`;
 
-    return Observable.forkJoin(
+    return forkJoin(
       this.upsertTag(cpuNumberKey, offering.cpunumber && offering.cpunumber.toString()),
       this.upsertTag(cpuSpeedKey, offering.cpuspeed && offering.cpuspeed.toString()),
       this.upsertTag(memoryKey, offering.memory && offering.memory.toString()),

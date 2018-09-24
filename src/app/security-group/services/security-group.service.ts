@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Rules } from '../../shared/components/security-group-builder/rules';
 import { BackendResource } from '../../shared/decorators';
@@ -42,12 +43,12 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   }
 
   public deleteGroup(securityGroup: SecurityGroup): Observable<any> {
-    return this.remove({ id: securityGroup.id })
-      .map(result => {
+    return this.remove({ id: securityGroup.id }).pipe(
+      map(result => {
         if (!result || result.success !== 'true') {
-          return Observable.throw(result);
+          return throwError(result);
         }
-      });
+      }));
   }
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<any> {

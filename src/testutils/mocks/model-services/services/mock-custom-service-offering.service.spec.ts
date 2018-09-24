@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { CustomComputeOfferingParameters, ServiceOffering } from '../../../../app/shared/models';
 
 
@@ -12,7 +12,7 @@ export class MockCustomServiceOfferingService {
   }
 
   public getCustomOfferingWithSetParams(): Observable<ServiceOffering> {
-    return Observable.of(this.config.customOffering);
+    return of(this.config.customOffering);
   }
 
   public getCustomOfferingWithSetParamsSync(): ServiceOffering {
@@ -20,7 +20,7 @@ export class MockCustomServiceOfferingService {
   }
 
   public getCustomOfferingRestrictionsByZone(): Observable<CustomComputeOfferingParameters> {
-    return Observable.of(this.config.customOfferingRestrictionsByZone);
+    return of(this.config.customOfferingRestrictionsByZone);
   }
 
   public getCustomOfferingRestrictionsByZoneSync(): CustomComputeOfferingParameters {

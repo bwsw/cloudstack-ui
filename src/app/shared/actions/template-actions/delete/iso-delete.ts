@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { VmService } from '../../../../vm/shared/vm.service';
-import { Iso } from '../../../../template/shared/iso.model';
-import { IsoService } from '../../../../template/shared/iso.service';
 import { BaseTemplateDeleteAction } from './base-template-delete';
+import { BaseTemplateModel, Iso, IsoService } from '../../../../template/shared';
 
 
 @Injectable()
@@ -24,18 +25,18 @@ export class IsoDeleteAction extends BaseTemplateDeleteAction {
     super(dialogService, jobsNotificationService);
   }
 
-  protected remove(iso: Iso): Observable<void> {
-    return this.vmService.getListOfVmsThatUseIso(iso)
-      .switchMap(vmList => {
+  protected remove(iso: Iso): Observable<BaseTemplateModel> {
+    return this.vmService.getListOfVmsThatUseIso(iso).pipe(
+      switchMap(vmList => {
         if (vmList.length) {
-          return Observable.throw({
+          return throwError({
             type: 'vmsInUse',
             vms: vmList
           });
         }
         this.notificationId = this.jobsNotificationService.add(this.progressMessage);
         return this.isoService.remove(iso);
-      });
+      }));
   }
 
   protected onError(error: any): void {

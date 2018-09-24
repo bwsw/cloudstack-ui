@@ -8,9 +8,10 @@ import {
   NgForm,
   Validators
 } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material';
+import { Subscription } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import { IPVersion, NetworkRuleType } from '../../sg.model';
 import { NetworkProtocol } from '../../network-rule.model';
@@ -227,11 +228,11 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private onProtocolChange() {
-    this.protocolChanges = this.protocol.valueChanges
-      .filter(Boolean)
-      .map((protocol: NetworkProtocol) => protocol === NetworkProtocol.ICMP)
-      .distinctUntilChanged()
-      .filter((isIcmp: boolean) => this.isIcmpProtocol !== isIcmp)
+    this.protocolChanges = this.protocol.valueChanges.pipe(
+      filter(Boolean),
+      map((protocol: NetworkProtocol) => protocol === NetworkProtocol.ICMP),
+      distinctUntilChanged(),
+      filter((isIcmp: boolean) => this.isIcmpProtocol !== isIcmp))
       .subscribe((isIcmp: boolean) => {  // invokes only if isIcmpProtocol flag changes
         const paramsForm = isIcmp ? this.icmpForm : this.portsForm;
         this.ruleForm.setControl('params', paramsForm);
@@ -244,10 +245,10 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private onCidrChange() {
-    this.cidrChanges = this.cidr.valueChanges
-      .map(CidrUtils.getCidrIpVersion)
-      .distinctUntilChanged()
-      .filter(() => this.isIcmpProtocol === true)
+    this.cidrChanges = this.cidr.valueChanges.pipe(
+      map(CidrUtils.getCidrIpVersion),
+      distinctUntilChanged(),
+      filter(() => this.isIcmpProtocol === true))
       .subscribe(() => {  // invokes only when cidr change IP version and protocol equals ICMP
         this.updateIcmpFormState()
       });
@@ -269,15 +270,15 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private onPortsChanges() {
-    this.startPortChanges = this.startPort.valueChanges
-      .distinctUntilChanged()
+    this.startPortChanges = this.startPort.valueChanges.pipe(
+      distinctUntilChanged())
       .subscribe((value: number) => {
         this.duplicatePortForFirstFilling(this.endPort, value);
         this.endPort.updateValueAndValidity();
       });
 
-    this.endPortChanges = this.endPort.valueChanges
-      .distinctUntilChanged()
+    this.endPortChanges = this.endPort.valueChanges.pipe(
+      distinctUntilChanged())
       .subscribe((value: number) => {
         this.duplicatePortForFirstFilling(this.startPort, value);
         this.startPort.updateValueAndValidity();

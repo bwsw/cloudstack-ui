@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { Action } from '../../interfaces/action.interface';
 import { JobsNotificationService } from '../../services/jobs-notification.service';

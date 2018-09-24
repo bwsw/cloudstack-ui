@@ -2,30 +2,30 @@
   {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.TITLE' | translate }}
 </h3>
 <div class="mat-dialog-content" *ngIf="volume?.snapshots?.length">
-  <mat-table [dataSource]="dataSource" matSort>
+  <table mat-table [dataSource]="dataSource" matSort>
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NAME' | translate}}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.name }}</mat-cell>
+      </th>
+      <td mat-cell *matCellDef="let row"> {{ row.name }}</td>
     </ng-container>
 
     <!-- Date Column -->
     <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.DATE' | translate}}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        {{ snapshotCreatedDate(row) | date:'y-MM-dd H:m:s' }}</mat-cell>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        {{ snapshotCreatedDate(row) | date:'y-MM-dd H:m:s' }}</td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>
+      <th mat-header-cell *matHeaderCellDef>
         {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.ACTIONS' | translate}}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      </th>
+      <td mat-cell *matCellDef="let row">
         <button
           *ngFor="let action of snapshotActionsService.actions"
           mat-icon-button
@@ -37,12 +37,12 @@
         >
           <mat-icon [ngClass]="action.icon"></mat-icon>
         </button>
-      </mat-cell>
+      </td>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
   <div class="row" *ngIf="!volume.snapshots?.length">
     {{ 'VM_PAGE.STORAGE_DETAILS.SNAPSHOTS_MODAL.NO_SNAPSHOTS' | translate }}
   </div>

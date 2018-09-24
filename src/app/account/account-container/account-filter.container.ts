@@ -1,14 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
+
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as roleActions from '../../reducers/roles/redux/roles.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
-import { Store } from '@ngrx/store';
 import { State } from '../../reducers';
 import { FilterService } from '../../shared/services/filter.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
@@ -126,8 +128,8 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
     this.store.dispatch(new domainActions.LoadDomainsRequest());
     this.store.dispatch(new roleActions.LoadRolesRequest());
     this.initFilters();
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => {
         this.filterService.update({
           'domains': filters.selectedDomainIds,

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
 import { delay, filter, first, map, withLatestFrom } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
@@ -54,8 +54,8 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   public activate() {
-    this.vmService.getListWithDetails()
-      .map(res => res.length)
+    this.vmService.getListWithDetails().pipe(
+      map(res => res.length))
       .subscribe((res) => {
         if (res !== 0) {
           this.showCreationDialog();
@@ -87,9 +87,9 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   }
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
-    const dataReceivedAndUpdated$ = Observable.combineLatest(
-      this.store.select(fromVolumes.isLoading),
-      this.store.select(fromVolumes.isLoaded)
+    const dataReceivedAndUpdated$ = combineLatest(
+      this.store.pipe(select(fromVolumes.isLoading)),
+      this.store.pipe(select(fromVolumes.isLoaded))
     ).pipe(
       map(([loading, loaded]) => !loading && loaded),
       filter(Boolean),
@@ -98,8 +98,8 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
 
     return dataReceivedAndUpdated$.pipe(
       withLatestFrom(
-        this.store.select(UserTagsSelectors.getIsAskToCreateVolume),
-        this.store.select(fromVolumes.getVolumesCount)
+        this.store.pipe(select(UserTagsSelectors.getIsAskToCreateVolume)),
+        this.store.pipe(select(fromVolumes.getVolumesCount))
       ),
       map(([dataReadyFlag, isAsk, volumeCount]) => isAsk && volumeCount === 0 && !this.isCreationFormOpen)
     );

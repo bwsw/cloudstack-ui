@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { configSelectors, State, UserTagsActions } from '../../../root-store';
 import { SettingsViewModel } from '../../view-models';
@@ -43,8 +44,8 @@ export class SettingsComponent {
   }
 
   public onRegenerateKeys() {
-    this.askToRegenerateKeys()
-      .filter(Boolean)
+    this.askToRegenerateKeys().pipe(
+      filter(Boolean))
       .subscribe(() =>
         this.userService.registerKeys(this.userId).subscribe(
           keys => this.userKeys = keys,
@@ -53,8 +54,8 @@ export class SettingsComponent {
   }
 
   public onPasswordChange(password: string) {
-    this.askToUpdatePassword()
-      .filter(Boolean)
+    this.askToUpdatePassword().pipe(
+      filter(Boolean))
       .subscribe(() =>
         this.userService
           .updatePassword(this.userId, password)

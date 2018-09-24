@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { BackendResource } from '../decorators';
 import { AsyncJob, Snapshot } from '../models';
 import { AsyncJobService } from './async-job.service';
@@ -31,17 +33,17 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     this.invalidateCache();
 
     const params = this.getSnapshotCreationParams(volumeId, name);
-    return this.sendCommand(CSCommands.Create, params)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .switchMap((response: AsyncJob<Snapshot>) => {
+    return this.sendCommand(CSCommands.Create, params).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel)),
+      switchMap((response: AsyncJob<Snapshot>) => {
         const snapshot = response.jobresult.snapshot;
 
         if (description) {
           return this.snapshotTagService.setDescription(snapshot, description);
         }
 
-        return Observable.of(snapshot);
-      });
+        return of(snapshot);
+      }));
   }
 
   public markForRemoval(snapshot: Snapshot): Observable<Snapshot> {
@@ -50,13 +52,13 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
 
   public remove(id: string): Observable<any> {
     this.invalidateCache();
-    return this.sendCommand(CSCommands.Delete, { id })
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+    return this.sendCommand(CSCommands.Delete, { id }).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
   }
 
   public revert(id: string): Observable<AsyncJob<Snapshot>> {
-    return this.sendCommand(CSCommands.Revert, { id })
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+    return this.sendCommand(CSCommands.Revert, { id }).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
   }
 
   public getList(volumeId?: string): Observable<Array<Snapshot>> {

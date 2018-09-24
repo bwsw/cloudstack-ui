@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import * as resourceLimitActions from './resource-limits.actions';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+
+import * as resourceLimitActions from './resource-limits.actions';
 import { ResourceLimitService } from '../../../shared/services/resource-limit.service';
 import { ResourceLimit } from '../../../shared/models/resource-limit.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -11,42 +13,42 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 export class ResourceLimitsEffects {
 
   @Effect()
-  loadResourseLimits$: Observable<Action> = this.actions$
-    .ofType(resourceLimitActions.LOAD_RESOURCE_LIMITS_REQUEST)
-    .switchMap((action: resourceLimitActions.LoadResourceLimitsRequest) => {
-      return this.resourceLimitService.getList(action.payload)
-        .map((limits: ResourceLimit[]) => {
+  loadResourseLimits$: Observable<Action> = this.actions$.pipe(
+    ofType(resourceLimitActions.LOAD_RESOURCE_LIMITS_REQUEST),
+    switchMap((action: resourceLimitActions.LoadResourceLimitsRequest) => {
+      return this.resourceLimitService.getList(action.payload).pipe(
+        map((limits: ResourceLimit[]) => {
           return new resourceLimitActions.LoadResourceLimitsResponse(limits);
-        })
-        .catch(() => Observable.of(new resourceLimitActions.LoadResourceLimitsResponse([])));
-    });
+        }),
+        catchError(() => of(new resourceLimitActions.LoadResourceLimitsResponse([]))));
+    }));
 
   @Effect()
-  updateResourceLimits$: Observable<Action> = this.actions$
-    .ofType(resourceLimitActions.UPDATE_RESOURCE_LIMITS_REQUEST)
-    .mergeMap((action: resourceLimitActions.UpdateResourceLimitsRequest) => {
+  updateResourceLimits$: Observable<Action> = this.actions$.pipe(
+    ofType(resourceLimitActions.UPDATE_RESOURCE_LIMITS_REQUEST),
+    mergeMap((action: resourceLimitActions.UpdateResourceLimitsRequest) => {
       const account = action.payload[0].account;
       const domainid = action.payload[0].domainid;
 
       const observes = action.payload.map(limit =>
         this.resourceLimitService.updateResourceLimit(limit));
 
-      return Observable.forkJoin(observes)
-        .map(() => {
+      return forkJoin(observes).pipe(
+        map(() => {
           return new resourceLimitActions.LoadResourceLimitsRequest({
             domainid,
             account
           });
-        })
-        .catch((error) => Observable.of(new resourceLimitActions.UpdateResourceLimitsError(error)));
-    });
+        }),
+        catchError((error) => of(new resourceLimitActions.UpdateResourceLimitsError(error))));
+    }));
 
   @Effect({ dispatch: false })
-  updateResourceLimitsError$: Observable<Action> = this.actions$
-    .ofType(resourceLimitActions.UPDATE_RESOURCE_LIMITS_ERROR)
-    .do((action: resourceLimitActions.UpdateResourceLimitsError) => {
+  updateResourceLimitsError$: Observable<Action> = this.actions$.pipe(
+    ofType(resourceLimitActions.UPDATE_RESOURCE_LIMITS_ERROR),
+    tap((action: resourceLimitActions.UpdateResourceLimitsError) => {
       this.handleError(action.payload);
-    });
+    }));
 
   constructor(
     private actions$: Actions,
@@ -63,5 +65,4 @@ export class ResourceLimitsEffects {
       }
     });
   }
-
 }

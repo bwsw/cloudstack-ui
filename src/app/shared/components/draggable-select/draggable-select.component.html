@@ -21,13 +21,13 @@
 
 <ng-template
   cdk-connected-overlay
-  hasBackdrop
-  backdropClass="cdk-overlay-transparent-backdrop"
-  [origin]="origin"
-  [open]="panelOpen"
-  [positions]="_positions"
-  [minWidth]="_triggerRect?.width"
-  [offsetY]="_offsetY"
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayOpen]="panelOpen"
+  [cdkConnectedOverlayPositions]="_positions"
+  [cdkConnectedOverlayMinWidth]="_triggerRect?.width"
+  [cdkConnectedOverlayOffsetY]="_offsetY"
   (backdropClick)="close()"
   (attach)="_onAttached()"
   (detach)="close()"

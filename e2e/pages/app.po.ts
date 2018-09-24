@@ -1,4 +1,4 @@
-import {browser, by, element, protractor} from 'protractor';
+import { browser, by, element, protractor } from 'protractor';
 
 export class CloudstackUiPage {
 
