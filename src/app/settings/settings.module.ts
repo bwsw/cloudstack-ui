@@ -14,7 +14,6 @@ import {
   SessionTimeoutComponent,
   ThemeSelectorComponent,
   VmSettingsComponent,
-  KeyboardsComponent
 } from './components';
 
 
@@ -31,7 +30,6 @@ import {
     SettingsComponent,
     SecuritySettingsComponent,
     VmSettingsComponent,
-    KeyboardsComponent,
     ApiSettingsComponentComponent,
     InterfaceSettingsComponent,
     ThemeSelectorComponent,

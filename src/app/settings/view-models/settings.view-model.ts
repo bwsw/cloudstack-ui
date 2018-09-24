@@ -1,4 +1,4 @@
-import { DayOfWeek, Language, TimeFormat } from '../../shared/types';
+import { DayOfWeek, KeyboardLayout, Language, TimeFormat } from '../../shared/types';
 
 export interface SettingsViewModel {
   sessionTimeout: number;
@@ -7,5 +7,5 @@ export interface SettingsViewModel {
   firstDayOfWeek: DayOfWeek;
   timeFormat: TimeFormat;
   theme: string;
-  keyboardLayout: string;
+  keyboardLayout: KeyboardLayout;
 }

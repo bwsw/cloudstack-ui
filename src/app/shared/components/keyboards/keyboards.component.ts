@@ -1,15 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-export enum KeyboardLayout {
-  us = 'us',
-  uk = 'uk',
-  jp = 'jp',
-  sc = 'sc'
-}
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { KeyboardLayout } from '../../types';
 
 @Component({
   selector: 'cs-keyboards',
   templateUrl: 'keyboards.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KeyboardsComponent {
   @Input() public keyboardLayout: KeyboardLayout;

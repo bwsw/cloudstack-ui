@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
@@ -290,8 +291,9 @@ export class VirtualMachineCreationEffects {
                   switchMap((deployedVm: VirtualMachine) => {
                     this.handleDeploymentMessages({stage: VmDeploymentStage.VM_DEPLOYED});
 
-                    return this.doCreateInstanceGroup(deployedVm, action.payload)
-                      .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
+                    return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
+                      switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload))
+                    )
                   }),
                   map((vmWithTags) => {
                     if (action.payload.doStartVm) {
@@ -299,9 +301,9 @@ export class VirtualMachineCreationEffects {
                     }
                     return new vmActions.DeploymentRequestSuccess(vmWithTags);
                   }),
-                  catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
+                  catchError((error) => of(new vmActions.DeploymentRequestError(error))));
           }),
-              catchError((error) => Observable.of(new vmActions.DeploymentRequestError(error))))));
+          catchError((error) => of(new vmActions.DeploymentRequestError(error))))));
     }));
 
   @Effect({dispatch: false})
