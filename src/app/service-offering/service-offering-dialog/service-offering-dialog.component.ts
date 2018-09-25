@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { ServiceOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { Account, ServiceOfferingClass, ServiceOfferingType } from '../../shared/models';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 
@@ -24,6 +24,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public virtualMachine: VirtualMachine;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
+  @Input() public account: Account;
   @Input() public isVmRunning: boolean;
   @Output() public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
   @Output() public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
@@ -33,6 +34,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public serviceOffering: ComputeOfferingViewModel;
   public loading: boolean;
   public showFields = false;
+  public resourcesLimitExceeded = false;
 
   public ngOnInit() {
     this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
@@ -40,6 +42,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       this.viewMode === ServiceOfferingType.fixed ? this.viewModeChange.emit(ServiceOfferingType.custom) :
         this.viewModeChange.emit(ServiceOfferingType.fixed);
     }
+    this.checkLimits(this.serviceOffering);
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -52,6 +55,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
 
   public updateOffering(offering: ComputeOfferingViewModel): void {
     this.serviceOffering = offering;
+    this.checkLimits(this.serviceOffering);
     this.onServiceOfferingUpdate.emit(this.serviceOffering);
   }
 
@@ -97,6 +101,20 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       || this.virtualMachine.memory !== this.serviceOffering.memory);
 
     return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
+  }
+
+  private checkLimits(offering: ComputeOfferingViewModel) {
+    let сpusExceeded;
+    let memoryExceeded;
+
+    if (offering.iscustomized) {
+      сpusExceeded = this.account.cpuavailable < this.serviceOffering['customOfferingRestrictions'].cpunumber.min;
+      memoryExceeded = this.account.memoryavailable < this.serviceOffering['customOfferingRestrictions'].memory.min;
+    } else {
+      сpusExceeded = this.account.cpuavailable < this.serviceOffering.cpunumber;
+      memoryExceeded = this.account.memoryavailable < this.serviceOffering.memory;
+    }
+    this.resourcesLimitExceeded = memoryExceeded || сpusExceeded;
   }
 
 }

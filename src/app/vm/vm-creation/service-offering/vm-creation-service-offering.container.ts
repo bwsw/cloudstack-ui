@@ -11,6 +11,7 @@ import * as fromServiceOfferings from '../../../reducers/service-offerings/redux
 // tslint:disable-next-line
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import { UserTagsActions } from '../../../root-store';
+import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
 @Component({
   selector: 'cs-vm-creation-service-offering-container',
@@ -23,6 +24,7 @@ import { UserTagsActions } from '../../../root-store';
       [selectedClasses]="selectedClasses$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
+      [account]="account$ | async"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
       (onServiceOfferingChange)="changeServiceOffering($event)"
       (viewModeChange)="onViewModeChange($event)"
@@ -37,6 +39,7 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
   readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
   readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
   readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
+  readonly account$ = this.store.select(fromAccounts.selectUserAccount);
 
   public formMode = ServiceOfferingFromMode.SELECT;
 

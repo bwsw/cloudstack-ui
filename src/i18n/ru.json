@@ -118,6 +118,9 @@
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
+    },
+    "COMPUTE_OFFERING": {
+      "RESOURCE_LIMIT_EXCEEDED": "Вычислительное предложение не может быть выбрано, потому что больше, чем доступные для аккаунта ресурсы."
     }
   },
   "NOTIFICATIONS": {

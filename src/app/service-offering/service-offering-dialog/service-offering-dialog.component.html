@@ -14,9 +14,11 @@
       [classes]="classes"
       [selectedClasses]="selectedClasses"
       [query]="query"
+      [account]="account"
       [offeringList]="serviceOfferings"
       [selectedOffering]="serviceOffering"
       [showFields]="showFields"
+      [resourcesLimitExceeded]="resourcesLimitExceeded"
       (selectedOfferingChange)="updateOffering($event)"
     ></cs-service-offering-list>
 
@@ -40,7 +42,7 @@
       <button
         mat-button
         color="primary"
-        [disabled]="isSubmitButtonDisabled()"
+        [disabled]="isSubmitButtonDisabled() || resourcesLimitExceeded"
         (click)="onChange()"
       >
         {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}

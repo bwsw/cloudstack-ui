@@ -61,21 +61,7 @@ const getAvailableByResourcesSync = (
   zone: Zone
 ) => {
   const availableInZone = getOfferingsAvailableInZone(serviceOfferings, availability, zone);
-
-  return availableInZone.filter(offering => {
-    let enoughCpus;
-    let enoughMemory;
-
-    if (offering.iscustomized) {
-      enoughCpus = resourceUsage.available.cpus >= offering.customOfferingRestrictions.cpunumber.min;
-      enoughMemory = resourceUsage.available.memory >= offering.customOfferingRestrictions.memory.min;
-    } else {
-      enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
-      enoughMemory = resourceUsage.available.memory >= offering.memory;
-    }
-
-    return enoughCpus && enoughMemory;
-  });
+  return availableInZone;
 };
 
 export const getAvailableOfferingsForVmCreation = createSelector(

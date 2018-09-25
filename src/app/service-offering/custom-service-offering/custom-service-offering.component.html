@@ -8,9 +8,9 @@
         type="number"
         name="cpuNumber"
         [min]="offering.customOfferingRestrictions.cpunumber.min"
-        [max]="offering.customOfferingRestrictions.cpunumber.max"
+        [max]="maxCpu"
         [csMinValue]="offering.customOfferingRestrictions.cpunumber.min"
-        [csMaxValue]="offering.customOfferingRestrictions.cpunumber.max"
+        [csMaxValue]="maxCpu"
         formControlName="cpuNumber"
         required
       >
@@ -38,9 +38,9 @@
         type="number"
         name="memory"
         [min]="offering.customOfferingRestrictions.memory.min"
-        [max]="offering.customOfferingRestrictions.memory.max"
+        [max]="maxMemory"
         [csMinValue]="offering.customOfferingRestrictions.memory.min"
-        [csMaxValue]="offering.customOfferingRestrictions.memory.max"
+        [csMaxValue]="maxMemory"
         formControlName="memory"
         required
       >
