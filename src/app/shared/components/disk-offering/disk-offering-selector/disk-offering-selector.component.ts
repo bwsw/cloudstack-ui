@@ -19,7 +19,6 @@ import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offeri
 export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public required: boolean;
-  @Input() public params: Array<string>;
   @Output() public change: EventEmitter<DiskOffering>;
   private _diskOffering: DiskOffering;
 
@@ -59,11 +58,10 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
 
   public changeOffering(): void {
     this.dialog.open(DiskOfferingDialogComponent, {
-      width: '910px',
+      width: '750px',
       data: {
         diskOfferings: this.diskOfferings,
         diskOffering: this._diskOffering,
-        columns: this.params
       }
     })
       .afterClosed()

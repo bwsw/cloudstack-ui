@@ -61,7 +61,6 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
-      [diskOfferingParams]="diskOfferingParams$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
@@ -108,7 +107,6 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-  readonly diskOfferingParams$ = this.store.pipe(select(fromDiskOfferings.getParams));
 
   constructor(
     private store: Store<State>,
@@ -125,7 +123,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
-    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
