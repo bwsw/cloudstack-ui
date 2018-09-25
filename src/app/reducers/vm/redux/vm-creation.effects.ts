@@ -134,7 +134,8 @@ export class VirtualMachineCreationEffects {
       select(fromSecurityGroups.selectPredefinedSecurityGroups),
       filter(groups => !!groups.length)),
       this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup))),
-    map(([action, securityGroups, defaultSecurityGroup]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[], SecurityGroup]) => {
+    map(([action, securityGroups, defaultSecurityGroup]:
+           [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[], SecurityGroup]) => {
       return new vmActions.VmFormUpdate({
         securityGroupData: VmCreationSecurityGroupData
           .fromRules(Rules.createWithAllRulesSelected(securityGroups), [defaultSecurityGroup])
