@@ -1,9 +1,8 @@
 import { SidenavConfigElement } from './sidenav-config-element.interface';
-import {
-  ComputeOfferingClass,
-  OfferingCompatibilityPolicy,
-  ServiceOfferingAvailability
-} from '../../../shared/models/config';
+import { ServiceOfferingAvailability } from './service-offering-availability.interface';
+import { OfferingCompatibilityPolicy } from './offering-compatibility-policy.interface';
+import { ComputeOfferingClass } from './compute-offering-class.interface'
+import { ImageGroup } from './image-group.model';
 import { CustomComputeOfferingHardwareValues } from './custom-compute-offering-hardware-values.interface';
 import { DefaultComputeOffering } from './default-compute-offering.interface';
 import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offering-hardware-restrictions.interface';
@@ -31,7 +30,7 @@ export interface CustomizableConfig {
   /*
    * Images settings
    */
-  imageGroups: Array<any>;
+  imageGroups: ImageGroup[];
   /*
    * User app settings
    */

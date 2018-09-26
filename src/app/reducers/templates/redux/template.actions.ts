@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { BaseTemplateModel } from '../../../template/shared/base-template.model';
-import { TemplateGroup } from '../../../shared/models/template-group.model';
+import { ImageGroup } from '../../../shared/models/config/image-group.model';
 
 export const LOAD_TEMPLATE_REQUEST = '[Templates] LOAD_TEMPLATE_REQUEST';
 export const LOAD_TEMPLATE_RESPONSE = '[Templates] LOAD_TEMPLATE_RESPONSE';
@@ -134,7 +134,7 @@ export class UpdateTemplate implements Action {
 export class SetTemplateGroup implements Action {
   readonly type = SET_TEMPLATE_GROUP;
 
-  constructor(public payload: { template: BaseTemplateModel, templateGroup: TemplateGroup }) {
+  constructor(public payload: { template: BaseTemplateModel, templateGroup: ImageGroup }) {
   }
 }
 

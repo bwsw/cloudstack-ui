@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { BaseTemplateModel } from '../../../shared/base-template.model';
 import { Mode } from '../../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
-import { TemplateGroup } from '../../../../shared/models';
+import { ImageGroup } from '../../../../shared/models';
 import { getImageGroupId } from '../../../template-filter-list/template-filter-list.component';
 import { Language } from '../../../../shared/types';
 
@@ -15,7 +15,7 @@ import { Language } from '../../../../shared/types';
 })
 export class TemplateGroupSelectorComponent implements OnInit {
   @Input() public template: BaseTemplateModel;
-  @Input() public groups: TemplateGroup[];
+  @Input() public groups: ImageGroup[];
   public groupNames: Array<string> = [];
   public loading: boolean;
   public modes = Mode;

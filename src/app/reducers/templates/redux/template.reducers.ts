@@ -5,7 +5,7 @@ import { BaseTemplateModel, resourceType } from '../../../template/shared/base-t
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import * as fromAuth from '../../auth/redux/auth.reducers';
 import { getUserAccount } from '../../auth/redux/auth.reducers';
-import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
+import { DefaultTemplateGroupId } from '../../../shared/models/config/image-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 import { configSelectors } from '../../../root-store';

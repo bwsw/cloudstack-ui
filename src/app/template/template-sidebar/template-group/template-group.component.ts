@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BaseTemplateModel } from '../../shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { TemplateGroupSelectorContainerComponent } from './containers/template-group-selector.container';
-import { DefaultTemplateGroupId, TemplateGroup } from '../../../shared/models';
+import { DefaultTemplateGroupId, ImageGroup } from '../../../shared/models';
 import { Language } from '../../../shared/types';
 
 
@@ -16,7 +16,7 @@ import { Language } from '../../../shared/types';
 })
 export class TemplateGroupComponent {
   @Input() public template: BaseTemplateModel;
-  @Input() public groups: TemplateGroup[];
+  @Input() public groups: ImageGroup[];
   @Output() public groupChange = new EventEmitter<BaseTemplateModel>();
   @Output() public groupReset = new EventEmitter();
 

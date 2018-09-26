@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { TemplateGroup } from '../../shared/models';
+import { ImageGroup } from '../../shared/models';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { AuthService } from '../../shared/services/auth.service';
 import { Language } from '../../shared/types';
@@ -28,7 +28,7 @@ export const noGroup: noGroup = '-1';
   styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent {
-  @Input() public groups: TemplateGroup[] = [];
+  @Input() public groups: ImageGroup[] = [];
   public groupings = [
     {
       key: 'zones',
