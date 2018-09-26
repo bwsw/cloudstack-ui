@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
@@ -7,11 +7,9 @@ import { Account } from '../../shared/models';
 
 function LimitValidator(cpuNumberLimit: number): ValidatorFn {
   return function (control: FormControl) {
-    if (control.value > cpuNumberLimit) {
-      return { cpuLimitExceeded: true };
-    } else {
-      return null;
-    }
+    return control.value > cpuNumberLimit
+      ? { cpuLimitExceeded: true }
+      : null;
   };
 }
 
@@ -20,7 +18,7 @@ function LimitValidator(cpuNumberLimit: number): ValidatorFn {
   templateUrl: 'custom-service-offering.component.html',
   styleUrls: ['custom-service-offering.component.scss']
 })
-export class CustomServiceOfferingComponent {
+export class CustomServiceOfferingComponent implements OnInit {
   public offering: ComputeOfferingViewModel;
   public hardwareForm: FormGroup;
   public account: Account;
@@ -33,17 +31,16 @@ export class CustomServiceOfferingComponent {
   ) {
     this.offering = data.offering;
     this.account = data.account;
-    if (this.offering.customOfferingRestrictions.cpunumber.max > this.account.cpuavailable) {
-      this.maxCpu = this.account.cpuavailable
-    } else {
-      this.maxCpu = this.offering.customOfferingRestrictions.cpunumber.max;
-    }
+  }
 
-    if (this.offering.customOfferingRestrictions.memory.max > this.account.memoryavailable) {
-      this.maxMemory = this.account.memoryavailable;
-    } else {
-      this.maxMemory = this.offering.customOfferingRestrictions.memory.max;
-    }
+  public ngOnInit() {
+    const cpuFromOffering = this.offering.customOfferingRestrictions.cpunumber.max;
+    const memoryFromOffering = this.offering.customOfferingRestrictions.memory.max;
+
+    this.maxCpu = cpuFromOffering > this.account.cpuavailable
+      ? this.account.cpuavailable : cpuFromOffering;
+    this.maxMemory = memoryFromOffering > this.account.memoryavailable
+      ? this.account.memoryavailable : memoryFromOffering;
 
     this.createForm();
   }
