@@ -559,11 +559,19 @@
     "OPEN_VNC_CONSOLE": "Open VNC Console",
     "OPEN_SHELL_CONSOLE": "Open WebShell",
     "OPEN_URL": "Open URL",
+    "VNC_CONSOLE": "VNC console",
+    "SHELL_CONSOLE": "WebShell",
+    "URL": "URL",
     "VM_PASSWORD": "Password",
     "UNKNOWN": "Unknown",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
-    "VM_IP": "IP"
+    "VM_IP": "IP",
+    "SSH_KEY": "SSH key",
+    "PORT": "Port",
+    "IPv4": "IPv4",
+    "IPv6": "IPv6",
+    "CONNECTION_STRING": "Connection string",
   },
   "VOLUME_PAGE": {
     "FILTERS": {

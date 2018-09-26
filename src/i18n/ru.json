@@ -559,11 +559,20 @@
     "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
     "OPEN_SHELL_CONSOLE": "Открыть WebShell",
     "OPEN_URL": "Открыть URL",
+    "VNC_CONSOLE": "VNC консоль",
+    "SHELL_CONSOLE": "WebShell",
+    "URL": "URL",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
     "VM": "Имя машины",
-    "VM_IP": "IP адрес"
+    "VM_IP": "IP адрес",
+    "SSH_KEY": "SSH ключ",
+    "PORT": "Порт",
+    "IPv4": "IPv4",
+    "IPv6": "IPv6",
+    "CONNECTION_STRING": "Строка подключения",
+    "NOT_SET": "Не задано"
   },
   "VOLUME_PAGE": {
     "FILTERS": {

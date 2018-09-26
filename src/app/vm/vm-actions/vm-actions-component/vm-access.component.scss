@@ -1,0 +1,30 @@
+h3 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+h4 {
+  margin: 0;
+  line-height: 20px;
+}
+:host {
+  ::ng-deep .mat-tab-header {
+    margin-bottom: 30px !important;
+  }
+  ::ng-deep .mat-tab-label {
+    width: 33% !important;
+  }
+}
+
+.parameter-wrapper {
+  padding: 0 16px;
+}
+
+.parameter-item {
+   /deep/ .flex-container {
+      width: 66% !important;
+    }
+  /deep/ .key {
+    font-weight: bold;
+  }
+}

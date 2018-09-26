@@ -1,5 +1,69 @@
-<cs-postdeployment-dialog
-  [vm]="vm"
-  [dialogRef]="dialogRef"
-  [title]="title">
-</cs-postdeployment-dialog>
+<div *ngIf="vm">
+  <h3>{{ title | translate }}</h3>
+  <mat-tab-group
+    [(selectedIndex)]="tabIndex">
+    <ng-container *ngFor="let act of actions; let i = index">
+      <mat-tab [disabled]="!act.available(vm)" [label]="act.name | translate">
+        <ng-container *ngIf="i === 0 || i === 2">
+          <div class="parameter-wrapper">
+            <h4><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b>
+              {{ getUrlLogin(vm) }}
+            </h4>
+            <h4>
+              <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b> {{ getUrlPassword(vm) }}
+            </h4>
+          </div>
+          <button
+            mat-button
+            color="primary"
+            (click)="act.activate(vm)"
+          >{{ act.actionName | translate }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="i === 1">
+          <div class="parameter-wrapper">
+            <div class="parameter-item">
+              <cs-parameters-pair
+                [canBeCopy]="true"
+                [name]="'VM_POST_ACTION.CONNECTION_STRING'"
+                [value]="getConnectionString(vm)">
+              </cs-parameters-pair>
+            </div>
+            <h4 *ngIf="vm.nic[0]?.ipaddress"><b>{{ 'VM_POST_ACTION.VM_IP' | translate }}:</b>
+              {{ vm.nic[0].ipaddress }}
+            </h4>
+            <h4><b>{{ 'VM_POST_ACTION.PORT' | translate }}</b>
+              {{ getSSHPort(vm) }}
+            </h4>
+            <h4><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}</b>
+              {{ getSSHLogin(vm) }}
+            </h4>
+            <h4>
+              <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}</b>
+              {{ getSSHPassword(vm) }}
+            </h4>
+            <h4 *ngIf="vm.keyPair">
+              <b>{{ 'VM_POST_ACTION.SSH_KEY' | translate }}</b>
+              {{ vm.keyPair }}
+            </h4>
+          </div>
+          <button
+            *ngIf="isWebShellEnabled()"
+            mat-button
+            color="primary"
+            (click)="act.activate(vm)"
+          >{{ act.actionName | translate }}
+          </button>
+        </ng-container>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+
+  <div class="mat-dialog-actions">
+    <button
+      mat-button color="primary"
+      (click)="dialogRef.close()"
+    >{{ 'COMMON.CLOSE' | translate }}
+    </button>
+  </div>
+</div>
