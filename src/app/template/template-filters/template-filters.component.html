@@ -73,7 +73,7 @@
       multiple="true"
       [placeholder]="'TEMPLATE_PAGE.FILTERS.SELECT_GROUPS' | translate"
       [(ngModel)]="selectedGroups"
-      (change)="selectedGroupsChange.emit(selectedGroups)"
+      (selectionChange)="selectedGroupsChange.emit(selectedGroups)"
     >
       <mat-option [value]="'general'">{{ 'TEMPLATE_PAGE.FILTERS.GENERAL' | translate }}
       </mat-option>

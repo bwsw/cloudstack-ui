@@ -5,7 +5,7 @@ import { getType, SecurityGroup, SecurityGroupType } from '../../../security-gro
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
-import * as securityGroup from './sg.actions';
+import * as securityGroupActions from './sg.actions';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 
@@ -64,16 +64,16 @@ export const securityGroupReducers = {
 
 export function listReducer(
   state = initialListState,
-  action: securityGroup.Actions
+  action: securityGroupActions.Actions
 ): ListState {
   switch (action.type) {
-    case securityGroup.LOAD_SECURITY_GROUP_REQUEST: {
+    case securityGroupActions.LOAD_SECURITY_GROUP_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case securityGroup.SECURITY_GROUP_FILTER_UPDATE: {
+    case securityGroupActions.SECURITY_GROUP_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -82,28 +82,28 @@ export function listReducer(
         }
       };
     }
-    case securityGroup.LOAD_SECURITY_GROUP_RESPONSE: {
+    case securityGroupActions.LOAD_SECURITY_GROUP_RESPONSE: {
       return adapter.addAll([...action.payload], { ...state, loading: false });
     }
-    case securityGroup.LOAD_SELECTED_SECURITY_GROUP: {
+    case securityGroupActions.LOAD_SELECTED_SECURITY_GROUP: {
       return {
         ...state,
         selectedSecurityGroupId: action.payload
       };
     }
-    case securityGroup.CREATE_SECURITY_GROUP_SUCCESS: {
+    case securityGroupActions.CREATE_SECURITY_GROUP_SUCCESS: {
       return adapter.addOne(action.payload, state);
     }
-    case securityGroup.CREATE_SECURITY_GROUPS_SUCCESS: {
+    case securityGroupActions.CREATE_SECURITY_GROUPS_SUCCESS: {
       return adapter.addMany(action.payload, state);
     }
-    case securityGroup.DELETE_SECURITY_GROUP_SUCCESS: {
+    case securityGroupActions.DELETE_SECURITY_GROUP_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
-    case securityGroup.UPDATE_SECURITY_GROUP: {
+    case securityGroupActions.UPDATE_SECURITY_GROUP: {
       return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
-    case securityGroup.CONVERT_SECURITY_GROUP_SUCCESS: {
+    case securityGroupActions.CONVERT_SECURITY_GROUP_SUCCESS: {
       return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
     default: {
@@ -114,20 +114,20 @@ export function listReducer(
 
 export function formReducer(
   state = initialFormState,
-  action: securityGroup.Actions
+  action: securityGroupActions.Actions
 ): FormState {
   switch (action.type) {
-    case securityGroup.CREATE_SECURITY_GROUP:
-    case securityGroup.DELETE_SECURITY_GROUP: {
+    case securityGroupActions.CREATE_SECURITY_GROUP:
+    case securityGroupActions.DELETE_SECURITY_GROUP: {
       return {
         ...state,
         loading: true
       };
     }
-    case securityGroup.CREATE_SECURITY_GROUP_SUCCESS:
-    case securityGroup.CREATE_SECURITY_GROUP_ERROR:
-    case securityGroup.DELETE_SECURITY_GROUP_SUCCESS:
-    case securityGroup.DELETE_SECURITY_GROUP_ERROR: {
+    case securityGroupActions.CREATE_SECURITY_GROUP_SUCCESS:
+    case securityGroupActions.CREATE_SECURITY_GROUP_ERROR:
+    case securityGroupActions.DELETE_SECURITY_GROUP_SUCCESS:
+    case securityGroupActions.DELETE_SECURITY_GROUP_ERROR: {
       return {
         ...state,
         loading: false

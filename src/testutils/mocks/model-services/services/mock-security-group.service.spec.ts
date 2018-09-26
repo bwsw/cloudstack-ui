@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { SecurityGroup } from '../../../../app/security-group/sg.model';
 
 const securityGroupTemplates: Array<SecurityGroup> = require('../fixtures/securityGroupTemplates.json');
@@ -7,6 +7,6 @@ const securityGroupTemplates: Array<SecurityGroup> = require('../fixtures/securi
 @Injectable()
 export class MockSecurityGroupService {
   public getList(): Observable<Array<SecurityGroup>> {
-    return Observable.of(securityGroupTemplates);
+    return of(securityGroupTemplates);
   }
 }

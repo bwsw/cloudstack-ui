@@ -65,7 +65,10 @@ export class AccountLimitsComponent {
   }
 
   private setInfinityToNoLimit(limit: ResourceLimit & { max: string | number }) {
-    if (limit.max === Infinity || (typeof limit.max === 'string' && limit.max.toLowerCase() === 'infinity')) {
+    if (
+      limit.max === Infinity
+      || (typeof limit.max === 'string' && (limit.max as string).toLowerCase() === 'infinity')
+    ) {
       return {
         ...limit,
         max: -1

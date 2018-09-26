@@ -4,9 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import * as fromAccountTags from './account-tags.reducers';
@@ -65,7 +63,7 @@ class MockMatDialog {
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   public set stream(source: Observable<Tag>) {
@@ -125,7 +123,7 @@ describe('Account tags Effects', () => {
 
   it('should return an empty collection from LoadAccountTagsResponse', () => {
     const spyGetList = spyOn(service, 'getList').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new accountTagActions.LoadAccountTagsRequest();
     const completion = new accountTagActions.LoadAccountTagsResponse([]);

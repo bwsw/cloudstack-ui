@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ApplicationRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -7,8 +7,8 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DragulaModule } from 'ng2-dragula';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
-import { Store } from '@ngrx/store';
-import { filter, first } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { filter, first, take } from 'rxjs/operators';
 
 import { AccountModule } from './account/accounts.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +33,7 @@ import { AppComponent } from './app.component';
 
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
+import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -44,16 +45,19 @@ export function InitAppFactory(
   translateService: TranslateService,
   store: Store<State>
 ) {
-  return () => store.select(configSelectors.isLoaded).pipe(
+  return () => store.pipe(
+    select(configSelectors.isLoaded),
     filter(Boolean),
     first()
   ).toPromise()
-    .then(() => store.select(configSelectors.get('defaultInterfaceLanguage')).pipe(
+    .then(() => store.pipe(
+      select(configSelectors.get('defaultInterfaceLanguage')),
       first()
       ).subscribe(lang => translateService.setDefaultLang(lang))
     )
     .then(() => auth.initUser())
-    .then(() => store.select(configSelectors.getDefaultUserTags).pipe(
+    .then(() => store.pipe(
+      select(configSelectors.getDefaultUserTags),
       first()
     ).subscribe(tags => store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({ tags }))));
 }
@@ -118,4 +122,64 @@ export function InitAppFactory(
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(public appRef: ApplicationRef, private store: Store<any>) {
+  }
+
+  hmrOnInit(store) {
+    if (!store || !store.rootState) {
+      return;
+    }
+    // restore state by dispatch a SET_ROOT_STATE action
+    if (store.rootState) {
+      this.store.dispatch({
+        type: 'SET_ROOT_STATE',
+        payload: store.rootState
+      });
+    }
+    if ('restoreInputValues' in store) {
+      store.restoreInputValues();
+    }
+    // this.appRef.tick();  <<< REMOVE THIS LINE, or store will not work after HMR
+    Object.keys(store).forEach(prop => delete store[prop]);
+  }
+
+  hmrOnDestroy(store) {
+    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    this.store.pipe(take(1)).subscribe(s => store.rootState = s);
+    store.disposeOldHosts = this.createNewHosts(cmpLocation);
+    store.restoreInputValues = createInputTransfer();
+    removeNgStyles();
+  }
+
+  hmrAfterDestroy(store) {
+    store.disposeOldHosts();
+    delete store.disposeOldHosts;
+  }
+
+  createNewHosts(cmps) {
+    const components = Array.prototype.map.call(cmps, function (componentNode) {
+      const newNode = document.createElement(componentNode.tagName);
+      const currentDisplay = newNode.style.display;
+      newNode.style.display = 'none';
+      if (!!componentNode.parentNode) {
+        const parentNode = componentNode.parentNode;
+        parentNode.insertBefore(newNode, componentNode);
+        return function removeOldHost() {
+          newNode.style.display = currentDisplay;
+          try {
+            parentNode.removeChild(componentNode);
+          } catch (e) {
+          }
+        };
+      } else {
+        return function () {
+        }; // make it callable
+      }
+    });
+    return function removeOldHosts() {
+      components.forEach(function (removeOldHost) {
+        return removeOldHost();
+      });
+    };
+  }
 }

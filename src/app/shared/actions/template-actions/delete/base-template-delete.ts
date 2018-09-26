@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, onErrorResumeNext, switchMap } from 'rxjs/operators';
+
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
 
@@ -16,24 +18,24 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
   protected notificationId;
 
   public activate(template: BaseTemplateModel): Observable<any> {
-    return this.dialogService.confirm({ message: this.confirmMessage })
-      .onErrorResumeNext()
-      .switchMap(res => {
+    return this.dialogService.confirm({ message: this.confirmMessage }).pipe(
+      onErrorResumeNext(),
+      switchMap(res => {
         if (res) {
           return this.onConfirm(template);
         } else {
-          return Observable.of(null);
+          return of(null);
         }
-      });
+      }));
   }
 
   private onConfirm(template: BaseTemplateModel): Observable<any> {
-    return this.remove(template)
-      .map(() => this.onSuccess())
-      .catch(error => {
+    return this.remove(template).pipe(
+      map(() => this.onSuccess()),
+      catchError(error => {
         this.onError(error);
-        return Observable.throw(null);
-      });
+        return throwError(null);
+      }));
   }
 
   protected onSuccess(): void {

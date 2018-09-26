@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
 import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../../network-rule.model';
 import { NetworkRuleType, SecurityGroup } from '../../sg.model';
 import { BaseBackendService } from '../../../shared/services/base-backend.service';
@@ -7,7 +10,6 @@ import { SecurityGroupTagService } from '../../../shared/services/tags/security-
 import { NetworkRuleService } from '../network-rule.service';
 import { BackendResource } from '../../../shared/decorators/backend-resource.decorator';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { HttpClient } from '@angular/common/http';
 
 
 interface TcpUdpNetworkRuleCreationParams {
@@ -49,17 +51,17 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     const egressRules = this.networkRuleService.removeDuplicateRules(
       egressRulesWithPossibleDuplicates);
 
-    return this.create(data)
-      .switchMap(securityGroup => {
+    return this.create(data).pipe(
+      switchMap(securityGroup => {
         return this.authorizeRules(securityGroup, ingressRules, egressRules);
-      })
-      .switchMap(securityGroup => {
+      }),
+      switchMap(securityGroup => {
         return this.securityGroupCreationPostAction(securityGroup);
-      });
+      }));
   }
 
   protected securityGroupCreationPostAction(securityGroup: SecurityGroup): Observable<SecurityGroup> {
-    return Observable.of(securityGroup);
+    return of(securityGroup);
   }
 
   private authorizeRules(
@@ -68,7 +70,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     egressRules: Array<NetworkRule>
   ): Observable<SecurityGroup> {
     if (!ingressRules.length && !egressRules.length) {
-      return Observable.of(securityGroup);
+      return of(securityGroup);
     }
 
     const ingressRuleCreationRequests = this.getRuleCreationRequests(
@@ -92,7 +94,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
       egressrule: egressRules
     };
 
-    return Observable.forkJoin(ruleCreationRequests).map(() => newSecurityGroup);
+    return forkJoin(ruleCreationRequests).pipe(map(() => newSecurityGroup));
   }
 
   private getRuleCreationRequests(

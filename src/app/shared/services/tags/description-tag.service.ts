@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Taggable } from '../../interfaces/taggable.interface';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TagService } from './tag.service';
@@ -35,12 +37,12 @@ export class DescriptionTagService {
       resourceType: entityResourceType,
       'tags[0].key': entityTagService.keys.description,
       'tags[0].value': ''
-    })
-      .map(() => {
+    }).pipe(
+      map(() => {
         newEntity.tags = newEntity.tags.filter(t =>
           entityTagService.keys.description !== t.key
         );
         return newEntity;
-      });
+      }));
   }
 }

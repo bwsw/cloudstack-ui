@@ -1,6 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
+import * as debounce from 'lodash/debounce';
+
 import { State } from '../../reducers';
-import { Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
@@ -9,11 +13,9 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { VmState } from '../shared/vm.model';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import * as debounce from 'lodash/debounce';
 import { Grouping } from '../../shared/models';
 
 const FILTER_KEY = 'vmListFilters';
@@ -47,17 +49,17 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   @Input() groupings: Array<Grouping>;
   @Input() selectedGroupings: Array<Grouping>;
 
-  readonly filters$ = this.store.select(fromVMs.filters);
-  readonly query$ = this.store.select(fromVMs.filterQuery);
-  readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly accounts$ = this.store.select(fromAccounts.selectAll);
-  readonly groups$ = this.store.select(fromVMs.selectVmGroups);
-  readonly loading$ = this.store.select(fromVMs.isLoading);
+  readonly filters$ = this.store.pipe(select(fromVMs.filters));
+  readonly query$ = this.store.pipe(select(fromVMs.filterQuery));
+  readonly zones$ = this.store.pipe(select(fromZones.selectAll));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
+  readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
+  readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
 
-  readonly selectedZoneIds$ = this.store.select(fromVMs.filterSelectedZoneIds);
-  readonly selectedGroupNames$ = this.store.select(fromVMs.filterSelectedGroupNames);
-  readonly selectedAccountIds$ = this.store.select(fromVMs.filterSelectedAccountIds);
-  readonly selectedStates$ = this.store.select(fromVMs.filterSelectedStates);
+  readonly selectedZoneIds$ = this.store.pipe(select(fromVMs.filterSelectedZoneIds));
+  readonly selectedGroupNames$ = this.store.pipe(select(fromVMs.filterSelectedGroupNames));
+  readonly selectedAccountIds$ = this.store.pipe(select(fromVMs.filterSelectedAccountIds));
+  readonly selectedStates$ = this.store.pipe(select(fromVMs.filterSelectedStates));
 
   public states = [
     {
@@ -164,8 +166,8 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => {
         this.filterService.update({
           zones: filters.selectedZoneIds,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { first, switchMap } from 'rxjs/operators';
 
 import { AsyncJobService } from './shared/services/async-job.service';
 import { AuthService } from './shared/services/auth.service';
@@ -43,17 +44,20 @@ export class AppComponent implements OnInit {
 
 
   private configureInterface() {
-    this.store.select(UserTagsSelectors.getInterfaceLanguage)
+    this.store.pipe(select(UserTagsSelectors.getInterfaceLanguage))
       .subscribe(language => this.translateService.use(language));
 
-    this.store.select(UserTagsSelectors.getTimeFormat)
+    this.store.pipe(select(UserTagsSelectors.getTimeFormat))
       .subscribe(timeFormat => this.dateTimeFormatterService.updateFormatters(timeFormat));
 
-    this.store.select(UserTagsSelectors.getTheme)
+    this.store.pipe(select(UserTagsSelectors.getTheme))
       .subscribe(themeName => this.styleService.useTheme(themeName));
 
-    this.translateService.onLangChange
-      .switchMap(() => this.store.select(UserTagsSelectors.getTimeFormat).first())
+    this.translateService.onLangChange.pipe(
+      switchMap(() => this.store.pipe(
+        select(UserTagsSelectors.getTimeFormat),
+        first(),
+      )))
       .subscribe((format) =>
         this.dateTimeFormatterService.updateFormatters(format)
       );

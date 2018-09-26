@@ -13,7 +13,7 @@ FROM firesh/nginx-lua
 COPY .build/nginx.conf /etc/nginx/conf.d/default.conf
 COPY .build/startup.sh /etc/nginx/startup.sh
 
-COPY --from=builder /tmp/cloudstackui/dist /static/
+COPY --from=builder /tmp/cloudstackui/dist/cloudstack-ui /static/
 
 RUN  chmod 777 /etc/nginx/startup.sh
 

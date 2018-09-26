@@ -73,7 +73,7 @@ const VmExpungeAction = {
 const VmRecoverAction = {
   name: 'VM_PAGE.COMMANDS.RECOVER',
   command: VmActions.RECOVER,
-  icon: 'mdi-restore',
+  icon: 'mdi-restore-clock',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RECOVER',
   canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Destroyed
 };

@@ -1,5 +1,6 @@
-import { Subject } from 'rxjs/Subject';
 import { OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+
 import { Constructor, SimpleClass } from './contructor';
 
 

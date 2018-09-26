@@ -6,43 +6,39 @@
 
 <ng-template #dataTable>
   <div class="table-wrapper">
-    <mat-table [dataSource]="diskOfferings">
+    <table mat-table [dataSource]="diskOfferings">
 
       <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-        <mat-header-cell *matHeaderCellDef> {{ 'DISK_OFFERING.TABLE.' + column | translate }} </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <th mat-header-cell *matHeaderCellDef> {{ 'DISK_OFFERING.TABLE.' + column | translate }} </th>
+        <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="column === 'name'">
             {{ element[column] }}
           </ng-container>
-          <ng-container *ngIf="!isCustomField(column, notCustomFields)">
+          <ng-container *ngIf="!isElementInArray(column, fieldsToBeTranslated.concat(['name', 'created']))">
             {{ element[column] || '-'}}
           </ng-container>
           <ng-container *ngIf="column === 'created'">
             {{ (offeringCreated(element[column]) | stringifyDate)  || '-'}}
           </ng-container>
-          <ng-container *ngIf="isCustomField(column, customFields)">
+          <ng-container *ngIf="isElementInArray(column, fieldsToBeTranslated)">
             {{ ('DISK_OFFERING.TABLE.' + element[column]?.toString() | translate)  || '-'}}
           </ng-container>
-        </mat-cell>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="radioButton">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
           <mat-radio-button
             name="disk-offering"
             [checked]="selectedDiskOffering && element?.id === selectedDiskOffering.id"
           ></mat-radio-button>
-        </mat-cell>
+        </td>
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-      <mat-row
-        *matRowDef="let row; columns: columnsToDisplay"
-        (click)="selectOffering(row)"
-      ></mat-row>
-
-    </mat-table>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="selectOffering(row)"></tr>
+    </table>
   </div>
 </ng-template>
 
