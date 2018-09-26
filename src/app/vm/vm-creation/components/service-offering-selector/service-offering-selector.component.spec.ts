@@ -37,7 +37,7 @@ describe('Test Service offering selector component', () => {
   function createTestComponent() {
     const f = TestBed.createComponent(TestComponent);
     const testComponent = f.componentInstance;
-    testComponent.computeOfferings = serviceOfferings;
+    testComponent.serviceOfferings = serviceOfferings;
     testComponent.serviceOffering = serviceOfferings[0];
 
     return { f, testComponent };
