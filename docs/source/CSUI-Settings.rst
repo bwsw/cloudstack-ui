@@ -85,6 +85,7 @@ Keyboard layout
 Select a keyboard layout in the drop-down list.
 
 The following options are available:
+
 - Standard US keyboard (default value)
 - UK keyboard
 - Japanese keyboard
