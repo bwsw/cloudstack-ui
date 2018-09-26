@@ -8,10 +8,10 @@ import { getUserAccount } from '../../auth/redux/auth.reducers';
 import { DefaultTemplateGroupId } from '../../../shared/models/template-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
+import { configSelectors } from '../../../root-store';
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromOsTypes from './ostype.reducers';
-import * as fromTemplateGroups from './template-group.reducers';
 import * as templateActions from './template.actions';
 import * as vmActions from '../../vm/redux/vm.actions';
 
@@ -330,13 +330,13 @@ export const selectFilteredTemplates = createSelector(
   fromOsTypes.selectEntities,
   filters,
   getUserAccount,
-  fromTemplateGroups.selectEntities,
+  configSelectors.get('imageGroups'),
   (
     templates,
     osTypesEntities,
     listFilters,
     user,
-    templateGroupEntities
+    imageGroups
   ) => {
     const osFamiliesMap = listFilters.selectedOsFamilies.reduce((m, i) => ({
       ...m,
@@ -372,10 +372,10 @@ export const selectFilteredTemplates = createSelector(
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
       if (listFilters.selectedGroups.length) {
         const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
-        const group = tag && tag.value;
+        const groupId = tag && tag.value;
         const showGeneral = listFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
-        return !!groupsMap[group]
-          || (showGeneral && (!templateGroupEntities[group] || !group));
+        const imageGroup = imageGroups.find(group => group.id === groupId);
+        return !!groupsMap[groupId] || (showGeneral && (!imageGroup || !groupId));
       }
       return true;
     };
@@ -398,8 +398,8 @@ export const selectTemplatesForAction = createSelector(
   getUserAccount,
   fromOsTypes.selectEntities,
   vmCreationListFilters,
-  fromTemplateGroups.selectEntities,
-  (templates, user, osTypesEntities, vmFilters, templateGroupEntities) => {
+  configSelectors.get('imageGroups'),
+  (templates, user, osTypesEntities, vmFilters, imageGroups) => {
     const typesMap = vmFilters.selectedTypes
       .reduce((m, i) => ({ ...m, [i]: i }), {});
     const osFamiliesMap = vmFilters.selectedOsFamilies
@@ -428,10 +428,10 @@ export const selectTemplatesForAction = createSelector(
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
       if (vmFilters.selectedGroups.length) {
         const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
-        const group = tag && tag.value;
+        const groupId = tag && tag.value;
         const showGeneral = vmFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
-        return !!groupsMap[group]
-          || (showGeneral && (!templateGroupEntities[group] || !group));
+        const imageGroup = imageGroups.find(group => group.id === groupId);
+        return !!groupsMap[groupId] || (showGeneral && (!imageGroup || !groupId));
       }
       return true;
     };

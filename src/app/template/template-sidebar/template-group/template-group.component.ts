@@ -31,8 +31,8 @@ export class TemplateGroupComponent {
   }
 
   public get groupName(): string {
-    const tag = this.template.tags.find(_ => _.key === TemplateTagKeys.group);
-    const group = tag && this.groups[tag.value];
+    const tag = this.template.tags.find(t => t.key === TemplateTagKeys.group);
+    const group = tag && this.groups.find(g => g.id === tag.value);
     return group && ((group.translations && group.translations[this.locale]) || group.id) || DefaultTemplateGroupId;
   }
 

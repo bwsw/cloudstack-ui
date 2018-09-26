@@ -51,7 +51,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   /*
   * Images settings
   */
-  templateGroups: [],
+  imageGroups: [],
   /*
    * User app settings
    */

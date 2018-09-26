@@ -71,7 +71,7 @@ export class ConfigValidationService {
     configureSidenav: validationSchemes.configureSidenav,
     customComputeOfferingParameters: validationSchemes.customComputeOfferingParameters,
     offeringAvailability: validationSchemes.offeringAvailability,
-    templateGroups: validationSchemes.templateGroups,
+    imageGroups: validationSchemes.imageGroups,
     serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
   };
 

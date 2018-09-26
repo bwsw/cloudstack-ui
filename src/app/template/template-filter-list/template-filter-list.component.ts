@@ -13,7 +13,7 @@ export const getGroupName = (template: BaseTemplateModel) => {
     : template.account;
 };
 
-export const getTemplateGroupId = (item: BaseTemplateModel) => {
+export const getImageGroupId = (item: BaseTemplateModel) => {
   const tag = item.tags.find(
     _ => _.key === TemplateTagKeys.group);
   return tag && tag.value;
@@ -68,8 +68,8 @@ export class TemplateFilterListComponent {
   }
 
   private getGroup(item: BaseTemplateModel): string {
-    return this.groups[getTemplateGroupId(item)]
-      && this.groups[getTemplateGroupId(item)].translations
-      && this.groups[getTemplateGroupId(item)].translations[this.locale];
+    const imageGroupId = getImageGroupId(item);
+    const imageGroup = this.groups.find(group => group.id === imageGroupId);
+    return imageGroup && imageGroup.translations && imageGroup.translations[this.locale];
   }
 }

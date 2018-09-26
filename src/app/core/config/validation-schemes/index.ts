@@ -13,7 +13,7 @@ import * as defaultComputeOffering from './default-compute-offering.scheme.json'
 import * as serviceOfferingClasses from './service-offering-classes.scheme.json';
 import * as offeringAvailability from './offering-availability.scheme.json';
 import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
-import * as templateGroups from './template-groups.scheme.json';
+import * as imageGroups from './image-groups.scheme.json';
 
 export {
   // General
@@ -34,5 +34,5 @@ export {
   offeringAvailability,
   serviceOfferingClasses,
   // Images settings
-  templateGroups,
+  imageGroups,
 }

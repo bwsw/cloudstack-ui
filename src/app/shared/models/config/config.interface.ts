@@ -27,7 +27,7 @@ export interface CustomizableConfig {
   /*
    * Images settings
    */
-  templateGroups: Array<any>;
+  imageGroups: Array<any>;
   /*
    * User app settings
    */

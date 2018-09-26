@@ -8,7 +8,7 @@ import { OsFamily } from '../../shared/models';
 import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import { State } from '../../reducers';
+import { configSelectors, State } from '../../root-store';
 
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
@@ -20,7 +20,6 @@ import * as accountsActions from '../../reducers/accounts/redux/accounts.actions
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
-import * as fromTemplateGroups from '../../reducers/templates/redux/template-group.reducers';
 import { AuthService } from '../../shared/services/auth.service';
 
 const FILTER_KEY = 'templateListFilters';
@@ -37,7 +36,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
   readonly domains$ = this.store.pipe(select(fromDomains.selectEntities));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly query$ = this.store.pipe(select(fromTemplates.filterQuery));
-  readonly groups$ = this.store.pipe(select(fromTemplateGroups.selectAll));
+  readonly groups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
 
   readonly selectedAccountIds$ = this.store.pipe(select(fromTemplates.filterSelectedAccountIds));
   readonly selectedOsFamilies$ = this.store.pipe(select(fromTemplates.filterSelectedOsFamilies));

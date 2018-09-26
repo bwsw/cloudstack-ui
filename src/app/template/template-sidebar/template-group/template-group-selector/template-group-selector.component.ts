@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BaseTemplateModel } from '../../../shared/base-template.model';
 import { Mode } from '../../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { TemplateGroup } from '../../../../shared/models';
-import { getTemplateGroupId } from '../../../template-filter-list/template-filter-list.component';
+import { getImageGroupId } from '../../../template-filter-list/template-filter-list.component';
 import { Language } from '../../../../shared/types';
 
 
@@ -36,8 +36,9 @@ export class TemplateGroupSelectorComponent implements OnInit {
   }
 
   public get groupName(): string {
-    const group = this.groups[getTemplateGroupId(this.template)];
-    return group && ((group.translations && group.translations[this.locale]) || group.id);
+    const imageGroupId = getImageGroupId(this.template);
+    const imageGroup = this.groups.find(group => group.id === imageGroupId);
+    return imageGroup && ((imageGroup.translations && imageGroup.translations[this.locale]) || imageGroup.id);
   }
 
   public changeGroup(translation) {
