@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
 import { StorageTypes } from '../models/offering.model';
-import { OfferingAvailability, ServiceOffering, Zone } from '../models';
+import { ServiceOffering, ServiceOfferingAvailability, Zone } from '../models';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { ServiceOfferingService } from './service-offering.service';
@@ -64,12 +64,12 @@ describe('Service-offering service', () => {
   it('should check offering is available in zone', () => {
     let result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
-      <OfferingAvailability>{
+      <ServiceOfferingAvailability>{
         filterOfferings: true,
         zones: {
           1: {
             diskOfferings: [],
-            serviceOfferings: []
+            computeOfferings: []
           }
         }
       },
@@ -80,12 +80,12 @@ describe('Service-offering service', () => {
 
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
-      <OfferingAvailability>{
+      <ServiceOfferingAvailability>{
         filterOfferings: true,
         zones: {
           1: {
             diskOfferings: [],
-            serviceOfferings: ['1']
+            computeOfferings: ['1']
           }
         }
       },
@@ -95,13 +95,13 @@ describe('Service-offering service', () => {
 
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
-      <OfferingAvailability>{
+      <ServiceOfferingAvailability>{
         filterOfferings: true,
         zones: {
           1: {
             filterOfferings: false,
             diskOfferings: [],
-            serviceOfferings: []
+            computeOfferings: []
           }
         }
       },

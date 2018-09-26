@@ -11,7 +11,7 @@ import * as sessionTimeout from './session-timeout.scheme.json';
 import * as configureSidenav from './configure-sidenav.scheme.json';
 import * as defaultComputeOffering from './default-compute-offering.scheme.json';
 import * as computeOfferingClasses from './compute-offering-classes.scheme.json';
-import * as offeringAvailability from './offering-availability.scheme.json';
+import * as serviceOfferingAvailability from './service-offering-availability.scheme.json';
 import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
 import * as imageGroups from './image-groups.scheme.json';
 
@@ -31,7 +31,7 @@ export {
   // Service offering setting
   customComputeOfferingParameters,
   defaultComputeOffering,
-  offeringAvailability,
+  serviceOfferingAvailability,
   computeOfferingClasses,
   // Images settings
   imageGroups,

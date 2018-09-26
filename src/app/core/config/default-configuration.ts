@@ -92,7 +92,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     'miniops',
     'maxiops'
   ],
-  offeringAvailability: {
+  serviceOfferingAvailability: {
     'filterOfferings': false
   }
 };

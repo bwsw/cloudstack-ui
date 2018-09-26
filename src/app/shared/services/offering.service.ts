@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 import { isOfferingLocal, Offering } from '../models/offering.model';
-import { OfferingAvailability, Zone } from '../models';
+import { ServiceOfferingAvailability, Zone } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { configSelectors, State } from '../../root-store';
 
@@ -31,7 +31,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
     delete modifiedParams.zone;
 
     return super.getList(modifiedParams).pipe(
-      withLatestFrom(this.store.pipe(select(configSelectors.get('offeringAvailability')))),
+      withLatestFrom(this.store.pipe(select(configSelectors.get('serviceOfferingAvailability')))),
       map(([offeringList, offeringAvailability]) =>
         this.getOfferingsAvailableInZone(offeringList, offeringAvailability, zone)
       )
@@ -40,7 +40,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
 
   public getOfferingsAvailableInZone(
     offeringList: Array<T>,
-    offeringAvailability: OfferingAvailability,
+    offeringAvailability: ServiceOfferingAvailability,
     zone: Zone
   ): Array<T> {
     if (!offeringAvailability.filterOfferings) {
@@ -61,7 +61,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
 
   protected abstract isOfferingAvailableInZone(
     offering: Offering,
-    offeringAvailability: OfferingAvailability,
+    offeringAvailability: ServiceOfferingAvailability,
     zone: Zone
   ): boolean;
 }

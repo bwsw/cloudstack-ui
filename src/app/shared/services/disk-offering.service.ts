@@ -6,7 +6,7 @@ import { BackendResource } from '../decorators';
 import { OfferingService } from './offering.service';
 import { DiskOffering, Volume, Zone } from '../models';
 import { isOfferingLocal } from '../models/offering.model';
-import { OfferingAvailability } from '../models/config';
+import { ServiceOfferingAvailability } from '../models/config';
 
 @Injectable()
 @BackendResource({
@@ -33,7 +33,7 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
 
   protected isOfferingAvailableInZone(
     offering: DiskOffering,
-    offeringAvailability: OfferingAvailability,
+    offeringAvailability: ServiceOfferingAvailability,
     zone: Zone
   ): boolean {
     if (offeringAvailability.zones[zone.id]) {

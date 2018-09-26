@@ -1,5 +1,9 @@
 import { SidenavConfigElement } from './sidenav-config-element.interface';
-import { ComputeOfferingClass, OfferingAvailability, OfferingCompatibilityPolicy } from '../../../shared/models/config';
+import {
+  ComputeOfferingClass,
+  OfferingCompatibilityPolicy,
+  ServiceOfferingAvailability
+} from '../../../shared/models/config';
 import { CustomComputeOfferingHardwareValues } from './custom-compute-offering-hardware-values.interface';
 import { DefaultComputeOffering } from './default-compute-offering.interface';
 import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offering-hardware-restrictions.interface';
@@ -49,7 +53,7 @@ export interface CustomizableConfig {
   offeringCompatibilityPolicy: OfferingCompatibilityPolicy;
   computeOfferingClasses: ComputeOfferingClass[];
   diskOfferingParameters: Array<any>;
-  offeringAvailability: OfferingAvailability;
+  serviceOfferingAvailability: ServiceOfferingAvailability;
 }
 
 export interface NonCustomizableConfig {

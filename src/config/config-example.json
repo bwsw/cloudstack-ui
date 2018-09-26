@@ -154,7 +154,7 @@
   "serviceOfferingAvailability": {
     "filterOfferings": true,
     "zones": {
-      "9c81af12-f15b-41f0-9dec-2a837e1dec29": {
+      "415db026-1135-496e-9383-0c820a75694e": {
         "diskOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1d23er"],
         "computeOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1dec29"]
       }
