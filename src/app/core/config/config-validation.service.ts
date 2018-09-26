@@ -72,12 +72,12 @@ export class ConfigValidationService {
     customComputeOfferingParameters: validationSchemes.customComputeOfferingParameters,
     offeringAvailability: validationSchemes.offeringAvailability,
     imageGroups: validationSchemes.imageGroups,
-    serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
+    computeOfferingClasses: validationSchemes.computeOfferingClasses,
   };
 
   constructor() {
     // Ajv options allErrors and jsonPointers are required for ajv-errors
-    this.schemeValidator = new AjvCore({allErrors: true, jsonPointers: true});
+    this.schemeValidator = new AjvCore({ allErrors: true, jsonPointers: true });
     AjvErrors(this.schemeValidator);
     AjvUniqueItemProperties(this.schemeValidator);
   }
