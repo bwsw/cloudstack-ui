@@ -41,9 +41,9 @@ table {
     &:last-child {
       padding-right: 0;
     }
-
-    & .text-right {
-      text-align: right;
-    }
   }
+}
+
+.text-right {
+  text-align: right;
 }
