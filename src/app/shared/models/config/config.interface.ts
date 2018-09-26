@@ -39,7 +39,7 @@ export interface CustomizableConfig {
   /*
    * Menu settings
    */
-  allowReorderingSidebar: boolean;
+  allowReorderingSidenav: boolean;
   configureSidenav: SidenavConfigElement[];
   /*
    * Service offering setting

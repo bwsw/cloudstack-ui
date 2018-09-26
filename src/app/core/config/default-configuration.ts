@@ -63,7 +63,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   /*
    * Menu settings
    */
-  allowReorderingSidebar: true,
+  allowReorderingSidenav: true,
   configureSidenav: [
     { id: 'VMS', visible: true },
     { id: 'VOLUMES', visible: true },
