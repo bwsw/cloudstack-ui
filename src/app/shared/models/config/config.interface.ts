@@ -51,7 +51,6 @@ export interface CustomizableConfig {
   defaultComputeOffering: DefaultComputeOffering[];
   offeringCompatibilityPolicy: OfferingCompatibilityPolicy;
   computeOfferingClasses: ComputeOfferingClass[];
-  diskOfferingParameters: Array<any>;
   serviceOfferingAvailability: ServiceOfferingAvailability;
 }
 
@@ -71,6 +70,7 @@ export interface NonCustomizableConfig {
    */
   customComputeOfferingHardwareValues: CustomComputeOfferingHardwareValues;
   defaultCustomComputeOfferingRestrictions: CustomComputeOfferingHardwareRestrictions;
+  keyboardLayoutForVms: string;
 }
 
 export interface Config extends CustomizableConfig, NonCustomizableConfig {

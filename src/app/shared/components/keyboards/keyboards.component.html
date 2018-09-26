@@ -3,7 +3,8 @@
 >
   <mat-select
     name="keyboard"
-    [(ngModel)]="keyboardLayout"
+    [value]="keyboardLayout"
+    (selectionChange)="keyboardChange.emit($event.value)"
   >
     <mat-option
       *ngFor="let l of keyboardLayouts"

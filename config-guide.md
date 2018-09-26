@@ -368,33 +368,6 @@ For example,
     }
   ]
 ```
-    
-### Disk Offering Parameters
-Allows you to add additional parameters of disk offerings that will be shown in the disk offerings table.
-
-Available parameters:
-- "displaytext"
-- "disksize"
-- "created"
-- "storagetype"
-- "provisioningtype"
-- "iscustomized"
-- "miniops"
-- "maxiops"
-
-For example,
-```
-"diskOfferingParameters": [
-  "displaytext",
-  "disksize",
-  "created",
-  "storagetype",
-  "provisioningtype",
-  "iscustomized",
-  "miniops",
-  "maxiops"
-]
-```
 
 ### Service Offering Availability
 Allows you to specify which service offerings will be available for which zones.

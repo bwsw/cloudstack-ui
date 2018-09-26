@@ -10,13 +10,15 @@ export const getSettingsViewModel = createSelector(
   userTags.getFirstDayOfWeek,
   userTags.getTimeFormat,
   userTags.getTheme,
+  userTags.getKeyboardLayout,
   (
     sessionTimeout,
     isSavePasswordForVMs,
     interfaceLanguage,
     firstDayOfWeek,
     timeFormat,
-    theme
+    theme,
+    keyboardLayout
   ): SettingsViewModel => {
     return {
       sessionTimeout,
@@ -24,7 +26,8 @@ export const getSettingsViewModel = createSelector(
       interfaceLanguage,
       firstDayOfWeek,
       timeFormat,
-      theme
+      theme,
+      keyboardLayout
     }
   }
 );

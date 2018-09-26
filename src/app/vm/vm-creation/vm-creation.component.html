@@ -107,7 +107,6 @@
             <cs-disk-offering-selector
               name="diskOffering"
               [diskOfferings]="diskOfferings"
-              [params]="diskOfferingParams"
               [ngModel]="vmCreationState?.diskOffering"
               (change)="diskOfferingChange.emit($event)"
             ></cs-disk-offering-selector>
@@ -187,15 +186,6 @@
               [ngModel]="vmCreationState.securityGroupData"
               (ngModelChange)="securityRulesChange.emit($event)"
             ></cs-vm-creation-security-group-rules-manager>
-          </div>
-
-          <div>
-            <h4>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h4>
-            <cs-keyboards
-              name="keyboard"
-              [ngModel]="vmCreationState.keyboard"
-              (ngModelChange)="keyboardChange.emit($event)"
-            ></cs-keyboards>
           </div>
 
           <div>

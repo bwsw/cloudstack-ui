@@ -141,16 +141,6 @@
       ]
     }
   ],
-  "diskOfferingParameters": [
-    "displaytext",
-    "disksize",
-    "created",
-    "storagetype",
-    "provisioningtype",
-    "iscustomized",
-    "miniops",
-    "maxiops"
-  ],
   "serviceOfferingAvailability": {
     "filterOfferings": true,
     "zones": {

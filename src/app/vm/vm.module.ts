@@ -48,7 +48,6 @@ import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/comp
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
 import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
-import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
 import { VmCreationServiceOfferingContainerComponent } from './vm-creation/service-offering/vm-creation-service-offering.container';
 import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
@@ -133,7 +132,6 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
   declarations: [
     AffinityGroupComponent,
     AffinityGroupSelectorComponent,
-    KeyboardsComponent,
     FirewallRulesDetailComponent,
     FirewallRulesDetailContainerComponent,
     NetworkDetailContainerComponent,

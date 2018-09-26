@@ -82,16 +82,6 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   defaultComputeOffering: [],
   offeringCompatibilityPolicy: {},
   computeOfferingClasses: [],
-  diskOfferingParameters: [
-    'displaytext',
-    'disksize',
-    'created',
-    'storagetype',
-    'provisioningtype',
-    'iscustomized',
-    'miniops',
-    'maxiops'
-  ],
   serviceOfferingAvailability: {
     'filterOfferings': false
   }
@@ -132,7 +122,8 @@ export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {
       min: 512,
       max: Number.POSITIVE_INFINITY
     }
-  }
+  },
+  keyboardLayoutForVms: 'us'
 };
 
 export const defaultConfig: Readonly<Config> = {...customizableProperties, ...nonCustomizableProperties};
