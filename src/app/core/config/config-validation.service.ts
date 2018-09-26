@@ -65,7 +65,7 @@ export class ConfigValidationService {
     defaultFirstDayOfWeek: validationSchemes.defaultFirstDayOfWeek,
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
-    defaultThemeName: validationSchemes.defaultThemeName,
+    defaultTheme: validationSchemes.defaultTheme,
     defaultComputeOffering: validationSchemes.defaultComputeOffering,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,

@@ -5,7 +5,7 @@ import * as extensions from './extensions.scheme.json';
 import * as defaultFirstDayOfWeek from './default-first-day-of-week.scheme.json';
 import * as defaultInterfaceLanguage from './default-interface-language.scheme.json';
 import * as defaultTimeFormat from './default-time-format.scheme.json';
-import * as defaultThemeName from './default-theme-name.scheme.json';
+import * as defaultTheme from './default-theme.scheme.json';
 import * as sessionTimeout from './session-timeout.scheme.json';
 
 import * as configureSidenav from './configure-sidenav.scheme.json';
@@ -24,7 +24,7 @@ export {
   defaultFirstDayOfWeek,
   defaultInterfaceLanguage,
   defaultTimeFormat,
-  defaultThemeName,
+  defaultTheme,
   sessionTimeout,
   // Menu setting
   configureSidenav,

@@ -38,7 +38,7 @@ export interface CustomizableConfig {
   defaultFirstDayOfWeek: number;
   defaultInterfaceLanguage: string;
   defaultTimeFormat: string;
-  defaultThemeName: string;
+  defaultTheme: string;
   sessionTimeout: number;
   /*
    * Menu settings

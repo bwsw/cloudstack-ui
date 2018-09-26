@@ -34,7 +34,7 @@ export const getDefaultUserTags = createSelector(
       { key: userTagKeys.sidenavVisible, value: `${config.isSidenavVisible}` },
       { key: userTagKeys.showSystemTags, value: `${config.showSystemTags}` },
       { key: userTagKeys.timeFormat, value: config.defaultTimeFormat },
-      { key: userTagKeys.theme, value: config.defaultThemeName },
+      { key: userTagKeys.theme, value: config.defaultTheme },
       { key: userTagKeys.navigationOrder, value: config.navigationOrder }
     ] : [];
   }

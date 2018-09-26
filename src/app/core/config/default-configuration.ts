@@ -58,7 +58,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   defaultFirstDayOfWeek: 1,
   defaultInterfaceLanguage: 'en',
   defaultTimeFormat: 'hour24',
-  defaultThemeName: 'blue-red',
+  defaultTheme: 'blue-red',
   sessionTimeout: 30,
   /*
    * Menu settings
