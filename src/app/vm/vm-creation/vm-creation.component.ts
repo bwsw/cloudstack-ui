@@ -44,7 +44,6 @@ export class VmCreationComponent {
   @Input() public deployedVm: VirtualMachine;
   @Input() public enoughResources: boolean;
   @Input() public insufficientResources: Array<string>;
-  @Input() public diskOfferingParams: Array<string>;
 
   @Output() public displayNameChange = new EventEmitter<string>();
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();

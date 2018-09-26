@@ -82,16 +82,6 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   defaultComputeOffering: [],
   offeringCompatibilityPolicy: {},
   serviceOfferingClasses: [],
-  diskOfferingParameters: [
-    'displaytext',
-    'disksize',
-    'created',
-    'storagetype',
-    'provisioningtype',
-    'iscustomized',
-    'miniops',
-    'maxiops'
-  ],
   offeringAvailability: {
     'filterOfferings': false
   }

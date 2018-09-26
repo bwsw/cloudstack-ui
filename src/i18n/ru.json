@@ -616,6 +616,7 @@
       "fat": "Полное",
       "sparse": "Разреженное",
       "shared": "Общее",
+      "local": "Локальное",
       "created": "Создано",
       "true": "Да",
       "false": "Нет"
@@ -1640,10 +1641,12 @@
     "GB": "ГБ",
     "GB_VALUE": "{{ value }} ГБ",
     "GHZ": "ГГц",
-    "IOPS": "{{ value }} IO/сек",
+    "IOPS": "IOPS",
+    "IOPS_VALUE": "{{ value }} IO/сек",
     "MB": "MБ",
     "MB_VALUE": "{{ value }} MБ",
-    "MBPS": "{{ value }} MБ/сек",
+    "MBPS": "MБ/сек",
+    "MBPS_VALUE": "{{ value }} MБ/сек",
     "MHZ": "МГц"
   },
   "VOLUME_ACTIONS": {
@@ -1672,28 +1675,24 @@
   },
   "DISK_OFFERING": {
     "CHOOSE_DISK_OFFERING": "Выберите дисковое предложение",
-    "TABLE": {
-      "name": "Имя",
-      "bytesreadrate": "Чтение МБайт/сек",
-      "byteswriterate": "Запись МБайт/сек",
-      "iopsreadrate": "Чтение IO/сек",
-      "iopswriterate": "Запись IO/сек",
-      "displaytext": "Описание",
-      "disksize": "Размер диска",
-      "storagetype": "Тип хранилища",
-      "provisioningtype": "Выделение ёмкости",
-      "iscustomized": "Настраиваемое",
-      "miniops": "Мин. IO/s",
-      "maxiops": "Макс. IO/s",
+    "BANDWIDTH_MBPS": "Скорость (MБ/сек)",
+    "READ": "Чтение",
+    "WRITE": "Запись",
+    "MIN": "Минимум",
+    "MAX": "Максимум",
+    "STORAGE_TYPE": "Тип хранилища",
+    "STORAGE_TYPE_VALUES": {
+      "shared": "Общее",
+      "local": "Локальное"
+    },
+    "PROVISIONING_TYPE": "Выделение ёмкости",
+    "PROVISIONING_TYPE_VALUES": {
       "thin": "Динамическое",
       "thick": "Статическое",
-      "fat": "Полное",
-      "sparse": "Разреженное",
-      "shared": "Общее",
-      "created": "Создано",
-      "true": "Да",
-      "false": "Нет"
-    }
+      "fat": "Полное"
+    },
+    "CREATED": "Дата создания",
+    "CUSTOM": "Настраиваемый"
   },
   "VM_PASSWORD": {
     "VM_PASSWORD": "Пароль виртуальной машины",
