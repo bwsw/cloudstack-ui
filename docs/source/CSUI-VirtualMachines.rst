@@ -80,7 +80,7 @@ Please, note that a virtual machine is created with a root disk so you do not ne
 
 To create a new VM click the "Create" button |create icon| at the bottom-right corner. 
 
-.. figure:: _static/VMs_Create1.png
+.. figure:: _static/VMs_Create2.png
    
 In the *Create VM* form fill in the following fields:
 
@@ -154,7 +154,7 @@ Click "SELECT" below the list to assign the service offerings to your machine. T
 
 You can change service offerings by clicking "SELECT" next to the settings in the creation form and choosing other parameters.  Click "CHANGE" below to assign the selected option to the VM.
    
-.. figure:: _static/VMs_Create_SO_Custom_Change2.png
+.. figure:: _static/VMs_Create_SO_Custom_Change3.png
    
 4. **Installation source** * - Click "Select" to choose an installation source. Traditionally, there are two options of the virtual machine creation:
     
@@ -188,7 +188,7 @@ Select a disk offering in the list and click "SELECT".
 
 If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size. Change the disk size moving the slider up to the volume size you wish.
 
-.. figure:: _static/VMs_Create_DO_ChangeSize.png
+.. figure:: _static/VMs_Create_DO_ChangeSize1.png
 
 Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/service_offerings.html?highlight=disk%20offerings#compute-and-disk-service-offerings>`_.
 
@@ -224,13 +224,12 @@ You can edit a shared security group after VM is created. In the *Network* tab o
 
 Click "Cancel" to drop the selected options. No rules will be assigned to the virtual machine. 
    
-9. **Keyboard layout** - (is prepopulated). Select a keyboard layout from the drop-down list.
-10. **SSH keypair** - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section.
-11. **Start VM** - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
+9. **SSH keypair** - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section.
+10. **Start VM** - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it.
 
 Once all fields are filled in, click "Create".
 
-For some templates/ISO used at VM creation you are offered to accept the "Template/ISO Terms and Conditions Agreement". An administrator is able to specify an agreement for a template or ISO. An agreement may determine, for example, software licensing terms or restrictions on the liability of the software template vendor. A user must confirm it to continue VM installation from a chosen source. 
+For some templates/ISOs used at VM creation you are offered to accept a "Template/ISO Terms and Conditions Agreement". An administrator is able to specify an agreement for a template or ISO. An agreement may determine, for example, software licensing terms or restrictions on the liability of the software template vendor. A user must confirm it to continue VM installation from a chosen source. 
 
 If you are creating a virtual machine on the base of a template/ISO that requires an agreement, read the terms in the appeared window and click "I AGREE" to continue.
 
