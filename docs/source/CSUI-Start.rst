@@ -30,7 +30,7 @@ To enter the platform use your credentials provided by an administrator:
 
 Push "Login" to proceed to CloudStack. You will see the first section - Virtual Machines. 
 
-To the left you can see the main navigation bar. It allows moving from section to section. It is configured by an Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#configure-sidenav>`_ by setting a list of left-sidebar sections there. The Administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#allow-reordering-sidebar>`_ for more information on configuring the navigation bar elements.
+To the left you can see the main navigation bar. It allows moving from section to section. It is configured by an Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#configure-sidenav>`_ by setting a list of left-sidebar sections there. The Administrator can set it adjustable, i.e. allow a user to reorder elements in the main navigation bar (except the "Logout" section). Please, see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#allow-reordering-sidenav>`_ for more information on configuring the navigation bar elements.
 
 If the main navigation bar is set to adjustable, you will see a lock |lock| at the top. To change the section order in the menu click the lock to unlock it and change the section order by:
 
@@ -79,7 +79,7 @@ Alongside with the notification panel, the action completion confirmation additi
 
 In case of errors at data loading the snackbar also notifies of them. In this case it has a refresh button that refreshes the whole app.
 
-.. figure:: _static/VMs_Snackbar.png
+.. figure:: _static/VMs_Snackbar1.png
 
 
 .. |bell icon| image:: _static/bell_icon.png
