@@ -44,7 +44,6 @@ export class VmCreationComponent {
   @Input() public deployedVm: VirtualMachine;
   @Input() public enoughResources: boolean;
   @Input() public insufficientResources: Array<string>;
-  @Input() public diskOfferingParams: Array<string>;
 
   @Output() public displayNameChange = new EventEmitter<string>();
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
@@ -54,7 +53,6 @@ export class VmCreationComponent {
   @Output() public affinityGroupChange = new EventEmitter<AffinityGroup>();
   @Output() public instanceGroupChange = new EventEmitter<InstanceGroup>();
   @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
-  @Output() public keyboardChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
   @Output() public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
   @Output() public doStartVmChange = new EventEmitter<boolean>();

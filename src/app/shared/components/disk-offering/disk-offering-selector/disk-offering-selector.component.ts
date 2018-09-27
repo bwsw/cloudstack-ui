@@ -60,11 +60,10 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
 
   public changeOffering(): void {
     this.dialog.open(DiskOfferingDialogComponent, {
-      width: '910px',
+      width: '750px',
       data: {
         diskOfferings: this.diskOfferings,
         diskOffering: this._diskOffering,
-        columns: this.params,
         account: this.account
       }
     })

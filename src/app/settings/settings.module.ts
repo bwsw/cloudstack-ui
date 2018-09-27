@@ -12,7 +12,8 @@ import {
   PasswordUpdateFormComponent,
   SecuritySettingsComponent,
   SessionTimeoutComponent,
-  ThemeSelectorComponent
+  ThemeSelectorComponent,
+  VmSettingsComponent,
 } from './components';
 
 
@@ -28,6 +29,7 @@ import {
   declarations: [
     SettingsComponent,
     SecuritySettingsComponent,
+    VmSettingsComponent,
     ApiSettingsComponentComponent,
     InterfaceSettingsComponent,
     ThemeSelectorComponent,

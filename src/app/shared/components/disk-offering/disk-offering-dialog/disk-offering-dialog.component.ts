@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 import { Account, DiskOffering } from '../../../models';
 import { AuthService } from '../../../services/auth.service';
+import { Utils } from '../../../services/utils/utils.service';
 
 @Component({
   selector: 'cs-disk-offering-dialog',
@@ -10,11 +11,8 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['disk-offering-dialog.component.scss'],
 })
 export class DiskOfferingDialogComponent {
-  public diskOfferings: MatTableDataSource<DiskOffering>;
+  public diskOfferings: DiskOffering[];
   public selectedDiskOffering: DiskOffering;
-  public columns: Array<string>;
-  public columnsToDisplay: string[];
-  public fieldsToBeTranslated = ['provisioningtype', 'iscustomized'];
   public account: Account;
   public resourcesLimitExceeded = false;
   public minSize = 1;
@@ -24,10 +22,8 @@ export class DiskOfferingDialogComponent {
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
     public authService: AuthService
   ) {
-    this.diskOfferings = new MatTableDataSource<DiskOffering>(data.diskOfferings);
+    this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
-    this.columns = data.columns;
-    this.columnsToDisplay = [...this.columns, 'radioButton'];
     this.account = data.account;
   }
 
@@ -35,13 +31,18 @@ export class DiskOfferingDialogComponent {
     return moment(date).toDate();
   }
 
-  public isElementInArray(column: string, columns: Array<string>): boolean {
-    return 0 <= columns.indexOf(column);
+  public convertToMb(bytes: number): number {
+    const megabytes = Utils.convertBytesToMegabytes(bytes);
+    return Math.round(megabytes);
   }
 
   public selectOffering(offering: DiskOffering) {
     this.selectedDiskOffering = offering;
     this.checkResourcesLimit();
+  }
+
+  public preventTriggerExpansionPanel(e: Event) {
+    e.stopPropagation(); // Don't open/close expansion panel when click on radio button
   }
 
   public onSubmit(): void {
@@ -50,7 +51,7 @@ export class DiskOfferingDialogComponent {
 
   public isSubmitButtonDisabled() {
     const isDiskOfferingNotSelected = !this.selectedDiskOffering;
-    const isNoDiskOfferings = !this.diskOfferings.data.length;
+    const isNoDiskOfferings = !this.diskOfferings.length;
     return isDiskOfferingNotSelected || isNoDiskOfferings;
   }
 

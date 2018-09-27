@@ -1,0 +1,15 @@
+<section>
+  <h2 class="settings-section-name">{{ 'SETTINGS.VM_PREFERENCES.TITLE' | translate }}</h2>
+  <div class="settings-section-content">
+    <div class="settings-control">
+      <h3 class="no-margin">{{ 'SETTINGS.VM_PREFERENCES.KEYBOARD_LAYOUT' | translate }}</h3>
+      <div>
+        <cs-keyboards
+          name="keyboard"
+          [keyboardLayout]="settings.keyboardLayout"
+          (keyboardChange)="keyboardLayoutChange.emit($event)"
+        ></cs-keyboards>
+      </div>
+    </div>
+  </div>
+</section>

@@ -67,7 +67,7 @@ describe('Disk Offering dialog', () => {
             provide: MAT_DIALOG_DATA,
             useValue: {
               diskOffering,
-              columns: []
+              diskOfferings: []
             }
           },
           {

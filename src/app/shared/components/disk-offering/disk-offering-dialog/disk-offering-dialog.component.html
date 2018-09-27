@@ -2,43 +2,86 @@
   {{ 'DISK_OFFERING.CHOOSE_DISK_OFFERING' | translate }}
 </h3>
 
-<ng-container *ngIf="diskOfferings.data?.length; then dataTable else noResults"></ng-container>
+<ng-container *ngIf="diskOfferings.length; then dataTable else noResults"></ng-container>
 
 <ng-template #dataTable>
-  <div class="table-wrapper">
-    <table mat-table [dataSource]="diskOfferings">
+  <div class="disk-offering-list">
+    <mat-accordion displayMode="flat">
 
-      <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-        <th mat-header-cell *matHeaderCellDef> {{ 'DISK_OFFERING.TABLE.' + column | translate }} </th>
-        <td mat-cell *matCellDef="let element">
-          <ng-container *ngIf="column === 'name'">
-            {{ element[column] }}
-          </ng-container>
-          <ng-container *ngIf="!isElementInArray(column, fieldsToBeTranslated.concat(['name', 'created']))">
-            {{ element[column] || '-'}}
-          </ng-container>
-          <ng-container *ngIf="column === 'created'">
-            {{ (offeringCreated(element[column]) | stringifyDate)  || '-'}}
-          </ng-container>
-          <ng-container *ngIf="isElementInArray(column, fieldsToBeTranslated)">
-            {{ ('DISK_OFFERING.TABLE.' + element[column]?.toString() | translate)  || '-'}}
-          </ng-container>
-        </td>
-      </ng-container>
+      <mat-expansion-panel *ngFor="let offering of diskOfferings">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-radio-button
+            [value]="offering"
+            [checked]="offering.id === selectedDiskOffering?.id"
+            (click)="selectOffering(offering); preventTriggerExpansionPanel($event)"
+            ></mat-radio-button>
+            {{ offering.name }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <div
+              class="truncate"
+              [matTooltip]="offering.displaytext"
+              matTooltipShowDelay="500"
+            >
+              {{ offering.displaytext }}
+            </div>
+            <ng-container *ngIf="offering.iscustomized; then customLabel else diskSize"></ng-container>
+            <ng-template #diskSize>
+              <div class="disk-size">{{ offering.disksize }} {{ 'UNITS.GB' | translate }}</div>
+            </ng-template>
+            <ng-template #customLabel>
+              <div class="custom-label">{{ 'DISK_OFFERING.CUSTOM' | translate }}</div>
+            </ng-template>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-      <ng-container matColumnDef="radioButton">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <mat-radio-button
-            name="disk-offering"
-            [checked]="selectedDiskOffering && element?.id === selectedDiskOffering.id"
-          ></mat-radio-button>
-        </td>
-      </ng-container>
+        <div class="expansion-panel-content">
+          <table>
+            <tr>
+              <td>{{ 'DISK_OFFERING.BANDWIDTH_MBPS' | translate }}:</td>
+              <td>{{ 'DISK_OFFERING.READ' | translate }}</td>
+              <td class="text-right">{{ convertToMb(offering.diskBytesReadRate) || '-' }}</td>
+              <td>{{ 'DISK_OFFERING.WRITE' | translate }}</td>
+              <td class="text-right">{{ convertToMb(offering.diskBytesWriteRate) || '-' }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'UNITS.IOPS' | translate }}:</td>
+              <td>{{ 'DISK_OFFERING.READ' | translate }}</td>
+              <td class="text-right">{{ offering.diskIopsReadRate || '-' }}</td>
+              <td>{{ 'DISK_OFFERING.WRITE' | translate }}</td>
+              <td class="text-right">{{ offering.diskIopsWriteRate || '-' }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'UNITS.IOPS' | translate }}:</td>
+              <td>{{ 'DISK_OFFERING.MIN' | translate }}</td>
+              <td class="text-right">{{ offering.miniops || '-' }}</td>
+              <td>{{ 'DISK_OFFERING.MAX' | translate }}</td>
+              <td class="text-right">{{ offering.maxiops || '-' }}</td>
+            </tr>
+          </table>
+          <br>
 
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay" (click)="selectOffering(row)"></tr>
-    </table>
+          <table>
+            <tr>
+              <td>{{ 'DISK_OFFERING.STORAGE_TYPE' | translate }}:</td>
+              <td>{{ 'DISK_OFFERING.STORAGE_TYPE_VALUES.' + offering.storagetype | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'DISK_OFFERING.PROVISIONING_TYPE' | translate }}:</td>
+              <td>{{ 'DISK_OFFERING.PROVISIONING_TYPE_VALUES.' + offering.provisioningtype | translate }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'DISK_OFFERING.CREATED' | translate }}: </td>
+              <td>{{ offeringCreated(offering.created) | stringifyDate }}</td>
+            </tr>
+          </table>
+        </div>
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
+
   </div>
 </ng-template>
 

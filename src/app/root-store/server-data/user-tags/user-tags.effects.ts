@@ -29,6 +29,9 @@ import {
   UpdateInterfaceLanguage,
   UpdateInterfaceLanguageError,
   UpdateInterfaceLanguageSuccess,
+  UpdateKeyboardLayoutForVms,
+  UpdateKeyboardLayoutForVmsError,
+  UpdateKeyboardLayoutForVmsSuccess,
   UpdateLastVMId,
   UpdateLastVMIdError,
   UpdateLastVMIdSuccess,
@@ -252,6 +255,19 @@ export class UserTagsEffects {
       return this.upsertTag(key, value).pipe(
         map(() => new IncrementLastVMIdSuccess({ key, value })),
         catchError((error) => of(new IncrementLastVMIdError({ error })))
+      )
+    })
+  );
+
+  @Effect()
+  UpdateKeyboardLayoutForVms$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateKeyboardLayoutForVms>(UserTagsActionTypes.UpdateKeyboardLayoutForVms),
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
+      const key = userTagKeys.keyboardLayoutForVms;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateKeyboardLayoutForVmsSuccess({ key, value })),
+        catchError((error) => of(new UpdateKeyboardLayoutForVmsError({ error })))
       )
     })
   );

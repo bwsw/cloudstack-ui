@@ -1,10 +1,7 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import { Volume } from '../../../../shared/models/volume.model';
+import { Component, Input } from '@angular/core';
+import { DiskOffering, Volume } from '../../../../shared/models';
 import * as moment from 'moment';
-import { DiskOffering } from '../../../../shared/models';
+import { Utils } from '../../../../shared/services/utils/utils.service';
 
 
 @Component({
@@ -15,16 +12,13 @@ import { DiskOffering } from '../../../../shared/models';
 export class VolumeSidebarDiskOfferingComponent {
   @Input() public volume: Volume;
   @Input() public offering: DiskOffering;
-  @Input() public columns: Array<string>;
-  public tableId = 'VOLUME_PAGE.DETAILS';
-  public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
-  public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created'];
 
   public get offeringCreated(): Date {
     return moment(this.offering.created).toDate();
   }
 
-  public isCustomField(column: string, columns: Array<string>): boolean {
-    return 0 <= columns.indexOf(column);
+  public convertToMb(bytes: number): number {
+    const megabytes = Utils.convertBytesToMegabytes(bytes);
+    return Math.round(megabytes);
   }
 }
