@@ -85,7 +85,8 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       || isNoOfferingsInCurrentViewMode
       || isSelectedOfferingFromDifferentViewMode
       || isSelectedOfferingDoNotHaveParams
-      || isSelectedOfferingDifferentFromCurrent;
+      || isSelectedOfferingDifferentFromCurrent
+      || this.resourcesLimitExceeded;
   }
 
   private isSelectedOfferingDifferent(): boolean {
@@ -108,8 +109,8 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
     let memoryExceeded;
 
     if (offering.iscustomized) {
-      сpusExceeded = this.account.cpuavailable < this.serviceOffering['customOfferingRestrictions'].cpunumber.min;
-      memoryExceeded = this.account.memoryavailable < this.serviceOffering['customOfferingRestrictions'].memory.min;
+      сpusExceeded = this.account.cpuavailable < this.serviceOffering.customOfferingRestrictions.cpunumber.min;
+      memoryExceeded = this.account.memoryavailable < this.serviceOffering.customOfferingRestrictions.memory.min;
     } else {
       сpusExceeded = this.account.cpuavailable < this.serviceOffering.cpunumber;
       memoryExceeded = this.account.memoryavailable < this.serviceOffering.memory;

@@ -83,10 +83,6 @@
   </ng-container>
 </div>
 
-<mat-error *ngIf="resourcesLimitExceeded">
-  {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
-</mat-error>
-
 <cs-no-results *ngIf="!offeringList?.length && !isLoading"></cs-no-results>
 
 

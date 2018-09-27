@@ -18,7 +18,6 @@
       [offeringList]="serviceOfferings"
       [selectedOffering]="serviceOffering"
       [showFields]="showFields"
-      [resourcesLimitExceeded]="resourcesLimitExceeded"
       (selectedOfferingChange)="updateOffering($event)"
     ></cs-service-offering-list>
 
@@ -28,6 +27,11 @@
     >{{ "SERVICE_OFFERING.VM_WILL_BE_RESTARTED" | translate }}
     </div>
   </div>
+
+  <mat-error *ngIf="resourcesLimitExceeded">
+    {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+  </mat-error>
+
   <div class="mat-dialog-actions">
     <div>
       <button mat-button color="primary" (click)="showFields = !showFields">
@@ -42,7 +46,7 @@
       <button
         mat-button
         color="primary"
-        [disabled]="isSubmitButtonDisabled() || resourcesLimitExceeded"
+        [disabled]="isSubmitButtonDisabled()"
         (click)="onChange()"
       >
         {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}

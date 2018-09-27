@@ -54,16 +54,6 @@ const getOfferingsAvailableInZone = (
   });
 };
 
-const getAvailableByResourcesSync = (
-  serviceOfferings: ComputeOfferingViewModel[],
-  availability: OfferingAvailability,
-  resourceUsage: ResourceStats,
-  zone: Zone
-) => {
-  const availableInZone = getOfferingsAvailableInZone(serviceOfferings, availability, zone);
-  return availableInZone;
-};
-
 export const getAvailableOfferingsForVmCreation = createSelector(
   getComputeOfferingViewModel,
   configSelectors.get('offeringAvailability'),
@@ -74,8 +64,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
       return [];
     }
 
-    const resourceUsage = ResourceStats.fromAccount([user]);
-    return getAvailableByResourcesSync(serviceOfferings, availability, resourceUsage, zone);
+    return getOfferingsAvailableInZone(serviceOfferings, availability, zone);
   }
 );
 
@@ -98,8 +87,7 @@ export const getAvailableOfferings = createSelector(
       return [];
     }
 
-    const resourceUsage = ResourceStats.fromAccount([user]);
-    const availableOfferings = getAvailableByResourcesSync(serviceOfferings, availability, resourceUsage, zone);
+    const availableOfferings = getOfferingsAvailableInZone(serviceOfferings, availability, zone);
 
     const filterByCompatibilityPolicy = VmCompatibilityPolicy.getFilter(compatibilityPolicy, currentOffering);
 

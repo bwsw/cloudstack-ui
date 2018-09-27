@@ -24,7 +24,6 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input() public isLoading = false;
   @Input() public showFields: boolean;
   @Input() public account: Account;
-  @Input() public resourcesLimitExceeded = false;
   @Output() public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
 
   public list: Array<{ soClass: ServiceOfferingClass, items: MatTableDataSource<ComputeOfferingViewModel> }>;

@@ -5,14 +5,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
 import { Account } from '../../shared/models';
 
-function LimitValidator(cpuNumberLimit: number): ValidatorFn {
-  return function (control: FormControl) {
-    return control.value > cpuNumberLimit
-      ? { cpuLimitExceeded: true }
-      : null;
-  };
-}
-
 @Component({
   selector: 'cs-custom-service-offering',
   templateUrl: 'custom-service-offering.component.html',
@@ -58,9 +50,9 @@ export class CustomServiceOfferingComponent implements OnInit {
 
   private createForm() {
     this.hardwareForm = new FormGroup({
-      cpuNumber: new FormControl(this.offering.cpunumber, [Validators.required, LimitValidator(this.maxCpu)]),
+      cpuNumber: new FormControl(this.offering.cpunumber, [Validators.required, Validators.max(this.maxCpu)]),
       cpuSpeed: new FormControl(this.offering.cpuspeed, [Validators.required]),
-      memory: new FormControl(this.offering.memory, [Validators.required, LimitValidator(this.maxMemory)]),
+      memory: new FormControl(this.offering.memory, [Validators.required, Validators.max(this.maxMemory)]),
     });
   }
 }
