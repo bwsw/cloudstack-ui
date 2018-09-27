@@ -44,7 +44,6 @@ export class VmCreationComponent {
   @Input() public deployedVm: VirtualMachine;
   @Input() public enoughResources: boolean;
   @Input() public insufficientResources: Array<string>;
-  @Input() public diskOfferingParams: Array<string>;
   @Input() public maxRootDiskSize: number;
 
   @Output() public displayNameChange = new EventEmitter<string>();
