@@ -61,20 +61,11 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
       take(1),
       filter(Boolean))
       .subscribe((account) => {
-        if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
-          this.handleInsufficientResources();
-          return;
-        }
         this.maxSize = account.primarystorageavailable;
         this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
           zone: zone,
           maxSize: this.maxSize
         }));
       });
-  }
-
-  private handleInsufficientResources(): void {
-    this.volumeCreationDialogComponent.dialogRef.close();
-    this.dialogService.alert({ message: 'ERRORS.VOLUME.VOLUME_LIMIT_EXCEEDED' });
   }
 }

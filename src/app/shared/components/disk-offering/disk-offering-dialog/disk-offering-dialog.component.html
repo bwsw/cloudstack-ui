@@ -104,7 +104,7 @@
     mat-button
     color="primary"
     type="submit"
-    [disabled]="isSubmitButtonDisabled() || resourcesLimitExceeded"
+    [disabled]="isSubmitButtonDisabled()"
     (click)="onSubmit()"
   >
     {{ 'COMMON.SELECT' | translate }}

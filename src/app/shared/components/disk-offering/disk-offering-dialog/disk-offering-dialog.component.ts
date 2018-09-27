@@ -52,7 +52,7 @@ export class DiskOfferingDialogComponent {
   public isSubmitButtonDisabled() {
     const isDiskOfferingNotSelected = !this.selectedDiskOffering;
     const isNoDiskOfferings = !this.diskOfferings.length;
-    return isDiskOfferingNotSelected || isNoDiskOfferings;
+    return this.resourcesLimitExceeded || isDiskOfferingNotSelected || isNoDiskOfferings;
   }
 
   private checkResourcesLimit() {

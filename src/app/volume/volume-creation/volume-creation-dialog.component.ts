@@ -32,7 +32,8 @@ export class VolumeCreationDialogComponent {
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
     public authService: AuthService
   ) {
-    this.minSize = this.authService.getCustomDiskOfferingMinSize();
+    const customMinSize = this.authService.getCustomDiskOfferingMinSize();
+    this.minSize = customMinSize > this.maxSize ? this.maxSize : customMinSize;
     this.newVolume.size = this.minSize;
   }
 
