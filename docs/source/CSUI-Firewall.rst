@@ -8,18 +8,21 @@ The *Firewall* section contains templates to create a security group for a virtu
 
 .. figure:: _static/Firewall_List816.png
 
-**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment in the JSON configuration file (find more in `Configurations Guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_). Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. If it is necessary, a custom firewall template can be created. Find more information on how to create a custom firewall template at :ref:`Create_FTemplate`.
+**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment via the JSON configuration file (find more in `configurations guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#security-group-templates>`_). These presets will be used when creating a new security group. The new group will contain all the rules of these presets.
 
-Upon VM creation the system creates a new security group for a VM on the base of templates. This group is initially filled with all the rules from specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a **private security group** used for that virtual machine only. 
+.. Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. 
 
-The second way is to use a **shared security group** for your virtual machine. Shared groups are used by other VMs. Changes of rules in them may affect other VMs. 
+A custom security group template can be created via the UI. Find more information on how to create a custom security group template at :ref:`Create_FTemplate`.
+
+Upon VM creation the system creates a new security group for a VM on the base of templates (if they exist). This group initially contains all the rules from the specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a **private security group** used for that virtual machine only. 
+
+The second way is to use a **shared security group** for your virtual machine. Shared groups are used by several VMs. Changes of rules in them may affect other VMs. 
 
 Users can manage security group rules in two modes: a "view" mode with filtering by types and protocols and an “edit” mode. Security groups editing is available when switching from "view" mode to "editing" mode. If the group is shared, the user is warned that changes will affect other VMs using this group. This behavior allows avoiding undesirable changes for other VMs.
 
 Templates, shared and private security groups are placed in different tabs of the *Firewall* section. You can switch from templates to shared or private security groups using the tool above the list. 
 
 .. figure:: _static/Firewall_Switch816.png
-   :scale: 80%
    
 A user can see security groups of his/her user only. An Administrator can observe security groups of all accounts in the domain.
 
@@ -43,17 +46,17 @@ You can create your own template. It will be available as a base at a new privat
 
 A new security group template is created on the base of existing templates. This security group will be created as a custom template (with a ``custom-template`` type).
 
-If you would like to create a new security group template, click "Create" in the bottom-right corner and fill in the form:
+If you would like to create a new security group template, click "Create" |create icon| in the bottom-right corner and fill in the form:
 
 .. figure:: _static/Firewall_CreateTemplate.png
-   :scale: 70%
+
+.. note:: Required fields are marked with an asterisk (*).
 
 - Name * - Enter a name for the template.
 - Description - Provide a short description for the firewall template.
 - Basic rules - Click "ADD" to open the list of rules to assign them to the template. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
  
 .. figure:: _static/Firewall_SelectRules.png
-   :scale: 70%
 
 Click “SELECT ALL” to move all templates from left to right at once.
 
@@ -62,7 +65,6 @@ Click “RESET” to drop all selected templates.
 In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your firewall template.
 
 .. figure:: _static/Firewall_SelectRules2.png
-   :scale: 70%
 
 Click “SAVE” to apply the selected rules to your security group template.
 
@@ -71,7 +73,6 @@ Click “CANCEL” to drop the selected options. No rules will be assigned to th
 When all fields are completed, click "CREATE" to create the new firewall template. The template will appear in the list of firewall templates as *Custom*:
 
 .. figure:: _static/Firewall_CreatedTemplate.png
-   :scale: 70%
    
 Click "CANCEL" to cancel the template creation process. No firewall templates will be created then. All fields will be cleared in the form.
 
@@ -83,12 +84,13 @@ A new shared security group is created on the base of existing templates. This s
 
 If you would like to create a new shared security group, click "Create" in the bottom-right corner and fill in the form:
 
- - Name * - Enter a name for the group.
- - Description - Provide a short description for the group.
- - Basic rules - Click "ADD" to open the list of rules to assign them to the group. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
+.. note:: Required fields are marked with an asterisk (*).
+
+- Name * - Enter a name for the group.
+- Description - Provide a short description for the group.
+- Basic rules - Click "ADD" to open the list of rules to assign them to the group. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:
  
 .. figure:: _static/Firewall_SelectRules.png
-   :scale: 70%
    
 Click “SELECT ALL” to move all templates from left to right at once.
 
@@ -97,14 +99,12 @@ Click “RESET” to drop all selected templates.
 In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your shared security group.
 
 .. figure:: _static/Firewall_SelectRules2.png
-   :scale: 70%
 
 Click “SAVE” to apply the selected rules to your security group template.
 
 Click “CANCEL” to drop the selected options. No rules will be assigned to the security group. You will return to the “Create a new security group” window.
 
 .. figure:: _static/Firewall_CreateSharedSG.png
-   :scale: 70%
    
 Click "CREATE" to create the new shared security group. The group will appear in the list of shared security groups.
 
@@ -148,7 +148,7 @@ The **Details** tab contains the following information:
 
 .. figure:: _static/Firewall_TemplateDetails1.png
  
-For shared security groups you also can see what virtual machines this group is assigned to. The machine name in the list is active. You can move to the virtual machine details bar by clicking it.
+For shared security groups you also can see what virtual machines are assigned to this group. The machine name in the list is active. You can move to the virtual machine details bar by clicking it. 
  
 .. figure:: _static/Firewall_SharedSGDetails1.png
 
@@ -162,9 +162,11 @@ System tags are listed in a separate card.
 
 Сlick |create icon| to add a tag. Enter a key and a value. 
 
+.. note:: Both fields are required. The input values for both fields cannot start with a space.
+
 .. figure:: _static/Firewall_Details_Tags.png
 
-Click "Create" to create the new tag. It will be saved in a separate card.
+Click "CREATE" to create the new tag. It will be saved in a separate card.
 
 An existing tag can be edited or deleted by clicking a correspondent icon next to the tag's name.
 
@@ -185,34 +187,72 @@ Edit a Firewall Template/Security Group
 
 When clicking "Rules" |view| in the Action box you open a modal window where the rules of the template/security group are listed. The list of rules can be filtered by:
 
+- IP versions - IPv4 and/or IPv6;
 - Types - Ingress and/or Egress;
-- Protocols - TCP and/or UDP and/or ICMP;
+- Protocols - TCP and/or UDP and/or ICMP.
 
 Besides, you can group the rules by types and/or protocols.
 
-.. figure:: _static/Firewall_FilterRules.png
+.. figure:: _static/Firewall_FilterRules1.png
 
 You can edit the implemented rules right in this modal window by clicking "EDIT" below the list. When switching to the edit mode you are enabled to add rules or delete the selected ones from the list. 
 
 To add rules, please, fill in the fields in the panel above the list and click “+”:
 
 .. figure:: _static/Firewall_AddRules.png
-   :scale: 70%
-   
+
+**Validation**
+
+Please, make sure you enter valid values for Start and End ports:
+
+* Start port can be less or equal to End port. For more convenience, we added the autocomplete, that is, when entering a Start port value, the End port field is prepopulated with an equal value.
+* The values in these fields cannot be greater/less than maximum/minimum allowed values (for TCP/UDP max port is 65535, for ICMP - 255).
+* The fields cannot be empty.
+
+For ICMP type make sure you input a valid CIDR, ICMP type and code. 
+
+* You will not be able to enter an ICMP type and a code until a valid CIDR is specified. Likewise, you will not be able to enter an ICMP code until a valid ICMP type is specified. 
+* CIDR allows entering IP addresses in both IPv4 and IPv6 formats.
+* ICMP IPv6 the "[-1] Any" value is supported for type and code.
+* ICMP type and code fields cannot be empty. 
+
+For invalid values the add button "+" is disabled.
+
 To delete rules, please, click the Delete icon in the list. The rule will be deleted from the security group.
 
 .. figure:: _static/Firewall_DeleteRules.png
-   :scale: 70%
    
 Then you can move back to the view mode, or close the window. You will see the rules are edited.
 
 Please, note, when editing shared security groups, a warning message appears:
 
-.. figure:: _static/Firewall_EditShared_Warning.png
+.. figure:: _static/Firewall_EditShared_Warning1.png
 
 Click “Yes” if you still want to edit a shared security group. You will be switched to the "Edit" mode. Change the security group as you need following the instructions above.
 
 .. note:: Editing is not available for system firewall templates and security groups of other users. You can view the rules only.
+
+"Convert to Shared" Action for Private Security Groups
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+For private security groups you can find a "Convert to shared" action in the Action box. It allows making a shared SG from a private SG so that it can be used for VMs by other users.
+
+To convert a private security group into a shared one, please, follow the steps:
+
+1) Move to the list of Private Security groups,
+
+2) Select "Convert to shared" option in action box for a security group,
+
+.. figure:: _static/Firewall_ConvertToSharedAction.png
+
+3) A warning dialog appears. Click "YES" to confirm your action. 
+
+.. figure:: _static/Firewall_ConvertToSharedDialogue.png
+
+The security group will be moved to the list of "Shared Security Groups". The tag "is private" will be removed for this security group. 
+
+Click "NO" to cancel the convertion, the security group will stay private.
+  
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png

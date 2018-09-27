@@ -4,7 +4,7 @@ Snapshots
 
 The *Snapshots* section contains the information on snapshots existing in the system.
 
-.. figure:: _static/Snapshots.png
+.. figure:: _static/Snapshots1.png
 
 Snapshots List
 -------------------
@@ -61,6 +61,8 @@ The following actions are available for snapshots:
 
 .. figure:: _static/Snapshots_Actions.png
 
+.. note:: For a newly created snapshot the "Delete" action is available only till the snapshot is backed up to the Secondary Storage that may take some time. Once it is backed up (marked with a green state icon), a full range of actions is available to a user.
+
 Below you will find details for each action.
 
 **Create Template**
@@ -69,6 +71,8 @@ Open a creation form to register a new template from the snapshot.
 
 Fill in the fields:
 
+.. note:: Required fields are marked with an asterisk (*).
+
 - Name * - Enter a name of the new template.
 - Description * - Provide a short description of the template.
 - OS type * - Select an OS type from the drop-down list.
@@ -76,13 +80,11 @@ Fill in the fields:
 - Password enabled - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
 - Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory.
 
-.. note:: Required fields are marked with an asterisk (*).
-
 Click “Show additional fields” to expand the list of optional settings. It allows creating a template that requires HVM. Tick this option in this case.
 
 Once all fields are filled in click "Create" to create the new template.
 
-.. figure:: _static/Snapshots_CreateTemplate1.png
+.. figure:: _static/Snapshots_CreateTemplate2.png
 
 Click "Cancel" to cancel the template creation.
 
@@ -90,11 +92,11 @@ Click "Cancel" to cancel the template creation.
 
 This action allows creating a volume from the snapshot.
 
-Type a name for a new volume into the Name field in the modal window. Click "Create" to register a new volume.
+Type a name for a new volume into the Name field in the modal window. Click "CREATE" to register a new volume.
 
 .. figure:: _static/Snapshots_Actions_CreateVolume.png
 
-Click "Cancel" to cancel the volume creation.
+Click "CANCEL" to cancel the volume creation.
 
 **Revert Volume to Snapshot**
 
@@ -112,7 +114,7 @@ Click "Delete" in the Action box and confirm your action in modal window. The sn
 
 .. figure:: _static/Snapshots_Actions_Delete.png
 
-Click "Cancel" to cancel the snapshot deleting.
+Click "NO" to cancel the snapshot deleting.
 
 
 .. |bell icon| image:: _static/bell_icon.png
