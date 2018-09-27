@@ -17,7 +17,7 @@ You can see examples of the configurations in the [config-example.json](https://
   * [Default First Day Of Week](#default-first-day-of-week)
   * [Default Interface Language](#default-interface-language)
   * [Default Time Format](#default-time-format)
-  * [Default Theme Name](#default-theme-name)
+  * [Default Theme](#default-theme)
   * [Session Timeout](#session-timeout)
 * [Menu Settings](#menu-settings)
   * [Allow Reordering Sidenav](#allow-reordering-sidenav)
@@ -27,7 +27,6 @@ You can see examples of the configurations in the [config-example.json](https://
   * [Default Compute Offering](#default-compute-offering)
   * [Offering Compatibility Policy](#offering-compatibility-policy)
   * [Compute Offering Classes](#compute-offering-classes)
-  * [Disk Offering Parameters](#disk-offering-parameters)
   * [Service Offering Availability](#service-offering-availability)
 
 
@@ -212,14 +211,14 @@ For example,
 "defaultTimeFormat": "hour24"
 ```
 
-### Default Theme Name
+### Default Theme
 Allows you to predefine the setting of the theme. Available themes are:
 - "blue-red" (default)
 - "indigo-pink"
 
 For example,
 ```
-"defaultThemeName": "blue-red"
+"defaultTheme": "blue-red"
 ```
 
 ### Session Timeout
