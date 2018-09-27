@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "offeringAvailability",
+  "$id": "serviceOfferingAvailability",
   "oneOf": [
     { "$ref": "#/definitions/FilterOfferingEnabled" },
     { "$ref": "#/definitions/FilterOfferingDisabled" }
@@ -44,8 +44,8 @@
         "diskOfferings": {
           "$ref": "#/definitions/DiskOfferings"
         },
-        "serviceOfferings": {
-          "$ref": "#/definitions/ServiceOfferings"
+        "computeOfferings": {
+          "$ref": "#/definitions/ComputeOfferings"
         }
       },
       "additionalProperties": false
@@ -56,7 +56,7 @@
         "type": "string"
       }
     },
-    "ServiceOfferings": {
+    "ComputeOfferings": {
       "type": "array",
       "items": {
         "type": "string"

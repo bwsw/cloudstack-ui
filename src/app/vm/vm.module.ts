@@ -19,8 +19,6 @@ import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.
 import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
-import { ServiceOfferingClassEffects } from '../reducers/service-offerings/redux/service-offering-class.effects';
-import { serviceOfferingClassReducers } from '../reducers/service-offerings/redux/service-offering-class.reducers';
 import { ServiceOfferingEffects } from '../reducers/service-offerings/redux/service-offerings.effects';
 import { serviceOfferingReducers } from '../reducers/service-offerings/redux/service-offerings.reducers';
 import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.effects';
@@ -122,7 +120,6 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     StoreModule.forFeature('tags', accountTagsReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
-    StoreModule.forFeature('service-offering-class', serviceOfferingClassReducers),
     EffectsModule.forFeature([
       VirtualMachinesEffects,
       VirtualMachineCreationEffects,
@@ -130,7 +127,6 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
       AccountsEffects,
       AccountTagsEffects,
       ServiceOfferingEffects,
-      ServiceOfferingClassEffects
     ]),
   ],
   declarations: [

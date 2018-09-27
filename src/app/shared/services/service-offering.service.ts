@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { OfferingAvailability, ServiceOffering, Zone } from '../models';
+import { ServiceOffering, ServiceOfferingAvailability, Zone } from '../models';
 import { BackendResource } from '../decorators';
 import { OfferingService } from './offering.service';
 
@@ -12,11 +12,11 @@ import { OfferingService } from './offering.service';
 export class ServiceOfferingService extends OfferingService<ServiceOffering> {
   protected isOfferingAvailableInZone(
     offering: ServiceOffering,
-    availability: OfferingAvailability,
+    availability: ServiceOfferingAvailability,
     zone: Zone
   ): boolean {
     if (availability.zones[zone.id]) {
-      const isOfferingExist = availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+      const isOfferingExist = availability.zones[zone.id].computeOfferings.indexOf(offering.id) !== -1;
       return isOfferingExist;
     }
     return false;

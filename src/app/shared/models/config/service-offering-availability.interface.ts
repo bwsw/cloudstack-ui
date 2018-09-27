@@ -1,9 +1,9 @@
-export interface OfferingAvailability {
+export interface ServiceOfferingAvailability {
   filterOfferings: boolean;
   zones?: {
     [zoneId: string]: {
       diskOfferings: Array<string>,
-      serviceOfferings: Array<string>
+      computeOfferings: Array<string>
     }
   }
 }

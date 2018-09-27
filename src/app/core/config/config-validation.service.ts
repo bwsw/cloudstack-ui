@@ -65,19 +65,19 @@ export class ConfigValidationService {
     defaultFirstDayOfWeek: validationSchemes.defaultFirstDayOfWeek,
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
-    defaultThemeName: validationSchemes.defaultThemeName,
+    defaultTheme: validationSchemes.defaultTheme,
     defaultComputeOffering: validationSchemes.defaultComputeOffering,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
     customComputeOfferingParameters: validationSchemes.customComputeOfferingParameters,
-    offeringAvailability: validationSchemes.offeringAvailability,
-    templateGroups: validationSchemes.templateGroups,
-    serviceOfferingClasses: validationSchemes.serviceOfferingClasses,
+    serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
+    imageGroups: validationSchemes.imageGroups,
+    computeOfferingClasses: validationSchemes.computeOfferingClasses,
   };
 
   constructor() {
     // Ajv options allErrors and jsonPointers are required for ajv-errors
-    this.schemeValidator = new AjvCore({allErrors: true, jsonPointers: true});
+    this.schemeValidator = new AjvCore({ allErrors: true, jsonPointers: true });
     AjvErrors(this.schemeValidator);
     AjvUniqueItemProperties(this.schemeValidator);
   }

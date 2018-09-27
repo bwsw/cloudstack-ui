@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseTemplateModel } from '../shared/base-template.model';
-import { TemplateGroup } from '../../shared/models';
+import { ImageGroup } from '../../shared/models';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { AuthService } from '../../shared/services/auth.service';
 import { Language } from '../../shared/types';
@@ -13,7 +13,7 @@ export const getGroupName = (template: BaseTemplateModel) => {
     : template.account;
 };
 
-export const getTemplateGroupId = (item: BaseTemplateModel) => {
+export const getImageGroupId = (item: BaseTemplateModel) => {
   const tag = item.tags.find(
     _ => _.key === TemplateTagKeys.group);
   return tag && tag.value;
@@ -28,7 +28,7 @@ export const noGroup: noGroup = '-1';
   styleUrls: ['template-filter-list.component.scss']
 })
 export class TemplateFilterListComponent {
-  @Input() public groups: TemplateGroup[] = [];
+  @Input() public groups: ImageGroup[] = [];
   public groupings = [
     {
       key: 'zones',
@@ -68,8 +68,8 @@ export class TemplateFilterListComponent {
   }
 
   private getGroup(item: BaseTemplateModel): string {
-    return this.groups[getTemplateGroupId(item)]
-      && this.groups[getTemplateGroupId(item)].translations
-      && this.groups[getTemplateGroupId(item)].translations[this.locale];
+    const imageGroupId = getImageGroupId(item);
+    const imageGroup = this.groups.find(group => group.id === imageGroupId);
+    return imageGroup && imageGroup.translations && imageGroup.translations[this.locale];
   }
 }

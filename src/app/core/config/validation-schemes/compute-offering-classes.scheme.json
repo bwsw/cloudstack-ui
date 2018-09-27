@@ -1,26 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "templateGroups",
+  "$id": "computeOfferingClasses",
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["id"],
+    "required": ["id", "name", "description", "computeOfferings"],
     "additionalProperties": false,
     "properties": {
       "id": {
         "type": "string",
         "minLength": 1
       },
-      "translations": {
+      "name": {
         "$ref": "#/definitions/Translations"
+      },
+      "description": {
+        "$ref": "#/definitions/Translations"
+      },
+      "computeOfferings": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       }
     }
   },
   "definitions": {
     "Translations": {
       "type": "object",
-      "required": ["ru", "en"],
       "additionalProperties": false,
+      "required": ["ru", "en"],
       "properties": {
         "ru": {
           "type": "string"

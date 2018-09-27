@@ -27,7 +27,6 @@ import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
-import * as soClassActions from '../../../reducers/service-offerings/redux/service-offering-class.actions';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
@@ -119,7 +118,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
 
     this.getDefaultVmName()
