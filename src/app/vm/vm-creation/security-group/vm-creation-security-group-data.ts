@@ -12,8 +12,8 @@ export class VmCreationSecurityGroupData {
     return new VmCreationSecurityGroupData(mode);
   }
 
-  public static fromRules(rules: Rules, securityGroups?: SecurityGroup[]): VmCreationSecurityGroupData {
-    return new VmCreationSecurityGroupData(VmCreationSecurityGroupMode.Selector, rules, securityGroups);
+  public static fromRules(rules: Rules): VmCreationSecurityGroupData {
+    return new VmCreationSecurityGroupData(VmCreationSecurityGroupMode.Builder, rules);
   }
 
   public static fromSecurityGroup(securityGroups: Array<SecurityGroup>): VmCreationSecurityGroupData {

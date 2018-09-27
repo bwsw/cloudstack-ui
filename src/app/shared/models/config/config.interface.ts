@@ -20,12 +20,12 @@ export interface CustomizableConfig {
    * Virtual machines settings
    */
   vmColors: Array<{ value: string }>;
+  maxRootDiskSize: number;
   /*
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: Array<any>;
-  defaultSecurityGroupName: {en: string, ru: string};
-  maxRootDiskSize: number;
+  defaultSecurityGroupName: { en: string, ru: string };
   /*
    * Images settings
    */

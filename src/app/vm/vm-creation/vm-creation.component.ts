@@ -94,14 +94,15 @@ export class VmCreationComponent {
   }
 
   public get rootDiskSizeLimit(): number {
-    const storageAvailable = this.account && this.account.primarystorageavailable;
-    if (storageAvailable.toString() === 'Unlimited' && this.maxRootDiskSize) {
-      return this.maxRootDiskSize
-    } else if (storageAvailable < this.maxRootDiskSize) {
-      return storageAvailable;
-    } else {
-      return this.maxRootDiskSize || storageAvailable;
+    const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
+    const storageAvailable = Number(primaryStorageAvailable);
+    if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
+      return this.maxRootDiskSize;
     }
+    if (storageAvailable < this.maxRootDiskSize) {
+      return storageAvailable;
+    }
+    return this.maxRootDiskSize;
   }
 
   public get showRootDiskResize(): boolean {
@@ -155,11 +156,5 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
-  }
-
-  public tabIsActive(tabId: string) {
-    const path = this.route.snapshot;
-    const pathLastChild = path.firstChild ? path.firstChild.routeConfig.path : null;
-    return (tabId === pathLastChild);
   }
 }

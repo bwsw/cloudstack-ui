@@ -205,13 +205,19 @@ export const isFormLoading = createSelector(
   state => state.loading
 );
 
+const selectDefaultSecurityGroupName = createSelector(
+  configSelectors.get('defaultSecurityGroupName'),
+  UserTagsSelectors.getInterfaceLanguage,
+  (names, lang) => {
+    return names[lang];
+  });
+
 export const selectFilteredSecurityGroups = createSelector(
   selectAll,
   filters,
   fromAccounts.selectAll,
-  configSelectors.get('defaultSecurityGroupName'),
-  UserTagsSelectors.getInterfaceLanguage,
-  (securityGroups, filter, accounts, names, lang) => {
+  selectDefaultSecurityGroupName,
+  (securityGroups, filter, accounts, defaultSecurityGroupName) => {
     const mode = filter.viewMode;
     const queryLower = filter.query ? filter.query.toLowerCase() : '';
     const queryFilter = (group: SecurityGroup) => !queryLower || group.name.toLowerCase()
@@ -242,40 +248,30 @@ export const selectFilteredSecurityGroups = createSelector(
       : true;
 
     const renameDefaultSG = (securityGroup: SecurityGroup) => {
-      if (isDefaultSecurityGroup(securityGroup)) {
-        return Object.assign({}, securityGroup, {name: names[lang]});
-      } else {
-        return securityGroup;
-      }
+      return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
     };
 
     return securityGroups
-      .map(_ => renameDefaultSG(_))
+      .map(sg => renameDefaultSG(sg))
       .filter(group => queryFilter(group)
-      && viewModeFilter(group)
-      && selectedAccountIdsFilter(group)
-      && isOrphan(group));
-  }
-);
+        && viewModeFilter(group)
+        && selectedAccountIdsFilter(group)
+        && isOrphan(group));
+  });
 
 export const selectSecurityGroupsForVmCreation = createSelector(
   selectAll,
   fromAuth.getUserAccount,
-  configSelectors.get('defaultSecurityGroupName'),
-  UserTagsSelectors.getInterfaceLanguage,
-  (securityGroups, account, names, lang) => {
+  selectDefaultSecurityGroupName,
+  (securityGroups, account, defaultSecurityGroupName) => {
     const accountFilter = (securityGroup: SecurityGroup) => account && securityGroup.account === account.name;
     const onlySharedFilter = (securityGroup: SecurityGroup) =>
       getType(securityGroup) === SecurityGroupType.Shared;
     const renameDefaultSG = (securityGroup: SecurityGroup) => {
-      if (isDefaultSecurityGroup(securityGroup)) {
-        return Object.assign({}, securityGroup, {name: names[lang]});
-      } else {
-        return securityGroup;
-      }
+      return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
     };
     return securityGroups
-      .map(_ => renameDefaultSG(_))
+      .map(sg => renameDefaultSG(sg))
       .filter((securityGroup) => accountFilter(securityGroup) && onlySharedFilter(securityGroup));
   });
 
@@ -287,12 +283,8 @@ export const selectPredefinedSecurityGroups = createSelector(
 
 export const selectDefaultSecurityGroup = createSelector(
   selectAll,
-  configSelectors.get('defaultSecurityGroupName'),
-  UserTagsSelectors.getInterfaceLanguage,
-  (securityGroups, names, lang) => {
+  selectDefaultSecurityGroupName,
+  (securityGroups, defaultSecurityGroupName) => {
     const defaultGroup = securityGroups.find(sg => sg.name === 'default');
-    return names
-      ? Object.assign({}, defaultGroup, {name: names[lang]})
-      : defaultGroup;
-  }
-);
+    return {...defaultGroup, name: defaultSecurityGroupName};
+  });

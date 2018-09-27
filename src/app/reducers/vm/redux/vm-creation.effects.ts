@@ -133,12 +133,12 @@ export class VirtualMachineCreationEffects {
     withLatestFrom(this.store.pipe(
       select(fromSecurityGroups.selectPredefinedSecurityGroups),
       filter(groups => !!groups.length)),
-      this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup))),
+      this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup))
+    ),
     map(([action, securityGroups, defaultSecurityGroup]:
            [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[], SecurityGroup]) => {
       return new vmActions.VmFormUpdate({
-        securityGroupData: VmCreationSecurityGroupData
-          .fromRules(Rules.createWithAllRulesSelected(securityGroups), [defaultSecurityGroup])
+        securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup])
       });
     }));
 

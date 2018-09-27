@@ -25,11 +25,11 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   public get rootDiskSizeLimit(): number {
     if (this.maxSize.toString() === 'Unlimited' && this.maxRootDiskSize) {
       return this.maxRootDiskSize
-    } else if (this.maxSize < this.maxRootDiskSize) {
-      return this.maxSize;
-    } else {
-      return this.maxRootDiskSize || this.maxSize
     }
+    if (Number(this.maxSize) < this.maxRootDiskSize) {
+      return Number(this.maxSize);
+    }
+    return this.maxRootDiskSize;
   }
 
   constructor(

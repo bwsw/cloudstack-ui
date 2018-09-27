@@ -54,15 +54,17 @@ Parameters:
 
 ### Default Security Group Name
 
-Allow you to set a name for Default Firewall group
+Allow you to rename the Default Firewall group.
+The default name is `default` for both languages.
 
+For example,
 ```
-"defaultGroupName": {
-  "en": "value",
-  "ru": "значение"
+"defaultSecurityGroupName": {
+  "en": "default name",
+  "ru": "имя по умолчанию"
+}
 ```
 
-The default name is `default`.
 
 ### VM Colors
 
@@ -78,13 +80,14 @@ The set of colors for virtual machines in hexadecimal format. You can specify an
 ### Max Root Disk Size 
 
 Allow you to set the max root disk size. 
+The default value is `1024` GB.
+The minimum value for root disk size is `10` GB.
+
+For example,
 
 ```
 "maxRootDiskSize": 512
 ```
-
-The default value is `1024` GB.
-The minimum value for root disk size is `10` GB.
 
 ### Default Theme Name
 

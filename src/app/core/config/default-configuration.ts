@@ -50,8 +50,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    */
   securityGroupTemplates: [],
   defaultSecurityGroupName: {
-    en: 'dfd',
-    ru: 'по умолчанию'
+    en: 'default',
+    ru: 'default'
   },
   /*
   * Images settings

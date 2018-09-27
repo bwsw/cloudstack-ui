@@ -59,7 +59,7 @@ export interface Account extends BaseModelInterface {
   networkavailable: number;
   networklimit: number;
   networktotal: number;
-  primarystorageavailable: number;
+  primarystorageavailable: string;
   primarystoragelimit: number;
   primarystoragetotal: number;
   role: string;
