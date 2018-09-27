@@ -171,7 +171,7 @@ You can change service offerings by clicking "SELECT" next to the settings in th
 
 .. figure:: _static/VMs_Create_IstallationSource1.png
     
-5. **Disk offering** - Available if ISO is selected as a source. Open a modal window where available disk offerings are listed by clicking "SELECT" in the disk offering section. The list of available options is managed by an Administrator. Disk offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#offering-availability>`_.
+5. **Disk offering** - Available if ISO is selected as a source. Open a modal window where available disk offerings are listed by clicking "SELECT" in the disk offering section. The list of available options is managed by an Administrator. Disk offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_.
 
 For each disk offering you will see a range of parameters. The following parameters are shown by default:
 
