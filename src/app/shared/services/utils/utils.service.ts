@@ -29,6 +29,13 @@ export class Utils {
     return value / Math.pow(2, 30);
   }
 
+  public static convertBytesToMegabytes(bytes: number): number | undefined {
+    if (bytes == null) {
+      return undefined;
+    }
+    return bytes / 1048576; // bytes / 2^20
+  }
+
   public static matchLower(string: string, subString: string): boolean {
     return string && string.toLowerCase().includes(subString && subString.toLowerCase());
   }

@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../shared/models/disk-offering.model';
 import { Zone } from '../../shared/models';
@@ -24,7 +19,6 @@ export class VolumeCreationDialogComponent {
   @Input() public diskOfferings: DiskOffering[];
   @Input() public zones: Zone[];
   @Input() public maxSize: number;
-  @Input() public params: string[];
   @Input() public vmList: VirtualMachine[];
   @Output() public onVolumeCreate = new EventEmitter<VolumeCreationData>();
   @Output() public onZoneUpdated = new EventEmitter<Zone>();

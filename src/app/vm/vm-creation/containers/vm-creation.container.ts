@@ -17,7 +17,6 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmService } from '../../shared/vm.service';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
-import { KeyboardLayout } from '../keyboards/keyboards.component';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
 import { State, UserTagsSelectors } from '../../../root-store';
@@ -61,7 +60,6 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
-      [diskOfferingParams]="diskOfferingParams$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
@@ -69,7 +67,6 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
       (rootDiskSizeChange)="onRootDiskSizeChange($event)"
       (rootDiskSizeMinChange)="onRootDiskSizeMinChange($event)"
       (securityRulesChange)="onSecurityRulesChange($event)"
-      (keyboardChange)="onKeyboardChange($event)"
       (affinityGroupChange)="onAffinityGroupChange($event)"
       (instanceGroupChange)="onInstanceGroupChange($event)"
       (onSshKeyPairChange)="onSshKeyPairChange($event)"
@@ -108,7 +105,6 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-  readonly diskOfferingParams$ = this.store.pipe(select(fromDiskOfferings.getParams));
 
   constructor(
     private store: Store<State>,
@@ -125,7 +121,6 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
-    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
 
     this.getDefaultVmName()
       .subscribe(displayName => this.onDisplayNameChange(displayName));
@@ -167,10 +162,6 @@ export class VmCreationContainerComponent implements OnInit {
 
   public onAffinityGroupChange(affinityGroup: AffinityGroup) {
     this.store.dispatch(new vmActions.VmFormUpdate({ affinityGroup }));
-  }
-
-  public onKeyboardChange(keyboard: KeyboardLayout) {
-    this.store.dispatch(new vmActions.VmFormUpdate({ keyboard }));
   }
 
   public onZoneChange(zone: Zone) {

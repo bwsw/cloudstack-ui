@@ -16,7 +16,6 @@ import { VolumeCreationDialogComponent } from '../volume-creation/volume-creatio
 import { Zone } from '../../shared/models/zone.model';
 import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
 import * as fromVM from '../../reducers/vm/redux/vm.reducers';
-import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
 
 @Component({
@@ -27,7 +26,6 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
       [diskOfferings]="offerings$ | async"
       [maxSize]="maxSize"
       [zones]="zones$ | async"
-      [params]="params$ | async"
       [vmList]="vmList$ | async"
       (onVolumeCreate)="createVolume($event)"
       (onZoneUpdated)="updateZone($event)"
@@ -41,7 +39,6 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly account$ = this.store.select(fromAccounts.selectUserAccount);
-  readonly params$ = this.store.select(fromDiskOfferings.getParams);
   readonly vmList$ = this.store.select(fromVM.selectAll);
 
   public maxSize = 2;
@@ -56,7 +53,6 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
-    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
     this.store.dispatch(new vmActions.LoadVMsRequest());
   }
 
