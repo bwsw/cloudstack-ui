@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
-import { Volume, isRoot } from '../../../models/volume.model';
+import { isRoot, Volume } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
 import { isCustomized } from '../../../models/offering.model';
 
@@ -15,7 +15,6 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input() public maxSize: number;
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
-  @Input() public diskOfferingParams: Array<string>;
   @Input() public maxRootDiskSize: number;
   @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
 

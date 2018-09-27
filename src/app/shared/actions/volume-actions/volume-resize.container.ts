@@ -23,7 +23,6 @@ import { configSelectors } from '../../../root-store';
       [maxSize]="maxSize"
       [volume]="volume"
       [diskOfferings]="offerings$ | async"
-      [diskOfferingParams]="diskOfferingParams$ | async"
       [maxRootDiskSize]="maxRootDiskSize$ | async"
       (onDiskResized)="resizeDisk($event)"
     >
@@ -32,7 +31,6 @@ import { configSelectors } from '../../../root-store';
 export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.getAvailableOfferings));
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
-  readonly diskOfferingParams$ = this.store.pipe(select(fromDiskOfferings.getParams));
   readonly maxRootDiskSize$ = this.store.pipe(select(configSelectors.get('maxRootDiskSize')));
 
   public volume: Volume;
@@ -51,7 +49,6 @@ export class VolumeResizeContainerComponent implements OnInit {
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneid));
-    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
 
     this.account$.pipe(
       take(1),

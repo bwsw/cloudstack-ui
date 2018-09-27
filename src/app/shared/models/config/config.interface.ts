@@ -50,7 +50,6 @@ export interface CustomizableConfig {
   defaultComputeOffering: DefaultComputeOffering[];
   offeringCompatibilityPolicy: OfferingCompatibilityPolicy;
   serviceOfferingClasses: Array<any>;
-  diskOfferingParameters: Array<any>;
   offeringAvailability: OfferingAvailability;
 }
 
