@@ -572,6 +572,7 @@
     "IPv4": "IPv4",
     "IPv6": "IPv6",
     "CONNECTION_STRING": "Connection string",
+    "NOT_SET": "Not Set"
   },
   "VOLUME_PAGE": {
     "FILTERS": {
