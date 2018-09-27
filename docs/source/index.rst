@@ -27,6 +27,7 @@ Contents:
    CS-UI_Guide
    CS-UI_Pulse
    CS-UI_Webshell
+   `Russian Version <https://cloudstack-ui-ru.readthedocs.io/ru/latest/>`_
    
  
 Indices and tables
