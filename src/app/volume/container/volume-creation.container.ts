@@ -1,22 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
-
 import { State } from '../../reducers/index';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
+import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
+import { Zone } from '../../shared/models/zone.model';
+import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
+
+import * as fromVM from '../../reducers/vm/redux/vm.reducers';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
-import { AuthService } from '../../shared/services/auth.service';
-import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
-import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
-import { Zone } from '../../shared/models/zone.model';
-import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
-import * as fromVM from '../../reducers/vm/redux/vm.reducers';
-
 
 @Component({
   selector: 'cs-volume-creation-container',
