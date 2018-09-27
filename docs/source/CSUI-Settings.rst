@@ -91,7 +91,7 @@ The following options are available:
 - Japanese keyboard
 - Simplified Chinese keyboard.
 
-.. figure:: _static/Settings_KeyboardLayout.png
+.. figure:: _static/Settings_KeyboardLayout1.png
 
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~
