@@ -8,26 +8,31 @@
   </mat-card-header>
   <mat-card-content>
     <div class="grid grid-right">
-      <ng-container *ngFor="let column of columns">
-        <ng-container *ngIf="isCustomField(column, customFields)">
-          <cs-parameters-pair
-            [name]="tableId + '.' + column"
-            [value]="(tableId + '.' + offering[column]?.toString() | translate)  || '-'">
-          </cs-parameters-pair>
-        </ng-container>
-        <ng-container *ngIf="!isCustomField(column, notCustomFields)">
-          <cs-parameters-pair
-            [name]="tableId + '.' + column"
-            [value]="offering[column]  || '-'">
-          </cs-parameters-pair>
-        </ng-container>
-        <ng-container *ngIf="column === 'created'">
-          <div class="row">
-            <div>{{ 'VOLUME_PAGE.DETAILS.created' | translate }}</div>
-            <div>{{ offeringCreated | stringifyDate }}</div>
-          </div>
-        </ng-container>
-      </ng-container>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.name" [value]="offering.name"></cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.displaytext" [value]="offering.displaytext"></cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.disksize" [value]="offering.disksize || '-'"></cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.bytesreadrate" [value]="convertToMb(offering.diskBytesReadRate) || '-'">
+      </cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.byteswriterate" [value]="convertToMb(offering.diskBytesWriteRate) || '-'">
+      </cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.iopsreadrate" [value]="offering.diskIopsReadRate || '-'"></cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.iopswriterate" [value]="offering.diskIopsWriteRate || '-'"></cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.miniops" [value]="offering.miniops || '-'"></cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.maxiops" [value]="offering.maxiops || '-'"></cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.storagetype" [value]="'VOLUME_PAGE.DETAILS.' + offering.storagetype | translate">
+      </cs-parameters-pair>
+      <cs-parameters-pair
+        name="VOLUME_PAGE.DETAILS.provisioningtype"
+        [value]="'VOLUME_PAGE.DETAILS.' + offering.provisioningtype | translate"
+      >
+      </cs-parameters-pair>
+      <cs-parameters-pair name="VOLUME_PAGE.DETAILS.iscustomized" [value]="'VOLUME_PAGE.DETAILS.' + offering.iscustomized | translate">
+      </cs-parameters-pair>
+
+      <div class="row">
+        <div>{{ 'VOLUME_PAGE.DETAILS.created' | translate }}</div>
+        <div>{{ offeringCreated | stringifyDate }}</div>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>
