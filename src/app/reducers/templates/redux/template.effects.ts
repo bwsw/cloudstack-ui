@@ -10,7 +10,7 @@ import * as uniqBy from 'lodash/uniqBy';
 import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { SnackBarService } from '../../../core/services';
-import { State } from '../../../reducers';
+import { configSelectors, State } from '../../../root-store';
 import { TemplateTagService } from '../../../shared/services/tags/template-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import {
@@ -24,8 +24,6 @@ import {
 } from '../../../template/shared';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import * as templateActions from './template.actions';
-import * as templateGroup from './template-group.actions';
-import * as fromTemplateGroups from './template-group.reducers';
 
 @Injectable()
 export class TemplateEffects {
@@ -51,16 +49,13 @@ export class TemplateEffects {
         this.isoService.getGroupedTemplates<Iso>({}, filters, true).pipe(
           map(_ => _.toArray()))
       ).pipe(
-        withLatestFrom(this.store.pipe(select(fromTemplateGroups.selectAll))),
+        withLatestFrom(this.store.pipe(select(configSelectors.get('imageGroups')))),
         map(([[templates, isos], groups]) =>
           [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups]),
         switchMap(([[templates, isos], groups]) => {
           return groups && groups.length
             ? of(new templateActions.LoadTemplatesResponse([...templates, ...isos]))
-            : [
-              new templateActions.LoadTemplatesResponse([...templates, ...isos]),
-              new templateGroup.LoadTemplateGroupsRequest()
-            ];
+            : of(new templateActions.LoadTemplatesResponse([...templates, ...isos]));
         }),
         catchError(error => of(new templateActions.LoadTemplatesResponse([]))));
     }));

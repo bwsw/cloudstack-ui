@@ -5,15 +5,15 @@ import * as extensions from './extensions.scheme.json';
 import * as defaultFirstDayOfWeek from './default-first-day-of-week.scheme.json';
 import * as defaultInterfaceLanguage from './default-interface-language.scheme.json';
 import * as defaultTimeFormat from './default-time-format.scheme.json';
-import * as defaultThemeName from './default-theme-name.scheme.json';
+import * as defaultTheme from './default-theme.scheme.json';
 import * as sessionTimeout from './session-timeout.scheme.json';
 
 import * as configureSidenav from './configure-sidenav.scheme.json';
 import * as defaultComputeOffering from './default-compute-offering.scheme.json';
-import * as serviceOfferingClasses from './service-offering-classes.scheme.json';
-import * as offeringAvailability from './offering-availability.scheme.json';
+import * as computeOfferingClasses from './compute-offering-classes.scheme.json';
+import * as serviceOfferingAvailability from './service-offering-availability.scheme.json';
 import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
-import * as templateGroups from './template-groups.scheme.json';
+import * as imageGroups from './image-groups.scheme.json';
 import * as maxRootDiskSize from './max-root-disk-size.scheme.json';
 import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
 
@@ -26,17 +26,17 @@ export {
   defaultFirstDayOfWeek,
   defaultInterfaceLanguage,
   defaultTimeFormat,
-  defaultThemeName,
+  defaultTheme,
   sessionTimeout,
   // Menu setting
   configureSidenav,
   // Service offering setting
   customComputeOfferingParameters,
   defaultComputeOffering,
-  offeringAvailability,
-  serviceOfferingClasses,
+  serviceOfferingAvailability,
+  computeOfferingClasses,
   // Images settings
-  templateGroups,
+  imageGroups,
   // Virtual machines settings
   maxRootDiskSize,
   // Firewall (Security groups) settings

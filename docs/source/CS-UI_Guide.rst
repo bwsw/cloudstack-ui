@@ -2,7 +2,6 @@
 
 CloudStack-UI User Guide
 =============================
-.. Contents::
 
 CloudStack-UI is created to make it easier for end-users to use cloud infrastructure - to view and use their cloud resources, including virtual machines, templates and ISOs, data volumes and snapshots, security groups, and IP addresses. 
 

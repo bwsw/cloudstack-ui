@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State } from '../../../../reducers/index';
+import { select, Store } from '@ngrx/store';
 
+import { configSelectors, State } from '../../../../root-store';
 import * as templateActions from '../../../../reducers/templates/redux/template.actions';
 import * as fromTemplates from '../../../../reducers/templates/redux/template.reducers';
-import * as fromTemplateGroups from '../../../../reducers/templates/redux/template-group.reducers';
 import { BaseTemplateModel } from '../../../shared/base-template.model';
 
 @Component({
@@ -12,14 +11,14 @@ import { BaseTemplateModel } from '../../../shared/base-template.model';
   template: `
     <cs-template-group
       [template]="template$ | async"
-      [groups]="templateGroups$ | async"
+      [groups]="imageGroups$ | async"
       (groupChange)="onGroupChange($event)"
       (groupReset)="onGroupReset()"
     ></cs-template-group>`
 })
 export class TemplateGroupContainerComponent {
-  readonly templateGroups$ = this.store.select(fromTemplateGroups.selectEntities);
-  readonly template$ = this.store.select(fromTemplates.getSelectedTemplate);
+  readonly imageGroups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
+  readonly template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));
 
   constructor(private store: Store<State>) {
   }

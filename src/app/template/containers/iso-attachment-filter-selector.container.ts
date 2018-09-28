@@ -1,10 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '../../reducers/index';
-import { BaseTemplateModel } from '../shared/base-template.model';
 
+import { BaseTemplateModel } from '../shared';
+import { configSelectors, State } from '../../root-store';
 import * as fromTemplates from '../../reducers/templates/redux/template.reducers';
-import * as fromTemplateGroups from '../../reducers/templates/redux/template-group.reducers';
 import * as templateActions from '../../reducers/templates/redux/template.actions';
 
 @Component({
@@ -32,7 +31,7 @@ import * as templateActions from '../../reducers/templates/redux/template.action
 export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewInit {
   readonly isos$ = this.store.select(fromTemplates.selectTemplatesForIsoAttachment);
   readonly isLoading$ = this.store.select(fromTemplates.isLoading);
-  readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
+  readonly groups$ = this.store.select(configSelectors.get('imageGroups'));
   readonly viewMode$ = this.store.select(fromTemplates.vmCreationListViewMode);
   readonly selectedTypes$ = this.store.select(fromTemplates.vmCreationListSelectedTypes);
   readonly selectedOsFamilies$ = this.store.select(fromTemplates.vmCreationListSelectedOsFamilies);
