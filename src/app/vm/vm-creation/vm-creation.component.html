@@ -109,7 +109,7 @@
                   ></cs-vm-creation-template-container>
                 </div>
 
-                <div *ngIf="diskOfferingsAreAllowed">
+                <div *ngIf="diskOfferingsAreAllowed()">
                   <cs-disk-offering-selector
                     name="diskOffering"
                     [diskOfferings]="diskOfferings"
@@ -118,11 +118,11 @@
                   ></cs-disk-offering-selector>
                 </div>
 
-                <div *ngIf="showResizeSlider">
+                <div *ngIf="showResizeSlider()">
                   <cs-slider
                     name="rds"
                     [min]="vmCreationState.rootDiskMinSize"
-                    [max]="rootDiskSizeLimit"
+                    [max]="rootDiskSizeLimit()"
                     [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
                     [ngModel]="vmCreationState.rootDiskSize || 10"
                     (ngModelChange)="rootDiskSizeChange.emit($event)"
@@ -190,7 +190,7 @@
                   <cs-vm-creation-security-group-rules-manager
                     name="sgm"
                     class="sg-rules-manager"
-                    *ngIf="showSecurityGroups"
+                    *ngIf="showSecurityGroups()"
                     [ngModel]="vmCreationState.securityGroupData"
                     (ngModelChange)="securityRulesChange.emit($event)"
                   ></cs-vm-creation-security-group-rules-manager>
@@ -249,7 +249,7 @@
           mat-button
           color="primary"
           type="submit"
-          [disabled]="!vmCreateForm.valid || nameIsTaken || !vmCreationState.template"
+          [disabled]="!vmCreateForm.valid || nameIsTaken() || !vmCreationState.template"
         >
           {{ 'COMMON.CREATE' | translate }}
         </button>

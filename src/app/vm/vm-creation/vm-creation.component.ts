@@ -19,7 +19,6 @@ import { VmCreationContainerComponent } from './containers/vm-creation.container
 import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cs-vm-creation',
@@ -79,21 +78,26 @@ export class VmCreationComponent {
   public visibleAffinityGroups: Array<AffinityGroup>;
   public visibleInstanceGroups: Array<InstanceGroup>;
 
-  public get nameIsTaken(): boolean {
+  constructor(
+    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private auth: AuthService,
+  ) {
+  }
+
+  public nameIsTaken(): boolean {
     return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
   }
 
-  public get diskOfferingsAreAllowed(): boolean {
-    return this.vmCreationState.template
-      && !isTemplate(this.vmCreationState.template);
+  public diskOfferingsAreAllowed(): boolean {
+    return this.vmCreationState.template && !isTemplate(this.vmCreationState.template);
   }
 
-  public get showResizeSlider(): boolean {
-    return !!this.vmCreationState.template
-      && !this.isCustomizedDiskOffering;
+  public showResizeSlider(): boolean {
+    const template = isTemplate(this.vmCreationState.template);
+    return template || (!template && this.isCustomizedDiskOffering());
   }
 
-  public get rootDiskSizeLimit(): number {
+  public rootDiskSizeLimit(): number {
     const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
     const storageAvailable = Number(primaryStorageAvailable);
     if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
@@ -105,21 +109,17 @@ export class VmCreationComponent {
     return this.maxRootDiskSize;
   }
 
-  public get isCustomizedDiskOffering(): boolean {
-    return this.vmCreationState.diskOffering && this.vmCreationState.diskOffering.iscustomized;
+  public isCustomizedDiskOffering(): boolean {
+    if (this.vmCreationState.diskOffering) {
+      return this.vmCreationState.diskOffering.iscustomized;
+    }
+    return false;
   }
 
-  public get showSecurityGroups(): boolean {
+  public showSecurityGroups(): boolean {
     return this.vmCreationState.zone
       && this.vmCreationState.zone.securitygroupsenabled
       && this.auth.isSecurityGroupEnabled();
-  }
-
-  constructor(
-    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private auth: AuthService,
-    private route: ActivatedRoute,
-  ) {
   }
 
   public changeTemplate(value: BaseTemplateModel) {

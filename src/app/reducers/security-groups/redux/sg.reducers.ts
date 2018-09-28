@@ -286,7 +286,6 @@ export const selectDefaultSecurityGroup = createSelector(
   selectDefaultSecurityGroupName,
   fromAuth.getUserAccountId,
   (securityGroups, defaultSecurityGroupName, userId) => {
-    const defaultGroup = securityGroups.find((sg: SecurityGroup) =>
-      sg.account === userId && sg.name === 'default');
+    const defaultGroup = securityGroups.find((sg: SecurityGroup) => sg.account === userId && sg.name === 'default');
     return { ...defaultGroup, name: defaultSecurityGroupName };
   });
