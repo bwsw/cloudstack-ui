@@ -7,29 +7,32 @@ import { DateTimeFormatterService } from '../../../../shared/services/date-time-
 import { VirtualMachine, VmState } from '../../../shared/vm.model';
 import { SshKeypairResetComponent } from '../../ssh-selector/ssh-keypair-reset.component';
 
-
 @Component({
   selector: 'cs-vm-ssh-keypair',
-  templateUrl: 'ssh-keypair.component.html'
+  templateUrl: 'ssh-keypair.component.html',
 })
 export class SshKeypairComponent {
-  @Input() public vm: VirtualMachine;
-  @Input() public keys: Array<SSHKeyPair>;
-  @Output() public onSshKeyChange = new EventEmitter();
+  @Input()
+  public vm: VirtualMachine;
+  @Input()
+  public keys: Array<SSHKeyPair>;
+  @Output()
+  public onSshKeyChange = new EventEmitter();
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    public dialog: MatDialog,
-  ) {
-  }
+    public dialog: MatDialog
+  ) {}
 
   public showSshKeypairResetDialog(): void {
-    this.dialog.open(SshKeypairResetComponent, <MatDialogConfig>{
-      width: '350px',
-      disableClose: true,
-      data: { keys: this.keys, sshKeyName: this.vm.keyPair }
-    }).afterClosed().pipe(
-      filter(res => Boolean(res)))
+    this.dialog
+      .open(SshKeypairResetComponent, <MatDialogConfig>{
+        width: '350px',
+        disableClose: true,
+        data: { keys: this.keys, sshKeyName: this.vm.keyPair },
+      })
+      .afterClosed()
+      .pipe(filter(res => Boolean(res)))
       .subscribe(res => this.onSshKeyChange.emit(res));
   }
 

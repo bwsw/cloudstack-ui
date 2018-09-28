@@ -12,10 +12,9 @@ export interface ConfirmDialogConfiguration extends BaseDialogConfiguration {
 
 @Component({
   selector: 'cs-confirm-dialog',
-  templateUrl: 'confirm-dialog.component.html'
+  templateUrl: 'confirm-dialog.component.html',
 })
 export class ConfirmDialogComponent {
-
   public config: ConfirmDialogConfiguration;
 
   constructor(

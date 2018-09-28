@@ -19,11 +19,7 @@ import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers'
 export class SShKeyCreationDialogContainerComponent {
   public loading$ = this.store.select(fromSshKeys.isFormLoading);
 
-  constructor(
-    public dialogService: DialogService,
-    private store: Store<State>,
-  ) {
-  }
+  constructor(public dialogService: DialogService, private store: Store<State>) {}
 
   public createSshKey(data: SshKeyCreationData) {
     this.store.dispatch(new sshKeyActions.CreateSshKeyPair(data));

@@ -10,7 +10,6 @@ import { StateIndicator } from './state-indicator';
       [ngClass]="state"
     ></mat-icon>
   `,
-  styleUrls: ['./state-indicator.scss', './round-state-indicator.component.scss']
+  styleUrls: ['./state-indicator.scss', './round-state-indicator.component.scss'],
 })
-export class RoundStateIndicatorComponent extends StateIndicator {
-}
+export class RoundStateIndicatorComponent extends StateIndicator {}

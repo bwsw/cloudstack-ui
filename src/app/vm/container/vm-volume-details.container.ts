@@ -14,16 +14,14 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
       [volume]="volume"
       [diskOffering]="offering$ | async"
     >
-    </cs-volume-details>`
+    </cs-volume-details>`,
 })
 export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
-
-  @Input() public volume: Volume;
+  @Input()
+  public volume: Volume;
   readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
 
-  constructor(
-    private store: Store<State>,
-  ) {
+  constructor(private store: Store<State>) {
     super();
   }
 
@@ -31,5 +29,4 @@ export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() impleme
     this.store.dispatch(new volumeActions.LoadSelectedVolume(this.volume.id));
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
   }
-
 }

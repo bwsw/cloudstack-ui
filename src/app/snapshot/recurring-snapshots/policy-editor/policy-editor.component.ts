@@ -4,7 +4,6 @@ import { TimeZone } from '../../../shared/components/time-zone/time-zone.service
 import { PolicyType } from '../snapshot-policy-type';
 import { TimeFormat } from '../../../shared/types';
 
-
 export type TimePolicy = any;
 
 export interface Policy<T> {
@@ -12,19 +11,22 @@ export interface Policy<T> {
   storedSnapshots: number;
   timePolicy: T;
   timeZone: TimeZone;
-  type?: PolicyType
+  type?: PolicyType;
 }
 
 @Component({
   selector: 'cs-policy-editor',
   templateUrl: 'policy-editor.component.html',
   styleUrls: ['policy-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PolicyEditorComponent {
-  @Input() public timeFormat: TimeFormat;
-  @Input() policyMode: PolicyType;
-  @Output() onPolicySave: EventEmitter<Policy<TimePolicy>>;
+  @Input()
+  public timeFormat: TimeFormat;
+  @Input()
+  policyMode: PolicyType;
+  @Output()
+  onPolicySave: EventEmitter<Policy<TimePolicy>>;
 
   public Policies = PolicyType;
 
@@ -44,7 +46,7 @@ export class PolicyEditorComponent {
     this.onPolicySave.emit({
       timePolicy: this.policy as TimePolicy,
       timeZone: this.timeZone,
-      storedSnapshots: this.storedSnapshots
+      storedSnapshots: this.storedSnapshots,
     });
   }
 }

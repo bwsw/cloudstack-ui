@@ -18,10 +18,9 @@ export interface DialogAction {
 @Component({
   selector: 'cs-ask-dialog',
   templateUrl: 'ask-dialog.component.html',
-  styleUrls: ['ask-dialog.component.scss']
+  styleUrls: ['ask-dialog.component.scss'],
 })
 export class AskDialogComponent {
-
   public config: AskDialogConfiguration;
 
   constructor(

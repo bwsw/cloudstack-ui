@@ -8,14 +8,11 @@ import { AuthService } from '../../shared/services/auth.service';
 import { Language } from '../../shared/types';
 
 export const getGroupName = (template: BaseTemplateModel) => {
-  return template.domain !== 'ROOT'
-    ? `${template.domain}/${template.account}`
-    : template.account;
+  return template.domain !== 'ROOT' ? `${template.domain}/${template.account}` : template.account;
 };
 
 export const getImageGroupId = (item: BaseTemplateModel) => {
-  const tag = item.tags.find(
-    _ => _.key === TemplateTagKeys.group);
+  const tag = item.tags.find(_ => _.key === TemplateTagKeys.group);
   return tag && tag.value;
 };
 
@@ -25,16 +22,17 @@ export const noGroup: noGroup = '-1';
 @Component({
   selector: 'cs-template-filter-list',
   templateUrl: 'template-filter-list.component.html',
-  styleUrls: ['template-filter-list.component.scss']
+  styleUrls: ['template-filter-list.component.scss'],
 })
 export class TemplateFilterListComponent {
-  @Input() public groups: ImageGroup[] = [];
+  @Input()
+  public groups: ImageGroup[] = [];
   public groupings = [
     {
       key: 'zones',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: BaseTemplateModel) => item.zoneid || '',
-      name: (item: BaseTemplateModel) => item.zonename || 'TEMPLATE_PAGE.FILTERS.NO_ZONE'
+      name: (item: BaseTemplateModel) => item.zonename || 'TEMPLATE_PAGE.FILTERS.NO_ZONE',
     },
     {
       key: 'accounts',
@@ -46,8 +44,8 @@ export class TemplateFilterListComponent {
       key: 'groups',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_GROUPS',
       selector: (item: BaseTemplateModel) => this.getGroup(item) || noGroup,
-      name: (item: BaseTemplateModel) => this.getGroup(item) || 'TEMPLATE_PAGE.FILTERS.GENERAL'
-    }
+      name: (item: BaseTemplateModel) => this.getGroup(item) || 'TEMPLATE_PAGE.FILTERS.GENERAL',
+    },
   ];
 
   public get locale(): Language {
@@ -58,10 +56,7 @@ export class TemplateFilterListComponent {
     return this.authService.isAdmin();
   }
 
-  constructor(
-    private translate: TranslateService,
-    private authService: AuthService
-  ) {
+  constructor(private translate: TranslateService, private authService: AuthService) {
     if (!this.isAdmin) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }

@@ -7,7 +7,7 @@ import { isOfferingLocal } from '../../shared/models/offering.model';
 import {
   ComputeOfferingClass,
   defaultComputeOfferingClass,
-  ServiceOfferingAvailability
+  ServiceOfferingAvailability,
 } from '../../shared/models/config';
 import { ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
 import { getComputeOfferingViewModel } from './view-models';
@@ -28,7 +28,8 @@ const isComputeOfferingAvailableInZone = (
   zone: Zone
 ) => {
   if (availability.zones[zone.id]) {
-    const isOfferingExist = availability.zones[zone.id].computeOfferings.indexOf(offering.id) !== -1;
+    const isOfferingExist =
+      availability.zones[zone.id].computeOfferings.indexOf(offering.id) !== -1;
     return isOfferingExist;
   }
   return false;
@@ -63,8 +64,10 @@ const getAvailableByResourcesSync = (
     let enoughMemory;
 
     if (offering.iscustomized) {
-      enoughCpus = resourceUsage.available.cpus >= offering.customOfferingRestrictions.cpunumber.min;
-      enoughMemory = resourceUsage.available.memory >= offering.customOfferingRestrictions.memory.min;
+      enoughCpus =
+        resourceUsage.available.cpus >= offering.customOfferingRestrictions.cpunumber.min;
+      enoughMemory =
+        resourceUsage.available.memory >= offering.customOfferingRestrictions.memory.min;
     } else {
       enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
       enoughMemory = resourceUsage.available.memory >= offering.memory;
@@ -96,35 +99,46 @@ export const getAvailableOfferings = createSelector(
   configSelectors.get('offeringCompatibilityPolicy'),
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
-  (
-    serviceOfferings,
-    currentOffering,
-    availability,
-    compatibilityPolicy,
-    zone,
-    user
-  ) => {
+  (serviceOfferings, currentOffering, availability, compatibilityPolicy, zone, user) => {
     if (!zone || !user) {
       return [];
     }
 
     const resourceUsage = ResourceStats.fromAccount([user]);
-    const availableOfferings = getAvailableByResourcesSync(serviceOfferings, availability, resourceUsage, zone);
+    const availableOfferings = getAvailableByResourcesSync(
+      serviceOfferings,
+      availability,
+      resourceUsage,
+      zone
+    );
 
-    const filterByCompatibilityPolicy = VmCompatibilityPolicy.getFilter(compatibilityPolicy, currentOffering);
+    const filterByCompatibilityPolicy = VmCompatibilityPolicy.getFilter(
+      compatibilityPolicy,
+      currentOffering
+    );
 
-    const filterStorageType = (offering: ServiceOffering) => offering.storagetype === currentOffering.storagetype;
+    const filterStorageType = (offering: ServiceOffering) =>
+      offering.storagetype === currentOffering.storagetype;
 
-    return availableOfferings.filter(item => filterByCompatibilityPolicy(item) && filterStorageType(item));
+    return availableOfferings.filter(
+      item => filterByCompatibilityPolicy(item) && filterStorageType(item)
+    );
   }
 );
 
-export const classesFilter = (offering: ServiceOffering, soClasses: ComputeOfferingClass[], classesMap: any) => {
-  const classes = soClasses.filter(soClass =>
-    soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1);
+export const classesFilter = (
+  offering: ServiceOffering,
+  soClasses: ComputeOfferingClass[],
+  classesMap: any
+) => {
+  const classes = soClasses.filter(
+    soClass => soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1
+  );
   const showGeneral = !!classesMap[defaultComputeOfferingClass.id];
-  return classes.length && classes.find(soClass => classesMap[soClass.id])
-    || (showGeneral && !classes.length);
+  return (
+    (classes.length && classes.find(soClass => classesMap[soClass.id])) ||
+    (showGeneral && !classes.length)
+  );
 };
 
 export const selectFilteredOfferingsForVmCreation = createSelector(
@@ -138,7 +152,9 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
     const queryLower = query && query.toLowerCase();
 
     const selectedViewModeFilter = (offering: ComputeOfferingViewModel) => {
-      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+      return viewMode === ServiceOfferingType.custom
+        ? offering.iscustomized
+        : !offering.iscustomized;
     };
 
     const selectedClassesFilter = (offering: ComputeOfferingViewModel) => {
@@ -148,11 +164,13 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
       return true;
     };
 
-    const queryFilter = (offering: ComputeOfferingViewModel) => !query || offering.name.toLowerCase()
-      .includes(queryLower);
+    const queryFilter = (offering: ComputeOfferingViewModel) =>
+      !query || offering.name.toLowerCase().includes(queryLower);
 
-    return offerings.filter((offering: ComputeOfferingViewModel) => selectedViewModeFilter(
-      offering) && queryFilter(offering) && selectedClassesFilter(offering));
+    return offerings.filter(
+      (offering: ComputeOfferingViewModel) =>
+        selectedViewModeFilter(offering) && queryFilter(offering) && selectedClassesFilter(offering)
+    );
   }
 );
 
@@ -167,7 +185,9 @@ export const selectFilteredOfferings = createSelector(
     const queryLower = query && query.toLowerCase();
 
     const selectedViewModeFilter = (offering: ServiceOffering) => {
-      return viewMode === ServiceOfferingType.custom ? offering.iscustomized : !offering.iscustomized;
+      return viewMode === ServiceOfferingType.custom
+        ? offering.iscustomized
+        : !offering.iscustomized;
     };
 
     const selectedClassesFilter = (offering: ServiceOffering) => {
@@ -177,9 +197,12 @@ export const selectFilteredOfferings = createSelector(
       return true;
     };
 
-    const queryFilter = (offering: ServiceOffering) => !query || offering.name.toLowerCase().includes(queryLower);
+    const queryFilter = (offering: ServiceOffering) =>
+      !query || offering.name.toLowerCase().includes(queryLower);
 
-    return offerings.filter((offering: ServiceOffering) =>
-      selectedViewModeFilter(offering) && queryFilter(offering) && selectedClassesFilter(offering))
+    return offerings.filter(
+      (offering: ServiceOffering) =>
+        selectedViewModeFilter(offering) && queryFilter(offering) && selectedClassesFilter(offering)
+    );
   }
 );

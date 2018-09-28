@@ -8,7 +8,6 @@ import { BaseBackendService } from '../../services/base-backend.service';
 import { SnackBarService } from '../../../core/services';
 import { EntityDoesNotExistError } from './entity-does-not-exist-error';
 
-
 export abstract class SidebarComponent<M extends BaseModelInterface> implements OnInit {
   public entity: M;
   public notFound: boolean;
@@ -18,14 +17,13 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
     protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
-    this.pluckId().pipe(
-      switchMap(id => this.loadEntity(id)))
+    this.pluckId()
+      .pipe(switchMap(id => this.loadEntity(id)))
       .subscribe(
-        entity => this.entity = entity,
+        entity => (this.entity = entity),
         error => {
           if (error instanceof EntityDoesNotExistError) {
             this.onEntityDoesNotExist();
@@ -39,11 +37,14 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
   public tabIsActive(tabId: string) {
     const path = this.route.snapshot;
     const pathLastChild = path.firstChild ? path.firstChild.routeConfig.path : null;
-    return (tabId === pathLastChild)
+    return tabId === pathLastChild;
   }
 
   private pluckId(): Observable<string> {
-    return this.route.params.pipe(pluck('id'), filter(id => !!id)) as Observable<string>;
+    return this.route.params.pipe(
+      pluck('id'),
+      filter(id => !!id)
+    ) as Observable<string>;
   }
 
   protected loadEntity(id: string): Observable<M> {

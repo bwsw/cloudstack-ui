@@ -3,7 +3,6 @@ import 'reflect-metadata';
 import { BaseModel } from './base.model';
 import { FieldMapper } from '../decorators/field-mapper.decorator';
 
-
 describe('Base model', () => {
   @FieldMapper({
     testfield1: 'field1',
@@ -16,7 +15,7 @@ describe('Base model', () => {
   }
 
   @FieldMapper({
-    derivfield: 'derivField'
+    derivfield: 'derivField',
   })
   class TestModelDeriv extends TestModel {
     public derivField;
@@ -25,7 +24,7 @@ describe('Base model', () => {
   const params = {
     id: 'id',
     testfield1: 'test',
-    testfield2: 'test2'
+    testfield2: 'test2',
   };
 
   it('should parse params correctly', () => {
@@ -43,7 +42,7 @@ describe('Base model', () => {
 
   it('should allow to extend base model with a class with field mapper', () => {
     const derivParams = {
-      derivfield: 5
+      derivfield: 5,
     };
     const derivModel = new TestModelDeriv(Object.assign({}, params, derivParams));
 

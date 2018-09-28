@@ -21,7 +21,7 @@ export interface ServiceOffering extends Offering {
 
 export const ServiceOfferingType = {
   fixed: 'Select',
-  custom: 'Custom'
+  custom: 'Custom',
 };
 
 export const ServiceOfferingParamKey = userTagKeys.computeOfferingParam;

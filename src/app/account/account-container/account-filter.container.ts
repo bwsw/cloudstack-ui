@@ -36,11 +36,13 @@ const FILTER_KEY = 'accountListFilters';
       (onRoleTypesChange)="onRoleTypesChange($event)"
       (onStatesChange)="onStatesChange($event)"
       (onGroupingsChange)="onGroupingsChange($event)"
-    ></cs-account-list-filter>`
+    ></cs-account-list-filter>`,
 })
 export class AccountFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-  @Input() groupings: Array<any>;
-  @Input() selectedGroupings: Array<any>;
+  @Input()
+  groupings: Array<any>;
+  @Input()
+  selectedGroupings: Array<any>;
 
   readonly filters$ = this.store.select(fromAccounts.filters);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
@@ -57,11 +59,11 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
 
   private filterService = new FilterService(
     {
-      'domains': { type: 'array', defaultOption: [] },
-      'roles': { type: 'array', defaultOption: [] },
-      'roleTypes': { type: 'array', defaultOption: [] },
-      'states': { type: 'array', defaultOption: [] },
-      'groupings': { type: 'array', defaultOption: [] }
+      domains: { type: 'array', defaultOption: [] },
+      roles: { type: 'array', defaultOption: [] },
+      roleTypes: { type: 'array', defaultOption: [] },
+      states: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] },
     },
     this.router,
     this.sessionStorage,
@@ -99,7 +101,6 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
   }
 
   private initFilters(): void {
-
     const params = this.filterService.getParams();
     const selectedDomainIds = params['domains'];
     const selectedRoleNames = params['roles'];
@@ -114,31 +115,29 @@ export class AccountFilterContainerComponent extends WithUnsubscribe() implement
       return acc;
     }, []);
 
-    this.store.dispatch(new accountActions.AccountFilterUpdate({
-      selectedRoleTypes,
-      selectedRoleNames,
-      selectedDomainIds,
-      selectedStates,
-      selectedGroupings
-    }));
-
+    this.store.dispatch(
+      new accountActions.AccountFilterUpdate({
+        selectedRoleTypes,
+        selectedRoleNames,
+        selectedDomainIds,
+        selectedStates,
+        selectedGroupings,
+      })
+    );
   }
 
   public ngOnInit() {
     this.store.dispatch(new domainActions.LoadDomainsRequest());
     this.store.dispatch(new roleActions.LoadRolesRequest());
     this.initFilters();
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => {
-        this.filterService.update({
-          'domains': filters.selectedDomainIds,
-          'roles': filters.selectedRoleNames,
-          'roleTypes': filters.selectedRoleTypes,
-          'states': filters.selectedStates,
-          'groupings': filters.selectedGroupings.map(g => g.key)
-        });
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.filterService.update({
+        domains: filters.selectedDomainIds,
+        roles: filters.selectedRoleNames,
+        roleTypes: filters.selectedRoleTypes,
+        states: filters.selectedStates,
+        groupings: filters.selectedGroupings.map(g => g.key),
       });
+    });
   }
-
 }

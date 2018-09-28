@@ -20,7 +20,6 @@ import { Volume } from '../../../models/volume.model';
     </cs-volume-attachment>`,
 })
 export class VolumeAttachmentContainerComponent implements OnInit {
-
   public volume: Volume;
   public zoneId: string;
 
@@ -38,14 +37,15 @@ export class VolumeAttachmentContainerComponent implements OnInit {
 
   public ngOnInit() {
     this.store.dispatch(new vmActions.LoadVMsRequest());
-    this.store.dispatch(new vmActions.VMAttachmentFilterUpdate({
-      account: this.volume.account,
-      domainId: this.volume.domainid
-    }));
+    this.store.dispatch(
+      new vmActions.VMAttachmentFilterUpdate({
+        account: this.volume.account,
+        domainId: this.volume.domainid,
+      })
+    );
   }
 
   public attachVolume(virtualMachineId: string) {
     this.dialogRef.close(virtualMachineId);
   }
-
 }

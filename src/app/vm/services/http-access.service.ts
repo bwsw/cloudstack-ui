@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { VirtualMachine } from '../';
 import { AccessService, AuthModeType } from './access.service';
 
-
 @Injectable()
 export class HttpAccessService extends AccessService {
   protected readonly authMode = AuthModeType.HTTP;
@@ -26,15 +25,15 @@ export class HttpAccessService extends AccessService {
       const authModes = authMode.replace(/\s/g, '').split(',');
       return !!authModes.find(m => m.toLowerCase() === this.authMode);
     }
-   return false;
+    return false;
   }
 
   public getHttpLogin(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken)
+    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken);
   }
 
   public getHttpPassword(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPasswordToken)
+    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPasswordToken);
   }
 
   private getHttpPort(vm: VirtualMachine) {
@@ -45,10 +44,10 @@ export class HttpAccessService extends AccessService {
   private getHttpPath(vm: VirtualMachine) {
     const pathTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPathToken);
     return pathTag || this.defaultPath;
-  };
+  }
 
   private getHttpProtocol(vm: VirtualMachine) {
     const protocolTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpProtocolToken);
     return protocolTag || this.defaultProtocol;
-  };
+  }
 }

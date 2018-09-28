@@ -1,9 +1,17 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Color } from '../../models';
 import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
-
 
 @Component({
   selector: 'cs-color-picker',
@@ -13,18 +21,23 @@ import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ColorPickerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-
 export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
-  @Input() public colors: Array<Color>;
-  @Input() public colorsPerLine: number;
-  @Input() public containerWidth = 256;
-  @Input() public hasColorField = true;
-  @Output() public change = new EventEmitter<Color>();
-  @ViewChild(PopoverTriggerDirective) public popoverTrigger: PopoverTriggerDirective;
+  @Input()
+  public colors: Array<Color>;
+  @Input()
+  public colorsPerLine: number;
+  @Input()
+  public containerWidth = 256;
+  @Input()
+  public hasColorField = true;
+  @Output()
+  public change = new EventEmitter<Color>();
+  @ViewChild(PopoverTriggerDirective)
+  public popoverTrigger: PopoverTriggerDirective;
 
   @Input()
   public get disabled(): boolean {
@@ -74,11 +87,9 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     }
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
-  public registerOnTouched(): any {
-  }
+  public registerOnTouched(): any {}
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;

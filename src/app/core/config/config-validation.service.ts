@@ -12,12 +12,11 @@ import * as validationSchemes from './validation-schemes';
 enum ErrorType {
   InvalidConfig,
   InvalidKey,
-  InvalidValue
+  InvalidValue,
 }
 
 abstract class ValidationError {
-  protected constructor(readonly type: ErrorType, readonly message: string) {
-  }
+  protected constructor(readonly type: ErrorType, readonly message: string) {}
 
   public getErrorText(): string {
     return `Configuration warning:\n${this.message}`;
@@ -51,9 +50,7 @@ class InvalidValueError extends ValidationError {
   }
 }
 
-type ValidationScheme = {
-  readonly [P in keyof Partial<Config>]: object;
-}
+type ValidationScheme = { readonly [P in keyof Partial<Config>]: object };
 
 @Injectable()
 export class ConfigValidationService {

@@ -16,7 +16,7 @@ export class DiskOfferingDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
-    public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
+    public dialogRef: MatDialogRef<DiskOfferingDialogComponent>
   ) {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;

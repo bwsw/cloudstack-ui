@@ -7,10 +7,11 @@ import { AuthService } from '../../shared/services/auth.service';
 @Component({
   selector: 'cs-iso-sidebar',
   templateUrl: './base-template-sidebar.component.html',
-  styleUrls: ['./base-template-sidebar.component.scss']
+  styleUrls: ['./base-template-sidebar.component.scss'],
 })
 export class IsoSidebarComponent extends BaseTemplateSidebarComponent {
-  @Input() public entity: Iso;
+  @Input()
+  public entity: Iso;
 
   constructor(route: ActivatedRoute, authService: AuthService) {
     super(route, authService);

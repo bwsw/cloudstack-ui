@@ -9,7 +9,6 @@ import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
 import * as fromRoles from '../../reducers/roles/redux/roles.reducers';
 import { AccountData } from '../../shared/models/account.model';
 
-
 @Component({
   selector: 'cs-account-creation-container',
   template: `
@@ -26,11 +25,7 @@ export class AccountCreationContainerComponent {
   public domains$ = this.store.select(fromDomains.selectAll);
   public roles$ = this.store.select(fromRoles.selectAll);
 
-  constructor(
-    public dialogService: DialogService,
-    private store: Store<State>,
-  ) {
-  }
+  constructor(public dialogService: DialogService, private store: Store<State>) {}
 
   public createAccount(data: AccountData) {
     this.store.dispatch(new accountActions.CreateAccount(data));

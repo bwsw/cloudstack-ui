@@ -16,7 +16,7 @@ import * as fromTemplates from '../../../../reducers/templates/redux/template.re
       (groupReset)="onGroupReset($event)"
       (groupChange)="onGroupChange($event)"
       (cancel)="onCancel()"
-    ></cs-template-group-selector>`
+    ></cs-template-group-selector>`,
 })
 export class TemplateGroupSelectorContainerComponent {
   readonly imageGroups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
@@ -26,10 +26,9 @@ export class TemplateGroupSelectorContainerComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<TemplateGroupSelectorContainerComponent>,
     private store: Store<State>
-  ) {
-  }
+  ) {}
 
-  public onGroupChange(templateGroupSettings: { template, templateGroup }) {
+  public onGroupChange(templateGroupSettings: { template; templateGroup }) {
     this.store.dispatch(new templateActions.SetTemplateGroup(templateGroupSettings));
     this.dialogRef.close();
   }

@@ -14,18 +14,14 @@ import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.act
       [snapshot]="snapshot$ | async"
       [volumes]="volumes$ | async"
       [isLoading]="isLoading$ | async"
-    ></cs-snapshot-sidebar>`
+    ></cs-snapshot-sidebar>`,
 })
 export class SnapshotSidebarContainerComponent implements OnInit {
   readonly snapshot$ = this.store.select(fromSnapshots.getSelectedSnapshot);
   readonly volumes$ = this.store.select(fromVolumes.selectEntities);
   readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
 
-  constructor(
-    private store: Store<State>,
-    private activatedRoute: ActivatedRoute
-  ) {
-  }
+  constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 
   public ngOnInit() {
     const params = this.activatedRoute.snapshot.params;

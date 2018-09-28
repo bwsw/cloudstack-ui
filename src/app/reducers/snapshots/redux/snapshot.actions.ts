@@ -20,89 +20,77 @@ export const SNAPSHOT_UPDATE_ERROR = '[Snapshots] SNAPSHOT_UPDATE_ERROR';
 export class LoadSnapshotRequest implements Action {
   readonly type = LOAD_SNAPSHOT_REQUEST;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class LoadSnapshotResponse implements Action {
   readonly type = LOAD_SNAPSHOT_RESPONSE;
 
-  constructor(public payload: Snapshot[]) {
-  }
+  constructor(public payload: Snapshot[]) {}
 }
 
 export class SnapshotFilterUpdate implements Action {
   readonly type = SNAPSHOT_FILTER_UPDATE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class AddSnapshot implements Action {
   readonly type = ADD_SNAPSHOT;
 
-  constructor(public payload: Volume) {
-  }
+  constructor(public payload: Volume) {}
 }
 
 export class DeleteSnapshot implements Action {
   readonly type = DELETE_SNAPSHOT;
 
-  constructor(public payload: Snapshot) {
-  }
+  constructor(public payload: Snapshot) {}
 }
 
 export class DeleteSnapshots implements Action {
   readonly type = DELETE_SNAPSHOTS;
 
-  constructor(public payload: Array<Snapshot>) {
-  }
+  constructor(public payload: Array<Snapshot>) {}
 }
 
 export class AddSnapshotSuccess implements Action {
   readonly type = ADD_SNAPSHOT_SUCCESS;
 
-  constructor(public payload: Snapshot) {
-  }
+  constructor(public payload: Snapshot) {}
 }
 
 export class DeleteSnapshotSuccess implements Action {
   readonly type = DELETE_SNAPSHOT_SUCCESS;
 
-  constructor(public payload: Snapshot) {
-  }
+  constructor(public payload: Snapshot) {}
 }
 
 export class SnapshotUpdateError implements Action {
   readonly type = SNAPSHOT_UPDATE_ERROR;
 
-    constructor(public payload: Error) {
-  }
+  constructor(public payload: Error) {}
 }
 
 export class RevertVolumeToSnapshot implements Action {
   readonly type = REVERT_VOLUME_TO_SNAPSHOT;
 
-  constructor(public payload: Snapshot) {
-  }
+  constructor(public payload: Snapshot) {}
 }
 
 export class RevertVolumeToSnapshotSuccess implements Action {
   readonly type = REVERT_VOLUME_TO_SNAPSHOT_SUCCESS;
 
-  constructor(public payload: Snapshot) {
-  }
+  constructor(public payload: Snapshot) {}
 }
 
 export class LoadSelectedSnapshot implements Action {
   readonly type = LOAD_SELECTED_SNAPSHOT;
 
-  constructor(public payload: string) {
-      }
+  constructor(public payload: string) {}
 }
 
 export type Actions =
-  LoadSnapshotRequest
+  | LoadSnapshotRequest
   | LoadSnapshotResponse
   | SnapshotFilterUpdate
   | AddSnapshot
@@ -113,4 +101,3 @@ export type Actions =
   | RevertVolumeToSnapshot
   | RevertVolumeToSnapshotSuccess
   | LoadSelectedSnapshot;
-

@@ -17,11 +17,8 @@ import { VmTagService } from '../../shared/services/tags/vm-tag.service';
 import { Grouping } from '../../shared/models';
 
 const getGroupName = (vm: VirtualMachine) => {
-  return vm.domain !== 'ROOT'
-    ? `${vm.domain}/${vm.account}`
-    : vm.account;
+  return vm.domain !== 'ROOT' ? `${vm.domain}/${vm.account}` : vm.account;
 };
-
 
 @Component({
   selector: 'cs-vm-page-container',
@@ -34,10 +31,9 @@ const getGroupName = (vm: VirtualMachine) => {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
-    ></cs-vm-page>`
+    ></cs-vm-page>`,
 })
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
-
   readonly vms$ = this.store.select(fromVMs.selectFilteredVMs);
   readonly query$ = this.store.select(fromVMs.filterQuery);
   readonly volumes$ = this.store.select(fromVolumes.selectAll);
@@ -50,27 +46,26 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
       key: 'zones',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: VirtualMachine) => item.zoneId,
-      name: (item: VirtualMachine) => item.zoneName
+      name: (item: VirtualMachine) => item.zoneName,
     },
     {
       key: 'groups',
       label: 'VM_PAGE.FILTERS.GROUP_BY_GROUPS',
-      selector: (item: VirtualMachine) =>
-        item.instanceGroup ? item.instanceGroup.name : noGroup,
+      selector: (item: VirtualMachine) => (item.instanceGroup ? item.instanceGroup.name : noGroup),
       name: (item: VirtualMachine) =>
-        item.instanceGroup ? item.instanceGroup.name : 'VM_PAGE.FILTERS.NO_GROUP'
+        item.instanceGroup ? item.instanceGroup.name : 'VM_PAGE.FILTERS.NO_GROUP',
     },
     {
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => getGroupName(item)
+      name: (item: VirtualMachine) => getGroupName(item),
     },
     {
       key: 'colors',
       label: 'VM_PAGE.FILTERS.GROUP_BY_COLORS',
       selector: (item: VirtualMachine) => this.vmTagService.getColorSync(item).value,
-      name: (item: VirtualMachine) => ''
+      name: (item: VirtualMachine) => '',
     },
   ];
 

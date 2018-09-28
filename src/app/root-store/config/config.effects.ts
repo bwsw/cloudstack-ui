@@ -13,11 +13,13 @@ export class ConfigEffects {
   @Effect()
   loadConfig$: Observable<Action> = this.actions$.pipe(
     ofType<LoadConfig>(ConfigActionTypes.LoadConfig),
-    switchMap(() => this.http.get('config/config.json').pipe(
-      map(data => this.configValidationService.validate(data)),
-      map(config => new LoadConfigSuccess({ config })),
-      catchError(error => of(new LoadConfigError({ error })))
-    ))
+    switchMap(() =>
+      this.http.get('config/config.json').pipe(
+        map(data => this.configValidationService.validate(data)),
+        map(config => new LoadConfigSuccess({ config })),
+        catchError(error => of(new LoadConfigError({ error })))
+      )
+    )
   );
 
   @Effect()
@@ -28,7 +30,6 @@ export class ConfigEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private configValidationService: ConfigValidationService,
-  ) {
-  }
+    private configValidationService: ConfigValidationService
+  ) {}
 }

@@ -3,10 +3,34 @@
 
 const dayAbbreviation = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-  'Oct', 'Nov', 'Dec'];
-const monthLongList = ['January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'];
+const monthList = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+const monthLongList = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 export function dateTimeFormat(_locale, options) {
   // warning(_locale === 'en-US', `Material-UI: The ${locale} locale is not supported by the built-in DateTimeFormat.
@@ -15,7 +39,11 @@ export function dateTimeFormat(_locale, options) {
   this.format = function(date) {
     if (options.month === 'short' && options.weekday === 'short' && options.day === '2-digit') {
       return `${dayList[date.getDay()]}, ${monthList[date.getMonth()]} ${date.getDate()}`;
-    } else if (options.year === 'numeric' && options.month === 'numeric' && options.day === 'numeric') {
+    } else if (
+      options.year === 'numeric' &&
+      options.month === 'numeric' &&
+      options.day === 'numeric'
+    ) {
       return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     } else if (options.year === 'numeric' && options.month === 'long') {
       return `${monthLongList[date.getMonth()]} ${date.getFullYear()}`;
@@ -87,7 +115,7 @@ export function getWeekArray(d, firstDayOfWeek) {
     dayArray.push(new Date(d.getFullYear(), d.getMonth(), i));
   }
 
-  const addWeek = (week) => {
+  const addWeek = week => {
     const emptyDays = 7 - week.length;
     for (let i = 0; i < emptyDays; ++i) {
       week[weekArray.length ? 'push' : 'unshift'](null);
@@ -95,7 +123,7 @@ export function getWeekArray(d, firstDayOfWeek) {
     weekArray.push(week);
   };
 
-  dayArray.forEach((day) => {
+  dayArray.forEach(day => {
     if (week.length > 0 && day.getDay() === firstDayOfWeek) {
       addWeek(week);
       week = [];
@@ -110,7 +138,7 @@ export function getWeekArray(d, firstDayOfWeek) {
 }
 
 export function localizedWeekday(DateTimeFormat, locale, day, firstDayOfWeek) {
-  const weekdayFormatter = new DateTimeFormat(locale, {weekday: 'narrow'});
+  const weekdayFormatter = new DateTimeFormat(locale, { weekday: 'narrow' });
   const firstDayDate = getFirstDayOfWeek();
 
   return weekdayFormatter.format(addDays(firstDayDate, day + firstDayOfWeek));
@@ -118,33 +146,35 @@ export function localizedWeekday(DateTimeFormat, locale, day, firstDayOfWeek) {
 
 // Convert date to ISO 8601 (YYYY-MM-DD) date string, accounting for current timezone
 export function formatIso(date) {
-  return (new Date(`${date.toDateString()} 12:00:00 +0000`)).toISOString().substring(0, 10);
+  return new Date(`${date.toDateString()} 12:00:00 +0000`).toISOString().substring(0, 10);
 }
 
 export function isEqualDate(d1, d2) {
-  return d1 && d2 &&
-    (d1.getFullYear() === d2.getFullYear()) &&
-    (d1.getMonth() === d2.getMonth()) &&
-    (d1.getDate() === d2.getDate());
+  return (
+    d1 &&
+    d2 &&
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
 }
 
 export function isBeforeDate(d1, d2) {
   const date1 = cloneAsDate(d1);
   const date2 = cloneAsDate(d2);
 
-  return (date1.getTime() < date2.getTime());
+  return date1.getTime() < date2.getTime();
 }
 
 export function isAfterDate(d1, d2) {
   const date1 = cloneAsDate(d1);
   const date2 = cloneAsDate(d2);
 
-  return (date1.getTime() > date2.getTime());
+  return date1.getTime() > date2.getTime();
 }
 
 export function isBetweenDates(dateToCheck, startDate, endDate) {
-  return (!(isBeforeDate(dateToCheck, startDate)) &&
-  !(isAfterDate(dateToCheck, endDate)));
+  return !isBeforeDate(dateToCheck, startDate) && !isAfterDate(dateToCheck, endDate);
 }
 
 export function monthDiff(d1, d2) {

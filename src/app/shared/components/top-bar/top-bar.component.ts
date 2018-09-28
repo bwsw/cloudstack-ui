@@ -7,7 +7,7 @@ import { layoutActions, layoutSelectors, State } from '../../../root-store';
 @Component({
   selector: 'cs-top-bar',
   templateUrl: 'top-bar.component.html',
-  styleUrls: ['top-bar.component.scss']
+  styleUrls: ['top-bar.component.scss'],
 })
 export class TopBarComponent {
   public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
@@ -16,17 +16,14 @@ export class TopBarComponent {
     @Optional() private listService: ListService,
     private activatedRoute: ActivatedRoute,
     private store: Store<State>
-  ) {
-  }
+  ) {}
 
   public openSidenav(): void {
     this.store.dispatch(new layoutActions.OpenSidenav());
   }
 
   public get sidebarOpen(): boolean {
-    return this.listService
-      ? this.listService.hasSelected() && this.showSidebarForSG()
-      : false;
+    return this.listService ? this.listService.hasSelected() && this.showSidebarForSG() : false;
   }
 
   private showSidebarForSG(): boolean {

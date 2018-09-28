@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnInit
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
 import { Store } from '@ngrx/store';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
@@ -11,10 +6,7 @@ import * as accountActions from '../../reducers/accounts/redux/accounts.actions'
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
-import {
-  Account,
-  AccountState
-} from '../../shared/models/account.model';
+import { Account, AccountState } from '../../shared/models/account.model';
 
 export const stateTranslations = {
   [AccountState.disabled]: 'ACCOUNT_STATE.DISABLED',
@@ -29,10 +21,10 @@ export const stateTranslations = {
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
-    ></cs-account-page>`
+    ></cs-account-page>`,
 })
-export class AccountPageContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
-
+export class AccountPageContainerComponent extends WithUnsubscribe()
+  implements OnInit, AfterViewInit {
   readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
   readonly loading$ = this.store.select(fromAccounts.isLoading);
   readonly selectedGroupings$ = this.store.select(fromAccounts.filterSelectedGroupings);
@@ -61,7 +53,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
       label: 'ACCOUNT_PAGE.FILTERS.GROUP_BY_STATES',
       selector: (item: Account) => item.state,
       name: (item: Account) => this.stateTranslation(item.state),
-    }
+    },
   ];
 
   constructor(
@@ -87,5 +79,4 @@ export class AccountPageContainerComponent extends WithUnsubscribe() implements 
   public ngAfterViewInit() {
     this.cd.detectChanges();
   }
-
 }

@@ -6,14 +6,8 @@ import { DragulaModule } from 'ng2-dragula';
 import { DraggableSelectComponent } from './draggable-select.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DragulaModule,
-    MatOptionModule,
-    OverlayModule,
-    MatCommonModule,
-  ],
+  imports: [CommonModule, DragulaModule, MatOptionModule, OverlayModule, MatCommonModule],
   exports: [DraggableSelectComponent],
-  declarations: [DraggableSelectComponent]
+  declarations: [DraggableSelectComponent],
 })
-export class DraggableSelectModule { }
+export class DraggableSelectModule {}

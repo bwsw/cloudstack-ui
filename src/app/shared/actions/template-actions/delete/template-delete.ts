@@ -6,7 +6,6 @@ import { JobsNotificationService } from '../../../services/jobs-notification.ser
 import { BaseTemplateModel, TemplateService } from '../../../../template/shared';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 
-
 @Injectable()
 export class TemplateDeleteAction extends BaseTemplateDeleteAction {
   protected confirmMessage = 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';

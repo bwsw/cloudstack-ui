@@ -12,12 +12,11 @@ import { PrivateSecurityGroupCreationService } from './creation-services/private
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
 
-
 export const GROUP_POSTFIX = '-cs-sg';
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup'
+  entity: 'SecurityGroup',
 })
 export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   constructor(
@@ -48,7 +47,8 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         if (!result || result.success !== 'true') {
           return throwError(result);
         }
-      }));
+      })
+    );
   }
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<any> {

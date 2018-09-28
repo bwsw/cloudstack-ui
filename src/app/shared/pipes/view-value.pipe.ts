@@ -8,11 +8,10 @@ import { map } from 'rxjs/operators';
  */
 @Pipe({
   // tslint:disable-next-line
-  name: 'viewValue'
+  name: 'viewValue',
 })
 export class ViewValuePipe implements PipeTransform {
-  constructor(private translateService: TranslateService) {
-  }
+  constructor(private translateService: TranslateService) {}
 
   public transform(value: any): Observable<string> {
     return this.translateService.get(['COMMON.YES', 'COMMON.NO']).pipe(
@@ -25,6 +24,7 @@ export class ViewValuePipe implements PipeTransform {
           default:
             return value;
         }
-      }));
+      })
+    );
   }
 }

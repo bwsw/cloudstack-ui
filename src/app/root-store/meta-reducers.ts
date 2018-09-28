@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 import { AuthActionTypes } from '../auth/store/auth.actions';
 
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
-  return function (state: State, action: any): State {
+  return function(state: State, action: any): State {
     console.log('state', state);
     console.log('action', action);
 
@@ -17,7 +17,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 
 // clear store if user logs out
 export function logout(reducer: ActionReducer<State>) {
-  return function (state: State, action: any): State {
+  return function(state: State, action: any): State {
     if (action.type === AuthActionTypes.LogoutComplete) {
       // Keep config state because it common for all users
       const configState = state['config'];
@@ -26,7 +26,7 @@ export function logout(reducer: ActionReducer<State>) {
     }
 
     return reducer(state, action);
-  }
+  };
 }
 
 // used by hmr to keep state between reloads

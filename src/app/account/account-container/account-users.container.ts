@@ -15,16 +15,12 @@ import { AuthService } from '../../shared/services/auth.service';
       (onUserRegenerateKey)="generateUserKeys($event)"
       (onUserDelete)="deleteUser($event)"
       (onLoadUserKeys)="loadUserKeys($event)"
-    ></cs-account-users>`
+    ></cs-account-users>`,
 })
 export class AccountUsersContainerComponent {
   readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
 
-  constructor(
-    private store: Store<State>,
-    private authService: AuthService
-  ) {
-  }
+  constructor(private store: Store<State>, private authService: AuthService) {}
 
   public isAdmin() {
     return this.authService.isAdmin();

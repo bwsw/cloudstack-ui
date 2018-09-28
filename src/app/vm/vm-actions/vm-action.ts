@@ -11,5 +11,5 @@ export enum VmActions {
   CHANGE_SERVICE_OFFERING = 'changeServiceOffering',
   WEB_SHELL = 'webShell',
   PULSE = 'pulse',
-  ACCESS = 'access'
+  ACCESS = 'access',
 }

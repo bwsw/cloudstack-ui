@@ -15,26 +15,22 @@ import { SecurityGroup } from '../sg.model';
       (onSecurityGroupView)="onViewSecurityGroup($event)"
       (onSecurityGroupDelete)="onDeleteSecurityGroup($event)"
       (onSecurityGroupConvert)="onSecurityGroupConvert($event)"
-    ></cs-security-group-actions>`
+    ></cs-security-group-actions>`,
 })
 export class SecurityGroupActionsContainerComponent {
-  @Input() public securityGroup;
+  @Input()
+  public securityGroup;
 
-  constructor(
-    private store: Store<State>,
-    private router: Router
-  ) {
-  }
+  constructor(private store: Store<State>, private router: Router) {}
 
   public onDeleteSecurityGroup(securityGroup: SecurityGroup) {
     this.store.dispatch(new securityGroupActions.DeleteSecurityGroup(securityGroup));
   }
 
   public onViewSecurityGroup(securityGroup: SecurityGroup): Observable<any> {
-    this.router.navigate(
-      ['security-group', securityGroup.id, 'rules'],
-      { queryParamsHandling: 'preserve' }
-    );
+    this.router.navigate(['security-group', securityGroup.id, 'rules'], {
+      queryParamsHandling: 'preserve',
+    });
 
     return of(securityGroup);
   }

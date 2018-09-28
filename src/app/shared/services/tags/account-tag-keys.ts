@@ -1,3 +1,3 @@
 export const AccountTagKeys = {
-  sshDescription: 'csui.account.ssh-description'
+  sshDescription: 'csui.account.ssh-description',
 };

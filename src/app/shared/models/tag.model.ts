@@ -2,12 +2,12 @@ import { BaseModelInterface } from './base.model';
 
 export const ResourceTypes = {
   USER: 'User',
-  VM: 'UserVm'
+  VM: 'UserVm',
 };
 
 export const DeletionMark = {
   TAG: 'status',
-  VALUE: 'removed'
+  VALUE: 'removed',
 };
 
 export const defaultCategoryName = 'Common';
@@ -35,5 +35,8 @@ export const keyWithoutCategory = (tag: Tag): string => {
     return tag.key;
   }
 
-  return tag.key.split('.').splice(1).join('.');
+  return tag.key
+    .split('.')
+    .splice(1)
+    .join('.');
 };

@@ -8,28 +8,24 @@ import { Tag } from '../../models';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendService } from '../base-backend.service';
 
-
 @Injectable()
 @BackendResource({
-  entity: 'Tag'
+  entity: 'Tag',
 })
 export class TagService extends BaseBackendService<Tag> {
-  constructor(
-    private asyncJob: AsyncJobService,
-    protected http: HttpClient
-  ) {
+  constructor(private asyncJob: AsyncJobService, protected http: HttpClient) {
     super(http);
   }
 
   public create(params?: {}): Observable<any> {
-    return super.create(params).pipe(
-      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)));
+    return super.create(params).pipe(switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)));
   }
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params).pipe(
       switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)),
-      catchError(() => of(null)));
+      catchError(() => of(null))
+    );
   }
 
   public getList(params?: {}): Observable<Array<Tag>> {
@@ -38,8 +34,7 @@ export class TagService extends BaseBackendService<Tag> {
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({ resourceid: entity.id, key }).pipe(
-      map(tags => tags[0]));
+    return this.getList({ resourceid: entity.id, key }).pipe(map(tags => tags[0]));
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
@@ -58,16 +53,13 @@ export class TagService extends BaseBackendService<Tag> {
             resourceid: newEntity.id,
             resourcetype: entityName,
             key,
-            value
+            value,
           });
-          return Object.assign(
-            {},
-            newEntity,
-            { tags: newTags }
-          );
+          return Object.assign({}, newEntity, { tags: newTags });
         }
         return newEntity;
-      }));
+      })
+    );
 
     return this.getTag(newEntity, key).pipe(
       switchMap(tag => {
@@ -75,12 +67,14 @@ export class TagService extends BaseBackendService<Tag> {
           resourceIds: newEntity.id,
           resourceType: entityName,
           'tags[0].key': key,
-          'tags[0].value': tag.value || ''
+          'tags[0].value': tag.value || '',
         }).pipe(
-          map(() => newEntity.tags = newEntity.tags.filter(t => tag.key !== t.key)),
-          switchMap(() => createObs));
+          map(() => (newEntity.tags = newEntity.tags.filter(t => tag.key !== t.key))),
+          switchMap(() => createObs)
+        );
       }),
-      catchError(() => createObs));
+      catchError(() => createObs)
+    );
   }
 
   public getValueFromTag(tag: Tag): any {

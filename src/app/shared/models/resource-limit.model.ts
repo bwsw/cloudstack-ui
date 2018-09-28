@@ -12,7 +12,7 @@ export const enum ResourceType {
   CPU, // Number of CPU an account can allocate for his resources
   Memory, // Amount of RAM an account can allocate for his resources
   PrimaryStorage, // Total primary storage space (in GiB) a user can use
-  SecondaryStorage // Total secondary storage space (in GiB) a user can use
+  SecondaryStorage, // Total secondary storage space (in GiB) a user can use
 }
 
 export interface ResourceLimit extends BaseModelInterface {

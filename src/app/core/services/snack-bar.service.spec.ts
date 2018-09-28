@@ -12,8 +12,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Directive({ selector: '[csViewContainer]' })
 class ViewContainerDirective {
-  constructor(public viewContainerRef: ViewContainerRef) {
-  }
+  constructor(public viewContainerRef: ViewContainerRef) {}
 }
 
 @Component({
@@ -22,7 +21,8 @@ class ViewContainerDirective {
     <div csViewContainer></div>`,
 })
 class TestComponent {
-  @ViewChild(ViewContainerDirective) viewContainer: ViewContainerDirective;
+  @ViewChild(ViewContainerDirective)
+  viewContainer: ViewContainerDirective;
 
   get childViewContainer() {
     return this.viewContainer.viewContainerRef;
@@ -35,8 +35,7 @@ class TestComponent {
   declarations: [TestComponent, ViewContainerDirective],
   entryComponents: [TestComponent],
 })
-class NotificationTestModule {
-}
+class NotificationTestModule {}
 
 describe('Service: Notification service', () => {
   let notificationService: SnackBarService;
@@ -53,28 +52,26 @@ describe('Service: Notification service', () => {
         SnackBarService,
         { provide: TranslateService, useClass: MockTranslateService },
         {
-          provide: OverlayContainer, useFactory: () => {
-          overlayContainerElement = document.createElement('div');
-          return { getContainerElement: () => overlayContainerElement };
-        }
-        }
-      ]
+          provide: OverlayContainer,
+          useFactory: () => {
+            overlayContainerElement = document.createElement('div');
+            return { getContainerElement: () => overlayContainerElement };
+          },
+        },
+      ],
     });
   }));
 
-  beforeEach(async(inject(
-    [SnackBarService, MatSnackBar, LiveAnnouncer],
-    (
-      service: SnackBarService,
-      snackBar: MatSnackBar,
-      lAnnouncer: LiveAnnouncer
-    ) => {
-      notificationService = service;
-      mdSnackBar = snackBar;
-      liveAnnouncer = lAnnouncer;
-    }
-    ))
-  );
+  beforeEach(async(
+    inject(
+      [SnackBarService, MatSnackBar, LiveAnnouncer],
+      (service: SnackBarService, snackBar: MatSnackBar, lAnnouncer: LiveAnnouncer) => {
+        notificationService = service;
+        mdSnackBar = snackBar;
+        liveAnnouncer = lAnnouncer;
+      }
+    )
+  ));
 
   afterEach(() => {
     overlayContainerElement.innerHTML = '';
@@ -108,5 +105,3 @@ describe('Service: Notification service', () => {
     expect(overlayContainerElement.querySelector('snack-bar-container')).not.toBeNull();
   });
 });
-
-

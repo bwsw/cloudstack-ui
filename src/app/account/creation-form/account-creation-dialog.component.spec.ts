@@ -1,18 +1,7 @@
-import { Component, ViewChild, Input, forwardRef } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  NG_VALUE_ACCESSOR,
-  ControlValueAccessor
-} from '@angular/forms';
-import {
-  MatTooltipModule,
-  MatInputModule,
-  MatButtonModule,
-  MatSelectModule,
-  MatIconModule
-} from '@angular/material';
+import { Component, forwardRef, Input, ViewChild } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatIconModule, MatInputModule, MatSelectModule, MatTooltipModule } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountCreationDialogComponent } from './account-creation-dialog.component';
 import { Domain } from '../../shared/models/domain.model';
@@ -24,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { AccountData } from '../../shared/models/account.model';
 
-
 @Component({
   selector: 'cs-test',
   template: `
@@ -33,14 +21,15 @@ import { AccountData } from '../../shared/models/account.model';
       [roles]="roles"
       (onAccountCreate)="accountCreate($event)"
     ></cs-account-creation-dialog>
-  `
+  `,
 })
 class TestComponent {
-  @ViewChild(AccountCreationDialogComponent) public accountComponent: AccountCreationDialogComponent;
+  @ViewChild(AccountCreationDialogComponent)
+  public accountComponent: AccountCreationDialogComponent;
   public domains: Domain[];
   public roles: Role[];
 
-  public accountCreate(account: AccountData) { }
+  public accountCreate(account: AccountData) {}
 }
 
 @Component({
@@ -55,9 +44,9 @@ class TestComponent {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TestTimeZoneComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 class TestTimeZoneComponent implements ControlValueAccessor {
   public writeValue(value: any) {}
@@ -67,10 +56,11 @@ class TestTimeZoneComponent implements ControlValueAccessor {
 
 @Component({
   selector: 'cs-overlay-loading',
-  template: ``
+  template: ``,
 })
 class TestOverlayComponent {
-  @Input() public active: boolean;
+  @Input()
+  public active: boolean;
 }
 
 describe('AccountCreationDialogComponent', () => {
@@ -80,7 +70,6 @@ describe('AccountCreationDialogComponent', () => {
 
     return { f, testComponent };
   }
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -99,17 +88,11 @@ describe('AccountCreationDialogComponent', () => {
         TestTimeZoneComponent,
         TestOverlayComponent,
         TestComponent,
-        MockTranslatePipe
+        MockTranslatePipe,
       ],
-      providers: [
-        { provide: TranslateService, useClass: MockTranslateService }
-      ]
-    })
-      .compileComponents();
-
-
+      providers: [{ provide: TranslateService, useClass: MockTranslateService }],
+    }).compileComponents();
   }));
-
 
   it('should check the submit button is disabled', async(async () => {
     const { f, testComponent } = createTestComponent();
@@ -141,7 +124,6 @@ describe('AccountCreationDialogComponent', () => {
     testComponent.accountComponent.accountForm.controls['roleid'].setValue('1');
     f.detectChanges();
     expect(buttons[1].nativeElement.disabled).toBeFalsy();
-
   }));
 
   it('should check the email field', async(async () => {
@@ -161,7 +143,6 @@ describe('AccountCreationDialogComponent', () => {
     testComponent.accountComponent.accountForm.controls['roleid'].setValue('1');
     f.detectChanges();
     expect(buttons[1].nativeElement.disabled).toBeTruthy();
-
   }));
 
   it('should submit form', async(async () => {
@@ -189,9 +170,8 @@ describe('AccountCreationDialogComponent', () => {
       firstname: 'name',
       lastname: 'name',
       domainid: '1',
-      roleid: '1'
+      roleid: '1',
     });
-
   }));
 
   it('should submit full form', async(async () => {
@@ -208,7 +188,7 @@ describe('AccountCreationDialogComponent', () => {
     testComponent.accountComponent.accountForm.controls['lastname'].setValue('name');
     testComponent.accountComponent.accountForm.controls['domainid'].setValue('1');
     testComponent.accountComponent.accountForm.controls['roleid'].setValue('1');
-    testComponent.accountComponent.accountForm.controls['timezone'].setValue({ geo: 'GEO'});
+    testComponent.accountComponent.accountForm.controls['timezone'].setValue({ geo: 'GEO' });
     testComponent.accountComponent.accountForm.controls['networkdomain'].setValue('domain');
     f.detectChanges();
     expect(buttons[1].nativeElement.disabled).toBeFalsy();
@@ -222,9 +202,7 @@ describe('AccountCreationDialogComponent', () => {
       domainid: '1',
       roleid: '1',
       timezone: 'GEO',
-      networkdomain: 'domain'
+      networkdomain: 'domain',
     });
-
   }));
-
 });

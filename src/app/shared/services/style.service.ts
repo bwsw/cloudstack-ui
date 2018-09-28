@@ -10,13 +10,13 @@ export const themes: Array<Theme> = [
   {
     name: 'blue-red',
     href: 'css/themes/blue-red.css',
-    primaryColor: '#2196f3'
+    primaryColor: '#2196f3',
   },
   {
     name: 'indigo-pink',
     href: 'css/themes/indigo-pink.css',
-    primaryColor: '#3f51b5'
-  }
+    primaryColor: '#3f51b5',
+  },
 ];
 
 const preferredTheme = themes[0]; // the blue-red one is default
@@ -45,8 +45,7 @@ export class StyleService {
     // logged in (when the app loads, the default theme loads with it and
     // the linkElement has empty href, but the user can explicitly
     // set the default theme in the tag)
-    const notPreferredAfterLogin =
-      !styleElement.href && theme.name !== preferredTheme.name;
+    const notPreferredAfterLogin = !styleElement.href && theme.name !== preferredTheme.name;
 
     if (hasChanged || notPreferredAfterLogin) {
       styleElement.href = theme.href;

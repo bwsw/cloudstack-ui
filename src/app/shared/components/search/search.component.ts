@@ -1,6 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'cs-search',
@@ -10,9 +9,9 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SearchComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SearchComponent implements ControlValueAccessor {
   public _query: string;
@@ -39,5 +38,5 @@ export class SearchComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {}
 }

@@ -35,4 +35,4 @@ export {
   computeOfferingClasses,
   // Images settings
   imageGroups,
-}
+};

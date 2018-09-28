@@ -11,7 +11,6 @@ import { NetworkRuleService } from '../network-rule.service';
 import { BackendResource } from '../../../shared/decorators/backend-resource.decorator';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 
-
 interface TcpUdpNetworkRuleCreationParams {
   securityGroupId: string;
   ruleId: string;
@@ -32,7 +31,7 @@ interface IcmpNetworkRuleCreationParams {
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup'
+  entity: 'SecurityGroup',
 })
 export abstract class SecurityGroupCreationService extends BaseBackendService<SecurityGroup> {
   constructor(
@@ -44,12 +43,14 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   }
 
   public createGroup(data: any, rules?: Rules): Observable<SecurityGroup> {
-    const ingressRulesWithPossibleDuplicates = rules && rules.ingress || [];
-    const egressRulesWithPossibleDuplicates = rules && rules.egress || [];
+    const ingressRulesWithPossibleDuplicates = (rules && rules.ingress) || [];
+    const egressRulesWithPossibleDuplicates = (rules && rules.egress) || [];
     const ingressRules = this.networkRuleService.removeDuplicateRules(
-      ingressRulesWithPossibleDuplicates);
+      ingressRulesWithPossibleDuplicates
+    );
     const egressRules = this.networkRuleService.removeDuplicateRules(
-      egressRulesWithPossibleDuplicates);
+      egressRulesWithPossibleDuplicates
+    );
 
     return this.create(data).pipe(
       switchMap(securityGroup => {
@@ -57,10 +58,13 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
       }),
       switchMap(securityGroup => {
         return this.securityGroupCreationPostAction(securityGroup);
-      }));
+      })
+    );
   }
 
-  protected securityGroupCreationPostAction(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+  protected securityGroupCreationPostAction(
+    securityGroup: SecurityGroup
+  ): Observable<SecurityGroup> {
     return of(securityGroup);
   }
 
@@ -85,13 +89,12 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
       securityGroup
     );
 
-    const ruleCreationRequests = ingressRuleCreationRequests.concat(
-      egressRuleCreationRequests);
+    const ruleCreationRequests = ingressRuleCreationRequests.concat(egressRuleCreationRequests);
 
     const newSecurityGroup: SecurityGroup = {
       ...securityGroup,
       ingressrule: ingressRules,
-      egressrule: egressRules
+      egressrule: egressRules,
     };
 
     return forkJoin(ruleCreationRequests).pipe(map(() => newSecurityGroup));
@@ -108,10 +111,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     });
   }
 
-  private getNetworkRuleCreationParams(
-    rule: NetworkRule,
-    securityGroup: SecurityGroup
-  ): any {
+  private getNetworkRuleCreationParams(rule: NetworkRule, securityGroup: SecurityGroup): any {
     if (rule.protocol === NetworkProtocol.TCP || rule.protocol === NetworkProtocol.UDP) {
       return this.getTcpUdpNetworkRuleCreationRequest(rule as PortNetworkRule, securityGroup);
     }
@@ -133,9 +133,9 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
       protocol: rule.protocol.toLowerCase(),
       cidrList: rule.cidr,
       startPort: rule.startport,
-      endPort: rule.endport
+      endPort: rule.endport,
     };
-  };
+  }
 
   private getIcmpNetworkRuleCreationRequest(
     rule: IcmpNetworkRule,
@@ -147,7 +147,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
       protocol: rule.protocol.toLowerCase(),
       cidrList: rule.cidr,
       icmpCode: rule.icmpcode,
-      icmpType: rule.icmptype
+      icmpType: rule.icmptype,
     };
   }
 }

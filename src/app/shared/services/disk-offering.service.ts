@@ -10,7 +10,7 @@ import { ServiceOfferingAvailability } from '../models/config';
 
 @Injectable()
 @BackendResource({
-  entity: 'DiskOffering'
+  entity: 'DiskOffering',
 })
 export class DiskOfferingService extends OfferingService<DiskOffering> {
   public getList(params?: any): Observable<Array<DiskOffering>> {
@@ -23,12 +23,20 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
             return offering.disksize < params.maxSize || offering.iscustomized;
           });
         }
-      }));
+      })
+    );
   }
 
-  public isOfferingAvailableForVolume(diskOffering: DiskOffering, volume: Volume, zone: Zone): boolean {
-    return !isOfferingLocal(diskOffering) || zone.localstorageenabled &&
-      (diskOffering.iscustomized || diskOffering.id !== volume.diskofferingid);
+  public isOfferingAvailableForVolume(
+    diskOffering: DiskOffering,
+    volume: Volume,
+    zone: Zone
+  ): boolean {
+    return (
+      !isOfferingLocal(diskOffering) ||
+      (zone.localstorageenabled &&
+        (diskOffering.iscustomized || diskOffering.id !== volume.diskofferingid))
+    );
   }
 
   protected isOfferingAvailableInZone(
@@ -37,7 +45,8 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
     zone: Zone
   ): boolean {
     if (offeringAvailability.zones[zone.id]) {
-      const isOfferingExist = offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
+      const isOfferingExist =
+        offeringAvailability.zones[zone.id].diskOfferings.indexOf(offering.id) !== -1;
       return isOfferingExist;
     }
     return false;

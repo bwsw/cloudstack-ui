@@ -12,15 +12,13 @@ import { Rules } from './rules';
 import { SecurityGroupBuilderComponent } from './security-group-builder.component';
 import { TestStore } from '../../../../testutils/ngrx-test-store';
 
-
 describe('Sg creation component', () => {
   let f;
   let comp: SecurityGroupBuilderComponent;
   let store: TestStore<any>;
 
   const dialogReferenceMock = {
-    close(): void {
-    }
+    close(): void {},
   };
 
   const mockSg1: SecurityGroup = {
@@ -30,23 +28,27 @@ describe('Sg creation component', () => {
     domain: 'ROOT',
     domainid: 'id',
     name: 'eeae63c7-1c0e-4ecd-b4a2-505a167b28be-cs-sg',
-    ingressrule: [{
-      ruleid: 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
-      protocol: NetworkProtocol.UDP,
-      startport: 1,
-      endport: 65535,
-      cidr: '0.0.0.0/0',
-    }],
-    egressrule: [{
-      ruleid: 'a81906bd-1eca-4e9d-889b-c426e0182807',
-      protocol: NetworkProtocol.ICMP,
-      icmptype: -1,
-      icmpcode: -1,
-      cidr: '0.0.0.0/0',
-    }],
+    ingressrule: [
+      {
+        ruleid: 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
+        protocol: NetworkProtocol.UDP,
+        startport: 1,
+        endport: 65535,
+        cidr: '0.0.0.0/0',
+      },
+    ],
+    egressrule: [
+      {
+        ruleid: 'a81906bd-1eca-4e9d-889b-c426e0182807',
+        protocol: NetworkProtocol.ICMP,
+        icmptype: -1,
+        icmpcode: -1,
+        cidr: '0.0.0.0/0',
+      },
+    ],
     virtualmachinecount: 0,
     virtualmachineids: [],
-    tags: []
+    tags: [],
   };
 
   const mockSg2: SecurityGroup = {
@@ -56,40 +58,48 @@ describe('Sg creation component', () => {
     description: 'desc',
     domain: 'ROOT',
     domainid: 'id',
-    ingressrule: [{
+    ingressrule: [
+      {
+        ruleid: 'f22c9314-a33e-406c-8723-370631363802',
+        protocol: NetworkProtocol.TCP,
+        startport: 1,
+        endport: 65535,
+        cidr: '0.0.0.0/0',
+      },
+    ],
+    egressrule: [
+      {
+        ruleid: '55a564b6-ad19-4130-b9a1-9f353930864a',
+        protocol: NetworkProtocol.TCP,
+        startport: 1,
+        endport: 65535,
+        cidr: '0.0.0.0/0',
+      },
+    ],
+    virtualmachinecount: 0,
+    virtualmachineids: [],
+    tags: [],
+  };
+
+  const mockRulesIngress: NetworkRule[] = [
+    {
       ruleid: 'f22c9314-a33e-406c-8723-370631363802',
       protocol: NetworkProtocol.TCP,
       startport: 1,
       endport: 65535,
       cidr: '0.0.0.0/0',
-    }],
-    egressrule: [{
+    },
+  ];
+
+  const mockRuleEgress: NetworkRule[] = [
+    {
       ruleid: '55a564b6-ad19-4130-b9a1-9f353930864a',
       protocol: NetworkProtocol.TCP,
       startport: 1,
       endport: 65535,
       cidr: '0.0.0.0/0',
-    }],
-    virtualmachinecount: 0,
-    virtualmachineids: [],
-    tags: []
-  };
-
-  const mockRulesIngress: NetworkRule[] = [{
-    ruleid: 'f22c9314-a33e-406c-8723-370631363802',
-    protocol: NetworkProtocol.TCP,
-    startport: 1,
-    endport: 65535,
-    cidr: '0.0.0.0/0',
-  }];
-
-  const mockRuleEgress: NetworkRule[] = [{
-    ruleid: '55a564b6-ad19-4130-b9a1-9f353930864a',
-    protocol: NetworkProtocol.TCP,
-    startport: 1,
-    endport: 65535,
-    cidr: '0.0.0.0/0',
-  }];
+    },
+  ];
 
   const mockRules = new Rules();
 
@@ -105,9 +115,9 @@ describe('Sg creation component', () => {
       providers: [
         { provide: MatDialogRef, useFactory: () => dialogReferenceMock },
         { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
-        { provide: Store, useClass: TestStore }
+        { provide: Store, useClass: TestStore },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     TestBed.compileComponents().then(() => {

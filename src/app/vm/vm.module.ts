@@ -205,7 +205,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     VmService,
     SshAccessService,
     HttpAccessService,
-    VncAccessService
+    VncAccessService,
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,
@@ -223,8 +223,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     PostdeploymentComponent,
     VmPasswordDialogComponent,
     VmAccessComponent,
-    ServiceOfferingDialogContainerComponent
-  ]
+    ServiceOfferingDialogContainerComponent,
+  ],
 })
-export class VmModule {
-}
+export class VmModule {}

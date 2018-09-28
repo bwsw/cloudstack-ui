@@ -7,7 +7,6 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import { Grouping, Volume, volumeTypeNames } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 
-
 @Component({
   selector: 'cs-volume-page-container',
   template: `
@@ -17,10 +16,9 @@ import { AuthService } from '../../shared/services/auth.service';
       [isLoading]="loading$ | async"
       [groupings]="groupings"
       [selectedGroupings]="selectedGroupings$ | async"
-    ></cs-volume-page>`
+    ></cs-volume-page>`,
 })
 export class VolumePageContainerComponent implements OnInit, AfterViewInit {
-
   readonly volumes$ = this.store.select(fromVolumes.selectFilteredVolumes);
   readonly query$ = this.store.select(fromVolumes.filterQuery);
   readonly loading$ = this.store.select(fromVolumes.isLoading);
@@ -31,20 +29,20 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
       key: 'zones',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: Volume) => item.zoneid,
-      name: (item: Volume) => item.zonename
+      name: (item: Volume) => item.zonename,
     },
     {
       key: 'types',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_TYPES',
       selector: (item: Volume) => item.type,
-      name: (item: Volume) => volumeTypeNames[item.type]
+      name: (item: Volume) => volumeTypeNames[item.type],
     },
     {
       key: 'accounts',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: Volume) => item.account,
       name: (item: Volume) => this.getGroupName(item),
-    }
+    },
   ];
   public query: string;
 
@@ -68,9 +66,7 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
   }
 
   private getGroupName(volume: Volume) {
-    return volume.domain !== 'ROOT'
-      ? `${volume.domain}/${volume.account}`
-      : volume.account;
+    return volume.domain !== 'ROOT' ? `${volume.domain}/${volume.account}` : volume.account;
   }
 
   public ngAfterViewInit() {

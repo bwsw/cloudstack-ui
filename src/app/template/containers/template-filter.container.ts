@@ -26,9 +26,10 @@ const FILTER_KEY = 'templateListFilters';
 
 @Component({
   selector: 'cs-template-filter-container',
-  templateUrl: 'template-filter.container.html'
+  templateUrl: 'template-filter.container.html',
 })
-export class TemplateFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
+export class TemplateFilterContainerComponent extends WithUnsubscribe()
+  implements OnInit, AfterViewInit {
   readonly filters$ = this.store.pipe(select(fromTemplates.filters));
   readonly loading$ = this.store.pipe(select(fromTemplates.isLoading));
   readonly osTypes$ = this.store.pipe(select(fromOsTypes.selectAll));
@@ -46,34 +47,36 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
   readonly selectedGroups$ = this.store.pipe(select(fromTemplates.filterSelectedGroups));
   readonly selectedGroupings$ = this.store.pipe(select(fromTemplates.filterSelectedGroupings));
 
-  @Input() public availableGroupings = [];
-  @Input() public dialogMode = false;
-  @Input() public showIsoSwitch = true;
-  @Input() public zoneId: string;
-  @Input() public viewMode: string;
+  @Input()
+  public availableGroupings = [];
+  @Input()
+  public dialogMode = false;
+  @Input()
+  public showIsoSwitch = true;
+  @Input()
+  public zoneId: string;
+  @Input()
+  public viewMode: string;
 
   public osFamilies: Array<OsFamily> = [
     OsFamily.Linux,
     OsFamily.Windows,
     OsFamily.MacOs,
-    OsFamily.Other
+    OsFamily.Other,
   ];
 
-  public categoryFilters = [
-    TemplateFilters.featured,
-    TemplateFilters.self
-  ];
+  public categoryFilters = [TemplateFilters.featured, TemplateFilters.self];
 
   private filterService = new FilterService(
     {
-      'viewMode': { type: 'string', defaultOption: TemplateResourceType.template },
-      'accounts': { type: 'array', defaultOption: [] },
-      'osFamilies': { type: 'array', options: this.osFamilies, defaultOption: [] },
-      'types': { type: 'array', options: this.categoryFilters, defaultOption: [] },
-      'zones': { type: 'array', defaultOption: [] },
-      'groups': { type: 'array', defaultOption: [] },
-      'groupings': { type: 'array', defaultOption: [] },
-      'query': { type: 'string' }
+      viewMode: { type: 'string', defaultOption: TemplateResourceType.template },
+      accounts: { type: 'array', defaultOption: [] },
+      osFamilies: { type: 'array', options: this.osFamilies, defaultOption: [] },
+      types: { type: 'array', options: this.categoryFilters, defaultOption: [] },
+      zones: { type: 'array', defaultOption: [] },
+      groups: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] },
+      query: { type: 'string' },
     },
     this.router,
     this.sessionStorage,
@@ -147,16 +150,18 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
     selectedAccountIds,
     query
   ) {
-    this.store.dispatch(new templateActions.TemplatesFilterUpdate({
-      selectedViewMode,
-      selectedOsFamilies,
-      selectedTypes,
-      selectedZones,
-      selectedGroupings,
-      selectedGroups,
-      selectedAccountIds,
-      query
-    }));
+    this.store.dispatch(
+      new templateActions.TemplatesFilterUpdate({
+        selectedViewMode,
+        selectedOsFamilies,
+        selectedTypes,
+        selectedZones,
+        selectedGroupings,
+        selectedGroups,
+        selectedAccountIds,
+        query,
+      })
+    );
   }
 
   private initFilters(): void {
@@ -176,7 +181,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
 
     const selectedViewMode = !this.dialogMode
       ? params['viewMode']
-      : (this.viewMode && this.viewMode.toLowerCase());
+      : this.viewMode && this.viewMode.toLowerCase();
     const selectedAccounts = !this.dialogMode ? params['accounts'] : [];
     const selectedZones = !this.dialogMode ? params['zones'] : [this.zoneId];
 
@@ -191,21 +196,19 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe() implemen
       query
     );
 
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => {
-        if (!this.dialogMode) {
-          this.filterService.update({
-            'viewMode': filters.selectedViewMode,
-            'accounts': filters.selectedAccountIds,
-            'osFamilies': filters.selectedOsFamilies,
-            'types': filters.selectedTypes,
-            'zones': filters.selectedZones,
-            'groups': filters.selectedGroups,
-            'groupings': filters.selectedGroupings.map(_ => _.key),
-            'query': filters.query,
-          });
-        }
-      });
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      if (!this.dialogMode) {
+        this.filterService.update({
+          viewMode: filters.selectedViewMode,
+          accounts: filters.selectedAccountIds,
+          osFamilies: filters.selectedOsFamilies,
+          types: filters.selectedTypes,
+          zones: filters.selectedZones,
+          groups: filters.selectedGroups,
+          groupings: filters.selectedGroupings.map(_ => _.key),
+          query: filters.query,
+        });
+      }
+    });
   }
 }

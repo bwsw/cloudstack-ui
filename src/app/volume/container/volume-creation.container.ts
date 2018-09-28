@@ -16,7 +16,6 @@ import { VolumeCreationDialogComponent } from '../volume-creation/volume-creatio
 import { Zone } from '../../shared/models/zone.model';
 import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
 
-
 @Component({
   selector: 'cs-volume-creation-container',
   template: `
@@ -31,7 +30,8 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
     </cs-volume-creation-dialog>`,
 })
 export class VolumeCreationContainerComponent extends WithUnsubscribe() implements OnInit {
-  @ViewChild(VolumeCreationDialogComponent) public volumeCreationDialogComponent: VolumeCreationDialogComponent;
+  @ViewChild(VolumeCreationDialogComponent)
+  public volumeCreationDialogComponent: VolumeCreationDialogComponent;
 
   public loading$ = this.store.select(fromVolumes.isLoading);
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
@@ -43,13 +43,15 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   constructor(
     public dialogService: DialogService,
     public authService: AuthService,
-    private store: Store<State>,
+    private store: Store<State>
   ) {
     super();
   }
 
   public ngOnInit() {
-    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
+    this.store.dispatch(
+      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK })
+    );
   }
 
   public createVolume(data: VolumeCreationData) {
@@ -57,19 +59,23 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public updateZone(zone: Zone) {
-    this.account$.pipe(
-      take(1),
-      filter(Boolean))
-      .subscribe((account) => {
+    this.account$
+      .pipe(
+        take(1),
+        filter(Boolean)
+      )
+      .subscribe(account => {
         if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
           this.handleInsufficientResources();
           return;
         }
         this.maxSize = account.primarystorageavailable;
-        this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
-          zone: zone,
-          maxSize: this.maxSize
-        }));
+        this.store.dispatch(
+          new diskOfferingActions.LoadOfferingsRequest({
+            zone: zone,
+            maxSize: this.maxSize,
+          })
+        );
       });
   }
 

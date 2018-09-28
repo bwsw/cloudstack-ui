@@ -2,7 +2,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from './storage.service';
 import { Utils } from './utils/utils.service';
 
-
 export interface FilterConfig {
   [propName: string]: FilterItemConfig;
 }
@@ -60,8 +59,7 @@ export class FilterService {
     private storage: StorageService,
     private key: string,
     private activatedRoute: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   public update(params): void {
     if (Utils.getRouteWithoutQueryParams(this.router.routerState) === '/login') {
@@ -78,7 +76,8 @@ export class FilterService {
       }
     }, {});
 
-    this.router.navigate([], { queryParams })
+    this.router
+      .navigate([], { queryParams })
       .then(() => this.storage.write(this.key, JSON.stringify(queryParams)));
   }
 
@@ -99,10 +98,7 @@ export class FilterService {
       }
 
       if (memo[filter] == null && storage.hasOwnProperty(filter)) {
-        memo[filter] = FilterService.getValue(
-          storage[filter],
-          this.config[filter]
-        );
+        memo[filter] = FilterService.getValue(storage[filter], this.config[filter]);
       }
 
       if (memo[filter] == null) {

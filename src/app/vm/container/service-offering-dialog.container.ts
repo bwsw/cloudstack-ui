@@ -12,7 +12,7 @@ import * as serviceOfferingActions from '../../reducers/service-offerings/redux/
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
-import { selectFilteredOfferings } from '../selectors'
+import { selectFilteredOfferings } from '../selectors';
 
 @Component({
   selector: 'cs-service-offering-dialog-container',
@@ -56,8 +56,12 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneId));
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
-    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters)
+    );
+    this.store.dispatch(
+      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType })
+    );
   }
 
   ngAfterViewInit() {
@@ -65,11 +69,15 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   }
 
   public onViewModeChange(selectedViewMode: string) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode })
+    );
   }
 
   public onSelectedClassesChange(selectedClasses: string[]) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses })
+    );
   }
 
   public onQueryChange(query: string) {
@@ -83,10 +91,12 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   }
 
   public changeServiceOffering(serviceOffering) {
-    this.store.dispatch(new vmActions.ChangeServiceOffering({
-      vm: this.virtualMachine,
-      offering: serviceOffering
-    }));
+    this.store.dispatch(
+      new vmActions.ChangeServiceOffering({
+        vm: this.virtualMachine,
+        offering: serviceOffering,
+      })
+    );
     this.dialogRef.close();
   }
 

@@ -1,4 +1,11 @@
-import { AffinityGroup, DiskOffering, InstanceGroup, ServiceOffering, SSHKeyPair, Zone } from '../../../shared/models';
+import {
+  AffinityGroup,
+  DiskOffering,
+  InstanceGroup,
+  ServiceOffering,
+  SSHKeyPair,
+  Zone,
+} from '../../../shared/models';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
@@ -21,6 +28,5 @@ export interface VmCreationState {
   sshKeyPair: SSHKeyPair | NotSelected;
   template: BaseTemplateModel;
   zone: Zone;
-  agreement: boolean
+  agreement: boolean;
 }
-

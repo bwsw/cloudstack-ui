@@ -5,25 +5,25 @@ import { isRoot, Volume } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
 import { isCustomized } from '../../../models/offering.model';
 
-
 @Component({
   selector: 'cs-volume-resize',
   templateUrl: 'volume-resize.component.html',
-  styleUrls: ['volume-resize.component.scss']
+  styleUrls: ['volume-resize.component.scss'],
 })
 export class VolumeResizeComponent implements OnInit, OnChanges {
-  @Input() public maxSize: number;
-  @Input() public volume: Volume;
-  @Input() public diskOfferings: Array<DiskOffering>;
-  @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
+  @Input()
+  public maxSize: number;
+  @Input()
+  public volume: Volume;
+  @Input()
+  public diskOfferings: Array<DiskOffering>;
+  @Output()
+  public onDiskResized = new EventEmitter<VolumeResizeData>();
 
   public diskOffering: DiskOffering;
   public newSize: number;
 
-  constructor(
-    public dialogRef: MatDialogRef<VolumeResizeComponent>
-  ) {
-  }
+  constructor(public dialogRef: MatDialogRef<VolumeResizeComponent>) {}
 
   public isCustomizedForVolume(diskOffering: DiskOffering): boolean {
     if (diskOffering) {

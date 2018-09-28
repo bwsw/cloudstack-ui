@@ -11,7 +11,7 @@ import {
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
-  Zone
+  Zone,
 } from '../../../shared/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
@@ -76,7 +76,7 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
       (deploy)="onDeploy($event)"
       (onVmDeploymentFailed)="showOverlayChange()"
     ></cs-vm-creation>
-  `
+  `,
 })
 export class VmCreationContainerComponent implements OnInit {
   readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
@@ -87,9 +87,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading))
-  ).pipe(
-    map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
-  );
+  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading === true)));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
   readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
@@ -118,10 +116,11 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
+    this.store.dispatch(
+      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType })
+    );
 
-    this.getDefaultVmName()
-      .subscribe(displayName => this.onDisplayNameChange(displayName));
+    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
@@ -198,6 +197,7 @@ export class VmCreationContainerComponent implements OnInit {
     return this.store.pipe(
       select(UserTagsSelectors.getLastVMId),
       first(),
-      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
+      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`)
+    );
   }
 }

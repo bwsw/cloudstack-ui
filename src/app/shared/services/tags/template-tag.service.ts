@@ -8,13 +8,11 @@ import { TemplateTagKeys } from './template-tag-keys';
 import { ImageGroup } from '../../models/config/image-group.model';
 import { resourceType } from '../../../template/shared/base-template.model';
 
-
 @Injectable()
 export class TemplateTagService implements EntityTagService {
   public keys = TemplateTagKeys;
 
-  constructor(protected tagService: TagService) {
-  }
+  constructor(protected tagService: TagService) {}
 
   public setDownloadUrl(
     template: BaseTemplateModel,
@@ -28,10 +26,7 @@ export class TemplateTagService implements EntityTagService {
     );
   }
 
-  public setGroup(
-    template: BaseTemplateModel,
-    group: ImageGroup
-  ): Observable<BaseTemplateModel> {
+  public setGroup(template: BaseTemplateModel, group: ImageGroup): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
       resourceType(template),
@@ -45,7 +40,7 @@ export class TemplateTagService implements EntityTagService {
     return this.tagService.remove({
       resourceIds: tag.resourceid,
       resourceType: tag.resourcetype,
-      'tags[0].key': tag.key
+      'tags[0].key': tag.key,
     });
   }
 

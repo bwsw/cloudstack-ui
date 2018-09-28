@@ -1,14 +1,10 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import { Account } from '../../shared/models/account.model';
-
 
 @Component({
   selector: 'cs-account-action-container',
@@ -22,14 +18,10 @@ import { Account } from '../../shared/models/account.model';
     </cs-account-actions>`,
 })
 export class AccountActionsContainerComponent {
+  @Input()
+  public account: Account;
 
-  @Input() public account: Account;
-
-  constructor(
-    public dialogService: DialogService,
-    private store: Store<State>,
-  ) {
-  }
+  constructor(public dialogService: DialogService, private store: Store<State>) {}
 
   public onAccountEnable(account: Account): void {
     this.store.dispatch(new accountActions.EnableAccountRequest(account));

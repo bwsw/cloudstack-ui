@@ -20,7 +20,7 @@ import {
   IsoService,
   resourceType,
   Template,
-  TemplateService
+  TemplateService,
 } from '../../../template/shared';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import * as templateActions from './template.actions';
@@ -31,34 +31,38 @@ export class TemplateEffects {
   loadTemplates$: Observable<Action> = this.actions$.pipe(
     ofType(templateActions.LOAD_TEMPLATE_REQUEST),
     switchMap((action: templateActions.LoadTemplatesRequest) => {
-      let filters = [
-        TemplateFilters.featured,
-        TemplateFilters.self
-      ];
+      let filters = [TemplateFilters.featured, TemplateFilters.self];
 
       if (this.authService.isAdmin()) {
         filters = [TemplateFilters.all];
-      } else if (action.payload && action.payload.selectedTypes
-        && action.payload.selectedTypes.length) {
+      } else if (
+        action.payload &&
+        action.payload.selectedTypes &&
+        action.payload.selectedTypes.length
+      ) {
         filters = action.payload.selectedTypes;
       }
 
       return forkJoin(
-        this.templateService.getGroupedTemplates<Template>({}, filters, true).pipe(
-          map(_ => _.toArray())),
-        this.isoService.getGroupedTemplates<Iso>({}, filters, true).pipe(
-          map(_ => _.toArray()))
+        this.templateService
+          .getGroupedTemplates<Template>({}, filters, true)
+          .pipe(map(_ => _.toArray())),
+        this.isoService.getGroupedTemplates<Iso>({}, filters, true).pipe(map(_ => _.toArray()))
       ).pipe(
         withLatestFrom(this.store.pipe(select(configSelectors.get('imageGroups')))),
-        map(([[templates, isos], groups]) =>
-          [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups]),
+        map(([[templates, isos], groups]) => [
+          [uniqBy(templates, 'id'), uniqBy(isos, 'id')],
+          groups,
+        ]),
         switchMap(([[templates, isos], groups]) => {
           return groups && groups.length
             ? of(new templateActions.LoadTemplatesResponse([...templates, ...isos]))
             : of(new templateActions.LoadTemplatesResponse([...templates, ...isos]));
         }),
-        catchError(error => of(new templateActions.LoadTemplatesResponse([]))));
-    }));
+        catchError(error => of(new templateActions.LoadTemplatesResponse([])))
+      );
+    })
+  );
 
   @Effect()
   removeTemplate$: Observable<Action> = this.actions$.pipe(
@@ -69,7 +73,10 @@ export class TemplateEffects {
         ? 'NOTIFICATIONS.ISO.DELETION_IN_PROGRESS'
         : 'NOTIFICATIONS.TEMPLATE.DELETION_IN_PROGRESS';
       const notificationId = this.jobsNotificationService.add(progressMessage);
-      return (isIso ? this.isoService.remove(action.payload) : this.templateService.remove(action.payload)).pipe(
+      return (isIso
+        ? this.isoService.remove(action.payload)
+        : this.templateService.remove(action.payload)
+      ).pipe(
         tap(() => {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.DELETION_DONE'
@@ -82,9 +89,11 @@ export class TemplateEffects {
             ? 'NOTIFICATIONS.ISO.DELETION_FAILED'
             : 'NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
-          return of(new templateActions.RemoveTemplateError(error))
-        }));
-    }));
+          return of(new templateActions.RemoveTemplateError(error));
+        })
+      );
+    })
+  );
 
   @Effect({ dispatch: false })
   removeTemplateSuccess$: Observable<BaseTemplateModel> = this.actions$.pipe(
@@ -95,16 +104,20 @@ export class TemplateEffects {
     }),
     tap(() => {
       this.router.navigate(['./templates'], {
-        queryParamsHandling: 'preserve'
+        queryParamsHandling: 'preserve',
       });
-    }));
+    })
+  );
 
   @Effect()
   registerTemplate$: Observable<Action> = this.actions$.pipe(
     ofType(templateActions.TEMPLATE_REGISTER),
     switchMap((action: templateActions.RegisterTemplate) => {
       const isIso = action.payload.entity === TemplateResourceType.iso;
-      return (isIso ? this.isoService.register(action.payload) : this.templateService.register(action.payload)).pipe(
+      return (isIso
+        ? this.isoService.register(action.payload)
+        : this.templateService.register(action.payload)
+      ).pipe(
         tap(() => {
           const message = isIso
             ? 'NOTIFICATIONS.ISO.REGISTER_DONE'
@@ -114,15 +127,19 @@ export class TemplateEffects {
         map(createdTemplate => new templateActions.RegisterTemplateSuccess(createdTemplate)),
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
-          return of(new templateActions.RegisterTemplateError(error))
-        }));
-    }));
+          return of(new templateActions.RegisterTemplateError(error));
+        })
+      );
+    })
+  );
 
   @Effect()
   createTemplate$: Observable<Action> = this.actions$.pipe(
     ofType(templateActions.TEMPLATE_CREATE),
     mergeMap((action: templateActions.CreateTemplate) => {
-      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.TEMPLATE.CREATION_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.TEMPLATE.CREATION_IN_PROGRESS'
+      );
       return this.templateService.create(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_DONE';
@@ -132,28 +149,28 @@ export class TemplateEffects {
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
-          return of(new templateActions.CreateTemplateError(error))
-        }));
-    }));
+          return of(new templateActions.CreateTemplateError(error));
+        })
+      );
+    })
+  );
 
   @Effect({ dispatch: false })
   registerAndCreateTemplateSuccess$: Observable<Action> = this.actions$.pipe(
-    ofType(
-      templateActions.TEMPLATE_REGISTER_SUCCESS,
-      templateActions.TEMPLATE_CREATE_SUCCESS
-    ),
+    ofType(templateActions.TEMPLATE_REGISTER_SUCCESS, templateActions.TEMPLATE_CREATE_SUCCESS),
     tap(() => this.dialog.closeAll())
   );
 
   @Effect()
   setTemplateGroup$: Observable<Action> = this.actions$.pipe(
     ofType(templateActions.SET_TEMPLATE_GROUP),
-    mergeMap((action: templateActions.SetTemplateGroup) => this.templateTagService.setGroup(
-      action.payload.template,
-      action.payload.templateGroup
-    ).pipe(
-      map(temp => new templateActions.SetTemplateGroupSuccess(temp)),
-      catchError(error => of(new templateActions.SetTemplateGroupError(error))))));
+    mergeMap((action: templateActions.SetTemplateGroup) =>
+      this.templateTagService.setGroup(action.payload.template, action.payload.templateGroup).pipe(
+        map(temp => new templateActions.SetTemplateGroupSuccess(temp)),
+        catchError(error => of(new templateActions.SetTemplateGroupError(error)))
+      )
+    )
+  );
 
   @Effect()
   resetTemplateGroup$: Observable<Action> = this.actions$.pipe(
@@ -161,8 +178,10 @@ export class TemplateEffects {
     mergeMap((action: templateActions.ResetTemplateGroup) =>
       this.templateTagService.resetGroup(action.payload).pipe(
         map(temp => new templateActions.ResetTemplateGroupSuccess(action.payload)),
-        catchError(error => of(new templateActions.SetTemplateGroupError(error))))));
-
+        catchError(error => of(new templateActions.SetTemplateGroupError(error)))
+      )
+    )
+  );
 
   constructor(
     private actions$: Actions,
@@ -176,14 +195,13 @@ export class TemplateEffects {
     private dialogService: DialogService,
     private snackBarService: SnackBarService,
     private jobsNotificationService: JobsNotificationService
-  ) {
-  }
+  ) {}
 
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.finish({
         id: jobNotificationId,
-        message
+        message,
       });
     }
     this.snackBarService.open(message).subscribe();
@@ -193,14 +211,14 @@ export class TemplateEffects {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
         id: jobNotificationId,
-        message
+        message,
       });
     }
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
   }
 }

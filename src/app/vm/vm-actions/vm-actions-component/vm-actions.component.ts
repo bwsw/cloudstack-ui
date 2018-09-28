@@ -9,23 +9,33 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { VmActions } from '../vm-action';
 import { configSelectors, State } from '../../../root-store';
 
-
 @Component({
   selector: 'cs-vm-actions',
-  templateUrl: 'vm-actions.component.html'
+  templateUrl: 'vm-actions.component.html',
 })
 export class VmActionsComponent {
-  @Input() public vm: VirtualMachine;
-  @Output() public onVmStart = new EventEmitter<VirtualMachine>();
-  @Output() public onVmStop = new EventEmitter<VirtualMachine>();
-  @Output() public onVmReboot = new EventEmitter<VirtualMachine>();
-  @Output() public onVmRestore = new EventEmitter<VirtualMachine>();
-  @Output() public onVmDestroy = new EventEmitter<VirtualMachine>();
-  @Output() public onVmResetPassword = new EventEmitter<VirtualMachine>();
-  @Output() public onVmExpunge = new EventEmitter<VirtualMachine>();
-  @Output() public onVmRecover = new EventEmitter<VirtualMachine>();
-  @Output() public onVmAccess = new EventEmitter<VirtualMachine>();
-  @Output() public onVmPulse = new EventEmitter<VirtualMachine>();
+  @Input()
+  public vm: VirtualMachine;
+  @Output()
+  public onVmStart = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmStop = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmReboot = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmRestore = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmDestroy = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmResetPassword = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmExpunge = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmRecover = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmAccess = new EventEmitter<VirtualMachine>();
+  @Output()
+  public onVmPulse = new EventEmitter<VirtualMachine>();
 
   public vmActions$: Observable<Array<any>>;
   public destroyedVmActions: Array<any>;
@@ -96,7 +106,7 @@ export class VmActionsComponent {
   }
 
   private actionListDependingOnExtension(pulse: boolean) {
-    return this.vmActionsService.actions.filter((action) => {
+    return this.vmActionsService.actions.filter(action => {
       return action.command !== VmActions.PULSE || pulse;
     });
   }

@@ -5,7 +5,7 @@ import { BaseModelInterface } from './base.model';
 export const enum AccountType {
   User = '0',
   RootAdmin = '1',
-  DomainAdmin = '2'
+  DomainAdmin = '2',
 }
 
 export const AccountState = {

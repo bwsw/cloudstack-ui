@@ -15,26 +15,22 @@ import { ConfigStoreModule } from './config';
 import { UserTagsStoreModule } from './server-data/user-tags';
 
 const reducers = {
-  router: routerReducer
+  router: routerReducer,
 };
 
-const EFFECTS = [
-  IdleEffects,
-  NotificationsEffects
-];
+const EFFECTS = [IdleEffects, NotificationsEffects];
 
 @NgModule({
   imports: [
     ConfigStoreModule,
     UserTagsStoreModule,
-    StoreModule.forRoot( reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(EFFECTS),
     StoreRouterConnectingModule.forRoot({
-      stateKey: 'router'
+      stateKey: 'router',
     }),
     environment.production ? [] : StoreDevtoolsModule.instrument({ maxAge: 30 }),
   ],
-  providers: [{ provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }]
+  providers: [{ provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }],
 })
-export class RootStoreModule {
-}
+export class RootStoreModule {}

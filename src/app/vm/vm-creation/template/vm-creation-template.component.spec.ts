@@ -12,14 +12,14 @@ import { VmCreationTemplateComponent } from './vm-creation-template.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../../testutils/mocks/mock-translate.service.spec';
 
-const templatesRaw: Array<Template> = require(
-  '../../../../testutils/mocks/model-services/fixtures/templates.json');
-const isosRaw: Array<Iso> = require('../../../../testutils/mocks/model-services/fixtures/isos.json');
+const templatesRaw: Array<
+  Template
+> = require('../../../../testutils/mocks/model-services/fixtures/templates.json');
+const isosRaw: Array<
+  Iso
+> = require('../../../../testutils/mocks/model-services/fixtures/isos.json');
 
-const templates: Array<BaseTemplateModel> = [
-  ...templatesRaw,
-  ...isosRaw
-];
+const templates: Array<BaseTemplateModel> = [...templatesRaw, ...isosRaw];
 
 @Component({
   selector: 'cs-test',
@@ -27,10 +27,11 @@ const templates: Array<BaseTemplateModel> = [
     <cs-vm-creation-template
       [(ngModel)]="template"
     ></cs-vm-creation-template>
-  `
+  `,
 })
 class TestComponent {
-  @ViewChild(VmCreationTemplateComponent) public vmTemplateComponent: VmCreationTemplateComponent;
+  @ViewChild(VmCreationTemplateComponent)
+  public vmTemplateComponent: VmCreationTemplateComponent;
   public template: BaseTemplateModel;
   public templates: Array<BaseTemplateModel>;
 }
@@ -51,30 +52,21 @@ describe('VmCreationTemplateComponent', () => {
   const mockDialog = {
     open: jasmine.createSpy('open').and.callFake(() => {
       return {
-        afterClosed: () => of(template)
+        afterClosed: () => of(template),
       };
-    })
+    }),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        MatTooltipModule
-      ],
-      declarations: [
-        VmCreationTemplateComponent,
-        TestComponent,
-        MockTranslatePipe
-      ],
+      imports: [FormsModule, MatTooltipModule],
+      declarations: [VmCreationTemplateComponent, TestComponent, MockTranslatePipe],
       providers: [
         { provide: MatDialog, useValue: mockDialog },
-        { provide: TranslateService, useClass: MockTranslateService }
-      ]
-    })
-      .compileComponents();
+        { provide: TranslateService, useClass: MockTranslateService },
+      ],
+    }).compileComponents();
   }));
-
 
   // it('should display selectedTemplate name', async(async () => {
   //   const { f } = createTestComponent();
@@ -88,7 +80,6 @@ describe('VmCreationTemplateComponent', () => {
   //     `VM_PAGE.VM_CREATION.OS_TEMPLATE: ${templates[0].name}`
   //   );
   // }));
-
 
   it('should display error message when templates and isos are empty', async(async () => {
     const { f } = createTestComponent();

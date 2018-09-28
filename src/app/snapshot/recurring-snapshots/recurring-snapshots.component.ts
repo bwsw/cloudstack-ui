@@ -13,7 +13,6 @@ import { PolicyType } from './snapshot-policy-type';
 import { TimeFormat } from '../../shared/types';
 import { State, UserTagsSelectors } from '../../root-store';
 
-
 @Component({
   selector: 'cs-recurring-snapshots',
   templateUrl: 'recurring-snapshots.component.html',
@@ -22,22 +21,25 @@ import { State, UserTagsSelectors } from '../../root-store';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => RecurringSnapshotsComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class RecurringSnapshotsComponent implements OnInit {
   public policyMode = PolicyType.Hourly;
   public policies: Array<Policy<TimePolicy>>;
   public loading: boolean;
 
-  readonly timeFormat$: Observable<TimeFormat> = this.store.select(UserTagsSelectors.getTimeFormat).pipe(
-    map(format => {
-      if (format === TimeFormat.hour24) {
-        return format;
-      }
-      return TimeFormat.hour12;
-    }));
+  readonly timeFormat$: Observable<TimeFormat> = this.store
+    .select(UserTagsSelectors.getTimeFormat)
+    .pipe(
+      map(format => {
+        if (format === TimeFormat.hour24) {
+          return format;
+        }
+        return TimeFormat.hour12;
+      })
+    );
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public volume: Volume,
@@ -50,13 +52,9 @@ export class RecurringSnapshotsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.loading = true;
-    this.updatePolicies().pipe(
-      finalize(() => this.loading = false))
-      .subscribe(
-        () => {
-        },
-        error => this.onError(error)
-      );
+    this.updatePolicies()
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe(() => {}, error => this.onError(error));
   }
 
   public tabChanged(tab: any): void {
@@ -68,27 +66,21 @@ export class RecurringSnapshotsComponent implements OnInit {
   }
 
   public addPolicy(policy: Policy<any>): void {
-    this.snapshotPolicyService.create({
-      policy,
-      policyType: this.policyMode,
-      volumeId: this.volume.id
-    }).pipe(
-      switchMap(() => this.updatePolicies()))
-      .subscribe(
-        () => {
-        },
-        error => this.onError(error)
-      );
+    this.snapshotPolicyService
+      .create({
+        policy,
+        policyType: this.policyMode,
+        volumeId: this.volume.id,
+      })
+      .pipe(switchMap(() => this.updatePolicies()))
+      .subscribe(() => {}, error => this.onError(error));
   }
 
   public deletePolicy(policy: Policy<TimePolicy>): void {
-    this.snapshotPolicyService.remove(policy.id).pipe(
-      switchMap(() => this.updatePolicies()))
-      .subscribe(
-        () => {
-        },
-        error => this.onError(error)
-      );
+    this.snapshotPolicyService
+      .remove(policy.id)
+      .pipe(switchMap(() => this.updatePolicies()))
+      .subscribe(() => {}, error => this.onError(error));
   }
 
   private updatePolicies(): Observable<Array<Policy<TimePolicy>>> {
@@ -96,15 +88,16 @@ export class RecurringSnapshotsComponent implements OnInit {
       map(policies => {
         this.policies = policies;
         return policies;
-      }))
+      })
+    );
   }
 
   private onError(error): void {
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
   }
 }

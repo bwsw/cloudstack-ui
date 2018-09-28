@@ -7,8 +7,8 @@ import { FilterService } from '../../../shared/services/filter.service';
 import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
 import { State } from '../../../reducers';
 
-import * as  securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
-import * as  fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
+import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
+import * as fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import { SecurityGroupViewMode } from '../../sg-view-mode';
@@ -34,14 +34,14 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
         options: [
           SecurityGroupViewMode.Templates,
           SecurityGroupViewMode.Shared,
-          SecurityGroupViewMode.Private
+          SecurityGroupViewMode.Private,
         ],
-        defaultOption: SecurityGroupViewMode.Templates
+        defaultOption: SecurityGroupViewMode.Templates,
       },
       query: {
-        type: 'string'
+        type: 'string',
       },
-      accounts: { type: 'array', defaultOption: [] }
+      accounts: { type: 'array', defaultOption: [] },
     },
     this.router,
     this.sessionStorage,
@@ -53,7 +53,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     private store: Store<State>,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private sessionStorage: SessionStorageService,
+    private sessionStorage: SessionStorageService
   ) {
     super();
   }
@@ -69,20 +69,22 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     const query = params.query;
     const selectedAccountIds = params.accounts;
 
-    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({
-      viewMode,
-      query,
-      selectedAccountIds
-    }));
+    this.store.dispatch(
+      new securityGroupActions.SecurityGroupFilterUpdate({
+        viewMode,
+        query,
+        selectedAccountIds,
+      })
+    );
 
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => this.filterService.update({
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters =>
+      this.filterService.update({
         viewMode: filters.viewMode,
         query: filters.query,
         accounts: filters.selectedAccountIds,
-        orphan: filters.selectOrphanSG
-      }));
+        orphan: filters.selectOrphanSG,
+      })
+    );
   }
 
   public onViewModeChange(viewMode) {
@@ -90,7 +92,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   public onAccountsChange(selectedAccountIds) {
-    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ selectedAccountIds }))
+    this.store.dispatch(new securityGroupActions.SecurityGroupFilterUpdate({ selectedAccountIds }));
   }
 
   public onQueryChange(query) {

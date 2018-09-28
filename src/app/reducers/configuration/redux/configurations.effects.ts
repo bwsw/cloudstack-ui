@@ -15,7 +15,6 @@ import * as configurationActions from './configurations.actions';
 
 @Injectable()
 export class ConfigurationEffects {
-
   @Effect()
   loadConfigurations$: Observable<Action> = this.actions$.pipe(
     ofType(configurationActions.LOAD_CONFIGURATIONS_REQUEST),
@@ -23,50 +22,53 @@ export class ConfigurationEffects {
     switchMap(([action, account]: [configurationActions.LoadConfigurationsRequest, Account]) => {
       return account && isRootAdmin(account)
         ? this.configurationService.getList(action.payload).pipe(
-          map((configurations: Configuration[]) => {
-            return new configurationActions.LoadConfigurationsResponse(configurations);
-          }),
-          catchError(() => of(new configurationActions.LoadConfigurationsResponse([]))))
+            map((configurations: Configuration[]) => {
+              return new configurationActions.LoadConfigurationsResponse(configurations);
+            }),
+            catchError(() => of(new configurationActions.LoadConfigurationsResponse([])))
+          )
         : of(new configurationActions.LoadConfigurationsResponse([]));
-    }));
+    })
+  );
 
   @Effect()
   updateConfiguration$: Observable<Action> = this.actions$.pipe(
     ofType(configurationActions.UPDATE_CONFIGURATIONS_REQUEST),
     mergeMap((action: configurationActions.UpdateConfigurationRequest) => {
-      return this.configurationService.updateConfiguration(
-        action.payload.configuration,
-        action.payload.account).pipe(
-        map(() => {
-          return new configurationActions.LoadConfigurationsRequest({
-            accountid: action.payload.account.id
-          });
-        }),
-        catchError((error) => of(new configurationActions.UpdateConfigurationError(error))));
-    }));
+      return this.configurationService
+        .updateConfiguration(action.payload.configuration, action.payload.account)
+        .pipe(
+          map(() => {
+            return new configurationActions.LoadConfigurationsRequest({
+              accountid: action.payload.account.id,
+            });
+          }),
+          catchError(error => of(new configurationActions.UpdateConfigurationError(error)))
+        );
+    })
+  );
 
   @Effect({ dispatch: false })
   updateConfigurationError$: Observable<Action> = this.actions$.pipe(
     ofType(configurationActions.UPDATE_CONFIGURATIONS_ERROR),
     tap((action: configurationActions.UpdateConfigurationError) => {
       this.handleError(action.payload);
-    }));
-
+    })
+  );
 
   constructor(
     private store: Store<State>,
     private actions$: Actions,
     private configurationService: ConfigurationService,
     private dialogService: DialogService
-  ) {
-  }
+  ) {}
 
   private handleError(error): void {
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
   }
 }

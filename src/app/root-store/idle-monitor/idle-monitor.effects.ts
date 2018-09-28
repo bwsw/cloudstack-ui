@@ -11,7 +11,7 @@ import {
   IdleMonitorActionTypes,
   RefreshSessionRequest,
   StopIdleMonitor,
-  UpdateIdleMonitorTimeout
+  UpdateIdleMonitorTimeout,
 } from './idle-monitor.actions';
 import { IdleLogout } from '../../auth/store/auth.actions';
 import { AuthService } from '../../shared/services/auth.service';
@@ -34,15 +34,18 @@ export class IdleEffects {
   );
 
   @Effect({ dispatch: false })
-  updateIdleMonitorTimeout$: Observable<{ timeout: number, refreshInterval: number }> = this.actions$.pipe(
+  updateIdleMonitorTimeout$: Observable<{
+    timeout: number;
+    refreshInterval: number;
+  }> = this.actions$.pipe(
     ofType<UpdateIdleMonitorTimeout>(IdleMonitorActionTypes.UpdateIdleMonitorTimeout),
     withLatestFrom(this.store.select(configSelectors.get('sessionRefreshInterval'))),
     map(([action, refreshInterval]) => ({ timeout: action.payload.timeout, refreshInterval })),
     tap(({ timeout, refreshInterval }) => {
       if (timeout > 0) {
-        this.startIdleMonitor(timeout, refreshInterval)
+        this.startIdleMonitor(timeout, refreshInterval);
       } else {
-        this.stopIdleMonitor()
+        this.stopIdleMonitor();
       }
     })
   );

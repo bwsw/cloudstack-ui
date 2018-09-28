@@ -1,6 +1,5 @@
 import { Utils } from '../../services/utils/utils.service';
-import { ProgressLoggerMessage, ProgressLoggerMessageData, } from './progress-logger-message/progress-logger-message';
-
+import { ProgressLoggerMessage, ProgressLoggerMessageData } from './progress-logger-message/progress-logger-message';
 
 export class ProgressLoggerController {
   private _messages: Array<ProgressLoggerMessage> = [];
@@ -22,7 +21,7 @@ export class ProgressLoggerController {
       } else {
         return message;
       }
-    })
+    });
   }
 
   private getMessageWithId(message: ProgressLoggerMessageData): ProgressLoggerMessage {

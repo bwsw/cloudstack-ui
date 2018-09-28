@@ -1,6 +1,6 @@
 import { VirtualMachine } from '../../../vm';
 import * as vmActions from './vm.actions';
-import * as fromVM from './vm.reducers'
+import * as fromVM from './vm.reducers';
 import * as mockData from '../../../../testutils/data/vitrual-machines';
 import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 
@@ -9,7 +9,7 @@ describe('VM listReducer', () => {
     const vm: VirtualMachine = mockData.vm;
     const password = 'qwerty';
 
-    const initialState = { ...fromVM.initialListState, entities: { [vm.id]: vm }};
+    const initialState = { ...fromVM.initialListState, entities: { [vm.id]: vm } };
     const action = new vmActions.SaveVMPasswordSuccess({ vmId: vm.id, password });
     const state = fromVM.listReducer(initialState, action);
 

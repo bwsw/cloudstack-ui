@@ -14,17 +14,17 @@ export class VolumeCreationData {
 
 export enum VolumeType {
   ROOT = 'ROOT',
-  DATADISK = 'DATADISK'
+  DATADISK = 'DATADISK',
 }
 
 export enum VolumeState {
   Allocated = 'Allocated',
-  Ready = 'Ready'
+  Ready = 'Ready',
 }
 
 export const volumeTypeNames = {
   [VolumeType.ROOT]: 'VOLUME_TYPE.ROOT',
-  [VolumeType.DATADISK]: 'VOLUME_TYPE.DATADISK'
+  [VolumeType.DATADISK]: 'VOLUME_TYPE.DATADISK',
 };
 
 export interface Volume extends BaseModelInterface {

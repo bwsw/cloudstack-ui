@@ -19,19 +19,16 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
       (onTagAdd)="addTag($event)"
       (onTagDelete)="deleteTag($event)"
       (onTagEdit)="editTag($event)"
-    ></cs-template-tags>`
+    ></cs-template-tags>`,
 })
 export class TagsContainerComponent {
   readonly template$ = this.store.select(fromTemplates.getSelectedTemplate);
   readonly templateTags$ = this.store.select(fromTemplates.getSelectedTemplateTags);
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 
   public editTag(tagEdit: TagEditAction) {
-    this.template$.pipe(
-      take(1),
-    ).subscribe((template: Template) => {
+    this.template$.pipe(take(1)).subscribe((template: Template) => {
       const newTag: Tag = this.createTag(template, tagEdit.newTag);
       const filteredTags: Tag[] = template.tags.filter(t => tagEdit.oldTag.key !== t.key);
       const newTags: Tag[] = [...filteredTags, newTag];
@@ -47,12 +44,10 @@ export class TagsContainerComponent {
   }
 
   public addTag(keyValuePair: KeyValuePair) {
-    this.template$.pipe(
-      take(1),
-    ).subscribe((template: Template) => {
+    this.template$.pipe(take(1)).subscribe((template: Template) => {
       const newTag: Tag = this.createTag(template, keyValuePair);
       const newTags: Tag[] = [...template.tags, newTag];
-      this.store.dispatch(new templateActions.UpdateTemplate({...template, tags: newTags}));
+      this.store.dispatch(new templateActions.UpdateTemplate({ ...template, tags: newTags }));
     });
   }
 
@@ -64,7 +59,7 @@ export class TagsContainerComponent {
       value: keyValuePair.value,
       account: template.account,
       domain: template.domain,
-      domainid: template.domainId
-    }
+      domainid: template.domainId,
+    };
   }
 }

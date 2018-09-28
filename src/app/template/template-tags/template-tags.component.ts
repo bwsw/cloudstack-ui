@@ -7,14 +7,15 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { TagService } from '../../shared/services/tags/tag.service';
 import { KeyValuePair } from '../../tags/tags-view/tags-view.component';
 
-
 @Component({
   selector: 'cs-template-tags',
-  templateUrl: 'tags.component.html'
+  templateUrl: 'tags.component.html',
 })
 export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
-  @Input() public entity: BaseTemplateModel;
-  @Input() public tags: Array<Tag>;
+  @Input()
+  public entity: BaseTemplateModel;
+  @Input()
+  public tags: Array<Tag>;
 
   public get hasPermissions(): boolean {
     return this.entity.account === this.authService.user.account || this.authService.isAdmin();
@@ -33,16 +34,13 @@ export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
       return;
     }
 
-    this.tagService.create({
-      resourceIds: this.entity.id,
-      resourceType: resourceType(this.entity),
-      'tags[0].key': tag.key,
-      'tags[0].value': tag.value
-    })
-      .subscribe(
-        res => this.onTagAdd.emit(tag),
-        error => this.onError(error)
-      );
+    this.tagService
+      .create({
+        resourceIds: this.entity.id,
+        resourceType: resourceType(this.entity),
+        'tags[0].key': tag.key,
+        'tags[0].value': tag.value,
+      })
+      .subscribe(res => this.onTagAdd.emit(tag), error => this.onError(error));
   }
 }
-

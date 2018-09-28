@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 
 import { Zone } from '../../../../app/shared/models';
 
-
 const zones: Array<Object> = require('../fixtures/zones.json');
 
 @Injectable()

@@ -29,11 +29,9 @@ describe('VM creation security group service', () => {
         MarkForRemovalService,
         TagService,
         AsyncJobService,
-        NetworkRuleService
+        NetworkRuleService,
       ],
-      imports: [
-        HttpClientTestingModule
-      ]
+      imports: [HttpClientTestingModule],
     });
     vmCreationSecurityGroupService = TestBed.get(VmCreationSecurityGroupService);
   });

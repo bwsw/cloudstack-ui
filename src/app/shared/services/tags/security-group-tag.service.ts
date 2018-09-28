@@ -16,8 +16,7 @@ export class SecurityGroupTagService implements EntityTagService {
   constructor(
     private markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
-  ) {
-  }
+  ) {}
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.markForRemovalService.markForRemoval(securityGroup) as Observable<SecurityGroup>;
@@ -42,18 +41,21 @@ export class SecurityGroupTagService implements EntityTagService {
   }
 
   public convertToShared(securityGroup: SecurityGroup): Observable<SecurityGroup> {
-    return this.tagService.remove({
-      resourceIds: securityGroup.id,
-      resourceType: this.resourceType,
-      'tags[0].key': this.keys.type
-    }).pipe(
-      map(() => {
-        const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);
-        return {
-          ...securityGroup,
-          tags: filteredTags,
-          type: 'shared'
-        };
-      }))
+    return this.tagService
+      .remove({
+        resourceIds: securityGroup.id,
+        resourceType: this.resourceType,
+        'tags[0].key': this.keys.type,
+      })
+      .pipe(
+        map(() => {
+          const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);
+          return {
+            ...securityGroup,
+            tags: filteredTags,
+            type: 'shared',
+          };
+        })
+      );
   }
 }

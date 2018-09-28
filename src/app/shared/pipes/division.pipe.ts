@@ -1,10 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Utils } from '../services/utils/utils.service';
 
-
 @Pipe({
   // tslint:disable-next-line
-  name: 'division'
+  name: 'division',
 })
 export class DivisionPipe implements PipeTransform {
   public transform(

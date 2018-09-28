@@ -51,7 +51,7 @@ export class ResourceStats {
         }
       });
     return accountJson as Account;
-  };
+  }
 
   public static fromAccount(accounts: Array<Account>): ResourceStats {
     const consumedResources = new ResourcesData();
@@ -90,25 +90,16 @@ export class ResourceStats {
     return new ResourceStats(availableResources, consumedResources, maxResources);
   }
 
-  constructor(
-    available?: ResourcesData,
-    consumed?: ResourcesData,
-    max?: ResourcesData
-  ) {
+  constructor(available?: ResourcesData, consumed?: ResourcesData, max?: ResourcesData) {
     this.available = available || new ResourcesData();
     this.consumed = consumed || new ResourcesData();
     this.max = max || new ResourcesData();
   }
 }
 
-
 @Injectable()
 export class ResourceUsageService {
-  constructor(
-    private authService: AuthService,
-    private accountService: AccountService
-  ) {
-  }
+  constructor(private authService: AuthService, private accountService: AccountService) {}
 
   public getResourceUsage(forDomain = false): Observable<ResourceStats> {
     const params = forDomain
@@ -116,6 +107,7 @@ export class ResourceUsageService {
       : { account: this.authService.user.account };
 
     return this.accountService
-      .getList(params).pipe(map(accounts => ResourceStats.fromAccount(accounts)));
+      .getList(params)
+      .pipe(map(accounts => ResourceStats.fromAccount(accounts)));
   }
 }

@@ -44,9 +44,11 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   }
 
   public ngOnInit() {
-    this.volume$.pipe(
-      takeUntil(this.unsubscribe$),
-      filter(volume => !!volume))
+    this.volume$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(volume => !!volume)
+      )
       .subscribe(volume => {
         // todo remove model
         this.volume = volume as Volume;
@@ -65,9 +67,12 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res))
+      )
       .subscribe(() => {
         this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
       });

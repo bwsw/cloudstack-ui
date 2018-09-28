@@ -5,7 +5,6 @@ import { DiskOfferingService } from '../../shared/services/disk-offering.service
 import { ZoneService } from '../../shared/services/zone.service';
 import { VolumeItem } from '../volume-item';
 
-
 export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges {
   public isSelected: (volume) => boolean;
   public searchQuery: () => string;
@@ -40,8 +39,8 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
 
   public get stateTranslationToken(): string {
     const stateTranslations = {
-      'ALLOCATED': 'VOLUME_STATE.ALLOCATED',
-      'READY': 'VOLUME_STATE.READY'
+      ALLOCATED: 'VOLUME_STATE.ALLOCATED',
+      READY: 'VOLUME_STATE.READY',
     };
 
     return stateTranslations[this.item.state.toUpperCase()];

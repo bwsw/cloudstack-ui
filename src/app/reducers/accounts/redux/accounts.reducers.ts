@@ -14,15 +14,15 @@ import * as accountActions from './accounts.actions';
  * any additional interface properties.
  */
 export interface State extends EntityState<Account> {
-  loading: boolean,
+  loading: boolean;
   selectedAccountId: string | null;
   filters: {
-    selectedDomainIds: string[],
-    selectedRoleNames: string[],
-    selectedRoleTypes: string[],
-    selectedStates: string[],
-    selectedGroupings: any[]
-  }
+    selectedDomainIds: string[];
+    selectedRoleNames: string[];
+    selectedRoleTypes: string[];
+    selectedStates: string[];
+    selectedGroupings: any[];
+  };
 }
 
 export interface AccountsState {
@@ -43,7 +43,7 @@ export const accountReducers = {
  */
 export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({
   selectId: (item: Account) => item.id,
-  sortComparer: Utils.sortByName
+  sortComparer: Utils.sortByName,
 });
 
 /** getInitialState returns the default initial state
@@ -58,19 +58,16 @@ export const initialState: State = adapter.getInitialState({
     selectedRoleTypes: [],
     selectedRoleNames: [],
     selectedStates: [],
-    selectedGroupings: []
-  }
+    selectedGroupings: [],
+  },
 });
 
-export function reducer(
-  state = initialState,
-  action: accountActions.Actions
-): State {
+export function reducer(state = initialState, action: accountActions.Actions): State {
   switch (action.type) {
     case accountActions.LOAD_ACCOUNTS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case accountActions.ACCOUNT_FILTER_UPDATE: {
@@ -78,12 +75,11 @@ export function reducer(
         ...state,
         filters: {
           ...state.filters,
-          ...action.payload
-        }
+          ...action.payload,
+        },
       };
     }
     case accountActions.LOAD_ACCOUNTS_RESPONSE: {
-
       const accounts = action.payload;
 
       return {
@@ -95,14 +91,14 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll([...accounts], state),
-        loading: false
+        loading: false,
       };
     }
 
     case accountActions.LOAD_SELECTED_ACCOUNT: {
       return {
         ...state,
-        selectedAccountId: action.payload
+        selectedAccountId: action.payload,
       };
     }
 
@@ -126,10 +122,7 @@ export function reducer(
     case accountActions.ACCOUNT_USER_CREATE_SUCCESS: {
       if (state.entities[action.payload.accountid]) {
         const users = [...state.entities[action.payload.accountid].user, action.payload];
-        return adapter.updateOne(
-          { id: action.payload.accountid, changes: { user: users } },
-          state
-        );
+        return adapter.updateOne({ id: action.payload.accountid, changes: { user: users } }, state);
       } else {
         return adapter.addOne(action.payload, state);
       }
@@ -140,9 +133,10 @@ export function reducer(
       updatedUser.apikey = action.payload.userKeys.apikey;
 
       const users = [
-        ...state.entities[action.payload.user.accountid].user
-          .filter(_ => _.id !== action.payload.user.id),
-        updatedUser
+        ...state.entities[action.payload.user.accountid].user.filter(
+          _ => _.id !== action.payload.user.id
+        ),
+        updatedUser,
       ];
 
       return adapter.updateOne(
@@ -152,25 +146,17 @@ export function reducer(
     }
     case accountActions.ACCOUNT_USER_UPDATE_SUCCESS: {
       const users = [
-        ...state.entities[action.payload.accountid].user
-          .filter(_ => _.id !== action.payload.id),
-        action.payload
+        ...state.entities[action.payload.accountid].user.filter(_ => _.id !== action.payload.id),
+        action.payload,
       ];
 
-      return adapter.updateOne(
-        { id: action.payload.accountid, changes: { user: users } },
-        state
-      );
+      return adapter.updateOne({ id: action.payload.accountid, changes: { user: users } }, state);
     }
     case accountActions.ACCOUNT_USER_DELETE_SUCCESS: {
       const users = [
-        ...state.entities[action.payload.accountid].user
-          .filter(_ => _.id !== action.payload.id)
+        ...state.entities[action.payload.accountid].user.filter(_ => _.id !== action.payload.id),
       ];
-      return adapter.updateOne(
-        { id: action.payload.accountid, changes: { user: users } },
-        state
-      );
+      return adapter.updateOne({ id: action.payload.accountid, changes: { user: users } }, state);
     }
 
     default: {
@@ -179,25 +165,15 @@ export function reducer(
   }
 }
 
-
 export const getAccountsState = createFeatureSelector<AccountsState>('accounts');
 
-export const getAccountsEntitiesState = createSelector(
-  getAccountsState,
-  state => state.list
+export const getAccountsEntitiesState = createSelector(getAccountsState, state => state.list);
+
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
+  getAccountsEntitiesState
 );
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getAccountsEntitiesState);
-
-export const isLoading = createSelector(
-  getAccountsEntitiesState,
-  state => state.loading
-);
+export const isLoading = createSelector(getAccountsEntitiesState, state => state.loading);
 
 export const getSelectedId = createSelector(
   getAccountsEntitiesState,
@@ -210,36 +186,17 @@ export const getSelectedAccount = createSelector(
   (state, selectedId) => state.list.entities[selectedId]
 );
 
-export const filters = createSelector(
-  getAccountsEntitiesState,
-  state => state.filters
-);
+export const filters = createSelector(getAccountsEntitiesState, state => state.filters);
 
+export const filterSelectedRoleTypes = createSelector(filters, state => state.selectedRoleTypes);
 
-export const filterSelectedRoleTypes = createSelector(
-  filters,
-  state => state.selectedRoleTypes
-);
+export const filterSelectedDomainIds = createSelector(filters, state => state.selectedDomainIds);
 
-export const filterSelectedDomainIds = createSelector(
-  filters,
-  state => state.selectedDomainIds
-);
+export const filterSelectedRoleNames = createSelector(filters, state => state.selectedRoleNames);
 
-export const filterSelectedRoleNames = createSelector(
-  filters,
-  state => state.selectedRoleNames
-);
+export const filterSelectedStates = createSelector(filters, state => state.selectedStates);
 
-export const filterSelectedStates = createSelector(
-  filters,
-  state => state.selectedStates
-);
-
-export const filterSelectedGroupings = createSelector(
-  filters,
-  state => state.selectedGroupings
-);
+export const filterSelectedGroupings = createSelector(filters, state => state.selectedGroupings);
 
 export const selectUserAccount = createSelector(
   selectEntities,
@@ -259,25 +216,24 @@ export const selectFilteredAccounts = createSelector(
     const domainIdsMap = selectedDomainIds.reduce((m, i) => ({ ...m, [i]: i }), {});
     const statesMap = selectedStates.reduce((m, i) => ({ ...m, [i]: i }), {});
 
+    const selectedRoleTypesFilter = account =>
+      !selectedRoleTypes.length || !!roleTypeMap[account.roletype];
 
-    const selectedRoleTypesFilter =
-      account => !selectedRoleTypes.length || !!roleTypeMap[account.roletype];
+    const selectedRoleNamesFilter = account =>
+      !selectedRoleNames.length || !!roleNamesMap[account.rolename];
 
-    const selectedRoleNamesFilter =
-      account => !selectedRoleNames.length || !!roleNamesMap[account.rolename];
+    const selectedDomainIdsFilter = account =>
+      !selectedDomainIds.length || !!domainIdsMap[account.domainid];
 
-    const selectedDomainIdsFilter =
-      account => !selectedDomainIds.length || !!domainIdsMap[account.domainid];
-
-    const selectedStatesFilter =
-      account => !selectedStates.length || !!statesMap[account.state];
-
+    const selectedStatesFilter = account => !selectedStates.length || !!statesMap[account.state];
 
     return accounts.filter(account => {
-      return selectedDomainIdsFilter(account)
-        && selectedStatesFilter(account)
-        && selectedRoleTypesFilter(account)
-        && selectedRoleNamesFilter(account);
+      return (
+        selectedDomainIdsFilter(account) &&
+        selectedStatesFilter(account) &&
+        selectedRoleTypesFilter(account) &&
+        selectedRoleNamesFilter(account)
+      );
     });
   }
 );
@@ -286,12 +242,10 @@ export const selectDomainAccounts = createSelector(
   selectAll,
   fromAuth.getUserAccount,
   (accounts, userAccount) => {
-    const userDomainFilter =
-      account => !!userAccount && account.domainid === userAccount.domainid;
+    const userDomainFilter = account => !!userAccount && account.domainid === userAccount.domainid;
 
     return accounts.filter(account => {
       return userDomainFilter(account);
     });
   }
 );
-

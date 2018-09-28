@@ -16,25 +16,21 @@ import { AccountTagService } from '../../../shared/services/tags/account-tag.ser
 
 @Injectable()
 class MockAsyncJobService {
-  public completeAllJobs(): void {
-  }
+  public completeAllJobs(): void {}
 }
 
 @Injectable()
 class MockTagService {
-  public getList(): void {
-  }
-  public setServiceOfferingParams(): void {
-  }
+  public getList(): void {}
+  public setServiceOfferingParams(): void {}
 }
-
 
 @Injectable()
 class MockStorageService {
   private storage: any = {
     user: {
-      userid: '1'
-    }
+      userid: '1',
+    },
   };
 
   public write(key: string, value: string): void {
@@ -55,10 +51,8 @@ class MockStorageService {
 }
 
 class MockMatDialog {
-  public open(): void {
-  }
-  public closeAll(): void {
-  }
+  public open(): void {}
+  public closeAll(): void {}
 }
 
 export class TestActions extends Actions {
@@ -75,7 +69,6 @@ export function getActions() {
   return new TestActions();
 }
 
-
 describe('Account tags Effects', () => {
   let actions$: TestActions;
   let service: TagService;
@@ -86,12 +79,11 @@ describe('Account tags Effects', () => {
 
   const list: Array<Tag> = [];
 
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({ ...fromAccountTags.accountTagsReducers}),
+        StoreModule.forRoot({ ...fromAccountTags.accountTagsReducers }),
       ],
       providers: [
         AccountTagsEffects,
@@ -99,7 +91,7 @@ describe('Account tags Effects', () => {
         { provide: TagService, useClass: MockTagService },
         { provide: AccountTagService, useClass: MockTagService },
         { provide: DialogService, useClass: MockDialogService },
-      ]
+      ],
     });
     actions$ = TestBed.get(Actions);
     service = TestBed.get(TagService);
@@ -122,8 +114,9 @@ describe('Account tags Effects', () => {
   });
 
   it('should return an empty collection from LoadAccountTagsResponse', () => {
-    const spyGetList = spyOn(service, 'getList').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    const spyGetList = spyOn(service, 'getList').and.returnValue(
+      throwError(new Error('Error occurred!'))
+    );
 
     const action = new accountTagActions.LoadAccountTagsRequest();
     const completion = new accountTagActions.LoadAccountTagsResponse([]);

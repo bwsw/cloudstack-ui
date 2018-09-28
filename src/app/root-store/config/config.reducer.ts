@@ -9,7 +9,7 @@ export interface ConfigState {
 
 export const initialState: ConfigState = {
   config: defaultConfig,
-  isLoaded: false
+  isLoaded: false,
 };
 
 export function reducer(state = initialState, action: ConfigActionsUnion) {
@@ -17,20 +17,23 @@ export function reducer(state = initialState, action: ConfigActionsUnion) {
     case ConfigActionTypes.LoadConfigSuccess: {
       const config: Config = {
         ...action.payload.config,
-        computeOfferingClasses: [...action.payload.config.computeOfferingClasses, defaultComputeOfferingClass]
+        computeOfferingClasses: [
+          ...action.payload.config.computeOfferingClasses,
+          defaultComputeOfferingClass,
+        ],
       };
 
       return {
         config,
-        isLoaded: true
-      }
+        isLoaded: true,
+      };
     }
 
     case ConfigActionTypes.LoadConfigError: {
       return {
         config: defaultConfig,
-        isLoaded: true
-      }
+        isLoaded: true,
+      };
     }
 
     default: {

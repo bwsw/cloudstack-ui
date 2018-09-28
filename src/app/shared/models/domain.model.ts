@@ -51,4 +51,4 @@ export interface Domain extends BaseModelInterface {
 
 export const getPath = (domain: Domain) => {
   return domain.path === 'ROOT' ? '' : domain.path.replace('ROOT/', '') + '/';
-}
+};

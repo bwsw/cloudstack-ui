@@ -8,10 +8,9 @@ import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-cha
 @Component({
   selector: 'cs-pulse-cpu-chart',
   templateUrl: '../pulse-chart.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PulseCpuRamChartComponent extends PulseChartComponent
-  implements OnInit {
+export class PulseCpuRamChartComponent extends PulseChartComponent implements OnInit {
   public ngOnInit() {
     this.charts = getChart([
       {
@@ -19,19 +18,21 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
         options: Object.assign({}, defaultChartOptions, {
           scales: {
             ...defaultChartOptions.scales,
-            yAxes: [{
-              ticks: {
-                padding: 40,
-                mirror: true,
-                suggestedMin: 0,
-                suggestedMax: 100,
-                userCallback(val) {
-                  return `${val}%`;
-                }
-              }
-            }]
-          }
-        })
+            yAxes: [
+              {
+                ticks: {
+                  padding: 40,
+                  mirror: true,
+                  suggestedMin: 0,
+                  suggestedMax: 100,
+                  userCallback(val) {
+                    return `${val}%`;
+                  },
+                },
+              },
+            ],
+          },
+        }),
       },
       {
         id: 'ram',
@@ -39,19 +40,21 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
           ...defaultChartOptions,
           scales: {
             ...defaultChartOptions.scales,
-            yAxes: [{
-              ticks: {
-                padding: 40,
-                mirror: true,
-                suggestedMin: 0,
-                userCallback(val) {
-                  return humanReadableSize(val * 1024);
-                }
-              }
-            }]
-          }
-        }
-      }
+            yAxes: [
+              {
+                ticks: {
+                  padding: 40,
+                  mirror: true,
+                  suggestedMin: 0,
+                  userCallback(val) {
+                    return humanReadableSize(val * 1024);
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     ]);
   }
 
@@ -62,7 +65,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
         {
           range: params.selectedScale.range,
           aggregation: _,
-          shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
+          shift: `${params.shiftAmount}${params.selectedShift || 'w'}`,
         },
         forceUpdate
       )
@@ -74,46 +77,46 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
         {
           range: params.selectedScale.range,
           aggregation: _,
-          shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
+          shift: `${params.shiftAmount}${params.selectedShift || 'w'}`,
         },
         forceUpdate
       )
     );
     if (cpuRequests.length) {
       this.setLoading(!forceUpdate);
-      forkJoin(
-        forkJoin(...cpuRequests),
-        forkJoin(...ramRequests)
-      ).pipe(
-        finalize(() => this.setLoading(false)))
-        .subscribe(([data, ram]) => {
-          this.error = false;
-          const datasets = data.map((res: any, ind) => {
-            const aggregation = params.selectedAggregations[ind];
-            return {
-              data: res.map(_ => ({
-                x: new Date(_.time),
-                y: Math.min(+_.cpuTime, 100)
-              })),
-              label: `${this.translations['CPU']} ${aggregation}`
-            };
-          });
-          this.updateDatasets('cpu', datasets);
+      forkJoin(forkJoin(...cpuRequests), forkJoin(...ramRequests))
+        .pipe(finalize(() => this.setLoading(false)))
+        .subscribe(
+          ([data, ram]) => {
+            this.error = false;
+            const datasets = data.map((res: any, ind) => {
+              const aggregation = params.selectedAggregations[ind];
+              return {
+                data: res.map(_ => ({
+                  x: new Date(_.time),
+                  y: Math.min(+_.cpuTime, 100),
+                })),
+                label: `${this.translations['CPU']} ${aggregation}`,
+              };
+            });
+            this.updateDatasets('cpu', datasets);
 
-          const asd = ram.map((res: any, ind) => {
-            const aggregation = params.selectedAggregations[ind];
-            return {
-              data: res.map(_ => ({
-                x: new Date(_.time),
-                y: +_.ram
-              })),
-              label: `${this.translations['RAM']} ${aggregation}`
-            };
-          });
-          this.updateDatasets('ram', asd);
+            const asd = ram.map((res: any, ind) => {
+              const aggregation = params.selectedAggregations[ind];
+              return {
+                data: res.map(_ => ({
+                  x: new Date(_.time),
+                  y: +_.ram,
+                })),
+                label: `${this.translations['RAM']} ${aggregation}`,
+              };
+            });
+            this.updateDatasets('ram', asd);
 
-          this.cd.markForCheck();
-        }, () => (this.error = true));
+            this.cd.markForCheck();
+          },
+          () => (this.error = true)
+        );
     }
   }
 }

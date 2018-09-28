@@ -5,7 +5,7 @@ export function ZoneName(): ClassDecorator {
         return `${this.zonename} / ${this.name}`;
       },
       enumerable: true,
-      configurable: true
+      configurable: true,
     });
     return target;
   };

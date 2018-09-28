@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  EventEmitter,
-  Injectable,
-  Input,
-  Output
-} from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { PulseService } from '../pulse.service';
 import Chart = require('chart.js');
 
@@ -23,19 +17,18 @@ export interface PulseChart {
   labels?: Array<any>;
 }
 
-
 export const defaultChartOptions = {
   maintainAspectRatio: false,
   legend: {
     labels: {
-      boxWidth: 20
-    }
+      boxWidth: 20,
+    },
   },
   layout: {
     padding: {
       left: 80,
-      right: 40
-    }
+      right: 40,
+    },
   },
   tooltips: {
     mode: 'x',
@@ -43,7 +36,7 @@ export const defaultChartOptions = {
   },
   hover: {
     mode: 'nearest',
-    intersect: false
+    intersect: false,
   },
   scales: {
     xAxes: [
@@ -55,10 +48,10 @@ export const defaultChartOptions = {
           displayFormats: {
             second: 'LTS',
             minute: 'LT',
-            hour: 'LT'
-          }
-        }
-      }
+            hour: 'LT',
+          },
+        },
+      },
     ],
     yAxes: [
       {
@@ -71,11 +64,11 @@ export const defaultChartOptions = {
             if (val % 1 === 0) {
               return val;
             }
-          }
-        }
-      }
-    ]
-  }
+          },
+        },
+      },
+    ],
+  },
 };
 
 export const defaultChartConfig = {
@@ -84,7 +77,7 @@ export const defaultChartConfig = {
   datasets: [],
   chartType: 'line',
   options: defaultChartOptions,
-  labels: null
+  labels: null,
 };
 
 export function getChart(config: Array<any>) {
@@ -94,20 +87,23 @@ export function getChart(config: Array<any>) {
   });
 }
 
-
 @Injectable()
 export abstract class PulseChartComponent {
-  @Input() public translations;
-  @Input() public charts: Array<PulseChart>;
-  @Input() public shift: number;
-  @Output() public previous = new EventEmitter();
-  @Output() public next = new EventEmitter();
+  @Input()
+  public translations;
+  @Input()
+  public charts: Array<PulseChart>;
+  @Input()
+  public shift: number;
+  @Output()
+  public previous = new EventEmitter();
+  @Output()
+  public next = new EventEmitter();
 
   public loading = false;
   public error = false;
 
-  constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {
-  }
+  constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {}
 
   protected setLoading(loading = true) {
     this.loading = loading;
@@ -131,7 +127,7 @@ export abstract class PulseChartComponent {
 
   public resetDatasets() {
     if (this.charts) {
-      this.charts.forEach(c => c.datasets = []);
+      this.charts.forEach(c => (c.datasets = []));
     }
     this.cd.markForCheck();
   }

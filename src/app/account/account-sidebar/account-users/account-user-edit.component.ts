@@ -4,37 +4,38 @@ import { AccountUser, AccountUserForm } from '../../../shared/models/account-use
 
 @Component({
   selector: 'cs-account-user-edit',
-  templateUrl: 'account-user-edit.component.html'
+  templateUrl: 'account-user-edit.component.html',
 })
 export class AccountUserEditComponent implements OnInit {
-  @Input() public title: string;
-  @Input() public confirmButtonText: string;
-  @Input() public user: AccountUser;
+  @Input()
+  public title: string;
+  @Input()
+  public confirmButtonText: string;
+  @Input()
+  public user: AccountUser;
 
-  @Output() public updateUser = new EventEmitter<AccountUser>();
+  @Output()
+  public updateUser = new EventEmitter<AccountUser>();
 
   public userForm: FormGroup;
   public loading = false;
   public showPassword = true;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     this.userForm = this.formBuilder.group({
-      username: this.formBuilder.control('', [ Validators.required ]),
-      email: this.formBuilder.control('', [ Validators.required, Validators.email ]),
-      firstname: this.formBuilder.control('', [ Validators.required ]),
-      lastname: this.formBuilder.control('', [ Validators.required ]),
+      username: this.formBuilder.control('', [Validators.required]),
+      email: this.formBuilder.control('', [Validators.required, Validators.email]),
+      firstname: this.formBuilder.control('', [Validators.required]),
+      lastname: this.formBuilder.control('', [Validators.required]),
       timezone: this.formBuilder.control(null),
     });
-
   }
 
   ngOnInit() {
     if (this.user && this.user.id) {
       this.userForm.patchValue(this.user);
     } else {
-      this.userForm.addControl('password', this.formBuilder.control('', [ Validators.required ]));
+      this.userForm.addControl('password', this.formBuilder.control('', [Validators.required]));
     }
   }
 

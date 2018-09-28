@@ -20,14 +20,14 @@ import { DialogService } from '../../../../dialog/dialog-service/dialog.service'
     </cs-snapshot-action>`,
 })
 export class SnapshotActionContainerComponent {
-  @Input() public snapshot: Snapshot;
+  @Input()
+  public snapshot: Snapshot;
 
   constructor(
     private dialogService: DialogService,
     private store: Store<State>,
     private snapshotActionService: SnapshotActionService
-  ) {
-  }
+  ) {}
 
   public onTemplateCreate(snapshot: Snapshot) {
     this.snapshotActionService.showTemplateCreationDialog(snapshot);
@@ -38,7 +38,8 @@ export class SnapshotActionContainerComponent {
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
-    this.dialogService.confirm({message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION'})
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .subscribe(res => {
         if (res) {
           this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));

@@ -10,16 +10,12 @@ import { BaseBackendCachedService } from '../../shared/services/base-backend-cac
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { AsyncJob } from '../../shared/models';
 
-
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup'
+  entity: 'SecurityGroup',
 })
 export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> {
-  constructor(
-    private asyncJobService: AsyncJobService,
-    protected http: HttpClient
-  ) {
+  constructor(private asyncJobService: AsyncJobService, protected http: HttpClient) {
     super(http);
   }
 
@@ -30,14 +26,16 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
       map((job: AsyncJob<any>) => job.jobresult.securitygroup),
       map(securityGroup => {
         return securityGroup[`${type.toLowerCase()}rule`][0];
-      }));
+      })
+    );
   }
 
   public removeRule(type: NetworkRuleType, data): Observable<null> {
     this.invalidateCache();
     const command = 'revoke';
     return this.sendCommand(`${command};${type}`, data).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity))
+    );
   }
 
   public removeDuplicateRules(rules: Array<NetworkRule>): Array<NetworkRule> {

@@ -29,32 +29,36 @@ import { SaveVMPassword } from '../../../reducers/vm/redux/vm.actions';
       </mat-icon>
     </div>
   `,
-  styles: [`
-    .saved {
-      display: inline-block;
-      margin: 0 10px;
-      vertical-align: middle;
-    }
-  `]
+  styles: [
+    `
+      .saved {
+        display: inline-block;
+        margin: 0 10px;
+        vertical-align: middle;
+      }
+    `,
+  ],
 })
 export class VmPasswordComponent implements OnInit {
-  @Input() vm: VirtualMachine;
+  @Input()
+  vm: VirtualMachine;
   public saved = false;
   private isAutoSave: boolean;
 
   constructor(
     private dialogService: DialogService,
     private tagService: TagService,
-    private store: Store<State>,
-  ) {
-  }
+    private store: Store<State>
+  ) {}
 
   public ngOnInit() {
-    this.store.pipe(
-      select(UserTagsSelectors.getIsSavePasswordForVMs),
-      first(),
-      tap(value => this.isAutoSave = value),
-      filter(Boolean))
+    this.store
+      .pipe(
+        select(UserTagsSelectors.getIsSavePasswordForVMs),
+        first(),
+        tap(value => (this.isAutoSave = value)),
+        filter(Boolean)
+      )
       .subscribe(() => this.savePassword());
   }
 
@@ -68,10 +72,11 @@ export class VmPasswordComponent implements OnInit {
   }
 
   private offerAutoSavePasswords() {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_SAVE_PASSWORD' })
-      .subscribe((res) => {
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_SAVE_PASSWORD' })
+      .subscribe(res => {
         const value = !!res;
         this.store.dispatch(new UserTagsActions.SetSavePasswordForAllVMs({ value }));
-      })
+      });
   }
 }

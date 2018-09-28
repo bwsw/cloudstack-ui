@@ -2,9 +2,12 @@ import { ServiceOffering } from '../../shared/models';
 import { OfferingCompatibilityPolicy, OfferingPolicy } from '../../shared/models/config';
 
 export class VmCompatibilityPolicy {
-  public static getFilter(compatibilityPolicy: OfferingCompatibilityPolicy, currentOffering: ServiceOffering) {
+  public static getFilter(
+    compatibilityPolicy: OfferingCompatibilityPolicy,
+    currentOffering: ServiceOffering
+  ) {
     const filter = (offering: ServiceOffering) => {
-        if (!compatibilityPolicy) {
+      if (!compatibilityPolicy) {
         return true;
       }
       const oldTags = currentOffering.hosttags ? currentOffering.hosttags.split(',') : [];
@@ -41,9 +44,9 @@ export class VmCompatibilityPolicy {
 
   private static filterTags(tags, ignoreTags) {
     return tags.filter(t => ignoreTags.indexOf(t) === -1);
-  };
+  }
 
   private static includeTags(oldTags: Array<string>, newTags: Array<string>) {
     return !oldTags.find(tag => newTags.indexOf(tag) === -1);
-  };
+  }
 }

@@ -1,7 +1,15 @@
 import { SecurityGroup } from '../../security-group/sg.model';
 import { FieldMapper, ZoneName } from '../../shared/decorators';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { BaseModel, InstanceGroup, NIC, OsType, ServiceOffering, Tag, Volume } from '../../shared/models';
+import {
+  BaseModel,
+  InstanceGroup,
+  NIC,
+  OsType,
+  ServiceOffering,
+  Tag,
+  Volume,
+} from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { BaseTemplateModel } from '../../template/shared';
@@ -16,7 +24,7 @@ export enum VmState {
   Stopping = 'Stopping',
   // custom states
   Deploying = 'Deploying',
-  Expunging = 'Expunging'
+  Expunging = 'Expunging',
 }
 
 export const VmResourceType = 'UserVm';
@@ -45,7 +53,7 @@ export const VmResourceType = 'UserVm';
   diskiowrite: 'diskIoWrite',
   keypair: 'keyPair',
   isoid: 'isoId',
-  passwordenabled: 'passwordEnabled'
+  passwordenabled: 'passwordEnabled',
 })
 export class VirtualMachine extends BaseModel implements Taggable {
   public static ColorDelimiter = ';';
@@ -109,12 +117,12 @@ export class VirtualMachine extends BaseModel implements Taggable {
   }
 
   public getDisksSize(): number {
-    const sizeInBytes = this.volumes && this.volumes.reduce((
-      acc: number,
-      volume: Volume
-    ) => {
-      return acc + volume.size;
-    }, 0) || 0;
+    const sizeInBytes =
+      (this.volumes &&
+        this.volumes.reduce((acc: number, volume: Volume) => {
+          return acc + volume.size;
+        }, 0)) ||
+      0;
     return sizeInBytes / Math.pow(2, 30);
   }
 

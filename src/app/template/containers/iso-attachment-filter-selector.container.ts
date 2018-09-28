@@ -26,7 +26,7 @@ import * as templateActions from '../../reducers/templates/redux/template.action
       (onSelectedOsFamiliesChange)="onSelectedOsFamiliesChange($event)"
       (onSelectedGroupsChange)="onSelectedGroupsChange($event)"
       (onQueryChange)="onQueryChange($event)"
-    ></cs-template-filter-list-selector>`
+    ></cs-template-filter-list-selector>`,
 })
 export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewInit {
   readonly isos$ = this.store.select(fromTemplates.selectTemplatesForIsoAttachment);
@@ -38,22 +38,21 @@ export class IsoAttachmentFilterSelectorContainerComponent implements AfterViewI
   readonly selectedGroups$ = this.store.select(fromTemplates.vmCreationListSelectedGroups);
   readonly query$ = this.store.select(fromTemplates.vmCreationListQuery);
 
-  @Input() public selectedTemplate: BaseTemplateModel;
-  @Output() public selectedTemplateChange = new EventEmitter<BaseTemplateModel>();
+  @Input()
+  public selectedTemplate: BaseTemplateModel;
+  @Output()
+  public selectedTemplateChange = new EventEmitter<BaseTemplateModel>();
 
   public groupings = [
     {
       key: 'zones',
       label: 'GROUP_BY_ZONES',
       selector: (item: BaseTemplateModel) => item.zoneid || '',
-      name: (item: BaseTemplateModel) => item.zonename || 'NO_ZONE'
-    }
+      name: (item: BaseTemplateModel) => item.zonename || 'NO_ZONE',
+    },
   ];
 
-  constructor(
-    private store: Store<State>,
-    private cd: ChangeDetectorRef
-  ) {
+  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {
     this.store.dispatch(new templateActions.LoadTemplatesRequest());
   }
 

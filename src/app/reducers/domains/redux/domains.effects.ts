@@ -18,12 +18,10 @@ export class DomainsEffects {
         map((domains: Domain[]) => {
           return new domainActions.LoadDomainsResponse(domains);
         }),
-        catchError(() => of(new domainActions.LoadDomainsResponse([]))));
-    }));
+        catchError(() => of(new domainActions.LoadDomainsResponse([])))
+      );
+    })
+  );
 
-  constructor(
-    private actions$: Actions,
-    private domainService: DomainService
-  ) {
-  }
+  constructor(private actions$: Actions, private domainService: DomainService) {}
 }

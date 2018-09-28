@@ -17,8 +17,7 @@ export class VolumeTagService {
     protected descriptionTagService: DescriptionTagService,
     protected markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
-  ) {
-  }
+  ) {}
 
   public setDescription(volume: Volume, description: string): Observable<Volume> {
     return this.descriptionTagService.setDescription(

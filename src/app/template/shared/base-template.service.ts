@@ -10,7 +10,6 @@ import { TemplateTagService } from '../../shared/services/tags/template-tag.serv
 import { BaseTemplateModel } from './base-template.model';
 import { Utils } from '../../shared/services/utils/utils.service';
 
-
 export const TemplateFilters = {
   community: 'community',
   executable: 'executable',
@@ -18,12 +17,12 @@ export const TemplateFilters = {
   self: 'self',
   selfExecutable: 'selfexecutable',
   sharedExecutable: 'sharedexecutable',
-  all: 'all'
+  all: 'all',
 };
 
 export const TemplateResourceType = {
   template: 'Template',
-  iso: 'Iso'
+  iso: 'Iso',
 };
 
 export interface RequestParams {
@@ -83,7 +82,6 @@ export class GroupedTemplates<T extends BaseTemplateModel> {
   }
 }
 
-
 @Injectable()
 export abstract class BaseTemplateService extends BaseBackendCachedService<BaseTemplateModel> {
   public onTemplateRemoved = new Subject<BaseTemplateModel>();
@@ -102,7 +100,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       TemplateFilters.sharedExecutable,
       TemplateFilters.executable,
       TemplateFilters.self,
-      TemplateFilters.all
+      TemplateFilters.all,
     ];
   }
 
@@ -110,7 +108,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
     return this.getList({ id, filter }).pipe(
       map(templates => templates[0]),
-      catchError(error => throwError(error)));
+      catchError(error => throwError(error))
+    );
   }
 
   public getList(
@@ -120,9 +119,10 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   ): Observable<Array<BaseTemplateModel>> {
     return this.getListWithDuplicates(params, useCache).pipe(
       map(templates => this.distinctIds(templates)),
-      catchError((err) => {
+      catchError(err => {
         return of([]);
-      }));
+      })
+    );
   }
 
   public getListWithDuplicates(
@@ -142,14 +142,14 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     return super.getList(params, null, useCache).pipe(
       map(templates => {
         if (maxSize) {
-          return templates.filter(
-            template => Utils.convertToGb(template.size) <= maxSize);
+          return templates.filter(template => Utils.convertToGb(template.size) <= maxSize);
         }
         return templates;
       }),
-      catchError((error) => {
+      catchError(error => {
         return of([]);
-      }));
+      })
+    );
   }
 
   public getWithGroupedZones(
@@ -169,13 +169,14 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
               zoneid: template.zoneid,
               zonename: template.zonename,
               status: template.status,
-              isready: template.isready
+              isready: template.isready,
             });
           });
         }
 
         return templates[0];
-      }));
+      })
+    );
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
@@ -193,21 +194,24 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       switchMap(template => {
         return this.templateTagService.setDownloadUrl(template, params.url).pipe(
           catchError(() => of(null)),
-          tap(tag => template.tags.push(tag)));
-      }));
+          tap(tag => template.tags.push(tag))
+        );
+      })
+    );
   }
 
   public remove(template: BaseTemplateModel): Observable<BaseTemplateModel> {
     this.invalidateCache();
     return this.sendCommand(CSCommands.Delete, {
       id: template.id,
-      zoneId: template.zoneid
+      zoneId: template.zoneid,
     }).pipe(
       switchMap(job => this.asyncJobService.queryJob(job.jobid)),
       map(() => {
         this.onTemplateRemoved.next(template);
         return template;
-      }));
+      })
+    );
   }
 
   public getGroupedTemplates<T extends BaseTemplateModel>(
@@ -219,10 +223,9 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     let localFilters = this._templateFilters;
     if (filters) {
       if (filters.includes('all')) {
-        filters = Object.keys(TemplateFilters).map((key) => TemplateFilters[key]);
+        filters = Object.keys(TemplateFilters).map(key => TemplateFilters[key]);
       }
       localFilters = filters;
-
     }
 
     const templateObservables = [];
@@ -243,7 +246,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         });
 
         return new GroupedTemplates<T>(obj);
-      }));
+      })
+    );
   }
 
   private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {

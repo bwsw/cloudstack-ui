@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 import { BaseModelInterface } from '../models';
 
-
 export interface Action<M extends BaseModelInterface> {
   name: string;
   icon?: string;

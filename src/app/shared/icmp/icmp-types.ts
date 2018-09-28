@@ -1,7 +1,7 @@
 export interface IcmpType {
-  type: number,
-  codes: number[],
-  text?: string
+  type: number;
+  codes: number[];
+  text?: string;
 }
 
 // CloudStack docs:
@@ -70,7 +70,7 @@ export const icmpV6Types: IcmpType[] = [
   { type: 161, codes: [0, 1, 2, 3, 4] },
   { type: 200, codes: [0] },
   { type: 201, codes: [0] },
-  { type: 255, codes: [0] }
+  { type: 255, codes: [0] },
 ];
 
 export const GetICMPTypeTranslationToken = (type: number) => {

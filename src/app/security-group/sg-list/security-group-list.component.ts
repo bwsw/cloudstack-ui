@@ -10,30 +10,31 @@ import { SecurityGroupViewMode } from '../sg-view-mode';
 import { VirtualMachine } from '../../vm';
 import { NgrxEntities } from '../../shared/interfaces';
 
-
 @Component({
   selector: 'cs-security-group-list',
-  templateUrl: 'security-group-list.component.html'
+  templateUrl: 'security-group-list.component.html',
 })
 export class SecurityGroupListComponent implements OnChanges {
-  @Input() public securityGroups: Array<SecurityGroup>;
-  @Input() public query: string;
-  @Input() public mode: ViewMode;
-  @Input() public viewMode: SecurityGroupViewMode;
-  @Input() public vmList: NgrxEntities<VirtualMachine>;
+  @Input()
+  public securityGroups: Array<SecurityGroup>;
+  @Input()
+  public query: string;
+  @Input()
+  public mode: ViewMode;
+  @Input()
+  public viewMode: SecurityGroupViewMode;
+  @Input()
+  public vmList: NgrxEntities<VirtualMachine>;
   public groupings = [];
 
   public inputs;
   public outputs;
 
-  constructor(
-    private translateService: TranslateService,
-    public listService: ListService
-  ) {
+  constructor(private translateService: TranslateService, public listService: ListService) {
     this.inputs = {
       searchQuery: () => this.query,
       isSelected: (item: SecurityGroup) => this.listService.isSelected(item.id),
-      vmList: this.vmList
+      vmList: this.vmList,
     };
 
     this.outputs = {
@@ -42,25 +43,30 @@ export class SecurityGroupListComponent implements OnChanges {
   }
 
   public ngOnChanges(changes) {
-    this.groupings = this.viewMode === SecurityGroupViewMode.Templates ? [
-      {
-        key: 'types',
-        label: 'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY_TYPES',
-        selector: (item: SecurityGroup) => getType(item),
-        name: (item: SecurityGroup) => {
-          switch (getType(item)) {
-            case SecurityGroupType.PredefinedTemplate: {
-              return this.translateService.instant(
-                'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS');
-            }
-            case SecurityGroupType.CustomTemplate: {
-              return this.translateService.instant(
-                'SECURITY_GROUP_PAGE.LIST.CUSTOM_SECURITY_GROUPS');
-            }
-          }
-        }
-      }
-    ] : [];
+    this.groupings =
+      this.viewMode === SecurityGroupViewMode.Templates
+        ? [
+            {
+              key: 'types',
+              label: 'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY_TYPES',
+              selector: (item: SecurityGroup) => getType(item),
+              name: (item: SecurityGroup) => {
+                switch (getType(item)) {
+                  case SecurityGroupType.PredefinedTemplate: {
+                    return this.translateService.instant(
+                      'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS'
+                    );
+                  }
+                  case SecurityGroupType.CustomTemplate: {
+                    return this.translateService.instant(
+                      'SECURITY_GROUP_PAGE.LIST.CUSTOM_SECURITY_GROUPS'
+                    );
+                  }
+                }
+              },
+            },
+          ]
+        : [];
 
     if (changes['vmList']) {
       this.inputs.vmList = this.vmList;
@@ -72,7 +78,6 @@ export class SecurityGroupListComponent implements OnChanges {
       ? SecurityGroupCardItemComponent
       : SecurityGroupRowItemComponent;
   }
-
 
   public selectSecurityGroup(securityGroup: SecurityGroup): void {
     this.listService.showDetails(securityGroup.id);

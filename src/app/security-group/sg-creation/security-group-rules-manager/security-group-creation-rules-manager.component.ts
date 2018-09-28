@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material';
 // tslint:disable-next-line
 import { SecurityGroupCreationSecurityGroupComponent } from '../security-group-creation-security-group/security-group-creation-security-group.component';
 
-
 @Component({
   selector: 'cs-security-group-creation-rules-manager',
   templateUrl: 'security-group-creation-rules-manager.component.html',
@@ -14,9 +13,9 @@ import { SecurityGroupCreationSecurityGroupComponent } from '../security-group-c
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SecurityGroupCreationRulesManagerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SecurityGroupCreationRulesManagerComponent {
   public savedData = new Rules();
@@ -44,25 +43,22 @@ export class SecurityGroupCreationRulesManagerComponent {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {}
 
   public get showAddButton(): boolean {
     return !this.showEditButton;
   }
 
   public get showEditButton(): boolean {
-    return (
-      (this.savedData &&
-        this.savedData.templates &&
-        !!this.savedData.templates.length)
-    );
+    return this.savedData && this.savedData.templates && !!this.savedData.templates.length;
   }
 
   public showDialog(): void {
-    this.dialog.open(SecurityGroupCreationSecurityGroupComponent, {
-      width: '720px',
-      data: this.savedData
-    })
+    this.dialog
+      .open(SecurityGroupCreationSecurityGroupComponent, {
+        width: '720px',
+        data: this.savedData,
+      })
       .afterClosed()
       .subscribe((data: any) => {
         if (data) {

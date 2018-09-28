@@ -15,14 +15,15 @@ import * as fromTemplates from '../../../../reducers/templates/redux/template.re
       (change)="change.emit($event)"
       [templates]="templates$ | async"
       [numberOfTemplates]="numberOfTemplates$ | async"
-    ></cs-vm-creation-template>`
+    ></cs-vm-creation-template>`,
 })
 export class VmCreationTemplateContainerComponent {
   readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation);
   readonly numberOfTemplates$ = this.store.select(fromTemplates.numOfTemplatesReadyForVmCreation);
-  @Input() public template: BaseTemplateModel;
-  @Output() public change = new EventEmitter<BaseTemplateModel>();
+  @Input()
+  public template: BaseTemplateModel;
+  @Output()
+  public change = new EventEmitter<BaseTemplateModel>();
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 }

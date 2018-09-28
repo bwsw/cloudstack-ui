@@ -10,11 +10,8 @@ import { MockTranslateService } from '../../../../../testutils/mocks/mock-transl
 import { ServiceOffering } from '../../../../shared/models';
 import { ServiceOfferingSelectorComponent } from './service-offering-selector.component';
 
-const serviceOfferingsRaw = require(
-  '../../../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
-const serviceOfferings = [
-  ...serviceOfferingsRaw
-];
+const serviceOfferingsRaw = require('../../../../../testutils/mocks/model-services/fixtures/serviceOfferings.json');
+const serviceOfferings = [...serviceOfferingsRaw];
 
 @Component({
   selector: 'cs-test',
@@ -22,7 +19,7 @@ const serviceOfferings = [
     <cs-service-offering-selector
       [serviceOfferings]="serviceOfferings"
     ></cs-service-offering-selector>
-  `
+  `,
 })
 class TestComponent {
   @ViewChild(ServiceOfferingSelectorComponent)
@@ -46,31 +43,23 @@ describe('Test Service offering selector component', () => {
   const mockDialog = {
     open: jasmine.createSpy('open').and.callFake(() => {
       return {
-        afterClosed: () => of(serviceOffering)
+        afterClosed: () => of(serviceOffering),
       };
-    })
+    }),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        MatTooltipModule
-      ],
-      declarations: [
-        ServiceOfferingSelectorComponent,
-        TestComponent,
-        MockTranslatePipe
-      ],
+      imports: [FormsModule, MatTooltipModule],
+      declarations: [ServiceOfferingSelectorComponent, TestComponent, MockTranslatePipe],
       providers: [
         { provide: MatDialog, useValue: mockDialog },
-        { provide: TranslateService, useClass: MockTranslateService }
-      ]
-    })
-      .compileComponents();
+        { provide: TranslateService, useClass: MockTranslateService },
+      ],
+    }).compileComponents();
   }));
 
-  it('should show message if offeringList is empty', async( async() => {
+  it('should show message if offeringList is empty', async(async () => {
     const { f } = createTestComponent();
 
     await f.whenStable();
@@ -83,7 +72,7 @@ describe('Test Service offering selector component', () => {
     expect(messageContainer.query(By.css('span'))).toBeDefined();
   }));
 
-  it('should show selected offering', async( async() => {
+  it('should show selected offering', async(async () => {
     const { f, testComponent } = createTestComponent();
 
     await f.whenStable();
@@ -94,14 +83,16 @@ describe('Test Service offering selector component', () => {
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[0];
     await f.whenStable();
     f.detectChanges();
-    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(serviceOfferings[0]);
+    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(
+      serviceOfferings[0]
+    );
 
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
       `VM_PAGE.VM_CREATION.SERVICE_OFFERING: ${serviceOfferings[0].name}`
     );
   }));
 
-  it('should show selected custom offering', async( async() => {
+  it('should show selected custom offering', async(async () => {
     const { f, testComponent } = createTestComponent();
 
     await f.whenStable();
@@ -112,23 +103,27 @@ describe('Test Service offering selector component', () => {
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[2];
     await f.whenStable();
     f.detectChanges();
-    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(serviceOfferings[2]);
+    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(
+      serviceOfferings[2]
+    );
 
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
       `VM_PAGE.VM_CREATION.SERVICE_OFFERING: ${serviceOfferings[2].name} - ` +
-      `${serviceOfferings[2].cpunumber}x${serviceOfferings[2].cpuspeed} UNITS.MHZ, ` +
-      `${serviceOfferings[2].memory} UNITS.MB`
+        `${serviceOfferings[2].cpunumber}x${serviceOfferings[2].cpuspeed} UNITS.MHZ, ` +
+        `${serviceOfferings[2].memory} UNITS.MB`
     );
   }));
 
-  it('should open modal window', async( async() => {
+  it('should open modal window', async(async () => {
     const { f, testComponent } = createTestComponent();
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[0];
 
     await f.whenStable();
     f.detectChanges();
 
-    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(serviceOfferings[0]);
+    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(
+      serviceOfferings[0]
+    );
 
     const button = f.debugElement.query(By.css('button'));
     button.nativeElement.click();
@@ -140,9 +135,8 @@ describe('Test Service offering selector component', () => {
       disableClose: true,
       data: {
         serviceOffering: serviceOfferings[0],
-      }
+      },
     });
-
   }));
 
   it('should emit changes form change dialog', () => {
@@ -152,13 +146,18 @@ describe('Test Service offering selector component', () => {
 
     spyOn(testComponent.serviceOfferingSelectorComponent.change, 'next');
     const button = f.debugElement.query(By.css('button'));
-    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(serviceOfferings[0]);
+    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(
+      serviceOfferings[0]
+    );
     button.nativeElement.click();
     f.detectChanges();
 
     expect(testComponent.serviceOfferingSelectorComponent.change.next).toHaveBeenCalledTimes(1);
-    expect(testComponent.serviceOfferingSelectorComponent.change.next).toHaveBeenCalledWith(serviceOfferings[1]);
-    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(serviceOfferings[1]);
+    expect(testComponent.serviceOfferingSelectorComponent.change.next).toHaveBeenCalledWith(
+      serviceOfferings[1]
+    );
+    expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(
+      serviceOfferings[1]
+    );
   });
-
 });

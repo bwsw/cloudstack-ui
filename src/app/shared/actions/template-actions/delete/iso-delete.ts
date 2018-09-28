@@ -8,7 +8,6 @@ import { VmService } from '../../../../vm/shared/vm.service';
 import { BaseTemplateDeleteAction } from './base-template-delete';
 import { BaseTemplateModel, Iso, IsoService } from '../../../../template/shared';
 
-
 @Injectable()
 export class IsoDeleteAction extends BaseTemplateDeleteAction {
   protected confirmMessage = 'DIALOG_MESSAGES.ISO.CONFIRM_DELETION';
@@ -31,12 +30,13 @@ export class IsoDeleteAction extends BaseTemplateDeleteAction {
         if (vmList.length) {
           return throwError({
             type: 'vmsInUse',
-            vms: vmList
+            vms: vmList,
           });
         }
         this.notificationId = this.jobsNotificationService.add(this.progressMessage);
         return this.isoService.remove(iso);
-      }));
+      })
+    );
   }
 
   protected onError(error: any): void {
@@ -45,8 +45,8 @@ export class IsoDeleteAction extends BaseTemplateDeleteAction {
       this.dialogService.alert({
         message: {
           translationToken: 'ERRORS.ISO.VMS_IN_USE',
-          interpolateParams: { vms: listOfUsedVms }
-        }
+          interpolateParams: { vms: listOfUsedVms },
+        },
       });
     } else {
       super.onError(error);

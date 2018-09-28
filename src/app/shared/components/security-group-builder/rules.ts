@@ -1,11 +1,17 @@
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroup } from '../../../security-group/sg.model';
 
-
-export class Rules { // defines what should be passed to inputRules
+export class Rules {
+  // defines what should be passed to inputRules
   public static createWithAllRulesSelected(securityGroups: Array<SecurityGroup>): Rules {
-    const ingress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.ingressrule), []);
-    const egress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.egressrule), []);
+    const ingress = securityGroups.reduce(
+      (acc, securityGroup) => acc.concat(securityGroup.ingressrule),
+      []
+    );
+    const egress = securityGroups.reduce(
+      (acc, securityGroup) => acc.concat(securityGroup.egressrule),
+      []
+    );
 
     return new Rules(securityGroups, ingress, egress);
   }
@@ -20,4 +26,3 @@ export class Rules { // defines what should be passed to inputRules
     this.templates = templates || [];
   }
 }
-

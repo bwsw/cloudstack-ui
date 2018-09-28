@@ -1,4 +1,4 @@
-import { ActionReducer, ActionReducerMap, MetaReducer, } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import * as fromRouter from '@ngrx/router-store';
 /**
@@ -53,7 +53,7 @@ export function logout(reducer: ActionReducer<State>) {
     }
 
     return reducer(state, action);
-  }
+  };
 }
 
 /**

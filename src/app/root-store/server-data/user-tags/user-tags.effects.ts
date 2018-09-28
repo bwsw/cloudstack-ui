@@ -53,7 +53,7 @@ import {
   UpdateTimeFormat,
   UpdateTimeFormatError,
   UpdateTimeFormatSuccess,
-  UserTagsActionTypes
+  UserTagsActionTypes,
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -90,8 +90,8 @@ export class UserTagsEffects {
       const key = userTagKeys.askToCreateVM;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateAskToCreateVMSuccess({ key, value })),
-        catchError((error) => of(new UpdateAskToCreateVMError({ error })))
-      )
+        catchError(error => of(new UpdateAskToCreateVMError({ error })))
+      );
     })
   );
 
@@ -103,8 +103,8 @@ export class UserTagsEffects {
       const key = userTagKeys.askToCreateVolume;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateAskToCreateVolumeSuccess({ key, value })),
-        catchError((error) => of(new UpdateAskToCreateVolumeError({ error })))
-      )
+        catchError(error => of(new UpdateAskToCreateVolumeError({ error })))
+      );
     })
   );
 
@@ -116,8 +116,8 @@ export class UserTagsEffects {
       const key = userTagKeys.savePasswordForAllVMs;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateSavePasswordForAllVMsSuccess({ key, value })),
-        catchError((error) => of(new UpdateSavePasswordForAllVMsError({ error })))
-      )
+        catchError(error => of(new UpdateSavePasswordForAllVMsError({ error })))
+      );
     })
   );
 
@@ -129,8 +129,8 @@ export class UserTagsEffects {
       const key = userTagKeys.firstDayOfWeek;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateFirstDayOfWeekSuccess({ key, value })),
-        catchError((error) => of(new UpdateFirstDayOfWeekError({ error })))
-      )
+        catchError(error => of(new UpdateFirstDayOfWeekError({ error })))
+      );
     })
   );
 
@@ -142,8 +142,8 @@ export class UserTagsEffects {
       const key = userTagKeys.lang;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateInterfaceLanguageSuccess({ key, value })),
-        catchError((error) => of(new UpdateInterfaceLanguageError({ error })))
-      )
+        catchError(error => of(new UpdateInterfaceLanguageError({ error })))
+      );
     })
   );
 
@@ -155,8 +155,8 @@ export class UserTagsEffects {
       const key = userTagKeys.lastVMId;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateLastVMIdSuccess({ key, value })),
-        catchError((error) => of(new UpdateLastVMIdError({ error })))
-      )
+        catchError(error => of(new UpdateLastVMIdError({ error })))
+      );
     })
   );
 
@@ -168,8 +168,8 @@ export class UserTagsEffects {
       const key = userTagKeys.sessionTimeout;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateSessionTimeoutSuccess({ key, value })),
-        catchError((error) => of(new UpdateSessionTimeoutError({ error })))
-      )
+        catchError(error => of(new UpdateSessionTimeoutError({ error })))
+      );
     })
   );
 
@@ -187,8 +187,8 @@ export class UserTagsEffects {
       const key = userTagKeys.showSystemTags;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateShowSystemTagsSuccess({ key, value })),
-        catchError((error) => of(new UpdateShowSystemTagsError({ error })))
-      )
+        catchError(error => of(new UpdateShowSystemTagsError({ error })))
+      );
     })
   );
 
@@ -200,8 +200,8 @@ export class UserTagsEffects {
       const key = userTagKeys.timeFormat;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateTimeFormatSuccess({ key, value })),
-        catchError((error) => of(new UpdateTimeFormatError({ error })))
-      )
+        catchError(error => of(new UpdateTimeFormatError({ error })))
+      );
     })
   );
 
@@ -213,8 +213,8 @@ export class UserTagsEffects {
       const key = userTagKeys.theme;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateThemeSuccess({ key, value })),
-        catchError((error) => of(new UpdateThemeError({ error })))
-      )
+        catchError(error => of(new UpdateThemeError({ error })))
+      );
     })
   );
 
@@ -226,8 +226,8 @@ export class UserTagsEffects {
       const key = userTagKeys.navigationOrder;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateNavigationOrderSuccess({ key, value })),
-        catchError((error) => of(new UpdateNavigationOrderError({ error })))
-      )
+        catchError(error => of(new UpdateNavigationOrderError({ error })))
+      );
     })
   );
 
@@ -236,13 +236,12 @@ export class UserTagsEffects {
     ofType<SetSavePasswordForAllVMs>(UserTagsActionTypes.SetSPFAVM),
     map(action => `${action.payload.value}`),
     exhaustMap((value: string) => {
-        const key = userTagKeys.savePasswordForAllVMs;
-        return this.createTag(key, value).pipe(
-          map(() => new SetSavePasswordForAllVMsSuccess({ key, value })),
-          catchError((error) => of(new SetSavePasswordForAllVMsError({ error })))
-        )
-      }
-    )
+      const key = userTagKeys.savePasswordForAllVMs;
+      return this.createTag(key, value).pipe(
+        map(() => new SetSavePasswordForAllVMsSuccess({ key, value })),
+        catchError(error => of(new SetSavePasswordForAllVMsError({ error })))
+      );
+    })
   );
 
   @Effect()
@@ -254,8 +253,8 @@ export class UserTagsEffects {
       const value = `${id + 1}`;
       return this.upsertTag(key, value).pipe(
         map(() => new IncrementLastVMIdSuccess({ key, value })),
-        catchError((error) => of(new IncrementLastVMIdError({ error })))
-      )
+        catchError(error => of(new IncrementLastVMIdError({ error })))
+      );
     })
   );
 
@@ -267,8 +266,8 @@ export class UserTagsEffects {
       const key = userTagKeys.keyboardLayoutForVms;
       return this.upsertTag(key, value).pipe(
         map(() => new UpdateKeyboardLayoutForVmsSuccess({ key, value })),
-        catchError((error) => of(new UpdateKeyboardLayoutForVmsError({ error })))
-      )
+        catchError(error => of(new UpdateKeyboardLayoutForVmsError({ error })))
+      );
     })
   );
 
@@ -289,8 +288,10 @@ export class UserTagsEffects {
 
   @Effect({ dispatch: false })
   updateCustomServiceOfferingParams$: Observable<any> = this.actions$.pipe(
-    ofType<UpdateCustomServiceOfferingParams>(UserTagsActionTypes.UpdateCustomServiceOfferingParams),
-    mergeMap((action) => this.setComputeOfferingParams(action.payload.offering))
+    ofType<UpdateCustomServiceOfferingParams>(
+      UserTagsActionTypes.UpdateCustomServiceOfferingParams
+    ),
+    mergeMap(action => this.setComputeOfferingParams(action.payload.offering))
   );
 
   private readonly resourceType = 'User';
@@ -304,8 +305,7 @@ export class UserTagsEffects {
     private tagService: TagService,
     private authService: AuthService,
     private store: Store<State>
-  ) {
-  }
+  ) {}
 
   private setComputeOfferingParams(offering: ServiceOffering) {
     const cpuNumberKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpunumber`;
@@ -315,13 +315,13 @@ export class UserTagsEffects {
     return forkJoin(
       this.upsertTag(cpuNumberKey, offering.cpunumber && offering.cpunumber.toString()),
       this.upsertTag(cpuSpeedKey, offering.cpuspeed && offering.cpuspeed.toString()),
-      this.upsertTag(memoryKey, offering.memory && offering.memory.toString()),
+      this.upsertTag(memoryKey, offering.memory && offering.memory.toString())
     );
   }
 
   private loadTags() {
     return this.tagService.getList({
-      resourceid: this.resourceId
+      resourceid: this.resourceId,
     });
   }
 
@@ -329,15 +329,15 @@ export class UserTagsEffects {
     return this.deleteTag(key).pipe(
       switchMap(() => this.createTag(key, value)),
       catchError(() => this.createTag(key, value))
-    )
+    );
   }
 
   private deleteTag(key: string) {
     return this.tagService.remove({
       resourceids: this.resourceId,
       resourcetype: this.resourceType,
-      'tags[0].key': key
-    })
+      'tags[0].key': key,
+    });
   }
 
   private createTag(key: string, value: string) {
@@ -345,7 +345,7 @@ export class UserTagsEffects {
       resourceids: this.resourceId,
       resourcetype: this.resourceType,
       'tags[0].key': key,
-      'tags[0].value': value
-    })
+      'tags[0].value': value,
+    });
   }
 }

@@ -1,42 +1,58 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatInput } from '@angular/material';
 
-
 export enum Mode {
   assign,
   create,
-  remove
+  remove,
 }
 
 @Component({
   selector: 'cs-create-update-delete-dialog',
   templateUrl: 'create-update-delete-dialog.component.html',
-  styleUrls: ['create-update-delete-dialog.component.scss']
+  styleUrls: ['create-update-delete-dialog.component.scss'],
 })
 export class CreateUpdateDeleteDialogComponent implements OnInit {
-  @Input() public defaultValue: string;
-  @Input() public options: Array<string>;
+  @Input()
+  public defaultValue: string;
+  @Input()
+  public options: Array<string>;
 
-  @Input() public enableAssign = true;
-  @Input() public enableCreate = true;
-  @Input() public enableRemove = true;
+  @Input()
+  public enableAssign = true;
+  @Input()
+  public enableCreate = true;
+  @Input()
+  public enableRemove = true;
 
-  @Input() public assignLabel: string;
-  @Input() public createLabel: string;
-  @Input() public removeLabel: string;
+  @Input()
+  public assignLabel: string;
+  @Input()
+  public createLabel: string;
+  @Input()
+  public removeLabel: string;
 
-  @Input() public maxLength: number;
+  @Input()
+  public maxLength: number;
 
-  @Input() public selectPlaceholder: string;
-  @Input() public textFieldPlaceholder: string;
+  @Input()
+  public selectPlaceholder: string;
+  @Input()
+  public textFieldPlaceholder: string;
 
-  @Input() public title: string;
+  @Input()
+  public title: string;
 
-  @Output() public onAssigned: EventEmitter<string>;
-  @Output() public onCancel: EventEmitter<void>;
-  @Output() public onCreated: EventEmitter<string>;
-  @Output() public onRemoved: EventEmitter<void>;
-  @ViewChild(MatInput) public textField: MatInput;
+  @Output()
+  public onAssigned: EventEmitter<string>;
+  @Output()
+  public onCancel: EventEmitter<void>;
+  @Output()
+  public onCreated: EventEmitter<string>;
+  @Output()
+  public onRemoved: EventEmitter<void>;
+  @ViewChild(MatInput)
+  public textField: MatInput;
 
   public loading: boolean;
   public newValue: string;
@@ -87,7 +103,8 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
       case Mode.remove:
         this.onRemoved.emit();
         break;
-      default: break;
+      default:
+        break;
     }
   }
 
@@ -100,7 +117,8 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
         this.newValue = undefined;
         setTimeout(() => this.textField.focus());
         break;
-      default: break;
+      default:
+        break;
     }
   }
 

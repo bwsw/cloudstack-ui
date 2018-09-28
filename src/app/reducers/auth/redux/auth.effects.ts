@@ -10,7 +10,6 @@ import { AccountService } from '../../../shared/services/account.service';
 
 @Injectable()
 export class UserAccountEffects {
-
   @Effect()
   loadUserAccount$: Observable<Action> = this.actions$.pipe(
     ofType(authActions.LOAD_USER_ACCOUNT_REQUEST),
@@ -19,12 +18,10 @@ export class UserAccountEffects {
         map((account: Account) => {
           return new authActions.LoadUserAccountResponse(account);
         }),
-        catchError(() => of(new authActions.LoadUserAccountResponse({}))));
-    }));
+        catchError(() => of(new authActions.LoadUserAccountResponse({})))
+      );
+    })
+  );
 
-  constructor(
-    private actions$: Actions,
-    private accountService: AccountService
-  ) {
-  }
+  constructor(private actions$: Actions, private accountService: AccountService) {}
 }

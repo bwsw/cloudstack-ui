@@ -25,7 +25,7 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
       [snapshot]="snapshot"
       [account]="account$ | async"
       (onCreateTemplate)="onCreate($event)"
-    ></cs-template-creation>`
+    ></cs-template-creation>`,
 })
 export class TemplateCreationContainerComponent {
   readonly viewMode$ = this.store.select(fromTemplates.filterSelectedViewMode);
@@ -49,7 +49,9 @@ export class TemplateCreationContainerComponent {
     }
 
     if (data.mode) {
-      this.store.dispatch(new templateActions.TemplatesFilterUpdate({ selectedViewMode: data.mode }));
+      this.store.dispatch(
+        new templateActions.TemplatesFilterUpdate({ selectedViewMode: data.mode })
+      );
     }
   }
 
@@ -61,4 +63,3 @@ export class TemplateCreationContainerComponent {
     }
   }
 }
-

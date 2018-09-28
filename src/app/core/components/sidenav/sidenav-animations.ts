@@ -9,14 +9,8 @@ const animationDuration = 150;
  */
 export const transformHandle: AnimationTriggerMetadata = trigger('handleSlide', [
   state('in', style({ transform: 'translateX(0)' })),
-  transition(
-    'void => *',
-    [style({ transform: 'translateX(-60px)' }), animate(animationDuration)]
-  ),
-  transition(
-    'in => void',
-    [animate(animationDuration, style({ transform: 'translateX(-30px)' }))]
-  )
+  transition('void => *', [style({ transform: 'translateX(-60px)' }), animate(animationDuration)]),
+  transition('in => void', [animate(animationDuration, style({ transform: 'translateX(-30px)' }))]),
 ]);
 
 /**
@@ -30,12 +24,6 @@ export const transformHandle: AnimationTriggerMetadata = trigger('handleSlide', 
  */
 export const transformLinks: AnimationTriggerMetadata = trigger('linkSlide', [
   state('out', style({ transform: 'translateX(60px)' })),
-  transition(
-    'void => in',
-    [style({ transform: 'translateX(40px)' }), animate(animationDuration)]
-  ),
-  transition(
-    'void => out',
-    [style({ transform: 'translateX(25px)' }), animate(animationDuration)]
-  )
+  transition('void => in', [style({ transform: 'translateX(40px)' }), animate(animationDuration)]),
+  transition('void => out', [style({ transform: 'translateX(25px)' }), animate(animationDuration)]),
 ]);

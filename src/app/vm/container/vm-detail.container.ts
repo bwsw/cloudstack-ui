@@ -50,10 +50,9 @@ const vmDescriptionKey = 'csui.vm.description';
       [vm]="vm$ | async"
       (onStatsUpdate)="updateStats($event)"
     ></cs-statistics>
-  `
+  `,
 })
 export class VmDetailContainerComponent implements OnInit {
-
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
   readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
@@ -63,12 +62,10 @@ export class VmDetailContainerComponent implements OnInit {
     map((vm: VirtualMachine) => {
       const descriptionTag = vm.tags.find(tag => tag.key === vmDescriptionKey);
       return descriptionTag && descriptionTag.value;
-    }));
+    })
+  );
 
-  constructor(
-    private store: Store<State>
-  ) {
-  }
+  constructor(private store: Store<State>) {}
 
   public changeDescription(description) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
@@ -79,10 +76,12 @@ export class VmDetailContainerComponent implements OnInit {
   public changeGroup(group) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       if (group.name !== '') {
-        this.store.dispatch(new vmActions.ChangeInstanceGroup({
-          vm,
-          group
-        }));
+        this.store.dispatch(
+          new vmActions.ChangeInstanceGroup({
+            vm,
+            group,
+          })
+        );
       } else {
         this.store.dispatch(new vmActions.RemoveInstanceGroup(vm));
       }
@@ -91,19 +90,23 @@ export class VmDetailContainerComponent implements OnInit {
 
   public changeAffinityGroup(affinityGroupId: string) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new vmActions.ChangeAffinityGroup({
-        vm,
-        affinityGroupId
-      }));
+      this.store.dispatch(
+        new vmActions.ChangeAffinityGroup({
+          vm,
+          affinityGroupId,
+        })
+      );
     });
   }
 
   public changeSshKey(keyPair: SSHKeyPair) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new vmActions.ChangeSshKey({
-        vm,
-        keyPair
-      }));
+      this.store.dispatch(
+        new vmActions.ChangeSshKey({
+          vm,
+          keyPair,
+        })
+      );
     });
   }
 

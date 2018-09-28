@@ -20,7 +20,7 @@ import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-off
     <cs-volume-sidebar-disk-offering
       [offering]="offering$ | async"
     ></cs-volume-sidebar-disk-offering>
-  `
+  `,
 })
 export class VolumeDetailsContainerComponent implements OnInit {
   readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
@@ -29,28 +29,26 @@ export class VolumeDetailsContainerComponent implements OnInit {
   public description: string;
   public volume: Volume;
 
-  constructor(
-    private store: Store<State>
-  ) {
-  }
+  constructor(private store: Store<State>) {}
 
   public changeDescription(description) {
     this.volume$.pipe(take(1)).subscribe((volume: Volume) => {
-      this.store.dispatch(new volumeActions.ChangeDescription({
-        volume,
-        description
-      }));
+      this.store.dispatch(
+        new volumeActions.ChangeDescription({
+          volume,
+          description,
+        })
+      );
     });
   }
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
-    this.volume$
-      .subscribe((volume: Volume) => {
-        if (volume) {
-          this.volume = volume;
-          this.description = getDescription(this.volume);
-        }
-      });
+    this.volume$.subscribe((volume: Volume) => {
+      if (volume) {
+        this.volume = volume;
+        this.description = getDescription(this.volume);
+      }
+    });
   }
 }

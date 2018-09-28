@@ -15,7 +15,9 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   idleLogout$: Observable<Action> = this.actions$.pipe(
     ofType<IdleLogout>(AuthActionTypes.IdleLogout),
-    tap(() => this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams())),
+    tap(() =>
+      this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams())
+    )
   );
 
   @Effect()
@@ -24,7 +26,7 @@ export class AuthEffects {
     withLatestFrom(this.store.pipe(select(configSelectors.getDefaultUserTags))),
     mergeMap(([action, tags]) => [
       new IdleMonitorActions.StopIdleMonitor(),
-      new UserTagsActions.SetDefaultUserTagsDueToLogout({ tags })
+      new UserTagsActions.SetDefaultUserTagsDueToLogout({ tags }),
     ])
   );
 
@@ -34,6 +36,5 @@ export class AuthEffects {
     private router: Router,
     private routerUtilsService: RouterUtilsService,
     private store: Store<State>
-  ) {
-  }
+  ) {}
 }

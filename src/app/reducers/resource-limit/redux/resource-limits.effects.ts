@@ -11,7 +11,6 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class ResourceLimitsEffects {
-
   @Effect()
   loadResourseLimits$: Observable<Action> = this.actions$.pipe(
     ofType(resourceLimitActions.LOAD_RESOURCE_LIMITS_REQUEST),
@@ -20,8 +19,10 @@ export class ResourceLimitsEffects {
         map((limits: ResourceLimit[]) => {
           return new resourceLimitActions.LoadResourceLimitsResponse(limits);
         }),
-        catchError(() => of(new resourceLimitActions.LoadResourceLimitsResponse([]))));
-    }));
+        catchError(() => of(new resourceLimitActions.LoadResourceLimitsResponse([])))
+      );
+    })
+  );
 
   @Effect()
   updateResourceLimits$: Observable<Action> = this.actions$.pipe(
@@ -31,38 +32,41 @@ export class ResourceLimitsEffects {
       const domainid = action.payload[0].domainid;
 
       const observes = action.payload.map(limit =>
-        this.resourceLimitService.updateResourceLimit(limit));
+        this.resourceLimitService.updateResourceLimit(limit)
+      );
 
       return forkJoin(observes).pipe(
         map(() => {
           return new resourceLimitActions.LoadResourceLimitsRequest({
             domainid,
-            account
+            account,
           });
         }),
-        catchError((error) => of(new resourceLimitActions.UpdateResourceLimitsError(error))));
-    }));
+        catchError(error => of(new resourceLimitActions.UpdateResourceLimitsError(error)))
+      );
+    })
+  );
 
   @Effect({ dispatch: false })
   updateResourceLimitsError$: Observable<Action> = this.actions$.pipe(
     ofType(resourceLimitActions.UPDATE_RESOURCE_LIMITS_ERROR),
     tap((action: resourceLimitActions.UpdateResourceLimitsError) => {
       this.handleError(action.payload);
-    }));
+    })
+  );
 
   constructor(
     private actions$: Actions,
     private resourceLimitService: ResourceLimitService,
     private dialogService: DialogService
-  ) {
-  }
+  ) {}
 
   private handleError(error): void {
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
   }
 }

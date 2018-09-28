@@ -11,10 +11,9 @@ export interface AlertDialogConfiguration extends BaseDialogConfiguration {
 
 @Component({
   selector: 'cs-alert-dialog',
-  templateUrl: 'alert-dialog.component.html'
+  templateUrl: 'alert-dialog.component.html',
 })
 export class AlertDialogComponent {
-
   public config: AlertDialogConfiguration;
 
   constructor(
@@ -35,7 +34,6 @@ export class AlertDialogComponent {
       );
     }
   }
-
 
   @HostListener('keydown.esc')
   public onEsc(): void {

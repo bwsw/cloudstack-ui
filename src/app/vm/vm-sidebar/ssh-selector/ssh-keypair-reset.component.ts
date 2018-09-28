@@ -5,7 +5,7 @@ import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 @Component({
   selector: 'cs-ssh-keypair-reset',
   templateUrl: 'ssh-keypair-reset.component.html',
-  styleUrls: ['ssh-keypair-reset.component.scss']
+  styleUrls: ['ssh-keypair-reset.component.scss'],
 })
 export class SshKeypairResetComponent {
   public resettingKeyInProgress = false;

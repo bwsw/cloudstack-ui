@@ -5,7 +5,7 @@ export enum ProgressLoggerMessageStatus {
   InProgress,
   Done,
   Error,
-  ErrorMessage
+  ErrorMessage,
 }
 
 export interface ProgressLoggerMessageData {

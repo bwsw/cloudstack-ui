@@ -36,7 +36,7 @@ describe('URL Regex', () => {
     'http://مثال.إختبار',
     'http://例子.测试',
     'http://उदाहरण.परीक्षा',
-    'http://-.~_!$&\'()*+\';=:%40:80%2f::::::@example.com',
+    "http://-.~_!$&'()*+';=:%40:80%2f::::::@example.com",
     'http://1337.net',
     'http://a.b-c.de',
     'http://223.255.255.254',
@@ -45,16 +45,12 @@ describe('URL Regex', () => {
     'http://example.com.',
     'http://my.web.server/filename.vhd.gz',
     'http://my.web.server/filename.iso',
-    'http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1508.qcow2'
+    'http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1508.qcow2',
   ];
 
-  const validHttpsUrls = [
-    'https://www.example.com/foo/?bar=baz&inga=42&quux'
-  ];
+  const validHttpsUrls = ['https://www.example.com/foo/?bar=baz&inga=42&quux'];
 
-  const validFtpUrls = [
-    'ftp://foo.bar/baz',
-  ];
+  const validFtpUrls = ['ftp://foo.bar/baz'];
 
   it('should validate correct URLs', () => {
     const validUrls = [...validFtpUrls, ...validHttpsUrls, ...validHttpUrls];
@@ -103,14 +99,14 @@ describe('URL Regex', () => {
       'https://www.g.com/error\n/bleh/bleh',
       'rdar://1234',
       '/foo.bar/',
-      '///www.foo.bar./'
+      '///www.foo.bar./',
     ];
     for (const url of invalidUrls) {
       expect(isUrl(url)).toBeFalsy();
     }
   });
 
-  it ('should validate only urls with FTP protocol', () => {
+  it('should validate only urls with FTP protocol', () => {
     const config = { ftp: true };
     for (const url of validFtpUrls) {
       expect(isUrl(url, config)).toBeTruthy();
@@ -122,7 +118,7 @@ describe('URL Regex', () => {
     }
   });
 
-  it ('should validate only urls with HTTP protocol', () => {
+  it('should validate only urls with HTTP protocol', () => {
     const config = { http: true };
     for (const url of validHttpUrls) {
       expect(isUrl(url, config)).toBeTruthy();
@@ -134,7 +130,7 @@ describe('URL Regex', () => {
     }
   });
 
-  it ('should validate only urls with HTTPS protocol', () => {
+  it('should validate only urls with HTTPS protocol', () => {
     const config = { https: true };
     for (const url of validHttpsUrls) {
       expect(isUrl(url, config)).toBeTruthy();
@@ -146,7 +142,7 @@ describe('URL Regex', () => {
     }
   });
 
-  it ('should validate only urls with HTTP and HTTPS protocols', () => {
+  it('should validate only urls with HTTP and HTTPS protocols', () => {
     const config = { https: true, http: true };
     const httpAndHttpsUrls = [...validHttpsUrls, ...validHttpUrls];
     for (const url of httpAndHttpsUrls) {
@@ -158,7 +154,7 @@ describe('URL Regex', () => {
     }
   });
 
-  it ('should validate urls without protocols', () => {
+  it('should validate urls without protocols', () => {
     const config = { https: false, http: false, ftp: false };
     const httpUrls = validHttpUrls.map(el => el.replace('http://', ''));
     const httpsUrls = validHttpsUrls.map(el => el.replace('https://', ''));

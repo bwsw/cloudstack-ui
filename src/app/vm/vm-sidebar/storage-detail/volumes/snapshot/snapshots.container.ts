@@ -23,14 +23,14 @@ import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapsh
     </cs-snapshots>`,
 })
 export class SnapshotsContainerComponent {
-  @Input() public volume: Volume;
+  @Input()
+  public volume: Volume;
 
   constructor(
     private dialogService: DialogService,
     private store: Store<State>,
     private snapshotActionService: SnapshotActionService
-  ) {
-  }
+  ) {}
 
   public onTemplateCreate(snapshot: Snapshot) {
     this.snapshotActionService.showTemplateCreationDialog(snapshot);
@@ -41,9 +41,12 @@ export class SnapshotsContainerComponent {
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res))
+      )
       .subscribe(() => {
         this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
       });

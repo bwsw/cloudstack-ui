@@ -12,7 +12,6 @@ import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import { filterWithPredicates } from '../../shared/utils/filter';
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
-
 export interface TagEditAction {
   oldTag: Tag;
   newTag: KeyValuePair;
@@ -26,36 +25,38 @@ export interface KeyValuePair {
 @Component({
   selector: 'cs-tags-view',
   templateUrl: 'tags-view.component.html',
-  styleUrls: ['tags-view.component.scss']
+  styleUrls: ['tags-view.component.scss'],
 })
 export class TagsViewComponent implements OnInit, OnChanges {
-  @Input() public tags: Array<Tag>;
-  @Input() public canAddTag = true;
-  @Input() public hasPermissions = false;
-  @Output() public onTagAdd: EventEmitter<Partial<Tag>>;
-  @Output() public onTagEdit: EventEmitter<TagEditAction>;
-  @Output() public onTagDelete: EventEmitter<Tag>;
+  @Input()
+  public tags: Array<Tag>;
+  @Input()
+  public canAddTag = true;
+  @Input()
+  public hasPermissions = false;
+  @Output()
+  public onTagAdd: EventEmitter<Partial<Tag>>;
+  @Output()
+  public onTagEdit: EventEmitter<TagEditAction>;
+  @Output()
+  public onTagDelete: EventEmitter<Tag>;
 
   public categories: Array<TagCategory>;
   public query: string;
   public visibleCategories: Array<TagCategory>;
   public showSystemTags = false;
 
-  constructor(
-    private dialog: MatDialog,
-    private store: Store<State>
-  ) {
+  constructor(private dialog: MatDialog, private store: Store<State>) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
     this.onTagDelete = new EventEmitter<Tag>();
   }
 
   public ngOnInit(): void {
-    this.store.select(UserTagsSelectors.getIsShowSystemTags)
-      .subscribe(show => {
-        this.showSystemTags = show;
-        this.updateFilterResults();
-      });
+    this.store.select(UserTagsSelectors.getIsShowSystemTags).subscribe(show => {
+      this.showSystemTags = show;
+      this.updateFilterResults();
+    });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -65,31 +66,33 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public addTag(category?: TagCategory): void {
-    this.dialog.open(TagEditComponent, {
-      width: '375px',
-      data: {
-        forbiddenKeys: this.getKeysOfExistingTags(),
-        title: 'TAGS.CREATE_NEW_TAG',
-        confirmButtonText: 'COMMON.CREATE',
-        categoryName: category && category.name
-      }
-    })
+    this.dialog
+      .open(TagEditComponent, {
+        width: '375px',
+        data: {
+          forbiddenKeys: this.getKeysOfExistingTags(),
+          title: 'TAGS.CREATE_NEW_TAG',
+          confirmButtonText: 'COMMON.CREATE',
+          categoryName: category && category.name,
+        },
+      })
       .afterClosed()
       .subscribe(tag => this.onTagAdd.emit(tag));
   }
 
   public editTag(tag: Tag): void {
     const forbiddenKeys = this.getKeysOfExistingTags().filter(key => key !== tag.key);
-    this.dialog.open(TagEditComponent, {
-      width: '375px',
-      data: {
-        forbiddenKeys,
-        title: 'TAGS.EDIT_TAG',
-        confirmButtonText: 'COMMON.EDIT',
-        categoryName: categoryName(tag),
-        tag
-      }
-    })
+    this.dialog
+      .open(TagEditComponent, {
+        width: '375px',
+        data: {
+          forbiddenKeys,
+          title: 'TAGS.EDIT_TAG',
+          confirmButtonText: 'COMMON.EDIT',
+          categoryName: categoryName(tag),
+          tag,
+        },
+      })
       .afterClosed()
       .subscribe(tagEditAction => this.onTagEdit.emit(tagEditAction));
   }
@@ -125,17 +128,11 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   private filterTags(tags: Array<Tag>): Array<Tag> {
-    return filterWithPredicates(
-      tags,
-      [
-        this.filterTagsBySearch(),
-        this.filterTagsBySystem()
-      ]
-    );
+    return filterWithPredicates(tags, [this.filterTagsBySearch(), this.filterTagsBySystem()]);
   }
 
   private filterTagsBySearch(): (tag) => boolean {
-    return (tag) => {
+    return tag => {
       const keyMatch = Utils.matchLower(tag.key, this.query || '');
       const valueMatch = Utils.matchLower(tag.value, this.query || '');
 
@@ -144,14 +141,16 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   private filterTagsBySystem(): (tag: Tag) => boolean {
-    return (tag) => {
+    return tag => {
       return this.showSystemTags || categoryName(tag) !== 'csui';
     };
   }
 
   private getCategories(): Array<TagCategory> {
     const groupedTags = groupBy(
-      this.tags.map(tag => ({ ...tag, categoryName: categoryName(tag) })), 'categoryName');
+      this.tags.map(tag => ({ ...tag, categoryName: categoryName(tag) })),
+      'categoryName'
+    );
 
     const categories = Object.keys(groupedTags)
       .map(name => this.getCategory(groupedTags, name))
@@ -199,7 +198,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
     return {
       name,
-      tags: sortedTags
+      tags: sortedTags,
     };
   }
 

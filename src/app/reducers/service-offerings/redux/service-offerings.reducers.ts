@@ -5,19 +5,18 @@ import {
   ComputeOfferingClass,
   defaultComputeOfferingClass,
   ServiceOffering,
-  ServiceOfferingType
+  ServiceOfferingType,
 } from '../../../shared/models';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as serviceOfferingActions from './service-offerings.actions';
 
-
 export interface State extends EntityState<ServiceOffering> {
   loading: boolean;
   filters: {
-    selectedViewMode: string,
-    selectedClasses: string[],
-    query: string
-  }
+    selectedViewMode: string;
+    selectedClasses: string[];
+    query: string;
+  };
 }
 
 export interface OfferingsState {
@@ -28,21 +27,20 @@ export const serviceOfferingReducers = {
   list: reducer,
 };
 
-export const adapter: EntityAdapter<ServiceOffering> = createEntityAdapter<ServiceOffering>(
-  {
-    selectId: (item: ServiceOffering) => item.id,
-    sortComparer: false
-  });
+export const adapter: EntityAdapter<ServiceOffering> = createEntityAdapter<ServiceOffering>({
+  selectId: (item: ServiceOffering) => item.id,
+  sortComparer: false,
+});
 
 export const initialFilters = {
   selectedViewMode: ServiceOfferingType.fixed,
   selectedClasses: [],
-  query: ''
+  query: '',
 };
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  filters: initialFilters
+  filters: initialFilters,
 });
 
 export function reducer(state = initialState, action: serviceOfferingActions.Actions): State {
@@ -50,7 +48,7 @@ export function reducer(state = initialState, action: serviceOfferingActions.Act
     case serviceOfferingActions.LOAD_SERVICE_OFFERINGS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case serviceOfferingActions.SERVICE_OFFERINGS_FILTER_UPDATE: {
@@ -58,15 +56,15 @@ export function reducer(state = initialState, action: serviceOfferingActions.Act
         ...state,
         filters: {
           ...state.filters,
-          ...action.payload
-        }
+          ...action.payload,
+        },
       };
     }
     case serviceOfferingActions.LOAD_SERVICE_OFFERINGS_RESPONSE: {
       const offerings = action.payload;
       return {
         ...adapter.addAll(offerings, state),
-        loading: false
+        loading: false,
       };
     }
 
@@ -76,45 +74,23 @@ export function reducer(state = initialState, action: serviceOfferingActions.Act
   }
 }
 
-
 export const getOfferingsState = createFeatureSelector<OfferingsState>('service-offerings');
 
-export const getOfferingsEntitiesState = createSelector(
-  getOfferingsState,
-  state => state.list
+export const getOfferingsEntitiesState = createSelector(getOfferingsState, state => state.list);
+
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
+  getOfferingsEntitiesState
 );
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getOfferingsEntitiesState);
+export const isLoading = createSelector(getOfferingsEntitiesState, state => state.loading);
 
-export const isLoading = createSelector(
-  getOfferingsEntitiesState,
-  state => state.loading
-);
+export const filters = createSelector(getOfferingsEntitiesState, state => state.filters);
 
-export const filters = createSelector(
-  getOfferingsEntitiesState,
-  state => state.filters
-);
+export const filterSelectedViewMode = createSelector(filters, state => state.selectedViewMode);
 
-export const filterSelectedViewMode = createSelector(
-  filters,
-  state => state.selectedViewMode
-);
+export const filterSelectedClasses = createSelector(filters, state => state.selectedClasses);
 
-export const filterSelectedClasses = createSelector(
-  filters,
-  state => state.selectedClasses
-);
-
-export const filterQuery = createSelector(
-  filters,
-  state => state.query
-);
+export const filterQuery = createSelector(filters, state => state.query);
 
 export const getSelectedOffering = createSelector(
   selectEntities,
@@ -122,10 +98,17 @@ export const getSelectedOffering = createSelector(
   (entities, vm) => vm && entities[vm.serviceOfferingId]
 );
 
-export const classesFilter = (offering: ServiceOffering, soClasses: ComputeOfferingClass[], classesMap: any) => {
-  const classes = soClasses.filter(soClass =>
-    soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1);
+export const classesFilter = (
+  offering: ServiceOffering,
+  soClasses: ComputeOfferingClass[],
+  classesMap: any
+) => {
+  const classes = soClasses.filter(
+    soClass => soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1
+  );
   const showGeneral = !!classesMap[defaultComputeOfferingClass.id];
-  return classes.length && classes.find(soClass => classesMap[soClass.id])
-    || (showGeneral && !classes.length);
+  return (
+    (classes.length && classes.find(soClass => classesMap[soClass.id])) ||
+    (showGeneral && !classes.length)
+  );
 };

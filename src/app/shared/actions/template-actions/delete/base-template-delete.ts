@@ -5,7 +5,6 @@ import { catchError, map, onErrorResumeNext, switchMap } from 'rxjs/operators';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
 
-
 @Injectable()
 export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
   public name = 'COMMON.DELETE';
@@ -26,7 +25,8 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
         } else {
           return of(null);
         }
-      }));
+      })
+    );
   }
 
   private onConfirm(template: BaseTemplateModel): Observable<any> {
@@ -35,7 +35,8 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
       catchError(error => {
         this.onError(error);
         return throwError(null);
-      }));
+      })
+    );
   }
 
   protected onSuccess(): void {
@@ -49,8 +50,8 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
 
     this.jobsNotificationService.fail({

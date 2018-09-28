@@ -17,20 +17,19 @@ import { HomeComponent } from './home/home.component';
 import { LoginGuard } from './shared/services/login-guard.service';
 import { LoginComponent } from './auth/login.component';
 
-
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [LoginGuard]
+    canActivate: [LoginGuard],
   },
   {
     path: 'logout',
-    component: LogoutComponent
+    component: LogoutComponent,
   },
   {
     path: 'reload',
-    component: ReloadComponent
+    component: ReloadComponent,
   },
   {
     path: '',
@@ -45,29 +44,28 @@ const routes: Routes = [
       {
         path: 'events',
         component: EventListContainerComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
       ...sshRoutes,
       {
         path: 'settings',
         component: SettingsComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
       {
         path: '**',
-        redirectTo: 'instances'
-      }
-    ]
+        redirectTo: 'instances',
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: ''
-  }
+    redirectTo: '',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

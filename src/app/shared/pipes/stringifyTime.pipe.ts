@@ -1,9 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DateTimeFormatterService } from '../services/date-time-formatter.service';
 
-
 @Pipe({
-  name: 'stringifyTime'
+  name: 'stringifyTime',
 })
 export class StringifyTimePipe implements PipeTransform {
   constructor(private dateTimeFormatterService: DateTimeFormatterService) {}

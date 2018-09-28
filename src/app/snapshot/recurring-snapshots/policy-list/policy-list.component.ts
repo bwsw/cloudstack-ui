@@ -5,7 +5,7 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MatTableDataSource } from '@angular/material';
@@ -15,7 +15,6 @@ import { PolicyViewBuilderService } from './policy-view-builder.service';
 import { PolicyType } from '../snapshot-policy-type';
 import { TimeFormat } from '../../../shared/types';
 import DateTimeFormat = Intl.DateTimeFormat;
-
 
 interface PolicyView {
   id: string;
@@ -32,14 +31,18 @@ interface PolicyView {
   selector: 'cs-policy-list',
   templateUrl: 'policy-list.component.html',
   styleUrls: ['policy-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PolicyListComponent implements OnChanges {
-  @Input() public timeFormat: TimeFormat;
+  @Input()
+  public timeFormat: TimeFormat;
 
-  @Input() public policies: Array<Policy<TimePolicy>>;
-  @Output() public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
-  @Output() public onPolicyRowClick: EventEmitter<PolicyType>;
+  @Input()
+  public policies: Array<Policy<TimePolicy>>;
+  @Output()
+  public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
+  @Output()
+  public onPolicyRowClick: EventEmitter<PolicyType>;
 
   public policyViews = new MatTableDataSource<PolicyView>([]);
   public columnsToDisplay = ['time', 'period', 'timeZone', 'keep', 'delete'];
@@ -63,7 +66,7 @@ export class PolicyListComponent implements OnChanges {
   private get dateTimeFormat(): DateTimeFormat {
     const options: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
-      minute: 'numeric'
+      minute: 'numeric',
     };
 
     options.hour12 = this.timeFormat === TimeFormat.hour12 || this.timeFormat === TimeFormat.AUTO;
@@ -87,12 +90,10 @@ export class PolicyListComponent implements OnChanges {
     policies: Array<Policy<TimePolicy>>,
     dateTimeFormat: DateTimeFormat
   ): Array<PolicyView> {
-    return policies.map(policy => {
-      return this.policyViewBuilderService.buildPolicyViewFromPolicy(
-        policy,
-        dateTimeFormat
-      );
-    })
+    return policies
+      .map(policy => {
+        return this.policyViewBuilderService.buildPolicyViewFromPolicy(policy, dateTimeFormat);
+      })
       .sort((a, b) => this.policyViewComparator(a, b));
   }
 

@@ -10,7 +10,6 @@ import { ResourceCount } from '../../../shared/models/resource-count.model';
 
 @Injectable()
 export class ResourceCountsEffects {
-
   @Effect()
   loadResourceLimits$: Observable<Action> = this.actions$.pipe(
     ofType(resourceCountActions.LOAD_RESOURCE_COUNTS_REQUEST),
@@ -19,12 +18,10 @@ export class ResourceCountsEffects {
         map((stats: ResourceCount[]) => {
           return new resourceCountActions.LoadResourceCountsResponse(stats);
         }),
-        catchError(() => of(new resourceCountActions.LoadResourceCountsResponse([]))));
-    }));
+        catchError(() => of(new resourceCountActions.LoadResourceCountsResponse([])))
+      );
+    })
+  );
 
-  constructor(
-    private actions$: Actions,
-    private resourceCountService: ResourceCountService
-  ) {
-  }
+  constructor(private actions$: Actions, private resourceCountService: ResourceCountService) {}
 }

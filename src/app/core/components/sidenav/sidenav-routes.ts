@@ -15,63 +15,64 @@ export const sidenavRoutes: Array<SidenavRoute> = [
     text: 'NAVIGATION_SIDEBAR.VMS',
     icon: 'mdi-cloud',
     id: 'VMS',
-    visible: true
+    visible: true,
   },
   {
     path: '/storage',
     text: 'NAVIGATION_SIDEBAR.STORAGE',
     icon: 'mdi-server',
     id: 'VOLUMES',
-    visible: true
+    visible: true,
   },
   {
     path: '/templates',
     text: 'NAVIGATION_SIDEBAR.IMAGES',
     icon: 'mdi-disc',
     id: 'TEMPLATES',
-    visible: true
-  },  {
+    visible: true,
+  },
+  {
     path: '/snapshots',
     text: 'NAVIGATION_SIDEBAR.SNAPSHOTS',
     icon: 'mdi-camera',
     id: 'SNAPSHOTS',
-    visible: true
+    visible: true,
   },
   {
     path: '/security-group',
     text: 'NAVIGATION_SIDEBAR.FIREWALL_TEMPLATES',
     icon: 'mdi-security',
     id: 'SGS',
-    visible: true
+    visible: true,
   },
   {
     path: '/events',
     text: 'NAVIGATION_SIDEBAR.ACTIVITY_LOG',
     icon: 'mdi-calendar-text',
     id: 'EVENTS',
-    visible: true
+    visible: true,
   },
   {
     path: '/ssh-keys',
     text: 'NAVIGATION_SIDEBAR.SSH_KEYS',
     icon: 'mdi-key',
     id: 'SSH',
-    visible: true
+    visible: true,
   },
   {
     path: '/accounts',
     text: 'NAVIGATION_SIDEBAR.ACCOUNTS',
     icon: 'mdi-account',
     id: 'ACCOUNTS',
-    visible: true
+    visible: true,
   },
   {
     path: '/settings',
     text: 'NAVIGATION_SIDEBAR.SETTINGS',
     icon: 'mdi-settings',
     id: 'SETTINGS',
-    visible: true
-  }
+    visible: true,
+  },
 ];
 
 export const nonDraggableRoutes: Array<SidenavRoute> = [
@@ -80,6 +81,6 @@ export const nonDraggableRoutes: Array<SidenavRoute> = [
     text: 'NAVIGATION_SIDEBAR.LOGOUT',
     icon: 'mdi-exit-to-app',
     id: 'LOGOUT',
-    visible: true
-  }
+    visible: true,
+  },
 ];

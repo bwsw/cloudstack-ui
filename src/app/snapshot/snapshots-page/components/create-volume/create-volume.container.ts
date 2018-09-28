@@ -13,16 +13,13 @@ import * as volumeActions from '../../../../reducers/volumes/redux/volumes.actio
     <cs-create-volume-from-snapshot
       [isLoading]="isFormLoading$ | async"
       (volumeCreate)="onVolumeCreate($event)"
-    ></cs-create-volume-from-snapshot>`
+    ></cs-create-volume-from-snapshot>`,
 })
 export class CreateVolumeFromSnapshotContainerComponent {
   readonly isFormLoading$ = this.store.select(fromVolumes.isFormLoading);
   private snapshot: Snapshot;
 
-  constructor(
-    private store: Store<State>,
-    @Inject(MAT_DIALOG_DATA) data: any
-  ) {
+  constructor(private store: Store<State>, @Inject(MAT_DIALOG_DATA) data: any) {
     this.snapshot = data.snapshot;
 
     if (data.snapshot) {
@@ -30,9 +27,11 @@ export class CreateVolumeFromSnapshotContainerComponent {
   }
 
   public onVolumeCreate(name: string) {
-    this.store.dispatch(new volumeActions.CreateVolumeFromSnapshot({
-      name,
-      snapshotId: this.snapshot.id
-    }));
+    this.store.dispatch(
+      new volumeActions.CreateVolumeFromSnapshot({
+        name,
+        snapshotId: this.snapshot.id,
+      })
+    );
   }
 }

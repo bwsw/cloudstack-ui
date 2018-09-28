@@ -22,10 +22,7 @@ export class VolumeSnapshotDetailsContainerComponent {
   readonly volume$ = this.store.select(fromVolumes.getSelectedVolumeWithSnapshots);
   readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
 
-  constructor(
-    public dialogService: DialogService,
-    private store: Store<State>,
-  ) {
+  constructor(public dialogService: DialogService, private store: Store<State>) {
     this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
   }
 

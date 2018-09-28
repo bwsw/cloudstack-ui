@@ -18,13 +18,12 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
       (onTagDelete)="deleteTag($event)"
       (onTagEdit)="editTag($event)"
     ></cs-vm-tags>
-  `
+  `,
 })
 export class VmTagsContainerComponent {
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 
   public editTag(tagEditAction: TagEditAction) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
@@ -35,26 +34,18 @@ export class VmTagsContainerComponent {
         value: tagEditAction.newTag.value,
         account: vm.account,
         domain: vm.domain,
-        domainid: vm.domainid
+        domainid: vm.domainid,
       };
       const newTags: Tag[] = vm.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
-      this.store.dispatch(new vmActions.UpdateVM(Object.assign(
-        {},
-        vm,
-        { tags: newTags }
-      )));
+      this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, vm, { tags: newTags })));
     });
   }
 
   public deleteTag(tag: Tag) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       const newTags = Object.assign([], vm.tags).filter(t => tag.key !== t.key);
-      this.store.dispatch(new vmActions.UpdateVM(Object.assign(
-        {},
-        vm,
-        { tags: newTags }
-      )));
+      this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, vm, { tags: newTags })));
     });
   }
 
@@ -67,15 +58,11 @@ export class VmTagsContainerComponent {
         value: keyValuePair.value,
         account: vm.account,
         domain: vm.domain,
-        domainid: vm.domainid
+        domainid: vm.domainid,
       };
       const newTags: Tag[] = [...vm.tags];
       newTags.push(newTag);
-      this.store.dispatch(new vmActions.UpdateVM(Object.assign(
-        {},
-        vm,
-        { tags: newTags }
-      )));
+      this.store.dispatch(new vmActions.UpdateVM(Object.assign({}, vm, { tags: newTags })));
     });
   }
 }

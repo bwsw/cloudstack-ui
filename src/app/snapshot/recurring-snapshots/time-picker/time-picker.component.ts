@@ -6,7 +6,6 @@ import { padStart } from '../../../shared/utils/padStart';
 import { DayPeriod } from '../day-period/day-period.component';
 import { TimeFormat } from '../../../shared/types';
 
-
 export interface Time {
   hour: number;
   minute: number;
@@ -21,14 +20,17 @@ export interface Time {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TimePickerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TimePickerComponent implements ControlValueAccessor, OnInit {
-  @Input() public timeFormat: TimeFormat;
-  @ViewChild('hourField') public hourField: MatInput;
-  @ViewChild('minuteField') public minuteField: MatInput;
+  @Input()
+  public timeFormat: TimeFormat;
+  @ViewChild('hourField')
+  public hourField: MatInput;
+  @ViewChild('minuteField')
+  public minuteField: MatInput;
 
   public _hour: number;
   public _minute: number;
@@ -99,15 +101,13 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     this.writeValue(this.time);
   }
 
-  public propagateChange: any = () => {
-  };
-
+  public propagateChange: any = () => {};
 
   public get time(): Time {
     return {
       hour: +this.hour,
       minute: +this.minute,
-      period: this.period
+      period: this.period,
     };
   }
 
@@ -126,8 +126,7 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     if (value) {

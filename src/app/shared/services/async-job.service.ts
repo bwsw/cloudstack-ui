@@ -8,16 +8,15 @@ import { AsyncJob, mapCmd } from '../models';
 import { BaseBackendService, CSCommands } from './base-backend.service';
 import { ErrorService } from './error.service';
 
-
 const enum JobStatus {
   InProgress,
   Completed,
-  Failed
+  Failed,
 }
 
 @Injectable()
 @BackendResource({
-  entity: 'AsyncJob'
+  entity: 'AsyncJob',
 })
 export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   public event: Subject<AsyncJob<any>>;
@@ -33,11 +32,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     this.event = new Subject<AsyncJob<any>>();
   }
 
-  public queryJob(
-    job: any,
-    entity = '',
-    entityModel: any = null
-  ): Observable<typeof entityModel> {
+  public queryJob(job: any, entity = '', entityModel: any = null): Observable<typeof entityModel> {
     const jobId = this.getJobId(job);
     const jobObservable = Observable.create(observer => {
       let interval;
@@ -73,9 +68,9 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     entityModel: any,
     interval?: any
   ): void {
-    this.sendCommand(CSCommands.QueryResult, { jobId }).pipe(
-      map(res => res as AsyncJob<typeof entityModel>))
-      .subscribe((asyncJob) => {
+    this.sendCommand(CSCommands.QueryResult, { jobId })
+      .pipe(map(res => res as AsyncJob<typeof entityModel>))
+      .subscribe(asyncJob => {
         switch (asyncJob.jobstatus) {
           case JobStatus.InProgress:
             return;
@@ -83,7 +78,9 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
             observer.next(this.getResult(asyncJob, entity, entityModel));
             break;
           case JobStatus.Failed: {
-            observer.error(ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult })));
+            observer.error(
+              ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult }))
+            );
             break;
           }
         }

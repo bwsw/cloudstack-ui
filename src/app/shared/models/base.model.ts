@@ -65,4 +65,4 @@ export abstract class BaseModel implements BaseModelInterface {
   }
 }
 
-export class BaseModelStub extends BaseModel { }
+export class BaseModelStub extends BaseModel {}

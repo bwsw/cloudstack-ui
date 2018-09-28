@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { Color } from '../../../app/shared/models';
 import { DayOfWeek, Language, TimeFormat } from '../../../app/shared/types';
 
-
 interface UserIdObject {
   id: string;
 }
@@ -11,7 +10,7 @@ interface UserIdObject {
 export class MockUserTagService {
   private get user(): UserIdObject {
     return {
-      id: 'id'
+      id: 'id',
     };
   }
 

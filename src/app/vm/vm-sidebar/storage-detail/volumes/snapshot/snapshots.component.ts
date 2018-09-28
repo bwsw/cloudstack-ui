@@ -3,29 +3,30 @@ import { MatDialog } from '@angular/material';
 import { Action, getDateSnapshotCreated, Snapshot, Volume } from '../../../../../shared/models';
 import {
   SnapshotActions,
-  SnapshotActionService
+  SnapshotActionService,
 } from '../../../../../snapshot/snapshots-page/snapshot-list-item/snapshot-actions/snapshot-action.service';
 import { SnapshotModalContainerComponent } from './snapshot-modal.container';
-
 
 @Component({
   selector: 'cs-snapshots',
   templateUrl: 'snapshots.component.html',
-  styleUrls: ['snapshots.component.scss']
+  styleUrls: ['snapshots.component.scss'],
 })
 export class SnapshotsComponent implements OnInit {
-  @Input() public volume: Volume;
-  @Output() public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
-  @Output() public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
-  @Output() public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
-  @Output() public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Input()
+  public volume: Volume;
+  @Output()
+  public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output()
+  public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output()
+  public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output()
+  public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   public actions: Array<Action<Snapshot>>;
   public lastSnapshot: Snapshot;
 
-  constructor(
-    private snapshotActionsService: SnapshotActionService,
-    private dialog: MatDialog,
-  ) {
+  constructor(private snapshotActionsService: SnapshotActionService, private dialog: MatDialog) {
     this.actions = snapshotActionsService.actions;
   }
 
@@ -36,10 +37,12 @@ export class SnapshotsComponent implements OnInit {
   }
 
   public showSnapshots(): void {
-    this.dialog.open(SnapshotModalContainerComponent, {
-      data: { volumeId: this.volume.id },
-      width: '700px'
-    }).afterClosed();
+    this.dialog
+      .open(SnapshotModalContainerComponent, {
+        data: { volumeId: this.volume.id },
+        width: '700px',
+      })
+      .afterClosed();
   }
 
   public onAction(action, snapshot: Snapshot) {

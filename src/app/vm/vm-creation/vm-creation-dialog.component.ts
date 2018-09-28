@@ -5,7 +5,7 @@ import { VmCreationContainerComponent } from './containers/vm-creation.container
 
 @Component({
   selector: 'cs-vm-create-dialog',
-  template: `<ng-template></ng-template>`
+  template: `<ng-template></ng-template>`,
 })
 export class VmCreationDialogComponent {
   constructor(
@@ -13,16 +13,17 @@ export class VmCreationDialogComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.dialog.open(VmCreationContainerComponent, {
-      disableClose: true,
-      width: '680px'
-    })
+    this.dialog
+      .open(VmCreationContainerComponent, {
+        disableClose: true,
+        width: '680px',
+      })
       .afterClosed()
       .subscribe(vm => {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
-          relativeTo: this.activatedRoute
+          relativeTo: this.activatedRoute,
         });
-      })
+      });
   }
 }

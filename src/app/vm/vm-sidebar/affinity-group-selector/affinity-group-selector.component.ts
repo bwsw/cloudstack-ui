@@ -7,11 +7,10 @@ import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VirtualMachine } from '../../shared/vm.model';
 
-
 @Component({
   selector: 'cs-affinity-group-selector',
   templateUrl: 'affinity-group-selector.component.html',
-  styleUrls: ['affinity-group-selector.component.scss']
+  styleUrls: ['affinity-group-selector.component.scss'],
 })
 export class AffinityGroupSelectorComponent implements OnInit {
   public affinityGroups: Array<AffinityGroup>;
@@ -48,7 +47,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
     this.affinityGroupService
       .create({
         name,
-        type: AffinityGroupType.hostAntiAffinity
+        type: AffinityGroupType.hostAntiAffinity,
       })
       .subscribe(
         affinityGroup => this.dialogRef.close(affinityGroup.id),
@@ -71,8 +70,9 @@ export class AffinityGroupSelectorComponent implements OnInit {
 
   private loadGroups(): void {
     this.loading = true;
-    this.affinityGroupService.getList().pipe(
-      finalize(() => this.loading = false))
+    this.affinityGroupService
+      .getList()
+      .pipe(finalize(() => (this.loading = false)))
       .subscribe(groups => {
         this.affinityGroups = groups;
       });

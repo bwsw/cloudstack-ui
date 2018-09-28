@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatTabChangeEvent } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import * as debounce from 'lodash/debounce';
@@ -20,7 +13,7 @@ import { Interval, PulseService } from '../pulse.service';
 const enum TabIndex {
   CpuRam,
   Network,
-  Disk
+  Disk,
 }
 
 export const PulseParameters = {
@@ -34,12 +27,15 @@ export const PulseParameters = {
   selector: 'cs-vm-pulse',
   templateUrl: './vm-pulse.component.html',
   styleUrls: ['./vm-pulse.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VmPulseComponent implements OnInit, OnDestroy {
-  @ViewChild(PulseCpuRamChartComponent) cpuRamChart: PulseCpuRamChartComponent;
-  @ViewChild(PulseNetworkChartComponent) networkChart: PulseNetworkChartComponent;
-  @ViewChild(PulseDiskChartComponent) diskChart: PulseDiskChartComponent;
+  @ViewChild(PulseCpuRamChartComponent)
+  cpuRamChart: PulseCpuRamChartComponent;
+  @ViewChild(PulseNetworkChartComponent)
+  networkChart: PulseNetworkChartComponent;
+  @ViewChild(PulseDiskChartComponent)
+  diskChart: PulseDiskChartComponent;
 
   public tabIndex = 0;
   public permittedIntervals;
@@ -92,8 +88,7 @@ export class VmPulseComponent implements OnInit, OnDestroy {
       this.storage.write(PulseParameters.ScaleRange, this._selectedScale.range);
 
       const available = this.selectedAggregations.reduce((res, val) => {
-        return this._selectedScale.aggregations.find((a) => a === val)
-          ? res.concat(val) : res;
+        return this._selectedScale.aggregations.find(a => a === val) ? res.concat(val) : res;
       }, []);
 
       if (!!available.length) {
@@ -111,18 +106,13 @@ export class VmPulseComponent implements OnInit, OnDestroy {
   public set selectedAggregations(value) {
     this._selectedAggregations = value;
 
-    this.storage.write(
-      PulseParameters.Aggregations,
-      this._selectedAggregations.toString()
-    );
+    this.storage.write(PulseParameters.Aggregations, this._selectedAggregations.toString());
 
     if (Array.isArray(value) && !value.length) {
       this.resetDatasets();
     } else if (value) {
       this.updateChart();
     }
-
-
   }
 
   public get selectedShift() {
@@ -189,12 +179,11 @@ export class VmPulseComponent implements OnInit, OnDestroy {
           selectedAggregations: this.selectedAggregations,
           selectedScale: this.selectedScale,
           selectedShift: this.selectedShift,
-          shiftAmount: this.shiftAmount
+          shiftAmount: this.shiftAmount,
         },
         forceUpdate
       );
     }
-
   }
 
   private resetDatasets() {
@@ -232,9 +221,9 @@ export class VmPulseComponent implements OnInit, OnDestroy {
     this.refresh();
   }
 
-  private getScale(): { range: string, aggregations: string[] } {
+  private getScale(): { range: string; aggregations: string[] } {
     const scale = this.storage.read(PulseParameters.ScaleRange);
-    return (!!scale)
+    return !!scale
       ? this.permittedIntervals.scales.find(_ => _.range === scale)
       : this.permittedIntervals.scales[0];
   }
@@ -252,11 +241,11 @@ export class VmPulseComponent implements OnInit, OnDestroy {
 
   private getShift(): string {
     const shift = this.storage.read(PulseParameters.Shift);
-    return (!!shift) ? shift : this.permittedIntervals.shifts[0];
+    return !!shift ? shift : this.permittedIntervals.shifts[0];
   }
 
   private getShiftAmount(): number {
     const shiftAmount = this.storage.read(PulseParameters.ShiftAmount);
-    return (shiftAmount) ? +shiftAmount : 0;
+    return shiftAmount ? +shiftAmount : 0;
   }
 }

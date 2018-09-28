@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { ComputeOfferingViewModel } from '../../vm/view-models';
@@ -7,7 +7,7 @@ import { ComputeOfferingViewModel } from '../../vm/view-models';
 @Component({
   selector: 'cs-custom-service-offering',
   templateUrl: 'custom-service-offering.component.html',
-  styleUrls: ['custom-service-offering.component.scss']
+  styleUrls: ['custom-service-offering.component.scss'],
 })
 export class CustomServiceOfferingComponent {
   public offering: ComputeOfferingViewModel;
@@ -15,7 +15,7 @@ export class CustomServiceOfferingComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
-    public dialogRef: MatDialogRef<CustomServiceOfferingComponent>,
+    public dialogRef: MatDialogRef<CustomServiceOfferingComponent>
   ) {
     const { offering } = data;
     this.offering = offering;
@@ -29,7 +29,7 @@ export class CustomServiceOfferingComponent {
       ...this.offering,
       cpunumber: formModel.cpuNumber,
       cpuspeed: formModel.cpuSpeed,
-      memory: formModel.memory
+      memory: formModel.memory,
     };
     this.dialogRef.close(updatedOffering);
   }

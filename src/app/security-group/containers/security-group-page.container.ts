@@ -17,7 +17,7 @@ import * as fromVM from '../../reducers/vm/redux/vm.reducers';
       [query]="query$ | async"
       [vmList]="vmList$ | async"
     ></cs-security-group-page>
-  `
+  `,
 })
 export class SecurityGroupPageContainerComponent implements OnInit, AfterViewInit {
   readonly securityGroups$ = this.store.select(fromSecurityGroups.selectFilteredSecurityGroups);
@@ -26,11 +26,7 @@ export class SecurityGroupPageContainerComponent implements OnInit, AfterViewIni
   readonly query$ = this.store.select(fromSecurityGroups.query);
   readonly vmList$ = this.store.select(fromVM.selectEntities);
 
-  constructor(
-    private store: Store<State>,
-    private cd: ChangeDetectorRef
-  ) {
-  }
+  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {}
 
   public ngOnInit() {
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());

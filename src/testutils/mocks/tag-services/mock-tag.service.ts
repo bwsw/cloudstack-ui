@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { Tag } from '../../../app/shared/models/tag.model';
 import { Taggable } from '../../../app/shared/interfaces/taggable.interface';
 
-
 export class MockTagService {
   public create(params?: {}): Observable<any> {
     return of(null);

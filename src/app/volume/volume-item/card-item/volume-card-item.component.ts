@@ -5,18 +5,22 @@ import { DiskOfferingService } from '../../../shared/services/disk-offering.serv
 import { ZoneService } from '../../../shared/services/zone.service';
 import { VolumeItemComponent } from '../volume-item.component';
 
-
 @Component({
   selector: 'cs-volume-card-item',
   templateUrl: 'volume-card-item.component.html',
-  styleUrls: ['volume-card-item.component.scss']
+  styleUrls: ['volume-card-item.component.scss'],
 })
 export class VolumeCardItemComponent extends VolumeItemComponent {
-  @Input() public isSelected: (volume) => boolean;
-  @Input() public searchQuery: () => string;
-  @Input() public item: Volume;
-  @Output() public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
+  @Input()
+  public isSelected: (volume) => boolean;
+  @Input()
+  public searchQuery: () => string;
+  @Input()
+  public item: Volume;
+  @Output()
+  public onClick = new EventEmitter();
+  @ViewChild(MatMenuTrigger)
+  public matMenuTrigger: MatMenuTrigger;
 
   constructor(
     protected diskOfferingService: DiskOfferingService,

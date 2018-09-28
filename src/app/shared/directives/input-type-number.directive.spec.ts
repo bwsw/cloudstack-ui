@@ -11,7 +11,6 @@ declare let Zone: any;
 const async = Zone[Zone.__symbol__('asyncTest')];
 const { fakeAsync, tick } = Zone[Zone.__symbol__('fakeAsyncTest')];
 
-
 @Component({
   template: `
   <input
@@ -22,7 +21,7 @@ const { fakeAsync, tick } = Zone[Zone.__symbol__('fakeAsyncTest')];
     [step]="step"
     [(ngModel)]="value"
   >
-  `
+  `,
 })
 class TestComponent {
   public minValue = null;
@@ -38,8 +37,8 @@ describe('InputTypeNumberDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      declarations: [ TestComponent, InputTypeNumberDirective ],
-      imports: [ FormsModule ]
+      declarations: [TestComponent, InputTypeNumberDirective],
+      imports: [FormsModule],
     }).createComponent(TestComponent);
     component = fixture.componentInstance;
 
@@ -160,7 +159,6 @@ describe('InputTypeNumberDirective', () => {
     expect(component.value).toBe(undefined);
     tick(1000);
     expect(component.value).toBe(component.minValue);
-
 
     inputEl.value = '546';
     inputEl.dispatchEvent(new Event('input'));

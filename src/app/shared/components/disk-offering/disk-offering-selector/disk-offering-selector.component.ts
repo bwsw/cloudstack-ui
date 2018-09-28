@@ -12,14 +12,17 @@ import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offeri
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DiskOfferingSelectorComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DiskOfferingSelectorComponent implements ControlValueAccessor {
-  @Input() public diskOfferings: Array<DiskOffering>;
-  @Input() public required: boolean;
-  @Output() public change: EventEmitter<DiskOffering>;
+  @Input()
+  public diskOfferings: Array<DiskOffering>;
+  @Input()
+  public required: boolean;
+  @Output()
+  public change: EventEmitter<DiskOffering>;
   private _diskOffering: DiskOffering;
 
   @Input()
@@ -34,9 +37,7 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
     }
   }
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private dialog: MatDialog) {
+  constructor(private cd: ChangeDetectorRef, private dialog: MatDialog) {
     this.change = new EventEmitter();
   }
 
@@ -44,11 +45,9 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   public writeValue(diskOffering: DiskOffering): void {
     if (diskOffering) {
@@ -57,13 +56,14 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   public changeOffering(): void {
-    this.dialog.open(DiskOfferingDialogComponent, {
-      width: '750px',
-      data: {
-        diskOfferings: this.diskOfferings,
-        diskOffering: this._diskOffering,
-      }
-    })
+    this.dialog
+      .open(DiskOfferingDialogComponent, {
+        width: '750px',
+        data: {
+          diskOfferings: this.diskOfferings,
+          diskOffering: this._diskOffering,
+        },
+      })
       .afterClosed()
       .subscribe((offering: DiskOffering) => {
         if (offering) {

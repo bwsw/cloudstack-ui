@@ -18,7 +18,7 @@ import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
 @Component({
   selector: 'cs-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
   public settings$: Observable<SettingsViewModel>;
@@ -34,36 +34,39 @@ export class SettingsComponent {
     private authService: AuthService,
     private routerUtilsService: RouterUtilsService,
     private dialogService: DialogService,
-    private snackBarService: SnackBarService,
+    private snackBarService: SnackBarService
   ) {
     this.settings$ = this.store.select(getSettingsViewModel);
     this.userId = this.authService.user.userid;
-    this.userService.getUserKeys(this.userId).subscribe(keys => this.userKeys = keys);
+    this.userService.getUserKeys(this.userId).subscribe(keys => (this.userKeys = keys));
     this.apiDocumentationLink$ = this.store.select(configSelectors.get('apiDocLink'));
     this.apiUrl = this.getApiUrl();
   }
 
   public onRegenerateKeys() {
-    this.askToRegenerateKeys().pipe(
-      filter(Boolean))
+    this.askToRegenerateKeys()
+      .pipe(filter(Boolean))
       .subscribe(() =>
-        this.userService.registerKeys(this.userId).subscribe(
-          keys => this.userKeys = keys,
-          this.handleError
-        ));
+        this.userService
+          .registerKeys(this.userId)
+          .subscribe(keys => (this.userKeys = keys), this.handleError)
+      );
   }
 
   public onPasswordChange(password: string) {
-    this.askToUpdatePassword().pipe(
-      filter(Boolean))
+    this.askToUpdatePassword()
+      .pipe(filter(Boolean))
       .subscribe(() =>
         this.userService
           .updatePassword(this.userId, password)
           .subscribe(
-            () => this.snackBarService.open('SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY').subscribe(),
+            () =>
+              this.snackBarService
+                .open('SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY')
+                .subscribe(),
             this.handleError
           )
-      )
+      );
   }
 
   public onSessionTimeoutChange(timeout: number) {
@@ -104,24 +107,24 @@ export class SettingsComponent {
     return this.dialogService.confirm({
       message: 'SETTINGS.API_CONFIGURATION.ASK_GENERATE_KEYS',
       confirmText: 'SETTINGS.API_CONFIGURATION.GENERATE',
-      declineText: 'COMMON.CANCEL'
-    })
+      declineText: 'COMMON.CANCEL',
+    });
   }
 
   private askToUpdatePassword(): Observable<any> {
     return this.dialogService.confirm({
       message: 'SETTINGS.SECURITY.ASK_TO_UPDATE_PASSWORD',
       confirmText: 'COMMON.UPDATE',
-      declineText: 'COMMON.CANCEL'
-    })
+      declineText: 'COMMON.CANCEL',
+    });
   }
 
   private handleError(error: any) {
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
   }
 }

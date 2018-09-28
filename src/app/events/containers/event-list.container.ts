@@ -37,10 +37,9 @@ const FILTER_KEY = 'eventListFilters';
       (onQueryChange)="onQueryChange($event)"
       (onEventTypesChange)="onEventTypesChange($event)"
       (onSelectedLevelsChange)="onSelectedLevelsChange($event)"
-    ></cs-event-list>`
+    ></cs-event-list>`,
 })
 export class EventListContainerComponent extends WithUnsubscribe() implements OnInit {
-
   readonly firstDayOfWeek$ = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
   readonly events$ = this.store.pipe(select(fromEvents.selectFilteredEvents));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
@@ -56,18 +55,19 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     map(([all, selected]) => {
       const set = new Set(all.concat(selected));
       return [...Array.from(set)];
-    }));
+    })
+  );
   readonly date$ = this.store.pipe(select(fromEvents.filterDate));
 
   public levels = ['INFO', 'WARN', 'ERROR'];
 
   private filterService = new FilterService(
     {
-      'date': { type: 'string' },
-      'levels': { type: 'array', options: this.levels, defaultOption: [] },
-      'types': { type: 'array', defaultOption: [] },
-      'accounts': { type: 'array', defaultOption: [] },
-      'query': { type: 'string' }
+      date: { type: 'string' },
+      levels: { type: 'array', options: this.levels, defaultOption: [] },
+      types: { type: 'array', defaultOption: [] },
+      accounts: { type: 'array', defaultOption: [] },
+      query: { type: 'string' },
     },
     this.router,
     this.sessionStorage,
@@ -80,7 +80,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
+    private authService: AuthService
   ) {
     super();
 
@@ -115,17 +115,15 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     this.store.dispatch(new accountAction.LoadAccountsRequest());
 
     this.initFilters();
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => {
-        this.filterService.update({
-          'date': moment(filters.date).format('YYYY-MM-DD'),
-          'levels': filters.selectedLevels,
-          'types': filters.selectedTypes,
-          'accounts': filters.selectedAccountIds,
-          'query': filters.query
-        });
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.filterService.update({
+        date: moment(filters.date).format('YYYY-MM-DD'),
+        levels: filters.selectedLevels,
+        types: filters.selectedTypes,
+        accounts: filters.selectedAccountIds,
+        query: filters.query,
       });
+    });
   }
 
   private initFilters(): void {
@@ -137,13 +135,14 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     const query = params['query'];
     const selectedAccountIds = params['accounts'];
 
-    this.store.dispatch(new eventAction.EventFilterUpdate({
-      query,
-      date,
-      selectedTypes,
-      selectedLevels,
-      selectedAccountIds
-    }));
+    this.store.dispatch(
+      new eventAction.EventFilterUpdate({
+        query,
+        date,
+        selectedTypes,
+        selectedLevels,
+        selectedAccountIds,
+      })
+    );
   }
-
 }

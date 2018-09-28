@@ -1,6 +1,13 @@
 import {
-  Directive, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit,
-  Output, SimpleChanges
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
 
 import { Chart } from 'chart.js';
@@ -19,19 +26,28 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     [70, 191, 189],
     [253, 180, 92],
     [148, 159, 177],
-    [77, 83, 96]
+    [77, 83, 96],
   ];
 
-  @Input() public data: number[] | any[];
-  @Input() public datasets: any[];
-  @Input() public labels: Array<any> = [];
-  @Input() public options: any = {};
-  @Input() public chartType: string;
-  @Input() public colors: Array<any>;
-  @Input() public legend: boolean;
+  @Input()
+  public data: number[] | any[];
+  @Input()
+  public datasets: any[];
+  @Input()
+  public labels: Array<any> = [];
+  @Input()
+  public options: any = {};
+  @Input()
+  public chartType: string;
+  @Input()
+  public colors: Array<any>;
+  @Input()
+  public legend: boolean;
 
-  @Output() public chartClick: EventEmitter<any> = new EventEmitter();
-  @Output() public chartHover: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public chartClick: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public chartHover: EventEmitter<any> = new EventEmitter();
 
   public ctx: any;
   public chart: any;
@@ -78,7 +94,7 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     }
   }
 
-  public getChartBuilder(ctx: any/*, data:Array<any>, options:any*/): any {
+  public getChartBuilder(ctx: any /*, data:Array<any>, options:any*/): any {
     const datasets: any = this.getDatasets();
 
     const options: any = Object.assign({}, this.options);
@@ -106,9 +122,9 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
       type: this.chartType,
       data: {
         labels: this.labels,
-        datasets: datasets
+        datasets: datasets,
       },
-      options: options
+      options: options,
     };
 
     return new Chart(ctx, opts);
@@ -135,7 +151,7 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
   private getDatasets(): any {
     let datasets: any = void 0;
     // in case if datasets is not provided, but data is present
-    if (!this.datasets || !this.datasets.length && (this.data && this.data.length)) {
+    if (!this.datasets || (!this.datasets.length && (this.data && this.data.length))) {
       if (Array.isArray(this.data[0])) {
         datasets = (this.data as Array<number[]>).map((data: number[], index: number) => {
           return { data, label: this.labels[index] || `Label ${index}` };
@@ -145,18 +161,16 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
       }
     }
 
-    if (this.datasets && this.datasets.length ||
-      (datasets && datasets.length)) {
-      datasets = (this.datasets || datasets)
-        .map((elm: number, index: number) => {
-          const newElm: any = Object.assign({}, elm);
-          if (this.colors && this.colors.length) {
-            Object.assign(newElm, this.colors[index]);
-          } else {
-            Object.assign(newElm, getColors(this.chartType, index, newElm.data.length));
-          }
-          return newElm;
-        });
+    if ((this.datasets && this.datasets.length) || (datasets && datasets.length)) {
+      datasets = (this.datasets || datasets).map((elm: number, index: number) => {
+        const newElm: any = Object.assign({}, elm);
+        if (this.colors && this.colors.length) {
+          Object.assign(newElm, this.colors[index]);
+        } else {
+          Object.assign(newElm, getColors(this.chartType, index, newElm.data.length));
+        }
+        return newElm;
+      });
     }
 
     if (!datasets) {
@@ -174,7 +188,7 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
 
     // todo: remove this line, it is producing flickering
     this.ngOnDestroy();
-    this.chart = this.getChartBuilder(this.ctx/*, data, this.options*/);
+    this.chart = this.getChartBuilder(this.ctx /*, data, this.options*/);
   }
 }
 
@@ -227,7 +241,7 @@ function formatLineColor(colors: Array<number>): Color {
     pointBackgroundColor: rgba(colors, 1),
     pointBorderColor: '#fff',
     pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: rgba(colors, 0.8)
+    pointHoverBorderColor: rgba(colors, 0.8),
   };
 }
 
@@ -236,7 +250,7 @@ function formatBarColor(colors: Array<number>): Color {
     backgroundColor: rgba(colors, 0.6),
     borderColor: rgba(colors, 1),
     hoverBackgroundColor: rgba(colors, 0.8),
-    hoverBorderColor: rgba(colors, 1)
+    hoverBorderColor: rgba(colors, 1),
   };
 }
 
@@ -247,7 +261,7 @@ function formatPieColors(colors: Array<number[]>): Colors {
     pointBackgroundColor: colors.map((color: number[]) => rgba(color, 1)),
     pointBorderColor: colors.map(() => '#fff'),
     pointHoverBackgroundColor: colors.map((color: number[]) => rgba(color, 1)),
-    pointHoverBorderColor: colors.map((color: number[]) => rgba(color, 1))
+    pointHoverBorderColor: colors.map((color: number[]) => rgba(color, 1)),
   };
 }
 
@@ -256,7 +270,7 @@ function formatPolarAreaColors(colors: Array<number[]>): Color {
     backgroundColor: colors.map((color: number[]) => rgba(color, 0.6)),
     borderColor: colors.map((color: number[]) => rgba(color, 1)),
     hoverBackgroundColor: colors.map((color: number[]) => rgba(color, 0.8)),
-    hoverBorderColor: colors.map((color: number[]) => rgba(color, 1))
+    hoverBorderColor: colors.map((color: number[]) => rgba(color, 1)),
   };
 }
 

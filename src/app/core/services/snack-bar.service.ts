@@ -6,15 +6,11 @@ import { map } from 'rxjs/operators';
 
 import { ParametrizedTranslation } from '../../dialog/dialog-service/dialog.service';
 
-
 @Injectable()
 export class SnackBarService {
   private readonly snackBarConfig: MatSnackBarConfig;
 
-  constructor(
-    private snackBar: MatSnackBar,
-    private translateService: TranslateService
-  ) {
+  constructor(private snackBar: MatSnackBar, private translateService: TranslateService) {
     this.snackBarConfig = { duration: 2750 };
   }
 
@@ -34,15 +30,11 @@ export class SnackBarService {
     );
   }
 
-
   private getTranslatedString(message: string | ParametrizedTranslation): Observable<string> {
     if (typeof message === 'string') {
       return this.translateService.get(message);
     } else {
-      return this.translateService.get(
-        message.translationToken,
-        message.interpolateParams
-      );
+      return this.translateService.get(message.translationToken, message.interpolateParams);
     }
   }
 }

@@ -28,7 +28,7 @@ export interface VolumeResizeData {
 
 @Injectable()
 @BackendResource({
-  entity: 'Volume'
+  entity: 'Volume',
 })
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeResized = new Subject<Volume>();
@@ -43,64 +43,62 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public getList(params?: {}): Observable<Array<Volume>> {
-    return super.getList(params).pipe(
-      map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume))));
+    return super
+      .getList(params)
+      .pipe(map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume))));
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {
-    return this.sendCommand(CSCommands.Resize, params).pipe(switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      ),
+    return this.sendCommand(CSCommands.Resize, params).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel)),
       switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume'])),
-      tap(jobResult => this.onVolumeResized.next(jobResult)));
+      tap(jobResult => this.onVolumeResized.next(jobResult))
+    );
   }
 
   // TODO fix return type
   public remove(volume: Volume): Observable<any> {
-    return super.remove({ id: volume.id }).pipe(map(response => {
-      if (response['success'] === 'true') {
-        return of(null);
-      }
-      return throwError(response);
-    }));
+    return super.remove({ id: volume.id }).pipe(
+      map(response => {
+        if (response['success'] === 'true') {
+          return of(null);
+        }
+        return throwError(response);
+      })
+    );
   }
 
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand(CSCommands.Create, data).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-      ),
-      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume'])));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)),
+      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume']))
+    );
   }
 
   public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<AsyncJob<Volume>> {
-    return this.sendCommand(CSCommands.Create, data).pipe(switchMap(job =>
-      this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel)
-    ));
+    return this.sendCommand(CSCommands.Create, data).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity, this.entityModel))
+    );
   }
 
   public detach(volume: Volume): Observable<Volume> {
     return this.sendCommand(CSCommands.Detach, { id: volume.id }).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      ),
-      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume'])));
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel)),
+      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume']))
+    );
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand(CSCommands.Attach, data).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      ),
-      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume'])));
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel)),
+      switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume']))
+    );
   }
 
   public markForRemoval(volume: Volume): Observable<any> {
-    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(
-      snapshot));
-    return forkJoin(
-      ...observers,
-      this.volumeTagService.markForRemoval(volume)
+    const observers = volume.snapshots.map(snapshot =>
+      this.snapshotService.markForRemoval(snapshot)
     );
+    return forkJoin(...observers, this.volumeTagService.markForRemoval(volume));
   }
 }

@@ -7,7 +7,6 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { VirtualMachine } from '../shared/vm.model';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 
-
 @Component({
   selector: 'cs-vm-actions-container',
   template: `
@@ -27,14 +26,10 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
     </cs-vm-actions>`,
 })
 export class VmActionsContainerComponent {
+  @Input()
+  public vm: VirtualMachine;
 
-  @Input() public vm: VirtualMachine;
-
-  constructor(
-    public dialogService: DialogService,
-    private store: Store<State>,
-  ) {
-  }
+  constructor(public dialogService: DialogService, private store: Store<State>) {}
 
   public onVmRecover(vm: VirtualMachine): void {
     this.store.dispatch(new vmActions.RecoverVm(vm));
@@ -69,21 +64,26 @@ export class VmActionsContainerComponent {
   }
 
   public onVmStart(vm: VirtualMachine): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res))
+      )
       .subscribe(() => {
         this.store.dispatch(new vmActions.StartVm(vm));
       });
   }
 
   public onVmStop(vm: VirtualMachine): void {
-    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
+      .pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res))
+      )
       .subscribe(() => {
         this.store.dispatch(new vmActions.StopVm(vm));
       });
   }
-
 }

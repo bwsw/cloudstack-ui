@@ -27,7 +27,7 @@ export const getSettingsViewModel = createSelector(
       firstDayOfWeek,
       timeFormat,
       theme,
-      keyboardLayout
-    }
+      keyboardLayout,
+    };
   }
 );

@@ -15,7 +15,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.LoadUserTags: {
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     }
 
@@ -26,7 +26,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.LoadUserTagsError: {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
       };
     }
 
@@ -36,16 +36,16 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
       const updates = [
         {
           key: `${id}.cpunumber`,
-          value: offering.cpunumber.toString()
+          value: offering.cpunumber.toString(),
         },
         {
           key: `${id}.cpuspeed`,
-          value: offering.cpuspeed.toString()
+          value: offering.cpuspeed.toString(),
         },
         {
           key: `${id}.memory`,
-          value: offering.memory.toString()
-        }
+          value: offering.memory.toString(),
+        },
       ];
       return adapter.upsertMany(updates, state);
     }

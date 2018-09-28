@@ -4,7 +4,7 @@ import { Action } from '../../shared/models';
 export enum SecurityGroupActionType {
   View = 'view',
   Delete = 'delete',
-  Convert = 'convert'
+  Convert = 'convert',
 }
 
 const SecurityGroupConvertAction = {
@@ -12,7 +12,7 @@ const SecurityGroupConvertAction = {
   command: SecurityGroupActionType.Convert,
   icon: 'mdi-transfer',
   canShow: (securityGroup: SecurityGroup) => getType(securityGroup) === SecurityGroupType.Private,
-  canActivate: () => true
+  canActivate: () => true,
 };
 
 const SecurityGroupDeleteAction = {
@@ -20,9 +20,11 @@ const SecurityGroupDeleteAction = {
   command: SecurityGroupActionType.Delete,
   icon: 'mdi-delete',
   canShow: (securityGroup: SecurityGroup) =>
-    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0,
+    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate &&
+    securityGroup.virtualmachineids.length === 0,
   canActivate: (securityGroup: SecurityGroup) =>
-    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0
+    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate &&
+    securityGroup.virtualmachineids.length === 0,
 };
 
 const SecurityGroupShowRulesAction = {
@@ -30,7 +32,7 @@ const SecurityGroupShowRulesAction = {
   command: SecurityGroupActionType.View,
   icon: 'mdi-eye',
   canShow: () => true,
-  canActivate: () => true
+  canActivate: () => true,
 };
 
 export class SecurityGroupActionService {

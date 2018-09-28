@@ -11,7 +11,7 @@ export interface AsyncJob<T> extends BaseModelInterface {
   cmd: string;
 }
 
-export const mapCmd = (asyncJob) => {
+export const mapCmd = asyncJob => {
   // when a command is executed, two jobs are initiated
   // one has type of "Cmd", another one is "Work"
   // we need only one so we take "Cmd" and filter any others out
@@ -28,7 +28,7 @@ export const mapCmd = (asyncJob) => {
   }
 };
 
-export const formatCommand = (asyncJob) => {
+export const formatCommand = asyncJob => {
   const indexOfVmSubstr = asyncJob.cmd.indexOf('vm');
   if (indexOfVmSubstr !== -1) {
     return asyncJob.cmd.substring(0, asyncJob.cmd.length - 2);

@@ -14,14 +14,19 @@ import { SnapshotActions, SnapshotActionService } from './snapshot-action.servic
         <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
-    </ng-container>`
+    </ng-container>`,
 })
 export class SnapshotActionComponent {
-  @Input() public snapshot: Snapshot;
-  @Output() public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
-  @Output() public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
-  @Output() public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
-  @Output() public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Input()
+  public snapshot: Snapshot;
+  @Output()
+  public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output()
+  public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output()
+  public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  @Output()
+  public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
 
   public actions: Action<Snapshot>[];
 

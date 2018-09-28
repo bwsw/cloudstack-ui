@@ -7,7 +7,6 @@ import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
 import { Language } from '../../types';
 
-
 interface DatePickerConfig {
   okLabel?: string;
   cancelLabel?: string;
@@ -25,27 +24,30 @@ interface DatePickerConfig {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DatePickerComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DatePickerComponent implements ControlValueAccessor, OnChanges {
-  @Input() public okLabel = 'Ok';
-  @Input() public cancelLabel = 'Cancel';
-  @Input() public firstDayOfWeek = 1;
-  @Input() public DateTimeFormat = DateTimeFormat;
-  @Input() public locale = Language.en;
-  @Output() public change = new EventEmitter();
+  @Input()
+  public okLabel = 'Ok';
+  @Input()
+  public cancelLabel = 'Cancel';
+  @Input()
+  public firstDayOfWeek = 1;
+  @Input()
+  public DateTimeFormat = DateTimeFormat;
+  @Input()
+  public locale = Language.en;
+  @Output()
+  public change = new EventEmitter();
 
   public displayDate: string;
 
   public _date: Date = new Date();
   private isDialogOpen = false;
 
-  constructor(
-    private dialog: MatDialog
-  ) {
-  }
+  constructor(private dialog: MatDialog) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     const DateTimeFormatChange = changes['DateTimeFormat'];
@@ -54,8 +56,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
     }
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   @Input()
   public get date(): Date {
@@ -79,8 +80,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   public onFocus(e: Event): void {
     if (this.isDialogOpen) {
@@ -96,13 +96,15 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
       cancelLabel: this.cancelLabel,
       firstDayOfWeek: this.firstDayOfWeek,
       DateTimeFormat: this.DateTimeFormat,
-      locale: this.locale
+      locale: this.locale,
     };
-    this.dialog.open(DatePickerDialogComponent, {
-      panelClass: 'date-picker-dialog',
-      data: { datePickerConfig: config }
-    })
-      .afterClosed().pipe(onErrorResumeNext())
+    this.dialog
+      .open(DatePickerDialogComponent, {
+        panelClass: 'date-picker-dialog',
+        data: { datePickerConfig: config },
+      })
+      .afterClosed()
+      .pipe(onErrorResumeNext())
       .subscribe((date: Date) => {
         this.isDialogOpen = false;
         if (date) {

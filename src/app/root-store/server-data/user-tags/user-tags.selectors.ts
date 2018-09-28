@@ -15,12 +15,9 @@ function convertToBoolean(input: string): boolean {
 
 const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getUserTagsState);
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
+  getUserTagsState
+);
 
 export const getIsLoading = createSelector(
   getUserTagsState,

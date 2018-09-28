@@ -1,10 +1,10 @@
 import {
   HorizontalConnectionPos,
   Overlay,
-  OverlayRef,
   OverlayConfig,
+  OverlayRef,
   PositionStrategy,
-  VerticalConnectionPos
+  VerticalConnectionPos,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
@@ -16,7 +16,7 @@ import {
   Input,
   OnDestroy,
   Output,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { PopoverComponent } from './popover.component';
 
@@ -28,14 +28,19 @@ import { PopoverComponent } from './popover.component';
  * It handles opening and closing the popover.
  */
 @Directive({
-  selector: '[csPopoverTrigger]'
+  selector: '[csPopoverTrigger]',
 })
 export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
-  @Input() public csPopoverTrigger: PopoverComponent;
-  @Input() public popoverPositionX: HorizontalConnectionPos;
-  @Input() public popoverPositionY: VerticalConnectionPos;
-  @Output() public onPopoverOpen = new EventEmitter<void>();
-  @Output() public onPopoverClose = new EventEmitter<void>();
+  @Input()
+  public csPopoverTrigger: PopoverComponent;
+  @Input()
+  public popoverPositionX: HorizontalConnectionPos;
+  @Input()
+  public popoverPositionY: VerticalConnectionPos;
+  @Output()
+  public onPopoverOpen = new EventEmitter<void>();
+  @Output()
+  public onPopoverClose = new EventEmitter<void>();
 
   private portal: TemplatePortal<any>;
   private overlayRef: OverlayRef | null = null;
@@ -112,10 +117,7 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
 
   private createOverlay(): OverlayRef {
     if (!this.overlayRef) {
-      this.portal = new TemplatePortal(
-        this.csPopoverTrigger.templateRef,
-        this.viewContainerRef
-      );
+      this.portal = new TemplatePortal(this.csPopoverTrigger.templateRef, this.viewContainerRef);
 
       const config = new OverlayConfig();
       config.positionStrategy = this.getPositionStrategy();
@@ -131,10 +133,9 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
     const overlayX = this.popoverPositionX || 'center';
     const overlayY = this.popoverPositionY || 'top';
 
-    const fallbackOverlayX =
-      overlayX === 'start' ? 'end' : (overlayX === 'end' ? 'start' : 'center');
+    const fallbackOverlayX = overlayX === 'start' ? 'end' : overlayX === 'end' ? 'start' : 'center';
     const fallbackOverlayY =
-      overlayY === 'top' ? 'bottom' : (overlayY === 'bottom' ? 'top' : 'center');
+      overlayY === 'top' ? 'bottom' : overlayY === 'bottom' ? 'top' : 'center';
 
     return this.overlay
       .position()
@@ -142,21 +143,21 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
         this.element,
         {
           originX: 'center',
-          originY: 'bottom'
+          originY: 'bottom',
         },
         {
           overlayX,
-          overlayY
+          overlayY,
         }
       )
       .withFallbackPosition(
         {
           originX: 'center',
-          originY: 'top'
+          originY: 'top',
         },
         {
           overlayX: fallbackOverlayX,
-          overlayY: fallbackOverlayY
+          overlayY: fallbackOverlayY,
         }
       );
   }

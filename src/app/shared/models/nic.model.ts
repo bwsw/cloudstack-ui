@@ -1,7 +1,6 @@
 import { BaseModelInterface } from './base.model';
 import { IpAddress } from './ip-address.model';
 
-
 export interface NIC extends BaseModelInterface {
   id: string;
   broadcasturi: string;

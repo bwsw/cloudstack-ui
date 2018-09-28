@@ -14,7 +14,7 @@ import * as fromSecurityGroups from '../../../../../reducers/security-groups/red
       [savedData]="savedData"
       (onSave)="onSave($event)"
       (onCancel)="onCancel()"
-    ></cs-vm-creation-security-group>`
+    ></cs-vm-creation-security-group>`,
 })
 export class VmCreationSecurityGroupContainerComponent {
   public sharedGroups$ = this.store.select(fromSecurityGroups.selectSecurityGroupsForVmCreation);
@@ -23,8 +23,7 @@ export class VmCreationSecurityGroupContainerComponent {
     @Inject(MAT_DIALOG_DATA) public savedData: VmCreationSecurityGroupData,
     private dialogRef: MatDialogRef<VmCreationSecurityGroupContainerComponent>,
     private store: Store<State>
-  ) {
-  }
+  ) {}
 
   public onSave(savedData: VmCreationSecurityGroupData): void {
     this.dialogRef.close(savedData);

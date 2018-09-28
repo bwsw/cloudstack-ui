@@ -5,14 +5,10 @@ import { SgRulesContainerComponent } from '../containers/sg-rules.container';
 
 @Component({
   selector: 'cs-sg-rules-dialog',
-  template: ``
+  template: ``,
 })
 export class SecurityGroupRulesDialogComponent {
-  constructor(
-    private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private router: Router
-  ) {
+  constructor(private route: ActivatedRoute, private dialog: MatDialog, private router: Router) {
     const params = this.route.snapshot.params;
     this.showDialog(params['id']);
   }
@@ -22,14 +18,11 @@ export class SecurityGroupRulesDialogComponent {
 
     this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
       width: '910px',
-      data: { securityGroupId, editMode }
+      data: { securityGroupId, editMode },
     });
 
     this.dialog.afterAllClosed.subscribe(() => {
-      this.router.navigate(
-        ['../../'],
-        { queryParamsHandling: 'preserve', relativeTo: this.route }
-      );
+      this.router.navigate(['../../'], { queryParamsHandling: 'preserve', relativeTo: this.route });
     });
   }
 }

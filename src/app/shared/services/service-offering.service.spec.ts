@@ -13,8 +13,7 @@ import { TestStore } from '../../../testutils/ngrx-test-store';
 
 @Injectable()
 class MockErrorService {
-  public send(): void {
-  }
+  public send(): void {}
 }
 
 describe('Service-offering service', () => {
@@ -43,7 +42,7 @@ describe('Service-offering service', () => {
     issystem: false,
     defaultuse: true,
     deploymentplanner: '',
-    domain: 'domainId'
+    domain: 'domainId',
   };
 
   beforeEach(() => {
@@ -54,9 +53,7 @@ describe('Service-offering service', () => {
         { provide: CacheService, useClass: MockCacheService },
         { provide: Store, useClass: TestStore },
       ],
-      imports: [
-        HttpClientTestingModule
-      ]
+      imports: [HttpClientTestingModule],
     });
     serviceOfferingService = TestBed.get(ServiceOfferingService);
   });
@@ -69,14 +66,13 @@ describe('Service-offering service', () => {
         zones: {
           1: {
             diskOfferings: [],
-            computeOfferings: []
-          }
-        }
+            computeOfferings: [],
+          },
+        },
       },
       <Zone>{ id: '1' }
     );
     expect(result).toBe(false);
-
 
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
@@ -85,9 +81,9 @@ describe('Service-offering service', () => {
         zones: {
           1: {
             diskOfferings: [],
-            computeOfferings: ['1']
-          }
-        }
+            computeOfferings: ['1'],
+          },
+        },
       },
       <Zone>{ id: '1' }
     );
@@ -101,9 +97,9 @@ describe('Service-offering service', () => {
           1: {
             filterOfferings: false,
             diskOfferings: [],
-            computeOfferings: []
-          }
-        }
+            computeOfferings: [],
+          },
+        },
       },
       <Zone>{ id: '1' }
     );

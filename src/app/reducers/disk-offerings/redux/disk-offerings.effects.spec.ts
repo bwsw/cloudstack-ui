@@ -25,8 +25,8 @@ const diskOfferings: Array<DiskOffering> = [
     miniops: 1,
     maxiops: 1,
     storagetype: 'any',
-    provisioningtype: 'any'
-  }
+    provisioningtype: 'any',
+  },
 ];
 
 export class TestActions extends Actions {
@@ -56,8 +56,8 @@ describe('Disk Offering Effects', () => {
         DiskOfferingService,
         DiskOfferingEffects,
         { provide: Actions, useFactory: getActions },
-        { provide: Store, useClass: TestStore }
-      ]
+        { provide: Store, useClass: TestStore },
+      ],
     });
     actions$ = TestBed.get(Actions);
     service = TestBed.get(DiskOfferingService);

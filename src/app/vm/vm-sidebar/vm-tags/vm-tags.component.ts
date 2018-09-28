@@ -4,19 +4,16 @@ import { TagService } from '../../../shared/services/tags/tag.service';
 import { TagsComponent } from '../../../tags/tags.component';
 import { VirtualMachine, VmResourceType } from '../../shared/vm.model';
 
-
 @Component({
   selector: 'cs-vm-tags',
-  templateUrl: 'vm-tags.component.html'
+  templateUrl: 'vm-tags.component.html',
 })
 export class VmTagsComponent extends TagsComponent<VirtualMachine> {
-  @Input() public entity: VirtualMachine;
+  @Input()
+  public entity: VirtualMachine;
   public resourceType = VmResourceType;
 
-  constructor(
-    protected dialogService: DialogService,
-    protected tagService: TagService,
-  ) {
+  constructor(protected dialogService: DialogService, protected tagService: TagService) {
     super(dialogService, tagService);
   }
 }

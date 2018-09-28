@@ -15,17 +15,24 @@ interface TemplateFormat {
 @Component({
   selector: 'cs-template-creation',
   templateUrl: 'template-creation.component.html',
-  styleUrls: ['template-creation.component.scss']
+  styleUrls: ['template-creation.component.scss'],
 })
 export class TemplateCreationComponent implements OnInit {
-  @Input() public mode: string;
-  @Input() public account: Account;
-  @Input() public osTypes: Array<OsType>;
-  @Input() public zones: Array<Zone>;
-  @Input() public groups: Array<ImageGroup>;
-  @Input() public snapshot?: Snapshot;
+  @Input()
+  public mode: string;
+  @Input()
+  public account: Account;
+  @Input()
+  public osTypes: Array<OsType>;
+  @Input()
+  public zones: Array<Zone>;
+  @Input()
+  public groups: Array<ImageGroup>;
+  @Input()
+  public snapshot?: Snapshot;
 
-  @Output() public onCreateTemplate = new EventEmitter<CreateTemplateBaseParams>();
+  @Output()
+  public onCreateTemplate = new EventEmitter<CreateTemplateBaseParams>();
 
   public name: string;
   public displayText: string;
@@ -45,7 +52,6 @@ export class TemplateCreationComponent implements OnInit {
   public passwordEnabled: boolean;
   public dynamicallyScalable: boolean;
 
-
   public hypervisors: Array<Hypervisor>;
 
   public formats: TemplateFormat[] = [
@@ -56,7 +62,7 @@ export class TemplateCreationComponent implements OnInit {
     { name: 'VMDK', hypervisors: ['KVM'] },
     { name: 'BareMetal', hypervisors: ['BareMetal'] },
     { name: 'TAR', hypervisors: ['LXC'] },
-    { name: 'VHDX', hypervisors: ['Hyperv'] }
+    { name: 'VHDX', hypervisors: ['Hyperv'] },
   ];
   public visibleFormats: TemplateFormat[];
 
@@ -70,10 +76,7 @@ export class TemplateCreationComponent implements OnInit {
     return TemplateResourceType;
   }
 
-  constructor(
-    private hypervisorService: HypervisorService,
-    private translate: TranslateService,
-  ) {
+  constructor(private hypervisorService: HypervisorService, private translate: TranslateService) {
     this.visibleFormats = this.formats;
   }
 
@@ -83,7 +86,7 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public getHypervisors() {
-    this.hypervisorService.getList().subscribe((hypervisors) => {
+    this.hypervisorService.getList().subscribe(hypervisors => {
       this.hypervisors = hypervisors;
     });
   }
@@ -93,15 +96,13 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public filterFormats(formats: TemplateFormat[], hypervisor: string) {
-    return hypervisor
-      ? formats.filter(f => f.hypervisors.find(h => h === hypervisor))
-      : formats;
+    return hypervisor ? formats.filter(f => f.hypervisors.find(h => h === hypervisor)) : formats;
   }
 
   public get modeTranslationToken(): string {
     const modeTranslations = {
-      'TEMPLATE': 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_TEMPLATE',
-      'ISO': 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_ISO'
+      TEMPLATE: 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_TEMPLATE',
+      ISO: 'TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_ISO',
     };
 
     return modeTranslations[this.mode.toUpperCase()];

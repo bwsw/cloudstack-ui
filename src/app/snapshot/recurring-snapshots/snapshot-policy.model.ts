@@ -1,7 +1,6 @@
 import { BaseModelInterface } from '../../shared/models';
 import { PolicyType } from './snapshot-policy-type';
 
-
 export interface SnapshotPolicy extends BaseModelInterface {
   id: string;
   fordisplay: boolean;

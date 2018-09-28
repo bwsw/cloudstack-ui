@@ -4,7 +4,6 @@ import { MatInput } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 
-
 export interface HourlyPolicy {
   minute: number;
 }
@@ -16,12 +15,13 @@ export interface HourlyPolicy {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => HourlyPolicyComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class HourlyPolicyComponent implements ControlValueAccessor {
-  @ViewChild(MatInput) public minuteField: MatInput;
+  @ViewChild(MatInput)
+  public minuteField: MatInput;
   public _policy: HourlyPolicy;
 
   public _minute = 0;
@@ -31,12 +31,10 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   constructor(private translateService: TranslateService) {}
 
   public get errorMessage(): Observable<string> {
-    return this.translateService.get(
-      'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN',
-      {
-        lowerLimit: this.minValue,
-        upperLimit: this.maxValue
-      });
+    return this.translateService.get('SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.BETWEEN', {
+      lowerLimit: this.minValue,
+      upperLimit: this.maxValue,
+    });
   }
 
   public get minute(): string {
@@ -58,7 +56,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   @Input()
   public get policy(): HourlyPolicy {
     return {
-      minute: +this.minute
+      minute: +this.minute,
     };
   }
 
@@ -75,7 +73,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     if (value != null) {

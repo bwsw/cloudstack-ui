@@ -9,11 +9,10 @@ import { TemplateTagService } from '../../../../shared/services/tags/template-ta
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { State, UserTagsSelectors } from '../../../../root-store';
 
-
 @Component({
   selector: 'cs-vm-creation-template-agreement',
   templateUrl: 'vm-creation-agreement.component.html',
-  styleUrls: ['vm-creation-agreement.component.scss']
+  styleUrls: ['vm-creation-agreement.component.scss'],
 })
 export class VmCreationAgreementComponent implements OnInit {
   private _agreement: string;
@@ -47,15 +46,17 @@ export class VmCreationAgreementComponent implements OnInit {
   }
 
   protected readFile() {
-    this.store.pipe(
-      select(UserTagsSelectors.getInterfaceLanguage),
-      first(),
-      switchMap(res => this.templateTagService.getAgreement(this.template, res)),
-      switchMap(path => this.http.get(path, { responseType: 'text' })),
-      map(text => {
-        const converter = new Converter();
-        return converter.makeHtml(text);
-      }))
+    this.store
+      .pipe(
+        select(UserTagsSelectors.getInterfaceLanguage),
+        first(),
+        switchMap(res => this.templateTagService.getAgreement(this.template, res)),
+        switchMap(path => this.http.get(path, { responseType: 'text' })),
+        map(text => {
+          const converter = new Converter();
+          return converter.makeHtml(text);
+        })
+      )
       .subscribe(agreement => {
         this._agreement = agreement;
       });

@@ -10,14 +10,10 @@ import { Account, AsyncJob } from '../models';
 
 @Injectable()
 @BackendResource({
-  entity: 'Account'
+  entity: 'Account',
 })
 export class AccountService extends BaseBackendService<Account> {
-
-  constructor(
-    protected http: HttpClient,
-    private asyncJobService: AsyncJobService
-  ) {
+  constructor(protected http: HttpClient, private asyncJobService: AsyncJobService) {
     super(http);
   }
 
@@ -28,20 +24,23 @@ export class AccountService extends BaseBackendService<Account> {
   public removeAccount(account: Account): Observable<Account> {
     return this.sendCommand(CSCommands.Delete, { id: account.id }).pipe(
       switchMap(job => this.asyncJobService.queryJob(job)),
-      switchMap(response => of(account)));
+      switchMap(response => of(account))
+    );
   }
 
   public disableAccount(account: Account): Observable<Account> {
     return this.sendCommand(CSCommands.Disable, {
       id: account.id,
-      lock: false
-    }).pipe(switchMap(job => this.asyncJobService.queryJob(job)),
-      switchMap((response: AsyncJob<any>) => of(response.jobresult.account)));
+      lock: false,
+    }).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job)),
+      switchMap((response: AsyncJob<any>) => of(response.jobresult.account))
+    );
   }
 
   public enableAccount(account: Account): Observable<Account> {
     return this.sendCommand(CSCommands.Enable, {
-      id: account.id
+      id: account.id,
     }).pipe(map(res => res.account));
   }
 }

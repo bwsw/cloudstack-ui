@@ -2,7 +2,6 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 
-
 @Injectable()
 export class ListService {
   public onUpdate = new EventEmitter();
@@ -10,10 +9,12 @@ export class ListService {
   private selectedId: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.route.firstChild))
-      .subscribe((activatedRoute) => {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(() => this.route.firstChild)
+      )
+      .subscribe(activatedRoute => {
         if (activatedRoute) {
           this.selectedId = activatedRoute.snapshot.params['id'] || null;
         } else {
@@ -25,14 +26,16 @@ export class ListService {
   public showDetails(id: string): void {
     this.router.navigate([id], {
       relativeTo: this.route,
-      queryParamsHandling: 'preserve'
+      queryParamsHandling: 'preserve',
     });
   }
 
   public deselectItem(): void {
-    this.router.navigate([this.route.parent.snapshot.url], {
-      queryParamsHandling: 'preserve'
-    }).then(() => this.selectedId = undefined);
+    this.router
+      .navigate([this.route.parent.snapshot.url], {
+        queryParamsHandling: 'preserve',
+      })
+      .then(() => (this.selectedId = undefined));
   }
 
   public isSelected(id: string): boolean {

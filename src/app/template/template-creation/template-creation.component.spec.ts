@@ -19,15 +19,9 @@ describe('Template creation component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TemplateCreationComponent, MockTranslatePipe],
-      providers: [
-        { provide: TranslateService, useClass: MockTranslateService },
-        HypervisorService
-      ],
-      imports: [
-        FormsModule,
-        HttpClientTestingModule
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [{ provide: TranslateService, useClass: MockTranslateService }, HypervisorService],
+      imports: [FormsModule, HttpClientTestingModule],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     TestBed.compileComponents().then(() => {
@@ -47,8 +41,7 @@ describe('Template creation component', () => {
   });
 
   it('should get hypervisors', () => {
-    const spyGetList = spyOn(HypervisorService.prototype, 'getList').and
-      .returnValue(of([]));
+    const spyGetList = spyOn(HypervisorService.prototype, 'getList').and.returnValue(of([]));
     component.getHypervisors();
     expect(spyGetList).toHaveBeenCalled();
   });
@@ -73,13 +66,12 @@ describe('Template creation component', () => {
     expect(spyFilterFormat).toHaveBeenCalledWith(component.formats, component.hypervisor);
   });
 
-
   it('should get translation token', () => {
     const result = component.modeTranslationToken;
     expect(result).toEqual('TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_TEMPLATE');
   });
 
- it('should create template with main params', () => {
+  it('should create template with main params', () => {
     const params = {
       name: 'test1',
       displayText: 'testText',
@@ -88,7 +80,7 @@ describe('Template creation component', () => {
       isdynamicallyscalable: true,
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.template
+      entity: TemplateResourceType.template,
     };
 
     component.url = params.url;
@@ -113,7 +105,7 @@ describe('Template creation component', () => {
       passwordEnabled: true,
       isdynamicallyscalable: true,
       snapshotId: 'snap1',
-      entity: TemplateResourceType.template
+      entity: TemplateResourceType.template,
     };
 
     component.name = params.name;
@@ -136,7 +128,7 @@ describe('Template creation component', () => {
       osTypeId: 'testOS',
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.iso
+      entity: TemplateResourceType.iso,
     };
 
     component.url = params.url;
@@ -162,7 +154,7 @@ describe('Template creation component', () => {
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.template
+      entity: TemplateResourceType.template,
     };
 
     component.templateGroup = { id: 'testG1' };
@@ -259,7 +251,6 @@ describe('Template creation component', () => {
     component.isRouting = true;
     component.isFeatured = true;
     component.isPublic = true;
-
 
     fixture.detectChanges();
     const spyEmit = spyOn(component.onCreateTemplate, 'emit');

@@ -18,33 +18,32 @@ import { IpAddress } from '../../shared/models/ip-address.model';
     <cs-firewall-rules-detail-container
       [vm]="vm$ | async"
     ></cs-firewall-rules-detail-container>
-  `
+  `,
 })
 export class NetworkDetailContainerComponent {
-
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
 
-  constructor(
-    private store: Store<State>,
-  ) {
-  }
+  constructor(private store: Store<State>) {}
 
   public addSecondaryIp(nicId: string) {
     this.vm$.pipe(take(1)).subscribe(vm => {
-      this.store.dispatch(new vmActions.AddSecondaryIp({
-        vm,
-        nicId
-      }));
+      this.store.dispatch(
+        new vmActions.AddSecondaryIp({
+          vm,
+          nicId,
+        })
+      );
     });
   }
 
   public removeSecondaryIp(secondaryIp: IpAddress) {
     this.vm$.pipe(take(1)).subscribe(vm => {
-      this.store.dispatch(new vmActions.RemoveSecondaryIp({
-        vm,
-        id: secondaryIp.id
-      }));
+      this.store.dispatch(
+        new vmActions.RemoveSecondaryIp({
+          vm,
+          id: secondaryIp.id,
+        })
+      );
     });
   }
-
 }

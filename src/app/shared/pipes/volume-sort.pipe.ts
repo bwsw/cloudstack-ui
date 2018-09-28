@@ -1,9 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Volume, VolumeType } from '../models/volume.model';
 
-@Pipe({name: 'volumesSort'})
+@Pipe({ name: 'volumesSort' })
 export class VolumeSortPipe implements PipeTransform {
-
   transform(volumes: Volume[], args: any): Volume[] {
     return volumes.sort((a: Volume, b: Volume) => {
       const aIsRoot = a.type === VolumeType.ROOT;

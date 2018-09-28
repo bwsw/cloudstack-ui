@@ -12,7 +12,6 @@ import { SnapshotPolicy } from './snapshot-policy.model';
 import { Time } from './time-picker/time-picker.component';
 import { PolicyType } from './snapshot-policy-type';
 
-
 export interface SnapshotPolicyCreationParams {
   policy: Policy<TimePolicy>;
   policyType: PolicyType;
@@ -21,7 +20,7 @@ export interface SnapshotPolicyCreationParams {
 
 @Injectable()
 @BackendResource({
-  entity: 'SnapshotPolicy'
+  entity: 'SnapshotPolicy',
 })
 export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
   constructor(protected http: HttpClient) {
@@ -29,13 +28,11 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
   }
 
   public getPolicyList(volumeId: string): Observable<Array<Policy<TimePolicy>>> {
-    return super.getList(
-      { volumeId },
-      { command: 'list', entity: 'SnapshotPolicies' }
-    ).pipe(
+    return super.getList({ volumeId }, { command: 'list', entity: 'SnapshotPolicies' }).pipe(
       map(policies => {
         return policies.map(_ => this.transformPolicy(_));
-      }));
+      })
+    );
   }
 
   public create(params: SnapshotPolicyCreationParams): Observable<void> {
@@ -44,7 +41,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       maxSnaps: params.policy.storedSnapshots,
       schedule: this.transformTimePolicyToSchedule(params.policy),
       timeZone: params.policy.timeZone.geo,
-      volumeId: params.volumeId
+      volumeId: params.volumeId,
     };
 
     return super.create(policyCreationParams);
@@ -63,8 +60,8 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       if (time.hour === 12) {
         return {
           hour: 0,
-          minute: time.minute
-        }
+          minute: time.minute,
+        };
       } else {
         return time;
       }
@@ -72,13 +69,13 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       if (time.hour === 12) {
         return {
           hour: 12,
-          minute: time.minute
-        }
+          minute: time.minute,
+        };
       } else {
         return {
           hour: time.hour + 12,
-          minute: time.minute
-        }
+          minute: time.minute,
+        };
       }
     }
   }
@@ -88,7 +85,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       [PolicyType.Hourly]: 'hourly',
       [PolicyType.Daily]: 'daily',
       [PolicyType.Weekly]: 'weekly',
-      [PolicyType.Monthly]: 'monthly'
+      [PolicyType.Monthly]: 'monthly',
     };
 
     return policyTypes[type];
@@ -106,9 +103,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     const weekDay = policy.timePolicy.dayOfWeek;
     const monthDay = policy.timePolicy.dayOfMonth;
 
-    return [minutes, hours, weekDay, monthDay]
-      .filter(_ => _ != null)
-      .join(':');
+    return [minutes, hours, weekDay, monthDay].filter(_ => _ != null).join(':');
   }
 
   private transformScheduleToTimePolicy(schedule: string, policyType: PolicyType): TimePolicy {
@@ -117,17 +112,17 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     switch (parsedSchedule.length) {
       case 1:
         return {
-          minute: +parsedSchedule[0]
+          minute: +parsedSchedule[0],
         };
       case 2:
         return {
           hour: +parsedSchedule[1],
-          minute: +parsedSchedule[0]
+          minute: +parsedSchedule[0],
         };
       case 3:
         const timePolicy: TimePolicy = {
           hour: +parsedSchedule[1],
-          minute: +parsedSchedule[0]
+          minute: +parsedSchedule[0],
         };
 
         if (policyType === PolicyType.Weekly) {
@@ -150,7 +145,7 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
       storedSnapshots: policy.maxsnaps,
       timePolicy: this.transformScheduleToTimePolicy(policy.schedule, policy.intervaltype),
       timeZone: { geo: policy.timezone },
-      type: policy.intervaltype
+      type: policy.intervaltype,
     };
   }
 }

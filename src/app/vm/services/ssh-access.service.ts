@@ -50,10 +50,10 @@ export class SshAccessService extends AccessService {
   private getPort(vm: VirtualMachine): string {
     const portTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.sshPortToken);
     return portTag || this.defaultPort;
-  };
+  }
 
   private getLogin(vm: VirtualMachine): string {
     const userTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.sshLoginToken);
     return userTag || this.defaultLogin;
-  };
+  }
 }

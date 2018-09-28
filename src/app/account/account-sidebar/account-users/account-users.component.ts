@@ -10,23 +10,29 @@ import { AccountUserPasswordFormContainerComponent } from '../../account-contain
   templateUrl: 'account-users.component.html',
 })
 export class AccountUsersComponent {
-  @Input() public account: Account;
-  @Input() public isAdmin: boolean;
-  @Input() public currentUserId: string;
+  @Input()
+  public account: Account;
+  @Input()
+  public isAdmin: boolean;
+  @Input()
+  public currentUserId: string;
 
-  @Output() public onUserDelete = new EventEmitter<AccountUser>();
-  @Output() public onUserRegenerateKey = new EventEmitter<AccountUser>();
-  @Output() public onLoadUserKeys = new EventEmitter<AccountUser>();
+  @Output()
+  public onUserDelete = new EventEmitter<AccountUser>();
+  @Output()
+  public onUserRegenerateKey = new EventEmitter<AccountUser>();
+  @Output()
+  public onLoadUserKeys = new EventEmitter<AccountUser>();
 
   public step: string;
 
   public get sortedUsers(): Array<AccountUser> {
-    return this.account && this.account.user ? [...this.account.user]
-      .sort((u1, u2) => u1.firstname.localeCompare(u2.firstname)) : [];
+    return this.account && this.account.user
+      ? [...this.account.user].sort((u1, u2) => u1.firstname.localeCompare(u2.firstname))
+      : [];
   }
 
-  constructor(private dialog: MatDialog) {
-  }
+  constructor(private dialog: MatDialog) {}
 
   public addUser() {
     this.openUserFormDialog();
@@ -46,10 +52,11 @@ export class AccountUsersComponent {
   }
 
   public onUserChangePassword(user) {
-    this.dialog.open(AccountUserPasswordFormContainerComponent, {
-      width: '375px',
-      data: { user }
-    })
+    this.dialog
+      .open(AccountUserPasswordFormContainerComponent, {
+        width: '375px',
+        data: { user },
+      })
       .afterClosed()
       .subscribe(() => this.setStep(user.id));
   }
@@ -66,15 +73,16 @@ export class AccountUsersComponent {
   }
 
   private openUserFormDialog(user?: AccountUser) {
-    this.dialog.open(AccountUserEditContainerComponent, {
-      width: '375px',
-      data: {
-        title: !user ? 'ACCOUNT_PAGE.USER.CREATE_USER' : null,
-        confirmButtonText: !user ? 'COMMON.CREATE' : null,
-        account: this.account,
-        user
-      }
-    })
+    this.dialog
+      .open(AccountUserEditContainerComponent, {
+        width: '375px',
+        data: {
+          title: !user ? 'ACCOUNT_PAGE.USER.CREATE_USER' : null,
+          confirmButtonText: !user ? 'COMMON.CREATE' : null,
+          account: this.account,
+          user,
+        },
+      })
       .afterClosed()
       .subscribe(updatedUser => {
         if (updatedUser) {

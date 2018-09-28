@@ -7,8 +7,9 @@ import { ApiFormat, BaseBackendService } from './base-backend.service';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 
-
-export abstract class BaseBackendCachedService<M extends BaseModelInterface> extends BaseBackendService<M> {
+export abstract class BaseBackendCachedService<
+  M extends BaseModelInterface
+> extends BaseBackendService<M> {
   private cache: Cache<Array<M>>;
 
   constructor(http: HttpClient) {
@@ -16,11 +17,7 @@ export abstract class BaseBackendCachedService<M extends BaseModelInterface> ext
     this.initDataCache();
   }
 
-  public getList(
-    params?: {},
-    customApiFormat?: ApiFormat,
-    useCache = true
-  ): Observable<Array<M>> {
+  public getList(params?: {}, customApiFormat?: ApiFormat, useCache = true): Observable<Array<M>> {
     if (useCache) {
       const cachedResult = this.cache.get(params);
       if (cachedResult) {
@@ -31,7 +28,8 @@ export abstract class BaseBackendCachedService<M extends BaseModelInterface> ext
       map(result => {
         this.cache.set({ params, result });
         return result;
-      }));
+      })
+    );
   }
 
   public create(params?: {}): Observable<any> {
@@ -39,8 +37,7 @@ export abstract class BaseBackendCachedService<M extends BaseModelInterface> ext
   }
 
   public remove(params?: {}): Observable<any> {
-    return super.remove(params).pipe(
-      tap(() => this.invalidateCache()));
+    return super.remove(params).pipe(tap(() => this.invalidateCache()));
   }
 
   public invalidateCache(): void {

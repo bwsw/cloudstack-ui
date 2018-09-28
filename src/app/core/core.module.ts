@@ -10,31 +10,26 @@ import { SidenavComponent } from './components';
 import { SnackBarService } from './services';
 import { ConfigValidationService } from './config';
 
-const COMPONENTS = [
-  SidenavComponent
-];
+const COMPONENTS = [SidenavComponent];
 
-const SERVICES = [
-  ConfigValidationService,
-  SnackBarService
-];
+const SERVICES = [ConfigValidationService, SnackBarService];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule,
-    DragulaModule,
-    RouterModule
-  ],
+  imports: [CommonModule, SharedModule, MaterialModule, DragulaModule, RouterModule],
   exports: COMPONENTS,
   declarations: COMPONENTS,
   providers: SERVICES,
 })
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(
+    @Optional()
+    @SkipSelf()
+    parentModule: CoreModule
+  ) {
     if (parentModule) {
-      throw new Error(`CoreModule has already been loaded. Import CoreModule in the AppModule only.`);
+      throw new Error(
+        `CoreModule has already been loaded. Import CoreModule in the AppModule only.`
+      );
     }
   }
 }

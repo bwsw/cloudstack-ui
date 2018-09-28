@@ -28,7 +28,7 @@ export interface UrlConfig {
 const defaultConfig = {
   https: true,
   http: true,
-  ftp: true
+  ftp: true,
 };
 
 const urlWithoutProtocolPart =

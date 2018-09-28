@@ -18,13 +18,12 @@ import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
       (onTagDelete)="deleteTag($event)"
       (onTagEdit)="editTag($event)"
     ></cs-sg-tags>
-  `
+  `,
 })
 export class SecurityGroupTagsContainerComponent {
   readonly sg$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
 
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 
   public editTag(tagEditAction: TagEditAction) {
     this.sg$.pipe(take(1)).subscribe((sg: SecurityGroup) => {
@@ -35,7 +34,7 @@ export class SecurityGroupTagsContainerComponent {
         value: tagEditAction.newTag.value,
         account: sg.account,
         domain: sg.domain,
-        domainid: sg.domainid
+        domainid: sg.domainid,
       };
       const newTags: Tag[] = sg.tags.filter(t => tagEditAction.oldTag.key !== t.key);
       newTags.push(newTag);
@@ -60,7 +59,7 @@ export class SecurityGroupTagsContainerComponent {
         value: keyValuePair.value,
         account: sg.account,
         domain: sg.domain,
-        domainid: sg.domainid
+        domainid: sg.domainid,
       };
       const newTags: Tag[] = [...sg.tags];
       newTags.push(newTag);

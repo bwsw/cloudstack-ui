@@ -16,13 +16,17 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
         <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
-    </ng-container>`
+    </ng-container>`,
 })
 export class AccountActionsComponent {
-  @Input() public account: Account;
-  @Output() public onAccountEnable: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onAccountDisable: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onAccountDelete: EventEmitter<Account> = new EventEmitter<Account>();
+  @Input()
+  public account: Account;
+  @Output()
+  public onAccountEnable: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public onAccountDisable: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public onAccountDelete: EventEmitter<Account> = new EventEmitter<Account>();
 
   public actions: any[];
 
@@ -34,9 +38,12 @@ export class AccountActionsComponent {
   }
 
   public activateAction(action, account: Account) {
-    this.dialogService.confirm({ message: action.confirmMessage }).pipe(
-      onErrorResumeNext(),
-      filter(Boolean))
+    this.dialogService
+      .confirm({ message: action.confirmMessage })
+      .pipe(
+        onErrorResumeNext(),
+        filter(Boolean)
+      )
       .subscribe(() => {
         switch (action.command) {
           case 'enable': {
@@ -54,5 +61,4 @@ export class AccountActionsComponent {
         }
       });
   }
-
 }

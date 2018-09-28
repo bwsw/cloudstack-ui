@@ -16,7 +16,7 @@ import { State, UserTagsSelectors } from './root-store';
 @Component({
   selector: 'cs-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   constructor(
@@ -29,8 +29,7 @@ export class AppComponent implements OnInit {
     private styleService: StyleService,
     private userService: UserService,
     private store: Store<State>
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.auth.loggedIn.subscribe(() => {
@@ -42,25 +41,29 @@ export class AppComponent implements OnInit {
     this.configureInterface();
   }
 
-
   private configureInterface() {
-    this.store.pipe(select(UserTagsSelectors.getInterfaceLanguage))
+    this.store
+      .pipe(select(UserTagsSelectors.getInterfaceLanguage))
       .subscribe(language => this.translateService.use(language));
 
-    this.store.pipe(select(UserTagsSelectors.getTimeFormat))
+    this.store
+      .pipe(select(UserTagsSelectors.getTimeFormat))
       .subscribe(timeFormat => this.dateTimeFormatterService.updateFormatters(timeFormat));
 
-    this.store.pipe(select(UserTagsSelectors.getTheme))
+    this.store
+      .pipe(select(UserTagsSelectors.getTheme))
       .subscribe(themeName => this.styleService.useTheme(themeName));
 
-    this.translateService.onLangChange.pipe(
-      switchMap(() => this.store.pipe(
-        select(UserTagsSelectors.getTimeFormat),
-        first(),
-      )))
-      .subscribe((format) =>
-        this.dateTimeFormatterService.updateFormatters(format)
-      );
+    this.translateService.onLangChange
+      .pipe(
+        switchMap(() =>
+          this.store.pipe(
+            select(UserTagsSelectors.getTimeFormat),
+            first()
+          )
+        )
+      )
+      .subscribe(format => this.dateTimeFormatterService.updateFormatters(format));
   }
 
   private storageReset() {

@@ -1,14 +1,13 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-
 export const enum DayPeriod {
   Am,
-  Pm
+  Pm,
 }
 
 export interface DayPeriodName {
-  value: DayPeriod,
+  value: DayPeriod;
   name: string;
 }
 
@@ -20,15 +19,15 @@ export interface DayPeriodName {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DayPeriodComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DayPeriodComponent implements ControlValueAccessor, OnInit {
   public _period: DayPeriod;
   public periods: Array<DayPeriodName> = [
     { value: DayPeriod.Am, name: 'DATE_TIME.AM' },
-    { value: DayPeriod.Pm, name: 'DATE_TIME.PM' }
+    { value: DayPeriod.Pm, name: 'DATE_TIME.PM' },
   ];
 
   public ngOnInit(): void {
@@ -51,7 +50,7 @@ export class DayPeriodComponent implements ControlValueAccessor, OnInit {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     if (value) {

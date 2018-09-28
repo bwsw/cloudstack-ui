@@ -9,10 +9,8 @@ import { Zone } from '../../../shared/models';
 
 import * as zonesActions from './zone.actions';
 
-
 @Injectable()
 export class ZoneEffects {
-
   @Effect()
   loadZones$: Observable<Action> = this.actions$.pipe(
     ofType(zonesActions.LOAD_ZONES_REQUEST),
@@ -21,12 +19,10 @@ export class ZoneEffects {
         map((zones: Zone[]) => {
           return new zonesActions.LoadZonesResponse(zones);
         }),
-        catchError(() => of(new zonesActions.LoadZonesResponse([]))));
-    }));
+        catchError(() => of(new zonesActions.LoadZonesResponse([])))
+      );
+    })
+  );
 
-  constructor(
-    private actions$: Actions,
-    private zoneService: ZoneService
-  ) {
-  }
+  constructor(private actions$: Actions, private zoneService: ZoneService) {}
 }

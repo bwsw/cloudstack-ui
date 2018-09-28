@@ -25,27 +25,35 @@ import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.act
     </cs-volume-actions>`,
 })
 export class VolumeActionsContainerComponent {
-  @Input() public volume: Volume;
+  @Input()
+  public volume: Volume;
 
   constructor(
     public dialogService: DialogService,
     public authService: AuthService,
     private store: Store<State>
-  ) {
-  }
+  ) {}
 
   public onVolumeDelete(volume: Volume): void {
-    this.dialogService.confirm({
-      message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
-    }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({
+        message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION',
+      })
+      .pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res))
+      )
       .subscribe(() => {
         if (volume.snapshots && !!volume.snapshots.length) {
-          this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' }).pipe(
-            onErrorResumeNext(),
-            filter(res => Boolean(res)))
-            .subscribe(() => this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots)));
+          this.dialogService
+            .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
+            .pipe(
+              onErrorResumeNext(),
+              filter(res => Boolean(res))
+            )
+            .subscribe(() =>
+              this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots))
+            );
         }
         this.store.dispatch(new volumeActions.DeleteVolume(volume));
       });

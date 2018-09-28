@@ -18,10 +18,10 @@ export interface ApiFormat {
 export const MAX_PAGE_SIZE = 500;
 
 export interface FormattedResponse<M> {
-  list: Array<M>,
+  list: Array<M>;
   meta: {
-    count: number
-  }
+    count: number;
+  };
 }
 
 export enum CSCommands {
@@ -57,13 +57,11 @@ export enum CSCommands {
 
 export abstract class BaseBackendService<M extends BaseModelInterface> {
   protected entity: string;
-  protected entityModel?: { new(params?): M };
+  protected entityModel?: { new (params?): M };
 
   protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
-  constructor(
-    protected http: HttpClient
-  ) {
+  constructor(protected http: HttpClient) {
     this.initRequestCache();
   }
 
@@ -81,35 +79,37 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
       switchMap(result => {
         if (result.meta.count > result.list.length) {
           const numberOfCalls = Math.ceil(result.meta.count / MAX_PAGE_SIZE);
-          return forkJoin(...range(2, numberOfCalls + 1).map(page => {
-            return this.makeGetListObservable(
-              Object.assign(
-                {},
-                requestParams,
-                {
+          return forkJoin(
+            ...range(2, numberOfCalls + 1).map(page => {
+              return this.makeGetListObservable(
+                Object.assign({}, requestParams, {
                   pageSize: MAX_PAGE_SIZE,
-                  page
-                }
-              ),
-              customApiFormat
-            );
-          })).pipe(map((results: Array<FormattedResponse<M>>) => {
-            return results.reduce((memo, res) => {
-              return Object.assign(memo, {
-                list: memo.list.concat(res.list)
-              });
-            }, result);
-          }));
+                  page,
+                }),
+                customApiFormat
+              );
+            })
+          ).pipe(
+            map((results: Array<FormattedResponse<M>>) => {
+              return results.reduce((memo, res) => {
+                return Object.assign(memo, {
+                  list: memo.list.concat(res.list),
+                });
+              }, result);
+            })
+          );
         } else {
           return of(result);
         }
       }),
-      map(r => r.list));
+      map(r => r.list)
+    );
   }
 
   public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
     return this.makeGetListObservable(this.extendParams(params), customApiFormat).pipe(
-      map(r => r.list));
+      map(r => r.list)
+    );
   }
 
   public extendParams(params = {}) {
@@ -120,14 +120,16 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const command = (customApiFormat && customApiFormat.command) || CSCommands.Create;
     const _entity = customApiFormat && customApiFormat.entity;
 
-    return this.sendCommand(command, params, _entity).pipe(map(response => {
-      const entity = this.entity.toLowerCase();
-      if (entity === 'tag' || entity === 'affinitygroup') {
-        return response;
-      }
+    return this.sendCommand(command, params, _entity).pipe(
+      map(response => {
+        const entity = this.entity.toLowerCase();
+        if (entity === 'tag' || entity === 'affinitygroup') {
+          return response;
+        }
 
-      return this.prepareModel(response[entity] as M);
-    }));
+        return this.prepareModel(response[entity] as M);
+      })
+    );
   }
 
   public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
@@ -173,16 +175,10 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     return urlParams;
   }
 
-  protected getRequest(
-    command: string,
-    params?: {},
-    entity?: string
-  ): Observable<any> {
-    return this.http
-      .get(
-        BACKEND_API_URL, {
-          params: this.buildParams(command, params, entity)
-        });
+  protected getRequest(command: string, params?: {}, entity?: string): Observable<any> {
+    return this.http.get(BACKEND_API_URL, {
+      params: this.buildParams(command, params, entity),
+    });
   }
 
   protected getResponse(result: any): any {
@@ -195,25 +191,15 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
   }
 
   protected postRequest(command: string, params?: {}): Observable<any> {
-    const headers = new HttpHeaders().set(
-      'Content-Type',
-      'application/x-www-form-urlencoded'
-    );
-    return this.http.post(
-      BACKEND_API_URL,
-      this.buildParams(command, params),
-      { headers }
-    );
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post(BACKEND_API_URL, this.buildParams(command, params), { headers });
   }
 
-  protected sendCommand(
-    command: string,
-    params?: {},
-    entity?: string
-  ): Observable<any> {
+  protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
     return this.getRequest(command, params, entity).pipe(
       map(res => this.getResponse(res)),
-      catchError(e => this.handleCommandError(e.error)));
+      catchError(e => this.handleCommandError(e.error))
+    );
   }
 
   protected handleCommandError(error): Observable<any> {
@@ -231,8 +217,8 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     return {
       list: result.map(m => this.prepareModel(m)) as Array<M>,
       meta: {
-        count: response.count || 0
-      }
+        count: response.count || 0,
+      },
     };
   }
 
@@ -240,7 +226,6 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     params?: {},
     customApiFormat?: ApiFormat
   ): Observable<FormattedResponse<M>> {
-
     const cachedRequest = this.requestCache.get(params);
     if (cachedRequest) {
       return cachedRequest;
@@ -249,7 +234,8 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const entity = customApiFormat && customApiFormat.entity;
     const request = this.sendCommand(command, params, entity).pipe(
       map(response => this.formatGetListResponse(response)),
-      share());
+      share()
+    );
     this.requestCache.set({ params, result: request });
     return request;
   }

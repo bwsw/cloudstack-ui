@@ -10,7 +10,6 @@ import { DiskOffering } from '../../../models';
 import { StringifyDatePipe } from '../../../pipes';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
 
-
 class MockConfigServiceDateTimeFormatterService {
   public stringifyToTime() {
     return;
@@ -35,48 +34,45 @@ describe('Disk Offering dialog', () => {
     miniops: 1,
     maxiops: 1,
     storagetype: 'any',
-    provisioningtype: 'any'
+    provisioningtype: 'any',
   };
 
-  const diskOfferings: Array<DiskOffering> = [
-    diskOffering
-  ];
+  const diskOfferings: Array<DiskOffering> = [diskOffering];
 
   beforeEach(async(() => {
-      dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
+    dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
 
-      TestBed.configureTestingModule({
-        imports: [FormsModule, MatDialogModule, MatRadioModule, MatTableModule],
-        declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
-        providers: [
-          {
-            provide: MatDialogRef,
-            useValue: dialog
+    TestBed.configureTestingModule({
+      imports: [FormsModule, MatDialogModule, MatRadioModule, MatTableModule],
+      declarations: [MockTranslatePipe, DiskOfferingDialogComponent, StringifyDatePipe],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: dialog,
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            diskOffering,
+            diskOfferings: [],
           },
-          {
-            provide: MAT_DIALOG_DATA,
-            useValue: {
-              diskOffering,
-              diskOfferings: []
-            }
-          },
-          {
-            provide: 'mockConfigServiceConfig',
-            useValue: { value: {} }
-          },
-          {
-            provide: 'mockResourceUsageServiceConfig',
-            useValue: { value: {} }
-          },
-          {
-            provide: DateTimeFormatterService,
-            useClass: MockConfigServiceDateTimeFormatterService
-          }
-        ],
-        schemas: [NO_ERRORS_SCHEMA]
-      }).compileComponents();
-    })
-  );
+        },
+        {
+          provide: 'mockConfigServiceConfig',
+          useValue: { value: {} },
+        },
+        {
+          provide: 'mockResourceUsageServiceConfig',
+          useValue: { value: {} },
+        },
+        {
+          provide: DateTimeFormatterService,
+          useClass: MockConfigServiceDateTimeFormatterService,
+        },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DiskOfferingDialogComponent);

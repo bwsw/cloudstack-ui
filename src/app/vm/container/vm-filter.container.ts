@@ -42,12 +42,13 @@ const FILTER_KEY = 'vmListFilters';
       (onAccountsChange)="onAccountsChange($event)"
       (onStatesChange)="onStatesChange($event)"
       (onGroupingsChange)="onGroupingsChange($event)"
-    ></cs-vm-filter>`
+    ></cs-vm-filter>`,
 })
 export class VMFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
-
-  @Input() groupings: Array<Grouping>;
-  @Input() selectedGroupings: Array<Grouping>;
+  @Input()
+  groupings: Array<Grouping>;
+  @Input()
+  selectedGroupings: Array<Grouping>;
 
   readonly filters$ = this.store.pipe(select(fromVMs.filters));
   readonly query$ = this.store.pipe(select(fromVMs.filterQuery));
@@ -64,30 +65,31 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   public states = [
     {
       state: VmState.Running,
-      name: 'VM_PAGE.FILTERS.STATE_RUNNING'
+      name: 'VM_PAGE.FILTERS.STATE_RUNNING',
     },
     {
       state: VmState.Stopped,
-      name: 'VM_PAGE.FILTERS.STATE_STOPPED'
+      name: 'VM_PAGE.FILTERS.STATE_STOPPED',
     },
     {
       state: VmState.Destroyed,
       name: 'VM_PAGE.FILTERS.STATE_DESTROYED',
-      access: this.authService.allowedToViewDestroyedVms()
+      access: this.authService.allowedToViewDestroyedVms(),
     },
     {
       state: VmState.Error,
-      name: 'VM_PAGE.FILTERS.STATE_ERROR'
-    }
+      name: 'VM_PAGE.FILTERS.STATE_ERROR',
+    },
   ].filter(state => !state.hasOwnProperty('access') || state['access']);
 
-  private filterService = new FilterService({
+  private filterService = new FilterService(
+    {
       zones: { type: 'array', defaultOption: [] },
       groups: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] },
       query: { type: 'string' },
       states: { type: 'array', options: this.states.map(_ => _.state), defaultOption: [] },
-      accounts: { type: 'array', defaultOption: [] }
+      accounts: { type: 'array', defaultOption: [] },
     },
     this.router,
     this.sessionStorage,
@@ -116,7 +118,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   public onAccountsChange(selectedAccountIds) {
-    this.store.dispatch(new vmActions.VMFilterUpdate({ selectedAccountIds }))
+    this.store.dispatch(new vmActions.VMFilterUpdate({ selectedAccountIds }));
   }
 
   public onGroupNamesChange(selectedGroupNames) {
@@ -132,7 +134,6 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
   }
 
   private initFilters(): void {
-
     const params = this.filterService.getParams();
 
     const selectedGroupNames = params['groups'];
@@ -151,33 +152,32 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
 
     const selectedAccountIds = params['accounts'];
 
-    this.store.dispatch(new vmActions.VMFilterUpdate({
-      query,
-      selectedStates,
-      selectedGroupNames,
-      selectedZoneIds,
-      selectedAccountIds,
-      selectedGroupings
-    }));
-
+    this.store.dispatch(
+      new vmActions.VMFilterUpdate({
+        query,
+        selectedStates,
+        selectedGroupNames,
+        selectedZoneIds,
+        selectedAccountIds,
+        selectedGroupings,
+      })
+    );
   }
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => {
-        this.filterService.update({
-          zones: filters.selectedZoneIds,
-          groups: filters.selectedGroupNames,
-          states: filters.selectedStates,
-          groupings: filters.selectedGroupings.map(_ => _.key),
-          query: filters.query,
-          accounts: filters.selectedAccountIds
-        });
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.filterService.update({
+        zones: filters.selectedZoneIds,
+        groups: filters.selectedGroupNames,
+        states: filters.selectedStates,
+        groupings: filters.selectedGroupings.map(_ => _.key),
+        query: filters.query,
+        accounts: filters.selectedAccountIds,
       });
+    });
   }
 
   public ngAfterViewInit() {

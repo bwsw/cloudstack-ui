@@ -13,16 +13,14 @@ import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
 
-
 export const VirtualMachineEntityName = 'VirtualMachine';
 
 @Injectable()
 @BackendResource({
   entity: VirtualMachineEntityName,
-  entityModel: VirtualMachine
+  entityModel: VirtualMachine,
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
-
   constructor(
     private asyncJobService: AsyncJobService,
     private osTypesService: OsTypeService,
@@ -33,15 +31,10 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getWithDetails(id: string): Observable<VirtualMachine> {
-    return this.getListWithDetails().pipe(map(list =>
-      list.find(vm => vm.id === id)
-    ));
+    return this.getListWithDetails().pipe(map(list => list.find(vm => vm.id === id)));
   }
 
-  public getListWithDetails(
-    params?: {},
-    lite = false
-  ): Observable<Array<VirtualMachine>> {
+  public getListWithDetails(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
     if (lite) {
       return this.getList(params);
     }
@@ -58,37 +51,31 @@ export class VmService extends BaseBackendService<VirtualMachine> {
           vms[index] = currentVm;
         });
         return vmList;
-      }));
+      })
+    );
   }
 
   public deploy(params: {}): Observable<any> {
     return this.sendCommand(CSCommands.Deploy, params);
   }
 
-  public command(
-    vm: VirtualMachine,
-    command: string,
-    params?: {}
-  ): Observable<VirtualMachine> {
+  public command(vm: VirtualMachine, command: string, params?: {}): Observable<VirtualMachine> {
     return this.commandInternal(vm, command, params).pipe(
       switchMap(job => this.registerVmJob(job)),
       tap(jogResult => jogResult),
       catchError(error => {
         return throwError(error);
-      }));
+      })
+    );
   }
 
-  public commandSync(
-    vm: VirtualMachine,
-    command: string,
-    params?: {}
-  ): Observable<any> {
-
+  public commandSync(vm: VirtualMachine, command: string, params?: {}): Observable<any> {
     return this.commandInternal(vm, command, params).pipe(
-      tap((res) => res),
+      tap(res => res),
       catchError(error => {
         return throwError(error);
-      }));
+      })
+    );
   }
 
   public registerVmJob(job: any): Observable<any> {
@@ -96,19 +83,20 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
-    return this.getListWithDetails().pipe(
-      map(vmList => vmList.filter(vm => vm.isoId === iso.id)));
+    return this.getListWithDetails().pipe(map(vmList => vmList.filter(vm => vm.isoId === iso.id)));
   }
 
   public addIpToNic(nicId: string): Observable<IpAddress> {
     return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic').pipe(
       switchMap(job => this.asyncJobService.queryJob(job.jobid)),
-      map(result => result.jobresult));
+      map(result => result.jobresult)
+    );
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
     return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic').pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid))
+    );
   }
 
   public changeServiceOffering(
@@ -125,26 +113,20 @@ export class VmService extends BaseBackendService<VirtualMachine> {
         {
           cpuNumber: serviceOffering.cpunumber,
           cpuSpeed: serviceOffering.cpuspeed,
-          memory: serviceOffering.memory
-        }
+          memory: serviceOffering.memory,
+        },
       ];
     }
 
     return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
-      map(result => this.prepareModel(result['virtualmachine'])));
+      map(result => this.prepareModel(result['virtualmachine']))
+    );
   }
 
-  private commandInternal(
-    vm: VirtualMachine,
-    command: string,
-    params?: {}
-  ): Observable<any> {
+  private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {
     const commandName = command;
 
-    return this.sendCommand(
-      commandName,
-      this.buildCommandParams(vm.id, commandName, params)
-    );
+    return this.sendCommand(commandName, this.buildCommandParams(vm.id, commandName, params));
   }
 
   private buildCommandParams(id: string, commandName: string, params?: {}): any {

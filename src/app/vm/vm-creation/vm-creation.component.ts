@@ -9,7 +9,7 @@ import {
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
-  Zone
+  Zone,
 } from '../../shared/models';
 import { BaseTemplateModel, isTemplate } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
@@ -20,49 +20,80 @@ import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
-
 @Component({
   selector: 'cs-vm-creation',
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss'],
 })
 export class VmCreationComponent {
-  @Input() public account: Account;
-  @Input() public vmCreationState: VmCreationState;
-  @Input() public instanceGroupList: InstanceGroup[];
-  @Input() public affinityGroupList: AffinityGroup[];
-  @Input() public diskOfferings: DiskOffering[];
-  @Input() public zones: Zone[];
-  @Input() public sshKeyPairs: SSHKeyPair[];
-  @Input() public serviceOfferings: ServiceOffering[];
+  @Input()
+  public account: Account;
+  @Input()
+  public vmCreationState: VmCreationState;
+  @Input()
+  public instanceGroupList: InstanceGroup[];
+  @Input()
+  public affinityGroupList: AffinityGroup[];
+  @Input()
+  public diskOfferings: DiskOffering[];
+  @Input()
+  public zones: Zone[];
+  @Input()
+  public sshKeyPairs: SSHKeyPair[];
+  @Input()
+  public serviceOfferings: ServiceOffering[];
 
-  @Input() public fetching: boolean;
-  @Input() public diskOfferingsAreLoading: boolean;
-  @Input() public showOverlay: boolean;
-  @Input() public deploymentInProgress: boolean;
-  @Input() public loggerStageList: Array<ProgressLoggerMessage>;
-  @Input() public deployedVm: VirtualMachine;
-  @Input() public enoughResources: boolean;
-  @Input() public insufficientResources: Array<string>;
+  @Input()
+  public fetching: boolean;
+  @Input()
+  public diskOfferingsAreLoading: boolean;
+  @Input()
+  public showOverlay: boolean;
+  @Input()
+  public deploymentInProgress: boolean;
+  @Input()
+  public loggerStageList: Array<ProgressLoggerMessage>;
+  @Input()
+  public deployedVm: VirtualMachine;
+  @Input()
+  public enoughResources: boolean;
+  @Input()
+  public insufficientResources: Array<string>;
 
-  @Output() public displayNameChange = new EventEmitter<string>();
-  @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
-  @Output() public diskOfferingChange = new EventEmitter<DiskOffering>();
-  @Output() public rootDiskSizeMinChange = new EventEmitter<number>();
-  @Output() public rootDiskSizeChange = new EventEmitter<number>();
-  @Output() public affinityGroupChange = new EventEmitter<AffinityGroup>();
-  @Output() public instanceGroupChange = new EventEmitter<InstanceGroup>();
-  @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
-  @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
-  @Output() public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
-  @Output() public doStartVmChange = new EventEmitter<boolean>();
-  @Output() public zoneChange = new EventEmitter<Zone>();
-  @Output() public agreementChange = new EventEmitter<boolean>();
-  @Output() public onVmDeploymentFailed = new EventEmitter();
-  @Output() public deploy = new EventEmitter<VmCreationState>();
-  @Output() public cancel = new EventEmitter();
-  @Output() public onError = new EventEmitter();
-
+  @Output()
+  public displayNameChange = new EventEmitter<string>();
+  @Output()
+  public serviceOfferingChange = new EventEmitter<ServiceOffering>();
+  @Output()
+  public diskOfferingChange = new EventEmitter<DiskOffering>();
+  @Output()
+  public rootDiskSizeMinChange = new EventEmitter<number>();
+  @Output()
+  public rootDiskSizeChange = new EventEmitter<number>();
+  @Output()
+  public affinityGroupChange = new EventEmitter<AffinityGroup>();
+  @Output()
+  public instanceGroupChange = new EventEmitter<InstanceGroup>();
+  @Output()
+  public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
+  @Output()
+  public templateChange = new EventEmitter<BaseTemplateModel>();
+  @Output()
+  public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
+  @Output()
+  public doStartVmChange = new EventEmitter<boolean>();
+  @Output()
+  public zoneChange = new EventEmitter<Zone>();
+  @Output()
+  public agreementChange = new EventEmitter<boolean>();
+  @Output()
+  public onVmDeploymentFailed = new EventEmitter();
+  @Output()
+  public deploy = new EventEmitter<VmCreationState>();
+  @Output()
+  public cancel = new EventEmitter();
+  @Output()
+  public onError = new EventEmitter();
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
@@ -70,7 +101,7 @@ export class VmCreationComponent {
     volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
     cpus: 'VM_PAGE.VM_CREATION.CPUS',
     memory: 'VM_PAGE.VM_CREATION.MEMORY',
-    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE'
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
   };
 
   public takenName: string;
@@ -84,15 +115,16 @@ export class VmCreationComponent {
   }
 
   public get diskOfferingsAreAllowed(): boolean {
-    return this.vmCreationState.template
-      && !isTemplate(this.vmCreationState.template);
+    return this.vmCreationState.template && !isTemplate(this.vmCreationState.template);
   }
 
   public get showResizeSlider(): boolean {
-    return this.vmCreationState.template
-      && !isTemplate(this.vmCreationState.template)
-      && this.showRootDiskResize
-      && !!this.vmCreationState.rootDiskMinSize;
+    return (
+      this.vmCreationState.template &&
+      !isTemplate(this.vmCreationState.template) &&
+      this.showRootDiskResize &&
+      !!this.vmCreationState.rootDiskMinSize
+    );
   }
 
   public get rootDiskSizeLimit(): number {
@@ -100,21 +132,21 @@ export class VmCreationComponent {
   }
 
   public get showRootDiskResize(): boolean {
-    return this.vmCreationState.diskOffering
-      && this.vmCreationState.diskOffering.iscustomized;
+    return this.vmCreationState.diskOffering && this.vmCreationState.diskOffering.iscustomized;
   }
 
   public get showSecurityGroups(): boolean {
-    return this.vmCreationState.zone
-      && this.vmCreationState.zone.securitygroupsenabled
-      && this.auth.isSecurityGroupEnabled();
+    return (
+      this.vmCreationState.zone &&
+      this.vmCreationState.zone.securitygroupsenabled &&
+      this.auth.isSecurityGroupEnabled()
+    );
   }
 
   constructor(
     public dialogRef: MatDialogRef<VmCreationContainerComponent>,
     private auth: AuthService
-  ) {
-  }
+  ) {}
 
   public changeTemplate(value: BaseTemplateModel) {
     this.agreementChange.emit(value.agreementAccepted);

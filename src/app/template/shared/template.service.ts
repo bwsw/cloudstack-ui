@@ -9,9 +9,8 @@ import {
   BaseTemplateService,
   CreateTemplateBaseParams,
   RegisterTemplateBaseParams,
-  TemplateResourceType
+  TemplateResourceType,
 } from './base-template.service';
-
 
 @Injectable()
 @BackendResource({
@@ -28,7 +27,8 @@ export class TemplateService extends BaseTemplateService {
           return of(template);
         }
       }),
-      tap(() => this.invalidateCache()));
+      tap(() => this.invalidateCache())
+    );
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
@@ -38,7 +38,8 @@ export class TemplateService extends BaseTemplateService {
     requestParams['format'] = requestParams['format'] || 'QCOW2';
     requestParams['requiresHvm'] = requestParams['requiresHvm'] || true;
 
-    return <Observable<Template>>super.register(requestParams).pipe(
-      tap(() => this.invalidateCache()));
+    return <Observable<Template>>(
+      super.register(requestParams).pipe(tap(() => this.invalidateCache()))
+    );
   }
 }

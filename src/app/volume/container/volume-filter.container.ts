@@ -39,11 +39,14 @@ const FILTER_KEY = 'volumeListFilters';
       (onAccountsChange)="onAccountsChange($event)"
       (onTypesChange)="onTypesChange($event)"
       (onGroupingsChange)="onGroupingsChange($event)"
-    ></cs-volume-filter>`
+    ></cs-volume-filter>`,
 })
-export class VolumeFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
-  @Input() groupings: Array<Grouping>;
-  @Input() selectedGroupings: Array<Grouping>;
+export class VolumeFilterContainerComponent extends WithUnsubscribe()
+  implements OnInit, AfterViewInit {
+  @Input()
+  groupings: Array<Grouping>;
+  @Input()
+  selectedGroupings: Array<Grouping>;
 
   readonly filters$ = this.store.select(fromVolumes.filters);
   readonly query$ = this.store.select(fromVolumes.filterQuery);
@@ -65,7 +68,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
       types: { type: 'array', defaultOption: [] },
       groupings: { type: 'array', defaultOption: [] },
       query: { type: 'string' },
-      accounts: { type: 'array', defaultOption: [] }
+      accounts: { type: 'array', defaultOption: [] },
     },
     this.router,
     this.sessionStorage,
@@ -97,7 +100,7 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
   }
 
   public onAccountsChange(selectedAccountIds) {
-    this.store.dispatch(new volumeActions.VolumeFilterUpdate({ selectedAccountIds }))
+    this.store.dispatch(new volumeActions.VolumeFilterUpdate({ selectedAccountIds }));
   }
 
   public onTypesChange(selectedTypes) {
@@ -126,32 +129,32 @@ export class VolumeFilterContainerComponent extends WithUnsubscribe() implements
 
     const selectedAccountIds = params['accounts'];
 
-    this.store.dispatch(new volumeActions.VolumeFilterUpdate({
-      spareOnly,
-      query,
-      selectedTypes,
-      selectedZoneIds,
-      selectedAccountIds,
-      selectedGroupings
-    }));
+    this.store.dispatch(
+      new volumeActions.VolumeFilterUpdate({
+        spareOnly,
+        query,
+        selectedTypes,
+        selectedZoneIds,
+        selectedAccountIds,
+        selectedGroupings,
+      })
+    );
   }
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => {
-        this.filterService.update({
-          spareOnly: filters.spareOnly,
-          zones: filters.selectedZoneIds,
-          types: filters.selectedTypes,
-          groupings: filters.selectedGroupings.map(_ => _.key),
-          query: filters.query,
-          accounts: filters.selectedAccountIds
-        });
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.filterService.update({
+        spareOnly: filters.spareOnly,
+        zones: filters.selectedZoneIds,
+        types: filters.selectedTypes,
+        groupings: filters.selectedGroupings.map(_ => _.key),
+        query: filters.query,
+        accounts: filters.selectedAccountIds,
       });
+    });
   }
 
   public ngAfterViewInit() {

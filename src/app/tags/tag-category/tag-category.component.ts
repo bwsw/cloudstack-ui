@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Tag } from '../../shared/models/tag.model';
 
-
 export interface TagCategory {
   name: string;
   tags: Array<Tag>;
@@ -10,16 +9,23 @@ export interface TagCategory {
 @Component({
   selector: 'cs-tag-category',
   templateUrl: 'tag-category.component.html',
-  styleUrls: ['tag-category.component.scss']
+  styleUrls: ['tag-category.component.scss'],
 })
 export class TagCategoryComponent {
-  @Input() public category: TagCategory;
-  @Input() public tags: Array<Tag>;
-  @Input() public query: string;
-  @Input() public hasPermissions = false;
-  @Output() public onTagAdd: EventEmitter<TagCategory>;
-  @Output() public onTagEdit: EventEmitter<Tag>;
-  @Output() public onTagDelete: EventEmitter<Tag>;
+  @Input()
+  public category: TagCategory;
+  @Input()
+  public tags: Array<Tag>;
+  @Input()
+  public query: string;
+  @Input()
+  public hasPermissions = false;
+  @Output()
+  public onTagAdd: EventEmitter<TagCategory>;
+  @Output()
+  public onTagEdit: EventEmitter<Tag>;
+  @Output()
+  public onTagDelete: EventEmitter<Tag>;
 
   public loading: boolean;
 

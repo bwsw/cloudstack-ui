@@ -7,11 +7,13 @@ import { ResourceType } from '../../../shared/models/resource-limit.model';
 
 @Component({
   selector: 'cs-account-statistics',
-  templateUrl: 'account-statistics.component.html'
+  templateUrl: 'account-statistics.component.html',
 })
 export class AccountStatisticsComponent {
-  @Input() public stats: Array<ResourceCount>;
-  @Output() public statisticsUpdate = new EventEmitter();
+  @Input()
+  public stats: Array<ResourceCount>;
+  @Output()
+  public statisticsUpdate = new EventEmitter();
 
   public resourceLabels = {
     [ResourceType.Instance]: 'ACCOUNT_PAGE.CONFIGURATION.VM_COUNT',
@@ -28,18 +30,17 @@ export class AccountStatisticsComponent {
     [ResourceType.SecondaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_COUNT',
   };
 
-  constructor(
-    private dialogService: DialogService
-  ) {
-  }
-
+  constructor(private dialogService: DialogService) {}
 
   public confirmUpdateStats() {
-    this.dialogService.confirm({
-      message: 'ACCOUNT_PAGE.SIDEBAR.ARE_YOU_SURE_UPDATE_STATS'
-    }).pipe(
-      onErrorResumeNext(),
-      filter(res => Boolean(res)))
+    this.dialogService
+      .confirm({
+        message: 'ACCOUNT_PAGE.SIDEBAR.ARE_YOU_SURE_UPDATE_STATS',
+      })
+      .pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res))
+      )
       .subscribe(res => this.statisticsUpdate.emit(res));
   }
 }

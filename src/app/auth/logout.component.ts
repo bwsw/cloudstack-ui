@@ -10,7 +10,7 @@ import { LogoutComplete } from './store/auth.actions';
 
 @Component({
   selector: 'cs-logout',
-  template: '<div></div>'
+  template: '<div></div>',
 })
 export class LogoutComponent implements OnInit {
   constructor(
@@ -26,9 +26,7 @@ export class LogoutComponent implements OnInit {
     this.authService.logout().subscribe(() => {
       this.store.dispatch(new LogoutComplete());
       const next = this.activatedRoute.snapshot.queryParams['next'];
-      const redirectionParams = next
-        ? this.routerUtilsService.getRedirectionQueryParams(next)
-        : {};
+      const redirectionParams = next ? this.routerUtilsService.getRedirectionQueryParams(next) : {};
       this.router.navigate(['/login'], redirectionParams);
       this.dialog.closeAll();
     });

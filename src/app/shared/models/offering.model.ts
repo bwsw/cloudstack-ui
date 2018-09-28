@@ -2,7 +2,7 @@ import { BaseModelInterface } from './base.model';
 
 export const StorageTypes = {
   local: 'local',
-  shared: 'shared'
+  shared: 'shared',
 };
 
 export interface Offering extends BaseModelInterface {

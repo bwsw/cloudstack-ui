@@ -10,12 +10,12 @@ export enum SnapshotStates {
   Creating = 'Creating',
   BackingUp = 'BackingUp',
   Allocated = 'Allocated',
-  Error = 'Error'
+  Error = 'Error',
 }
 
 export enum SnapshotPageMode {
   Volume = 'volume',
-  VM = 'vm'
+  VM = 'vm',
 }
 
 export enum SnapshotType {

@@ -40,5 +40,4 @@ export class SecurityGroupListItemComponent implements OnChanges {
   public get isPrivate(): boolean {
     return getType(this.item) === SecurityGroupViewMode.Private.toString();
   }
-
 }

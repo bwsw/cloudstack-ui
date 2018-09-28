@@ -28,7 +28,7 @@ import * as templateActions from '../../../../reducers/templates/redux/template.
       (cancel)="onCancel()"
       (selectionChange)="onSelect($event)"
     ></cs-vm-creation-template-dialog>
-  `
+  `,
 })
 export class InstallationSourceDialogComponent {
   readonly templates$ = this.store.pipe(select(fromTemplates.selectFilteredTemplatesForVmCreation));
@@ -36,7 +36,9 @@ export class InstallationSourceDialogComponent {
   readonly groups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
   readonly viewMode$ = this.store.pipe(select(fromTemplates.vmCreationListViewMode));
   readonly selectedTypes$ = this.store.pipe(select(fromTemplates.vmCreationListSelectedTypes));
-  readonly selectedOsFamilies$ = this.store.pipe(select(fromTemplates.vmCreationListSelectedOsFamilies));
+  readonly selectedOsFamilies$ = this.store.pipe(
+    select(fromTemplates.vmCreationListSelectedOsFamilies)
+  );
   readonly selectedGroups$ = this.store.pipe(select(fromTemplates.vmCreationListSelectedGroups));
   readonly query$ = this.store.pipe(select(fromTemplates.vmCreationListQuery));
 

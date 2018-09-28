@@ -22,39 +22,36 @@ import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as snapshotActions from './snapshot.actions';
 
-
 @Injectable()
 export class SnapshotEffects {
   @Effect()
   loadSnapshots$: Observable<Action> = this.actions$.pipe(
     ofType(snapshotActions.LOAD_SNAPSHOT_REQUEST),
     switchMap((action: snapshotActions.LoadSnapshotRequest) => {
-      return this.snapshotService
-        .getListAll(action.payload).pipe(
-          map((snapshots: Snapshot[]) => new snapshotActions.LoadSnapshotResponse(snapshots)),
-          catchError(() => of(new snapshotActions.LoadSnapshotResponse([]))));
-    }));
-
+      return this.snapshotService.getListAll(action.payload).pipe(
+        map((snapshots: Snapshot[]) => new snapshotActions.LoadSnapshotResponse(snapshots)),
+        catchError(() => of(new snapshotActions.LoadSnapshotResponse([])))
+      );
+    })
+  );
 
   @Effect()
   addSnapshot$: Observable<Action> = this.actions$.pipe(
     ofType(snapshotActions.ADD_SNAPSHOT),
     mergeMap((action: snapshotActions.AddSnapshot) => {
-      return this.dialog.open(SnapshotCreationComponent, {
-        data: action.payload
-      })
-        .afterClosed().pipe(
+      return this.dialog
+        .open(SnapshotCreationComponent, {
+          data: action.payload,
+        })
+        .afterClosed()
+        .pipe(
           filter(res => Boolean(res)),
           mergeMap((params: ISnapshotData) => {
-
             const notificationId = this.jobsNotificationService.add(
-              'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS');
+              'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS'
+            );
 
-            return this.snapshotService.create(
-              action.payload.id,
-              params.name,
-              params.desc
-            ).pipe(
+            return this.snapshotService.create(action.payload.id, params.name, params.desc).pipe(
               tap(() => {
                 const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_DONE';
                 this.showNotificationsOnFinish(message, notificationId);
@@ -62,20 +59,24 @@ export class SnapshotEffects {
               map(newSnap => {
                 return new snapshotActions.AddSnapshotSuccess(newSnap);
               }),
-              catchError((error) => {
+              catchError(error => {
                 const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
                 this.showNotificationsOnFail(error, message, notificationId);
                 return of(new snapshotActions.SnapshotUpdateError(error));
-              }));
-          }));
-    }));
+              })
+            );
+          })
+        );
+    })
+  );
 
   @Effect()
   deleteSnapshot$: Observable<Action> = this.actions$.pipe(
     ofType(snapshotActions.DELETE_SNAPSHOT),
     mergeMap((action: snapshotActions.DeleteSnapshot) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS');
+        'NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS'
+      );
       return this.snapshotService.remove(action.payload.id).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_DONE';
@@ -84,18 +85,22 @@ export class SnapshotEffects {
         map(() => {
           return new snapshotActions.DeleteSnapshotSuccess(action.payload);
         }),
-        catchError((error) => {
+        catchError(error => {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new snapshotActions.SnapshotUpdateError(error));
-        }));
-    }));
+        })
+      );
+    })
+  );
 
   @Effect()
   deleteSnapshots$: Observable<Action> = this.actions$.pipe(
     ofType(snapshotActions.DELETE_SNAPSHOTS),
-    mergeMap((action: snapshotActions.DeleteSnapshots) => action.payload
-      .map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot))));
+    mergeMap((action: snapshotActions.DeleteSnapshots) =>
+      action.payload.map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot))
+    )
+  );
 
   @Effect()
   revertVolumeToSnapshot$: Observable<Action> = this.actions$.pipe(
@@ -104,60 +109,72 @@ export class SnapshotEffects {
       this.store.pipe(select(fromVolumes.selectEntities)),
       this.store.pipe(select(fromVMs.selectEntities))
     ),
-    mergeMap(([action, volumes, vms]: [
-      snapshotActions.RevertVolumeToSnapshot, NgrxEntities<Volume>, NgrxEntities<VirtualMachine>
+    mergeMap(
+      ([action, volumes, vms]: [
+        snapshotActions.RevertVolumeToSnapshot,
+        NgrxEntities<Volume>,
+        NgrxEntities<VirtualMachine>
       ]) => {
-      const vmId = Object.entries(volumes)
-        && volumes[action.payload.volumeid]
-        && volumes[action.payload.volumeid].virtualmachineid;
-      const isVmRunning = Object.entries(vms).length && vms[vmId] && vms[vmId].state === VmState.Running;
+        const vmId =
+          Object.entries(volumes) &&
+          volumes[action.payload.volumeid] &&
+          volumes[action.payload.volumeid].virtualmachineid;
+        const isVmRunning =
+          Object.entries(vms).length && vms[vmId] && vms[vmId].state === VmState.Running;
 
-      return this.dialogService.confirm({
-        message: isVmRunning
-          ? 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_REVERTING_WITH_VM_REBOOT'
-          : 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_REVERTING'
-      }).pipe(
-        onErrorResumeNext(),
-        filter(res => Boolean(res)),
-        mergeMap(() => (isVmRunning
-          ? this.vmEffects.stop(vms[vmId])
-          : of(null)).pipe(
-          mergeMap(() => {
-            const notificationId = this.jobsNotificationService.add(
-              'NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS');
-            return this.snapshotService.revert(action.payload.id).pipe(
-              tap(() => {
-                const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_DONE';
-                this.showNotificationsOnFinish(message, notificationId);
-              }),
-              mergeMap(() => {
-                return isVmRunning
-                  ? [
-                    new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload),
-                    new vmActions.StartVm(vms[vmId])
-                  ]
-                  : [new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload)];
-              }),
-              catchError((error) => {
-                const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
-                return of(new snapshotActions.SnapshotUpdateError(error))
-              }));
-          }))));
-    }));
+        return this.dialogService
+          .confirm({
+            message: isVmRunning
+              ? 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_REVERTING_WITH_VM_REBOOT'
+              : 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_REVERTING',
+          })
+          .pipe(
+            onErrorResumeNext(),
+            filter(res => Boolean(res)),
+            mergeMap(() =>
+              (isVmRunning ? this.vmEffects.stop(vms[vmId]) : of(null)).pipe(
+                mergeMap(() => {
+                  const notificationId = this.jobsNotificationService.add(
+                    'NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS'
+                  );
+                  return this.snapshotService.revert(action.payload.id).pipe(
+                    tap(() => {
+                      const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_DONE';
+                      this.showNotificationsOnFinish(message, notificationId);
+                    }),
+                    mergeMap(() => {
+                      return isVmRunning
+                        ? [
+                            new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload),
+                            new vmActions.StartVm(vms[vmId]),
+                          ]
+                        : [new snapshotActions.RevertVolumeToSnapshotSuccess(action.payload)];
+                    }),
+                    catchError(error => {
+                      const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
+                      this.showNotificationsOnFail(error, message, notificationId);
+                      return of(new snapshotActions.SnapshotUpdateError(error));
+                    })
+                  );
+                })
+              )
+            )
+          );
+      }
+    )
+  );
 
   @Effect({ dispatch: false })
   deleteSnapshotSuccess$ = this.actions$.pipe(
     ofType(snapshotActions.DELETE_SNAPSHOT_SUCCESS),
     map((action: snapshotActions.DeleteSnapshotSuccess) => action.payload),
-    filter((snapshot: Snapshot) => this.router.isActive(
-      `/snapshots/${snapshot.id}`,
-      false
-    )),
-    tap(() => this.router.navigate(['./snapshots'], {
-      queryParamsHandling: 'preserve'
-    })));
-
+    filter((snapshot: Snapshot) => this.router.isActive(`/snapshots/${snapshot.id}`, false)),
+    tap(() =>
+      this.router.navigate(['./snapshots'], {
+        queryParamsHandling: 'preserve',
+      })
+    )
+  );
 
   constructor(
     private store: Store<State>,
@@ -169,14 +186,13 @@ export class SnapshotEffects {
     private vmEffects: VirtualMachinesEffects,
     private router: Router,
     private snackBarService: SnackBarService
-  ) {
-  }
+  ) {}
 
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.finish({
         id: jobNotificationId,
-        message
+        message,
       });
     }
     this.snackBarService.open(message).subscribe();
@@ -186,14 +202,14 @@ export class SnapshotEffects {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
         id: jobNotificationId,
-        message
+        message,
       });
     }
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
   }
 }

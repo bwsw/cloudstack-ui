@@ -20,7 +20,6 @@ import * as accountActions from './accounts.actions';
 
 @Injectable()
 export class AccountsEffects {
-
   @Effect()
   loadAccounts$: Observable<Action> = this.actions$.pipe(
     ofType(accountActions.LOAD_ACCOUNTS_REQUEST),
@@ -29,8 +28,10 @@ export class AccountsEffects {
         map((accounts: Account[]) => {
           return new accountActions.LoadAccountsResponse(accounts);
         }),
-        catchError(() => of(new accountActions.LoadAccountsResponse([]))));
-    }));
+        catchError(() => of(new accountActions.LoadAccountsResponse([])))
+      );
+    })
+  );
 
   @Effect()
   updateAccounts$: Observable<Action> = this.actions$.pipe(
@@ -45,13 +46,16 @@ export class AccountsEffects {
     ),
     map(() => {
       return new accountActions.LoadAccountsRequest();
-    }));
+    })
+  );
 
   @Effect()
   disableAccount$: Observable<Action> = this.actions$.pipe(
     ofType(accountActions.DISABLE_ACCOUNT),
     mergeMap((action: accountActions.DisableAccountRequest) => {
-      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.ACCOUNT.DISABLE_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.ACCOUNT.DISABLE_IN_PROGRESS'
+      );
       return this.accountService.disableAccount(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_DONE';
@@ -62,8 +66,10 @@ export class AccountsEffects {
           const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new accountActions.AccountUpdateError(error));
-        }));
-    }));
+        })
+      );
+    })
+  );
 
   @Effect()
   enableAccount$: Observable<Action> = this.actions$.pipe(
@@ -78,14 +84,18 @@ export class AccountsEffects {
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
-        }));
-    }));
+        })
+      );
+    })
+  );
 
   @Effect()
   deleteAccount$: Observable<Action> = this.actions$.pipe(
     ofType(accountActions.DELETE_ACCOUNT),
     mergeMap((action: accountActions.DeleteAccountRequest) => {
-      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.ACCOUNT.DELETION_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.ACCOUNT.DELETION_IN_PROGRESS'
+      );
       return this.accountService.removeAccount(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.ACCOUNT.DELETION_DONE';
@@ -96,9 +106,10 @@ export class AccountsEffects {
           const message = 'NOTIFICATIONS.ACCOUNT.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new accountActions.AccountUpdateError(error));
-        }));
-    }));
-
+        })
+      );
+    })
+  );
 
   @Effect()
   createAccount$: Observable<Action> = this.actions$.pipe(
@@ -113,15 +124,18 @@ export class AccountsEffects {
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.CreateError(error));
-        }));
-    }));
+        })
+      );
+    })
+  );
 
   @Effect({ dispatch: false })
   accountCreateSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(accountActions.ACCOUNT_CREATE_SUCCESS),
     tap((action: accountActions.CreateSuccess) => {
       this.dialog.closeAll();
-    }));
+    })
+  );
 
   @Effect({ dispatch: false })
   deleteSuccessNavigate$: Observable<Account> = this.actions$.pipe(
@@ -132,9 +146,10 @@ export class AccountsEffects {
     }),
     tap(() => {
       this.router.navigate(['./accounts'], {
-        queryParamsHandling: 'preserve'
+        queryParamsHandling: 'preserve',
       });
-    }));
+    })
+  );
 
   @Effect()
   userDelete$: Observable<Action> = this.actions$.pipe(
@@ -149,7 +164,10 @@ export class AccountsEffects {
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
-        }))));
+        })
+      )
+    )
+  );
 
   @Effect()
   userCreate$: Observable<Action> = this.actions$.pipe(
@@ -160,18 +178,22 @@ export class AccountsEffects {
           const message = 'NOTIFICATIONS.ACCOUNT.USER.CREATION_DONE';
           this.showNotificationsOnFinish(message);
         }),
-        map((user) => new accountActions.AccountUserCreateSuccess(user)),
+        map(user => new accountActions.AccountUserCreateSuccess(user)),
         catchError(error => {
           this.showNotificationsOnFail(error);
-          return of(new accountActions.AccountUpdateError(error))
-        }))));
+          return of(new accountActions.AccountUpdateError(error));
+        })
+      )
+    )
+  );
 
   @Effect({ dispatch: false })
   userCreateSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS),
     tap(() => {
       this.dialog.closeAll();
-    }));
+    })
+  );
 
   @Effect()
   userUpdate$: Observable<Action> = this.actions$.pipe(
@@ -182,11 +204,14 @@ export class AccountsEffects {
           const message = 'NOTIFICATIONS.ACCOUNT.USER.UPDATE_DONE';
           this.showNotificationsOnFinish(message);
         }),
-        map((user) => new accountActions.AccountUserUpdateSuccess(user)),
+        map(user => new accountActions.AccountUserUpdateSuccess(user)),
         catchError(error => {
           this.showNotificationsOnFail(error);
-          return of(new accountActions.AccountUpdateError(error))
-        }))));
+          return of(new accountActions.AccountUpdateError(error));
+        })
+      )
+    )
+  );
 
   @Effect()
   userGenerateKeys$: Observable<Action> = this.actions$.pipe(
@@ -197,25 +222,37 @@ export class AccountsEffects {
           const message = 'NOTIFICATIONS.ACCOUNT.USER.GENERATE_KEYS_DONE';
           this.showNotificationsOnFinish(message);
         }),
-        map(res => new accountActions.AccountLoadUserKeysSuccess({
-          user: action.payload,
-          userKeys: res
-        })),
+        map(
+          res =>
+            new accountActions.AccountLoadUserKeysSuccess({
+              user: action.payload,
+              userKeys: res,
+            })
+        ),
         catchError(error => {
           this.showNotificationsOnFail(error);
-          return of(new accountActions.AccountUpdateError(error))
-        }))));
+          return of(new accountActions.AccountUpdateError(error));
+        })
+      )
+    )
+  );
 
   @Effect()
   userLoadKeys$: Observable<Action> = this.actions$.pipe(
     ofType(accountActions.ACCOUNT_LOAD_USER_KEYS),
     switchMap((action: accountActions.AccountLoadUserKeys) =>
       this.userService.getUserKeys(action.payload.id).pipe(
-        map(res => new accountActions.AccountLoadUserKeysSuccess({
-          user: action.payload,
-          userKeys: res
-        })),
-        catchError(error => of(new accountActions.AccountUpdateError(error))))));
+        map(
+          res =>
+            new accountActions.AccountLoadUserKeysSuccess({
+              user: action.payload,
+              userKeys: res,
+            })
+        ),
+        catchError(error => of(new accountActions.AccountUpdateError(error)))
+      )
+    )
+  );
 
   constructor(
     private actions$: Actions,
@@ -226,14 +263,13 @@ export class AccountsEffects {
     private dialogService: DialogService,
     private snackBarService: SnackBarService,
     private jobsNotificationService: JobsNotificationService
-  ) {
-  }
+  ) {}
 
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.finish({
         id: jobNotificationId,
-        message
+        message,
       });
     }
     this.snackBarService.open(message).subscribe();
@@ -243,14 +279,14 @@ export class AccountsEffects {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
         id: jobNotificationId,
-        message
+        message,
       });
     }
     this.dialogService.alert({
       message: {
         translationToken: error.message,
-        interpolateParams: error.params
-      }
+        interpolateParams: error.params,
+      },
     });
   }
 }

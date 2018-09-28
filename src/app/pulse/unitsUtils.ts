@@ -1,23 +1,13 @@
 const bytes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 const siBytes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-const siBits = [
-  'bits',
-  'kbits',
-  'Mbits',
-  'Gbits',
-  'Tbits',
-  'Pbits',
-  'Ebits',
-  'Zbits',
-  'Ybits'
-];
+const siBits = ['bits', 'kbits', 'Mbits', 'Gbits', 'Tbits', 'Pbits', 'Ebits', 'Zbits', 'Ybits'];
 
 function getSize(size: number, units: Array<string>, kB: number) {
   let u = 0;
 
   if (Math.abs(size) < kB) {
     if (Math.abs(size) <= 1) {
-      return (Math.abs(size) % 1 === 0) ? `${size.toFixed(0)} ${units[u]}` : null;
+      return Math.abs(size) % 1 === 0 ? `${size.toFixed(0)} ${units[u]}` : null;
     }
     return `${size.toFixed(1)} ${units[u]}`;
   }

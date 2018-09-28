@@ -6,7 +6,6 @@ import * as range from 'lodash/range';
 import { Time } from '../../time-picker/time-picker.component';
 import { TimeFormat } from '../../../../shared/types';
 
-
 export interface MonthlyPolicy extends Time {
   dayOfMonth: number;
 }
@@ -19,12 +18,13 @@ export interface MonthlyPolicy extends Time {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => MonthlyPolicyComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class MonthlyPolicyComponent implements ControlValueAccessor {
-  @Input() public timeFormat: TimeFormat;
+  @Input()
+  public timeFormat: TimeFormat;
   public time: Time;
   public dayOfMonth = 1;
   public daysOfMonth: Array<number> = range(1, 29);
@@ -41,8 +41,7 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
     this.writeValue(this.policy);
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   @Input()
   public get policy(): MonthlyPolicy {
@@ -53,7 +52,7 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
     this.time = {
       hour: value.hour,
       minute: value.minute,
-      period: value.period
+      period: value.period,
     };
     if (value.dayOfMonth) {
       this.dayOfMonth = value.dayOfMonth;
@@ -66,8 +65,7 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     if (value != null) {

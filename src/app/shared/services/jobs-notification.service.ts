@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Utils } from './utils/utils.service';
 
-
 export enum INotificationStatus {
   Pending,
   Finished,
-  Failed
+  Failed,
 }
 
 export interface JobNotification {
@@ -38,7 +37,7 @@ export class JobsNotificationService {
     const n: JobNotification = {
       id,
       message: message,
-      status: INotificationStatus.Pending
+      status: INotificationStatus.Pending,
     };
 
     this.notifications.unshift(n);
@@ -51,7 +50,7 @@ export class JobsNotificationService {
     this.completeJob({
       id: notification.id,
       message: notification.message,
-      status: INotificationStatus.Finished
+      status: INotificationStatus.Finished,
     });
   }
 
@@ -59,7 +58,7 @@ export class JobsNotificationService {
     this.completeJob({
       id: notification.id,
       message: notification.message,
-      status: INotificationStatus.Failed
+      status: INotificationStatus.Failed,
     });
   }
 
@@ -77,13 +76,15 @@ export class JobsNotificationService {
   }
 
   public removeCompleted(): void {
-    this.notifications = this.notifications.filter((n: JobNotification) => n.status === INotificationStatus.Pending);
+    this.notifications = this.notifications.filter(
+      (n: JobNotification) => n.status === INotificationStatus.Pending
+    );
     this._pendingJobsCount$.next(this.notifications.length);
   }
 
   public reset(): void {
     this.notifications = [];
-    this._pendingJobsCount$.next( 0);
+    this._pendingJobsCount$.next(0);
     this._unseenCompletedJobsCount$.next(0);
   }
 

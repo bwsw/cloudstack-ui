@@ -17,8 +17,5 @@ export function transformSubnetMaskToCidrSuffix(subnetMask: string): string {
 }
 
 function countOnesInBinaryRepresentation(number: number): number {
-  return number
-    .toString(2)
-    .replace(/0/g, '')
-    .length;
+  return number.toString(2).replace(/0/g, '').length;
 }

@@ -11,10 +11,7 @@ import { configSelectors, State } from '../../root-store';
 
 @Injectable()
 export abstract class OfferingService<T extends Offering> extends BaseBackendService<T> {
-  constructor(
-    protected http: HttpClient,
-    private store: Store<State>,
-  ) {
+  constructor(protected http: HttpClient, private store: Store<State>) {
     super(http);
   }
 
@@ -47,16 +44,15 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
       return offeringList;
     }
 
-    return offeringList
-      .filter(offering => {
-        const offeringAvailableInZone = this.isOfferingAvailableInZone(
-          offering,
-          offeringAvailability,
-          zone
-        );
-        const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(offering);
-        return offeringAvailableInZone && localStorageCompatibility;
-      });
+    return offeringList.filter(offering => {
+      const offeringAvailableInZone = this.isOfferingAvailableInZone(
+        offering,
+        offeringAvailability,
+        zone
+      );
+      const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(offering);
+      return offeringAvailableInZone && localStorageCompatibility;
+    });
   }
 
   protected abstract isOfferingAvailableInZone(

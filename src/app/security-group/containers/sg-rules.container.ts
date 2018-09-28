@@ -7,7 +7,6 @@ import { SecurityGroup } from '../sg.model';
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 
-
 @Component({
   selector: 'cs-sg-rules-container',
   template: `
@@ -17,7 +16,7 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
       [editMode]="editMode"
       (onFirewallRulesChange)="onFirewallRulesChange($event)"
       (onCloseDialog)="closeDialog()"
-    ></cs-security-group-rules>`
+    ></cs-security-group-rules>`,
 })
 export class SgRulesContainerComponent implements OnInit {
   readonly securityGroup$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);

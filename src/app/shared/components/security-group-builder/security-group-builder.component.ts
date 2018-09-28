@@ -16,13 +16,13 @@ export interface RuleListItem {
 }
 
 interface BuilderSecurityGroups {
-  available: Array<SecurityGroup>,
-  selected: Array<SecurityGroup>
+  available: Array<SecurityGroup>;
+  selected: Array<SecurityGroup>;
 }
 
 interface BuilderNetworkRules {
-  ingress: Array<RuleListItem>,
-  egress: Array<RuleListItem>
+  ingress: Array<RuleListItem>;
+  egress: Array<RuleListItem>;
 }
 
 @Component({
@@ -31,8 +31,10 @@ interface BuilderNetworkRules {
   styleUrls: ['security-group-builder.component.scss'],
 })
 export class SecurityGroupBuilderComponent implements OnInit {
-  @Input() public inputRules: Rules;
-  @Output() public onChange = new EventEmitter<Rules>();
+  @Input()
+  public inputRules: Rules;
+  @Output()
+  public onChange = new EventEmitter<Rules>();
 
   public securityGroups: BuilderSecurityGroups;
   public selectedGroupIndex: number;
@@ -51,12 +53,11 @@ export class SecurityGroupBuilderComponent implements OnInit {
   public ngOnInit(): void {
     const accountSecurityGroups = this.securityGroupService.getList({
       'tags[0].key': SecurityGroupTagKeys.type,
-      'tags[0].value': SecurityGroupType.CustomTemplate
+      'tags[0].value': SecurityGroupType.CustomTemplate,
     });
 
-    accountSecurityGroups.pipe(
-      withLatestFrom(this.store.select(configSelectors.get('securityGroupTemplates')))
-    )
+    accountSecurityGroups
+      .pipe(withLatestFrom(this.store.select(configSelectors.get('securityGroupTemplates'))))
       .subscribe(([groups, templates]) => {
         this.securityGroups.available = templates.concat(groups);
 
@@ -125,8 +126,8 @@ export class SecurityGroupBuilderComponent implements OnInit {
 
   public onRulesChange(ruleItem: RuleListItem) {
     const findByRuleId = (_: RuleListItem) => _.rule.ruleid === ruleItem.rule.ruleid;
-    const changedRule = this.selectedRules.ingress.find(findByRuleId)
-      || this.selectedRules.egress.find(findByRuleId);
+    const changedRule =
+      this.selectedRules.ingress.find(findByRuleId) || this.selectedRules.egress.find(findByRuleId);
     if (changedRule) {
       changedRule.checked = ruleItem.checked;
     }
@@ -136,18 +137,14 @@ export class SecurityGroupBuilderComponent implements OnInit {
 
   private emitChange(): void {
     this.onChange.emit(this.rules);
-  };
+  }
 
   private get checkedIngressRules(): Array<NetworkRule> {
-    return this.selectedRules.ingress
-      .filter(rule => rule.checked)
-      .map(item => item.rule);
+    return this.selectedRules.ingress.filter(rule => rule.checked).map(item => item.rule);
   }
 
   private get checkedEgressRules(): Array<NetworkRule> {
-    return this.selectedRules.egress
-      .filter(rule => rule.checked)
-      .map(item => item.rule);
+    return this.selectedRules.egress.filter(rule => rule.checked).map(item => item.rule);
   }
 
   private initRulesList(): void {
@@ -156,15 +153,15 @@ export class SecurityGroupBuilderComponent implements OnInit {
     }
 
     for (let i = 0; i < this.inputRules.templates.length; i++) {
-      const ind = this.securityGroups.available
-        .findIndex(template => template.id === this.inputRules.templates[i].id);
+      const ind = this.securityGroups.available.findIndex(
+        template => template.id === this.inputRules.templates[i].id
+      );
 
       if (ind === -1) {
         continue;
       }
 
-      this.securityGroups.selected
-        .push(this.securityGroups.available[ind]);
+      this.securityGroups.selected.push(this.securityGroups.available[ind]);
       this.securityGroups.available.splice(ind, 1);
     }
 
@@ -201,7 +198,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
     this.selectedRules.ingress.push({
       rule,
       checked,
-      type
+      type,
     });
   }
 
@@ -209,7 +206,7 @@ export class SecurityGroupBuilderComponent implements OnInit {
     this.selectedRules.egress.push({
       rule,
       checked,
-      type
+      type,
     });
   }
 
@@ -244,14 +241,12 @@ export class SecurityGroupBuilderComponent implements OnInit {
   }
 
   private moveSelectedGroupLeft(): void {
-    this.securityGroups.available
-      .push(this.securityGroups.selected[this.selectedGroupIndex]);
+    this.securityGroups.available.push(this.securityGroups.selected[this.selectedGroupIndex]);
     this.securityGroups.selected.splice(this.selectedGroupIndex, 1);
   }
 
   private moveSelectedGroupRight(): void {
-    this.securityGroups.selected
-      .push(this.securityGroups.available[this.selectedGroupIndex]);
+    this.securityGroups.selected.push(this.securityGroups.available[this.selectedGroupIndex]);
     this.securityGroups.available.splice(this.selectedGroupIndex, 1);
   }
 }

@@ -14,7 +14,7 @@ const defaultWidth = '400px';
 
 export interface ParametrizedTranslation {
   translationToken: string;
-  interpolateParams: { [key: string]: string; };
+  interpolateParams: { [key: string]: string };
 }
 
 export interface BaseDialogConfiguration {
@@ -24,11 +24,9 @@ export interface BaseDialogConfiguration {
   width?: string;
 }
 
-
 @Injectable()
 export class DialogService {
-
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) {}
 
   public confirm(config: ConfirmDialogConfiguration): Observable<any> {
     let dialogRef: MatDialogRef<ConfirmDialogComponent>;
@@ -66,7 +64,7 @@ export class DialogService {
     config.actions = config.actions.map(action => ({
       handler: action.handler || (() => {}),
       text: action.text,
-      isClosingAction: action.isClosingAction
+      isClosingAction: action.isClosingAction,
     }));
 
     dialogRef = this.dialog.open(AskDialogComponent, this.getDialogConfiguration(config));
@@ -74,12 +72,12 @@ export class DialogService {
   }
 
   private getDialogConfiguration(config: BaseDialogConfiguration) {
-    const configuration =  <MatDialogConfig>{
+    const configuration = <MatDialogConfig>{
       data: { config },
-      disableClose: config.disableClose
+      disableClose: config.disableClose,
     };
-    return config.width ?
-      Object.assign(configuration, { width: config.width }) :
-      Object.assign(configuration, { width: defaultWidth });
+    return config.width
+      ? Object.assign(configuration, { width: config.width })
+      : Object.assign(configuration, { width: defaultWidth });
   }
 }

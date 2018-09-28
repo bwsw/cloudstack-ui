@@ -8,14 +8,19 @@ import { AccountUser } from '../../models/account-user.model';
 
 @Component({
   selector: 'cs-account-user-actions',
-  templateUrl: 'account-user-actions.component.html'
+  templateUrl: 'account-user-actions.component.html',
 })
 export class AccountUserActionsComponent {
-  @Input() public user: AccountUser;
-  @Output() public onUserEdit: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onUserChangePassword: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onUserRegenerateKey: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onUserDelete: EventEmitter<Account> = new EventEmitter<Account>();
+  @Input()
+  public user: AccountUser;
+  @Output()
+  public onUserEdit: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public onUserChangePassword: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public onUserRegenerateKey: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public onUserDelete: EventEmitter<Account> = new EventEmitter<Account>();
 
   public actions: any[];
 
@@ -28,9 +33,12 @@ export class AccountUserActionsComponent {
 
   public activateAction(action, user) {
     if (action.confirmMessage) {
-      this.dialogService.confirm({ message: action.confirmMessage }).pipe(
-        onErrorResumeNext(),
-        filter(res => Boolean(res)))
+      this.dialogService
+        .confirm({ message: action.confirmMessage })
+        .pipe(
+          onErrorResumeNext(),
+          filter(res => Boolean(res))
+        )
         .subscribe(() => {
           switch (action.command) {
             case 'regenerateKey': {

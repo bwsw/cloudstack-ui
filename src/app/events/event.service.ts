@@ -9,7 +9,7 @@ import { DateTimeFormatterService } from '../shared/services/date-time-formatter
 
 @Injectable()
 @BackendResource({
-  entity: 'Event'
+  entity: 'Event',
 })
 export class EventService extends BaseBackendService<Event> {
   constructor(

@@ -16,7 +16,7 @@ import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
 
 @Component({
   selector: 'cs-ssh-key-sidebar',
-  templateUrl: 'ssh-key-sidebar.component.html'
+  templateUrl: 'ssh-key-sidebar.component.html',
 })
 export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   public description: string;
@@ -56,13 +56,15 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
             return forkJoin(
               of(sshKeyPair),
               this.accountTagService.getSshKeyDescription(sshKeyPair)
-            )
+            );
           }),
           map(([sshKeyPair, description]) => {
             this.description = description;
             return sshKeyPair;
-          }));
-      }));
+          })
+        );
+      })
+    );
   }
 
   public onRemoveClicked(sshKeyPair) {

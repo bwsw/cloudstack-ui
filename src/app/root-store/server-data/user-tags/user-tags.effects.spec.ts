@@ -14,8 +14,7 @@ import {
 import { UserTagsEffects } from './user-tags.effects';
 import { userTagKeys } from '../../../tags/tag-keys';
 
-class StoreStub {
-}
+class StoreStub {}
 
 function createTagServiceStub(listResponse: any, createRespone: any, removeResponce: any) {
   const service = jasmine.createSpyObj('tagService', ['getList', 'create', 'remove']);
@@ -73,8 +72,8 @@ describe('User tags effects', () => {
     const expected = cold('b', {
       b: new UpdateLastVMIdSuccess({
         key: userTagKeys.lastVMId,
-        value: '5'
-      })
+        value: '5',
+      }),
     });
     expect(effects.updateLastVmId$).toBeObservable(expected);
   });
@@ -90,8 +89,8 @@ describe('User tags effects', () => {
     const expected = cold('b', {
       b: new UpdateLastVMIdSuccess({
         key: userTagKeys.lastVMId,
-        value: '5'
-      })
+        value: '5',
+      }),
     });
     expect(effects.updateLastVmId$).toBeObservable(expected);
   });

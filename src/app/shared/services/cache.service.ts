@@ -1,6 +1,5 @@
 import { Cache } from './cache';
 
-
 export interface CacheStorage {
   [token: string]: Cache<any>;
 }
@@ -8,7 +7,6 @@ export interface CacheStorage {
 const caches: CacheStorage = {};
 
 export class CacheService {
-
   public static create<T>(token: string): Cache<T> {
     if (!caches[token]) {
       caches[token] = new Cache<T>();

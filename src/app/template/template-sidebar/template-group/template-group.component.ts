@@ -8,23 +8,22 @@ import { TemplateGroupSelectorContainerComponent } from './containers/template-g
 import { DefaultTemplateGroupId, ImageGroup } from '../../../shared/models';
 import { Language } from '../../../shared/types';
 
-
 @Component({
   selector: 'cs-template-group',
   templateUrl: 'template-group.component.html',
-  styleUrls: ['template-group.component.scss']
+  styleUrls: ['template-group.component.scss'],
 })
 export class TemplateGroupComponent {
-  @Input() public template: BaseTemplateModel;
-  @Input() public groups: ImageGroup[];
-  @Output() public groupChange = new EventEmitter<BaseTemplateModel>();
-  @Output() public groupReset = new EventEmitter();
+  @Input()
+  public template: BaseTemplateModel;
+  @Input()
+  public groups: ImageGroup[];
+  @Output()
+  public groupChange = new EventEmitter<BaseTemplateModel>();
+  @Output()
+  public groupReset = new EventEmitter();
 
-  constructor(
-    private dialog: MatDialog,
-    private translate: TranslateService
-  ) {
-  }
+  constructor(private dialog: MatDialog, private translate: TranslateService) {}
 
   public get groupsLoaded(): boolean {
     return !!Object.entries(this.groups).length;
@@ -33,7 +32,10 @@ export class TemplateGroupComponent {
   public get groupName(): string {
     const tag = this.template.tags.find(t => t.key === TemplateTagKeys.group);
     const group = tag && this.groups.find(g => g.id === tag.value);
-    return group && ((group.translations && group.translations[this.locale]) || group.id) || DefaultTemplateGroupId;
+    return (
+      (group && ((group.translations && group.translations[this.locale]) || group.id)) ||
+      DefaultTemplateGroupId
+    );
   }
 
   public get locale(): Language {
@@ -43,7 +45,7 @@ export class TemplateGroupComponent {
   public changeGroup(): void {
     this.dialog.open(TemplateGroupSelectorContainerComponent, {
       width: '380px',
-      data: {}
+      data: {},
     });
   }
 }

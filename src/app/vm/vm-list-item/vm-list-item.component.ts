@@ -1,14 +1,8 @@
-import {
-  EventEmitter,
-  OnInit
-} from '@angular/core';
+import { EventEmitter, OnInit } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { Color } from '../../shared/models';
 import { VmTagService } from '../../shared/services/tags/vm-tag.service';
-import {
-  VirtualMachine,
-  VmState
-} from '../shared/vm.model';
+import { VirtualMachine, VmState } from '../shared/vm.model';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { Volume } from '../../shared/models/volume.model';
 import { OsType } from '../../shared/models/os-type.model';
@@ -31,7 +25,7 @@ const stateTranslations = {
   RESTORE_IN_PROGRESS: 'VM_STATE.RESTORE_IN_PROGRESS',
   DESTROY_IN_PROGRESS: 'VM_STATE.DESTROY_IN_PROGRESS',
   DEPLOY_IN_PROGRESS: 'VM_STATE.DEPLOY_IN_PROGRESS',
-  RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS'
+  RESET_PASSWORD_IN_PROGRESS: 'VM_STATE.RESET_PASSWORD_IN_PROGRESS',
 };
 
 export abstract class VmListItemComponent implements OnInit {
@@ -46,8 +40,7 @@ export abstract class VmListItemComponent implements OnInit {
   public color: Color;
   public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
 
-  constructor(private vmTagService: VmTagService) {
-  }
+  constructor(private vmTagService: VmTagService) {}
 
   public ngOnInit(): void {
     this.updateColor();
@@ -72,7 +65,7 @@ export abstract class VmListItemComponent implements OnInit {
       stopping,
       error,
       destroyed,
-      'in-progress': inProgress
+      'in-progress': inProgress,
     };
   }
 
@@ -88,7 +81,7 @@ export abstract class VmListItemComponent implements OnInit {
       'dark-background': !!this.color && Utils.isColorDark(this.color.value),
       'light-background': !this.color || !Utils.isColorDark(this.color.value),
       error,
-      destroyed
+      destroyed,
     };
   }
 
@@ -108,19 +101,24 @@ export abstract class VmListItemComponent implements OnInit {
   }
 
   public get getDisksSize(): number {
-    const filteredVolumes = this.volumes && this.volumes
-      .filter((volume: Volume) => volume.virtualmachineid === this.item.id);
-    const sizeInBytes = filteredVolumes && filteredVolumes.reduce((
-      acc: number,
-      volume: Volume
-    ) => {
-      return acc + volume.size;
-    }, 0) || 0;
+    const filteredVolumes =
+      this.volumes &&
+      this.volumes.filter((volume: Volume) => volume.virtualmachineid === this.item.id);
+    const sizeInBytes =
+      (filteredVolumes &&
+        filteredVolumes.reduce((acc: number, volume: Volume) => {
+          return acc + volume.size;
+        }, 0)) ||
+      0;
     return sizeInBytes / Math.pow(2, 30);
   }
 
   public get getOsDescription(): string {
-    return this.osTypesMap && this.osTypesMap[this.item.guestOsId] && this.osTypesMap[this.item.guestOsId].description;
+    return (
+      this.osTypesMap &&
+      this.osTypesMap[this.item.guestOsId] &&
+      this.osTypesMap[this.item.guestOsId].description
+    );
   }
 
   private updateColor(): void {

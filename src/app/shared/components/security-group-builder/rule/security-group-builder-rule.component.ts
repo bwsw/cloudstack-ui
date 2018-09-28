@@ -5,23 +5,25 @@ import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../
 import { RuleListItem } from '../security-group-builder.component';
 import { CidrUtils } from '../../../utils/cidr-utils';
 
-
 @Component({
   selector: 'cs-security-group-builder-rule',
-  templateUrl: 'security-group-builder-rule.component.html'
+  templateUrl: 'security-group-builder-rule.component.html',
 })
 export class SecurityGroupBuilderRuleComponent {
-  @Input() public item: RuleListItem;
-  @Input() public type: string;
-  @Output() public onCheckChange = new EventEmitter<RuleListItem>();
+  @Input()
+  public item: RuleListItem;
+  @Input()
+  public type: string;
+  @Output()
+  public onCheckChange = new EventEmitter<RuleListItem>();
 
   public NetworkProtocols = NetworkProtocol;
 
   public get protocolTranslationToken(): string {
     const protocolTranslations = {
-      'TCP': 'SECURITY_GROUP_PAGE.RULES.TCP',
-      'UDP': 'SECURITY_GROUP_PAGE.RULES.UDP',
-      'ICMP': 'SECURITY_GROUP_PAGE.RULES.ICMP'
+      TCP: 'SECURITY_GROUP_PAGE.RULES.TCP',
+      UDP: 'SECURITY_GROUP_PAGE.RULES.UDP',
+      ICMP: 'SECURITY_GROUP_PAGE.RULES.ICMP',
     };
 
     return protocolTranslations[this.item.rule.protocol.toUpperCase()];
@@ -29,8 +31,8 @@ export class SecurityGroupBuilderRuleComponent {
 
   public get typeTranslationToken(): string {
     const typeTranslations = {
-      'INGRESS': 'SECURITY_GROUP_PAGE.RULES.INGRESS_DISPLAY',
-      'EGRESS': 'SECURITY_GROUP_PAGE.RULES.EGRESS_DISPLAY'
+      INGRESS: 'SECURITY_GROUP_PAGE.RULES.INGRESS_DISPLAY',
+      EGRESS: 'SECURITY_GROUP_PAGE.RULES.EGRESS_DISPLAY',
     };
 
     return typeTranslations[this.type.toUpperCase()];
@@ -46,22 +48,22 @@ export class SecurityGroupBuilderRuleComponent {
     return GetICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
   }
 
-  public get ruleTranslationToken(): { tooltip: string, name: string } {
+  public get ruleTranslationToken(): { tooltip: string; name: string } {
     if (this.item.rule.protocol === NetworkProtocol.ICMP) {
       if (!this.ruleParams['icmpTypeText'] && !this.ruleParams['icmpCodeText']) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.NO_TEXT_${this.item.type.toUpperCase()}_ICMP_RULE_NOMARKUP`,
-          name: `SECURITY_GROUP_PAGE.RULES.NO_TEXT_${this.item.type.toUpperCase()}_ICMP_RULE`
+          name: `SECURITY_GROUP_PAGE.RULES.NO_TEXT_${this.item.type.toUpperCase()}_ICMP_RULE`,
         };
       } else if (!this.ruleParams['icmpCodeText'] && !!this.ruleParams['icmpTypeText']) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.NO_CODE_${this.item.type.toUpperCase()}_ICMP_RULE_NOMARKUP`,
-          name: `SECURITY_GROUP_PAGE.RULES.NO_CODE_${this.item.type.toUpperCase()}_ICMP_RULE`
+          name: `SECURITY_GROUP_PAGE.RULES.NO_CODE_${this.item.type.toUpperCase()}_ICMP_RULE`,
         };
       } else if (this.ruleParams['icmpCodeText'] && this.ruleParams['icmpTypeText']) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_ICMP_RULE_NOMARKUP`,
-          name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_ICMP_RULE`
+          name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_ICMP_RULE`,
         };
       }
     } else {
@@ -69,12 +71,12 @@ export class SecurityGroupBuilderRuleComponent {
       if (portRule.startport === portRule.endport) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_NOMARKUP`,
-          name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE`
+          name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE`,
         };
       } else {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_PORT_RANGE_NOMARKUP`,
-          name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_PORT_RANGE`
+          name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_PORT_RANGE`,
         };
       }
     }
@@ -85,7 +87,7 @@ export class SecurityGroupBuilderRuleComponent {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
       cidr: this.item.rule.cidr,
-      ipVersion: CidrUtils.getCidrIpVersion(this.item.rule.cidr)
+      ipVersion: CidrUtils.getCidrIpVersion(this.item.rule.cidr),
     };
 
     let ruleParams;
@@ -106,20 +108,19 @@ export class SecurityGroupBuilderRuleComponent {
         icmpType: icmpRule.icmptype,
         icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
-        icmpCodeText: codeTranslation
+        icmpCodeText: codeTranslation,
       };
     } else {
       const portRule: PortNetworkRule = this.item.rule as PortNetworkRule;
       ruleParams = {
         ...params,
         startPort: portRule.startport,
-        endPort: portRule.endport
+        endPort: portRule.endport,
       };
     }
 
     return ruleParams;
   }
 
-  constructor(private translateService: TranslateService) {
-  }
+  constructor(private translateService: TranslateService) {}
 }

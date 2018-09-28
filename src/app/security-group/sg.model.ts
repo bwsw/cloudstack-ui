@@ -2,22 +2,21 @@ import { NetworkRule } from './network-rule.model';
 import { SecurityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
 import { Tag } from '../shared/models';
 
-
 export enum SecurityGroupType {
   PredefinedTemplate = 'predefined-template',
   CustomTemplate = 'custom-template',
   Private = 'private',
-  Shared = 'shared'
+  Shared = 'shared',
 }
 
 export enum NetworkRuleType {
   Ingress = 'Ingress',
-  Egress = 'Egress'
+  Egress = 'Egress',
 }
 
 export enum IPVersion {
   ipv4 = 'ipv4',
-  ipv6 = 'ipv6'
+  ipv6 = 'ipv6',
 }
 
 export interface SecurityGroup {
@@ -30,7 +29,7 @@ export interface SecurityGroup {
   virtualmachinecount: number;
   virtualmachineids: string[];
   egressrule: NetworkRule[];
-  ingressrule: NetworkRule[]
+  ingressrule: NetworkRule[];
   tags: Tag[];
   preselected?: boolean; // used by custom templates, described in config
 }

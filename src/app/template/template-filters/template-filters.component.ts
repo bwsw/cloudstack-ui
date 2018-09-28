@@ -8,41 +8,67 @@ import { AuthService } from '../../shared/services/auth.service';
 import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings';
 import { Language } from '../../shared/types';
 
-
 @Component({
   selector: 'cs-template-filters',
   templateUrl: 'template-filters.component.html',
-  styleUrls: ['template-filters.component.scss']
+  styleUrls: ['template-filters.component.scss'],
 })
 export class TemplateFiltersComponent implements OnInit {
-  @Input() public showIsoSwitch = true;
-  @Input() public showIso: boolean;
-  @Input() public dialogMode = false;
-  @Input() public availableGroupings: Array<any> = [];
-  @Input() public accounts: Array<Account> = [];
-  @Input() public osTypes: Array<OsType> = [];
-  @Input() public zones: Array<Zone>;
-  @Input() public domains: NgrxEntities<Domain>;
-  @Input() public groups: Array<ImageGroup>;
-  @Input() public selectedAccountIds: string[];
-  @Input() public selectedGroupings: any[];
-  @Input() public selectedGroups: ImageGroup[];
-  @Input() public selectedZones: Zone[];
-  @Input() public selectedTypes: any[];
-  @Input() public selectedOsFamilies: OsFamily[];
-  @Input() public query: string;
-  @Input() public viewMode: string;
+  @Input()
+  public showIsoSwitch = true;
+  @Input()
+  public showIso: boolean;
+  @Input()
+  public dialogMode = false;
+  @Input()
+  public availableGroupings: Array<any> = [];
+  @Input()
+  public accounts: Array<Account> = [];
+  @Input()
+  public osTypes: Array<OsType> = [];
+  @Input()
+  public zones: Array<Zone>;
+  @Input()
+  public domains: NgrxEntities<Domain>;
+  @Input()
+  public groups: Array<ImageGroup>;
+  @Input()
+  public selectedAccountIds: string[];
+  @Input()
+  public selectedGroupings: any[];
+  @Input()
+  public selectedGroups: ImageGroup[];
+  @Input()
+  public selectedZones: Zone[];
+  @Input()
+  public selectedTypes: any[];
+  @Input()
+  public selectedOsFamilies: OsFamily[];
+  @Input()
+  public query: string;
+  @Input()
+  public viewMode: string;
 
-  @Output() public queries = new EventEmitter();
-  @Output() public viewModeChange = new EventEmitter();
-  @Output() public filters = new EventEmitter();
-  @Output() public selectedAccountsChange = new EventEmitter();
-  @Output() public selectedGroupingsChange = new EventEmitter();
-  @Output() public selectedZonesChange = new EventEmitter();
-  @Output() public selectedOsFamiliesChange = new EventEmitter();
-  @Output() public selectedTypesChange = new EventEmitter();
-  @Output() public selectedGroupsChange = new EventEmitter();
-  @Output() public queryChange = new EventEmitter();
+  @Output()
+  public queries = new EventEmitter();
+  @Output()
+  public viewModeChange = new EventEmitter();
+  @Output()
+  public filters = new EventEmitter();
+  @Output()
+  public selectedAccountsChange = new EventEmitter();
+  @Output()
+  public selectedGroupingsChange = new EventEmitter();
+  @Output()
+  public selectedZonesChange = new EventEmitter();
+  @Output()
+  public selectedOsFamiliesChange = new EventEmitter();
+  @Output()
+  public selectedTypesChange = new EventEmitter();
+  @Output()
+  public selectedGroupsChange = new EventEmitter();
+  @Output()
+  public queryChange = new EventEmitter();
 
   public filterTranslations = {
     [TemplateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',
@@ -54,20 +80,16 @@ export class TemplateFiltersComponent implements OnInit {
     OsFamily.Linux,
     OsFamily.Windows,
     OsFamily.MacOs,
-    OsFamily.Other
+    OsFamily.Other,
   ];
 
   public categoryFilters = [
     TemplateFilters.self,
     TemplateFilters.featured,
-    TemplateFilters.community
+    TemplateFilters.community,
   ];
 
-  constructor(
-    private authService: AuthService,
-    private translate: TranslateService
-  ) {
-  }
+  constructor(private authService: AuthService, private translate: TranslateService) {}
 
   public ngOnInit(): void {
     if (this.dialogMode) {
@@ -80,7 +102,10 @@ export class TemplateFiltersComponent implements OnInit {
     }
 
     if (this.availableGroupings && this.selectedGroupings) {
-      this.availableGroupings = reorderAvailableGroupings(this.availableGroupings, this.selectedGroupings);
+      this.availableGroupings = reorderAvailableGroupings(
+        this.availableGroupings,
+        this.selectedGroupings
+      );
     }
   }
 

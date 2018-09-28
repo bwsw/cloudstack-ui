@@ -2,7 +2,6 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SecurityGroup } from '../../../../security-group/sg.model';
 
-
 @Component({
   selector: 'cs-security-group-selector',
   templateUrl: 'security-group-selector.component.html',
@@ -11,12 +10,13 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SecurityGroupSelectorComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SecurityGroupSelectorComponent implements ControlValueAccessor {
-  @Input() public securityGroups: Array<SecurityGroup>;
+  @Input()
+  public securityGroups: Array<SecurityGroup>;
   public _selectedSecurityGroups: Array<SecurityGroup> = [];
 
   @Input()
@@ -30,11 +30,9 @@ export class SecurityGroupSelectorComponent implements ControlValueAccessor {
     }
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
-  public registerOnTouched(): any {
-  }
+  public registerOnTouched(): any {}
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;
@@ -52,7 +50,9 @@ export class SecurityGroupSelectorComponent implements ControlValueAccessor {
   }
 
   public checkSelectedSG(securityGroupId: string): boolean {
-    const isSelectedItem = this.selectedSecurityGroups.find(securityGroup => securityGroup.id === securityGroupId);
+    const isSelectedItem = this.selectedSecurityGroups.find(
+      securityGroup => securityGroup.id === securityGroupId
+    );
     return !!isSelectedItem;
   }
 }

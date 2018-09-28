@@ -19,7 +19,7 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
       [query]="query$ | async"
       [volumes]="volumes$ | async"
       [virtualMachines]="virtualMachines$ | async"
-    ></cs-snapshots-page>`
+    ></cs-snapshots-page>`,
 })
 export class SnapshotsPageContainerComponent implements OnInit, AfterViewInit {
   readonly snapshots$ = this.store.select(fromSnapshots.selectFilteredSnapshots);
@@ -29,11 +29,7 @@ export class SnapshotsPageContainerComponent implements OnInit, AfterViewInit {
   readonly groupings$ = this.store.select(fromSnapshots.filterSelectedGroupings);
   readonly query$ = this.store.select(fromSnapshots.filterQuery);
 
-  constructor(
-    private store: Store<State>,
-    private cd: ChangeDetectorRef
-  ) {
-  }
+  constructor(private store: Store<State>, private cd: ChangeDetectorRef) {}
 
   public ngOnInit() {
     this.store.dispatch(new snapshotActions.LoadSnapshotRequest());

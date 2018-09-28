@@ -1,7 +1,7 @@
 import { VmActions } from '../vm-actions/vm-action';
 import { VirtualMachine, VmState } from './vm.model';
 
-const isIpAvailable = (vm) => {
+const isIpAvailable = vm => {
   return vm.nic.length && !!vm.nic[0].ipaddress;
 };
 
@@ -10,7 +10,7 @@ const VmStartAction = {
   command: VmActions.START,
   icon: 'mdi-play',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_START',
-  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Stopped
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Stopped,
 };
 
 const VmStopAction = {
@@ -18,7 +18,7 @@ const VmStopAction = {
   command: VmActions.STOP,
   icon: 'mdi-stop',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_STOP',
-  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running,
 };
 
 const VmRebootAction = {
@@ -26,7 +26,7 @@ const VmRebootAction = {
   command: VmActions.REBOOT,
   icon: 'mdi-replay',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_REBOOT',
-  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running,
 };
 
 const VmRestoreAction = {
@@ -34,10 +34,8 @@ const VmRestoreAction = {
   command: VmActions.RESTORE,
   icon: 'mdi-backup-restore',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE',
-  canActivate: (vm: VirtualMachine) => !!vm && [
-    VmState.Running,
-    VmState.Stopped
-  ].indexOf(vm.state) !== -1
+  canActivate: (vm: VirtualMachine) =>
+    !!vm && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1,
 };
 
 const VmDestroyAction = {
@@ -45,10 +43,8 @@ const VmDestroyAction = {
   command: VmActions.DESTROY,
   icon: 'mdi-delete',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_DESTROY',
-  canActivate: (vm: VirtualMachine) => !!vm && [
-    VmState.Running, VmState.Stopped,
-    VmState.Error
-  ].indexOf(vm.state) !== -1
+  canActivate: (vm: VirtualMachine) =>
+    !!vm && [VmState.Running, VmState.Stopped, VmState.Error].indexOf(vm.state) !== -1,
 };
 
 const VmResetPasswordAction = {
@@ -56,10 +52,11 @@ const VmResetPasswordAction = {
   command: VmActions.RESET_PASSWORD,
   icon: 'mdi-key',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
-  canActivate: (vm: VirtualMachine) => !!vm
-    && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1
-    && vm.passwordEnabled
-    && isIpAvailable(vm)
+  canActivate: (vm: VirtualMachine) =>
+    !!vm &&
+    [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1 &&
+    vm.passwordEnabled &&
+    isIpAvailable(vm),
 };
 
 const VmExpungeAction = {
@@ -67,7 +64,7 @@ const VmExpungeAction = {
   command: VmActions.EXPUNGE,
   icon: 'mdi-delete-forever',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_EXPUNGE',
-  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Destroyed
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Destroyed,
 };
 
 const VmRecoverAction = {
@@ -75,22 +72,21 @@ const VmRecoverAction = {
   command: VmActions.RECOVER,
   icon: 'mdi-restore-clock',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RECOVER',
-  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Destroyed
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Destroyed,
 };
 
 export const VmAccessAction = {
   name: 'VM_PAGE.COMMANDS.VM_ACCESS',
   command: VmActions.ACCESS,
   icon: 'mdi-laptop',
-  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running,
 };
 
 export const VmPulseAction = {
-
   name: 'PULSE.PULSE',
   command: VmActions.PULSE,
   icon: 'mdi-chart-line-variant',
-  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running
+  canActivate: (vm: VirtualMachine) => !!vm && vm.state === VmState.Running,
 };
 
 export class VmActionsService {
@@ -102,10 +98,7 @@ export class VmActionsService {
     VmDestroyAction,
     VmResetPasswordAction,
     VmAccessAction,
-    VmPulseAction
+    VmPulseAction,
   ];
-  public destroyedActions = [
-    VmExpungeAction,
-    VmRecoverAction
-  ];
+  public destroyedActions = [VmExpungeAction, VmRecoverAction];
 }
