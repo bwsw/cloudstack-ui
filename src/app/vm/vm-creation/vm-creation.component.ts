@@ -89,7 +89,8 @@ export class VmCreationComponent {
   }
 
   public get showResizeSlider(): boolean {
-    return !!this.vmCreationState.template;
+    return !!this.vmCreationState.template
+      && this.showRootDiskResize;
   }
 
   public get rootDiskSizeLimit(): number {

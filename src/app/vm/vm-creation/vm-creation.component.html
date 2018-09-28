@@ -109,14 +109,14 @@
                   ></cs-vm-creation-template-container>
                 </div>
 
-          <div *ngIf="diskOfferingsAreAllowed">
-            <cs-disk-offering-selector
-              name="diskOffering"
-              [diskOfferings]="diskOfferings"
-              [ngModel]="vmCreationState?.diskOffering"
-              (change)="diskOfferingChange.emit($event)"
-            ></cs-disk-offering-selector>
-          </div>
+                <div *ngIf="diskOfferingsAreAllowed">
+                  <cs-disk-offering-selector
+                    name="diskOffering"
+                    [diskOfferings]="diskOfferings"
+                    [ngModel]="vmCreationState?.diskOffering"
+                    (change)="diskOfferingChange.emit($event)"
+                  ></cs-disk-offering-selector>
+                </div>
 
                 <div *ngIf="showResizeSlider">
                   <cs-slider
