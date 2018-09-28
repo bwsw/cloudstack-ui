@@ -1,4 +1,8 @@
 {
+  "extends": [
+    "tslint-config-airbnb",
+    "tslint-config-prettier"
+  ],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
@@ -43,7 +47,6 @@
       "timeEnd",
       "trace"
     ],
-    "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
     "no-empty": false,
