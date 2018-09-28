@@ -90,7 +90,7 @@ export class VmCreationComponent {
 
   public get showResizeSlider(): boolean {
     return !!this.vmCreationState.template
-      && this.showRootDiskResize;
+      && !this.isCustomizedDiskOffering;
   }
 
   public get rootDiskSizeLimit(): number {
@@ -105,9 +105,8 @@ export class VmCreationComponent {
     return this.maxRootDiskSize;
   }
 
-  public get showRootDiskResize(): boolean {
-    return this.vmCreationState.diskOffering
-      && this.vmCreationState.diskOffering.iscustomized;
+  public get isCustomizedDiskOffering(): boolean {
+    return this.vmCreationState.diskOffering && this.vmCreationState.diskOffering.iscustomized;
   }
 
   public get showSecurityGroups(): boolean {
