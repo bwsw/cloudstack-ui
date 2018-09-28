@@ -23,8 +23,9 @@ h4 {
 .parameter-item {
    /deep/ .flex-container {
       width: 66% !important;
-    }
-  /deep/ .key {
-    font-weight: bold;
+
+     .key {
+       font-weight: bold;
+     }
   }
 }
