@@ -71,22 +71,31 @@ To create a new volume fill in the fields:
 - Zone * - Select a zone from the drop-down list.
 - Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "SELECT". The list of available disk offerings is determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_ by Administrator. 
 
-For each disk offering you will see a range of parameters. The following parameters are shown by default:
+In the modal window you can see the name and short description for each disk offering and a radiobutton to select any option.
 
-- Read rate (MB/s);
-- Write rate (MB/s);
-- Read rate (IO/s);
-- Write rate (IO/s).
+.. figure:: _static/Storage_Create_Select1.png
+
+For each disk offering you can expand detailed information by clicking the arrow icon or the whole line in the list. In the appeared section you will see a range of parameters. The following parameters are shown by default:
+
+- Bandwidth (MB/s): Read/Write rates;
+- IOPS: Read/Write rates and Min/Max values;
+- Storage type;
+- Provisioning type;
+- Creation date.
+
+Use the scrolling tool to view them all.
 
 More parameters can be added via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-parameters>`_ by an Administrator.
 
+.. figure:: _static/Storage_Create_Select_Expand.png
+
 Select a disk offering in the list and click "SELECT".
 
-.. figure:: _static/Storage_Create_Select.png
+.. figure:: _static/Storage_Create_SelectDO.png
 
-If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider to the volume size you wish.
+If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider to the volume size you wish or entering a value into the number field.
 
-.. figure:: _static/Storage_Create_ResizeDisk.png
+.. figure:: _static/Storage_Create_ResizeDisk1.png
    
 Click "CREATE" to save the settings and create the new volume. You will see the drive appears in the list.
 
