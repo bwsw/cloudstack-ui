@@ -86,6 +86,6 @@ export class VmAccessComponent {
   }
 
   public getConnectionString(vm: VirtualMachine): string {
-    return 'ssh -p ' + this.getSSHPort(vm) + ' -u ' + this.getSSHLogin(vm) + ' ' + vm.nic[0].ipaddress;
+    return `ssh -p ${this.getSSHPort(vm)} -u ${this.getSSHLogin(vm)} ${vm.nic[0].ipaddress}`;
   }
 }
