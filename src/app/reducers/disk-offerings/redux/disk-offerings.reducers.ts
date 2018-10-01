@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { isOfferingLocal } from '../../../shared/models/offering.model';
-import { DiskOffering, OfferingAvailability, Zone } from '../../../shared/models';
+import { DiskOffering, ServiceOfferingAvailability, Zone } from '../../../shared/models';
 import { configSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -79,7 +79,7 @@ export const isLoading = createSelector(
 
 const isDiskOfferingAvailableInZone = (
   offering: DiskOffering,
-  offeringAvailability: OfferingAvailability,
+  offeringAvailability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (offeringAvailability.zones[zone.id]) {
@@ -97,7 +97,7 @@ export const getSelectedOffering = createSelector(
 
 const getOfferingsAvailableInZone = (
   offeringList: Array<DiskOffering>,
-  offeringAvailability: OfferingAvailability,
+  offeringAvailability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (!offeringAvailability.filterOfferings) {
@@ -119,7 +119,7 @@ const getOfferingsAvailableInZone = (
 
 export const getAvailableOfferings = createSelector(
   selectAll,
-  configSelectors.get('offeringAvailability'),
+  configSelectors.get('serviceOfferingAvailability'),
   fromZones.getSelectedZone,
   (diskOfferings, availability, zone) => {
     if (zone && availability) {

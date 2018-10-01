@@ -16,7 +16,7 @@ import * as authActions from '../reducers/auth/redux/auth.actions';
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
   public isSidenavVisible$ = this.store.pipe(select(layoutSelectors.isSidenavVisible));
-  public allowReorderingSidebar$ = this.store.pipe(select(configSelectors.get('allowReorderingSidebar')));
+  public allowReorderingSidenav$ = this.store.pipe(select(configSelectors.get('allowReorderingSidenav')));
 
   constructor(
     private auth: AuthService,

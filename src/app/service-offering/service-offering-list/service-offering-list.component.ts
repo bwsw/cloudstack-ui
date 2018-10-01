@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import { Account, ServiceOffering, ServiceOfferingClass } from '../../shared/models';
+import { Account, ComputeOfferingClass, ServiceOffering } from '../../shared/models';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 import { Language } from '../../shared/types';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
@@ -17,7 +17,7 @@ import { ComputeOfferingViewModel } from '../../vm/view-models';
 })
 export class ServiceOfferingListComponent implements OnChanges {
   @Input() public offeringList: ComputeOfferingViewModel[];
-  @Input() public classes: Array<ServiceOfferingClass>;
+  @Input() public classes: Array<ComputeOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public query: string;
   @Input() public selectedOffering: ServiceOffering;
@@ -26,7 +26,7 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input() public account: Account;
   @Output() public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
 
-  public list: Array<{ soClass: ServiceOfferingClass, items: MatTableDataSource<ComputeOfferingViewModel> }>;
+  public list: Array<{ soClass: ComputeOfferingClass, items: MatTableDataSource<ComputeOfferingViewModel> }>;
   public columnsToDisplay = [];
 
   private mainColumns = ['name', 'cpuCoresNumber', 'cpuSpeed', 'memory', 'networkRate'];
@@ -73,12 +73,12 @@ export class ServiceOfferingListComponent implements OnChanges {
     return this.translateService.currentLang as Language;
   }
 
-  public getDescription(soClass: ServiceOfferingClass) {
+  public getDescription(soClass: ComputeOfferingClass) {
     return soClass && soClass.description
       && soClass.description[this.locale];
   }
 
-  public getName(soClass: ServiceOfferingClass) {
+  public getName(soClass: ComputeOfferingClass) {
     if (soClass.id === 'common') {
       return 'SERVICE_OFFERING.FILTERS.COMMON';
     } else {
@@ -102,7 +102,7 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
-  public filterOfferings(list: ServiceOffering[], soClass: ServiceOfferingClass) {
+  public filterOfferings(list: ServiceOffering[], soClass: ComputeOfferingClass) {
     const classesMap = [soClass].reduce((m, i) => ({ ...m, [i.id]: i }), {});
     return list.filter(offering => classesFilter(offering, this.classes, classesMap));
   }

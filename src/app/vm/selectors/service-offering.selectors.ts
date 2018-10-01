@@ -4,14 +4,12 @@ import { VmCompatibilityPolicy } from '../shared/vm-compatibility-policy';
 import { ResourceStats } from '../../shared/services/resource-usage.service';
 import { ComputeOfferingViewModel } from '../view-models';
 import { isOfferingLocal } from '../../shared/models/offering.model';
-import { OfferingAvailability } from '../../shared/models/config';
 import {
-  DefaultServiceOfferingClassId,
-  ServiceOffering,
-  ServiceOfferingClass,
-  ServiceOfferingType,
-  Zone
-} from '../../shared/models';
+  ComputeOfferingClass,
+  defaultComputeOfferingClass,
+  ServiceOfferingAvailability
+} from '../../shared/models/config';
+import { ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
 import { getComputeOfferingViewModel } from './view-models';
 import { configSelectors } from '../../root-store';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
@@ -23,16 +21,14 @@ import {
   filterSelectedViewMode,
   getSelectedOffering,
 } from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import * as fromSOClass from '../../reducers/service-offerings/redux/service-offering-class.reducers';
-
 
 const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,
-  availability: OfferingAvailability,
+  availability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (availability.zones[zone.id]) {
-    const isOfferingExist = availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+    const isOfferingExist = availability.zones[zone.id].computeOfferings.indexOf(offering.id) !== -1;
     return isOfferingExist;
   }
   return false;
@@ -40,7 +36,7 @@ const isComputeOfferingAvailableInZone = (
 
 const getOfferingsAvailableInZone = (
   offeringList: ComputeOfferingViewModel[],
-  availability: OfferingAvailability,
+  availability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (!availability.filterOfferings) {
@@ -56,7 +52,7 @@ const getOfferingsAvailableInZone = (
 
 export const getAvailableOfferingsForVmCreation = createSelector(
   getComputeOfferingViewModel,
-  configSelectors.get('offeringAvailability'),
+  configSelectors.get('serviceOfferingAvailability'),
   fromVMs.getVMCreationZone,
   fromAuths.getUserAccount,
   (serviceOfferings, availability, zone, user) => {
@@ -71,7 +67,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
 export const getAvailableOfferings = createSelector(
   getComputeOfferingViewModel,
   getSelectedOffering,
-  configSelectors.get('offeringAvailability'),
+  configSelectors.get('serviceOfferingAvailability'),
   configSelectors.get('offeringCompatibilityPolicy'),
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
@@ -97,10 +93,10 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
-export const classesFilter = (offering: ServiceOffering, soClasses: ServiceOfferingClass[], classesMap: any) => {
+export const classesFilter = (offering: ServiceOffering, soClasses: ComputeOfferingClass[], classesMap: any) => {
   const classes = soClasses.filter(soClass =>
-    soClass.serviceOfferings && soClass.serviceOfferings.indexOf(offering.id) > -1);
-  const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
+    soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1);
+  const showGeneral = !!classesMap[defaultComputeOfferingClass.id];
   return classes.length && classes.find(soClass => classesMap[soClass.id])
     || (showGeneral && !classes.length);
 };
@@ -110,7 +106,7 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
   filterSelectedViewMode,
   filterSelectedClasses,
   filterQuery,
-  fromSOClass.selectAll,
+  configSelectors.get('computeOfferingClasses'),
   (offerings, viewMode, selectedClasses, query, classes) => {
     const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
@@ -139,7 +135,7 @@ export const selectFilteredOfferings = createSelector(
   filterSelectedViewMode,
   filterSelectedClasses,
   filterQuery,
-  fromSOClass.selectAll,
+  configSelectors.get('computeOfferingClasses'),
   (offerings, viewMode, selectedClasses, query, classes) => {
     const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();

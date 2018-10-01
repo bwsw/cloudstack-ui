@@ -1,5 +1,5 @@
 import { StorageTypes } from '../../shared/models/offering.model';
-import { OfferingPolicy, ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
+import { ComputeOfferingClass, OfferingPolicy, ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
 import { ResourcesData, ResourceStats } from '../../shared/services/resource-usage.service';
 import * as serviceOfferingSelectors from './service-offering.selectors';
 
@@ -85,7 +85,7 @@ describe('Service Offering Selectors (VM module)', () => {
           'ru': 'тестовое описание 1',
           'en': 'test description 1'
         },
-        'serviceOfferings': [
+        'computeOfferings': [
           '1'
         ]
       },
@@ -99,7 +99,7 @@ describe('Service Offering Selectors (VM module)', () => {
           'ru': 'тестовое описание 2',
           'en': 'test description 2'
         },
-        'serviceOfferings': [
+        'computeOfferings': [
           '2'
         ]
       }
@@ -130,32 +130,32 @@ describe('Service Offering Selectors (VM module)', () => {
       cpunumber: 2, memory: 2, iscustomized: true
     }];
 
-    const soClasses = [
+    const soClasses: ComputeOfferingClass[] = [
       {
-        'id': 'testClass1',
-        'name': {
-          'ru': 'Тест1',
-          'en': 'Test1'
+        id: 'testClass1',
+        name: {
+          ru: 'Тест1',
+          en: 'Test1'
         },
-        'description': {
-          'ru': 'тестовое описание 1',
-          'en': 'test description 1'
+        description: {
+          ru: 'тестовое описание 1',
+          en: 'test description 1'
         },
-        'serviceOfferings': [
+        computeOfferings: [
           '1'
         ]
       },
       {
-        'id': 'testClass2',
-        'name': {
-          'ru': 'Тест2',
-          'en': 'Test2'
+        id: 'testClass2',
+        name: {
+          ru: 'Тест2',
+          en: 'Test2'
         },
-        'description': {
-          'ru': 'тестовое описание 2',
-          'en': 'test description 2'
+        description: {
+          ru: 'тестовое описание 2',
+          en: 'test description 2'
         },
-        'serviceOfferings': [
+        computeOfferings: [
           '2'
         ]
       }

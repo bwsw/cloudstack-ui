@@ -1,16 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
 import { State } from '../../reducers';
 // tslint:disable-next-line
 import { Account, AccountResourceType } from '../../shared/models/account.model';
 import { VirtualMachine, VmState } from '../shared/vm.model';
-import { UserTagsActions } from '../../root-store';
-
-import * as soGroupActions from '../../reducers/service-offerings/redux/service-offering-class.actions';
-import * as fromSOClasses from '../../reducers/service-offerings/redux/service-offering-class.reducers';
+import { configSelectors, UserTagsActions } from '../../root-store';
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
@@ -38,11 +35,11 @@ import { selectFilteredOfferings } from '../selectors'
     </cs-service-offering-dialog>`,
 })
 export class ServiceOfferingDialogContainerComponent implements OnInit, AfterViewInit {
-  readonly offerings$ = this.store.select(selectFilteredOfferings);
-  readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
-  readonly classes$ = this.store.select(fromSOClasses.selectAll);
-  readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
-  readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
+  readonly offerings$ = this.store.pipe(select(selectFilteredOfferings));
+  readonly query$ = this.store.pipe(select(fromServiceOfferings.filterQuery));
+  readonly classes$ = this.store.pipe(select(configSelectors.get('computeOfferingClasses')));
+  readonly selectedClasses$ = this.store.pipe(select(fromServiceOfferings.filterSelectedClasses));
+  readonly viewMode$ = this.store.pipe(select(fromServiceOfferings.filterSelectedViewMode));
 
   public virtualMachine: VirtualMachine;
   public user: Account;
@@ -60,7 +57,6 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneId));
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
-    this.store.dispatch(new soGroupActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
   }
 

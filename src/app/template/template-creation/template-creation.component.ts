@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Hypervisor, OsType, Zone } from '../../shared';
-import { Account, isRootAdmin, Snapshot, TemplateGroup } from '../../shared/models';
+import { Account, ImageGroup, isRootAdmin, Snapshot } from '../../shared/models';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
 import { CreateTemplateBaseParams, TemplateResourceType } from '../shared/base-template.service';
 import { Language } from '../../shared/types';
@@ -22,7 +22,7 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public account: Account;
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
-  @Input() public groups: Array<TemplateGroup>;
+  @Input() public groups: Array<ImageGroup>;
   @Input() public snapshot?: Snapshot;
 
   @Output() public onCreateTemplate = new EventEmitter<CreateTemplateBaseParams>();
@@ -32,7 +32,7 @@ export class TemplateCreationComponent implements OnInit {
   public osTypeId: string;
   public url: string;
   public zoneId: string;
-  public templateGroup: TemplateGroup;
+  public templateGroup: ImageGroup;
   public isExtractable: boolean;
   public hypervisor: string;
   public isPublic: boolean;

@@ -5,12 +5,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Snapshot } from '../../../shared/models';
 import { CreateTemplateBaseParams } from '../../shared/base-template.service';
 
-import { State } from '../../../reducers/index';
+import { configSelectors, State } from '../../../root-store';
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';
 import * as fromOsTypes from '../../../reducers/templates/redux/ostype.reducers';
 import * as osTypeActions from '../../../reducers/templates/redux/ostype.actions';
-import * as fromTemplateGroups from '../../../reducers/templates/redux/template-group.reducers';
-import * as templateGroupActions from '../../../reducers/templates/redux/template-group.actions';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromZones from '../../../reducers/templates/redux/zone.reducers';
 import * as zoneActions from '../../../reducers/templates/redux/zone.actions';
@@ -34,7 +32,7 @@ export class TemplateCreationContainerComponent {
   readonly account$ = this.store.select(fromAuth.getUserAccount);
   readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly groups$ = this.store.select(fromTemplateGroups.selectAll);
+  readonly groups$ = this.store.select(configSelectors.get('imageGroups'));
 
   public snapshot: Snapshot;
 
@@ -48,7 +46,6 @@ export class TemplateCreationContainerComponent {
     if (data.snapshot) {
       this.store.dispatch(new osTypeActions.LoadOsTypesRequest());
       this.store.dispatch(new zoneActions.LoadZonesRequest());
-      this.store.dispatch(new templateGroupActions.LoadTemplateGroupsRequest());
     }
 
     if (data.mode) {

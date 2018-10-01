@@ -1,3 +1,5 @@
+.. Contents::
+
 Overview
 ===============
 
@@ -70,7 +72,7 @@ CloudStack-UI is an open-source project. It is developed by an open and friendly
    2) Xen with NFS, Local, RBD
    3) Oher browsers and operating systems
    
-7. Hire us for frontend or backend development of custom software development projects. Take a look at our `website <https://bitworks.software/>`_ to know where we can be useful. Take a look at our `presentation <https://www.slideshare.net/secret/BpNGxtaPUfOIqj>`_ to learn more about us.
+8. Hire us for frontend or backend development of custom software development projects. Take a look at our `website <https://bitworks.software/>`_ to know where we can be useful. Take a look at our `presentation <https://www.slideshare.net/secret/BpNGxtaPUfOIqj>`_ to learn more about us.
 
 To contribute, just contact us via e-mail: info@bw-sw.com
 

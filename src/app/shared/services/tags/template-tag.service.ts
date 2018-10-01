@@ -5,7 +5,7 @@ import { BaseTemplateModel } from '../../../template/shared';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TemplateTagKeys } from './template-tag-keys';
-import { TemplateGroup } from '../../models/template-group.model';
+import { ImageGroup } from '../../models/config/image-group.model';
 import { resourceType } from '../../../template/shared/base-template.model';
 
 
@@ -30,7 +30,7 @@ export class TemplateTagService implements EntityTagService {
 
   public setGroup(
     template: BaseTemplateModel,
-    group: TemplateGroup
+    group: ImageGroup
   ): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,

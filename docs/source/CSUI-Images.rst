@@ -12,7 +12,7 @@ ISO files are another installation source for virtual machines.
 
 You can switch from Templates to ISOs by selecting a corresponding option above:
 
-.. figure:: _static/Images_TempISO1.png
+.. figure:: _static/Images_TempISO2.png
 
 Images List
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,11 +29,15 @@ The list of templates/ISOs can be filtered using the filtering tool. The filteri
 
 - Accounts (for Domain Administrators);
 - OS families;
-- Types;
-- Zones;
-- Groups.
+- Types of templates/ISO:
 
-.. figure:: _static/Images_TempList_Admin1.png
+  - My - for user's templates or ISOs (Private), 
+  - Featured - for templates marked by an Administrator as most prominent for users to select, 
+  - Community - for templates accessible to all users of this CloudStack installation (Public);
+  
+- Zones.
+
+.. figure:: _static/Images_TempList_Admin2.png
 
 Besides, you can adjust the list view using the grouping tool. Templates/ISOs can be grouped by zones or/and groups. Administrators can group the list by accounts.
 
@@ -52,6 +56,8 @@ One more way to create a new template is filling in the form in the *Images* sec
 
 It will open a creation form where you should specify the following information:
 
+.. note:: Required fields are marked with an asterisk (*).
+
 1. Name * - Enter a name for the new template.
 
 #. Description * - Provide a short description to have a general idea about the template.
@@ -62,13 +68,11 @@ It will open a creation form where you should specify the following information:
 
 #. Zone * - Choose the zone where you want the template to be available.
 
-#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups>`_. The group assigned to a template is saved to template tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
+#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#image-groups>`_. The group assigned to a template is saved to template tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
 
 #. Password enabled checkbox - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.
 
 #. Dynamically scalable checkbox - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory.
-
-.. note:: Required fields are marked with an asterisk (*).
 
 9. "Show additional fields" allows expanding the form and set more settings:
 
@@ -93,6 +97,8 @@ You can create a new ISO file in the *Images* section by clicking "Create" |crea
 
 It will open a creation form where you should specify the following information:
 
+.. note:: Required fields are marked with an asterisk (*).
+
 1. Name * - Enter a name for the new ISO file.
 
 #. Description * - Provide a short description to have a general idea about the ISO file.
@@ -103,9 +109,7 @@ It will open a creation form where you should specify the following information:
 
 #. Zone * - Choose the zone where you want the ISO file to be available.
 
-#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator  in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups>`_. The group assigned to ISO is saved to ISO tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
-
-.. note:: Required fields are marked with an asterisk (*).
+#. Group - Select a group from the drop-down list. The list of groups is managed by Administrator  in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#image-groups>`_. The group assigned to ISO is saved to ISO tags with the ``csui.template.group`` tag. The group can be edited or deleted from the :ref:`Image_Details` from the "Template" tab or by editing or deleting the corresponding tag in the "Tags" tab.
 
 7. "Show additional fields" allows expanding the form and set more settings:
 
@@ -113,9 +117,9 @@ It will open a creation form where you should specify the following information:
 
    - Bootable - Tick this option to indicate whether the machine can be booted using this ISO.
 
-Once all fields are filled in, click "Create" to create the ISO file with these settings. The created ISO file will appear in the list.
+Once all fields are filled in, click "CREATE" to create the ISO file with these settings. The created ISO file will appear in the list.
 
-Click "Cancel" to close the form without ISO creation. All fields will be cleared.
+Click "CANCEL" to close the form without ISO creation. All fields will be cleared.
 
 The created ISO will appear in the list.
 
@@ -136,22 +140,20 @@ The information on each template/ISO is presented in the sidebar to the right. I
    - Description - Template/ISO description provided at its creation. 
    - OS - The OS selected for this template/ISO. 
    - General Information - The settings saved for this template/ISO: size, creation date, type, hypervisor, other settings. 
-   - URL - The URL provided for this template/ISO. Next to it you can see the "Copy" icon |copy icon|. Click it to copy the URL to clipboard and then paste it in the address line.
-   - Group - Template/ISO group. You can change the group by clicking "Edit" |edit icon|. Choose an existing group in the appeared window and click "ASSIGN" to assign the template/ISO to the selected group. 
-   
-.. figure:: _static/Images_Temp_Details_GroupEdit.png
-   
-From this window, you can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
-
-.. figure:: _static/Images_Temp_Details_GroupRemove.png
+   - Download URL - The URL provided for this template/ISO. Next to it you can see the "Copy" icon |copy icon|. Click it to copy the URL to clipboard and then paste it in the address line.
+   - Group - Shows the template/ISO group if it is enabled via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#image-groups>`_. You can change the group by clicking "Edit" |edit icon|. Choose an existing group in the appeared window and click "ASSIGN" to assign the template/ISO to the selected group. 
+     You can remove the template/ISO from the group. Select the "Remove from the group <group name>" option and click "REMOVE". 
+    
+.. _static/Images_Temp_Details_GroupEdit1.png
+.. _static/Images_Temp_Details_GroupRemove1.png
 
 2. Zones tab - Shows the zone where the template/ISO is available. If the zone has "Yes" for the *Ready* status, the template/ISO can be used for VM creation. 
 
-.. figure:: _static/Images_Temp_Details_Zone.png
+.. figure:: _static/Images_Temp_Details_Zone1.png
 
 3. Tags tab - Presents the list of tags assigned to the template/ISO.
 
-.. figure:: _static/Images_Details_Tags.png
+.. figure:: _static/Images_Temp_Details_Tags1.png
 
 Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The "Show system tags" checkbox allows to view or hide system tags of the template. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. Uncheck the "Show system tags" checkbox to hide system tags from the list. 
 
@@ -169,23 +171,23 @@ To add a tag for the template/ISO click "Create" |create icon|. In the appeared 
 - Key * 
 - Value * 
 
-.. note:: Required fields are marked with an asterisk (*).
+.. note:: Required fields are marked with an asterisk (*). The values in the fields cannot start with a space.
 
 Click "Create" to assign a new tag to the template/ISO. 
 
-.. figure:: _static/Images_TagCreate.png
+.. figure:: _static/Images_TagCreate1.png
 
 When adding a system tag, click "+" in the card to open the creation form. You will see that the ``csui`` prefix is automatically prepopulated here. 
 
-.. figure:: _static/Images_SysTagCreate.png
+.. figure:: _static/Images_SysTagCreate1.png
 
 If you create a non-system tag, it will be saved in a new card. If you have entered a key in the format ``<prefix>.<example>``, a card will be named as "<prefix>". When creating a new tag from this card, click "+" in the card and in the tag creation form the *Key* field will be prepopulated with the <prefix>.
 
-.. figure:: _static/Images_OtherTagCreate.png
+.. figure:: _static/Images_OtherTagCreate1.png
 
 Tags can be edited or/and deleted. Mouse over the tag in the list and see "Edit" and "Delete" buttons.
 
-.. figure:: _static/Images_TagActions.png
+.. figure:: _static/Images_TagActions1.png
 
 Click "Edit" to change the tag's key or value in the appeared form. Save the edits.
 
@@ -194,9 +196,9 @@ Click "Delete" to delete the tag from the list for this template. Confirm your a
 Template/ISO Action Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By clicking "Actions" |actions icon| you can expand the list of actions for those templates/ISO that belong to your user only (corresponding to "My" type). The deleting action is available here.
+By clicking "Actions" |actions icon| you can expand the list of actions for those templates/ISO that are in the account your user belongs to (corresponding to "My" type). The deleting action is available here.
 
-.. figure:: _static/Images_Temp_ActionBox.png
+.. figure:: _static/Images_Temp_ActionBox1.png
 
 Click "Delete" to delete the template/ISO and then confirm your action in the dialogue window. The template/ISO will be deleted. 
 
