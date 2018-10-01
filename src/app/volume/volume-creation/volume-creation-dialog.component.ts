@@ -48,6 +48,7 @@ export class VolumeCreationDialogComponent {
   }
 
   public updateDiskOffering(diskOffering: DiskOffering): void {
+    this.maxSize = this.minSize > this.maxSize ? this.minSize : this.maxSize;
     this.newVolume.diskofferingid = diskOffering.id;
     this.diskOffering = diskOffering;
     this.showResizeSlider = this.diskOffering.iscustomized;
