@@ -15,8 +15,10 @@ export class CustomServiceOfferingComponent implements OnInit {
   public hardwareForm: FormGroup;
   public account: Account;
 
-  constructor(@Inject(MAT_DIALOG_DATA) data,
-              public dialogRef: MatDialogRef<CustomServiceOfferingComponent>,) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) data,
+    public dialogRef: MatDialogRef<CustomServiceOfferingComponent>
+  ) {
     this.offering = data.offering;
     this.account = data.account;
   }

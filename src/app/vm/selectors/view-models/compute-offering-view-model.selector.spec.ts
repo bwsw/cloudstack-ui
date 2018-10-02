@@ -4,7 +4,9 @@ import { account } from '../../../../testutils/data/accounts';
 import { nonCustomizableProperties } from '../../../core/config/default-configuration';
 import { ComputeOfferingViewModel } from '../../view-models';
 import { Account } from '../../../shared/models';
-import { CustomComputeOfferingParameters } from '../../../shared/models/config/custom-compute-offering-parameters.interface';
+import {
+  CustomComputeOfferingParameters
+} from '../../../shared/models/config/custom-compute-offering-parameters.interface';
 
 describe('ComputeOfferingViewModelSelector', () => {
   it('isAvailableByResources should be true in fixed compute offering params which satisfy memory and cpu resources',
