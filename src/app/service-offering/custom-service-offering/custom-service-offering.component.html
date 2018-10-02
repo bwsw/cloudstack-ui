@@ -8,9 +8,9 @@
         type="number"
         name="cpuNumber"
         [min]="offering.customOfferingRestrictions.cpunumber.min"
-        [max]="maxCpu"
+        [max]="offering.customOfferingRestrictions.cpunumber.max"
         [csMinValue]="offering.customOfferingRestrictions.cpunumber.min"
-        [csMaxValue]="maxCpu"
+        [csMaxValue]="offering.customOfferingRestrictions.cpunumber.max"
         formControlName="cpuNumber"
         required
       >
@@ -38,14 +38,18 @@
         type="number"
         name="memory"
         [min]="offering.customOfferingRestrictions.memory.min"
-        [max]="maxMemory"
+        [max]="offering.customOfferingRestrictions.memory.max"
         [csMinValue]="offering.customOfferingRestrictions.memory.min"
-        [csMaxValue]="maxMemory"
+        [csMaxValue]="offering.customOfferingRestrictions.memory.max"
         formControlName="memory"
         required
       >
     </mat-form-field>
   </div>
+
+  <mat-error *ngIf="!offering.isAvailableByResources">
+    {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+  </mat-error>
 
   <div class="mat-dialog-actions">
     <button
@@ -60,7 +64,7 @@
       mat-button
       color="primary"
       type="submit"
-      [disabled]="!hardwareForm.valid"
+      [disabled]="!hardwareForm.valid || !offering.isAvailableByResources"
     >
       {{ 'COMMON.CONFIRM' | translate }}
     </button>

@@ -46,6 +46,7 @@ import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
 import * as fromVMModule from '../../../vm/selectors';
 import { KeyboardLayout } from '../../../shared/types';
+import { ComputeOfferingViewModel } from '../../../vm/view-models';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -160,11 +161,14 @@ export class VirtualMachineCreationEffects {
       this.store.pipe(select(fromDiskOfferings.selectAll)),
       this.store.pipe(select(configSelectors.get('defaultComputeOffering')))
     ),
-    map((
-      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, defaultComputeOfferings]: [
-        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[],
-        DefaultComputeOffering[]
-        ]) => {
+    map(([action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, defaultComputeOfferings]: [
+      vmActions.VmFormUpdate,
+      VmCreationState, Zone[],
+      BaseTemplateModel[],
+      ComputeOfferingViewModel[],
+      DiskOffering[],
+      DefaultComputeOffering[]
+      ]) => {
 
       if (action.payload.zone) {
         let updates = {};
@@ -669,10 +673,10 @@ export class VirtualMachineCreationEffects {
   }
 
   private getPreselectedOffering(
-    offerings: ServiceOffering[],
+    offerings: ComputeOfferingViewModel[],
     zone: Zone,
     defaultComputeOfferingConfiguration: DefaultComputeOffering[]
-  ): ServiceOffering {
+  ): ComputeOfferingViewModel {
     const firstOffering = offerings[0];
     const configForCurrentZone = defaultComputeOfferingConfiguration.find(config => config.zoneId === zone.id);
     if (!configForCurrentZone) {

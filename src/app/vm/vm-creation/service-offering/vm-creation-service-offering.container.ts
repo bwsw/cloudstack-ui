@@ -10,7 +10,6 @@ import * as fromServiceOfferings from '../../../reducers/service-offerings/redux
 // tslint:disable-next-line
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
-import { UserTagsActions } from '../../../root-store';
 
 @Component({
   selector: 'cs-vm-creation-service-offering-container',

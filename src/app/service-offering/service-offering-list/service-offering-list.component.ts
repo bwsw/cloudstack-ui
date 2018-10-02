@@ -20,7 +20,7 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input() public classes: Array<ComputeOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public query: string;
-  @Input() public selectedOffering: ServiceOffering;
+  @Input() public selectedOffering: ComputeOfferingViewModel;
   @Input() public isLoading = false;
   @Input() public showFields: boolean;
   @Input() public account: Account;
@@ -102,7 +102,7 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
-  public filterOfferings(list: ServiceOffering[], soClass: ComputeOfferingClass) {
+  public filterOfferings(list: ComputeOfferingViewModel[], soClass: ComputeOfferingClass) {
     const classesMap = [soClass].reduce((m, i) => ({ ...m, [i.id]: i }), {});
     return list.filter(offering => classesFilter(offering, this.classes, classesMap));
   }

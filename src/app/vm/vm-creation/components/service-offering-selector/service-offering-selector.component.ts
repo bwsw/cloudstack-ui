@@ -19,7 +19,7 @@ export class ServiceOfferingSelectorComponent {
   @Input() public serviceOfferings: Array<ComputeOfferingViewModel>;
   @Output() public change: EventEmitter<ServiceOffering>;
 
-  private _serviceOffering: ServiceOffering;
+  private _serviceOffering: ComputeOfferingViewModel;
 
   constructor(
     private dialog: MatDialog,
@@ -29,11 +29,11 @@ export class ServiceOfferingSelectorComponent {
   }
 
   @Input()
-  public get serviceOffering(): ServiceOffering {
+  public get serviceOffering(): ComputeOfferingViewModel {
     return this._serviceOffering;
   }
 
-  public set serviceOffering(serviceOffering: ServiceOffering) {
+  public set serviceOffering(serviceOffering: ComputeOfferingViewModel) {
     this._serviceOffering = serviceOffering;
   }
 

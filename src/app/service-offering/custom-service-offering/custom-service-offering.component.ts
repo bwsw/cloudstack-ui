@@ -14,8 +14,6 @@ export class CustomServiceOfferingComponent implements OnInit {
   public offering: ComputeOfferingViewModel;
   public hardwareForm: FormGroup;
   public account: Account;
-  public maxCpu: number;
-  public maxMemory: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -26,14 +24,6 @@ export class CustomServiceOfferingComponent implements OnInit {
   }
 
   public ngOnInit() {
-    const cpuFromOffering = this.offering.customOfferingRestrictions.cpunumber.max;
-    const memoryFromOffering = this.offering.customOfferingRestrictions.memory.max;
-
-    this.maxCpu = cpuFromOffering > this.account.cpuavailable
-      ? this.account.cpuavailable : cpuFromOffering;
-    this.maxMemory = memoryFromOffering > this.account.memoryavailable
-      ? this.account.memoryavailable : memoryFromOffering;
-
     this.createForm();
   }
 
@@ -49,10 +39,14 @@ export class CustomServiceOfferingComponent implements OnInit {
   }
 
   private createForm() {
+    // input text=number provide all other validation for current restrictions
     this.hardwareForm = new FormGroup({
-      cpuNumber: new FormControl(this.offering.cpunumber, [Validators.required, Validators.max(this.maxCpu)]),
-      cpuSpeed: new FormControl(this.offering.cpuspeed, [Validators.required]),
-      memory: new FormControl(this.offering.memory, [Validators.required, Validators.max(this.maxMemory)]),
+      cpuNumber: new FormControl(
+        { value: this.offering.cpunumber, disabled: !this.offering.isAvailableByResources }, Validators.required),
+      cpuSpeed: new FormControl(
+        { value: this.offering.cpuspeed, disabled: !this.offering.isAvailableByResources }, Validators.required),
+      memory: new FormControl(
+        { value: this.offering.memory, disabled: !this.offering.isAvailableByResources }, Validators.required),
     });
   }
 }

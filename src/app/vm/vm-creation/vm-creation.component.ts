@@ -95,7 +95,7 @@ export class VmCreationComponent {
       && !!this.vmCreationState.rootDiskMinSize;
   }
 
-  public get rootDiskSizeLimit(): number {
+  public get rootDiskSizeLimit(): string {
     return this.account && this.account.primarystorageavailable;
   }
 
@@ -149,5 +149,12 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
+  }
+
+  public isSubmitButtonDisabled(isFormValid: boolean): boolean {
+    return !isFormValid
+      || this.nameIsTaken
+      || !this.vmCreationState.template
+      || !this.vmCreationState.serviceOffering.isAvailableByResources;
   }
 }

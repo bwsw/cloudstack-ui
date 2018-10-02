@@ -26,11 +26,11 @@
       *ngIf="showRebootMessage"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_RESTARTED" | translate }}
     </div>
+    <mat-error *ngIf="!serviceOffering.isAvailableByResources && isSelectedOfferingViewMode()">
+      {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+    </mat-error>
   </div>
 
-  <mat-error *ngIf="resourcesLimitExceeded">
-    {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
-  </mat-error>
 
   <div class="mat-dialog-actions">
     <div>

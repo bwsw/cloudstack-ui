@@ -34,7 +34,6 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public serviceOffering: ComputeOfferingViewModel;
   public loading: boolean;
   public showFields = false;
-  public resourcesLimitExceeded = false;
 
   public ngOnInit() {
     this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
@@ -42,7 +41,6 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       this.viewMode === ServiceOfferingType.fixed ? this.viewModeChange.emit(ServiceOfferingType.custom) :
         this.viewModeChange.emit(ServiceOfferingType.fixed);
     }
-    this.checkLimits(this.serviceOffering);
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -55,7 +53,6 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
 
   public updateOffering(offering: ComputeOfferingViewModel): void {
     this.serviceOffering = offering;
-    this.checkLimits(this.serviceOffering);
     this.onServiceOfferingUpdate.emit(this.serviceOffering);
   }
 
@@ -73,6 +70,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public isSubmitButtonDisabled(): boolean {
     const isOfferingNotSelected = !this.serviceOffering;
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
+    const isNotEnoughResourcesForCurrentOffering = !this.serviceOffering.isAvailableByResources;
     const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
       && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
     const isSelectedOfferingDoNotHaveParams = this.serviceOffering
@@ -86,7 +84,18 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       || isSelectedOfferingFromDifferentViewMode
       || isSelectedOfferingDoNotHaveParams
       || isSelectedOfferingDifferentFromCurrent
-      || this.resourcesLimitExceeded;
+      || isNotEnoughResourcesForCurrentOffering;
+  }
+
+  public isSelectedOfferingViewMode(): boolean {
+    if (this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
+      return true;
+    }
+
+    if (!this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {
+      return true;
+    }
+    return false;
   }
 
   private isSelectedOfferingDifferent(): boolean {
@@ -103,19 +112,4 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
 
     return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
   }
-
-  private checkLimits(offering: ComputeOfferingViewModel) {
-    let сpusExceeded;
-    let memoryExceeded;
-
-    if (offering.iscustomized) {
-      сpusExceeded = this.account.cpuavailable < this.serviceOffering.customOfferingRestrictions.cpunumber.min;
-      memoryExceeded = this.account.memoryavailable < this.serviceOffering.customOfferingRestrictions.memory.min;
-    } else {
-      сpusExceeded = this.account.cpuavailable < this.serviceOffering.cpunumber;
-      memoryExceeded = this.account.memoryavailable < this.serviceOffering.memory;
-    }
-    this.resourcesLimitExceeded = memoryExceeded || сpusExceeded;
-  }
-
 }

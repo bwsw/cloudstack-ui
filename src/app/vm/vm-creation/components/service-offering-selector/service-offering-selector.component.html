@@ -14,6 +14,9 @@
     <span class="service-offering-info truncate" [matTooltip]="offeringName | async">
       {{ offeringName | async }}
     </span>
+    <mat-error *ngIf="!serviceOffering.isAvailableByResources">
+      {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+    </mat-error>
   </ng-template>
   <ng-template #nameStub>
     {{ 'VM_PAGE.VM_CREATION.NO_OFFERINGS' | translate }}
