@@ -47,9 +47,9 @@
     </mat-form-field>
   </div>
 
-  <mat-error *ngIf="!offering.isAvailableByResources">
+  <span class="error-message" *ngIf="!offering.isAvailableByResources">
     {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
-  </mat-error>
+  </span>
 
   <div class="mat-dialog-actions">
     <button

@@ -13,7 +13,7 @@ import { VmCreationServiceOfferingContainerComponent } from '../../service-offer
 @Component({
   selector: 'cs-service-offering-selector',
   templateUrl: 'service-offering-selector.component.html',
-  styleUrls: ['service-offering-selector.component.scss'],
+  styleUrls: ['service-offering-selector.component.scss']
 })
 export class ServiceOfferingSelectorComponent {
   @Input() public serviceOfferings: Array<ComputeOfferingViewModel>;

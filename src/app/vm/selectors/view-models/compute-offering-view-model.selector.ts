@@ -191,8 +191,8 @@ export const getComputeOfferingViewModel = createSelector(
         const prioritizedRestrictions = customHardwareRestrictions || defaultRestrictions;
 
         const availableResources: Resources = {
-          cpuNumber: account && account.cpuavailable || 'Infinity',
-          memory: account && account.memoryavailable || 'Infinity'
+          cpuNumber: account && account.cpuavailable || '0',
+          memory: account && account.memoryavailable || '0'
         };
         const isAvailableByResources = checkAvailabilityForCustomByResources(
           prioritizedRestrictions.cpunumber, prioritizedRestrictions.memory, availableResources);
@@ -225,8 +225,8 @@ export const getComputeOfferingViewModel = createSelector(
 
     const fixedOfferingWithMeta = fixedOfferings.map(offering => {
       const availableResources: Resources = {
-        cpuNumber: account && account.cpuavailable || 'Infinity',
-        memory: account && account.memoryavailable || 'Infinity'
+        cpuNumber: account && account.cpuavailable || '0',
+        memory: account && account.memoryavailable || '0'
       };
       const offeringViewModel: ComputeOfferingViewModel = {
         ...offering,

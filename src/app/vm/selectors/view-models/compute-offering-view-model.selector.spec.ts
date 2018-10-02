@@ -4,9 +4,11 @@ import { account } from '../../../../testutils/data/accounts';
 import { nonCustomizableProperties } from '../../../core/config/default-configuration';
 import { ComputeOfferingViewModel } from '../../view-models';
 import { Account } from '../../../shared/models';
-import { CustomComputeOfferingParameters } from '../../../shared/models/config/custom-compute-offering-parameters.interface';
+import {
+  CustomComputeOfferingParameters
+} from '../../../shared/models/config/custom-compute-offering-parameters.interface';
 
-fdescribe('ComputeOfferingViewModelSelector', () => {
+describe('ComputeOfferingViewModelSelector', () => {
   describe('isAvailableByResources', () => {
     it ('should be true in fixed compute offering params which satisfy memory and cpu resources', () => {
       const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
