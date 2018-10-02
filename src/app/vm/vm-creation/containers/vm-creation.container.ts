@@ -2,17 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
-import { first, filter, map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
-import {
-  AccountResourceType,
-  AffinityGroup,
-  DiskOffering,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair,
-  Zone
-} from '../../../shared/models';
+import { AccountResourceType, AffinityGroup, DiskOffering, InstanceGroup, SSHKeyPair, Zone } from '../../../shared/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
 import { VmService } from '../../shared/vm.service';

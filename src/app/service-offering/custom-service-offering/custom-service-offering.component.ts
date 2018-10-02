@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { ComputeOfferingViewModel } from '../../vm/view-models';
@@ -15,10 +15,8 @@ export class CustomServiceOfferingComponent implements OnInit {
   public hardwareForm: FormGroup;
   public account: Account;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) data,
-    public dialogRef: MatDialogRef<CustomServiceOfferingComponent>,
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) data,
+              public dialogRef: MatDialogRef<CustomServiceOfferingComponent>,) {
     this.offering = data.offering;
     this.account = data.account;
   }
