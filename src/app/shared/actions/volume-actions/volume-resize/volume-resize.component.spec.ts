@@ -2,7 +2,7 @@ import { Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
@@ -14,6 +14,7 @@ import { DiskOfferingService } from '../../../services/disk-offering.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
 import { ResourceUsageService } from '../../../services/resource-usage.service';
 import { VolumeResizeComponent } from './volume-resize.component';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Injectable()
@@ -34,6 +35,11 @@ class MockDiskOfferingService {
   public get(): Observable<any> {
     return of([]);
   }
+}
+
+@Injectable()
+export class MockAuthService {
+  public loggedIn = new Subject<boolean>();
 }
 
 @Pipe({
@@ -77,6 +83,7 @@ describe('volume resize for root disks', () => {
       ],
       providers: [
         { provide: DialogService, useValue: dialogService },
+        { provide: AuthService, useValue: MockAuthService },
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
