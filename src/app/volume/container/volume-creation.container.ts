@@ -1,21 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
-
 import { State } from '../../reducers/index';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
-import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
-import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
-import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
-import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
-import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import { AuthService } from '../../shared/services/auth.service';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { VolumeCreationDialogComponent } from '../volume-creation/volume-creation-dialog.component';
 import { Zone } from '../../shared/models/zone.model';
 import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
 
+import * as fromVM from '../../reducers/vm/redux/vm.reducers';
+import * as vmActions from '../../reducers/vm/redux/vm.actions';
+import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as diskOfferingActions from '../../reducers/disk-offerings/redux/disk-offerings.actions';
+import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-offerings.reducers';
+import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 
 @Component({
   selector: 'cs-volume-creation-container',
@@ -25,6 +26,7 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
       [diskOfferings]="offerings$ | async"
       [maxSize]="maxSize"
       [zones]="zones$ | async"
+      [vmList]="vmList$ | async"
       (onVolumeCreate)="createVolume($event)"
       (onZoneUpdated)="updateZone($event)"
     >
@@ -37,6 +39,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
   readonly zones$ = this.store.select(fromZones.selectAll);
   readonly account$ = this.store.select(fromAccounts.selectUserAccount);
+  readonly vmList$ = this.store.select(fromVM.selectAll);
 
   public maxSize = 2;
 
@@ -50,6 +53,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
 
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
+    this.store.dispatch(new vmActions.LoadVMsRequest());
   }
 
   public createVolume(data: VolumeCreationData) {

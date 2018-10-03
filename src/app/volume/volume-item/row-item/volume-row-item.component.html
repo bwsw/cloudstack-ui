@@ -15,9 +15,9 @@
     <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
    </div>
 
-  <div class="entity-list-item-data">
-    <span>{{ 'VOLUME_PAGE.CARD.STATE' | translate }}: </span>
-    <span>{{ stateTranslationToken | translate }}</span>
+  <div class="entity-list-item-data" *ngIf="item.vmdisplayname">
+    <span>{{ 'VOLUME_PAGE.CARD.VM' | translate }}: </span>
+    <span>{{ item.vmdisplayname }}</span>
   </div>
 
   <button mat-icon-button [matMenuTriggerFor]="actionsMenu">

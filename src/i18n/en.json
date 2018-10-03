@@ -579,14 +579,15 @@
     "CARD": {
       "DESCRIPTION": "Description",
       "SIZE": "Size",
-      "STATE": "State"
+      "VM": "VM name"
     },
     "SPARE_DRIVE_CREATION": {
       "TITLE": "New volume",
       "NAME": "Name",
       "ZONE": "Zone",
       "DISK_OFFERING": "Disk offering",
-      "SIZE": "Size"
+      "SIZE": "Size",
+      "VM": "Virtual machine"
     },
     "SIDEBAR": {
       "VOLUME": "Volume",
@@ -599,6 +600,8 @@
       "DISK_OFFERING": "Disk offering",
       "NAME": "NAME",
       "CREATED": "Created",
+      "STATE": "State",
+      "VM": "VM name",
       "name": "Name",
       "bytesreadrate": "Read MB/s",
       "byteswriterate": "Write MB/s",
@@ -619,7 +622,8 @@
       "local": "Local",
       "created": "Created",
       "true": "Yes",
-      "false": "No"
+      "false": "No",
+      "local": "Local"
     },
     "SNAPSHOTS": {
       "DESCRIPTION": "Description",

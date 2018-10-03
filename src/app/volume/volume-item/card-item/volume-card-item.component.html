@@ -18,8 +18,8 @@
     <div class="entity-card-data-line">
       {{ 'VOLUME_PAGE.CARD.SIZE' | translate }}: {{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}
     </div>
-    <div class="entity-card-data-line">
-      {{ 'VOLUME_PAGE.CARD.STATE' | translate }}: {{ stateTranslationToken | translate }}
+    <div class="entity-card-data-line" *ngIf="item.vmdisplayname">
+      {{ 'VOLUME_PAGE.CARD.VM' | translate }}: {{ item.vmdisplayname }}
     </div>
   </mat-card-content>
 

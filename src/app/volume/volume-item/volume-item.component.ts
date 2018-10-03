@@ -38,15 +38,6 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
     return this.item.type === VolumeType.ROOT;
   }
 
-  public get stateTranslationToken(): string {
-    const stateTranslations = {
-      'ALLOCATED': 'VOLUME_STATE.ALLOCATED',
-      'READY': 'VOLUME_STATE.READY'
-    };
-
-    return stateTranslations[this.item.state.toUpperCase()];
-  }
-
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();
     if (!this.matMenuTrigger.menuOpen) {
