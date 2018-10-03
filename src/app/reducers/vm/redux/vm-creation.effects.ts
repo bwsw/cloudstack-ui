@@ -12,7 +12,6 @@ import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
@@ -34,7 +33,7 @@ import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-gr
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
 import { SnackBarService } from '../../../core/services';
-import { UserTagsActions, UserTagsSelectors, configSelectors } from '../../../root-store';
+import { configSelectors, UserTagsActions, UserTagsSelectors } from '../../../root-store';
 import { DefaultComputeOffering } from '../../../shared/models/config';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -191,12 +190,6 @@ export class VirtualMachineCreationEffects {
       if (action.payload.template) {
         if (resourceType(action.payload.template) !== TemplateResourceType.template && !vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
-        }
-      }
-
-      if (action.payload.diskOffering) {
-        if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
-          return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         } else {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
           const minSize = Math.max(Math.ceil(Utils.convertToGb(vmCreationState.template.size)), defaultDiskSize);
@@ -205,9 +198,15 @@ export class VirtualMachineCreationEffects {
 
           if (!vmCreationState.rootDiskSize
             || vmCreationState.rootDiskSize < vmCreationState.rootDiskMinSize) {
-            return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
+            return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize || 10 });
           }
           return new vmActions.VmFormUpdate(upd);
+        }
+      }
+
+      if (action.payload.diskOffering) {
+        if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
+          return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         }
       }
 

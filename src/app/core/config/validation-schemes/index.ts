@@ -14,7 +14,6 @@ import * as computeOfferingClasses from './compute-offering-classes.scheme.json'
 import * as serviceOfferingAvailability from './service-offering-availability.scheme.json';
 import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
 import * as imageGroups from './image-groups.scheme.json';
-import * as maxRootDiskSize from './max-root-disk-size.scheme.json';
 import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
 
 export {
@@ -37,8 +36,6 @@ export {
   computeOfferingClasses,
   // Images settings
   imageGroups,
-  // Virtual machines settings
-  maxRootDiskSize,
   // Firewall (Security groups) settings
   defaultSecurityGroupName
 }

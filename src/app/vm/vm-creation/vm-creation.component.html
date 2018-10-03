@@ -117,14 +117,13 @@
                     (change)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
                 </div>
-
                 <div *ngIf="showResizeSlider()">
                   <cs-slider
                     name="rds"
                     [min]="vmCreationState.rootDiskMinSize"
                     [max]="rootDiskSizeLimit()"
                     [label]="'VM_PAGE.VM_CREATION.DISK_SIZE' | translate"
-                    [ngModel]="vmCreationState.rootDiskSize || 10"
+                    [ngModel]="vmCreationState.rootDiskSize"
                     (ngModelChange)="rootDiskSizeChange.emit($event)"
                     [units]="'UNITS.GB' | translate"
                   ></cs-slider>

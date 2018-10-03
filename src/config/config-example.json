@@ -150,7 +150,6 @@
       }
     }
   },
-  "maxRootDiskSize": 512,
   "defaultSecurityGroupName": {
     "en": "default name",
     "ru": "имя по умолчанию"

@@ -9,7 +9,6 @@ You can see examples of the configurations in the [config-example.json](https://
   * [Extensions](#extensions)
 * [Virtual Machines Settings](#virtual-machines-settings)
   * [VM Colors](#vm-colors)
-  * [Max Root Disk Size](#max-root-disk-size)
 * [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
   * [Security Group Templates](#security-group-templates)
   * [Default Security Group Name](#default-security-group-name)
@@ -88,18 +87,6 @@ For example,
   { "value": "#673AB7" },
   { "value": "#3F51B5" }
 ]
-```
-
-### Max Root Disk Size 
-
-Allow you to set the max root disk size. 
-The default value is `1024` GB.
-The minimum value for root disk size is `10` GB.
-
-For example,
-
-```
-"maxRootDiskSize": 512
 ```
 
 ## Firewall (Security Groups) Settings

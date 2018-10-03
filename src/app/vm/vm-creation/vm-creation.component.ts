@@ -43,7 +43,6 @@ export class VmCreationComponent {
   @Input() public deployedVm: VirtualMachine;
   @Input() public enoughResources: boolean;
   @Input() public insufficientResources: Array<string>;
-  @Input() public maxRootDiskSize: number;
 
   @Output() public displayNameChange = new EventEmitter<string>();
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
@@ -100,13 +99,14 @@ export class VmCreationComponent {
   public rootDiskSizeLimit(): number {
     const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
     const storageAvailable = Number(primaryStorageAvailable);
+    const maxRootCapability = this.auth.getCustomDiskOfferingMaxSize();
     if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
-      return this.maxRootDiskSize;
+      return maxRootCapability;
     }
-    if (storageAvailable < this.maxRootDiskSize) {
+    if (storageAvailable < maxRootCapability) {
       return storageAvailable;
     }
-    return this.maxRootDiskSize;
+    return maxRootCapability;
   }
 
   public isCustomizedDiskOffering(): boolean {

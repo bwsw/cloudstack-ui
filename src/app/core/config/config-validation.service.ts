@@ -73,7 +73,6 @@ export class ConfigValidationService {
     serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
     imageGroups: validationSchemes.imageGroups,
     computeOfferingClasses: validationSchemes.computeOfferingClasses,
-    maxRootDiskSize: validationSchemes.maxRootDiskSize,
     defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName
   };
 
