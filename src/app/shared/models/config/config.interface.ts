@@ -23,7 +23,6 @@ export interface CustomizableConfig {
    * Virtual machines settings
    */
   vmColors: Array<{ value: string }>;
-  maxRootDiskSize: number;
   /*
    * Firewall (Security groups) settings
    */

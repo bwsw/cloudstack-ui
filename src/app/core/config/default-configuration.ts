@@ -44,7 +44,6 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    * Virtual machines settings
    */
   vmColors: COLORS,
-  maxRootDiskSize: 1024,
   /*
    * Firewall (Security groups) settings
    */

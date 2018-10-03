@@ -99,14 +99,14 @@ export class VmCreationComponent {
   public rootDiskSizeLimit(): number {
     const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
     const storageAvailable = Number(primaryStorageAvailable);
-    const maxRootCapability = this.auth.getCustomDiskOfferingMaxSize();
+    const maxRootSize = this.auth.getCustomDiskOfferingMaxSize();
     if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
-      return maxRootCapability;
+      return maxRootSize;
     }
-    if (storageAvailable < maxRootCapability) {
+    if (storageAvailable < maxRootSize) {
       return storageAvailable;
     }
-    return maxRootCapability;
+    return maxRootSize;
   }
 
   public isCustomizedDiskOffering(): boolean {
