@@ -25,6 +25,10 @@ class MockAuthService {
   get user() {
     return this._user;
   }
+
+  getCustomDiskOfferingMinSize() {
+    return 1;
+  }
 }
 
 describe('Disk Offering dialog', () => {
