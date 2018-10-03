@@ -153,9 +153,9 @@ The list of actions allows an Administrator to:
 
 .. figure:: _static/Accounts_UserActions_ChangePass.png
    
-- Regenerate key - Allows changing the keys - secret and API - for the user. Confirm your action in the dialogue window, and the keys will be changed.
+- Regenerate key - Allows changing the keys - secret and API - for the user. Confirm your action in the dialog window, and the keys will be changed.
  
-- Delete a user - Allows deleting a user from the system. Confirm your action in the dialogue window, and the user will be deleted.
+- Delete a user - Allows deleting a user from the system. Confirm your action in the dialog window, and the user will be deleted.
 
 .. _Account_Action_Box:
 
@@ -168,13 +168,13 @@ Administrators can manage an account via the Action box under |actions icon|.
    
 The list of actions allows an Administrator to:
 
-- Disable account - Allows disabling an account. By disabling the account all users for this account will no longer have access to their cloud resources. All running VMs will be immediately shut down. Click "Disable account" and confirm your action in the dialogue window. The account will be inactive. 
+- Disable account - Allows disabling an account. By disabling the account all users for this account will no longer have access to their cloud resources. All running VMs will be immediately shut down. Click "Disable account" and confirm your action in the dialog window. The account will be inactive. 
 
-- Enable account - Allows activating a disabled account. Click "Enable account" and confirm your action in the dialogue window. The account will be activated.
+- Enable account - Allows activating a disabled account. Click "Enable account" and confirm your action in the dialog window. The account will be activated.
 
-- Delete account - Allows an Administrator to delete an account from the system. Confirm your action in the dialogue window, and the account will be deleted.
+- Delete account - Allows an Administrator to delete an account from the system. Confirm your action in the dialog window, and the account will be deleted.
 
-.. - Lock account - Allows locking an account from its users. By locking the account all users for this account will no longer be able to manage their cloud resources. Existing resources can still be accessed. Click "Lock account" and confirm your action in the dialogue window. The account will be locked.
+.. - Lock account - Allows locking an account from its users. By locking the account all users for this account will no longer be able to manage their cloud resources. Existing resources can still be accessed. Click "Lock account" and confirm your action in the dialog window. The account will be locked.
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
