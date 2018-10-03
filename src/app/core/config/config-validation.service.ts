@@ -60,19 +60,24 @@ export class ConfigValidationService {
   private readonly schemeValidator: Ajv;
   private readonly schemeMap: ValidationScheme = {
     defaultDomain: validationSchemes.defaultDomain,
+    apiDocLink: validationSchemes.apiDocLink,
     sessionRefreshInterval: validationSchemes.sessionRefreshInterval,
     extensions: validationSchemes.extensions,
+    vmColors: validationSchemes.vmColors,
     defaultFirstDayOfWeek: validationSchemes.defaultFirstDayOfWeek,
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
     defaultTheme: validationSchemes.defaultTheme,
     defaultComputeOffering: validationSchemes.defaultComputeOffering,
+    allowReorderingSidenav: validationSchemes.allowReorderingSidenav,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
     customComputeOfferingParameters: validationSchemes.customComputeOfferingParameters,
     serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
     imageGroups: validationSchemes.imageGroups,
     computeOfferingClasses: validationSchemes.computeOfferingClasses,
+    offeringCompatibilityPolicy: validationSchemes.offeringCompatibilityPolicy,
+    securityGroupTemplates: validationSchemes.securityGroupTemplates,
   };
 
   constructor() {

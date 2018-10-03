@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "securityGroupTemplates",
+  "definitions": {
+    "TcpUdpPort": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "TcpUdpRule": {
+      "type": "object",
+      "required": ["ruleid", "protocol", "startport", "endport", "cidr"],
+      "additionalProperties": false,
+      "properties": {
+        "ruleid": {
+          "type": "string"
+        },
+        "protocol": {
+          "type": "string",
+          "enum": ["tcp", "udp"]
+        },
+        "startport": {
+          "$ref": "#/definitions/TcpUdpPort"
+        },
+        "endport": {
+          "$ref": "#/definitions/TcpUdpPort"
+        },
+        "cidr": {
+          "type": "string"
+        }
+      }
+    },
+    "IcmpRule": {
+      "type": "object",
+      "required": ["ruleid", "protocol", "icmpcode", "icmptype", "cidr"],
+      "additionalProperties": false,
+      "properties": {
+        "ruleid": {
+          "type": "string"
+        },
+        "protocol": {
+          "type": "string",
+          "const": "icmp"
+        },
+        "icmpcode": {
+          "type": "number"
+        },
+        "icmptype": {
+          "type": "number"
+        },
+        "cidr": {
+          "type": "string"
+        }
+      }
+    },
+    "RulesArray": {
+      "type": "array",
+      "uniqueItemProperties": [
+        "ruleid"
+      ],
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/TcpUdpRule"
+          },
+          {
+            "$ref": "#/definitions/IcmpRule"
+          }
+        ]
+      }
+    }
+  },
+  "type": "array",
+  "uniqueItemProperties": ["id"],
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "description", "preselected", "ingressrule", "egressrule"],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      },
+      "preselected": {
+        "type": "boolean"
+      },
+      "ingressrule": {
+        "$ref": "#/definitions/RulesArray"
+      },
+      "egressrule": {
+        "$ref": "#/definitions/RulesArray"
+      }
+    }
+  }
+}
