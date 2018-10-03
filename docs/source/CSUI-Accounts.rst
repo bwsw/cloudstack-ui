@@ -61,7 +61,7 @@ By clicking "Create" |create icon| in the bottom-right corner you will open a fo
 - First name * - Enter the first name of a person or the first part of the entity represented by the account. It can be a department or a customer.
 - Last name * - Enter the last name of a person or the second part of the entity represented by the account (a customer or a department).
 - Domain * - Select a domain in which the account is to be created.
-- Role - Select the role for the account.
+- Role * - Select the role for the account.
 - Time zone - Set the time zone that corresponds to the account locale.
 - Network domain - If you want to assign a special domain name to the account's guest VM network, specify the DNS suffix. 
 
