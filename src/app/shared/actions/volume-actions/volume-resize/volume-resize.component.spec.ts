@@ -163,6 +163,7 @@ describe('volume resize for data disks', () => {
       ],
       providers: [
         { provide: DialogService, useValue: dialogService },
+        { provide: AuthService, useValue: MockAuthService },
         { provide: DiskOfferingService, useClass: MockDiskOfferingService },
         { provide: ResourceUsageService, useClass: MockResourceUsageService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
