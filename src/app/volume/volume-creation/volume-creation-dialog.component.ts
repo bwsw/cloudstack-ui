@@ -18,22 +18,20 @@ export class VolumeCreationDialogComponent {
   @Input() public isLoading: boolean;
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public zones: Array<Zone>;
-  @Input() public maxSize: number;
+  @Input() public storageAvailable: string;
   @Input() public account: Account;
   @Output() public onVolumeCreate = new EventEmitter<VolumeCreationData>();
   @Output() public onZoneUpdated = new EventEmitter<Zone>();
 
   public diskOffering: DiskOffering;
   public showResizeSlider: boolean;
-  public size = 1;
-  public minSize = 1;
+  public minSize: number = null;
 
   constructor(
     public dialogRef: MatDialogRef<VolumeCreationDialogComponent>,
     public authService: AuthService
   ) {
-    const customMinSize = this.authService.getCustomDiskOfferingMinSize();
-    this.minSize = customMinSize > this.maxSize ? this.maxSize : customMinSize;
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
     this.newVolume.size = this.minSize;
   }
 
@@ -48,7 +46,6 @@ export class VolumeCreationDialogComponent {
   }
 
   public updateDiskOffering(diskOffering: DiskOffering): void {
-    this.maxSize = this.minSize > this.maxSize ? this.minSize : this.maxSize;
     this.newVolume.diskofferingid = diskOffering.id;
     this.diskOffering = diskOffering;
     this.showResizeSlider = this.diskOffering.iscustomized;

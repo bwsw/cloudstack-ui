@@ -15,6 +15,7 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input() public maxSize: number;
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
+  @Input() public storageAvailable: string;
   @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
 
   public diskOffering: DiskOffering;

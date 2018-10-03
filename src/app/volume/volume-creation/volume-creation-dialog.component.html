@@ -40,21 +40,15 @@
       <div *ngIf="diskOfferings?.length">
         <cs-disk-offering-selector
           name="diskOffering"
+          [isShowSlider]="showResizeSlider && minSize"
+          [min]="minSize"
+          [storageAvailable]="storageAvailable"
+          [newSize]="newVolume.size"
           [diskOfferings]="diskOfferings"
           [account]="account"
-          [ngModel]="diskOffering"
+          [diskOffering]="diskOffering"
           (change)="updateDiskOffering($event)"
         ></cs-disk-offering-selector>
-      </div>
-      <div *ngIf="showResizeSlider && minSize && maxSize">
-        <cs-slider
-          [min]="minSize"
-          [max]="maxSize"
-          [label]="'VOLUME_PAGE.SPARE_DRIVE_CREATION.SIZE' | translate"
-          [units]="'UNITS.GB' | translate"
-          name="diskSize"
-          [(ngModel)]="newVolume.size"
-        ></cs-slider>
       </div>
     </div>
     <div class="mat-dialog-actions">

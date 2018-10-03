@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { Account, DiskOffering } from '../../../models';
 import { AuthService } from '../../../services/auth.service';
 import { Utils } from '../../../services/utils/utils.service';
+import { isCustomized } from '../../../models/offering.model';
 
 @Component({
   selector: 'cs-disk-offering-dialog',
@@ -15,7 +16,7 @@ export class DiskOfferingDialogComponent {
   public selectedDiskOffering: DiskOffering;
   public account: Account;
   public resourcesLimitExceeded = false;
-  public minSize = 1;
+  public minSize: number = null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
@@ -25,6 +26,7 @@ export class DiskOfferingDialogComponent {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
     this.account = data.account;
+    this.minSize = this.authService.getCustomDiskOfferingMinSize();
   }
 
   public offeringCreated(date: string): Date {
@@ -56,8 +58,8 @@ export class DiskOfferingDialogComponent {
   }
 
   private checkResourcesLimit() {
-    this.minSize = this.authService.getCustomDiskOfferingMinSize();
-    const diskSize = this.selectedDiskOffering.disksize === 0 ? this.minSize : this.selectedDiskOffering.disksize;
-    this.resourcesLimitExceeded = Number(this.account.primarystorageavailable) < diskSize;
+    const diskSize = isCustomized(this.selectedDiskOffering) ? this.minSize : this.selectedDiskOffering.disksize;
+    const storageAvailable = this.account && this.account.primarystorageavailable || 0;
+    this.resourcesLimitExceeded = Number(storageAvailable) < Number(diskSize);
   }
 }

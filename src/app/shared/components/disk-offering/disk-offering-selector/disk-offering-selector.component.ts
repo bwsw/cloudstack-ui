@@ -3,6 +3,7 @@ import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offering-dialog.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'cs-disk-offering-selector',
@@ -19,9 +20,13 @@ import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offeri
 export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public required: boolean;
-  @Input() public params: Array<string>;
   @Input() public account: Account;
+  @Input() public isShowSlider = false;
+  @Input() public min: number;
+  @Input() public newSize: number;
+  @Input() public storageAvailable: string;
   @Output() public change: EventEmitter<DiskOffering>;
+  public max: number;
   private _diskOffering: DiskOffering;
 
   @Input()
@@ -38,8 +43,11 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private dialog: MatDialog) {
-    this.change = new EventEmitter();
+    private dialog: MatDialog,
+    private authService: AuthService
+  ) {
+      this.change = new EventEmitter();
+      this.setMaxSizeValue();
   }
 
   public registerOnChange(fn): void {
@@ -74,5 +82,15 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
           this.change.next(offering);
         }
       });
+  }
+
+  private setMaxSizeValue() {
+    const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
+    if (isNaN(Number(this.storageAvailable))) {
+      this.min = customDiskOfferingMaxSize;
+    } else {
+      this.max = Math.min(customDiskOfferingMaxSize, Number(this.storageAvailable));
+    }
+    this.max = Math.max(this.min, this.max);
   }
 }

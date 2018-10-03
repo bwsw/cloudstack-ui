@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
-import { filter, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
@@ -21,6 +21,7 @@ import { VolumeType } from '../../models';
     <cs-volume-resize
       [maxSize]="maxSize"
       [volume]="volume"
+      [storageAvailable]="storageAvailable$ | async"
       [diskOfferings]="offerings$ | async"
       (onDiskResized)="resizeDisk($event)"
     >
@@ -29,9 +30,11 @@ import { VolumeType } from '../../models';
 export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.getAvailableOfferings));
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
+  readonly storageAvailable$ = this.account$.pipe(
+    filter(Boolean),
+    map((account: Account) => account.primarystorageavailable));
 
   public volume: Volume;
-
   public maxSize = 2;
 
   constructor(

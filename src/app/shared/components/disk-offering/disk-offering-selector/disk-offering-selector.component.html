@@ -7,9 +7,19 @@
 </div>
 
 <div class="mat-form-field-wrapper">
-  <span class="disk-offering-info truncate">
-    <ng-container *ngIf="diskOffering; then offeringName else nameStub"></ng-container>
-    <ng-template #offeringName>{{ diskOffering.name }}</ng-template>
-    <ng-template #nameStub>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-template>
-  </span>
+<span class="disk-offering-info truncate">
+  <ng-container *ngIf="diskOffering; then offeringName else nameStub"></ng-container>
+  <ng-template #offeringName>{{ diskOffering.name }}</ng-template>
+  <ng-template #nameStub>{{ 'VOLUME_PAGE.DETAILS.DISK_OFFERING' | translate }}</ng-template>
+</span>
 </div>
+
+<cs-slider
+  *ngIf="isShowSlider"
+  name="new-size"
+  [min]="min"
+  [max]="max"
+  [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
+  [(ngModel)]="newSize"
+  [units]="'UNITS.GB' | translate"
+></cs-slider>
