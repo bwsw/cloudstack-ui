@@ -1,0 +1,258 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Maslova
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-02 10:36+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../CS-UI_Overview.rst:4
+msgid "Overview"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:6
+msgid ""
+"CloudStack-UI is a project which purpose is to provide an easy-to-use, "
+"light, and user-friendly front-end interface for the Apache CloudStack "
+"virtualization management system."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:8
+msgid ""
+"Apache CloudStack is a great product which is widely used. But its front "
+"end is developed for administrators (from our point of view), not for "
+"cloud end-users. Some of the interactions are not straightforward and "
+"unnatural to an average user and require quite a long time to adapt. "
+"Other reasons to develop the UI are connected to the lack of functions "
+"like virtual machine statistics & charting, sophisticated resource "
+"accounting, and application management."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:10
+msgid ""
+"That is what we are trying to add to Cloudstack-UI. The work is still in "
+"progress. But for now we have already covered lots of features that make "
+"CloudStack more good-looking, intuitive and convenient."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:12
+msgid "Project on `GitHub <https://github.com/bwsw/cloudstack-ui>`_."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:14
+msgid ""
+"Join the `CloudStack-UI LinkedIn Group "
+"<www.linkedin.com/groups/13540203>`_."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:17
+msgid "Project History"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:18
+msgid ""
+"This page provides some background about the project, describes what "
+"CloudStack-UI is, and why it was developed."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:20
+msgid ""
+"At `Bitworks Software <https://bitworks.software/en>`_, we have been "
+"running an ACS public cloud for 3 years (actually we still run CS 4.3 "
+"cloud in production). And we have found that average users who are "
+"familiar with Digital Ocean, Amazon AWS, and other VPS management systems"
+" feel uncomfortable with original CloudStack UI and make a lot of "
+"operational mistakes. That is why we have decided to implement a "
+"convenient and neat end-user facing UI covering regular activities, which"
+" are important for day-to-day VM management."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:22
+msgid "There are several aims we strived to achieve with the new UI:"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:24
+msgid ""
+"The first goal is to make the UI more intuitive in terms of usability, "
+"business processes and typical use-cases."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:26
+msgid ""
+"As nowadays people move further from desktop PCs and go full mobile, we "
+"wanted the UI to have a support for that. Having a full control of your "
+"cloud from a smartphone, what could be better?"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:28
+msgid ""
+"One of the major goals we want to achieve is to build a UI that is "
+"possible to support for many years. That’s why we have to use only modern"
+" technologies."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:30
+msgid ""
+"From the technical perspective we also want the UI to support additional "
+"meta-information like descriptions, colors, groups, helpers. All of that "
+"is not supported by the native UI and it could be used to add some "
+"additional semantics to the entities that user has: like Vms, snapshots "
+"and so on."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:32
+msgid ""
+"The next key point that we wanted to cover with the new UI is to have "
+"some extra features beyond the functionality that CloudStack provides, "
+"e.g. DNS management, helpdesk integration, PaaS management, runtime "
+"statistics charts and monitoring."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:34
+msgid ""
+"And a final goal is to have a community support that could help us to "
+"improve the product and provide better user experience for the CloudStack"
+" users."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:37
+msgid "Implementation Details"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:39
+msgid ""
+"Designed compatible with Apache CloudStack 4.10 and has been tested for "
+"4.9."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:41
+msgid "Powered by Angular and Material 2."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:43
+msgid "Tested and works fine in next modern browsers:"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:45
+msgid "Google Chrome 60.0.3112.78"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:46
+msgid "Chromium 60.0.3169.0"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:47
+msgid "Mozilla Firefox 54.0.1"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:48
+msgid "Safari 5.1.7"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:49
+msgid "Internet Explorer 11.483.150630"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:52
+msgid "Documentation"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:54
+msgid ""
+"The documentation for the project is presented in the "
+":ref:`CS_User_Guide` that explains to average users how to use the UI "
+"when working with CloudStack. It also includes explanations on managers' "
+"part clarifying how to manage the cloud infrastructure via CloudStack-UI."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:56
+msgid ""
+"We hope the new features we support will be useful for both end-users and"
+" administrators."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:59
+msgid "How to Contribute"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:61
+msgid ""
+"CloudStack-UI is an open-source project. It is developed by an open and "
+"friendly community. Everybody is welcome to contribute and engage with "
+"the community.  We are happy to accept any contribution. You can "
+"contribute to the project development in various ways:"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:63
+msgid ""
+"Share the information about the project with other people, try to install"
+" the UI and share your opinion with us and your colleagues."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:64
+msgid "Propose useful features. Ideas are always welcome."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:65
+msgid ""
+"Deploy it somewhere and inform us about your success story and we will "
+"share it in the adopters section."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:66
+msgid "Fix bugs and send us the PR."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:67
+msgid "Implement a feature from the Roadmap or simply make something new."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:68
+msgid ""
+"Support and promote the development of specific functions which are "
+"important to you and may be shared."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:69
+msgid ""
+"Provide testing environment for other deployment schemes. Now we "
+"interested in testing the app with"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:71
+msgid "KVM with RBD"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:72
+msgid "Xen with NFS, Local, RBD"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:73
+msgid "Oher browsers and operating systems"
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:75
+msgid ""
+"Hire us for frontend or backend development of custom software "
+"development projects. Take a look at our `website "
+"<https://bitworks.software/>`_ to know where we can be useful. Take a "
+"look at our `presentation "
+"<https://www.slideshare.net/secret/BpNGxtaPUfOIqj>`_ to learn more about "
+"us."
+msgstr ""
+
+#: ../../CS-UI_Overview.rst:77
+msgid "To contribute, just contact us via e-mail: info@bw-sw.com"
+msgstr ""
+

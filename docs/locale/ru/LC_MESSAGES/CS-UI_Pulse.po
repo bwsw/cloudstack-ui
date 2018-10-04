@@ -1,0 +1,101 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Maslova
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-02 10:36+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../CS-UI_Pulse.rst:4
+msgid "Pulse Plugin"
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:9
+msgid "Overview"
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:11
+msgid ""
+"The Pulse plugin is designed for visualization of virtual machines "
+"performance statistics. Currently, this CloudStack-UI extension is only "
+"compatible with ACS clusters that use the KVM hypervisor. With help of "
+"sensors that collect virtual machines performance statistics via the "
+"Libvirt API and store them in an InfluxDB datastore and RESTful "
+"statistics server, CloudStack-UI is able to display CPU, RAM, disk IO and"
+" network traffic utilization in the form of convenient visual charts."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:13
+msgid ""
+"Pulse allows users of Apache CloudStack to monitor current and previous "
+"operational states of virtual machines. The plugin supports various view "
+"scales like minutes, hours, days and enables data overlays to monitor "
+"peak and average values."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:15
+msgid ""
+"We consider this plugin very important for the CloudStack ecosystem as "
+"currently there is no built-in functionality to track VM operational "
+"states, although it is vital for system administrators to successfully "
+"operate virtual servers."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:17
+msgid "Plugin deployment and configuration Instructions can be found below."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:20
+msgid "Deployment Instructions"
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:22
+msgid "The Pulse plugin works only for KVM hypervisor right now."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:24
+msgid ""
+"Please, make sure that you have `cs-pulse-server <https://github.com/bwsw"
+"/cs-pulse-server>`_ and `cs-pulse-sensor <https://github.com/bwsw/cs-"
+"pulse-sensor>`_ to be able to work with the Pulse plugin."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:26
+msgid "To enable the Pulse plugin you need:"
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:28
+msgid "Configure plugin in ``config.json``."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:29
+msgid ""
+"Run docker container with a correctly specified ``cs-pulse-server`` "
+"endpoint."
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:32
+msgid "Pulse configuration"
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:34
+msgid ""
+"Please, enable ``pulse`` in the extensions section of the "
+"``config.json``::"
+msgstr ""
+
+#: ../../CS-UI_Pulse.rst:43
+msgid "Running cloudstack-ui docker container"
+msgstr ""
+
