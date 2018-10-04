@@ -1,0 +1,307 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Images &#8212; Документация CSUI 1.410.18</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.410.18',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="images">
+<span id="id1"></span><h1><a class="toc-backref" href="#id5">Images</a><a class="headerlink" href="#images" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#images" id="id5">Images</a><ul>
+<li><a class="reference internal" href="#images-list" id="id6">Images List</a><ul>
+<li><a class="reference internal" href="#filtering-of-images" id="id7">Filtering of Images</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-template" id="id8">Create Template</a></li>
+<li><a class="reference internal" href="#create-iso" id="id9">Create ISO</a></li>
+<li><a class="reference internal" href="#template-iso-details-sidebar" id="id10">Template/ISO Details Sidebar</a></li>
+<li><a class="reference internal" href="#template-iso-action-box" id="id11">Template/ISO Action Box</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>In the <em>Images</em> section, you can manage Templates and ISO files that are used as installation sources for VMs.</p>
+<p>A template is a reusable configuration for virtual machines. When users create a VM, they can choose from a list of templates. Administrators and users can create new templates and add them to CloudStack.</p>
+<p>ISO files are another installation source for virtual machines.</p>
+<p>You can switch from Templates to ISOs by selecting a corresponding option above:</p>
+<div class="figure">
+<img alt="../_images/Images_TempISO2.png" src="../_images/Images_TempISO2.png" />
+</div>
+<div class="section" id="images-list">
+<h2><a class="toc-backref" href="#id6">Images List</a><a class="headerlink" href="#images-list" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Existing templates/ISOs are presented in the list in the «Images» section. A user can see the templates/ISOs belonging to his/her user only. Domain Administrator can see templates/ISOs of all users in the domain but cannot perform actions on other users“ templates.</p>
+<p>You can switch the list view of templates/ISOs to the box view using the view button <img alt="view box icon" src="../_images/box_icon.png" /> in the upper-right corner.</p>
+<p>For each template/ISO in the list, you can see its name, OS family, description.  The Actions button <img alt="actions icon" src="../_images/actions_icon.png" /> expands the list of actions. Actions are available to those templates/ISOs that belong to your user only (corresponding to «My» type). Administrators can see templates/ISOs of all users in the domain, but cannot manage them.</p>
+<div class="section" id="filtering-of-images">
+<h3><a class="toc-backref" href="#id7">Filtering of Images</a><a class="headerlink" href="#filtering-of-images" title="Ссылка на этот заголовок">¶</a></h3>
+<p>The list of templates/ISOs can be filtered using the filtering tool. The filtering parameters are as follows:</p>
+<ul class="simple">
+<li>Accounts (for Domain Administrators);</li>
+<li>OS families;</li>
+<li>Types of templates/ISO:<ul>
+<li>My - for user’s templates or ISOs (Private),</li>
+<li>Featured - for templates marked by an Administrator as most prominent for users to select,</li>
+<li>Community - for templates accessible to all users of this CloudStack installation (Public);</li>
+</ul>
+</li>
+<li>Zones.</li>
+</ul>
+<div class="figure">
+<img alt="../_images/Images_TempList_Admin2.png" src="../_images/Images_TempList_Admin2.png" />
+</div>
+<p>Besides, you can adjust the list view using the grouping tool. Templates/ISOs can be grouped by zones or/and groups. Administrators can group the list by accounts.</p>
+<div class="figure">
+<img alt="../_images/Images_Temp_AdminGrouping.png" src="../_images/Images_Temp_AdminGrouping.png" />
+</div>
+<p>Use the search tool to easily find a template/ISO by its name or by a part of the name.</p>
+</div>
+</div>
+<div class="section" id="create-template">
+<h2><a class="toc-backref" href="#id8">Create Template</a><a class="headerlink" href="#create-template" title="Ссылка на этот заголовок">¶</a></h2>
+<p>There is a variety of ways to add more templates to the system. In the <a class="reference internal" href="CSUI-VirtualMachines.html#vm-info"><span class="std std-ref">VM Details Sidebar</span></a> section, we have described one way of template creation from a VM volume snapshot in the «Storage» tab of the VM information sidebar (see <a class="reference internal" href="CSUI-VirtualMachines.html#actions-on-snapshots"><span class="std std-ref">Snapshot Action Box</span></a>). From the <a class="reference internal" href="CSUI-Storage.html#storage-info"><span class="std std-ref">Volume Details Sidebar</span></a> of the «Storage» section, you also can create a template on the base of the volume snapshot (see <a class="reference internal" href="CSUI-Storage.html#actions-on-snapshot-volume"><span class="std std-ref">Snapshots Action Box</span></a>).</p>
+<p>One more way to create a new template is filling in the form in the <em>Images</em> section by clicking «Create» <img alt="create icon" src="../_images/create_icon.png" /> in the bottom-right corner.</p>
+<div class="figure">
+<img alt="../_images/Images_Temp_Create.png" src="../_images/Images_Temp_Create.png" />
+</div>
+<p>It will open a creation form where you should specify the following information:</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Required fields are marked with an asterisk (*).</p>
+</div>
+<ol class="arabic simple">
+<li>Name * - Enter a name for the new template.</li>
+<li>Description * - Provide a short description to have a general idea about the template.</li>
+<li>URL * - Specify a valid URL of the template file.</li>
+<li>OS type * - This helps CloudStack and the hypervisor perform certain operations and make assumptions that improve the VM performance. Select from the drop-down list the necessary option, or select «Other» if there is no needed option in the list.</li>
+<li>Zone * - Choose the zone where you want the template to be available.</li>
+<li>Group - Select a group from the drop-down list. The list of groups is managed by Administrator in the <a class="reference external" href="https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups">configuration file</a>. The group assigned to a template is saved to template tags with the <code class="docutils literal"><span class="pre">csui.template.group</span></code> tag. The group can be edited or deleted from the <a class="reference internal" href="#image-details"><span class="std std-ref">Template/ISO Details Sidebar</span></a> from the «Template» tab or by editing or deleting the corresponding tag in the «Tags» tab.</li>
+<li>Password enabled checkbox - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset.</li>
+<li>Dynamically scalable checkbox - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory.</li>
+</ol>
+<ol class="arabic simple" start="9">
+<li>«Show additional fields» allows expanding the form and set more settings:<ul>
+<li>Hypervisor - Select a hypervisor from the drop-down list.</li>
+<li>Format - The format of the template upload file, e.g. VHD or RAW or VMDK.</li>
+<li>Extractable - Tick this option if the template is available for extraction. If this option is selected, end-users can download a full image of a template.</li>
+<li>Requires HVM - Tick this option for creating a template that requires HVM.</li>
+</ul>
+</li>
+</ol>
+<p>Once all fields are filled in, click «Create» to create the template with these settings. The created template will appear in the list.</p>
+<p>Click «Cancel» to close the form without template creation. All fields will be cleared.</p>
+</div>
+<div class="section" id="create-iso">
+<h2><a class="toc-backref" href="#id9">Create ISO</a><a class="headerlink" href="#create-iso" title="Ссылка на этот заголовок">¶</a></h2>
+<p>You can create a new ISO file in the <em>Images</em> section by clicking «Create» <img alt="create icon" src="../_images/create_icon.png" /> in the bottom-right corner.</p>
+<div class="figure">
+<img alt="../_images/Images_CreateISO.png" src="../_images/Images_CreateISO.png" />
+</div>
+<p>It will open a creation form where you should specify the following information:</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Required fields are marked with an asterisk (*).</p>
+</div>
+<ol class="arabic simple">
+<li>Name * - Enter a name for the new ISO file.</li>
+<li>Description * - Provide a short description to have a general idea about the ISO file.</li>
+<li>URL * - Specify a valid URL of the ISO file.</li>
+<li>OS type * - This helps CloudStack and the hypervisor perform certain operations and make assumptions that improve the VM performance. Select from the drop-down list the necessary option, or select «Other» if there is no needed option in the list.</li>
+<li>Zone * - Choose the zone where you want the ISO file to be available.</li>
+<li>Group - Select a group from the drop-down list. The list of groups is managed by Administrator  in the <a class="reference external" href="https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups">configuration file</a>. The group assigned to ISO is saved to ISO tags with the <code class="docutils literal"><span class="pre">csui.template.group</span></code> tag. The group can be edited or deleted from the <a class="reference internal" href="#image-details"><span class="std std-ref">Template/ISO Details Sidebar</span></a> from the «Template» tab or by editing or deleting the corresponding tag in the «Tags» tab.</li>
+</ol>
+<ol class="arabic simple" start="7">
+<li>«Show additional fields» allows expanding the form and set more settings:<ul>
+<li>Extractable - Tick this option if the ISO file is available for extraction. If this option is selected, end-users can download a full image of an ISO file.</li>
+<li>Bootable - Tick this option to indicate whether the machine can be booted using this ISO.</li>
+</ul>
+</li>
+</ol>
+<p>Once all fields are filled in, click «CREATE» to create the ISO file with these settings. The created ISO file will appear in the list.</p>
+<p>Click «CANCEL» to close the form without ISO creation. All fields will be cleared.</p>
+<p>The created ISO will appear in the list.</p>
+</div>
+<div class="section" id="template-iso-details-sidebar">
+<span id="image-details"></span><h2><a class="toc-backref" href="#id10">Template/ISO Details Sidebar</a><a class="headerlink" href="#template-iso-details-sidebar" title="Ссылка на этот заголовок">¶</a></h2>
+<p>The information on each template/ISO is presented in the sidebar to the right. It is opened by clicking the template/ISO card or line in the list. The information is presented here in 3 tabs. Above the tabs you can see the template/ISO general information:</p>
+<ul class="simple">
+<li>Name - Template/ISO name and symbol,</li>
+<li>Actions button - Actions list allowing the Delete action.</li>
+</ul>
+<div class="figure">
+<img alt="../_images/Images_Temp_Details.png" src="../_images/Images_Temp_Details.png" />
+</div>
+<ol class="arabic simple">
+<li>Template tab:<ul>
+<li>Description - Template/ISO description provided at its creation.</li>
+<li>OS - The OS selected for this template/ISO.</li>
+<li>General Information - The settings saved for this template/ISO: size, creation date, type, hypervisor, other settings.</li>
+<li>Download URL - The URL provided for this template/ISO. Next to it you can see the «Copy» icon <img alt="copy icon" src="../_images/copy_icon.png" />. Click it to copy the URL to clipboard and then paste it in the address line.</li>
+<li>Group - Shows the template/ISO group if it is enabled via the <a class="reference external" href="https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#template-groups">configuration file</a>. You can change the group by clicking «Edit» <img alt="edit icon" src="../_images/edit_icon.png" />. Choose an existing group in the appeared window and click «ASSIGN» to assign the template/ISO to the selected group.
+You can remove the template/ISO from the group. Select the «Remove from the group &lt;group name&gt;» option and click «REMOVE».</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li>Zones tab - Shows the zone where the template/ISO is available. If the zone has «Yes» for the <em>Ready</em> status, the template/ISO can be used for VM creation.</li>
+</ol>
+<div class="figure">
+<img alt="../_images/Images_Temp_Details_Zone1.png" src="../_images/Images_Temp_Details_Zone1.png" />
+</div>
+<ol class="arabic simple" start="3">
+<li>Tags tab - Presents the list of tags assigned to the template/ISO.</li>
+</ol>
+<div class="figure">
+<img alt="../_images/Images_Temp_Details_Tags1.png" src="../_images/Images_Temp_Details_Tags1.png" />
+</div>
+<p>Tags can be system or non-system. System tags are used to provide the functionality from the user interface perspective. Changing these tags affects the functionality of the application. The «Show system tags» checkbox allows to view or hide system tags of the template. Hiding system tags helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden. Uncheck the «Show system tags» checkbox to hide system tags from the list.</p>
+<p>The following system tags can be used for templates/ISOs:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">csui.template.group</span></code> - Used to assign a template/ISO to a group.</li>
+<li><code class="docutils literal"><span class="pre">csui.template.download-url</span></code> - Used for URL, if any provided for the template/ISO.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Please, see the <a class="reference external" href="https://github.com/bwsw/cloudstack-ui/wiki/Tags">list of tags</a> to find system tags that can be used for a template/ISO.</p>
+</div>
+<p>To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list.</p>
+<p>To add a tag for the template/ISO click «Create» <img alt="create icon" src="../_images/create_icon.png" />. In the appeared form enter:</p>
+<ul class="simple">
+<li>Key *</li>
+<li>Value *</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Required fields are marked with an asterisk (*). The values in the fields cannot start with a space.</p>
+</div>
+<p>Click «Create» to assign a new tag to the template/ISO.</p>
+<div class="figure">
+<img alt="../_images/Images_TagCreate1.png" src="../_images/Images_TagCreate1.png" />
+</div>
+<p>When adding a system tag, click «+» in the card to open the creation form. You will see that the <code class="docutils literal"><span class="pre">csui</span></code> prefix is automatically prepopulated here.</p>
+<div class="figure">
+<img alt="../_images/Images_SysTagCreate1.png" src="../_images/Images_SysTagCreate1.png" />
+</div>
+<p>If you create a non-system tag, it will be saved in a new card. If you have entered a key in the format <code class="docutils literal"><span class="pre">&lt;prefix&gt;.&lt;example&gt;</span></code>, a card will be named as «&lt;prefix&gt;». When creating a new tag from this card, click «+» in the card and in the tag creation form the <em>Key</em> field will be prepopulated with the &lt;prefix&gt;.</p>
+<div class="figure">
+<img alt="../_images/Images_OtherTagCreate1.png" src="../_images/Images_OtherTagCreate1.png" />
+</div>
+<p>Tags can be edited or/and deleted. Mouse over the tag in the list and see «Edit» and «Delete» buttons.</p>
+<div class="figure">
+<img alt="../_images/Images_TagActions1.png" src="../_images/Images_TagActions1.png" />
+</div>
+<p>Click «Edit» to change the tag’s key or value in the appeared form. Save the edits.</p>
+<p>Click «Delete» to delete the tag from the list for this template. Confirm your action in the dialogue window. Make sure the tag disappeared from the list of assigned tags.</p>
+</div>
+<div class="section" id="template-iso-action-box">
+<h2><a class="toc-backref" href="#id11">Template/ISO Action Box</a><a class="headerlink" href="#template-iso-action-box" title="Ссылка на этот заголовок">¶</a></h2>
+<p>By clicking «Actions» <img alt="actions icon" src="../_images/actions_icon.png" /> you can expand the list of actions for those templates/ISO that are in the account your user belongs to (corresponding to «My» type). The deleting action is available here.</p>
+<div class="figure">
+<img alt="../_images/Images_Temp_ActionBox1.png" src="../_images/Images_Temp_ActionBox1.png" />
+</div>
+<p>Click «Delete» to delete the template/ISO and then confirm your action in the dialogue window. The template/ISO will be deleted.</p>
+<p>Click «Cancel» to close the window without deleting a template/ISO.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cloudstack_logo_light.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Images</a><ul>
+<li><a class="reference internal" href="#images-list">Images List</a><ul>
+<li><a class="reference internal" href="#filtering-of-images">Filtering of Images</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-template">Create Template</a></li>
+<li><a class="reference internal" href="#create-iso">Create ISO</a></li>
+<li><a class="reference internal" href="#template-iso-details-sidebar">Template/ISO Details Sidebar</a></li>
+<li><a class="reference internal" href="#template-iso-action-box">Template/ISO Action Box</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/CSUI-Images.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Maslova.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
+    </div>
+  </body>
+</html>

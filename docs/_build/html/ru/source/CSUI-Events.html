@@ -1,0 +1,170 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Activity log &#8212; Документация CSUI 1.410.18</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.410.18',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="activity-log">
+<span id="ssh-keys"></span><h1><a class="toc-backref" href="#id2">Activity log</a><a class="headerlink" href="#activity-log" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id1">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#activity-log" id="id2">Activity log</a><ul>
+<li><a class="reference internal" href="#events-list" id="id3">Events List</a><ul>
+<li><a class="reference internal" href="#filtering-of-events" id="id4">Filtering of Events</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>In the <em>Activity log</em> section you can see user activity in the account. Event search by main parameters - date and keywords - is supported to make it easier to find a necessary event for a specific date or type.</p>
+<div class="section" id="events-list">
+<h2><a class="toc-backref" href="#id3">Events List</a><a class="headerlink" href="#events-list" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Events in the Activity log are listed in a chronological order from the latest till the earliest. It represents the full list of events for a selected day.</p>
+<p>A user can view activities for his/her user only. An Administrator can see events for all accounts in the domain.</p>
+<div class="figure">
+<img alt="../_images/Events_List.png" src="../_images/Events_List.png" />
+</div>
+<p>The following information for each event is presented in the list:</p>
+<ul>
+<li><p class="first">Event description.</p>
+</li>
+<li><p class="first">Level - A kind of a category the event belongs to. It can show:</p>
+<blockquote>
+<div><ul class="simple">
+<li>INFO - For regular activities, for example, logging in, creating a VM, attaching a disk.</li>
+<li>WARN - For any warnings occurred.</li>
+<li>ERROR - For any errors occurred, for example, an error while registering an SSH key pair.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Type - Displays in what aspect of the system the event has taken place, for example: <code class="docutils literal"><span class="pre">USER.LOGIN</span></code> - for events happened at user authentication to the system; <code class="docutils literal"><span class="pre">VOLUME.RESIZE</span></code> - for events at disk size change.</p>
+</li>
+<li><p class="first">Time of the event.</p>
+</li>
+</ul>
+<div class="section" id="filtering-of-events">
+<h3><a class="toc-backref" href="#id4">Filtering of Events</a><a class="headerlink" href="#filtering-of-events" title="Ссылка на этот заголовок">¶</a></h3>
+<p>To easily find an event in the list use the filtering tool above.</p>
+<p>Any user can filter events by:</p>
+<ul class="simple">
+<li>Date - Allows selecting events for a specific date. By default, the today’s date is selected. Click <img alt="date icon" src="../_images/date_icon.png" /> and in the appeared calendar change the date for the day you wish to see activities for.</li>
+</ul>
+<div class="figure">
+<img alt="../_images/Events_Datepicker.png" src="../_images/Events_Datepicker.png" />
+</div>
+<p>Click «OK» to filter the list. The events will be selected in accordance with the chosen date.</p>
+<p>Click «CANCEL» to drop the selection.</p>
+<ul class="simple">
+<li>Levels - Allows selecting events by levels. Choose the level/levels you with from the drop-down list.</li>
+<li>Types - Allows selecting events by types. Choose the type/types from the drop-down list.</li>
+</ul>
+<p>An Administrator has an additional filtering parameter - accounts.</p>
+<div class="figure">
+<img alt="../_images/Events_AdminFiltering.png" src="../_images/Events_AdminFiltering.png" />
+</div>
+<p>Use the search tool to find an event by keywords or a part of a word.</p>
+<div class="figure">
+<img alt="../_images/Events_Search.png" src="../_images/Events_Search.png" />
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cloudstack_logo_light.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Activity log</a><ul>
+<li><a class="reference internal" href="#events-list">Events List</a><ul>
+<li><a class="reference internal" href="#filtering-of-events">Filtering of Events</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/CSUI-Events.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Maslova.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
+    </div>
+  </body>
+</html>

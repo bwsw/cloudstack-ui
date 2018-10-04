@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CloudStack-UI User Guide &#8212; Документация CSUI 1.410.18</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.410.18',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Start Working With CloudStack-UI" href="CSUI-Start.html" />
+    <link rel="prev" title="Overview" href="CS-UI_Overview.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="right" >
+          <a href="CSUI-Start.html" title="Start Working With CloudStack-UI"
+             accesskey="N">вперёд</a> |</li>
+        <li class="right" >
+          <a href="CS-UI_Overview.html" title="Overview"
+             accesskey="P">назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cloudstack-ui-user-guide">
+<span id="cs-user-guide"></span><h1>CloudStack-UI User Guide<a class="headerlink" href="#cloudstack-ui-user-guide" title="Ссылка на этот заголовок">¶</a></h1>
+<p>CloudStack-UI is created to make it easier for end-users to use cloud infrastructure - to view and use their cloud resources, including virtual machines, templates and ISOs, data volumes and snapshots, security groups, and IP addresses.</p>
+<p>The documentation gives precise instructions on working with the interface. The UI is quite intuitive and user-friendly, but we still advise studying the documentation first to get deeper insight of the features.</p>
+<p>Here is the documentation structure:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Start.html">Start Working With CloudStack-UI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Start.html#logging-in">Logging In</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Start.html#resource-usage">Resource Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Start.html#notifications-on-pending-operations">Notifications on Pending Operations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-VirtualMachines.html">Virtual Machines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-VirtualMachines.html#virtual-machines-list">Virtual Machines List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-VirtualMachines.html#create-a-virtual-machine">Create a Virtual Machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-VirtualMachines.html#vm-action-box">VM Action Box</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-VirtualMachines.html#vm-details-sidebar">VM Details Sidebar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-VirtualMachines.html#access-a-virtual-machine">Access a Virtual Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Storage.html#drive-list">Drive list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Storage.html#create-new-volume">Create New Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Storage.html#volume-details-sidebar">Volume Details Sidebar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Storage.html#volume-action-box">Volume Action Box</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Images.html">Images</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Images.html#images-list">Images List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Images.html#create-template">Create Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Images.html#create-iso">Create ISO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Images.html#template-iso-details-sidebar">Template/ISO Details Sidebar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Images.html#template-iso-action-box">Template/ISO Action Box</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Snapshots.html">Snapshots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Snapshots.html#snapshots-list">Snapshots List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Snapshots.html#snapshot-details-sidebar">Snapshot Details Sidebar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Snapshots.html#snapshot-actions-box">Snapshot Actions Box</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Firewall.html">Firewall</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Firewall.html#firewall-list">Firewall List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Firewall.html#create-a-security-group-template">Create a Security Group Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Firewall.html#create-a-shared-security-group">Create a Shared Security Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Firewall.html#private-security-groups">Private Security Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Firewall.html#security-group-details-sidebar">Security Group Details Sidebar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Firewall.html#security-group-action-box">Security Group Action Box</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Events.html">Activity log</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Events.html#events-list">Events List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-SSHkeys.html">SSH Keys</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-SSHkeys.html#ssh-key-list">SSH Key List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-SSHkeys.html#create-an-ssh-key">Create an SSH Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-SSHkeys.html#ssh-key-details-sidebar">SSH Key Details Sidebar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-SSHkeys.html#ssh-key-action-box">SSH Key Action Box</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Accounts.html">Accounts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Accounts.html#account-list">Account List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Accounts.html#create-an-account">Create an Account</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Accounts.html#account-details-sidebar">Account Details Sidebar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Accounts.html#account-action-box">Account Action Box</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Settings.html">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Settings.html#security">Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Settings.html#api-configuration">API Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Settings.html#vm-preferences">VM preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CSUI-Settings.html#look-and-feel">Look and Feel</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CSUI-Logout.html">Выход из системы</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cloudstack_logo_light.png" alt="Logo"/>
+            </a></p>
+  <h4>Предыдущий раздел</h4>
+  <p class="topless"><a href="CS-UI_Overview.html"
+                        title="предыдущая глава">Overview</a></p>
+  <h4>Следующий раздел</h4>
+  <p class="topless"><a href="CSUI-Start.html"
+                        title="следующая глава">Start Working With CloudStack-UI</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/CS-UI_Guide.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="right" >
+          <a href="CSUI-Start.html" title="Start Working With CloudStack-UI"
+             >вперёд</a> |</li>
+        <li class="right" >
+          <a href="CS-UI_Overview.html" title="Overview"
+             >назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Maslova.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
+    </div>
+  </body>
+</html>

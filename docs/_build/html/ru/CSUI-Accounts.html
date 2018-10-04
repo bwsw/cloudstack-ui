@@ -1,0 +1,323 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Accounts &#8212; Документация CSUI 1.410.18</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.410.18',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Settings" href="CSUI-Settings.html" />
+    <link rel="prev" title="SSH Keys" href="CSUI-SSHkeys.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="right" >
+          <a href="CSUI-Settings.html" title="Settings"
+             accesskey="N">вперёд</a> |</li>
+        <li class="right" >
+          <a href="CSUI-SSHkeys.html" title="SSH Keys"
+             accesskey="P">назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Документация CSUI 1.410.18</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="CS-UI_Guide.html" accesskey="U">CloudStack-UI User Guide</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="accounts">
+<span id="id1"></span><h1><a class="toc-backref" href="#id5">Accounts</a><a class="headerlink" href="#accounts" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#accounts" id="id5">Accounts</a><ul>
+<li><a class="reference internal" href="#account-list" id="id6">Account List</a><ul>
+<li><a class="reference internal" href="#filtering-of-accounts" id="id7">Filtering of Accounts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-an-account" id="id8">Create an Account</a></li>
+<li><a class="reference internal" href="#account-details-sidebar" id="id9">Account Details Sidebar</a><ul>
+<li><a class="reference internal" href="#create-a-user" id="id10">Create a User</a></li>
+<li><a class="reference internal" href="#user-action-box" id="id11">User Action Box</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#account-action-box" id="id12">Account Action Box</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>In the <em>Accounts</em> section Administrators can manage accounts and users in them. For an account, details and resource limits can be viewed. Please, note that the account limits are shared by all users in the account. If you are facing the problem of the lack of resources, contact your Administrator. Administrators are able to edit the limits of an account. Besides, they can monitor resource usage having access to the resource statistics for each account.</p>
+<p>Administrators can see the list of accounts for the whole domain. They can create new users for an account, edit or delete a user.</p>
+<p>If you are a User, you can view but not manage your account and users in it. For each user in the account, you can see the settings.</p>
+<div class="section" id="account-list">
+<h2><a class="toc-backref" href="#id6">Account List</a><a class="headerlink" href="#account-list" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Clicking <em>Accounts</em> in the left-side navigation bar you open the <em>Accounts</em> section. It presents the list of accounts. Administrators can see accounts for the whole domain. A user can see his/her account only, that is the account his/her user belongs to.</p>
+<p>You can switch the view from list to box using the switch tool <img alt="view icon" src="_static/view_list_icon.png" />/<img alt="box icon" src="_static/box_icon.png" /> in the upper-right corner.</p>
+<div class="figure">
+<img alt="_static/Accounts_ListSwitch.png" src="_static/Accounts_ListSwitch.png" />
+</div>
+<p>For each account in the list you can see the following information:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Account name;</li>
+<li>State - Shows the account state by color spot: green for Enabled, red for Disabled statuses;</li>
+<li>Role - A role assigned to the account - Root Administrator, Resource Administrator, Domain Administrator, User. Find more information on roles in CloudStack in the <a class="reference external" href="http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/accounts.html#roles">official documentation</a>.</li>
+<li>Role type - A role type connected to the role.</li>
+<li>Domain - The domain which the account belongs to.</li>
+<li>Action list - Allows an Administrator to manage the account - to disable or delete it. Find more details at <a class="reference internal" href="source/CSUI-Accounts.html#account-action-box"><span class="std std-ref">Account Action Box</span></a>.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="filtering-of-accounts">
+<h3><a class="toc-backref" href="#id7">Filtering of Accounts</a><a class="headerlink" href="#filtering-of-accounts" title="Ссылка на этот заголовок">¶</a></h3>
+<p>If you are an Administrator, filtering and search tools will help you to find an account in the list.</p>
+<p>You can filter the list by:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Domains - Select a domain/domains available to you from the drop-down list.</li>
+<li>Roles - Select a role - Root Administrator, Resource Administrator, Domain Administrator and/or User -from the drop-down list.</li>
+<li>Role types - Select a role type/types from the drop-down list.</li>
+<li>States - Select a state/states - Enabled and/or Disabled - from the drop-down list.</li>
+</ul>
+</div></blockquote>
+<p>Besides, accounts can be grouped by the parameters mentioned above.</p>
+<div class="figure">
+<img alt="_static/Accounts_Filtering.png" src="_static/Accounts_Filtering.png" />
+</div>
+</div>
+</div>
+<div class="section" id="create-an-account">
+<h2><a class="toc-backref" href="#id8">Create an Account</a><a class="headerlink" href="#create-an-account" title="Ссылка на этот заголовок">¶</a></h2>
+<p>An Administrator can create a new account in the domain.</p>
+<div class="figure">
+<img alt="_static/Accounts_OpenCreateForm.png" src="_static/Accounts_OpenCreateForm.png" />
+</div>
+<p>By clicking «Create» <img alt="create icon" src="_static/create_icon.png" /> in the bottom-right corner you will open a form where the following fields should be completed:</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Required fields are marked with an asterisk (*).</p>
+</div>
+<ul class="simple">
+<li>Name * - Enter any desired login ID for the account name. It should be unique within the domain.</li>
+<li>Email * - Enter the accounts email address.</li>
+<li>Password * - Enter any password you like. You can view the password that you are entering by clicking <img alt="view" src="_static/view_icon.png" /> to the right. Hide the password under dots by clicking <img alt="hide" src="_static/hide_icon.png" />.</li>
+<li>First name * - Enter the first name of a person or the first part of the entity represented by the account. It can be a department or a customer.</li>
+<li>Last name * - Enter the last name of a person or the second part of the entity represented by the account (a customer or a department).</li>
+<li>Domain * - Select a domain in which the account is to be created.</li>
+<li>Role - Select the role for the account.</li>
+<li>Time zone - Set the time zone that corresponds to the account locale.</li>
+<li>Network domain - If you want to assign a special domain name to the account’s guest VM network, specify the DNS suffix.</li>
+</ul>
+<div class="figure">
+<img alt="_static/Accounts_Create.png" src="_static/Accounts_Create.png" />
+</div>
+<p>Click «CREATE» to create the new account. Make sure it has appeared in the list of accounts.</p>
+<p>A user is created automatically for the new account. User’s name corresponds to the first and the last name specified in the account creation form. This user inherits account’s email and time zone.</p>
+<p>Click «CANCEL» to leave the account creation form. No account will be created then.</p>
+</div>
+<div class="section" id="account-details-sidebar">
+<h2><a class="toc-backref" href="#id9">Account Details Sidebar</a><a class="headerlink" href="#account-details-sidebar" title="Ссылка на этот заголовок">¶</a></h2>
+<p>For each account, the information is available in the details sidebar to the right. Click the account in the list to open the sidebar:</p>
+<div class="figure">
+<img alt="_static/Accounts_Details1.png" src="_static/Accounts_Details1.png" />
+</div>
+<p>There are two tabs in the sidebar: General and Users.</p>
+<p>The <em>General</em> tab contains the general information on the account: details, limits for resources.</p>
+<p>Administrators can edit the limits. Click «Edit» <img alt="edit icon" src="_static/edit_icon.png" /> in the Limits block and change the values right in the block.</p>
+<div class="figure">
+<img alt="_static/Accounts_EditLimits.png" src="_static/Accounts_EditLimits.png" />
+</div>
+<p>Administrators can see the statistics on resource usage at the bottom. Refresh the data by clicking <img alt="refresh icon" src="_static/refresh_icon.png" />.</p>
+<div class="figure">
+<img alt="_static/Accounts_Stats.png" src="_static/Accounts_Stats.png" />
+</div>
+<p>The <em>Users</em> tab contains the list of users in the account. For each user you can expand the information card where the following information is listed:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Username;</li>
+<li>First and Last name;</li>
+<li>Timezone;</li>
+<li>Email;</li>
+<li>Secret key - The key generated for a user by clicking «Regenerate key» in the Action box. You can copy it to the buffer by clicking <img alt="copy icon" src="_static/copy_icon.png" />.</li>
+<li>API key - The key generated for a user by clicking «Regenerate key» in the Action box. You can copy it to the buffer by clicking <img alt="copy icon" src="_static/copy_icon.png" />.</li>
+</ul>
+</div></blockquote>
+<div class="figure">
+<img alt="_static/Accounts_Users1.png" src="_static/Accounts_Users1.png" />
+</div>
+<p>An Administrator has a list of actions available for each user. A user can manage his/her user only. A list of actions is available under the <img alt="actions icon" src="_static/actions_icon.png" /> button. It contains the following actions:</p>
+<ul class="simple">
+<li>Edit user;</li>
+<li>Change password;</li>
+<li>Regenerate key;</li>
+<li>Delete user (available for Administrators).</li>
+</ul>
+<p>Find more about actions for users in the <a class="reference internal" href="source/CSUI-Accounts.html#user-action-box"><span class="std std-ref">User Action Box</span></a> section.</p>
+<div class="section" id="create-a-user">
+<h3><a class="toc-backref" href="#id10">Create a User</a><a class="headerlink" href="#create-a-user" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Administrators can create a new user from the <em>Users</em> tab of the Account Details sidebar by clicking «Create» <img alt="create icon" src="_static/create_icon.png" />.</p>
+<div class="figure">
+<img alt="_static/Accounts_CreateUser.png" src="_static/Accounts_CreateUser.png" />
+</div>
+<p>In the appeared form fill in the following fields:</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Required fields are marked with asterisks (*).</p>
+</div>
+<ul class="simple">
+<li>Username * - Enter any desired user ID. It should be unique within the domain.</li>
+<li>Password * - Enter any password you like. You can view the password that you are entering by clicking <img alt="view" src="_static/view_icon.png" /> to the right. Hide the password under dots by clicking <img alt="hide" src="_static/hide_icon.png" />.</li>
+<li>First name * - User’s first name.</li>
+<li>Last name * - User’s last name.</li>
+<li>Email * - Enter the user’s email address.</li>
+<li>Time zone * - Set the timezone that corresponds to the user’s locale. Select an option from the drop-down list.</li>
+</ul>
+<div class="figure">
+<img alt="_static/Accounts_CreateUser2.png" src="_static/Accounts_CreateUser2.png" />
+</div>
+<p>Click «CREATE» to create the new user. It will appear in the list of users for this account.</p>
+<p>Click «CANCEL» to cancel the user creation.</p>
+</div>
+<div class="section" id="user-action-box">
+<span id="id3"></span><h3><a class="toc-backref" href="#id11">User Action Box</a><a class="headerlink" href="#user-action-box" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Administrators can manage a user via the Action box.</p>
+<div class="figure">
+<img alt="_static/Accounts_UserActions1.png" src="_static/Accounts_UserActions1.png" />
+</div>
+<p>The list of actions allows an Administrator to:</p>
+<ul class="simple">
+<li>Edit user - Opens a form to edit user’s settings (name, email, timezone). Edit the information and click «SAVE» to save the edits.</li>
+</ul>
+<div class="figure">
+<img alt="_static/Accounts_UserActions_Edit.png" src="_static/Accounts_UserActions_Edit.png" />
+</div>
+<ul class="simple">
+<li>Change password - Opens a modal window with two fields for you to enter a new password and confirm it. Use the view tool <img alt="view" src="_static/view_icon.png" /> to view or hide a password while entering. Click «SAVE» to save the new password.</li>
+</ul>
+<div class="figure">
+<img alt="_static/Accounts_UserActions_ChangePass.png" src="_static/Accounts_UserActions_ChangePass.png" />
+</div>
+<ul class="simple">
+<li>Regenerate key - Allows changing the keys - secret and API - for the user. Confirm your action in the dialogue window, and the keys will be changed.</li>
+<li>Delete a user - Allows deleting a user from the system. Confirm your action in the dialogue window, and the user will be deleted.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="account-action-box">
+<span id="id4"></span><h2><a class="toc-backref" href="#id12">Account Action Box</a><a class="headerlink" href="#account-action-box" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Administrators can manage an account via the Action box under <img alt="actions icon" src="_static/actions_icon.png" />.</p>
+<div class="figure">
+<img alt="_static/Accounts_Actions887.png" src="_static/Accounts_Actions887.png" />
+</div>
+<p>The list of actions allows an Administrator to:</p>
+<ul class="simple">
+<li>Disable account - Allows disabling an account. By disabling the account all users for this account will no longer have access to their cloud resources. All running VMs will be immediately shut down. Click «Disable account» and confirm your action in the dialogue window. The account will be inactive.</li>
+<li>Enable account - Allows activating a disabled account. Click «Enable account» and confirm your action in the dialogue window. The account will be activated.</li>
+<li>Delete account - Allows an Administrator to delete an account from the system. Confirm your action in the dialogue window, and the account will be deleted.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cloudstack_logo_light.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Accounts</a><ul>
+<li><a class="reference internal" href="#account-list">Account List</a><ul>
+<li><a class="reference internal" href="#filtering-of-accounts">Filtering of Accounts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-an-account">Create an Account</a></li>
+<li><a class="reference internal" href="#account-details-sidebar">Account Details Sidebar</a><ul>
+<li><a class="reference internal" href="#create-a-user">Create a User</a></li>
+<li><a class="reference internal" href="#user-action-box">User Action Box</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#account-action-box">Account Action Box</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Предыдущий раздел</h4>
+  <p class="topless"><a href="CSUI-SSHkeys.html"
+                        title="предыдущая глава">SSH Keys</a></p>
+  <h4>Следующий раздел</h4>
+  <p class="topless"><a href="CSUI-Settings.html"
+                        title="следующая глава">Settings</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/CSUI-Accounts.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="right" >
+          <a href="CSUI-Settings.html" title="Settings"
+             >вперёд</a> |</li>
+        <li class="right" >
+          <a href="CSUI-SSHkeys.html" title="SSH Keys"
+             >назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Документация CSUI 1.410.18</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="CS-UI_Guide.html" >CloudStack-UI User Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Maslova.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
+    </div>
+  </body>
+</html>

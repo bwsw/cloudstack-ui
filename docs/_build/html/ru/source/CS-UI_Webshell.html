@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>WebShell Plugin &#8212; Документация CSUI 1.410.18</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.410.18',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="webshell-plugin">
+<span id="id1"></span><h1><a class="toc-backref" href="#id4">WebShell Plugin</a><a class="headerlink" href="#webshell-plugin" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#webshell-plugin" id="id4">WebShell Plugin</a><ul>
+<li><a class="reference internal" href="#overview" id="id5">Overview</a></li>
+<li><a class="reference internal" href="#deployment-instructions" id="id6">Deployment Instructions</a></li>
+<li><a class="reference internal" href="#starting-webshell-backend" id="id7">Starting WebShell Backend</a></li>
+<li><a class="reference internal" href="#webshell-configuration" id="id8">WebShell configuration</a></li>
+<li><a class="reference internal" href="#running-cloudstack-ui-docker-container-with-webshell" id="id9">Running <code class="docutils literal"><span class="pre">cloudstack-ui</span></code> docker container with WebShell</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>In clouds the most commonly used operating systems nowadays are Unix or Linux based operating systems. To control Linux system administrators use standard SSH interface. Most system administrators or cloud users have SSH client installed on their machines.</p>
+<p>First of all, it is more interactive, because it allows performing copy&amp;paste operations. It is more performant if you need to work with text.</p>
+<p>In addition to the UI inactivity interval, SSH plugin supports its own inactivity timeout so you should not worry leaving SSH opened when you go out for a cup of coffee. In comparison to a VNC console, if you open it in your browser, it will be opened forever.</p>
+<p>This plugin is not required, but it is very helpful and easy to install and configure it. There is a docker webshell container that should be deployed. This container is a standalone shell proxy and can be used outside of the CloudStack UI, but there is an option to integrate them, Just specify the WebShell endpoint when you run the UI container. You can also disable the plugin in the UI configuration anytime you want.</p>
+<p>Read more about it below.</p>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id5">Overview</a><a class="headerlink" href="#overview" title="Ссылка на этот заголовок">¶</a></h2>
+<p>WebShell is a CloudStack-UI extension designed to perform a clientless SSH connection to a virtual machine. The extension is activated in the CloudStack-UI configuration file and is supported by an additional Docker container. As for the way of WebShell usage, the plugin is similar to NoVNC interface provided by CloudStack. However, WebShell uses the SSH protocol and does not allow VM emergency management.</p>
+<p>The need for this extension is determined by the shortcomings of the NoVNC interface, that obstructs its usage for everyday administrative purposes:</p>
+<ul class="simple">
+<li>Low interactivity and slow throughput of the terminal interface;</li>
+<li>Lack of possibility to copy/paste text from the user’s local machine;</li>
+<li>Missing feature to complete the session by timeout;</li>
+<li>Access to the virtual machine in out-of-band mode, which allows performing a number of insecure operations.</li>
+</ul>
+<p>WebShell plugin solves these problems:</p>
+<ul class="simple">
+<li>Provides high interactivity, which is especially useful when working with information that contains large amounts of text;</li>
+<li>Allows copying and pasting text from the workstation;</li>
+<li>Enables configuration of the session completion timeout, thereby improving the security of the system;</li>
+<li>Does not provide an access to the VM in out-of-band mode.</li>
+</ul>
+<p>In future releases, this plugin will be extended with additional features such as integration with the VM access key store and dashboard for efficient work with many open SSH sessions.</p>
+<p>This feature is not available in basic CloudStack UI and API.</p>
+<p>Plugin deployment and configuration instructions can be found below.</p>
+</div>
+<div class="section" id="deployment-instructions">
+<h2><a class="toc-backref" href="#id6">Deployment Instructions</a><a class="headerlink" href="#deployment-instructions" title="Ссылка на этот заголовок">¶</a></h2>
+<p>To enable <a class="reference external" href="https://github.com/bwsw/webshell">WebShell</a> CloudStack-UI Plugin it is required to:</p>
+<ol class="arabic simple">
+<li>Run WebShell container in the backend.</li>
+<li>Enable and configure WebShell plugin in <code class="docutils literal"><span class="pre">config.json</span></code>.</li>
+</ol>
+</div>
+<div class="section" id="starting-webshell-backend">
+<h2><a class="toc-backref" href="#id7">Starting WebShell Backend</a><a class="headerlink" href="#starting-webshell-backend" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Please check <a class="reference external" href="https://github.com/bwsw/webshell#usage">Usage</a> section in the <a class="reference external" href="https://github.com/bwsw/webshell">WebShell</a> repository.</p>
+</div>
+<div class="section" id="webshell-configuration">
+<h2><a class="toc-backref" href="#id8">WebShell configuration</a><a class="headerlink" href="#webshell-configuration" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Please configure <code class="docutils literal"><span class="pre">webShell</span></code> in the <code class="docutils literal"><span class="pre">extensions</span></code> section of the <code class="docutils literal"><span class="pre">config.json</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;extensions&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="o">...</span><span class="p">,</span>
+  <span class="s2">&quot;webShell&quot;</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">webShell.address</span></code> is the address of a WebShell backend. WebShell will not be available unless an address is specified.</p>
+</div>
+<div class="section" id="running-cloudstack-ui-docker-container-with-webshell">
+<h2><a class="toc-backref" href="#id9">Running <code class="docutils literal"><span class="pre">cloudstack-ui</span></code> docker container with WebShell</a><a class="headerlink" href="#running-cloudstack-ui-docker-container-with-webshell" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span><span class="p">:</span><span class="mi">80</span> <span class="o">--</span><span class="n">name</span> <span class="n">cloudstack</span><span class="o">-</span><span class="n">ui</span> \
+           <span class="o">...</span>
+           <span class="o">-</span><span class="n">e</span> <span class="n">WEBSHELL_PLUGIN_ENDPOINT</span><span class="o">=</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">url</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">webshell</span><span class="o">-</span><span class="n">server</span> \
+           <span class="o">...</span>
+           <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">json</span><span class="p">:</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">json</span> \
+           <span class="n">bwsw</span><span class="o">/</span><span class="n">cloudstack</span><span class="o">-</span><span class="n">ui</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cloudstack_logo_light.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">WebShell Plugin</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#deployment-instructions">Deployment Instructions</a></li>
+<li><a class="reference internal" href="#starting-webshell-backend">Starting WebShell Backend</a></li>
+<li><a class="reference internal" href="#webshell-configuration">WebShell configuration</a></li>
+<li><a class="reference internal" href="#running-cloudstack-ui-docker-container-with-webshell">Running <code class="docutils literal"><span class="pre">cloudstack-ui</span></code> docker container with WebShell</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/CS-UI_Webshell.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Maslova.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
+    </div>
+  </body>
+</html>

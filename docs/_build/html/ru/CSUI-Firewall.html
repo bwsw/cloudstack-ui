@@ -1,0 +1,376 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Firewall &#8212; Документация CSUI 1.410.18</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.410.18',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Activity log" href="CSUI-Events.html" />
+    <link rel="prev" title="Snapshots" href="CSUI-Snapshots.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="right" >
+          <a href="CSUI-Events.html" title="Activity log"
+             accesskey="N">вперёд</a> |</li>
+        <li class="right" >
+          <a href="CSUI-Snapshots.html" title="Snapshots"
+             accesskey="P">назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Документация CSUI 1.410.18</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="CS-UI_Guide.html" accesskey="U">CloudStack-UI User Guide</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="firewall">
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">Firewall</a><a class="headerlink" href="#firewall" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#firewall" id="id3">Firewall</a><ul>
+<li><a class="reference internal" href="#firewall-list" id="id4">Firewall List</a></li>
+<li><a class="reference internal" href="#create-a-security-group-template" id="id5">Create a Security Group Template</a></li>
+<li><a class="reference internal" href="#create-a-shared-security-group" id="id6">Create a Shared Security Group</a></li>
+<li><a class="reference internal" href="#private-security-groups" id="id7">Private Security Groups</a></li>
+<li><a class="reference internal" href="#security-group-details-sidebar" id="id8">Security Group Details Sidebar</a></li>
+<li><a class="reference internal" href="#security-group-action-box" id="id9">Security Group Action Box</a><ul>
+<li><a class="reference internal" href="#edit-a-firewall-template-security-group" id="id10">Edit a Firewall Template/Security Group</a></li>
+<li><a class="reference internal" href="#convert-to-shared-action-for-private-security-groups" id="id11">«Convert to Shared» Action for Private Security Groups</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The <em>Firewall</em> section contains templates to create a security group for a virtual machine and shared security groups used for virtual machines of other users.</p>
+<div class="figure">
+<img alt="_static/Firewall_List816.png" src="_static/Firewall_List816.png" />
+</div>
+<p><strong>Firewall templates</strong> are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment via the JSON configuration file (find more in <a class="reference external" href="https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#security-group-templates">configurations guide</a>). These presets will be used when creating a new security group. The new group will contain all the rules of these presets.</p>
+<p>A custom security group template can be created via the UI. Find more information on how to create a custom security group template at <a class="reference internal" href="source/CSUI-Firewall.html#create-ftemplate"><span class="std std-ref">Create a Security Group Template</span></a>.</p>
+<p>Upon VM creation the system creates a new security group for a VM on the base of templates (if they exist). This group initially contains all the rules from the specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a <strong>private security group</strong> used for that virtual machine only.</p>
+<p>The second way is to use a <strong>shared security group</strong> for your virtual machine. Shared groups are used by several VMs. Changes of rules in them may affect other VMs.</p>
+<p>Users can manage security group rules in two modes: a «view» mode with filtering by types and protocols and an “edit” mode. Security groups editing is available when switching from «view» mode to «editing» mode. If the group is shared, the user is warned that changes will affect other VMs using this group. This behavior allows avoiding undesirable changes for other VMs.</p>
+<p>Templates, shared and private security groups are placed in different tabs of the <em>Firewall</em> section. You can switch from templates to shared or private security groups using the tool above the list.</p>
+<div class="figure">
+<img alt="_static/Firewall_Switch816.png" src="_static/Firewall_Switch816.png" />
+</div>
+<p>A user can see security groups of his/her user only. An Administrator can observe security groups of all accounts in the domain.</p>
+<div class="section" id="firewall-list">
+<h2><a class="toc-backref" href="#id4">Firewall List</a><a class="headerlink" href="#firewall-list" title="Ссылка на этот заголовок">¶</a></h2>
+<p>The security groups are presented in a list format. You can change the view from list to cards clicking the switch view icon <img alt="view icon" src="_static/view_list_icon.png" />/<img alt="box icon" src="_static/box_icon.png" /> in the upper-right corner.</p>
+<p>To quickly find the security group you need, please, use the search tool above the list. Enter a name or a part of the name of the template/security group and see the immediate result.</p>
+<p>Administrators can filter the list of templates/shared groups by accounts.</p>
+<div class="figure">
+<img alt="_static/Firewall_Filter_Admin.png" src="_static/Firewall_Filter_Admin.png" />
+</div>
+</div>
+<div class="section" id="create-a-security-group-template">
+<span id="create-ftemplate"></span><h2><a class="toc-backref" href="#id5">Create a Security Group Template</a><a class="headerlink" href="#create-a-security-group-template" title="Ссылка на этот заголовок">¶</a></h2>
+<p>You can create your own template. It will be available as a base at a new private security group creation for VM.</p>
+<p>A new security group template is created on the base of existing templates. This security group will be created as a custom template (with a <code class="docutils literal"><span class="pre">custom-template</span></code> type).</p>
+<p>If you would like to create a new security group template, click «Create» <img alt="create icon" src="_static/create_icon.png" /> in the bottom-right corner and fill in the form:</p>
+<div class="figure">
+<img alt="_static/Firewall_CreateTemplate.png" src="_static/Firewall_CreateTemplate.png" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Required fields are marked with an asterisk (*).</p>
+</div>
+<ul class="simple">
+<li>Name * - Enter a name for the template.</li>
+<li>Description - Provide a short description for the firewall template.</li>
+<li>Basic rules - Click «ADD» to open the list of rules to assign them to the template. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:</li>
+</ul>
+<div class="figure">
+<img alt="_static/Firewall_SelectRules.png" src="_static/Firewall_SelectRules.png" />
+</div>
+<p>Click “SELECT ALL” to move all templates from left to right at once.</p>
+<p>Click “RESET” to drop all selected templates.</p>
+<p>In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your firewall template.</p>
+<div class="figure">
+<img alt="_static/Firewall_SelectRules2.png" src="_static/Firewall_SelectRules2.png" />
+</div>
+<p>Click “SAVE” to apply the selected rules to your security group template.</p>
+<p>Click “CANCEL” to drop the selected options. No rules will be assigned to the template. You will return to the “Create a new security group” window.</p>
+<p>When all fields are completed, click «CREATE» to create the new firewall template. The template will appear in the list of firewall templates as <em>Custom</em>:</p>
+<div class="figure">
+<img alt="_static/Firewall_CreatedTemplate.png" src="_static/Firewall_CreatedTemplate.png" />
+</div>
+<p>Click «CANCEL» to cancel the template creation process. No firewall templates will be created then. All fields will be cleared in the form.</p>
+</div>
+<div class="section" id="create-a-shared-security-group">
+<h2><a class="toc-backref" href="#id6">Create a Shared Security Group</a><a class="headerlink" href="#create-a-shared-security-group" title="Ссылка на этот заголовок">¶</a></h2>
+<p>You can create a shared security group and it will be available for creating virtual machines of other users.</p>
+<p>A new shared security group is created on the base of existing templates. This security group will be created with a <code class="docutils literal"><span class="pre">shared</span></code> type.</p>
+<p>If you would like to create a new shared security group, click «Create» in the bottom-right corner and fill in the form:</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Required fields are marked with an asterisk (*).</p>
+</div>
+<ul class="simple">
+<li>Name * - Enter a name for the group.</li>
+<li>Description - Provide a short description for the group.</li>
+<li>Basic rules - Click «ADD» to open the list of rules to assign them to the group. In the appeared window select a template in the “All templates” list at the left and move it to the “Selected templates” list at the right by clicking the arrow icon:</li>
+</ul>
+<div class="figure">
+<img alt="_static/Firewall_SelectRules.png" src="_static/Firewall_SelectRules.png" />
+</div>
+<p>Click “SELECT ALL” to move all templates from left to right at once.</p>
+<p>Click “RESET” to drop all selected templates.</p>
+<p>In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your shared security group.</p>
+<div class="figure">
+<img alt="_static/Firewall_SelectRules2.png" src="_static/Firewall_SelectRules2.png" />
+</div>
+<p>Click “SAVE” to apply the selected rules to your security group template.</p>
+<p>Click “CANCEL” to drop the selected options. No rules will be assigned to the security group. You will return to the “Create a new security group” window.</p>
+<div class="figure">
+<img alt="_static/Firewall_CreateSharedSG.png" src="_static/Firewall_CreateSharedSG.png" />
+</div>
+<p>Click «CREATE» to create the new shared security group. The group will appear in the list of shared security groups.</p>
+<div class="figure">
+<img alt="_static/Firewall_CreatedSG.png" src="_static/Firewall_CreatedSG.png" />
+</div>
+<p>Click «CANCEL» to cancel the group creation process. No group will be created then. All fields will be cleared in the form.</p>
+</div>
+<div class="section" id="private-security-groups">
+<h2><a class="toc-backref" href="#id7">Private Security Groups</a><a class="headerlink" href="#private-security-groups" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Private security groups are listed in the <em>Private Security Groups</em> section.</p>
+<p>Security groups appear in this section once they are created for a virtual machine (see <a class="reference internal" href="source/CSUI-VirtualMachines.html#create-vm"><span class="std std-ref">Create a Virtual Machine</span></a>). A private security group name has the following format - <code class="docutils literal"><span class="pre">sg-{{</span> <span class="pre">virtual</span> <span class="pre">machine</span> <span class="pre">name</span> <span class="pre">}}</span></code> - containing the name of the virtual machine it is created for.</p>
+<p>You can quickly find a group by its name or a part of the name using the searching tool above the list.</p>
+<div class="figure">
+<img alt="_static/Firewall_Search816.png" src="_static/Firewall_Search816.png" />
+</div>
+<p>Besides, Administrators can filter the list by accounts.</p>
+<div class="figure">
+<img alt="_static/Firewall_Filter_Admin816-1.png" src="_static/Firewall_Filter_Admin816-1.png" />
+</div>
+<p>You can filter the list by ticking the «Orphan» checkbox above. It allows displaying only the security groups that are not used by any machine.</p>
+<div class="figure">
+<img alt="_static/Firewall_Orphan816-2.png" src="_static/Firewall_Orphan816-2.png" />
+</div>
+<p>The «Orphan» option appears above the list in case the security groups that are not used by any VM exist in the list. This might happen in case a VM has been deleted but a group has been not (because of an error or incorrect behavior).</p>
+</div>
+<div class="section" id="security-group-details-sidebar">
+<h2><a class="toc-backref" href="#id8">Security Group Details Sidebar</a><a class="headerlink" href="#security-group-details-sidebar" title="Ссылка на этот заголовок">¶</a></h2>
+<p>You can see the firewall rules details in the sidebar to the right.</p>
+<p>Click the template/shared/private security group in the list and open the sidebar. You will see two tabs there - Details and Tags.</p>
+<p>The <strong>Details</strong> tab contains the following information:</p>
+<ul class="simple">
+<li>Name of the security group;</li>
+<li><a class="reference internal" href="source/CSUI-Firewall.html#sg-action-box"><span class="std std-ref">Security Group Action Box</span></a> under <img alt="actions icon" src="_static/actions_icon.png" />;</li>
+<li>ID of the security group;</li>
+<li>Description giving an idea what the security group contains (not available for private security groups);</li>
+<li>Type - Defines the security group types. For firewall templates it can be <code class="docutils literal"><span class="pre">custom-template</span></code> for custom templates, or <code class="docutils literal"><span class="pre">predefined-template</span></code> for system templates. For shared security groups it is <code class="docutils literal"><span class="pre">shared</span></code>. For private security groups you will see <code class="docutils literal"><span class="pre">private</span></code>.</li>
+</ul>
+<div class="figure">
+<img alt="_static/Firewall_TemplateDetails1.png" src="_static/Firewall_TemplateDetails1.png" />
+</div>
+<p>For shared security groups you also can see what virtual machines are assigned to this group. The machine name in the list is active. You can move to the virtual machine details bar by clicking it.</p>
+<div class="figure">
+<img alt="_static/Firewall_SharedSGDetails1.png" src="_static/Firewall_SharedSGDetails1.png" />
+</div>
+<p>For private security groups a VM name is also displayed in the details sidebar, but it is not active.</p>
+<p>The <strong>Tags</strong> tab presents the list of tags assigned to the security group. Using the search tool above you can quickly find a tag by its name.</p>
+<p>System tags are listed in a separate card.</p>
+<div class="figure">
+<img alt="_static/Firewall_Tags.png" src="_static/Firewall_Tags.png" />
+</div>
+<p>Сlick <img alt="create icon" src="_static/create_icon.png" /> to add a tag. Enter a key and a value.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Both fields are required. The input values for both fields cannot start with a space.</p>
+</div>
+<div class="figure">
+<img alt="_static/Firewall_Details_Tags.png" src="_static/Firewall_Details_Tags.png" />
+</div>
+<p>Click «CREATE» to create the new tag. It will be saved in a separate card.</p>
+<p>An existing tag can be edited or deleted by clicking a correspondent icon next to the tag’s name.</p>
+</div>
+<div class="section" id="security-group-action-box">
+<span id="sg-action-box"></span><h2><a class="toc-backref" href="#id9">Security Group Action Box</a><a class="headerlink" href="#security-group-action-box" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Firewall templates, shared and private security groups have an Action box with the following actions in it:</p>
+<ul class="simple">
+<li>View - Allows viewing the rules in the group/template. Click «Rules» <img alt="view" src="_static/view_icon.png" /> to open the rules implemented to the template.</li>
+<li>Delete - Allows deleting the group or the template from the system.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">A template/security group cannot be deleted if it is used for a virtual machine, or it belongs to another user. Deleting action is not available for system firewall templates.</p>
+</div>
+<div class="section" id="edit-a-firewall-template-security-group">
+<h3><a class="toc-backref" href="#id10">Edit a Firewall Template/Security Group</a><a class="headerlink" href="#edit-a-firewall-template-security-group" title="Ссылка на этот заголовок">¶</a></h3>
+<p>When clicking «Rules» <img alt="view" src="_static/view_icon.png" /> in the Action box you open a modal window where the rules of the template/security group are listed. The list of rules can be filtered by:</p>
+<ul class="simple">
+<li>IP versions - IPv4 and/or IPv6;</li>
+<li>Types - Ingress and/or Egress;</li>
+<li>Protocols - TCP and/or UDP and/or ICMP.</li>
+</ul>
+<p>Besides, you can group the rules by types and/or protocols.</p>
+<div class="figure">
+<img alt="_static/Firewall_FilterRules1.png" src="_static/Firewall_FilterRules1.png" />
+</div>
+<p>You can edit the implemented rules right in this modal window by clicking «EDIT» below the list. When switching to the edit mode you are enabled to add rules or delete the selected ones from the list.</p>
+<p>To add rules, please, fill in the fields in the panel above the list and click “+”:</p>
+<div class="figure">
+<img alt="_static/Firewall_AddRules.png" src="_static/Firewall_AddRules.png" />
+</div>
+<p><strong>Validation</strong></p>
+<p>Please, make sure you enter valid values for Start and End ports:</p>
+<ul class="simple">
+<li>Start port can be less or equal to End port. For more convenience, we added the autocomplete, that is, when entering a Start port value, the End port field is prepopulated with an equal value.</li>
+<li>The values in these fields cannot be greater/less than maximum/minimum allowed values (for TCP/UDP max port is 65535, for ICMP - 255).</li>
+<li>The fields cannot be empty.</li>
+</ul>
+<p>For ICMP type make sure you input a valid CIDR, ICMP type and code.</p>
+<ul class="simple">
+<li>You will not be able to enter an ICMP type and a code until a valid CIDR is specified. Likewise, you will not be able to enter an ICMP code until a valid ICMP type is specified.</li>
+<li>CIDR allows entering IP addresses in both IPv4 and IPv6 formats.</li>
+<li>ICMP IPv6 the «[-1] Any» value is supported for type and code.</li>
+<li>ICMP type and code fields cannot be empty.</li>
+</ul>
+<p>For invalid values the add button «+» is disabled.</p>
+<p>To delete rules, please, click the Delete icon in the list. The rule will be deleted from the security group.</p>
+<div class="figure">
+<img alt="_static/Firewall_DeleteRules.png" src="_static/Firewall_DeleteRules.png" />
+</div>
+<p>Then you can move back to the view mode, or close the window. You will see the rules are edited.</p>
+<p>Please, note, when editing shared security groups, a warning message appears:</p>
+<div class="figure">
+<img alt="_static/Firewall_EditShared_Warning1.png" src="_static/Firewall_EditShared_Warning1.png" />
+</div>
+<p>Click “Yes” if you still want to edit a shared security group. You will be switched to the «Edit» mode. Change the security group as you need following the instructions above.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Editing is not available for system firewall templates and security groups of other users. You can view the rules only.</p>
+</div>
+</div>
+<div class="section" id="convert-to-shared-action-for-private-security-groups">
+<h3><a class="toc-backref" href="#id11">«Convert to Shared» Action for Private Security Groups</a><a class="headerlink" href="#convert-to-shared-action-for-private-security-groups" title="Ссылка на этот заголовок">¶</a></h3>
+<p>For private security groups you can find a «Convert to shared» action in the Action box. It allows making a shared SG from a private SG so that it can be used for VMs by other users.</p>
+<p>To convert a private security group into a shared one, please, follow the steps:</p>
+<ol class="arabic simple">
+<li>Move to the list of Private Security groups,</li>
+<li>Select «Convert to shared» option in action box for a security group,</li>
+</ol>
+<div class="figure">
+<img alt="_static/Firewall_ConvertToSharedAction.png" src="_static/Firewall_ConvertToSharedAction.png" />
+</div>
+<ol class="arabic simple" start="3">
+<li>A warning dialog appears. Click «YES» to confirm your action.</li>
+</ol>
+<div class="figure">
+<img alt="_static/Firewall_ConvertToSharedDialogue.png" src="_static/Firewall_ConvertToSharedDialogue.png" />
+</div>
+<p>The security group will be moved to the list of «Shared Security Groups». The tag «is private» will be removed for this security group.</p>
+<p>Click «NO» to cancel the convertion, the security group will stay private.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/cloudstack_logo_light.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Firewall</a><ul>
+<li><a class="reference internal" href="#firewall-list">Firewall List</a></li>
+<li><a class="reference internal" href="#create-a-security-group-template">Create a Security Group Template</a></li>
+<li><a class="reference internal" href="#create-a-shared-security-group">Create a Shared Security Group</a></li>
+<li><a class="reference internal" href="#private-security-groups">Private Security Groups</a></li>
+<li><a class="reference internal" href="#security-group-details-sidebar">Security Group Details Sidebar</a></li>
+<li><a class="reference internal" href="#security-group-action-box">Security Group Action Box</a><ul>
+<li><a class="reference internal" href="#edit-a-firewall-template-security-group">Edit a Firewall Template/Security Group</a></li>
+<li><a class="reference internal" href="#convert-to-shared-action-for-private-security-groups">«Convert to Shared» Action for Private Security Groups</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Предыдущий раздел</h4>
+  <p class="topless"><a href="CSUI-Snapshots.html"
+                        title="предыдущая глава">Snapshots</a></p>
+  <h4>Следующий раздел</h4>
+  <p class="topless"><a href="CSUI-Events.html"
+                        title="следующая глава">Activity log</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/CSUI-Firewall.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="right" >
+          <a href="CSUI-Events.html" title="Activity log"
+             >вперёд</a> |</li>
+        <li class="right" >
+          <a href="CSUI-Snapshots.html" title="Snapshots"
+             >назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Документация CSUI 1.410.18</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="CS-UI_Guide.html" >CloudStack-UI User Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Maslova.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,159 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pulse Plugin &#8212; Документация CSUI 1.410.18</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.410.18',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pulse-plugin">
+<span id="id1"></span><h1><a class="toc-backref" href="#id3">Pulse Plugin</a><a class="headerlink" href="#pulse-plugin" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="contents topic" id="id2">
+<p class="topic-title first">Содержание</p>
+<ul class="simple">
+<li><a class="reference internal" href="#pulse-plugin" id="id3">Pulse Plugin</a><ul>
+<li><a class="reference internal" href="#overview" id="id4">Overview</a></li>
+<li><a class="reference internal" href="#deployment-instructions" id="id5">Deployment Instructions</a></li>
+<li><a class="reference internal" href="#pulse-configuration" id="id6">Pulse configuration</a></li>
+<li><a class="reference internal" href="#running-cloudstack-ui-docker-container" id="id7">Running cloudstack-ui docker container</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h2><a class="toc-backref" href="#id4">Overview</a><a class="headerlink" href="#overview" title="Ссылка на этот заголовок">¶</a></h2>
+<p>The Pulse plugin is designed for visualization of virtual machines performance statistics. Currently, this CloudStack-UI extension is only compatible with ACS clusters that use the KVM hypervisor. With help of sensors that collect virtual machines performance statistics via the Libvirt API and store them in an InfluxDB datastore and RESTful statistics server, CloudStack-UI is able to display CPU, RAM, disk IO and network traffic utilization in the form of convenient visual charts.</p>
+<p>Pulse allows users of Apache CloudStack to monitor current and previous operational states of virtual machines. The plugin supports various view scales like minutes, hours, days and enables data overlays to monitor peak and average values.</p>
+<p>We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers.</p>
+<p>Plugin deployment and configuration Instructions can be found below.</p>
+</div>
+<div class="section" id="deployment-instructions">
+<h2><a class="toc-backref" href="#id5">Deployment Instructions</a><a class="headerlink" href="#deployment-instructions" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">The Pulse plugin works only for KVM hypervisor right now.</p>
+</div>
+<p>Please, make sure that you have <a class="reference external" href="https://github.com/bwsw/cs-pulse-server">cs-pulse-server</a> and <a class="reference external" href="https://github.com/bwsw/cs-pulse-sensor">cs-pulse-sensor</a> to be able to work with the Pulse plugin.</p>
+<p>To enable the Pulse plugin you need:</p>
+<ol class="arabic simple">
+<li>Configure plugin in <code class="docutils literal"><span class="pre">config.json</span></code>.</li>
+<li>Run docker container with a correctly specified <code class="docutils literal"><span class="pre">cs-pulse-server</span></code> endpoint.</li>
+</ol>
+</div>
+<div class="section" id="pulse-configuration">
+<h2><a class="toc-backref" href="#id6">Pulse configuration</a><a class="headerlink" href="#pulse-configuration" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Please, enable <code class="docutils literal"><span class="pre">pulse</span></code> in the extensions section of the <code class="docutils literal"><span class="pre">config.json</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;extensions&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="o">...</span><span class="p">,</span>
+  <span class="s2">&quot;pulse&quot;</span><span class="p">:</span> <span class="n">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-cloudstack-ui-docker-container">
+<h2><a class="toc-backref" href="#id7">Running cloudstack-ui docker container</a><a class="headerlink" href="#running-cloudstack-ui-docker-container" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">80</span><span class="p">:</span><span class="mi">80</span> <span class="o">--</span><span class="n">name</span> <span class="n">cloudstack</span><span class="o">-</span><span class="n">ui</span> \
+           <span class="o">...</span>
+           <span class="o">-</span><span class="n">e</span> <span class="n">PULSE_PLUGIN_ENDPOINT</span><span class="o">=</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">url</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">cs</span><span class="o">-</span><span class="n">pulse</span><span class="o">-</span><span class="n">server</span> \
+           <span class="o">...</span>
+           <span class="o">-</span><span class="n">v</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">json</span><span class="p">:</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">json</span> \
+           <span class="n">bwsw</span><span class="o">/</span><span class="n">cloudstack</span><span class="o">-</span><span class="n">ui</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/cloudstack_logo_light.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Pulse Plugin</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#deployment-instructions">Deployment Instructions</a></li>
+<li><a class="reference internal" href="#pulse-configuration">Pulse configuration</a></li>
+<li><a class="reference internal" href="#running-cloudstack-ui-docker-container">Running cloudstack-ui docker container</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/CS-UI_Pulse.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Быстрый поиск</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Искать" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Документация CSUI 1.410.18</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Maslova.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.2.
+    </div>
+  </body>
+</html>
