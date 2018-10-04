@@ -56,7 +56,7 @@ export class VmAccessComponent {
   }
 
   public getUrlLogin(vm: VirtualMachine): string {
-    return this.httpAccessService.getHttpLogin(vm) || this.defaultLogin;
+    return this.httpAccessService.getHttpLogin(vm);
   }
 
   public getUrlPassword(vm: VirtualMachine): string {

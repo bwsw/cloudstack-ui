@@ -33,7 +33,7 @@ export class HttpAccessService extends AccessService {
   }
 
   public getHttpLogin(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken) || defaultLogin;
+    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken) || this.defaultLogin;
   }
 
   public getHttpPassword(vm: VirtualMachine) {
