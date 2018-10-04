@@ -1,0 +1,340 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Maslova
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-02 10:36+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../CSUI-Accounts.rst:4
+msgid "Accounts"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:7
+msgid "In the *Accounts* section Administrators can manage accounts and users in them. For an account, details and resource limits can be viewed. Please, note that the account limits are shared by all users in the account. If you are facing the problem of the lack of resources, contact your Administrator. Administrators are able to edit the limits of an account. Besides, they can monitor resource usage having access to the resource statistics for each account."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:9
+msgid "Administrators can see the list of accounts for the whole domain. They can create new users for an account, edit or delete a user."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:11
+msgid "If you are a User, you can view but not manage your account and users in it. For each user in the account, you can see the settings."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:14
+msgid "Account List"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:16
+msgid "Clicking *Accounts* in the left-side navigation bar you open the *Accounts* section. It presents the list of accounts. Administrators can see accounts for the whole domain. A user can see his/her account only, that is the account his/her user belongs to."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:18
+msgid "You can switch the view from list to box using the switch tool |view icon|/|box icon| in the upper-right corner."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:22
+msgid "For each account in the list you can see the following information:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:24
+msgid "Account name;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:25
+msgid "State - Shows the account state by color spot: green for Enabled, red for Disabled statuses;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:26
+msgid "Role - A role assigned to the account - Root Administrator, Resource Administrator, Domain Administrator, User. Find more information on roles in CloudStack in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/accounts.html#roles>`_."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:27
+msgid "Role type - A role type connected to the role."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:28
+msgid "Domain - The domain which the account belongs to."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:29
+msgid "Action list - Allows an Administrator to manage the account - to disable or delete it. Find more details at :ref:`Account_Action_Box`."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:32
+msgid "Filtering of Accounts"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:34
+msgid "If you are an Administrator, filtering and search tools will help you to find an account in the list."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:36
+msgid "You can filter the list by:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:38
+msgid "Domains - Select a domain/domains available to you from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:39
+msgid "Roles - Select a role - Root Administrator, Resource Administrator, Domain Administrator and/or User -from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:40
+msgid "Role types - Select a role type/types from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:41
+msgid "States - Select a state/states - Enabled and/or Disabled - from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:43
+msgid "Besides, accounts can be grouped by the parameters mentioned above."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:48
+msgid "Create an Account"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:50
+msgid "An Administrator can create a new account in the domain."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:54
+msgid "By clicking \"Create\" |create icon| in the bottom-right corner you will open a form where the following fields should be completed:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:56
+msgid "Required fields are marked with an asterisk (*)."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:58
+msgid "Name * - Enter any desired login ID for the account name. It should be unique within the domain."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:59
+msgid "Email * - Enter the accounts email address."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:60
+#: ../../CSUI-Accounts.rst:126
+msgid "Password * - Enter any password you like. You can view the password that you are entering by clicking |view| to the right. Hide the password under dots by clicking |hide|."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:61
+msgid "First name * - Enter the first name of a person or the first part of the entity represented by the account. It can be a department or a customer."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:62
+msgid "Last name * - Enter the last name of a person or the second part of the entity represented by the account (a customer or a department)."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:63
+msgid "Domain * - Select a domain in which the account is to be created."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:64
+msgid "Role - Select the role for the account."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:65
+msgid "Time zone - Set the time zone that corresponds to the account locale."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:66
+msgid "Network domain - If you want to assign a special domain name to the account's guest VM network, specify the DNS suffix."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:70
+msgid "Click \"CREATE\" to create the new account. Make sure it has appeared in the list of accounts."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:72
+msgid "A user is created automatically for the new account. User's name corresponds to the first and the last name specified in the account creation form. This user inherits account's email and time zone."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:74
+msgid "Click \"CANCEL\" to leave the account creation form. No account will be created then."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:77
+msgid "Account Details Sidebar"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:79
+msgid "For each account, the information is available in the details sidebar to the right. Click the account in the list to open the sidebar:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:83
+msgid "There are two tabs in the sidebar: General and Users."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:85
+msgid "The *General* tab contains the general information on the account: details, limits for resources."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:87
+msgid "Administrators can edit the limits. Click \"Edit\" |edit icon| in the Limits block and change the values right in the block."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:91
+msgid "Administrators can see the statistics on resource usage at the bottom. Refresh the data by clicking |refresh icon|."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:95
+msgid "The *Users* tab contains the list of users in the account. For each user you can expand the information card where the following information is listed:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:97
+msgid "Username;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:98
+msgid "First and Last name;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:99
+msgid "Timezone;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:100
+msgid "Email;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:101
+msgid "Secret key - The key generated for a user by clicking \"Regenerate key\" in the Action box. You can copy it to the buffer by clicking |copy icon|."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:102
+msgid "API key - The key generated for a user by clicking \"Regenerate key\" in the Action box. You can copy it to the buffer by clicking |copy icon|."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:106
+msgid "An Administrator has a list of actions available for each user. A user can manage his/her user only. A list of actions is available under the |actions icon| button. It contains the following actions:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:108
+msgid "Edit user;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:109
+msgid "Change password;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:110
+msgid "Regenerate key;"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:111
+msgid "Delete user (available for Administrators)."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:113
+msgid "Find more about actions for users in the :ref:`User_Action_Box` section."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:116
+msgid "Create a User"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:117
+msgid "Administrators can create a new user from the *Users* tab of the Account Details sidebar by clicking \"Create\" |create icon|."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:121
+msgid "In the appeared form fill in the following fields:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:123
+msgid "Required fields are marked with asterisks (*)."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:125
+msgid "Username * - Enter any desired user ID. It should be unique within the domain."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:127
+msgid "First name * - User's first name."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:128
+msgid "Last name * - User's last name."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:129
+msgid "Email * - Enter the user's email address."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:130
+msgid "Time zone * - Set the timezone that corresponds to the user's locale. Select an option from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:134
+msgid "Click \"CREATE\" to create the new user. It will appear in the list of users for this account."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:136
+msgid "Click \"CANCEL\" to cancel the user creation."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:141
+msgid "User Action Box"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:142
+msgid "Administrators can manage a user via the Action box."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:146
+#: ../../CSUI-Accounts.rst:169
+msgid "The list of actions allows an Administrator to:"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:148
+msgid "Edit user - Opens a form to edit user's settings (name, email, timezone). Edit the information and click \"SAVE\" to save the edits."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:152
+msgid "Change password - Opens a modal window with two fields for you to enter a new password and confirm it. Use the view tool |view| to view or hide a password while entering. Click \"SAVE\" to save the new password."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:156
+msgid "Regenerate key - Allows changing the keys - secret and API - for the user. Confirm your action in the dialogue window, and the keys will be changed."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:158
+msgid "Delete a user - Allows deleting a user from the system. Confirm your action in the dialogue window, and the user will be deleted."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:163
+msgid "Account Action Box"
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:165
+msgid "Administrators can manage an account via the Action box under |actions icon|."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:171
+msgid "Disable account - Allows disabling an account. By disabling the account all users for this account will no longer have access to their cloud resources. All running VMs will be immediately shut down. Click \"Disable account\" and confirm your action in the dialogue window. The account will be inactive."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:173
+msgid "Enable account - Allows activating a disabled account. Click \"Enable account\" and confirm your action in the dialogue window. The account will be activated."
+msgstr ""
+
+#: ../../CSUI-Accounts.rst:175
+msgid "Delete account - Allows an Administrator to delete an account from the system. Confirm your action in the dialogue window, and the account will be deleted."
+msgstr ""
+

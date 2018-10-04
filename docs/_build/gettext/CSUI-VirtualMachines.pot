@@ -1,0 +1,1209 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Maslova
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-02 10:36+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../CSUI-VirtualMachines.rst:4
+msgid "Virtual Machines"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:8
+msgid "*Virtual Machines* is the starting section. Here and in all other views we have implemented a “one-step” approach, and we also made it work without moving from view to view. So all actions on VMs can be managed from one screen view."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:10
+msgid "In this section you can perform actions over a VM that is create, start, stop, delete it. Besides, here you can configure the machine editing its service offering parameters, group, firewall rules. Finally, you can access a VM selecting the most appropriate way. We support three options for accessing a VM: via the console, via Webshell and via HTTP."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:14
+msgid "Below you will find the detailed information on the aforementioned options for VM management via CloudStack-UI."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:17
+msgid "Virtual Machines List"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:19
+msgid "At this page, you can see the list of your virtual machines available to your user only."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:23
+msgid "If you are a Domain Administrator you can see the virtual machines of all users in your account. Or select all accounts in the \"Select accounts\" option above the list to see the virtual machines for the whole domain."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:27
+msgid "You can change the data representation of existing virtual machines from \"card\" to \"list\". We have added the switch |view icon|/|box icon| in the upper-right corner of each section. This improvement gives a user an opportunity to work with data in each specific section in a more convenient way."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:29
+msgid "A list view can be switched to a box view:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:33
+msgid "And vice versa, switch a list view to a box view:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:37
+msgid "For each VM in the list you can see the following information:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:39
+msgid "VM name and IP;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:40
+msgid "State - shows the VM state by color spot: green for Running, red for Stopped, yellow for changing status;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:41
+msgid "OS family;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:42
+msgid "CPU;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:43
+msgid "RAM;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:44
+msgid "Disks."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:46
+msgid "To the right the Actions button |actions icon| expands the list of actions available for the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:49
+msgid "Filtering of Virtual Machines"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:51
+msgid "The filtering and search tool will help you to find a virtual machine in the list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:55
+msgid "You can filter the VM list by accounts (available for Domain Administrators) and/or zones and/or groups and/or states. In the drop-down lists tick the filtering parameters and see the immediate result."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:57
+msgid "Besides, VMs can be grouped by zones and/or groups and/or colors and/or accounts. Grouping makes it easier to identify necessary VMs on the list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:61
+msgid "Use the search tool to find a virtual machine by its name or a part of the name."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:63
+msgid "Under the *Virtual Machines* section, you can open a form to create a new virtual machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:68
+msgid "Create a Virtual Machine"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:69
+msgid "Creating a new VM in CloudStack-UI is a one-step action. You can select options from one screen without additional steps."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:71
+msgid "At creating a virtual machine you must select:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:73
+msgid "a service offering"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:74
+msgid "an installation source"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:75
+msgid "the rules of the security group"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:77
+msgid "Please, note that a virtual machine is created with a root disk so you do not need to add any volume at the VM creation step. If necessary, you can add data disk to the VM later."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:81
+msgid "To create a new VM click the \"Create\" button |create icon| at the bottom-right corner."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:85
+msgid "In the *Create VM* form fill in the following fields:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:87
+#: ../../CSUI-VirtualMachines.rst:477
+#: ../../CSUI-VirtualMachines.rst:521
+#: ../../CSUI-VirtualMachines.rst:589
+msgid "Required fields are marked with an asterisk (*)."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:89
+msgid "**Name** * - A name of VM. The system suggests a meaningful autogenerated name in the following form ``vm-<username>-<counter>``. You can enter any name you wish. It should start with a letter, contain figures and Latin letters (up to 63 symbols) and be unique within the domain."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:90
+msgid "**Zone** * - A zone of VM operation. Select a zone from the drop-down list. The list of available zones is managed by a Root Administrator. More information about zones in CloudStack can be found in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/conceptsandterminology/concepts.html#about-zones>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:91
+msgid "**Service offerings** * -  Select a set of options and resources for a VM, such as templates for creating virtual machines, disk storage, and other. The list of available service offerings is managed by an Administrator. Service offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:93
+msgid "Click \"SELECT\" in the Service Offerings block and choose a necessary option in the modal window. The list of service offerings can be of two types: Fixed and Custom."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:95
+msgid "*Fixed* service offerings are the offerings with fixed parameters. They can not be changed."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:97
+msgid "*Custom* service offerings are offerings with adjustable parameters. You can set the amount of CPU cores, CPU memory and Network rate as you need."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:99
+msgid "Use the switcher \"Fixed/Custom\" above the list to select a necessary type of offerings."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:101
+msgid "If service offering classes are determined in the configuration file (see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#compute-offering-classes>`_), the list of service offerings is displayed as a list grouped by the determined classes. You can filter the list by classes using the filtering tool above the list. Classes provide additional semantics defining the purpose of VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:105
+msgid "You also can use the search tool to find an option in the list by a name or a part of the name."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:107
+msgid "**Fixed Service Offerings**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:109
+msgid "For fixed service offerings the parameters are provided in the table per each option. Four main parameters are provided by default. They are:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:111
+#: ../../CSUI-VirtualMachines.rst:139
+msgid "CPU Cores;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:112
+#: ../../CSUI-VirtualMachines.rst:140
+msgid "CPU (MHz);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:113
+msgid "Memory (MB);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:114
+msgid "Network Rate (Mb/s)."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:116
+msgid "Click \"SHOW ADDITIONAL FIELDS\" to the right to expand the range of parameters. Scroll the table to right and you will see:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:118
+msgid "Disk read rate (Mb/s);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:119
+msgid "Disk write rate (Mb/s);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:120
+msgid "Disk read rate (IO/s);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:121
+msgid "Disk write rate (IO/s)."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:123
+msgid "You can hide the additional parameters by clicking \"HIDE ADDITIONAL FIELDS\"."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:127
+msgid "Choose the option in the list and click \"SELECT\" below."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:131
+msgid "The settings will appear for the VM service offerings."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:133
+msgid "**Custom Service Offerings**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:135
+msgid "For custom service offerings the parameters are also provided in the table per each option. Besides, you can see more parameters by clicking \"SHOW ADDITIONAL FIELDS\"."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:137
+msgid "By selecting an option in the list, you open a modal window where you can set a value for the following parameters:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:141
+msgid "Memory (MB)."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:143
+msgid "These parameters can be predefined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-compute-offering>`_ by an Administrator. The values specified there will be used as default parameters for a custom service offering."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:145
+msgid "Administrators can set limits for custom service offerings in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-compute-offering-parameters>`_. That means you cannot set values larger than the limits specified for custom service offerings."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:149
+msgid "Click \"CONFIRM\" to set the custom service offering parameters. The modal window will close and the set values will appear in the list for the selected custom service offerings option. Click \"CANCEL\" to drop all the settings."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:151
+msgid "Click \"SELECT\" below the list to assign the service offerings to your machine. The custom settings will appear for the VM service offerings. Custom service offering parameters are saved to account tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_) if they are supported for the account. This will make it easier for you to use saved custom parameters for service offerings next time at VM creation as they will be predefined in the form automatically."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:155
+msgid "You can change service offerings by clicking \"SELECT\" next to the settings in the creation form and choosing other parameters.  Click \"CHANGE\" below to assign the selected option to the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:159
+msgid "**Installation source** * - Click \"Select\" to choose an installation source. Traditionally, there are two options of the virtual machine creation:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:161
+msgid "From a Template."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:162
+msgid "From an ISO file."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:164
+msgid "You will see a list in a modal window that contains templates/ISOs with the \"Ready\" status available for the selected zone, as well as user's account or the whole domain."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:166
+msgid "The filtering tool allows finding a necessary option by selecting among templates/ISOs by OS families, types and groups, or search the source by a name or a part of its name."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:168
+msgid "Tick the source in the list and click \"SELECT\" to implement the selected source."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:170
+msgid "Click \"CANCEL\" to drop selected options. No source will be selected then."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:174
+msgid "**Disk offering** - Available if ISO is selected as a source. Open a modal window where available disk offerings are listed by clicking \"SELECT\" in the disk offering section. The list of available options is managed by an Administrator. Disk offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#offering-availability>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:176
+msgid "For each disk offering you will see a range of parameters. The following parameters are shown by default:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:178
+msgid "Read rate (MB/s);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:179
+msgid "Write rate (MB/s);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:180
+msgid "Read rate (IO/s);"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:181
+msgid "Write rate (IO/s)."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:183
+msgid "More parameters can be added via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-parameters>`_ by an Administrator."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:185
+msgid "Select a disk offering in the list and click \"SELECT\"."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:189
+msgid "If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size. Change the disk size moving the slider up to the volume size you wish."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:193
+msgid "Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/service_offerings.html?highlight=disk%20offerings#compute-and-disk-service-offerings>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:195
+msgid "**Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:196
+msgid "**Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its length should not exceed 63 symbols. What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=Affinity%20group#affinity-groups>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:197
+msgid "**Firewall rules** - Click \"Edit\" to specify a security group for the VM. In the appeared window choose between \"Create new\" or \"Select Shared\" options."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:199
+msgid "**Create new security group**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:201
+msgid "A new security group is created on the base of predefined templates. This security group will be created as a *private* group used for this VM only."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:203
+msgid "When creating a new security group, you can see all the templates are selected by default in the modal window. To form your custom security group, select a template in the \"All templates\" list at the left and move it to the \"Selected templates\" list at the right by clicking the arrow icon:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:207
+msgid "Click \"SELECT ALL\" to move all templates from left to right at once."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:209
+msgid "Click \"RESET\" to drop all selected templates."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:211
+msgid "In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your VM as firewall rules."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:213
+msgid "Click \"SAVE\" to apply the selected rules to your virtual machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:215
+msgid "Click \"CANCEL\" to drop the selected options. No rules will be assigned to the virtual machine. You will return to the \"Create new virtual machine\" window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:217
+msgid "**Select Shared security group**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:219
+msgid "If you would like to select an existing group of firewall rules, you can click the \"Select Shared\" option and tick those groups in the list that you want to assign to your VM. The security groups in the *Shared* list are used by other VMs in the domain. That means you won't be able to uncheck some rules in the group that you do not want to include into the list (like at creating VM from a template). You can assign only the whole shared security group to your VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:223
+msgid "You can edit a shared security group after VM is created. In the *Network* tab of the VM details sidebar the assigned shared security group(s) can be viewed and edited. Please, find more information on security group editing in the :ref:`VM_Network_Tab` section."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:225
+msgid "Click \"Cancel\" to drop the selected options. No rules will be assigned to the virtual machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:227
+msgid "**SSH keypair** - Select an SSH keypair. The list of keys contains the SSH keys available for the account under which the VM is being created. Find more information on SSH keys in the :ref:`SSH_Keys` section."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:228
+msgid "**Start VM** - Tick the box to start the VM right after its deployment. If this option is activated, the VM acquires an IP and a password (if required by the template). If it is not, the machine IP is not available till VM is started, no password is assigned to it."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:230
+msgid "Once all fields are filled in, click \"Create\"."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:232
+msgid "For some templates/ISOs used at VM creation you are offered to accept a \"Template/ISO Terms and Conditions Agreement\". An administrator is able to specify an agreement for a template or ISO. An agreement may determine, for example, software licensing terms or restrictions on the liability of the software template vendor. A user must confirm it to continue VM installation from a chosen source."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:234
+msgid "If you are creating a virtual machine on the base of a template/ISO that requires an agreement, read the terms in the appeared window and click \"I AGREE\" to continue."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:238
+msgid "Click \"CANCEL\" to close the terms and move back to the creation form. Change the installation source."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:240
+msgid "After clicking \"CREATE\", a dialogue window will appear where you can monitor the VM creation process: security group creation, virtual machine deployment, template tags copying, etc. These procedures are fulfilled one by one. A procedure in progress is marked with a spinner in the message. In case of an error occurring at any VM creation step, a user can understand at what step it has happened."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:244
+msgid "Once the VM creation process finishes, the success message will inform you of that."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:248
+msgid "The message will show the list of all creation steps and the virtual machine information:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:250
+msgid "VM name and IP (if it is available),"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:251
+msgid "VM Password - This field appears after the VM creation if a password is enabled for the template used for creating this machine. A password is autogenerated. Click \"SAVE\" next to it in the dialogue window if you want to save it for this VM. The password will be saved to the VM tags. You can see the saved password later by clicking \"Access VM\" in the Actions box for this machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:255
+msgid "The system will ask you if you wish to save passwords to VM tags by default for the virtual machines created in the future. Click \"Yes\" and the \"Save VM password by default\" option will be activated in the account settings:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:259
+msgid "It means the password will be saved to tags automatically for all created virtual machines."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:261
+msgid "From this window, you can access the VM opening VNC console."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:265
+msgid "Close the dialogue window and make sure the newly created VM is in the list of virtual machines."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:267
+msgid "Click \"CANCEL\" to drop the VM creation."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:270
+msgid "Possible Issues When Creating a Virtual Machine"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:272
+msgid "You can face the following issues when creating a virtual machine:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:274
+msgid "Lack of resources."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:276
+msgid "An important thing in CloudStack-UI is that the system immediately checks that a user has the amount of resources required to create a virtual machine. It does not allow launching the creation of a VM which will fail for sure because of the resource lack."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:278
+msgid "If you lack the required amount of resources, the message will appear when clicking \"Create Virtual Machine\":"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:280
+msgid "\"Insufficient resources. You ran out of Primary storage.\""
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:282
+msgid "No VM creation form is available."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:286
+msgid "VM name is not unique."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:288
+msgid "If the name specified for the virtual machine is not unique within a domain, the dialogue window after VM creation will show an error. The VM will not be created. The creation form will be closed. You will have to open the VM creation form and fill it in again. You will have to specify another name for your VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:293
+msgid "VM Action Box"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:294
+msgid "Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the \"Actions\" button |actions icon| to the right from each virtual machine in the list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:298
+msgid "It allows performing the following actions with the VM:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:300
+msgid "Start VM - Allows a user to launch a VM,"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:302
+msgid "Stop VM - Allows a user to stop a running VM,"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:304
+msgid "Reboot VM - Allows a user to restart a VM,"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:306
+msgid "Reinstall VM - Allows a user to reinstall a VM,"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:308
+msgid "Destroy VM - Allows a user to delete a VM. After deleting the virtual machine will remain in the system. It will look faded in the list and can be recovered later."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:312
+msgid "To recover a destroyed VM (which is not expunged) open the Actions list and click \"Recover\"."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:316
+msgid "Click \"Expunge\" to completely destroy the VM. The VM will not be available for recovering anymore."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:320
+msgid "When deleting a virtual machine, if the machine has data disks attached, the system will ask you in a dialogue window whether these disks should be deleted. If data disks have snapshots, you will be offered to delete the snapshots as well by activating a \"Delete snapshots\" option in the dialogue."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:322
+msgid "Confirm your intention to delete disks (and snapshots) by clicking \"Yes\". Click \"No\" to cancel the disk (and snapshots) deleting."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:326
+msgid "Reset password - Allows a user to change the password for VM (available for started VMs only in case a VM requires a password). The VM will be rebooted if you reset the password."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:330
+msgid "After clicking \"Yes\" the VM will be rebooted and a new password will be autogenerated for it. You will see the new password in the dialogue window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:334
+msgid "Click \"Save\" to save the password for this VM. It will activate the \"Save VM passwords by default\" option in the *Settings* section. In the future the password will be saved automatically right at VM creation. Click \"OK\" to close the dialogue window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:336
+msgid "Access VM - Opens an \"Access VM\" dialog window which allows to view VM name and IP, view and save a password for the VM and access the VM via the VNC console."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:340
+msgid "In the :ref:`VM_Access` section you can find more information on accessing a VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:342
+msgid "Pulse - It is a new feature created in CloudStack-UI to visualize the VM performance statistics. By clicking \"Pulse\" at the Actions box you will open a modal window with 3 tabs: CPU/RAM, Network, Disk. There you can see the charts of resources statistics for the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:346
+msgid "You can adjust the graphs by range, data aggregation period, shift interval and other parameters."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:348
+msgid "This plugin is convenient for dynamic monitoring of VM performance. Find more information about it in the `official documentation <https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin>`_. Pulse plugin deployment instructions can be found at the :ref:`Pulse_Plugin` page."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:350
+msgid "Please, note, when performing one of the actions from the list, other actions in this list are disabled until the action in progress finishes."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:355
+msgid "VM Details Sidebar"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:357
+msgid "For each virtual machine, you can get the details."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:359
+msgid "By clicking a VM line or card you can open a sidebar to the right."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:363
+msgid "There you will find the information on the selected virtual machine:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:365
+msgid "VM name."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:366
+msgid "Color-picker |color picker| - Allows marking a virtual machine with a color to distinguish it in the list. The range of available colors for VMs is specified in the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#vm-colors>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:367
+msgid "Actions on the VM. See the :ref:`VM_Actions` section below."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:369
+msgid "You will see four tabs in the sidebar. Let's describe what information on the virtual machine is presented in each tab."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:372
+msgid "Virtual Machine Tab"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:373
+msgid "The Virtual Machine tab contains the general setting of the VM. Some settings can be edited here. At the bottom you can see the Statistics section which shows real-time data for the VM performance."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:375
+msgid "Description - A short description of the VM. Click the block to edit it. Enter a few words about the VM. Click \"Save\" to save the description. It is a custom description for your machine. It is saved to tags with ``csui.vm.description`` tag."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:377
+msgid "The description can be edited. Click \"Edit\" |edit icon| to change the description."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:381
+msgid "It also can be edited from the Tags tab. Click Edit icon |edit icon| next to the ``csui.vm.description`` tag and change the description text in the appeared form."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:385
+msgid "Zone - A zone selected for the VM to be available in."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:387
+msgid "Group - A custom group assigned to the VM. Edit this field by clicking the \"Edit\" button |edit icon|. In the appeared dialogue window choose a group from the drop-down list. Click \"Assign\" to assign the chosen group to the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:391
+msgid "Or you can create a new group right from this window selecting the \"Create a new group\" option. Click \"ASSIGN\" to assign the created group to the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:395
+msgid "To remove the assigned group select the \"Remove from the group\" option and click \"REMOVE\" to eliminate the assigned group from the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:399
+msgid "The VM group is a custom group. It is saved to VM tags with ``csui.vm.group`` tag. From the Tags tab, it also can be edited or deleted."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:401
+msgid "Service offering - The service offerings of the VM. Expand the section to view the whole list of offering parameters."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:403
+msgid "Edit this field by clicking the \"Edit\" button |edit icon|. In the appeared window you will see the list of available service offerings."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:405
+msgid "The list consists of two sections - Fixed and Custom. In each section, offerings can be filtered by classes if classes are determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#compute-offering-classes>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:409
+msgid "You can use the search tool to find an offering in the list by a name or a part of the name."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:411
+msgid "Select an option from the list to change the service offering."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:415
+msgid "Click \"Change\" to implement the edits."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:417
+msgid "A started virtual machine will be rebooted at editing the service offering."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:419
+msgid "Affinity Group - The affinity group assigned to the virtual machine. Edit this field by clicking the \"Edit\" button |edit icon|. In the dialogue window, choose an existing group or create a new one right in the dialogue window. Click \"Assign\" to assign the group to the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:423
+msgid "When assigning an affinity group to the started virtual machine, the system will suggest you stopping the VM. Click \"OK\" in the dialogue window. Then the VM will be started again."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:427
+msgid "The selected group can be removed by clicking \"Edit\" and choosing \"Remove from the group\" in the dialogue window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:431
+msgid "Template - Shows the template used to create the virtual machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:433
+msgid "SSH key - Shows the SSH key of the virtual machine. Add the SSH key by clicking \"+\". In the appeared window select the SSH key in the drop-down list and click \"CHANGE\":"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:437
+msgid "At saving the new SSH key for a started VM you will see the warning: \"You need to stop the virtual machine to reset SSH key.\" Click \"OK\" if you want to stop it right now. Click \"Cancel\" to drop the edits."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:439
+msgid "Statistics - shows VM statistics on CPU utilized, Network read, Network write, Disk read, Disk write, Disk read (IO), Disk write (IO). Refresh data by clicking the \"Refresh\" button |refresh icon| in the upper-right corner."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:442
+msgid "Storage Tab"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:443
+msgid "The second tab - Storage - contains the information on the volumes allocated to the virtual machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:447
+msgid "In this tab the following information is presented:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:449
+msgid "**Disk information**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:451
+msgid "Each VM has a root disk. Besides, data disks can be added to the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:453
+msgid "The following general information on a root disk is presented (expand the card to see the whole list):"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:455
+msgid "Name - The disk name."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:456
+msgid "Size - The disk size."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:457
+msgid "Creation Date and Time."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:458
+msgid "Storage Type (Shared/Local)"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:459
+msgid "Last Snapshot information."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:461
+msgid "**Attach a volume** - Allows attaching a data disk to the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:463
+msgid "Additional volume (a data disk) can be attached to the VM. Click \"Select\" to select a data disk. Select a disk in the drop-down list and click \"SELECT\"."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:467
+msgid "The chosen data disk will appear for the virtual machine with the \"Attach\" button. Click \"Attach\" to attach the selected disk to the virtual machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:471
+msgid "If there are no available spare drives yet, you can create one right from this panel."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:475
+msgid "Click \"Create new volume\" and you will be moved to the Storage section. A \"New volume\" form will appear where you should specify the following information:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:479
+msgid "Name * - Name of the new data disk."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:480
+msgid "Zone * - Select a zone for it from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:481
+msgid "Disk offering * - Select a disk offering from the list in the modal window. The disk offering list is managed by Root Administrator."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:482
+msgid "Size - Set the disk size if it is available. Disk size can be changed if a custom disk offering is selected above."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:484
+msgid "Once all fields are filled in, click \"CREATE\" to save the new volume."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:486
+msgid "Click \"CANCEL\" to drop the new volume creation."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:490
+msgid "Move back to the virtual machine information sidebar. Under the \"Storage\" tab in the \"Attach a volume\" section click \"+\" to select an additional disk. Select a data disk in the drop-down list and click \"Select\" to add it to the \"Attach a volume\" section. To attach the volume press the \"Attach\" button."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:495
+msgid "Volume Action Box"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:497
+msgid "For each volume, the Actions list can be opened by clicking the actions icon |actions icon|."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:499
+msgid "The following actions on disks are available in this list:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:501
+msgid "For root disks:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:503
+#: ../../CSUI-VirtualMachines.rst:509
+msgid "Take a snapshot;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:504
+#: ../../CSUI-VirtualMachines.rst:510
+msgid "Set up snapshot schedule;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:505
+msgid "Resize the disk."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:507
+msgid "For data disks:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:511
+msgid "Detach;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:512
+msgid "Resize the disk;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:513
+msgid "Delete."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:515
+msgid "**Take a snapshot**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:517
+msgid "You can take a VM snapshot to preserve all the VM’s data volumes as well as (optionally) its CPU/memory state. This is useful for quick restore of a VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:519
+msgid "Click \"Take a snapshot\" in the disk Actions list and in the dialogue window enter the following information:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:523
+msgid "Name of the snapshot * - Define a name for the snapshot. It is auto-generated in the form ``<date>-<time>``. But you can specify any name you wish."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:524
+msgid "Description - Add a description of the snapshot to know what it contains."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:528
+msgid "All snapshots are saved in the list of snapshots. In the disk information, you will see the name and time of the *last-taken snapshot*. For each snapshot the list of actions is available. Find more information on snapshot actions in the :ref:`Actions_on_Snapshots` sections below."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:530
+msgid "**Set up snapshot schedule**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:532
+msgid "You can schedule regular snapshotting by clicking \"Set up snapshot schedule\" in the Actions list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:534
+msgid "In the appeared window set up the schedule for recurring snapshots:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:536
+msgid "Select the frequency of snapshotting - hourly, daily, weekly, monthly;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:537
+msgid "Select a minute (for hourly scheduling), the time (for daily scheduling), the day of week (for weekly scheduling) or the day of month (for monthly scheduling) when the snapshotting is to be done;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:538
+msgid "Select the timezone according to which the snapshotting is to be done at the specified time;"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:539
+msgid "Set the number of snapshots to be made."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:541
+msgid "Click \"+\" to save the schedule. You can add more than one schedule but only one per each type (hourly, daily, weekly, monthly)."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:545
+msgid "**Resize the disk**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:547
+msgid "This action is available to data disks created on the base of disk offerings with a custom disk size. Disk offerings with custom disk size can be created by Root Administrators only."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:549
+msgid "Selecting \"Resize the disk\" option in the Actions list you are able to enlarge the disk size."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:551
+msgid "In the appeared window set up a new size using the slider and click \"RESIZE\" to save the edits."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:555
+msgid "Click \"CANCEL\" to drop the size changes."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:557
+msgid "**Detach**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:559
+msgid "This action can be applied to data disks. It allows detaching the data disk from the virtual machine."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:561
+msgid "Click \"Detach\" in the Actions list and confirm your action in the dialogue window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:565
+msgid "The data disk will be detached. It will be in the list of **Spare** drives in the *Storage* section."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:567
+msgid "**Delete**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:569
+msgid "This action can be applied to data disks. It allows deleting a data disk from the system right in the *Storage* VM details sidebar."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:571
+msgid "Click \"Delete\" in the volume Actions list and confirm your action in the dialogue window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:575
+msgid "The data disk will be deleted from the system right at this moment."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:577
+msgid "If a disk has snapshots, the system will ask you if you want to delete the snapshots of the disk as well. Click \"Yes\" to delete the snapshots. Click \"No\" to leave the snapshots in the system after volume deleting."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:582
+msgid "Snapshot Action Box"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:583
+msgid "For a newly taken snapshot all actions except \"Delete\" are disabled until the snapshot is backed up to the Secondary Storage that may take some time. Once it is backed up, a full range of actions is available to a user."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:585
+msgid "For each snapshot the following actions are available:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:587
+msgid "**Create a template** - Register a new template right from the disk information block of the sidebar. In the appeared window fill in the form:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:591
+msgid "Name * - Enter a name of the new template."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:592
+msgid "Description * - Provide a short description of the template."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:593
+msgid "OS type * - Select an OS type from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:594
+msgid "Group - Select a group from the drop-down list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:595
+msgid "Password enabled - Tick this option if your template has the CloudStack password change script installed. That means the VM created on the base of this template will be accessed by a password, and this password can be reset."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:596
+msgid "Dynamically scalable - Tick this option if the template contains XS/VM Ware tools to support dynamic scaling of VM CPU/memory."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:598
+msgid "Click \"SHOW ADDITIONAL FIELDS\" to expand the list of optional settings. It allows creating a template that requires HVM. Tick this option in this case."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:600
+msgid "Once all fields are filled in click \"CREATE\" to create the new template."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:604
+msgid "**Create Volume** - Allows creating a volume from the snapshot."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:606
+msgid "Type a name for a new volume into the Name field in the modal window. Click “CREATE” to register a new volume."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:610
+msgid "Click “CANCEL” to cancel the volume creation."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:612
+msgid "**Revert Volume To Snapshot** - Allows turning the volume back to the state of the snapshot."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:614
+msgid "In the dialogue window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:618
+msgid "**Delete** - allows deleting the last-taken snapshot."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:620
+msgid "Besides, you can see all the snapshots in the list by clicking the \"VIEW ALL\" button. In the appeared window you will see the list of all snapshots. For each snapshot in the list, the same actions are available: you can create a template, or delete a snapshot."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:624
+msgid "**ISO** - Allows attaching ISO."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:626
+msgid "Attach ISO by clicking the \"Attach\" button in the ISO card. In the dialogue window you will see the list of available ISO files. To easily find the ISO file you need, please, use the search tool above the list. Additionally, you can filter the list by OS family(-ies), by type(-s), by group(-s). Tick the ISO file you wish in the list and click \"ATTACH\". The ISO will be attached to the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:630
+msgid "You can detach the ISO file by clicking the \"Detach\" button."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:637
+msgid "Network Tab"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:638
+msgid "Under the Network tab the network configurations of the VM are presented."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:642
+msgid "**NIC information** - VM network details are shown here: Network namе, Netmask, Gateway, IP, Broadcast URI, Traffic Type, Type, Default, MAC address."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:644
+msgid "You can add a secondary IP for the VM from this tab. Click \"+\" next to the Secondary IP option and confirm your action in the dialogue window. The IP appears for the VM."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:648
+msgid "You can delete the secondary IP by clicking the \"Delete\" button next to it."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:650
+msgid "**Firewall rules** - Allows viewing the security group assigned to the virtual machine. Click |view| to open the list of assigned security group(-s)."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:654
+msgid "You can filter the list by IP version, types and/or protocols. Or you can adjust the view by grouping the list by types and/or protocols."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:658
+msgid "In the modal window you can edit a security group. Click \"EDIT\" to move to editing form. There you will be able to add rules, or delete the selected ones from the list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:660
+msgid "To add rules, please, fill in the fields in the bar above the list and click \"+\":"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:664
+msgid "To delete rules, please, click \"Delete\" icon in the list. The rule will be deleted from the security group."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:668
+msgid "Then you can move back to the view mode, or close the window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:670
+msgid "Please, note, when editing shared security groups, a warning message appears:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:674
+msgid "Click \"Yes\" if you still want to edit a shared security group. You will be moved to the \"Firewall\" section where you can edit the security group. After editing, go back to the virtual machine that uses this group. You will see the rules are edited."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:676
+msgid "See the :ref:`Firewall` section for more information on firewall rules in the system."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:679
+msgid "Tags Tab"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:681
+msgid "Under this tab, you can create and see the VM tags."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:685
+msgid "CloudStack-UI uses tags very extensively to provide additional UX capabilities. Tags are key-value pairs. So it makes a kind of a key-value storage for the meta-information - VM description or group, or a user language. The tags used by Cloudstack-UI are system tags. They are prefixed with ``csui``. You can find the full list of system tags supported by CloudStack-UI at the `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:687
+msgid "System tags are used to provide functionality from the user interface perspective. Changing these tags affects the functionality of the application. The \"Show system tags\" checkbox allows to view or hide system tags of the virtual machine. Uncheck this box to hide system tags from the list. It helps to avoid accidental unwanted changes. If a user has disabled displaying of these tags, the system will remember it and next time tags will also be hidden."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:689
+msgid "To find the tag you are interested in, please, use the search tool above the tag list. You can enter a name or a part of the tag name to distinguish it in the list."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:693
+msgid "The tags assigned to the virtual machine are presented in the list. System tags are presented in one card, other tags - in a separate card. For each tag in the list the following actions are available when hovering the mouse over the tag key:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:695
+msgid "Edit - Allows editing the tag. In the appeared form define a new key and/or value (both fields are required). Click \"Edit\" to save the edits. Click \"Cancel\" to drop the edits. The tag won't be changed then."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:697
+msgid "Delete - Allows deleting the tag. Click \"Delete\" and confirm your action in the dialogue window."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:701
+msgid "**Create Tags**"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:703
+msgid "You can create a tag right from *Tags* tab."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:705
+msgid "Click \"Create\" |create icon| and fill in the appeared form:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:707
+msgid "Required fields are marked with an asterisk (*). You cannot use space as the first symbol."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:709
+msgid "Key * - Enter a key here."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:711
+msgid "Value * - Enter the value here."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:715
+msgid "When adding a system tag, click \"+\" in the card to open the creation form. You will see that the ``csui`` prefix is automatically prepopulated here."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:719
+msgid "If you create a non-system tag, it will be saved in a new card. If you have entered a key in the format ``<prefix>.<example>``, a card will be named as \"<prefix>\". When creating a new tag from this card, click \"+\" in the card and in the tag creation form the *Key* field will be prepopulated with the <prefix>."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:726
+msgid "Access a Virtual Machine"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:727
+msgid "Depending on the installation source (ISO or a Template) the system allows getting an access to the VM interaction interface. Currently, the following options are supported:"
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:729
+msgid "Open VNC console - This button under the \"Access VM\" action allows opening a console."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:733
+msgid "WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To find more information on accessing VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the detailed instructions on the deployment of WebShell Plugin at the :ref:`Webshell_Plugin` page."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:737
+msgid "Access via HTTP if VM has a ``csui.vm.auth-mode`` tag with HTTP value. To configure access to VM via HTTP, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_."
+msgstr ""
+
+#: ../../CSUI-VirtualMachines.rst:741
+msgid "You can choose the way you like and make necessary settings."
+msgstr ""
+
