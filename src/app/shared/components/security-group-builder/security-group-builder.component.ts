@@ -4,11 +4,10 @@ import { withLatestFrom } from 'rxjs/operators';
 
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
-import { NetworkRuleType, SecurityGroupType } from '../../../security-group/sg.model';
+import { NetworkRuleType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { SecurityGroupTagKeys } from '../../services/tags/security-group-tag-keys';
 import { Rules } from './rules';
 import { configSelectors, State } from '../../../root-store';
-import { SecurityGroupTemplate } from '../../models/config/security-group-template.interface';
 
 export interface RuleListItem {
   rule: NetworkRule;
@@ -17,8 +16,8 @@ export interface RuleListItem {
 }
 
 interface BuilderSecurityGroups {
-  available: Array<SecurityGroupTemplate>,
-  selected: Array<SecurityGroupTemplate>
+  available: Array<SecurityGroup>,
+  selected: Array<SecurityGroup>
 }
 
 interface BuilderNetworkRules {
@@ -186,13 +185,13 @@ export class SecurityGroupBuilderComponent implements OnInit {
     }
   }
 
-  private pushAllIngressRulesOfGroup(group: SecurityGroupTemplate): void {
+  private pushAllIngressRulesOfGroup(group: SecurityGroup): void {
     group.ingressrule.forEach(rule => {
       this.pushIngressRule(rule, true, NetworkRuleType.Ingress);
     });
   }
 
-  private pushAllEgressRulesOfGroup(group: SecurityGroupTemplate): void {
+  private pushAllEgressRulesOfGroup(group: SecurityGroup): void {
     group.egressrule.forEach(rule => {
       this.pushEgressRule(rule, true, NetworkRuleType.Egress);
     });

@@ -17,9 +17,8 @@ import { NetworkProtocol } from '../network-rule.model';
 import { NetworkRuleService } from '../services/network-rule.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { LoadingDirective } from '../../shared/directives/loading.directive';
-import { SecurityGroupTemplate } from '../../shared/models/config/security-group-template.interface';
 
-const securityGroupTemplates: Array<SecurityGroupTemplate> = require(
+const securityGroupTemplates: Array<Object> = require(
   '../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
 
 @Injectable()

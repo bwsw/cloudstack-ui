@@ -1,9 +1,9 @@
 import { NetworkRule } from '../../../security-group/network-rule.model';
-import { SecurityGroupTemplate } from '../../models/config/security-group-template.interface';
+import { SecurityGroup } from '../../../security-group/sg.model';
 
 
 export class Rules { // defines what should be passed to inputRules
-  public static createWithAllRulesSelected(securityGroups: Array<SecurityGroupTemplate>): Rules {
+  public static createWithAllRulesSelected(securityGroups: Array<SecurityGroup>): Rules {
     const ingress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.ingressrule), []);
     const egress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.egressrule), []);
 
@@ -11,7 +11,7 @@ export class Rules { // defines what should be passed to inputRules
   }
 
   constructor(
-    public templates?: Array<SecurityGroupTemplate>,
+    public templates?: Array<SecurityGroup>,
     public ingress?: Array<NetworkRule>,
     public egress?: Array<NetworkRule>
   ) {
