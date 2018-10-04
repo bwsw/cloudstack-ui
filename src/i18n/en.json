@@ -571,7 +571,8 @@
     "PORT": "Port",
     "IPv4": "IPv4",
     "IPv6": "IPv6",
-    "CONNECTION_STRING": "Connection string",
+    "CONNECTION_STRING_6": "Connection string (IPv6)",
+    "CONNECTION_STRING_4": "Connection string (IPv4)",
     "NOT_SET": "Not Set"
   },
   "VOLUME_PAGE": {

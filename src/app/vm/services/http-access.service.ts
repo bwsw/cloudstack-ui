@@ -8,9 +8,12 @@ import { AccessService, AuthModeType } from './access.service';
 export class HttpAccessService extends AccessService {
   protected readonly authMode = AuthModeType.HTTP;
 
-  readonly defaultPort = '80';
+  readonly defaultHTTPPort = '80';
+  readonly defaultHTTPSPort = '443';
   readonly defaultProtocol = 'http';
   readonly defaultPath = '';
+  readonly defaultLogin = 'root';
+
 
   public getAddress(vm: VirtualMachine): string {
     const protocol = this.getHttpProtocol(vm);
@@ -26,29 +29,34 @@ export class HttpAccessService extends AccessService {
       const authModes = authMode.replace(/\s/g, '').split(',');
       return !!authModes.find(m => m.toLowerCase() === this.authMode);
     }
-   return false;
+    return false;
   }
 
   public getHttpLogin(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken)
+    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken) || defaultLogin;
   }
 
   public getHttpPassword(vm: VirtualMachine) {
     return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPasswordToken)
   }
 
-  private getHttpPort(vm: VirtualMachine) {
-    const portTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPortToken);
-    return portTag || this.defaultPort;
-  }
+  public getHttpProtocol(vm: VirtualMachine) {
+    const protocolTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpProtocolToken);
+    return protocolTag || this.defaultProtocol;
+  };
 
-  private getHttpPath(vm: VirtualMachine) {
+  public getHttpPath(vm: VirtualMachine) {
     const pathTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPathToken);
     return pathTag || this.defaultPath;
   };
 
-  private getHttpProtocol(vm: VirtualMachine) {
-    const protocolTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpProtocolToken);
-    return protocolTag || this.defaultProtocol;
-  };
+  public getHttpPort(vm: VirtualMachine) {
+    const portTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPortToken);
+    if (portTag) {
+      return portTag;
+    }
+    const defaultValue = this.getHttpProtocol(vm) === 'http' ? this.defaultHTTPPort : this.defaultHTTPSPort;
+    return defaultValue;
+  }
+
 }

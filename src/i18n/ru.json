@@ -571,7 +571,8 @@
     "PORT": "Порт",
     "IPv4": "IPv4",
     "IPv6": "IPv6",
-    "CONNECTION_STRING": "Строка подключения",
+    "CONNECTION_STRING_6": "Строка подключения (IPv6)",
+    "CONNECTION_STRING_4": "Строка подключения (IPv4)",
     "NOT_SET": "Не задано"
   },
   "VOLUME_PAGE": {

@@ -1,11 +1,5 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { VirtualMachine } from '../../shared/vm.model';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import { State } from '../../../reducers/index';
@@ -41,7 +35,6 @@ export class VmAccessComponent {
     },
     {
       name: 'VM_POST_ACTION.URL',
-      actionName: 'VM_POST_ACTION.OPEN_URL',
       available: (vm) => vm && this.httpAccessService.isHttpAuthMode(vm),
       activate: (vm) => this.store.dispatch(new vmActions.OpenUrlVm(vm))
     }
@@ -63,13 +56,11 @@ export class VmAccessComponent {
   }
 
   public getUrlLogin(vm: VirtualMachine): string {
-    return this.httpAccessService.getHttpLogin(vm)
-      || this.translateService.instant('VM_POST_ACTION.NOT_SET');
+    return this.httpAccessService.getHttpLogin(vm) || this.defaultLogin;
   }
 
   public getUrlPassword(vm: VirtualMachine): string {
-    return this.httpAccessService.getHttpPassword(vm)
-      || this.translateService.instant('VM_POST_ACTION.NOT_SET');
+    return this.httpAccessService.getHttpPassword(vm) || this.translateService.instant('VM_POST_ACTION.NOT_SET');
   }
 
   public getSSHPort(vm: VirtualMachine): string {
@@ -81,11 +72,19 @@ export class VmAccessComponent {
   }
 
   public getSSHPassword(vm: VirtualMachine): string {
-    return this.sshAccessService.getPassword(vm)
-      || this.translateService.instant('VM_POST_ACTION.NOT_SET');
+    return this.sshAccessService.getPassword(vm) || this.translateService.instant('VM_POST_ACTION.NOT_SET');
   }
 
-  public getConnectionString(vm: VirtualMachine): string {
-    return `ssh -p ${this.getSSHPort(vm)} -u ${this.getSSHLogin(vm)} ${vm.nic[0].ipaddress}`;
+  public getConnectionString(vm: VirtualMachine, ipAddress: string): string {
+    return `ssh -p ${this.getSSHPort(vm)} -u ${this.getSSHLogin(vm)} ${ipAddress}`;
+  }
+
+  public getSSHKeys(keys: string): string[] {
+    const arrKeys = keys.split(' ');
+    return arrKeys;
+  }
+
+  public getAddress(vm: VirtualMachine): string {
+    return this.httpAccessService.getAddress(vm);
   }
 }
