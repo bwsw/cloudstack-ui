@@ -1,7 +1,12 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
-import { getType, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  getType,
+  isSecurityGroupNative,
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
@@ -235,9 +240,11 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG && mode === SecurityGroupViewMode.Private
-      ? group.virtualmachineids.length === 0
-      : true;
+    const isOrphan = (group: SecurityGroup) => (
+      filter.selectOrphanSG &&
+      mode === SecurityGroupViewMode.Private &&
+      isSecurityGroupNative(group)
+    ) ? group.virtualmachineids.length === 0 : true;
 
     return securityGroups.filter(group => queryFilter(group)
       && viewModeFilter(group) && selectedAccountIdsFilter(group) && isOrphan(group));
@@ -246,7 +253,11 @@ export const selectFilteredSecurityGroups = createSelector(
 
 export const selectSecurityGroupsForVmCreation = createSelector(
   selectAll, fromAuth.getUserAccount, (securityGroups, account) => {
-    const accountFilter = (securityGroup: SecurityGroup) => account && securityGroup.account === account.name;
+    const accountFilter = (securityGroup: SecurityGroup) => (
+      account &&
+      isSecurityGroupNative(securityGroup) &&
+      securityGroup.account === account.name
+    );
     const onlySharedFilter = (securityGroup: SecurityGroup) =>
       getType(securityGroup) === SecurityGroupType.Shared;
     return securityGroups.filter((securityGroup) => accountFilter(securityGroup)

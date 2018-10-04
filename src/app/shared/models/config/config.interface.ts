@@ -7,6 +7,7 @@ import { CustomComputeOfferingHardwareValues } from './custom-compute-offering-h
 import { DefaultComputeOffering } from './default-compute-offering.interface';
 import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offering-hardware-restrictions.interface';
 import { CustomComputeOfferingParameters } from './custom-compute-offering-parameters.interface';
+import { SecurityGroupTemplate } from '../../../security-group/sg.model';
 
 export interface CustomizableConfig {
   /*
@@ -26,7 +27,7 @@ export interface CustomizableConfig {
   /*
    * Firewall (Security groups) settings
    */
-  securityGroupTemplates: Array<any>;
+  securityGroupTemplates: Array<SecurityGroupTemplate>;
   /*
    * Images settings
    */

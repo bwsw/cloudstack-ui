@@ -124,7 +124,7 @@ export class SecurityGroupEffects {
                   const message = 'NOTIFICATIONS.FIREWALL.CONVERT_PRIVATE_TO_SHARED_DONE';
                   this.showNotificationsOnFinish(message);
                 }),
-                map((response: SecurityGroup) => {
+                map(response => {
                   return new securityGroupActions.ConvertSecurityGroupSuccess(response);
                 }),
                 catchError(error => {

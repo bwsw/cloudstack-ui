@@ -7,6 +7,7 @@ import { BackendResource } from '../../decorators';
 import { Tag } from '../../models';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendService } from '../base-backend.service';
+import { Taggable } from '../../interfaces';
 
 
 @Injectable()
@@ -42,7 +43,12 @@ export class TagService extends BaseBackendService<Tag> {
       map(tags => tags[0]));
   }
 
-  public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
+  public update<T extends any>( // todo: should be T extends Taggable
+    entity: T,
+    entityName: string,
+    key: string,
+    value: any
+  ): Observable<T> {
     const newEntity = Object.assign({}, entity);
 
     const createObs = this.create({

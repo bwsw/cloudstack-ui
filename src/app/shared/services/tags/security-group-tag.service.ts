@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { MarkForRemovalService } from './mark-for-removal.service';
-import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import { SecurityGroup, SecurityGroupNative, SecurityGroupType } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { SecurityGroupTagKeys } from './security-group-tag-keys';
@@ -19,11 +19,11 @@ export class SecurityGroupTagService implements EntityTagService {
   ) {
   }
 
-  public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {
-    return this.markForRemovalService.markForRemoval(securityGroup) as Observable<SecurityGroup>;
+  public markForRemoval(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
+    return this.markForRemovalService.markForRemoval(securityGroup);
   }
 
-  public markAsTemplate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+  public markAsTemplate(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
     return this.tagService.update(
       securityGroup,
       this.resourceType,
@@ -32,7 +32,7 @@ export class SecurityGroupTagService implements EntityTagService {
     );
   }
 
-  public markAsPrivate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+  public markAsPrivate(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
     return this.tagService.update(
       securityGroup,
       this.resourceType,
@@ -41,7 +41,7 @@ export class SecurityGroupTagService implements EntityTagService {
     );
   }
 
-  public convertToShared(securityGroup: SecurityGroup): Observable<SecurityGroup> {
+  public convertToShared(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
     return this.tagService.remove({
       resourceIds: securityGroup.id,
       resourceType: this.resourceType,
@@ -52,6 +52,7 @@ export class SecurityGroupTagService implements EntityTagService {
         return {
           ...securityGroup,
           tags: filteredTags,
+          // todo: how does 'type' work? fix or add description
           type: 'shared'
         };
       }))
