@@ -61,11 +61,11 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
       take(1),
       filter(Boolean))
       .subscribe((account) => {
-        if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
+        if (account.volumeavailable <= 0 || Number(account.primarystorageavailable) <= 0) {
           this.handleInsufficientResources();
           return;
         }
-        this.maxSize = account.primarystorageavailable;
+        this.maxSize = Number(account.primarystorageavailable);
         this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
           zone: zone,
           maxSize: this.maxSize

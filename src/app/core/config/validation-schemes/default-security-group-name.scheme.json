@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "defaultSecurityGroupName",
+  "type": "object",
+  "required": ["ru", "en"],
+  "additionalProperties": false,
+  "properties": {
+    "ru": {
+      "type": "string"
+    },
+    "en": {
+      "type": "string"
+    }
+  }
+}

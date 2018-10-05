@@ -76,6 +76,7 @@ export class ConfigValidationService {
     serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
     imageGroups: validationSchemes.imageGroups,
     computeOfferingClasses: validationSchemes.computeOfferingClasses,
+    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName,
     offeringCompatibilityPolicy: validationSchemes.offeringCompatibilityPolicy,
     securityGroupTemplates: validationSchemes.securityGroupTemplates,
   };
@@ -121,13 +122,7 @@ export class ConfigValidationService {
 
   private isValidValue(key: string, value: any) {
     const scheme = this.schemeMap[key];
-
-    // Condition needed until all schemes not implemented
-    if (scheme) {
-      return this.schemeValidator.validate(scheme, value);
-    } else {
-      return true;
-    }
+    return this.schemeValidator.validate(scheme, value);
   }
 
   private getFixedConfig(userConf: object, errors: ValidationError[]): Partial<Config> {

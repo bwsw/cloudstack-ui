@@ -3,7 +3,7 @@
   "$id": "securityGroupTemplates",
   "definitions": {
     "TcpUdpPort": {
-      "type": "number",
+      "type": "integer",
       "minimum": 0,
       "maximum": 65535
     },
@@ -43,10 +43,14 @@
           "const": "icmp"
         },
         "icmpcode": {
-          "type": "number"
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 255
         },
         "icmptype": {
-          "type": "number"
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 255
         },
         "cidr": {
           "type": "string"
@@ -58,6 +62,9 @@
       "uniqueItemProperties": [
         "ruleid"
       ],
+      "errorMessage": {
+        "uniqueItemProperties": "should NOT contain objects with the same ruleId"
+      },
       "items": {
         "anyOf": [
           {
@@ -72,6 +79,9 @@
   },
   "type": "array",
   "uniqueItemProperties": ["id"],
+  "errorMessage": {
+    "uniqueItemProperties": "should NOT contain objects with the same id"
+  },
   "items": {
     "type": "object",
     "required": ["id", "name", "description", "preselected", "ingressrule", "egressrule"],

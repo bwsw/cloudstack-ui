@@ -27,6 +27,9 @@
     }
   },
   "uniqueItemProperties": ["offeringId"],
+  "errorMessage": {
+    "uniqueItemProperties": "should NOT contain objects with the same offeringId"
+  },
   "definitions": {
     "HardwareParameterLimits": {
       "type": "object",

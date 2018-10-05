@@ -22,6 +22,7 @@ import * as offeringCompatibilityPolicy from './offering-compatibility-policy.sc
 import * as securityGroupTemplates from './security-group-templates.scheme.json';
 
 import * as imageGroups from './image-groups.scheme.json';
+import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
 
 
 export {
@@ -51,4 +52,6 @@ export {
   securityGroupTemplates,
   // Images settings
   imageGroups,
+  // Firewall (Security groups) settings
+  defaultSecurityGroupName
 }

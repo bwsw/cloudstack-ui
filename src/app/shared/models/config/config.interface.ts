@@ -27,6 +27,7 @@ export interface CustomizableConfig {
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: Array<any>;
+  defaultSecurityGroupName: { en: string, ru: string };
   /*
    * Images settings
    */
