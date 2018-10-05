@@ -70,7 +70,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public isSubmitButtonDisabled(): boolean {
     const isOfferingNotSelected = !this.serviceOffering;
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
-    const isNotEnoughResourcesForCurrentOffering = !this.serviceOffering.isAvailableByResources;
+    const isNotEnoughResourcesForCurrentOffering = this.serviceOffering && !this.serviceOffering.isAvailableByResources;
     const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
       && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
     const isSelectedOfferingDoNotHaveParams = this.serviceOffering
@@ -88,7 +88,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   }
 
   public isSelectedOfferingViewMode(): boolean {
-    if (this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
+    if (this.serviceOffering && this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
       return true;
     }
     if (!this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {

@@ -11,6 +11,7 @@ import { ComputeOfferingViewModel } from '../../view-models';
 import { configSelectors, UserTagsSelectors } from '../../../root-store';
 import * as computeOffering from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
+import * as fromVms from '../../../reducers/vm/redux/vm.reducers';
 
 interface Resources {
   cpuNumber: number | string;
@@ -36,7 +37,7 @@ const getCustomOfferingHardwareParameters = (
   offering: ServiceOffering,
   offeringsParameters: CustomComputeOfferingParameters[]
 ): CustomComputeOfferingParameters | undefined => {
-  return offeringsParameters.find(parameters => parameters.offeringId === offering.id)
+  return offeringsParameters && offeringsParameters.find(parameters => parameters.offeringId === offering.id)
 };
 
 const getCustomHardwareValues = (
@@ -111,8 +112,10 @@ const checkAvailabilityForCustomByResources = (
   memoryRestrictions: HardwareLimits,
   availableResources: Resources
 ): boolean => {
-  const isEnoughCpuNumber = cpuNumberRestrictions.min <= availableResources.cpuNumber;
-  const isEnoughMemory = memoryRestrictions.min <= availableResources.memory;
+  const isEnoughCpuNumber = availableResources.cpuNumber === 'Unlimited'
+    || cpuNumberRestrictions.min <= availableResources.cpuNumber;
+  const isEnoughMemory = availableResources.memory === 'Unlimited'
+    || memoryRestrictions.min <= availableResources.memory;
   return isEnoughCpuNumber && isEnoughMemory;
 };
 
@@ -163,71 +166,57 @@ const getRestrictionsThatSatisfiesResources = (
   };
 };
 
-export const getComputeOfferingViewModel = createSelector(
-  computeOffering.selectAll,
-  fromAuth.getUserAccount,
-  configSelectors.get('customComputeOfferingParameters'),
-  configSelectors.get('defaultCustomComputeOfferingRestrictions'),
-  configSelectors.get('customComputeOfferingHardwareValues'),
-  UserTagsSelectors.getServiceOfferingParamTags,
-  (
+const getComputeOfferingViewModel = (
     offerings,
-    account,
     customComputeOfferingParameters,
     defaultRestrictions,
     defaultHardwareValues,
-    tags
+    tags,
+    availableResources
   ): ComputeOfferingViewModel[] => {
-    const { customOfferings, fixedOfferings } = getFixedAndCustomOfferingsArrays(offerings);
+  const { customOfferings, fixedOfferings } = getFixedAndCustomOfferingsArrays(offerings);
 
-    const customOfferingsWithMetadata: ComputeOfferingViewModel[] = customOfferings
-      .map((offering: ServiceOffering) => {
-        const customParameters = getCustomOfferingHardwareParameters(offering, customComputeOfferingParameters);
-        const customHardwareValues = getCustomHardwareValues(customParameters);
-        const customHardwareRestrictions = getCustomHardwareRestrictions(customParameters);
-        const hardwareValuesFromTags = getHardwareValuesFromTags(offering, tags);
+  const customOfferingsWithMetadata: ComputeOfferingViewModel[] = customOfferings
+    .map((offering: ServiceOffering) => {
+      const customParameters = getCustomOfferingHardwareParameters(offering, customComputeOfferingParameters);
+      const customHardwareValues = getCustomHardwareValues(customParameters);
+      const customHardwareRestrictions = getCustomHardwareRestrictions(customParameters);
+      const hardwareValuesFromTags = getHardwareValuesFromTags(offering, tags);
 
-        const prioritizedHardwareValues = hardwareValuesFromTags || customHardwareValues || defaultHardwareValues;
-        const prioritizedRestrictions = customHardwareRestrictions || defaultRestrictions;
+      const prioritizedHardwareValues = hardwareValuesFromTags || customHardwareValues || defaultHardwareValues;
+      const prioritizedRestrictions = customHardwareRestrictions || defaultRestrictions;
 
-        const availableResources: Resources = {
-          cpuNumber: account && account.cpuavailable || '0',
-          memory: account && account.memoryavailable || '0'
-        };
-        const isAvailableByResources = checkAvailabilityForCustomByResources(
-          prioritizedRestrictions.cpunumber, prioritizedRestrictions.memory, availableResources);
 
-        let cpunumber = getValueThatSatisfiesRestrictions(
-          prioritizedHardwareValues.cpunumber, prioritizedRestrictions.cpunumber);
-        const cpuspeed = getValueThatSatisfiesRestrictions(
-          prioritizedHardwareValues.cpuspeed, prioritizedRestrictions.cpuspeed);
-        let memory = getValueThatSatisfiesRestrictions(
-          prioritizedHardwareValues.memory, prioritizedRestrictions.memory);
+      const isAvailableByResources = checkAvailabilityForCustomByResources(
+        prioritizedRestrictions.cpunumber, prioritizedRestrictions.memory, availableResources);
 
-        if (isAvailableByResources) {
-          cpunumber = getValueThatSatisfiesResources(cpunumber, availableResources.cpuNumber);
-          memory = getValueThatSatisfiesResources(memory, availableResources.memory);
-        }
+      let cpunumber = getValueThatSatisfiesRestrictions(
+        prioritizedHardwareValues.cpunumber, prioritizedRestrictions.cpunumber);
+      const cpuspeed = getValueThatSatisfiesRestrictions(
+        prioritizedHardwareValues.cpuspeed, prioritizedRestrictions.cpuspeed);
+      let memory = getValueThatSatisfiesRestrictions(
+        prioritizedHardwareValues.memory, prioritizedRestrictions.memory);
 
-        const customOfferingRestrictions = getRestrictionsThatSatisfiesResources(
-          prioritizedRestrictions, availableResources);
+      if (isAvailableByResources) {
+        cpunumber = getValueThatSatisfiesResources(cpunumber, availableResources.cpuNumber);
+        memory = getValueThatSatisfiesResources(memory, availableResources.memory);
+      }
 
-        const offeringViewModel: ComputeOfferingViewModel = {
-          ...offering,
-          cpunumber,
-          cpuspeed,
-          memory,
-          customOfferingRestrictions,
-          isAvailableByResources
-        };
-        return offeringViewModel;
-      });
+      const customOfferingRestrictions = getRestrictionsThatSatisfiesResources(
+        prioritizedRestrictions, availableResources);
+
+      const offeringViewModel: ComputeOfferingViewModel = {
+        ...offering,
+        cpunumber,
+        cpuspeed,
+        memory,
+        customOfferingRestrictions,
+        isAvailableByResources
+      };
+      return offeringViewModel;
+    });
 
     const fixedOfferingWithMeta = fixedOfferings.map(offering => {
-      const availableResources: Resources = {
-        cpuNumber: account && account.cpuavailable || '0',
-        memory: account && account.memoryavailable || '0'
-      };
       const offeringViewModel: ComputeOfferingViewModel = {
         ...offering,
         isAvailableByResources: checkAvailabilityForFixedByResources(
@@ -237,5 +226,70 @@ export const getComputeOfferingViewModel = createSelector(
     });
 
     return [...fixedOfferingWithMeta, ...customOfferingsWithMetadata];
+  };
+
+export const getComputeOfferingForVmEditing = createSelector(
+  fromAuth.getUserAccount,
+  computeOffering.selectAll,
+  configSelectors.get('customComputeOfferingParameters'),
+  configSelectors.get('defaultCustomComputeOfferingRestrictions'),
+  configSelectors.get('customComputeOfferingHardwareValues'),
+  UserTagsSelectors.getServiceOfferingParamTags,
+  fromVms.getSelectedVM,
+  (account,
+   offerings,
+   customComputeOfferingParameters,
+   defaultRestrictions,
+   defaultHardwareValues,
+   tags, vm): ComputeOfferingViewModel[] => {
+    const memoryUsed = vm.memory;
+    const cpuNumberUsed = vm.cpuNumber;
+
+    const cpuNumber = account && account.cpuavailable === 'Unlimited'
+      ? account.cpuavailable
+      : Number(account.cpuavailable) + cpuNumberUsed;
+    const memory = account && account.memoryavailable === 'Unlimited'
+      ? account.memoryavailable
+      : Number(account.memoryavailable) + memoryUsed;
+
+    const availableResources: Resources = {
+      cpuNumber: cpuNumber || cpuNumberUsed,
+      memory: memory || memoryUsed
+    };
+
+    return getComputeOfferingViewModel(
+      offerings,
+      customComputeOfferingParameters,
+      defaultRestrictions,
+      defaultHardwareValues,
+      tags,
+      availableResources);
+  }
+);
+
+export const getComputeOfferingForVmCreation = createSelector(
+  fromAuth.getUserAccount,
+  computeOffering.selectAll,
+  configSelectors.get('customComputeOfferingParameters'),
+  configSelectors.get('defaultCustomComputeOfferingRestrictions'),
+  configSelectors.get('customComputeOfferingHardwareValues'),
+  UserTagsSelectors.getServiceOfferingParamTags,
+  (account,
+   offerings,
+   customComputeOfferingParameters,
+   defaultRestrictions,
+   defaultHardwareValues,
+   tags): ComputeOfferingViewModel[] => {
+    const availableResources: Resources = {
+      cpuNumber: account && account.cpuavailable || '0',
+      memory: account && account.memoryavailable || '0'
+    };
+    return getComputeOfferingViewModel(
+      offerings,
+      customComputeOfferingParameters,
+      defaultRestrictions,
+      defaultHardwareValues,
+      tags,
+      availableResources);
   }
 );

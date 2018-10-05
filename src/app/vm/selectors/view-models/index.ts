@@ -1,1 +1,1 @@
-export { getComputeOfferingViewModel } from './compute-offering-view-model.selector';
+export { getComputeOfferingForVmCreation } from './compute-offering-view-model.selector';

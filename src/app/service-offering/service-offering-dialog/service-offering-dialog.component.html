@@ -26,7 +26,7 @@
       *ngIf="showRebootMessage"
     >{{ "SERVICE_OFFERING.VM_WILL_BE_RESTARTED" | translate }}
     </div>
-    <span class="error-message" *ngIf="!serviceOffering.isAvailableByResources && isSelectedOfferingViewMode()">
+    <span class="error-message" *ngIf="!serviceOffering?.isAvailableByResources && isSelectedOfferingViewMode()">
       {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
     </span>
   </div>

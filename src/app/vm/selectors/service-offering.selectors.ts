@@ -1,7 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
 import { VmCompatibilityPolicy } from '../shared/vm-compatibility-policy';
-import { ResourceStats } from '../../shared/services/resource-usage.service';
 import { ComputeOfferingViewModel } from '../view-models';
 import { isOfferingLocal } from '../../shared/models/offering.model';
 import {
@@ -10,7 +9,6 @@ import {
   ServiceOfferingAvailability
 } from '../../shared/models/config';
 import { ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
-import { getComputeOfferingViewModel } from './view-models';
 import { configSelectors } from '../../root-store';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
@@ -21,6 +19,10 @@ import {
   filterSelectedViewMode,
   getSelectedOffering,
 } from '../../reducers/service-offerings/redux/service-offerings.reducers';
+import {
+  getComputeOfferingForVmCreation,
+  getComputeOfferingForVmEditing
+} from './view-models/compute-offering-view-model.selector';
 
 const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,
@@ -51,7 +53,7 @@ const getOfferingsAvailableInZone = (
 };
 
 export const getAvailableOfferingsForVmCreation = createSelector(
-  getComputeOfferingViewModel,
+  getComputeOfferingForVmCreation,
   configSelectors.get('serviceOfferingAvailability'),
   fromVMs.getVMCreationZone,
   fromAuths.getUserAccount,
@@ -65,7 +67,7 @@ export const getAvailableOfferingsForVmCreation = createSelector(
 );
 
 export const getAvailableOfferings = createSelector(
-  getComputeOfferingViewModel,
+  getComputeOfferingForVmEditing,
   getSelectedOffering,
   configSelectors.get('serviceOfferingAvailability'),
   configSelectors.get('offeringCompatibilityPolicy'),

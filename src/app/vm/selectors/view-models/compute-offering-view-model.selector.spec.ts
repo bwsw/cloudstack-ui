@@ -1,19 +1,19 @@
-import { getComputeOfferingViewModel } from './compute-offering-view-model.selector';
-import { customComputeOffering, fixedComputeOffering } from '../../../../testutils/data';
-import { account } from '../../../../testutils/data/accounts';
+import { account, customComputeOffering, fixedComputeOffering, vm } from '../../../../testutils/data';
 import { nonCustomizableProperties } from '../../../core/config/default-configuration';
 import { ComputeOfferingViewModel } from '../../view-models';
 import { Account } from '../../../shared/models';
+import { CustomComputeOfferingParameters } from '../../../shared/models/config/index';
 import {
-  CustomComputeOfferingParameters
-} from '../../../shared/models/config/custom-compute-offering-parameters.interface';
+  getComputeOfferingForVmCreation,
+  getComputeOfferingForVmEditing
+} from './compute-offering-view-model.selector';
 
-describe('ComputeOfferingViewModelSelector', () => {
+describe('GetComputeOfferingForVmCreationSelector', () => {
   it('isAvailableByResources should be true in fixed compute offering params which satisfy memory and cpu resources',
     () => {
-      const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-        [fixedComputeOffering],
+      const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
         account,
+        [fixedComputeOffering],
         [],
         nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
         nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -24,9 +24,9 @@ describe('ComputeOfferingViewModelSelector', () => {
 
   it('should be false in fixed compute offering params which unsatisfied memory resources', () => {
     const limitedAccount: Account = { ...account, memoryavailable: String(fixedComputeOffering.memory - 10) };
-    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-      [fixedComputeOffering],
+    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
       limitedAccount,
+      [fixedComputeOffering],
       [],
       nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
       nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -37,9 +37,9 @@ describe('ComputeOfferingViewModelSelector', () => {
 
   it('should be false in fixed compute offering params which unsatisfied cpu resources', () => {
     const limitedAccount: Account = { ...account, cpuavailable: String(fixedComputeOffering.cpunumber - 1) };
-    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-      [fixedComputeOffering],
+    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
       limitedAccount,
+      [fixedComputeOffering],
       [],
       nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
       nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -49,9 +49,9 @@ describe('ComputeOfferingViewModelSelector', () => {
   });
 
   it('should be true in custom compute offering params which satisfy memory and cpu resources', () => {
-    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-      [customComputeOffering],
+    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
       account,
+      [customComputeOffering],
       [],
       nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
       nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -63,9 +63,9 @@ describe('ComputeOfferingViewModelSelector', () => {
   it('should be false in custom compute offering params which unsatisfied memory resources', () => {
     const memoryavailable = String(nonCustomizableProperties.customComputeOfferingHardwareValues.memory - 10);
     const limitedAccount: Account = { ...account, memoryavailable };
-    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-      [customComputeOffering],
+    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
       limitedAccount,
+      [customComputeOffering],
       [],
       nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
       nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -77,9 +77,9 @@ describe('ComputeOfferingViewModelSelector', () => {
   it('should be false in custom compute offering params which unsatisfied cpu resources', () => {
     const cpuavailable = String(nonCustomizableProperties.customComputeOfferingHardwareValues.cpunumber - 1);
     const limitedAccount: Account = { ...account, cpuavailable };
-    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-      [customComputeOffering],
+    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
       limitedAccount,
+      [customComputeOffering],
       [],
       nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
       nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -107,9 +107,9 @@ describe('ComputeOfferingViewModelSelector', () => {
       }
     ];
 
-    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-      [customComputeOffering],
+    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
       limitedAccount,
+      [customComputeOffering],
       customComputeOfferingParameters,
       nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
       nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -140,9 +140,9 @@ describe('ComputeOfferingViewModelSelector', () => {
       }
     ];
 
-    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingViewModel.projector(
-      [customComputeOffering],
+    const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmCreation.projector(
       limitedAccount,
+      [customComputeOffering],
       customComputeOfferingParameters,
       nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
       nonCustomizableProperties.customComputeOfferingHardwareValues,
@@ -153,4 +153,60 @@ describe('ComputeOfferingViewModelSelector', () => {
     expect(computeOfferingViewModel.customOfferingRestrictions.cpunumber.max).toBe(5);
     expect(computeOfferingViewModel.customOfferingRestrictions.memory.max).toBe(4000);
   });
+});
+
+describe('GetComputeOfferingForVmEditingSelector', () => {
+  it('isAvailableByResources should be true in fixed compute offering params which satisfy memory and cpu resources',
+    () => {
+      const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmEditing.projector(
+        account,
+        [fixedComputeOffering],
+        [],
+        nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
+        nonCustomizableProperties.customComputeOfferingHardwareValues,
+        [],
+        vm
+      );
+      expect(computeOfferingViewModel.isAvailableByResources).toEqual(true);
+    });
+
+  it('isAvailableByResources should be true, cause satisfy resources plus used resources in editing vm',
+    () => {
+      const cpuavailable = '0';
+      const memoryavailable = '512';
+      const limitedAccount: Account = { ...account, memoryavailable, cpuavailable };
+      const updatedVm = { ...vm, memory: '512', cpuNumber: 1 };
+
+      const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmEditing.projector(
+        limitedAccount,
+        [fixedComputeOffering],
+        [],
+        nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
+        nonCustomizableProperties.customComputeOfferingHardwareValues,
+        [],
+        updatedVm
+      );
+
+      expect(computeOfferingViewModel.isAvailableByResources).toEqual(true);
+    });
+
+  it('isAvailableByResources should be false, cause unsatisfy resources plus used resources in editing vm',
+    () => {
+      const cpuavailable = '0';
+      const memoryavailable = '0';
+      const limitedAccount: Account = { ...account, memoryavailable, cpuavailable };
+      const updatedVm = { ...vm, memory: '512', cpuNumber: 1 };
+
+      const [computeOfferingViewModel]: ComputeOfferingViewModel[] = getComputeOfferingForVmEditing.projector(
+        limitedAccount,
+        [fixedComputeOffering],
+        [],
+        nonCustomizableProperties.defaultCustomComputeOfferingRestrictions,
+        nonCustomizableProperties.customComputeOfferingHardwareValues,
+        [],
+        updatedVm
+      );
+
+      expect(computeOfferingViewModel.isAvailableByResources).toEqual(false);
+    });
 });
