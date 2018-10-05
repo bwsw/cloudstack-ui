@@ -135,6 +135,8 @@ import { MaterialModule } from '../material/material.module';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
 import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
+import { SidebarContainerService } from './services/sidebar-container.service';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 // tslint:enable max-line-length
 
@@ -157,6 +159,7 @@ const SHARED_COMPONENTS = [
     ClipboardModule,
     DragulaModule,
     PopoverModule,
+    AngularDraggableModule,
     TranslateModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
@@ -346,6 +349,7 @@ const SHARED_COMPONENTS = [
     SecurityGroupTagService,
     ServiceOfferingService,
     SessionStorageService,
+    SidebarContainerService,
     SnapshotService,
     SnapshotTagService,
     VolumeActionsService,

@@ -14,10 +14,6 @@ mat-sidenav-container {
   height: 100%;
 }
 
-cs-sidebar, mat-sidenav {
-  width: $sidebar-width + 1;
-}
-
 .detail-list {
   height: 100%;
   overflow: auto;

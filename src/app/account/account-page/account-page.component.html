@@ -30,7 +30,10 @@
   </ng-container>
 
   <ng-container cs-sidebar>
-    <cs-sidebar [isOpen]="listService?.hasSelected()">
+    <cs-sidebar
+      [isOpen]="listService?.hasSelected()"
+      [style.width.px]="sidebarContainerService.width.getValue()"
+    >
       <router-outlet></router-outlet>
     </cs-sidebar>
   </ng-container>

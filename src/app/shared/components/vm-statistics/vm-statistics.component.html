@@ -10,7 +10,11 @@
       <mat-icon class="mdi-chevron-up"></mat-icon>
     </button>
   </h5>
-  <div class="stat-list" [class.closed]="!isOpen">
+  <div
+    class="stat-list"
+    [class.closed]="!isOpen"
+    [style.margin-right.px]="marginRight"
+  >
     <ng-container *ngIf="isAdmin">
       <mat-button-toggle-group (change)="switchType()">
         <mat-button-toggle value="0" [checked]="statsType === 0">

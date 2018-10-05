@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ListService } from '../list/list.service';
 import { layoutActions, layoutSelectors, State } from '../../../root-store';
+import { SidebarContainerService } from '../../services/sidebar-container.service';
 
 @Component({
   selector: 'cs-top-bar',
@@ -13,6 +14,7 @@ export class TopBarComponent {
   public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
 
   constructor(
+    private sidebarContainerService: SidebarContainerService,
     @Optional() private listService: ListService,
     private activatedRoute: ActivatedRoute,
     private store: Store<State>
@@ -27,6 +29,10 @@ export class TopBarComponent {
     return this.listService
       ? this.listService.hasSelected() && this.showSidebarForSG()
       : false;
+  }
+
+  public get right() {
+    return this.sidebarOpen ? this.sidebarContainerService.width.getValue() : 0;
   }
 
   private showSidebarForSG(): boolean {
