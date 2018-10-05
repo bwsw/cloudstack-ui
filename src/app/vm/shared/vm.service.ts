@@ -91,7 +91,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public registerVmJob(job: any): Observable<any> {
-    return this.asyncJobService.queryJob(job, this.entity, this.entityModel);
+    return this.asyncJobService.queryJob(job, this.entity, this.entityModel).pipe(
+      map(result => result.jobresult['virtualmachine']))
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
@@ -139,7 +140,6 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     params?: {}
   ): Observable<any> {
     const commandName = command;
-
     return this.sendCommand(
       commandName,
       this.buildCommandParams(vm.id, commandName, params)

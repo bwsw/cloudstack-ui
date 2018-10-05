@@ -23,7 +23,7 @@ export class VmTagService implements EntityTagService {
   }
 
   public getColorSync(vm: VirtualMachine): Color {
-    const tag = vm.tags.find(_ => _.key === this.keys.color);
+    const tag = vm.tags && vm.tags.find(_ => _.key === this.keys.color);
     return this.getColorFromColorTag(tag);
   }
 

@@ -151,9 +151,8 @@ export function listReducer(
     }
 
     case vmActions.UPDATE_VM: {
-      return {
-        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
-      };
+      console.log('ACTION', action.payload);
+      return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
 
     case vmActions.REPLACE_VM: {
@@ -341,7 +340,7 @@ export const selectFilteredVMs = createSelector(
       (!vm.instanceGroup && groupNamesMap[noGroup]) || (vm.instanceGroup && groupNamesMap[vm.instanceGroup.name]);
 
     const selectedZoneIdsFilter =
-      vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneId];
+      vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneid];
 
     const selectedAccountIdsFilter = vm => !selectedAccountIds.length ||
       (accountsMap[vm.account] && domainsMap[vm.domainid]);

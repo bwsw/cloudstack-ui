@@ -11,7 +11,7 @@ import { SaveVMPassword } from '../../../reducers/vm/redux/vm.actions';
 @Component({
   selector: 'cs-vm-password',
   template: `
-    <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ vm.password }}
+    <b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ vm?.password }}
     <button
       mat-button
       color="primary"
