@@ -15,12 +15,12 @@ export class IsoService extends BaseTemplateService {
   public attach(params: any): Observable<VirtualMachine> {
     return this.sendCommand(CSCommands.Attach, params).pipe(
       switchMap(job => this.asyncJobService.queryJob(job, 'VirtualMachine')),
-      map(result => result.jobresult['virtualmachine']));
+      map(result => result.jobresult.virtualmachine));
   }
 
   public detach(params: any): Observable<VirtualMachine> {
     return this.sendCommand(CSCommands.Detach, params).pipe(
       switchMap(job => this.asyncJobService.queryJob(job, 'VirtualMachine')),
-      map(result => result.jobresult['virtualmachine']));
+      map(result => result.jobresult.virtualmachine));
   }
 }

@@ -151,7 +151,6 @@ export function listReducer(
     }
 
     case vmActions.UPDATE_VM: {
-      console.log('ACTION', action.payload);
       return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
 

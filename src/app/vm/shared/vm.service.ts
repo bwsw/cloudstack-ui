@@ -92,7 +92,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
 
   public registerVmJob(job: any): Observable<any> {
     return this.asyncJobService.queryJob(job, this.entity, this.entityModel).pipe(
-      map(result => result.jobresult['virtualmachine']))
+      map(result => result.jobresult.virtualmachine))
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
@@ -131,7 +131,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
 
     return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
-      map(result => this.prepareModel(result['virtualmachine'])));
+      map(result => this.prepareModel(result.virtualmachine)));
   }
 
   private commandInternal(
