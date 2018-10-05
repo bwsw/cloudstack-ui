@@ -32,6 +32,8 @@ msgstr ""
 "Выйти из CloudStack можно, нажав *Выход* на главной навигационной "
 "панели."
 
+.. figure:: _static/RU_Logout.png
+
 # e32193ec2a8741368d019372108f1c74
 #: ../../CSUI-Logout.rst:11
 msgid "It will move a user back to the Login form."
