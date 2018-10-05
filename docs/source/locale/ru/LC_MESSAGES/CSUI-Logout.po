@@ -37,4 +37,4 @@ msgstr ""
 # e32193ec2a8741368d019372108f1c74
 #: ../../CSUI-Logout.rst:11
 msgid "It will move a user back to the Login form."
-msgstr "It will move a user back to the Login form."
+msgstr "Пользователь вернется к форме входа в систему."
