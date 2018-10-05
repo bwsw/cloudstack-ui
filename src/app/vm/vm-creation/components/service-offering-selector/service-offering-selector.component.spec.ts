@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog, MatTooltipModule } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../../../testutils/mocks/mock-translate.service.spec';
 import { ServiceOffering } from '../../../../shared/models';
@@ -46,7 +46,7 @@ describe('Test Service offering selector component', () => {
   const mockDialog = {
     open: jasmine.createSpy('open').and.callFake(() => {
       return {
-        afterClosed: () => Observable.of(serviceOffering)
+        afterClosed: () => of(serviceOffering)
       };
     })
   };
@@ -76,7 +76,7 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
 
-    const messageContainer = f.debugElement.query(By.css('.mat-input-wrapper'));
+    const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
       `VM_PAGE.VM_CREATION.NO_OFFERINGS`
     );
@@ -89,7 +89,7 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
 
-    const messageContainer = f.debugElement.query(By.css('.mat-input-wrapper'));
+    const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.query(By.css('span.custom-offering-info'))).toBeDefined();
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[0];
     await f.whenStable();
@@ -107,7 +107,7 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
 
-    const messageContainer = f.debugElement.query(By.css('.mat-input-wrapper'));
+    const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.query(By.css('span.custom-offering-info'))).toBeDefined();
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[2];
     await f.whenStable();
@@ -140,7 +140,6 @@ describe('Test Service offering selector component', () => {
       disableClose: true,
       data: {
         serviceOffering: serviceOfferings[0],
-        restriction: undefined
       }
     });
 

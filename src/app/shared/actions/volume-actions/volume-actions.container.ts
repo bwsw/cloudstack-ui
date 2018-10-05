@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { filter, onErrorResumeNext } from 'rxjs/operators';
+
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { State } from '../../../reducers/index';
-import { Volume } from '../../models/volume.model';
+import { State } from '../../../reducers';
+import { Volume } from '../../models';
 import { AuthService } from '../../services/auth.service';
 
 import * as volumeActions from '../../../reducers/volumes/redux/volumes.actions';
@@ -35,14 +37,14 @@ export class VolumeActionsContainerComponent {
   public onVolumeDelete(volume: Volume): void {
     this.dialogService.confirm({
       message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DELETION'
-    })
-      .onErrorResumeNext()
-      .filter(res => Boolean(res))
+    }).pipe(
+      onErrorResumeNext(),
+      filter(res => Boolean(res)))
       .subscribe(() => {
-        if (!!volume.snapshots.length) {
-          this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
-            .onErrorResumeNext()
-            .filter(res => Boolean(res))
+        if (volume.snapshots && !!volume.snapshots.length) {
+          this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' }).pipe(
+            onErrorResumeNext(),
+            filter(res => Boolean(res)))
             .subscribe(() => this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots)));
         }
         this.store.dispatch(new volumeActions.DeleteVolume(volume));

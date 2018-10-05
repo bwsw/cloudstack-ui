@@ -1,9 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ConfigService } from '../../../core/services';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { VmActionsService } from '../../shared/vm-actions.service';
 import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { VmActions } from '../vm-action';
+import { configSelectors, State } from '../../../root-store';
 
 
 @Component({
@@ -23,18 +27,18 @@ export class VmActionsComponent {
   @Output() public onVmAccess = new EventEmitter<VirtualMachine>();
   @Output() public onVmPulse = new EventEmitter<VirtualMachine>();
 
-  public vmActions: Array<any>;
+  public vmActions$: Observable<Array<any>>;
   public destroyedVmActions: Array<any>;
 
   constructor(
-    private configService: ConfigService,
     private vmActionsService: VmActionsService,
     private authService: AuthService,
+    private store: Store<State>
   ) {
-    this.vmActions = this.vmActionsService.actions.filter((action) => {
-      const extensions = this.configService.get('extensions');
-      return action.command !== VmActions.PULSE || extensions && extensions.pulse;
-    });
+    this.vmActions$ = store.pipe(
+      select(configSelectors.get('extensions')),
+      map(extensions => this.actionListDependingOnExtension(extensions.pulse))
+    );
     this.destroyedVmActions = this.vmActionsService.destroyedActions;
   }
 
@@ -89,5 +93,11 @@ export class VmActionsComponent {
 
   public get canExpungeOrRecoverVm(): boolean {
     return this.authService.canExpungeOrRecoverVm();
+  }
+
+  private actionListDependingOnExtension(pulse: boolean) {
+    return this.vmActionsService.actions.filter((action) => {
+      return action.command !== VmActions.PULSE || pulse;
+    });
   }
 }

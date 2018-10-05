@@ -7,16 +7,16 @@ import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { SidenavComponent } from './components';
-import { ConfigService, SnackBarService, SystemTagsService } from './services';
+import { SnackBarService } from './services';
+import { ConfigValidationService } from './config';
 
 const COMPONENTS = [
   SidenavComponent
 ];
 
 const SERVICES = [
-  ConfigService,
-  SnackBarService,
-  SystemTagsService
+  ConfigValidationService,
+  SnackBarService
 ];
 
 @NgModule({

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { filter, takeUntil } from 'rxjs/operators';
 
-import { layoutSelectors, State, UserTagsActions } from '../root-store';
+import { configSelectors, layoutSelectors, State, UserTagsActions } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { getName } from '../shared/models';
 import * as authActions from '../reducers/auth/redux/auth.actions';
-import * as serviceOfferingActions from '../reducers/service-offerings/redux/service-offerings.actions';
 
 @Component({
   selector: 'cs-home',
@@ -15,7 +15,8 @@ import * as serviceOfferingActions from '../reducers/service-offerings/redux/ser
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
-  public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
+  public isSidenavVisible$ = this.store.pipe(select(layoutSelectors.isSidenavVisible));
+  public allowReorderingSidenav$ = this.store.pipe(select(configSelectors.get('allowReorderingSidenav')));
 
   constructor(
     private auth: AuthService,
@@ -27,11 +28,10 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new UserTagsActions.LoadUserTags());
 
-    this.auth.loggedIn
-      .takeUntil(this.unsubscribe$)
-      .filter(isLoggedIn => !!isLoggedIn)
+    this.auth.loggedIn.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(isLoggedIn => !!isLoggedIn))
       .subscribe(() => {
-        this.store.dispatch(new serviceOfferingActions.LoadCompatibilityPolicyRequest());
         this.store.dispatch(new authActions.LoadUserAccountRequest({
           name: this.auth.user.account,
           domainid: this.auth.user.domainid

@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource } from '@angular/material';
-import { DiskOffering } from '../../../models';
-import { ConfigService } from '../../../../core/services';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
+
+import { DiskOffering } from '../../../models';
+import { Utils } from '../../../services/utils/utils.service';
 
 @Component({
   selector: 'cs-disk-offering-dialog',
@@ -10,39 +11,41 @@ import * as moment from 'moment';
   styleUrls: ['disk-offering-dialog.component.scss'],
 })
 export class DiskOfferingDialogComponent {
-  public diskOfferings: MatTableDataSource<DiskOffering>;
+  public diskOfferings: DiskOffering[];
   public selectedDiskOffering: DiskOffering;
-  public preselectedDiskOffering: DiskOffering;
-  public columns: Array<string>;
-  public columnsToDisplay: string[];
-  public customFields = ['provisioningtype', 'storagetype', 'iscustomized'];
-  public notCustomFields = ['provisioningtype', 'storagetype', 'iscustomized', 'created', 'name'];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<DiskOfferingDialogComponent>,
-    public configService: ConfigService
   ) {
-    this.diskOfferings = new MatTableDataSource<DiskOffering>(data.diskOfferings);
+    this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
-    this.preselectedDiskOffering = data.diskOffering;
-    this.columns = data.columns;
-    this.columnsToDisplay = [...this.columns, 'radioButton'];
   }
 
   public offeringCreated(date: string): Date {
     return moment(date).toDate();
   }
 
-  public isCustomField(column: string, columns: Array<string>): boolean {
-    return 0 <= columns.indexOf(column);
+  public convertToMb(bytes: number): number {
+    const megabytes = Utils.convertBytesToMegabytes(bytes);
+    return Math.round(megabytes);
   }
 
   public selectOffering(offering: DiskOffering) {
     this.selectedDiskOffering = offering;
   }
 
+  public preventTriggerExpansionPanel(e: Event) {
+    e.stopPropagation(); // Don't open/close expansion panel when click on radio button
+  }
+
   public onSubmit(): void {
     this.dialogRef.close(this.selectedDiskOffering);
+  }
+
+  public isSubmitButtonDisabled() {
+    const isDiskOfferingNotSelected = !this.selectedDiskOffering;
+    const isNoDiskOfferings = !this.diskOfferings.length;
+    return isDiskOfferingNotSelected || isNoDiskOfferings;
   }
 }

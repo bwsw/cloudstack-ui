@@ -19,11 +19,24 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 export function logout(reducer: ActionReducer<State>) {
   return function (state: State, action: any): State {
     if (action.type === AuthActionTypes.LogoutComplete) {
-      state = undefined;
+      // Keep config state because it common for all users
+      const configState = state['config'];
+      state = {} as State;
+      state['config'] = configState;
     }
 
     return reducer(state, action);
   }
+}
+
+// used by hmr to keep state between reloads
+export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function(state: any, action: any) {
+    if (action.type === 'SET_ROOT_STATE') {
+      return action.payload;
+    }
+    return reducer(state, action);
+  };
 }
 
 /**
@@ -32,5 +45,5 @@ export function logout(reducer: ActionReducer<State>) {
  * that will be composed to form the root meta-reducer.
  */
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? [logger, logout, storeFreeze]
+  ? [logger, logout, stateSetter, storeFreeze]
   : [logout];

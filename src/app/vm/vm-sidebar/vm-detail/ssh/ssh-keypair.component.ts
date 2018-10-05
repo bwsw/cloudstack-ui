@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { filter } from 'rxjs/operators';
+
 import { SSHKeyPair } from '../../../../shared/models/ssh-keypair.model';
 import { DateTimeFormatterService } from '../../../../shared/services/date-time-formatter.service';
 import { VirtualMachine, VmState } from '../../../shared/vm.model';
@@ -22,12 +24,12 @@ export class SshKeypairComponent {
   }
 
   public showSshKeypairResetDialog(): void {
-    this.dialog.open( SshKeypairResetComponent, <MatDialogConfig>{
-      width: '350px' ,
+    this.dialog.open(SshKeypairResetComponent, <MatDialogConfig>{
+      width: '350px',
       disableClose: true,
-      data: { keys: this.keys, sshKeyName: this.vm.keypair }
-    }).afterClosed()
-      .filter(res => Boolean(res))
+      data: { keys: this.keys, sshKeyName: this.vm.keyPair }
+    }).afterClosed().pipe(
+      filter(res => Boolean(res)))
       .subscribe(res => this.onSshKeyChange.emit(res));
   }
 

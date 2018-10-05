@@ -1,11 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import {
-  ICustomOfferingRestrictions,
-  ServiceOffering,
-  ServiceOfferingClass,
-  ServiceOfferingType
-} from '../../shared/models';
-import { ICustomServiceOffering } from '../custom-service-offering/custom-service-offering';
+
+import { ComputeOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { ComputeOfferingViewModel } from '../../vm/view-models';
+import { VirtualMachine } from '../../vm/shared/vm.model';
 
 export enum ServiceOfferingFromMode {
   CHANGE,
@@ -19,22 +16,21 @@ export enum ServiceOfferingFromMode {
 })
 export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
-  @Input() public serviceOfferings: Array<ServiceOffering>;
-  @Input() public classes: Array<ServiceOfferingClass>;
+  @Input() public serviceOfferings: ComputeOfferingViewModel[];
+  @Input() public classes: Array<ComputeOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
-  @Input() public restrictions: ICustomOfferingRestrictions;
-  @Input() public defaultParams: ICustomServiceOffering;
+  @Input() public virtualMachine: VirtualMachine;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
   @Input() public isVmRunning: boolean;
-  @Output() public onServiceOfferingChange = new EventEmitter<ServiceOffering>();
-  @Output() public onServiceOfferingUpdate = new EventEmitter<ServiceOffering>();
+  @Output() public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
+  @Output() public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
   @Output() public viewModeChange = new EventEmitter();
   @Output() public selectedClassesChange = new EventEmitter();
   @Output() public queryChange = new EventEmitter();
-  public serviceOffering: ServiceOffering;
+  public serviceOffering: ComputeOfferingViewModel;
   public loading: boolean;
   public showFields = false;
 
@@ -54,7 +50,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
     }
   }
 
-  public updateOffering(offering: ServiceOffering): void {
+  public updateOffering(offering: ComputeOfferingViewModel): void {
     this.serviceOffering = offering;
     this.onServiceOfferingUpdate.emit(this.serviceOffering);
   }
@@ -64,17 +60,43 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   }
 
   public get showRebootMessage(): boolean {
-    return !this.formMode &&
-      this.serviceOfferings.length &&
-      this.serviceOffering && this.serviceOffering.id !== this.serviceOfferingId
+    return !this.formMode
+      && this.serviceOfferings.length
+      && this.isSelectedOfferingDifferent()
       && this.isVmRunning;
   }
 
-  public get disableSubmitButton(): boolean {
-    return !this.serviceOffering ||
-      !this.serviceOffering.iscustomized && this.serviceOffering.id === this.serviceOfferingId ||
-      this.serviceOffering.iscustomized && !this.serviceOffering.cpuspeed
-      && !this.serviceOffering.cpunumber && !this.serviceOffering.memory;
+  public isSubmitButtonDisabled(): boolean {
+    const isOfferingNotSelected = !this.serviceOffering;
+    const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
+    const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
+      && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
+    const isSelectedOfferingDoNotHaveParams = this.serviceOffering
+      && !this.serviceOffering.cpunumber && !this.serviceOffering.cpuspeed && !this.serviceOffering.memory;
+
+    const isSelectedOfferingDifferentFromCurrent = this.formMode === ServiceOfferingFromMode.CHANGE
+      && !this.isSelectedOfferingDifferent();
+
+    return isOfferingNotSelected
+      || isNoOfferingsInCurrentViewMode
+      || isSelectedOfferingFromDifferentViewMode
+      || isSelectedOfferingDoNotHaveParams
+      || isSelectedOfferingDifferentFromCurrent;
+  }
+
+  private isSelectedOfferingDifferent(): boolean {
+    if (!this.virtualMachine || !this.serviceOffering) {
+      return true;
+    }
+
+    const isDifferentOfferingId = this.virtualMachine.serviceOfferingId !== this.serviceOffering.id;
+    const isSameCustomOfferingWithDifferentParams =
+      !isDifferentOfferingId
+      && (this.virtualMachine.cpuNumber !== this.serviceOffering.cpunumber
+      || this.virtualMachine.cpuSpeed !== this.serviceOffering.cpuspeed
+      || this.virtualMachine.memory !== this.serviceOffering.memory);
+
+    return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
   }
 
 }

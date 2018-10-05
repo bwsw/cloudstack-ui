@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Volume } from '../../models/volume.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { Volume } from '../../models';
 import { TagService } from './tag.service';
 import { DescriptionTagService } from './description-tag.service';
 import { VolumeTagKeys } from './volume-tag-keys';

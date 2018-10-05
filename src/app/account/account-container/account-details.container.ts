@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import { takeUntil } from 'rxjs/operators';
 
 import * as configurationAction from '../../reducers/configuration/redux/configurations.actions';
 import * as fromConfigurations from '../../reducers/configuration/redux/configurations.reducers';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import * as resourceCountAction from '../../reducers/resource-count/redux/resource-counts.actions';
 import * as fromResourceCounts from '../../reducers/resource-count/redux/resource-counts.reducers';
 import * as resourceLimitAction from '../../reducers/resource-limit/redux/resource-limits.actions';
@@ -72,8 +73,8 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
   }
 
   public ngOnInit() {
-    this.account$
-      .takeUntil(this.unsubscribe$)
+    this.account$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(account => {
         if (account) {
           this.account = account;

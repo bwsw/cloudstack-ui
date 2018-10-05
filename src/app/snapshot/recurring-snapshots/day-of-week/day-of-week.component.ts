@@ -1,11 +1,12 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin, Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import { DayOfWeek } from '../../../shared/types';
 import { State, UserTagsSelectors } from '../../../root-store'
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 
 export interface DayOfWeekName {
@@ -73,11 +74,11 @@ export class DayOfWeekComponent {
   private getDaysOfWeek(): Observable<Array<DayOfWeekName>> {
     const dayNames = this.daysOfWeekList.map(day => day.name);
 
-    return Observable.forkJoin(
-      this.store.select(UserTagsSelectors.getFirstDayOfWeek).first(),
+    return forkJoin(
+      this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek), first()),
       this.translateService.get(dayNames),
-    )
-      .map(([firstDayOfWeek, translations]) => {
+    ).pipe(
+      map(([firstDayOfWeek, translations]) => {
         const daysOfWeek = this.daysOfWeekList;
 
         if (firstDayOfWeek === DayOfWeek.Monday) {
@@ -88,6 +89,6 @@ export class DayOfWeekComponent {
           dayOfWeek.name = translations[dayOfWeek.name];
           return dayOfWeek;
         });
-      });
+      }));
   }
 }

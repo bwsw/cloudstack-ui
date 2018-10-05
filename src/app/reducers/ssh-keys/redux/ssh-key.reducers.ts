@@ -6,7 +6,7 @@ import { Utils } from '../../../shared/services/utils/utils.service';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
-import * as sshKey from './ssh-key.actions';
+import * as sshKeyActions from './ssh-key.actions';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 
 export interface State {
@@ -62,15 +62,15 @@ export const sshKeyReducers = {
 };
 
 
-export function listReducer(state = initialListState, action: sshKey.Actions): ListState {
+export function listReducer(state = initialListState, action: sshKeyActions.Actions): ListState {
   switch (action.type) {
-    case sshKey.LOAD_SSH_KEYS_REQUEST: {
+    case sshKeyActions.LOAD_SSH_KEYS_REQUEST: {
       return {
         ...state,
         loading: true,
       };
     }
-    case sshKey.SSH_KEY_FILTER_UPDATE: {
+    case sshKeyActions.SSH_KEY_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -79,7 +79,7 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
         }
       };
     }
-    case sshKey.LOAD_SSH_KEYS_RESPONSE: {
+    case sshKeyActions.LOAD_SSH_KEYS_RESPONSE: {
       return {
         /**
          * The addMany function provided by the created adapter
@@ -93,13 +93,13 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
       };
     }
 
-    case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
+    case sshKeyActions.SSH_KEY_PAIR_CREATE_SUCCESS: {
 
       return {
         ...adapter.addOne(action.payload, state),
       };
     }
-    case sshKey.SSH_KEY_PAIR_REMOVE_SUCCESS: {
+    case sshKeyActions.SSH_KEY_PAIR_REMOVE_SUCCESS: {
       return adapter.removeOne(sshKeyId(action.payload), state);
     }
     default: {
@@ -108,34 +108,34 @@ export function listReducer(state = initialListState, action: sshKey.Actions): L
   }
 }
 
-export function formReducer(state = initialFormState, action: sshKey.Actions): FormState {
+export function formReducer(state = initialFormState, action: sshKeyActions.Actions): FormState {
   switch (action.type) {
-    case sshKey.SSH_KEY_PAIR_REMOVE: {
+    case sshKeyActions.SSH_KEY_PAIR_REMOVE: {
       return {
         ...state,
         error: null,
       };
     }
-    case sshKey.SSH_KEY_PAIR_CREATE: {
+    case sshKeyActions.SSH_KEY_PAIR_CREATE: {
       return {
         ...state,
         error: null,
         loading: true
       };
     }
-    case sshKey.SSH_KEY_PAIR_CREATE_SUCCESS: {
+    case sshKeyActions.SSH_KEY_PAIR_CREATE_SUCCESS: {
       return {
         ...state,
         loading: false
       };
     }
-    case sshKey.SSH_KEY_PAIR_REMOVE_ERROR: {
+    case sshKeyActions.SSH_KEY_PAIR_REMOVE_ERROR: {
       return {
         ...state,
         error: action.payload
       };
     }
-    case sshKey.SSH_KEY_PAIR_CREATE_ERROR: {
+    case sshKeyActions.SSH_KEY_PAIR_CREATE_ERROR: {
       return {
         ...state,
         loading: false,

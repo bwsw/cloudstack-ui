@@ -47,7 +47,7 @@
         <div *ngIf="enoughResources && vmCreationState" class="left-column">
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.NAME' | translate }}</h4>
-            <mat-form-field floatPlaceholder="never" class="full-width-input">
+            <mat-form-field floatLabel="never" class="full-width-input">
               <input
                 matInput
                 name="name"
@@ -91,7 +91,6 @@
           >
             <cs-service-offering-selector
               name="serviceOffering"
-              [customOfferingRestrictions]="customOfferingRestrictions"
               [serviceOffering]="vmCreationState.serviceOffering"
               (change)="serviceOfferingChange.emit($event)"
             ></cs-service-offering-selector>
@@ -108,7 +107,6 @@
             <cs-disk-offering-selector
               name="diskOffering"
               [diskOfferings]="diskOfferings"
-              [params]="diskOfferingParams"
               [ngModel]="vmCreationState?.diskOffering"
               (change)="diskOfferingChange.emit($event)"
             ></cs-disk-offering-selector>
@@ -130,7 +128,7 @@
         <div *ngIf="enoughResources && vmCreationState" class="right-column">
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.GROUP' | translate }}</h4>
-            <mat-form-field floatPlaceholder="never">
+            <mat-form-field floatLabel="never">
               <input
                 name="instanceGroup"
                 matInput
@@ -152,7 +150,7 @@
 
           <div>
             <h4>{{ 'VM_PAGE.VM_CREATION.AFFINITY_GROUP' | translate }}</h4>
-            <mat-form-field floatPlaceholder="never">
+            <mat-form-field floatLabel="never">
               <input
                 name="affinityGroup"
                 matInput
@@ -188,15 +186,6 @@
               [ngModel]="vmCreationState.securityGroupData"
               (ngModelChange)="securityRulesChange.emit($event)"
             ></cs-vm-creation-security-group-rules-manager>
-          </div>
-
-          <div>
-            <h4>{{ 'VM_PAGE.VM_CREATION.KEYBOARD_LAYOUT' | translate }}</h4>
-            <cs-keyboards
-              name="keyboard"
-              [ngModel]="vmCreationState.keyboard"
-              (ngModelChange)="keyboardChange.emit($event)"
-            ></cs-keyboards>
           </div>
 
           <div>

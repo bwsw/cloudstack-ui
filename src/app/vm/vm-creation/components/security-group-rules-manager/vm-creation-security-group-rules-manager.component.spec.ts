@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { NetworkProtocol, NetworkRule } from '../../../../security-group/network-rule.model';
 import { SecurityGroup } from '../../../../security-group/sg.model';
@@ -92,7 +92,7 @@ class MockMdDialog {
     const dialogCloseValue = VmCreationSecurityGroupData.fromRules(rules);
 
     return {
-      afterClosed: () => Observable.of(dialogCloseValue)
+      afterClosed: () => of(dialogCloseValue)
     };
   }
 }

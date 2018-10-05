@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
-import { Observable } from 'rxjs/Observable';
-import { Color } from '../../models/color.model';
-import { Tag } from '../../models/tag.model';
-import { InstanceGroup } from '../../models/instance-group.model';
+import { Color, InstanceGroup, Tag } from '../../models';
+import { Taggable } from '../../interfaces';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { VirtualMachineTagKeys } from './vm-tag-keys';
-import { Taggable } from '../../interfaces/taggable.interface';
 
 const ColorDelimeter = ';';
 
@@ -80,11 +80,11 @@ export class VmTagService implements EntityTagService {
       resourceType: VmResourceType,
       'tags[0].key': this.keys.group,
       'tags[0].value': vm.instanceGroup.name
-    })
-      .map(() => {
+    }).pipe(
+      map(() => {
         newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
         return newVm;
-      });
+      }));
   }
 
   public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {
@@ -108,9 +108,9 @@ export class VmTagService implements EntityTagService {
     });
 
     if (!copyRequests.length) {
-      return Observable.of(null);
+      return of(null);
     } else {
-      return Observable.forkJoin(...copyRequests);
+      return forkJoin(...copyRequests);
     }
   }
 

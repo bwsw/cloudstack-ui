@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { switchMap } from 'rxjs/operators/switchMap';
-import { exhaustMap } from 'rxjs/operators/exhaustMap';
-import { map } from 'rxjs/operators/map';
-import { mergeMap } from 'rxjs/operators/mergeMap';
-import { catchError } from 'rxjs/operators/catchError';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, exhaustMap, first, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import {
   CloseSidenav,
@@ -27,12 +22,16 @@ import {
   UpdateAskToCreateVolume,
   UpdateAskToCreateVolumeError,
   UpdateAskToCreateVolumeSuccess,
+  UpdateCustomServiceOfferingParams,
   UpdateFirstDayOfWeek,
   UpdateFirstDayOfWeekError,
   UpdateFirstDayOfWeekSuccess,
   UpdateInterfaceLanguage,
   UpdateInterfaceLanguageError,
   UpdateInterfaceLanguageSuccess,
+  UpdateKeyboardLayoutForVms,
+  UpdateKeyboardLayoutForVmsError,
+  UpdateKeyboardLayoutForVmsSuccess,
   UpdateLastVMId,
   UpdateLastVMIdError,
   UpdateLastVMIdSuccess,
@@ -58,7 +57,7 @@ import {
 } from './user-tags.actions';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AuthService } from '../../../shared/services/auth.service';
-import { Tag } from '../../../shared/models';
+import { ServiceOffering, Tag } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { State } from '../../state';
 import * as userTagsSelectors from './user-tags.selectors';
@@ -249,13 +248,26 @@ export class UserTagsEffects {
   @Effect()
   incrementLastVMId$: Observable<Action> = this.actions$.pipe(
     ofType<IncrementLastVMId>(UserTagsActionTypes.IncrementLastVMId),
-    mergeMap(() => this.store.select(userTagsSelectors.getLastVMId).first()),
+    mergeMap(() => this.store.select(userTagsSelectors.getLastVMId).pipe(first())),
     mergeMap(id => {
       const key = userTagKeys.lastVMId;
       const value = `${id + 1}`;
       return this.upsertTag(key, value).pipe(
         map(() => new IncrementLastVMIdSuccess({ key, value })),
         catchError((error) => of(new IncrementLastVMIdError({ error })))
+      )
+    })
+  );
+
+  @Effect()
+  UpdateKeyboardLayoutForVms$: Observable<Action> = this.actions$.pipe(
+    ofType<UpdateKeyboardLayoutForVms>(UserTagsActionTypes.UpdateKeyboardLayoutForVms),
+    map(action => action.payload.value),
+    mergeMap((value: string) => {
+      const key = userTagKeys.keyboardLayoutForVms;
+      return this.upsertTag(key, value).pipe(
+        map(() => new UpdateKeyboardLayoutForVmsSuccess({ key, value })),
+        catchError((error) => of(new UpdateKeyboardLayoutForVmsError({ error })))
       )
     })
   );
@@ -275,6 +287,12 @@ export class UserTagsEffects {
     mergeMap(() => this.upsertTag(userTagKeys.sidenavVisible, 'false'))
   );
 
+  @Effect({ dispatch: false })
+  updateCustomServiceOfferingParams$: Observable<any> = this.actions$.pipe(
+    ofType<UpdateCustomServiceOfferingParams>(UserTagsActionTypes.UpdateCustomServiceOfferingParams),
+    mergeMap((action) => this.setComputeOfferingParams(action.payload.offering))
+  );
+
   private readonly resourceType = 'User';
 
   private get resourceId(): string | null {
@@ -287,6 +305,18 @@ export class UserTagsEffects {
     private authService: AuthService,
     private store: Store<State>
   ) {
+  }
+
+  private setComputeOfferingParams(offering: ServiceOffering) {
+    const cpuNumberKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpunumber`;
+    const cpuSpeedKey = `${userTagKeys.computeOfferingParam}.${offering.id}.cpuspeed`;
+    const memoryKey = `${userTagKeys.computeOfferingParam}.${offering.id}.memory`;
+
+    return forkJoin(
+      this.upsertTag(cpuNumberKey, offering.cpunumber && offering.cpunumber.toString()),
+      this.upsertTag(cpuSpeedKey, offering.cpuspeed && offering.cpuspeed.toString()),
+      this.upsertTag(memoryKey, offering.memory && offering.memory.toString()),
+    );
   }
 
   private loadTags() {

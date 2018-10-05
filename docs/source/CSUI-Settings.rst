@@ -76,6 +76,22 @@ Below you can view a connection URL which is used to send requests to CloudStack
 
 .. figure:: _static/Settings_Links.png
 
+VM preferences
+~~~~~~~~~~~~~~~~~~~~~~~~
+In this block you may set up the keyboard layout.
+
+Keyboard layout
+""""""""""""""""""""
+Select a keyboard layout in the drop-down list.
+
+The following options are available:
+
+- Standard US keyboard (default value)
+- UK keyboard
+- Japanese keyboard
+- Simplified Chinese keyboard.
+
+.. figure:: _static/Settings_KeyboardLayout1.png
 
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~

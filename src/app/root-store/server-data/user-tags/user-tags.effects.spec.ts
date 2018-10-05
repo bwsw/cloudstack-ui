@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { of, throwError } from 'rxjs';
 import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
@@ -23,9 +23,9 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
   const isListError = listResponse instanceof Error;
   const isCreateError = createRespone instanceof Error;
   const isRemoveError = removeResponce instanceof Error;
-  const _listResponse = isListError ? Observable.throw(listResponse) : Observable.of(listResponse);
-  const _createResponse = isCreateError ? Observable.throw(createRespone) : Observable.of(createRespone);
-  const _removeResponse = isRemoveError ? Observable.throw(removeResponce) : Observable.of(removeResponce);
+  const _listResponse = isListError ? throwError(listResponse) : of(listResponse);
+  const _createResponse = isCreateError ? throwError(createRespone) : of(createRespone);
+  const _removeResponse = isRemoveError ? throwError(removeResponce) : of(removeResponce);
 
   service.getList.and.returnValue(_listResponse);
   service.create.and.returnValue(_createResponse);
@@ -41,7 +41,7 @@ function createAuthServiceStub() {
 }
 
 describe('User tags effects', () => {
-  it('can load user tags', () => {
+  it('should load user tags', () => {
     const source = cold('a', { a: new LoadUserTags() });
     const tagService = createTagServiceStub([], null, null);
     const authService = createAuthServiceStub();
@@ -52,7 +52,7 @@ describe('User tags effects', () => {
     expect(effects.loadUserTags$).toBeObservable(expected);
   });
 
-  it('can handle loading user tags errors', () => {
+  it('should handle loading user tags errors', () => {
     const source = cold('a', { a: new LoadUserTags() });
     const tagService = createTagServiceStub(new Error('error'), null, null);
     const authService = createAuthServiceStub();
@@ -63,7 +63,7 @@ describe('User tags effects', () => {
     expect(effects.loadUserTags$).toBeObservable(expected);
   });
 
-  it('can update user tags (eg. LastVMId)', () => {
+  it('should update user tags (eg. LastVMId)', () => {
     const source = cold('a', { a: new UpdateLastVMId({ value: 5 }) });
     const tagService = createTagServiceStub(null, {}, {});
     const authService = createAuthServiceStub();
@@ -80,7 +80,7 @@ describe('User tags effects', () => {
   });
 
   // This is about an error when you try to delete tag that does not exist
-  it('can handle error when deleting a tag in the tag update function and continue execution', () => {
+  it('should handle error when deleting a tag in the tag update function and continue execution', () => {
     const actions = new Actions(cold('a', { a: new UpdateLastVMId({ value: 5 }) }));
     const tagService = createTagServiceStub(null, {}, new Error('error'));
     const authService = createAuthServiceStub();
@@ -96,7 +96,7 @@ describe('User tags effects', () => {
     expect(effects.updateLastVmId$).toBeObservable(expected);
   });
 
-  it('can handle error when creating a tag in the tag update function', () => {
+  it('should handle error when creating a tag in the tag update function', () => {
     const actions = new Actions(cold('a', { a: new UpdateLastVMId({ value: 5 }) }));
     const tagService = createTagServiceStub(null, new Error('error'), {});
     const authService = createAuthServiceStub();

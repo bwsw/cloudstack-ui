@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
+import { delay, filter, first, map, withLatestFrom } from 'rxjs/operators';
 
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { ListService } from '../../shared/components/list/list.service';
@@ -9,6 +11,7 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 import { Grouping, OsType, Volume } from '../../shared/models';
 import { NgrxEntities } from '../../shared/interfaces';
 import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
+import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 
 
 @Component({
@@ -39,9 +42,12 @@ export class VmPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.vms.length && this.shouldShowSuggestionDialog) {
-      this.showSuggestionDialog();
-    }
+    this.shouldShowSuggestionDialog.pipe(
+      filter(Boolean),
+      // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
+      // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
+      delay(1)
+    ).subscribe(() => this.showSuggestionDialog());
   }
 
   public changeMode(mode) {
@@ -55,11 +61,26 @@ export class VmPageComponent implements OnInit {
     });
   }
 
-  private get shouldShowSuggestionDialog(): boolean {
-    return !this.vms.length && !this.isCreateVmInUrl;
+  private get shouldShowSuggestionDialog(): Observable<boolean> {
+    const dataReceivedAndUpdated$ = combineLatest(
+      this.store.select(fromVMs.isLoading),
+      this.store.select(fromVMs.isLoaded)
+    ).pipe(
+      map(([loading, loaded]) => !loading && loaded),
+      filter(Boolean),
+      first()
+    );
+
+    return dataReceivedAndUpdated$.pipe(
+      withLatestFrom(
+        this.store.pipe(select(UserTagsSelectors.getIsAskToCreateVM)),
+        this.store.pipe(select(fromVMs.getVMCount))
+      ),
+      map(([dataReadyFlag, isAsk, vmCount]) => isAsk && vmCount === 0 && !this.isCreationFormOpen)
+    );
   }
 
-  private get isCreateVmInUrl(): boolean {
+  private get isCreationFormOpen(): boolean {
     return (
       this.activatedRoute.children.length &&
       this.activatedRoute.children[0].snapshot.url[0].path === 'create'
@@ -67,31 +88,26 @@ export class VmPageComponent implements OnInit {
   }
 
   private showSuggestionDialog(): void {
-    this.store.select(UserTagsSelectors.getIsAskToCreateVM)
-      .first()
-      .filter(Boolean)
-      .subscribe(tag => {
-        this.dialogService.askDialog({
-          message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
-          actions: [
-            {
-              handler: () => this.showVmCreationDialog(),
-              text: 'COMMON.YES'
-            },
-            {
-              text: 'COMMON.NO'
-            },
-            {
-              handler: () => {
-                this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
-              },
-              text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
-            }
-          ],
-          disableClose: false,
-          width: '320px'
-        });
-      });
+    this.dialogService.askDialog({
+      message: 'SUGGESTION_DIALOG.WOULD_YOU_LIKE_TO_CREATE_VM',
+      actions: [
+        {
+          handler: () => this.showVmCreationDialog(),
+          text: 'COMMON.YES'
+        },
+        {
+          text: 'COMMON.NO'
+        },
+        {
+          handler: () => {
+            this.store.dispatch(new UserTagsActions.UpdateAskToCreateVM({ value: false }));
+          },
+          text: 'SUGGESTION_DIALOG.NO_DONT_ASK'
+        }
+      ],
+      disableClose: false,
+      width: '320px'
+    });
   }
 
 }

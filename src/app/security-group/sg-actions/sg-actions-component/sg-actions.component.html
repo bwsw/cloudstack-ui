@@ -1,5 +1,6 @@
 <ng-container *ngFor="let action of actions">
   <button
+    *ngIf="action.canShow(securityGroup)"
     mat-menu-item
     [disabled]="!action.canActivate(securityGroup)"
     (click)="onAction(action)"

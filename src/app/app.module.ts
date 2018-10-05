@@ -1,18 +1,19 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ApplicationRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { Store } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { select, Store } from '@ngrx/store';
+import { filter, first, take } from 'rxjs/operators';
 
 import { AccountModule } from './account/accounts.module';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { RootStoreModule, State, UserTagsActions } from './root-store';
+import { configSelectors, RootStoreModule, State, UserTagsActions } from './root-store';
 import { SharedModule } from './shared/shared.module';
 import { MaterialModule } from './material/material.module';
 import { DialogModule } from './dialog/dialog-service/dialog.module';
@@ -32,7 +33,7 @@ import { AppComponent } from './app.component';
 
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
-import { ConfigService, SystemTagsService } from './core/services';
+import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -42,20 +43,23 @@ export function InitAppFactory(
   auth: AuthService,
   http: HttpClient,
   translateService: TranslateService,
-  configService: ConfigService,
-  store: Store<State>,
-  systemTagsService: SystemTagsService
+  store: Store<State>
 ) {
-  return () => http.get('config/config.json').toPromise()
-    .then(
-      data => configService.initialize(data),
-      () => configService.initialize()
+  return () => store.pipe(
+    select(configSelectors.isLoaded),
+    filter(Boolean),
+    first()
+  ).toPromise()
+    .then(() => store.pipe(
+      select(configSelectors.get('defaultInterfaceLanguage')),
+      first()
+      ).subscribe(lang => translateService.setDefaultLang(lang))
     )
-    .then(() => translateService.setDefaultLang(configService.get('defaultInterfaceLanguage')))
     .then(() => auth.initUser())
-    .then(() => store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({
-      tags: systemTagsService.getDefaultUserTags()
-    })));
+    .then(() => store.pipe(
+      select(configSelectors.getDefaultUserTags),
+      first()
+    ).subscribe(tags => store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({ tags }))));
 }
 
 @NgModule({
@@ -101,7 +105,12 @@ export function InitAppFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: InitAppFactory,
-      deps: [AuthService, HttpClient, TranslateService, ConfigService, Store, SystemTagsService],
+      deps: [
+        AuthService,
+        HttpClient,
+        TranslateService,
+        Store
+      ],
       multi: true
     },
     {
@@ -113,4 +122,64 @@ export function InitAppFactory(
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(public appRef: ApplicationRef, private store: Store<any>) {
+  }
+
+  hmrOnInit(store) {
+    if (!store || !store.rootState) {
+      return;
+    }
+    // restore state by dispatch a SET_ROOT_STATE action
+    if (store.rootState) {
+      this.store.dispatch({
+        type: 'SET_ROOT_STATE',
+        payload: store.rootState
+      });
+    }
+    if ('restoreInputValues' in store) {
+      store.restoreInputValues();
+    }
+    // this.appRef.tick();  <<< REMOVE THIS LINE, or store will not work after HMR
+    Object.keys(store).forEach(prop => delete store[prop]);
+  }
+
+  hmrOnDestroy(store) {
+    const cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
+    this.store.pipe(take(1)).subscribe(s => store.rootState = s);
+    store.disposeOldHosts = this.createNewHosts(cmpLocation);
+    store.restoreInputValues = createInputTransfer();
+    removeNgStyles();
+  }
+
+  hmrAfterDestroy(store) {
+    store.disposeOldHosts();
+    delete store.disposeOldHosts;
+  }
+
+  createNewHosts(cmps) {
+    const components = Array.prototype.map.call(cmps, function (componentNode) {
+      const newNode = document.createElement(componentNode.tagName);
+      const currentDisplay = newNode.style.display;
+      newNode.style.display = 'none';
+      if (!!componentNode.parentNode) {
+        const parentNode = componentNode.parentNode;
+        parentNode.insertBefore(newNode, componentNode);
+        return function removeOldHost() {
+          newNode.style.display = currentDisplay;
+          try {
+            parentNode.removeChild(componentNode);
+          } catch (e) {
+          }
+        };
+      } else {
+        return function () {
+        }; // make it callable
+      }
+    });
+    return function removeOldHosts() {
+      components.forEach(function (removeOldHost) {
+        return removeOldHost();
+      });
+    };
+  }
 }

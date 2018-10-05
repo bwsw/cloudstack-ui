@@ -8,7 +8,7 @@ import * as debounce from 'lodash/debounce';
  * boundaries settled by "csMaxValue" and "csMinValue"
  */
 
-// tslint:disable:directive-selector no-input-rename
+// tslint:disable:directive-selector no-input-rename no-use-before-declare
 export const INPUT_NUMBER_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => InputTypeNumberDirective),
@@ -73,7 +73,7 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
 
   private updateValue(value: number): void {
     // This allows you delete last symbol
-    if (!value) {
+    if (value == null) {
       return this.updateElementValue(value);
     }
 

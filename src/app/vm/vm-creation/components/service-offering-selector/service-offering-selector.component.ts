@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
-import { ICustomOfferingRestrictions, ServiceOffering } from '../../../../shared/models';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
+import { ServiceOffering } from '../../../../shared/models';
+import { ComputeOfferingViewModel } from '../../../view-models';
 // tslint:disable-next-line
 import { VmCreationServiceOfferingContainerComponent } from '../../service-offering/vm-creation-service-offering.container';
 
@@ -13,12 +16,10 @@ import { VmCreationServiceOfferingContainerComponent } from '../../service-offer
   styleUrls: ['service-offering-selector.component.scss'],
 })
 export class ServiceOfferingSelectorComponent {
-  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
-  @Input() public serviceOfferings: Array<ServiceOffering>;
+  @Input() public serviceOfferings: Array<ComputeOfferingViewModel>;
   @Output() public change: EventEmitter<ServiceOffering>;
 
   private _serviceOffering: ServiceOffering;
-  private previousOffering: ServiceOffering;
 
   constructor(
     private dialog: MatDialog,
@@ -41,12 +42,11 @@ export class ServiceOfferingSelectorComponent {
       width: '700px',
       disableClose: true,
       data: {
-        serviceOffering: this.serviceOffering,
-        restriction: this.customOfferingRestrictions
+        serviceOffering: this.serviceOffering
       }
     })
-      .afterClosed()
-      .filter(res => Boolean(res))
+      .afterClosed().pipe(
+      filter(res => Boolean(res)))
       .subscribe(offering => {
         this.serviceOffering = offering;
         this.change.next(this.serviceOffering);
@@ -55,15 +55,15 @@ export class ServiceOfferingSelectorComponent {
 
   public get offeringName(): Observable<string> {
     if (!this.serviceOffering) {
-      return Observable.of('');
+      return of('');
     }
 
     return this.translateService.get([
       'UNITS.MB',
       'UNITS.MHZ',
       'VM_PAGE.VM_CREATION.SERVICE_OFFERING'
-    ])
-      .map(translations => {
+    ]).pipe(
+      map(translations => {
         if (!this.serviceOffering.iscustomized) {
           return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name}`;
         } else {
@@ -73,6 +73,6 @@ export class ServiceOfferingSelectorComponent {
           return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name} - ` +
             `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${translations['UNITS.MB']}`;
         }
-      });
+      }));
   }
 }

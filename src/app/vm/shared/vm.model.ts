@@ -7,11 +7,6 @@ import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { BaseTemplateModel } from '../../template/shared';
 
-
-enum AuthModeType {
-  HTTP = 'http'
-}
-
 export enum VmState {
   Running = 'Running',
   Stopped = 'Stopped',

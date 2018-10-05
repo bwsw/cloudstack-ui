@@ -7,7 +7,9 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+
 import { NIC } from '../../../shared/models/nic.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { PulseService } from '../../pulse.service';
@@ -92,8 +94,8 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
     );
 
     this.setLoading(!forceUpdate);
-    Observable.forkJoin(...requests)
-      .finally(() => this.setLoading(false))
+    forkJoin(...requests).pipe(
+      finalize(() => this.setLoading(false)))
       .subscribe(data => {
         const sets = {
           bits: [],

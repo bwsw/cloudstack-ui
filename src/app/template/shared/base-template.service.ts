@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin, Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { CSCommands } from '../../shared/services/base-backend.service';
@@ -47,6 +48,7 @@ export interface CreateTemplateBaseParams {
   osTypeId: string;
   snapshotId?: string;
   groupId?: string;
+
   [propName: string]: any;
 }
 
@@ -106,9 +108,9 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
 
   public get(id: string, params?: RequestParams): Observable<BaseTemplateModel> {
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
-    return this.getList({ id, filter })
-      .map(templates => templates[0])
-      .catch(error => Observable.throw(error));
+    return this.getList({ id, filter }).pipe(
+      map(templates => templates[0]),
+      catchError(error => throwError(error)));
   }
 
   public getList(
@@ -116,11 +118,11 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     customApiFormat?: {},
     useCache = false
   ): Observable<Array<BaseTemplateModel>> {
-    return this.getListWithDuplicates(params, useCache)
-      .map(templates => this.distinctIds(templates))
-      .catch((err) => {
-        return Observable.of([]);
-      });
+    return this.getListWithDuplicates(params, useCache).pipe(
+      map(templates => this.distinctIds(templates)),
+      catchError((err) => {
+        return of([]);
+      }));
   }
 
   public getListWithDuplicates(
@@ -137,17 +139,17 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       delete params['maxSize'];
     }
 
-    return super.getList(params, null, useCache)
-      .map(templates => {
+    return super.getList(params, null, useCache).pipe(
+      map(templates => {
         if (maxSize) {
           return templates.filter(
             template => Utils.convertToGb(template.size) <= maxSize);
         }
         return templates;
-      })
-      .catch((error) => {
-        return Observable.of([]);
-      });
+      }),
+      catchError((error) => {
+        return of([]);
+      }));
   }
 
   public getWithGroupedZones(
@@ -156,56 +158,56 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     useCache = true
   ): Observable<BaseTemplateModel> {
     const filter = params && params.filter ? params.filter : TemplateFilters.featured;
-    return this.getListWithDuplicates({ id, filter }, useCache)
-      .map(templates => {
+    return this.getListWithDuplicates({ id, filter }, useCache).pipe(
+      map(templates => {
         if (templates.length) {
           templates[0].zones = [];
 
           templates.forEach(template => {
             templates[0].zones.push({
               created: template.created,
-              zoneId: template.zoneId,
-              zoneName: template.zoneName,
+              zoneid: template.zoneid,
+              zonename: template.zonename,
               status: template.status,
-              isReady: template.isReady
+              isready: template.isready
             });
           });
         }
 
         return templates[0];
-      });
+      }));
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<BaseTemplateModel> {
     this.invalidateCache();
 
-    return this.sendCommand(CSCommands.Register, params)
-      .map(result => this.prepareModel(result[this.entity.toLowerCase()][0]))
-      .switchMap(template => {
+    return this.sendCommand(CSCommands.Register, params).pipe(
+      map(result => this.prepareModel(result[this.entity.toLowerCase()][0])),
+      switchMap(template => {
         if (params.groupId) {
           return this.templateTagService.setGroup(template, { id: params.groupId });
         } else {
-          return Observable.of(template);
+          return of(template);
         }
-      })
-      .switchMap(template => {
-        return this.templateTagService.setDownloadUrl(template, params.url)
-          .catch(() => Observable.of(null))
-          .do(tag => template.tags.push(tag));
-      });
+      }),
+      switchMap(template => {
+        return this.templateTagService.setDownloadUrl(template, params.url).pipe(
+          catchError(() => of(null)),
+          tap(tag => template.tags.push(tag)));
+      }));
   }
 
   public remove(template: BaseTemplateModel): Observable<BaseTemplateModel> {
     this.invalidateCache();
     return this.sendCommand(CSCommands.Delete, {
       id: template.id,
-      zoneId: template.zoneId
-    })
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid))
-      .map(() => {
+      zoneId: template.zoneid
+    }).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
+      map(() => {
         this.onTemplateRemoved.next(template);
         return template;
-      });
+      }));
   }
 
   public getGroupedTemplates<T extends BaseTemplateModel>(
@@ -233,15 +235,15 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       templateObservables.push(templates);
     }
 
-    return Observable.forkJoin(...templateObservables)
-      .map(data => {
+    return forkJoin(...templateObservables).pipe(
+      map(data => {
         const obj = {};
         data.forEach((templateSet, i) => {
           obj[localFilters[i]] = templateSet;
         });
 
         return new GroupedTemplates<T>(obj);
-      });
+      }));
   }
 
   private distinctIds(templates: Array<BaseTemplateModel>): Array<BaseTemplateModel> {

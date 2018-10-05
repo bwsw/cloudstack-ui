@@ -20,8 +20,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     }
 
     case UserTagsActionTypes.LoadUserTagsSuccess: {
-      const updates: Update<Tag>[] = action.payload.tags.map(tag => ({ id: tag.key, changes: tag }));
-      return adapter.upsertMany(updates, { ...state, isLoading: false });
+      return adapter.upsertMany(action.payload.tags, { ...state, isLoading: false });
     }
 
     case UserTagsActionTypes.LoadUserTagsError: {
@@ -29,6 +28,26 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
         ...state,
         isLoading: false
       };
+    }
+
+    case UserTagsActionTypes.UpdateCustomServiceOfferingParams: {
+      const { offering } = action.payload;
+      const id = `${userTagKeys.computeOfferingParam}.${offering.id}`;
+      const updates = [
+        {
+          key: `${id}.cpunumber`,
+          value: offering.cpunumber.toString()
+        },
+        {
+          key: `${id}.cpuspeed`,
+          value: offering.cpuspeed.toString()
+        },
+        {
+          key: `${id}.memory`,
+          value: offering.memory.toString()
+        }
+      ];
+      return adapter.upsertMany(updates, state);
     }
 
     case UserTagsActionTypes.UpdateAskToCreateVMSuccess:
@@ -43,6 +62,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateThemeSuccess:
     case UserTagsActionTypes.UpdateNavigationOrderSuccess:
     case UserTagsActionTypes.SetSPFAVMSuccess:
+    case UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess:
     case UserTagsActionTypes.IncrementLastVMIdSuccess: {
       const update: Update<Tag> = { id: action.payload.key, changes: action.payload };
       return adapter.updateOne(update, state);
@@ -54,7 +74,7 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     }
 
     case UserTagsActionTypes.CloseSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'false '} };
+      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'false ' } };
       return adapter.updateOne(update, state);
     }
 

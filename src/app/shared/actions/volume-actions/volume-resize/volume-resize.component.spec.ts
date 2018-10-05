@@ -2,7 +2,7 @@ import { Injectable, NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core
 import { async, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
 import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
@@ -21,7 +21,7 @@ class MockResourceUsageService {
   public availableStorage = 1000000;
 
   public getResourceUsage(): Observable<any> {
-    return Observable.of({
+    return of({
       available: {
         primaryStorage: this.availableStorage
       }
@@ -32,7 +32,7 @@ class MockResourceUsageService {
 @Injectable()
 class MockDiskOfferingService {
   public get(): Observable<any> {
-    return Observable.of([]);
+    return of([]);
   }
 }
 

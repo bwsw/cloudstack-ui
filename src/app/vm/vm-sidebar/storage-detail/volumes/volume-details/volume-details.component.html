@@ -17,7 +17,7 @@
     </div>
     <div class="row"  *ngIf="volume.storagetype">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.STORAGE_TYPE' | translate }}</div>
-      <div>{{ storageTypeTranslationToken | translate }}</div><!--todo-->
+      <div>{{ storageTypeTranslationToken | translate }}</div>
     </div>
     <div class="row"
          *ngIf="volume?.diskOffering?.name"
@@ -39,32 +39,32 @@
 
     <div class="row" *ngIf="volume.diskOffering.miniops">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MIN_IO' | translate }}</div>
-      <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.minIops } }}</div>
+      <div>{{ 'UNITS.IOPS_VALUE' | translate:{ value: volume.diskOffering.minIops } }}</div>
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.maxiops">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.MAX_IO' | translate }}</div>
-      <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.maxIops } }}</div>
+      <div>{{ 'UNITS.IOPS_VALUE' | translate:{ value: volume.diskOffering.maxIops } }}</div>
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.diskBytesReadRate">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.READ_RATE_MB' | translate }}</div>
-      <div>{{ 'UNITS.MBPS' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
+      <div>{{ 'UNITS.MBPS_VALUE' | translate:{ value: volume.diskOffering.diskBytesReadRate | division:10:6 } }}</div>
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.diskBytesWriteRate">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.WRITE_RATE_MB' | translate }}</div>
-      <div>{{ 'UNITS.MBPS' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
+      <div>{{ 'UNITS.MBPS_VALUE' | translate:{ value: volume.diskOffering.diskBytesWriteRate | division:10:6 } }}</div>
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.diskIopsReadRate">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.READ_RATE_IOPS' | translate }}</div>
-      <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
+      <div>{{ 'UNITS.IOPS_VALUE' | translate:{ value: volume.diskOffering.diskIopsReadRate } }}</div>
     </div>
 
     <div class="row" *ngIf="volume.diskOffering.diskIopsWriteRate">
       <div>{{ 'VM_PAGE.STORAGE_DETAILS.VOLUME_DETAILS.WRITE_RATE_IOPS' | translate }}</div>
-      <div>{{ 'UNITS.IOPS' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
+      <div>{{ 'UNITS.IOPS_VALUE' | translate:{ value: volume.diskOffering.diskIopsWriteRate } }}</div>
     </div>
   </div>
 </div>

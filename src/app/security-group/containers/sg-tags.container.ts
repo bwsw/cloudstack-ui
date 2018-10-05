@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 
 import { State } from '../../reducers';
 import { Tag } from '../../shared/models';
@@ -26,7 +27,7 @@ export class SecurityGroupTagsContainerComponent {
   }
 
   public editTag(tagEditAction: TagEditAction) {
-    this.sg$.take(1).subscribe((sg: SecurityGroup) => {
+    this.sg$.pipe(take(1)).subscribe((sg: SecurityGroup) => {
       const newTag: Tag = {
         resourceid: sg.id,
         resourcetype: 'SecurityGroup',
@@ -44,14 +45,14 @@ export class SecurityGroupTagsContainerComponent {
   }
 
   public deleteTag(tag: Tag) {
-    this.sg$.take(1).subscribe((sg: SecurityGroup) => {
+    this.sg$.pipe(take(1)).subscribe((sg: SecurityGroup) => {
       const newTags = sg.tags.filter(_ => tag.key !== _.key);
       this.store.dispatch(new sgActions.UpdateSecurityGroup({ ...sg, tags: newTags }));
     });
   }
 
   public addTag(keyValuePair: KeyValuePair) {
-    this.sg$.take(1).subscribe((sg: SecurityGroup) => {
+    this.sg$.pipe(take(1)).subscribe((sg: SecurityGroup) => {
       const newTag = {
         resourceid: sg.id,
         resourcetype: 'SecurityGroup',

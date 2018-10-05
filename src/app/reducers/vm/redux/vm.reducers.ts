@@ -1,14 +1,14 @@
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+
+import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
+import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { InstanceGroup, Tag } from '../../../shared/models';
+import { InstanceGroup, Tag, Zone } from '../../../shared/models';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
-import { KeyboardLayout } from '../../../vm/vm-creation/keyboards/keyboards.component';
 // tslint:disable-next-line
 import {
   ProgressLoggerMessage,
@@ -20,16 +20,12 @@ import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as vmActions from './vm.actions';
 import * as fromSGroup from '../../security-groups/redux/sg.reducers';
 import * as affinityGroupActions from '../../affinity-groups/redux/affinity-groups.actions';
+import * as fromZones from '../../zones/redux/zones.reducers';
 
-/**
- * @ngrx/entity provides a predefined interface for handling
- * a structured dictionary of records. This interface
- * includes an array of ids, and a dictionary of the provided
- * model type by id. This interface is extended to include
- * any additional interface properties.
- */
+
 export interface State extends EntityState<VirtualMachine> {
   loading: boolean,
+  loaded: boolean,
   selectedVMId: string,
   filters: {
     selectedZoneIds: string[],
@@ -86,6 +82,7 @@ export const adapter: EntityAdapter<VirtualMachine> = createEntityAdapter<Virtua
  */
 export const initialListState: State = adapter.getInitialState({
   loading: false,
+  loaded: false,
   selectedVMId: null,
   filters: {
     selectedZoneIds: [],
@@ -148,7 +145,8 @@ export function listReducer(
     case vmActions.LOAD_VMS_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
-        loading: false
+        loading: false,
+        loaded: true
       };
     }
 
@@ -208,12 +206,17 @@ export const {
   selectIds,
   selectEntities,
   selectAll,
-  selectTotal,
+  selectTotal: getVMCount,
 } = adapter.getSelectors(getVMsEntitiesState);
 
 export const isLoading = createSelector(
   getVMsEntitiesState,
   state => state.loading
+);
+
+export const isLoaded = createSelector(
+  getVMsEntitiesState,
+  state => state.loaded
 );
 
 export const getSelectedId = createSelector(
@@ -368,7 +371,6 @@ export const initialFormState: FormState = {
     displayName: '',
     doStartVm: true,
     instanceGroup: null,
-    keyboard: KeyboardLayout.us,
     rootDiskSize: null,
     rootDiskMinSize: 0,
     securityGroupData: VmCreationSecurityGroupData.fromRules(new Rules()),
@@ -507,3 +509,8 @@ export const getVmCreationZoneId = createSelector(
   state => state.zone && state.zone.id
 );
 
+export const getVMCreationZone = createSelector(
+  getVmCreationZoneId,
+  fromZones.selectEntities,
+  (vmCreationZoneId, zones): Zone => zones && zones[vmCreationZoneId]
+);

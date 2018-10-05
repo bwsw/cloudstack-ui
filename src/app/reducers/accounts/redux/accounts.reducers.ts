@@ -4,7 +4,7 @@ import { AccountUser } from '../../../shared/models/account-user.model';
 import { Account } from '../../../shared/models/account.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 import * as fromAuth from '../../auth/redux/auth.reducers';
-import * as account from './accounts.actions';
+import * as accountActions from './accounts.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -64,16 +64,16 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: account.Actions
+  action: accountActions.Actions
 ): State {
   switch (action.type) {
-    case account.LOAD_ACCOUNTS_REQUEST: {
+    case accountActions.LOAD_ACCOUNTS_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case account.ACCOUNT_FILTER_UPDATE: {
+    case accountActions.ACCOUNT_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -82,7 +82,7 @@ export function reducer(
         }
       };
     }
-    case account.LOAD_ACCOUNTS_RESPONSE: {
+    case accountActions.LOAD_ACCOUNTS_RESPONSE: {
 
       const accounts = action.payload;
 
@@ -99,31 +99,31 @@ export function reducer(
       };
     }
 
-    case account.LOAD_SELECTED_ACCOUNT: {
+    case accountActions.LOAD_SELECTED_ACCOUNT: {
       return {
         ...state,
         selectedAccountId: action.payload
       };
     }
 
-    case account.ACCOUNT_CREATE_SUCCESS: {
+    case accountActions.ACCOUNT_CREATE_SUCCESS: {
       return {
         ...adapter.addOne(action.payload, state),
       };
     }
 
-    case account.ACCOUNT_DELETE_SUCCESS: {
+    case accountActions.ACCOUNT_DELETE_SUCCESS: {
       return {
         ...adapter.removeOne(action.payload.id, state),
       };
     }
 
-    case account.UPDATE_ACCOUNT: {
+    case accountActions.UPDATE_ACCOUNT: {
       return {
         ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
       };
     }
-    case account.ACCOUNT_USER_CREATE_SUCCESS: {
+    case accountActions.ACCOUNT_USER_CREATE_SUCCESS: {
       if (state.entities[action.payload.accountid]) {
         const users = [...state.entities[action.payload.accountid].user, action.payload];
         return adapter.updateOne(
@@ -134,7 +134,7 @@ export function reducer(
         return adapter.addOne(action.payload, state);
       }
     }
-    case account.ACCOUNT_LOAD_USER_KEYS_SUCCESS: {
+    case accountActions.ACCOUNT_LOAD_USER_KEYS_SUCCESS: {
       const updatedUser: AccountUser = { ...action.payload.user };
       updatedUser.secretkey = action.payload.userKeys.secretkey;
       updatedUser.apikey = action.payload.userKeys.apikey;
@@ -150,7 +150,7 @@ export function reducer(
         state
       );
     }
-    case account.ACCOUNT_USER_UPDATE_SUCCESS: {
+    case accountActions.ACCOUNT_USER_UPDATE_SUCCESS: {
       const users = [
         ...state.entities[action.payload.accountid].user
           .filter(_ => _.id !== action.payload.id),
@@ -162,7 +162,7 @@ export function reducer(
         state
       );
     }
-    case account.ACCOUNT_USER_DELETE_SUCCESS: {
+    case accountActions.ACCOUNT_USER_DELETE_SUCCESS: {
       const users = [
         ...state.entities[action.payload.accountid].user
           .filter(_ => _.id !== action.payload.id)

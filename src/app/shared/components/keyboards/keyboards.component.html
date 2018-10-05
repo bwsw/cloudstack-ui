@@ -1,0 +1,16 @@
+<mat-form-field
+  class="form-select-control"
+>
+  <mat-select
+    name="keyboard"
+    [value]="keyboardLayout"
+    (selectionChange)="keyboardChange.emit($event.value)"
+  >
+    <mat-option
+      *ngFor="let l of keyboardLayouts"
+      [value]="l.value"
+    >
+      {{ l.name | translate}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

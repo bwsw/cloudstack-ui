@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+
 import { BaseTemplateModel } from '../../../template/shared';
-import { Observable } from 'rxjs/Observable';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { TemplateTagKeys } from './template-tag-keys';
-import { TemplateGroup } from '../../models/template-group.model';
+import { ImageGroup } from '../../models/config/image-group.model';
+import { resourceType } from '../../../template/shared/base-template.model';
 
 
 @Injectable()
@@ -20,7 +22,7 @@ export class TemplateTagService implements EntityTagService {
   ): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
-      template.resourceType,
+      resourceType(template),
       this.keys.downloadUrl,
       downloadUrl
     );
@@ -28,11 +30,11 @@ export class TemplateTagService implements EntityTagService {
 
   public setGroup(
     template: BaseTemplateModel,
-    group: TemplateGroup
+    group: ImageGroup
   ): Observable<BaseTemplateModel> {
     return this.tagService.update(
       template,
-      template.resourceType,
+      resourceType(template),
       this.keys.group,
       group && group.id
     );
@@ -60,6 +62,6 @@ export class TemplateTagService implements EntityTagService {
       agreement = template.tags.find(item => item.key === defaultAgreement);
     }
 
-    return Observable.of(this.tagService.getValueFromTag(agreement) || null);
+    return of(this.tagService.getValueFromTag(agreement) || null);
   }
 }

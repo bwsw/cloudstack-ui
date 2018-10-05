@@ -1,18 +1,22 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+
 import { MockTranslatePipe } from '../../../../testutils/mocks/mock-translate.pipe.spec';
 import { NetworkProtocol, NetworkRule } from '../../../security-group/network-rule.model';
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { SecurityGroup } from '../../../security-group/sg.model';
 import { Rules } from './rules';
 import { SecurityGroupBuilderComponent } from './security-group-builder.component';
+import { TestStore } from '../../../../testutils/ngrx-test-store';
 
 
 describe('Sg creation component', () => {
   let f;
   let comp: SecurityGroupBuilderComponent;
+  let store: TestStore<any>;
 
   const dialogReferenceMock = {
     close(): void {
@@ -90,12 +94,8 @@ describe('Sg creation component', () => {
   const mockRules = new Rules();
 
   class SecurityGroupServiceMock {
-    public getPredefinedTemplates(): Array<SecurityGroup> {
-      return [mockSg1];
-    }
-
     public getList(): Observable<Array<SecurityGroup>> {
-      return Observable.of([mockSg2]);
+      return of([mockSg2]);
     }
   }
 
@@ -104,7 +104,8 @@ describe('Sg creation component', () => {
       declarations: [SecurityGroupBuilderComponent, MockTranslatePipe],
       providers: [
         { provide: MatDialogRef, useFactory: () => dialogReferenceMock },
-        { provide: SecurityGroupService, useClass: SecurityGroupServiceMock }
+        { provide: SecurityGroupService, useClass: SecurityGroupServiceMock },
+        { provide: Store, useClass: TestStore }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -114,9 +115,12 @@ describe('Sg creation component', () => {
       comp = f.componentInstance;
       comp.inputRules = mockRules;
     });
+
+    store = TestBed.get(Store);
   }));
 
   it('inits rules', () => {
+    store.setState([mockSg1]);
     comp.ngOnInit();
 
     expect(comp.securityGroups.available).toEqual([mockSg1, mockSg2]);
@@ -128,6 +132,7 @@ describe('Sg creation component', () => {
     comp = f.componentInstance;
     comp.inputRules = mockRules;
     mockRules.templates = [mockSg1];
+    store.setState([mockSg1]);
     comp.ngOnInit();
     expect(comp.securityGroups.available).toEqual([mockSg2]);
     expect(comp.securityGroups.selected).toEqual([mockSg1]);
@@ -152,6 +157,7 @@ describe('Sg creation component', () => {
   });
 
   it('handles dialog close', () => {
+    store.setState([]);
     spyOn(dialogReferenceMock, 'close').and.callThrough();
 
     mockRules.templates = [mockSg2];

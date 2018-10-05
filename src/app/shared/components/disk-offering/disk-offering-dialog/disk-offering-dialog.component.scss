@@ -1,29 +1,49 @@
-.table-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: inline-block !important;
-  width: 100%;
+.disk-offering-list {
+  overflow: auto;
+  height: 250px;
 }
 
-mat-table {
-  display: table;
-  width: 100%;
+mat-expansion-panel {
+  border-top: 1px solid rgba(0,0,0, .12);
+  box-shadow: inherit !important;
+
+  &:last-child {
+    border-bottom: 1px solid rgba(0,0,0, .12);
+  }
 }
 
-mat-row {
-  cursor: pointer;
+mat-panel-title {
+  flex: 1 1 auto;
+  width: 25%;
 }
 
-mat-header-cell, mat-cell {
-  white-space: nowrap;
+mat-panel-description {
+  flex: 0 0 auto;
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
 }
 
-.mat-column-name {
-  flex: 2;
+.disk-size, .custom-label {
+  color: black;
+  margin-left: 20px;
 }
 
-.mat-column-radioButton {
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: 20px; // width of radio button
+.expansion-panel-content {
+  margin-left: 25px;
+  font-size: 0.9em;
+}
+
+table {
+  tr td {
+    padding-right: 10px;
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.text-right {
+  text-align: right;
 }

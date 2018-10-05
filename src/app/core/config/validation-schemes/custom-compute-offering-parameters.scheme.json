@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "customComputeOfferingParameters",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "offeringId",
+      "cpunumber",
+      "cpuspeed",
+      "memory"
+    ],
+    "properties": {
+      "offeringId": {
+        "type": "string"
+      },
+      "cpunumber": {
+        "$ref": "#/definitions/HardwareParameterLimits"
+      },
+      "cpuspeed": {
+        "$ref": "#/definitions/HardwareParameterLimits"
+      },
+      "memory": {
+        "$ref": "#/definitions/HardwareParameterLimits"
+      }
+    }
+  },
+  "uniqueItemProperties": ["offeringId"],
+  "definitions": {
+    "HardwareParameterLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max", "value"],
+      "properties": {
+        "min": {
+          "type": "number",
+          "minimum": 1
+        },
+        "max": {
+          "type": "number",
+          "minimum": 1
+        },
+        "value": {
+          "type": "number",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

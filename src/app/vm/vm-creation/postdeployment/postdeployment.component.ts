@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
-
-import { getLogin, getPassword, isHttpAuthMode, VirtualMachine, VmState } from '../../shared/vm.model';
+import { VirtualMachine, VmState } from '../../shared/vm.model';
 import { State } from '../../../reducers/vm/redux/vm.reducers';
-import { WebShellService } from '../../web-shell/web-shell.service';
 import { VmCreationComponent } from '../vm-creation.component';
+import { HttpAccessService, SshAccessService } from '../../services';
+
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 
 @Component({
@@ -28,14 +28,14 @@ export class PostdeploymentComponent {
       name: 'VM_POST_ACTION.OPEN_SHELL_CONSOLE',
       hidden: (vm) => {
         return !vm
-          || !this.webShellService.isWebShellEnabled
-          || !WebShellService.isWebShellEnabledForVm(vm);
+          || !this.sshAccessService.isWebShellEnabled()
+          || !this.sshAccessService.isWebShellEnabledForVm(vm);
       },
       activate: (vm) => this.store.dispatch(new vmActions.WebShellVm(vm))
     },
     {
       name: 'VM_POST_ACTION.OPEN_URL',
-      hidden: (vm) => !vm || !isHttpAuthMode(vm),
+      hidden: (vm) => !vm || !this.httpAccessService.isHttpAuthMode(vm),
       activate: (vm) => this.store.dispatch(new vmActions.OpenUrlVm(vm))
     }
   ];
@@ -43,20 +43,21 @@ export class PostdeploymentComponent {
 
   constructor(
     private store: Store<State>,
-    private webShellService: WebShellService
+    private httpAccessService: HttpAccessService,
+    private sshAccessService: SshAccessService
   ) {
   }
 
 
   public isHttpAuthMode(vm): boolean {
-    return isHttpAuthMode(vm);
+    return this.httpAccessService.isHttpAuthMode(vm);
   }
 
   public getUrlLogin(vm) {
-    return getLogin(vm);
+    return this.httpAccessService.getHttpLogin(vm);
   }
 
   public getUrlPassword(vm) {
-    return getPassword(vm);
+    return this.httpAccessService.getHttpPassword(vm);
   }
 }

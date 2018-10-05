@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin, Observable, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { BackendResource } from '../../shared/decorators';
 import { OsType, ServiceOffering, Volume, VolumeType } from '../../shared/models';
@@ -31,9 +32,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getWithDetails(id: string): Observable<VirtualMachine> {
-    return this.getListWithDetails().map(list =>
+    return this.getListWithDetails().pipe(map(list =>
       list.find(vm => vm.id === id)
-    );
+    ));
   }
 
   public getListWithDetails(
@@ -44,19 +45,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       return this.getList(params);
     }
 
-    return Observable.forkJoin(
+    return forkJoin(
       this.getList(params),
       this.volumeService.getList(),
       this.osTypesService.getList()
-    )
-      .map(([vmList, volumes, osTypes]) => {
+    ).pipe(
+      map(([vmList, volumes, osTypes]) => {
         vmList.forEach((currentVm, index, vms) => {
           currentVm = this.addVolumes(currentVm, volumes);
           currentVm = this.addOsType(currentVm, osTypes);
           vms[index] = currentVm;
         });
         return vmList;
-      });
+      }));
   }
 
   public deploy(params: {}): Observable<any> {
@@ -68,12 +69,12 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     command: string,
     params?: {}
   ): Observable<VirtualMachine> {
-    return this.commandInternal(vm, command, params)
-      .switchMap(job => this.registerVmJob(job))
-      .do(jogResult => jogResult)
-      .catch(error => {
-        return Observable.throw(error);
-      });
+    return this.commandInternal(vm, command, params).pipe(
+      switchMap(job => this.registerVmJob(job)),
+      tap(jogResult => jogResult),
+      catchError(error => {
+        return throwError(error);
+      }));
   }
 
   public commandSync(
@@ -82,11 +83,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     params?: {}
   ): Observable<any> {
 
-    return this.commandInternal(vm, command, params)
-      .do((res) => res)
-      .catch(error => {
-        return Observable.throw(error);
-      });
+    return this.commandInternal(vm, command, params).pipe(
+      tap((res) => res),
+      catchError(error => {
+        return throwError(error);
+      }));
   }
 
   public registerVmJob(job: any): Observable<any> {
@@ -94,19 +95,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
-    return this.getListWithDetails()
-      .map(vmList => vmList.filter(vm => vm.isoid === iso.id));
+    return this.getListWithDetails().pipe(
+      map(vmList => vmList.filter(vm => vm.isoid === iso.id)));
   }
 
   public addIpToNic(nicId: string): Observable<IpAddress> {
-    return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic')
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid))
-      .map(result => result.jobresult);
+    return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic').pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
+      map(result => result.jobresult));
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
-    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic')
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic').pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
   }
 
   public changeServiceOffering(
@@ -128,8 +129,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       ];
     }
 
-    return this.sendCommand(CSCommands.ChangeServiceFor, params)
-      .map(result => this.prepareModel(result['virtualmachine']));
+    return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
+      map(result => this.prepareModel(result['virtualmachine'])));
   }
 
   private commandInternal(

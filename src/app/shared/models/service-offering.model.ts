@@ -1,9 +1,8 @@
-import { AccountTagKeys } from '../services/tags/account-tag-keys';
 import { Offering } from './offering.model';
 import { Tag } from './tag.model';
+import { userTagKeys } from '../../tags/tag-keys';
 
 export interface ServiceOffering extends Offering {
-  resourceType: 'ServiceOffering';
   created: string;
   cpunumber: number;
   cpuspeed: number;
@@ -20,21 +19,9 @@ export interface ServiceOffering extends Offering {
   tags: Array<Tag>;
 }
 
-export class ServiceOfferingClass {
-  public id: string;
-  public name?: object;
-  public description?: object;
-  public serviceOfferings?: string[];
-
-  constructor(id: string) {
-    this.id = id;
-  }
-}
-
 export const ServiceOfferingType = {
   fixed: 'Select',
   custom: 'Custom'
 };
 
-export const ServiceOfferingParamKey = AccountTagKeys.serviceOfferingParam;
-export const DefaultServiceOfferingClassId = 'common';
+export const ServiceOfferingParamKey = userTagKeys.computeOfferingParam;

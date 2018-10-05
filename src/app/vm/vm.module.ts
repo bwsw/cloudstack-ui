@@ -19,8 +19,6 @@ import { AccountTagsEffects } from '../reducers/account-tags/redux/account-tags.
 import { accountTagsReducers } from '../reducers/account-tags/redux/account-tags.reducers';
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
-import { ServiceOfferingClassEffects } from '../reducers/service-offerings/redux/service-offering-class.effects';
-import { serviceOfferingClassReducers } from '../reducers/service-offerings/redux/service-offering-class.reducers';
 import { ServiceOfferingEffects } from '../reducers/service-offerings/redux/service-offerings.effects';
 import { serviceOfferingReducers } from '../reducers/service-offerings/redux/service-offerings.reducers';
 import { VirtualMachineCreationEffects } from '../reducers/vm/redux/vm-creation.effects';
@@ -49,7 +47,6 @@ import { VmCreationSecurityGroupRulesManagerComponent } from './vm-creation/comp
 import { VmCreationSecurityGroupContainerComponent } from './vm-creation/components/security-group/containers/vm-creation-security-group.container';
 import { VmCreationSecurityGroupComponent } from './vm-creation/components/security-group/vm-creation-security-group.component';
 import { VmCreationContainerComponent } from './vm-creation/containers/vm-creation.container';
-import { KeyboardsComponent } from './vm-creation/keyboards/keyboards.component';
 import { PostdeploymentComponent } from './vm-creation/postdeployment/postdeployment.component';
 import { VmCreationServiceOfferingContainerComponent } from './vm-creation/service-offering/vm-creation-service-offering.container';
 import { VmCreationSshKeySelectorComponent } from './vm-creation/ssh-key-selector/ssh-key-selector.component';
@@ -95,9 +92,10 @@ import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-de
 import { VmDetailZoneComponent } from './vm-sidebar/vm-detail/zone/zone.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
-import { WebShellService } from './web-shell/web-shell.service';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
+import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
+import { HttpAccessService, SshAccessService, VncAccessService } from './services';
 
 // tslint:enable max-line-length
 
@@ -121,7 +119,6 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     StoreModule.forFeature('tags', accountTagsReducers),
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('service-offerings', serviceOfferingReducers),
-    StoreModule.forFeature('service-offering-class', serviceOfferingClassReducers),
     EffectsModule.forFeature([
       VirtualMachinesEffects,
       VirtualMachineCreationEffects,
@@ -129,13 +126,11 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
       AccountsEffects,
       AccountTagsEffects,
       ServiceOfferingEffects,
-      ServiceOfferingClassEffects
     ]),
   ],
   declarations: [
     AffinityGroupComponent,
     AffinityGroupSelectorComponent,
-    KeyboardsComponent,
     FirewallRulesDetailComponent,
     FirewallRulesDetailContainerComponent,
     NetworkDetailContainerComponent,
@@ -200,19 +195,22 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
     PostdeploymentComponent,
     VmPasswordDialogComponent,
     ServiceOfferingSelectorComponent,
-    VmPasswordComponent
+    InstallationSourceDialogComponent,
+    VmPasswordComponent,
   ],
   providers: [
     VmActionsService,
     VmService,
-    WebShellService
+    SshAccessService,
+    HttpAccessService,
+    VncAccessService
   ],
   entryComponents: [
     AffinityGroupSelectorComponent,
     InstanceGroupSelectorComponent,
     VmCreationContainerComponent,
     VmDestroyDialogComponent,
-    VmTemplateDialogComponent,
+    InstallationSourceDialogComponent,
     VmCreationAgreementComponent,
     SnapshotCreationComponent,
     SnapshotModalContainerComponent,

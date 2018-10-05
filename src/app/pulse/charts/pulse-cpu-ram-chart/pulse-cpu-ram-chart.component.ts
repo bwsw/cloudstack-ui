@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+
 import { humanReadableSize } from '../../unitsUtils';
 import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
 
@@ -79,11 +81,11 @@ export class PulseCpuRamChartComponent extends PulseChartComponent
     );
     if (cpuRequests.length) {
       this.setLoading(!forceUpdate);
-      Observable.forkJoin(
-        Observable.forkJoin(...cpuRequests),
-        Observable.forkJoin(...ramRequests)
-      )
-        .finally(() => this.setLoading(false))
+      forkJoin(
+        forkJoin(...cpuRequests),
+        forkJoin(...ramRequests)
+      ).pipe(
+        finalize(() => this.setLoading(false)))
         .subscribe(([data, ram]) => {
           this.error = false;
           const datasets = data.map((res: any, ind) => {

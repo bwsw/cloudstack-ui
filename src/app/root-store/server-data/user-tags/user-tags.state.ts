@@ -71,11 +71,15 @@ const initialEntities = {
   },
   [userTagKeys.theme]: {
     key: userTagKeys.theme,
-    value: defaultConfig.defaultThemeName
+    value: defaultConfig.defaultTheme
   },
   [userTagKeys.navigationOrder]: {
     key: userTagKeys.navigationOrder,
     value: defaultConfig.navigationOrder
+  },
+  [userTagKeys.keyboardLayoutForVms]: {
+    key: userTagKeys.keyboardLayoutForVms,
+    value: defaultConfig.keyboardLayoutForVms
   }
 };
 

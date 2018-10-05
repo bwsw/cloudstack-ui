@@ -1,6 +1,6 @@
 <mat-sidenav-container fullscreen>
   <mat-sidenav [opened]="isSidenavVisible$ | async" mode="side">
-    <cs-sidenav [title]="title"></cs-sidenav>
+    <cs-sidenav [title]="title" [allowConfiguring]="allowReorderingSidenav$ | async"></cs-sidenav>
   </mat-sidenav>
 
   <router-outlet></router-outlet>

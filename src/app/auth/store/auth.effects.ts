@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-
-import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators/tap';
-import { mergeMap } from 'rxjs/operators/mergeMap';
+import { Action, select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { AuthActionTypes, IdleLogout, LogoutComplete } from './auth.actions';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
 import { AuthService } from '../../shared/services/auth.service';
-import { IdleMonitorActions, UserTagsActions } from '../../root-store/';
-import { SystemTagsService } from '../../core/services';
+import { configSelectors, IdleMonitorActions, State, UserTagsActions } from '../../root-store/';
 
 @Injectable()
 export class AuthEffects {
@@ -24,9 +21,10 @@ export class AuthEffects {
   @Effect()
   logoutSuccess$: Observable<Action> = this.actions$.pipe(
     ofType<LogoutComplete>(AuthActionTypes.LogoutComplete),
-    mergeMap(() => [
+    withLatestFrom(this.store.pipe(select(configSelectors.getDefaultUserTags))),
+    mergeMap(([action, tags]) => [
       new IdleMonitorActions.StopIdleMonitor(),
-      new UserTagsActions.SetDefaultUserTagsDueToLogout({ tags: this.systemTagsService.getDefaultUserTags()})
+      new UserTagsActions.SetDefaultUserTagsDueToLogout({ tags })
     ])
   );
 
@@ -35,7 +33,7 @@ export class AuthEffects {
     private authService: AuthService,
     private router: Router,
     private routerUtilsService: RouterUtilsService,
-    private systemTagsService: SystemTagsService
+    private store: Store<State>
   ) {
   }
 }

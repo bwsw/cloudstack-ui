@@ -1,10 +1,12 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { BaseTemplateModel } from '../../../template/shared';
-import { VmTemplateDialogComponent } from './vm-template-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { BaseTemplateModel } from '../../../template/shared';
+import { InstallationSourceDialogComponent } from './containers/installation-source-dialog.component';
 
 
 @Component({
@@ -31,13 +33,13 @@ export class VmCreationTemplateComponent {
 
   public get templateName(): Observable<string> {
     if (!this.template) {
-      return Observable.of('');
+      return of('');
     }
 
-    return this.translateService.get(['VM_PAGE.VM_CREATION.OS_TEMPLATE'])
-      .map(translations => {
+    return this.translateService.get(['VM_PAGE.VM_CREATION.OS_TEMPLATE']).pipe(
+      map(translations => {
         return `${translations['VM_PAGE.VM_CREATION.OS_TEMPLATE']}: ${this.template.name}`;
-      });
+      }));
   }
 
   public onClick(): void {
@@ -78,12 +80,11 @@ export class VmCreationTemplateComponent {
   }
 
   private showTemplateSelectionDialog(): Observable<BaseTemplateModel> {
-    return this.dialog.open(VmTemplateDialogComponent, {
+    return this.dialog.open(InstallationSourceDialogComponent, {
       width: '776px',
       data: {
         template: this.template
       },
-    })
-      .afterClosed();
+    }).afterClosed();
   }
 }

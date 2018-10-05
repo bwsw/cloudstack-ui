@@ -72,7 +72,7 @@
       "CONFIRM_RECOVER": "Are you sure you want to recover this virtual machine?",
       "CONFIRM_RESET_PASSWORD": "Are you sure you want to reset password?<br>If your Virtual Machine is running it will be rebooted.",
       "CONFIRM_DRIVES_DELETION": "Delete this VM's data drives?",
-      "CONFIRM_SAVE_PASSWORD": "Do you want to save a password for all VMs?"
+      "CONFIRM_SAVE_PASSWORD": "Do you want to always save passwords for newly created VMs?"
     },
     "SECURITY_GROUPS": {
       "CONFIRM_EDIT_FROM_VM": "This group is shared. Other VMs that use this group will also be affected. Are you sure you want to edit this group in the Security Group management area?",
@@ -529,7 +529,6 @@
       "NO_GROUP": "No group",
       "AFFINITY_GROUP": "Affinity group",
       "SECURITY_GROUPS": "Firewall rules",
-      "KEYBOARD_LAYOUT": "Keyboard layout",
       "KB_US": "Standard (US) keyboard",
       "KB_UK": "UK keyboard",
       "KB_JP": "Japanese keyboard",
@@ -617,6 +616,7 @@
       "fat": "Fat",
       "sparse": "Sparse",
       "shared": "Shared",
+      "local": "Local",
       "created": "Created",
       "true": "Yes",
       "false": "No"
@@ -1074,6 +1074,12 @@
       }
     },
     "ICMP_V6_TYPES": {
+      "-1": {
+        "description": "Any",
+        "codes": {
+          "-1": "Any"
+        }
+      },
       "1": {
         "description": "Destination Unreachable Message",
         "codes": {
@@ -1440,6 +1446,10 @@
       "hour24": "24-Hours Time",
       "AUTO": "Auto",
       "THEME": "Theme Color"
+    },
+    "VM_PREFERENCES": {
+      "TITLE": "VM preferences",
+      "KEYBOARD_LAYOUT": "Keyboard layout"
     }
   },
   "CLIPBOARD": {
@@ -1501,7 +1511,7 @@
     "CHOOSE_SERVICE_OFFERING": "Choose service offering",
     "NO_AVAILABLE_OFFERINGS": "No available offerings",
     "CPU_MHZ": "{{ count }}x{{ speed }} MHz",
-    "VM_WILL_BE_REBOOTED": "Virtual machine will be rebooted",
+    "VM_WILL_BE_RESTARTED": "Virtual machine will be restarted",
     "SHOW_ADDITIONAL_FIELDS": "Show additional fields",
     "HIDE_ADDITIONAL_FIELDS": "Hide additional fields",
     "CUSTOM_SERVICE_OFFERING": {
@@ -1565,7 +1575,8 @@
     "TAG_KEY": "Key",
     "TAG_VALUE": "Value",
     "TAG_ALREADY_EXISTS": "Tag already exists",
-    "EDIT_TAG": "Edit tag"
+    "EDIT_TAG": "Edit tag",
+    "TAG_START_FROM_SPACE": "Field value must start with 'non-space' character"
   },
   "DISK_OFFERING_STORAGE_TYPE": {
     "SHARED": "Shared",
@@ -1634,10 +1645,12 @@
     "GB": "GB",
     "GB_VALUE": "{{ value }} GB",
     "GHZ": "GHz",
-    "IOPS": "{{ value }} IO/s",
+    "IOPS": "IOPS",
+    "IOPS_VALUE": "{{ value }} IO/s",
     "MB": "MB",
     "MB_VALUE": "{{ value }} MB",
-    "MBPS": "{{ value }} MB/s",
+    "MBPS": "MB/s",
+    "MBPS_VALUE": "{{ value }} MB/s",
     "MHZ": "MHz"
   },
   "VOLUME_ACTIONS": {
@@ -1666,28 +1679,24 @@
   },
   "DISK_OFFERING": {
     "CHOOSE_DISK_OFFERING": "Choose disk offering",
-    "TABLE": {
-      "name": "Name",
-      "bytesreadrate": "Read MB/s",
-      "byteswriterate": "Write MB/s",
-      "iopsreadrate": "Read IO/s",
-      "iopswriterate": "Write IO/s",
-      "displaytext": "Description",
-      "disksize": "Disk size",
-      "storagetype": "Storage type",
-      "provisioningtype": "Provisioning type",
-      "iscustomized": "Customized",
-      "miniops": "Min IO/s",
-      "maxiops": "Max IO/s",
+    "BANDWIDTH_MBPS": "Bandwidth (MB/s)",
+    "READ": "Read",
+    "WRITE": "Write",
+    "MIN": "Min",
+    "MAX": "Max",
+    "STORAGE_TYPE": "Storage type",
+    "STORAGE_TYPE_VALUES": {
+      "shared": "Shared",
+      "local": "Local"
+    },
+    "PROVISIONING_TYPE": "Provisioning type",
+    "PROVISIONING_TYPE_VALUES": {
       "thin": "Thin",
       "thick": "Thick",
-      "fat": "Fat",
-      "sparse": "Sparse",
-      "shared": "Shared",
-      "created": "Created",
-      "true": "Yes",
-      "false": "No"
-    }
+      "fat": "Fat"
+    },
+    "CREATED": "Created",
+    "CUSTOM": "Custom"
   },
   "VM_PASSWORD": {
     "VM_PASSWORD": "Virtual machine password",

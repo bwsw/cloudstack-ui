@@ -23,11 +23,11 @@
 
   <mat-card-content>
     <div class="entity-card-data-line">
-     {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:&nbsp;{{ item.osTypeName }}
+     {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:&nbsp;{{ item.ostypename }}
     </div>
     <div class="entity-card-data-line">
       {{ 'TEMPLATE_PAGE.CARD.DESCRIPTION' | translate }}:
-      <span [innerHTML]="item.displayText | highlight:query"></span>
+      <span [innerHTML]="item.displaytext | highlight:query"></span>
     </div>
   </mat-card-content>
 

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, } from '@angular/core/testing';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { AccountTagService } from './account-tag.service';
 import { Injectable } from '@angular/core';
 import { AccountService } from '../account.service';
@@ -10,17 +10,17 @@ import { TagService } from './tag.service';
 import { Tag } from '../../models/tag.model';
 import { SSHKeyPair } from '../../models/ssh-keypair.model';
 import { AccountResourceType } from '../../models/account.model';
-import { StorageTypes } from '../../models/offering.model';
-import { ServiceOffering } from '../../models/service-offering.model';
 
 @Injectable()
 class MockService {
-  public getAccount(params: {}) {
-    return {
-      switchMap: (f) => {
-        return f(<Account>{ account: 'Account', domainid: 'D1'});
-    }
-    };
+  public getAccount(params: {}): Observable<Account> {
+    return of(<Account>{
+          account: 'Account',
+          displayName: '',
+          id: '1',
+          rpDisplayName: '',
+          domainid: 'D1'
+        })
   }
 }
 
@@ -100,23 +100,14 @@ describe('Account tag service', () => {
 
     accountTagService.writeTag('key', 'value').subscribe(res =>
       expect(res).toBeTruthy());
-    expect(spyUpdate).toHaveBeenCalledWith(
-      <Account>{ account: 'Account', domainid: 'D1'}, AccountResourceType, 'key', 'value');
-  });
 
-  it('should set service offering params', () => {
-    const spyWrite = spyOn(accountTagService, 'writeTag').and.returnValue(of(true));
-    const offering = <ServiceOffering>{
-      id: '1', name: 'off1', hosttags: 't1,t2',
-      storagetype: StorageTypes.local, cpuspeed: 1,
-      cpunumber: 2, memory: 2, iscustomized: true
+    const account = {
+      displayName: '',
+      id: '1',
+      rpDisplayName: '',
+      account: 'Account',
+      domainid: 'D1'
     };
-
-    accountTagService.setServiceOfferingParams(offering).subscribe(res =>
-      expect(res).toEqual(offering));
-    expect(spyWrite).toHaveBeenCalledWith('csui.service-offering.param.1.cpuNumber', '2');
-    expect(spyWrite).toHaveBeenCalledWith('csui.service-offering.param.1.cpuSpeed', '1');
-    expect(spyWrite).toHaveBeenCalledWith('csui.service-offering.param.1.memory', '2');
+    expect(spyUpdate).toHaveBeenCalledWith(account, AccountResourceType, 'key', 'value');
   });
-
 });

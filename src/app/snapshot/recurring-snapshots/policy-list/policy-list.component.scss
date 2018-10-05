@@ -1,5 +1,7 @@
+table {
+  width: 100%;
+}
+
 .mat-column-delete {
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: 32px; // button width
+  width: 48px;
 }

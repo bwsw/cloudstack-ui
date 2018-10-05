@@ -52,18 +52,14 @@ import { TemplateFilterContainerComponent } from './containers/template-filter.c
 import { TemplateCardItemComponent } from './template/card-item/template-card-item.component';
 import { TemplateRowItemComponent } from './template/row-item/template-row-item.component';
 import { TemplateOsIconContainerComponent } from './template-sidebar/template-os-icon/template-os-icon.container';
-import { TemplateGroupService } from '../shared/services/template-group.service';
 // tslint:disable-next-line
 import { TemplateGroupSelectorComponent } from './template-sidebar/template-group/template-group-selector/template-group-selector.component';
 import { TemplateGroupComponent } from './template-sidebar/template-group/template-group.component';
-import { templateGroupReducers } from '../reducers/templates/redux/template-group.reducers';
-import { TemplateGroupEffects } from '../reducers/templates/redux/template-group.effects';
 import { TemplateGroupContainerComponent } from './template-sidebar/template-group/containers/template-group.container';
 import { BaseTemplateSidebarContainerComponent } from './template-sidebar/containers/base-template-sidebar.container';
 import { DetailsContainerComponent } from './template-sidebar/containers/details.container';
 import { TemplateZonesContainerComponent } from './template-sidebar/containers/template-zones.container';
 import { TagsContainerComponent } from './template-sidebar/containers/tags.container';
-import { TemplateFilterListSelectorContainerComponent } from './containers/template-filter-selector.container';
 import { IsoZonesContainerComponent } from './template-sidebar/containers/iso-zones.container';
 import { TemplateFilterListContainerComponent } from './template-filter-list/containers/template-filter-list.container';
 // tslint:disable-next-line
@@ -84,12 +80,10 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     StoreModule.forFeature('templates', templateReducers),
     StoreModule.forFeature('osTypes', osTypeReducers),
     StoreModule.forFeature('zones', zoneReducers),
-    StoreModule.forFeature('templateGroups', templateGroupReducers),
     EffectsModule.forFeature([
       TemplateEffects,
       OsTypeEffects,
       ZoneEffects,
-      TemplateGroupEffects
     ]),
   ],
   declarations: [
@@ -118,7 +112,6 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     TemplateFilterListContainerComponent,
     TemplateFilterListComponent,
     TemplateFilterListSelectorComponent,
-    TemplateFilterListSelectorContainerComponent,
     TemplateGroupSelectorContainerComponent,
     TemplateGroupSelectorComponent,
     TemplateGroupContainerComponent,
@@ -135,7 +128,6 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
     DetailsContainerComponent,
   ],
   exports: [
-    TemplateFilterListSelectorContainerComponent,
     TemplateFilterListSelectorComponent,
     TemplateFilterListContainerComponent,
     IsoAttachmentFilterSelectorContainerComponent,
@@ -146,7 +138,6 @@ import { IsoAttachmentFilterSelectorContainerComponent } from './containers/iso-
   providers: [
     IsoService,
     TemplateService,
-    TemplateGroupService,
     TemplateActionsService,
     IsoActionsService,
     TemplateDeleteAction,

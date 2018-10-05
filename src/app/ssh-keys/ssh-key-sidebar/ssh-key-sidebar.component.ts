@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 import { SSHKeyPair } from '../../shared/models';
-import { ConfigService, SnackBarService } from '../../core/services';
+import { SnackBarService } from '../../core/services';
 import { SSHKeyPairService } from '../../shared/services/ssh-keypair.service';
 import { EntityDoesNotExistError } from '../../shared/components/sidebar/entity-does-not-exist-error';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import { AccountTagService } from '../../shared/services/tags/account-tag.service';
 
 import * as sshKeyActions from '../../reducers/ssh-keys/redux/ssh-key.actions';
@@ -25,7 +27,6 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
     protected route: ActivatedRoute,
     protected router: Router,
     protected store: Store<State>,
-    protected configService: ConfigService,
     protected accountTagService: AccountTagService
   ) {
     super(entityService, notificationService, route, router);
@@ -37,31 +38,31 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
   }
 
   protected loadEntity(name: string): Observable<SSHKeyPair> {
-    return this.route.queryParams
-      .switchMap(value => {
+    return this.route.queryParams.pipe(
+      switchMap(value => {
         const params = { name };
         if (value.account) {
           params['account'] = value.account;
         }
-        return this.entityService.getByParams(params)
-          .switchMap(sshKeyPair => {
+        return this.entityService.getByParams(params).pipe(
+          switchMap(sshKeyPair => {
             if (sshKeyPair) {
-              return Observable.of(sshKeyPair);
+              return of(sshKeyPair);
             } else {
-              return Observable.throw(new EntityDoesNotExistError());
+              return throwError(new EntityDoesNotExistError());
             }
-          })
-          .switchMap(sshKeyPair => {
-            return Observable.forkJoin(
-                Observable.of(sshKeyPair),
-                this.accountTagService.getSshKeyDescription(sshKeyPair)
-              )
-            })
-          .map(([sshKeyPair, description]) => {
+          }),
+          switchMap(sshKeyPair => {
+            return forkJoin(
+              of(sshKeyPair),
+              this.accountTagService.getSshKeyDescription(sshKeyPair)
+            )
+          }),
+          map(([sshKeyPair, description]) => {
             this.description = description;
             return sshKeyPair;
-          });
-      });
+          }));
+      }));
   }
 
   public onRemoveClicked(sshKeyPair) {

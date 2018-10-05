@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { State } from '../../../reducers';
@@ -119,8 +120,8 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     this.store.dispatch(new zoneActions.LoadZonesRequest());
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => {
         this.filterService.update({
           accounts: filters.selectedAccounts,

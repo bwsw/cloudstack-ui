@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
 import { VirtualMachine } from '../../vm/shared/vm.model';
 import { BackendResource } from '../decorators';
-
 import { AffinityGroup, AsyncJob } from '../models';
 import { AffinityGroupType } from '../models/affinity-group.model';
 import { AsyncJobService } from './async-job.service';
@@ -30,9 +31,9 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
   }
 
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
-    return super.create(params)
-      .switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel))
-      .map((job: AsyncJob<any>) => job.jobresult.affinitygroup);
+    return super.create(params).pipe(
+      switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity, this.entityModel)),
+      map((job: AsyncJob<any>) => job.jobresult.affinitygroup));
   }
 
   public updateForVm(
@@ -42,9 +43,8 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
     return this.sendCommand(CSCommands.UpdateVM, {
       id: vmId,
       affinityGroupIds: affinityGroupId
-    })
-      .switchMap(
-        job => this.asyncJob.queryJob(job.jobid, 'virtualmachine'));
+    }).pipe(
+      switchMap(job => this.asyncJob.queryJob(job.jobid, 'virtualmachine')));
   }
 
 }

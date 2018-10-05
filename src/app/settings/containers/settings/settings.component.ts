@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-import { State, UserTagsActions } from '../../../root-store/index';
+import { configSelectors, State, UserTagsActions } from '../../../root-store';
 import { SettingsViewModel } from '../../view-models';
 import { getSettingsViewModel } from '../../selectors';
 import { UserService } from '../../../shared/services/user.service';
@@ -11,7 +12,7 @@ import { RouterUtilsService } from '../../../shared/services/router-utils.servic
 import { ApiKeys } from '../../../shared/models/account-user.model';
 import { BACKEND_API_URL } from '../../../shared/services/base-backend.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { ConfigService, SnackBarService } from '../../../core/services';
+import { SnackBarService } from '../../../core/services';
 import { DayOfWeek, Language, TimeFormat } from '../../../shared/types';
 
 @Component({
@@ -23,7 +24,7 @@ export class SettingsComponent {
   public settings$: Observable<SettingsViewModel>;
   public userKeys: ApiKeys;
   public apiUrl: string;
-  public apiDocumentationLink: string;
+  public apiDocumentationLink$: Observable<string>;
 
   private readonly userId: string;
 
@@ -34,18 +35,17 @@ export class SettingsComponent {
     private routerUtilsService: RouterUtilsService,
     private dialogService: DialogService,
     private snackBarService: SnackBarService,
-    private configService: ConfigService
   ) {
     this.settings$ = this.store.select(getSettingsViewModel);
     this.userId = this.authService.user.userid;
     this.userService.getUserKeys(this.userId).subscribe(keys => this.userKeys = keys);
-    this.apiDocumentationLink = this.configService.get('apiDocLink');
+    this.apiDocumentationLink$ = this.store.select(configSelectors.get('apiDocLink'));
     this.apiUrl = this.getApiUrl();
   }
 
   public onRegenerateKeys() {
-    this.askToRegenerateKeys()
-      .filter(Boolean)
+    this.askToRegenerateKeys().pipe(
+      filter(Boolean))
       .subscribe(() =>
         this.userService.registerKeys(this.userId).subscribe(
           keys => this.userKeys = keys,
@@ -53,9 +53,9 @@ export class SettingsComponent {
         ));
   }
 
-  public onUpdatePassword(password: string) {
-    this.askToUpdatePassword()
-      .filter(Boolean)
+  public onPasswordChange(password: string) {
+    this.askToUpdatePassword().pipe(
+      filter(Boolean))
       .subscribe(() =>
         this.userService
           .updatePassword(this.userId, password)
@@ -88,6 +88,10 @@ export class SettingsComponent {
 
   public onThemeChange(theme: string) {
     this.store.dispatch(new UserTagsActions.UpdateTheme({ value: theme }));
+  }
+
+  public onKeyboardLayoutChange(keyboard: string) {
+    this.store.dispatch(new UserTagsActions.UpdateKeyboardLayoutForVms({ value: keyboard }));
   }
 
   private getApiUrl() {

@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import * as templateGroups from '../../../reducers/templates/redux/template-group.reducers';
-import { State } from '../../../reducers/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+
+import { configSelectors, State } from '../../../root-store';
 
 @Component({
   selector: 'cs-template-filter-list-container',
-  template: `<cs-template-filter-list [groups]="groups$ | async"></cs-template-filter-list>`
+  template: `
+    <cs-template-filter-list [groups]="groups$ | async"></cs-template-filter-list>`
 })
 export class TemplateFilterListContainerComponent {
-  readonly groups$ = this.store.select(templateGroups.selectEntities);
+  readonly groups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
 
   constructor(private store: Store<State>) {
   }
