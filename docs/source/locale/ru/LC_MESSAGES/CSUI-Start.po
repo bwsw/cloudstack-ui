@@ -1,0 +1,311 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-04 15:49+0700\n"
+"PO-Revision-Date: 2018-10-05 11:38+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+# 2e3d420d8f7f4254b28c188dea2f6138
+#: ../../CSUI-Start.rst:4
+msgid "Start Working With CloudStack-UI"
+msgstr "Начало работы с CloudStack-UI"
+
+# 77b96c4143db4cb09d1218a33dbf9286
+#: ../../CSUI-Start.rst:8
+msgid ""
+"This page is aimed to help you to make first steps at CloudStack-UI. If you "
+"have never worked with CloudStack before, you should start with installing "
+"the CloudStack platform. Follow the instruction in `the official "
+"documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/installguide/"
+"index.html>`_."
+msgstr ""
+"CloudStack-UI создан для более легкого и удобного управления облачной  "
+"инфраструктурой — просмотра и использования облачных ресурсов, включая "
+"виртуальные машины, шаблоны и ISO, диски и снимки, группы безопасности и "
+"адреса IP.  \n"
+"Информация, представленная в данном документе, поможет начать работу с "
+"CloudStack-UI. Если прежде вы не работали с CloudStack, рекомендуем начать с "
+"установки системы CloudStack. Для этого следуйте инструкциям в `официальной "
+"документации <http://docs.cloudstack.apache.org/en/4.11.1.0/installguide/"
+"index.html>`_."
+
+# 721a21caeb4044fea5158844501e5ad5
+#: ../../CSUI-Start.rst:10
+msgid ""
+"Then deploy CloudStack-UI (see the `instructions for deployment <https://"
+"github.com/bwsw/cloudstack-ui#deployment>`_)."
+msgstr ""
+"Затем установите CloudStack-UI (см. `инструкции по установке интерфейса "
+"<https://github.com/bwsw/cloudstack-ui#getting-started-guide>`_)."
+
+# 2109755f3fda4dedb021aa3eb765fa26
+#: ../../CSUI-Start.rst:13
+msgid "Logging In"
+msgstr "Вход в систему"
+
+# 084f137f753149f6bf7c5889621558ef
+#: ../../CSUI-Start.rst:15
+msgid "To enter the platform use your credentials provided by an administrator:"
+msgstr ""
+"Для входа в систему используйте логин и пароль, предоставленные "
+"администратором:"
+
+# dbef8286c4614e0fbe9b0b1505515658
+#: ../../CSUI-Start.rst:17
+msgid "Required fields are marked with asterisks (*)."
+msgstr "Обязательные поля отмечены звездочкой (*)."
+
+# 8cd1e48165054aa89e1d95f5009761f1
+#: ../../CSUI-Start.rst:19
+msgid "User name * -   The user ID of your account."
+msgstr "- Имя пользователя * -  ID пользователя в вашем аккаунте. "
+
+# bcf0796f1d014f62b986809db903341e
+#: ../../CSUI-Start.rst:20
+msgid "Password * - The password associated with the user ID."
+msgstr "- Пароль * -  Пароль, соответствующий ID пользователя."
+
+# 58e91ed9ca7b47f09729167c6d10f17e
+#: ../../CSUI-Start.rst:21
+msgid ""
+"Domain - Specify domain when you log in. CloudStak-UI supports three ways to "
+"do it. Choose the one which is more convenient for you:"
+msgstr ""
+"- Домен — Укажите домен при входе. CloudStak-UI поддерживает три способа "
+"ввода домена. Выберите тот, который для вас более удобен:"
+
+# 4ba2e8609b714f979e8aedd8ce1ff97a
+#: ../../CSUI-Start.rst:23
+msgid ""
+"Enter a domain in the field under the \"Show advanced options\" button |adv "
+"icon|."
+msgstr ""
+"   1) Введите домен в поле, которое раскрывается нажатием кнопки \"Показать "
+"дополнительные параметры\" |adv icon|."
+
+# 0e4c7c3c18924d7db3b0acce5c0c14f1
+#: ../../CSUI-Start.rst:25
+msgid ""
+"Administrator can set a domain in configurations. Domain field will be "
+"prepopulated with the specified value. It is more convenient for a user as he/"
+"she does not need to enter the domain every time at logging in. In this case "
+"the domain field can be hidden by clicking |adv icon|. Find more information "
+"on the feature configuration at the `configuration guide <https://github.com/"
+"bwsw/cloudstack-ui/blob/master/config-guide.md#default-domain-url>`_."
+msgstr ""
+"   2) Администратор может установить домен в конфигурационном файле. В этом "
+"случае заданное значение будет автоматически указываться в качестве домена "
+"при входе в систему. Пользователю не придется вводить его каждый раз при "
+"авторизации. Поле домена можно скрыть, нажав на |adv icon|."
+
+# 80c3d785b5264ed3ba07755d75617fde
+#: ../../CSUI-Start.rst:27
+msgid ""
+"Other way to log in is to enter a URL in the format ``http://<ip-address>/"
+"login?domain=<domain>``. The domain will be prepopulated in the logging in "
+"form with the value that is specified in the URL. Please, note, the domain "
+"value in URL will override the domain set in the configurations by "
+"Administrator."
+msgstr ""
+"   3) Еще одним способом авторизации является вход через URL с указанием в "
+"ней домена в следующем формате: ``http://<ip-address>/login?"
+"domain=<domain>``.  Значение домена из URL будет автоматически задано в форме "
+"авторизации. *Примечание*: значение домена из URL переопределяет значение "
+"домена, заданного Администратором в конфигурационном файле (`см.  подробнее "
+"<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-"
+"domain-url>`_)."
+
+# 04fe521e232946bab6e63e4a85d07127
+#: ../../CSUI-Start.rst:31
+msgid ""
+"Push \"Login\" to proceed to CloudStack. You will see the first section - "
+"Virtual Machines."
+msgstr ""
+"Нажмите \"Войти\" для перехода к CloudStack. Вы увидите первый раздел - "
+"*Виртуальные Машины*. "
+
+# 3f141eef202b4009a6b2f46264217bf5
+#: ../../CSUI-Start.rst:33
+msgid ""
+"To the left you can see the main navigation bar. It allows moving from "
+"section to section. It is configured by an Administrator in the "
+"`configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-"
+"guide.md#configure-sidenav>`_ by setting a list of left-sidebar sections "
+"there. The Administrator can set it adjustable, i.e. allow a user to reorder "
+"elements in the main navigation bar (except the \"Logout\" section). Please, "
+"see the `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/"
+"master/config-guide.md#allow-reordering-sidenav>`_ for more information on "
+"configuring the navigation bar elements."
+msgstr ""
+"Слева находится главная навигационную панель. Она позволяет перемещаться от "
+"раздела к разделу. Навигационная панель формируется Администратором в "
+"конфигурационном файле (см. подробнее :ref:`configureSidenav_RU`). "
+"Администратор может сделать ее редактируемой, т.е. разрешить пользователю "
+"менять порядок элементов в главной навигационной панели (кроме раздела "
+"*Выход*). См. подробнее :ref:`allowReorderingSidenav_RU` для получения "
+"дополнительной информации об установке настроек навигационной панели."
+
+# 1d162d0706f1463e8a8ae374b12e5f0e
+#: ../../CSUI-Start.rst:35
+msgid ""
+"If the main navigation bar is set to adjustable, you will see a lock |lock| "
+"at the top. To change the section order in the menu click the lock to unlock "
+"it and change the section order by:"
+msgstr ""
+"Если навигационная панель редактируемая, вверху нее вы увидите иконку |lock|. "
+"Нажмите на нее, чтобы \"разблокировать\" меню для редактирования одним из "
+"способов: "
+
+# bae48869c7484807be3d6b5ea05ecf4b
+#: ../../CSUI-Start.rst:37
+msgid "dragging the section up and down the list,"
+msgstr "- перетащив название раздела вверх/вниз по списку,"
+
+# 965f61e1e04644d1920c055444ee8f67
+#: ../../CSUI-Start.rst:38
+msgid "enabling/disabling a section by ticking it in the list."
+msgstr ""
+"- включив/выключив раздел в списке с помощью чекбокса рядом с названием "
+"раздела. При выключении раздел не будет отображаться в навигационной панели. "
+
+# 07faa1d0a3e24642bb80914061653747
+#: ../../CSUI-Start.rst:40
+msgid ""
+"You cannot disable the Virtual Machines section. You can only move it within "
+"the section list."
+msgstr ""
+"Раздел *Виртуальные Машины* нельзя выключить из списка разделов в "
+"навигационной панели. Его можно только  перемещать по списку. "
+
+# e09658ade92d4b0b8cf4f108014bc637
+#: ../../CSUI-Start.rst:44
+msgid ""
+"The navigation bar can be hidden or extended using the |hide menu| icon in "
+"the upper-left corner. The system remembers the main navigation bar position "
+"(collapsed/expanded) after login/logout, reloading a page, moving between "
+"sections and within the section."
+msgstr ""
+"Навигационную панель можно спрятать или раскрыть, используя переключатель |"
+"hide menu| вверху. Позиция навигационной панели запоминается системой и не "
+"меняется при входе/выходе из системы, перезагрузке страницы, передвижении от "
+"раздела к разделу. "
+
+# adbaff7810b34ab0b3304951e769c153
+#: ../../CSUI-Start.rst:49
+msgid "Resource Usage"
+msgstr "Используемые ресурсы"
+
+# 9e1af7ad29924d55bccbfc3b2acc94ac
+#: ../../CSUI-Start.rst:50
+msgid ""
+"In this section you can see the resource statistics: used and free VMs, "
+"computational resources, volumes and storage space."
+msgstr ""
+"В этом разделе Вы видите статистику использования ресурсов: используемые и "
+"свободные ВМ, вычислительные ресурсы, диски и хранилища. "
+
+# 9c684233fb8d433e9e5cb0b14a0d4761
+#: ../../CSUI-Start.rst:52
+msgid ""
+"Unfold *Resource Usage* panel in the upper part of the screen. It provides "
+"information on the following resources:"
+msgstr ""
+"Откройте панель *Использование Ресурсов* в верхней части экрана, где "
+"представлена информация о следующих ресурсах:"
+
+# b428c5416b00444b99c0399cd052c11b
+#: ../../CSUI-Start.rst:54
+msgid "Virtual machines;"
+msgstr "1) Виртуальные машины;"
+
+# 485cdf17a4744390bfcbb84fadd53505
+#: ../../CSUI-Start.rst:55
+msgid "Computational resources - CPU, RAM;"
+msgstr "2) Вычислительные ресурсы - CPU, RAM;"
+
+# 459d2ea417554439a8daf0797625f533
+#: ../../CSUI-Start.rst:56
+msgid "Volumes and snapshots;"
+msgstr "3) Диски и их снимки;"
+
+# 0b21d17f48094e3aaaf029d0bf0b6e3a
+#: ../../CSUI-Start.rst:57
+msgid "Storage - primary and secondary."
+msgstr "4) Хранилище - основное и вторичное."
+
+# 632be27ebfa6415f945328e7dcbe5dab
+#: ../../CSUI-Start.rst:59
+msgid ""
+"You can switch between used or free resources by clicking the option you need "
+"above the resource data list."
+msgstr ""
+"Вы можете переключиться между используемыми и доступными ресурсами, кликнув "
+"переключатель над списком данных о ресурсах."
+
+# e3cba988d55042679e82db5bb3e170ea
+#: ../../CSUI-Start.rst:61
+msgid "A user can see the resource usage statistics for his/her user only."
+msgstr ""
+"Пользователь может видеть статистику использования ресурсов только для своего "
+"пользователя."
+
+# 9e07d00468a946feb9fc10558e52ab0a
+#: ../../CSUI-Start.rst:65
+msgid ""
+"A Domain Administrator can view resources for his/her account and for the "
+"whole domain."
+msgstr ""
+"Администратор домена может видеть ресурсы для своего аккаунта и для всего "
+"домена. "
+
+# 9766283b6fd241fa96ad499d46aa7883
+#: ../../CSUI-Start.rst:70
+msgid "Notifications on Pending Operations"
+msgstr "Оповещения о недавних действиях"
+
+# b1dd4e5e42bd4d09a9150a6102a90697
+#: ../../CSUI-Start.rst:72
+msgid ""
+"In the upper-right corner of the screen, you can see the list of pending "
+"operations by clicking a bell button |bell icon|. It informs you of the "
+"latest operations in the system. You can clear the list after its reviewing "
+"by deleting every notification one by one or by clicking \"CLEAR ALL\" at the "
+"list bottom."
+msgstr ""
+"В верхнем правом углу экрана можно просматривать список недавних действий, "
+"нажав кнопку |bell icon|. Этот список сообщает Вам о последних операциях в "
+"системе. После просмотра списка можно очистить его, удалив каждое уведомление "
+"один за другим, или нажав \"ОЧИСТИТЬ\" в конце списка для удаления всех "
+"оповещений сразу."
+
+# c5bf2fa7fb6c455a9d730eb73ddad6aa
+#: ../../CSUI-Start.rst:76
+msgid ""
+"Alongside with the notification panel, the action completion confirmation "
+"additionally appears in the snackbar notification at the page bottom."
+msgstr ""
+"Помимо уведомлений в панели оповещений, подтверждение завершения действия "
+"дублируется внизу экрана в дополнительной панели. "
+
+# 32d299355a294c21946cdecc733b3e8e
+#: ../../CSUI-Start.rst:80
+msgid ""
+"In case of errors at data loading the snackbar also notifies of them. In this "
+"case it has a refresh button that refreshes the whole app."
+msgstr ""
+"Также, дополнительная панель появляется при возникновении ошибок загрузки "
+"данных. В этом случае на ней предусмотрена кнопка \"Обновить\", которая "
+"позволяет обновить всю систему."
