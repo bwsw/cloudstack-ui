@@ -14,6 +14,7 @@ import * as computeOfferingClasses from './compute-offering-classes.scheme.json'
 import * as serviceOfferingAvailability from './service-offering-availability.scheme.json';
 import * as customComputeOfferingParameters from './custom-compute-offering-parameters.scheme.json';
 import * as imageGroups from './image-groups.scheme.json';
+import * as defaultSecurityGroupName from './default-security-group-name.scheme.json';
 
 export {
   // General
@@ -35,4 +36,6 @@ export {
   computeOfferingClasses,
   // Images settings
   imageGroups,
+  // Firewall (Security groups) settings
+  defaultSecurityGroupName
 }

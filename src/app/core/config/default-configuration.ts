@@ -48,6 +48,10 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: [],
+  defaultSecurityGroupName: {
+    en: 'default',
+    ru: 'default'
+  },
   /*
   * Images settings
   */
@@ -84,7 +88,7 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   computeOfferingClasses: [],
   serviceOfferingAvailability: {
     'filterOfferings': false
-  }
+  },
 };
 
 export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {

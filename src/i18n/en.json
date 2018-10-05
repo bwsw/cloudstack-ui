@@ -554,7 +554,9 @@
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
       "NO_TEMPLATES": "No templates available",
-      "NO_OFFERINGS": "No offerings available"
+      "NO_OFFERINGS": "No offerings available",
+      "GENERAL": "General",
+      "ADVANCED": "Advanced"
     }
   },
   "VM_POST_ACTION": {

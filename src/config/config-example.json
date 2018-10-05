@@ -149,5 +149,9 @@
         "computeOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1dec29"]
       }
     }
+  },
+  "defaultSecurityGroupName": {
+    "en": "default name",
+    "ru": "имя по умолчанию"
   }
 }

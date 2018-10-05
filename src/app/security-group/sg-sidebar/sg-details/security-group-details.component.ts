@@ -19,5 +19,4 @@ export class SecurityGroupDetailsComponent {
   public get securityGroupType(): SecurityGroupType {
     return getType(this.securityGroup);
   }
-
 }
