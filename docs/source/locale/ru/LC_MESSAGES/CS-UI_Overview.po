@@ -127,7 +127,7 @@ msgid ""
 "The first goal is to make the UI more intuitive in terms of usability, "
 "business processes and typical use-cases."
 msgstr ""
-"1. Первая цель состоит в том, чтобы сделать UI более понятным с точки "
+"Первая цель состоит в том, чтобы сделать UI более понятным с точки "
 "зрения удобства использования и бизнес-процессов."
 
 # 194f7c102ce5444daa7695e3592099ed
@@ -137,7 +137,7 @@ msgid ""
 "wanted the UI to have a support for that. Having a full control of your "
 "cloud from a smartphone, what could be better?"
 msgstr ""
-"#. Поскольку в наше время люди отходят от настольных PC и чаще "
+"Поскольку в наше время люди отходят от настольных PC и чаще "
 "используют мобильный телефон, мы хотели, чтобы у UI была реализована "
 "поддержка мобильной версии. Ведь здорово иметь полный контроль над Вашим "
 "облаком со смартфона?"
@@ -149,7 +149,7 @@ msgid ""
 "possible to support for many years. That’s why we have to use only "
 "modern technologies."
 msgstr ""
-"#. Одна из главных целей, которых мы хотим достигнуть, состоит в том, "
+"Одна из главных целей, которых мы хотим достигнуть, состоит в том, "
 "чтобы разработать такой UI, который можно поддерживать длительный срок. "
 "Вот почему мы используем только современные технологии."
 
@@ -162,7 +162,7 @@ msgid ""
 "additional semantics to the entities that user has: like Vms, snapshots "
 "and so on."
 msgstr ""
-"#. С технической точки зрения мы также хотим, чтобы UI поддерживал "
+"С технической точки зрения мы также хотим, чтобы UI поддерживал "
 "возможность добавления дополнительной метаинформации, такой как "
 "описание, цвета, группы, помощники. Все это не поддерживается в "
 "оригинальном UI, в то время как дополнительная метаинформация может "
@@ -177,7 +177,7 @@ msgid ""
 "g. DNS management, helpdesk integration, PaaS management, runtime "
 "statistics charts and monitoring."
 msgstr ""
-"#. Следующим ключевым пунктом является то, что новый UI должен иметь "
+"Следующим ключевым пунктом является то, что новый UI должен иметь "
 "некоторые дополнительные функции вне основной функциональности, которую "
 "обеспечивает CloudStack, например, управление DNS, интеграция службы "
 "поддержки, управление PaaS, диаграммы статистики во время работы ВМ и "
@@ -190,7 +190,7 @@ msgid ""
 "improve the product and provide better user experience for the "
 "CloudStack users."
 msgstr ""
-"#. И заключительная цель состоит в том, чтобы получить общественную "
+"И заключительная цель состоит в том, чтобы получить общественную "
 "поддержку, которая могла помочь нам улучшить продукт и обеспечить лучший "
 "пользовательский опыт взаимодействия с пользователями CloudStack."
 
@@ -293,7 +293,7 @@ msgid ""
 "Share the information about the project with other people, try to "
 "install the UI and share your opinion with us and your colleagues."
 msgstr ""
-"* Делиться информацией о проекте, попробовать установить новый UI и "
+"Делиться информацией о проекте, попробовать установить новый UI и "
 "поделиться впечатлениями с нами или вашими коллегами."
 
 # 4d2b556cd261487c84dcd1fbf6ccf38d
@@ -317,7 +317,7 @@ msgstr "* Править ошибки и высылать нам pull-request'ы
 #: ../../CS-UI_Overview.rst:67
 msgid "Implement a feature from the Roadmap or simply make something new."
 msgstr ""
-"* Реализовать одну из планируемых функциональностей или сделать что-то "
+"Реализовать одну из планируемых функциональностей или сделать что-то "
 "новое. "
 
 # 6c45b80f34b545e09a8a077cd115297f
@@ -326,7 +326,7 @@ msgid ""
 "Support and promote the development of specific functions which are "
 "important to you and may be shared."
 msgstr ""
-"* Поддержать и продвигать разработку специфичных функциональностей, "
+"Поддержать и продвигать разработку специфичных функциональностей, "
 "которые важны для вашей работы и могут быть полезны другим. "
 
 # c58a12e2a941412a824953aff081506b
@@ -335,23 +335,23 @@ msgid ""
 "Provide testing environment for other deployment schemes. Now we "
 "interested in testing the app with"
 msgstr ""
-"* Предоставить тестовое окружение для различных сценариев развертывания. "
+"Предоставить тестовое окружение для различных сценариев развертывания. "
 "В данный момент мы заинтересованы в тестировании на:"
 
 # 46f56d4ba2d54009b3563b6cd0cc1007
 #: ../../CS-UI_Overview.rst:71
 msgid "KVM with RBD"
-msgstr "   - KVM с RBD"
+msgstr "KVM с RBD"
 
 # 2c8d93e4e8e54c85a5f21e4513d0980a
 #: ../../CS-UI_Overview.rst:72
 msgid "Xen with NFS, Local, RBD"
-msgstr "   - Xen с NFS, Local, RBD"
+msgstr "Xen с NFS, Local, RBD"
 
 # 67607ec6020d43f9b7bd1948953ba39c
 #: ../../CS-UI_Overview.rst:73
 msgid "Oher browsers and operating systems"
-msgstr "   - других браузерах и операционных системах."
+msgstr "других браузерах и операционных системах."
 
 # f3446e26596d4e25ac73bf6653015045
 #: ../../CS-UI_Overview.rst:75
