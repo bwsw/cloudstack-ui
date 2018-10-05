@@ -25,6 +25,6 @@ export class SidebarContainerComponent {
   }
 
   public onResize(event: IResizeEvent) {
-    this.sidebarContainerService.width.next(event.size.width);
+    this.sidebarContainerService.width.next(Math.min(Math.max(event.size.width, 330), 700));
   }
 }
