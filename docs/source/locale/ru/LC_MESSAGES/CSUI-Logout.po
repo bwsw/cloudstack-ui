@@ -1,0 +1,38 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-04 15:49+0700\n"
+"PO-Revision-Date: 2018-10-04 16:05+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+# f0f3e11262344ede9698b9b60076795d
+#: ../../CSUI-Logout.rst:4
+msgid "Logout"
+msgstr "Выход из системы"
+
+# b4f49a96235c473195605215b8fafcbc
+#: ../../CSUI-Logout.rst:6
+msgid ""
+"Clicking *Logout* in the bottom of the navigation menu bar a user can "
+"logout from CloudStack."
+msgstr ""
+"Выйти из CloudStack можно, нажав *Выход* на главной навигационной "
+"панели."
+
+# e32193ec2a8741368d019372108f1c74
+#: ../../CSUI-Logout.rst:11
+msgid "It will move a user back to the Login form."
+msgstr "It will move a user back to the Login form."

@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-04 15:49+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+# f3b9fc18d2f7462bbf43617f0fbe8a53
+#: ../../CS-UI_Guide.rst:4
+msgid "CloudStack-UI User Guide"
+msgstr ""
+
+# 3630d90356394e83b2dca83dc7795f7d
+#: ../../CS-UI_Guide.rst:6
+msgid ""
+"CloudStack-UI is created to make it easier for end-users to use cloud "
+"infrastructure - to view and use their cloud resources, including virtual"
+" machines, templates and ISOs, data volumes and snapshots, security "
+"groups, and IP addresses."
+msgstr ""
+
+# d3af2eed24c14bb0bd592097670c04fd
+#: ../../CS-UI_Guide.rst:8
+msgid ""
+"The documentation gives precise instructions on working with the "
+"interface. The UI is quite intuitive and user-friendly, but we still "
+"advise studying the documentation first to get deeper insight of the "
+"features."
+msgstr ""
+
+# 613eb45c97044c68b0a42c1f5147d4fa
+#: ../../CS-UI_Guide.rst:10
+msgid "Here is the documentation structure:"
+msgstr ""
+
