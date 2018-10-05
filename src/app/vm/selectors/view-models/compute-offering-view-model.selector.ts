@@ -241,7 +241,8 @@ export const getComputeOfferingForVmEditing = createSelector(
    customComputeOfferingParameters,
    defaultRestrictions,
    defaultHardwareValues,
-   tags, vm): ComputeOfferingViewModel[] => {
+   tags,
+   vm): ComputeOfferingViewModel[] => {
     const memoryUsed = vm.memory;
     const cpuNumberUsed = vm.cpuNumber;
 
@@ -252,10 +253,7 @@ export const getComputeOfferingForVmEditing = createSelector(
       ? account.memoryavailable
       : Number(account.memoryavailable) + memoryUsed;
 
-    const availableResources: Resources = {
-      cpuNumber: cpuNumber || cpuNumberUsed,
-      memory: memory || memoryUsed
-    };
+    const availableResources: Resources = { cpuNumber, memory };
 
     return getComputeOfferingViewModel(
       offerings,
@@ -280,6 +278,11 @@ export const getComputeOfferingForVmCreation = createSelector(
    defaultRestrictions,
    defaultHardwareValues,
    tags): ComputeOfferingViewModel[] => {
+
+    /**
+     * '0' used to prevent an error when account is not loaded yet
+     * it happened when you go to vm creation dialog by url
+     */
     const availableResources: Resources = {
       cpuNumber: account && account.cpuavailable || '0',
       memory: account && account.memoryavailable || '0'

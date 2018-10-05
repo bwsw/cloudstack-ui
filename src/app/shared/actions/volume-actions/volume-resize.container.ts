@@ -51,7 +51,7 @@ export class VolumeResizeContainerComponent implements OnInit {
       take(1),
       filter(account => !!account))
       .subscribe((account: Account) => {
-        this.maxSize = Number(account.primarystorageavailable);
+        this.maxSize = account.primarystorageavailable;
       });
   }
 

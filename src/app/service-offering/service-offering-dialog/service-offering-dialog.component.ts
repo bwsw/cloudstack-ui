@@ -91,7 +91,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
     if (this.serviceOffering && this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
       return true;
     }
-    if (!this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {
+    if (this.serviceOffering && !this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {
       return true;
     }
     return false;
