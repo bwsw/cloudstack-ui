@@ -1,0 +1,322 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-04 15:49+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+# 11e0caadceb7437a99d2d868d087ed0d
+#: ../../CSUI-Settings.rst:4
+msgid "Settings"
+msgstr ""
+
+# cbe36399f5d8464898d2a7ab2d6364ba
+#: ../../CSUI-Settings.rst:7
+msgid ""
+"In the *Settings* section a user can modify the interface by changing "
+"settings."
+msgstr ""
+
+# e0fe726692054969ba3083b0c7141a43
+#: ../../CSUI-Settings.rst:13
+msgid "Security"
+msgstr ""
+
+# 44718676269846da9d85518765bd0393
+#: ../../CSUI-Settings.rst:14
+msgid "A user can manage the following security settings:"
+msgstr ""
+
+# d7edac0bc2d048248ec07499e8c4ad92
+#: ../../CSUI-Settings.rst:16
+msgid "Change password;"
+msgstr ""
+
+# 982b06f7263a4bf288f1e7fb5340e935
+#: ../../CSUI-Settings.rst:17
+msgid "Set the session timeout interval;"
+msgstr ""
+
+# b1e4d7e39ea94a448a998efbc7d92c7c
+#: ../../CSUI-Settings.rst:18
+msgid "the \"Save VM passwords by default\" option."
+msgstr ""
+
+# cb7c0187ab3045448c7c4d5be57d8b7b
+#: ../../CSUI-Settings.rst:21
+msgid "Change Password"
+msgstr ""
+
+# 660ee8f6180d4a1fae3394af3897c4da
+#: ../../CSUI-Settings.rst:22
+msgid ""
+"Here you can change the password provided by your Administrator to the "
+"one you like. This will improve the account security."
+msgstr ""
+
+# aaa0f6d56732442fbf8a14e62f5cfc7b
+#: ../../CSUI-Settings.rst:24
+msgid "Enter a new password and re-enter it in the next field to confirm it:"
+msgstr ""
+
+# d23db8b8bf6340198de32020d5bd4c4a
+#: ../../CSUI-Settings.rst:28
+msgid "Click \"UPDATE\" to save the new password."
+msgstr ""
+
+# acdcbd82fdfd40bd8a0c793e28a63622
+#: ../../CSUI-Settings.rst:30
+msgid ""
+"In case you have lost or forgotten your password, contact your "
+"Administrator."
+msgstr ""
+
+# 8dd85c8707b1444f80123b8b3b4e4e1f
+#: ../../CSUI-Settings.rst:33
+msgid "Session Timeout"
+msgstr ""
+
+# 03d0f031c96e40e496f458617dd4c078
+#: ../../CSUI-Settings.rst:35
+msgid ""
+"Here you can specify the maximum amount of time that an active session "
+"can be idle (without user activity) before it automatically closes. The "
+"default interval is 30 minutes."
+msgstr ""
+
+# 9db59c1c53a24cafb9fc88fe1014f3c2
+#: ../../CSUI-Settings.rst:37
+msgid ""
+"Set the desired time limit in minutes using the switch button |switch "
+"icon| to the right or typing it just into the field. Then click "
+"\"UPDATE\" to save the changes."
+msgstr ""
+
+# b4a01a8af6dd4a3697f5ccdb4a023c0a
+#: ../../CSUI-Settings.rst:41
+msgid "The value is stored in user’s tags."
+msgstr ""
+
+# ade9afc532f04d278926d6009ed620d8
+#: ../../CSUI-Settings.rst:43
+msgid ""
+"The maximum allowed value is 300 minutes. Please, note that a long time "
+"period of an idle session decreases the account security."
+msgstr ""
+
+# f46565a1cb0f4100a35029a72da883c3
+#: ../../CSUI-Settings.rst:45
+msgid ""
+"The session timeout can be set in the configuration file. You will find "
+"more information in the  `configuration guide <https://github.com/bwsw"
+"/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_."
+msgstr ""
+
+# b1456876bb7048169dee0874a6eac72c
+#: ../../CSUI-Settings.rst:49
+msgid "Save VM passwords by default"
+msgstr ""
+
+# 081f050979e041ac85f0341f22806707
+#: ../../CSUI-Settings.rst:50
+msgid ""
+"This checkbox allows saving passwords to VM tags automatically for all "
+"created virtual machines requiring passwords."
+msgstr ""
+
+# d8583d81f7be477085f757b44ce86398
+#: ../../CSUI-Settings.rst:52
+msgid ""
+"Tick this option here. The passwords will be saved to VM tags right at "
+"the moment VMs are created. You will see a password (if it is required "
+"for the VM) is marked as saved in a dialog window after the new VM is "
+"deployed:"
+msgstr ""
+
+# f63840cdd3db4f009fa58509baf0447d
+#: ../../CSUI-Settings.rst:56
+msgid ""
+"If this option is not activated, every time when creating a machine the "
+"system will ask you to save the password by clicking \"SAVE\" next to it:"
+msgstr ""
+
+# 8777f7c3ce0c4e50b30f6cc1928e1ed7
+#: ../../CSUI-Settings.rst:60
+msgid ""
+"Then the system will ask you if you wish to save passwords to VM tags "
+"automatically. If you click \"Yes\", the \"Save VM passwords by default\""
+" option will be activated in *Settings*. You will find more information "
+"about VM creation in the :ref:`Create_VM` section."
+msgstr ""
+
+# 0d653b4fcd35405eb9eb9f4027b18303
+#: ../../CSUI-Settings.rst:63
+msgid "API Configuration"
+msgstr ""
+
+# d4ff9f6270664da489226de23310844a
+#: ../../CSUI-Settings.rst:65
+msgid ""
+"In this block of settings you can see and manage the API configurations: "
+"regenerate API keys, see the connection URL."
+msgstr ""
+
+# 66286a32c4f549ada962e4977518fea2
+#: ../../CSUI-Settings.rst:67
+msgid ""
+"You can see an API key and a Secret key in corresponding fields. You can "
+"copy any of them clicking |copy icon| to the right."
+msgstr ""
+
+# d415827be21a47daa0ea0bd6e002e4d2
+#: ../../CSUI-Settings.rst:71
+msgid ""
+"Regenerate the keys by clicking |refresh icon| above the fields. New keys"
+" will be generated."
+msgstr ""
+
+# 91ff3f6e3d8342d395036af1889f559f
+#: ../../CSUI-Settings.rst:75
+msgid ""
+"Below you can view a connection URL which is used to send requests to "
+"CloudStack API. All requests are listed in the Apache CloudStack "
+"documentation available by the link."
+msgstr ""
+
+# b20acfc90cd145aeaf5879e13b32ae22
+#: ../../CSUI-Settings.rst:80
+msgid "VM preferences"
+msgstr ""
+
+# 7309c3c62f9049559f62eda43795d1fa
+#: ../../CSUI-Settings.rst:81
+msgid "In this block you may set up the keyboard layout."
+msgstr ""
+
+# 4f02d97aa5da4f6e82f309090a9e3247
+#: ../../CSUI-Settings.rst:84
+msgid "Keyboard layout"
+msgstr ""
+
+# f1d924886cb5496f8855177815bd5cc9
+#: ../../CSUI-Settings.rst:85
+msgid "Select a keyboard layout in the drop-down list."
+msgstr ""
+
+# 733b1255363b4c3fa8a6e71d6b34fbdc
+#: ../../CSUI-Settings.rst:87
+msgid "The following options are available:"
+msgstr ""
+
+# 098c34ea5dd64b96b833aeb29e24c28a
+#: ../../CSUI-Settings.rst:89
+msgid "Standard US keyboard (default value)"
+msgstr ""
+
+# c74d9ebe057d4e6393ecc40aedb3b4b9
+#: ../../CSUI-Settings.rst:90
+msgid "UK keyboard"
+msgstr ""
+
+# 446ec65a43254a07b4239174889a87eb
+#: ../../CSUI-Settings.rst:91
+msgid "Japanese keyboard"
+msgstr ""
+
+# f256a28855c04f6fb40fcfeebc7140d7
+#: ../../CSUI-Settings.rst:92
+msgid "Simplified Chinese keyboard."
+msgstr ""
+
+# 918604ae85674a99a2c9ff83b97920c4
+#: ../../CSUI-Settings.rst:97
+msgid "Look and Feel"
+msgstr ""
+
+# f7ddea2421634701ac56ef3e422c8f21
+#: ../../CSUI-Settings.rst:98
+msgid "In this block you can adjust the interface look."
+msgstr ""
+
+# 9a31ba7b16c84031a42fc11a6cceefdd
+#: ../../CSUI-Settings.rst:101
+msgid "Interface Language"
+msgstr ""
+
+# 414bf05fc719430787c6e3306bcc8b85
+#: ../../CSUI-Settings.rst:102
+msgid ""
+"Select the language of your interface. Currently two options are "
+"available in the drop-down list: Russian and English."
+msgstr ""
+
+# bb03cf08dad0457e94f919c7db4cd064
+#: ../../CSUI-Settings.rst:108
+msgid "First Day of Week"
+msgstr ""
+
+# 6f6dfec33da9478999d02e8909452075
+#: ../../CSUI-Settings.rst:109
+msgid ""
+"In this block, you have the opportunity to choose between two types of "
+"weeks: Sunday - Saturday or Monday - Sunday."
+msgstr ""
+
+# fd02a760f7554ddea45e0fea50a76968
+#: ../../CSUI-Settings.rst:111
+msgid ""
+"From the drop-down list select the day when a week starts: Monday or "
+"Sanday."
+msgstr ""
+
+# 8fdfe3324b2e47eea88b702f197ae7fb
+#: ../../CSUI-Settings.rst:118
+msgid "Time Format"
+msgstr ""
+
+# 2b7fc2b57a7b4ea4849bc0231dc5974f
+#: ../../CSUI-Settings.rst:119
+msgid ""
+"Here you have the opportunity to switch the time format from AM/PM to "
+"24H. You can set it to \"Auto\" and the time format will be set in "
+"correspondence to the interface language: AM/PM if you select English and"
+" 24H if you select Russian."
+msgstr ""
+
+# d4a0cfaa6fca477580f03985d539fbe2
+#: ../../CSUI-Settings.rst:126
+msgid "Theme Color"
+msgstr ""
+
+# e746b4a863e1401c8d4496992ce8408c
+#: ../../CSUI-Settings.rst:127
+msgid ""
+"Select a preferred theme color. Currently two options are available: "
+"\"blue-red\" and \"indigo-pink\". The blue-red one is used by default."
+msgstr ""
+
+# 348e28d0c778484dba88d22a2bb16a58
+#: ../../CSUI-Settings.rst:129
+msgid "Click the field and select another color if you wish."
+msgstr ""
+
+# de66138f3366424c973149c5c472ce03
+#: ../../CSUI-Settings.rst:133
+msgid ""
+"A theme color can be set in the configuration JSON file. You will find "
+"more information in the `configuration guide <https://github.com/bwsw"
+"/cloudstack-ui/blob/master/config-guide.md#default-theme-name>`_."
+msgstr ""
+

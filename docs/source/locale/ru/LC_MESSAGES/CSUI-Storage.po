@@ -1,0 +1,744 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-04 15:49+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+# 7f8c10ad46c94d83a8c4118cfc9c483a
+#: ../../CSUI-Storage.rst:4
+msgid "Storage"
+msgstr ""
+
+# a6913565fdb443e6a9b670003caf8dc6
+#: ../../CSUI-Storage.rst:7
+msgid ""
+"In the *Storage* section, you can create and manage drives for virtual "
+"machines. Here you can add new disks, create templates and snapshots of a"
+" volume, view the list of snapshots for each volume."
+msgstr ""
+
+# ab4b7dc9f2ba40baa3af776c4ae0bbb7
+#: ../../CSUI-Storage.rst:13
+msgid "Drive list"
+msgstr ""
+
+# 68be58b85ddd4bb68b92f278c31140d0
+#: ../../CSUI-Storage.rst:15
+msgid ""
+"If you have just started working with CloudStack and you do not have "
+"virtual machines yet, you have no disks in the list. Once you create a "
+"VM, a root disk is created for it automatically. Creation of an "
+"additional disk takes resources and requires expenses. Please, make sure "
+"you definitely need an additional data disk."
+msgstr ""
+
+# 659d74b1b7aa4fb2aaf2872fb6ca8217
+#: ../../CSUI-Storage.rst:17
+msgid "Here you can find a list of disks existing for your user."
+msgstr ""
+
+# b3a486f45b3b420caee74f0a39313bd4
+#: ../../CSUI-Storage.rst:21
+msgid "Domain Administrator can see disks of all accounts in the domain."
+msgstr ""
+
+# d5d78279ae88466c80717b4209986740
+#: ../../CSUI-Storage.rst:25
+msgid ""
+"Disks can be viewed as a list or as a grid of cards. Switch the view by "
+"clicking a view icon |view icon|/|box icon| in the upper-right corner."
+msgstr ""
+
+# ef4d4ceed77d4efca9d042df1ecd36ff
+#: ../../CSUI-Storage.rst:28
+msgid "Filtering of Drives"
+msgstr ""
+
+# 6e7f6da9d26d4f68ad1cf8fa1de28993
+#: ../../CSUI-Storage.rst:29
+msgid ""
+"Root disks are visually distinguished from data disks in the list. There "
+"is an option to display only spare disks which allows saving user's time "
+"in certain cases."
+msgstr ""
+
+# 82e1b92dd7434122b67b9d2fce9028e6
+#: ../../CSUI-Storage.rst:31
+msgid ""
+"As in all lists, there is the filtering tool for selecting drives by "
+"zones and/or types. You also can apply the search tool selecting a drive "
+"by its name or a part of the name."
+msgstr ""
+
+# a0bd530bed7a4f24b88e5b448d37ffa4
+#: ../../CSUI-Storage.rst:35
+msgid ""
+"For better distinguising of drives in the list you can group them by "
+"zones and/or types, like in the figure below:"
+msgstr ""
+
+# 8ced697a07c1405c98ff2bfb38adcc08
+#: ../../CSUI-Storage.rst:39
+msgid ""
+"Domain Administrators can see the list of drives of all accounts in the "
+"domain. Filtering by accounts is available to Administrators."
+msgstr ""
+
+# 620257cad58346fcb9e3063d2a69a00a
+#: ../../CSUI-Storage.rst:43
+msgid "For each drive in the list the following information is presented:"
+msgstr ""
+
+# c0b6f639dbd7415a84983a288822c9b8
+#: ../../CSUI-Storage.rst:45
+msgid "Drive name,"
+msgstr ""
+
+# 70ff776725a04f4d8ba9863df5e2c406
+#: ../../CSUI-Storage.rst:46
+msgid "Size,"
+msgstr ""
+
+# 4b83c7168bec4fd7bd497bacfe75e9b5
+#: ../../CSUI-Storage.rst:47
+msgid "State - Ready or Allocated."
+msgstr ""
+
+# 8cba51df80904bd788fb7f4b79f43477
+#: ../../CSUI-Storage.rst:49
+msgid ""
+"The Actions button |actions icon| is available to the right. It expands "
+"the list of actions for a disk. See the information on actions in the "
+":ref:`Actions_on_Disks` section below."
+msgstr ""
+
+# d6df70979fcf426d800cfcf38688dc07
+#: ../../CSUI-Storage.rst:52
+msgid "Create New Volume"
+msgstr ""
+
+# 24f1bdffc8a94017b1bdee9518ce46ce
+#: ../../CSUI-Storage.rst:54
+msgid ""
+"In the *Storage* section you can create new volumes. Please, note that if"
+" you are aimed at creation of a virtual machine, we do not recommend "
+"starting from adding new disks to the system. You can go right to the "
+"*Virtual Machines* section and create a VM. A root disk will be cerated "
+"for the VM automatically."
+msgstr ""
+
+# fd51a4000ef243e79786da4156bd1b92
+#: ../../CSUI-Storage.rst:58
+msgid ""
+"If necessary, you can create a data disk and attach it to your VM. By "
+"clicking the \"Create\" button |create icon| in the bottom-right corner "
+"you will open a creation form. Please, make sure you definitely need an "
+"additional disk as it takes resources and requires expenses. If you do "
+"not have disks yet, when clicking \"Create\", a dialog box will ask you "
+"if you surely want to create a drive. Confirm your creation action by "
+"clicking \"CONTINUE\":"
+msgstr ""
+
+# 134e7f1e7991481e83336d851ef8ec05
+#: ../../CSUI-Storage.rst:62
+msgid "A creation form will appear."
+msgstr ""
+
+# 8757d180aef14c869f214c1b08a9093e
+#: ../../CSUI-Storage.rst:66
+msgid "To create a new volume fill in the fields:"
+msgstr ""
+
+# d6d1f5d85c3c4a67ab080d5e5a4cbb69
+# 30c5a914625c410090fbd2d21d761ed4
+# 8d31bc7370db42adacb16ddc70acd5f7
+#: ../../CSUI-Storage.rst:68 ../../CSUI-Storage.rst:159
+#: ../../CSUI-Storage.rst:226
+msgid "Required fields are marked with an asterisk (*)."
+msgstr ""
+
+# a8b1a1d691c24025ac86c98ea65faa76
+#: ../../CSUI-Storage.rst:70
+msgid "Name * - Enter a name of the volume."
+msgstr ""
+
+# f68b9aa131244544b6e92c215ee3778e
+#: ../../CSUI-Storage.rst:71
+msgid "Zone * - Select a zone from the drop-down list."
+msgstr ""
+
+# 11c7dd2c7f444a13b5cdac1fd5d85703
+#: ../../CSUI-Storage.rst:72
+msgid ""
+"Disk offering * - Select from the list of available offerings opening it "
+"in a modal window by clicking \"SELECT\". The list of available disk "
+"offerings is determined in the `configuration file "
+"<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md"
+"#service-offering-availability>`_ by Administrator."
+msgstr ""
+
+# a2243f1fd9a94714b4f75d5edc841252
+#: ../../CSUI-Storage.rst:74
+msgid ""
+"In the modal window you can see the name and short description for each "
+"disk offering and a radiobutton to select any option."
+msgstr ""
+
+# 9dfee85dd5a447688c1fd9731b223e26
+#: ../../CSUI-Storage.rst:78
+msgid ""
+"For each disk offering you can expand detailed information by clicking "
+"the arrow icon or the whole line in the list. In the appeared section you"
+" will see a range of parameters. The following parameters are shown by "
+"default:"
+msgstr ""
+
+# 66393e099d5b40969fcae5238c6eede4
+#: ../../CSUI-Storage.rst:80
+msgid "Bandwidth (MB/s): Read/Write rates;"
+msgstr ""
+
+# ffa855e6f3934923812b39618932097d
+#: ../../CSUI-Storage.rst:81
+msgid "IOPS: Read/Write rates and Min/Max values;"
+msgstr ""
+
+# bffdc1bd8bc14d779d7c8dc42f3feed8
+#: ../../CSUI-Storage.rst:82
+msgid "Storage type;"
+msgstr ""
+
+# de903f324d554c1dbcf8a825ba9afba4
+#: ../../CSUI-Storage.rst:83
+msgid "Provisioning type;"
+msgstr ""
+
+# 1f6cf1d056994a27a790c6e73f46cd7b
+#: ../../CSUI-Storage.rst:84
+msgid "Creation date."
+msgstr ""
+
+# 6f542d3bbec140c098bd03bc2e34e9c8
+#: ../../CSUI-Storage.rst:86
+msgid "Use the scrolling tool to view them all."
+msgstr ""
+
+# 0b03d8bae90f4c8f977eb58884c7c592
+#: ../../CSUI-Storage.rst:88
+msgid ""
+"More parameters can be added via the `configuration file "
+"<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-"
+"offering-parameters>`_ by an Administrator."
+msgstr ""
+
+# 010be607b2c94051ae686ee3906652f1
+#: ../../CSUI-Storage.rst:92
+msgid "Select a disk offering in the list and click \"SELECT\"."
+msgstr ""
+
+# 3a8fb534183d4ee69d01f2c251881be8
+#: ../../CSUI-Storage.rst:96
+msgid ""
+"If the selected disk offering has a custom disk size (it is set by "
+"Administrator), you can change the disk size moving the slider to the "
+"volume size you wish or entering a value into the number field."
+msgstr ""
+
+# 6f0fc3a22bec4929adfe21ca97ab8cef
+#: ../../CSUI-Storage.rst:100
+msgid ""
+"Click \"CREATE\" to save the settings and create the new volume. You will"
+" see the drive appears in the list."
+msgstr ""
+
+# 4c974a0c47054ea98ff204f3ef0474e0
+#: ../../CSUI-Storage.rst:104
+msgid ""
+"Click \"CANCEL\" to drop all the settings. The drive will not be created "
+"then."
+msgstr ""
+
+# a6f1ff28463342ffb23d862bb51b5761
+#: ../../CSUI-Storage.rst:109
+msgid "Volume Details Sidebar"
+msgstr ""
+
+# 18a9cb1ef73b47fe830d30385d2830c0
+#: ../../CSUI-Storage.rst:111
+msgid ""
+"By clicking a disk in the list you can access the information on the "
+"volume."
+msgstr ""
+
+# c2c29cf04bb4465e8ed42c5d62a0e85c
+#: ../../CSUI-Storage.rst:115
+msgid "At the right sidebar you can find two tabs:"
+msgstr ""
+
+# fd0968eae01b4366adf405b6dfb06cb6
+#: ../../CSUI-Storage.rst:117
+msgid "Volume tab - Provides the information on the disk volume:"
+msgstr ""
+
+# 76f2cbe6b41d4f0d881e13de61666923
+#: ../../CSUI-Storage.rst:119
+msgid ""
+"General information - Presents disk size, date and time of creation, the "
+"storage type (shared, local)."
+msgstr ""
+
+# cb2e836d87b04e1eae64b98ce846ab75
+#: ../../CSUI-Storage.rst:120
+msgid ""
+"Description - Allows entering a short description to the drive. Click at "
+"the Description card and enter a short description in the text block."
+msgstr ""
+
+# f39668b645e74557a5fb6a66bcc415ba
+#: ../../CSUI-Storage.rst:124
+msgid ""
+"Click \"Save\" to save the description. Description will be saved to "
+"volume `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_."
+msgstr ""
+
+# 564ce1a1e5604803af0bebf06f73cd8a
+#: ../../CSUI-Storage.rst:126
+msgid ""
+"You can edit the description by clicking the \"Edit\" button |edit icon| "
+"in the tab."
+msgstr ""
+
+# 327077f00586483eb6535ac461cd35de
+#: ../../CSUI-Storage.rst:130
+msgid ""
+"Disk offering - Presents the information on the disk offering chosen at "
+"disk creation."
+msgstr ""
+
+# ccdd220594eb4803a9127be2d7788a82
+#: ../../CSUI-Storage.rst:132
+msgid ""
+"Snapshots tab - Allows creating disk snapshots. Snapshots can be taken "
+"for disks with the \"Ready\" status only."
+msgstr ""
+
+# 912a0610a8434629bbb2984cea211f8c
+#: ../../CSUI-Storage.rst:134
+msgid "Click the \"Add\" button |create icon| and enter in the dialog box:"
+msgstr ""
+
+# c3713d5fa310444e9ee99f77812bfd88
+#: ../../CSUI-Storage.rst:136
+msgid ""
+"Name - Define a name for the snapshot. It is auto-generated in the format"
+" ``<date>-<time>``. But you can specify any name you wish."
+msgstr ""
+
+# cdc28b66a20244a1b8e7366f01a21208
+# 22d64b1891424e138e980af66c1e2a4d
+#: ../../CSUI-Storage.rst:137 ../../CSUI-Storage.rst:224
+msgid "Description - Add a description of the snapshot to know what it contains."
+msgstr ""
+
+# 5ca8aa2458254ea29c10c63bf10815da
+#: ../../CSUI-Storage.rst:139
+msgid "Then click \"Create\" and see the snapshot has appeared in the list."
+msgstr ""
+
+# 98ff611d4289442a9071b1e61f8897ad
+#: ../../CSUI-Storage.rst:143
+msgid ""
+"Every snapshot is saved in a separate card. There you will see the name "
+"and time of the snapshot."
+msgstr ""
+
+# ce096c51bd9742e5aefa58f4ad7335c8
+#: ../../CSUI-Storage.rst:145
+msgid ""
+"For each snapshot the list of actions is available. Find more information"
+" on snapshot actions in the :ref:`Actions_on_Snapshot_Volume` section "
+"below."
+msgstr ""
+
+# 03bfa902a3064544992c2293725b95e8
+#: ../../CSUI-Storage.rst:150
+msgid "Snapshots Action Box"
+msgstr ""
+
+# 97cbff9d51104d039f11c30ccc6b2ba0
+#: ../../CSUI-Storage.rst:151
+msgid ""
+"For a newly taken snapshot all actions except \"Delete\" are disabled "
+"until the snapshot is backed up to the Secondary Storage that may take "
+"some time. Once it is backed up, a full range of actions is available to "
+"a user."
+msgstr ""
+
+# e5929948b1b9456fa565026d956a42a3
+#: ../../CSUI-Storage.rst:153
+msgid ""
+"Likewise the Virtual Machine information tab, the same actions are "
+"available for a snapshot:"
+msgstr ""
+
+# d50657ca04b24202b93674327ba20983
+#: ../../CSUI-Storage.rst:155
+msgid ""
+"**Create a template** - Allows creating a template from the snapshot. "
+"This template can be used for VM creation."
+msgstr ""
+
+# f80f50aa3d394463950e0a64358d29b7
+#: ../../CSUI-Storage.rst:157
+msgid "Fill in the form to register a new template:"
+msgstr ""
+
+# 46e023165c114f4985ec7474bc8216de
+#: ../../CSUI-Storage.rst:161
+msgid "Name * - Enter a name of the new template."
+msgstr ""
+
+# 1c568c9ad6cb49f08b0d7beb90b5d2e7
+#: ../../CSUI-Storage.rst:162
+msgid "Description * - Provide a short description of the template."
+msgstr ""
+
+# 321b32d9de0449949e57c3393211bf0d
+#: ../../CSUI-Storage.rst:163
+msgid "OS type * - Select an OS type from the drop-down list."
+msgstr ""
+
+# 8ce1e8ac231d43ef96c2c1021c9aca14
+#: ../../CSUI-Storage.rst:164
+msgid "Group - Select a group from the drop-down list."
+msgstr ""
+
+# 89437aef250b4159a80ee6d6a555d238
+#: ../../CSUI-Storage.rst:165
+msgid ""
+"Password enabled - Tick this option if the template has the password "
+"change script installed. That means the VM created on the base of this "
+"template will be accessed by a password, and this password can be reset."
+msgstr ""
+
+# 09d078497a784c999bd3d29ef4f394b1
+#: ../../CSUI-Storage.rst:166
+msgid ""
+"Dynamically scalable - Tick this option if the template contains XS/VM "
+"Ware tools to support the dynamic scaling of VM CPU/memory."
+msgstr ""
+
+# fb40f4a007c344e88a4f62e7dd7295d2
+#: ../../CSUI-Storage.rst:168
+msgid ""
+"Click \"SHOW ADDITIONAL FIELDS\" to expand the list of optional settings."
+" It allows creating a template that requires HVM."
+msgstr ""
+
+# a7b0f1b1700d4d33a214c7f881a498f2
+#: ../../CSUI-Storage.rst:170
+msgid "Once all fields are filled in click \"Create\" to create the new template."
+msgstr ""
+
+# d88171c32dc64f7d94d70ad01ef27efa
+#: ../../CSUI-Storage.rst:174
+msgid "**Create Volume** - Allows creating a volume from the snapshot."
+msgstr ""
+
+# 6000e8cf4ed54f49a2b364f43ee79dc9
+#: ../../CSUI-Storage.rst:176
+msgid ""
+"Type a name for a new volume into the Name field in the modal window. "
+"Click “Create” to register a new volume."
+msgstr ""
+
+# 77f866e4d69547829b051e3b022b5535
+#: ../../CSUI-Storage.rst:180
+msgid "Click “Cancel” to cancel the volume creation."
+msgstr ""
+
+# 291fdccfe73549d08cf3241e21cb9af6
+#: ../../CSUI-Storage.rst:182
+msgid ""
+"**Revert Volume To Snapshot** - Allows turning the volume back to the "
+"state of the snapshot."
+msgstr ""
+
+# 20535301e223419d9d2f4efdb1226e72
+#: ../../CSUI-Storage.rst:184
+msgid ""
+"In the dialog box confirm your action. Please, note, the virtual machine "
+"the volume is assigned to will be rebooted."
+msgstr ""
+
+# f14f9e711a1c4a7cab9836c16488ab71
+#: ../../CSUI-Storage.rst:188
+msgid ""
+"**Delete** - Allows deleting the snapshot. Click “Delete” in the Action "
+"box and confirm your action in modal window. The snapshot will be "
+"deleted. Click “Cancel” to cancel the snapshot deleting."
+msgstr ""
+
+# 3bffce131a3940e6bdb258ce43b1ce31
+#: ../../CSUI-Storage.rst:195
+msgid "Volume Action Box"
+msgstr ""
+
+# a0fc9ba395f14839b79fa6d88b152f37
+#: ../../CSUI-Storage.rst:197
+msgid "Action on drives are available under the Actions button |actions icon|."
+msgstr ""
+
+# 5e0b2e2257b7407483d53642103f2814
+#: ../../CSUI-Storage.rst:199
+msgid "The following actions are available on disk:"
+msgstr ""
+
+# 0777f95f5b8d4625a0ec693833faaeb5
+#: ../../CSUI-Storage.rst:201
+msgid "For root disks:"
+msgstr ""
+
+# d608fb0a56214dca86b7fd4e3e2ca654
+# b494479196af4f4d8db4b10e95ec7b76
+#: ../../CSUI-Storage.rst:203 ../../CSUI-Storage.rst:209
+msgid "Take a snapshot;"
+msgstr ""
+
+# b55c4f50a0d340fdb6f282711b9f3cb5
+# 566d5edcd0174942a22a5dd389efa618
+#: ../../CSUI-Storage.rst:204 ../../CSUI-Storage.rst:210
+msgid "Set up snapshot schedule;"
+msgstr ""
+
+# 105e5b2543094e718a4340d2e0376523
+#: ../../CSUI-Storage.rst:205
+msgid "Resize the disk."
+msgstr ""
+
+# 857dcfb62415428aa2556ce5c5ec5506
+#: ../../CSUI-Storage.rst:207
+msgid "For data disks:"
+msgstr ""
+
+# 2eb6a526dfae4457b030bb2bf3242a95
+#: ../../CSUI-Storage.rst:211
+msgid "Detach;"
+msgstr ""
+
+# c978419522444933ac524c85055fc4bf
+#: ../../CSUI-Storage.rst:212
+msgid "Resize the disk;"
+msgstr ""
+
+# 3615bb8b666a434cb3aaddd7d17ba64d
+#: ../../CSUI-Storage.rst:213
+msgid "Delete."
+msgstr ""
+
+# 9a9299a79ba9458c9de4f5e132f5561b
+#: ../../CSUI-Storage.rst:217
+msgid "**Take a snapshot**"
+msgstr ""
+
+# fc296061df49474199b1ca7a47629b4b
+#: ../../CSUI-Storage.rst:219
+msgid ""
+"You can take a snapshot of the disk to preserve the data volumes. "
+"Snapshots can be taken for disks with the \"Ready\" status only."
+msgstr ""
+
+# 180e41ea17dc45479af8c6f8df40c0b6
+#: ../../CSUI-Storage.rst:221
+msgid ""
+"Click \"Take a snapshot\" in the disk Actions list and in the dialog "
+"window enter the following information:"
+msgstr ""
+
+# 050bb0d6472047ef8532faa63eb3ed0e
+#: ../../CSUI-Storage.rst:223
+msgid ""
+"Name of the snapshot * - Define a name for the snapshot. It is "
+"autogenerated in the form ``<date>-<time>``. But you can specify any name"
+" you wish."
+msgstr ""
+
+# 1f0c673f1ac94ed298c893a099d50906
+#: ../../CSUI-Storage.rst:228
+msgid "All snapshots are saved in the list of snapshots. For a snapshot you can:"
+msgstr ""
+
+# 4a11bde205e648b7911147e7c3ff7654
+#: ../../CSUI-Storage.rst:230
+msgid "Create a template;"
+msgstr ""
+
+# b1172dd7ff44421281890a35fbed8be5
+#: ../../CSUI-Storage.rst:231
+msgid "Delete the snapshot."
+msgstr ""
+
+# 982dbbf696b54e4eb5dc0dca23d02ef4
+#: ../../CSUI-Storage.rst:233
+msgid "See the :ref:`Actions_on_Snapshot_Volume` section for more information."
+msgstr ""
+
+# 19436f4f81c04acb9c11c98d2023d595
+#: ../../CSUI-Storage.rst:235
+msgid "**Set up snapshot schedule**"
+msgstr ""
+
+# a132b54592044598a0b9b45afd98c307
+#: ../../CSUI-Storage.rst:237
+msgid "This action is available for disks with the \"Ready\" status only."
+msgstr ""
+
+# 5bfa87e6b69b4a5bbe75a3a93f5f1a7c
+#: ../../CSUI-Storage.rst:239
+msgid ""
+"You can schedule the regular snapshotting by clicking \"Set up snapshot "
+"schedule\" in the Actions list."
+msgstr ""
+
+# bf4d910b25004a19a5a5c49176b4bdd2
+#: ../../CSUI-Storage.rst:241
+msgid "In the appeared window set up the schedule for recurring snapshots:"
+msgstr ""
+
+# 6f9892a77e8e42b8a4f88a549c556d54
+#: ../../CSUI-Storage.rst:243
+msgid "Select the frequency of snapshotting - hourly, daily, weekly, monthly;"
+msgstr ""
+
+# 2fe230b3a5ad447d91bad11912ce5f99
+#: ../../CSUI-Storage.rst:244
+msgid ""
+"Select a minute (for hourly scheduling), the time (for daily scheduling),"
+" the day of week (for weekly scheduling) or the day of month (for monthly"
+" scheduling) when the snapshotting is to be done;"
+msgstr ""
+
+# 8ac57bc810c740ad9d5144482c534f2d
+#: ../../CSUI-Storage.rst:245
+msgid ""
+"Select the timezone according to which the snapshotting is to be done at "
+"the specified time;"
+msgstr ""
+
+# a2bc264280aa463e88c23c0813625794
+#: ../../CSUI-Storage.rst:246
+msgid "Set the number of snapshots to be made."
+msgstr ""
+
+# 67ff98b10a7d4e00b97180e038dbd935
+#: ../../CSUI-Storage.rst:248
+msgid ""
+"Click \"+\" to save the schedule. You can add more than one schedule but "
+"only one per each type (hourly, daily, weekly, monthly)."
+msgstr ""
+
+# f64fa5480ea1479e9d79a822e6b811f8
+#: ../../CSUI-Storage.rst:252
+msgid "**Resize the disk**"
+msgstr ""
+
+# 146db1c668ee4ce795561b8f176c5bdb
+#: ../../CSUI-Storage.rst:254
+msgid ""
+"This action is available to data disks created on the base of disk "
+"offerings with a custom disk size. Disk offerings with custom disk size "
+"can be created by Root Administrators only."
+msgstr ""
+
+# c6b00017b7de474680d4fb02386d22b1
+#: ../../CSUI-Storage.rst:256
+msgid ""
+"You can change the disk size by selecting \"Resize the disk\" option in "
+"the Actions list. You are able to enlarge disk size only."
+msgstr ""
+
+# 593b5564472549049ae0c89fde312593
+#: ../../CSUI-Storage.rst:258
+msgid ""
+"In the appeared window set up a new size and click \"RESIZE\" to save the"
+" edits."
+msgstr ""
+
+# 8b9c5e67ace842608eb5aa7d296d094f
+#: ../../CSUI-Storage.rst:262
+msgid "Click \"Cancel\" to drop the size changes."
+msgstr ""
+
+# 8dba9f9df2e14d71baab78a6201d935f
+#: ../../CSUI-Storage.rst:264
+msgid "**Attach/Detach**"
+msgstr ""
+
+# 09c1b35542944f6ea7224000610833ee
+#: ../../CSUI-Storage.rst:266
+msgid ""
+"This action can be applied to data disks. It allows attaching/detaching "
+"the data disk to/from the virtual machine."
+msgstr ""
+
+# f88a17bb8390477a918db17775b60120
+#: ../../CSUI-Storage.rst:268
+msgid ""
+"Click \"Attach\" in the Actions list and in the dialog window select a "
+"virtual machine to attach the disk to. Click \"ATTACH\" to perform the "
+"attachment."
+msgstr ""
+
+# 8f4ea238fb5849d49c7c274465c074d3
+#: ../../CSUI-Storage.rst:272
+msgid ""
+"An attached disk can be detached. Click \"Detach\" in the Actions list "
+"and confirm your action in the dialog window. The data disk will be "
+"detached from the virtual machine."
+msgstr ""
+
+# e06f1ace4afb408881772cfec77e3dcc
+#: ../../CSUI-Storage.rst:274
+msgid "**Delete**"
+msgstr ""
+
+# 1512df0c27ea48109481d1c8fb72f2b5
+#: ../../CSUI-Storage.rst:276
+msgid ""
+"This action can be applied to data disks. It allows deleting a data disk "
+"from the system."
+msgstr ""
+
+# 0251095412d74da9af6f8d279e4c4182
+#: ../../CSUI-Storage.rst:278
+msgid ""
+"Click \"Delete\" in the Actions list and confirm your action in the "
+"dialog window."
+msgstr ""
+
+# 40b320469d364a9dbe64439bc20d3724
+#: ../../CSUI-Storage.rst:280
+msgid ""
+"If a volume has snapshots the system will ask you if you want to delete "
+"them as well. Click \"YES\" to delete the snapshots of the volume. Click "
+"\"NO\" to keep them."
+msgstr ""
+
+# ceeed640a52a48fe92e0698375affa01
+#: ../../CSUI-Storage.rst:282
+msgid "The data disk will be deleted from the system."
+msgstr ""
+

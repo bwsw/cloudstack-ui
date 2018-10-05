@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-04 15:49+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+# c4f63f4c7fa14d468118aa50a2f53e85
+#: ../../CSUI-Events.rst:4
+msgid "Activity log"
+msgstr ""
+
+# 8111891befeb4b1ea1a7e1bcbe52c876
+#: ../../CSUI-Events.rst:7
+msgid ""
+"In the *Activity log* section you can see user activity in the account. "
+"Event search by main parameters - date and keywords - is supported to "
+"make it easier to find a necessary event for a specific date or type."
+msgstr ""
+
+# ab69e89d26774993b27e71f2848e2c43
+#: ../../CSUI-Events.rst:10
+msgid "Events List"
+msgstr ""
+
+# e3da63df42114e11862b678cfe120fac
+#: ../../CSUI-Events.rst:11
+msgid ""
+"Events in the Activity log are listed in a chronological order from the "
+"latest till the earliest. It represents the full list of events for a "
+"selected day."
+msgstr ""
+
+# b568cf77a315407b863910c32ff3a378
+#: ../../CSUI-Events.rst:13
+msgid ""
+"A user can view activities for his/her user only. An Administrator can "
+"see events for all accounts in the domain."
+msgstr ""
+
+# f696949f22fa4d4ebd68256871458c4d
+#: ../../CSUI-Events.rst:17
+msgid "The following information for each event is presented in the list:"
+msgstr ""
+
+# 49f4d9afd80046e0a9c73199e9c11a1d
+#: ../../CSUI-Events.rst:19
+msgid "Event description."
+msgstr ""
+
+# 38d2b9c29239445593e03ba03c9a6853
+#: ../../CSUI-Events.rst:20
+msgid "Level - A kind of a category the event belongs to. It can show:"
+msgstr ""
+
+# 60979a2a267249f2a344e594d8703c4f
+#: ../../CSUI-Events.rst:22
+msgid ""
+"INFO - For regular activities, for example, logging in, creating a VM, "
+"attaching a disk."
+msgstr ""
+
+# b2fe2b4d4c164a8fbd3b92457da21f4d
+#: ../../CSUI-Events.rst:23
+msgid "WARN - For any warnings occurred."
+msgstr ""
+
+# d23bc97ae9e2421f9e28c9c5c05fe5b5
+#: ../../CSUI-Events.rst:24
+msgid ""
+"ERROR - For any errors occurred, for example, an error while registering "
+"an SSH key pair."
+msgstr ""
+
+# 0998303dc57140f783137d80696b45bb
+#: ../../CSUI-Events.rst:26
+msgid ""
+"Type - Displays in what aspect of the system the event has taken place, "
+"for example: ``USER.LOGIN`` - for events happened at user authentication "
+"to the system; ``VOLUME.RESIZE`` - for events at disk size change."
+msgstr ""
+
+# 1801efa1ca86414bb741570a478150e7
+#: ../../CSUI-Events.rst:28
+msgid "Time of the event."
+msgstr ""
+
+# 13e1ed11e0804eb3b42129a68207012d
+#: ../../CSUI-Events.rst:31
+msgid "Filtering of Events"
+msgstr ""
+
+# 945cff191bd64aaabb8302ed4f66641a
+#: ../../CSUI-Events.rst:32
+msgid "To easily find an event in the list use the filtering tool above."
+msgstr ""
+
+# 4b5f6faaca7041c58d3ed176ec9f515e
+#: ../../CSUI-Events.rst:34
+msgid "Any user can filter events by:"
+msgstr ""
+
+# 4ca2a621b96b4fde912f565e63ebb984
+#: ../../CSUI-Events.rst:36
+msgid ""
+"Date - Allows selecting events for a specific date. By default, the "
+"today's date is selected. Click |date icon| and in the appeared calendar "
+"change the date for the day you wish to see activities for."
+msgstr ""
+
+# a6d88e508ea644a48bde722baf080c7d
+#: ../../CSUI-Events.rst:40
+msgid ""
+"Click \"OK\" to filter the list. The events will be selected in "
+"accordance with the chosen date."
+msgstr ""
+
+# 4291ac6baf244126a3215eda554e3f10
+#: ../../CSUI-Events.rst:42
+msgid "Click \"CANCEL\" to drop the selection."
+msgstr ""
+
+# 0d581ac80944415cb24a2ecaed06f46d
+#: ../../CSUI-Events.rst:44
+msgid ""
+"Levels - Allows selecting events by levels. Choose the level/levels you "
+"with from the drop-down list."
+msgstr ""
+
+# 6fcd0a3a30d44a9a84a33ad89c881c53
+#: ../../CSUI-Events.rst:46
+msgid ""
+"Types - Allows selecting events by types. Choose the type/types from the "
+"drop-down list."
+msgstr ""
+
+# a004ece0ab9e458392a347db73d0c2f9
+#: ../../CSUI-Events.rst:48
+msgid "An Administrator has an additional filtering parameter - accounts."
+msgstr ""
+
+# e26620334d85419ea6736a137d068ca2
+#: ../../CSUI-Events.rst:52
+msgid "Use the search tool to find an event by keywords or a part of a word."
+msgstr ""
+

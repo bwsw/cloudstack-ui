@@ -1,0 +1,238 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-04 15:49+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+# 3899ca8723d34f9a9e55f6ba40c0b038
+#: ../../CSUI-SSHkeys.rst:4
+msgid "SSH Keys"
+msgstr ""
+
+# cb40157959184029a9039cf0fc654950
+#: ../../CSUI-SSHkeys.rst:7
+msgid "In the *SSH keys* section you can create and manage SSH keys."
+msgstr ""
+
+# 08b40a86fdd14c81b9a53d9f01baaa01
+#: ../../CSUI-SSHkeys.rst:9
+msgid ""
+"In addition to the username and password authentication, CloudStack "
+"supports using SSH keys to log in to the cloud infrastructure for "
+"additional security. Find more information in the `official documentation"
+" <http://docs.cloudstack.apache.org/projects/cloudstack-"
+"administration/en/latest/virtual_machines.html?highlight=keys#using-ssh-"
+"keys-for-authentication>`_."
+msgstr ""
+
+# 050e44a7ece24da087f5f5f8ab71ee66
+#: ../../CSUI-SSHkeys.rst:11
+msgid ""
+"CloudStack-UI allows managing SSH key in a separate section which is more"
+" convenient for a user."
+msgstr ""
+
+# 87f8a6878c024a1580a0bd0c00fa827a
+#: ../../CSUI-SSHkeys.rst:14
+msgid "SSH Key List"
+msgstr ""
+
+# 47828f006b3a4965a125de992f0402a2
+#: ../../CSUI-SSHkeys.rst:16
+msgid ""
+"SSH keys existing in the account are presented in this section. A user "
+"can see and manage SSH keys for his/her user only."
+msgstr ""
+
+# cbda0c333a094ba2a4c256d44bfd6494
+#: ../../CSUI-SSHkeys.rst:20
+msgid "Administrators can see and manage keys for all accounts in the domain."
+msgstr ""
+
+# 348a51ff863546f19bb9a01726652a35
+#: ../../CSUI-SSHkeys.rst:22
+msgid ""
+"You can switch the view from a list mode to a card mode using the switch "
+"tool |view icon|/|box icon| in the upper-right corner."
+msgstr ""
+
+# 10e79168c1cf4a128ade324e0889b918
+#: ../../CSUI-SSHkeys.rst:24
+msgid "For every key the following information is displayed:"
+msgstr ""
+
+# b0d3f95be0f54bbf80bec11dfb7606ae
+#: ../../CSUI-SSHkeys.rst:26
+msgid "Key name;"
+msgstr ""
+
+# ee968a523edc4bf2ba9c3aeb72ac0472
+#: ../../CSUI-SSHkeys.rst:27
+msgid "SSH public key;"
+msgstr ""
+
+# e09a212f43304ae68dee1f1df53531eb
+#: ../../CSUI-SSHkeys.rst:28
+msgid "Action box - Allows deleting a key from the system."
+msgstr ""
+
+# 1844f1bc83e346f5a2cc6d70fc3187cd
+#: ../../CSUI-SSHkeys.rst:31
+msgid "Filtering of SSH Keys"
+msgstr ""
+
+# 296a05d017b845459cce8486bc3fe4ef
+#: ../../CSUI-SSHkeys.rst:33
+msgid ""
+"The filtering tool is available to Administrators. It is placed above the"
+" list of keys and allows filtering keys by accounts."
+msgstr ""
+
+# 659664524d0543b9b8deaded11eee1e4
+#: ../../CSUI-SSHkeys.rst:35
+msgid ""
+"Besides, the keys can be grouped by accounts that may be convenient for "
+"list viewing."
+msgstr ""
+
+# 173b2982f45d46a4b9d757ba48adfb76
+#: ../../CSUI-SSHkeys.rst:40
+msgid "Create an SSH Key"
+msgstr ""
+
+# 8a29046757ec46edb7afbad5e8bef8b9
+#: ../../CSUI-SSHkeys.rst:41
+msgid "You can generate a new SSH key to use for authentication."
+msgstr ""
+
+# 9de2b00468f243fc998c09bed515c2ac
+#: ../../CSUI-SSHkeys.rst:43
+msgid ""
+"By clicking “Create” |create icon| in the bottom-right corner you will "
+"open a form where you should specify a key name:"
+msgstr ""
+
+# f66e5aa924da4a1fbd57b27e549ae323
+#: ../../CSUI-SSHkeys.rst:47
+msgid ""
+"Then click “CREATE”. The SSH key will be auto-generated. The public key "
+"will appear in the list of SSH keys with a fingerprint. In the modal "
+"window, you will see the private key. This private key is not saved in "
+"the system. You should save it for yourself. Click \"COPY\" to correctly "
+"copy it and save it locally."
+msgstr ""
+
+# a7d6295567d64331b9451ec7844c220f
+#: ../../CSUI-SSHkeys.rst:51
+msgid "Then click “OK” to close the window."
+msgstr ""
+
+# d115ab8b500444feab4b1d5add1c0c39
+#: ../../CSUI-SSHkeys.rst:53
+msgid ""
+"You can specify an SSH public key entering its value in the field. It "
+"should start from ``ssh-rsa`` followed by one space and at least one "
+"symbol. Then click “CREATE”. The key will be saved. No private key is "
+"required in this case."
+msgstr ""
+
+# 03728d550ab442eebe9c58ea3e91f881
+#: ../../CSUI-SSHkeys.rst:57
+msgid "The created SSH key is available to assign to VMs now."
+msgstr ""
+
+# 0cfc0c6542224bc4b37eb72df86b3b41
+#: ../../CSUI-SSHkeys.rst:60
+msgid "SSH Key Details Sidebar"
+msgstr ""
+
+# 6a40d174f7714d9d8ecf86c2d3d9f8e9
+#: ../../CSUI-SSHkeys.rst:62
+msgid ""
+"By clicking an SSH key in the list you will open a details sidebar to the"
+" right."
+msgstr ""
+
+# 1ffa59fa9aab45f2b6fdebf45e90fb38
+#: ../../CSUI-SSHkeys.rst:66
+msgid "It contains the following information:"
+msgstr ""
+
+# c06f36b9125c4293a3ff8238c81e74bc
+#: ../../CSUI-SSHkeys.rst:68
+msgid "SSH key name;"
+msgstr ""
+
+# ef18bf9d42f7440b844d766d3c29a4d4
+#: ../../CSUI-SSHkeys.rst:69
+msgid "Key action box allowing key deleting;"
+msgstr ""
+
+# 05ecb27219314438aa9b7f5fc5a3d4ee
+#: ../../CSUI-SSHkeys.rst:70
+msgid "SSH public key fingerprint;"
+msgstr ""
+
+# 1ccce3703d9345b997d4a49459aa4335
+#: ../../CSUI-SSHkeys.rst:71
+msgid ""
+"SSH key description - In this block a description can be added to "
+"understand better what this key is for. Click the block and enter a short"
+" description in the text field. Then click \"SAVE\" to save it."
+msgstr ""
+
+# f333f783c77c4dd6859489d93718f4bb
+#: ../../CSUI-SSHkeys.rst:75
+msgid "Click \"CANCEL\" to drop adding a description."
+msgstr ""
+
+# 9666f8ea82df4861bcb4a00abd659034
+#: ../../CSUI-SSHkeys.rst:77
+msgid ""
+"You can edit the description of an SSH key by clicking |edit icon|. "
+"Change the existing description in the text field and save the edits."
+msgstr ""
+
+# 27bfd8839ca047f69144318f7395c8ff
+#: ../../CSUI-SSHkeys.rst:79
+msgid ""
+"The description is saved to account tags if they are supported for the "
+"account. Account tags can be switched on in the `configuration file "
+"<https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_ by "
+"an Administrator."
+msgstr ""
+
+# b1353b24f1184fe9aa8e4e6c02bf2a49
+#: ../../CSUI-SSHkeys.rst:82
+msgid "SSH Key Action Box"
+msgstr ""
+
+# 1e4fa1363dc240599a7cfa382d77faec
+#: ../../CSUI-SSHkeys.rst:83
+msgid ""
+"By clicking \"Actions\" |actions icon| you can expand the list of actions"
+" for those SSH keys that belong to your user only. The deleting action is"
+" available here."
+msgstr ""
+
+# d77438f47a734b01b79c11fc4780359e
+#: ../../CSUI-SSHkeys.rst:87
+msgid ""
+"Click \"Delete\" to delete a key and then confirm your action in the "
+"dialog box. The key will be deleted. Click \"Cancel\" to close the window"
+" without deleting a key."
+msgstr ""
+
