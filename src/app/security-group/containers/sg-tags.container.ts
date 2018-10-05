@@ -27,7 +27,7 @@ export class SecurityGroupTagsContainerComponent {
   }
 
   public editTag(tagEditAction: TagEditAction) {
-    this.sg$.pipe(take(1)).subscribe((sg: SecurityGroupNative) => {
+    this.sg$.pipe(take(1)).subscribe(sg => {
       if (!isSecurityGroupNative(sg)) {
         throw new Error('Can not edit tag of a predefined group');
       }
