@@ -33,7 +33,7 @@ export class SecurityGroupListComponent implements OnChanges {
     this.inputs = {
       searchQuery: () => this.query,
       isSelected: (item: SecurityGroup) => this.listService.isSelected(item.id),
-      vmList: this.vmList
+      vmList: this.vmList,
     };
 
     this.outputs = {

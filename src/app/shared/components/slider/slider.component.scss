@@ -14,14 +14,15 @@
 
   input {
     text-align: center;
-    font-size: 20px;
+    font-size: 15px;
   }
 }
 
 .custom-slider-label {
   align-self: center;
   display: inline-flex;
-  font-size: 20px;
+  font-size: 14px;
+  padding-bottom: 1.25em;
 }
 
 .current-value {

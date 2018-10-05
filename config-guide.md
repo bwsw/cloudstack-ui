@@ -11,6 +11,7 @@ You can see examples of the configurations in the [config-example.json](https://
   * [VM Colors](#vm-colors)
 * [Firewall (Security Groups) Settings](#firewall-security-groups-settings)
   * [Security Group Templates](#security-group-templates)
+  * [Default Security Group Name](#default-security-group-name)
 * [Images Settings](#images-settings)
   * [Image Groups](#image-groups)
 * [User App Settings](#user-app-settings)
@@ -154,6 +155,18 @@ Parameters:
    * For TCP and UDP: startport and endport
    * For ICMP: icmpcode and icmptype
 
+### Default Security Group Name
+
+Allow you to rename the Default Firewall group.
+The default name is `default` for both languages.
+
+For example,
+```
+"defaultSecurityGroupName": {
+  "en": "default name",
+  "ru": "имя по умолчанию"
+}
+```
 
 ## Images Settings
 
