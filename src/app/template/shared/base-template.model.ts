@@ -1,4 +1,4 @@
-import { BaseModelInterface, Tag } from '../../shared/models';
+import { BaseModelInterface } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
@@ -30,6 +30,7 @@ export interface BaseTemplateModel extends BaseModelInterface, Taggable {
   status: string;
   zoneid: string;
   zonename: string;
+  bootable: boolean;
   // custom
   zones?: Array<Partial<BaseTemplateModel>>;
   agreementAccepted?: boolean;

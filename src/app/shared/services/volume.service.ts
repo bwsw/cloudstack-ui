@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of, Subject, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { BackendResource } from '../decorators';
@@ -93,14 +93,5 @@ export class VolumeService extends BaseBackendService<Volume> {
         this.asyncJobService.queryJob(job, this.entity, this.entityModel)
       ),
       switchMap((response: AsyncJob<Volume>) => of(response.jobresult['volume'])));
-  }
-
-  public markForRemoval(volume: Volume): Observable<any> {
-    const observers = volume.snapshots.map((snapshot) => this.snapshotService.markForRemoval(
-      snapshot));
-    return forkJoin(
-      ...observers,
-      this.volumeTagService.markForRemoval(volume)
-    );
   }
 }

@@ -49,7 +49,7 @@ export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
   public reset(params): Observable<VirtualMachine> {
     return this.sendCommand(CSCommands.ResetForVM, params, 'SSHKey').pipe(
       switchMap(job =>
-        this.asyncJobService.queryJob(job.jobid, 'VirtualMachine', VirtualMachine)
+        this.asyncJobService.queryJob(job.jobid, 'VirtualMachine')
       ));
   }
 }

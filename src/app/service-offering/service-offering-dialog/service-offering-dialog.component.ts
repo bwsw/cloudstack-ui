@@ -89,11 +89,11 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       return true;
     }
 
-    const isDifferentOfferingId = this.virtualMachine.serviceOfferingId !== this.serviceOffering.id;
+    const isDifferentOfferingId = this.virtualMachine.serviceofferingid !== this.serviceOffering.id;
     const isSameCustomOfferingWithDifferentParams =
       !isDifferentOfferingId
-      && (this.virtualMachine.cpuNumber !== this.serviceOffering.cpunumber
-      || this.virtualMachine.cpuSpeed !== this.serviceOffering.cpuspeed
+      && (this.virtualMachine.cpunumber !== this.serviceOffering.cpunumber
+      || this.virtualMachine.cpuspeed !== this.serviceOffering.cpuspeed
       || this.virtualMachine.memory !== this.serviceOffering.memory);
 
     return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
