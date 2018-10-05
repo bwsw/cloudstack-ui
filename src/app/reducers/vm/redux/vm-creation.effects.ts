@@ -7,12 +7,11 @@ import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/op
 
 import { Utils } from '../../../shared/services/utils/utils.service';
 import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
-import { TemplateResourceType } from '../../../template/shared/base-template.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
+import { BaseTemplateModel, isTemplate } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
@@ -188,23 +187,25 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.template) {
-        if (resourceType(action.payload.template) !== TemplateResourceType.template && !vmCreationState.diskOffering) {
+        if (!isTemplate(action.payload.template) && !vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
-        } else {
-          const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-          const minSize = Math.max(Math.ceil(Utils.convertToGb(vmCreationState.template.size)), defaultDiskSize);
-          // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
-          const upd = { rootDiskMinSize: minSize };
+        }
 
-          if (!vmCreationState.rootDiskSize
-            || vmCreationState.rootDiskSize < vmCreationState.rootDiskMinSize) {
-            return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize || 10 });
-          }
-          return new vmActions.VmFormUpdate(upd);
+        if (isTemplate(action.payload.template)) {
+          const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
+          // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
+          const minSize = Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
+          const upd = { rootDiskMinSize: minSize };
+          return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
         }
       }
 
       if (action.payload.diskOffering) {
+        if (action.payload.diskOffering.iscustomized) {
+          const minSize = this.auth.getCustomDiskOfferingMinSize() || 10;
+          return new vmActions.VmFormUpdate({ rootDiskMinSize: minSize, rootDiskSize: minSize });
+        }
+
         if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
         }
