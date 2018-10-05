@@ -16,9 +16,7 @@ const SecurityGroupConvertAction = {
 };
 
 const doesGroupHaveNoVirtualMachines = (securityGroup: SecurityGroup) => (
-  // todo: these are probably the same thing, if so, we can simplify the condition
   isSecurityGroupNative(securityGroup) &&
-  getType(securityGroup) !== SecurityGroupType.PredefinedTemplate &&
   securityGroup.virtualmachineids.length === 0
 );
 

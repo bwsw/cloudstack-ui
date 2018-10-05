@@ -7,7 +7,6 @@ import { BackendResource } from '../../decorators';
 import { Tag } from '../../models';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendService } from '../base-backend.service';
-import { Taggable } from '../../interfaces';
 
 
 @Injectable()

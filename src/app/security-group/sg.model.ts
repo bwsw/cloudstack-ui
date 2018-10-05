@@ -62,8 +62,7 @@ export const isPrivate = (securityGroup: SecurityGroupNative) => {
 };
 
 export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
-  // todo: these are probably the same thing, if so, we can simplify the condition
-  if (securityGroup.id.startsWith('template') || !isSecurityGroupNative(securityGroup)) {
+  if (!isSecurityGroupNative(securityGroup)) {
     return SecurityGroupType.PredefinedTemplate;
   }
 

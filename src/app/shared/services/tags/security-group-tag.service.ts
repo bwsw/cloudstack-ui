@@ -52,9 +52,8 @@ export class SecurityGroupTagService implements EntityTagService {
         return {
           ...securityGroup,
           tags: filteredTags,
-          // todo: how does 'type' work? fix or add description
-          type: 'shared'
         };
-      }))
+      })
+    );
   }
 }
