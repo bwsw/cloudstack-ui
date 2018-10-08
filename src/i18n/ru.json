@@ -279,6 +279,7 @@
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
+    "LOGS": "Просмотр логов",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
@@ -300,7 +301,8 @@
       "CONSOLE": "Консоль",
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
-      "VM_ACCESS_TITLE": "Виртуальная машина"
+      "VM_ACCESS_TITLE": "Виртуальная машина",
+      "LOGS": "Просмотр логов"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",

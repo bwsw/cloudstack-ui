@@ -1,0 +1,44 @@
+<div class="options-panel filter-wrapper">
+  <cs-date-picker
+    [okLabel]="'COMMON.OK' | translate"
+    [locale]="'ru'"
+    [firstDayOfWeek]="1"
+    [DateTimeFormat]="dateTimeFormat"
+    [cancelLabel]="'COMMON.CANCEL' | translate"
+    [ngModel]="date"
+  ></cs-date-picker>
+
+  <mat-form-field>
+    <input
+      matInput
+      [ngModel]="'12:00'"
+      [placeholder]="'Start time'"
+    >
+  </mat-form-field>
+
+  <cs-date-picker
+    [okLabel]="'COMMON.OK' | translate"
+    [locale]="'ru'"
+    [firstDayOfWeek]="1"
+    [DateTimeFormat]="dateTimeFormat"
+    [cancelLabel]="'COMMON.CANCEL' | translate"
+    [ngModel]="date"
+  ></cs-date-picker>
+
+  <mat-form-field>
+    <input
+      matInput
+      [ngModel]="'12:00'"
+      [placeholder]="'End time'"
+    >
+  </mat-form-field>
+
+  <cs-log-tags></cs-log-tags>
+
+  <mat-checkbox
+    [ngModel]="newestFirst"
+    (change)="onNewestFirstChange.emit()"
+  >
+    Newest first
+  </mat-checkbox>
+</div>

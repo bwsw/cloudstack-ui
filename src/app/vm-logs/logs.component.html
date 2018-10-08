@@ -1,0 +1,357 @@
+<cs-list [creationEnabled]="false">
+  <ng-container cs-panels>
+    <cs-top-bar>
+      <cs-logs-filter (onNewestFirstChange)="onNewestFirstChange()"></cs-logs-filter>
+    </cs-top-bar>
+  </ng-container>
+
+  <ng-container cs-list>
+    <pre>
+  AccountItemComponent class only
+    ✔ should determine whether the current user belongs to the account
+  AccountCreationDialogComponent
+    ✔ should check the submit button is disabled
+    ✔ should check the submit button is enabled
+    ✔ should check the email field
+    ✔ should submit form
+    ✔ should submit full form
+  ConfigValidationService
+    ✔ should return a config with all properties
+    ✔ should merge user's value if it is correct (only if property has a validator) to resulted config
+    ✔ should not merge user's value if it is incorrect (only if property has a validator) to resulted config
+    ✔ should ignore non-customizable properties
+    ✔ should not add unknown properties
+    ✔ should use default value if user do not provide a value
+    ✔ should log a warning message to the console if a user's key is unknown
+    ✔ should log a warning message to the console if a user's value is incorrect
+    ✔ should log a warning message to the console if a user's config is incorrect
+  Service: Notification service
+    ✔ should be defined
+    ✔ should call open method to show the SnackBar
+    ✔ should add the notification to the DOM
+  Account tags Effects
+    ✔ should return a collection from LoadAccountTagsResponse
+    ✔ should return an empty collection from LoadAccountTagsResponse
+  Disk Offering Effects
+    ✔ should return a collection from LoadOfferingsResponse
+  Test service offering reducer
+    ✔ should handle initial state
+    ✔ should set loading
+    ✔ should set entities
+    ✔ should get state
+  Snapshot Effects
+    ✔ should return a collection from LoadSnapshotResponse
+    ✔ should return an empty collection with error from LoadSnapshotResponse
+    ✔ should add new snapshot
+    ✔ should catch error while adding a new snapshot
+    ✔ should delete snapshot
+    ✔ should catch error while removing a snapshot
+    ✔ should return an empty collection from LoadSnapshotResponse
+    ✔ should delete many snapshots
+    ✔ should delete one snapshot
+    ✔ should return an error during deleting one snapshot
+  Snapshot Reducer
+    ✔ undefined action should return default state
+    ✔ should set loading to true when snapshots are loading
+    ✔ should map an array to entities and sort them by date of creation
+    ✔ should add new snapshot
+    ✔ should delete snapshot
+    ✔ should select filtered snapshots
+  Virtual machine Effects
+    ✔ should return a collection from LoadVMsRequest
+    ✔ should return an empty collection from LoadVMsRequest
+    ✔ should return a object from LoadVMRequest
+    ✔ should return an error from LoadVMRequest
+    ✔ should change description
+    ✔ should remove description
+    ✔ should return an error during changing description
+    ✔ should change service offering for stopped vm
+    ✔ should change service offering for running vm
+    ✔ should return an error during changing service offering
+    ✔ should change affinity group for stopped vm
+    ✔ should change affinity group for running vm
+    ✔ should not change affinity group for running vm
+    ✔ should return an error during changing affinity group
+    ✔ should change instance group
+    ✔ should return an error during changing instance group
+    ✔ should remove instance group
+    ✔ should return an error during removing instance group
+    ✔ should add secondary ip
+    ✔ should remove secondary ip
+    ✔ should change vm color
+    ✔ should return an error during changing vm color
+    ✔ should stop vm
+    ✔ should return an error during stopping vm
+    ✔ should start vm
+    ✔ should return an error during starting vm
+    ✔ should destroy vm without expunge
+    ✔ should destroy vm with expunge
+    ✔ should not destroy vm
+    ✔ should return an error during destroying vm
+    ✔ should reboot vm
+    ✔ should not reboot vm
+    ✔ should return an error during rebooting vm
+    ✔ should restore vm
+    ✔ should not restore vm
+    ✔ should return an error during restoring vm
+    ✔ should recover vm
+    ✔ should not recover vm
+    ✔ should return an error during recovering vm
+    ✔ should expunge vm
+    ✔ should not expunge vm
+    ✔ should return an error during expunging vm
+    ✔ should attach Iso to vm
+    ✔ should return an error during attaching Iso
+    ✔ should detach Iso
+    ✔ should return an error during detaching Iso
+    ✔ should change ssh-key for stopped vm
+    ✔ should change ssh-key for running vm
+    ✔ should not change ssh-key for running vm
+    ✔ should return an error during changing ssh-key
+    ✔ should reset password for stopped vm
+    ✔ should reset password for running vm
+    ✔ should not reset password for running vm
+    ✔ should return an error during reseting password
+    ✔ should update error with state
+    ✔ should update error without state
+    ✔ should navigate after successful expunging
+    ✔ should not navigate after successful expunging
+    ✔ should load volumes after successful deployment
+  VM listReducer
+    ✔ should add VM password tag to tags array
+  Volume Effects
+    ✔ should return a collection from LoadVolumesResponse
+    ✔ should return an empty collection from LoadVolumesResponse
+    ✔ should create new volume
+    ✔ should return an error during creating new volume
+    ✔ should change volume description
+    ✔ should remove volume description
+    ✔ should return an error during changing volume description
+    ✔ should attach volume
+    ✔ should not attach volume
+    ✔ should return an error during attaching volume
+    ✔ should attach volume to vm
+    ✔ should return an error during attaching volume to vm
+    ✔ should detach volume
+    ✔ should not detach volume
+    ✔ should return an error during detaching volume
+    ✔ should resize volume
+    ✔ should not resize volume
+    ✔ should return an error during resizing volume
+    ✔ should delete volumes with snaps
+    ✔ should delete volumes without shanps
+    ✔ should detach and delete volume
+    ✔ should delete volume
+    ✔ should return an error during detaching volume (delete volume)
+    ✔ should return an error during deleting volume (without detach)
+    ✔ should navigate after successful deleting
+    ✔ should not navigate after successful deleting
+    ✔ should show alert after creation error
+  User tags effects
+    ✔ should load user tags
+    ✔ should handle loading user tags errors
+    ✔ should update user tags (eg. LastVMId)
+    ✔ should handle error when deleting a tag in the tag update function and continue execution
+    ✔ should handle error when creating a tag in the tag update function
+  Security group firewall rules component
+    ✔ filter network rules by IP version, type or protocol
+    ✔ should filter predefined templates
+    ✔ should change view mode for not shared group
+  volume resize for root disks
+    ✔ should not send disk offerings when resizing root disks
+  volume resize for data disks
+    ✔ should send disk offerings when resizing data disks
+  Color picker component
+    ✔ reacts to changes
+    ✔ should select a color
+    ✔ should update using ngModel
+  Disk Offering dialog
+    ✔ should not return any data when `Cancel` is clicked
+    ✔ should send disk offering
+  PopoverTriggerDirective
+    ✔ should throw if no PopoverComponent is passed
+    ✔ should open the popover when clicking the trigger
+    ✔ should close the popover when it is open and the trigger is clicked again
+    ✔ should close the popover when clicking outside of the trigger
+    ✔ should emit open and close events
+  Sg creation rule component
+    ✔ displays rule
+  Sg creation component
+    ✔ inits rules
+    ✔ handles dialog close
+  InputTypeNumberDirective
+    should allow the input of
+      ✔ positive numeric values
+      ✔ negative numeric values
+    ✔ should not allow the input of non-numeric values
+    ✔ should set the minimum value after 1 second if current value are beyond the minimum limit
+    ✔ should set the positive maximum value immediately if current value are beyond the maximum limit
+    ✔ should set the negative maximum value immediately if current value are beyond the maximum limit
+    should not allow not integer values
+      ✔ by default
+      ✔ when step attribute has an integer value
+    ✔ should allow not integer values when step attribute has not integer value
+    ✔ should return a numeric value via ngModel
+    ✔ should return only the changed value via ngModel
+  AsyncJob model
+    ✔ should return result if cmd is undefined
+    ✔ should return result if cmd match to regex
+    ✔ should return result if cmd doesn`t match to regex
+  Base model
+    ✔ should parse params correctly
+    ✔ should be serialized correctly
+    ✔ should allow to extend base model with a class with field mapper
+  Async job service
+    ✔ job service polls server until a job is resolved
+    ✔ should parse failed job correctly
+  Auth service
+    ✔ should login
+    ✔ should logout
+    ✔ should call getCapabilities if user is define
+    ✔ should return Promise if user is undefined
+  Base backend service
+    ✔ should create model list
+    ✔ should create model by id
+    ✔ should throw if model was not found by id
+    ✔ should parse an error
+    ✔ should merge concurrent requests with identical parameters
+    ✔ should merge concurrent requests without parameters
+    ✔ should not merge concurrent requests with different parameters
+  Error service
+    ✔ should create error translation
+    ✔ should create error params
+    ✔ should fallback to the errortext if no translation is set
+  Filter service
+    ✔ should update filters
+    ✔ should not put empty arrays
+    ✔ should handle type 'boolean' correctly
+    ✔ should handle type 'string' correctly
+    ✔ should handle type 'array' correctly
+    ✔ should not return missing filters
+    ✔ should create missing filters from localStorage
+    ✔ should ignore invalid JSON from localStorage
+    ✔ should return default option if requested filter is not present in url or localStorage
+    ✔ should not lookup localStorage if all params are set in the url
+  Jobs notification service
+    ✔ should add new notification
+    ✔ should update the status to "finished"
+    ✔ should update the status to "failed"
+    ✔ should remove notification by id if it ends
+    ✔ should remove all finished jobs
+  Service-offering service
+    ✔ should check offering is available in zone
+  Storage creation-services (Local Storage)
+    ✔ should write, read and remove values
+  Storage services (Session Storage)
+    ✔ should write, read and remove values
+  Storage services (Memory Storage)
+    ✔ should write, read and remove values
+  Account tag service
+    ✔ should return user
+    ✔ should return ssh-key description
+    ✔ should not return ssh-key description
+    ✔ should set ssh-key description
+    ✔ should write tag
+  Utils service
+    ✔ should generate unique id
+    ✔ should divide
+    ✔ should convert bytes to GB
+    ✔ should match strings up to lower case
+    ✔ should create route without query params
+    ✔ should convert boolean string to boolean
+    ✔ should convert boolean to boolean string
+    ✔ should check if color is dark
+  CIDR Utils
+    ✔ should check if CIDR v4 valid
+    ✔ should check if CIDR v6 valid
+    ✔ should check if CIDR (v4 or v6) valid
+    ✔ should return proper CIDR IP version
+  URL Regex
+    ✔ should validate correct URLs
+    ✔ should not validate incorrect URLs
+    ✔ should validate only urls with FTP protocol
+    ✔ should validate only urls with HTTP protocol
+    ✔ should validate only urls with HTTPS protocol
+    ✔ should validate only urls with HTTP and HTTPS protocols
+    ✔ should validate urls without protocols
+  Subnet mask to CIDR suffix converter
+    ✔ transforms subnet masks to suffixes
+    ✔ returns empty string if cidr is empty string or empty string
+  Template service test
+    ✔ should create without group
+    ✔ should create with group
+    ✔ should register
+  Template creation component
+    ✔ should get locale
+    ✔ should get hypervisors
+    ✔ should filter formats
+    ✔ should update format
+    ✔ should get translation token
+    ✔ should create template with main params
+    ✔ should create template with snapshot
+    ✔ should create ISO with main params
+    ✔ should create template with main params and group
+    ✔ should create template with additional params
+    ✔ should create template with additional params (as admin)
+  Custom query encoder
+    ✔ should not url encode special characters
+    ✔ should encode +
+    ✔ should encode /
+  Service Offering Selectors (VM module)
+    ✔ should get available offerings
+    ✔ should filter offerings by classes
+    ✔ should get filtered offerings
+    ✔ should get filtered offerings (else branch)
+  VmCompatibilityPolicy
+    ✔ should filter offering based on policy (contains all)
+    ✔ should filter offering based on policy (exactly match)
+    ✔ should filter offering based on policy
+  VmDestroyDialogComponent
+    ✔ should display `expunge` checkbox
+    ✔ should not return any data when `No` is clicked
+    ✔ should close dialog when Esc is pressed and return no data
+    ✔ should return selected `expunge` option when `Yes` is clicked
+  Sg Rules manager component
+    ✔ shows dialog
+    ✔ updates rules
+    ✔ sets rules using ngModel
+  Test Service offering selector component
+    ✔ should show message if offeringList is empty
+    ✔ should show selected offering
+    ✔ should show selected custom offering
+    ✔ should open modal window
+    ✔ should emit changes form change dialog
+  VM creation security group service
+    ✔ should assign VM name to the private security group
+  VmCreationTemplateComponent
+    ✔ should display error message when templates and isos are empty
+Finished in 9.538 secs / 0 secs @ 09:40:36 GMT+0000 (UTC)
+
+    </pre>
+  </ng-container>
+</cs-list>
+
+
+<div *ngIf="mode === 'stop'" class="fab" style="right: 32px; bottom: 100px">
+  <button mat-fab>
+    <mat-icon class="mdi-sync"></mat-icon>
+  </button>
+</div>
+
+<div *ngIf="mode === 'stop' && !newestFirst" class="fab">
+  <button mat-fab (click)="onFollow($event)">
+    <mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>
+  </button>
+</div>
+
+<div *ngIf="mode === 'stop' && newestFirst" class="fab">
+  <button mat-fab (click)="onFollow($event)">
+    <mat-icon class="mdi-format-vertical-align-top"></mat-icon>
+  </button>
+</div>
+
+<div *ngIf="mode === 'follow'" class="fab">
+  <button mat-fab (click)="onStop($event)">
+    <mat-icon class="mdi-cancel"></mat-icon>
+  </button>
+</div>

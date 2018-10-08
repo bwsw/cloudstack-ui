@@ -1,0 +1,19 @@
+<cs-list [creationEnabled]="false">
+  <ng-container cs-panels>
+    <cs-top-bar>
+      <cs-log-files-filter
+        [vms]="vms"
+        [selectedVm]="'334cccb4-2645-41fe-8182-536382519570'"
+        (onVmChange)="null"
+      >
+      </cs-log-files-filter>
+    </cs-top-bar>
+  </ng-container>
+
+  <ng-container cs-list>
+    <cs-log-file-list
+      [logFiles]="logFiles"
+      cs-list
+    ></cs-log-file-list>
+  </ng-container>
+</cs-list>

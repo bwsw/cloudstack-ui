@@ -16,6 +16,7 @@ import { accountsRoutes } from './account/accounts.routing';
 import { HomeComponent } from './home/home.component';
 import { LoginGuard } from './shared/services/login-guard.service';
 import { LoginComponent } from './auth/login.component';
+import { vmLogsRoutes } from './vm-logs/vm-logs.routing';
 
 
 const routes: Routes = [
@@ -48,6 +49,7 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       ...sshRoutes,
+      ...vmLogsRoutes,
       {
         path: 'settings',
         component: SettingsComponent,
