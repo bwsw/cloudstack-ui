@@ -64,8 +64,8 @@ release = u'1.410.18'
 # Usually you set "language" from the command line for these cases.
 language = 'en'
 locale_dirs = ['locale/']   # path is example but recommended.
-gettext_uuid = True
-gettext_compact = False
+# gettext_uuid = True
+# gettext_compact = False
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
