@@ -48,22 +48,26 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: [],
+  defaultSecurityGroupName: {
+    en: 'default',
+    ru: 'default'
+  },
   /*
   * Images settings
   */
-  templateGroups: [],
+  imageGroups: [],
   /*
    * User app settings
    */
   defaultFirstDayOfWeek: 1,
   defaultInterfaceLanguage: 'en',
   defaultTimeFormat: 'hour24',
-  defaultThemeName: 'blue-red',
+  defaultTheme: 'blue-red',
   sessionTimeout: 30,
   /*
    * Menu settings
    */
-  allowReorderingSidebar: true,
+  allowReorderingSidenav: true,
   configureSidenav: [
     { id: 'VMS', visible: true },
     { id: 'VOLUMES', visible: true },
@@ -81,10 +85,10 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
   customComputeOfferingParameters: [],
   defaultComputeOffering: [],
   offeringCompatibilityPolicy: {},
-  serviceOfferingClasses: [],
-  offeringAvailability: {
+  computeOfferingClasses: [],
+  serviceOfferingAvailability: {
     'filterOfferings': false
-  }
+  },
 };
 
 export const nonCustomizableProperties: Readonly<NonCustomizableConfig> = {

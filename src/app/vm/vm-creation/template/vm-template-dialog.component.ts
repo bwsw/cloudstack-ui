@@ -5,7 +5,7 @@ import { BaseTemplateModel, resourceType } from '../../../template/shared';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { AuthService } from '../../../shared/services/auth.service';
 import { OsFamily } from '../../../shared/models';
-import { TemplateGroup } from '../../../shared/models/';
+import { ImageGroup } from '../../../shared/models/';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
@@ -18,7 +18,7 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
   @Input() selectedGroups: string[];
   @Input() viewMode: string;
   @Input() query: string;
-  @Input() groups: TemplateGroup[];
+  @Input() groups: ImageGroup[];
   @Input() isLoading: boolean;
   @Input() preselectedTemplate: BaseTemplateModel;
 
@@ -34,7 +34,7 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
 
   constructor(
     translate: TranslateService,
-    authService: AuthService,
+    authService: AuthService
   ) {
     super(translate, authService);
   }

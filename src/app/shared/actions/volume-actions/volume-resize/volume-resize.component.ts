@@ -4,6 +4,7 @@ import { DiskOffering } from '../../../models';
 import { isRoot, Volume } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
 import { isCustomized } from '../../../models/offering.model';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -21,8 +22,20 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   public diskOffering: DiskOffering;
   public newSize: number;
 
+  public get rootDiskSizeLimit(): number {
+    const maxRootCapability = this.authService.getCustomDiskOfferingMaxSize();
+    if (this.maxSize.toString() === 'Unlimited' && maxRootCapability) {
+      return maxRootCapability;
+    }
+    if (Number(this.maxSize) < maxRootCapability) {
+      return Number(this.maxSize);
+    }
+    return maxRootCapability;
+  }
+
   constructor(
-    public dialogRef: MatDialogRef<VolumeResizeComponent>
+    public dialogRef: MatDialogRef<VolumeResizeComponent>,
+    public authService: AuthService
   ) {
   }
 

@@ -1,33 +1,26 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
-import { Store } from '@ngrx/store';
-import { State } from '../../../../reducers/index';
-import { BaseTemplateModel } from '../../../shared/base-template.model';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
+import { BaseTemplateModel } from '../../../shared';
+import { configSelectors, State } from '../../../../root-store';
 import * as templateActions from '../../../../reducers/templates/redux/template.actions';
 import * as fromTemplates from '../../../../reducers/templates/redux/template.reducers';
-import * as fromTemplateGroups from '../../../../reducers/templates/redux/template-group.reducers';
 
 @Component({
   selector: 'cs-template-group-selector-container',
   template: `
     <cs-template-group-selector
       [template]="template$ | async"
-      [groups]="templateGroups$ | async"
+      [groups]="imageGroups$ | async"
       (groupReset)="onGroupReset($event)"
       (groupChange)="onGroupChange($event)"
       (cancel)="onCancel()"
     ></cs-template-group-selector>`
 })
 export class TemplateGroupSelectorContainerComponent {
-  readonly templateGroups$ = this.store.select(fromTemplateGroups.selectEntities);
-  readonly template$ = this.store.select(fromTemplates.getSelectedTemplate);
+  readonly imageGroups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
+  readonly template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

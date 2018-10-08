@@ -1,5 +1,8 @@
 import { SidenavConfigElement } from './sidenav-config-element.interface';
-import { OfferingAvailability, OfferingCompatibilityPolicy } from '../../../shared/models/config';
+import { ServiceOfferingAvailability } from './service-offering-availability.interface';
+import { OfferingCompatibilityPolicy } from './offering-compatibility-policy.interface';
+import { ComputeOfferingClass } from './compute-offering-class.interface'
+import { ImageGroup } from './image-group.model';
 import { CustomComputeOfferingHardwareValues } from './custom-compute-offering-hardware-values.interface';
 import { DefaultComputeOffering } from './default-compute-offering.interface';
 import { CustomComputeOfferingHardwareRestrictions } from './custom-compute-offering-hardware-restrictions.interface';
@@ -24,22 +27,23 @@ export interface CustomizableConfig {
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: Array<any>;
+  defaultSecurityGroupName: { en: string, ru: string };
   /*
    * Images settings
    */
-  templateGroups: Array<any>;
+  imageGroups: ImageGroup[];
   /*
    * User app settings
    */
   defaultFirstDayOfWeek: number;
   defaultInterfaceLanguage: string;
   defaultTimeFormat: string;
-  defaultThemeName: string;
+  defaultTheme: string;
   sessionTimeout: number;
   /*
    * Menu settings
    */
-  allowReorderingSidebar: boolean;
+  allowReorderingSidenav: boolean;
   configureSidenav: SidenavConfigElement[];
   /*
    * Service offering setting
@@ -47,8 +51,8 @@ export interface CustomizableConfig {
   customComputeOfferingParameters: CustomComputeOfferingParameters[];
   defaultComputeOffering: DefaultComputeOffering[];
   offeringCompatibilityPolicy: OfferingCompatibilityPolicy;
-  serviceOfferingClasses: Array<any>;
-  offeringAvailability: OfferingAvailability;
+  computeOfferingClasses: ComputeOfferingClass[];
+  serviceOfferingAvailability: ServiceOfferingAvailability;
 }
 
 export interface NonCustomizableConfig {

@@ -2,9 +2,9 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import {
-  DefaultServiceOfferingClassId,
+  ComputeOfferingClass,
+  defaultComputeOfferingClass,
   ServiceOffering,
-  ServiceOfferingClass,
   ServiceOfferingType
 } from '../../../shared/models';
 import * as fromVMs from '../../vm/redux/vm.reducers';
@@ -122,10 +122,10 @@ export const getSelectedOffering = createSelector(
   (entities, vm) => vm && entities[vm.serviceOfferingId]
 );
 
-export const classesFilter = (offering: ServiceOffering, soClasses: ServiceOfferingClass[], classesMap: any) => {
+export const classesFilter = (offering: ServiceOffering, soClasses: ComputeOfferingClass[], classesMap: any) => {
   const classes = soClasses.filter(soClass =>
-    soClass.serviceOfferings && soClass.serviceOfferings.indexOf(offering.id) > -1);
-  const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
+    soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1);
+  const showGeneral = !!classesMap[defaultComputeOfferingClass.id];
   return classes.length && classes.find(soClass => classesMap[soClass.id])
     || (showGeneral && !classes.length);
 };

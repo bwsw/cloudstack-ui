@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { ServiceOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { ComputeOfferingClass, ServiceOfferingType } from '../../shared/models';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 
@@ -17,7 +17,7 @@ export enum ServiceOfferingFromMode {
 export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
   @Input() public serviceOfferings: ComputeOfferingViewModel[];
-  @Input() public classes: Array<ServiceOfferingClass>;
+  @Input() public classes: Array<ComputeOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
