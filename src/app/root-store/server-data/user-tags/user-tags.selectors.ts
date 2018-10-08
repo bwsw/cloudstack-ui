@@ -1,9 +1,10 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 
-import { adapter, UserTagsState } from './user-tags.state';
+import { adapter } from './user-tags.state';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { DayOfWeek, KeyboardLayout, Language, TimeFormat } from '../../../shared/types';
 import { Tag } from '../../../shared/models';
+import { getUserTagsState } from './user-tags.reducer';
 
 function convertToBoolean(input: string): boolean {
   try {
@@ -13,19 +14,12 @@ function convertToBoolean(input: string): boolean {
   }
 }
 
-const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
-
 export const {
   selectIds,
   selectEntities,
   selectAll,
   selectTotal,
 } = adapter.getSelectors(getUserTagsState);
-
-export const getIsLoading = createSelector(
-  getUserTagsState,
-  (state: UserTagsState) => state.isLoading
-);
 
 const { selectEntities: getUserTagsEntities } = adapter.getSelectors(getUserTagsState);
 
@@ -68,7 +62,15 @@ export const getInterfaceLanguage = createSelector(
 
 export const getLastVMId = createSelector(
   getUserTagsEntities,
-  (entities): number => +entities[userTagKeys.lastVMId].value
+  (entities): number => {
+    const value = entities[userTagKeys.lastVMId].value;
+
+    if (value != null) {
+      return +value;
+    }
+
+    return null;
+  }
 );
 
 export const getSessionTimeout = createSelector(
