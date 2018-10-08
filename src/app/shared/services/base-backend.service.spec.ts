@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { async, inject, TestBed } from '@angular/core/testing';
 import { BackendResource } from '../decorators';
 
-import { BaseModel } from '../models';
+import { BaseModelInterface } from '../models';
 import { BaseBackendService } from './base-backend.service';
 import { CacheService } from './cache.service';
 import { HttpClient } from '@angular/common/http';
@@ -21,14 +21,13 @@ describe('Base backend service', () => {
     },
   ];
 
-  class TestModel extends BaseModel {
-    public id: string;
-    public field1: string;
+  interface TestModel extends BaseModelInterface {
+    id: string;
+    field1: string;
   }
 
   @BackendResource({
-    entity: 'Test',
-    entityModel: TestModel
+    entity: 'Test'
   })
   class TestBackendService extends BaseBackendService<TestModel> {
     constructor(http: HttpClient) {
@@ -55,7 +54,6 @@ describe('Base backend service', () => {
         expect(res.length).toBe(test.length);
 
         res.forEach((testModel: TestModel, ind: number) => {
-          expect(testModel instanceof TestModel).toBeTruthy();
           expect(testModel.id).toBe(test[ind].id);
           expect(testModel.field1).toBe(test[ind].field1);
         });
@@ -65,7 +63,6 @@ describe('Base backend service', () => {
   it('should create model by id', async(inject([TestBackendService], (testService) => {
     testService.get(test[1].id)
       .subscribe((res: TestModel) => {
-        expect(res instanceof TestModel).toBeTruthy();
         expect(res.id).toBe(test[1].id);
         expect(res.field1).toBe(test[1].field1);
       });
@@ -101,10 +98,10 @@ describe('Base backend service', () => {
     const testData = test[0];
 
     testService.getList({ id: testData.id }).subscribe(
-      res => expect(res).toEqual([new TestModel(testData)])
+      res => expect(res).toEqual([<TestModel>testData])
     );
     testService.getList({ id: testData.id }).subscribe(
-      res => expect(res).toEqual([new TestModel(testData)])
+      res => expect(res).toEqual([<TestModel>testData])
     );
 
     mockBackend = TestBed.get(HttpTestingController);
@@ -123,10 +120,10 @@ describe('Base backend service', () => {
   it('should merge concurrent requests without parameters', async(() => {
     const testService = TestBed.get(TestBackendService);
     testService.getList().subscribe(
-      res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
+      res => expect(res).toEqual([<TestModel>test[0], <TestModel>test[1]])
     );
     testService.getList().subscribe(
-      res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])])
+      res => expect(res).toEqual([<TestModel>test[0], <TestModel>test[1]])
     );
 
     const mockResponse = {
@@ -144,10 +141,10 @@ describe('Base backend service', () => {
   it('should not merge concurrent requests with different parameters', async(() => {
     const testService = TestBed.get(TestBackendService);
     testService.getList({ id: 'id1' }).subscribe(
-      res => expect(res).toEqual([new TestModel(test[0])])
+      res => expect(res).toEqual([<TestModel>test[0]])
     );
     testService.getList({ id: 'id2' }).subscribe(
-      res => expect(res).toEqual([new TestModel(test[1])])
+      res => expect(res).toEqual([<TestModel>test[1]])
     );
     mockBackend = TestBed.get(HttpTestingController);
     const requests = mockBackend.match({});

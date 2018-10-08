@@ -14,10 +14,7 @@ import { BaseModelInterface } from './base.model';
   PrimaryStorage, // Total primary storage space (in GiB) a user can use
   SecondaryStorage // Total secondary storage space (in GiB) a user can use
 }
-
-@FieldMapper({
-  resourcetype: 'resourceType'
-})*/
+*/
 
 export interface ResourceCount extends BaseModelInterface {
   id?: string;
