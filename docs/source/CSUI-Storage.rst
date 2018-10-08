@@ -251,7 +251,7 @@ Click "+" to save the schedule. You can add more than one schedule but only one 
    
 **Resize the disk**
 
-.. note:: This action is available to data disks created on the base of disk offerings with a custom disk size. Disk offerings with custom disk size can be created by Root Administrators only.
+.. note:: This action is available to root disks as well as data disks created on the base of disk offerings with a custom disk size. Disk offerings with custom disk size can be created by Root Administrators only.
 
 You can change the disk size by selecting "Resize the disk" option in the Actions list. You are able to enlarge disk size only.
 
