@@ -455,8 +455,9 @@ The following general information on a root disk is presented (expand the card t
 - Name - The disk name.
 - Size - The disk size.
 - Creation Date and Time. 
-- Storage Type (Shared/Local)
+- Storage Type (Shared/Local).
 - Last Snapshot information. 
+- Action Box.
 
 2. **Attach a volume** - Allows attaching a data disk to the VM.
 
