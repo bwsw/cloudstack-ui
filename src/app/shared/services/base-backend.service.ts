@@ -6,7 +6,7 @@ import * as range from 'lodash/range';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-import { BaseModelInterface } from '../models/base.model';
+import { BaseModel } from '../models/base.model';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -55,7 +55,7 @@ export enum CSCommands {
   UpdateVM = 'updateVM',
 }
 
-export abstract class BaseBackendService<M extends BaseModelInterface> {
+export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
   protected entityModel?: { new(params?): M };
 

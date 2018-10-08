@@ -1,4 +1,4 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export const enum ResourceType {
   Instance, // Number of instances a user can create
@@ -15,7 +15,7 @@ export const enum ResourceType {
   SecondaryStorage // Total secondary storage space (in GiB) a user can use
 }
 
-export interface ResourceLimit extends BaseModelInterface {
+export interface ResourceLimit extends BaseModel {
   account: string;
   domain: string;
   domainid: string;

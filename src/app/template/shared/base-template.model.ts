@@ -1,4 +1,4 @@
-import { BaseModelInterface } from '../../shared/models';
+import { BaseModel } from '../../shared/models';
 import { OsType } from '../../shared/models/os-type.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
@@ -9,7 +9,7 @@ export enum TemplateResourceType {
   Template = 'Template'
 }
 
-export interface BaseTemplateModel extends BaseModelInterface, Taggable {
+export interface BaseTemplateModel extends BaseModel, Taggable {
   id: string;
   account: string;
   created: Date;

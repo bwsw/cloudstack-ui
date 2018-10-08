@@ -1,6 +1,6 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export interface AsyncJob<T> extends BaseModelInterface {
+export interface AsyncJob<T> extends BaseModel {
   jobid: string;
   jobstatus: number;
   jobresultcode: number;

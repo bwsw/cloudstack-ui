@@ -15,7 +15,6 @@ export const vm: VirtualMachine = <VirtualMachine>{
   templateid: 'af729204-63aa-11e8-946f-0242ac110002',
   templatename: 'CentOS 5.6 (64-bit) no GUI (Simulator)',
   passwordenabled: false,
-  serviceOffering: undefined,
   serviceofferingid: '5549f95c-1f14-4690-9f79-00e439fa3ac8',
   serviceofferingname: 'Small Offering',
   cpunumber: 1,

@@ -1,6 +1,6 @@
 import { SecurityGroup } from '../../security-group/sg.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { BaseModelInterface, InstanceGroup, NIC, OsType, ServiceOffering, Volume } from '../../shared/models';
+import { BaseModel, InstanceGroup, NIC, OsType, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
 
@@ -19,7 +19,7 @@ export enum VmState {
 
 export const VmResourceType = 'UserVm';
 
-export interface VirtualMachine extends BaseModelInterface, Taggable {
+export interface VirtualMachine extends BaseModel, Taggable {
   id: string;
   displayname: string;
   name: string;
@@ -29,7 +29,6 @@ export interface VirtualMachine extends BaseModelInterface, Taggable {
   // Status
   state: VmState;
   // Service Offering
-  serviceOffering: ServiceOffering;
   serviceofferingid: string;
   serviceofferingname: string;
   cpunumber: number;

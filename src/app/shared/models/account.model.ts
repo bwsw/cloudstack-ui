@@ -1,6 +1,6 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountUser } from './account-user.model';
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export const enum AccountType {
   User = '0',
@@ -39,7 +39,7 @@ export class AccountData {
   networkdomain?: string;
 }
 
-export interface Account extends BaseModelInterface {
+export interface Account extends BaseModel {
   accounttype: AccountType;
   cpuavailable: number;
   cpulimit: number;

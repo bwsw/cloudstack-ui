@@ -1,8 +1,8 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountType } from './account.model';
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export interface AccountUser extends BaseModelInterface {
+export interface AccountUser extends BaseModel {
   id: string;
   username: string;
   firstname: string;

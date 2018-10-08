@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { BackendResource } from '../decorators';
-import { BaseModelInterface } from '../models';
+import { BaseModel } from '../models';
 import { AccountType } from '../models/account.model';
 import { User } from '../models/user.model';
 import { AsyncJobService } from './async-job.service';
@@ -35,7 +35,7 @@ export interface Capabilities {
 @BackendResource({
   entity: '',
 })
-export class AuthService extends BaseBackendService<BaseModelInterface> {
+export class AuthService extends BaseBackendService<BaseModel> {
   public loggedIn: BehaviorSubject<boolean>;
   private _user: User | null;
   private capabilities: Capabilities | null;

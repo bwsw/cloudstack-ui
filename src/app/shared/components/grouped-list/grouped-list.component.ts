@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Type } from '@angular/core';
-import { BaseModelInterface } from '../../models/base.model';
+import { BaseModel } from '../../models/base.model';
 import { Grouping } from '../../models/grouping.model';
 import * as groupBy from 'lodash/groupBy';
 
@@ -10,7 +10,7 @@ import * as groupBy from 'lodash/groupBy';
 })
 export class GroupedListComponent implements OnChanges {
   @Input() public component: Type<any>;
-  @Input() public list: Array<BaseModelInterface>;
+  @Input() public list: Array<BaseModel>;
   @Input() public level = 0;
   @Input() public groupings: Array<Grouping>;
   @Input() dynamicInputs: { [k: string]: any } = {};

@@ -1,8 +1,8 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 import { IpAddress } from './ip-address.model';
 
 
-export interface NIC extends BaseModelInterface {
+export interface NIC extends BaseModel {
   id: string;
   broadcasturi: string;
   deviceid: string;

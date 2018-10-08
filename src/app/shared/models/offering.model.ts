@@ -1,11 +1,11 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export const StorageTypes = {
   local: 'local',
   shared: 'shared'
 };
 
-export interface Offering extends BaseModelInterface {
+export interface Offering extends BaseModel {
   id: string;
   name: string;
   displaytext: string;
