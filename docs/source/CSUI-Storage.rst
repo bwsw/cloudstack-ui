@@ -71,7 +71,7 @@ To create a new volume fill in the fields:
 - Zone * - Select a zone from the drop-down list.
 - Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "SELECT". The list of available disk offerings is determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_ by Administrator. 
 
-In the modal window you can see the name and short description for each disk offering and a radiobutton to select any option.
+In the modal window you can see the name and short description for each disk offering and a radio-button to select any option.
 
 .. figure:: _static/Storage_Create_Select1.png
 
