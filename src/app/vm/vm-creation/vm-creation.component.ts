@@ -19,6 +19,7 @@ import { VmCreationContainerComponent } from './containers/vm-creation.container
 import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
+import { isCustomized } from '../../shared/models/offering.model';
 
 @Component({
   selector: 'cs-vm-creation',
@@ -73,7 +74,7 @@ export class VmCreationComponent {
 
   public takenName: string;
   public maxEntityNameLength = 63;
-
+  public minSize: number = null;
   public visibleAffinityGroups: Array<AffinityGroup>;
   public visibleInstanceGroups: Array<InstanceGroup>;
 
@@ -81,6 +82,7 @@ export class VmCreationComponent {
     public dialogRef: MatDialogRef<VmCreationContainerComponent>,
     private auth: AuthService,
   ) {
+    this.minSize = this.auth.getCustomDiskOfferingMinSize();
   }
 
   public nameIsTaken(): boolean {
@@ -155,5 +157,16 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
+  }
+
+  public isDiskOfferingAvailableByResources(): boolean {
+    if (!isTemplate(this.vmCreationState.template) && this.vmCreationState.diskOffering) {
+      const storageAvailability = this.account.primarystorageavailable;
+      const size = isCustomized(this.vmCreationState.diskOffering)
+        ? this.minSize
+        : this.vmCreationState.diskOffering.disksize;
+      return size < Number(storageAvailability);
+    }
+    return true;
   }
 }

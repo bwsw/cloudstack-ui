@@ -112,7 +112,10 @@
                 <div *ngIf="diskOfferingsAreAllowed()">
                   <cs-disk-offering-selector
                     name="diskOffering"
+                    [storageAvailable]="account.primarystorageavailable"
+                    [min]="minSize"
                     [diskOfferings]="diskOfferings"
+                    [account]="account"
                     [ngModel]="vmCreationState?.diskOffering"
                     (change)="diskOfferingChange.emit($event)"
                   ></cs-disk-offering-selector>
@@ -128,6 +131,9 @@
                     [units]="'UNITS.GB' | translate"
                   ></cs-slider>
                 </div>
+                <span *ngIf="!isDiskOfferingAvailableByResources()" class="error-message">
+                  {{ 'ERRORS.VOLUME.VOLUME_RESOURCES_LIMIT_EXCEEDED' | translate }}
+                </span>
               </div>
             </mat-tab>
 
@@ -248,7 +254,7 @@
           mat-button
           color="primary"
           type="submit"
-          [disabled]="!vmCreateForm.valid || nameIsTaken() || !vmCreationState.template"
+          [disabled]="!vmCreateForm.valid || nameIsTaken() || !vmCreationState.template || !isDiskOfferingAvailableByResources()"
         >
           {{ 'COMMON.CREATE' | translate }}
         </button>

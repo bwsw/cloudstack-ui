@@ -14,7 +14,7 @@ import { isCustomized } from '../../../models/offering.model';
 export class DiskOfferingDialogComponent {
   public diskOfferings: DiskOffering[];
   public selectedDiskOffering: DiskOffering;
-  public account: Account;
+  public storageAvailable: Account;
   public resourcesLimitExceeded = false;
   public minSize: number = null;
 
@@ -25,7 +25,7 @@ export class DiskOfferingDialogComponent {
   ) {
     this.diskOfferings = data.diskOfferings;
     this.selectedDiskOffering = data.diskOffering;
-    this.account = data.account;
+    this.storageAvailable = data.storageAvailable;
     this.minSize = this.authService.getCustomDiskOfferingMinSize();
   }
 
@@ -59,7 +59,7 @@ export class DiskOfferingDialogComponent {
 
   private checkResourcesLimit() {
     const diskSize = isCustomized(this.selectedDiskOffering) ? this.minSize : this.selectedDiskOffering.disksize;
-    const storageAvailable = this.account && this.account.primarystorageavailable || 0;
+    const storageAvailable = this.storageAvailable || 0;
     this.resourcesLimitExceeded = Number(storageAvailable) < Number(diskSize);
   }
 }

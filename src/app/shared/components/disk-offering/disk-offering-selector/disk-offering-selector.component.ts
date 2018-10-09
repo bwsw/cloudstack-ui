@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnChanges, Output } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -17,7 +17,7 @@ import { AuthService } from '../../../services/auth.service';
     }
   ]
 })
-export class DiskOfferingSelectorComponent implements ControlValueAccessor {
+export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnChanges {
   @Input() public diskOfferings: Array<DiskOffering>;
   @Input() public required: boolean;
   @Input() public account: Account;
@@ -47,7 +47,13 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
     private authService: AuthService
   ) {
       this.change = new EventEmitter();
-      this.setMaxSizeValue();
+      this.setMaxSizeValue()
+  }
+
+  public ngOnChanges(changes) {
+    if (changes.storageAvailable.currentValue) {
+      this.setMaxSizeValue()
+    }
   }
 
   public registerOnChange(fn): void {
@@ -72,7 +78,7 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
       data: {
         diskOfferings: this.diskOfferings,
         diskOffering: this._diskOffering,
-        account: this.account
+        storageAvailable: this.storageAvailable
       }
     })
       .afterClosed()
@@ -86,11 +92,11 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
 
   private setMaxSizeValue() {
     const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
+    this.min = this.min ? this.min : this.authService.getCustomDiskOfferingMinSize();
     if (isNaN(Number(this.storageAvailable))) {
-      this.min = customDiskOfferingMaxSize;
+      this.max = customDiskOfferingMaxSize;
     } else {
       this.max = Math.min(customDiskOfferingMaxSize, Number(this.storageAvailable));
     }
-    this.max = Math.max(this.min, this.max);
   }
 }
