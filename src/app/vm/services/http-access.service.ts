@@ -7,13 +7,10 @@ import { AccessService, AuthModeType } from './access.service';
 @Injectable()
 export class HttpAccessService extends AccessService {
   protected readonly authMode = AuthModeType.HTTP;
-
-  readonly defaultHTTPPort = '80';
-  readonly defaultHTTPSPort = '443';
-  readonly defaultProtocol = 'http';
-  readonly defaultPath = '';
-  readonly defaultLogin = 'root';
-
+  private readonly defaultHttpPort = '80';
+  private readonly defaultHttpsPort = '443';
+  private readonly defaultProtocol = 'http';
+  private readonly defaultPath = '';
 
   public getAddress(vm: VirtualMachine): string {
     const protocol = this.getHttpProtocol(vm);
@@ -32,12 +29,16 @@ export class HttpAccessService extends AccessService {
     return false;
   }
 
-  public getHttpLogin(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken) || this.defaultLogin;
+  public getLogin(vm: VirtualMachine): string {
+    const httpLogin = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken);
+    const vmLogin = this.getTagValue(vm.tags, VirtualMachineTagKeys.loginTag);
+    return httpLogin || vmLogin || this.defaultLogin;
   }
 
-  public getHttpPassword(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPasswordToken)
+  public getPassword(vm: VirtualMachine): string {
+    const passwordTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPasswordToken);
+    const vmPassword = this.getTagValue(vm.tags, VirtualMachineTagKeys.passwordTag);
+    return passwordTag || vmPassword;
   }
 
   public getHttpProtocol(vm: VirtualMachine) {
@@ -55,8 +56,7 @@ export class HttpAccessService extends AccessService {
     if (portTag) {
       return portTag;
     }
-    const defaultValue = this.getHttpProtocol(vm) === 'http' ? this.defaultHTTPPort : this.defaultHTTPSPort;
+    const defaultValue = this.getHttpProtocol(vm) === 'http' ? this.defaultHttpPort : this.defaultHttpsPort;
     return defaultValue;
   }
-
 }

@@ -3,21 +3,16 @@ h3 {
   margin-bottom: 12px;
 }
 
-h4 {
-  margin: 0;
-  line-height: 20px;
+p {
+  margin-bottom: 0;
 }
-:host {
-  ::ng-deep .mat-tab-header {
-    margin-bottom: 30px !important;
-  }
-  ::ng-deep .mat-tab-label {
-    width: 33% !important;
-  }
+
+::ng-deep .mat-tab-label {
+  width: 33% !important;
 }
 
 .parameter-wrapper {
-  padding: 0 16px;
+  margin: 16px;
 }
 
 .parameter-item {
@@ -33,10 +28,6 @@ h4 {
 .action-link {
   cursor: pointer;
   padding-left: 15px;
-}
-
-.height-container {
-  min-height: 32px !important;
 }
 
 cs-input-group {
