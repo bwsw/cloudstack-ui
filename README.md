@@ -137,8 +137,8 @@ We added a feature to brush a virtual machine with a specific color to make it l
 Also, we moved most of VM information to the sidebar, which now has four tabs - General view, Storage (disks, snapshots, and ISO), Network (NICs configuration, Firewall rules) and Tags.
 From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones. The data representation can be changed between the "card" and "table" view. Each section contains a switch and this improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView1.png" target="_blank">![Virtual Machine View screen 1](./screens/VM_View1_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView2.png" target="_blank">![Virtual Machine View screen 2](./screens/VM_View2_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView1.png" target="_blank">![Virtual Machine View screen 1](./screens/VMView1_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView2.png" target="_blank">![Virtual Machine View screen 2](./screens/VMView2_mini.png)</a>&nbsp;&nbsp;
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView3.png" target="_blank">![Virtual Machine View screen 3](./screens/VMView3_mini.png)</a>
 
 #### New virtual machine form
