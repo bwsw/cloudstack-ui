@@ -11,29 +11,11 @@ p {
   width: 33% !important;
 }
 
-.parameter-wrapper {
+.parameters-wrapper {
   margin: 16px;
-}
-
-.parameter-item {
-   /deep/ .flex-container {
-      width: 66% !important;
-
-     .key {
-       font-weight: bold;
-     }
-  }
 }
 
 .action-link {
   cursor: pointer;
   padding-left: 15px;
-}
-
-cs-input-group {
-  padding-left: 10px;
-
-  mat-form-field {
-    padding-top: 0.2em;
-  }
 }
