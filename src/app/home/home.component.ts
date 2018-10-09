@@ -30,7 +30,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
 
     this.auth.loggedIn.pipe(
       takeUntil(this.unsubscribe$),
-      filter(isLoggedIn => !!isLoggedIn))
+      filter(isLoggedIn => isLoggedIn))
       .subscribe(() => {
         this.store.dispatch(new authActions.LoadUserAccountRequest({
           name: this.auth.user.account,

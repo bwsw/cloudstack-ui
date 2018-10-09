@@ -20,7 +20,6 @@ import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
-
 @Component({
   selector: 'cs-vm-creation',
   templateUrl: 'vm-creation.component.html',
@@ -63,7 +62,6 @@ export class VmCreationComponent {
   @Output() public cancel = new EventEmitter();
   @Output() public onError = new EventEmitter();
 
-
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
     ips: 'VM_PAGE.VM_CREATION.IPS',
@@ -79,41 +77,51 @@ export class VmCreationComponent {
   public visibleAffinityGroups: Array<AffinityGroup>;
   public visibleInstanceGroups: Array<InstanceGroup>;
 
-  public get nameIsTaken(): boolean {
+  constructor(
+    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private auth: AuthService,
+  ) {
+  }
+
+  public nameIsTaken(): boolean {
     return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
   }
 
-  public get diskOfferingsAreAllowed(): boolean {
-    return this.vmCreationState.template
-      && !isTemplate(this.vmCreationState.template);
+  public diskOfferingsAreAllowed(): boolean {
+    return this.vmCreationState.template && !isTemplate(this.vmCreationState.template);
   }
 
-  public get showResizeSlider(): boolean {
+  public showResizeSlider(): boolean {
     return this.vmCreationState.template
       && !isTemplate(this.vmCreationState.template)
-      && this.showRootDiskResize
+      && this.isCustomizedDiskOffering()
       && !!this.vmCreationState.rootDiskMinSize;
   }
 
-  public get rootDiskSizeLimit(): number {
-    return this.account && this.account.primarystorageavailable;
+  public rootDiskSizeLimit(): number {
+    const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
+    const storageAvailable = Number(primaryStorageAvailable);
+    const maxRootSize = this.auth.getCustomDiskOfferingMaxSize();
+    if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
+      return maxRootSize;
+    }
+    if (storageAvailable < maxRootSize) {
+      return storageAvailable;
+    }
+    return maxRootSize;
   }
 
-  public get showRootDiskResize(): boolean {
-    return this.vmCreationState.diskOffering
-      && this.vmCreationState.diskOffering.iscustomized;
+  public isCustomizedDiskOffering(): boolean {
+    if (this.vmCreationState.diskOffering) {
+      return this.vmCreationState.diskOffering.iscustomized;
+    }
+    return false;
   }
 
-  public get showSecurityGroups(): boolean {
+  public showSecurityGroups(): boolean {
     return this.vmCreationState.zone
       && this.vmCreationState.zone.securitygroupsenabled
       && this.auth.isSecurityGroupEnabled();
-  }
-
-  constructor(
-    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private auth: AuthService
-  ) {
   }
 
   public changeTemplate(value: BaseTemplateModel) {
@@ -149,5 +157,12 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
+  }
+
+  public isSubmitButtonDisabled(isFormValid: boolean): boolean {
+    return !isFormValid
+      || this.nameIsTaken()
+      || !this.vmCreationState.template
+      || !this.vmCreationState.serviceOffering.isAvailableByResources;
   }
 }

@@ -32,7 +32,7 @@ export class VolumeResizeContainerComponent implements OnInit {
 
   public volume: Volume;
 
-  public maxSize = 2;
+  public maxSize = '2';
 
   constructor(
     public authService: AuthService,

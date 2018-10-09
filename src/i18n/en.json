@@ -118,6 +118,9 @@
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
+    },
+    "COMPUTE_OFFERING": {
+      "RESOURCE_LIMIT_EXCEEDED": "The service offering cannot be selected because it doesn't fit the account resources available."
     }
   },
   "NOTIFICATIONS": {
@@ -551,7 +554,9 @@
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
       "NO_TEMPLATES": "No templates available",
-      "NO_OFFERINGS": "No offerings available"
+      "NO_OFFERINGS": "No offerings available",
+      "GENERAL": "General",
+      "ADVANCED": "Advanced"
     }
   },
   "VM_POST_ACTION": {

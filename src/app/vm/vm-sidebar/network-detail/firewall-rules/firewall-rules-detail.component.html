@@ -11,7 +11,9 @@
         class="row"
         *ngFor="let group of vm.securityGroup"
       >
-        <span class="sg-name">{{ group.name }}</span>
+        <span class="sg-name">
+          {{ group.name }}
+        </span>
         <button
           mat-icon-button
           class="mat-icon-button mat-icon-button--small"
