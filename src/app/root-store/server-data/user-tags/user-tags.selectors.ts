@@ -62,15 +62,7 @@ export const getInterfaceLanguage = createSelector(
 
 export const getLastVMId = createSelector(
   getUserTagsEntities,
-  (entities): number => {
-    const value = entities[userTagKeys.lastVMId].value;
-
-    if (value != null) {
-      return +value;
-    }
-
-    return null;
-  }
+  (entities): number => +entities[userTagKeys.lastVMId].value
 );
 
 export const getSessionTimeout = createSelector(

@@ -88,7 +88,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading)),
-    // this.store.pipe(select(fromUserTags.isLoading))
+    this.store.pipe(select(fromUserTags.isLoading))
   ).pipe(
     map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
   );
@@ -106,17 +106,6 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-  readonly defaultVmName$ = this.store.pipe(
-    select(UserTagsSelectors.getLastVMId),
-    first(),
-    map(numberOfVms => {
-      if (numberOfVms == null) {
-        return '';
-      }
-
-      return `vm-${this.authService.user.username}-${numberOfVms + 1}`;
-    })
-  );
 
   constructor(
     private store: Store<State>,
@@ -133,7 +122,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
 
-    this.defaultVmName$.subscribe(displayName => this.onDisplayNameChange(displayName));
+    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
@@ -204,5 +193,11 @@ export class VmCreationContainerComponent implements OnInit {
 
   public showOverlayChange() {
     this.store.dispatch(new vmActions.VmCreationStateUpdate({ showOverlay: false }));
+  }
+
+  private getDefaultVmName(): Observable<string> {
+    return this.store.pipe(
+      select(UserTagsSelectors.getLastVMId),
+      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
   }
 }

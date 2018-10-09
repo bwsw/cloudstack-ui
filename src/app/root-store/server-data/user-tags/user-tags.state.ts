@@ -55,7 +55,7 @@ const initialEntities = {
   },
   [userTagKeys.lastVMId]: {
     key: userTagKeys.lastVMId,
-    value: defaultConfig.lastVMId === null ? null : defaultConfig.lastVMId.toString()
+    value: defaultConfig.lastVMId.toString()
   },
   [userTagKeys.sessionTimeout]: {
     key: userTagKeys.sessionTimeout,

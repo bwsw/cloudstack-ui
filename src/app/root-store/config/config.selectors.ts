@@ -29,7 +29,7 @@ export const getDefaultUserTags = createSelector(
       },
       { key: userTagKeys.firstDayOfWeek, value: `${config.defaultFirstDayOfWeek}` },
       { key: userTagKeys.lang, value: config.defaultInterfaceLanguage },
-      { key: userTagKeys.lastVMId, value: config.lastVMId === null ? null : `${config.lastVMId}` },
+      { key: userTagKeys.lastVMId, value: `${config.lastVMId}` },
       { key: userTagKeys.sessionTimeout, value: `${config.sessionTimeout}` },
       { key: userTagKeys.sidenavVisible, value: `${config.isSidenavVisible}` },
       { key: userTagKeys.showSystemTags, value: `${config.showSystemTags}` },

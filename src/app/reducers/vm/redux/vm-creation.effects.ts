@@ -577,6 +577,7 @@ export class VirtualMachineCreationEffects {
   }
 
   private doCreateSecurityGroup(state: VmCreationState) {
+    debugger;
     if (this.createSecurityGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
 
