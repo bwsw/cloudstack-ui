@@ -1,10 +1,9 @@
-import { createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { adapter } from './user-tags.state';
+import { adapter, UserTagsState } from './user-tags.state';
 import { userTagKeys } from '../../../tags/tag-keys';
 import { DayOfWeek, KeyboardLayout, Language, TimeFormat } from '../../../shared/types';
 import { Tag } from '../../../shared/models';
-import { getUserTagsState } from './user-tags.reducer';
 
 function convertToBoolean(input: string): boolean {
   try {
@@ -14,12 +13,19 @@ function convertToBoolean(input: string): boolean {
   }
 }
 
+export const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
+
 export const {
   selectIds,
   selectEntities,
   selectAll,
   selectTotal,
 } = adapter.getSelectors(getUserTagsState);
+
+export const getIsLoading = createSelector(
+  getUserTagsState,
+  (state: UserTagsState) => state.isLoading
+);
 
 const { selectEntities: getUserTagsEntities } = adapter.getSelectors(getUserTagsState);
 

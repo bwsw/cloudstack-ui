@@ -4,7 +4,6 @@ import { UserTagsActionsUnion, UserTagsActionTypes } from './user-tags.actions';
 import { adapter, initialState, UserTagsState } from './user-tags.state';
 import { Tag } from '../../../shared/models';
 import { userTagKeys } from '../../../tags/tag-keys';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export function reducer(state = initialState, action: UserTagsActionsUnion): UserTagsState {
   switch (action.type) {
@@ -84,10 +83,3 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     }
   }
 }
-
-export const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
-
-export const isLoading = createSelector(
-  getUserTagsState,
-  (state: UserTagsState) => state.isLoading
-);

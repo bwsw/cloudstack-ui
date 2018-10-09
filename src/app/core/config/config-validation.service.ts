@@ -97,6 +97,9 @@ export class ConfigValidationService {
   }
 
   private getValidationErrors(userConf: object) {
+    debugger;
+
+
     const userConfKeys = Object.keys(userConf);
     const errors: ValidationError[] = [];
 
