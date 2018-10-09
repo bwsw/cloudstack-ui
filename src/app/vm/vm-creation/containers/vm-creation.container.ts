@@ -9,7 +9,6 @@ import {
   AffinityGroup,
   DiskOffering,
   InstanceGroup,
-  ServiceOffering,
   SSHKeyPair,
   Zone
 } from '../../../shared/models';
@@ -38,6 +37,7 @@ import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
+import { ComputeOfferingViewModel } from '../../view-models';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -127,14 +127,14 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit());
+    this.store.dispatch(new vmActions.VmCreationFormInit())
   }
 
   public onDisplayNameChange(displayName: string) {
     this.store.dispatch(new vmActions.VmFormUpdate({ displayName }));
   }
 
-  public onServiceOfferingChange(serviceOffering: ServiceOffering) {
+  public onServiceOfferingChange(serviceOffering: ComputeOfferingViewModel) {
     this.store.dispatch(new vmActions.VmFormUpdate({ serviceOffering }));
   }
 

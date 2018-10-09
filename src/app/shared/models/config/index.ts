@@ -10,3 +10,4 @@ export * from './service-offering-availability.interface';
 export * from './offering-compatibility-policy.interface';
 export * from './sidenav-config-element.interface';
 export * from './security-group-template.interface';
+export * from './custom-compute-offering-parameters.interface';
