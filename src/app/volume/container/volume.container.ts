@@ -1,9 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State } from '../../reducers/index';
+import { State } from '../../reducers';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
+import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
-import { Volume, volumeTypeNames } from '../../shared/models/volume.model';
+import { Grouping, Volume, volumeTypeNames } from '../../shared/models';
 import { AuthService } from '../../shared/services/auth.service';
 
 
@@ -25,7 +26,7 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
   readonly loading$ = this.store.select(fromVolumes.isLoading);
   readonly selectedGroupings$ = this.store.select(fromVolumes.filterSelectedGroupings);
 
-  public groupings = [
+  public groupings: Array<Grouping> = [
     {
       key: 'zones',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ZONES',
@@ -47,10 +48,6 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
   ];
   public query: string;
 
-  public ngOnInit() {
-    this.store.dispatch(new volumeActions.LoadVolumesRequest());
-  }
-
   constructor(
     private store: Store<State>,
     private authService: AuthService,
@@ -59,6 +56,11 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
     if (!this.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
     }
+  }
+
+  public ngOnInit() {
+    this.store.dispatch(new volumeActions.LoadVolumesRequest());
+    this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
   }
 
   public isAdmin() {

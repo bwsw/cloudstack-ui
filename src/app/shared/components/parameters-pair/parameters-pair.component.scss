@@ -1,12 +1,12 @@
 .key {
-  flex-grow: 1;
-  flex-shrink: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   cursor: default;
-  max-width: 170px;
+  max-width: 50%;
   margin-right: 5px;
+  /* For Firefox */
+  word-wrap: break-word;
+  /* For Chrome and IE */
+  word-break: break-word;
+  user-select: text !important;
 }
 
 .value {
@@ -15,7 +15,8 @@
   cursor: default;
   text-align: right;
   white-space: nowrap;
-  flex-shrink: 2;
+  max-width: 50%;
+  user-select: text !important;
 
   input {
     text-align: end;
@@ -24,8 +25,9 @@
   cs-input-group {
     mat-form-field {
       padding-top: 0.2em;
+      max-width: 80%;
 
-      /deep/ div.mat-input-infix {
+      /deep/ div.mat-form-field-infix {
         width: auto !important;
       }
     }

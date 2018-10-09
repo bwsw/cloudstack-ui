@@ -6,7 +6,7 @@
     <div *ngIf="!loading" class="mat-card-header-menu">
       <button *ngIf="!loading"
               mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon>more_vert</mat-icon>
+        <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
     </div>
   </mat-card-header>
@@ -32,7 +32,7 @@
           [disabled]="loading"
           (click)="toggleDetails()"
         >
-          <mat-icon>keyboard_arrow_down</mat-icon>
+          <mat-icon class="mdi-chevron-down"></mat-icon>
         </button>
       </div>
     </mat-card-actions>

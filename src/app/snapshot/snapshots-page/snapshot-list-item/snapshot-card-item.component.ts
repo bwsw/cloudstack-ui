@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { TranslateService } from '@ngx-translate/core';
-import { Snapshot, Volume } from '../../../shared/models/index';
+
+import { Snapshot, Volume } from '../../../shared/models';
+import { NgrxEntities } from '../../../shared/interfaces';
 import { VirtualMachine } from '../../../vm';
 import { SnapshotItemComponent } from './snapshot-item.component';
+
 
 @Component({
   selector: 'cs-snapshot-card-item',
@@ -13,8 +15,8 @@ import { SnapshotItemComponent } from './snapshot-item.component';
 })
 export class SnapshotCardItemComponent extends SnapshotItemComponent {
   @Input() public item: Snapshot;
-  @Input() public volumes: Dictionary<Volume>;
-  @Input() public virtualMachines: Dictionary<VirtualMachine>;
+  @Input() public volumes: NgrxEntities<Volume>;
+  @Input() public virtualMachines: NgrxEntities<VirtualMachine>;
   @Input() public isSelected: (snapshot: Snapshot) => boolean;
   @Input() public query: string;
   @Output() public onClick = new EventEmitter<Snapshot>();

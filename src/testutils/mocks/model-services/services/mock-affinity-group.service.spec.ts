@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AffinityGroup } from '../../../../app/shared/models';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 
 const affinityGroups: Array<AffinityGroup> = require('../fixtures/affinityGroups.json');
@@ -8,6 +8,6 @@ const affinityGroups: Array<AffinityGroup> = require('../fixtures/affinityGroups
 @Injectable()
 export class MockAffinityGroupService {
   public getList(): Observable<Array<AffinityGroup>> {
-    return Observable.of(affinityGroups);
+    return of(affinityGroups);
   }
 }

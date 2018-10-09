@@ -1,17 +1,3 @@
-:host {
-  cursor: pointer;
-  z-index: -1;
-}
-
-.desc {
-  flex-grow: 2;
-}
-
-.size, .state {
-  flex-grow: 1;
-  flex-basis: 100px;
-}
-
 .root-disk {
   background: center/4px 4px repeat radial-gradient(
       circle at center,

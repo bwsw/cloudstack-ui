@@ -1,15 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+
 import { Hypervisor, OsType, Zone } from '../../shared';
-import { Account, isRootAdmin } from '../../shared/models/account.model';
-import { Snapshot } from '../../shared/models/snapshot.model';
-import { TemplateGroup } from '../../shared/models/template-group.model';
+import { Account, ImageGroup, isRootAdmin, Snapshot } from '../../shared/models';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { Language } from '../../shared/services/language.service';
-import {
-  CreateTemplateBaseParams,
-  TemplateResourceType
-} from '../shared/base-template.service';
+import { CreateTemplateBaseParams, TemplateResourceType } from '../shared/base-template.service';
+import { Language } from '../../shared/types';
 
 interface TemplateFormat {
   name: string;
@@ -26,8 +22,7 @@ export class TemplateCreationComponent implements OnInit {
   @Input() public account: Account;
   @Input() public osTypes: Array<OsType>;
   @Input() public zones: Array<Zone>;
-  @Input() public isLoading: boolean;
-  @Input() public groups: Array<TemplateGroup>;
+  @Input() public groups: Array<ImageGroup>;
   @Input() public snapshot?: Snapshot;
 
   @Output() public onCreateTemplate = new EventEmitter<CreateTemplateBaseParams>();
@@ -37,7 +32,7 @@ export class TemplateCreationComponent implements OnInit {
   public osTypeId: string;
   public url: string;
   public zoneId: string;
-  public templateGroup: TemplateGroup;
+  public templateGroup: ImageGroup;
   public isExtractable: boolean;
   public hypervisor: string;
   public isPublic: boolean;
@@ -132,7 +127,7 @@ export class TemplateCreationComponent implements OnInit {
 
     if (this.mode === TemplateResourceType.template) {
       params['passwordEnabled'] = this.passwordEnabled;
-      params['isDynamicallyScalable'] = this.dynamicallyScalable;
+      params['isdynamicallyscalable'] = this.dynamicallyScalable;
       params['entity'] = TemplateResourceType.template;
     } else {
       params['entity'] = TemplateResourceType.iso;

@@ -1,55 +1,40 @@
 <mat-card
-  class="custom-card"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
+  class="entity-card"
 >
-  <mat-card-header>
-    <mat-card-title>
-      <h2
-        class="mat-card-title-text"
-        [matTooltip]="item.name"
-        [innerHTML]="item.name | highlight:query"
-      ></h2>
-      <div class="mat-card-header-menu">
-        <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-      </div>
+
+  <mat-card-header class="entity-card-header">
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
+      <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="entity-card-menu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
   </mat-card-header>
+
   <mat-card-content>
-    <div class="card-wrapper" *ngIf="isPrivate">
-      <div class="description flex-1">{{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:</div>
-      <div class="description flex-2">
-        <ng-template [ngIf]="item?.virtualMachineIds[0]">
-          {{ sgVmName }}
-        </ng-template>
-        <ng-template [ngIf]="!item?.virtualMachineIds[0]">
-          <span>
-            {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
-          </span>
-        </ng-template>
-      </div>
-    </div>
-    <div class="card-wrapper" *ngIf="!item?.description && !isPrivate">
-      <div class="description"></div>
+    <div class="entity-card-data-line" *ngIf="isPrivate">
+      {{ 'SECURITY_GROUP_PAGE.CARD.VM_NAME' | translate }}:
+      <ng-template [ngIf]="item.virtualmachineids[0]">
+        {{ sgVmName }}
+      </ng-template>
+      <ng-template [ngIf]="!item.virtualmachineids[0]">
+        {{ 'SECURITY_GROUP_PAGE.DETAILS.EMPTY_VM_NAME' | translate }}
+      </ng-template>
     </div>
 
-    <div class="card-wrapper" *ngIf="item?.description && !isPrivate">
-      <div class="description flex-1">{{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:</div>
-      <div class="description flex-2">
-        <span
-          class="tooltip-position-fix fixed-width-span"
-          *ngIf="item.description"
-          [matTooltip]="item.description"
-          [innerHTML]="item.description | highlight:query"
-          matTooltipPosition="above"
-        ></span>
-      </div>
+    <div class="entity-card-data-line" *ngIf="!isPrivate">
+      <!-- Visibility is used so that the context of all cards is of the same height -->
+      <span [style.visibility]="item.description ? 'visible' : 'hidden'">
+        {{ 'SECURITY_GROUP_PAGE.CARD.DESCRIPTION' | translate }}:
+      </span>
+      <span [innerHTML]="item.description | highlight:query"></span>
     </div>
   </mat-card-content>
 
   <mat-menu #actionsMenu="matMenu">
     <cs-security-group-actions-container [securityGroup]="item"></cs-security-group-actions-container>
   </mat-menu>
+
 </mat-card>

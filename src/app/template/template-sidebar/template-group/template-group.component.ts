@@ -1,19 +1,12 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { BaseTemplateModel } from '../../shared/base-template.model';
 import { TranslateService } from '@ngx-translate/core';
-import { Language } from '../../../shared/services/language.service';
+
+import { BaseTemplateModel } from '../../shared/base-template.model';
 import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { TemplateGroupSelectorContainerComponent } from './containers/template-group-selector.container';
-import {
-  DefaultTemplateGroupId,
-  TemplateGroup
-} from '../../../shared/models/template-group.model';
+import { DefaultTemplateGroupId, ImageGroup } from '../../../shared/models';
+import { Language } from '../../../shared/types';
 
 
 @Component({
@@ -23,7 +16,7 @@ import {
 })
 export class TemplateGroupComponent {
   @Input() public template: BaseTemplateModel;
-  @Input() public groups: TemplateGroup[];
+  @Input() public groups: ImageGroup[];
   @Output() public groupChange = new EventEmitter<BaseTemplateModel>();
   @Output() public groupReset = new EventEmitter();
 
@@ -38,8 +31,8 @@ export class TemplateGroupComponent {
   }
 
   public get groupName(): string {
-    const tag = this.template.tags.find(_ => _.key === TemplateTagKeys.group);
-    const group = tag && this.groups[tag.value];
+    const tag = this.template.tags.find(t => t.key === TemplateTagKeys.group);
+    const group = tag && this.groups.find(g => g.id === tag.value);
     return group && ((group.translations && group.translations[this.locale]) || group.id) || DefaultTemplateGroupId;
   }
 

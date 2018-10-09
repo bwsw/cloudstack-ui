@@ -10,6 +10,7 @@
         name="username"
         [placeholder]="'ACCOUNT_PAGE.USER.USERNAME' | translate"
         autocomplete="new-username"
+        required
         formControlName="username"
       >
     </mat-form-field>
@@ -20,12 +21,13 @@
         [placeholder]="'ACCOUNT_PAGE.USER.PASSWORD' | translate"
         autocomplete="new-password"
         [type]="showPassword ? 'password' : 'text'"
+        required
         formControlName="password"
       >
       <mat-icon
         matSuffix
         (click)="showPassword = !showPassword"
-        [innerHTML]="showPassword ? 'visibility' : 'visibility_off'"
+        [ngClass]="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       >
       </mat-icon>
     </mat-form-field>
@@ -34,6 +36,7 @@
         matInput
         name="firstName"
         formControlName="firstname"
+        required
         [placeholder]="'ACCOUNT_PAGE.USER.FIRST_NAME' | translate"
       >
     </mat-form-field>
@@ -42,6 +45,7 @@
         matInput
         name="lastName"
         formControlName="lastname"
+        required
         [placeholder]="'ACCOUNT_PAGE.USER.LAST_NAME' | translate"
       >
     </mat-form-field>

@@ -3,6 +3,7 @@ import { AccountType } from './account.model';
 
 export interface User extends BaseModelInterface {
   account: string;
+  accountid: string;
   domain: string;
   domainid: string;
   firstname: string;

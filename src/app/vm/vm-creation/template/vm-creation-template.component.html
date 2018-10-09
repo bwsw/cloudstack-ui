@@ -8,9 +8,9 @@
   </button>
 </div>
 
-<div class="mat-input-wrapper template-list">
+<div class="mat-form-field-wrapper template-list">
   <ng-container *ngIf="template">
-    <span class="ellipsis-overflow" [matTooltip]="templateName | async">
+    <span class="template-info truncate" [matTooltip]="templateName | async">
       {{ templateName | async }}
     </span>
   </ng-container>

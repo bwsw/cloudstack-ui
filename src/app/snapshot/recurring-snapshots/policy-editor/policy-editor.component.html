@@ -44,8 +44,6 @@
       [(ngModel)]="storedSnapshots"
       [min]="minStoredSnapshots"
       [max]="maxStoredSnapshots"
-      [minValue]="minStoredSnapshots"
-      [maxValue]="maxStoredSnapshots"
     ></cs-stored-number>
 
       <div class="button-wrapper">
@@ -53,7 +51,7 @@
           mat-icon-button
           [disabled]="!policyEditorForm.valid"
         >
-          <mat-icon>add</mat-icon>
+          <mat-icon class="mdi-plus"></mat-icon>
         </button>
       </div>
     </div>

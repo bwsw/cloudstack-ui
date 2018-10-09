@@ -31,6 +31,7 @@ Thumbs.db
 # Node Files #
 /node_modules
 /bower_components
+package-lock.json
 
 # Coverage #
 /reports/
@@ -56,3 +57,7 @@ __build__/**
 .idea/
 *.swp
 .vscode
+
+# Configurations #
+proxy-conf.js
+/src/config/config.json

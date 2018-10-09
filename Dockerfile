@@ -6,14 +6,14 @@ COPY package.json yarn.lock /tmp/cloudstackui/
 RUN yarn install
 
 COPY . /tmp/cloudstackui
-RUN yarn run build:aot
+RUN yarn build --prod --aot
 
-FROM nginx:stable-alpine
+FROM firesh/nginx-lua
 
 COPY .build/nginx.conf /etc/nginx/conf.d/default.conf
 COPY .build/startup.sh /etc/nginx/startup.sh
 
-COPY --from=builder /tmp/cloudstackui/dist /static/
+COPY --from=builder /tmp/cloudstackui/dist/cloudstack-ui /static/
 
 RUN  chmod 777 /etc/nginx/startup.sh
 

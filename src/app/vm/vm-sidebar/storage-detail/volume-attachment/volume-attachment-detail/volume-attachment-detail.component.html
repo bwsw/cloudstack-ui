@@ -1,4 +1,5 @@
 <mat-card class="card">
+
   <mat-card-header>
     <mat-card-title>
       <h2 class="mat-card-title-text">
@@ -6,49 +7,56 @@
       </h2>
     </mat-card-title>
   </mat-card-header>
+
   <mat-card-content [class.mat-card-content-with-actions]="selectedVolume || !selectedVolume && volumes?.length">
     <div class="mat-card-content-container">
-      <ng-container *ngIf="volumes?.length">
-        <ng-container *ngIf="!selectedVolume">
+      <ng-container *ngIf="volumes?.length; then avaliableVolumesExist else avaliableVolumesNotExist"></ng-container>
+
+      <ng-template #avaliableVolumesExist>
+        <ng-container *ngIf="selectedVolume; then showVolumeName else showSelectVolumeMessage"></ng-container>
+        <ng-template #showSelectVolumeMessage>
           {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.SELECT_VOLUME' | translate }}
-        </ng-container>
-        <ng-container *ngIf="selectedVolume">
+        </ng-template>
+        <ng-template #showVolumeName>
           {{ selectedVolume.name }}
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="!volumes?.length">
-        {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_1' | translate }}<a routerLink="/storage/create">{{
-        'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_2' | translate }}</a>{{
-        'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_3' | translate }}
-      </ng-container>
+        </ng-template>
+      </ng-template>
+
+      <ng-template #avaliableVolumesNotExist>
+        {{ 'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_1' | translate }}
+        <a routerLink="/storage/create">
+          {{'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_2' | translate }}
+        </a>
+        {{'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.NO_AVAILABLE_VOLUMES_3' | translate }}
+      </ng-template>
     </div>
-    <mat-card-actions *ngIf="selectedVolume">
-      <button
-        *ngIf="!loading"
-        mat-icon-button
-        [matTooltip]="'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH' | translate"
-        matTooltipPosition="above"
-        (click)="$event.stopPropagation(); attachVolume()"
-      >
-        <mat-icon>attach_file</mat-icon>
-      </button>
-      <button
-        *ngIf="loading"
-        mat-icon-button
-        disabled
-      >
-        <mat-icon>attach_file</mat-icon>
-      </button>
+
+    <mat-card-actions *ngIf="volumes?.length">
+      <ng-container *ngIf="selectedVolume; then attachButton else selectButton"></ng-container>
+
+      <ng-template #attachButton>
+        <button
+          mat-icon-button
+          [matTooltip]="'VM_PAGE.STORAGE_DETAILS.SPARE_DRIVE_ATTACHMENT.ATTACH' | translate"
+          matTooltipPosition="above"
+          (click)="$event.stopPropagation(); attachVolume()"
+        >
+          <mat-icon class="mdi-paperclip"></mat-icon>
+        </button>
+      </ng-template>
+
+      <ng-template #selectButton>
+        <button
+          mat-icon-button
+          [matTooltip]="'COMMON.SELECT' | translate"
+          matTooltipPosition="above"
+          (click)="$event.stopPropagation(); showDialog()"
+        >
+          <mat-icon class="mdi-plus"></mat-icon>
+        </button>
+      </ng-template>
     </mat-card-actions>
-    <mat-card-actions *ngIf="!selectedVolume && volumes?.length">
-      <button
-        mat-icon-button
-        [matTooltip]="'COMMON.SELECT' | translate"
-        matTooltipPosition="above"
-        (click)="$event.stopPropagation(); showDialog()"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
-    </mat-card-actions>
+
   </mat-card-content>
+
 </mat-card>

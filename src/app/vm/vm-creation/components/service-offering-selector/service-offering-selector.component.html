@@ -1,0 +1,25 @@
+<div class="top-row">
+  <h4 class="dialog-select-header">
+    {{ 'VM_PAGE.VM_CREATION.SERVICE_OFFERING' | translate }}
+  </h4>
+
+  <button type="button" mat-button (click)="onClick()">
+    {{ 'COMMON.SELECT' | translate }}
+  </button>
+</div>
+
+<div class="mat-form-field-wrapper">
+  <ng-container *ngIf="serviceOffering; then offeringNameBlock else nameStub"></ng-container>
+  <ng-template #offeringNameBlock>
+    <span class="service-offering-info truncate" [matTooltip]="offeringName | async">
+      {{ offeringName | async }}
+    </span>
+    <span class="error-message" *ngIf="!serviceOffering.isAvailableByResources">
+      {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+    </span>
+  </ng-template>
+  <ng-template #nameStub>
+    {{ 'VM_PAGE.VM_CREATION.NO_OFFERINGS' | translate }}
+  </ng-template>
+</div>
+

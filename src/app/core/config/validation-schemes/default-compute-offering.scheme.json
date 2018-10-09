@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "defaultComputeOffering",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["zoneId", "offeringId"],
+    "properties": {
+      "zoneId": {
+        "type": "string"
+      },
+      "offeringId": {
+        "type": "string"
+      }
+    }
+  },
+  "uniqueItemProperties": ["zoneId"],
+  "errorMessage": {
+    "uniqueItemProperties": "should NOT contain objects with the same zoneId"
+  }
+}

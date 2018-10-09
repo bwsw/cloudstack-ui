@@ -5,7 +5,7 @@
     [disabled]="!action.canActivate(volume)"
     (click)="onAction(action, volume)"
   >
-    <mat-icon>{{ action.icon }}</mat-icon>
+    <mat-icon [ngClass]="action.icon"></mat-icon>
     <span>{{ action.name | translate }}</span>
   </button>
 </ng-container>

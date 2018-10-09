@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { Account } from '../../shared/models/account.model';
@@ -37,7 +37,6 @@ describe('Template creation component', () => {
       component.account = {} as Account;
       component.osTypes = [];
       component.zones = [];
-      component.isLoading = false;
       component.groups = [];
       fixture.detectChanges();
     });
@@ -49,7 +48,7 @@ describe('Template creation component', () => {
 
   it('should get hypervisors', () => {
     const spyGetList = spyOn(HypervisorService.prototype, 'getList').and
-      .returnValue(Observable.of([]));
+      .returnValue(of([]));
     component.getHypervisors();
     expect(spyGetList).toHaveBeenCalled();
   });
@@ -80,13 +79,13 @@ describe('Template creation component', () => {
     expect(result).toEqual('TEMPLATE_PAGE.TEMPLATE_CREATION.NEW_TEMPLATE');
   });
 
-  it('should create template with main params', () => {
+ it('should create template with main params', () => {
     const params = {
       name: 'test1',
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       url: 'testUrl',
       zoneId: 'testZone',
       entity: TemplateResourceType.template
@@ -112,7 +111,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       snapshotId: 'snap1',
       entity: TemplateResourceType.template
     };
@@ -159,7 +158,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
@@ -187,7 +186,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
@@ -226,7 +225,7 @@ describe('Template creation component', () => {
       displayText: 'testText',
       osTypeId: 'testOS',
       passwordEnabled: true,
-      isDynamicallyScalable: true,
+      isdynamicallyscalable: true,
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
@@ -267,6 +266,4 @@ describe('Template creation component', () => {
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });
-
-
 });

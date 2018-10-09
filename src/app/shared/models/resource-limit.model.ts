@@ -16,15 +16,9 @@ export const enum ResourceType {
 }
 
 export interface ResourceLimit extends BaseModelInterface {
-  id: string;
+  account: string;
+  domain: string;
+  domainid: string;
   max: number;
   resourcetype: number;
 }
-
-export const updateLimitMax = (limit: ResourceLimit): ResourceLimit => {
-  const fixedJson = { ...limit };
-  if (limit.max === -1) {
-    fixedJson['max'] = Infinity;
-  }
-  return fixedJson;
-};

@@ -1,36 +1,14 @@
-import { CdkTableModule } from '@angular/cdk/table';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSnackBarModule,
-  MatTableModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { MemoryStorageService } from 'app/shared/services/memory-storage.service';
 import { DynamicModule } from 'ng-dynamic-component';
 import { DragulaModule } from 'ng2-dragula';
 import { ClipboardModule } from 'ngx-clipboard';
+// tslint:disable max-line-length
+import { MemoryStorageService } from './services/memory-storage.service';
 import { AffinityGroupsEffects } from '../reducers/affinity-groups/redux/affinity-groups.effects';
 import { affinityGroupReducers } from '../reducers/affinity-groups/redux/affinity-groups.reducers';
 import { DiskOfferingEffects } from '../reducers/disk-offerings/redux/disk-offerings.effects';
@@ -38,15 +16,12 @@ import { diskOfferingReducers } from '../reducers/disk-offerings/redux/disk-offe
 import { ZonesEffects } from '../reducers/zones/redux/zones.effects';
 import { zoneReducers } from '../reducers/zones/redux/zones.reducers';
 import { SecurityGroupService } from '../security-group/services/security-group.service';
-// tslint:disable-next-line
 import { SecurityGroupSelectorComponent } from '../vm/vm-creation/components/security-group-selector/security-group-selector.component';
-// tslint:disable-next-line
 import { VmCreationSecurityGroupService } from '../vm/vm-creation/services/vm-creation-security-group.service';
 import { AccountActionsComponent } from './actions/account-actions/account-actions.component';
 import { AccountActionsService } from './actions/account-actions/account-actions.service';
 import { AccountUserActionsComponent } from './actions/account-user-actions/account-user-actions.component';
 import { AccountUserActionsService } from './actions/account-user-actions/account-user-actions.service';
-// tslint:disable-next-line
 import { TemplateActionsComponent } from './actions/template-actions/template-actions-component/template-actions.component';
 import { TemplateActionsContainerComponent } from './actions/template-actions/template-actions-component/template-actions.container';
 import { TemplateActionsService } from './actions/template-actions/template-actions.service';
@@ -54,15 +29,14 @@ import { VolumeActionsComponent } from './actions/volume-actions/volume-actions-
 import { VolumeActionsContainerComponent } from './actions/volume-actions/volume-actions.container';
 import { VolumeActionsService } from './actions/volume-actions/volume-actions.service';
 import { VolumeAttachmentComponent } from './actions/volume-actions/volume-attachment/volume-attachment.component';
-// tslint:disable-next-line
 import { VolumeAttachmentContainerComponent } from './actions/volume-actions/volume-attachment/volume-attachment.container';
 import { VolumeResizeContainerComponent } from './actions/volume-actions/volume-resize.container';
 import { VolumeResizeComponent } from './actions/volume-actions/volume-resize/volume-resize.component';
-import { BadgeModule } from './badge/';
 import {
   CalendarComponent,
   CalendarMonthComponent,
   CalendarYearComponent,
+  ClipboardButtonComponent,
   ColorPickerComponent,
   DateDisplayComponent,
   DatePickerComponent,
@@ -78,10 +52,10 @@ import {
   SidebarContainerComponent,
   SliderComponent,
   TopBarComponent,
-  VmStatisticsComponent
+  VmStatisticsComponent,
+  KeyboardsComponent
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
-// tslint:disable-next-line
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { DescriptionComponent } from './components/description/description.component';
 import { DividerVerticalComponent } from './components/divider-vertical/divider-vertical.component';
@@ -92,17 +66,13 @@ import { ParametersEditPairComponent } from './components/parameters-pair/parame
 import { ParametersPairComponent } from './components/parameters-pair/parameters-pair.component';
 import { PopoverModule } from './components/popover';
 import { AnimatedSlashComponent } from './components/progress-logger/animated-slash/animated-slash.component';
-// tslint:disable-next-line
 import { ProgressLoggerMessageComponent } from './components/progress-logger/progress-logger-message/progress-logger-message.component';
 import { ProgressLoggerComponent } from './components/progress-logger/progress-logger/progress-logger.component';
 import { ReloadComponent } from './components/reload/reload.component';
 import { SearchComponent } from './components/search/search.component';
-// tslint:disable-next-line
 import { SecurityGroupBuilderRuleComponent } from './components/security-group-builder/rule/security-group-builder-rule.component';
 import { SecurityGroupBuilderComponent } from './components/security-group-builder/security-group-builder.component';
-// tslint:disable-next-line
 import { SecurityGroupManagerBaseTemplatesComponent } from './components/security-group-manager-base-templates/security-group-manager-base-templates.component';
-import { TableComponent } from './components/table/table.component';
 import { TimeZoneComponent } from './components/time-zone/time-zone.component';
 import { TimeZoneService } from './components/time-zone/time-zone.service';
 import { ViewModeSwitchComponent } from './components/view-mode-switch/view-mode-switch.component';
@@ -110,8 +80,6 @@ import { VmStatisticContainerComponent } from './components/vm-statistics/vm-sta
 import { ForbiddenValuesDirective } from './directives/forbidden-values.directive';
 import { IntegerValidatorDirective } from './directives/integer-value.directive';
 import { LoadingDirective } from './directives/loading.directive';
-import { MaxValueValidatorDirective } from './directives/max-value.directive';
-import { MinValueValidatorDirective } from './directives/min-value.directive';
 import {
   DivisionPipe,
   HighLightPipe,
@@ -126,7 +94,6 @@ import { AsyncJobService } from './services/async-job.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CacheService } from './services/cache.service';
-import { ConfigService } from './services/config.service';
 import { ConfigurationService } from './services/configuration.service';
 import { DateTimeFormatterService } from './services/date-time-formatter.service';
 import { DiskOfferingService } from './services/disk-offering.service';
@@ -135,11 +102,8 @@ import { ErrorService } from './services/error.service';
 import { HypervisorService } from './services/hypervisor.service';
 import { InstanceGroupService } from './services/instance-group.service';
 import { JobsNotificationService } from './services/jobs-notification.service';
-import { LanguageService } from './services/language.service';
-import { LayoutService } from './services/layout.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginGuard } from './services/login-guard.service';
-import { NotificationService } from './services/notification.service';
 import { OsTypeService } from './services/os-type.service';
 import { ResourceCountService } from './services/resource-count.service';
 import { ResourceLimitService } from './services/resource-limit.service';
@@ -158,62 +122,53 @@ import { SecurityGroupTagService } from './services/tags/security-group-tag.serv
 import { SnapshotTagService } from './services/tags/snapshot-tag.service';
 import { TagService } from './services/tags/tag.service';
 import { TemplateTagService } from './services/tags/template-tag.service';
-import { UserTagService } from './services/tags/user-tag.service';
 import { VmTagService } from './services/tags/vm-tag.service';
 import { VolumeTagService } from './services/tags/volume-tag.service';
 import { UserService } from './services/user.service';
 import { VolumeService } from './services/volume.service';
 import { ZoneService } from './services/zone.service';
-import {
-  DiskOfferingSelectorComponent
-} from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
-import {
-  DiskOfferingDialogComponent
-} from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
-import { CustomServiceOfferingComponent } from '../service-offering/custom-service-offering/custom-service-offering.component';
+import { VolumeDeleteDialogComponent } from './actions/volume-actions/volume-delete/volume-delete-dialog.component';
+import { DiskOfferingSelectorComponent } from './components/disk-offering/disk-offering-selector/disk-offering-selector.component';
+import { DiskOfferingDialogComponent } from './components/disk-offering/disk-offering-dialog/disk-offering-dialog.component';
+import { BadgeDirective } from './directives/badge/badge.directive';
+import { MaterialModule } from '../material/material.module';
+import { InputTypeNumberDirective } from './directives/input-type-number.directive';
+import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
+import { UrlDirective } from './validators/directives';
+
+// tslint:enable max-line-length
+
+const SHARED_DIRECTIVES = [
+  UrlDirective,
+  InputTypeNumberDirective
+];
+
+const SHARED_COMPONENTS = [
+  ClipboardButtonComponent
+];
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([GroupedListComponent]),
+    MaterialModule,
     FormsModule,
-    BadgeModule,
-    CdkTableModule,
+    ReactiveFormsModule,
+    DynamicModule.withComponents([GroupedListComponent]),
     ClipboardModule,
     DragulaModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSnackBarModule,
-    MatTableModule,
-    CdkTableModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatTabsModule,
     PopoverModule,
     TranslateModule,
-    MatButtonToggleModule,
     StoreModule.forFeature('zones', zoneReducers),
     StoreModule.forFeature('disk-offerings', diskOfferingReducers),
     StoreModule.forFeature('affinity-groups', affinityGroupReducers),
     EffectsModule.forFeature([ZonesEffects, DiskOfferingEffects, AffinityGroupsEffects]),
   ],
   exports: [
-    CdkTableModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
     AccountActionsComponent,
+    BadgeDirective,
     CharacterCountComponent,
     ColorPickerComponent,
     CreateUpdateDeleteDialogComponent,
@@ -233,14 +188,6 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     ListComponent,
     ViewModeSwitchComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatInputModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatTableModule,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -251,10 +198,7 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeActionsComponent,
     StringifyTimePipe,
     StringifyDatePipe,
-    TableComponent,
     TemplateActionsComponent,
-    MatAutocompleteModule,
-    MatInputModule,
     ProgressLoggerComponent,
     ProgressLoggerMessageComponent,
     AnimatedSlashComponent,
@@ -262,8 +206,6 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     SecurityGroupSelectorComponent,
     SecurityGroupManagerBaseTemplatesComponent,
     TemplateActionsComponent,
-    MatAutocompleteModule,
-    MatInputModule,
     TimeZoneComponent,
     TopBarComponent,
     ViewValuePipe,
@@ -274,10 +216,16 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
+    SHARED_DIRECTIVES,
+    SHARED_COMPONENTS,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent,
+    KeyboardsComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -285,11 +233,13 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeAttachmentContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
     DiskOfferingDialogComponent
   ],
   declarations: [
     AccountActionsComponent,
+    BadgeDirective,
     CalendarComponent,
     CalendarMonthComponent,
     CalendarYearComponent,
@@ -315,8 +265,6 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     ViewModeSwitchComponent,
     LoaderComponent,
     LoadingDirective,
-    MaxValueValidatorDirective,
-    MinValueValidatorDirective,
     NoResultsComponent,
     NotificationBoxComponent,
     NotificationBoxItemComponent,
@@ -329,7 +277,6 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeActionsComponent,
     StringifyDatePipe,
     StringifyTimePipe,
-    TableComponent,
     TemplateActionsComponent,
     TopBarComponent,
     ViewValuePipe,
@@ -355,12 +302,18 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     VolumeActionsContainerComponent,
     VolumeResizeContainerComponent,
     VolumeResizeComponent,
+    VolumeDeleteDialogComponent,
     TemplateActionsContainerComponent,
     VolumeAttachmentContainerComponent,
     VolumeAttachmentComponent,
     AccountUserActionsComponent,
     DiskOfferingSelectorComponent,
-    DiskOfferingDialogComponent
+    DiskOfferingDialogComponent,
+    SHARED_DIRECTIVES,
+    SHARED_COMPONENTS,
+    RoundStateIndicatorComponent,
+    SquareStateIndicatorComponent,
+    KeyboardsComponent
   ],
   providers: [
     AccountService,
@@ -370,7 +323,6 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     AuthGuard,
     AuthService,
     CacheService,
-    ConfigService,
     ConfigurationService,
     DateTimeFormatterService,
     DescriptionTagService,
@@ -379,13 +331,10 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     ErrorService,
     InstanceGroupService,
     JobsNotificationService,
-    LanguageService,
-    LayoutService,
     LocalStorageService,
     LoginGuard,
     MarkForRemovalService,
     MemoryStorageService,
-    NotificationService,
     OsTypeService,
     ResourceCountService,
     ResourceLimitService,
@@ -405,7 +354,6 @@ import { CustomServiceOfferingComponent } from '../service-offering/custom-servi
     TemplateActionsService,
     TemplateTagService,
     UserService,
-    UserTagService,
     AccountTagService,
     VmTagService,
     ZoneService,

@@ -7,6 +7,11 @@ import { Grouping } from '../../../shared/models/grouping.model';
 import * as fromSshKeys from '../../../reducers/ssh-keys/redux/ssh-key.reducers';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
 
+const getGroupName = (sshKey: SSHKeyPair) => {
+  return sshKey.domain !== 'ROOT'
+    ? `${sshKey.domain}/${sshKey.account}`
+    : sshKey.account;
+};
 
 export const sshKeyGroupings: Array<Grouping> = [
   {
@@ -16,13 +21,6 @@ export const sshKeyGroupings: Array<Grouping> = [
     name: (item: SSHKeyPair) => getGroupName(item)
   }
 ];
-
-
-const getGroupName = (sshKey: SSHKeyPair) => {
-  return sshKey.domain !== 'ROOT'
-    ? `${sshKey.domain}/${sshKey.account}`
-    : sshKey.account;
-};
 
 @Component({
   selector: 'cs-ssh-key-page-container',

@@ -1,26 +1,22 @@
 <div *ngIf="entity">
   <div class="title-container">
     <h4 class="details-header">{{ entity?.name }}</h4>
-    <button mat-icon-button
-            [matMenuTriggerFor]="actionsMenu"
-    >
-      <mat-icon>more_vert</mat-icon>
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </div>
 
-  <ng-container *ngIf="showDescription">
-    <cs-description
-      [description]="description"
-      (descriptionChange)="onDescriptionChange($event)"
-    ></cs-description>
-  </ng-container>
+  <cs-description
+    [description]="description"
+    (descriptionChange)="onDescriptionChange($event)"
+  ></cs-description>
 
   <cs-ssh-key-fingerprint [sshKeyPair]="entity"></cs-ssh-key-fingerprint>
 </div>
 
 <mat-menu #actionsMenu="matMenu">
   <button mat-menu-item (click)="onRemoveClicked(entity)">
-    <mat-icon>delete</mat-icon>
+    <mat-icon class="mdi-delete"></mat-icon>
     <span>{{ 'COMMON.DELETE' | translate }}</span>
   </button>
 </mat-menu>

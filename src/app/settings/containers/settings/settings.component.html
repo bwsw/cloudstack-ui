@@ -1,0 +1,26 @@
+<cs-top-bar></cs-top-bar>
+<div class="settings-container">
+  <cs-security-settings
+    [settings]="settings$ | async"
+    (passwordChange)="onPasswordChange($event)"
+    (sessionTimeoutChange)="onSessionTimeoutChange($event)"
+    (isSavePasswordForVMsChange)="onIsSavePasswordForVMsChange($event)"
+  ></cs-security-settings>
+  <cs-api-settings
+    [userKeys]="userKeys"
+    [apiUrl]="apiUrl"
+    [apiDocumentationLink]="apiDocumentationLink$ | async"
+    (regenerateKeys)="onRegenerateKeys()"
+  ></cs-api-settings>
+  <cs-vm-settings
+    [settings]="settings$ | async"
+    (keyboardLayoutChange)="onKeyboardLayoutChange($event)"
+  ></cs-vm-settings>
+  <cs-interface-settings
+    [settings]="settings$ | async"
+    (interfaceLanguageChange)="onInterfaceLanguageChange($event)"
+    (firstDayOfWeekChange)="onFirstDayOfWeekChange($event)"
+    (timeFormatChange)="onTimeFormatChange($event)"
+    (themeChange)="onThemeChange($event)"
+  ></cs-interface-settings>
+</div>

@@ -1,17 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  getDateSnapshotCreated,
-  getSnapshotDescription,
-  Snapshot,
-  SnapshotPageMode,
-  SnapshotType
-} from '../../../shared/models';
-import { Language } from '../../../shared/services/language.service';
+import { getSnapshotDescription, Snapshot, SnapshotPageMode, SnapshotType } from '../../../shared/models';
 
-import * as snapshot from './snapshot.actions';
-import * as volume from '../../volumes/redux/volumes.actions';
+import * as snapshotActions from './snapshot.actions';
+import * as volumeActions from '../../volumes/redux/volumes.actions';
 import * as moment from 'moment';
 
 export interface State {
@@ -28,7 +20,6 @@ export interface ListState extends EntityState<Snapshot> {
     selectedGroupings: any[],
     query: string
   }
-  snapshotIdsByVolumeId: Dictionary<string[]>,
   selectedSnapshotId: string | null
 }
 
@@ -68,74 +59,41 @@ export const snapshotReducers = {
 
 export function listReducer(
   state = initialListState,
-  action: snapshot.Actions | volume.Actions
+  action: snapshotActions.Actions | volumeActions.Actions
 ): ListState {
   switch (action.type) {
-    case snapshot.LOAD_SNAPSHOT_REQUEST: {
+    case snapshotActions.LOAD_SNAPSHOT_REQUEST: {
       return {
         ...state,
         loading: true,
       };
     }
-    case snapshot.LOAD_SNAPSHOT_RESPONSE: {
-      const reduceByVolumeId = action.payload.reduce(
-        (m, i) => ({
-          ...m,
-          [i.volumeid]: (m[i.volumeid] ? [...m[i.volumeid], i.id] : [i.id])
-        }), {}
-      );
 
+    case snapshotActions.LOAD_SNAPSHOT_RESPONSE: {
       const newState = {
         ...state,
-        loading: false,
-        snapshotIdsByVolumeId: reduceByVolumeId
+        loading: false
       };
-      return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
-        ...adapter.addAll([...action.payload], newState)
-      };
+      return adapter.addAll([...action.payload], newState);
     }
-    case snapshot.SNAPSHOT_FILTER_UPDATE: {
+
+    case snapshotActions.SNAPSHOT_FILTER_UPDATE: {
       return { ...state, filters: { ...state.filters, ...action.payload } };
     }
-    case snapshot.LOAD_SELECTED_SNAPSHOT: {
+
+    case snapshotActions.LOAD_SELECTED_SNAPSHOT: {
       return {
         ...state,
         selectedSnapshotId: action.payload
       };
     }
-    case snapshot.ADD_SNAPSHOT_SUCCESS: {
-      const newState = {
-        ...state,
-        snapshotIdsByVolumeId: {
-          ...state.snapshotIdsByVolumeId,
-          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
-            ? [action.payload.id, ...state.snapshotIdsByVolumeId[action.payload.volumeid]]
-            : [action.payload.id]
-        }
-      };
-      return {
-        ...adapter.addOne(action.payload, newState)
-      };
+
+    case snapshotActions.ADD_SNAPSHOT_SUCCESS: {
+      return adapter.upsertOne(action.payload, state)
     }
-    case snapshot.DELETE_SNAPSHOT_SUCCESS: {
-      const newState = {
-        ...state,
-        snapshotIdsByVolumeId: {
-          ...state.snapshotIdsByVolumeId,
-          [action.payload.volumeid]: state.snapshotIdsByVolumeId[action.payload.volumeid]
-            .filter(snapshotId => snapshotId !== action.payload.id)
-        }
-      };
-      return {
-        ...adapter.removeOne(action.payload.id, newState)
-      };
+
+    case snapshotActions.DELETE_SNAPSHOT_SUCCESS: {
+      return adapter.removeOne(action.payload.id, state);
     }
     default: {
       return state;
@@ -160,11 +118,6 @@ export const {
 export const isLoading = createSelector(
   getSnapshotEntitiesState,
   state => state.loading
-);
-
-export const selectSnapshotsByVolumeId = createSelector(
-  getSnapshotEntitiesState,
-  state => state.snapshotIdsByVolumeId
 );
 
 export const getSelectedSnapshot = createSelector(

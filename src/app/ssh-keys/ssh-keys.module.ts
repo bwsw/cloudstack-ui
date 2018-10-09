@@ -1,25 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {
-  MatButtonModule,
-  MatDialogModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatSelectModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { ClipboardModule } from 'ngx-clipboard';
+
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+
 import { SshKeyEffects } from '../reducers/ssh-keys/redux/ssh-key.effects';
 import { sshKeyReducers } from '../reducers/ssh-keys/redux/ssh-key.reducers';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SharedModule } from '../shared/shared.module';
 import { ShhKeyFilterContainerComponent } from './containers/ssh-key-filter/ssh-key-filter.container';
 import { SshKeyPageContainerComponent } from './containers/ssh-key-page/ssh-key-page.container';
 // tslint:disable-next-line
@@ -38,18 +30,10 @@ import { SshKeysPageComponent } from './ssh-keys-page/ssh-keys-page.component';
 @NgModule({
   imports: [
     CommonModule,
-    ClipboardModule,
-    FormsModule,
-    RouterModule,
     SharedModule,
-    TranslateModule,
-    MatTooltipModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
+    MaterialModule,
+    ClipboardModule,
+    RouterModule,
     DynamicModule.withComponents([SshKeyCardItemComponent, SshKeyRowItemComponent]),
     DraggableSelectModule,
     StoreModule.forFeature('sshKeys', sshKeyReducers),

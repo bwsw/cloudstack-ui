@@ -28,14 +28,14 @@
       (click)="moveRight()"
       disabled="{{ selectedColumnIndex !== 0 }}"
     >
-      <mat-icon>navigate_next</mat-icon>
+      <mat-icon class="mdi-chevron-right"></mat-icon>
     </button>
     <button
       mat-icon-button
       (click)="moveLeft()"
       disabled="{{ selectedColumnIndex !== 1 }}"
     >
-      <mat-icon>navigate_before</mat-icon>
+      <mat-icon class="mdi-chevron-left"></mat-icon>
     </button>
   </div>
   <div class="right-list">

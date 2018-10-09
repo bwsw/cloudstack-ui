@@ -1,23 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatDialogModule,
-  MatExpansionModule,
-  MatIconModule,
-  MatInputModule,
-  MatMenuModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatTooltipModule
-} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
 import { DynamicModule } from 'ng-dynamic-component';
+
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
+
 import { AccountsEffects } from '../reducers/accounts/redux/accounts.effects';
 import { accountReducers } from '../reducers/accounts/redux/accounts.reducers';
 import { ConfigurationEffects } from '../reducers/configuration/redux/configurations.effects';
@@ -30,8 +21,6 @@ import { ResourceLimitsEffects } from '../reducers/resource-limit/redux/resource
 import { resourceLimitsReducers } from '../reducers/resource-limit/redux/resource-limits.reducers';
 import { RolesEffects } from '../reducers/roles/redux/roles.effects';
 import { roleReducers } from '../reducers/roles/redux/roles.reducers';
-import { DraggableSelectModule } from '../shared/components/draggable-select/draggable-select.module';
-import { SharedModule } from '../shared/shared.module';
 import { AccountActionsContainerComponent } from './account-container/account-actions.container';
 import { AccountCreationContainerComponent } from './account-container/account-creation.container';
 import { AccountDetailsContainerComponent } from './account-container/account-details.container';
@@ -48,6 +37,7 @@ import { AccountDetailsComponent } from './account-sidebar/account-details/accou
 import { AccountLimitsComponent } from './account-sidebar/account-limits/account-limits.component';
 // tslint:disable-next-line
 import { AccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/account-configuration.component';
+// tslint:disable-next-line
 import { EditAccountConfigurationComponent } from './account-sidebar/account-settings/account-configuration/edit-account-configuration.component';
 import { AccountSettingsComponent } from './account-sidebar/account-settings/account-settings.component';
 import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';
@@ -64,23 +54,10 @@ import { AccountCreationComponent } from './creation-form/account-creation.compo
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
-    FormsModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatIconModule,
-    MatInputModule,
-    RouterModule,
     SharedModule,
-    TranslateModule,
+    MaterialModule,
+    DynamicModule.withComponents([AccountCardItemComponent, AccountRowItemComponent]),
+    RouterModule,
     DraggableSelectModule,
     StoreModule.forFeature('configurations', configurationReducers),
     StoreModule.forFeature('resourceLimits', resourceLimitsReducers),

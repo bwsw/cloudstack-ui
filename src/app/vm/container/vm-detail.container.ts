@@ -1,5 +1,7 @@
+import { filter, map, take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+
 import { State } from '../../reducers';
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
@@ -52,14 +54,16 @@ const vmDescriptionKey = 'csui.vm.description';
 })
 export class VmDetailContainerComponent implements OnInit {
 
-  readonly vm$ = this.store.select(fromVMs.getSelectedVM);
-  readonly groups$ = this.store.select(fromVMs.selectVmGroups);
-  readonly offering$ = this.store.select(fromServiceOfferings.getSelectedOffering);
-  readonly sshKeys$ = this.store.select(fromSshKeys.selectSSHKeys);
-  readonly description$ = this.vm$.filter(vm => !!vm).map((vm: VirtualMachine) => {
-    const descriptionTag = vm.tags.find(tag => tag.key === vmDescriptionKey);
-    return descriptionTag && descriptionTag.value;
-  });
+  readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
+  readonly groups$ = this.store.pipe(select(fromVMs.selectVmGroups));
+  readonly offering$ = this.store.pipe(select(fromServiceOfferings.getSelectedOffering));
+  readonly sshKeys$ = this.store.pipe(select(fromSshKeys.selectSSHKeys));
+  readonly description$ = this.vm$.pipe(
+    filter(vm => !!vm),
+    map((vm: VirtualMachine) => {
+      const descriptionTag = vm.tags.find(tag => tag.key === vmDescriptionKey);
+      return descriptionTag && descriptionTag.value;
+    }));
 
   constructor(
     private store: Store<State>
@@ -67,13 +71,13 @@ export class VmDetailContainerComponent implements OnInit {
   }
 
   public changeDescription(description) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       this.store.dispatch(new vmActions.ChangeDescription({ vm, description }));
     });
   }
 
   public changeGroup(group) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       if (group.name !== '') {
         this.store.dispatch(new vmActions.ChangeInstanceGroup({
           vm,
@@ -85,8 +89,8 @@ export class VmDetailContainerComponent implements OnInit {
     });
   }
 
-  public changeAffinityGroup(affinityGroupId) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+  public changeAffinityGroup(affinityGroupId: string) {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       this.store.dispatch(new vmActions.ChangeAffinityGroup({
         vm,
         affinityGroupId
@@ -95,7 +99,7 @@ export class VmDetailContainerComponent implements OnInit {
   }
 
   public changeSshKey(keyPair: SSHKeyPair) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       this.store.dispatch(new vmActions.ChangeSshKey({
         vm,
         keyPair

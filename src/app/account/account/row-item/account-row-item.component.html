@@ -1,40 +1,40 @@
 <mat-list-item
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
+  class="entity-list-item"
 >
-  <span
-    class="state-row-icon"
+  <cs-square-state-indicator
+    [state]="item.state"
     [matTooltip]="stateTranslations[item.state] | translate"
-    [ngClass]="item.state"
-  ></span>
-  <h2 class="row-title">
+    class="entity-list-item-status-indicator"
+  ></cs-square-state-indicator>
+
+  <h2 class="entity-list-item-title">
     <span [matTooltip]="item.name"> {{ item.name }} </span>
   </h2>
 
-  <div class="info">
+  <div class="entity-list-item-data">
     {{ 'ACCOUNT_PAGE.CARD.ROLE' | translate }}: {{item.rolename}}
   </div>
 
-  <div class="info">
+  <div class="entity-list-item-data">
     {{ 'ACCOUNT_PAGE.CARD.ROLE_TYPE' | translate }}: {{item.roletype}}
   </div>
 
-  <div class="info">
+  <div class="entity-list-item-data">
     {{ 'ACCOUNT_PAGE.CARD.DOMAIN' | translate }}: {{item.domain}}
   </div>
 
-  <button *ngIf="isAdmin() && !isSelf"
-          class="row-action"
-          mat-icon-button
-          [matMenuTriggerFor]="actionsMenu">
-    <mat-icon>more_vert</mat-icon>
+  <!-- Use visibility to make the element take up space and not broke the layout -->
+  <button
+    mat-icon-button
+    [style.visibility]="isAdmin() && !isSelf ? 'visible' : 'hidden'"
+    [matMenuTriggerFor]="actionsMenu"
+  >
+    <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 
-  <mat-menu
-    #actionsMenu="matMenu"
-  >
-    <cs-account-action-container
-      [account]="item"
-    ></cs-account-action-container>
+  <mat-menu #actionsMenu="matMenu">
+    <cs-account-action-container [account]="item"></cs-account-action-container>
   </mat-menu>
 </mat-list-item>

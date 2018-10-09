@@ -75,7 +75,10 @@ export class DeleteVolume implements Action {
 export class DeleteVolumes implements Action {
   readonly type = DELETE_VOLUMES;
 
-  constructor(public payload: VirtualMachine) {
+  constructor(public payload: {
+    vm: VirtualMachine,
+    expunged: boolean
+  }) {
   }
 }
 

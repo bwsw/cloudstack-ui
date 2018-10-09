@@ -1,10 +1,9 @@
-import { Account } from '../../models/account.model';
-import { Action } from '../../models/action.model';
+import { Account, Action } from '../../models';
 
 const AccountDeleteAction = {
   name: 'ACCOUNT_ACTION.DELETE',
   command: 'delete',
-  icon: 'delete',
+  icon: 'mdi-delete',
   confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_DELETION',
   canActivate: (account: Account) => true
 };
@@ -12,7 +11,7 @@ const AccountDeleteAction = {
 const AccountDisableAction = {
   name: 'ACCOUNT_ACTION.DISABLE',
   command: 'disable',
-  icon: 'remove_circle',
+  icon: 'mdi-minus-circle',
   confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_DISABLE',
   canActivate: (account: Account) => account.state !== 'disabled'
 };
@@ -20,7 +19,7 @@ const AccountDisableAction = {
 const AccountEnableAction = {
   name: 'ACCOUNT_ACTION.ENABLE',
   command: 'enable',
-  icon: 'remove_circle_outline',
+  icon: 'mdi-minus-circle-outline',
   confirmMessage: 'DIALOG_MESSAGES.ACCOUNT.CONFIRM_ENABLE',
   canActivate: (account: Account) => account.state !== 'enabled'
 };

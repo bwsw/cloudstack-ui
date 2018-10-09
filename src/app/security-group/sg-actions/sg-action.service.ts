@@ -1,5 +1,5 @@
 import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
-import { Action } from '../../shared/models/action.model';
+import { Action } from '../../shared/models';
 
 export enum SecurityGroupActionType {
   View = 'view',
@@ -7,31 +7,36 @@ export enum SecurityGroupActionType {
   Convert = 'convert'
 }
 
-// #821 task
-// const SecurityGroupConvertAction = {
-//   name: 'SECURITY_GROUP_PAGE.ACTION.CONVERT',
-//   command: SecurityGroupActionType.Convert,
-//   icon: 'transform',
-//   canActivate: (securityGroup: SecurityGroup) => securityGroup.type === SecurityGroupType.Private
-// };
+const SecurityGroupConvertAction = {
+  name: 'SECURITY_GROUP_PAGE.ACTION.CONVERT',
+  command: SecurityGroupActionType.Convert,
+  icon: 'mdi-transfer',
+  canShow: (securityGroup: SecurityGroup) => getType(securityGroup) === SecurityGroupType.Private,
+  canActivate: () => true
+};
 
 const SecurityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
-  icon: 'delete',
-  canActivate: (securityGroup: SecurityGroup) => getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualMachineIds.length === 0
+  icon: 'mdi-delete',
+  canShow: (securityGroup: SecurityGroup) =>
+    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0,
+  canActivate: (securityGroup: SecurityGroup) =>
+    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0
 };
 
 const SecurityGroupShowRulesAction = {
   name: 'SECURITY_GROUP_PAGE.ACTION.RULES',
   command: SecurityGroupActionType.View,
-  icon: 'visibility',
+  icon: 'mdi-eye',
+  canShow: () => true,
   canActivate: () => true
 };
 
 export class SecurityGroupActionService {
   public actions: Array<Action<SecurityGroup>> = [
+    SecurityGroupConvertAction,
     SecurityGroupShowRulesAction,
-    SecurityGroupDeleteAction
+    SecurityGroupDeleteAction,
   ];
 }

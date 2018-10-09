@@ -14,7 +14,7 @@
         mat-icon-button
         [matMenuTriggerFor]="actionsMenu"
       >
-        <mat-icon>more_vert</mat-icon>
+        <mat-icon class="mdi-dots-vertical"></mat-icon>
       </button>
     </div>
   </div>
@@ -27,7 +27,7 @@
 
     >
       <div [matTooltip]="'VM_PAGE.SIDEBAR.VM' | translate" class="mat-tab-tooltip">
-        <mat-icon>computer</mat-icon>
+        <mat-icon class="mdi-laptop"></mat-icon>
       </div>
     </a>
     <a
@@ -38,7 +38,7 @@
 
     >
       <div [matTooltip]="'VM_PAGE.SIDEBAR.STORAGE' | translate" class="mat-tab-tooltip">
-        <mat-icon>storage</mat-icon>
+        <mat-icon class="mdi-server"></mat-icon>
       </div>
     </a>
     <a
@@ -48,7 +48,7 @@
       [active]="tabIsActive('network')"
     >
       <div [matTooltip]="'VM_PAGE.SIDEBAR.NETWORK' | translate" class="mat-tab-tooltip">
-        <mat-icon>router</mat-icon>
+        <mat-icon class="mdi-router-wireless"></mat-icon>
       </div>
     </a>
     <a
@@ -58,7 +58,7 @@
       [active]="tabIsActive('tags')"
     >
       <div [matTooltip]="'VM_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
-        <mat-icon>local_offer</mat-icon>
+        <mat-icon class="mdi-tag"></mat-icon>
       </div>
     </a>
   </nav>

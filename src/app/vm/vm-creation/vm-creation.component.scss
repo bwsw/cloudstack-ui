@@ -1,9 +1,16 @@
 :host {
-  position: relative;
   display: block;
+
+  /deep/ .mat-tab-body-content {
+    overflow: hidden !important;
+  }
+
+  /deep/ .mat-tab-label {
+    width: 50% !important;
+  }
 }
 
-:host .overlay {
+.overlay {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,19 +21,17 @@
     transform: none;
   }
 
-  mat-progress-bar {
+  mat-progress-bar, .overlay-content {
     width: 500px;
   }
 }
 
-:host {
-  mat-form-field {
-    width: 100%;
-  }
+mat-form-field {
+  width: 100%;
+}
 
-  .mat-dialog-content {
-    overflow: visible;
-  }
+.mat-dialog-content {
+  overflow: visible;
 }
 
 .vm-creation-container {
@@ -47,7 +52,6 @@
   display: flex;
   padding: 15px 0;
   justify-content: space-between;
-  overflow: auto;
 }
 
 h4 {
@@ -63,13 +67,10 @@ h4 {
   margin-top: 20px;
 }
 
-.left-column {
-  width: 270px;
-  margin-right: 10px;
-}
-.right-column {
-  width: 270px;
+.settings-column {
+  width: 95%;
   margin-left: 10px;
+  padding-top: 10px;
 }
 
 .root-disk-size {
@@ -104,13 +105,11 @@ h4 {
 
 .dialog-select-wrapper {
   position: relative;
-  margin-bottom: 20px;
 }
 
 
 .sg-rules-manager {
   width: 100%;
-  margin-bottom: 25px;
 }
 
 .progress-hidden {
@@ -127,4 +126,12 @@ mat-progress-bar {
 
 .disk-offerings {
   padding-bottom: 13px;
+}
+
+.mat-tab-label {
+  width: 50% !important;
+}
+
+mat-tab-group {
+  width: 100% !important;
 }

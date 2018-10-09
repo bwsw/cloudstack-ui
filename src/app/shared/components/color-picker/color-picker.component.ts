@@ -1,14 +1,5 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Color } from '../../models';
 import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
@@ -32,14 +23,11 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   @Input() public colorsPerLine: number;
   @Input() public containerWidth = 256;
   @Input() public hasColorField = true;
-  @Output() public change = new EventEmitter();
+  @Output() public change = new EventEmitter<Color>();
   @ViewChild(PopoverTriggerDirective) public popoverTrigger: PopoverTriggerDirective;
-  public colorWidth: number;
 
-  private _selectedColor: Color;
-  private _disabled: boolean;
-
-  @Input() public get disabled(): boolean {
+  @Input()
+  public get disabled(): boolean {
     return this._disabled;
   }
 
@@ -47,20 +35,26 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     this._disabled = coerceBooleanProperty(value);
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if ('colors' in changes) {
-      this.colorsPerLine = null;
-    }
-    this.updateParams();
-  }
-
-  @Input() public get selectedColor(): Color {
+  @Input()
+  public get selectedColor(): Color {
     return this._selectedColor;
   }
 
   public set selectedColor(val) {
     this._selectedColor = val;
     this.propagateChange(this._selectedColor);
+  }
+
+  public colorWidth: number;
+
+  private _selectedColor: Color;
+  private _disabled: boolean;
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if ('colors' in changes) {
+      this.colorsPerLine = null;
+    }
+    this.updateParams();
   }
 
   public selectColor(color: Color): void {
@@ -80,8 +74,11 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
     }
   }
 
-  public propagateChange: any = () => {};
-  public registerOnTouched(): any {}
+  public propagateChange: any = () => {
+  };
+
+  public registerOnTouched(): any {
+  }
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;

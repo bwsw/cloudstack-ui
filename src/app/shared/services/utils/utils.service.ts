@@ -1,8 +1,5 @@
-import { Params, RouterState, RouterStateSnapshot } from '@angular/router';
-import { RouterStateSerializer } from '@ngrx/router-store';
-import { IPVersion } from '../../../security-group/sg.model';
+import { RouterState } from '@angular/router';
 import * as uuid from 'uuid';
-import * as ipaddr from 'ip-address';
 
 export class Utils {
   public static getUniqueId(): string {
@@ -30,6 +27,13 @@ export class Utils {
       return 0;
     }
     return value / Math.pow(2, 30);
+  }
+
+  public static convertBytesToMegabytes(bytes: number): number | undefined {
+    if (bytes == null) {
+      return undefined;
+    }
+    return bytes / 1048576; // bytes / 2^20
   }
 
   public static matchLower(string: string, subString: string): boolean {
@@ -87,41 +91,4 @@ export class Utils {
   public static sortByName = (a, b) => {
     return a.name && a.name.localeCompare(b.name);
   };
-
-  public static cidrIsValid(range: string): boolean {
-    const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
-    const cidr = new ipAddressType(range);
-    return cidr.isValid();
-  }
-
-  public static cidrType(range: string): IPVersion {
-    const ipAddressType = range.match(':') ? ipaddr.Address6 : ipaddr.Address4;
-    const cidr = new ipAddressType(range);
-    return cidr.isValid() && (cidr.v4 ? IPVersion.ipv4 : IPVersion.ipv6);
-  }
-}
-
-
-/**
- * The RouterStateSerializer takes the current RouterStateSnapshot
- * and returns any pertinent information needed. The snapshot contains
- * all information about the state of the router at the given point in time.
- * The entire snapshot is complex and not always needed. In this case, you only
- * need the URL and query parameters from the snapshot in the store. Other items could be
- * returned such as route parameters and static route data.
- */
-
-export interface RouterStateUrl {
-  url: string;
-  queryParams: Params;
-}
-
-export class CustomRouterStateSerializer
-  implements RouterStateSerializer<RouterStateUrl> {
-  serialize(routerState: RouterStateSnapshot): RouterStateUrl {
-    const { url } = routerState;
-    const queryParams = routerState.root.queryParams;
-
-    return { url, queryParams };
-  }
 }

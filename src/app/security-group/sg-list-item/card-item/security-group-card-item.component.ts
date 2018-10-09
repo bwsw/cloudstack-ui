@@ -1,15 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
+
 import { SecurityGroup } from '../../sg.model';
 import { SecurityGroupListItemComponent } from '../security-group-list-item.component';
-import { MatMenuTrigger } from '@angular/material';
 import { VirtualMachine } from '../../../vm';
-import { Dictionary } from '@ngrx/entity/src/models';
+import { NgrxEntities } from '../../../shared/interfaces';
+
 
 @Component({
   selector: 'cs-security-group-card-item',
@@ -20,7 +16,7 @@ export class SecurityGroupCardItemComponent extends SecurityGroupListItemCompone
   @Input() public item: SecurityGroup;
   @Input() public searchQuery: () => string;
   @Input() public isSelected: (securityGroup) => boolean;
-  @Input() public vmList: Dictionary<VirtualMachine>;
+  @Input() public vmList: NgrxEntities<VirtualMachine>;
   @Output() public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
 }

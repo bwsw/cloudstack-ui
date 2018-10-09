@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Language } from '../../app/shared/services/language.service';
+import { Observable, of } from 'rxjs';
+import { Language } from '../../app/shared/types';
 
 
 export class MockTranslateService {
@@ -16,13 +16,13 @@ export class MockTranslateService {
 
   public get(key: string | Array<string>): Observable<string | any> {
     if (typeof key === 'string') {
-      return Observable.of({ key });
+      return of({ key });
     } else {
       const result = key.reduce((acc, element) => {
         return Object.assign(acc, { [element]: element });
       }, {});
 
-      return Observable.of(result);
+      return of(result);
     }
   }
 

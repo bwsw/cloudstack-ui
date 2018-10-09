@@ -8,13 +8,12 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TimeFormat } from '../../../shared/services/language.service';
-import {
-  Policy,
-  TimePolicy
-} from '../policy-editor/policy-editor.component';
+import { MatTableDataSource } from '@angular/material';
+
+import { Policy, TimePolicy } from '../policy-editor/policy-editor.component';
 import { PolicyViewBuilderService } from './policy-view-builder.service';
 import { PolicyType } from '../snapshot-policy-type';
+import { TimeFormat } from '../../../shared/types';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 
@@ -42,7 +41,8 @@ export class PolicyListComponent implements OnChanges {
   @Output() public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
   @Output() public onPolicyRowClick: EventEmitter<PolicyType>;
 
-  public policyViews: Array<PolicyView>;
+  public policyViews = new MatTableDataSource<PolicyView>([]);
+  public columnsToDisplay = ['time', 'period', 'timeZone', 'keep', 'delete'];
 
   constructor(
     private policyViewBuilderService: PolicyViewBuilderService,
@@ -76,7 +76,7 @@ export class PolicyListComponent implements OnChanges {
   }
 
   private updatePolicyViews(): void {
-    this.policyViews = this.getPolicyViews(this.policies, this.dateTimeFormat);
+    this.policyViews.data = this.getPolicyViews(this.policies, this.dateTimeFormat);
   }
 
   public handlePolicyRowClick(policyView: PolicyView): void {

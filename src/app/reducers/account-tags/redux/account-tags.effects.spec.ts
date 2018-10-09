@@ -4,20 +4,15 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import * as fromAccountTags from './account-tags.reducers';
 import * as accountTagActions from './account-tags.actions';
 import { AccountTagsEffects } from './account-tags.effects';
-import { Tag } from '../../../shared/models/tag.model';
+import { Tag } from '../../../shared/models';
 import { TagService } from '../../../shared/services/tags/tag.service';
 import { AccountTagService } from '../../../shared/services/tags/account-tag.service';
-import { ConfigService } from '../../../shared/services/config.service';
-import { ServiceOffering } from '../../../shared/models/service-offering.model';
-import { StorageTypes } from '../../../shared/models/offering.model';
 
 @Injectable()
 class MockAsyncJobService {
@@ -68,7 +63,7 @@ class MockMatDialog {
 
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   public set stream(source: Observable<Tag>) {
@@ -85,7 +80,6 @@ describe('Account tags Effects', () => {
   let actions$: TestActions;
   let service: TagService;
   let accountService: AccountTagService;
-  let configService: ConfigService;
   let dialogService: DialogService;
 
   let effects: AccountTagsEffects;
@@ -101,7 +95,6 @@ describe('Account tags Effects', () => {
       ],
       providers: [
         AccountTagsEffects,
-        ConfigService,
         { provide: Actions, useFactory: getActions },
         { provide: TagService, useClass: MockTagService },
         { provide: AccountTagService, useClass: MockTagService },
@@ -111,14 +104,12 @@ describe('Account tags Effects', () => {
     actions$ = TestBed.get(Actions);
     service = TestBed.get(TagService);
     accountService = TestBed.get(AccountTagService);
-    configService = TestBed.get(ConfigService);
     dialogService = TestBed.get(DialogService);
     effects = TestBed.get(AccountTagsEffects);
   });
 
   it('should return a collection from LoadAccountTagsResponse', () => {
     const spyGetList = spyOn(service, 'getList').and.returnValue(of(list));
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(true);
 
     const action = new accountTagActions.LoadAccountTagsRequest();
     const completion = new accountTagActions.LoadAccountTagsResponse(list);
@@ -130,23 +121,9 @@ describe('Account tags Effects', () => {
     expect(spyGetList).toHaveBeenCalled();
   });
 
-  it('should not return a collection from LoadAccountTagsResponse', () => {
-    const spyGetList = spyOn(service, 'getList');
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(false);
-
-    const action = new accountTagActions.LoadAccountTagsRequest();
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('', []);
-
-    expect(effects.loadAccountTags$).toBeObservable(expected);
-    expect(spyGetList).not.toHaveBeenCalled();
-  });
-
   it('should return an empty collection from LoadAccountTagsResponse', () => {
     const spyGetList = spyOn(service, 'getList').and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(true);
+      .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new accountTagActions.LoadAccountTagsRequest();
     const completion = new accountTagActions.LoadAccountTagsResponse([]);
@@ -156,72 +133,4 @@ describe('Account tags Effects', () => {
 
     expect(effects.loadAccountTags$).toBeObservable(expected);
   });
-
-  it('should update custom SO params', () => {
-    const offering = <ServiceOffering>{
-      id: '1', name: 'off1', hosttags: 't1,t2',
-      storagetype: StorageTypes.local,
-      cpunumber: 2, memory: 2, iscustomized: true
-    };
-    const spySetParam = spyOn(accountService, 'setServiceOfferingParams').and.returnValue(of(offering));
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(true);
-
-    const action = new accountTagActions.UpdateCustomServiceOfferingParams(offering);
-    const completion = new accountTagActions.UpdateCustomServiceOfferingParamsSuccess(offering);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('-b', { b: completion });
-
-    expect(effects.updateCustomServiceOfferingParams$).toBeObservable(expected);
-    expect(spySetParam).toHaveBeenCalled();
-  });
-
-  it('should not update custom SO params', () => {
-    const offering = <ServiceOffering>{
-      id: '1', name: 'off1', hosttags: 't1,t2',
-      storagetype: StorageTypes.local,
-      cpunumber: 2, memory: 2, iscustomized: true
-    };
-    const spySetParam = spyOn(accountService, 'setServiceOfferingParams');
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(false);
-
-    const action = new accountTagActions.UpdateCustomServiceOfferingParams(offering);
-
-    actions$.stream = hot('-a', { a: action });
-    const expected = cold('', []);
-
-    expect(effects.updateCustomServiceOfferingParams$).toBeObservable(expected);
-    expect(spySetParam).not.toHaveBeenCalled();
-  });
-
-  it('should return an error during updating custom SO params', () => {
-    const offering = <ServiceOffering>{
-      id: '1', name: 'off1', hosttags: 't1,t2',
-      storagetype: StorageTypes.local,
-      cpunumber: 2, memory: 2, iscustomized: true
-    };
-    const spySetParam = spyOn(accountService, 'setServiceOfferingParams').and.
-      returnValue(Observable.throw(new Error('Error occurred!')));
-    const spyAccountTag = spyOn(configService, 'get').and.returnValue(true);
-
-    const action = new accountTagActions.UpdateCustomServiceOfferingParams(offering);
-    const completion = new accountTagActions.UpdateCustomServiceOfferingParamsError(new Error('Error occurred!'));
-
-    actions$.stream = hot('a', { a: action });
-    const expected = cold('a', { a: completion });
-
-    expect(effects.updateCustomServiceOfferingParams$).toBeObservable(expected);
-  });
-
-  it('should show alert after updating error', () => {
-    const spyAlert = spyOn(dialogService, 'alert');
-    const action = new accountTagActions.UpdateCustomServiceOfferingParamsError(new Error('Error occurred!'));
-
-    actions$.stream = hot('a', { a: action });
-    const expected = cold('a', { a: action });
-
-    expect(effects.updateCustomServiceOfferingParamsError$).toBeObservable(expected);
-    expect(spyAlert).toHaveBeenCalled();
-  });
-
 });

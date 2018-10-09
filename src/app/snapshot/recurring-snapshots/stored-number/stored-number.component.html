@@ -4,11 +4,10 @@
     name="store"
     type="number"
     [(ngModel)]="storedNumber"
-    step="1"
     [min]="min"
-    [minValue]="min"
     [max]="max"
-    [maxValue]="max"
+    [csMinValue]="min"
+    [csMaxValue]="max"
     [placeholder]="'SNAPSHOT_POLICIES.STORE_SNAPSHOTS' | translate"
     autofocus
     required

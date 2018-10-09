@@ -1,9 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { onErrorResumeNext } from 'rxjs/operators';
+
 import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 import { NIC } from '../../../../../shared/models/nic.model';
 import { IpAddress } from '../../../../../shared/models/ip-address.model';
@@ -21,13 +18,14 @@ export class SecondaryIpListComponent {
 
   constructor(
     private dialogService: DialogService
-  ) {}
+  ) {
+  }
 
   public confirmAddSecondaryIp(): void {
     this.dialogService.confirm({
       message: 'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_ADD_SECONDARY_IP'
-    })
-      .onErrorResumeNext()
+    }).pipe(
+      onErrorResumeNext())
       .subscribe(res => {
         if (res) {
           this.addSecondaryIp();
@@ -38,8 +36,8 @@ export class SecondaryIpListComponent {
   public confirmRemoveSecondaryIp(secondaryIp: IpAddress): void {
     this.dialogService.confirm({
       message: 'VM_PAGE.NETWORK_DETAILS.ARE_YOU_SURE_REMOVE_SECONDARY_IP'
-    })
-      .onErrorResumeNext()
+    }).pipe(
+      onErrorResumeNext())
       .subscribe(res => {
         if (res) {
           this.removeSecondaryIp(secondaryIp);

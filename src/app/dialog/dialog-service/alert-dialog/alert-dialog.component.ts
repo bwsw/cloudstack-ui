@@ -1,7 +1,8 @@
 import { Component, HostListener, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+
 import { BaseDialogConfiguration } from '../dialog.service';
 
 export interface AlertDialogConfiguration extends BaseDialogConfiguration {

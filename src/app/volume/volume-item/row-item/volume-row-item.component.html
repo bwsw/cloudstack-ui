@@ -1,33 +1,31 @@
 <mat-list-item
-  class="volume-row"
+  class="entity-list-item"
   (click)="handleClick($event)"
   [class.card-selected]="isSelected(item)"
   [class.root-disk]="isRoot"
 >
   <h2
-    class="row-title"
+    class="entity-list-item-title"
     [matTooltip]="item.name"
     [innerHTML]="item.name | highlight:query"
   ></h2>
 
-  <div class="size">
+  <div class="entity-list-item-data">
     <span>{{ 'VOLUME_PAGE.CARD.SIZE' | translate }}: </span>
     <span>{{ item.size | division:2:30:2 }} {{ 'UNITS.GB' | translate }}</span>
    </div>
 
-  <div class="state">
+  <div class="entity-list-item-data">
     <span>{{ 'VOLUME_PAGE.CARD.STATE' | translate }}: </span>
     <span>{{ stateTranslationToken | translate }}</span>
   </div>
 
-  <button mat-icon-button [matMenuTriggerFor]="actionsMenu" class="row-action">
-    <mat-icon>more_vert</mat-icon>
+  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+    <mat-icon class="mdi-dots-vertical"></mat-icon>
   </button>
 
-  <mat-menu
-    #actionsMenu="matMenu"
-    [style.width.px]="300"
-  >
-    <cs-volume-actions-container [volume]="item"></cs-volume-actions-container>
+  <mat-menu #actionsMenu="matMenu">
+    <cs-volume-actions-container [volume]="item"
+    ></cs-volume-actions-container>
   </mat-menu>
 </mat-list-item>

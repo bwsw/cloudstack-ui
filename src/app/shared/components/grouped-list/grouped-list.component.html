@@ -1,6 +1,6 @@
 <ng-container *ngFor="let child of tree">
   <div class="grouped-section" *ngIf="child.name; else leaf">
-    <h4>{{ child.name | translate }}</h4>
+    <h4 *ngIf="child.name !== emptyName">{{ child.name | translate }}</h4>
     <cs-grouped-list
       [component]="component"
       [groupings]="groupings"

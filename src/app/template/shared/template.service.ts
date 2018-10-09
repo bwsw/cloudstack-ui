@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
-import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
+import { BackendResource } from '../../shared/decorators';
 import { CSCommands } from '../../shared/services/base-backend.service';
 import { Template } from './template.model';
 import {
@@ -15,32 +16,29 @@ import {
 @Injectable()
 @BackendResource({
   entity: TemplateResourceType.template,
-  entityModel: Template
 })
 export class TemplateService extends BaseTemplateService {
   public create(params: CreateTemplateBaseParams): Observable<Template> {
-    return this.sendCommand(CSCommands.Create, params)
-      .switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel))
-      .switchMap(template => {
+    return this.sendCommand(CSCommands.Create, params).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel)),
+      switchMap(template => {
         if (params.groupId) {
           return this.templateTagService.setGroup(template, { id: params.groupId });
         } else {
-          return Observable.of(template);
+          return of(template);
         }
-      })
-      .do(() => this.invalidateCache());
+      }),
+      tap(() => this.invalidateCache()));
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
-    // stub
-
     const requestParams = Object.assign({}, params);
 
     requestParams['hypervisor'] = requestParams['hypervisor'] || 'KVM';
     requestParams['format'] = requestParams['format'] || 'QCOW2';
     requestParams['requiresHvm'] = requestParams['requiresHvm'] || true;
 
-    return <Observable<Template>>super.register(requestParams)
-      .do(() => this.invalidateCache());
+    return <Observable<Template>>super.register(requestParams).pipe(
+      tap(() => this.invalidateCache()));
   }
 }

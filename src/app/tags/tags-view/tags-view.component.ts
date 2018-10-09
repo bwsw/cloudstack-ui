@@ -1,22 +1,16 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges, OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
-import { defaultCategoryName, Tag, categoryName, keyWithoutCategory } from '../../shared/models';
+
+import { categoryName, defaultCategoryName, keyWithoutCategory, Tag } from '../../shared/models';
 import { Utils } from '../../shared/services/utils/utils.service';
 import { TagCategory } from '../tag-category/tag-category.component';
 import { TagEditComponent } from '../tag-edit/tag-edit.component';
 import { filterWithPredicates } from '../../shared/utils/filter';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
+import { State, UserTagsActions, UserTagsSelectors } from '../../root-store';
 
 
 export interface TagEditAction {
@@ -48,9 +42,8 @@ export class TagsViewComponent implements OnInit, OnChanges {
   public showSystemTags = false;
 
   constructor(
-    private cd: ChangeDetectorRef,
     private dialog: MatDialog,
-    private userTagService: UserTagService
+    private store: Store<State>
   ) {
     this.onTagAdd = new EventEmitter<Tag>();
     this.onTagEdit = new EventEmitter<TagEditAction>();
@@ -58,7 +51,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.userTagService.getShowSystemTags()
+    this.store.select(UserTagsSelectors.getIsShowSystemTags)
       .subscribe(show => {
         this.showSystemTags = show;
         this.updateFilterResults();
@@ -72,11 +65,10 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public addTag(category?: TagCategory): void {
-    const forbiddenKeys = category ? category.tags.map(_ => _.key) : [];
     this.dialog.open(TagEditComponent, {
       width: '375px',
       data: {
-        forbiddenKeys: forbiddenKeys,
+        forbiddenKeys: this.getKeysOfExistingTags(),
         title: 'TAGS.CREATE_NEW_TAG',
         confirmButtonText: 'COMMON.CREATE',
         categoryName: category && category.name
@@ -87,9 +79,11 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public editTag(tag: Tag): void {
+    const forbiddenKeys = this.getKeysOfExistingTags().filter(key => key !== tag.key);
     this.dialog.open(TagEditComponent, {
       width: '375px',
       data: {
+        forbiddenKeys,
         title: 'TAGS.EDIT_TAG',
         confirmButtonText: 'COMMON.EDIT',
         categoryName: categoryName(tag),
@@ -102,9 +96,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public onShowSystemTagsChange(): void {
     this.updateFilterResults();
-    this.userTagService
-      .setShowSystemTags(this.showSystemTags)
-      .subscribe();
+    this.store.dispatch(new UserTagsActions.UpdateShowSystemTags({ value: this.showSystemTags }));
   }
 
   public removeTag(tag: Tag): void {
@@ -118,7 +110,6 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   public updateFilterResults(): void {
     this.visibleCategories = this.getFilterResults();
-    this.cd.detectChanges();
   }
 
   private getFilterResults(): Array<TagCategory> {
@@ -154,18 +145,17 @@ export class TagsViewComponent implements OnInit, OnChanges {
 
   private filterTagsBySystem(): (tag: Tag) => boolean {
     return (tag) => {
-      return this.showSystemTags || !tag.key.startsWith('csui');
+      return this.showSystemTags || categoryName(tag) !== 'csui';
     };
   }
 
   private getCategories(): Array<TagCategory> {
     const groupedTags = groupBy(
-      this.tags.map(_ => Object.assign({}, _, {categoryName: categoryName(_)})),
-      'categoryName');
+      this.tags.map(tag => ({ ...tag, categoryName: categoryName(tag) })), 'categoryName');
 
     const categories = Object.keys(groupedTags)
-      .map(categoryName => this.getCategory(groupedTags, categoryName))
-      .filter(_ => _.tags.length);
+      .map(name => this.getCategory(groupedTags, name))
+      .filter(category => category.tags.length);
 
     categories.sort(this.compareCategories);
 
@@ -211,5 +201,9 @@ export class TagsViewComponent implements OnInit, OnChanges {
       name,
       tags: sortedTags
     };
+  }
+
+  private getKeysOfExistingTags(): string[] {
+    return this.tags.map(tag => tag.key);
   }
 }

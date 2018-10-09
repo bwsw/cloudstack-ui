@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { filter, onErrorResumeNext } from 'rxjs/operators';
+
 import { Account } from '../../models/account.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { AccountUserActionsService } from './account-user-actions.service';
@@ -26,9 +28,9 @@ export class AccountUserActionsComponent {
 
   public activateAction(action, user) {
     if (action.confirmMessage) {
-      this.dialogService.confirm({ message: action.confirmMessage })
-        .onErrorResumeNext()
-        .filter(res => Boolean(res))
+      this.dialogService.confirm({ message: action.confirmMessage }).pipe(
+        onErrorResumeNext(),
+        filter(res => Boolean(res)))
         .subscribe(() => {
           switch (action.command) {
             case 'regenerateKey': {

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { filter, take } from 'rxjs/operators';
 
 import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
@@ -21,19 +22,17 @@ import { VolumeType } from '../../models';
       [maxSize]="maxSize"
       [volume]="volume"
       [diskOfferings]="offerings$ | async"
-      [diskOfferingParams]="diskOfferingParams$ | async"
       (onDiskResized)="resizeDisk($event)"
     >
     </cs-volume-resize>`,
 })
 export class VolumeResizeContainerComponent implements OnInit {
-  readonly offerings$ = this.store.select(fromDiskOfferings.getAvailableOfferings);
-  readonly account$ = this.store.select(fromAuth.getUserAccount);
-  readonly diskOfferingParams$ = this.store.select(fromDiskOfferings.getParams);
+  readonly offerings$ = this.store.pipe(select(fromDiskOfferings.getAvailableOfferings));
+  readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
 
   public volume: Volume;
 
-  public maxSize = 2;
+  public maxSize = '2';
 
   constructor(
     public authService: AuthService,
@@ -47,11 +46,10 @@ export class VolumeResizeContainerComponent implements OnInit {
   public ngOnInit() {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneid));
-    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
 
-    this.account$
-      .take(1)
-      .filter(account => !!account)
+    this.account$.pipe(
+      take(1),
+      filter(account => !!account))
       .subscribe((account: Account) => {
         this.maxSize = account.primarystorageavailable;
       });

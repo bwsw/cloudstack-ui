@@ -1,17 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
-import {
-  getType,
-  SecurityGroup,
-  SecurityGroupType
-} from '../../../security-group/sg.model';
+import { getType, isDefaultSecurityGroup, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
-import * as securityGroup from './sg.actions';
+import * as securityGroupActions from './sg.actions';
 import { Utils } from '../../../shared/services/utils/utils.service';
-
+import { configSelectors, UserTagsSelectors } from '../../../root-store';
 
 export interface State {
   list: ListState,
@@ -68,16 +64,16 @@ export const securityGroupReducers = {
 
 export function listReducer(
   state = initialListState,
-  action: securityGroup.Actions
+  action: securityGroupActions.Actions
 ): ListState {
   switch (action.type) {
-    case securityGroup.LOAD_SECURITY_GROUP_REQUEST: {
+    case securityGroupActions.LOAD_SECURITY_GROUP_REQUEST: {
       return {
         ...state,
         loading: true
       };
     }
-    case securityGroup.SECURITY_GROUP_FILTER_UPDATE: {
+    case securityGroupActions.SECURITY_GROUP_FILTER_UPDATE: {
       return {
         ...state,
         filters: {
@@ -86,41 +82,29 @@ export function listReducer(
         }
       };
     }
-    case securityGroup.LOAD_SECURITY_GROUP_RESPONSE: {
-      return {
-        /**
-         * The addMany function provided by the created adapter
-         * adds many records to the entity dictionary
-         * and returns a new state including those records. If
-         * the collection is to be sorted, the adapter will
-         * sort each record upon entry into the sorted array.
-         */
-        ...adapter.addAll([...action.payload], { ...state, loading: false }),
-      };
+    case securityGroupActions.LOAD_SECURITY_GROUP_RESPONSE: {
+      return adapter.addAll([...action.payload], { ...state, loading: false });
     }
-    case securityGroup.LOAD_SELECTED_SECURITY_GROUP: {
+    case securityGroupActions.LOAD_SELECTED_SECURITY_GROUP: {
       return {
         ...state,
         selectedSecurityGroupId: action.payload
       };
     }
-    case securityGroup.CREATE_SECURITY_GROUP_SUCCESS: {
-      return {
-        ...adapter.addOne(action.payload, state)
-      };
+    case securityGroupActions.CREATE_SECURITY_GROUP_SUCCESS: {
+      return adapter.addOne(action.payload, state);
     }
-    case securityGroup.CREATE_SECURITY_GROUPS_SUCCESS: {
-      return {
-        ...adapter.addMany(action.payload, state)
-      };
+    case securityGroupActions.CREATE_SECURITY_GROUPS_SUCCESS: {
+      return adapter.addMany(action.payload, state);
     }
-    case securityGroup.DELETE_SECURITY_GROUP_SUCCESS: {
+    case securityGroupActions.DELETE_SECURITY_GROUP_SUCCESS: {
       return adapter.removeOne(action.payload.id, state);
     }
-    case securityGroup.UPDATE_SECURITY_GROUP: {
-      return {
-        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state)
-      };
+    case securityGroupActions.UPDATE_SECURITY_GROUP: {
+      return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
+    }
+    case securityGroupActions.CONVERT_SECURITY_GROUP_SUCCESS: {
+      return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
     default: {
       return state;
@@ -130,20 +114,20 @@ export function listReducer(
 
 export function formReducer(
   state = initialFormState,
-  action: securityGroup.Actions
+  action: securityGroupActions.Actions
 ): FormState {
   switch (action.type) {
-    case securityGroup.CREATE_SECURITY_GROUP:
-    case securityGroup.DELETE_SECURITY_GROUP: {
+    case securityGroupActions.CREATE_SECURITY_GROUP:
+    case securityGroupActions.DELETE_SECURITY_GROUP: {
       return {
         ...state,
         loading: true
       };
     }
-    case securityGroup.CREATE_SECURITY_GROUP_SUCCESS:
-    case securityGroup.CREATE_SECURITY_GROUP_ERROR:
-    case securityGroup.DELETE_SECURITY_GROUP_SUCCESS:
-    case securityGroup.DELETE_SECURITY_GROUP_ERROR: {
+    case securityGroupActions.CREATE_SECURITY_GROUP_SUCCESS:
+    case securityGroupActions.CREATE_SECURITY_GROUP_ERROR:
+    case securityGroupActions.DELETE_SECURITY_GROUP_SUCCESS:
+    case securityGroupActions.DELETE_SECURITY_GROUP_ERROR: {
       return {
         ...state,
         loading: false
@@ -221,11 +205,19 @@ export const isFormLoading = createSelector(
   state => state.loading
 );
 
+const selectDefaultSecurityGroupName = createSelector(
+  configSelectors.get('defaultSecurityGroupName'),
+  UserTagsSelectors.getInterfaceLanguage,
+  (names, lang) => {
+    return names[lang];
+  });
+
 export const selectFilteredSecurityGroups = createSelector(
   selectAll,
   filters,
   fromAccounts.selectAll,
-  (securityGroups, filter, accounts) => {
+  selectDefaultSecurityGroupName,
+  (securityGroups, filter, accounts, defaultSecurityGroupName) => {
     const mode = filter.viewMode;
     const queryLower = filter.query ? filter.query.toLowerCase() : '';
     const queryFilter = (group: SecurityGroup) => !queryLower || group.name.toLowerCase()
@@ -251,22 +243,36 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG
-      ? group.virtualMachineIds.length === 0
+    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG && mode === SecurityGroupViewMode.Private
+      ? group.virtualmachineids.length === 0
       : true;
 
-    return securityGroups.filter(group => queryFilter(group)
-      && viewModeFilter(group) && selectedAccountIdsFilter(group) && isOrphan(group));
-  }
-);
+    const renameDefaultSG = (securityGroup: SecurityGroup) => {
+      return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
+    };
+
+    return securityGroups
+      .map(sg => renameDefaultSG(sg))
+      .filter(group => queryFilter(group)
+        && viewModeFilter(group)
+        && selectedAccountIdsFilter(group)
+        && isOrphan(group));
+  });
 
 export const selectSecurityGroupsForVmCreation = createSelector(
-  selectAll, fromAuth.getUserAccount, (securityGroups, account) => {
+  selectAll,
+  fromAuth.getUserAccount,
+  selectDefaultSecurityGroupName,
+  (securityGroups, account, defaultSecurityGroupName) => {
     const accountFilter = (securityGroup: SecurityGroup) => account && securityGroup.account === account.name;
     const onlySharedFilter = (securityGroup: SecurityGroup) =>
       getType(securityGroup) === SecurityGroupType.Shared;
-    return securityGroups.filter((securityGroup) => accountFilter(securityGroup)
-      && onlySharedFilter(securityGroup));
+    const renameDefaultSG = (securityGroup: SecurityGroup) => {
+      return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
+    };
+    return securityGroups
+      .map(sg => renameDefaultSG(sg))
+      .filter((securityGroup) => accountFilter(securityGroup) && onlySharedFilter(securityGroup));
   });
 
 export const selectPredefinedSecurityGroups = createSelector(
@@ -275,12 +281,11 @@ export const selectPredefinedSecurityGroups = createSelector(
     securityGroup => securityGroup.preselected)
 );
 
-export const hasOrphanSecurityGroups = createSelector(
+export const selectDefaultSecurityGroup = createSelector(
   selectAll,
-  (sg) => {
-    const orphans = sg.filter(group => getType(group) === SecurityGroupType.Private)
-      .find(_ => _.virtualMachineIds.length === 0);
-    return !!orphans;
-  }
-);
-
+  selectDefaultSecurityGroupName,
+  fromAuth.getUserAccount,
+  (securityGroups, defaultSecurityGroupName, user) => {
+    const defaultGroup = securityGroups.find((sg: SecurityGroup) => sg.account === user.name && sg.name === 'default');
+    return { ...defaultGroup, name: defaultSecurityGroupName };
+  });

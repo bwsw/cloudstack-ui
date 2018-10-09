@@ -1,0 +1,25 @@
+.service-offering-info {
+  display: inline-block;
+  width: 100%;
+  font-size: 11pt !important;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-row /deep/ * {
+  margin: 0;
+}
+
+.mat-form-field-wrapper {
+  text-align: left;
+  padding-top: 18px;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 10pt;
+}

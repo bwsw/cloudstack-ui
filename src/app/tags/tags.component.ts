@@ -1,10 +1,11 @@
-import { Observable } from 'rxjs/Observable';
+import { EventEmitter, Input, Output } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
+
 import { DialogService } from '../dialog/dialog-service/dialog.service';
-import { Taggable } from '../shared/interfaces/taggable.interface';
+import { Taggable } from '../shared/interfaces';
 import { Tag } from '../shared/models';
 import { TagService } from '../shared/services/tags/tag.service';
 import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
-import { EventEmitter, Input, Output } from '@angular/core';
 
 
 export abstract class TagsComponent<T extends Taggable> {
@@ -43,23 +44,22 @@ export abstract class TagsComponent<T extends Taggable> {
       return;
     }
 
-    Observable.of(null)
-      .switchMap(() => {
-        return this.tagService.remove({
-          resourceIds: tagEditAction.oldTag.resourceid,
-          resourceType: tagEditAction.oldTag.resourcetype,
-          'tags[0].key': tagEditAction.oldTag.key,
-          'tags[0].value': tagEditAction.oldTag.value
-        });
-      })
-      .switchMap(() => {
-        return this.tagService.create({
-          resourceIds: tagEditAction.oldTag.resourceid,
-          resourceType: tagEditAction.oldTag.resourcetype,
-          'tags[0].key': tagEditAction.newTag.key,
-          'tags[0].value': tagEditAction.newTag.value
-        });
-      })
+    const oldTagParams = {
+      resourceIds: tagEditAction.oldTag.resourceid,
+      resourceType: tagEditAction.oldTag.resourcetype,
+      'tags[0].key': tagEditAction.oldTag.key,
+      'tags[0].value': tagEditAction.oldTag.value
+    };
+
+    const newTagParams = {
+      resourceIds: tagEditAction.oldTag.resourceid,
+      resourceType: tagEditAction.oldTag.resourcetype,
+      'tags[0].key': tagEditAction.newTag.key,
+      'tags[0].value': tagEditAction.newTag.value
+    };
+
+    this.tagService.remove(oldTagParams).pipe(
+      switchMap(() => this.tagService.create(newTagParams)))
       .subscribe(
         res => this.onTagEdit.emit(tagEditAction),
         error => this.onError(error)

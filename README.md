@@ -252,7 +252,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bwsw/cloudstack-ui:1.411.21
+           bwsw/cloudstack-ui:1.411.21
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)
@@ -262,6 +262,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
 `/path/to/config.json` - path to a custom configuration file named ```config.json``` (optional)
 
 Additionally, you can change favicon and CloudStack logo on login screen and in the sidebar:
+
 ```
 -v /path/to/favicon.ico:/static/img/favicon.ico \
 -v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \

@@ -1,0 +1,42 @@
+<section>
+  <div class="title-with-icon">
+    <h2 class="settings-section-name">{{ 'SETTINGS.API_CONFIGURATION.TITLE' | translate }}</h2>
+    <button
+      mat-icon-button
+      type="button"
+      matTooltipPosition="above"
+      [matTooltip]="'SETTINGS.API_CONFIGURATION.REGENERATE_KEYS' | translate"
+      (click)="regenerateKeys.emit(true)"
+    >
+      <mat-icon class="mdi-sync"></mat-icon>
+    </button>
+  </div>
+
+  <div class="settings-section-content">
+
+    <ng-container *ngIf="userKeys?.apikey && userKeys?.secretkey">
+      <h3 class="no-margin">{{ 'SETTINGS.API_CONFIGURATION.API_KEY' | translate }}</h3>
+      <cs-input-group>
+        <mat-form-field cs-input-group-textbox>
+          <input matInput [value]="userKeys.apikey" readonly>
+        </mat-form-field>
+        <cs-clipboard-button [value]="userKeys.apikey" cs-input-group-button></cs-clipboard-button>
+      </cs-input-group>
+
+      <h3 class="no-margin">{{ 'SETTINGS.API_CONFIGURATION.API_SECRET_KEY' | translate }}</h3>
+      <cs-input-group>
+        <mat-form-field cs-input-group-textbox>
+          <input matInput [value]="userKeys.secretkey" readonly>
+        </mat-form-field>
+        <cs-clipboard-button [value]="userKeys.secretkey" cs-input-group-button></cs-clipboard-button>
+      </cs-input-group>
+    </ng-container>
+
+    <h3 class="no-margin">{{ 'SETTINGS.API_CONFIGURATION.API_URL' | translate }}</h3>
+    <a class="truncate" target="_blank" [href]="apiUrl">{{ apiUrl }}</a>
+
+    <h3 class="no-margin">{{ 'SETTINGS.API_CONFIGURATION.API_DOC_LINK' | translate}}</h3>
+    <a class="truncate" target="_blank" [href]="apiDocumentationLink">{{ apiDocumentationLink }}</a>
+
+  </div>
+</section>

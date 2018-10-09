@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { select, Store } from '@ngrx/store';
+import { filter, onErrorResumeNext, takeUntil } from 'rxjs/operators';
+
 import { State } from '../../../../../reducers/index';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Volume } from '../../../../../shared/models/volume.model';
 import { Snapshot } from '../../../../../shared/models/snapshot.model';
 // tslint:disable-next-line
@@ -11,6 +13,7 @@ import { WithUnsubscribe } from '../../../../../utils/mixins/with-unsubscribe';
 import * as volumeActions from '../../../../../reducers/volumes/redux/volumes.actions';
 import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapshot.actions';
 import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.reducers';
+import { DialogService } from '../../../../../dialog/dialog-service/dialog.service';
 
 @Component({
   selector: 'cs-snapshot-modal-container',
@@ -25,15 +28,15 @@ import * as fromVolumes from '../../../../../reducers/volumes/redux/volumes.redu
     </cs-snapshot-modal>`,
 })
 export class SnapshotModalContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolumeWithSnapshots);
+  readonly volume$ = this.store.pipe(select(fromVolumes.getSelectedVolumeWithSnapshots));
 
   public volume: Volume;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<SnapshotModalContainerComponent>,
-    public dialog: MatDialog,
     private store: Store<State>,
+    private dialogService: DialogService,
     private snapshotActionService: SnapshotActionService
   ) {
     super();
@@ -41,9 +44,9 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   }
 
   public ngOnInit() {
-    this.volume$
-      .takeUntil(this.unsubscribe$)
-      .filter(volume => !!volume)
+    this.volume$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(volume => !!volume))
       .subscribe(volume => {
         // todo remove model
         this.volume = volume as Volume;
@@ -62,7 +65,12 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
   }
 
   public onSnapshotDelete(snapshot: Snapshot): void {
-    this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+    this.dialogService.confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' }).pipe(
+      onErrorResumeNext(),
+      filter(res => Boolean(res)))
+      .subscribe(() => {
+        this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));
+      });
   }
 
   public onSnapshotRevert(snapshot: Snapshot): void {

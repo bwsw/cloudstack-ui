@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { VirtualMachine } from '../../../vm/shared/vm.model';
-import { Observable } from 'rxjs/Observable';
-import { Color } from '../../models/color.model';
-import { Tag } from '../../models/tag.model';
-import { InstanceGroup } from '../../models/instance-group.model';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
+import { Color, InstanceGroup, Tag } from '../../models';
+import { Taggable } from '../../interfaces';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { VirtualMachineTagKeys } from './vm-tag-keys';
-import { KeyValuePair } from '../../../tags/tags-view/tags-view.component';
-import { Taggable } from '../../interfaces/taggable.interface';
-import { VmResourceType } from '../../../vm/shared/vm.model';
 
 
 @Injectable()
@@ -61,8 +59,8 @@ export class VmTagService implements EntityTagService {
     ) as Observable<VirtualMachine>;
   }
 
-  public setPassword(vm: VirtualMachine, tag: KeyValuePair): Observable<VirtualMachine> {
-    return this.tagService.update(vm, VmResourceType, tag.key, tag.value);
+  public setPassword(vm: VirtualMachine, password: string): Observable<VirtualMachine> {
+    return this.tagService.update(vm, VmResourceType, VirtualMachineTagKeys.passwordTag, password);
   }
 
   public setGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
@@ -81,11 +79,11 @@ export class VmTagService implements EntityTagService {
       resourceType: VmResourceType,
       'tags[0].key': this.keys.group,
       'tags[0].value': vm.instanceGroup.name
-    })
-      .map(() => {
+    }).pipe(
+      map(() => {
         newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
         return newVm;
-      });
+      }));
   }
 
   public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {
@@ -109,9 +107,9 @@ export class VmTagService implements EntityTagService {
     });
 
     if (!copyRequests.length) {
-      return Observable.of(null);
+      return of(null);
     } else {
-      return Observable.forkJoin(...copyRequests);
+      return forkJoin(...copyRequests);
     }
   }
 

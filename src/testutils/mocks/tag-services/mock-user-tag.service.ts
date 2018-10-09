@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs/Observable';
-import { Color } from '../../../app/shared/models/color.model';
-import { Language, TimeFormat } from '../../../app/shared/services/language.service';
-import { DayOfWeek } from '../../../app/shared/types/day-of-week';
+import { Observable, of } from 'rxjs';
+
+import { Color } from '../../../app/shared/models';
+import { DayOfWeek, Language, TimeFormat } from '../../../app/shared/types';
 
 
 interface UserIdObject {
@@ -16,90 +16,90 @@ export class MockUserTagService {
   }
 
   public getAccentColor(): Observable<string> {
-    return Observable.of('');
+    return of('');
   }
 
   public setAccentColor(color: Color): Observable<Color> {
-    return Observable.of(color);
+    return of(color);
   }
 
   public getAskToCreateVm(): Observable<boolean> {
-    return Observable.of(false);
+    return of(false);
   }
 
   public setAskToCreateVm(ask: boolean): Observable<boolean> {
-    return Observable.of(false);
+    return of(false);
   }
 
   public getAskToCreateVolume(): Observable<boolean> {
-    return Observable.of(false);
+    return of(false);
   }
 
   public setAskToCreateVolume(ask: boolean): Observable<boolean> {
-    return Observable.of(false);
+    return of(false);
   }
 
   public getFirstDayOfWeek(): Observable<DayOfWeek> {
-    return Observable.of(DayOfWeek.Sunday);
+    return of(DayOfWeek.Sunday);
   }
 
   public setFirstDayOfWeek(dayOfWeek: DayOfWeek): Observable<DayOfWeek> {
-    return Observable.of(DayOfWeek.Sunday);
+    return of(DayOfWeek.Sunday);
   }
 
   public getLang(): Observable<Language> {
-    return Observable.of(Language.en);
+    return of(Language.en);
   }
 
   public setLang(language: Language): Observable<Language> {
-    return Observable.of(Language.en);
+    return of(Language.en);
   }
 
   public getLastVmId(): Observable<number> {
-    return Observable.of(1);
+    return of(1);
   }
 
   public setLastVmId(id: number): Observable<number> {
-    return Observable.of(1);
+    return of(1);
   }
 
   public getPrimaryColor(): Observable<string> {
-    return Observable.of('');
+    return of('');
   }
 
   public setPrimaryColor(color: Color): Observable<Color> {
-    return Observable.of(color);
+    return of(color);
   }
 
   public getSessionTimeout(): Observable<number> {
-    return Observable.of(0);
+    return of(0);
   }
 
   public setSessionTimeout(timeout: number): Observable<number> {
-    return Observable.of(0);
+    return of(0);
   }
 
   public getTimeFormat(): Observable<TimeFormat> {
-    return Observable.of(TimeFormat.AUTO);
+    return of(TimeFormat.AUTO);
   }
 
   public setTimeFormat(timeFormat: TimeFormat): Observable<TimeFormat> {
-    return Observable.of(TimeFormat.AUTO);
+    return of(TimeFormat.AUTO);
   }
 
   public removeTimeFormat(): Observable<void> {
-    return Observable.of(null);
+    return of(null);
   }
 
   public writeTag(key: string, value: string): Observable<string> {
-    return Observable.of(value);
+    return of(value);
   }
 
   public readTag(key: string): Observable<string> {
-    return Observable.of('');
+    return of('');
   }
 
   public removeTag(key: string): Observable<void> {
-    return Observable.of(null);
+    return of(null);
   }
 }

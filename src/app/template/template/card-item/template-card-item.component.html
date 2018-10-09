@@ -1,56 +1,38 @@
 <mat-card
-  [class.card-selected]="isSelected && isSelected(item)"
-  class="custom-card"
   (click)="handleClick($event)"
+  [class.card-selected]="isSelected(item)"
+  class="entity-card"
 >
-  <mat-card-header>
-    <mat-card-title>
-      <cs-template-os-icon-container [template]="item"></cs-template-os-icon-container>
-      <h2
-        [matTooltip]="item.name"
-        [innerHTML]="item.name | highlight:query"
-        class="template-header mat-card-title-text"
-      ></h2>
+
+  <mat-card-header class="entity-card-header">
+    <cs-template-os-icon-container
+      [template]="item"
+      class="entity-card-thumbnail"
+    ></cs-template-os-icon-container>
+    <mat-card-title [matTooltip]="item.name" class="entity-card-title">
+      <span [innerHTML]="item.name | highlight:query"></span>
     </mat-card-title>
-    <div *ngIf="isSelf" class="mat-card-header-menu">
-      <button *ngIf="isSelf" mat-icon-button [matMenuTriggerFor]="actionsMenu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-    </div>
+    <button
+      [style.visibility]="isSelf ? 'visible' : 'hidden'"
+      mat-icon-button
+      [matMenuTriggerFor]="actionsMenu"
+      class="entity-card-menu">
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
+    </button>
   </mat-card-header>
+
   <mat-card-content>
-    <div class="card-wrapper">
-      <div>{{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:</div>
-      <div
-        *ngIf="singleLine"
-        class="flex-2 single-line text-overflow-tooltip-fix"
-        [matTooltip]="item.osTypeName"
-        matTooltipPosition="above"
-        [innerHTML]="item.osTypeName | highlight:query"
-      ></div>
-      <div
-        *ngIf="!singleLine"
-        class="flex-2 multiline"
-        [innerHTML]="item.osTypeName | highlight:query"
-      ></div>
+    <div class="entity-card-data-line">
+     {{ 'TEMPLATE_PAGE.CARD.OS' | translate }}:&nbsp;{{ item.ostypename }}
     </div>
-    <div class="card-wrapper" *ngIf="item">
-      <div
-        *ngIf="singleLine"
-        class="single-line text-overflow-tooltip-fix"
-        [matTooltip]="item.displayText"
-        matTooltipPosition="above"
-      >
-        <span [innerHTML]="item.displayText | highlight:query"></span>
-      </div>
-      <div
-        *ngIf="!singleLine"
-        class="multiline"
-        [innerHTML]="item.displayText | highlight:query"
-      ></div>
+    <div class="entity-card-data-line">
+      {{ 'TEMPLATE_PAGE.CARD.DESCRIPTION' | translate }}:
+      <span [innerHTML]="item.displaytext | highlight:query"></span>
     </div>
   </mat-card-content>
+
   <mat-menu #actionsMenu="matMenu">
     <cs-template-actions-container [template]="item"></cs-template-actions-container>
   </mat-menu>
+
 </mat-card>

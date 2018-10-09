@@ -1,8 +1,9 @@
 import { EventEmitter } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '../../shared/services/auth.service';
-import { Account } from '../../shared/models/account.model';
+import { Account } from '../../shared/models';
 import { stateTranslations } from '../account-container/account.container';
+import { isUserBelongsToAccount } from '../../shared/utils/account';
 
 export class AccountItemComponent {
   public item: Account;
@@ -13,8 +14,7 @@ export class AccountItemComponent {
   readonly stateTranslations = stateTranslations;
 
   public get isSelf() {
-    return this.authService.user.username === this.item.name
-      && this.authService.user.domainid === this.item.domainid;
+    return isUserBelongsToAccount(this.authService.user, this.item);
   }
 
   constructor(protected authService: AuthService) {

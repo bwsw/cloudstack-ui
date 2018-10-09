@@ -2,60 +2,69 @@
   <mat-card-header>
     <mat-card-title>
       <h2 class="mat-card-title-text">
-        {{ 'ACCOUNT_PAGE.SIDEBAR.LIMITS' | translate}}
+        {{ 'ACCOUNT_PAGE.SIDEBAR.LIMITS' | translate }}
       </h2>
     </mat-card-title>
   </mat-card-header>
+
   <mat-card-content class="mat-card-content-with-actions">
     <div class="mat-card-content-container">
 
-      <div *ngIf="!isEdit">
-        <div *ngFor="let limit of limits; let i = index;">
+      <ng-container *ngIf="isEdit; then editMode else viewMode"></ng-container>
+
+      <ng-template #viewMode>
+        <div *ngFor="let limit of limits">
           <cs-parameters-pair
             [name]="limitLabels[limit.resourcetype]"
             [value]="limit.max"
           ></cs-parameters-pair>
         </div>
-      </div>
 
-      <div *ngIf="isEdit">
+        <ng-container *ngIf="isAdmin">
+          <mat-card-actions>
+            <button
+              mat-icon-button
+              [matTooltip]="'COMMON.EDIT' | translate"
+              matTooltipPosition="above"
+              (click)="editLimits()"
+            >
+              <mat-icon class="mdi-pencil"></mat-icon>
+            </button>
+          </mat-card-actions>
+        </ng-container>
+      </ng-template>
+
+
+      <ng-template #editMode>
         <div *ngFor="let limit of localLimits; let i = index">
           <cs-parameters-edit-pair
             [name]="limitLabels[limit.resourcetype]"
-            [(value)]="localLimits[i].max"
+            [(value)]="limit.max"
             [index]="i"
           ></cs-parameters-edit-pair>
         </div>
-      </div>
+
+        <ng-container *ngIf="isAdmin">
+          <mat-card-actions class="buttons">
+            <button
+              mat-button
+              color="primary"
+              (click)="isEdit=!isEdit"
+            >
+              {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button
+              mat-button
+              color="primary"
+              (click)="onSave()"
+            >
+              {{ 'COMMON.SAVE' | translate }}
+            </button>
+          </mat-card-actions>
+        </ng-container>
+      </ng-template>
 
     </div>
-    <div *ngIf="isAdmin">
-      <mat-card-actions *ngIf="!isEdit">
-        <button
-          mat-icon-button
-          [matTooltip]="'COMMON.EDIT' | translate"
-          matTooltipPosition="above"
-          (click)="editLimits()"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-      </mat-card-actions>
-      <mat-card-actions *ngIf="isEdit" class="buttons">
-        <button
-          mat-button
-          color="primary"
-          (click)="isEdit=!isEdit"
-        >
-          {{ 'COMMON.CANCEL' | translate }}
-        </button>
-        <button
-          mat-button
-          color="primary"
-          (click)="onSave()"
-        >
-          {{ 'COMMON.SAVE' | translate }}
-        </button>
-      </mat-card-actions>
-    </div>
+
   </mat-card-content>
 </mat-card>

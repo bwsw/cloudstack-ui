@@ -1,18 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
+import { onErrorResumeNext } from 'rxjs/operators';
 
 import { DatePickerDialogComponent } from './date-picker-dialog.component';
 import { dateTimeFormat as DateTimeFormat, formatIso } from './dateUtils';
-import { Language } from '../../services/language.service';
+import { Language } from '../../types';
 
 
 interface DatePickerConfig {
@@ -51,7 +44,8 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
 
   constructor(
     private dialog: MatDialog
-  ) {}
+  ) {
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     const DateTimeFormatChange = changes['DateTimeFormat'];
@@ -60,7 +54,8 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
     }
   }
 
-  public propagateChange: any = () => {};
+  public propagateChange: any = () => {
+  };
 
   @Input()
   public get date(): Date {
@@ -84,7 +79,8 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void { }
+  public registerOnTouched(): void {
+  }
 
   public onFocus(e: Event): void {
     if (this.isDialogOpen) {
@@ -106,8 +102,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
       panelClass: 'date-picker-dialog',
       data: { datePickerConfig: config }
     })
-      .afterClosed()
-      .onErrorResumeNext()
+      .afterClosed().pipe(onErrorResumeNext())
       .subscribe((date: Date) => {
         this.isDialogOpen = false;
         if (date) {

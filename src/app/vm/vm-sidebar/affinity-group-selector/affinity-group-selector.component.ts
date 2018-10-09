@@ -1,17 +1,9 @@
-import {
-  Component,
-  Inject,
-  OnInit
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { finalize } from 'rxjs/operators';
+
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import {
-  AffinityGroup,
-  AffinityGroupType
-} from '../../../shared/models';
+import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VirtualMachine } from '../../shared/vm.model';
 
@@ -79,8 +71,8 @@ export class AffinityGroupSelectorComponent implements OnInit {
 
   private loadGroups(): void {
     this.loading = true;
-    this.affinityGroupService.getList()
-      .finally(() => this.loading = false)
+    this.affinityGroupService.getList().pipe(
+      finalize(() => this.loading = false))
       .subscribe(groups => {
         this.affinityGroups = groups;
       });

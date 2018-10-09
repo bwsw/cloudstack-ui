@@ -4,34 +4,42 @@ import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions } from '@ngrx/effects';
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
-import { Subject } from 'rxjs/Subject';
+import { EMPTY, Observable, of, Subject, throwError } from 'rxjs';
 import { MockDialogService } from '../../../../testutils/mocks/mock-dialog.service';
-import { MockNotificationService } from '../../../../testutils/mocks/mock-notification.service';
+import { MockSnackBarService } from '../../../../testutils/mocks/mock-snack-bar.service';
 import { MockSnapshotTagService } from '../../../../testutils/mocks/tag-services/mock-snapshot-tag.service';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import {
-  AsyncJob, Snapshot, SnapshotStates, SnapshotType,
-  Volume
-} from '../../../shared/models';
+import { Snapshot, SnapshotStates, SnapshotType, Volume } from '../../../shared/models';
 import { AsyncJobService } from '../../../shared/services/async-job.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
-import { NotificationService } from '../../../shared/services/notification.service';
+import { SnackBarService } from '../../../core/services';
 import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { SnapshotTagService } from '../../../shared/services/tags/snapshot-tag.service';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 import { VirtualMachinesEffects } from '../../vm/redux/vm.effects';
-import { SnapshotEffects } from './snapshot.effects';
 
-import * as actions from './snapshot.actions';
+import * as snapshotActions from './snapshot.actions';
+import { SnapshotEffects } from './snapshot.effects';
 import * as fromSnapshots from './snapshot.reducers';
-import createSpy = jasmine.createSpy;
+
+const snapshots: Array<Snapshot> = [
+  {
+    description: 'test snapshot',
+    id: 'test-id',
+    created: '2016-01-10T15:59:42+0700',
+    physicalsize: 100,
+    volumeid: 'volume-id',
+    virtualmachineid: undefined,
+    name: 'snapshot for testing',
+    tags: [],
+    state: SnapshotStates.BackedUp,
+    revertable: false,
+    snapshottype: SnapshotType.Manual
+  }
+];
 
 @Injectable()
 class MockAsyncJobService {
@@ -54,7 +62,18 @@ class MockRouter {
 @Injectable()
 export class MockVmEffects {
   public stop(vm: VirtualMachine) {
-    return Observable.of(vm);
+    return of(vm);
+  }
+}
+
+class MockMatDialog {
+  public open() {
+    return {
+      afterClosed: () => of(snapshots[0])
+    };
+  }
+
+  public closeAll(): void {
   }
 }
 
@@ -62,25 +81,9 @@ export class MockVmEffects {
 export class MockVmService {
 }
 
-const snapshots: Array<Snapshot> = [
-  {
-    description: 'test snapshot',
-    id: 'test-id',
-    created: '2016-01-10T15:59:42+0700',
-    physicalsize: 100,
-    volumeid: 'volume-id',
-    virtualmachineid: undefined,
-    name: 'snapshot for testing',
-    tags: [],
-    state: SnapshotStates.BackedUp,
-    revertable: false,
-    snapshottype: SnapshotType.Manual
-  }
-];
-
 export class TestActions extends Actions {
   constructor() {
-    super(empty());
+    super(EMPTY);
   }
 
   public set stream(source: Observable<Snapshot>) {
@@ -92,12 +95,18 @@ export function getActions() {
   return new TestActions();
 }
 
+const snapList: Array<Snapshot> = require(
+  '../../../../testutils/mocks/model-services/fixtures/snapshots.json');
+
+
 describe('Snapshot Effects', () => {
   let actions$: TestActions;
   let service: SnapshotService;
   let effects: SnapshotEffects;
   let dialogService: DialogService;
   let jobNotificationService: JobsNotificationService;
+
+  const list: Array<Snapshot> = snapList;
 
   const jobsNotificationService = jasmine.createSpyObj(
     'JobsNotificationService',
@@ -108,13 +117,10 @@ describe('Snapshot Effects', () => {
     }
   );
 
-  const mockDialog = {
-    open: jasmine.createSpy('open').and.callFake(() => {
-      return {
-        afterClosed: () => Observable.of(snapshots[0])
-      };
-    })
-  };
+  const MockVirtualMachinesEffects = jasmine.createSpyObj(
+    'VirtualMachinesEffects', ['stop']
+  );
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -125,16 +131,16 @@ describe('Snapshot Effects', () => {
       providers: [
         SnapshotService,
         SnapshotEffects,
-        { provide: VirtualMachinesEffects, useFactory: MockVmEffects },
+        { provide: VirtualMachinesEffects, useValue: MockVirtualMachinesEffects },
         { provide: Actions, useFactory: getActions },
-        { provide: AuthService, useFactory: MockAuthService },
+        { provide: AuthService, useClass: MockAuthService },
         { provide: AsyncJobService, useClass: MockAsyncJobService },
         { provide: SnapshotTagService, useClass: MockSnapshotTagService },
-        { provide: NotificationService, useValue: MockNotificationService },
+        { provide: SnackBarService, useClass: MockSnackBarService },
         { provide: JobsNotificationService, useValue: jobsNotificationService },
         { provide: DialogService, useClass: MockDialogService },
-        { provide: MatDialog, useValue: mockDialog },
-        {provide: Router, useClass: MockRouter }
+        { provide: MatDialog, useClass: MockMatDialog },
+        { provide: Router, useClass: MockRouter }
       ]
     });
     actions$ = TestBed.get(Actions);
@@ -145,9 +151,9 @@ describe('Snapshot Effects', () => {
   });
 
   it('should return a collection from LoadSnapshotResponse', () => {
-    const spyGetList = spyOn(service, 'getListAll').and.returnValue(of(snapshots));
-    const action = new actions.LoadSnapshotRequest();
-    const completion = new actions.LoadSnapshotResponse(snapshots);
+    const spyGetList = spyOn(service, 'getListAll').and.returnValue(of(list));
+    const action = new snapshotActions.LoadSnapshotRequest();
+    const completion = new snapshotActions.LoadSnapshotResponse(list);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -159,9 +165,9 @@ describe('Snapshot Effects', () => {
   it('should return an empty collection with error from LoadSnapshotResponse', () => {
     const spyGetList = spyOn(service, 'getListAll')
       .and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
-    const action = new actions.LoadSnapshotRequest();
-    const completion = new actions.LoadSnapshotResponse([]);
+      .returnValue(throwError(new Error('Error occurred!')));
+    const action = new snapshotActions.LoadSnapshotRequest();
+    const completion = new snapshotActions.LoadSnapshotResponse([]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -188,10 +194,10 @@ describe('Snapshot Effects', () => {
     const spyCommand = spyOn(service, 'create').and.returnValue(of(newSnapshot));
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
-    const action = new actions.AddSnapshot(<Volume>{
+    const action = new snapshotActions.AddSnapshot(<Volume>{
       id: 'volume-id'
     });
-    const completion = new actions.AddSnapshotSuccess(newSnapshot);
+    const completion = new snapshotActions.AddSnapshotSuccess(newSnapshot);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -204,14 +210,11 @@ describe('Snapshot Effects', () => {
   it('should catch error while adding a new snapshot', () => {
     const spyCommand = spyOn(service, 'create')
       .and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
-    const action = new actions.AddSnapshot(<Volume>{ id: 'volume-id' });
-    const completion = new actions.SnapshotUpdateError({
-      id: 'notification-id',
-      message: 'JOB_NOTIFICATIONS.SNAPSHOT.TAKE_FAILED'
-    });
+    const action = new snapshotActions.AddSnapshot(<Volume>{ id: 'volume-id' });
+    const completion = new snapshotActions.SnapshotUpdateError(new Error('Error occurred!'));
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -224,8 +227,8 @@ describe('Snapshot Effects', () => {
     const spyCommand = spyOn(service, 'remove').and.returnValue(of(snapshots[0]));
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
-    const action = new actions.DeleteSnapshot(snapshots[0]);
-    const completion = new actions.DeleteSnapshotSuccess(snapshots[0]);
+    const action = new snapshotActions.DeleteSnapshot(snapshots[0]);
+    const completion = new snapshotActions.DeleteSnapshotSuccess(snapshots[0]);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -238,19 +241,62 @@ describe('Snapshot Effects', () => {
   it('should catch error while removing a snapshot', () => {
     const spyCommand = spyOn(service, 'remove')
       .and
-      .returnValue(Observable.throw(new Error('Error occurred!')));
+      .returnValue(throwError(new Error('Error occurred!')));
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
-    const action = new actions.DeleteSnapshot(snapshots[0]);
-    const completion = new actions.SnapshotUpdateError({
-      id: 'notification-id',
-      message: 'JOB_NOTIFICATIONS.SNAPSHOT.DELETION_FAILED'
-    });
+    const action = new snapshotActions.DeleteSnapshot(snapshots[0]);
+    const completion = new snapshotActions.SnapshotUpdateError(new Error('Error occurred!'));
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(effects.deleteSnapshot$).toBeObservable(expected);
     expect(spyCommand).toHaveBeenCalled();
+  });
+
+  it('should return an empty collection from LoadSnapshotResponse', () => {
+    spyOn(service, 'getListAll').and.returnValue(throwError(new Error('Error occurred!')));
+    const action = new snapshotActions.LoadSnapshotRequest();
+    const completion = new snapshotActions.LoadSnapshotResponse([]);
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(effects.loadSnapshots$).toBeObservable(expected);
+  });
+
+  it('should delete many snapshots', () => {
+    const action = new snapshotActions.DeleteSnapshots(list);
+    const completion1 = new snapshotActions.DeleteSnapshot(list[0]);
+    const completion2 = new snapshotActions.DeleteSnapshot(list[1]);
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+    expect(effects.deleteSnapshots$).toBeObservable(expected);
+  });
+
+  it('should delete one snapshot', () => {
+    spyOn(service, 'remove').and.returnValue(of(list[0]));
+
+    const action = new snapshotActions.DeleteSnapshot(list[0]);
+    const completion = new snapshotActions.DeleteSnapshotSuccess(list[0]);
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(effects.deleteSnapshot$).toBeObservable(expected);
+  });
+
+  it('should return an error during deleting one snapshot', () => {
+    spyOn(service, 'remove').and.returnValue(throwError(new Error('Error occurred!')));
+
+    const action = new snapshotActions.DeleteSnapshot(list[0]);
+    const completion = new snapshotActions.SnapshotUpdateError(new Error('Error occurred!'));
+
+    actions$.stream = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+
+    expect(effects.deleteSnapshot$).toBeObservable(expected);
   });
 });

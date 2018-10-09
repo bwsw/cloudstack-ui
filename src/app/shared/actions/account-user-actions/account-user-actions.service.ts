@@ -8,26 +8,26 @@ export class AccountUserActionsService {
     {
       name: 'ACCOUNT_USER_ACTION.EDIT',
       command: 'edit',
-      icon: 'edit',
+      icon: 'mdi-pencil',
       canActivate: user => user.accounttype !== AccountType.User
     },
     {
       name: 'ACCOUNT_USER_ACTION.CHANGE_PASSWORD',
       command: 'changePassword',
-      icon: 'lock',
+      icon: 'mdi-lock',
       canActivate: user => true
     },
     {
       name: 'ACCOUNT_USER_ACTION.REGENERATE_KEY',
       command: 'regenerateKey',
-      icon: 'vpn_key',
+      icon: 'mdi-key',
       confirmMessage: 'DIALOG_MESSAGES.ACCOUNT_USER.CONFIRM_REGENERATE_KEY',
       canActivate: user => true
     },
     {
       name: 'ACCOUNT_USER_ACTION.DELETE',
       command: 'delete',
-      icon: 'delete',
+      icon: 'mdi-delete',
       confirmMessage: 'DIALOG_MESSAGES.ACCOUNT_USER.CONFIRM_DELETION',
       canActivate: user => user.id !== this.authService.user.userid
     }

@@ -1,9 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { filter, onErrorResumeNext } from 'rxjs/operators';
+
 import { AccountActionsService } from './account-actions.service';
 import { Account } from '../../models/account.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
@@ -16,7 +13,7 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
         *ngIf="action.canActivate(account)"
         mat-menu-item (click)="activateAction(action, account)"
       >
-        <mat-icon>{{ action.icon }}</mat-icon>
+        <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
     </ng-container>`
@@ -37,9 +34,9 @@ export class AccountActionsComponent {
   }
 
   public activateAction(action, account: Account) {
-    this.dialogService.confirm({ message: action.confirmMessage })
-      .onErrorResumeNext()
-      .filter(res => Boolean(res))
+    this.dialogService.confirm({ message: action.confirmMessage }).pipe(
+      onErrorResumeNext(),
+      filter(Boolean))
       .subscribe(() => {
         switch (action.command) {
           case 'enable': {

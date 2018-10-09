@@ -11,15 +11,14 @@
         class="row"
         *ngFor="let group of vm.securityGroup"
       >
-        <span class="sg-name">{{ group.name }}</span>
+        <span class="sg-name">
+          {{ group.name }}
+        </span>
         <button
           mat-icon-button
           class="mat-icon-button mat-icon-button--small"
           (click)="showRulesDialog(group)">
-          <mat-icon
-            class="mat-icon--small"
-          >visibility
-          </mat-icon>
+          <mat-icon class="mdi-eye mdi-18px"></mat-icon>
         </button>
       </div>
     </div>

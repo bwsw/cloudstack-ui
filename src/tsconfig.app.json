@@ -3,15 +3,15 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "commonjs",
-    "baseUrl": "",
-    "types": []
+    "types": [
+      "node"
+    ]
   },
   "exclude": [
-    "test.ts",
+    "src/test.ts",
     "**/*.spec.ts"
   ],
   "include": [
-    "**/*.ts",
-    "../node_modules/ngx-window-token/index.ts"
+    "**/*.ts"
   ]
 }

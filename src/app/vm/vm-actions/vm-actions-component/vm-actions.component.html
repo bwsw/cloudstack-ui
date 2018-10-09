@@ -1,14 +1,12 @@
 <ng-container *ngIf="!vmIsDestroyed">
-  <ng-container
-    *ngFor="let action of vmActions"
-  >
+  <ng-container *ngFor="let action of vmActions$ | async">
     <ng-container *ngIf="!action.hidden || !action.hidden(vm)">
       <button
         mat-menu-item
         [disabled]="!action.canActivate(vm)"
         (click)="onAction(action, vm)"
       >
-        <mat-icon>{{ action.icon }}</mat-icon>
+        <mat-icon [ngClass]="action.icon"></mat-icon>
         <span>{{ action.name | translate }}</span>
       </button>
     </ng-container>
@@ -21,7 +19,7 @@
       [disabled]="!action.canActivate(vm)"
       (click)="onAction(action, vm)"
     >
-      <mat-icon>{{ action.icon }}</mat-icon>
+      <mat-icon [ngClass]="action.icon"></mat-icon>
       <span>{{ action.name | translate }}</span>
     </button>
   </ng-container>
