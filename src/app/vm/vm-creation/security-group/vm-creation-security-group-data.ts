@@ -17,9 +17,9 @@ export class VmCreationSecurityGroupData {
       VmCreationSecurityGroupMode.Selector, undefined, securityGroups);
   }
 
-  private constructor(mode?: VmCreationSecurityGroupMode, rules?: Rules, securityGroups?: Array<SecurityGroup>) {
+  private constructor(mode?: VmCreationSecurityGroupMode, rules?: Rules, securityGroups: Array<SecurityGroup> = []) {
     this.mode = mode;
     this.rules = rules;
-    this.securityGroups = securityGroups || [];
+    this.securityGroups = securityGroups;
   }
 }

@@ -37,7 +37,6 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
-import * as fromUserTags from '../../../root-store/server-data/user-tags/user-tags.selectors';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 
 @Component({
@@ -88,7 +87,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading)),
-    this.store.pipe(select(fromUserTags.getIsLoading))
+    this.store.pipe(select(UserTagsSelectors.getIsLoading))
   ).pipe(
     map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
   );
