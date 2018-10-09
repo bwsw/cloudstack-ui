@@ -254,7 +254,7 @@
           mat-button
           color="primary"
           type="submit"
-          [disabled]="!vmCreateForm.valid || nameIsTaken() || !vmCreationState.template || !isDiskOfferingAvailableByResources()"
+          [disabled]="isSubmitButtonDisabled(vmCreateForm.valid)"
         >
           {{ 'COMMON.CREATE' | translate }}
         </button>

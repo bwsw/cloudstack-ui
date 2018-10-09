@@ -94,8 +94,10 @@ export class VmCreationComponent {
   }
 
   public showResizeSlider(): boolean {
-    const template = isTemplate(this.vmCreationState.template);
-    return template || (!template && this.isCustomizedDiskOffering());
+    return this.vmCreationState.template
+      && !isTemplate(this.vmCreationState.template)
+      && this.isCustomizedDiskOffering()
+      && !!this.vmCreationState.rootDiskMinSize;
   }
 
   public rootDiskSizeLimit(): number {
@@ -157,6 +159,14 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
+  }
+
+  public isSubmitButtonDisabled(isFormValid: boolean): boolean {
+    return !isFormValid
+      || this.nameIsTaken()
+      || !this.vmCreationState.template
+      || !this.vmCreationState.serviceOffering.isAvailableByResources
+      || !isDiskOfferingAvailableByResources();
   }
 
   public isDiskOfferingAvailableByResources(): boolean {
