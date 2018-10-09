@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
-import { Account, DiskOffering } from '../../../models';
+import { DiskOffering } from '../../../models';
 import { AuthService } from '../../../services/auth.service';
 import { Utils } from '../../../services/utils/utils.service';
 import { isCustomized } from '../../../models/offering.model';
@@ -14,7 +14,7 @@ import { isCustomized } from '../../../models/offering.model';
 export class DiskOfferingDialogComponent {
   public diskOfferings: DiskOffering[];
   public selectedDiskOffering: DiskOffering;
-  public storageAvailable: Account;
+  public storageAvailable: string;
   public resourcesLimitExceeded = false;
   public minSize: number = null;
 
