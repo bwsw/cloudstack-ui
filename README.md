@@ -292,7 +292,6 @@ x.x.x
 
 You can customize the application by providing your own configuration file config.json. See the [Config Guide](https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md) for more information on configuration options.
 
-
 ## Project Sponsors
 
 The project is currently supported by [Bitworks Software](https://bitworks.software/).
