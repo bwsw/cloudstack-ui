@@ -157,7 +157,9 @@ Click "CONFIRM" to set the custom service offering parameters. The modal window 
 Click "SELECT" below the list to assign a selected service offering to your machine. The custom settings will appear for the VM service offerings. Custom service offering parameters are saved to account tags (see the `list of tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_) if they are supported for the account. This will make it easier for you to use saved custom parameters for service offerings next time at VM creation as they will be predefined in the form automatically. 
 
 .. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#account-tags-enabled>`_  by an Administrator. 
- 
+
+.. note:: The system checks the amount of available account resources. In case a selected service offering does not fit the amount of available account resources, a warning message will appear saying the offering cannot be selected. 
+
 4. **Installation source** * - Select an installation source - a Template or an ISO file - that will be used to create the machine from. In the block you can see the installation source selected by default. Click "Select" to choose an installation source you wish. In a modal window you will see a list of templates/ISOs with the "Ready" status available for the selected zone as well as for user's account or the whole domain. 
    
    The filtering tool allows finding a necessary option by selecting among templates/ISOs by OS families, types and groups, or search the source by a name or a part of its name. 
@@ -418,6 +420,8 @@ Select an option from the list to change the service offering.
 .. figure:: _static/VMs_Details_EditSO3.png
 
 Click "Change" to implement the edits. 
+
+.. note:: The system checks the amount of available account resources. In case a selected service offering does not fit the amount of available account resources, a warning message will appear saying the offering cannot be selected. 
 
 A started virtual machine will be rebooted at editing the service offering.
 
