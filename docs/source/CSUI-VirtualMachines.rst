@@ -199,7 +199,7 @@ In the *Advanced* tab you will find the following fields:
 
 1. **Group** - Select a group from the drop-down list. Or create a new group by typing its name right in the field. The group will be saved to the machine `tags <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
 2. **Affinity group** - Select an affinity group from the drop-down list. Or create a new group entering it right in this field. The name should contain letters, figures, start from a letter and should not contain spaces. Its length should not exceed 63 symbols. What an affinity group is you can read in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/virtual_machines.html?highlight=Affinity%20group#affinity-groups>`_.
-3. **Firewall rules** - Select a security group for the machine. Click "EDIT" to specify a security group for the VM. A default security group is defined in this field. To change it click "EDIT". In the appeared window choose between "Create new" or "Select Shared" options. 
+3. **Firewall rules** - Select a security group for the machine. Click "EDIT" to specify a security group for the VM. A default security group, defined in `the configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-security-group-name>`_, is shown in this field. To change it click "EDIT". In the appeared window choose between "Create new" or "Select Shared" options. 
   
 **Create a new security group**
 
