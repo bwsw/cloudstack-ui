@@ -80,7 +80,7 @@ Please, note that a virtual machine is created with a root disk so you do not ne
 
 To create a new VM click the "Create" button |create icon| at the bottom-right corner. 
 
-.. figure:: _static/VMs_Create2.png
+.. figure:: _static/VMs_Create3.png
    
 The *Create VM* form contains two tabs: *General* and *Advanced*. 
 
@@ -94,7 +94,7 @@ In the *General* tab the following fields should be filled in:
 
 Click "SELECT" in the Service Offerings block and choose any other option you wish in the modal window. 
 
-.. figure:: _static/VMs_Create_SO_Custom_Change3.png
+.. figure:: _static/VMs_Create_SO_Custom_Change4.png
 
 The list of available service offerings is managed by an Administrator. Service offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_. The list of service offerings can be of two types: Fixed and Custom.
 
@@ -166,22 +166,26 @@ Click "SELECT" below the list to assign a selected service offering to your mach
    
    Click "CANCEL" to drop selected options. No source will be selected then.   
 
-.. figure:: _static/VMs_Create_IstallationSource1.png
+.. figure:: _static/VMs_Create_IstallationSource2.png
     
 5. **Disk offering** - Available if ISO is selected as a source. Here you can see a disk offering preselected for the machine. To choose another disk offering open a modal window by clicking "SELECT" in the disk offering section and choose a disk offering in the list of available disk offerings. The list of available options is managed by an Administrator. Disk offering availability is determined by a zone which is defined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_.
 
-For each disk offering you will see a range of parameters. The following parameters are shown by default:
+.. figure:: _static/VMs_Create_DO1.png
 
-- Read rate (MB/s);
-- Write rate (MB/s);
-- Read rate (IO/s);
-- Write rate (IO/s).
+For each disk offering you can expand detailed information by clicking the arrow icon or the whole line in the list. In the appeared section you will see a range of parameters. The following parameters are shown by default:
+
+- Bandwidth (MB/s): Read/Write rates;
+- IOPS: Read/Write rates and Min/Max values;
+- Storage type;
+- Provisioning type;
+- Creation date.
+
+Use the scrolling tool to view them all.
 
 More parameters can be added via the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#disk-offering-parameters>`_ by an Administrator.
-
 Select a disk offering in the list and click "SELECT".
 
-.. figure:: _static/VMs_Create_DO1.png
+.. figure:: _static/VMs_Create_DO1_Expanded.png
 
 If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size. Move the slider up to the volume size you wish.
 
