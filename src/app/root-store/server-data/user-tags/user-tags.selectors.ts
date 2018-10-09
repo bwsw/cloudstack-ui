@@ -13,7 +13,7 @@ function convertToBoolean(input: string): boolean {
   }
 }
 
-export const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
+const getUserTagsState = createFeatureSelector<UserTagsState>('userTags');
 
 export const {
   selectIds,
