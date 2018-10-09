@@ -89,13 +89,13 @@ Pulse Plugin is designed for visualization of virtual machines performance stati
 
 Pulse allows users of Apache CloudStack to monitor current and previous operational states of virtual machines. The plugin supports various view scales like minutes, hours, days and enables data overlays to monitor peak and average values.
 
-We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers. Read more about Plugin deployment [here](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment). 
+We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers. Read more about Plugin deployment [here](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin#how-to-deploy-and-configure-pulse-plugin). 
 
 **WebShell Plugin**
 
 WebShell is a CloudStack-UI extension designed to perform a clientless SSH connection to a virtual machine. The extension is activated in the CloudStack-UI configuration file and is supported by an additional Docker container. As for the way of WebShell usage, the plugin is similar to NoVNC interface provided by CloudStack. However, WebShell uses the SSH protocol and doesn’t allow VM emergency management.
 
-This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plug-in page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment).
+This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plug-in page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin#webshell-plugin-deployment).
 
 ## Features Yet Unsupported
 
@@ -223,7 +223,7 @@ Before you start, please, prepare Node development environment. Install Node.js 
 
 ### Download and install dependencies
 
-1. Clone the CSUI project from GitHub.
+1. Clone the CS-UI project from GitHub.
 2. Run ```npm install``` command. This command installs all dependencies, which are used in the project. Also, you may use ```yarn``` command.
 3. Add your own `proxy-conf.js` file in the project root folder and set the API endpoint in this file. See [proxy-conf-example](https://github.com/bwsw/cloudstack-ui/blob/master/proxy-conf-example.js).
 
@@ -280,9 +280,9 @@ Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cl
 ## Versioning
 
 ```
-+- Major version has breaking changes.
-| +- Minor version is synchronize with CloudStack version (major and minor without a dot).
-| | +- Patch version has features and bug fixes.
++- Major version containing breaking changes.
+| +- Minor version synchronized with the CloudStack version (major and minor without a dot).
+| | +- Patch version defining the iteration number.
 | | |
 x.x.x
 ```
