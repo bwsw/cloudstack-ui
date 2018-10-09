@@ -217,17 +217,28 @@ Here domain administrators can manage existing accounts, create new accounts and
 
 ## Getting started guide
 
-1. Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version (We recomend Node.js v8.11.2).
-2. Clone the CSUI project from GitHub.
-3. Run "npm install" command. This command installs all dependencies, which are used in the project. Also, you may use "yarn" command.
-4. Add your own proxy-conf.js file in the project folder and set the API endpoint in this file. See [proxy-conf-example](https://github.com/bwsw/cloudstack-ui/blob/master/proxy-conf-example.js).
+### Prerequisites
+
+Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version.
+
+### Download and install dependencies
+
+1. Clone the CSUI project from GitHub.
+2. Run ```npm install``` command. This command installs all dependencies, which are used in the project. Also, you may use ```yarn``` command.
+3. Add your own `proxy-conf.js` file in the project root folder and set the API endpoint in this file. See [proxy-conf-example](https://github.com/bwsw/cloudstack-ui/blob/master/proxy-conf-example.js).
+
+```
+git clone https://github.com/bwsw/cloudstack-ui.git
+cd cloudstack-ui
+npm install
+```
 
 ### Main commands
 
 | command | action |
 |---------|--------|
 |npm test | use this command to execute tests via Karma|
-|npm run build| use this command to build the project, the build artifacts will be stored in the dist/ directory|
+|npm run build| use this command to build the project, the build artifacts will be stored in the "dist/cloudstack-ui" directory|
 |npm start| use this command to compile the application, it will be available at URL - "localhost:8080".|
 
 ## Deployment
@@ -257,13 +268,25 @@ Additionally, you can change favicon and CloudStack logo on login screen and in 
 -v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
 -v /path/to/cloudstack_logo_dark.png:/static/img/cloudstack_logo_dark.png
 ```
-where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are CloudStack logos displayed in sidebar with dark and light theme respectively.
+where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on the login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are CloudStack logos displayed in the sidebar with dark and light theme respectively.
 
 ### Assisting object cleanup container
 
 Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
 
 Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/) container.
+
+## Versioning
+
+```
++- Major version has breaking changes.
+| +- Minor version is synchronize with CloudStack version (major and minor without a dot).
+| | +- Patch version has features and bug fixes.
+| | |
+x.x.x
+```
+
+[See details](https://github.com/bwsw/cloudstack-ui/wiki/CS-UI-version-enumeration)
 
 ## Configuration Options
 
