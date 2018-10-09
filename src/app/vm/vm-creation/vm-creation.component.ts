@@ -166,7 +166,7 @@ export class VmCreationComponent {
       || this.nameIsTaken()
       || !this.vmCreationState.template
       || !this.vmCreationState.serviceOffering.isAvailableByResources
-      || !isDiskOfferingAvailableByResources();
+      || !this.isDiskOfferingAvailableByResources();
   }
 
   public isDiskOfferingAvailableByResources(): boolean {
