@@ -8,13 +8,13 @@ The *Firewall* section contains templates to create a security group for a virtu
 
 .. figure:: _static/Firewall_List816.png
 
-**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment via the JSON configuration file (find more in `configurations guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#security-group-templates>`_). These presets will be used when creating a new security group. The new group will contain all the rules of these presets.
+**Firewall templates** are presets of rules that can be system or developed by a user (custom). Administrators can specify default presets during the interface deployment via the JSON configuration file (find more in `configurations guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#security-group-templates>`_). These presets will be used when creating a new security group.
 
 .. Now there are “TCP Permit All”, “UDP Permit All”, “ICMP Permit All” system firewall templates in the system. They just pass all the traffic. We offer them because we would like a user to make his virtual machines accessible without diving into technical details. 
 
 A custom security group template can be created via the UI. Find more information on how to create a custom security group template at :ref:`Create_FTemplate`.
 
-Upon VM creation the system creates a new security group for a VM on the base of templates (if they exist). This group initially contains all the rules from the specified presets. Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a **private security group** used for that virtual machine only. 
+Upon VM creation the system creates a new security group for a VM on the base of templates (if they exist). Next, when the user changes the rules for a certain virtual machine, it does not affect other machines. These changed rules make a **private security group** used for that virtual machine only. 
 
 The second way is to use a **shared security group** for your virtual machine. Shared groups are used by several VMs. Changes of rules in them may affect other VMs. 
 
@@ -82,7 +82,7 @@ You can create a shared security group and it will be available for creating vir
 
 A new shared security group is created on the base of existing templates. This security group will be created with a ``shared`` type.
 
-If you would like to create a new shared security group, click "Create" in the bottom-right corner and fill in the form:
+If you would like to create a new shared security group, navigate to the Shared Security Group section and click "Create" in the bottom-right corner. Then, fill in the form:
 
 .. note:: Required fields are marked with an asterisk (*).
 
