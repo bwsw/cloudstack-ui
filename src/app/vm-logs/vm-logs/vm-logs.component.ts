@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cs-logs',
-  templateUrl: 'logs.component.html',
-  styleUrls: ['logs.component.scss']
+  selector: 'cs-vm-logs',
+  templateUrl: 'vm-logs.component.html',
+  styleUrls: ['vm-logs.component.scss']
 })
-export class LogsComponent {
+export class VmLogsComponent {
   mode: 'follow' | 'stop' = 'stop';
   public newestFirst = false;
 
-  onFollow() {
+  public onFollow() {
     this.mode = 'follow';
   }
 
-  onStop() {
+  public onStop() {
     this.mode = 'stop';
   }
 

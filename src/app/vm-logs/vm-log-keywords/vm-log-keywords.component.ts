@@ -6,37 +6,34 @@ import { MatChipInputEvent } from '@angular/material';
  * @title Chips Autocomplete
  */
 @Component({
-  selector: 'cs-log-tags',
-  templateUrl: 'log-tags.component.html'
+  selector: 'cs-vm-log-keywords',
+  templateUrl: 'vm-log-keywords.component.html'
 })
-export class LogTagsComponent {
+export class VmLogKeywordsComponent {
   visible = true;
-  selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits: Fruit[] = [];
+  keywords = [];
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
-      this.fruits.push({name: value.trim()});
+      this.keywords.push({ text: value.trim() });
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
   }
 
-  remove(fruit: Fruit): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(keyword): void {
+    const index = this.keywords.indexOf(keyword);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.keywords.splice(index, 1);
     }
   }
 }

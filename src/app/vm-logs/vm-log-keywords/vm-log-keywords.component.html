@@ -1,8 +1,8 @@
-<mat-form-field class="example-chip-list">
+<mat-form-field>
   <mat-chip-list #chipList>
-    <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
-              [removable]="removable" (removed)="remove(fruit)">
-      {{fruit.name}}
+    <mat-chip *ngFor="let keyword of keywords" [selectable]="selectable"
+              [removable]="removable" (removed)="remove(keyword)">
+      {{ keyword.text }}
       <mat-icon matChipRemove *ngIf="removable" class="mdi-cancel"></mat-icon>
     </mat-chip>
     <input placeholder="Tags"

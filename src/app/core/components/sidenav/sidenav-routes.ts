@@ -66,7 +66,7 @@ export const sidenavRoutes: Array<SidenavRoute> = [
     visible: true
   },
   {
-    path: '/log-files',
+    path: '/logs',
     text: 'NAVIGATION_SIDEBAR.LOGS',
     icon: 'mdi-text',
     id: 'LOGS',

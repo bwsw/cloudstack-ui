@@ -1416,6 +1416,11 @@
       "SECRET_KEY": "Секретный ключ"
     }
   },
+  "LOGS_PAGE": {
+    "FILTERS": {
+      "SELECT_VM": "Выберите ВМ"
+    }
+  },
   "SETTINGS": {
     "SECURITY": {
       "TITLE": "Безопасность",

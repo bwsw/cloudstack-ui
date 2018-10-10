@@ -1420,6 +1420,11 @@
       "SECRET_KEY": "Secret key"
     }
   },
+  "LOGS_PAGE": {
+    "FILTERS": {
+      "SELECT_VM": "Select a VM"
+    }
+  },
   "SETTINGS": {
     "SECURITY": {
       "TITLE": "Security",
