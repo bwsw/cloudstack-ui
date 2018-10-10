@@ -96,7 +96,7 @@ Click “SELECT ALL” to move all templates from left to right at once.
 
 Click “RESET” to drop all selected templates.
 
-In the list below you will see the rules corresponding to the selected templates. All of them are checked as selected. Uncheck those you do not wish to add to your shared security group.
+In the list below you will see the rules corresponding to the selected templates. Check those you wish to add to your shared security group.
 
 .. figure:: _static/Firewall_SelectRules2.png
 
