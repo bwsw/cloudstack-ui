@@ -80,7 +80,7 @@ Please, note that a virtual machine is created with a root disk so you do not ne
 
 To create a new VM click the "Create" button |create icon| at the bottom-right corner. 
 
-.. figure:: _static/VMs_Create3.png
+.. figure:: _static/VMs_Create4.png
    
 The *Create VM* form contains two tabs: *General* and *Advanced*. 
 
@@ -94,7 +94,7 @@ In the *General* tab the following fields should be filled in:
 
 Click "SELECT" in the Service Offerings block and choose any other option you wish in the modal window. 
 
-.. figure:: _static/VMs_Create_SO_Custom_Change4.png
+.. figure:: _static/VMs_Create_SO_Custom_Change5.png
 
 The list of available service offerings is managed by an Administrator. Service offering availability is determined by zone in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_. The list of service offerings can be of two types: Fixed and Custom.
 
@@ -170,7 +170,11 @@ Click "SELECT" below the list to assign a selected service offering to your mach
 
 .. figure:: _static/VMs_Create_IstallationSource2.png
     
-5. **Disk offering** - Available if ISO is selected as a source. Here you can see a disk offering preselected for the machine. To choose another disk offering open a modal window by clicking "SELECT" in the disk offering section and choose a disk offering in the list of available disk offerings. The list of available options is managed by an Administrator. Disk offering availability is determined by a zone which is defined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_.
+   The Disk size slider below the **Installation source** block allows changing the size of a root-disk of the VM. Move the slider or enter a number value in the field to set the root-disk size.
+   
+.. figure:: _static/VMs_Create_IstallationSource_DiskSize.png
+
+5. **Disk offering** - Available if ISO is selected as a source. Here you can see a disk offering preselected for the machine. To choose another disk offering open a modal window by clicking "SELECT" in the disk offering section and choose a disk offering in the list of available disk offerings. The list of available options is managed by an Administrator. Disk offering availability is determined by the zone defined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_.
 
 .. figure:: _static/VMs_Create_DO1.png
 
