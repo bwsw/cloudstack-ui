@@ -24,6 +24,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public virtualMachine: VirtualMachine;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
+  @Input() public account: Account;
   @Input() public isVmRunning: boolean;
   @Output() public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
   @Output() public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
@@ -69,6 +70,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public isSubmitButtonDisabled(): boolean {
     const isOfferingNotSelected = !this.serviceOffering;
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
+    const isNotEnoughResourcesForCurrentOffering = this.serviceOffering && !this.serviceOffering.isAvailableByResources;
     const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
       && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
     const isSelectedOfferingDoNotHaveParams = this.serviceOffering
@@ -81,7 +83,18 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       || isNoOfferingsInCurrentViewMode
       || isSelectedOfferingFromDifferentViewMode
       || isSelectedOfferingDoNotHaveParams
-      || isSelectedOfferingDifferentFromCurrent;
+      || isSelectedOfferingDifferentFromCurrent
+      || isNotEnoughResourcesForCurrentOffering;
+  }
+
+  public isSelectedOfferingViewMode(): boolean {
+    if (this.serviceOffering && this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
+      return true;
+    }
+    if (this.serviceOffering && !this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {
+      return true;
+    }
+    return false;
   }
 
   private isSelectedOfferingDifferent(): boolean {
@@ -98,5 +111,4 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
 
     return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
   }
-
 }

@@ -32,7 +32,7 @@ export class VolumeResizeContainerComponent implements OnInit {
 
   public volume: Volume;
 
-  public maxSize = 2;
+  public maxSize = '2';
 
   constructor(
     public authService: AuthService,
@@ -51,7 +51,7 @@ export class VolumeResizeContainerComponent implements OnInit {
       take(1),
       filter(account => !!account))
       .subscribe((account: Account) => {
-        this.maxSize = Number(account.primarystorageavailable);
+        this.maxSize = account.primarystorageavailable;
       });
   }
 

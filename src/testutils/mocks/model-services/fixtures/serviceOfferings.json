@@ -14,7 +14,8 @@
     "isvolatile": false,
     "issystem": false,
     "defaultuse": false,
-    "iscustomized": false
+    "iscustomized": false,
+    "isAvailableByResources": true
   },
   {
     "id": "b1196c0e-0c1a-4416-bea8-f6a62309fac5",
@@ -31,7 +32,8 @@
     "isvolatile": false,
     "issystem": false,
     "defaultuse": false,
-    "iscustomized": false
+    "iscustomized": false,
+    "isAvailableByResources": true
   },
   {
     "id": "a18d52b6-268e-421c-9d0c-1c1635d3b9b9",
@@ -50,7 +52,8 @@
     "iscustomized": true,
     "cpunumber": 2,
     "cpuspeed": 500,
-    "memory": 1024
+    "memory": 1024,
+    "isAvailableByResources": true
   },
   {
     "id": "a18d52b6-268e-421c-9d0c-1c1635d3b9b9",
@@ -66,6 +69,7 @@
     "domain": "develop",
     "issystem": false,
     "defaultuse": false,
-    "iscustomized": true
+    "iscustomized": true,
+    "isAvailableByResources": true
   }
 ]

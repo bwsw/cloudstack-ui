@@ -59,7 +59,7 @@ const routes: Routes = [
         path: '**',
         redirectTo: 'instances'
       }
-    ]
+    ],
   },
   {
     path: '**',
