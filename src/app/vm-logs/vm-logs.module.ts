@@ -12,6 +12,11 @@ import { VmLogKeywordsComponent } from './vm-log-keywords/vm-log-keywords.compon
 import { VmLogsEffects } from './redux/vm-logs.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { VmLogsFilterContainerComponent } from './containers/vm-logs-filter.container';
+import { StoreModule } from '@ngrx/store';
+import { vmLogsReducers } from './redux/vm-logs.reducers';
+import { VmLogsTableComponent } from './vm-logs-table/vm-logs-table.component';
+import { VmLogsTableContainerComponent } from './containers/vm-logs-table.container';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   imports: [
@@ -20,13 +25,16 @@ import { VmLogsFilterContainerComponent } from './containers/vm-logs-filter.cont
     MaterialModule,
     RouterModule,
     MatChipsModule,
-    // StoreModule.forFeature('vmLogs', vmLogsReducers),
+    CdkTableModule,
+    StoreModule.forFeature('vmLogs', vmLogsReducers),
     EffectsModule.forFeature([VmLogsEffects]),
   ],
   declarations: [
     VmLogsComponent,
     VmLogsFilterComponent,
     VmLogsFilterContainerComponent,
+    VmLogsTableComponent,
+    VmLogsTableContainerComponent,
     VmLogKeywordsComponent
   ],
   providers: [

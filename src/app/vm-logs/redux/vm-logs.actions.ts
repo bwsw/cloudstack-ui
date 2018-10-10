@@ -8,17 +8,7 @@ export const VM_LOGS_FILTER_UPDATE = '[VM Logs] VM_LOGS_FILTER_UPDATE';
 export class LoadVmLogsRequest implements Action {
   type = LOAD_VM_LOGS_REQUEST;
 
-  constructor(public payload: {
-    id: string,
-    startdate?: string,
-    enddate?: string,
-    keywords?: string,
-    logfile?: string,
-    sort?: string,
-    page: number,
-    pagesize: number,
-    scroll: number
-  }) {
+  constructor(public payload?: any) {
   }
 
 }
@@ -26,7 +16,7 @@ export class LoadVmLogsRequest implements Action {
 export class LoadVmLogsResponse implements Action {
   type = LOAD_VM_LOGS_RESPONSE;
 
-  constructor(public payload: Array<VmLog>) {
+  constructor(public payload: Array<VmLog> | any) {
   }
 
 }
@@ -36,7 +26,7 @@ export class VmLogsFilterUpdate implements Action {
 
   constructor(public payload: {
     selectedVmId: string
-  }) {
+  } | any) {
   }
 
 }

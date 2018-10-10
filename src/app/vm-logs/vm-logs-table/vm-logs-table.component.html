@@ -1,0 +1,42 @@
+<ng-container #vmIdSpecified *ngIf=" vmLogs?.length; then vmLogsTable else noVmLogs"></ng-container>
+
+<ng-template #noVmLogs>
+  <cs-no-results></cs-no-results>
+</ng-template>
+
+<ng-template #vmLogsTable>
+  <div class="vm-logs">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> {{ 'LOGS_PAGE.LIST.DATE' | translate}} </th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            {{ element.timestamp }}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="logFile">
+        <th mat-header-cell *matHeaderCellDef> {{ 'LOGS_PAGE.LIST.LOG_FILE' | translate }} </th>
+        <td mat-cell *matCellDef="let element">
+          <div>
+            {{ element.file }}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="text">
+        <th mat-header-cell *matHeaderCellDef> {{ 'LOGS_PAGE.LIST.TEXT' | translate }} </th>
+        <td mat-cell *matCellDef="let element">
+          <code>
+            {{ element.log }}
+          </code>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+    </table>
+  </div>
+</ng-template>
+

@@ -47,10 +47,14 @@
       <!--[placeholder]="'End time'"-->
     <!--&gt;-->
   <!--</mat-form-field>-->
+
+  <button mat-icon-button (click)="onRefresh.emit()" [disabled]="!vmId">
+    <mat-icon class="mdi-magnify"></mat-icon>
+  </button>
 </div>
 
-<div class="filter-wrapper">
-  <!--<cs-vm-log-keywords></cs-log-tags>-->
+<!--<div class="filter-wrapper">-->
+  <!--<cs-vm-log-keywords></cs-vm-log-keywords>-->
 
   <!--<mat-checkbox-->
     <!--[ngModel]="newestFirst"-->
@@ -58,8 +62,4 @@
   <!--&gt;-->
     <!--Newest first-->
   <!--</mat-checkbox>-->
-
-  <button mat-icon-button>
-    <mat-icon class="mdi-magnify"></mat-icon>
-  </button>
-</div>
+<!--</div>-->

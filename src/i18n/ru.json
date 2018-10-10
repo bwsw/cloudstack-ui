@@ -1419,6 +1419,11 @@
   "LOGS_PAGE": {
     "FILTERS": {
       "SELECT_VM": "Выберите ВМ"
+    },
+    "LIST": {
+      "DATE": "Дата",
+      "LOG_FILE": "Файл",
+      "TEXT": "Текст"
     }
   },
   "SETTINGS": {

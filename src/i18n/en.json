@@ -1423,6 +1423,11 @@
   "LOGS_PAGE": {
     "FILTERS": {
       "SELECT_VM": "Select a VM"
+    },
+    "LIST": {
+      "DATE": "Date",
+      "LOG_FILE": "Log file",
+      "TEXT": "Text"
     }
   },
   "SETTINGS": {

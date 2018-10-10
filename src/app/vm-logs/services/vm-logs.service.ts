@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { VmLog } from '../models/vm-log.model';
 import { Observable } from 'rxjs/index';
 import { BackendResource } from '../../shared/decorators';
-import { BaseBackendService } from '../../shared/services/base-backend.service';
+import { BaseBackendService, FormattedResponse } from '../../shared/services/base-backend.service';
 
 
 @Injectable()
@@ -16,8 +16,18 @@ export class VmLogsService extends BaseBackendService<VmLog> {
   }
 
   public getList(params?: {}): Observable<Array<VmLog>> {
-    const customApiFormat = { command: 'get', entity: 'VmLog' };
+    const customApiFormat = { command: 'get;s', entity: 'VmLog' };
     return super.getList(params, customApiFormat);
+  }
+
+  protected formatGetListResponse(response: any): FormattedResponse<VmLog> {
+    const result = response && response.vmlogs && response.vmlogs.items || [];
+    return {
+      list: result.map(m => this.prepareModel(m)) as Array<VmLog>,
+      meta: {
+        count: response.vmlogs.count || 0
+      }
+    };
   }
 }
 

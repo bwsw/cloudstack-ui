@@ -18,15 +18,16 @@ const FILTER_KEY = 'logsFilters';
   template: `
     <cs-vm-logs-filter
       *loading="loading$ | async"
+      [vmId]="selectedVmId$ | async"
       [vms]="vms$ | async"
       [selectedVmId]="selectedVmId$ | async"
       (onVmChange)="onVmChange($event)"
+      (onRefresh)="onRefresh()"
     ></cs-vm-logs-filter>`
 })
 export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
-
   readonly filters$ = this.store.pipe(select(fromVmLogs.filters));
-  readonly loading$ = this.store.pipe(select(fromVmLogs.isLoading));
+  readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly vms$ = this.store.pipe(select(fromVMs.selectAll));
   readonly selectedVmId$ = this.store.pipe(select(fromVmLogs.filterSelectedVmId));
 
@@ -52,6 +53,10 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new vmLogActions.VmLogsFilterUpdate({
       selectedVmId
     }));
+  }
+
+  public onRefresh() {
+    this.store.dispatch(new vmLogActions.LoadVmLogsRequest());
   }
 
   private initFilters(): void {

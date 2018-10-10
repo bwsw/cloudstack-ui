@@ -14,11 +14,12 @@ export interface VmLogsState {
   list: State;
 }
 
-export const reducers = {
+export const vmLogsReducers = {
   list: reducer,
 };
 
 export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
+  selectId: () => Math.random(),
   sortComparer: false
 });
 

@@ -8,8 +8,10 @@ import { VirtualMachine } from '../../vm';
 export class VmLogsFilterComponent {
   // public dateTimeFormat = Intl.DateTimeFormat;
   // public date = new Date();
+  @Input() public vmId: string;
   @Input() public vms: Array<VirtualMachine>;
   @Input() public selectedVmId: Array<string>;
   @Output() public onVmChange = new EventEmitter();
+  @Output() public onRefresh = new EventEmitter();
   // @Output() public onNewestFirstChange = new EventEmitter();
 }
