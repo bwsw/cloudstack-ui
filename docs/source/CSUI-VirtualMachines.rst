@@ -170,7 +170,7 @@ Click "SELECT" below the list to assign a selected service offering to your mach
 
 .. figure:: _static/VMs_Create_IstallationSource2.png
     
-   The Disk size slider below the **Installation source** block allows changing the size of a root-disk of the VM. Move the slider or enter a number value in the field to set the root-disk size.
+The Disk size slider below the **Installation source** block allows changing the size of a root-disk of the VM. Move the slider or enter a number value in the field to set the root-disk size.
    
 .. figure:: _static/VMs_Create_IstallationSource_DiskSize.png
 
