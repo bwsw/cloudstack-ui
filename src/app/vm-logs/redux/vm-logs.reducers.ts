@@ -68,7 +68,7 @@ export function reducer(
 
 export const getVmLogsState = createFeatureSelector<VmLogsState>('vmLogs');
 
-export const getEventsEntitiesState = createSelector(
+export const getVmLogsEntitiesState = createSelector(
   getVmLogsState,
   state => state.list
 );
@@ -78,15 +78,15 @@ export const {
   selectEntities,
   selectAll,
   selectTotal,
-} = adapter.getSelectors(getEventsEntitiesState);
+} = adapter.getSelectors(getVmLogsEntitiesState);
 
 export const isLoading = createSelector(
-  getEventsEntitiesState,
+  getVmLogsEntitiesState,
   state => state.loading
 );
 
 export const filters = createSelector(
-  getEventsEntitiesState,
+  getVmLogsEntitiesState,
   state => state.filters
 );
 
