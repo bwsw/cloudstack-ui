@@ -10,7 +10,7 @@ import { KeyValuePair } from '../../tags/tags-view/tags-view.component';
 
 @Component({
   selector: 'cs-template-tags',
-  templateUrl: 'tags.component.html'
+  templateUrl: 'template-tags.component.html'
 })
 export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
   @Input() public entity: BaseTemplateModel;

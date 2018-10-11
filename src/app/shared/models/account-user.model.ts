@@ -8,22 +8,22 @@ export interface AccountUser extends BaseModel {
   firstname: string;
   lastname: string;
   email: string;
-  password?: string;
   created: string;
   state: string;
   account: string;
   accounttype: number;
-  roleid: string;
   roletype: AccountType;
   rolename: AccountType;
+  roleid: string;
   domain: string;
   domainid: string;
   timezone: string;
   accountid: string;
   iscallerchilddomain: boolean;
   isdefault: boolean;
-  secretkey: string;
-  apikey: string;
+  password?: string;
+  apikey?: string;
+  secretkey?: string;
 }
 
 export interface ApiKeys {
