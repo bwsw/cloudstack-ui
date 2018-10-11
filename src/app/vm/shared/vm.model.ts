@@ -3,6 +3,7 @@ import { Taggable } from '../../shared/interfaces/taggable.interface';
 import { BaseModel, NIC, OsType, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
+import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 
 export enum VmState {
   Running = 'Running',
@@ -66,5 +67,8 @@ export interface VirtualMachine extends BaseModel, Taggable {
   keypair: string;
   password: string;
   passwordenabled: boolean;
-  instanceGroup: InstanceGroup;
 }
+
+export const getInstanceGroup = (vm: VirtualMachine) => {
+  return vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+};
