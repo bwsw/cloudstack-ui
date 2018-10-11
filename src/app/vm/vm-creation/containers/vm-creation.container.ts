@@ -86,7 +86,8 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromServiceOfferings.isLoading)),
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
-    this.store.pipe(select(fromAffinityGroups.isLoading))
+    this.store.pipe(select(fromAffinityGroups.isLoading)),
+    this.store.pipe(select(UserTagsSelectors.getIsLoading))
   ).pipe(
     map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
   );
@@ -120,8 +121,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
 
-    this.getDefaultVmName()
-      .subscribe(displayName => this.onDisplayNameChange(displayName));
+    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
@@ -197,7 +197,6 @@ export class VmCreationContainerComponent implements OnInit {
   private getDefaultVmName(): Observable<string> {
     return this.store.pipe(
       select(UserTagsSelectors.getLastVMId),
-      first(),
       map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
   }
 }
