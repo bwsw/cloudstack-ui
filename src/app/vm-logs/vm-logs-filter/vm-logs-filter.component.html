@@ -47,19 +47,25 @@
       <!--[placeholder]="'End time'"-->
     <!--&gt;-->
   <!--</mat-form-field>-->
-
-  <button mat-button (click)="onRefresh.emit()" [disabled]="!vmId">
-    {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
-  </button>
 </div>
 
-<!--<div class="filter-wrapper">-->
-  <!--<cs-vm-log-keywords></cs-vm-log-keywords>-->
+<div class="filter-wrapper">
+  <cs-vm-log-keywords
+    class="keywords"
+    [keywords]="keywords"
+    (onKeywordAdd)="onKeywordAdd.emit($event)"
+    (onKeywordRemove)="onKeywordRemove.emit($event)"
+  ></cs-vm-log-keywords>
 
+  <div>
+    <button mat-button (click)="onRefresh.emit()" [disabled]="!vmId">
+      {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
+    </button>
+  </div>
   <!--<mat-checkbox-->
     <!--[ngModel]="newestFirst"-->
     <!--(change)="onNewestFirstChange.emit()"-->
   <!--&gt;-->
     <!--Newest first-->
   <!--</mat-checkbox>-->
-<!--</div>-->
+</div>

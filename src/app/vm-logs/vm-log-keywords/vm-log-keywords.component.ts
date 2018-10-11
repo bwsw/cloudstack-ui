@@ -1,27 +1,27 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component } from '@angular/core';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material';
+import { Keyword } from '../models/keyword.model';
 
 /**
  * @title Chips Autocomplete
  */
 @Component({
   selector: 'cs-vm-log-keywords',
-  templateUrl: 'vm-log-keywords.component.html'
+  templateUrl: 'vm-log-keywords.component.html',
+  styleUrls: ['vm-log-keywords.component.scss']
 })
 export class VmLogKeywordsComponent {
-  visible = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  keywords = [];
+  @Input() public keywords: Array<Keyword>;
+  @Output() public onKeywordAdd = new EventEmitter<Keyword>();
+  @Output() public onKeywordRemove = new EventEmitter<Keyword>();
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
 
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
+  public add({ input, value }: MatChipInputEvent): void {
+    const text = (value || '').trim();
 
-    if ((value || '').trim()) {
-      this.keywords.push({ text: value.trim() });
+    if (text) {
+      this.onKeywordAdd.emit({ text });
     }
 
     if (input) {
@@ -29,11 +29,7 @@ export class VmLogKeywordsComponent {
     }
   }
 
-  remove(keyword): void {
-    const index = this.keywords.indexOf(keyword);
-
-    if (index >= 0) {
-      this.keywords.splice(index, 1);
-    }
+  public remove(keyword: Keyword): void {
+    this.onKeywordRemove.emit(keyword);
   }
 }

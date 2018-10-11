@@ -10,6 +10,7 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as vmLogActions from '../redux/vm-logs.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromVmLogs from '../redux/vm-logs.reducers';
+import { Keyword } from '../models/keyword.model';
 
 const FILTER_KEY = 'logsFilters';
 
@@ -21,8 +22,11 @@ const FILTER_KEY = 'logsFilters';
       [vmId]="selectedVmId$ | async"
       [vms]="vms$ | async"
       [selectedVmId]="selectedVmId$ | async"
+      [keywords]="keywords$ | async"
       (onVmChange)="onVmChange($event)"
       (onRefresh)="onRefresh()"
+      (onKeywordAdd)="onKeywordAdd($event)"
+      (onKeywordRemove)="onKeywordRemove($event)"
     ></cs-vm-logs-filter>`
 })
 export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
@@ -30,6 +34,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly vms$ = this.store.pipe(select(fromVMs.selectAll));
   readonly selectedVmId$ = this.store.pipe(select(fromVmLogs.filterSelectedVmId));
+  readonly keywords$ = this.store.pipe(select(fromVmLogs.filterKeywords));
 
   private filterService = new FilterService(
     { vm: { type: 'string' } },
@@ -57,6 +62,14 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
 
   public onRefresh() {
     this.store.dispatch(new vmLogActions.LoadVmLogsRequest());
+  }
+
+  public onKeywordAdd(keyword: Keyword) {
+    this.store.dispatch(new vmLogActions.VmLogsAddKeyword(keyword));
+  }
+
+  public onKeywordRemove(keyword: Keyword) {
+    this.store.dispatch(new vmLogActions.VmLogsRemoveKeyword(keyword));
   }
 
   private initFilters(): void {

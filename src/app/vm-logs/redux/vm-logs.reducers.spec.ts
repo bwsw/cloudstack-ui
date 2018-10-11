@@ -1,5 +1,12 @@
-import { LOAD_VM_LOGS_REQUEST, LOAD_VM_LOGS_RESPONSE, VM_LOGS_FILTER_UPDATE } from './vm-logs.actions';
+import {
+  LOAD_VM_LOGS_REQUEST,
+  LOAD_VM_LOGS_RESPONSE,
+  VM_LOGS_ADD_KEYWORD,
+  VM_LOGS_FILTER_UPDATE,
+  VM_LOGS_REMOVE_KEYWORD
+} from './vm-logs.actions';
 import * as fromVmLogs from './vm-logs.reducers';
+import { initialState } from './vm-logs.reducers';
 
 describe('VM logs reducer', () => {
   it('should handle initial state', () => {
@@ -9,7 +16,8 @@ describe('VM logs reducer', () => {
       entities: {},
       loading: false,
       filters: {
-        selectedVmId: null
+        selectedVmId: null,
+        keywords: []
       }
     });
   });
@@ -17,12 +25,8 @@ describe('VM logs reducer', () => {
   it('should set loading', () => {
     const state = fromVmLogs.reducer(undefined, { type: LOAD_VM_LOGS_REQUEST });
     expect(state).toEqual({
-      ids: [],
-      entities: {},
+      ...initialState,
       loading: true,
-      filters: {
-        selectedVmId: null
-      }
     });
   });
 
@@ -62,12 +66,81 @@ describe('VM logs reducer', () => {
     });
 
     expect(state).toEqual({
-      ids: [],
-      entities: {},
-      loading: false,
+      ...initialState,
       filters: {
+        ...initialState.filters,
         selectedVmId,
       }
+    });
+  });
+
+  it('should add keywords', () => {
+    const keyword = {
+      text: 'test-keyword'
+    };
+
+    const state = fromVmLogs.reducer(undefined, {
+      type: VM_LOGS_ADD_KEYWORD,
+      payload: keyword
+    });
+
+    expect(state).toEqual({
+      ...initialState,
+      filters: {
+        ...initialState.filters,
+        keywords: [keyword]
+      }
+    });
+  });
+
+  it('should remove keywords', () => {
+    const keyword = {
+      text: 'test-keyword'
+    };
+
+    const state = fromVmLogs.reducer({
+      ...initialState,
+      filters: {
+        ...initialState.filters,
+        keywords: [keyword]
+      }
+    }, {
+      type: VM_LOGS_REMOVE_KEYWORD,
+      payload: keyword
+    });
+
+    expect(state).toEqual(initialState);
+  });
+
+  it('should select load logs request params without keywords', () => {
+    const id = 'test-id';
+    const keywords = [];
+
+    const params = fromVmLogs.loadVmLogsRequestParams.projector(
+      id,
+      keywords
+    );
+
+    expect(params).toEqual({
+      id
+    });
+  });
+
+  it('should select load logs request params with keywords', () => {
+    const id = 'test-id';
+    const keywords = [
+      { text: 'test-keyword1' },
+      { text: 'test-keyword2' }
+    ];
+
+    const params = fromVmLogs.loadVmLogsRequestParams.projector(
+      id,
+      keywords
+    );
+
+    expect(params).toEqual({
+      id,
+      keywords: 'test-keyword1,test-keyword2'
     });
   });
 });

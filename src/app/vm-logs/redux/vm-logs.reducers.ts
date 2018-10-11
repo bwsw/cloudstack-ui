@@ -2,11 +2,14 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
+import { Keyword } from '../models/keyword.model';
+import { LoadVmLogsRequestParams } from '../models/load-vm-logs-request-params';
 
 export interface State extends EntityState<VmLog> {
   loading: boolean,
   filters: {
     selectedVmId: string,
+    keywords: Array<Keyword>
   }
 }
 
@@ -27,6 +30,7 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   filters: {
     selectedVmId: null,
+    keywords: []
   }
 });
 
@@ -50,6 +54,26 @@ export function reducer(
           ...action.payload
         }
       };
+    }
+
+    case vmLogsActions.VM_LOGS_ADD_KEYWORD: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          keywords: state.filters.keywords.concat(action.payload)
+        }
+      }
+    }
+
+    case vmLogsActions.VM_LOGS_REMOVE_KEYWORD: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          keywords: state.filters.keywords.filter(keyword => keyword !== action.payload)
+        }
+      }
     }
 
     case vmLogsActions.LOAD_VM_LOGS_RESPONSE: {
@@ -93,4 +117,28 @@ export const filters = createSelector(
 export const filterSelectedVmId = createSelector(
   filters,
   state => state.selectedVmId
+);
+
+export const filterKeywords = createSelector(
+  filters,
+  state => state.keywords
+);
+
+export const loadVmLogsRequestParams = createSelector(
+  filterSelectedVmId,
+  filterKeywords,
+  (id, keywords): LoadVmLogsRequestParams => {
+    const fields = {
+      keywords: keywords.map(keyword => keyword.text).join(',')
+    };
+
+    return Object.keys(fields).reduce((acc, key) => {
+      const value = fields[key];
+
+      return {
+        ...acc,
+        ...(value ? { [key]: value } : null)
+      };
+    }, { id });
+  }
 );
