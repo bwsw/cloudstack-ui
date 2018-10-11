@@ -6,37 +6,39 @@
 
 <ng-template #vmLogsTable>
   <div class="vm-logs">
-    <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> {{ 'LOGS_PAGE.LIST.DATE' | translate}} </th>
-        <td mat-cell *matCellDef="let element">
-          <div>
-            {{ element.timestamp }}
-          </div>
-        </td>
+    <mat-table [multiTemplateDataRows]="true" [dataSource]="dataSource">
+      <ng-container cdkColumnDef="date">
+        <mat-header-cell *cdkHeaderCellDef>
+          {{ 'LOGS_PAGE.LIST.DATE' | translate}}
+        </mat-header-cell>
+        <mat-cell *cdkCellDef="let element">
+          {{ element.timestamp | parseTimestamp | date:'y-MM-dd HH:mm:ss' }}
+        </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="logFile">
-        <th mat-header-cell *matHeaderCellDef> {{ 'LOGS_PAGE.LIST.LOG_FILE' | translate }} </th>
-        <td mat-cell *matCellDef="let element">
-          <div>
-            {{ element.file }}
-          </div>
-        </td>
+      <ng-container cdkColumnDef="logFile">
+        <mat-header-cell *cdkHeaderCellDef>
+          {{ 'LOGS_PAGE.LIST.LOG_FILE' | translate }}
+        </mat-header-cell>
+        <mat-cell *cdkCellDef="let element">
+          <span [matTooltip]="element.file">
+            {{ element.file | basepath }}
+          </span>
+        </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="text">
-        <th mat-header-cell *matHeaderCellDef> {{ 'LOGS_PAGE.LIST.TEXT' | translate }} </th>
-        <td mat-cell *matCellDef="let element">
-          <code>
-            {{ element.log }}
-          </code>
-        </td>
+      <ng-container cdkColumnDef="text">
+        <mat-header-cell *cdkHeaderCellDef>
+          {{ 'LOGS_PAGE.LIST.TEXT' | translate }}
+        </mat-header-cell>
+        <mat-cell *cdkCellDef="let element">
+          {{ element.log }}
+        </mat-cell>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
-    </table>
+      <mat-header-row *cdkHeaderRowDef="tableColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: tableColumns;"></mat-row>
+    </mat-table>
   </div>
 </ng-template>
 

@@ -17,6 +17,8 @@ import { vmLogsReducers } from './redux/vm-logs.reducers';
 import { VmLogsTableComponent } from './vm-logs-table/vm-logs-table.component';
 import { VmLogsTableContainerComponent } from './containers/vm-logs-table.container';
 import { CdkTableModule } from '@angular/cdk/table';
+import { BasePathPipe } from './pipes/base-path.pipe';
+import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ import { CdkTableModule } from '@angular/cdk/table';
     VmLogsFilterContainerComponent,
     VmLogsTableComponent,
     VmLogsTableContainerComponent,
-    VmLogKeywordsComponent
+    VmLogKeywordsComponent,
+    BasePathPipe,
+    ParseTimestampPipe
   ],
   providers: [
     VmLogsService

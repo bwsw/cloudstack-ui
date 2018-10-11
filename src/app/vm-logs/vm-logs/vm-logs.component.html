@@ -10,27 +10,26 @@
   </ng-container>
 </cs-list>
 
+<!--<div *ngIf="mode === 'stop'" class="fab" style="right: 32px; bottom: 100px">-->
+  <!--<button mat-fab>-->
+    <!--<mat-icon class="mdi-sync"></mat-icon>-->
+  <!--</button>-->
+<!--</div>-->
 
-<div *ngIf="mode === 'stop'" class="fab" style="right: 32px; bottom: 100px">
-  <button mat-fab>
-    <mat-icon class="mdi-sync"></mat-icon>
-  </button>
-</div>
+<!--<div *ngIf="mode === 'stop' && !newestFirst" class="fab">-->
+  <!--<button mat-fab (click)="onFollow($event)">-->
+    <!--<mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>-->
+  <!--</button>-->
+<!--</div>-->
 
-<div *ngIf="mode === 'stop' && !newestFirst" class="fab">
-  <button mat-fab (click)="onFollow($event)">
-    <mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>
-  </button>
-</div>
+<!--<div *ngIf="mode === 'stop' && newestFirst" class="fab">-->
+  <!--<button mat-fab (click)="onFollow($event)">-->
+    <!--<mat-icon class="mdi-format-vertical-align-top"></mat-icon>-->
+  <!--</button>-->
+<!--</div>-->
 
-<div *ngIf="mode === 'stop' && newestFirst" class="fab">
-  <button mat-fab (click)="onFollow($event)">
-    <mat-icon class="mdi-format-vertical-align-top"></mat-icon>
-  </button>
-</div>
-
-<div *ngIf="mode === 'follow'" class="fab">
-  <button mat-fab (click)="onStop($event)">
-    <mat-icon class="mdi-cancel"></mat-icon>
-  </button>
-</div>
+<!--<div *ngIf="mode === 'follow'" class="fab">-->
+  <!--<button mat-fab (click)="onStop($event)">-->
+    <!--<mat-icon class="mdi-cancel"></mat-icon>-->
+  <!--</button>-->
+<!--</div>-->
