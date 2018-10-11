@@ -91,8 +91,14 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public registerVmJob(job: any): Observable<any> {
-    return this.asyncJobService.queryJob(job, this.entity, this.entityModel).pipe(
-      map(result => result.jobresult.virtualmachine))
+    return this.asyncJobService.queryJob(job, this.entity, this.entityModel)
+      .pipe(
+        map(result => {
+          if (result.jobresult && result.jobresult.virtualmachine) {
+            return result.jobresult.virtualmachine;
+          }
+          return result;
+        }));
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {

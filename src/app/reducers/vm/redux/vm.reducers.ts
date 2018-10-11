@@ -288,7 +288,7 @@ export const getUsingSGVMs = createSelector(
   selectAll,
   fromSGroup.getSelectedId,
   (vms, sGroupId) => {
-    const sGroupFilter = vm => vm.securityGroup.find(group => group.id === sGroupId);
+    const sGroupFilter = vm => vm.securitygroup.find(group => group.id === sGroupId);
     return vms.filter(vm => sGroupFilter(vm));
   }
 );

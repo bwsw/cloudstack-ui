@@ -1,6 +1,6 @@
 import { SecurityGroup } from '../../security-group/sg.model';
 import { Taggable } from '../../shared/interfaces/taggable.interface';
-import { BaseModel, InstanceGroup, NIC, OsType, Volume } from '../../shared/models';
+import { BaseModel, NIC, OsType, Volume } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
 import { BaseTemplateModel } from '../../template/shared';
 

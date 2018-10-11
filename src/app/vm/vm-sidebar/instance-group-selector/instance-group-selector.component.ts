@@ -8,7 +8,7 @@ import {
 } from '@angular/material';
 import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { InstanceGroup } from '../../../shared/models';
-import { VirtualMachine } from '../../shared/vm.model';
+import { getInstanceGroup, VirtualMachine } from '../../shared/vm.model';
 
 @Component({
   selector: 'cs-instance-group-selector',
@@ -28,7 +28,8 @@ export class InstanceGroupSelectorComponent {
   }
 
   public get groupName(): string {
-    return this.vm.instanceGroup && this.vm.instanceGroup.name;
+    const instanceGroup = this.vm && getInstanceGroup(this.vm);
+    return instanceGroup && instanceGroup.value;
   }
 
   public changeGroup(name: string): void {
