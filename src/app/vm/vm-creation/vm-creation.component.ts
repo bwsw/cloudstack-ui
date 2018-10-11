@@ -94,10 +94,8 @@ export class VmCreationComponent {
   }
 
   public showResizeSlider(): boolean {
-    return this.vmCreationState.template
-      && !isTemplate(this.vmCreationState.template)
-      && this.isCustomizedDiskOffering()
-      && !!this.vmCreationState.rootDiskMinSize;
+    const template = isTemplate(this.vmCreationState.template);
+    return template || (!template && this.isCustomizedDiskOffering());
   }
 
   public rootDiskSizeLimit(): number {
