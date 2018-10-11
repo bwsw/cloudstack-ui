@@ -32,7 +32,9 @@
           {{ 'LOGS_PAGE.LIST.TEXT' | translate }}
         </mat-header-cell>
         <mat-cell *cdkCellDef="let element">
-          {{ element.log }}
+          <code>
+            {{ element.log }}
+          </code>
         </mat-cell>
       </ng-container>
 
