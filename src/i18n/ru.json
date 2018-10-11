@@ -1418,7 +1418,8 @@
   },
   "LOGS_PAGE": {
     "FILTERS": {
-      "SELECT_VM": "Выберите ВМ"
+      "SELECT_VM": "Выберите ВМ",
+      "SHOW_LOGS": "Показать логи"
     },
     "LIST": {
       "DATE": "Дата",

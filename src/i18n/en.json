@@ -1422,7 +1422,8 @@
   },
   "LOGS_PAGE": {
     "FILTERS": {
-      "SELECT_VM": "Select a VM"
+      "SELECT_VM": "Select a VM",
+      "SHOW_LOGS": "Show logs"
     },
     "LIST": {
       "DATE": "Date",

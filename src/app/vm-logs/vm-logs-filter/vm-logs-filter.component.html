@@ -48,8 +48,8 @@
     <!--&gt;-->
   <!--</mat-form-field>-->
 
-  <button mat-icon-button (click)="onRefresh.emit()" [disabled]="!vmId">
-    <mat-icon class="mdi-magnify"></mat-icon>
+  <button mat-button (click)="onRefresh.emit()" [disabled]="!vmId">
+    {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
   </button>
 </div>
 
