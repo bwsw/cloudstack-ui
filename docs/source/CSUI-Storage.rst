@@ -55,7 +55,7 @@ In the *Storage* section you can create new volumes. Please, note that if you ar
 
 .. _static/CreateVMwithRD.png
  
-If necessary, you can create a data disk and attach it to your VM. By clicking the "Create" button |create icon| in the bottom-right corner you will open a creation form. Please, make sure you definitely need an additional disk as it takes resources and requires expenses. If you do not have disks yet, when clicking "Create", a dialogue window will ask you if you are surely want to create a drive. Confirm your creation action by clicking "CONTINUE":
+If necessary, you can create a data disk and attach it to your VM. By clicking the "Create" button |create icon| in the bottom-right corner you will open a creation form. Please, make sure you definitely need an additional disk as it takes resources and requires expenses. If you do not have disks yet, when clicking "Create", a dialog box will ask you if you surely want to create a drive. Confirm your creation action by clicking "CONTINUE":
 
 .. figure:: _static/AdditionalDiskNotification.png
    
@@ -71,7 +71,17 @@ To create a new volume fill in the fields:
 - Zone * - Select a zone from the drop-down list.
 - Disk offering * - Select from the list of available offerings opening it in a modal window by clicking "SELECT". The list of available disk offerings is determined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#service-offering-availability>`_ by Administrator. 
 
-For each disk offering you will see a range of parameters. The following parameters are shown by default:
+In the modal window you can see the name and short description for each disk offering and a radio-button to select any option.
+
+.. figure:: _static/Storage_Create_Select1.png
+
+For each disk offering you can expand detailed information by clicking the arrow icon or the whole line in the list. In the appeared section you will see a range of parameters. The following parameters are shown by default:
+
+- Bandwidth (MB/s): Read/Write rates;
+- IOPS: Read/Write rates and Min/Max values;
+- Storage type;
+- Provisioning type;
+- Creation date.
 
 Use the scrolling tool to view them all.
 
@@ -81,11 +91,11 @@ More parameters can be added via the `configuration file <https://github.com/bws
 
 Select a disk offering in the list and click "SELECT".
 
-.. figure:: _static/Storage_Create_Select.png
+.. figure:: _static/Storage_Create_SelectDO.png
 
 If the selected disk offering has a custom disk size (it is set by Administrator), you can change the disk size moving the slider to the volume size you wish or entering a value into the number field.
 
-.. figure:: _static/Storage_Create_ResizeDisk.png
+.. figure:: _static/Storage_Create_ResizeDisk1.png
    
 Click "CREATE" to save the settings and create the new volume. You will see the drive appears in the list.
 
@@ -241,7 +251,7 @@ Click "+" to save the schedule. You can add more than one schedule but only one 
    
 **Resize the disk**
 
-.. note:: This action is available to data disks created on the base of disk offerings with a custom disk size. Disk offerings with custom disk size can be created by Root Administrators only.
+.. note:: This action is available to root disks as well as data disks created on the base of disk offerings with a custom disk size. Disk offerings with custom disk size can be created by Root Administrators only.
 
 You can change the disk size by selecting "Resize the disk" option in the Actions list. You are able to enlarge disk size only.
 
@@ -255,7 +265,7 @@ Click "Cancel" to drop the size changes.
 
 This action can be applied to data disks. It allows attaching/detaching the data disk to/from the virtual machine.
 
-Click "Attach" in the Actions list and in the dialogue window select a virtual machine to attach the disk to. Click "ATTACH" to perform the attachment.
+Click "Attach" in the Actions list and in the dialog window select a virtual machine to attach the disk to. Click "ATTACH" to perform the attachment.
 
 .. figure:: _static/Storage_AttachDisk1.png
 
@@ -265,7 +275,7 @@ An attached disk can be detached. Click "Detach" in the Actions list and confirm
 
 This action can be applied to data disks. It allows deleting a data disk from the system.
 
-Click "Delete" in the Actions list and confirm your action in the dialogue window. 
+Click "Delete" in the Actions list and confirm your action in the dialog window. 
 
 If a volume has snapshots the system will ask you if you want to delete them as well. Click "YES" to delete the snapshots of the volume. Click "NO" to keep them.
 

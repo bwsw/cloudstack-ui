@@ -178,6 +178,7 @@ We changed the templates and ISOs view making it more obvious and neat to use. A
 
 #### Snapshots
 
+
 We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes in the system. A user can view the list of snapshots and filter or group it by type or account (available to Administrators). We also added filtering snapshots by date.
 
 In the details sidebar a user can see the snapshot general information and the volume that the snapshot is created for.
@@ -185,11 +186,13 @@ In the details sidebar a user can see the snapshot general information and the v
 Here the action box also allows a user to create template or volume from the snapshot, revert a volume to the snapshot, or delete a snapshot.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsView.png" target="_blank">![Snapshots view](./screens/snapshotsView_mini.png)</a>&nbsp;&nbsp;
+
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsDetails.png" target="_blank">![Snapshots view 2](./screens/snapshotsDetails_mini.png)</a>
 
 #### Firewall 
 
 Firewall section includes three views: Firewall templates, Shared security groups and Private security groups.
+
 
 It is important to understand the concept of Firewall *templates*. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group defined in the configuration file, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a *private* security group used for that virtual machine only. 
 
@@ -252,7 +255,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bwsw/cloudstack-ui:1.411.21
+           bwsw/cloudstack-ui:1.411.22
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)
@@ -268,6 +271,7 @@ Additionally, you can change favicon and CloudStack logo on login screen and in 
 -v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \
 -v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
 ```
+
 where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on the login screen and `cloudstack_logo_light.png` is the CloudStack logo displayed in the sidebar with the light theme.
 
 ### Assisting object cleanup container
