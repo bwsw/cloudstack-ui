@@ -2,7 +2,7 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as isEqual from 'lodash/isEqual';
 import { DayOfWeek, TimeFormat } from '../../../../shared/types';
-import { Time } from '../../time-picker/time-picker.component';
+import { Time } from '../../../../shared/components/time-picker/time-picker.component';
 
 
 export interface WeeklyPolicy extends Time {

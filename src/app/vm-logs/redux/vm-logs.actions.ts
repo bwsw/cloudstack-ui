@@ -6,6 +6,10 @@ export const LOAD_VM_LOGS_RESPONSE = '[VM Logs] LOAD_VM_LOGS_RESPONSE';
 export const VM_LOGS_FILTER_UPDATE = '[VM Logs] VM_LOGS_FILTER_UPDATE';
 export const VM_LOGS_ADD_KEYWORD = '[VM Logs] VM_LOGS_ADD_KEYWORD';
 export const VM_LOGS_REMOVE_KEYWORD = '[VM Logs] VM_LOGS_REMOVE_KEYWORD';
+export const VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE';
+export const VM_LOGS_UPDATE_START_TIME = '[VM Logs] VM_LOGS_UPDATE_START_TIME';
+export const VM_LOGS_UPDATE_END_DATE = '[VM Logs] VM_LOGS_UPDATE_END_DATE';
+export const VM_LOGS_UPDATE_END_TIME = '[VM Logs] VM_LOGS_UPDATE_END_TIME';
 
 export class LoadVmLogsRequest implements Action {
   type = LOAD_VM_LOGS_REQUEST;
@@ -45,4 +49,37 @@ export class VmLogsRemoveKeyword implements Action {
   }
 }
 
-export type Actions = LoadVmLogsResponse | LoadVmLogsRequest | VmLogsFilterUpdate;
+export class VmLogsUpdateStartDate implements Action {
+  type = VM_LOGS_UPDATE_START_DATE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VmLogsUpdateStartTime implements Action {
+  type = VM_LOGS_UPDATE_START_TIME;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VmLogsUpdateEndDate implements Action {
+  type = VM_LOGS_UPDATE_END_DATE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class VmLogsUpdateEndTime implements Action {
+  type = VM_LOGS_UPDATE_END_TIME;
+
+  constructor(public payload: any) {
+  }
+}
+
+export type Actions =
+  LoadVmLogsResponse
+  | LoadVmLogsRequest
+  | VmLogsFilterUpdate
+  | VmLogsAddKeyword
+  | VmLogsRemoveKeyword;

@@ -135,6 +135,8 @@ import { MaterialModule } from '../material/material.module';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
 import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
+import { DayPeriodComponent } from './components/day-period/day-period.component';
 
 // tslint:enable max-line-length
 
@@ -225,7 +227,9 @@ const SHARED_COMPONENTS = [
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
-    KeyboardsComponent
+    KeyboardsComponent,
+    TimePickerComponent,
+    DayPeriodComponent
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -313,7 +317,9 @@ const SHARED_COMPONENTS = [
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
-    KeyboardsComponent
+    KeyboardsComponent,
+    TimePickerComponent,
+    DayPeriodComponent
   ],
   providers: [
     AccountService,

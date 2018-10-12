@@ -4,12 +4,16 @@ import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
 import { Keyword } from '../models/keyword.model';
 import { LoadVmLogsRequestParams } from '../models/load-vm-logs-request-params';
+import { DateObject } from '../models/date-object.model';
+import moment = require('moment');
 
 export interface State extends EntityState<VmLog> {
   loading: boolean,
   filters: {
     selectedVmId: string,
-    keywords: Array<Keyword>
+    keywords: Array<Keyword>,
+    startDate: DateObject,
+    endDate: DateObject,
   }
 }
 
@@ -30,7 +34,24 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   filters: {
     selectedVmId: null,
-    keywords: []
+    keywords: [],
+    startDate: moment()
+      .add(-1, 'days')
+      .set({
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: 0,
+      })
+      .toObject(),
+    endDate: moment()
+      .set({
+        hours: 23,
+        minutes: 59,
+        seconds: 59,
+        milliseconds: 999,
+      })
+      .toObject(),
   }
 });
 
@@ -83,6 +104,84 @@ export function reducer(
       };
     }
 
+    case vmLogsActions.VM_LOGS_UPDATE_START_DATE: {
+      const update = moment(action.payload).toObject();
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          startDate: {
+            ...state.filters.startDate,
+            years: update.years,
+            months: update.months,
+            date: update.date,
+          }
+        }
+      };
+    }
+
+    case vmLogsActions.VM_LOGS_UPDATE_START_TIME: {
+      // todo: remove
+      if (
+        action.payload.hour === state.filters.startDate.hours
+        && action.payload.minute === state.filters.startDate.minutes
+      ) {
+        return state;
+      }
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          startDate: {
+            ...state.filters.startDate,
+            hours: action.payload.hour,
+            minutes: action.payload.minute,
+          }
+        }
+      };
+    }
+
+    case vmLogsActions.VM_LOGS_UPDATE_END_DATE: {
+      const update = moment(action.payload).toObject();
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          endDate: {
+            ...state.filters.endDate,
+            years: update.years,
+            months: update.months,
+            date: update.date,
+          }
+        }
+      };
+    }
+
+    case vmLogsActions.VM_LOGS_UPDATE_END_TIME: {
+      // todo: remove
+      if (
+        action.payload.hour === state.filters.endDate.hours
+        && action.payload.minute === state.filters.endDate.minutes
+      ) {
+        return state;
+      }
+
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          endDate: {
+            ...state.filters.endDate,
+            hours: action.payload.hour,
+            minutes: action.payload.minute,
+          }
+        }
+      };
+    }
+
     default: {
       return state;
     }
@@ -124,12 +223,42 @@ export const filterKeywords = createSelector(
   state => state.keywords
 );
 
+export const filterStartDate = createSelector(
+  filters,
+  state => state.startDate
+);
+
+export const filterStartTime = createSelector(
+  filters,
+  state => ({
+    hour: state.startDate.hours,
+    minute: state.startDate.minutes
+  })
+);
+
+export const filterEndDate = createSelector(
+  filters,
+  state => state.endDate
+);
+
+export const filterEndTime = createSelector(
+  filters,
+  state => ({
+    hour: state.endDate.hours,
+    minute: state.endDate.minutes
+  })
+);
+
 export const loadVmLogsRequestParams = createSelector(
   filterSelectedVmId,
   filterKeywords,
-  (id, keywords): LoadVmLogsRequestParams => {
+  filterStartDate,
+  filterEndDate,
+  (id, keywords, startDate, endDate): LoadVmLogsRequestParams => {
     const fields = {
-      keywords: keywords.map(keyword => keyword.text).join(',')
+      keywords: keywords.map(keyword => keyword.text).join(','),
+      startDate: moment(startDate).toISOString().slice(0, -1),
+      endDate: moment(endDate).toISOString().slice(0, -1)
     };
 
     return Object.keys(fields).reduce((acc, key) => {

@@ -14,39 +14,45 @@
     </mat-select>
   </mat-form-field>
 
-  <!--<cs-date-picker-->
-    <!--[okLabel]="'COMMON.OK' | translate"-->
-    <!--[locale]="'ru'"-->
-    <!--[firstDayOfWeek]="1"-->
-    <!--[DateTimeFormat]="dateTimeFormat"-->
-    <!--[cancelLabel]="'COMMON.CANCEL' | translate"-->
-    <!--[ngModel]="date"-->
-  <!--&gt;</cs-date-picker>-->
+  <div class="date-time">
+    <cs-date-picker
+      [label]="'LOGS_PAGE.FILTERS.START_DATE'"
+      [okLabel]="'COMMON.OK' | translate"
+      [locale]="locale"
+      [firstDayOfWeek]="firstDayOfWeek"
+      [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+      [cancelLabel]="'COMMON.CANCEL' | translate"
+      [ngModel]="startDate"
+      (change)="onStartDateChange.emit($event)"
+    ></cs-date-picker>
 
-  <!--<mat-form-field>-->
-    <!--<input-->
-      <!--matInput-->
-      <!--[ngModel]="'12:00'"-->
-      <!--[placeholder]="'Start time'"-->
-    <!--&gt;-->
-  <!--</mat-form-field>-->
+    <cs-time-picker
+      [label]="'LOGS_PAGE.FILTERS.START_TIME'"
+      [timeFormat]="'hour24'"
+      [ngModel]="startTime"
+      (ngModelChange)="onStartTimeChange.emit($event)"
+    ></cs-time-picker>
+  </div>
 
-  <!--<cs-date-picker-->
-    <!--[okLabel]="'COMMON.OK' | translate"-->
-    <!--[locale]="'ru'"-->
-    <!--[firstDayOfWeek]="1"-->
-    <!--[DateTimeFormat]="dateTimeFormat"-->
-    <!--[cancelLabel]="'COMMON.CANCEL' | translate"-->
-    <!--[ngModel]="date"-->
-  <!--&gt;</cs-date-picker>-->
+  <div class="date-time">
+    <cs-date-picker
+      [label]="'LOGS_PAGE.FILTERS.END_DATE'"
+      [okLabel]="'COMMON.OK' | translate"
+      [locale]="locale"
+      [firstDayOfWeek]="firstDayOfWeek"
+      [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+      [cancelLabel]="'COMMON.CANCEL' | translate"
+      [ngModel]="endDate"
+      (change)="onEndDateChange.emit($event)"
+    ></cs-date-picker>
 
-  <!--<mat-form-field>-->
-    <!--<input-->
-      <!--matInput-->
-      <!--[ngModel]="'12:00'"-->
-      <!--[placeholder]="'End time'"-->
-    <!--&gt;-->
-  <!--</mat-form-field>-->
+    <cs-time-picker
+      [label]="'LOGS_PAGE.FILTERS.END_TIME'"
+      [timeFormat]="'hour24'"
+      [ngModel]="endTime"
+      (ngModelChange)="onEndTimeChange.emit($event)"
+    ></cs-time-picker>
+  </div>
 </div>
 
 <div class="filter-wrapper">
@@ -63,9 +69,9 @@
     </button>
   </div>
   <!--<mat-checkbox-->
-    <!--[ngModel]="newestFirst"-->
-    <!--(change)="onNewestFirstChange.emit()"-->
+  <!--[ngModel]="newestFirst"-->
+  <!--(change)="onNewestFirstChange.emit()"-->
   <!--&gt;-->
-    <!--Newest first-->
+  <!--Newest first-->
   <!--</mat-checkbox>-->
 </div>

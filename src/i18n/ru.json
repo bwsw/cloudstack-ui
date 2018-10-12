@@ -1420,7 +1420,11 @@
     "FILTERS": {
       "SELECT_VM": "Выберите ВМ",
       "KEYWORDS": "Ключевые слова",
-      "SHOW_LOGS": "Показать логи"
+      "SHOW_LOGS": "Показать логи",
+      "START_DATE": "Начальная дата",
+      "START_TIME": "",
+      "END_DATE": "Конечная дата",
+      "END_TIME": ""
     },
     "LIST": {
       "DATE": "Дата",

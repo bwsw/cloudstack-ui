@@ -1424,7 +1424,11 @@
     "FILTERS": {
       "SELECT_VM": "Select a VM",
       "KEYWORDS": "Keywords",
-      "SHOW_LOGS": "Show logs"
+      "SHOW_LOGS": "Show logs",
+      "START_DATE": "Start date",
+      "START_TIME": "",
+      "END_DATE": "End date",
+      "END_TIME": ""
     },
     "LIST": {
       "DATE": "Date",
