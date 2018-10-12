@@ -9,7 +9,6 @@ import {
   AffinityGroup,
   DiskOffering,
   InstanceGroup,
-  ServiceOffering,
   SSHKeyPair,
   Zone
 } from '../../../shared/models';
@@ -27,7 +26,6 @@ import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as diskOfferingActions from '../../../reducers/disk-offerings/redux/disk-offerings.actions';
 import * as fromDiskOfferings from '../../../reducers/disk-offerings/redux/disk-offerings.reducers';
 import * as securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
-import * as soClassActions from '../../../reducers/service-offerings/redux/service-offering-class.actions';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as sshKeyActions from '../../../reducers/ssh-keys/redux/ssh-key.actions';
@@ -39,6 +37,7 @@ import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
+import { ComputeOfferingViewModel } from '../../view-models';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -60,7 +59,6 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
       [loggerStageList]="loggerStageList$ | async"
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
-      [diskOfferingParams]="diskOfferingParams$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
@@ -88,7 +86,8 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromServiceOfferings.isLoading)),
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
-    this.store.pipe(select(fromAffinityGroups.isLoading))
+    this.store.pipe(select(fromAffinityGroups.isLoading)),
+    this.store.pipe(select(UserTagsSelectors.getIsLoading))
   ).pipe(
     map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
   );
@@ -106,7 +105,6 @@ export class VmCreationContainerComponent implements OnInit {
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
-  readonly diskOfferingParams$ = this.store.pipe(select(fromDiskOfferings.getParams));
 
   constructor(
     private store: Store<State>,
@@ -121,25 +119,22 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
-    this.store.dispatch(new soClassActions.LoadServiceOfferingClassRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
-    this.store.dispatch(new diskOfferingActions.LoadDefaultParamsRequest());
 
-    this.getDefaultVmName()
-      .subscribe(displayName => this.onDisplayNameChange(displayName));
+    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit());
+    this.store.dispatch(new vmActions.VmCreationFormInit())
   }
 
   public onDisplayNameChange(displayName: string) {
     this.store.dispatch(new vmActions.VmFormUpdate({ displayName }));
   }
 
-  public onServiceOfferingChange(serviceOffering: ServiceOffering) {
+  public onServiceOfferingChange(serviceOffering: ComputeOfferingViewModel) {
     this.store.dispatch(new vmActions.VmFormUpdate({ serviceOffering }));
   }
 
@@ -202,7 +197,6 @@ export class VmCreationContainerComponent implements OnInit {
   private getDefaultVmName(): Observable<string> {
     return this.store.pipe(
       select(UserTagsSelectors.getLastVMId),
-      first(),
       map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
   }
 }

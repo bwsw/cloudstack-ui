@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "serviceOfferingAvailability",
+  "oneOf": [
+    { "$ref": "#/definitions/FilterOfferingEnabled" },
+    { "$ref": "#/definitions/FilterOfferingDisabled" }
+  ],
+  "definitions": {
+    "FilterOfferingEnabled": {
+      "type": "object",
+      "required":[ "filterOfferings", "zones" ],
+      "properties": {
+        "filterOfferings": {
+          "const": true
+        },
+        "zones": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/OfferingsForZone"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "FilterOfferingDisabled": {
+      "type": "object",
+      "required":[ "filterOfferings" ],
+      "properties": {
+        "filterOfferings": {
+          "const": false
+        },
+        "zones": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/OfferingsForZone"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "OfferingsForZone": {
+      "type": "object",
+      "properties": {
+        "diskOfferings": {
+          "$ref": "#/definitions/DiskOfferings"
+        },
+        "computeOfferings": {
+          "$ref": "#/definitions/ComputeOfferings"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DiskOfferings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ComputeOfferings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

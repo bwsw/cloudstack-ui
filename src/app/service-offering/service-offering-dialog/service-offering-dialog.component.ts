@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { ServiceOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { ComputeOfferingClass, ServiceOfferingType } from '../../shared/models';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 
@@ -17,13 +17,14 @@ export enum ServiceOfferingFromMode {
 export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public formMode = ServiceOfferingFromMode.CHANGE;
   @Input() public serviceOfferings: ComputeOfferingViewModel[];
-  @Input() public classes: Array<ServiceOfferingClass>;
+  @Input() public classes: Array<ComputeOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public serviceOfferingId: string;
   @Input() public viewMode: string;
   @Input() public virtualMachine: VirtualMachine;
   @Input() public groupings: Array<any>;
   @Input() public query: string;
+  @Input() public account: Account;
   @Input() public isVmRunning: boolean;
   @Output() public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
   @Output() public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
@@ -69,6 +70,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public isSubmitButtonDisabled(): boolean {
     const isOfferingNotSelected = !this.serviceOffering;
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
+    const isNotEnoughResourcesForCurrentOffering = this.serviceOffering && !this.serviceOffering.isAvailableByResources;
     const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
       && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
     const isSelectedOfferingDoNotHaveParams = this.serviceOffering
@@ -81,7 +83,18 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       || isNoOfferingsInCurrentViewMode
       || isSelectedOfferingFromDifferentViewMode
       || isSelectedOfferingDoNotHaveParams
-      || isSelectedOfferingDifferentFromCurrent;
+      || isSelectedOfferingDifferentFromCurrent
+      || isNotEnoughResourcesForCurrentOffering;
+  }
+
+  public isSelectedOfferingViewMode(): boolean {
+    if (this.serviceOffering && this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
+      return true;
+    }
+    if (this.serviceOffering && !this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {
+      return true;
+    }
+    return false;
   }
 
   private isSelectedOfferingDifferent(): boolean {
@@ -98,5 +111,4 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
 
     return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
   }
-
 }

@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { isOfferingLocal } from '../../../shared/models/offering.model';
-import { DiskOffering, OfferingAvailability, Zone } from '../../../shared/models';
+import { DiskOffering, ServiceOfferingAvailability, Zone } from '../../../shared/models';
 import { configSelectors } from '../../../root-store';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as fromZones from '../../zones/redux/zones.reducers';
@@ -11,7 +11,6 @@ import * as event from './disk-offerings.actions';
 
 export interface State extends EntityState<DiskOffering> {
   loading: boolean;
-  tableParams: Array<string>;
 }
 
 export interface OfferingsState {
@@ -28,8 +27,7 @@ export const adapter: EntityAdapter<DiskOffering> = createEntityAdapter<DiskOffe
 });
 
 export const initialState: State = adapter.getInitialState({
-  loading: false,
-  tableParams: []
+  loading: false
 });
 
 export function reducer(
@@ -53,13 +51,6 @@ export function reducer(
       };
     }
 
-    case event.LOAD_DEFAULT_DISK_PARAMS_RESPONSE: {
-      return {
-        ...state,
-        tableParams: action.payload
-      }
-    }
-
     default: {
       return state;
     }
@@ -72,11 +63,6 @@ export const getOfferingsState = createFeatureSelector<OfferingsState>('disk-off
 export const getOfferingsEntitiesState = createSelector(
   getOfferingsState,
   state => state.list
-);
-
-export const getParams = createSelector(
-  getOfferingsEntitiesState,
-  state => state.tableParams
 );
 
 export const {
@@ -93,7 +79,7 @@ export const isLoading = createSelector(
 
 const isDiskOfferingAvailableInZone = (
   offering: DiskOffering,
-  offeringAvailability: OfferingAvailability,
+  offeringAvailability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (offeringAvailability.zones[zone.id]) {
@@ -111,7 +97,7 @@ export const getSelectedOffering = createSelector(
 
 const getOfferingsAvailableInZone = (
   offeringList: Array<DiskOffering>,
-  offeringAvailability: OfferingAvailability,
+  offeringAvailability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (!offeringAvailability.filterOfferings) {
@@ -133,7 +119,7 @@ const getOfferingsAvailableInZone = (
 
 export const getAvailableOfferings = createSelector(
   selectAll,
-  configSelectors.get('offeringAvailability'),
+  configSelectors.get('serviceOfferingAvailability'),
   fromZones.getSelectedZone,
   (diskOfferings, availability, zone) => {
     if (zone && availability) {

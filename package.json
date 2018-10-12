@@ -1,6 +1,6 @@
 {
   "name": "cloudstack-ui",
-  "version": "1.410.19",
+  "version": "1.411.21",
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
@@ -13,6 +13,7 @@
     "lint": "ng lint",
     "lint:ci": "mkdir -p reports; ng lint cloudstack-ui --format checkstyle > reports/checkstyle-result.xml",
     "e2e": "ng e2e",
+    "coveralls": "cat ./reports/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "private": true,
@@ -68,6 +69,7 @@
     "codelyzer": "~4.2.1",
     "conventional-changelog": "^2.0.3",
     "conventional-changelog-cli": "^2.0.5",
+    "coveralls": "^3.0.2",
     "jasmine-core": "~2.99.1",
     "jasmine-marbles": "^0.4.0",
     "jasmine-spec-reporter": "~4.2.1",

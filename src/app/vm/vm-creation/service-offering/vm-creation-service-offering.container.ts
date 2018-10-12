@@ -1,16 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { ComputeOfferingViewModel } from '../../view-models';
-import { State } from '../../../reducers';
+import { configSelectors, State, UserTagsActions } from '../../../root-store';
 import { selectFilteredOfferingsForVmCreation } from '../../selectors';
-import * as fromSOClasses from '../../../reducers/service-offerings/redux/service-offering-class.reducers';
 import * as serviceOfferingActions from '../../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../../reducers/service-offerings/redux/service-offerings.reducers';
 // tslint:disable-next-line
 import { ServiceOfferingFromMode } from '../../../service-offering/service-offering-dialog/service-offering-dialog.component';
-import { UserTagsActions } from '../../../root-store';
+import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
 @Component({
   selector: 'cs-vm-creation-service-offering-container',
@@ -23,6 +22,7 @@ import { UserTagsActions } from '../../../root-store';
       [selectedClasses]="selectedClasses$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
+      [account]="account$ | async"
       (onServiceOfferingUpdate)="updateServiceOffering($event)"
       (onServiceOfferingChange)="changeServiceOffering($event)"
       (viewModeChange)="onViewModeChange($event)"
@@ -32,11 +32,12 @@ import { UserTagsActions } from '../../../root-store';
     </cs-service-offering-dialog>`
 })
 export class VmCreationServiceOfferingContainerComponent implements OnInit, AfterViewInit {
-  readonly offerings$ = this.store.select(selectFilteredOfferingsForVmCreation);
-  readonly classes$ = this.store.select(fromSOClasses.selectAll);
-  readonly query$ = this.store.select(fromServiceOfferings.filterQuery);
-  readonly selectedClasses$ = this.store.select(fromServiceOfferings.filterSelectedClasses);
-  readonly viewMode$ = this.store.select(fromServiceOfferings.filterSelectedViewMode);
+  readonly offerings$ = this.store.pipe(select(selectFilteredOfferingsForVmCreation));
+  readonly classes$ = this.store.pipe(select(configSelectors.get('computeOfferingClasses')));
+  readonly query$ = this.store.pipe(select(fromServiceOfferings.filterQuery));
+  readonly selectedClasses$ = this.store.pipe(select(fromServiceOfferings.filterSelectedClasses));
+  readonly viewMode$ = this.store.pipe(select(fromServiceOfferings.filterSelectedViewMode));
+  readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
 
   public formMode = ServiceOfferingFromMode.SELECT;
 

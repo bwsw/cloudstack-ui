@@ -118,6 +118,9 @@
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Hourly schedule is turned off"
+    },
+    "COMPUTE_OFFERING": {
+      "RESOURCE_LIMIT_EXCEEDED": "The service offering cannot be selected because it doesn't fit the account resources available."
     }
   },
   "NOTIFICATIONS": {
@@ -551,7 +554,9 @@
       "DEPLOYMENT_FINISHED": "Deployment finished",
       "OS_TEMPLATE": "OS template",
       "NO_TEMPLATES": "No templates available",
-      "NO_OFFERINGS": "No offerings available"
+      "NO_OFFERINGS": "No offerings available",
+      "GENERAL": "General",
+      "ADVANCED": "Advanced"
     }
   },
   "VM_POST_ACTION": {
@@ -626,6 +631,7 @@
       "fat": "Fat",
       "sparse": "Sparse",
       "shared": "Shared",
+      "local": "Local",
       "created": "Created",
       "true": "Yes",
       "false": "No"
@@ -1654,10 +1660,12 @@
     "GB": "GB",
     "GB_VALUE": "{{ value }} GB",
     "GHZ": "GHz",
-    "IOPS": "{{ value }} IO/s",
+    "IOPS": "IOPS",
+    "IOPS_VALUE": "{{ value }} IO/s",
     "MB": "MB",
     "MB_VALUE": "{{ value }} MB",
-    "MBPS": "{{ value }} MB/s",
+    "MBPS": "MB/s",
+    "MBPS_VALUE": "{{ value }} MB/s",
     "MHZ": "MHz"
   },
   "VOLUME_ACTIONS": {
@@ -1686,28 +1694,24 @@
   },
   "DISK_OFFERING": {
     "CHOOSE_DISK_OFFERING": "Choose disk offering",
-    "TABLE": {
-      "name": "Name",
-      "bytesreadrate": "Read MB/s",
-      "byteswriterate": "Write MB/s",
-      "iopsreadrate": "Read IO/s",
-      "iopswriterate": "Write IO/s",
-      "displaytext": "Description",
-      "disksize": "Disk size",
-      "storagetype": "Storage type",
-      "provisioningtype": "Provisioning type",
-      "iscustomized": "Customized",
-      "miniops": "Min IO/s",
-      "maxiops": "Max IO/s",
+    "BANDWIDTH_MBPS": "Bandwidth (MB/s)",
+    "READ": "Read",
+    "WRITE": "Write",
+    "MIN": "Min",
+    "MAX": "Max",
+    "STORAGE_TYPE": "Storage type",
+    "STORAGE_TYPE_VALUES": {
+      "shared": "Shared",
+      "local": "Local"
+    },
+    "PROVISIONING_TYPE": "Provisioning type",
+    "PROVISIONING_TYPE_VALUES": {
       "thin": "Thin",
       "thick": "Thick",
-      "fat": "Fat",
-      "sparse": "Sparse",
-      "shared": "Shared",
-      "created": "Created",
-      "true": "Yes",
-      "false": "No"
-    }
+      "fat": "Fat"
+    },
+    "CREATED": "Created",
+    "CUSTOM": "Custom"
   },
   "VM_PASSWORD": {
     "VM_PASSWORD": "Virtual machine password",

@@ -1,28 +1,49 @@
-.table-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: inline-block !important;
-  width: 100%;
+.disk-offering-list {
+  overflow: auto;
+  height: 250px;
+}
+
+mat-expansion-panel {
+  border-top: 1px solid rgba(0,0,0, .12);
+  box-shadow: inherit !important;
+
+  &:last-child {
+    border-bottom: 1px solid rgba(0,0,0, .12);
+  }
+}
+
+mat-panel-title {
+  flex: 1 1 auto;
+  width: 25%;
+}
+
+mat-panel-description {
+  flex: 0 0 auto;
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.disk-size, .custom-label {
+  color: black;
+  margin-left: 20px;
+}
+
+.expansion-panel-content {
+  margin-left: 25px;
+  font-size: 0.9em;
 }
 
 table {
-  display: table;
-  width: 100%;
+  tr td {
+    padding-right: 10px;
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
 }
 
-tr {
-  cursor: pointer;
-}
-
-th, td {
-  white-space: nowrap;
-}
-
-td.mat-column-star {
-  width: 20px;
-  padding-right: 8px;
-}
-
-.mat-column-radioButton {
-  width: 48px;
+.text-right {
+  text-align: right;
 }

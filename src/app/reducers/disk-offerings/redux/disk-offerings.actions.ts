@@ -21,13 +21,6 @@ export class LoadOfferingsResponse implements Action {
 
 }
 
-export class LoadDefaultParamsRequest implements Action {
-  type = LOAD_DEFAULT_DISK_PARAMS_REQUEST;
-
-  constructor(public payload?:  any ) {
-  }
-}
-
 export class LoadDefaultParamsResponse implements Action {
   type = LOAD_DEFAULT_DISK_PARAMS_RESPONSE;
 
@@ -36,6 +29,4 @@ export class LoadDefaultParamsResponse implements Action {
 }
 
 export type Actions = LoadOfferingsResponse
-  | LoadOfferingsRequest
-  | LoadDefaultParamsRequest
-  | LoadDefaultParamsResponse;
+  | LoadOfferingsRequest;

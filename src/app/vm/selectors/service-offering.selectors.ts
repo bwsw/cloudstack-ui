@@ -1,18 +1,14 @@
 import { createSelector } from '@ngrx/store';
 
 import { VmCompatibilityPolicy } from '../shared/vm-compatibility-policy';
-import { ResourceStats } from '../../shared/services/resource-usage.service';
 import { ComputeOfferingViewModel } from '../view-models';
 import { isOfferingLocal } from '../../shared/models/offering.model';
-import { OfferingAvailability } from '../../shared/models/config';
 import {
-  DefaultServiceOfferingClassId,
-  ServiceOffering,
-  ServiceOfferingClass,
-  ServiceOfferingType,
-  Zone
-} from '../../shared/models';
-import { getComputeOfferingViewModel } from './view-models';
+  ComputeOfferingClass,
+  defaultComputeOfferingClass,
+  ServiceOfferingAvailability
+} from '../../shared/models/config';
+import { ServiceOffering, ServiceOfferingType, Zone } from '../../shared/models';
 import { configSelectors } from '../../root-store';
 import * as fromZones from '../../reducers/zones/redux/zones.reducers';
 import * as fromAuths from '../../reducers/auth/redux/auth.reducers';
@@ -23,16 +19,18 @@ import {
   filterSelectedViewMode,
   getSelectedOffering,
 } from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import * as fromSOClass from '../../reducers/service-offerings/redux/service-offering-class.reducers';
-
+import {
+  getComputeOfferingForVmCreation,
+  getComputeOfferingForVmEditing
+} from './view-models/compute-offering-view-model.selector';
 
 const isComputeOfferingAvailableInZone = (
   offering: ServiceOffering,
-  availability: OfferingAvailability,
+  availability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (availability.zones[zone.id]) {
-    const isOfferingExist = availability.zones[zone.id].serviceOfferings.indexOf(offering.id) !== -1;
+    const isOfferingExist = availability.zones[zone.id].computeOfferings.indexOf(offering.id) !== -1;
     return isOfferingExist;
   }
   return false;
@@ -40,7 +38,7 @@ const isComputeOfferingAvailableInZone = (
 
 const getOfferingsAvailableInZone = (
   offeringList: ComputeOfferingViewModel[],
-  availability: OfferingAvailability,
+  availability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
   if (!availability.filterOfferings) {
@@ -54,33 +52,9 @@ const getOfferingsAvailableInZone = (
   });
 };
 
-const getAvailableByResourcesSync = (
-  serviceOfferings: ComputeOfferingViewModel[],
-  availability: OfferingAvailability,
-  resourceUsage: ResourceStats,
-  zone: Zone
-) => {
-  const availableInZone = getOfferingsAvailableInZone(serviceOfferings, availability, zone);
-
-  return availableInZone.filter(offering => {
-    let enoughCpus;
-    let enoughMemory;
-
-    if (offering.iscustomized) {
-      enoughCpus = resourceUsage.available.cpus >= offering.customOfferingRestrictions.cpunumber.min;
-      enoughMemory = resourceUsage.available.memory >= offering.customOfferingRestrictions.memory.min;
-    } else {
-      enoughCpus = resourceUsage.available.cpus >= offering.cpunumber;
-      enoughMemory = resourceUsage.available.memory >= offering.memory;
-    }
-
-    return enoughCpus && enoughMemory;
-  });
-};
-
 export const getAvailableOfferingsForVmCreation = createSelector(
-  getComputeOfferingViewModel,
-  configSelectors.get('offeringAvailability'),
+  getComputeOfferingForVmCreation,
+  configSelectors.get('serviceOfferingAvailability'),
   fromVMs.getVMCreationZone,
   fromAuths.getUserAccount,
   (serviceOfferings, availability, zone, user) => {
@@ -88,15 +62,14 @@ export const getAvailableOfferingsForVmCreation = createSelector(
       return [];
     }
 
-    const resourceUsage = ResourceStats.fromAccount([user]);
-    return getAvailableByResourcesSync(serviceOfferings, availability, resourceUsage, zone);
+    return getOfferingsAvailableInZone(serviceOfferings, availability, zone);
   }
 );
 
 export const getAvailableOfferings = createSelector(
-  getComputeOfferingViewModel,
+  getComputeOfferingForVmEditing,
   getSelectedOffering,
-  configSelectors.get('offeringAvailability'),
+  configSelectors.get('serviceOfferingAvailability'),
   configSelectors.get('offeringCompatibilityPolicy'),
   fromZones.getSelectedZone,
   fromAuths.getUserAccount,
@@ -112,8 +85,7 @@ export const getAvailableOfferings = createSelector(
       return [];
     }
 
-    const resourceUsage = ResourceStats.fromAccount([user]);
-    const availableOfferings = getAvailableByResourcesSync(serviceOfferings, availability, resourceUsage, zone);
+    const availableOfferings = getOfferingsAvailableInZone(serviceOfferings, availability, zone);
 
     const filterByCompatibilityPolicy = VmCompatibilityPolicy.getFilter(compatibilityPolicy, currentOffering);
 
@@ -123,10 +95,10 @@ export const getAvailableOfferings = createSelector(
   }
 );
 
-export const classesFilter = (offering: ServiceOffering, soClasses: ServiceOfferingClass[], classesMap: any) => {
+export const classesFilter = (offering: ServiceOffering, soClasses: ComputeOfferingClass[], classesMap: any) => {
   const classes = soClasses.filter(soClass =>
-    soClass.serviceOfferings && soClass.serviceOfferings.indexOf(offering.id) > -1);
-  const showGeneral = !!classesMap[DefaultServiceOfferingClassId];
+    soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1);
+  const showGeneral = !!classesMap[defaultComputeOfferingClass.id];
   return classes.length && classes.find(soClass => classesMap[soClass.id])
     || (showGeneral && !classes.length);
 };
@@ -136,7 +108,7 @@ export const selectFilteredOfferingsForVmCreation = createSelector(
   filterSelectedViewMode,
   filterSelectedClasses,
   filterQuery,
-  fromSOClass.selectAll,
+  configSelectors.get('computeOfferingClasses'),
   (offerings, viewMode, selectedClasses, query, classes) => {
     const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
@@ -165,7 +137,7 @@ export const selectFilteredOfferings = createSelector(
   filterSelectedViewMode,
   filterSelectedClasses,
   filterQuery,
-  fromSOClass.selectAll,
+  configSelectors.get('computeOfferingClasses'),
   (offerings, viewMode, selectedClasses, query, classes) => {
     const classesMap = selectedClasses.reduce((m, i) => ({ ...m, [i]: i }), {});
     const queryLower = query && query.toLowerCase();
