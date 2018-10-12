@@ -15,6 +15,7 @@ import { IpAddress } from '../../shared/models/ip-address.model';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
+export const NicEntityName = 'Nic';
 
 @Injectable()
 @BackendResource({
@@ -91,14 +92,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public registerVmJob(job: any): Observable<any> {
-    return this.asyncJobService.queryJob(job, this.entity, this.entityModel)
-      .pipe(
-        map(result => {
-          if (result.jobresult && result.jobresult.virtualmachine) {
-            return result.jobresult.virtualmachine;
-          }
-          return result;
-        }));
+    return this.asyncJobService.queryJob(job, this.entity);
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
@@ -107,14 +101,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public addIpToNic(nicId: string): Observable<IpAddress> {
-    return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic').pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
-      map(result => result.jobresult));
+    return this.sendCommand(CSCommands.AddIpTo, { nicId }, NicEntityName).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, NicEntityName)));
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
-    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic').pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
+    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, NicEntityName).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, NicEntityName)));
   }
 
   public changeServiceOffering(

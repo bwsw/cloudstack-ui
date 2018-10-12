@@ -33,22 +33,18 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     this.event = new Subject<AsyncJob<any>>();
   }
 
-  public queryJob(
-    job: any,
-    entity = '',
-    entityModel: any = null
-  ): Observable<typeof entityModel> {
+  public queryJob(job: any, entity = ''): Observable<any> {
     const jobId = this.getJobId(job);
     const jobObservable = Observable.create(observer => {
       let interval;
       setTimeout(() => {
-        this._queryJob(jobId, observer, entity, entityModel);
+        this._queryJob(jobId, observer, entity);
         interval = setInterval(() => {
           if (jobObservable.isStopped) {
             clearInterval(interval);
             return;
           }
-          this._queryJob(jobId, observer, entity, entityModel, interval);
+          this._queryJob(jobId, observer, entity, interval);
         }, this.pollingInterval);
         this.timerIds.push(interval);
       }, this.immediatePollingInterval);
@@ -70,17 +66,16 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     jobId: string,
     observer: Observer<AsyncJob<any>>,
     entity: string,
-    entityModel: any,
     interval?: any
   ): void {
     this.sendCommand(CSCommands.QueryResult, { jobId }).pipe(
-      map(res => res as AsyncJob<typeof entityModel>))
+      map(res => res as AsyncJob<any>))
       .subscribe((asyncJob) => {
         switch (asyncJob.jobstatus) {
           case JobStatus.InProgress:
             return;
           case JobStatus.Completed:
-            observer.next(this.getResult(asyncJob, entity, entityModel));
+            observer.next(this.getResult(asyncJob, entity));
             break;
           case JobStatus.Failed: {
             observer.error(ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult })));
@@ -115,24 +110,17 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return job.id !== undefined;
   }
 
-  private getResult(
-    asyncJob: AsyncJob<typeof entityModel>,
-    entity = '',
-    entityModel: any = null
-  ): any {
+  private getResult(asyncJob: AsyncJob<any>, entity = ''): any {
     // when response is just success: true/false
     if (asyncJob.jobresult && asyncJob.jobresult.success) {
       return asyncJob.jobresult;
     }
 
     const hasEntity = asyncJob.jobinstancetype || asyncJob.jobresulttype;
-    let result;
-    if (hasEntity && (entity && entityModel)) {
-      result = this.prepareModel(asyncJob.jobresult[entity.toLowerCase()], entityModel);
-      asyncJob.jobresult = result;
-    } else {
-      result = asyncJob;
+
+    if (hasEntity && entity) {
+      return asyncJob.jobresult[entity.toLowerCase()];
     }
-    return result;
+    return asyncJob;
   }
 }

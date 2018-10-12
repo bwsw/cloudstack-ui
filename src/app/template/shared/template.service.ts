@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 import { BackendResource } from '../../shared/decorators';
@@ -20,14 +20,7 @@ import {
 export class TemplateService extends BaseTemplateService {
   public create(params: CreateTemplateBaseParams): Observable<Template> {
     return this.sendCommand(CSCommands.Create, params).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel)),
-      switchMap(template => {
-        if (params.groupId) {
-          return this.templateTagService.setGroup(template, { id: params.groupId });
-        } else {
-          return of(template);
-        }
-      }),
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
       tap(() => this.invalidateCache()));
   }
 

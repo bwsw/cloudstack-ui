@@ -20,7 +20,7 @@ export class EventService extends BaseBackendService<Event> {
   }
 
   protected prepareModel(res, entityModel?): Event {
-    const event = super.prepareModel(res, this.entityModel);
+    const event = super.prepareModel(res);
 
     event.created = moment(res.created).toDate();
     event.time = this.dateTimeFormatterService.stringifyToTime(event.created);

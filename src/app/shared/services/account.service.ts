@@ -28,7 +28,7 @@ export class AccountService extends BaseBackendService<Account> {
   public removeAccount(account: Account): Observable<Account> {
     return this.sendCommand(CSCommands.Delete, { id: account.id }).pipe(
       switchMap(job => this.asyncJobService.queryJob(job)),
-      switchMap(response => of(account)));
+      switchMap(() => of(account)));
   }
 
   public disableAccount(account: Account): Observable<Account> {

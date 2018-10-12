@@ -137,10 +137,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
     return this.sendCommand(command, params, entity);
   }
 
-  protected prepareModel(res, entityModel?): M {
-    if (entityModel) {
-      return new entityModel(res);
-    } else if (this.entityModel) {
+  protected prepareModel(res): M {
+    if (this.entityModel) {
       return new this.entityModel(res);
     }
     return res;
