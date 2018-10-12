@@ -182,7 +182,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     this.invalidateCache();
 
     return this.sendCommand(CSCommands.Register, params).pipe(
-      map(result => this.prepareModel(result[this.entity.toLowerCase()][0])),
+      map(result => result[this.entity.toLowerCase()][0]),
       switchMap(template => {
         if (params.groupId) {
           return this.templateTagService.setGroup(template, { id: params.groupId });

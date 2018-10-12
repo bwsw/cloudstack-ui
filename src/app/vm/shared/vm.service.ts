@@ -130,7 +130,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
 
     return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
-      map(result => this.prepareModel(result.virtualmachine)));
+      map(result => result.virtualmachine));
   }
 
   private commandInternal(

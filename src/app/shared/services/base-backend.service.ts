@@ -57,8 +57,6 @@ export enum CSCommands {
 
 export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
-  protected entityModel?: { new(params?): M };
-
   protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
   constructor(
@@ -126,7 +124,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
         return response;
       }
 
-      return this.prepareModel(response[entity] as M);
+      return response[entity] as M;
     }));
   }
 
@@ -135,13 +133,6 @@ export abstract class BaseBackendService<M extends BaseModel> {
     const entity = customApiFormat && customApiFormat.entity;
 
     return this.sendCommand(command, params, entity);
-  }
-
-  protected prepareModel(res): M {
-    if (this.entityModel) {
-      return new this.entityModel(res);
-    }
-    return res;
   }
 
   protected buildParams(command: string, params?: {}, entity?: string): HttpParams {
@@ -227,7 +218,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
 
     const result = response[entity] || [];
     return {
-      list: result.map(m => this.prepareModel(m)) as Array<M>,
+      list: result as Array<M>,
       meta: {
         count: response.count || 0
       }

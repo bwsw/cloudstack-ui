@@ -37,13 +37,13 @@ export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
   public create(params: SshKeyCreationData): Observable<SSHKeyPair> {
     this.invalidateCache();
     return this.sendCommand(CSCommands.Create, params).pipe(
-      map(response => this.prepareModel(response['keypair'])));
+      map(response => response['keypair']));
   }
 
   public register(params: SshKeyCreationData): Observable<SSHKeyPair> {
     this.invalidateCache();
     return this.sendCommand(CSCommands.Register, params).pipe(
-      map(response => this.prepareModel(response['keypair'])));
+      map(response => response['keypair']));
   }
 
   public reset(params): Observable<VirtualMachine> {
