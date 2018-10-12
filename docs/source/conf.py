@@ -16,8 +16,8 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
+import os
+import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
 
@@ -45,8 +45,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'CSUI'
-copyright = u'2017, Maslova'
-author = u'Maslova'
+copyright = u'2017, BWSW'
+author = u'BWSW'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -63,8 +63,9 @@ release = u'1.410.18'
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
 language = 'en'
-locale_dirs = ['locale/']
-gettext_compact = True
+locale_dirs = ['locale/']   # path is example but recommended.
+# gettext_uuid = True
+# gettext_compact = False
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
