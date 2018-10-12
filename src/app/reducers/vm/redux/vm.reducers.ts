@@ -287,7 +287,7 @@ export const selectVmGroups = createSelector(
 export const getUsingSGVMs = createSelector(
   selectAll,
   fromSGroup.getSelectedId,
-  (vms, sGroupId) => {
+  (vms: VirtualMachine[], sGroupId: string) => {
     const sGroupFilter = vm => vm.securitygroup.find(group => group.id === sGroupId);
     return vms.filter(vm => sGroupFilter(vm));
   }

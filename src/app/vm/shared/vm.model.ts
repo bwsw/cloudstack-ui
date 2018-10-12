@@ -69,6 +69,7 @@ export interface VirtualMachine extends BaseModel, Taggable {
   passwordenabled: boolean;
 }
 
-export const getInstanceGroup = (vm: VirtualMachine) => {
-  return vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+export const getInstanceGroupName = (vm: VirtualMachine) => {
+  const instanceGroup = vm && vm.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+  return instanceGroup && instanceGroup.value;
 };
