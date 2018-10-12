@@ -26,9 +26,7 @@ export class LoadVmLogsResponse implements Action {
 export class VmLogsFilterUpdate implements Action {
   type = VM_LOGS_FILTER_UPDATE;
 
-  constructor(public payload: {
-    selectedVmId: string
-  } | any) {
+  constructor(public payload: any) {
   }
 
 }

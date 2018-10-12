@@ -37,7 +37,10 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
   readonly keywords$ = this.store.pipe(select(fromVmLogs.filterKeywords));
 
   private filterService = new FilterService(
-    { vm: { type: 'string' } },
+    {
+      vm: { type: 'string' },
+      keywords: { type: 'array', defaultOption: [] }
+    },
     this.router,
     this.sessionStorage,
     FILTER_KEY,
@@ -74,9 +77,10 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
 
   private initFilters(): void {
     const params = this.filterService.getParams();
-    const selectedVmId = params['vm'];
+
     this.store.dispatch(new vmLogActions.VmLogsFilterUpdate({
-      selectedVmId
+      selectedVmId: params['vm'],
+      keywords: (params['keywords'] || []).map(text => ({ text }))
     }));
   }
 
@@ -88,6 +92,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       .subscribe(filters => {
         this.filterService.update({
           vm: filters.selectedVmId,
+          keywords: filters.keywords.map(keyword => keyword.text)
         });
       });
   }
