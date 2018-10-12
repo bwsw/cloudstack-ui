@@ -33,7 +33,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     this.event = new Subject<AsyncJob<any>>();
   }
 
-  public queryJob(job: any, entity = ''): Observable<any> {
+  public queryJob(job: any, entity: string): Observable<any> {
     const jobId = this.getJobId(job);
     const jobObservable = Observable.create(observer => {
       let interval;
@@ -110,7 +110,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     return job.id !== undefined;
   }
 
-  private getResult(asyncJob: AsyncJob<any>, entity = ''): any {
+  private getResult(asyncJob: AsyncJob<any>, entity: string): any {
     // when response is just success: true/false
     if (asyncJob.jobresult && asyncJob.jobresult.success) {
       return asyncJob.jobresult;

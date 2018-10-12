@@ -74,7 +74,7 @@ describe('Async job service', () => {
   }));
 
   it('job service polls server until a job is resolved', fakeAsync(() => {
-    asyncJobService.queryJob({ jobid: 'resolving-job-id' })
+    asyncJobService.queryJob({ jobid: 'resolving-job-id' }, '')
       .subscribe(() => expect(true).toBeTruthy());
     tick(3000);
 
@@ -89,7 +89,7 @@ describe('Async job service', () => {
   }));
 
   it('should parse failed job correctly', fakeAsync(() => {
-    asyncJobService.queryJob({ jobid: 'failing-job-id' })
+    asyncJobService.queryJob({ jobid: 'failing-job-id' }, '')
       .subscribe(
         () => {
         },

@@ -50,7 +50,6 @@ export class SSHKeyPairService extends BaseBackendCachedService<SSHKeyPair> {
     return this.sendCommand(CSCommands.ResetForVM, params, 'SSHKey').pipe(
       switchMap(job =>
         this.asyncJobService.queryJob(job.jobid, 'VirtualMachine')
-      ),
-      map(result => result.jobresult.virtualmachine));
+      ));
   }
 }

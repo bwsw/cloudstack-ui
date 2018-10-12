@@ -35,14 +35,13 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     const params = this.getSnapshotCreationParams(volumeId, name);
     return this.sendCommand(CSCommands.Create, params).pipe(
       switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
-      switchMap((response: AsyncJob<Snapshot>) => {
-        const snapshot = response.jobresult['snapshot'];
+      switchMap(response => {
 
         if (description) {
-          return this.snapshotTagService.setDescription(snapshot, description);
+          return this.snapshotTagService.setDescription(response, description);
         }
 
-        return of(snapshot);
+        return of(response);
       }));
   }
 
@@ -53,12 +52,12 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
   public remove(id: string): Observable<any> {
     this.invalidateCache();
     return this.sendCommand(CSCommands.Delete, { id }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)));
   }
 
   public revert(id: string): Observable<AsyncJob<Snapshot>> {
     return this.sendCommand(CSCommands.Revert, { id }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)));
   }
 
   public getList(volumeId?: string): Observable<Array<Snapshot>> {

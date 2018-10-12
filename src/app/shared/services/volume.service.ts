@@ -4,7 +4,7 @@ import { Observable, of, Subject, throwError } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { BackendResource } from '../decorators';
-import { AsyncJob, isDeleted, Volume, VolumeCreationData } from '../models';
+import { isDeleted, Volume, VolumeCreationData } from '../models';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService, CSCommands } from './base-backend.service';
 
@@ -67,7 +67,7 @@ export class VolumeService extends BaseBackendService<Volume> {
       ));
   }
 
-  public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<AsyncJob<Volume>> {
+  public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<Volume> {
     return this.sendCommand(CSCommands.Create, data).pipe(switchMap(job =>
       this.asyncJobService.queryJob(job.jobid, this.entity)
     ));

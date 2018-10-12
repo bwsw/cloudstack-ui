@@ -203,7 +203,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       id: template.id,
       zoneId: template.zoneid
     }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
       map(() => {
         this.onTemplateRemoved.next(template);
         return template;
