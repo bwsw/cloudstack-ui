@@ -1,17 +1,12 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { debounceTime, first } from 'rxjs/operators';
+
 import { Color } from '../../../shared/models';
-import { ConfigService } from '../../../shared/services/config.service';
 import { VirtualMachine } from '../../shared/vm.model';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
+import { configSelectors, State } from '../../../root-store';
 
 
 @Component({
@@ -24,22 +19,30 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   @Output() public onColorChange = new EventEmitter();
 
   public color: Color;
-  public colorList: Array<Color>;
+  public colorList: Array<Color> = [];
 
   // todo set inProgress while color is updating
   public colorUpdateInProgress: boolean;
   private colorSubject = new Subject<Color>();
 
   constructor(
-    private configService: ConfigService,
-    private vmTagService: VmTagService
-  ) {}
+    private vmTagService: VmTagService,
+    private store: Store<State>,
+  ) {
+  }
 
   public ngOnInit(): void {
-    this.colorList = this.configService.get('vmColors');
+    this.store.pipe(
+      select(configSelectors.get('vmColors')),
+      first()
+    ).subscribe(colors => {
+      for (const color of colors) {
+        this.colorList.push(new Color('', color.value));
+      }
+    });
 
-    this.colorSubject
-      .debounceTime(1000)
+    this.colorSubject.pipe(
+      debounceTime(1000))
       .subscribe(color => {
         this.onColorChange.emit(color);
       });

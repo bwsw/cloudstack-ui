@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subject } from 'rxjs/Subject';
-import { BackendResource } from '../decorators';
+import { Observable, Observer, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { BackendResource } from '../decorators';
 import { AsyncJob, mapCmd } from '../models';
 import { BaseBackendService, CSCommands } from './base-backend.service';
 import { ErrorService } from './error.service';
@@ -74,8 +73,8 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     entityModel: any,
     interval?: any
   ): void {
-    this.sendCommand(CSCommands.QueryResult, { jobId })
-      .map(res => res as AsyncJob<typeof entityModel>)
+    this.sendCommand(CSCommands.QueryResult, { jobId }).pipe(
+      map(res => res as AsyncJob<typeof entityModel>))
       .subscribe((asyncJob) => {
         switch (asyncJob.jobstatus) {
           case JobStatus.InProgress:
@@ -94,7 +93,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
           this.timerIds.filter(id => interval !== id);
         }
         observer.complete();
-        this.event.next({...asyncJob, cmd: mapCmd(asyncJob)});
+        this.event.next({ ...asyncJob, cmd: mapCmd(asyncJob) });
       });
   }
 

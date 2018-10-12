@@ -36,7 +36,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <span *ngIf="viewMode === SecurityGroupViewMode.Private && isOrphan">
+  <span *ngIf="viewMode === SecurityGroupViewMode.Private">
     <mat-checkbox
       name="rule-checkbox"
       [(ngModel)]="orphan"

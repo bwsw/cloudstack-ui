@@ -10,7 +10,7 @@ export abstract class BaseTemplateSidebarComponent {
   };
 
   public get isSelf(): boolean {
-    return (this.authService.user && this.authService.user.username === this.entity.account);
+    return (this.authService.user && this.authService.user.account === this.entity.account);
   }
 
   constructor(

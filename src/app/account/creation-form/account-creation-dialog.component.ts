@@ -27,7 +27,7 @@ export class AccountCreationDialogComponent {
       firstname: this.formBuilder.control('', [ Validators.required ]),
       lastname: this.formBuilder.control('', [ Validators.required ]),
       domainid: this.formBuilder.control('', [ Validators.required ]),
-      roleid: this.formBuilder.control(''),
+      roleid: this.formBuilder.control('', [ Validators.required ]),
       timezone: this.formBuilder.control(null),
       networkdomain: this.formBuilder.control(null),
     });

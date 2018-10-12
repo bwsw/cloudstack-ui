@@ -8,16 +8,13 @@
   margin: 0;
 }
 
-.mat-input-wrapper {
+.mat-form-field-wrapper {
   text-align: left;
   padding-top: 18px;
 }
 
-.ellipsis-overflow {
+.template-info {
   display: inline-block;
   width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   font-size: 11pt !important;
 }

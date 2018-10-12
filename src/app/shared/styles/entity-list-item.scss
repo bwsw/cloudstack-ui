@@ -1,0 +1,32 @@
+.entity-list-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  .entity-list-item-status-indicator {
+    position: relative;
+    left: -15px;
+  }
+
+  .entity-list-item-title {
+    margin: 0 5px 0 0;
+    font-size: 15px;
+    line-height: normal;
+    flex-grow: 1;
+    flex-basis: 100px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .entity-list-item-data {
+    flex-grow: 1;
+    flex-basis: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

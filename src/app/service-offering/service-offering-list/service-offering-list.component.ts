@@ -1,19 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import {
-  ServiceOffering,
-  ServiceOfferingClass
-} from '../../shared/models/service-offering.model';
-import { Language } from '../../shared/services/language.service';
-import { ICustomOfferingRestrictions } from '../custom-service-offering/custom-offering-restrictions';
-import {
-  CustomServiceOffering,
-  ICustomServiceOffering
-} from '../custom-service-offering/custom-service-offering';
+import { Account, ComputeOfferingClass, ServiceOffering } from '../../shared/models';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
+import { Language } from '../../shared/types';
+import { ComputeOfferingViewModel } from '../../vm/view-models';
 
 @Component({
   selector: 'cs-service-offering-list',
@@ -21,32 +16,38 @@ import { CustomServiceOfferingComponent } from '../custom-service-offering/custo
   styleUrls: ['service-offering-list.component.scss']
 })
 export class ServiceOfferingListComponent implements OnChanges {
-  @Input() public offeringList: Array<ServiceOffering>;
-  @Input() public classes: Array<ServiceOfferingClass>;
+  @Input() public offeringList: ComputeOfferingViewModel[];
+  @Input() public classes: Array<ComputeOfferingClass>;
   @Input() public selectedClasses: Array<string>;
   @Input() public query: string;
-  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
-  @Input() public defaultParams: ICustomServiceOffering;
-  @Input() public selectedOffering: ServiceOffering;
+  @Input() public selectedOffering: ComputeOfferingViewModel;
   @Input() public isLoading = false;
   @Input() public showFields: boolean;
-  @Output() public selectedOfferingChange = new EventEmitter();
+  @Input() public account: Account;
+  @Output() public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
 
-  public list: Array<{ soClass: ServiceOfferingClass, items: Array<ServiceOffering>}>;
+  public list: Array<{ soClass: ComputeOfferingClass, items: MatTableDataSource<ComputeOfferingViewModel> }>;
+  public columnsToDisplay = [];
+
+  private mainColumns = ['name', 'cpuCoresNumber', 'cpuSpeed', 'memory', 'networkRate'];
+  private allColumns = [...this.mainColumns, 'diskBytesRead', 'diskBytesWrite', 'diskIopsRead', 'diskIopsWrite'];
+
 
   constructor(
     private dialog: MatDialog,
     private translateService: TranslateService
-  ) { }
-
-  public ngOnChanges(changes): void {
-    this.getGroupedOfferings();
+  ) {
   }
 
-  public selectOffering(offering: ServiceOffering): void {
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.getGroupedOfferings();
+    this.onShowFieldsChange(changes.showFields);
+  }
+
+  public selectOffering(offering: ComputeOfferingViewModel): void {
     if (offering.iscustomized) {
-      this.showCustomOfferingDialog(offering, this.customOfferingRestrictions, this.defaultParams)
-        .filter(res => Boolean(res))
+      this.showCustomOfferingDialog(offering).pipe(
+        filter(res => Boolean(res)))
         .subscribe(customOffering => {
           this.selectedOffering = customOffering;
           this.selectedOfferingChange.emit(this.selectedOffering);
@@ -57,17 +58,12 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
-  private showCustomOfferingDialog(
-    offering: ServiceOffering,
-    restriction: ICustomOfferingRestrictions,
-    defaultParams: ICustomServiceOffering
-  ): Observable<CustomServiceOffering> {
+  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
     return this.dialog.open(CustomServiceOfferingComponent, {
       width: '370px',
       data: {
         offering,
-        defaultParams,
-        restriction
+        account: this.account
       }
     }).afterClosed();
 
@@ -77,34 +73,46 @@ export class ServiceOfferingListComponent implements OnChanges {
     return this.translateService.currentLang as Language;
   }
 
-  public getDescription(soClass: ServiceOfferingClass) {
+  public getDescription(soClass: ComputeOfferingClass) {
     return soClass && soClass.description
       && soClass.description[this.locale];
   }
 
-  public getName(soClass: ServiceOfferingClass) {
-    return soClass && soClass.name
-      && soClass.name[this.locale] || 'SERVICE_OFFERING.FILTERS.COMMON';
+  public getName(soClass: ComputeOfferingClass) {
+    if (soClass.id === 'common') {
+      return 'SERVICE_OFFERING.FILTERS.COMMON';
+    } else {
+      return soClass && soClass.name && soClass.name[this.locale] || 'empty';
+    }
   }
 
   public getGroupedOfferings() {
     const showClasses = this.classes
-      .filter(soClass => this.selectedClasses.indexOf(soClass.id) != -1);
+      .filter(soClass => this.selectedClasses.indexOf(soClass.id) !== -1);
     if (this.classes.length) {
       this.list = (showClasses.length ? showClasses : this.classes)
         .map(soClass => {
           return {
             soClass,
-            items: this.filterOfferings(this.offeringList, soClass)
+            items: new MatTableDataSource(this.filterOfferings(this.offeringList, soClass))
           };
         })
     } else {
-      this.list = [ { soClass: null, items: this.offeringList } ];
+      this.list = [{ soClass: null, items: new MatTableDataSource(this.offeringList) }];
     }
   }
 
-  public filterOfferings(list: ServiceOffering[], soClass: ServiceOfferingClass) {
-    const classesMap = [ soClass ].reduce((m, i) => ({ ...m, [i.id]: i }), {});
+  public filterOfferings(list: ComputeOfferingViewModel[], soClass: ComputeOfferingClass) {
+    const classesMap = [soClass].reduce((m, i) => ({ ...m, [i.id]: i }), {});
     return list.filter(offering => classesFilter(offering, this.classes, classesMap));
+  }
+
+  private onShowFieldsChange(showFields: SimpleChange) {
+    const radio = 'radioButton';
+    if (!showFields) {
+      return;
+    }
+
+    this.columnsToDisplay = showFields.currentValue ? [...this.allColumns, radio] : [...this.mainColumns, radio];
   }
 }

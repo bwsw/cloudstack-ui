@@ -241,7 +241,7 @@ docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bwsw/cloudstack-ui:1.411.21
+           bwsw/cloudstack-ui:1.411.22
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)
@@ -251,13 +251,13 @@ docker run -d -p 80:80 --name cloudstack-ui \
 `/path/to/config.json` - path to a custom configuration file named ```config.json``` (optional)
 
 Additionally, you can change favicon and CloudStack logo on login screen and in the sidebar:
+
 ```
 -v /path/to/favicon.ico:/static/img/favicon.ico \
 -v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \
 -v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
--v /path/to/cloudstack_logo_dark.png:/static/img/cloudstack_logo_dark.png
 ```
-where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` and `cloudstack_logo_dark.png` are CloudStack logos displayed in sidebar with dark and light theme respectively.
+where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` is the CloudStack logo displayed in the sidebar with light theme.
 
 ### Assisting object cleanup container
 

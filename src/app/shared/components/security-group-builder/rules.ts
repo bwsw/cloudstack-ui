@@ -4,8 +4,8 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 
 export class Rules { // defines what should be passed to inputRules
   public static createWithAllRulesSelected(securityGroups: Array<SecurityGroup>): Rules {
-    const ingress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.ingressRules), []);
-    const egress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.egressRules), []);
+    const ingress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.ingressrule), []);
+    const egress = securityGroups.reduce((acc, securityGroup) => acc.concat(securityGroup.egressrule), []);
 
     return new Rules(securityGroups, ingress, egress);
   }

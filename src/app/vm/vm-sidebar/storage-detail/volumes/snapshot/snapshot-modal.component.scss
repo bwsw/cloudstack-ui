@@ -34,3 +34,13 @@ tbody:hover {
     white-space: normal;
   }
 }
+
+table {
+  width: 100%;
+
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

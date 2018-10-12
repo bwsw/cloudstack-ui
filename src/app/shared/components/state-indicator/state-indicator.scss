@@ -1,0 +1,35 @@
+// All supported states and their colors
+// Selectors with ":before" used for round indicator
+
+.running, .enabled, .backed-up,
+.running:before, .enabled:before, .backed-up:before {
+  color: #388E3C;
+  background-color: #388E3C;
+}
+
+.in-progress, .stopping,
+.backing-up, .creating,
+.in-progress:before, .stopping:before,
+.backing-up:before, .creating:before {
+  color: #FFA726;
+  background-color: #FFA726;
+}
+
+.allocated,
+.allocated:before {
+  color: #A3A3A3;
+  background-color: #A3A3A3;
+}
+
+.stopped, .disabled,
+.locked, .error,
+.stopped:before, .disabled:before,
+.locked:before, .error:before {
+  color: #B71C1C;
+  background-color: #B71C1C;
+}
+
+.destroyed,
+.destroyed:before {
+  background-color: #212121;
+}

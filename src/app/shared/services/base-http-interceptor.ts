@@ -1,17 +1,17 @@
-import {
-  Injectable,
-  Injector
-} from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { NotificationService } from './notification.service';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+import { SnackBarService } from '../../core/services';
 import { RouterUtilsService } from './router-utils.service';
 import { AuthService } from './auth.service';
 
@@ -20,7 +20,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
   private authService: AuthService;
   private router: Router;
   private routerUtilsService: RouterUtilsService;
-  private notificationService: NotificationService;
+  private notificationService: SnackBarService;
 
   constructor(
     private injector: Injector
@@ -35,18 +35,26 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     this.authService = this.injector.get(AuthService);
     this.router = this.injector.get(Router);
     this.routerUtilsService = this.injector.get(RouterUtilsService);
-    this.notificationService = this.injector.get(NotificationService);
+    this.notificationService = this.injector.get(SnackBarService);
     const user = this.authService.user;
     const sessionKey = user && user.sessionkey;
-    const request = sessionKey ? req.clone({
-      params: req.params.set('sessionKey', sessionKey)
-    }) : req;
-    return next.handle(request).do((event: HttpEvent<any>) => {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
+      })
+    };
+    const cloneParams = sessionKey ?
+      { params: req.params.set('sessionKey', sessionKey), ...httpOptions } :
+      httpOptions;
+    const request = req.clone(cloneParams);
 
-    }, (err: any) => {
+    return next.handle(request).pipe(
+      tap((event: HttpEvent<any>) => {}, (err: any) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
 
-        this.notificationService.message('AUTH.NOT_LOGGED_IN');
+        this.notificationService.open('AUTH.NOT_LOGGED_IN').subscribe();
         const route = this.routerUtilsService.getRouteWithoutQueryParams();
         if (route !== '/login' && route !== '/logout') {
           this.router.navigate(
@@ -55,8 +63,6 @@ export class BaseHttpInterceptor implements HttpInterceptor {
           );
         }
       }
-
-    });
-
+    }));
   }
 }

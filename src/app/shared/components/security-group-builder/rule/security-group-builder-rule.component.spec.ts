@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
 import { MockTranslateService } from '../../../../../testutils/mocks/mock-translate.service.spec';
-import { NetworkRule } from '../../../../security-group/network-rule.model';
+import { NetworkProtocol } from '../../../../security-group/network-rule.model';
 import { RuleListItem } from '../security-group-builder.component';
 import { SecurityGroupBuilderRuleComponent } from './security-group-builder-rule.component';
 import { NetworkRuleType } from '../../../../security-group/sg.model';
@@ -17,13 +17,13 @@ describe('Sg creation rule component', () => {
 
   const mockRuleItem: RuleListItem = {
     checked: false,
-    rule: new NetworkRule({
-      'ruleid': 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
-      'protocol': 'udp',
-      'startport': 1,
-      'endport': 65535,
-      'cidr': '0.0.0.0/0',
-    }),
+    rule: {
+      ruleid: 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
+      protocol: NetworkProtocol.UDP,
+      startport: 1,
+      endport: 65535,
+      cidr: '0.0.0.0/0',
+    },
     type: NetworkRuleType.Ingress
   };
 

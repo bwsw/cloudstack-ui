@@ -1,12 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { Volume, getDescription } from '../../../shared/models';
+import { Volume } from '../../../shared/models';
 import { DiskOfferingService } from '../../../shared/services/disk-offering.service';
 import { ZoneService } from '../../../shared/services/zone.service';
 import { VolumeItemComponent } from '../volume-item.component';
@@ -29,9 +23,5 @@ export class VolumeCardItemComponent extends VolumeItemComponent {
     protected zoneService: ZoneService
   ) {
     super(diskOfferingService, zoneService);
-  }
-
-  public getDescription(item: Volume): string {
-    return getDescription(item);
   }
 }

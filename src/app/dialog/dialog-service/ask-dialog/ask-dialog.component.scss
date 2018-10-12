@@ -1,4 +1,5 @@
-:host button {
+button {
   text-align: end;
   width: 100%;
+  margin-left: 0 !important; // overwrite angular material style
 }

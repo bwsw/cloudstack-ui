@@ -1,0 +1,157 @@
+{
+  "defaultDomain": "domain",
+  "sessionRefreshInterval": 60,
+  "apiDocLink": "https://cloudstack.apache.org/api/apidocs-4.11/",
+  "extensions": {
+    "webShell": true,
+    "pulse": true
+  },
+  "vmColors": [
+    { "value": "#F44336" },
+    { "value": "#E91E63" },
+    { "value": "#9C27B0" },
+    { "value": "#673AB7" },
+    { "value": "#3F51B5" }
+  ],
+  "securityGroupTemplates": [
+    {
+      "id": "templateTCP",
+      "name": "TCP Permit All",
+      "description": "Permits all TPC traffic",
+      "preselected": false,
+      "ingressrule": [
+        {
+          "ruleid": "templateTCP-rule-ingress",
+          "protocol": "tcp",
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
+        }
+      ],
+      "egressrule": [
+        {
+          "ruleid": "templateTCP-rule-egress",
+          "protocol": "tcp",
+          "startport": 1,
+          "endport": 65535,
+          "cidr": "0.0.0.0/0"
+        }
+      ]
+    },
+    {
+      "id": "templateICMP",
+      "name": "ICMP Permit Egress",
+      "description": "Permits all egress ICMP traffic",
+      "preselected": true,
+      "ingressrule": [],
+      "egressrule": [
+        {
+          "ruleid": "templateICMP-rule-egress",
+          "icmpcode": -1,
+          "icmptype": -1,
+          "protocol": "icmp",
+          "cidr": "0.0.0.0/0"
+        }
+      ]
+    }
+  ],
+  "imageGroups": [
+    {
+      "id": "id-234",
+      "translations": {
+        "ru": "Имя группы",
+        "en": "Group Name"
+      }
+    }
+  ],
+  "defaultFirstDayOfWeek": 0,
+  "defaultInterfaceLanguage": "en",
+  "defaultTimeFormat": "hour24",
+  "defaultTheme": "blue-red",
+  "sessionTimeout": 30,
+  "allowReorderingSidenav": true,
+  "configureSidenav": [
+    { "id": "VMS" },
+    { "id": "VOLUMES", "visible": true },
+    { "id": "TEMPLATES", "visible": true },
+    { "id": "SNAPSHOTS", "visible": true },
+    { "id": "SGS", "visible": true },
+    { "id": "EVENTS", "visible": true },
+    { "id": "SSH", "visible": true },
+    { "id": "ACCOUNTS", "visible": true },
+    { "id": "SETTINGS", "visible": true }
+  ],
+  "customComputeOfferingParameters": [
+    {
+      "offeringId": "73cdef05-d01f-49ad-8ecb-4f2ffd7d8e26",
+      "cpunumber": {
+        "min": 2,
+        "max": 8,
+        "value": 4
+      },
+      "cpuspeed": {
+        "min": 1000,
+        "max": 3000,
+        "value": 1500
+      },
+      "memory": {
+        "min": 512,
+        "max": 8192,
+        "value": 512
+      }
+    }
+  ],
+  "defaultComputeOffering": [
+    {
+      "zoneId": "415db026-1135-496e-9383-0c820a75694e",
+      "offeringId": "f216bd08-947a-4022-8271-c29e9acfffb9"
+    }
+  ],
+  "offeringCompatibilityPolicy": {
+    "offeringChangePolicy": "exactly-match",
+    "offeringChangePolicyIgnoreTags": ["t1"]
+  },
+  "computeOfferingClasses": [
+    {
+      "id": "classId-1",
+      "name": {
+        "ru": "Имя класса - 1",
+        "en": "Class name - 1"
+      },
+      "description": {
+        "ru": "Описание класса - 1",
+        "en": "Class description - 1"
+      },
+      "computeOfferings": [
+        "9c81af12-f15b-41f0-9dec-2a837e1dec29"
+      ]
+    },
+    {
+      "id": "classId-2",
+      "name": {
+        "ru": "Имя класса - 2",
+        "en": "Class name - 2"
+      },
+      "description": {
+        "ru": "Описание класса - 2",
+        "en": "Class description - 2"
+      },
+      "computeOfferings": [
+        "9c81af12-f15b-41f0-9dec-2a837e1dec29"
+      ]
+    }
+  ],
+  "serviceOfferingAvailability": {
+    "filterOfferings": true,
+    "zones": {
+      "415db026-1135-496e-9383-0c820a75694e": {
+        "diskOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1d23er"],
+        "computeOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1dec29"]
+      }
+    }
+  },
+  "defaultSecurityGroupName": {
+    "en": "default name",
+    "ru": "имя по умолчанию"
+  }
+}

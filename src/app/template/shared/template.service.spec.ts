@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, inject, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { TagService } from '../../shared/services/tags/tag.service';
 import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
@@ -33,16 +33,16 @@ describe('Template service test', () => {
       snapshotid: '123',
       entity: 'Template'
     };
-    const template = new Template(params);
+    const template = params;
     const spySend = spyOn(testService, 'sendCommand').and.callFake(() => {
-      return Observable.of({
+      return of({
         'id': '1',
         'jobid': 'job1'
       });
     });
 
     const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and
-      .returnValue(Observable.of(template));
+      .returnValue(of(template));
 
     testService.create(params).subscribe(res => {
       expect(res).toEqual(template);
@@ -62,26 +62,25 @@ describe('Template service test', () => {
       groupId: 'group1',
       entity: 'Template'
     };
-    const template1 = new Template(params);
-    const template2 = Object.assign(
-      {},
-      new Template(params),
-      { tags: [{ key: TemplateTagKeys.group, value: 'group1' }] }
-    );
+    const template1 = params;
+    const template2 = {
+      ...params,
+      tags: [{ key: TemplateTagKeys.group, value: 'group1' }]
+    };
 
     const spySend = spyOn(testService, 'sendCommand').and.callFake(() => {
-      return Observable.of({
+      return of({
         'id': '1',
         'jobid': 'job1'
       });
     });
 
     const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and
-      .returnValue(Observable.of(template1));
+      .returnValue(of(template1));
     const spySetGroup = spyOn(testService.templateTagService, 'setGroup').and
       .callThrough();
     const spyUpdate = spyOn(testService.templateTagService.tagService, 'update').and
-      .returnValue(Observable.of(template2));
+      .returnValue(of(template2));
 
     testService.create(params).subscribe(res => {
       expect(res).toEqual(template2);
@@ -107,9 +106,9 @@ describe('Template service test', () => {
       format: 'QCOW2',
       requiresHvm: true
     });
-    const template = new Template(params);
+    const template = params;
     const spyRegister = spyOn(BaseTemplateService.prototype, 'register').and
-      .returnValue(Observable.of(template));
+      .returnValue(of(template));
 
     testService.register(params).subscribe(res => {
       expect(res).toEqual(template);
@@ -117,5 +116,4 @@ describe('Template service test', () => {
 
     expect(spyRegister).toHaveBeenCalledWith(requestParams);
   })));
-
 });

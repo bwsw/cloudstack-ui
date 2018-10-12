@@ -1,28 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Rules } from '../../shared/components/security-group-builder/rules';
 import { BackendResource } from '../../shared/decorators';
-import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
-import { ConfigService } from '../../shared/services/config.service';
+import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { SecurityGroupTagService } from '../../shared/services/tags/security-group-tag.service';
-import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import { SecurityGroup } from '../sg.model';
 import { PrivateSecurityGroupCreationService } from './creation-services/private-security-group-creation.service';
 import { SharedSecurityGroupCreationService } from './creation-services/shared-security-group-creation.service';
 import { TemplateSecurityGroupCreationService } from './creation-services/template-security-group-creation.service';
-import { HttpClient } from '@angular/common/http';
 
 
 export const GROUP_POSTFIX = '-cs-sg';
 
 @Injectable()
 @BackendResource({
-  entity: 'SecurityGroup',
-  entityModel: SecurityGroup
+  entity: 'SecurityGroup'
 })
-export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup> {
+export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
   constructor(
     protected http: HttpClient,
-    private configService: ConfigService,
     private privateSecurityGroupCreation: PrivateSecurityGroupCreationService,
     private securityGroupTagService: SecurityGroupTagService,
     private sharedSecurityGroupCreation: SharedSecurityGroupCreationService,
@@ -31,44 +30,25 @@ export class SecurityGroupService extends BaseBackendCachedService<SecurityGroup
     super(http);
   }
 
-  public getPredefinedTemplates(): Array<SecurityGroup> {
-    return this.configService
-      .get('securityGroupTemplates')
-      .map(group => new SecurityGroup(group));
-  }
-
-  public getSharedGroups(): Observable<Array<SecurityGroup>> {
-    return this.getList()
-      .map(sharedGroups => {
-        return sharedGroups.filter(group => {
-          return getType(group) === SecurityGroupType.Shared;
-        });
-      });
-  }
-
   public createShared(data: any, rules?: Rules): Observable<SecurityGroup> {
-    this.invalidateCache();
     return this.sharedSecurityGroupCreation.createGroup(data, rules);
   }
 
   public createTemplate(data: any, rules?: Rules): Observable<SecurityGroup> {
-    this.invalidateCache();
     return this.templateSecurityGroupCreation.createGroup(data, rules);
   }
 
   public createPrivate(data: any, rules?: Rules): Observable<SecurityGroup> {
-    this.invalidateCache();
     return this.privateSecurityGroupCreation.createGroup(data, rules);
   }
 
   public deleteGroup(securityGroup: SecurityGroup): Observable<any> {
-    this.invalidateCache();
-    return this.remove({ id: securityGroup.id })
-      .map(result => {
+    return this.remove({ id: securityGroup.id }).pipe(
+      map(result => {
         if (!result || result.success !== 'true') {
-          return Observable.throw(result);
+          return throwError(result);
         }
-      });
+      }));
   }
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<any> {

@@ -6,8 +6,7 @@ import { Role } from '../models/role.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'Role',
-  entityModel: Role
+  entity: 'Role'
 })
 export class RoleService extends BaseBackendService<Role> {
   constructor(protected http: HttpClient) {

@@ -6,13 +6,11 @@ import {
   EventEmitter,
   Input,
   Output,
-  Renderer,
+  Renderer2,
   ViewChild
 } from '@angular/core';
 
-import {
-  cloneDate,
-} from './dateUtils';
+import { cloneDate } from './dateUtils';
 
 
 @Component({
@@ -35,8 +33,9 @@ export class CalendarYearComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private renderer: Renderer
-  ) { }
+    private renderer: Renderer2
+  ) {
+  }
 
   public ngAfterViewInit(): void {
     this.scrollIntoSelectedYear();
@@ -51,11 +50,7 @@ export class CalendarYearComponent implements AfterViewInit {
 
     for (let year = minYear; year <= maxYear; year++) {
       dateCheck.setFullYear(year);
-      const yearFormatted = new this.DateTimeFormat(this.locale, {
-        year: 'numeric',
-      }).format(dateCheck);
-
-      years.push(yearFormatted);
+      years.push(dateCheck.getFullYear());
     }
 
     return years;
@@ -78,6 +73,6 @@ export class CalendarYearComponent implements AfterViewInit {
     const selectedYearNodeOffsetTop = selectedYear.parentNode.offsetTop;
 
     const scrollYOffset = (selectedYearNodeOffsetTop + selectedYearNodeHeight / 2) - containerHeight / 2;
-    this.renderer.setElementProperty(calendarYear, 'scrollTop', scrollYOffset);
+    this.renderer.setProperty(calendarYear, 'scrollTop', scrollYOffset);
   }
 }

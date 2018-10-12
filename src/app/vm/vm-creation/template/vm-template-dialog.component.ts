@@ -1,47 +1,57 @@
-import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { BaseTemplateModel } from '../../../template/shared/base-template.model';
+import { BaseTemplateModel, resourceType } from '../../../template/shared';
 import { TemplateFilterListComponent } from '../../../template/template-filter-list/template-filter-list.component';
 import { AuthService } from '../../../shared/services/auth.service';
+import { OsFamily } from '../../../shared/models';
+import { ImageGroup } from '../../../shared/models/';
 
 @Component({
   selector: 'cs-vm-creation-template-dialog',
   templateUrl: 'vm-template-dialog.component.html'
 })
-export class VmTemplateDialogComponent extends TemplateFilterListComponent {
-  public _selectedTemplate: BaseTemplateModel;
+export class VmTemplateDialogComponent extends TemplateFilterListComponent implements OnInit {
+  @Input() templates: BaseTemplateModel[];
+  @Input() selectedTypes: string[];
+  @Input() selectedOsFamilies: OsFamily[];
+  @Input() selectedGroups: string[];
+  @Input() viewMode: string;
+  @Input() query: string;
+  @Input() groups: ImageGroup[];
+  @Input() isLoading: boolean;
+  @Input() preselectedTemplate: BaseTemplateModel;
 
-  public set preselectedTemplate(value: BaseTemplateModel) {
-    this.selectedTemplate = value;
-  };
+  @Output() viewModeChange = new EventEmitter<string>();
+  @Output() selectedTypesChange = new EventEmitter<string[]>();
+  @Output() selectedOsFamiliesChange = new EventEmitter<string[]>();
+  @Output() selectedGroupsChange = new EventEmitter<string[]>();
+  @Output() queryChange = new EventEmitter<string>();
+  @Output() cancel = new EventEmitter<boolean>();
+  @Output() selectionChange = new EventEmitter<BaseTemplateModel>();
 
-  public get selectedTemplate(): BaseTemplateModel {
-    return this._selectedTemplate;
-  }
-
-  public set selectedTemplate(template: BaseTemplateModel) {
-    this._selectedTemplate = template;
-  }
+  public selectedTemplate: BaseTemplateModel;
 
   constructor(
     translate: TranslateService,
-    authService: AuthService,
-    private dialogRef: MatDialogRef<VmTemplateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
+    authService: AuthService
   ) {
     super(translate, authService);
-
-    this.preselectedTemplate = data.template;
   }
 
-
-  public onOk(template) {
-    this.dialogRef.close(template);
+  public ngOnInit() {
+    this.selectedTemplate = this.preselectedTemplate;
   }
 
-  public onCancel(): void {
-    this.dialogRef.close(this.preselectedTemplate);
+  public onSelectedTemplateChange(template: BaseTemplateModel) {
+    this.selectedTemplate = template;
+  }
+
+  public isSubmitButtonDisabled() {
+    const isTemplateNotSelected = !this.selectedTemplate;
+    const isNoTemplatesInCurrentViewMode = !this.templates.length;
+    const isSelectedTemplateFromDifferentViewMode = this.selectedTemplate
+      && resourceType(this.selectedTemplate) !== this.viewMode;
+    return isTemplateNotSelected || isNoTemplatesInCurrentViewMode || isSelectedTemplateFromDifferentViewMode;
   }
 }

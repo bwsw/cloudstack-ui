@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatDialogModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { AskDialogComponent } from './ask-dialog/ask-dialog.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { DialogService } from './dialog.service';
+import { MaterialModule } from '../../material/material.module';
 
 @NgModule({
   imports: [
-    MatDialogModule,
-    MatButtonModule,
+    CommonModule,
+    MaterialModule,
     TranslateModule,
-    CommonModule
   ],
   exports: [
     ConfirmDialogComponent,

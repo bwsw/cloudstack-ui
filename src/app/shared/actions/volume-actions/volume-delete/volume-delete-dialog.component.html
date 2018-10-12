@@ -1,0 +1,25 @@
+<div class="mat-dialog-content notification">
+  {{ 'DIALOG_MESSAGES.VM.CONFIRM_DRIVES_DELETION' | translate }}
+
+  <section *ngIf="hasSnapshots">
+    <mat-checkbox [(ngModel)]="deleteSnapshots">
+      {{ 'VOLUME_ACTIONS.DELETE_SNAPSHOTS' | translate }}
+    </mat-checkbox>
+  </section>
+</div>
+<div class="mat-dialog-actions">
+  <button
+    mat-button
+    color="primary"
+    matDialogClose
+  >
+    {{ 'COMMON.NO' | translate }}
+  </button>
+  <button
+    mat-button
+    color="primary"
+    (click)="confirmDestroy()"
+  >
+    {{ 'COMMON.YES' | translate }}
+  </button>
+</div>

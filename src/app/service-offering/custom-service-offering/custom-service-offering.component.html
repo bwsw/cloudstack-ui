@@ -1,66 +1,56 @@
 <h3 class="mat-dialog-title">{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.TITLE' | translate }}</h3>
-<form (ngSubmit)="onSubmit()" #customOfferingForm="ngForm" novalidate>
+<form [formGroup]="hardwareForm" (ngSubmit)="onSubmit()">
   <div class="mat-dialog-content">
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_NUMBER' | translate }}</h5>
-    <mat-form-field *ngIf="offering && restrictions" class="full-width-input">
+    <mat-form-field *ngIf="offering" class="full-width-input">
       <input
         matInput
-        name="cpuNumber"
         type="number"
-        [(ngModel)]="offering.cpunumber"
-        [min]="restrictions.cpunumber.min"
-        [max]="restrictions.cpunumber.max"
-        [minValue]="restrictions.cpunumber.min"
-        [maxValue]="restrictions.cpunumber.max"
-        step="1"
+        name="cpuNumber"
+        [min]="offering.customOfferingRestrictions.cpunumber.min"
+        [max]="offering.customOfferingRestrictions.cpunumber.max"
+        [csMinValue]="offering.customOfferingRestrictions.cpunumber.min"
+        [csMaxValue]="offering.customOfferingRestrictions.cpunumber.max"
+        formControlName="cpuNumber"
         required
-        #cpuNumberControl="ngModel"
       >
-      <mat-error>
-        {{ errorMessage(restrictions.cpunumber.min, restrictions.cpunumber.max) | async }}
-      </mat-error>
     </mat-form-field>
 
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.CPU_SPEED' | translate }}</h5>
-    <mat-form-field *ngIf="offering && restrictions" class="full-width-input">
+    <mat-form-field *ngIf="offering" class="full-width-input">
       <input
         matInput
-        name="cpuSpeed"
         type="number"
-        [(ngModel)]="offering.cpuspeed"
-        [min]="restrictions.cpuspeed.min"
-        [max]="restrictions.cpuspeed.max"
-        [minValue]="restrictions.cpuspeed.min"
-        [maxValue]="restrictions.cpuspeed.max"
-        step="1"
+        name="cpuSpeed"
+        [min]="offering.customOfferingRestrictions.cpuspeed.min"
+        [max]="offering.customOfferingRestrictions.cpuspeed.max"
+        [csMinValue]="offering.customOfferingRestrictions.cpuspeed.min"
+        [csMaxValue]="offering.customOfferingRestrictions.cpuspeed.max"
+        formControlName="cpuSpeed"
         required
-        #cpuSpeedControl="ngModel"
       >
-      <mat-error>
-        {{ errorMessage(restrictions.cpuspeed.min, restrictions.cpuspeed.max) | async }}
-      </mat-error>
     </mat-form-field>
 
     <h5>{{ 'SERVICE_OFFERING.CUSTOM_SERVICE_OFFERING.MEMORY' | translate }}</h5>
-    <mat-form-field *ngIf="offering && restrictions" class="full-width-input">
+    <mat-form-field *ngIf="offering" class="full-width-input">
       <input
         matInput
-        name="memory"
         type="number"
-        [(ngModel)]="offering.memory"
-        [min]="restrictions.memory.min"
-        [max]="restrictions.memory.max"
-        [minValue]="restrictions.memory.min"
-        [maxValue]="restrictions.memory.max"
-        step="1"
+        name="memory"
+        [min]="offering.customOfferingRestrictions.memory.min"
+        [max]="offering.customOfferingRestrictions.memory.max"
+        [csMinValue]="offering.customOfferingRestrictions.memory.min"
+        [csMaxValue]="offering.customOfferingRestrictions.memory.max"
+        formControlName="memory"
         required
-        #memoryControl="ngModel"
       >
-      <mat-error>
-        {{ errorMessage(restrictions.memory.min, restrictions.memory.max) | async }}
-      </mat-error>
     </mat-form-field>
   </div>
+
+  <span class="error-message" *ngIf="!offering.isAvailableByResources">
+    {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+  </span>
+
   <div class="mat-dialog-actions">
     <button
       mat-button
@@ -74,7 +64,7 @@
       mat-button
       color="primary"
       type="submit"
-      [disabled]="!customOfferingForm.valid"
+      [disabled]="!hardwareForm.valid || !offering.isAvailableByResources"
     >
       {{ 'COMMON.CONFIRM' | translate }}
     </button>

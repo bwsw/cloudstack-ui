@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { VmCreationState } from '../data/vm-creation-state';
-import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
-import { Observable } from 'rxjs/Observable';
 import { VmCreationSecurityGroupMode } from '../security-group/vm-creation-security-group-mode';
-import {
-  GROUP_POSTFIX,
-  SecurityGroupService
-} from '../../../security-group/services/security-group.service';
+import { GROUP_POSTFIX, SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
 import { Utils } from '../../../shared/services/utils/utils.service';
@@ -22,10 +20,10 @@ export class VmCreationSecurityGroupService {
     if (state.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
       const data = this.securityGroupCreationData(state.displayName);
       const rules = this.getSecurityGroupCreationRules(state.securityGroupData.rules);
-      return this.securityGroupService.createPrivate(data, rules)
-        .map(securityGroup => [new SecurityGroup(securityGroup)]);
+      return this.securityGroupService.createPrivate(data, rules).pipe(
+        map(securityGroup => [{ ...securityGroup }]));
     } else {
-      return Observable.of(state.securityGroupData.securityGroups);
+      return of(state.securityGroupData.securityGroups);
     }
   }
 

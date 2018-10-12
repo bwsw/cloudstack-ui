@@ -14,9 +14,8 @@
       [classes]="classes"
       [selectedClasses]="selectedClasses"
       [query]="query"
+      [account]="account"
       [offeringList]="serviceOfferings"
-      [customOfferingRestrictions]="restrictions"
-      [defaultParams]="defaultParams"
       [selectedOffering]="serviceOffering"
       [showFields]="showFields"
       (selectedOfferingChange)="updateOffering($event)"
@@ -25,9 +24,14 @@
     <div
       class="message warning"
       *ngIf="showRebootMessage"
-    >{{ "SERVICE_OFFERING.VM_WILL_BE_REBOOTED" | translate }}
+    >{{ "SERVICE_OFFERING.VM_WILL_BE_RESTARTED" | translate }}
     </div>
+    <span class="error-message" *ngIf="!serviceOffering?.isAvailableByResources && isSelectedOfferingViewMode()">
+      {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+    </span>
   </div>
+
+
   <div class="mat-dialog-actions">
     <div>
       <button mat-button color="primary" (click)="showFields = !showFields">
@@ -40,10 +44,9 @@
         {{ 'COMMON.CANCEL' | translate }}
       </button>
       <button
-        *ngIf="serviceOfferings?.length"
         mat-button
         color="primary"
-        [disabled]="disableSubmitButton"
+        [disabled]="isSubmitButtonDisabled()"
         (click)="onChange()"
       >
         {{ (formMode ? 'COMMON.SELECT' : 'COMMON.CHANGE') | translate }}

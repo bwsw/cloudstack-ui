@@ -4,7 +4,7 @@
     <button mat-icon-button
             [matMenuTriggerFor]="actionsMenu"
     >
-      <mat-icon>more_vert</mat-icon>
+      <mat-icon class="mdi-dots-vertical"></mat-icon>
     </button>
   </div>
 
@@ -16,7 +16,7 @@
       [active]="tabIsActive('sg')"
     >
       <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.FIREWALL' | translate" class="mat-tab-tooltip">
-        <mat-icon>security</mat-icon>
+        <mat-icon class="mdi-security"></mat-icon>
       </div>
     </a>
     <a *ngIf="!entity?.preselected"
@@ -26,7 +26,7 @@
       [active]="tabIsActive('tags')"
     >
       <div [matTooltip]="'SECURITY_GROUP_PAGE.SIDEBAR.TAGS' | translate" class="mat-tab-tooltip">
-        <mat-icon>local_offer</mat-icon>
+        <mat-icon class="mdi-tag"></mat-icon>
       </div>
     </a>
   </nav>

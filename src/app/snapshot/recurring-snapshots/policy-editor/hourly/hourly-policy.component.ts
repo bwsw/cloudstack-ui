@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 
 export interface HourlyPolicy {
@@ -48,25 +48,7 @@ export class HourlyPolicyComponent implements ControlValueAccessor {
   }
 
   public updateMinute(value: number): void {
-    if (value == null) {
-      return;
-    }
-
-    let newValue: string;
-
-    if (Number.isNaN(value) || value == null) {
-      newValue = this.minute;
-    } else {
-      if (value > this.maxValue) {
-        newValue = this.minValue.toString();
-      } else if (value < this.minValue) {
-        newValue = this.maxValue.toString();
-      } else {
-        newValue = value.toString();
-      }
-    }
-
-    this.minute = newValue;
+    this.minute = value.toString();
     this.minuteField.value = this.minute;
     this.writeValue(this.policy);
   }

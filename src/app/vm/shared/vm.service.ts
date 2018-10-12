@@ -1,25 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin, Observable, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+
 import { BackendResource } from '../../shared/decorators';
-import {
-  OsType,
-  ServiceOffering,
-  Volume
-} from '../../shared/models';
-import { VolumeType } from '../../shared/models/volume.model';
+import { OsType, ServiceOffering, Volume, VolumeType } from '../../shared/models';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import {
-  BaseBackendService,
-  CSCommands
-} from '../../shared/services/base-backend.service';
+import { BaseBackendService, CSCommands } from '../../shared/services/base-backend.service';
 import { OsTypeService } from '../../shared/services/os-type.service';
-import { UserTagService } from '../../shared/services/tags/user-tag.service';
 import { VolumeService } from '../../shared/services/volume.service';
 import { Iso } from '../../template/shared';
-import {
-  VirtualMachine
-} from './vm.model';
+import { VirtualMachine } from './vm.model';
+import { IpAddress } from '../../shared/models/ip-address.model';
 
 
 export const VirtualMachineEntityName = 'VirtualMachine';
@@ -34,34 +26,16 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(
     private asyncJobService: AsyncJobService,
     private osTypesService: OsTypeService,
-    private userTagService: UserTagService,
     private volumeService: VolumeService,
-    http: HttpClient
+    protected http: HttpClient
   ) {
     super(http);
   }
 
-  public getNumberOfVms(): Observable<number> {
-    return this.userTagService.getLastVmId()
-      .switchMap(numberOfVms => {
-        if (numberOfVms !== undefined && !Number.isNaN(+numberOfVms)) {
-          return Observable.of(+numberOfVms);
-        }
-
-        return this.getListWithDetails(undefined, true)
-          .switchMap(vmList => this.userTagService.setLastVmId(vmList.length));
-      });
-  }
-
-  public incrementNumberOfVms(): Observable<number> {
-    return this.getNumberOfVms()
-      .switchMap(numberOfVms => this.userTagService.setLastVmId(numberOfVms + 1));
-  }
-
   public getWithDetails(id: string): Observable<VirtualMachine> {
-    return this.getListWithDetails().map(list =>
+    return this.getListWithDetails().pipe(map(list =>
       list.find(vm => vm.id === id)
-    );
+    ));
   }
 
   public getListWithDetails(
@@ -72,44 +46,36 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       return this.getList(params);
     }
 
-    return Observable.forkJoin(
+    return forkJoin(
       this.getList(params),
       this.volumeService.getList(),
       this.osTypesService.getList()
-    )
-      .map(([vmList, volumes, osTypes]) => {
+    ).pipe(
+      map(([vmList, volumes, osTypes]) => {
         vmList.forEach((currentVm, index, vms) => {
           currentVm = this.addVolumes(currentVm, volumes);
           currentVm = this.addOsType(currentVm, osTypes);
           vms[index] = currentVm;
         });
         return vmList;
-      });
+      }));
   }
 
   public deploy(params: {}): Observable<any> {
     return this.sendCommand(CSCommands.Deploy, params);
   }
 
-  /*   public resubscribe(): Observable<Array<Observable<AsyncJob<VirtualMachine>>>> {
-       return this.asyncJobService.getList().map(jobs => {
-         return jobs.filter(job => !job.jobstatus && mapCmd(job))
-           .map(job => this.registerVmJob(job));
-       });
-     }*/
-
-
   public command(
     vm: VirtualMachine,
     command: string,
     params?: {}
   ): Observable<VirtualMachine> {
-    return this.commandInternal(vm, command, params)
-      .switchMap(job => this.registerVmJob(job))
-      .do(jogResult => jogResult)
-      .catch(error => {
-        return Observable.throw(error);
-      });
+    return this.commandInternal(vm, command, params).pipe(
+      switchMap(job => this.registerVmJob(job)),
+      tap(jogResult => jogResult),
+      catchError(error => {
+        return throwError(error);
+      }));
   }
 
   public commandSync(
@@ -118,11 +84,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     params?: {}
   ): Observable<any> {
 
-    return this.commandInternal(vm, command, params)
-      .do((res) => res)
-      .catch(error => {
-        return Observable.throw(error);
-      });
+    return this.commandInternal(vm, command, params).pipe(
+      tap((res) => res),
+      catchError(error => {
+        return throwError(error);
+      }));
   }
 
   public registerVmJob(job: any): Observable<any> {
@@ -130,18 +96,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
-    return this.getListWithDetails()
-      .map(vmList => vmList.filter(vm => vm.isoId === iso.id));
+    return this.getListWithDetails().pipe(
+      map(vmList => vmList.filter(vm => vm.isoId === iso.id)));
   }
 
-  public addIpToNic(nicId: string): Observable<any> {
-    return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic')
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+  public addIpToNic(nicId: string): Observable<IpAddress> {
+    return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic').pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
+      map(result => result.jobresult));
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
-    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic')
-      .switchMap(job => this.asyncJobService.queryJob(job.jobid));
+    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic').pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)));
   }
 
   public changeServiceOffering(
@@ -163,20 +130,9 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       ];
     }
 
-    return this.sendCommand(CSCommands.ChangeServiceFor, params)
-      .map(result => this.prepareModel(result['virtualmachine']));
+    return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
+      map(result => this.prepareModel(result['virtualmachine'])));
   }
-
-  /*public isAsyncJobAVirtualMachineJobWithResult(job: AsyncJob<any>): boolean {
-    // instanceof check is needed because API response for
-    // VM restore doesn't contain the jobinstancetype field
-
-    return (
-      job.jobresult &&
-      (job.jobinstancetype === VirtualMachineEntityName ||
-        job.jobresult instanceof VirtualMachine)
-    );
-  }*/
 
   private commandInternal(
     vm: VirtualMachine,

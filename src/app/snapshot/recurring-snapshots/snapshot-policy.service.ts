@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
 import { padStart } from '../../shared/utils/padStart';
 import { DayPeriod } from './day-period/day-period.component';
-import {
-  Policy,
-  TimePolicy
-} from './policy-editor/policy-editor.component';
+import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { SnapshotPolicy } from './snapshot-policy.model';
 import { Time } from './time-picker/time-picker.component';
-import { HttpClient } from '@angular/common/http';
 import { PolicyType } from './snapshot-policy-type';
 
 
@@ -22,21 +21,21 @@ export interface SnapshotPolicyCreationParams {
 
 @Injectable()
 @BackendResource({
-  entity: 'SnapshotPolicy',
-  entityModel: SnapshotPolicy
+  entity: 'SnapshotPolicy'
 })
 export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
   constructor(protected http: HttpClient) {
     super(http);
   }
+
   public getPolicyList(volumeId: string): Observable<Array<Policy<TimePolicy>>> {
     return super.getList(
       { volumeId },
       { command: 'list', entity: 'SnapshotPolicies' }
-    )
-      .map(policies => {
+    ).pipe(
+      map(policies => {
         return policies.map(_ => this.transformPolicy(_));
-      });
+      }));
   }
 
   public create(params: SnapshotPolicyCreationParams): Observable<void> {
@@ -148,10 +147,10 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
   private transformPolicy(policy: SnapshotPolicy): Policy<TimePolicy> {
     return {
       id: policy.id,
-      storedSnapshots: policy.maxSnaps,
-      timePolicy: this.transformScheduleToTimePolicy(policy.schedule, policy.intervalType),
-      timeZone: { geo: policy.timeZone },
-      type: policy.intervalType
+      storedSnapshots: policy.maxsnaps,
+      timePolicy: this.transformScheduleToTimePolicy(policy.schedule, policy.intervaltype),
+      timeZone: { geo: policy.timezone },
+      type: policy.intervaltype
     };
   }
 }

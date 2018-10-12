@@ -1,7 +1,6 @@
 import { EventEmitter, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { DiskOffering, getDescription, Volume } from '../../shared/models';
-import { VolumeType } from '../../shared/models/volume.model';
+import { DiskOffering, Volume, VolumeType } from '../../shared/models';
 import { DiskOfferingService } from '../../shared/services/disk-offering.service';
 import { ZoneService } from '../../shared/services/zone.service';
 import { VolumeItem } from '../volume-item';
@@ -37,10 +36,6 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
 
   public get isRoot(): boolean {
     return this.item.type === VolumeType.ROOT;
-  }
-
-  public get descriptionIncludesQuery(): boolean {
-    return this.query && getDescription(this.item).includes(this.query);
   }
 
   public get stateTranslationToken(): string {

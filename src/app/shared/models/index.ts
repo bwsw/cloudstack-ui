@@ -1,5 +1,6 @@
-export * from './base.model';
+export * from './config';
 
+export * from './base.model';
 export * from './affinity-group.model';
 export * from './async-job.model';
 export * from './color.model';
@@ -19,3 +20,6 @@ export * from './role.model';
 export * from './domain.model';
 export * from './account.model';
 export * from './configuration.model';
+export * from './action.model';
+export * from './grouping.model';
+export * from './user.model';

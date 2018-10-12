@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { State } from '../../reducers';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+
+import { State } from '../../reducers';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
 import { VirtualMachine, VmResourceType } from '../shared/vm.model';
@@ -21,13 +23,11 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
 export class VmTagsContainerComponent {
   readonly vm$ = this.store.select(fromVMs.getSelectedVM);
 
-  constructor(
-    private store: Store<State>,
-  ) {
+  constructor(private store: Store<State>) {
   }
 
   public editTag(tagEditAction: TagEditAction) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       const newTag: Tag = {
         resourceid: vm.id,
         resourcetype: VmResourceType,
@@ -48,7 +48,7 @@ export class VmTagsContainerComponent {
   }
 
   public deleteTag(tag: Tag) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       const newTags = Object.assign([], vm.tags).filter(t => tag.key !== t.key);
       this.store.dispatch(new vmActions.UpdateVM(Object.assign(
         {},
@@ -59,7 +59,7 @@ export class VmTagsContainerComponent {
   }
 
   public addTag(keyValuePair: KeyValuePair) {
-    this.vm$.take(1).subscribe((vm: VirtualMachine) => {
+    this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       const newTag: Tag = {
         resourceid: vm.id,
         resourcetype: VmResourceType,

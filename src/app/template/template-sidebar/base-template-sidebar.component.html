@@ -21,9 +21,7 @@
         [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE' | translate"
         class="mat-tab-tooltip"
       >
-        <div class="disc-icon-container">
-          <div class="disc-icon"></div>
-        </div>
+        <mat-icon class="mdi-disc"></mat-icon>
       </div>
     </a>
     <a
@@ -33,7 +31,7 @@
       [active]="tabIsActive('zones')"
     >
       <div [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.ZONES' | translate" class="mat-tab-tooltip">
-        <mat-icon>public</mat-icon>
+        <mat-icon class="mdi-earth"></mat-icon>
       </div>
     </a>
     <a
@@ -46,7 +44,7 @@
         [matTooltip]="'TEMPLATE_PAGE.SIDEBAR.TAGS' | translate"
         class="mat-tab-tooltip"
       >
-        <mat-icon>local_offer</mat-icon>
+        <mat-icon class="mdi-tag"></mat-icon>
       </div>
     </a>
   </nav>

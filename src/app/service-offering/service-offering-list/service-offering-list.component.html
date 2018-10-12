@@ -1,93 +1,83 @@
 <div *ngFor="let group of list">
-  <ng-container *ngIf="group.items.length">
-    <h4>{{ getName(group.soClass) | translate }}</h4>
+  <ng-container *ngIf="group.items.data.length">
+    <h4 [style.visibility]="getName(group.soClass) === 'empty' ? 'hidden' : 'visible'">
+      {{ getName(group.soClass) | translate }}
+    </h4>
     <h5>{{ getDescription(group.soClass) | translate }}</h5>
+
     <div class="table-wrapper">
-      <table class="mat-table">
-        <thead>
-        <tr class="mat-header-row">
-          <th class="mat-header-cell name-text"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.NAME' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }}
-          </th>
-          <th class="mat-header-cell field"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }}
-          </th>
-          <th class="mat-header-cell field"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }}
-          </th>
-          <th class="mat-header-cell field"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.MEMORY' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }}
-          </th>
-          <th class="mat-header-cell field"
-              [matTooltip]="'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate">
-            {{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }}
-          </th>
-          <ng-container *ngIf="showFields">
-            <th class="mat-header-cell field"
-                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate">
-              {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate }}
-            </th>
-            <th class="mat-header-cell field"
-                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate">
-              {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate }}
-            </th>
-            <th class="mat-header-cell field"
-                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate">
-              {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate }}
-            </th>
-            <th class="mat-header-cell field"
-                [matTooltip]="'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate">
-              {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate }}
-            </th>
-          </ng-container>
-          <th class="mat-header-cell"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="mat-row"
-            *ngFor="let offering of group.items"
-            (click)="selectOffering(offering)"
-        >
-          <td class="mat-cell name-text" [matTooltip]="offering.name">
-            <span [innerHTML]="offering.name | highlight:query"></span>
+      <table mat-table [dataSource]="group.items">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.NAME' | translate }} </th>
+          <td mat-cell *matCellDef="let element">
+            <span [innerHTML]="element.name | highlight:query"></span>
           </td>
-          <td class="mat-cell">
-            {{ offering.cpunumber || '-' }}
+        </ng-container>
+
+        <ng-container matColumnDef="cpuCoresNumber">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.CPU_NUMBER' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{ element.cpunumber || '-' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cpuSpeed">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.CPU_SPEED' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{ element.cpuspeed || '-' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="memory">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.MEMORY' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{ element.memory || '-' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="networkRate">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.NETWORK_RATE' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{ element.networkrate || '-' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="diskBytesRead">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_READ' | translate }} </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.diskBytesReadRate ? (element.diskBytesReadRate | division:10:6) : '-' }}
           </td>
-          <td class="mat-cell">
-            {{ offering.cpuspeed || '-' }}
+        </ng-container>
+
+        <ng-container matColumnDef="diskBytesWrite">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.DISK_BYTES_WRITE' | translate }} </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.diskBytesWriteRate ? (element.diskBytesWriteRate | division:10:6) : '-' }}
           </td>
-          <td class="mat-cell">
-            {{ offering.memory || '-' }}
+        </ng-container>
+
+        <ng-container matColumnDef="diskIopsRead">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_READ' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{ element.diskIopsReadRate || '-' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="diskIopsWrite">
+          <th mat-header-cell *matHeaderCellDef> {{ 'SERVICE_OFFERING.COLUMN.DISK_IOPS_WRITE' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{ element.diskIopsWriteRate || '-' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="radioButton">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <mat-radio-group
+            >
+              <mat-radio-button
+                name="service-offering"
+                [value]="element"
+                [checked]="selectedOffering && element.id === selectedOffering.id"
+              ></mat-radio-button>
+            </mat-radio-group>
           </td>
-          <td class="mat-cell">
-            {{ offering.networkrate || '-' }}
-          </td>
-          <ng-container *ngIf="showFields">
-            <td class="mat-cell">
-              {{ offering.diskBytesReadRate ? (offering.diskBytesReadRate | division:10:6) : '-' }}
-            </td>
-            <td class="mat-cell">
-              {{ offering.diskBytesWriteRate ? (offering.diskBytesWriteRate | division:10:6) : '-' }}
-            </td>
-            <td class="mat-cell">
-              {{ offering.diskIopsReadRate || '-' }}
-            </td>
-            <td class="mat-cell">
-              {{ offering.diskIopsWriteRate || '-' }}
-            </td>
-          </ng-container>
-          <td class="mat-cell">
-            <span>
-              <mat-radio-button id="{{offering.id}}" [checked]="selectedOffering && offering.id === selectedOffering.id"></mat-radio-button>
-            </span>
-          </td>
-        </tr>
-        </tbody>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row
+          *matRowDef="let row; columns: columnsToDisplay"
+          (click)="selectOffering(row)"
+        ></tr>
+
       </table>
     </div>
   </ng-container>

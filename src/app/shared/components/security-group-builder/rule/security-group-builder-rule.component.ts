@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NetworkProtocol } from '../../../../security-group/network-rule.model';
-import {
-  GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken
-} from '../../../icmp/icmp-types';
-import { Utils } from '../../../services/utils/utils.service';
+import { IcmpNetworkRule, NetworkProtocol, PortNetworkRule } from '../../../../security-group/network-rule.model';
+import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../../icmp/icmp-types';
 import { RuleListItem } from '../security-group-builder.component';
+import { CidrUtils } from '../../../utils/cidr-utils';
 
 
 @Component({
@@ -40,11 +37,13 @@ export class SecurityGroupBuilderRuleComponent {
   }
 
   public get icmpTypeTranslationToken(): string {
-    return GetICMPTypeTranslationToken(this.item.rule.icmpType);
+    const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
+    return GetICMPTypeTranslationToken(icmpRule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
-    return GetICMPCodeTranslationToken(this.item.rule.icmpType, this.item.rule.icmpCode);
+    const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
+    return GetICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
   }
 
   public get ruleTranslationToken(): { tooltip: string, name: string } {
@@ -66,7 +65,8 @@ export class SecurityGroupBuilderRuleComponent {
         };
       }
     } else {
-      if (this.item.rule.startPort === this.item.rule.endPort) {
+      const portRule: PortNetworkRule = this.item.rule as PortNetworkRule;
+      if (portRule.startport === portRule.endport) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_NOMARKUP`,
           name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE`
@@ -84,8 +84,8 @@ export class SecurityGroupBuilderRuleComponent {
     const params = {
       type: this.translateService.instant(this.typeTranslationToken),
       protocol: this.translateService.instant(this.protocolTranslationToken),
-      cidr: this.item.rule.CIDR,
-      ipVersion: Utils.cidrType(this.item.rule.CIDR)
+      cidr: this.item.rule.cidr,
+      ipVersion: CidrUtils.getCidrIpVersion(this.item.rule.cidr)
     };
 
     let ruleParams;
@@ -100,17 +100,21 @@ export class SecurityGroupBuilderRuleComponent {
         codeTranslation = null;
       }
 
-      ruleParams = Object.assign({}, params, {
-        icmpType: this.item.rule.icmpType,
-        icmpCode: this.item.rule.icmpCode,
+      const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
+      ruleParams = {
+        ...params,
+        icmpType: icmpRule.icmptype,
+        icmpCode: icmpRule.icmpcode,
         icmpTypeText: typeTranslation,
         icmpCodeText: codeTranslation
-      });
+      };
     } else {
-      ruleParams = Object.assign({}, params, {
-        startPort: this.item.rule.startPort,
-        endPort: this.item.rule.endPort
-      });
+      const portRule: PortNetworkRule = this.item.rule as PortNetworkRule;
+      ruleParams = {
+        ...params,
+        startPort: portRule.startport,
+        endPort: portRule.endport
+      };
     }
 
     return ruleParams;

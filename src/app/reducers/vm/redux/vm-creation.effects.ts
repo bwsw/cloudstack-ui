@@ -1,31 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
-import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { BaseTemplateModel } from '../../../template/shared';
-import {
-  AffinityGroupType,
-  DiskOffering,
-  ServiceOffering,
-  Zone
-} from '../../../shared/models';
-import { Observable } from 'rxjs/Observable';
-import { TemplateResourceType } from '../../../template/shared/base-template.service';
-import { Actions, Effect } from '@ngrx/effects';
+import { MatDialog } from '@angular/material';
+import { Action, select, Store } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import {
-  NotSelected,
-  VmCreationState
-} from '../../../vm/vm-creation/data/vm-creation-state';
+import { BaseTemplateModel, isTemplate } from '../../../template/shared';
+import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
+import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
 import { VmCreationAgreementComponent } from '../../../vm/vm-creation/template/agreement/vm-creation-agreement.component';
 import { VmService } from '../../../vm/shared/vm.service';
-import { MatDialog } from '@angular/material';
 import { AuthService } from '../../../shared/services/auth.service';
 import { State } from '../../index';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
@@ -34,23 +26,25 @@ import { ResourceUsageService } from '../../../shared/services/resource-usage.se
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { VmCreationSecurityGroupService } from '../../../vm/vm-creation/services/vm-creation-security-group.service';
 import { InstanceGroupService } from '../../../shared/services/instance-group.service';
-import { VirtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
-import { TagService } from '../../../shared/services/tags/tag.service';
-import { UserTagService } from '../../../shared/services/tags/user-tag.service';
 import { VmTagService } from '../../../shared/services/tags/vm-tag.service';
 import { NetworkRule } from '../../../security-group/network-rule.model';
 import { VmCreationSecurityGroupMode } from '../../../vm/vm-creation/security-group/vm-creation-security-group-mode';
 import { SecurityGroup } from '../../../security-group/sg.model';
-import { VirtualMachine, VmResourceType, VmState } from '../../../vm/shared/vm.model';
+import { VirtualMachine, VmState } from '../../../vm/shared/vm.model';
+import { SnackBarService } from '../../../core/services';
+import { configSelectors, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import { DefaultComputeOffering } from '../../../shared/models/config';
 
 import * as fromZones from '../../zones/redux/zones.reducers';
 import * as vmActions from './vm.actions';
 import * as securityGroupActions from '../../security-groups/redux/sg.actions';
-import * as fromServiceOfferings from '../../service-offerings/redux/service-offerings.reducers';
 import * as fromDiskOfferings from '../../disk-offerings/redux/disk-offerings.reducers';
 import * as fromSecurityGroups from '../../security-groups/redux/sg.reducers';
 import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
+import * as fromVMModule from '../../../vm/selectors';
+import { KeyboardLayout } from '../../../shared/types';
+import { ComputeOfferingViewModel } from '../../../vm/view-models';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -60,7 +54,7 @@ interface VmCreationParams {
   hypervisor?: string;
   ingress?: Array<NetworkRule>;
   egress?: Array<NetworkRule>;
-  keyboard?: string;
+  keyboard?: KeyboardLayout;
   keyPair?: string;
   name?: string;
   securityGroupIds?: string;
@@ -100,11 +94,11 @@ export class VirtualMachineCreationEffects {
   private deploymentNotificationId: string;
 
   @Effect()
-  initVmCreation$ = this.actions$
-    .ofType(vmActions.VM_FORM_INIT)
-    .switchMap((action: vmActions.VmCreationFormInit) =>
-      this.resourceUsageService.getResourceUsage()
-        .switchMap(resourceUsage => {
+  initVmCreation$ = this.actions$.pipe(
+    ofType(vmActions.VM_FORM_INIT),
+    switchMap((action: vmActions.VmCreationFormInit) =>
+      this.resourceUsageService.getResourceUsage().pipe(
+        switchMap(resourceUsage => {
           const insufficientResources = [];
 
           Object.keys(resourceUsage.available)
@@ -118,55 +112,63 @@ export class VirtualMachineCreationEffects {
 
           const enoughResources = !insufficientResources.length;
 
-          return Observable.of(
+          return of(
             new vmActions.VmCreationEnoughResourceUpdateState(enoughResources),
             new vmActions.VmInitialZoneSelect(),
             new vmActions.VmInitialSecurityGroupsSelect()
           );
-        }));
+        }))));
 
   @Effect()
-  vmSelectInitialZone$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_INITIAL_ZONE_SELECT)
-    .withLatestFrom(this.store.select(fromZones.selectAll).filter(zones => !!zones.length))
-    .map(([action, zones]: [vmActions.VmInitialZoneSelect, Zone[]]) =>
-      new vmActions.VmFormUpdate({ zone: zones[0] }));
+  vmSelectInitialZone$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_INITIAL_ZONE_SELECT),
+    withLatestFrom(this.store.pipe(select(fromZones.selectAll), filter(zones => !!zones.length))),
+    map(([action, zones]: [vmActions.VmInitialZoneSelect, Zone[]]) =>
+      new vmActions.VmFormUpdate({ zone: zones[0] })));
 
   @Effect()
-  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_SECURITY_GROUPS_SELECT)
-    .withLatestFrom(this.store.select(fromSecurityGroups.selectPredefinedSecurityGroups)
-      .filter(groups => !!groups.length))
-    .map(([action, securityGroups]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[]]) => {
+  vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
+    withLatestFrom(this.store.pipe(
+      select(fromSecurityGroups.selectPredefinedSecurityGroups),
+      filter(groups => !!groups.length)),
+      this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup))
+    ),
+    map(([action, securityGroups, defaultSecurityGroup]:
+           [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[], SecurityGroup]) => {
       return new vmActions.VmFormUpdate({
-        securityGroupData: VmCreationSecurityGroupData
-          .fromRules(Rules.createWithAllRulesSelected(securityGroups))
+        securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup])
       });
-    });
+    }));
 
   @Effect()
-  vmCreationFormUpdate$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_FORM_UPDATE)
-    .filter((action: vmActions.VmFormUpdate) => !!action.payload
-      && !!(action.payload.zone || action.payload.template || action.payload.diskOffering))
-    .map((action: vmActions.VmFormUpdate) => {
+  vmCreationFormUpdate$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_FORM_UPDATE),
+    filter((action: vmActions.VmFormUpdate) => !!action.payload
+      && !!(action.payload.zone || action.payload.template || action.payload.diskOffering)),
+    map((action: vmActions.VmFormUpdate) => {
       return new vmActions.VmFormAdjust(action.payload);
-    });
+    }));
 
   @Effect()
-  vmCreationFormAdjust$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_FORM_ADJUST)
-    .withLatestFrom(
-      this.store.select(fromVMs.getVmFormState),
-      this.store.select(fromZones.selectAll),
-      this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation),
-      this.store.select(fromServiceOfferings.getAvailableOfferingsForVmCreation),
-      this.store.select(fromDiskOfferings.selectAll)
-    )
-    .map((
-      [action, vmCreationState, zones, templates, serviceOfferings, diskOfferings]: [
-        vmActions.VmFormUpdate, VmCreationState, Zone[], BaseTemplateModel[], ServiceOffering[], DiskOffering[]
-        ]) => {
+  vmCreationFormAdjust$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_FORM_ADJUST),
+    withLatestFrom(
+      this.store.pipe(select(fromVMs.getVmFormState)),
+      this.store.pipe(select(fromZones.selectAll)),
+      this.store.pipe(select(fromTemplates.selectFilteredTemplatesForVmCreation)),
+      this.store.pipe(select(fromVMModule.getAvailableOfferingsForVmCreation)),
+      this.store.pipe(select(fromDiskOfferings.selectAll)),
+      this.store.pipe(select(configSelectors.get('defaultComputeOffering')))
+    ),
+    map(([action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, defaultComputeOfferings]: [
+      vmActions.VmFormUpdate,
+      VmCreationState, Zone[],
+      BaseTemplateModel[],
+      ComputeOfferingViewModel[],
+      DiskOffering[],
+      DefaultComputeOffering[]
+      ]) => {
 
       if (action.payload.zone) {
         let updates = {};
@@ -177,7 +179,9 @@ export class VirtualMachineCreationEffects {
           && templates.find(_ => _.id === vmCreationState.template.id);
 
         if (!selectedServiceOfferingStillAvailable) {
-          updates = { ...updates, serviceOffering: serviceOfferings[0] };
+          const offering = this.getPreselectedOffering(serviceOfferings, vmCreationState.zone, defaultComputeOfferings);
+
+          updates = { ...updates, serviceOffering: offering };
         }
 
         if (!selectedTemplateStillAvailable) {
@@ -187,34 +191,35 @@ export class VirtualMachineCreationEffects {
       }
 
       if (action.payload.template) {
-        if (action.payload.template.resourceType === TemplateResourceType.template) {
-          const rootDiskSize = Utils.convertToGb(action.payload.template.size);
-          return new vmActions.VmFormUpdate({ rootDiskSize });
-        } else if (!vmCreationState.diskOffering) {
+        if (!isTemplate(action.payload.template) && !vmCreationState.diskOffering) {
           return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
+        }
+
+        if (isTemplate(action.payload.template)) {
+          const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
+          // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
+          const minSize = Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
+          const upd = { rootDiskMinSize: minSize };
+          return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
         }
       }
 
       if (action.payload.diskOffering) {
+        if (action.payload.diskOffering.iscustomized) {
+          const minSize = this.auth.getCustomDiskOfferingMinSize() || 10;
+          return new vmActions.VmFormUpdate({ rootDiskMinSize: minSize, rootDiskSize: minSize });
+        }
+
         if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
           return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
-        } else {
-          const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-          const minSize = Math.max(Math.ceil(Utils.convertToGb(vmCreationState.template.size)), defaultDiskSize);
-          // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
-          const upd = { rootDiskMinSize: minSize };
-
-          if (!vmCreationState.rootDiskSize
-            || vmCreationState.rootDiskSize < vmCreationState.rootDiskMinSize) {
-            return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
-          }
-          return new vmActions.VmFormUpdate(upd);
         }
       }
 
       if (vmCreationState.zone) {
         if (!vmCreationState.serviceOffering && serviceOfferings.length) {
-          return new vmActions.VmFormUpdate({ serviceOffering: serviceOfferings[0] });
+          const offering = this.getPreselectedOffering(serviceOfferings, vmCreationState.zone, defaultComputeOfferings);
+
+          return new vmActions.VmFormUpdate({ serviceOffering: offering });
         }
 
         if (!vmCreationState.template && templates.length) {
@@ -223,106 +228,112 @@ export class VirtualMachineCreationEffects {
       }
 
       return new vmActions.VmFormUpdate();
-    });
+    }));
 
   @Effect()
-  preparingForDeploy$ = this.actions$
-    .ofType(vmActions.DEPLOY_VM)
-    .switchMap((action: vmActions.DeployVm) => {
-      return this.templateTagService.getAgreement(action.payload.template)
-        .switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : Observable.of(true))
-        .switchMap((agreement) => {
+  preparingForDeploy$ = this.actions$.pipe(
+    ofType(vmActions.DEPLOY_VM),
+    switchMap((action: vmActions.DeployVm) => {
+      return this.templateTagService.getAgreement(action.payload.template).pipe(
+        switchMap(res => res ? this.showTemplateAgreementDialog(action.payload) : of({})),
+        switchMap((agreement) => {
           if (agreement) {
-            this.deploymentNotificationId = this.jobsNotificationService.add('JOB_NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
+            this.deploymentNotificationId = this.jobsNotificationService.add('NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS');
             this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
 
-            return Observable.of<any>(
+            return of<any>(
               new vmActions.DeploymentInitActionList(this.initializeDeploymentActionList(action.payload)),
               new vmActions.DeploymentRequest(action.payload)
             );
           } else {
-            return Observable.of(new vmActions.VmCreationStateUpdate({
+            return of(new vmActions.VmCreationStateUpdate({
               showOverlay: false,
               deploymentInProgress: false
             }));
           }
-        });
-    });
+        }));
+    }));
 
   @Effect()
-  deploying$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_REQUEST)
-    .switchMap((action: vmActions.DeploymentRequest) => {
+  deploying$ = this.actions$.pipe(
+    ofType(vmActions.VM_DEPLOYMENT_REQUEST),
+    withLatestFrom(this.store.pipe(select(UserTagsSelectors.getKeyboardLayout))),
+    switchMap(([action, keyboard]: [vmActions.DeploymentRequest, KeyboardLayout]) => {
       return this.doCreateAffinityGroup(action.payload)
-        .switchMap(() => this.doCreateSecurityGroup(action.payload)
-          .switchMap((securityGroups) => {
-            if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
-              this.store.dispatch(new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups));
-            }
-            this.store.dispatch(new vmActions.DeploymentChangeStatus({
-              stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
-            }));
-
-            this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
-            const params = this.getVmCreationParams(action.payload, securityGroups);
-            let deployResponse;
-
-            return this.vmService.deploy(params)
-              .switchMap(response => {
-                deployResponse = response;
-                return this.vmService.get(deployResponse.id);
-              })
-              .switchMap(vm => {
-                const temporaryVm = vm;
-
-                if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
-                  temporaryVm.instanceGroup = action.payload.instanceGroup;
+        .pipe(
+          switchMap(() => this.doCreateSecurityGroup(action.payload)
+            .pipe(
+              switchMap((securityGroups) => {
+                if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
+                  this.store.dispatch(new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups));
                 }
+                this.store.dispatch(new vmActions.DeploymentChangeStatus({
+                  stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
+                }));
 
-                temporaryVm.state = VmState.Deploying;
-                this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
+                this.handleDeploymentMessages({stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS});
+                const params = this.getVmCreationParams(action.payload, keyboard, securityGroups);
+                let deployResponse;
 
-                return this.vmService.incrementNumberOfVms()
-                  .switchMap(() => this.vmService.registerVmJob(deployResponse));
-              })
-              .switchMap((deployedVm: VirtualMachine) => {
-                this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
+                return this.vmService.deploy(params)
+                  .pipe(
+                    switchMap(response => {
+                      deployResponse = response;
+                      return this.vmService.get(deployResponse.id);
+                    }),
+                    switchMap(vm => {
+                      const temporaryVm = vm;
 
-                return this.doCreateInstanceGroup(deployedVm, action.payload)
-                  .switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload));
-              })
-              .map((vmWithTags) => {
-                if (action.payload.doStartVm) {
-                  vmWithTags.state = VmState.Running;
-                }
-                return new vmActions.DeploymentRequestSuccess(vmWithTags);
-              })
-              .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
-          })
-          .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error))));
-    });
+                      if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
+                        temporaryVm.instanceGroup = action.payload.instanceGroup;
+                      }
+
+                      temporaryVm.state = VmState.Deploying;
+                      this.handleDeploymentMessages({stage: VmDeploymentStage.TEMP_VM});
+
+                      this.store.dispatch(new UserTagsActions.IncrementLastVMId());
+                      return this.vmService.registerVmJob(deployResponse);
+                    }),
+                    switchMap((deployedVm: VirtualMachine) => {
+                      this.handleDeploymentMessages({stage: VmDeploymentStage.VM_DEPLOYED});
+
+                      return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
+                        switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload))
+                      )
+                    }),
+                    map((vmWithTags) => {
+                      if (action.payload.doStartVm) {
+                        vmWithTags.state = VmState.Running;
+                      }
+                      return new vmActions.DeploymentRequestSuccess(vmWithTags);
+                    }),
+                    catchError((error) => of(new vmActions.DeploymentRequestError(error))));
+              }),
+              catchError((error) => of(new vmActions.DeploymentRequestError(error))))));
+      }));
 
   @Effect({ dispatch: false })
-  changeStatusOfDeployment$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_CHANGE_STATUS)
-    .do((action: vmActions.DeploymentChangeStatus) => {
+  changeStatusOfDeployment$ = this.actions$.pipe(
+    ofType(vmActions.VM_DEPLOYMENT_CHANGE_STATUS),
+    tap((action: vmActions.DeploymentChangeStatus) => {
       this.handleDeploymentMessages(action.payload);
-    });
-
-  @Effect({ dispatch: false })
-  deploymentSuccess$ = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS)
-    .do((action: vmActions.DeploymentRequestSuccess) => {
-      this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED });
-    });
+    }));
 
   @Effect()
-  deploymentError$: Observable<Action> = this.actions$
-    .ofType(vmActions.VM_DEPLOYMENT_REQUEST_ERROR)
-    .map((action: vmActions.DeploymentRequestError) => {
+  deploymentSuccess$ = this.actions$.pipe(
+    ofType<vmActions.DeploymentRequestSuccess>(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS),
+    tap(() =>
+      this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED })),
+    map(action => new vmActions.LoadVirtualMachine({ id: action.payload.id })));
+
+  @Effect()
+  deploymentError$: Observable<Action> = this.actions$.pipe(
+    ofType(vmActions.VM_DEPLOYMENT_REQUEST_ERROR),
+    map((action: vmActions.DeploymentRequestError) => {
+      const message = 'NOTIFICATIONS.VM.DEPLOY_FAILED';
       this.jobsNotificationService.fail({
         id: this.deploymentNotificationId,
-        message: 'JOB_NOTIFICATIONS.VM.DEPLOY_FAILED'
+        message
       });
 
       return new vmActions.DeploymentAddLoggerMessage({
@@ -334,7 +345,7 @@ export class VirtualMachineCreationEffects {
           : action.payload.message,
         status: [ProgressLoggerMessageStatus.ErrorMessage]
       });
-    });
+    }));
 
   constructor(
     private store: Store<State>,
@@ -342,15 +353,15 @@ export class VirtualMachineCreationEffects {
     private vmService: VmService,
     private jobsNotificationService: JobsNotificationService,
     private templateTagService: TemplateTagService,
+    private dialogService: DialogService,
     private dialog: MatDialog,
     private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
     private affinityGroupService: AffinityGroupService,
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private instanceGroupService: InstanceGroupService,
-    private tagService: TagService,
-    private userTagService: UserTagService,
-    private vmTagService: VmTagService
+    private vmTagService: VmTagService,
+    private snackBar: SnackBarService
   ) {
   }
 
@@ -512,10 +523,12 @@ export class VirtualMachineCreationEffects {
   }
 
   private onDeployDone(): void {
+    const message = 'NOTIFICATIONS.VM.DEPLOY_DONE';
     this.jobsNotificationService.finish({
       id: this.deploymentNotificationId,
-      message: 'JOB_NOTIFICATIONS.VM.DEPLOY_DONE'
+      message
     });
+    this.snackBar.open(message).subscribe();
   }
 
 
@@ -552,18 +565,18 @@ export class VirtualMachineCreationEffects {
       return this.affinityGroupService.create({
         name: state.affinityGroup.name,
         type: AffinityGroupType.hostAntiAffinity
-      })
-        .map(() => {
+      }).pipe(
+        map(() => {
           this.store.dispatch(new vmActions.DeploymentChangeStatus({
             stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED
           }));
           this.store.dispatch(new vmActions.VmFormUpdate({
             affinityGroupNames: [...state.affinityGroupNames, state.affinityGroup.name]
           }));
-        })
-        .catch((error) => Observable.of(new vmActions.DeploymentRequestError(error)));
+        }),
+        catchError((error) => of(new vmActions.DeploymentRequestError(error))));
     } else {
-      return Observable.of(null);
+      return of(null);
     }
   }
 
@@ -573,7 +586,7 @@ export class VirtualMachineCreationEffects {
 
       return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
     } else {
-      return Observable.of(state.securityGroupData.securityGroups);
+      return of(state.securityGroupData.securityGroups);
     }
   }
 
@@ -581,52 +594,37 @@ export class VirtualMachineCreationEffects {
     if (this.createInstanceGroup(state)) {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.INSTANCE_GROUP_CREATION });
 
-      return this.instanceGroupService.add(vm, state.instanceGroup)
-        .map((virtualMachine: VirtualMachine) => {
+      return this.instanceGroupService.add(vm, state.instanceGroup).pipe(
+        map((virtualMachine: VirtualMachine) => {
           this.store.dispatch(new vmActions.DeploymentChangeStatus({
             stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED
           }));
           return virtualMachine;
-        });
+        }));
     } else {
-      return Observable.of(vm);
+      return of(vm);
     }
   }
 
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
     this.handleDeploymentMessages({ stage: VmDeploymentStage.TAG_COPYING });
-    return this.vmTagService.copyTagsToEntity(state.template.tags, vm)
-      .switchMap(() => {
-        return this.userTagService.getSavePasswordForAllVms();
-      })
-      .switchMap((tag) => {
-        if (tag) {
-          return this.tagService.update(
-            vm,
-            VmResourceType,
-            VirtualMachineTagKeys.passwordTag,
-            vm.password
-          );
-        } else {
-          return Observable.of(null);
-        }
-      })
-      .switchMap(() => {
+    return this.vmTagService.copyTagsToEntity(state.template.tags, vm).pipe(
+      switchMap(() => {
         if (state.agreement) {
           return this.vmTagService.setAgreement(vm);
         } else {
-          return Observable.of(null);
+          return of(null);
         }
-      })
-      .map(() => {
+      }),
+      map(() => {
         this.store.dispatch(new vmActions.DeploymentChangeStatus({
           stage: VmDeploymentStage.TAG_COPYING_FINISHED
         }));
         return <VirtualMachine>({ ...vm, tags: [...vm.tags] });
-      });
+      }));
   }
 
-  private getVmCreationParams(state: VmCreationState, securityGroups?: SecurityGroup[]) {
+  private getVmCreationParams(state: VmCreationState, keyboard: KeyboardLayout, securityGroups?: SecurityGroup[]) {
     const params: VmCreationParams = {};
 
     if (state.affinityGroup) {
@@ -634,7 +632,7 @@ export class VirtualMachineCreationEffects {
     }
 
     params.startVm = state.doStartVm.toString();
-    params.keyboard = state.keyboard;
+    params.keyboard = keyboard;
     params.name = state.displayName;
     params.serviceOfferingId = state.serviceOffering.id;
     params.templateId = state.template.id;
@@ -644,7 +642,7 @@ export class VirtualMachineCreationEffects {
       params.keyPair = state.sshKeyPair.name;
     }
 
-    if (state.diskOffering && !state.template.isTemplate) {
+    if (state.diskOffering && !isTemplate(state.template)) {
       params.diskofferingid = state.diskOffering.id;
       params.hypervisor = 'KVM';
     }
@@ -663,9 +661,9 @@ export class VirtualMachineCreationEffects {
       ];
     }
 
-    if ((state.rootDiskSize != null && state.template.isTemplate) ||
+    if ((state.rootDiskSize != null && isTemplate(state.template)) ||
       (state.diskOffering && state.diskOffering.iscustomized)) {
-      if (state.template.isTemplate) {
+      if (isTemplate(state.template)) {
         params.rootDiskSize = state.rootDiskSize;
       } else {
         params.size = state.rootDiskSize;
@@ -673,5 +671,20 @@ export class VirtualMachineCreationEffects {
     }
 
     return params;
+  }
+
+  private getPreselectedOffering(
+    offerings: ComputeOfferingViewModel[],
+    zone: Zone,
+    defaultComputeOfferingConfiguration: DefaultComputeOffering[]
+  ): ComputeOfferingViewModel {
+    const firstOffering = offerings[0];
+    const configForCurrentZone = defaultComputeOfferingConfiguration.find(config => config.zoneId === zone.id);
+    if (!configForCurrentZone) {
+      return firstOffering;
+    }
+    const preselectedOffering = offerings.find(offering => offering.id === configForCurrentZone.offeringId);
+
+    return preselectedOffering ? preselectedOffering : firstOffering;
   }
 }

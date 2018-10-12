@@ -1,5 +1,6 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import 'hammerjs';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -19,5 +20,5 @@ if (environment.hmr) {
     console.log('Are you using the --hmr flag for ng serve?');
   }
 } else {
-  bootstrap();
+  bootstrap().catch(err => console.log(err));
 }

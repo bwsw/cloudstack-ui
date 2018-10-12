@@ -1,43 +1,7 @@
 table {
   width: 100%;
-  box-sizing: border-box;
 }
 
-table td:nth-child(1),
-table th:nth-child(1) {
-  width: 110px;
-  max-width: 110px;
-}
-
-table td:nth-child(2),
-table th:nth-child(2) {
-  width: 190px;
-  max-width: 190px;
-}
-
-table td:nth-child(3),
-table th:nth-child(3) {
-  width: 180px;
-  max-width: 180px;
-}
-
-table td:nth-child(4),
-table th:nth-child(4) {
-  width: 100px;
-  max-width: 100px;
-}
-
-table td:nth-child(5),
-table th:nth-child(5) {
-  width: 75px;
-  max-width: 75px;
-}
-
-table td:nth-child(3) {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-table th {
-  text-align: left;
+.mat-column-delete {
+  width: 48px;
 }

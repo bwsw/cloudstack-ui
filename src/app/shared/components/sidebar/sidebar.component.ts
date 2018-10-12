@@ -1,9 +1,11 @@
 import { OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { filter, pluck, switchMap } from 'rxjs/operators';
+
 import { BaseModelInterface } from '../../models/base.model';
 import { BaseBackendService } from '../../services/base-backend.service';
-import { NotificationService } from '../../services/notification.service';
+import { SnackBarService } from '../../../core/services';
 import { EntityDoesNotExistError } from './entity-does-not-exist-error';
 
 
@@ -13,14 +15,15 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
 
   constructor(
     protected entityService: BaseBackendService<M>,
-    protected notificationService: NotificationService,
+    protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router
-  ) {}
+  ) {
+  }
 
   public ngOnInit(): void {
-    this.pluckId()
-      .switchMap(id => this.loadEntity(id))
+    this.pluckId().pipe(
+      switchMap(id => this.loadEntity(id)))
       .subscribe(
         entity => this.entity = entity,
         error => {
@@ -40,7 +43,7 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
   }
 
   private pluckId(): Observable<string> {
-    return this.route.params.pluck('id').filter(id => !!id) as Observable<string>;
+    return this.route.params.pipe(pluck('id'), filter(id => !!id)) as Observable<string>;
   }
 
   protected loadEntity(id: string): Observable<M> {
@@ -52,6 +55,6 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
   }
 
   private onError(error: any): void {
-    this.notificationService.error(error.message);
+    this.notificationService.open(error.message).subscribe();
   }
 }

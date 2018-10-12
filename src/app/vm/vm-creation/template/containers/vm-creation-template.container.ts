@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { State } from '../../../../reducers/index';
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 
 import * as fromTemplates from '../../../../reducers/templates/redux/template.reducers';
@@ -19,7 +19,7 @@ import * as fromTemplates from '../../../../reducers/templates/redux/template.re
 })
 export class VmCreationTemplateContainerComponent {
   readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation);
-  readonly numberOfTemplates$ = this.store.select(fromTemplates.allTemplatesReadyForVmCreation);
+  readonly numberOfTemplates$ = this.store.select(fromTemplates.numOfTemplatesReadyForVmCreation);
   @Input() public template: BaseTemplateModel;
   @Output() public change = new EventEmitter<BaseTemplateModel>();
 

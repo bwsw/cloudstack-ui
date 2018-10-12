@@ -1,5 +1,5 @@
 <div class="custom-slider">
-  <h5 *ngIf="label">{{ label }}</h5>
+  <h4 *ngIf="label">{{ label }}</h4>
   <div class="current-value">
     <mat-form-field class="custom-slider-input">
       <input
@@ -10,17 +10,18 @@
         step="1"
         [min]="min"
         [max]="max"
+        [csMinValue]="min"
+        [csMaxValue]="max"
         (blur)="onBlur($event)"
       >
     </mat-form-field>
     <div class="custom-slider-label">{{ units }}</div>
   </div>
 </div>
-
 <mat-slider
   [min]="min"
   [max]="max"
-  [thumb-label]="true"
+  [thumbLabel]="true"
   [ngModel]="sliderValue"
   (ngModelChange)="handleSliderChange($event)"
 ></mat-slider>

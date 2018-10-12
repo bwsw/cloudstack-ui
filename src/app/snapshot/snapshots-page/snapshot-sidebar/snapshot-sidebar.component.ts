@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Dictionary } from '@ngrx/entity/src/models';
+
 import {
   getDateSnapshotCreated,
   getSnapshotDescription,
@@ -7,6 +7,8 @@ import {
   SnapshotStates,
   Volume
 } from '../../../shared/models';
+import { NgrxEntities } from '../../../shared/interfaces';
+
 
 @Component({
   selector: 'cs-snapshot-sidebar',
@@ -15,7 +17,7 @@ import {
 })
 export class SnapshotSidebarComponent {
   @Input() public snapshot: Snapshot;
-  @Input() public volumes: Dictionary<Volume>;
+  @Input() public volumes: NgrxEntities<Volume>;
   @Input() public isLoading: boolean;
 
   public stateTranslations = {

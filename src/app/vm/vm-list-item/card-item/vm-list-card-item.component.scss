@@ -1,61 +1,49 @@
 :host {
   display: inline-flex;
-  z-index: -1;
-
-  & mat-card {
-    z-index: 0;
-    cursor: pointer;
-    line-height: normal;
-  }
 }
 
-.custom-card {
-  mat-card-header {
-    padding-bottom: 5px;
-  }
+mat-card-content {
+  table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
 
-  &.has-text-color {
-    mat-card-content,
-    mat-card-title {
-      color: inherit;
+    td, th {
+      border-right: 1px solid black;
     }
-  }
-  &.dark-background {
-    mat-card-content,
-    mat-card-title {
-      color: rgba(255, 255, 255, 0.87) !important;
-    }
-  }
-  &.light-background {
-    mat-card-content,
-    mat-card-title {
-      color: rgba(0, 0, 0, 0.87) !important;
+
+    td:last-child, th:last-child {
+      border-right: 0;
     }
   }
 }
 
-.os-type {
-  margin-bottom: 5px;
+.error {
+  cursor: auto;
 }
 
-mat-card {
-  &.error {
-    cursor: auto;
+.destroyed {
+  opacity: 0.65;
+}
+
+.has-text-color {
+  mat-card-content,
+  mat-card-title {
+    color: inherit;
   }
-  &.destroyed {
-    opacity: 0.65;
+}
+
+.dark-background {
+  mat-card-content,
+  mat-card-title {
+    color: rgba(255, 255, 255, 0.87) !important;
   }
 }
 
-.vm-ip-address {
-  display: inline-block;
-}
-
-.vm-state {
-  float: right;
-}
-
-mat-divider {
-  flex: 1 0 100%;
-  margin: 10px 0;
+.light-background {
+  mat-card-content,
+  mat-card-title {
+    color: rgba(0, 0, 0, 0.87) !important;
+  }
 }

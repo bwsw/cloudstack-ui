@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
 import { BaseTemplateAction } from '../base-template-action';
 import { DialogService } from '../../../../dialog/dialog-service/dialog.service';
@@ -23,7 +18,7 @@ export class TemplateActionsComponent {
 
   public activateAction(action) {
     switch (action.icon) {
-      case 'delete': {
+      case 'mdi-delete': {
         const confirmMessage = 'DIALOG_MESSAGES.TEMPLATE.CONFIRM_DELETION';
         this.dialogService.confirm(({ message: confirmMessage }))
           .subscribe((res) => {

@@ -18,8 +18,10 @@
         [disabled]="!canActivate"
         (click)="showSshKeypairResetDialog()"
       >
-        <mat-icon *ngIf="vm.keyPair; else add">edit</mat-icon>
-        <ng-template #add><mat-icon>add</mat-icon></ng-template>
+        <mat-icon *ngIf="vm.keyPair; else add" class="mdi-pencil"></mat-icon>
+        <ng-template #add>
+          <mat-icon class="mdi-plus"></mat-icon>
+        </ng-template>
       </button>
     </mat-card-actions>
   </mat-card-content>

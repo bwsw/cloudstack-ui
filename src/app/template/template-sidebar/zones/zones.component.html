@@ -5,15 +5,15 @@
   <mat-card *ngFor="let zone of entity.zones" class="vm-card">
     <mat-card-header>
       <mat-card-title>
-        <h2 class="mat-card-title-text">{{ zone.zoneName }}</h2>
+        <h2 class="mat-card-title-text">{{ zone.zonename }}</h2>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content class="grid">
       <div class="row">
         <div>{{ 'TEMPLATE_PAGE.ZONE_DETAILS.READY' | translate }}</div>
-        <div>{{ zone.isReady | viewValue | async }}</div>
+        <div>{{ zone.isready | viewValue | async }}</div>
       </div>
-      <div *ngIf="!zone.isReady && zone.status" class="row">
+      <div *ngIf="!zone.isready && zone.status" class="row">
         <div>{{ 'COMMON.STATUS' | translate }}</div>
         <div>{{ zone.status }}</div>
       </div>

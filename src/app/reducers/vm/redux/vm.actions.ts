@@ -2,13 +2,7 @@ import { Action } from '@ngrx/store';
 import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessageData } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import {
-  Color,
-  InstanceGroup,
-  ServiceOffering,
-  SSHKeyPair,
-  Tag
-} from '../../../shared/models';
+import { Color, InstanceGroup, ServiceOffering, SSHKeyPair, Tag } from '../../../shared/models';
 import { VirtualMachine } from '../../../vm';
 import { VmState } from '../../../vm/shared/vm.model';
 import { VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
@@ -18,6 +12,8 @@ import { FormState } from './vm.reducers';
 export const LOAD_VM_REQUEST = '[VM] LOAD_VM_REQUEST';
 export const LOAD_VMS_REQUEST = '[VM] LOAD_VMS_REQUEST';
 export const LOAD_VMS_RESPONSE = '[VM] LOAD_VMS_RESPONSE';
+export const LOAD_VIRTUAL_MACHINE = '[VM] Load virtual machine';
+export const VIRTUAL_MACHINE_LOADED = '[VM] Virtual Machine Loaded';
 export const VM_FILTER_UPDATE = '[VM] VM_FILTER_UPDATE';
 export const VM_ATTACHMENT_FILTER_UPDATE = '[VM] VM_ATTACHMENT_FILTER_UPDATE';
 export const LOAD_SELECTED_VM = '[VM] LOAD_SELECTED_VM';
@@ -37,7 +33,6 @@ export const STOP_VM = '[VM] STOP_VM';
 export const START_VM = '[VM] START_VM';
 export const RESTORE_VM = '[VM] RESTORE_VM';
 export const RESET_PASSWORD_VM = '[VM] RESET_PASSWORD_VM';
-export const SAVE_NEW_VM_PASSWORD = '[VM] SAVE_NEW_VM_PASSWORD';
 export const REBOOT_VM = '[VM] REBOOT_VM';
 export const DESTROY_VM = '[VM] DESTROY_VM';
 export const RECOVER_VM = '[VM] RECOVER_VM';
@@ -70,6 +65,10 @@ export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMEN
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
 export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
 
+export const SAVE_VM_PASSWORD = '[VM password component] Save VM password';
+export const SAVE_VM_PASSWORD_SUCCESS = '[Resource tag API] Save VM password success';
+export const SAVE_VM_PASSWORD_ERROR = '[Resource tag API] Save VM password error';
+
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
 
@@ -81,6 +80,20 @@ export class LoadVMRequest implements Action {
   type = LOAD_VM_REQUEST;
 
   constructor(public payload?: any) {
+  }
+}
+
+export class LoadVirtualMachine implements Action {
+  readonly type = LOAD_VIRTUAL_MACHINE;
+
+  constructor(public payload: { id: string }) {
+  }
+}
+
+export class VirtualMachineLoaded implements Action {
+  readonly type = VIRTUAL_MACHINE_LOADED;
+
+  constructor(public payload: { vm: VirtualMachine }) {
   }
 }
 
@@ -248,16 +261,6 @@ export class ResetPasswordVm implements Action {
   readonly type = RESET_PASSWORD_VM;
 
   constructor(public payload: VirtualMachine) {
-  }
-}
-
-export class SaveNewPassword implements Action {
-  readonly type = SAVE_NEW_VM_PASSWORD;
-
-  constructor(public payload: {
-    vm: VirtualMachine,
-    tag: { key: string, value: string }
-  }) {
   }
 }
 
@@ -474,8 +477,32 @@ export class VmDeploymentCopyTags implements Action {
   }
 }
 
+export class SaveVMPassword implements Action {
+  readonly type = SAVE_VM_PASSWORD;
+
+  constructor(public payload: { vm: VirtualMachine, password: string }) {
+  }
+}
+
+export class SaveVMPasswordSuccess implements Action {
+  readonly type = SAVE_VM_PASSWORD_SUCCESS;
+
+  constructor(public payload: { vmId: string, password: string }) {
+  }
+}
+
+export class SaveVMPasswordError implements Action {
+  readonly type = SAVE_VM_PASSWORD_ERROR;
+
+  constructor(public payload: { error: Error }) {
+  }
+}
+
+
 export type Actions = LoadVMsRequest
   | LoadVMsResponse
+  | LoadVirtualMachine
+  | VirtualMachineLoaded
   | AccessVm
   | PulseVm
   | ConsoleVm
@@ -500,7 +527,6 @@ export type Actions = LoadVMsRequest
   | StartVm
   | RestoreVm
   | ResetPasswordVm
-  | SaveNewPassword
   | RebootVm
   | DestroyVm
   | RecoverVm
@@ -524,4 +550,7 @@ export type Actions = LoadVMsRequest
   | DeploymentRequest
   | DeploymentRequestSuccess
   | DeploymentRequestError
-  | VmDeploymentCopyTags;
+  | VmDeploymentCopyTags
+  | SaveVMPassword
+  | SaveVMPasswordSuccess
+  | SaveVMPasswordError;

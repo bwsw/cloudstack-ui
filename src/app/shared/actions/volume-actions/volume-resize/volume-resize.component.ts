@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
-import { Volume, isRoot } from '../../../models/volume.model';
+import { isRoot, Volume } from '../../../models/volume.model';
 import { VolumeResizeData } from '../../../services/volume.service';
 import { isCustomized } from '../../../models/offering.model';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -15,14 +16,25 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input() public maxSize: number;
   @Input() public volume: Volume;
   @Input() public diskOfferings: Array<DiskOffering>;
-  @Input() public diskOfferingParams: Array<string>;
   @Output() public onDiskResized = new EventEmitter<VolumeResizeData>();
 
   public diskOffering: DiskOffering;
   public newSize: number;
 
+  public get rootDiskSizeLimit(): number {
+    const maxRootCapability = this.authService.getCustomDiskOfferingMaxSize();
+    if (this.maxSize.toString() === 'Unlimited' && maxRootCapability) {
+      return maxRootCapability;
+    }
+    if (Number(this.maxSize) < maxRootCapability) {
+      return Number(this.maxSize);
+    }
+    return maxRootCapability;
+  }
+
   constructor(
-    public dialogRef: MatDialogRef<VolumeResizeComponent>
+    public dialogRef: MatDialogRef<VolumeResizeComponent>,
+    public authService: AuthService
   ) {
   }
 

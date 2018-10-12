@@ -1,39 +1,29 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import * as clone from 'lodash/clone';
+
 import {
+  Account,
   AffinityGroup,
+  DiskOffering,
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
   Zone
 } from '../../shared/models';
-import { DiskOffering, Account } from '../../shared/models';
-import { BaseTemplateModel } from '../../template/shared';
+import { BaseTemplateModel, isTemplate } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
 import { NotSelected, VmCreationState } from './data/vm-creation-state';
 import { VmCreationSecurityGroupData } from './security-group/vm-creation-security-group-data';
-import { VmCreationAgreementComponent } from './template/agreement/vm-creation-agreement.component';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-// tslint:disable-next-line
-import { ICustomOfferingRestrictions } from '../../service-offering/custom-service-offering/custom-offering-restrictions';
-// tslint:disable-next-line
-import { ProgressLoggerMessage, } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { VmCreationContainerComponent } from './containers/vm-creation.container';
 import { AuthService } from '../../shared/services/auth.service';
-
-import * as clone from 'lodash/clone';
+// tslint:disable-next-line
+import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 
 @Component({
-  selector: 'cs-vm-create',
+  selector: 'cs-vm-creation',
   templateUrl: 'vm-creation.component.html',
   styleUrls: ['vm-creation.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VmCreationAgreementComponent),
-      multi: true
-    }
-  ]
 })
 export class VmCreationComponent {
   @Input() public account: Account;
@@ -44,7 +34,6 @@ export class VmCreationComponent {
   @Input() public zones: Zone[];
   @Input() public sshKeyPairs: SSHKeyPair[];
   @Input() public serviceOfferings: ServiceOffering[];
-  @Input() public customOfferingRestrictions: ICustomOfferingRestrictions;
 
   @Input() public fetching: boolean;
   @Input() public diskOfferingsAreLoading: boolean;
@@ -54,7 +43,6 @@ export class VmCreationComponent {
   @Input() public deployedVm: VirtualMachine;
   @Input() public enoughResources: boolean;
   @Input() public insufficientResources: Array<string>;
-  @Input() public diskOfferingParams: Array<string>;
 
   @Output() public displayNameChange = new EventEmitter<string>();
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
@@ -64,7 +52,6 @@ export class VmCreationComponent {
   @Output() public affinityGroupChange = new EventEmitter<AffinityGroup>();
   @Output() public instanceGroupChange = new EventEmitter<InstanceGroup>();
   @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
-  @Output() public keyboardChange = new EventEmitter<VmCreationSecurityGroupData>();
   @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
   @Output() public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
   @Output() public doStartVmChange = new EventEmitter<boolean>();
@@ -74,7 +61,6 @@ export class VmCreationComponent {
   @Output() public deploy = new EventEmitter<VmCreationState>();
   @Output() public cancel = new EventEmitter();
   @Output() public onError = new EventEmitter();
-
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
@@ -91,41 +77,49 @@ export class VmCreationComponent {
   public visibleAffinityGroups: Array<AffinityGroup>;
   public visibleInstanceGroups: Array<InstanceGroup>;
 
-  public get nameIsTaken(): boolean {
+  constructor(
+    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private auth: AuthService,
+  ) {
+  }
+
+  public nameIsTaken(): boolean {
     return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
   }
 
-  public get diskOfferingsAreAllowed(): boolean {
-    return this.vmCreationState.template
-      && !this.vmCreationState.template.isTemplate;
+  public diskOfferingsAreAllowed(): boolean {
+    return this.vmCreationState.template && !isTemplate(this.vmCreationState.template);
   }
 
-  public get showResizeSlider(): boolean {
-    return this.vmCreationState.template
-      && !this.vmCreationState.template.isTemplate
-      && this.showRootDiskResize
-      && !!this.vmCreationState.rootDiskMinSize;
+  public showResizeSlider(): boolean {
+    const template = isTemplate(this.vmCreationState.template);
+    return template || (!template && this.isCustomizedDiskOffering());
   }
 
-  public get rootDiskSizeLimit(): number {
-    return this.account && this.account.primarystorageavailable;
+  public rootDiskSizeLimit(): number {
+    const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
+    const storageAvailable = Number(primaryStorageAvailable);
+    const maxRootSize = this.auth.getCustomDiskOfferingMaxSize();
+    if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
+      return maxRootSize;
+    }
+    if (storageAvailable < maxRootSize) {
+      return storageAvailable;
+    }
+    return maxRootSize;
   }
 
-  public get showRootDiskResize(): boolean {
-    return this.vmCreationState.diskOffering
-      && this.vmCreationState.diskOffering.iscustomized;
+  public isCustomizedDiskOffering(): boolean {
+    if (this.vmCreationState.diskOffering) {
+      return this.vmCreationState.diskOffering.iscustomized;
+    }
+    return false;
   }
 
-  public get showSecurityGroups(): boolean {
+  public showSecurityGroups(): boolean {
     return this.vmCreationState.zone
       && this.vmCreationState.zone.securitygroupsenabled
       && this.auth.isSecurityGroupEnabled();
-  }
-
-  constructor(
-    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private auth: AuthService
-  ) {
   }
 
   public changeTemplate(value: BaseTemplateModel) {
@@ -161,5 +155,12 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
+  }
+
+  public isSubmitButtonDisabled(isFormValid: boolean): boolean {
+    return !isFormValid
+      || this.nameIsTaken()
+      || !this.vmCreationState.template
+      || !this.vmCreationState.serviceOffering.isAvailableByResources;
   }
 }

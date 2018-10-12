@@ -1,0 +1,47 @@
+$vm-card-title-font-size: 17px;
+
+.entity-card {
+  cursor: pointer;
+  line-height: normal;
+
+  // Necessary for adding ellipsis on card title and for proper placing tooltip
+  // A small value is used so that the element does not take more than itself
+  .mat-card-header-text {
+    min-width: 5%;
+  }
+
+  .entity-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    .entity-card-thumbnail {
+      order: -1;
+      margin-right: 5px;
+    }
+
+    .entity-card-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: $vm-card-title-font-size;
+    }
+
+    .entity-card-menu {
+      margin-left: auto;
+      align-self: flex-start;
+      position: relative;
+      right: -12px;
+    }
+  }
+
+  mat-card-content {
+    .entity-card-data-line {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-bottom: 5px;
+    }
+  }
+}

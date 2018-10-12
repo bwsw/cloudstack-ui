@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 import { TagService } from './tag.service';
-import { Taggable } from '../../interfaces/taggable.interface';
-import { Observable } from 'rxjs/Observable';
+import { Taggable } from '../../interfaces';
 
 
 const deletionMarkKey = 'status';

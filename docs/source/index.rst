@@ -27,7 +27,6 @@ Contents:
    CS-UI_Guide
    CS-UI_Pulse
    CS-UI_Webshell
-
    
  
 Indices and tables

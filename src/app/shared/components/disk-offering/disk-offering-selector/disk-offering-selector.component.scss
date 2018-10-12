@@ -4,6 +4,18 @@
   align-items: center;
 }
 
+.disk-offering-info {
+  display: inline-block;
+  width: 100%;
+  font-size: 11pt !important;
+}
+
+.mat-form-field-wrapper {
+  text-align: left;
+  padding-top: 18px;
+  padding-bottom: 0;
+}
+
 .top-row /deep/ * {
   margin: 0;
 }

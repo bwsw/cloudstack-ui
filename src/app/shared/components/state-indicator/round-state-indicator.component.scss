@@ -1,0 +1,13 @@
+$circle-size: 14px;
+
+mat-icon {
+  font-size: $circle-size;
+  width: $circle-size;
+  height: $circle-size;
+  text-shadow: 0 0 5px #fff;
+  background-color: transparent !important;
+
+  &:before {
+    background-color: transparent !important;
+  }
+}

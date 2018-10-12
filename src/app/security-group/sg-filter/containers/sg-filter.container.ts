@@ -1,23 +1,20 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
-import { FilterService } from '../../../shared/services/filter.service';
-import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { State } from '../../../reducers/index';
+import { takeUntil } from 'rxjs/operators';
+
+import { FilterService } from '../../../shared/services/filter.service';
+import { WithUnsubscribe } from '../../../utils/mixins/with-unsubscribe';
+import { State } from '../../../reducers';
 
 import * as  securityGroupActions from '../../../reducers/security-groups/redux/sg.actions';
 import * as  fromSecurityGroups from '../../../reducers/security-groups/redux/sg.reducers';
 import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 import * as accountActions from '../../../reducers/accounts/redux/accounts.actions';
 import { SecurityGroupViewMode } from '../../sg-view-mode';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
+const FILTER_KEY = 'securityGroupFilters';
 
 @Component({
   selector: 'cs-sg-filter-container',
@@ -26,17 +23,20 @@ import { SecurityGroupViewMode } from '../../sg-view-mode';
 export class SgFilterContainerComponent extends WithUnsubscribe() implements OnInit {
   public filters$ = this.store.select(fromSecurityGroups.filters);
   readonly accounts$ = this.store.select(fromAccounts.selectAll);
-  public isOrphan$ = this.store.select(fromSecurityGroups.hasOrphanSecurityGroups);
   public viewMode: SecurityGroupViewMode;
 
   public query: string;
 
-  private filtersKey = 'securityGroupFilters';
   private filterService = new FilterService(
     {
       viewMode: {
         type: 'string',
-        options: [SecurityGroupViewMode.Templates, SecurityGroupViewMode.Shared]
+        options: [
+          SecurityGroupViewMode.Templates,
+          SecurityGroupViewMode.Shared,
+          SecurityGroupViewMode.Private
+        ],
+        defaultOption: SecurityGroupViewMode.Templates
       },
       query: {
         type: 'string'
@@ -44,8 +44,8 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
       accounts: { type: 'array', defaultOption: [] }
     },
     this.router,
-    this.storageService,
-    this.filtersKey,
+    this.sessionStorage,
+    FILTER_KEY,
     this.activatedRoute
   );
 
@@ -53,7 +53,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     private store: Store<State>,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private storageService: LocalStorageService
+    private sessionStorage: SessionStorageService,
   ) {
     super();
   }
@@ -61,15 +61,6 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
   public ngOnInit(): void {
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-  }
-
-  public get mode(): number {
-    const modeIndices = {
-      [SecurityGroupViewMode.Templates]: 0,
-      [SecurityGroupViewMode.Shared]: 1
-    };
-
-    return modeIndices[this.viewMode] || 0;
   }
 
   public initFilters(): void {
@@ -84,12 +75,13 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
       selectedAccountIds
     }));
 
-    this.filters$
-      .takeUntil(this.unsubscribe$)
+    this.filters$.pipe(
+      takeUntil(this.unsubscribe$))
       .subscribe(filters => this.filterService.update({
         viewMode: filters.viewMode,
         query: filters.query,
-        accounts: filters.selectedAccountIds
+        accounts: filters.selectedAccountIds,
+        orphan: filters.selectOrphanSG
       }));
   }
 

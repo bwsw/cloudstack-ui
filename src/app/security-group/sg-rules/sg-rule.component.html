@@ -1,45 +1,51 @@
 <tr class="md-row rule-row">
   <td class="mat-cell" colspan="5">
-    <ng-template [ngIf]="item.protocol === NetworkProtocols.ICMP">
+    <ng-container *ngIf="item.protocol === NetworkProtocols.ICMP; then icmpNetworkRule else portNetworkRule"></ng-container>
+
+    <ng-template #icmpNetworkRule>
       <ng-template [ngIf]="!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
-      <span
-        [innerHTML]="(item.type === NetworkRuleTypes.Ingress
-        ? 'SECURITY_GROUP_PAGE.RULES.NO_TEXT_INGRESS_ICMP_RULE'
-        : 'SECURITY_GROUP_PAGE.RULES.NO_TEXT_EGRESS_ICMP_RULE') | translate: (ruleParams)"
-      ></span>
+        <span
+          [innerHTML]="(item.type === NetworkRuleTypes.Ingress
+          ? 'SECURITY_GROUP_PAGE.RULES.NO_TEXT_INGRESS_ICMP_RULE'
+          : 'SECURITY_GROUP_PAGE.RULES.NO_TEXT_EGRESS_ICMP_RULE') | translate: (ruleParams)"
+        ></span>
       </ng-template>
       <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !ruleParams['icmpCodeText']">
-      <span
-        [innerHTML]="(item.type === NetworkRuleTypes.Ingress
-        ? 'SECURITY_GROUP_PAGE.RULES.NO_CODE_INGRESS_ICMP_RULE'
-        : 'SECURITY_GROUP_PAGE.RULES.NO_CODE_EGRESS_ICMP_RULE') | translate: (ruleParams)"
-      ></span>
+        <span
+          [innerHTML]="(item.type === NetworkRuleTypes.Ingress
+          ? 'SECURITY_GROUP_PAGE.RULES.NO_CODE_INGRESS_ICMP_RULE'
+          : 'SECURITY_GROUP_PAGE.RULES.NO_CODE_EGRESS_ICMP_RULE') | translate: (ruleParams)"
+        ></span>
       </ng-template>
       <ng-template [ngIf]="!!ruleParams['icmpTypeText'] && !!ruleParams['icmpCodeText']">
-      <span
-        [innerHTML]="(item.type === NetworkRuleTypes.Ingress
-        ? 'SECURITY_GROUP_PAGE.RULES.INGRESS_ICMP_RULE'
-        : 'SECURITY_GROUP_PAGE.RULES.EGRESS_ICMP_RULE') | translate: (ruleParams)"
-      ></span>
+        <span
+          [innerHTML]="(item.type === NetworkRuleTypes.Ingress
+          ? 'SECURITY_GROUP_PAGE.RULES.INGRESS_ICMP_RULE'
+          : 'SECURITY_GROUP_PAGE.RULES.EGRESS_ICMP_RULE') | translate: (ruleParams)"
+        ></span>
       </ng-template>
     </ng-template>
-    <ng-template [ngIf]="item.protocol !== NetworkProtocols.ICMP">
-      <ng-template [ngIf]="item.startPort === item.endPort">
-      <span
-        [innerHTML]="(item.type === NetworkRuleTypes.Ingress
-        ? 'SECURITY_GROUP_PAGE.RULES.INGRESS_RULE'
-        : 'SECURITY_GROUP_PAGE.RULES.EGRESS_RULE') | translate: (ruleParams)"
-      ></span>
+
+    <ng-template #portNetworkRule>
+      <ng-container *ngIf="startPort === endPort; then sameStartAndEndPort else defferentStartAndEndPort"></ng-container>
+
+      <ng-template #sameStartAndEndPort>
+        <span
+          [innerHTML]="(item.type === NetworkRuleTypes.Ingress
+          ? 'SECURITY_GROUP_PAGE.RULES.INGRESS_RULE'
+          : 'SECURITY_GROUP_PAGE.RULES.EGRESS_RULE') | translate: (ruleParams)"
+        ></span>
       </ng-template>
-      <ng-template [ngIf]="item.startPort !== item.endPort">
-      <span
-        [innerHTML]="(item.type === NetworkRuleTypes.Ingress
-        ? 'SECURITY_GROUP_PAGE.RULES.INGRESS_RULE_PORT_RANGE'
-        : 'SECURITY_GROUP_PAGE.RULES.EGRESS_RULE_PORT_RANGE') | translate: (ruleParams)"
-      ></span>
+      <ng-template #defferentStartAndEndPort>
+        <span
+          [innerHTML]="(item.type === NetworkRuleTypes.Ingress
+          ? 'SECURITY_GROUP_PAGE.RULES.INGRESS_RULE_PORT_RANGE'
+          : 'SECURITY_GROUP_PAGE.RULES.EGRESS_RULE_PORT_RANGE') | translate: (ruleParams)"
+        ></span>
       </ng-template>
     </ng-template>
   </td>
+
   <td class="mat-cell delete-button-cell">
     <button
       class="delete-rule-button"
@@ -48,7 +54,7 @@
       *ngIf="canRemove"
       (click)="handleRemoveClicked($event)"
     >
-      <mat-icon *ngIf="!deleting">delete</mat-icon>
+      <mat-icon *ngIf="!deleting" class="mdi-delete"></mat-icon>
       <mat-spinner
         *ngIf="deleting"
         [diameter]="50"
