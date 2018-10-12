@@ -178,7 +178,6 @@ We changed the templates and ISOs view making it more obvious and neat to use. A
 
 #### Snapshots
 
-
 We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes in the system. A user can view the list of snapshots and filter or group it by type or account (available to Administrators). We also added filtering snapshots by date.
 
 In the details sidebar a user can see the snapshot general information and the volume that the snapshot is created for.
@@ -217,6 +216,10 @@ Here domain administrators can manage existing accounts, create new accounts and
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/accounts2.png" target="_blank">![Activity Log screen](./screens/accounts2_mini.png)</a>
 
 # Documentation
+
+## User Guide
+
+You can find an official User Guide at https://cloudstackui.readthedocs.io/en/latest/ .
 
 ## Getting started guide
 
