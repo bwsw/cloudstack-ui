@@ -1,3 +1,22 @@
+<a name="1.411.22"></a>
+## [1.411.22](https://github.com/HeyRoach/cloudstack-ui/compare/1.411.21...1.411.22) (2018-10-12)
+
+
+### Bug Fixes
+
+* **datepicker:** fix datepicker in ie ([#1311](https://github.com/HeyRoach/cloudstack-ui/issues/1311)) ([e3a2b95](https://github.com/HeyRoach/cloudstack-ui/commit/e3a2b95))
+* **grouping:** update draggable select to the latest material ([#1306](https://github.com/HeyRoach/cloudstack-ui/issues/1306)) ([4fcbba2](https://github.com/HeyRoach/cloudstack-ui/commit/4fcbba2))
+* **password-change:** fix event binding ([#1305](https://github.com/HeyRoach/cloudstack-ui/issues/1305)) ([5551592](https://github.com/HeyRoach/cloudstack-ui/commit/5551592))
+* **vm-default-name:** load default name ([#1317](https://github.com/HeyRoach/cloudstack-ui/issues/1317)) ([35c4db1](https://github.com/HeyRoach/cloudstack-ui/commit/35c4db1))
+
+
+### Features
+
+* **service-offering:** show all service offerings even those which don't fit resources ([#1299](https://github.com/HeyRoach/cloudstack-ui/issues/1299)) ([8eb44a4](https://github.com/HeyRoach/cloudstack-ui/commit/8eb44a4)), closes [#1229](https://github.com/HeyRoach/cloudstack-ui/issues/1229)
+* **vm-creation:** vm creation dialog enhancements ([#1292](https://github.com/HeyRoach/cloudstack-ui/issues/1292)) ([c781816](https://github.com/HeyRoach/cloudstack-ui/commit/c781816))
+
+
+
 <a name="1.411.21"></a>
 ## [1.411.21](https://github.com/tamazlykar/cloudstack-ui/compare/1.410.18...1.411.21) (2018-09-27)
 
