@@ -36,8 +36,8 @@
       <p><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getSshPassword(vm) }}</p>
       <p *ngIf="vm.keyPair">
         <b>{{ 'VM_POST_ACTION.SSH_KEY' | translate }}: </b>
-        <span *ngFor=" let key of getSSHKeys(vm.keyPair); let isLast=last">
-          {{ key }}{{ isLast ? '' : ', ' }}
+        <span>
+          {{ vm.keyPair }}
         </span>
       </p>
     </div>
@@ -53,9 +53,17 @@
       <p><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getUrlPassword(vm) }}</p>
     </div>
 
-    <p class="action-link">
+    <p>
       <b>{{ 'VM_POST_ACTION.OPEN_URL' | translate }}:</b>
-      <a (click)="openUrlVm(vm)"> {{ httpAccessService.getAddress(vm)}}</a>
+      <ng-container  *ngIf="isValidUrl(httpAccessService.getAddress(vm)); else invalidUrl">
+        <a  class="action-link" (click)="openUrlVm(vm)"> {{ httpAccessService.getAddress(vm) }}</a>
+      </ng-container>
+      <ng-template #invalidUrl>
+        <a> {{ httpAccessService.getAddress(vm) }}</a>
+        <span class="error-message">
+        {{ 'ERRORS.VM_POST_ACTION.INVALID_URL' | translate }}
+      </span>
+      </ng-template>
     </p>
   </mat-tab>
 </mat-tab-group>

@@ -43,12 +43,12 @@ export class HttpAccessService extends AccessService {
 
   public getHttpProtocol(vm: VirtualMachine) {
     const protocolTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpProtocolToken);
-    return protocolTag || this.defaultProtocol;
+    return protocolTag.toLowerCase() || this.defaultProtocol;
   };
 
   public getHttpPath(vm: VirtualMachine) {
     const pathTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPathToken);
-    return pathTag || this.defaultPath;
+    return pathTag.toLowerCase() || this.defaultPath;
   };
 
   public getHttpPort(vm: VirtualMachine) {
@@ -56,7 +56,7 @@ export class HttpAccessService extends AccessService {
     if (portTag) {
       return portTag;
     }
-    const defaultValue = this.getHttpProtocol(vm) === 'http' ? this.defaultHttpPort : this.defaultHttpsPort;
+    const defaultValue = this.getHttpProtocol(vm) === this.defaultProtocol ? this.defaultHttpPort : this.defaultHttpsPort;
     return defaultValue;
   }
 }
