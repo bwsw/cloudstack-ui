@@ -74,9 +74,7 @@ It contains the following information:
 
 Click "CANCEL" to drop adding a description.
 
-You can edit the description of an SSH key by clicking |edit icon|. Change the existing description in the text field and save the edits.
-
-The description is saved to account tags if they are supported for the account. Account tags can be switched on in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md>`_ by an Administrator.
+You can edit the description of an SSH key by clicking |edit icon|. Change the existing description in the text field and save the edits. The description is saved to account tags.
 
 SSH Key Action Box
 ~~~~~~~~~~~~~~~~~~~~
