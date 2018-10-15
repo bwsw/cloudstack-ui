@@ -258,7 +258,8 @@ export const loadVmLogsRequestParams = createSelector(
     const fields = {
       keywords: keywords.map(keyword => keyword.text).join(','),
       startDate: moment(startDate).toISOString().slice(0, -1),
-      endDate: moment(endDate).toISOString().slice(0, -1)
+      endDate: moment(endDate).toISOString().slice(0, -1),
+      sort: '-timestamp'
     };
 
     return Object.keys(fields).reduce((acc, key) => {
