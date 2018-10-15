@@ -10,10 +10,12 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as vmLogActions from '../redux/vm-logs.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromVmLogs from '../redux/vm-logs.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { Keyword } from '../models/keyword.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { UserTagsSelectors } from '../../root-store';
 import moment = require('moment');
+import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 const FILTER_KEY = 'logsFilters';
 
@@ -22,8 +24,9 @@ const FILTER_KEY = 'logsFilters';
   template: `
     <cs-vm-logs-filter
       *loading="loading$ | async"
-      [vmId]="selectedVmId$ | async"
+      [accounts]="accounts$ | async"
       [vms]="vms$ | async"
+      [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedVmId]="selectedVmId$ | async"
       [keywords]="keywords$ | async"
       [startDate]="startDate$ | async | dateObjectToDate"
@@ -31,6 +34,7 @@ const FILTER_KEY = 'logsFilters';
       [endDate]="endDate$ | async | dateObjectToDate"
       [endTime]="endTime$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
+      (onAccountsChange)="onAccountsChange($event)"
       (onVmChange)="onVmChange($event)"
       (onRefresh)="onRefresh()"
       (onKeywordAdd)="onKeywordAdd($event)"
@@ -44,7 +48,9 @@ const FILTER_KEY = 'logsFilters';
 export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   readonly filters$ = this.store.pipe(select(fromVmLogs.filters));
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
-  readonly vms$ = this.store.pipe(select(fromVMs.selectAll));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
+  readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogs.filterSelectedAccountIds));
+  readonly vms$ = this.store.pipe(select(fromVmLogs.selectFilteredVMs));
   readonly selectedVmId$ = this.store.pipe(select(fromVmLogs.filterSelectedVmId));
   readonly keywords$ = this.store.pipe(select(fromVmLogs.filterKeywords));
   readonly startDate$ = this.store.pipe(select(fromVmLogs.filterStartDate));
@@ -76,7 +82,11 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     super();
   }
 
-  public onVmChange(selectedVmId) {
+  public onAccountsChange(selectedAccountIds: Array<string>) {
+    this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(selectedAccountIds));
+  }
+
+  public onVmChange(selectedVmId: string) {
     this.store.dispatch(new vmLogActions.VmLogsFilterUpdate({
       selectedVmId
     }));
@@ -116,6 +126,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new vmLogActions.VmLogsFilterUpdate({
       selectedVmId: params['vm'],
       keywords: (params['keywords'] || []).map(text => ({ text })),
+      selectedAccountIds: params['accounts'] || [],
       ...(params['startDate'] ? { startDate: moment(params['startDate']).toObject() } : null),
       ...(params['endDate'] ? { endDate: moment(params['endDate']).toObject() } : null)
     }));
@@ -123,6 +134,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
 
   public ngOnInit() {
     this.store.dispatch(new vmActions.LoadVMsRequest());
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
     this.filters$.pipe(
       takeUntil(this.unsubscribe$),
@@ -132,6 +144,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
         this.filterService.update({
           vm: filters.selectedVmId,
           keywords: filters.keywords.map(keyword => keyword.text),
+          accounts: filters.selectedAccountIds,
           startDate: moment(filters.startDate).toISOString(),
           endDate: moment(filters.endDate).toISOString(),
         });

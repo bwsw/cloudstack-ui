@@ -5,12 +5,15 @@ import * as vmLogsActions from './vm-logs.actions';
 import { Keyword } from '../models/keyword.model';
 import { LoadVmLogsRequestParams } from '../models/load-vm-logs-request-params';
 import { DateObject } from '../models/date-object.model';
+import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
+import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import moment = require('moment');
 
 export interface State extends EntityState<VmLog> {
   loading: boolean,
   filters: {
     selectedVmId: string,
+    selectedAccountIds: Array<string>,
     keywords: Array<Keyword>,
     startDate: DateObject,
     endDate: DateObject,
@@ -34,6 +37,7 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   filters: {
     selectedVmId: null,
+    selectedAccountIds: [],
     keywords: [],
     startDate: moment()
       .add(-1, 'days')
@@ -93,6 +97,16 @@ export function reducer(
         filters: {
           ...state.filters,
           keywords: state.filters.keywords.filter(keyword => keyword !== action.payload)
+        }
+      }
+    }
+
+    case vmLogsActions.VM_LOGS_UPDATE_ACCOUNT_IDS: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          selectedAccountIds: action.payload,
         }
       }
     }
@@ -247,6 +261,41 @@ export const filterEndTime = createSelector(
     hour: state.endDate.hours,
     minute: state.endDate.minutes
   })
+);
+
+export const filterSelectedAccountIds = createSelector(
+  filters,
+  state => state.selectedAccountIds
+);
+
+export const selectFilteredVMs = createSelector(
+  fromVMs.selectAll,
+  filterSelectedAccountIds,
+  filterSelectedVmId,
+  fromAccounts.selectAll,
+  (
+    vms,
+    selectedAccountIds,
+    selectedVmId,
+    accounts
+  ) => {
+    const selectedAccounts = accounts.filter(
+      account => selectedAccountIds.find(id => id === account.id));
+    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
+    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
+
+    const selectedAccountIdsFilter = vm => !selectedAccountIds.length ||
+      (accountsMap[vm.account] && domainsMap[vm.domainid]);
+
+    const selectedVm = vms.find(vm => vm.id === selectedVmId);
+    const filteredVms = vms.filter(vm => selectedAccountIdsFilter(vm));
+
+    if (!filteredVms.find(vm => vm.id === selectedVmId) && selectedVm) {
+      return filteredVms.concat(selectedVm);
+    }
+
+    return filteredVms;
+  }
 );
 
 export const loadVmLogsRequestParams = createSelector(

@@ -14,17 +14,19 @@ import { Time } from '../../shared/components/time-picker/time-picker.component'
 export class VmLogsFilterComponent {
   // public dateTimeFormat = Intl.DateTimeFormat;
   // public date = new Date();
-  @Input() public vmId: string;
+  @Input() public accounts: Array<Account>;
   @Input() public vms: Array<VirtualMachine>;
-  @Input() public keywords: Array<Keyword>;
+  @Input() public selectedAccountIds: Array<string>;
   @Input() public selectedVmId: Array<string>;
+  @Input() public keywords: Array<Keyword>;
   @Input() public firstDayOfWeek: number;
   @Input() public startDate: Date;
   @Input() public startTime: Time;
   @Input() public endDate: Date;
   @Input() public endTime: Time;
-  @Output() public onVmChange = new EventEmitter();
-  @Output() public onRefresh = new EventEmitter();
+  @Output() public onAccountsChange = new EventEmitter<Array<string>>()
+  @Output() public onVmChange = new EventEmitter<string>();
+  @Output() public onRefresh = new EventEmitter<void>();
   @Output() public onKeywordAdd = new EventEmitter<Keyword>();
   @Output() public onKeywordRemove = new EventEmitter<Keyword>();
   @Output() public onStartDateChange = new EventEmitter<Date>();

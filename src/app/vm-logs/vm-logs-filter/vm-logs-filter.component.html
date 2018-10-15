@@ -1,4 +1,19 @@
 <div class="options-panel filter-wrapper">
+  <mat-form-field *ngIf="accounts.length > 1">
+    <mat-select
+      multiple="true"
+      [placeholder]="'LOGS_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [ngModel]="selectedAccountIds"
+      (selectionChange)="onAccountsChange.emit($event.value)"
+    >
+      <mat-option
+        *ngFor="let account of accounts"
+        [value]="account.id"
+      >{{ account?.fullDomain }}{{ account.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <mat-form-field>
     <mat-select
       [placeholder]="'LOGS_PAGE.FILTERS.SELECT_VM' | translate"
@@ -64,7 +79,7 @@
   ></cs-vm-log-keywords>
 
   <div>
-    <button mat-button (click)="onRefresh.emit()" [disabled]="!vmId">
+    <button mat-button (click)="onRefresh.emit()" [disabled]="!selectedVmId">
       {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
     </button>
   </div>

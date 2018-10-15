@@ -10,6 +10,7 @@ export const VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE';
 export const VM_LOGS_UPDATE_START_TIME = '[VM Logs] VM_LOGS_UPDATE_START_TIME';
 export const VM_LOGS_UPDATE_END_DATE = '[VM Logs] VM_LOGS_UPDATE_END_DATE';
 export const VM_LOGS_UPDATE_END_TIME = '[VM Logs] VM_LOGS_UPDATE_END_TIME';
+export const VM_LOGS_UPDATE_ACCOUNT_IDS = '[VM Logs] VM_LOGS_UPDATE_ACCOUNT_IDS';
 
 export class LoadVmLogsRequest implements Action {
   type = LOAD_VM_LOGS_REQUEST;
@@ -77,9 +78,17 @@ export class VmLogsUpdateEndTime implements Action {
   }
 }
 
+export class VmLogsUpdateAccountIds implements Action {
+  type = VM_LOGS_UPDATE_ACCOUNT_IDS;
+
+  constructor(public payload: any) {
+  }
+}
+
 export type Actions =
   LoadVmLogsResponse
   | LoadVmLogsRequest
   | VmLogsFilterUpdate
   | VmLogsAddKeyword
-  | VmLogsRemoveKeyword;
+  | VmLogsRemoveKeyword
+  | VmLogsUpdateAccountIds;

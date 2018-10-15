@@ -1422,6 +1422,7 @@
   },
   "LOGS_PAGE": {
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_VM": "Select a VM",
       "KEYWORDS": "Keywords",
       "SHOW_LOGS": "Show logs",

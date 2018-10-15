@@ -1418,6 +1418,7 @@
   },
   "LOGS_PAGE": {
     "FILTERS": {
+      "SELECT_ACCOUNTS": "Выберите аккаунты",
       "SELECT_VM": "Выберите ВМ",
       "KEYWORDS": "Ключевые слова",
       "SHOW_LOGS": "Показать логи",
