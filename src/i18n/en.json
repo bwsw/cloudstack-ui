@@ -1428,9 +1428,7 @@
       "KEYWORDS": "Keywords",
       "SHOW_LOGS": "Show logs",
       "START_DATE": "Start date",
-      "START_TIME": "",
-      "END_DATE": "End date",
-      "END_TIME": ""
+      "END_DATE": "End date"
     },
     "LIST": {
       "DATE": "Date",

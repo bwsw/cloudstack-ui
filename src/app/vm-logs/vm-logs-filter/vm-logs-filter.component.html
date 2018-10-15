@@ -42,7 +42,6 @@
     ></cs-date-picker>
 
     <cs-time-picker
-      [label]="'LOGS_PAGE.FILTERS.START_TIME'"
       [timeFormat]="'hour24'"
       [ngModel]="startTime"
       (ngModelChange)="onStartTimeChange.emit($event)"
@@ -62,7 +61,6 @@
     ></cs-date-picker>
 
     <cs-time-picker
-      [label]="'LOGS_PAGE.FILTERS.END_TIME'"
       [timeFormat]="'hour24'"
       [ngModel]="endTime"
       (ngModelChange)="onEndTimeChange.emit($event)"

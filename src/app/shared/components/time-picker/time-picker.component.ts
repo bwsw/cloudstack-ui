@@ -26,7 +26,7 @@ export interface Time {
   ]
 })
 export class TimePickerComponent implements ControlValueAccessor, OnInit {
-  @Input() public label = 'SNAPSHOT_POLICIES.TIME';
+  @Input() public label = '';
   @Input() public timeFormat: TimeFormat;
   @ViewChild('hourField') public hourField: MatInput;
   @ViewChild('minuteField') public minuteField: MatInput;
