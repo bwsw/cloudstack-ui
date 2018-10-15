@@ -56,7 +56,8 @@ export class HttpAccessService extends AccessService {
     if (portTag) {
       return portTag;
     }
-    const defaultValue = this.getHttpProtocol(vm) === this.defaultProtocol ? this.defaultHttpPort : this.defaultHttpsPort;
+    const defaultValue = this.getHttpProtocol(vm) === this.defaultProtocol
+      ? this.defaultHttpPort : this.defaultHttpsPort;
     return defaultValue;
   }
 }
