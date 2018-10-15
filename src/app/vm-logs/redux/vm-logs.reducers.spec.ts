@@ -119,7 +119,8 @@ describe('VM logs reducer', () => {
     expect(params).toEqual({
       id,
       startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000'
+      endDate: '1970-01-01T00:00:00.000',
+      sort: '-timestamp'
     })
   });
 
@@ -139,7 +140,8 @@ describe('VM logs reducer', () => {
       id,
       keywords: 'test-keyword1,test-keyword2',
       startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000'
+      endDate: '1970-01-01T00:00:00.000',
+      sort: '-timestamp'
     });
   });
 });
