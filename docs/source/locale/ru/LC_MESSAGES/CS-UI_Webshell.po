@@ -1,0 +1,232 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-10 15:17+0700\n"
+"PO-Revision-Date: 2018-10-11 16:37+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../../CS-UI_Webshell.rst:4
+msgid "WebShell Plugin"
+msgstr "Плагин WebShell"
+
+#: ../../CS-UI_Webshell.rst:8
+msgid ""
+"In clouds the most commonly used operating systems nowadays are Unix or "
+"Linux based operating systems. To control Linux system administrators use "
+"standard SSH interface. Most system administrators or cloud users have SSH "
+"client installed on their machines."
+msgstr ""
+"В облачной среде наиболее часто используемой операционной системой на "
+"сегодня является Unix или операционные системы на базе Linux. Для "
+"управления ими администраторы используют стандартный интерфейс SSH. Многие "
+"системные администраторы или пользователи облачной среды устанавливают на "
+"свои машины SSH-клиент."
+
+#: ../../CS-UI_Webshell.rst:10
+msgid ""
+"First of all, it is more interactive, because it allows performing "
+"copy&paste operations. It is more performant if you need to work with text."
+msgstr ""
+"Прежде всего, он более интерактивен, т.к. он позволяет выполнять операции "
+"copy&paste. При работе с текстом он наиболее эффективен."
+
+#: ../../CS-UI_Webshell.rst:12
+msgid ""
+"In addition to the UI inactivity interval, SSH plugin supports its own "
+"inactivity timeout so you should not worry leaving SSH opened when you go "
+"out for a cup of coffee. In comparison to a VNC console, if you open it in "
+"your browser, it will be opened forever."
+msgstr ""
+"В добавок к лимиту времени ожидания активности самого UI, плагин SSH также "
+"поддерживает лимит времени ожидания активности. Это позволяет спокойно "
+"отлучиться на чашечку кофе, оставив SSH открытым, в отличии от консоли "
+"VNC, которая всегда остается открытой."
+
+#: ../../CS-UI_Webshell.rst:14
+msgid ""
+"This plugin is not required, but it is very helpful and easy to install "
+"and configure it. There is a docker webshell container that should be "
+"deployed. This container is a standalone shell proxy and can be used "
+"outside of the CloudStack UI, but there is an option to integrate them, "
+"Just specify the WebShell endpoint when you run the UI container. You can "
+"also disable the plugin in the UI configuration anytime you want."
+msgstr ""
+"Данный плагин не является обязательным, но зачастую он очень полезен, "
+"прост в установке и конфигурировании. Для его подключения необходимо "
+"развернуть docker-контейнер, который является автономным shell proxy "
+"контейнером и может использоваться и помимо CloudStack-UI, но может быть и "
+"интегрирован с ним. В этом случае просто укажите адрес WebShell при "
+"запуске контейнера UI. В любой момент плагин может быть выключен "
+"посредством изменения конфигураций UI."
+
+#: ../../CS-UI_Webshell.rst:16
+msgid "Read more about it below."
+msgstr "Более подробно об установке и настройке плагина см. ниже."
+
+#: ../../CS-UI_Webshell.rst:19
+msgid "Overview"
+msgstr "Общая информация"
+
+#: ../../CS-UI_Webshell.rst:21
+msgid ""
+"WebShell is a CloudStack-UI extension designed to perform a clientless SSH "
+"connection to a virtual machine. The extension is activated in the "
+"CloudStack-UI configuration file and is supported by an additional Docker "
+"container. As for the way of WebShell usage, the plugin is similar to "
+"NoVNC interface provided by CloudStack. However, WebShell uses the SSH "
+"protocol and does not allow VM emergency management."
+msgstr ""
+"WebShell - это расширение CloudStack-UI, созданное для выполнения "
+"безклиентного SSH подсоединения к виртуальной машине. Данное расширение "
+"подключается через настройки CloudStack-UI и поддерживается дополнительным "
+"docker-контейнером. В части использования WebShell схож с интерфейсом "
+"NoVNC от CloudStack. Однако, плагин использует протокол SSH, что делает "
+"невозможным аварийное управление ВМ."
+
+#: ../../CS-UI_Webshell.rst:23
+msgid ""
+"The need for this extension is determined by the shortcomings of the NoVNC "
+"interface, that obstructs its usage for everyday administrative purposes:"
+msgstr ""
+"Потребность в данном плагине обусловлена недостатками интерфейса NoVNC, "
+"которые ограничивают его использование для решения каждодневных "
+"администраторских задач:"
+
+#: ../../CS-UI_Webshell.rst:25
+msgid "Low interactivity and slow throughput of the terminal interface;"
+msgstr ""
+"низкая интерактивность и медленная скорость работы терминального "
+"интерфейса;"
+
+#: ../../CS-UI_Webshell.rst:26
+msgid "Lack of possibility to copy/paste text from the user's local machine;"
+msgstr ""
+"невозможность скопировать и вставить текст с локальной машины пользователя;"
+
+#: ../../CS-UI_Webshell.rst:27
+msgid "Missing feature to complete the session by timeout;"
+msgstr "отсутствие функциональности завершения сессии по таймауту;"
+
+#: ../../CS-UI_Webshell.rst:28
+msgid ""
+"Access to the virtual machine in out-of-band mode, which allows performing "
+"a number of insecure operations."
+msgstr ""
+"доступ к виртуальной машине во внеполосном режиме, что позволяет "
+"производить небезопасные операции. "
+
+#: ../../CS-UI_Webshell.rst:30
+msgid "WebShell plugin solves these problems:"
+msgstr "Плагин WebShell позволяет решить эти проблемы:"
+
+#: ../../CS-UI_Webshell.rst:32
+msgid ""
+"Provides high interactivity, which is especially useful when working with "
+"information that contains large amounts of text;"
+msgstr ""
+"он предоставляет высокую интерактивность, что особенно важно при работе с "
+"большим количеством текста;"
+
+#: ../../CS-UI_Webshell.rst:33
+msgid "Allows copying and pasting text from the workstation;"
+msgstr "позволяет скопировать и вставить текст из терминала;"
+
+#: ../../CS-UI_Webshell.rst:34
+msgid ""
+"Enables configuration of the session completion timeout, thereby improving "
+"the security of the system;"
+msgstr ""
+"позволяет задать период времени окончания сессии, что повышает "
+"безопасность системы;"
+
+#: ../../CS-UI_Webshell.rst:35
+msgid "Does not provide an access to the VM in out-of-band mode."
+msgstr "блокирует доступ к ВМ при работе во внеполосном режиме."
+
+#: ../../CS-UI_Webshell.rst:37
+msgid ""
+"In future releases, this plugin will be extended with additional features "
+"such as integration with the VM access key store and dashboard for "
+"efficient work with many open SSH sessions."
+msgstr ""
+"В будующих релизах к плагину будет добавлена такая функциональность, как "
+"интеграция с хранилищем ключей доступа ВМ и панель управления для "
+"эффективной работы со множеством открытых SSH-сессий."
+
+#: ../../CS-UI_Webshell.rst:39
+msgid "This feature is not available in basic CloudStack UI and API."
+msgstr ""
+"В оригинальном CloudStack UI и API данная функциональность недоступна."
+
+#: ../../CS-UI_Webshell.rst:41
+msgid "Plugin deployment and configuration instructions can be found below."
+msgstr "Ниже представлены инструкции по установке и настройке плагина."
+
+#: ../../CS-UI_Webshell.rst:44
+msgid "Deployment Instructions"
+msgstr "Инструкции по установке"
+
+#: ../../CS-UI_Webshell.rst:46
+msgid ""
+"To enable `WebShell <https://github.com/bwsw/webshell>`_ CloudStack-UI "
+"Plugin it is required to:"
+msgstr ""
+"Для запуска плагина `WebShell <https://github.com/bwsw/webshell>`_ "
+"CloudStack-UI необходимо:"
+
+#: ../../CS-UI_Webshell.rst:48
+msgid "Run WebShell container in the backend."
+msgstr "Запустить контейнер WebShell на backend'е."
+
+#: ../../CS-UI_Webshell.rst:49
+msgid "Enable and configure WebShell plugin in ``config.json``."
+msgstr "Подключить и настроить плагин WebShell в ``config.json``."
+
+#: ../../CS-UI_Webshell.rst:52
+msgid "Starting WebShell Backend"
+msgstr "Запуск WebShell Backend"
+
+#: ../../CS-UI_Webshell.rst:54
+msgid ""
+"Please check `Usage <https://github.com/bwsw/webshell#usage>`_ section in "
+"the `WebShell <https://github.com/bwsw/webshell>`_ repository."
+msgstr ""
+"Пожалуйста, изучите `раздел <https://github.com/bwsw/webshell#usage>`_ в "
+"репозитории  `WebShell <https://github.com/bwsw/webshell>`_."
+
+#: ../../CS-UI_Webshell.rst:57
+msgid "WebShell configuration"
+msgstr "Настройка WebShell"
+
+#: ../../CS-UI_Webshell.rst:59
+msgid ""
+"Please configure ``webShell`` in the ``extensions`` section of the "
+"``config.json``::"
+msgstr ""
+"Включите ``webShell`` в блоке ``extentions`` в файле конфигураций ``config."
+"json``:"
+
+#: ../../CS-UI_Webshell.rst:66
+msgid ""
+"``webShell.address`` is the address of a WebShell backend. WebShell will "
+"not be available unless an address is specified."
+msgstr ""
+"``webShell.address``  - адрес backend'a WebShell, необходим для доступа к "
+"WebShell."
+
+#: ../../CS-UI_Webshell.rst:69
+msgid "Running ``cloudstack-ui`` docker container with WebShell"
+msgstr "Запуск ``cloudstack-ui`` c WebShell из контейнера "

@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-10 15:17+0700\n"
+"PO-Revision-Date: 2018-10-11 16:39+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../../CS-UI_Pulse.rst:4
+msgid "Pulse Plugin"
+msgstr "Плагин Pulse"
+
+#: ../../CS-UI_Pulse.rst:9
+msgid "Overview"
+msgstr "Общая информация"
+
+#: ../../CS-UI_Pulse.rst:11
+msgid ""
+"The Pulse plugin is designed for visualization of virtual machines "
+"performance statistics. Currently, this CloudStack-UI extension is only "
+"compatible with ACS clusters that use the KVM hypervisor. With help of "
+"sensors that collect virtual machines performance statistics via the "
+"Libvirt API and store them in an InfluxDB datastore and RESTful "
+"statistics server, CloudStack-UI is able to display CPU, RAM, disk IO and "
+"network traffic utilization in the form of convenient visual charts."
+msgstr ""
+"Плагин Pulse создан для визуализации статистики работы виртуальной "
+"машины. В текущей реализации данное расширение CloudStack-UI совместимо "
+"только с кластерами ACS, использующими гипервизор KVM. С помощью "
+"сенсоров, которые собирают статистику работы виртуальной машины "
+"посредством Libvirt API и сохраняют ее в хранилище InfluxDB и на сервер "
+"статистики с сетевой архитектурой REST, CloudStack-UI может отобразить "
+"объемы используемых ресурсов - CPU, RAM, диски для ввода/вывода данных и "
+"сетевой трафик - в форме наглядных графиков."
+
+#: ../../CS-UI_Pulse.rst:13
+msgid ""
+"Pulse allows users of Apache CloudStack to monitor current and previous "
+"operational states of virtual machines. The plugin supports various view "
+"scales like minutes, hours, days and enables data overlays to monitor "
+"peak and average values."
+msgstr ""
+"Pulse позволяет пользователям Apache CloudStack контролировать текущее и "
+"предшествующие рабочие состояния виртуальных машин. Плагин поддерживает "
+"различную группировку данных по времени - поминутная, почасовая, "
+"посуточная, а также позволяет производить наложение данных для "
+"отслеживания средних и пиковых значений. "
+
+#: ../../CS-UI_Pulse.rst:15
+msgid ""
+"We consider this plugin very important for the CloudStack ecosystem as "
+"currently there is no built-in functionality to track VM operational "
+"states, although it is vital for system administrators to successfully "
+"operate virtual servers."
+msgstr ""
+"На наш взгляд, данный плагин является важным в экосистеме CloudStack, т."
+"к. сейчас в CloudStack не существует встроенной системы для отслеживания "
+"рабочих состояний виртуальных машин, в то время, как это необходимо "
+"системным администраторам для отслеживания работы виртуальных серверов."
+
+#: ../../CS-UI_Pulse.rst:17
+msgid "Plugin deployment and configuration Instructions can be found below."
+msgstr ""
+"Инструкции по установке и конфигурированию плагина представлены ниже."
+
+#: ../../CS-UI_Pulse.rst:20
+msgid "Deployment Instructions"
+msgstr "Установка плагина Pulse"
+
+#: ../../CS-UI_Pulse.rst:22
+msgid "The Pulse plugin works only for KVM hypervisor right now."
+msgstr "На данный момент плагин Pulse работает только для гипервизора KVM."
+
+#: ../../CS-UI_Pulse.rst:24
+msgid ""
+"Please, make sure that you have `cs-pulse-server <https://github.com/bwsw/"
+"cs-pulse-server>`_ and `cs-pulse-sensor <https://github.com/bwsw/cs-pulse-"
+"sensor>`_ to be able to work with the Pulse plugin."
+msgstr ""
+"Для работы с плагином Pulse убедитесь, что у вас есть `cs-pulse-server "
+"<https://github.com/bwsw/cs-pulse-server>`_ и `cs-pulse-sensor <https://"
+"github.com/bwsw/cs-pulse-sensor>`_."
+
+#: ../../CS-UI_Pulse.rst:26
+msgid "To enable the Pulse plugin you need:"
+msgstr "Для подключения плагина Pulse необходимо:"
+
+#: ../../CS-UI_Pulse.rst:28
+msgid "Configure plugin in ``config.json``."
+msgstr "Задать настройки для Pulse в ``config.json``."
+
+#: ../../CS-UI_Pulse.rst:29
+msgid ""
+"Run docker container with a correctly specified ``cs-pulse-server`` "
+"endpoint."
+msgstr ""
+"Запустить контейнер docker, в котором указан корректный адрес ``cs-pulse-"
+"server``."
+
+#: ../../CS-UI_Pulse.rst:32
+msgid "Pulse configuration"
+msgstr "Конфигурирование Pulse"
+
+#: ../../CS-UI_Pulse.rst:34
+msgid ""
+"Please, enable ``pulse`` in the extensions section of the ``config."
+"json``::"
+msgstr ""
+"Включите ``pulse`` в блоке ``extentions`` в файле конфигураций ``config."
+"json``::"
+
+#: ../../CS-UI_Pulse.rst:43
+msgid "Running cloudstack-ui docker container"
+msgstr "Запуск ``cloudstack-ui`` из контейнера"
