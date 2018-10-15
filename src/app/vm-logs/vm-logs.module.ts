@@ -19,7 +19,6 @@ import { VmLogsTableContainerComponent } from './containers/vm-logs-table.contai
 import { CdkTableModule } from '@angular/cdk/table';
 import { BasePathPipe } from './pipes/base-path.pipe';
 import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
-import { NgxMaskModule } from 'ngx-mask';
 import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
 
 @NgModule({
@@ -30,7 +29,6 @@ import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
     RouterModule,
     MatChipsModule,
     CdkTableModule,
-    NgxMaskModule.forRoot(),
     StoreModule.forFeature('vmLogs', vmLogsReducers),
     EffectsModule.forFeature([VmLogsEffects]),
   ],

@@ -7,19 +7,14 @@ import {
 } from './vm-logs.actions';
 import * as fromVmLogs from './vm-logs.reducers';
 import { initialState } from './vm-logs.reducers';
+import moment = require('moment');
+
 
 describe('VM logs reducer', () => {
-  it('should handle initial state', () => {
-    const state = fromVmLogs.reducer(undefined, { type: '' });
-    expect(state).toEqual({
-      ids: [],
-      entities: {},
-      loading: false,
-      filters: {
-        selectedVmId: null,
-        keywords: []
-      }
-    });
+  const date = moment(0);
+
+  beforeAll(() => {
+    jasmine.clock().mockDate(date.toDate());
   });
 
   it('should set loading', () => {
@@ -122,8 +117,10 @@ describe('VM logs reducer', () => {
     );
 
     expect(params).toEqual({
-      id
-    });
+      id,
+      startDate: '1970-01-01T00:00:00.000',
+      endDate: '1970-01-01T00:00:00.000'
+    })
   });
 
   it('should select load logs request params with keywords', () => {
@@ -140,7 +137,9 @@ describe('VM logs reducer', () => {
 
     expect(params).toEqual({
       id,
-      keywords: 'test-keyword1,test-keyword2'
+      keywords: 'test-keyword1,test-keyword2',
+      startDate: '1970-01-01T00:00:00.000',
+      endDate: '1970-01-01T00:00:00.000'
     });
   });
 });
