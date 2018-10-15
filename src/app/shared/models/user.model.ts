@@ -19,7 +19,3 @@ export interface User extends BaseModelInterface {
   apikey: string;
   secretkey: string;
 }
-
-export const getName = (user: User) => {
-  return `${user.firstname} ${user.lastname}`;
-};

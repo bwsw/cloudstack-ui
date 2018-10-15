@@ -63,9 +63,7 @@ export interface NonCustomizableConfig {
   askToCreateVolume: boolean;
   savePasswordForAllVMs: boolean | null;
   lastVMId: number;
-  isSidenavVisible: boolean;
   showSystemTags: boolean;
-  navigationOrder: string;
   /*
    * Offerings
    */

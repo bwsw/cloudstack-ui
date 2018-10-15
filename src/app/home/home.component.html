@@ -1,7 +1,12 @@
 <mat-sidenav-container fullscreen>
-  <mat-sidenav [opened]="isSidenavVisible$ | async" mode="side">
-    <cs-sidenav [title]="title" [allowConfiguring]="allowReorderingSidenav$ | async"></cs-sidenav>
+  <mat-sidenav #sidenav>
+    <cs-app-nav [routes]="routes$ | async" [currentRoute]="currentRoute$ | async" (close)="sidenav.close()"></cs-app-nav>
   </mat-sidenav>
 
-  <router-outlet></router-outlet>
+  <mat-sidenav-content>
+    <cs-section-nav [username]="username" [subroutes]="subroutes$ | async" (openAppNav)="sidenav.open()"></cs-section-nav>
+    <div class="primary-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
