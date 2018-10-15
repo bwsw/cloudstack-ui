@@ -342,7 +342,7 @@ After clicking "Yes" the VM will be rebooted and a new password will be autogene
 
 .. figure:: _static/VMs_PasswordReset.png
 
-Click "Save" to save the password for this VM. It will activate the "Save VM passwords by default" option in the *Settings* section. In the future the password will be saved automatically right at VM creation. Click "OK" to close the dialog window. 
+Click "Save" to save the password for this VM. It will activate the "Save VM passwords by default" option in the *Settings* section (see :ref:`Settings_VMPass`). In the future the password will be saved automatically right at VM creation. Click "OK" to close the dialog window. 
 
 - Access VM - Opens an "Access VM" dialog window which allows to view VM name and IP, view and save a password for the VM and access the VM via the VNC console. 
 
