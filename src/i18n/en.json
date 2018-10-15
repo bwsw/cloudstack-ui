@@ -109,7 +109,7 @@
       "INSUFFICIENT_RESOURCES": "Insufficient resources"
     },
     "VM_POST_ACTION": {
-      "INVALID_URL": "Invalid URL. You should check values in VM tags"
+      "INVALID_URL": "Invalid URL. Please check values in VM tags"
     },
     "VOLUME": {
       "NAME_TOO_LONG": "Volume name cannot be longer than {{ val1 }} characters",

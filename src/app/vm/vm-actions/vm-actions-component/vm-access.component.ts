@@ -1,11 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+
 import { VirtualMachine } from '../../shared/vm.model';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import { State } from '../../../reducers/index';
-import { Store } from '@ngrx/store';
 import { HttpAccessService, SshAccessService, VncAccessService } from '../../services/index';
-import { TranslateService } from '@ngx-translate/core';
+import { isUrl } from '../../../shared/utils/isUrl';
 
 
 @Component({
@@ -53,12 +55,6 @@ export class VmAccessComponent {
   }
 
   public isValidUrl(url: string): boolean {
-    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-      '(\\#[-a-z\\d_]*)?$', 'i');
-    return pattern.test(url);
+    return isUrl(url, { https: true, http: true });
   }
 }
