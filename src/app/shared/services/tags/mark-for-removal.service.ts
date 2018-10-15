@@ -12,7 +12,7 @@ const deletionMarkValue = 'removed';
 export class MarkForRemovalService {
   constructor(private tagService: TagService) {}
 
-  public markForRemoval(entity: Taggable): Observable<Taggable> {
+  public markForRemoval<T extends Taggable>(entity: T): Observable<T> {
     return this.tagService.update(
       entity,
       entity.resourceType,

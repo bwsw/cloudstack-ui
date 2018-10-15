@@ -1,7 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SecurityGroupViewMode } from '../../../security-group/sg-view-mode';
-import { getType, isDefaultSecurityGroup, SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
+import {
+  getType,
+  isDefaultSecurityGroup,
+  isSecurityGroupNative,
+  SecurityGroup,
+  SecurityGroupType
+} from '../../../security-group/sg.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
 import * as fromAuth from '../../auth/redux/auth.reducers';
@@ -243,9 +249,11 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    const isOrphan = (group: SecurityGroup) => filter.selectOrphanSG && mode === SecurityGroupViewMode.Private
-      ? group.virtualmachineids.length === 0
-      : true;
+    const isOrphan = (group: SecurityGroup) => (
+      filter.selectOrphanSG
+      && mode === SecurityGroupViewMode.Private
+      && isSecurityGroupNative(group)
+    ) ? group.virtualmachineids.length === 0 : true;
 
     const renameDefaultSG = (securityGroup: SecurityGroup) => {
       return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
@@ -264,7 +272,11 @@ export const selectSecurityGroupsForVmCreation = createSelector(
   fromAuth.getUserAccount,
   selectDefaultSecurityGroupName,
   (securityGroups, account, defaultSecurityGroupName) => {
-    const accountFilter = (securityGroup: SecurityGroup) => account && securityGroup.account === account.name;
+    const accountFilter = (securityGroup: SecurityGroup) => (
+      account
+      && isSecurityGroupNative(securityGroup)
+      && securityGroup.account === account.name
+    );
     const onlySharedFilter = (securityGroup: SecurityGroup) =>
       getType(securityGroup) === SecurityGroupType.Shared;
     const renameDefaultSG = (securityGroup: SecurityGroup) => {
@@ -286,6 +298,10 @@ export const selectDefaultSecurityGroup = createSelector(
   selectDefaultSecurityGroupName,
   fromAuth.getUserAccount,
   (securityGroups, defaultSecurityGroupName, user) => {
-    const defaultGroup = securityGroups.find((sg: SecurityGroup) => sg.account === user.name && sg.name === 'default');
+    const defaultGroup = securityGroups.find((sg: SecurityGroup) => (
+      isSecurityGroupNative(sg)
+      && sg.account === user.name
+      && sg.name === 'default'
+    ));
     return { ...defaultGroup, name: defaultSecurityGroupName };
   });
