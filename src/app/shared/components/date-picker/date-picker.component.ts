@@ -30,7 +30,7 @@ interface DatePickerConfig {
   ]
 })
 export class DatePickerComponent implements ControlValueAccessor, OnChanges {
-  @Input() public label = 'EVENT_PAGE.SELECT_DATE';
+  @Input() public label = '';
   @Input() public okLabel = 'Ok';
   @Input() public cancelLabel = 'Cancel';
   @Input() public firstDayOfWeek = 1;

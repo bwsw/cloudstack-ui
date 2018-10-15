@@ -747,7 +747,8 @@
       "SELECT_ACCOUNTS": "Select accounts",
       "SELECT_TYPES": "Select types",
       "GROUP_BY_TYPES": "Types",
-      "GROUP_BY_ACCOUNTS": "Accounts"
+      "GROUP_BY_ACCOUNTS": "Accounts",
+      "SELECT_DATE": "Select a date"
     },
     "SIDEBAR": {
       "DETAILS": "Details",
