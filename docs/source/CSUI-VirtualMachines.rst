@@ -137,7 +137,7 @@ The settings will appear for the VM service offerings.
 
 For custom service offerings the parameters are also provided in the table per each option. Besides, you can see more parameters by clicking "SHOW ADDITIONAL FIELDS". 
 
-By selecting an option in the list, you open a modal window where you can set a value for the following parameters:
+By selecting an option in the list, you open a modal window where you can set values for the following parameters:
 
 - CPU Cores;
 - CPU (MHz);
@@ -145,7 +145,9 @@ By selecting an option in the list, you open a modal window where you can set a 
 
 These parameters can be predefined in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#default-compute-offering>`_ by an Administrator. The values specified there will be used as default parameters for a custom service offering.
 
-Administrators can set limits for custom service offerings in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-compute-offering-parameters>`_. That means you cannot set values larger than the limits specified for custom service offerings.
+Administrators can set limits for custom service offering parameters in the `configuration file <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#custom-compute-offering-parameters>`_. That means you cannot set values larger than the limits specified for custom service offerings. 
+
+Besides, the system checks the available account resources. And if you try to enter a value larger than the available amount of resources, the system will automatically change it to the maximum available value.
 
 .. figure:: _static/VMs_Create_SO_Custom2.png   
    
@@ -167,7 +169,7 @@ Click "SELECT" below the list to assign a selected service offering to your mach
 
 .. figure:: _static/VMs_Create_IstallationSource2.png
     
-The Disk size slider below the **Installation source** block allows changing the size of a root-disk of the VM. Move the slider or enter a number value in the field to set the root-disk size.
+The Disk size slider below the **Installation source** block allows changing the size of a root-disk of the VM. The default minimum size is determined by the account limits and shown in the number field. Move the slider or enter a number value in the field to set the root-disk size.
    
 .. figure:: _static/VMs_Create_IstallationSource_DiskSize.png
 
