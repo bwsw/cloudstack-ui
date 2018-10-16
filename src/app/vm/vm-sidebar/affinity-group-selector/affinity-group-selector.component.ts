@@ -1,80 +1,119 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { finalize } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
+import { AffinityGroup, AffinityGroupType, AffinityGroupTypesMap } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
-import { VirtualMachine } from '../../shared/vm.model';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { State } from '../../../reducers';
 
+function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
+  return function (control: FormControl) {
+    const nameIsTaken = affinityGroups.find(group => group.name === control.value);
+    return nameIsTaken ? { nameIsTaken: true } : undefined;
+  };
+}
+
+const sortBySelected = (a: AffinityGroup, b: AffinityGroup) => {
+  const aIsPreselected = a.isPreselected;
+  const bIsPreselected = b.isPreselected;
+
+  if (aIsPreselected && bIsPreselected) {
+    return a.name.localeCompare(b.name);
+  }
+  if (!aIsPreselected && !bIsPreselected) {
+    return a.name.localeCompare(b.name);
+  }
+  if (aIsPreselected && !bIsPreselected) {
+    return -1;
+  }
+  if (!aIsPreselected && bIsPreselected) {
+    return 1;
+  }
+};
 
 @Component({
   selector: 'cs-affinity-group-selector',
   templateUrl: 'affinity-group-selector.component.html',
   styleUrls: ['affinity-group-selector.component.scss']
 })
-export class AffinityGroupSelectorComponent implements OnInit {
-  public affinityGroups: Array<AffinityGroup>;
+export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
+  @Input() public affinityGroups: Array<AffinityGroup>;
+  @Input() public preselectedAffinityGroups: AffinityGroup[];
+  @Input() public isVmCreation: boolean;
+  @Output() public onCreateAffinityGroup = new EventEmitter<AffinityGroup>();
+  @Output() public onSubmit = new EventEmitter<string>();
+  @Output() public onCancel = new EventEmitter();
   public loading: boolean;
-  public selectedAffinityGroupName: string;
-  public vm: VirtualMachine;
+  public selectedGroup: AffinityGroup;
+  public types = [AffinityGroupType.antiAffinity, AffinityGroupType.affinity];
+  public affinityGroupForm: FormGroup;
+  public list: AffinityGroup[];
+
+  public get AffinityGroupTypesMap() {
+    return AffinityGroupTypesMap;
+  }
 
   constructor(
+    private store: Store<State>,
     private affinityGroupService: AffinityGroupService,
     private dialogRef: MatDialogRef<AffinityGroupSelectorComponent>,
     private dialogService: DialogService,
-    @Inject(MAT_DIALOG_DATA) public data
+    private formBuilder: FormBuilder,
   ) {
-    this.vm = data.vm;
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const affinityGroup = changes.affinityGroups.currentValue;
+    if (affinityGroup) {
+      this.affinityGroups = affinityGroup;
+      this.sortList();
+    }
   }
 
   public ngOnInit(): void {
-    this.loadGroups();
+    this.createForm();
+    this.sortList()
   }
 
-  public get groupName(): string {
-    return this.vm.affinityGroup.length && this.vm.affinityGroup[0].name;
+  public createGroup(): void {
+    const newAffinityGroup = {
+      name: this.affinityGroupForm.value.name,
+      type: this.affinityGroupForm.value.type,
+      description: this.affinityGroupForm.value.description
+    } as AffinityGroup;
+    this.onCreateAffinityGroup.emit(newAffinityGroup);
   }
 
-  public get groupNames(): Array<string> {
-    return this.affinityGroups.map(_ => _.name);
+  public changeGroup(group: AffinityGroup): void {
+    this.selectedGroup = group;
   }
 
-  public get selectedAffinityGroup(): AffinityGroup {
-    return this.affinityGroups.find(_ => _.name === this.selectedAffinityGroupName);
+  public submit(): void {
+    const selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
+    selectedGroupIds.push(this.selectedGroup.id);
+    const groupIds = selectedGroupIds.join();
+    this.onSubmit.emit(groupIds);
   }
 
-  public createGroup(name: string): void {
-    this.affinityGroupService
-      .create({
-        name,
-        type: AffinityGroupType.hostAntiAffinity
-      })
-      .subscribe(
-        affinityGroup => this.dialogRef.close(affinityGroup.id),
-        error => this.dialogService.alert({ message: error.message })
-      );
+  private sortList() {
+    this.list = this.affinityGroups.map(group => {
+      const isPreselected = !!this.preselectedAffinityGroups.find(preselected => preselected.id === group.id);
+      return {...group, isPreselected}
+    });
+    this.list.sort(sortBySelected)
   }
 
-  public changeGroup(name: string): void {
-    this.selectedAffinityGroupName = name;
-    this.dialogRef.close(this.selectedAffinityGroup.id);
-  }
-
-  public removeGroup(): void {
-    this.dialogRef.close('');
-  }
-
-  public onCancel(): void {
-    this.dialogRef.close();
-  }
-
-  private loadGroups(): void {
-    this.loading = true;
-    this.affinityGroupService.getList().pipe(
-      finalize(() => this.loading = false))
-      .subscribe(groups => {
-        this.affinityGroups = groups;
-      });
+  private createForm() {
+    this.affinityGroupForm = this.formBuilder.group({
+      name: this.formBuilder.control('', [
+        Validators.required,
+        Validators.maxLength(63),
+        isUniqName(this.affinityGroups)
+      ]),
+      type: this.formBuilder.control(AffinityGroupType.antiAffinity, [Validators.required]),
+      description: this.formBuilder.control('', [Validators.maxLength(63)])
+    });
   }
 }

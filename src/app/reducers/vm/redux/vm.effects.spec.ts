@@ -363,7 +363,7 @@ describe('Virtual machine Effects', () => {
     const spyChangeAG = spyOn(afGroupService, 'updateForVm').and.returnValue(of(list[1]));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: 'af1_id',
       vm: list[1]
     });
     const completion = new vmActions.UpdateVM(list[1]);
@@ -382,7 +382,7 @@ describe('Virtual machine Effects', () => {
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: 'af1_id',
       vm: list[0]
     });
     const completion = new vmActions.UpdateVM(new VirtualMachine(list[0]));
@@ -402,7 +402,7 @@ describe('Virtual machine Effects', () => {
     const spyDialog = spyOn(dialogService, 'confirm').and.returnValue(of(false));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: 'af1_id',
       vm: list[0]
     });
 
@@ -420,7 +420,7 @@ describe('Virtual machine Effects', () => {
       .returnValue(throwError(new Error('Error occurred!')));
 
     const action = new vmActions.ChangeAffinityGroup({
-      affinityGroupId: 'af1_id',
+      affinityGroupIds: 'af1_id',
       vm: list[1]
     });
     const completion = new vmActions.VMUpdateError({

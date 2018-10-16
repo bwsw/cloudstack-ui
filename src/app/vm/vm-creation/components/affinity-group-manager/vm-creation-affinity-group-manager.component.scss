@@ -1,0 +1,13 @@
+.mat-form-field-wrapper {
+  text-align: left;
+  padding-top: 18px !important;
+  font-size: 11pt !important;
+}
+
+.ellipsis-overflow {
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

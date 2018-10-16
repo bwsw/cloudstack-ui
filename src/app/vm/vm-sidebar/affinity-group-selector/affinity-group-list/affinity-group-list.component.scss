@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+tbody:hover {
+  background-color: #eee;
+}
+
+th, td {
+  &.mat-column-radioButton {
+    min-width: 70px;
+    max-width: 70px;
+    width: 70px;
+    text-align: right;
+  }
+}
+
+.preselected {
+  background-color: #e0e0e0;
+}

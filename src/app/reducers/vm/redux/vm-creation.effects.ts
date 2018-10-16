@@ -12,7 +12,7 @@ import {
   ProgressLoggerMessageStatus
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { BaseTemplateModel, isTemplate } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
+import { AffinityGroupType, DiskOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
@@ -564,7 +564,7 @@ export class VirtualMachineCreationEffects {
 
       return this.affinityGroupService.create({
         name: state.affinityGroup.name,
-        type: AffinityGroupType.hostAntiAffinity
+        type: AffinityGroupType.antiAffinity
       }).pipe(
         map(() => {
           this.store.dispatch(new vmActions.DeploymentChangeStatus({

@@ -2,13 +2,22 @@ import { BaseModelInterface } from './base.model';
 
 
 export enum AffinityGroupType {
-  hostAntiAffinity = 'host anti-affinity'
+  antiAffinity = 'host anti-affinity',
+  affinity = 'host affinity'
 }
+
+export const AffinityGroupTypesMap = {
+  'host anti-affinity': 'anti-affinity',
+  'host affinity': 'affinity'
+};
+
 
 export interface AffinityGroup extends BaseModelInterface {
   id: string;
   name: string;
-  description: string;
   type: AffinityGroupType;
-  virtualmachineids: Array<string>;
+  description?: string;
+  virtualmachineids?: Array<string>;
+  // custom
+  isPreselected?: boolean;
 }

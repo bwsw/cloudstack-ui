@@ -155,10 +155,9 @@ export class VirtualMachinesEffects {
           const vmState = changeAction.payload.vm.state;
           const notificationId = this.jobsNotificationService.add(
             'NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_IN_PROGRESS');
-
           return this.affinityGroupService.updateForVm(
             changeAction.payload.vm.id,
-            changeAction.payload.affinityGroupId
+            changeAction.payload.affinityGroupIds
           ).pipe(
             tap(() => {
               const message = 'NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_DONE';

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { AffinityGroup } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 
 import * as affinityGroupActions from './affinity-groups.actions';
+import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class AffinityGroupsEffects {
@@ -21,9 +22,31 @@ export class AffinityGroupsEffects {
         catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([]))));
     }));
 
+  @Effect()
+  createAffinityGroup$: Observable<Action> = this.actions$.pipe(
+    ofType(affinityGroupActions.CREATE_AFFINITY_GROUP),
+    mergeMap((action: affinityGroupActions.CreateAffinityGroup) => {
+      return this.affinityGroupService.create(action.payload).pipe(
+        map(ag => new affinityGroupActions.CreateAffinityGroupSuccess(ag)),
+        catchError(error => {
+          this.showNotificationsOnFail(error);
+          return of(new affinityGroupActions.CreateAffinityGroupError(error))
+        }));
+    }));
+
   constructor(
     private actions$: Actions,
-    private affinityGroupService: AffinityGroupService
+    private affinityGroupService: AffinityGroupService,
+    private dialogService: DialogService,
   ) {
+  }
+
+  private showNotificationsOnFail(error) {
+    this.dialogService.alert({
+      message: {
+        translationToken: error.message,
+        interpolateParams: error.params
+      }
+    });
   }
 }

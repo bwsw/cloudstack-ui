@@ -28,12 +28,18 @@
 </div>
 
 <div class="mat-dialog-actions">
-  <button mat-button (click)="onCancel.emit()">
+  <button
+    mat-button
+    type="button"
+    color="primary"
+    (click)="onCancel.emit()">
     {{ 'COMMON.CANCEL' | translate }}
   </button>
 
   <button
     mat-button
+    type="button"
+    color="primary"
     [disabled]="(isModeBuilder && !savedData.rules?.templates?.length)
      || (isModeSelector && !savedData.securityGroups?.length)"
     (click)="onSave.emit(savedData)"

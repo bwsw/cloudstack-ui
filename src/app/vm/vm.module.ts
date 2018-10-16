@@ -63,6 +63,7 @@ import { VmListRowItemComponent } from './vm-list-item/row-item/vm-list-row-item
 import { VmListComponent } from './vm-list/vm-list.component';
 import { VmPageComponent } from './vm-page/vm-page.component';
 import { AffinityGroupSelectorComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector.component';
+import { AffinityGroupSelectorContainerComponent } from './vm-sidebar/affinity-group-selector/affinity-group-selector-container.component';
 import { VmColorComponent } from './vm-sidebar/color/vm-color.component';
 import { InstanceGroupSelectorComponent } from './vm-sidebar/instance-group-selector/instance-group-selector.component';
 import { FirewallRulesDetailComponent } from './vm-sidebar/network-detail/firewall-rules/firewall-rules-detail.component';
@@ -97,6 +98,8 @@ import { ServiceOfferingSelectorComponent } from './vm-creation/components/servi
 import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
 import { HttpAccessService, SshAccessService, VncAccessService } from './services';
+import { AffinityGroupListComponent } from './vm-sidebar/affinity-group-selector/affinity-group-list/affinity-group-list.component';
+import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
 
 // tslint:enable max-line-length
 
@@ -132,6 +135,8 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
   declarations: [
     AffinityGroupComponent,
     AffinityGroupSelectorComponent,
+    AffinityGroupSelectorContainerComponent,
+    AffinityGroupListComponent,
     FirewallRulesDetailComponent,
     FirewallRulesDetailContainerComponent,
     NetworkDetailContainerComponent,
@@ -188,6 +193,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     VmCreationSecurityGroupContainerComponent,
     SecurityGroupManagerExistingGroupComponent,
     VmCreationSecurityGroupRulesManagerComponent,
+    VmCreationAffinityGroupManagerComponent,
     NicComponent,
     NicListComponent,
     SecondaryIpComponent,
@@ -208,7 +214,8 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     VncAccessService
   ],
   entryComponents: [
-    AffinityGroupSelectorComponent,
+    AffinityGroupSelectorContainerComponent,
+    AffinityGroupListComponent,
     InstanceGroupSelectorComponent,
     VmCreationContainerComponent,
     VmDestroyDialogComponent,

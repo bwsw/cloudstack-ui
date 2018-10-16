@@ -68,12 +68,14 @@ export function reducer(
         loading: false
       };
     }
+    case affinityGroupActions.CREATE_AFFINITY_GROUP_SUCCESS: {
+      return adapter.addOne(action.payload, state);
+    }
     default: {
       return state;
     }
   }
 }
-
 
 export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>('affinity-groups');
 
