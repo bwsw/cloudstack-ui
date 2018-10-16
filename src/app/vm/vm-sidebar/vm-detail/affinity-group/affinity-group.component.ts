@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { AffinityGroupSelectorContainerComponent } from '../../affinity-group-selector/affinity-group-selector-container.component';
+import {
+  AffinityGroupSelectorContainerComponent
+} from '../../affinity-group-selector/affinity-group-selector-container.component';
 import { DateTimeFormatterService } from '../../../../shared/services/date-time-formatter.service';
 import { VirtualMachine, VmState } from '../../../shared/vm.model';
 import { AffinityGroup, AffinityGroupTypesMap } from '../../../../shared/models';

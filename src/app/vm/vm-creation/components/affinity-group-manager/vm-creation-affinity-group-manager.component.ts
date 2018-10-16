@@ -2,7 +2,9 @@ import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/cor
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AffinityGroup } from '../../../../shared/models';
-import { AffinityGroupSelectorContainerComponent } from '../../../vm-sidebar/affinity-group-selector/affinity-group-selector-container.component';
+import {
+  AffinityGroupSelectorContainerComponent
+} from '../../../vm-sidebar/affinity-group-selector/affinity-group-selector-container.component';
 
 @Component({
   selector: 'cs-vm-creation-affinity-group-manager',
