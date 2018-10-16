@@ -1,0 +1,14 @@
+<mat-form-field>
+  <mat-chip-list #chipList>
+    <mat-chip *ngFor="let keyword of keywords" [selectable]="selectable"
+              [removable]="removable" (removed)="remove(keyword)">
+      {{ keyword.text }}
+      <mat-icon matChipRemove *ngIf="removable" class="mdi-cancel"></mat-icon>
+    </mat-chip>
+    <input placeholder="Tags"
+           [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+</mat-form-field>

@@ -7,6 +7,7 @@ import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
 import { BaseModelInterface } from '../models/base.model';
+import { BaseModel } from '../models';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -55,7 +56,8 @@ export enum CSCommands {
   UpdateVM = 'updateVM',
 }
 
-export abstract class BaseBackendService<M extends BaseModelInterface> {
+// todo: should be M extends (type with id: string)
+export abstract class BaseBackendService<M> {
   protected entity: string;
   protected entityModel?: { new(params?): M };
 
@@ -72,7 +74,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
       throw Error('BaseBackendService.get id not specified!');
     }
 
-    return this.getList().pipe(map(res => res.find(entity => entity.id === id)));
+    return this.getList().pipe(map(res => res.find(entity => (entity as any).id === id)));
   }
 
   public getListAll(params, customApiFormat?: ApiFormat): Observable<Array<M>> {

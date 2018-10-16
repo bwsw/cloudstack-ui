@@ -1,0 +1,65 @@
+<div class="options-panel filter-wrapper">
+  <mat-form-field>
+    <mat-select
+      [placeholder]="'LOGS_PAGE.FILTERS.SELECT_VM' | translate"
+      [ngModel]="selectedVmId"
+      (selectionChange)="onVmChange.emit($event.value)"
+    >
+      <mat-option
+        *ngFor="let vm of vms"
+        [value]="vm.id"
+      >
+        {{ vm.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--<cs-date-picker-->
+    <!--[okLabel]="'COMMON.OK' | translate"-->
+    <!--[locale]="'ru'"-->
+    <!--[firstDayOfWeek]="1"-->
+    <!--[DateTimeFormat]="dateTimeFormat"-->
+    <!--[cancelLabel]="'COMMON.CANCEL' | translate"-->
+    <!--[ngModel]="date"-->
+  <!--&gt;</cs-date-picker>-->
+
+  <!--<mat-form-field>-->
+    <!--<input-->
+      <!--matInput-->
+      <!--[ngModel]="'12:00'"-->
+      <!--[placeholder]="'Start time'"-->
+    <!--&gt;-->
+  <!--</mat-form-field>-->
+
+  <!--<cs-date-picker-->
+    <!--[okLabel]="'COMMON.OK' | translate"-->
+    <!--[locale]="'ru'"-->
+    <!--[firstDayOfWeek]="1"-->
+    <!--[DateTimeFormat]="dateTimeFormat"-->
+    <!--[cancelLabel]="'COMMON.CANCEL' | translate"-->
+    <!--[ngModel]="date"-->
+  <!--&gt;</cs-date-picker>-->
+
+  <!--<mat-form-field>-->
+    <!--<input-->
+      <!--matInput-->
+      <!--[ngModel]="'12:00'"-->
+      <!--[placeholder]="'End time'"-->
+    <!--&gt;-->
+  <!--</mat-form-field>-->
+
+  <button mat-button (click)="onRefresh.emit()" [disabled]="!vmId">
+    {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
+  </button>
+</div>
+
+<!--<div class="filter-wrapper">-->
+  <!--<cs-vm-log-keywords></cs-vm-log-keywords>-->
+
+  <!--<mat-checkbox-->
+    <!--[ngModel]="newestFirst"-->
+    <!--(change)="onNewestFirstChange.emit()"-->
+  <!--&gt;-->
+    <!--Newest first-->
+  <!--</mat-checkbox>-->
+<!--</div>-->
