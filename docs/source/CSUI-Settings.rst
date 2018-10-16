@@ -94,6 +94,8 @@ The following options are available:
 
 .. figure:: _static/Settings_KeyboardLayout1.png
 
+The selected option will appear in the VNC console kayboard layout parameter when accessing a VM via concole. The selected option is also saved to account tags.
+
 Look and Feel
 ~~~~~~~~~~~~~~~~~~~~~~
 In this block you can adjust the interface look.
