@@ -3,9 +3,6 @@
   "$id": "vmColors",
   "type": "array",
   "uniqueItems": true,
-  "errorMessage": {
-    "uniqueItemProperties": "should NOT contain objects with the same value"
-  },
   "items": {
     "type": "object",
     "required": ["value"],
