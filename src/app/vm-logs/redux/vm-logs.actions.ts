@@ -34,7 +34,7 @@ export class LoadVmLogsResponse implements Action {
 export class VmLogsFilterUpdate implements Action {
   type = VM_LOGS_FILTER_UPDATE;
 
-  constructor(public payload: { [key: string]: any }) { // todo: type this properly
+  constructor(public payload: any) { // todo: type this properly
   }
 
 }
