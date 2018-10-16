@@ -11,7 +11,6 @@ import * as defaultTimeFormat from './default-time-format.scheme.json';
 import * as defaultTheme from './default-theme.scheme.json';
 import * as sessionTimeout from './session-timeout.scheme.json';
 
-import * as allowReorderingSidenav from './allow-reordering-sidenav.scheme.json';
 import * as configureSidenav from './configure-sidenav.scheme.json';
 import * as defaultComputeOffering from './default-compute-offering.scheme.json';
 import * as computeOfferingClasses from './compute-offering-classes.scheme.json';
@@ -40,7 +39,6 @@ export {
   defaultTheme,
   sessionTimeout,
   // Menu setting
-  allowReorderingSidenav,
   configureSidenav,
   // Service offering setting
   customComputeOfferingParameters,

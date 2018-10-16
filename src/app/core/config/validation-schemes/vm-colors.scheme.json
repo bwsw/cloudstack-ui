@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "vmColors",
   "type": "array",
-  "uniqueItemProperties": ["value"],
+  "uniqueItems": true,
   "errorMessage": {
     "uniqueItemProperties": "should NOT contain objects with the same value"
   },

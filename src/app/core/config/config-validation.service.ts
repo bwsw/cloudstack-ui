@@ -69,7 +69,6 @@ export class ConfigValidationService {
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
     defaultTheme: validationSchemes.defaultTheme,
     defaultComputeOffering: validationSchemes.defaultComputeOffering,
-    allowReorderingSidenav: validationSchemes.allowReorderingSidenav,
     sessionTimeout: validationSchemes.sessionTimeout,
     configureSidenav: validationSchemes.configureSidenav,
     customComputeOfferingParameters: validationSchemes.customComputeOfferingParameters,
