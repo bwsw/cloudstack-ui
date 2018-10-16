@@ -19,6 +19,7 @@ Table of Contents
          * [Resource usage bar](#resource-usage-bar)
          * [Storage](#storage)
          * [Images](#images)
+         * [Snapshots](#snapshots)
          * [Firewall](#firewall)
          * [Activity log](#activity-log)
          * [Accounts](#accounts)
