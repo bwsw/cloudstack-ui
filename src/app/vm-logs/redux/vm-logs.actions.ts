@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 import { VmLog } from '../models/vm-log.model';
+import { Keyword } from '../models/keyword.model';
+import { Time } from '../../shared/components/time-picker/time-picker.component';
 
 export const LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST';
 export const LOAD_VM_LOGS_RESPONSE = '[VM Logs] LOAD_VM_LOGS_RESPONSE';
@@ -16,7 +18,7 @@ export const VM_LOGS_TOGGLE_NEWEST_FIRST = '[VM Logs] VM_LOGS_TOGGLE_NEWEST_FIRS
 export class LoadVmLogsRequest implements Action {
   type = LOAD_VM_LOGS_REQUEST;
 
-  constructor(public payload?: any) {
+  constructor(public payload?: never) {
   }
 
 }
@@ -24,7 +26,7 @@ export class LoadVmLogsRequest implements Action {
 export class LoadVmLogsResponse implements Action {
   type = LOAD_VM_LOGS_RESPONSE;
 
-  constructor(public payload: Array<VmLog> | any) {
+  constructor(public payload: Array<VmLog>) {
   }
 
 }
@@ -32,7 +34,7 @@ export class LoadVmLogsResponse implements Action {
 export class VmLogsFilterUpdate implements Action {
   type = VM_LOGS_FILTER_UPDATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: { [key: string]: any }) { // todo: type this properly
   }
 
 }
@@ -40,56 +42,56 @@ export class VmLogsFilterUpdate implements Action {
 export class VmLogsAddKeyword implements Action {
   type = VM_LOGS_ADD_KEYWORD;
 
-  constructor(public payload: any) {
+  constructor(public payload: Keyword) {
   }
 }
 
 export class VmLogsRemoveKeyword implements Action {
   type = VM_LOGS_REMOVE_KEYWORD;
 
-  constructor(public payload: any) {
+  constructor(public payload: Keyword) {
   }
 }
 
 export class VmLogsUpdateStartDate implements Action {
   type = VM_LOGS_UPDATE_START_DATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Date) {
   }
 }
 
 export class VmLogsUpdateStartTime implements Action {
   type = VM_LOGS_UPDATE_START_TIME;
 
-  constructor(public payload: any) {
+  constructor(public payload: Time) {
   }
 }
 
 export class VmLogsUpdateEndDate implements Action {
   type = VM_LOGS_UPDATE_END_DATE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Date) {
   }
 }
 
 export class VmLogsUpdateEndTime implements Action {
   type = VM_LOGS_UPDATE_END_TIME;
 
-  constructor(public payload: any) {
+  constructor(public payload: Time) {
   }
 }
 
 export class VmLogsUpdateAccountIds implements Action {
   type = VM_LOGS_UPDATE_ACCOUNT_IDS;
 
-  constructor(public payload: any) {
+  constructor(public payload: Array<string>) {
   }
 }
 
 export class VmLogsToggleNewestFirst implements Action {
   type = VM_LOGS_TOGGLE_NEWEST_FIRST;
 
-  constructor(public payload?: any) {
+  constructor(public payload?: never) {
   }
 }
 
