@@ -102,7 +102,7 @@ Click "CANCEL" to cancel the volume creation.
 
 This action allows turning the volume back to the state of the snapshot. It is available to those snapshots that have a volume.
 
-In the dialogue window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
+In the dialog window confirm your action. Please, note, the virtual machine the volume is assigned to will be rebooted.
 
 .. figure:: _static/Snapshots_Actions_Revert.png
 

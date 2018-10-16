@@ -7,10 +7,10 @@ import { AccessService, AuthModeType } from './access.service';
 @Injectable()
 export class HttpAccessService extends AccessService {
   protected readonly authMode = AuthModeType.HTTP;
-
-  readonly defaultPort = '80';
-  readonly defaultProtocol = 'http';
-  readonly defaultPath = '';
+  private readonly defaultHttpPort = '80';
+  private readonly defaultHttpsPort = '443';
+  private readonly defaultProtocol = 'http';
+  private readonly defaultPath = '';
 
   public getAddress(vm: VirtualMachine): string {
     const protocol = this.getHttpProtocol(vm);
@@ -26,29 +26,38 @@ export class HttpAccessService extends AccessService {
       const authModes = authMode.replace(/\s/g, '').split(',');
       return !!authModes.find(m => m.toLowerCase() === this.authMode);
     }
-   return false;
+    return false;
   }
 
-  public getHttpLogin(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken)
+  public getLogin(vm: VirtualMachine): string {
+    const httpLogin = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpLoginToken);
+    const vmLogin = this.getTagValue(vm.tags, VirtualMachineTagKeys.loginTag);
+    return httpLogin || vmLogin || this.defaultLogin;
   }
 
-  public getHttpPassword(vm: VirtualMachine) {
-    return this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPasswordToken)
+  public getPassword(vm: VirtualMachine): string {
+    const passwordTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPasswordToken);
+    const vmPassword = this.getTagValue(vm.tags, VirtualMachineTagKeys.passwordTag);
+    return passwordTag || vmPassword;
   }
 
-  private getHttpPort(vm: VirtualMachine) {
-    const portTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPortToken);
-    return portTag || this.defaultPort;
-  }
-
-  private getHttpPath(vm: VirtualMachine) {
-    const pathTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPathToken);
-    return pathTag || this.defaultPath;
-  };
-
-  private getHttpProtocol(vm: VirtualMachine) {
+  public getHttpProtocol(vm: VirtualMachine) {
     const protocolTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpProtocolToken);
-    return protocolTag || this.defaultProtocol;
+    return (protocolTag || this.defaultProtocol).toLowerCase();
   };
+
+  public getHttpPath(vm: VirtualMachine) {
+    const pathTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPathToken);
+    return (pathTag || this.defaultPath).toLowerCase();
+  };
+
+  public getHttpPort(vm: VirtualMachine) {
+    const portTag = this.getTagValue(vm.tags, VirtualMachineTagKeys.httpPortToken);
+    if (portTag) {
+      return portTag;
+    }
+    const defaultValue = this.getHttpProtocol(vm) === this.defaultProtocol
+      ? this.defaultHttpPort : this.defaultHttpsPort;
+    return defaultValue;
+  }
 }

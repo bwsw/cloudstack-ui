@@ -44,12 +44,12 @@ The maximum allowed value is 300 minutes. Please, note that a long time period o
 
 The session timeout can be set in the configuration file. You will find more information in the  `configuration guide <https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md#session-timeout>`_.
 
-
+.. _Settings_VMPass:
 Save VM passwords by default
 """""""""""""""""""""""""""""""
 This checkbox allows saving passwords to VM tags automatically for all created virtual machines requiring passwords.
 
-Tick this option here. The passwords will be saved to VM tags right at the moment VMs are created. You will see a password (if it is required for the VM) is marked as saved in a dialogue window after the new VM is deployed:
+Tick this option here. The passwords will be saved to VM tags right at the moment VMs are created. You will see a password (if it is required for the VM) is marked as saved in a dialog window after the new VM is deployed:
 
 .. figure:: _static/VMs_Create_Dialogue_SavedPass.png
 

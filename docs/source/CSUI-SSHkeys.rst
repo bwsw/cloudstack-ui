@@ -84,7 +84,7 @@ By clicking "Actions" |actions icon| you can expand the list of actions for thos
 
 .. figure:: _static/SSH_ActionBox.png
 
-Click "Delete" to delete a key and then confirm your action in the dialogue window. The key will be deleted. Click "Cancel" to close the window without deleting a key.
+Click "Delete" to delete a key and then confirm your action in the dialog box. The key will be deleted. Click "Cancel" to close the window without deleting a key.
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png

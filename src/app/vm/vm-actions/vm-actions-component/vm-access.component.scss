@@ -1,0 +1,25 @@
+h3 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+::ng-deep .mat-tab-label {
+  width: 33% !important;
+}
+
+.parameters-wrapper {
+  margin: 16px;
+}
+
+.action-link {
+  cursor: pointer;
+}
+
+.error-message {
+  color: #f44336;
+  display: block;
+}

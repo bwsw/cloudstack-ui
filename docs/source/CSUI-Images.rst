@@ -191,7 +191,7 @@ Tags can be edited or/and deleted. Mouse over the tag in the list and see "Edit"
 
 Click "Edit" to change the tag's key or value in the appeared form. Save the edits.
 
-Click "Delete" to delete the tag from the list for this template. Confirm your action in the dialogue window. Make sure the tag disappeared from the list of assigned tags.
+Click "Delete" to delete the tag from the list for this template. Confirm your action in the dialog window. Make sure the tag disappeared from the list of assigned tags.
 
 Template/ISO Action Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,7 +200,7 @@ By clicking "Actions" |actions icon| you can expand the list of actions for thos
 
 .. figure:: _static/Images_Temp_ActionBox1.png
 
-Click "Delete" to delete the template/ISO and then confirm your action in the dialogue window. The template/ISO will be deleted. 
+Click "Delete" to delete the template/ISO and then confirm your action in the dialog window. The template/ISO will be deleted. 
 
 Click "Cancel" to close the window without deleting a template/ISO.
 
