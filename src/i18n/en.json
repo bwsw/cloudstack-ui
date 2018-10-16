@@ -285,6 +285,7 @@
     "ACTIVITY_LOG": "Activity log",
     "SSH_KEYS": "SSH keys",
     "ACCOUNTS": "Accounts",
+    "LOGS": "View logs",
     "SETTINGS": "Settings",
     "LOGOUT": "Logout",
     "LICENSE": {
@@ -306,7 +307,8 @@
       "CONSOLE": "Console",
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Access VM",
-      "VM_ACCESS_TITLE": "Virtual Machine"
+      "VM_ACCESS_TITLE": "Virtual Machine",
+      "LOGS": "View logs"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Resource usage",
@@ -1429,6 +1431,18 @@
       "EMAIL": "Email",
       "API_KEY": "API key",
       "SECRET_KEY": "Secret key"
+    }
+  },
+  "LOGS_PAGE": {
+    "FILTERS": {
+      "SELECT_VM": "Select a VM",
+      "KEYWORDS": "Keywords",
+      "SHOW_LOGS": "Show logs"
+    },
+    "LIST": {
+      "DATE": "Date",
+      "LOG_FILE": "Log file",
+      "TEXT": "Text"
     }
   },
   "SETTINGS": {

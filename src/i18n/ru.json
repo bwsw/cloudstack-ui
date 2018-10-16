@@ -285,6 +285,7 @@
     "ACTIVITY_LOG": "Журнал событий",
     "SSH_KEYS": "SSH ключи",
     "ACCOUNTS": "Аккаунты",
+    "LOGS": "Просмотр логов",
     "SETTINGS": "Настройки",
     "LOGOUT": "Выйти",
     "LICENSE": {
@@ -306,7 +307,8 @@
       "CONSOLE": "Консоль",
       "WEB_SHELL": "WebShell",
       "VM_ACCESS": "Доступ к ВМ",
-      "VM_ACCESS_TITLE": "Виртуальная машина"
+      "VM_ACCESS_TITLE": "Виртуальная машина",
+      "LOGS": "Просмотр логов"
     },
     "RESOURCE_USAGE": {
       "TITLE": "Использование ресурсов",
@@ -1425,6 +1427,18 @@
       "EMAIL": "Email",
       "API_KEY": "API ключ",
       "SECRET_KEY": "Секретный ключ"
+    }
+  },
+  "LOGS_PAGE": {
+    "FILTERS": {
+      "SELECT_VM": "Выберите ВМ",
+      "KEYWORDS": "Ключевые слова",
+      "SHOW_LOGS": "Показать логи"
+    },
+    "LIST": {
+      "DATE": "Дата",
+      "LOG_FILE": "Файл",
+      "TEXT": "Текст"
     }
   },
   "SETTINGS": {

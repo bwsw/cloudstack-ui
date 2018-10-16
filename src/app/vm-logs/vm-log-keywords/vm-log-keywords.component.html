@@ -1,0 +1,19 @@
+<mat-form-field class="keywords">
+  <mat-chip-list #chipList>
+    <mat-chip
+      matChipRemove
+      *ngFor="let keyword of keywords"
+      (removed)="remove(keyword)"
+    >
+      {{ keyword.text }}
+      <mat-icon matChipRemove class="mdi-cancel"></mat-icon>
+    </mat-chip>
+    <input
+      fullWidth
+      [placeholder]="'LOGS_PAGE.FILTERS.KEYWORDS' | translate"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [matChipInputAddOnBlur]="true"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+</mat-form-field>
