@@ -77,7 +77,8 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
     { id: 'EVENTS', visible: true },
     { id: 'SSH', visible: true },
     { id: 'ACCOUNTS', visible: true },
-    { id: 'SETTINGS', visible: true }
+    { id: 'LOGS', visible: true },
+    { id: 'SETTINGS', visible: true },
   ],
   /*
    * Service offering setting

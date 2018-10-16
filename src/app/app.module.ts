@@ -34,6 +34,7 @@ import { AppComponent } from './app.component';
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
+import { VmLogsModule } from './vm-logs/vm-logs.module';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
@@ -85,6 +86,7 @@ export function InitAppFactory(
     SnapshotModule,
     VolumeModule,
     SshKeysModule,
+    VmLogsModule,
     TemplateModule,
     VmModule,
     AccountModule,
