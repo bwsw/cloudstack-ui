@@ -89,13 +89,13 @@ Pulse Plugin is designed for visualization of virtual machines performance stati
 
 Pulse allows users of Apache CloudStack to monitor current and previous operational states of virtual machines. The plugin supports various view scales like minutes, hours, days and enables data overlays to monitor peak and average values.
 
-We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers. Read more about Plugin deployment [here](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin-Deployment). 
+We consider this plugin very important for the CloudStack ecosystem as currently there is no built-in functionality to track VM operational states, although it is vital for system administrators to successfully operate virtual servers. Read more about Plugin deployment [here](https://github.com/bwsw/cloudstack-ui/wiki/Pulse-Plugin#how-to-deploy-and-configure-pulse-plugin). 
 
 **WebShell Plugin**
 
 WebShell is a CloudStack-UI extension designed to perform a clientless SSH connection to a virtual machine. The extension is activated in the CloudStack-UI configuration file and is supported by an additional Docker container. As for the way of WebShell usage, the plugin is similar to NoVNC interface provided by CloudStack. However, WebShell uses the SSH protocol and doesn’t allow VM emergency management.
 
-This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plug-in page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin-Deployment).
+This feature is not available in basic CloudStack UI and API. Plugin deployment and configuration instructions can be found on [the plug-in page](https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin#webshell-plugin-deployment).
 
 ## Features Yet Unsupported
 
@@ -137,9 +137,9 @@ We added a feature to brush a virtual machine with a specific color to make it l
 Also, we moved most of VM information to the sidebar, which now has four tabs - General view, Storage (disks, snapshots, and ISO), Network (NICs configuration, Firewall rules) and Tags.
 From the system behavior standpoint, we have changed it sometimes, e.g. when the user wants to change service offering for running VM, the interface says that VM will be stopped and started, and it doesn’t make the user do it separately. So we replaced disconnected action sequences with connected ones. The data representation can be changed between the "card" and "table" view. Each section contains a switch and this improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView1.png" target="_blank">![Virtual Machine View screen 1](./screens/VMView1_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView2.png" target="_blank">![Virtual Machine View screen 2](./screens/VMView2_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VMView3.png" target="_blank">![Virtual Machine View screen 3](./screens/VMView3_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VM_View1.png" target="_blank">![Virtual Machine View screen 1](./screens/VM_View1_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VM_View2.png" target="_blank">![Virtual Machine View screen 2](./screens/VM_View2_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/VM_View3.png" target="_blank">![Virtual Machine View screen 3](./screens/VM_View3_mini.png)</a>
 
 #### New virtual machine form
 
@@ -152,22 +152,22 @@ Currently supported:
 - WebShell if VM has a csui.vm.auth-mode tag with SSH value. To configure access to VM using WebShell, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags),
 - Access via HTTP if VM has a csui.vm.auth-mode tag with HTTP value. To configure access to VM via HTTP, please refer to [wiki](https://github.com/bwsw/cloudstack-ui/wiki/Tags).
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView.png" target="_blank">![New Virtual Machine View](./screens/newVMView_mini.png)</a>
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVMView2.png" target="_blank">![New Virtual Machine View](./screens/newVMView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVM_View.png" target="_blank">![New Virtual Machine View](./screens/newVM_View_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/newVM_View2.png" target="_blank">![New Virtual Machine View](./screens/newVM_View2_mini.png)</a>
 
 #### Resource usage bar
 
 We also decided to place the resource usage bar on the same virtual machine view screen. It can be collapsed or displayed. A resource usage bar allows switching between "used" and "free" presentations to help users understanding capabilities in a better way. Domain administrators can also choose between Account and Domain view. 
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resourceUsageBar.png" target="_blank">![New Virtual Machine View](./screens/resourceUsageBar_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/resource_UsageBar.png" target="_blank">![New Virtual Machine View](./screens/resource_UsageBar_mini.png)</a>
 
 #### Storage
 
 This panel displays existing drives. Root disks are visually distinguished from data disks. In addition, there is an option to display only spare disks, which allows saving user's time in certain cases. Each drive has a detailed sidebar with two tabs (Volume and Snapshots). When a virtual machine is removed, attached drives can be automatically removed. Also, we don’t allow a user to create additional disks on a virtual machine creation because it leads to confusion when the virtual machine is created from a template – the user doesn’t realize that they add an “additional” drive and it’s not a root one.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView_mini.png)</a>&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView2_mini.png)</a>
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spareDrivesView3.png" target="_blank">![Firewall templates view 2](./screens/spareDrivesView3_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spare_DrivesView.png" target="_blank">![Firewall templates view 2](./screens/spare_DrivesView_mini.png)</a>&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spare_DrivesView2.png" target="_blank">![Firewall templates view 2](./screens/spare_DrivesView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/spare_DrivesView3.png" target="_blank">![Firewall templates view 2](./screens/spare_DrivesView3_mini.png)</a>
 
 #### Images
 
@@ -178,27 +178,29 @@ We changed the templates and ISOs view making it more obvious and neat to use. A
 
 #### Snapshots
 
-We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes in the system. A user can view the list of snapshots and filter or group it by type or account (available to Administrators). We also added filtering by date.
+We have added a section - Snapshots - that makes it easier for a user to manage snapshots created for volumes in the system. A user can view the list of snapshots and filter or group it by type or account (available to Administrators). We also added filtering snapshots by date.
 
 In the details sidebar a user can see the snapshot general information and the volume that the snapshot is created for.
 
 Here the action box also allows a user to create template or volume from the snapshot, revert a volume to the snapshot, or delete a snapshot.
 
 <a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsView.png" target="_blank">![Snapshots view](./screens/snapshotsView_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsDetails.png" target="_blank">![Snapshots view 2](./screens/snapshotsView2_mini.png)</a>
+
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/snapshotsDetails.png" target="_blank">![Snapshots view 2](./screens/snapshotsDetails_mini.png)</a>
 
 #### Firewall 
 
 Firewall section includes three views: Firewall templates, Shared security groups and Private security groups.
 
-It is important to understand the concept of Firewall templates. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in json configuration file. Upon VM creation the system creates a new security group for every virtual machine which is initially filled with all the rules from specified presets (if presets exist). Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a private security group used for that virtual machine only. 
 
-The second way is to use a shared security group - a group that is used by other VMs. 
+It is important to understand the concept of Firewall *templates*. This is a preset of rules that can be system default or developed by a user. System administrators can specify default presets during the interface deployment in the json configuration file. Upon VM creation the system uses a default security group defined in the configuration file, or a user can create a new security group right in the VM creation form. Next, when a user changes the rules for a certain virtual machine, they don’t affect other machines. These changed rules make a *private* security group used for that virtual machine only. 
+
+The second way is to use a *shared* security group - a group that is used by other VMs. 
 
 Users can manage security group rules in two modes: a "view" mode with filtering by types and protocols and an “edit” mode. Security groups editing is available when switching from "view" mode to "editing" mode. If editing a shared group, a user is warned that changes will affect other VMs using this group. This behavior allows avoiding undesirable changes for other VMs.
 
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView.png" target="_blank">![Firewall templates view](./screens/firewallTemplatesView_mini.png)</a>&nbsp;&nbsp;
-<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewallTemplatesView2.png" target="_blank">![Firewall templates view 2](./screens/firewallTemplatesView2_mini.png)</a>
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewall_TemplatesView.png" target="_blank">![Firewall templates view](./screens/firewall_TemplatesView_mini.png)</a>&nbsp;&nbsp;
+<a href="https://raw.githubusercontent.com/bwsw/cloudstack-ui/master/screens/firewall_TemplatesView2.png" target="_blank">![Firewall templates view 2](./screens/firewall_TemplatesView2_mini.png)</a>
 
 #### Activity Log
 
@@ -215,19 +217,34 @@ Here domain administrators can manage existing accounts, create new accounts and
 
 # Documentation
 
+## User Guide
+
+You can find an official User Guide at https://cloudstackui.readthedocs.io/en/latest/ .
+
 ## Getting started guide
 
-1. Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version (We recomend Node.js v8.11.2).
-2. Clone the CSUI project from GitHub.
-3. Run "npm install" command. This command installs all dependencies, which are used in the project. Also, you may use "yarn" command.
-4. Add your own proxy-conf.js file in the project folder and set the API endpoint in this file. See [proxy-conf-example](https://github.com/bwsw/cloudstack-ui/blob/master/proxy-conf-example.js).
+### Prerequisites
+
+Before you start, please, prepare Node development environment. Install Node.js or update your current node.js to latest stable version.
+
+### Download and install dependencies
+
+1. Clone the CS-UI project from GitHub.
+2. Run ```npm install``` command. This command installs all dependencies, which are used in the project. Also, you may use ```yarn``` command.
+3. Add your own `proxy-conf.js` file in the project root folder and set the API endpoint in this file. See [proxy-conf-example](https://github.com/bwsw/cloudstack-ui/blob/master/proxy-conf-example.js).
+
+```
+git clone https://github.com/bwsw/cloudstack-ui.git
+cd cloudstack-ui
+npm install
+```
 
 ### Main commands
 
 | command | action |
 |---------|--------|
 |npm test | use this command to execute tests via Karma|
-|npm run build| use this command to build the project, the build artifacts will be stored in the dist/ directory|
+|npm run build| use this command to build the project, the build artifacts will be stored in the "dist/cloudstack-ui" directory|
 |npm start| use this command to compile the application, it will be available at URL - "localhost:8080".|
 
 ## Deployment
@@ -257,7 +274,8 @@ Additionally, you can change favicon and CloudStack logo on login screen and in 
 -v /path/to/cloudstack_logo.png:/static/img/cloudstack_logo.png \
 -v /path/to/cloudstack_logo_light.png:/static/img/cloudstack_logo_light.png \
 ```
-where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on login screen and `cloudstack_logo_light.png` is the CloudStack logo displayed in the sidebar with light theme.
+
+where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on the login screen and `cloudstack_logo_light.png` is the CloudStack logo displayed in the sidebar with the light theme.
 
 ### Assisting object cleanup container
 
@@ -265,10 +283,21 @@ Some operations implemented in the UI require "delayed" activities, so we use ad
 
 Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/) container.
 
+## Versioning
+
+```
++- Major version containing breaking changes.
+| +- Minor version synchronized with the CloudStack version (major and minor without a dot).
+| | +- Patch version defining the iteration number.
+| | |
+x.x.x
+```
+
+[See details](https://github.com/bwsw/cloudstack-ui/wiki/CS-UI-version-enumeration)
+
 ## Configuration Options
 
 You can customize the application by providing your own configuration file config.json. See the [Config Guide](https://github.com/bwsw/cloudstack-ui/blob/master/config-guide.md) for more information on configuration options.
-
 
 ## Project Sponsors
 
