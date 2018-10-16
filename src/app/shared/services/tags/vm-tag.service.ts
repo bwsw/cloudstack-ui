@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
+import { getInstanceGroupName, VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
 import { Color, InstanceGroup, Tag } from '../../models';
 import { Taggable } from '../../interfaces';
 import { TagService } from './tag.service';
@@ -79,7 +79,7 @@ export class VmTagService implements EntityTagService {
       resourceIds: vm.id,
       resourceType: VmResourceType,
       'tags[0].key': this.keys.group,
-      'tags[0].value': vm.instanceGroup.name
+      'tags[0].value': getInstanceGroupName(vm)
     }).pipe(
       map(() => {
         newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
