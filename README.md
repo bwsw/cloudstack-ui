@@ -23,8 +23,15 @@ Table of Contents
          * [Activity log](#activity-log)
          * [Accounts](#accounts)
    * [Documentation](#documentation)
+      * [User Guide](#user-guide)
       * [Getting started guide](#getting-started-guide)
+          * [Prerequisites](#prerequisites)
+          * [Download and install dependencies](#download-and-install-dependencies)
+          * [Main commands](#main-commands)
       * [Deployment](#deployment)
+          * [Main UI Container](#main-ui-container)
+          * [Assisting object cleanup container](#assisting-object-cleanup-container)
+      * [Versioning](#versioning)
       * [Configuration Options](#configuration-options)
    * [Project Sponsors](#project-sponsors)
       * [How to Contribute](#how-to-contribute)
@@ -303,7 +310,7 @@ You can customize the application by providing your own configuration file confi
 
 The project is currently supported by [Bitworks Software](https://bitworks.software/).
 
-![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
+![Bitworks Software](https://github.com/bwsw/cloudstack-ui/blob/master/screens/15047882.png)
 
 ## How to Contribute
 
