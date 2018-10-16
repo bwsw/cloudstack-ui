@@ -1428,7 +1428,8 @@
       "KEYWORDS": "Keywords",
       "SHOW_LOGS": "Show logs",
       "START_DATE": "Start date",
-      "END_DATE": "End date"
+      "END_DATE": "End date",
+      "NEWEST_FIRST": "Newest first"
     },
     "LIST": {
       "DATE": "Date",

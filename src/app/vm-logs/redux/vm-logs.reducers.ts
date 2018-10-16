@@ -17,6 +17,7 @@ export interface State extends EntityState<VmLog> {
     keywords: Array<Keyword>,
     startDate: DateObject,
     endDate: DateObject,
+    newestFirst: boolean
   }
 }
 
@@ -56,6 +57,7 @@ export const initialState: State = adapter.getInitialState({
         milliseconds: 999,
       })
       .toObject(),
+    newestFirst: false
   }
 });
 
@@ -196,6 +198,16 @@ export function reducer(
       };
     }
 
+    case vmLogsActions.VM_LOGS_TOGGLE_NEWEST_FIRST: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          newestFirst: !state.filters.newestFirst
+        }
+      }
+    }
+
     default: {
       return state;
     }
@@ -268,6 +280,11 @@ export const filterSelectedAccountIds = createSelector(
   state => state.selectedAccountIds
 );
 
+export const filterNewestFirst = createSelector(
+  filters,
+  state => state.newestFirst
+);
+
 export const selectFilteredVMs = createSelector(
   fromVMs.selectAll,
   filterSelectedAccountIds,
@@ -303,12 +320,19 @@ export const loadVmLogsRequestParams = createSelector(
   filterKeywords,
   filterStartDate,
   filterEndDate,
-  (id, keywords, startDate, endDate): LoadVmLogsRequestParams => {
+  filterNewestFirst,
+  (
+    id,
+    keywords,
+    startDate,
+    endDate,
+    newestFirst
+  ): LoadVmLogsRequestParams => {
     const fields = {
       keywords: keywords.map(keyword => keyword.text).join(','),
       startDate: moment(startDate).toISOString().slice(0, -1),
       endDate: moment(endDate).toISOString().slice(0, -1),
-      sort: '-timestamp'
+      sort: newestFirst ? '-timestamp' : 'timestamp'
     };
 
     return Object.keys(fields).reduce((acc, key) => {

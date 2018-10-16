@@ -3,7 +3,8 @@ import {
   LOAD_VM_LOGS_RESPONSE,
   VM_LOGS_ADD_KEYWORD,
   VM_LOGS_FILTER_UPDATE,
-  VM_LOGS_REMOVE_KEYWORD
+  VM_LOGS_REMOVE_KEYWORD,
+  VM_LOGS_TOGGLE_NEWEST_FIRST
 } from './vm-logs.actions';
 import * as fromVmLogs from './vm-logs.reducers';
 import { initialState } from './vm-logs.reducers';
@@ -107,6 +108,36 @@ describe('VM logs reducer', () => {
     expect(state).toEqual(initialState);
   });
 
+  it('should toggle newest first', () => {
+    const toggledState = fromVmLogs.reducer(undefined, {
+      type: VM_LOGS_TOGGLE_NEWEST_FIRST
+    });
+
+    expect(toggledState).toEqual({
+      ...initialState,
+      filters: {
+        ...initialState.filters,
+        newestFirst: true,
+      }
+    });
+
+    const toggledTwiceState = fromVmLogs.reducer(toggledState, {
+      type: VM_LOGS_TOGGLE_NEWEST_FIRST
+    });
+
+    expect(toggledTwiceState).toEqual(initialState);
+  });
+
+  const defaultId = 'test-id';
+  const defaultDate = '1970-01-01T00:00:00.000';
+  const defaultSort = 'timestamp';
+  const defaultRequestParams = {
+    id: defaultId,
+    startDate: defaultDate,
+    endDate: defaultDate,
+    sort: defaultSort
+  };
+
   it('should select load logs request params without keywords', () => {
     const id = 'test-id';
     const keywords = [];
@@ -116,12 +147,7 @@ describe('VM logs reducer', () => {
       keywords
     );
 
-    expect(params).toEqual({
-      id,
-      startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000',
-      sort: '-timestamp'
-    })
+    expect(params).toEqual(defaultRequestParams);
   });
 
   it('should select load logs request params with keywords', () => {
@@ -137,10 +163,24 @@ describe('VM logs reducer', () => {
     );
 
     expect(params).toEqual({
-      id,
+      ...defaultRequestParams,
       keywords: 'test-keyword1,test-keyword2',
-      startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000',
+    });
+  });
+
+  it('should set sort: -timestamp if newest first = true', () => {
+    const id = 'test-id';
+
+    const params = fromVmLogs.loadVmLogsRequestParams.projector(
+      id,
+      [],
+      date,
+      date,
+      true
+    );
+
+    expect(params).toEqual({
+      ...defaultRequestParams,
       sort: '-timestamp'
     });
   });

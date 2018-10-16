@@ -76,15 +76,16 @@
     (onKeywordRemove)="onKeywordRemove.emit($event)"
   ></cs-vm-log-keywords>
 
+  <mat-checkbox
+    [ngModel]="newestFirst"
+    (change)="onNewestFirstChange.emit()"
+  >
+    {{ 'LOGS_PAGE.FILTERS.NEWEST_FIRST' | translate }}
+  </mat-checkbox>
+
   <div>
     <button mat-button (click)="onRefresh.emit()" [disabled]="!selectedVmId">
       {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
     </button>
   </div>
-  <!--<mat-checkbox-->
-  <!--[ngModel]="newestFirst"-->
-  <!--(change)="onNewestFirstChange.emit()"-->
-  <!--&gt;-->
-  <!--Newest first-->
-  <!--</mat-checkbox>-->
 </div>

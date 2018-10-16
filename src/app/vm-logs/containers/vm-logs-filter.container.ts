@@ -33,6 +33,7 @@ const FILTER_KEY = 'logsFilters';
       [startTime]="startTime$ | async"
       [endDate]="endDate$ | async | dateObjectToDate"
       [endTime]="endTime$ | async"
+      [newestFirst]="newestFirst$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
       (onAccountsChange)="onAccountsChange($event)"
       (onVmChange)="onVmChange($event)"
@@ -43,6 +44,7 @@ const FILTER_KEY = 'logsFilters';
       (onStartTimeChange)="onStartTimeChange($event)"
       (onEndDateChange)="onEndDateChange($event)"
       (onEndTimeChange)="onEndTimeChange($event)"
+      (onNewestFirstChange)="onNewestFirstChange($event)"
     ></cs-vm-logs-filter>`
 })
 export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
@@ -58,6 +60,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
   readonly endDate$ = this.store.pipe(select(fromVmLogs.filterEndDate));
   readonly endTime$ = this.store.pipe(select(fromVmLogs.filterEndTime));
   readonly firstDayOfWeek$ = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
+  readonly newestFirst$ = this.store.pipe(select(fromVmLogs.filterNewestFirst));
 
   private filterService = new FilterService(
     {
@@ -65,6 +68,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       keywords: { type: 'array', defaultOption: [] },
       startDate: { type: 'string' },
       endDate: { type: 'string' },
+      newestFirst: { type: 'boolean' }
     },
     this.router,
     this.sessionStorage,
@@ -120,12 +124,17 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new vmLogActions.VmLogsUpdateEndTime(time));
   }
 
+  public onNewestFirstChange() {
+    this.store.dispatch(new vmLogActions.VmLogsToggleNewestFirst());
+  }
+
   private initFilters(): void {
     const params = this.filterService.getParams();
 
     this.store.dispatch(new vmLogActions.VmLogsFilterUpdate({
       selectedVmId: params['vm'],
       keywords: (params['keywords'] || []).map(text => ({ text })),
+      newestFirst: params['newestFirst'],
       selectedAccountIds: params['accounts'] || [],
       ...(params['startDate'] ? { startDate: moment(params['startDate']).toObject() } : null),
       ...(params['endDate'] ? { endDate: moment(params['endDate']).toObject() } : null)
@@ -145,6 +154,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
           vm: filters.selectedVmId,
           keywords: filters.keywords.map(keyword => keyword.text),
           accounts: filters.selectedAccountIds,
+          newestFirst: filters.newestFirst,
           startDate: moment(filters.startDate).toISOString(),
           endDate: moment(filters.endDate).toISOString(),
         });

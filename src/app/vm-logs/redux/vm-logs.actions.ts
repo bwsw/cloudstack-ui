@@ -11,6 +11,7 @@ export const VM_LOGS_UPDATE_START_TIME = '[VM Logs] VM_LOGS_UPDATE_START_TIME';
 export const VM_LOGS_UPDATE_END_DATE = '[VM Logs] VM_LOGS_UPDATE_END_DATE';
 export const VM_LOGS_UPDATE_END_TIME = '[VM Logs] VM_LOGS_UPDATE_END_TIME';
 export const VM_LOGS_UPDATE_ACCOUNT_IDS = '[VM Logs] VM_LOGS_UPDATE_ACCOUNT_IDS';
+export const VM_LOGS_TOGGLE_NEWEST_FIRST = '[VM Logs] VM_LOGS_TOGGLE_NEWEST_FIRST';
 
 export class LoadVmLogsRequest implements Action {
   type = LOAD_VM_LOGS_REQUEST;
@@ -85,10 +86,18 @@ export class VmLogsUpdateAccountIds implements Action {
   }
 }
 
+export class VmLogsToggleNewestFirst implements Action {
+  type = VM_LOGS_TOGGLE_NEWEST_FIRST;
+
+  constructor(public payload?: any) {
+  }
+}
+
 export type Actions =
   LoadVmLogsResponse
   | LoadVmLogsRequest
   | VmLogsFilterUpdate
   | VmLogsAddKeyword
   | VmLogsRemoveKeyword
-  | VmLogsUpdateAccountIds;
+  | VmLogsUpdateAccountIds
+  | VmLogsToggleNewestFirst;
