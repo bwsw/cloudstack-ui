@@ -675,7 +675,7 @@ export class VirtualMachinesEffects {
     map((action: vmActions.AccessVm) => action.payload),
     tap((vm: VirtualMachine) => {
       return this.dialog.open(VmAccessComponent, <MatDialogConfig>{
-        width: '550px',
+        width: '700px',
         data: vm
       });
     }));

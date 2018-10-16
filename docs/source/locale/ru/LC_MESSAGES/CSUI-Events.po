@@ -1,0 +1,163 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, BWSW
+# This file is distributed under the same license as the CSUI package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: CSUI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-10-10 15:17+0700\n"
+"PO-Revision-Date: 2018-10-10 16:44+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: ../../CSUI-Events.rst:4
+msgid "Activity log"
+msgstr "Журнал событий"
+
+#: ../../CSUI-Events.rst:7
+msgid ""
+"In the *Activity log* section you can see user activity in the account. "
+"Event search by main parameters - date and keywords - is supported to make "
+"it easier to find a necessary event for a specific date or type."
+msgstr ""
+"В разделе *Журнал событий* отображаются действия пользователя в аккаунте. "
+"В списке можно быстро найти события по основным параметрам - дате и "
+"ключевым словам. "
+
+#: ../../CSUI-Events.rst:10
+msgid "Events List"
+msgstr "Список событий"
+
+#: ../../CSUI-Events.rst:11
+msgid ""
+"Events in the Activity log are listed in a chronological order from the "
+"latest till the earliest. It represents the full list of events for a "
+"selected day."
+msgstr ""
+"События в *Журнале событий* отображаются в хронологическом порядке от "
+"наиболее позднего до наиболее раннего. В списке содержатся все события за "
+"выбранный день."
+
+#: ../../CSUI-Events.rst:13
+msgid ""
+"A user can view activities for his/her user only. An Administrator can see "
+"events for all accounts in the domain."
+msgstr ""
+"Пользователь видит в журнале только свои действия. Администратор видит "
+"события всех пользователей во всех аккаунтах домена."
+
+#: ../../CSUI-Events.rst:17
+msgid "The following information for each event is presented in the list:"
+msgstr "В списке представлена следующая информация для каждого события:"
+
+#: ../../CSUI-Events.rst:19
+msgid "Event description."
+msgstr "Описание события."
+
+#: ../../CSUI-Events.rst:20
+msgid "Level - A kind of a category the event belongs to. It can show:"
+msgstr "Уровень - категория, которой принадлежит событие. Возможные уровни: "
+
+#: ../../CSUI-Events.rst:22
+msgid ""
+"INFO - For regular activities, for example, logging in, creating a VM, "
+"attaching a disk."
+msgstr ""
+"INFO - для простых действий пользователя, например, вход в систему, "
+"создание машины, присоединение диска к ВМ. "
+
+#: ../../CSUI-Events.rst:23
+msgid "WARN - For any warnings occurred."
+msgstr "WARN - для предупреждений."
+
+#: ../../CSUI-Events.rst:24
+msgid ""
+"ERROR - For any errors occurred, for example, an error while registering "
+"an SSH key pair."
+msgstr "ERROR - для ошибок, например, ошибка при создании SSH ключа. "
+
+#: ../../CSUI-Events.rst:26
+msgid ""
+"Type - Displays in what aspect of the system the event has taken place, "
+"for example: ``USER.LOGIN`` - for events happened at user authentication "
+"to the system; ``VOLUME.RESIZE`` - for events at disk size change."
+msgstr ""
+"Тип - показывает, в какой части системы произошло данное событие, "
+"например: ``USER.LOGIN`` - для событий, произошедших при авторизации "
+"пользователя в системе; ``VOLUME.RESIZE`` - для событий изменения размера "
+"диска."
+
+#: ../../CSUI-Events.rst:28
+msgid "Time of the event."
+msgstr "Время события."
+
+#: ../../CSUI-Events.rst:31
+msgid "Filtering of Events"
+msgstr "Фильтрация событий"
+
+#: ../../CSUI-Events.rst:32
+msgid "To easily find an event in the list use the filtering tool above."
+msgstr ""
+"Фильтрация позволяет быстрее найти в списке нужное событие.  Инструмент "
+"фильтрации расположен над списком. "
+
+#: ../../CSUI-Events.rst:34
+msgid "Any user can filter events by:"
+msgstr "Фильтровать список можно по следующим параметрам:"
+
+#: ../../CSUI-Events.rst:36
+msgid ""
+"Date - Allows selecting events for a specific date. By default, the "
+"today's date is selected. Click |date icon| and in the appeared calendar "
+"change the date for the day you wish to see activities for."
+msgstr ""
+"Дата - позволяет выбрать события за определенный день. По умолчанию "
+"события отображаются за сегодняшний день. Для выбора даты нажмите |date "
+"icon| и в появившемся календаре выберите нужную дату. "
+
+#: ../../CSUI-Events.rst:40
+msgid ""
+"Click \"OK\" to filter the list. The events will be selected in accordance "
+"with the chosen date."
+msgstr ""
+"Нажмите \"OK\" для применения параметров фильтрации. События в списке "
+"будут отобраны в соответствии с выбранной датой. "
+
+#: ../../CSUI-Events.rst:42
+msgid "Click \"CANCEL\" to drop the selection."
+msgstr "Чтобы сбросить настройки фильтрации, нажмите \"ОТМЕНИТЬ\"."
+
+#: ../../CSUI-Events.rst:44
+msgid ""
+"Levels - Allows selecting events by levels. Choose the level/levels you "
+"with from the drop-down list."
+msgstr ""
+"Уровни - позволяет фильтровать события по уровню/уровням. Выберите уровень/"
+"уровни из списка. "
+
+#: ../../CSUI-Events.rst:46
+msgid ""
+"Types - Allows selecting events by types. Choose the type/types from the "
+"drop-down list."
+msgstr ""
+"Типы - позволяет отобрать события по типу/типам. Выберите тип/типы из "
+"списка."
+
+#: ../../CSUI-Events.rst:48
+msgid "An Administrator has an additional filtering parameter - accounts."
+msgstr ""
+"Администратору доступен дополнительный параметр фильтрации - аккаунты."
+
+#: ../../CSUI-Events.rst:52
+msgid "Use the search tool to find an event by keywords or a part of a word."
+msgstr ""
+"Воспользуйтесь поиском, чтобы быстро найти событие в списке по ключевому "
+"слову или части слова. "

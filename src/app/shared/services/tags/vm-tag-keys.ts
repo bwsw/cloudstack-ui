@@ -4,6 +4,7 @@ export const VirtualMachineTagKeys = {
   group: 'csui.vm.group',
   agreementAccepted: 'csui.vm.agreement-accepted',
   passwordTag: 'csui.vm.password',
+  loginTag: 'csui.vm.login',
   authModeToken: 'csui.vm.auth-mode',
   httpProtocolToken: 'csui.vm.http.protocol',
   httpPortToken: 'csui.vm.http.port',

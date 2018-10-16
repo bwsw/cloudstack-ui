@@ -29,7 +29,7 @@ export class PostdeploymentComponent {
       hidden: (vm) => {
         return !vm
           || !this.sshAccessService.isWebShellEnabled()
-          || !this.sshAccessService.isWebShellEnabledForVm(vm);
+          || !this.sshAccessService.isSshAuthMode(vm);
       },
       activate: (vm) => this.store.dispatch(new vmActions.WebShellVm(vm))
     },
@@ -54,10 +54,10 @@ export class PostdeploymentComponent {
   }
 
   public getUrlLogin(vm) {
-    return this.httpAccessService.getHttpLogin(vm);
+    return this.httpAccessService.getLogin(vm);
   }
 
   public getUrlPassword(vm) {
-    return this.httpAccessService.getHttpPassword(vm);
+    return this.httpAccessService.getPassword(vm);
   }
 }
