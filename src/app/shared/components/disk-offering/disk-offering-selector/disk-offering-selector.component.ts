@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnChanges, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -22,6 +31,7 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   @Input() public required: boolean;
   @Input() public account: Account;
   @Input() public isShowSlider = false;
+  @Input() public isShowSelector = true;
   @Input() public min: number;
   @Input() public newSize: number;
   @Input() public storageAvailable: string;
@@ -50,8 +60,8 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
       this.setMaxSizeValue()
   }
 
-  public ngOnChanges(changes) {
-    if (changes.storageAvailable.currentValue) {
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.storageAvailable && changes.storageAvailable.currentValue) {
       this.setMaxSizeValue()
     }
   }

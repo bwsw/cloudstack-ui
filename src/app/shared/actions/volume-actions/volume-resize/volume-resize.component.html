@@ -8,9 +8,10 @@
     #volumeResizeForm="ngForm"
     novalidate
   >
-    <div class="mat-dialog-content" *ngIf="!volumeIsRoot && diskOfferings?.length">
+    <div class="mat-dialog-content">
       <cs-disk-offering-selector
         name="diskOffering"
+        [isShowSelector]="!volumeIsRoot && diskOfferings?.length"
         [isShowSlider]="isCustomizedForVolume(diskOffering) || volumeIsRoot"
         [min]="volume.size | division:2:30"
         [newSize]="newSize"

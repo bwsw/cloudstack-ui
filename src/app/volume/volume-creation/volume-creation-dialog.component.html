@@ -37,19 +37,18 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div *ngIf="diskOfferings?.length">
-        <cs-disk-offering-selector
-          name="diskOffering"
-          [isShowSlider]="showResizeSlider && minSize"
-          [min]="minSize"
-          [storageAvailable]="storageAvailable"
-          [newSize]="newVolume.size"
-          [diskOfferings]="diskOfferings"
-          [account]="account"
-          [diskOffering]="diskOffering"
-          (change)="updateDiskOffering($event)"
-        ></cs-disk-offering-selector>
-      </div>
+      <cs-disk-offering-selector
+        name="diskOffering"
+        [isShowSelector]="diskOfferings?.length"
+        [isShowSlider]="showResizeSlider && minSize"
+        [min]="minSize"
+        [storageAvailable]="storageAvailable"
+        [newSize]="newVolume.size"
+        [diskOfferings]="diskOfferings"
+        [account]="account"
+        [diskOffering]="diskOffering"
+        (change)="updateDiskOffering($event)"
+      ></cs-disk-offering-selector>
     </div>
     <div class="mat-dialog-actions">
       <button
