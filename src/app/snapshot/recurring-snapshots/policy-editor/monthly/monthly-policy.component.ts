@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as isEqual from 'lodash/isEqual';
 import * as range from 'lodash/range';
 
-import { Time } from '../../time-picker/time-picker.component';
+import { Time } from '../../../../shared/components/time-picker/time-picker.component';
 import { TimeFormat } from '../../../../shared/types';
 
 

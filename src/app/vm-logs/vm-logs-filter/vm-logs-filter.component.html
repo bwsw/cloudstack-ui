@@ -1,0 +1,91 @@
+<div class="options-panel filter-wrapper">
+  <mat-form-field *ngIf="accounts.length > 1">
+    <mat-select
+      multiple="true"
+      [placeholder]="'LOGS_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
+      [ngModel]="selectedAccountIds"
+      (selectionChange)="onAccountsChange.emit($event.value)"
+    >
+      <mat-option
+        *ngFor="let account of accounts"
+        [value]="account.id"
+      >{{ account?.fullDomain }}{{ account.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select
+      [placeholder]="'LOGS_PAGE.FILTERS.SELECT_VM' | translate"
+      [ngModel]="selectedVmId"
+      (selectionChange)="onVmChange.emit($event.value)"
+    >
+      <mat-option
+        *ngFor="let vm of vms"
+        [value]="vm.id"
+      >
+        {{ vm.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="date-time">
+    <cs-date-picker
+      [label]="'LOGS_PAGE.FILTERS.START_DATE' | translate"
+      [okLabel]="'COMMON.OK' | translate"
+      [locale]="locale"
+      [firstDayOfWeek]="firstDayOfWeek"
+      [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+      [cancelLabel]="'COMMON.CANCEL' | translate"
+      [ngModel]="startDate"
+      (change)="onStartDateChange.emit($event)"
+    ></cs-date-picker>
+
+    <cs-time-picker
+      [timeFormat]="'hour24'"
+      [ngModel]="startTime"
+      (ngModelChange)="onStartTimeChange.emit($event)"
+    ></cs-time-picker>
+  </div>
+
+  <div class="date-time">
+    <cs-date-picker
+      [label]="'LOGS_PAGE.FILTERS.END_DATE' | translate"
+      [okLabel]="'COMMON.OK' | translate"
+      [locale]="locale"
+      [firstDayOfWeek]="firstDayOfWeek"
+      [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+      [cancelLabel]="'COMMON.CANCEL' | translate"
+      [ngModel]="endDate"
+      (change)="onEndDateChange.emit($event)"
+    ></cs-date-picker>
+
+    <cs-time-picker
+      [timeFormat]="'hour24'"
+      [ngModel]="endTime"
+      (ngModelChange)="onEndTimeChange.emit($event)"
+    ></cs-time-picker>
+  </div>
+</div>
+
+<div class="filter-wrapper">
+  <cs-vm-log-keywords
+    class="keywords"
+    [keywords]="keywords"
+    (onKeywordAdd)="onKeywordAdd.emit($event)"
+    (onKeywordRemove)="onKeywordRemove.emit($event)"
+  ></cs-vm-log-keywords>
+
+  <mat-checkbox
+    [ngModel]="newestFirst"
+    (change)="onNewestFirstChange.emit()"
+  >
+    {{ 'LOGS_PAGE.FILTERS.NEWEST_FIRST' | translate }}
+  </mat-checkbox>
+
+  <div>
+    <button mat-button (click)="onRefresh.emit()" [disabled]="!selectedVmId">
+      {{ 'LOGS_PAGE.FILTERS.SHOW_LOGS' | translate }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.filter-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.keywords {
+  flex: 1;
+}
+
+.date-time {
+  & > *:first-child {
+    margin-right: 20px;
+  }
+}

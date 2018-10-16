@@ -2,6 +2,7 @@
   <cs-time-picker
     class="column"
     name="time"
+    [label]="'SNAPSHOT_POLICIES.TIME' | translate"
     [timeFormat]="timeFormat"
     [ngModel]="time"
     (ngModelChange)="updateTime($event)"
