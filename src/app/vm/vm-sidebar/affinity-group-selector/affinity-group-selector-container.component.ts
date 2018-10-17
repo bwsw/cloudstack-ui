@@ -5,7 +5,7 @@ import { AffinityGroupService } from '../../../shared/services/affinity-group.se
 import { select, Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 import * as affinityGroupActions from '../../../reducers/affinity-groups/redux/affinity-groups.actions';
-import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/affinity-groups.reducers';
+import * as affinityGroupSelectors from '../../../reducers/affinity-groups/redux/affinity-groups.selectors';
 
 
 @Component({
@@ -22,7 +22,7 @@ import * as fromAffinityGroups from '../../../reducers/affinity-groups/redux/aff
   `,
 })
 export class AffinityGroupSelectorContainerComponent {
-  readonly affinityGroups$ = this.store.pipe(select(fromAffinityGroups.selectAll));
+  readonly affinityGroups$;
   public types = [AffinityGroupType.antiAffinity, AffinityGroupType.affinity];
   public preselectedAffinityGroups: AffinityGroup[];
   public isVmCreation: boolean;
@@ -35,6 +35,8 @@ export class AffinityGroupSelectorContainerComponent {
   ) {
     this.isVmCreation = data.isVmCreation;
     this.preselectedAffinityGroups = data.preselectedAffinityGroups || [];
+    this.affinityGroups$ = this.store.pipe(
+      select(affinityGroupSelectors.getSelectSorted(this.preselectedAffinityGroups)));
   }
 
   public createAffinityGroup(group: AffinityGroup) {

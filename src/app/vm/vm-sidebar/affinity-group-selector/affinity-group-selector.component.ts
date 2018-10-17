@@ -15,24 +15,6 @@ function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
   };
 }
 
-const sortBySelected = (a: AffinityGroup, b: AffinityGroup) => {
-  const aIsPreselected = a.isPreselected;
-  const bIsPreselected = b.isPreselected;
-
-  if (aIsPreselected && bIsPreselected) {
-    return a.name.localeCompare(b.name);
-  }
-  if (!aIsPreselected && !bIsPreselected) {
-    return a.name.localeCompare(b.name);
-  }
-  if (aIsPreselected && !bIsPreselected) {
-    return -1;
-  }
-  if (!aIsPreselected && bIsPreselected) {
-    return 1;
-  }
-};
-
 @Component({
   selector: 'cs-affinity-group-selector',
   templateUrl: 'affinity-group-selector.component.html',
@@ -49,7 +31,6 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   public selectedGroup: AffinityGroup;
   public types = [AffinityGroupType.antiAffinity, AffinityGroupType.affinity];
   public affinityGroupForm: FormGroup;
-  public list: AffinityGroup[];
   public maxEntityNameLength = 63;
 
   constructor(
@@ -65,13 +46,11 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
     const affinityGroup = changes.affinityGroups.currentValue;
     if (affinityGroup) {
       this.affinityGroups = affinityGroup;
-      this.sortList();
     }
   }
 
   public ngOnInit(): void {
     this.createForm();
-    this.sortList()
   }
 
   public createGroup(): void {
@@ -91,14 +70,6 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
     const selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
     selectedGroupIds.push(this.selectedGroup.id);
     this.onSubmit.emit(selectedGroupIds);
-  }
-
-  private sortList() {
-    this.list = this.affinityGroups.map(group => {
-      const isPreselected = !!this.preselectedAffinityGroups.find(preselected => preselected.id === group.id);
-      return { ...group, isPreselected }
-    });
-    this.list.sort(sortBySelected)
   }
 
   private createForm() {
