@@ -23,6 +23,7 @@ export class SliderComponent implements OnInit, ControlValueAccessor {
   @Input()
   public units: string;
 
+  // tslint:disable-next-line:variable-name
   public _size: number;
 
   constructor() {}

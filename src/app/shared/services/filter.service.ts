@@ -8,11 +8,19 @@ export interface FilterConfig {
 
 export interface FilterItemConfig {
   type: 'array' | 'string' | 'boolean';
-  options?: Array<any>;
+  options?: any[];
   defaultOption?: any;
 }
 
 export class FilterService {
+  constructor(
+    private config: FilterConfig,
+    private router: Router,
+    private storage: StorageService,
+    private key: string,
+    private activatedRoute: ActivatedRoute,
+  ) {}
+
   private static setDefaultOrRemove(filter, config: FilterConfig, output): void {
     if (config[filter].defaultOption) {
       output[filter] = config[filter].defaultOption;
@@ -42,24 +50,14 @@ export class FilterService {
           } else if (!Array.isArray(param)) {
             break;
           }
-          if (!conf.options) {
-            res = par;
-          } else {
-            res = par.filter(p => conf.options.some(_ => _ === p));
-          }
+          res = !conf.options ? par : par.filter(p => conf.options.some(_ => _ === p));
+          break;
+        default:
           break;
       }
     }
     return res;
   }
-
-  constructor(
-    private config: FilterConfig,
-    private router: Router,
-    private storage: StorageService,
-    private key: string,
-    private activatedRoute: ActivatedRoute
-  ) {}
 
   public update(params): void {
     if (Utils.getRouteWithoutQueryParams(this.router.routerState) === '/login') {

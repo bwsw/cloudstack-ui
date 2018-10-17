@@ -27,12 +27,12 @@ const FILTER_KEY = 'sshKeyListFilters';
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       [groupings]="groupings"
-      (onGroupingsChange)="onGroupingsChange($event)"
-      (onAccountsChange)="onAccountsChange($event)"
+      (groupingsChanged)="onGroupingsChange($event)"
+      (accountsChanged)="onAccountsChange($event)"
     ></cs-ssh-key-filter>`,
 })
 export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-  public groupings: Array<Grouping> = sshKeyGroupings;
+  public groupings: Grouping[] = sshKeyGroupings;
 
   readonly filters$ = this.store.pipe(select(fromSshKeys.filters));
   readonly loading$ = this.store.pipe(select(fromSshKeys.isLoading));
@@ -61,11 +61,11 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     super();
   }
 
-  public onGroupingsChange(selectedGroupings: Array<Grouping>) {
+  public onGroupingsChange(selectedGroupings: Grouping[]) {
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
   }
 
-  public onAccountsChange(selectedAccountIds: Array<string>) {
+  public onAccountsChange(selectedAccountIds: string[]) {
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccountIds }));
   }
 

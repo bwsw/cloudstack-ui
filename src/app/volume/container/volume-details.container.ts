@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
 import { State } from '../../reducers/index';
@@ -23,8 +23,8 @@ import * as fromDiskOfferings from '../../reducers/disk-offerings/redux/disk-off
   `,
 })
 export class VolumeDetailsContainerComponent implements OnInit {
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
-  readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
+  readonly volume$ = this.store.pipe(select(fromVolumes.getSelectedVolume));
+  readonly offering$ = this.store.pipe(select(fromDiskOfferings.getSelectedOffering));
 
   public description: string;
   public volume: Volume;
@@ -37,7 +37,7 @@ export class VolumeDetailsContainerComponent implements OnInit {
         new volumeActions.ChangeDescription({
           volume,
           description,
-        })
+        }),
       );
     });
   }

@@ -8,7 +8,7 @@ import { DialogService } from '../../../../dialog/dialog-service/dialog.service'
 import { OverlayLoadingComponent } from '../../../components/overlay-loading/overlay-loading.component';
 import { SliderComponent } from '../../../components/slider/slider.component';
 import { DiskOffering, Volume } from '../../../models';
-import { StorageTypes } from '../../../models/offering.model';
+import { storageTypes } from '../../../models/offering.model';
 import { VolumeType } from '../../../models/volume.model';
 import { DiskOfferingService } from '../../../services/disk-offering.service';
 import { JobsNotificationService } from '../../../services/jobs-notification.service';
@@ -53,11 +53,7 @@ describe('volume resize for root disks', () => {
 
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', [
-      'add',
-      'finish',
-      'fail',
-    ]);
+    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
     const testVolume = {} as Volume;
     testVolume.id = '1';
@@ -94,7 +90,7 @@ describe('volume resize for root disks', () => {
   it('should not send disk offerings when resizing root disks', () => {
     const newVolumeSize = 100;
     component.newSize = newVolumeSize;
-    spyOn(component.onDiskResized, 'emit').and.callThrough();
+    spyOn(component.diskResized, 'emit').and.callThrough();
 
     const diskOffering: DiskOffering = {
       disksize: 1,
@@ -108,14 +104,14 @@ describe('volume resize for root disks', () => {
       iscustomized: true,
       miniops: 1,
       maxiops: 1,
-      storagetype: StorageTypes.local,
+      storagetype: storageTypes.local,
       provisioningtype: '',
     };
     diskOffering.id = 'diskofferingid';
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
-    expect(component.onDiskResized.emit).toHaveBeenCalledWith({
+    expect(component.diskResized.emit).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
     });
@@ -130,11 +126,7 @@ describe('volume resize for data disks', () => {
 
     const dialog = jasmine.createSpyObj('MdDialogRef', ['close']);
     const dialogService = jasmine.createSpyObj('DialogService', ['alert']);
-    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', [
-      'add',
-      'finish',
-      'fail',
-    ]);
+    const jobsNotificationService = jasmine.createSpyObj('JobsNotificationService', ['add', 'finish', 'fail']);
 
     const testVolume = {} as Volume;
     testVolume.id = '1';
@@ -171,7 +163,7 @@ describe('volume resize for data disks', () => {
   it('should send disk offerings when resizing data disks', () => {
     const newVolumeSize = 100;
     component.newSize = newVolumeSize;
-    spyOn(component.onDiskResized, 'emit').and.callThrough();
+    spyOn(component.diskResized, 'emit').and.callThrough();
 
     const diskOffering = {
       disksize: 1,
@@ -185,13 +177,13 @@ describe('volume resize for data disks', () => {
       iscustomized: true,
       miniops: 1,
       maxiops: 1,
-      storagetype: StorageTypes.local,
+      storagetype: storageTypes.local,
       provisioningtype: '',
     };
     component.diskOffering = diskOffering;
 
     component.resizeVolume();
-    expect(component.onDiskResized.emit).toHaveBeenCalledWith({
+    expect(component.diskResized.emit).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
       diskOfferingId: component.diskOffering.id,

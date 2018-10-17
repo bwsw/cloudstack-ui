@@ -11,6 +11,7 @@ export class VolumeComponent implements OnInit {
   public volume: Volume;
 
   public expandDetails: boolean;
+  // tslint:disable-next-line:variable-name
   private _loading = false;
 
   public ngOnInit(): void {

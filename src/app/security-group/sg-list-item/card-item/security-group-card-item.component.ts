@@ -20,6 +20,7 @@ export class SecurityGroupCardItemComponent extends SecurityGroupListItemCompone
   public isSelected: (securityGroup) => boolean;
   @Input()
   public vmList: NgrxEntities<VirtualMachine>;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger)

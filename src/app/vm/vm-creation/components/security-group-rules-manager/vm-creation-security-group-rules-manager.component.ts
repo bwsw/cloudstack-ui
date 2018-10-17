@@ -24,6 +24,7 @@ import * as cloneDeep from 'lodash/cloneDeep';
 export class VmCreationSecurityGroupRulesManagerComponent implements ControlValueAccessor {
   public savedData: VmCreationSecurityGroupData;
 
+  // tslint:disable-next-line:variable-name
   private _securityGroupRulesManagerData: VmCreationSecurityGroupData;
 
   constructor(private dialog: MatDialog) {
@@ -79,8 +80,8 @@ export class VmCreationSecurityGroupRulesManagerComponent implements ControlValu
     const data = cloneDeep(this.savedData);
     this.dialog
       .open(VmCreationSecurityGroupContainerComponent, {
-        width: '720px',
         data,
+        width: '720px',
       })
       .afterClosed()
       .subscribe((res: any) => {

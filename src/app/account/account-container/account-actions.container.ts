@@ -11,9 +11,9 @@ import { Account } from '../../shared/models/account.model';
   template: `
     <cs-account-actions
       [account]="account"
-      (onAccountDelete)="onAccountDelete($event)"
-      (onAccountDisable)="onAccountDisable($event)"
-      (onAccountEnable)="onAccountEnable($event)"
+      (accountDeleted)="onAccountDelete($event)"
+      (accountDisabled)="onAccountDisable($event)"
+      (accountEnabled)="onAccountEnable($event)"
     >
     </cs-account-actions>`,
 })

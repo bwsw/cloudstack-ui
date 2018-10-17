@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
-import { TemplateResourceType } from '../../../template/shared/base-template.service';
+import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { templateResourceType } from '../../../template/shared/base-template.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus,
@@ -49,12 +49,12 @@ import { KeyboardLayout } from '../../../shared/types';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
-  details?: Array<any>;
+  details?: any[];
   diskofferingid?: string;
   startVm?: string;
   hypervisor?: string;
-  ingress?: Array<NetworkRule>;
-  egress?: Array<NetworkRule>;
+  ingress?: NetworkRule[];
+  egress?: NetworkRule[];
   keyboard?: KeyboardLayout;
   keyPair?: string;
   name?: string;
@@ -91,8 +91,6 @@ export interface VmDeploymentMessage {
 
 @Injectable()
 export class VirtualMachineCreationEffects {
-  private deploymentNotificationId: string;
-
   @Effect()
   initVmCreation$ = this.actions$.pipe(
     ofType(vmActions.VM_FORM_INIT),
@@ -104,7 +102,7 @@ export class VirtualMachineCreationEffects {
           Object.keys(resourceUsage.available)
             .filter(
               key =>
-                ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].indexOf(key) !== -1
+                ['instances', 'volumes', 'cpus', 'memory', 'primaryStorage'].indexOf(key) !== -1,
             )
             .forEach(key => {
               const available = resourceUsage.available[key];
@@ -118,11 +116,11 @@ export class VirtualMachineCreationEffects {
           return of(
             new vmActions.VmCreationEnoughResourceUpdateState(enoughResources),
             new vmActions.VmInitialZoneSelect(),
-            new vmActions.VmInitialSecurityGroupsSelect()
+            new vmActions.VmInitialSecurityGroupsSelect(),
           );
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   @Effect()
@@ -131,13 +129,13 @@ export class VirtualMachineCreationEffects {
     withLatestFrom(
       this.store.pipe(
         select(fromZones.selectAll),
-        filter(zones => !!zones.length)
-      )
+        filter(zones => !!zones.length),
+      ),
     ),
     map(
       ([action, zones]: [vmActions.VmInitialZoneSelect, Zone[]]) =>
-        new vmActions.VmFormUpdate({ zone: zones[0] })
-    )
+        new vmActions.VmFormUpdate({ zone: zones[0] }),
+    ),
   );
 
   @Effect()
@@ -146,16 +144,16 @@ export class VirtualMachineCreationEffects {
     withLatestFrom(
       this.store.pipe(
         select(fromSecurityGroups.selectPredefinedSecurityGroups),
-        filter(groups => !!groups.length)
-      )
+        filter(groups => !!groups.length),
+      ),
     ),
     map(([action, securityGroups]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[]]) => {
       return new vmActions.VmFormUpdate({
         securityGroupData: VmCreationSecurityGroupData.fromRules(
-          Rules.createWithAllRulesSelected(securityGroups)
+          Rules.createWithAllRulesSelected(securityGroups),
         ),
       });
-    })
+    }),
   );
 
   @Effect()
@@ -164,11 +162,11 @@ export class VirtualMachineCreationEffects {
     filter(
       (action: vmActions.VmFormUpdate) =>
         !!action.payload &&
-        !!(action.payload.zone || action.payload.template || action.payload.diskOffering)
+        !!(action.payload.zone || action.payload.template || action.payload.diskOffering),
     ),
     map((action: vmActions.VmFormUpdate) => {
       return new vmActions.VmFormAdjust(action.payload);
-    })
+    }),
   );
 
   @Effect()
@@ -180,7 +178,7 @@ export class VirtualMachineCreationEffects {
       this.store.pipe(select(fromTemplates.selectFilteredTemplatesForVmCreation)),
       this.store.pipe(select(fromVMModule.getAvailableOfferingsForVmCreation)),
       this.store.pipe(select(fromDiskOfferings.selectAll)),
-      this.store.pipe(select(configSelectors.get('defaultComputeOffering')))
+      this.store.pipe(select(configSelectors.get('defaultComputeOffering'))),
     ),
     map(
       ([
@@ -213,7 +211,7 @@ export class VirtualMachineCreationEffects {
             const offering = this.getPreselectedOffering(
               serviceOfferings,
               vmCreationState.zone,
-              defaultComputeOfferings
+              defaultComputeOfferings,
             );
 
             updates = { ...updates, serviceOffering: offering };
@@ -227,7 +225,7 @@ export class VirtualMachineCreationEffects {
 
         if (action.payload.template) {
           if (
-            resourceType(action.payload.template) !== TemplateResourceType.template &&
+            resourceType(action.payload.template) !== templateResourceType.template &&
             !vmCreationState.diskOffering
           ) {
             return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
@@ -237,23 +235,22 @@ export class VirtualMachineCreationEffects {
         if (action.payload.diskOffering) {
           if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
             return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
-          } else {
-            const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-            const minSize = Math.max(
-              Math.ceil(Utils.convertToGb(vmCreationState.template.size)),
-              defaultDiskSize
-            );
-            // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
-            const upd = { rootDiskMinSize: minSize };
-
-            if (
-              !vmCreationState.rootDiskSize ||
-              vmCreationState.rootDiskSize < vmCreationState.rootDiskMinSize
-            ) {
-              return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
-            }
-            return new vmActions.VmFormUpdate(upd);
           }
+          const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
+          const minSize = Math.max(
+            Math.ceil(Utils.convertToGb(vmCreationState.template.size)),
+            defaultDiskSize,
+          );
+          // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
+          const upd = { rootDiskMinSize: minSize };
+
+          if (
+            !vmCreationState.rootDiskSize ||
+            vmCreationState.rootDiskSize < vmCreationState.rootDiskMinSize
+          ) {
+            return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
+          }
+          return new vmActions.VmFormUpdate(upd);
         }
 
         if (vmCreationState.zone) {
@@ -261,7 +258,7 @@ export class VirtualMachineCreationEffects {
             const offering = this.getPreselectedOffering(
               serviceOfferings,
               vmCreationState.zone,
-              defaultComputeOfferings
+              defaultComputeOfferings,
             );
 
             return new vmActions.VmFormUpdate({ serviceOffering: offering });
@@ -273,8 +270,8 @@ export class VirtualMachineCreationEffects {
         }
 
         return new vmActions.VmFormUpdate();
-      }
-    )
+      },
+    ),
   );
 
   @Effect()
@@ -286,27 +283,26 @@ export class VirtualMachineCreationEffects {
         switchMap(agreement => {
           if (agreement) {
             this.deploymentNotificationId = this.jobsNotificationService.add(
-              'NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS'
+              'NOTIFICATIONS.VM.DEPLOY_IN_PROGRESS',
             );
             this.handleDeploymentMessages({ stage: VmDeploymentStage.STARTED });
 
             return of<any>(
               new vmActions.DeploymentInitActionList(
-                this.initializeDeploymentActionList(action.payload)
+                this.initializeDeploymentActionList(action.payload),
               ),
-              new vmActions.DeploymentRequest(action.payload)
-            );
-          } else {
-            return of(
-              new vmActions.VmCreationStateUpdate({
-                showOverlay: false,
-                deploymentInProgress: false,
-              })
+              new vmActions.DeploymentRequest(action.payload),
             );
           }
-        })
+          return of(
+            new vmActions.VmCreationStateUpdate({
+              showOverlay: false,
+              deploymentInProgress: false,
+            }),
+          );
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -320,13 +316,13 @@ export class VirtualMachineCreationEffects {
             switchMap(securityGroups => {
               if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
                 this.store.dispatch(
-                  new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups)
+                  new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups),
                 );
               }
               this.store.dispatch(
                 new vmActions.DeploymentChangeStatus({
                   stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED,
-                })
+                }),
               );
 
               this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
@@ -355,7 +351,7 @@ export class VirtualMachineCreationEffects {
                   this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
 
                   return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
-                    switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload))
+                    switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload)),
                   );
                 }),
                 map(vmWithTags => {
@@ -364,14 +360,14 @@ export class VirtualMachineCreationEffects {
                   }
                   return new vmActions.DeploymentRequestSuccess(vmWithTags);
                 }),
-                catchError(error => of(new vmActions.DeploymentRequestError(error)))
+                catchError(error => of(new vmActions.DeploymentRequestError(error))),
               );
             }),
-            catchError(error => of(new vmActions.DeploymentRequestError(error)))
-          )
-        )
+            catchError(error => of(new vmActions.DeploymentRequestError(error))),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -379,14 +375,14 @@ export class VirtualMachineCreationEffects {
     ofType(vmActions.VM_DEPLOYMENT_CHANGE_STATUS),
     tap((action: vmActions.DeploymentChangeStatus) => {
       this.handleDeploymentMessages(action.payload);
-    })
+    }),
   );
 
   @Effect()
   deploymentSuccess$ = this.actions$.pipe(
     ofType<vmActions.DeploymentRequestSuccess>(vmActions.VM_DEPLOYMENT_REQUEST_SUCCESS),
     tap(() => this.handleDeploymentMessages({ stage: VmDeploymentStage.FINISHED })),
-    map(action => new vmActions.LoadVirtualMachine({ id: action.payload.id }))
+    map(action => new vmActions.LoadVirtualMachine({ id: action.payload.id })),
   );
 
   @Effect()
@@ -395,8 +391,8 @@ export class VirtualMachineCreationEffects {
     map((action: vmActions.DeploymentRequestError) => {
       const message = 'NOTIFICATIONS.VM.DEPLOY_FAILED';
       this.jobsNotificationService.fail({
-        id: this.deploymentNotificationId,
         message,
+        id: this.deploymentNotificationId,
       });
 
       return new vmActions.DeploymentAddLoggerMessage({
@@ -408,8 +404,10 @@ export class VirtualMachineCreationEffects {
           : action.payload.message,
         status: [ProgressLoggerMessageStatus.ErrorMessage],
       });
-    })
+    }),
   );
+
+  private deploymentNotificationId: string;
 
   constructor(
     private store: Store<State>,
@@ -417,7 +415,6 @@ export class VirtualMachineCreationEffects {
     private vmService: VmService,
     private jobsNotificationService: JobsNotificationService,
     private templateTagService: TemplateTagService,
-    private dialogService: DialogService,
     private dialog: MatDialog,
     private auth: AuthService,
     private resourceUsageService: ResourceUsageService,
@@ -425,7 +422,7 @@ export class VirtualMachineCreationEffects {
     private vmCreationSecurityGroupService: VmCreationSecurityGroupService,
     private instanceGroupService: InstanceGroupService,
     private vmTagService: VmTagService,
-    private snackBar: SnackBarService
+    private snackBar: SnackBarService,
   ) {}
 
   private handleDeploymentMessages(deploymentMessage: VmDeploymentMessage): void {
@@ -463,10 +460,12 @@ export class VirtualMachineCreationEffects {
       case VmDeploymentStage.VM_DEPLOYED:
         this.onVmCreationFinished();
         break;
+      default:
+        break;
     }
   }
 
-  private getDeploymentActionList(state: VmCreationState): Array<VmDeploymentStage> {
+  private getDeploymentActionList(state: VmCreationState): VmDeploymentStage[] {
     const doCopyTags = true;
 
     return [
@@ -558,18 +557,18 @@ export class VirtualMachineCreationEffects {
   private onDeployDone(): void {
     const message = 'NOTIFICATIONS.VM.DEPLOY_DONE';
     this.jobsNotificationService.finish({
-      id: this.deploymentNotificationId,
       message,
+      id: this.deploymentNotificationId,
     });
     this.snackBar.open(message).subscribe();
   }
 
   private updateLoggerMessage(
     messageText: string | ParametrizedTranslation,
-    status?: Array<ProgressLoggerMessageStatus>
+    status?: ProgressLoggerMessageStatus[],
   ): void {
     this.store.dispatch(
-      new vmActions.DeploymentUpdateLoggerMessage({ messageText, data: { status } })
+      new vmActions.DeploymentUpdateLoggerMessage({ messageText, data: { status } }),
     );
   }
 
@@ -612,19 +611,18 @@ export class VirtualMachineCreationEffects {
             this.store.dispatch(
               new vmActions.DeploymentChangeStatus({
                 stage: VmDeploymentStage.AG_GROUP_CREATION_FINISHED,
-              })
+              }),
             );
             this.store.dispatch(
               new vmActions.VmFormUpdate({
                 affinityGroupNames: [...state.affinityGroupNames, state.affinityGroup.name],
-              })
+              }),
             );
           }),
-          catchError(error => of(new vmActions.DeploymentRequestError(error)))
+          catchError(error => of(new vmActions.DeploymentRequestError(error))),
         );
-    } else {
-      return of(null);
     }
+    return of(null);
   }
 
   private doCreateSecurityGroup(state: VmCreationState) {
@@ -632,9 +630,8 @@ export class VirtualMachineCreationEffects {
       this.handleDeploymentMessages({ stage: VmDeploymentStage.SG_GROUP_CREATION });
 
       return this.vmCreationSecurityGroupService.getSecurityGroupCreationRequest(state);
-    } else {
-      return of(state.securityGroupData.securityGroups);
     }
+    return of(state.securityGroupData.securityGroups);
   }
 
   private doCreateInstanceGroup(vm: VirtualMachine, state: VmCreationState) {
@@ -646,14 +643,13 @@ export class VirtualMachineCreationEffects {
           this.store.dispatch(
             new vmActions.DeploymentChangeStatus({
               stage: VmDeploymentStage.INSTANCE_GROUP_CREATION_FINISHED,
-            })
+            }),
           );
           return virtualMachine;
-        })
+        }),
       );
-    } else {
-      return of(vm);
     }
+    return of(vm);
   }
 
   private doCopyTags(vm: VirtualMachine, state: VmCreationState): Observable<VirtualMachine> {
@@ -662,25 +658,24 @@ export class VirtualMachineCreationEffects {
       switchMap(() => {
         if (state.agreement) {
           return this.vmTagService.setAgreement(vm);
-        } else {
-          return of(null);
         }
+        return of(null);
       }),
       map(() => {
         this.store.dispatch(
           new vmActions.DeploymentChangeStatus({
             stage: VmDeploymentStage.TAG_COPYING_FINISHED,
-          })
+          }),
         );
-        return <VirtualMachine>{ ...vm, tags: [...vm.tags] };
-      })
+        return { ...vm, tags: [...vm.tags] } as VirtualMachine;
+      }),
     );
   }
 
   private getVmCreationParams(
     state: VmCreationState,
     keyboard: KeyboardLayout,
-    securityGroups?: SecurityGroup[]
+    securityGroups?: SecurityGroup[],
   ) {
     const params: VmCreationParams = {};
 
@@ -735,17 +730,17 @@ export class VirtualMachineCreationEffects {
   private getPreselectedOffering(
     offerings: ServiceOffering[],
     zone: Zone,
-    defaultComputeOfferingConfiguration: DefaultComputeOffering[]
+    defaultComputeOfferingConfiguration: DefaultComputeOffering[],
   ): ServiceOffering {
     const firstOffering = offerings[0];
     const configForCurrentZone = defaultComputeOfferingConfiguration.find(
-      config => config.zoneId === zone.id
+      config => config.zoneId === zone.id,
     );
     if (!configForCurrentZone) {
       return firstOffering;
     }
     const preselectedOffering = offerings.find(
-      offering => offering.id === configForCurrentZone.offeringId
+      offering => offering.id === configForCurrentZone.offeringId,
     );
 
     return preselectedOffering ? preselectedOffering : firstOffering;

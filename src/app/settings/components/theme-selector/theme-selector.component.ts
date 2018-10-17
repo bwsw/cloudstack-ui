@@ -18,7 +18,7 @@ import { Theme } from '../../../shared/services/style.service';
     <cs-color-picker
       [colors]="colors"
       [selectedColor]="selectedColor"
-      (change)="onSelectionChange($event)"
+      (changed)="onSelectionChange($event)"
     ></cs-color-picker>
   `,
 })

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { humanReadableSize } from '../../unitsUtils';
+import { humanReadableSize } from '../../units-utils';
 import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
 
 @Component({
@@ -15,7 +15,8 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
     this.charts = getChart([
       {
         id: 'cpu',
-        options: Object.assign({}, defaultChartOptions, {
+        options: {
+          ...defaultChartOptions,
           scales: {
             ...defaultChartOptions.scales,
             yAxes: [
@@ -32,7 +33,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
               },
             ],
           },
-        }),
+        },
       },
       {
         id: 'ram',
@@ -67,8 +68,8 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
           aggregation: _,
           shift: `${params.shiftAmount}${params.selectedShift || 'w'}`,
         },
-        forceUpdate
-      )
+        forceUpdate,
+      ),
     );
 
     const ramRequests = params.selectedAggregations.map(_ =>
@@ -79,8 +80,8 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
           aggregation: _,
           shift: `${params.shiftAmount}${params.selectedShift || 'w'}`,
         },
-        forceUpdate
-      )
+        forceUpdate,
+      ),
     );
     if (cpuRequests.length) {
       this.setLoading(!forceUpdate);
@@ -115,7 +116,7 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
 
             this.cd.markForCheck();
           },
-          () => (this.error = true)
+          () => (this.error = true),
         );
     }
   }

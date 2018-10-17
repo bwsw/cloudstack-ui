@@ -9,7 +9,7 @@ export interface SidenavRoute extends NavigationItem {
   icon: string;
 }
 
-export const sidenavRoutes: Array<SidenavRoute> = [
+export const sidenavRoutes: SidenavRoute[] = [
   {
     path: '/instances',
     text: 'NAVIGATION_SIDEBAR.VMS',
@@ -75,7 +75,7 @@ export const sidenavRoutes: Array<SidenavRoute> = [
   },
 ];
 
-export const nonDraggableRoutes: Array<SidenavRoute> = [
+export const nonDraggableRoutes: SidenavRoute[] = [
   {
     path: '/logout',
     text: 'NAVIGATION_SIDEBAR.LOGOUT',

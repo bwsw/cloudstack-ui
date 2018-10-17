@@ -21,7 +21,7 @@ export class SnapshotsPageComponent implements OnChanges {
   @Input()
   public virtualMachines: NgrxEntities<VirtualMachine>;
   @Input()
-  public groupings: Array<Grouping> = [];
+  public groupings: Grouping[] = [];
   @Input()
   public isLoading: boolean;
   @Input()

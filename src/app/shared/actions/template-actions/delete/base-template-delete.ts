@@ -22,20 +22,9 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
       switchMap(res => {
         if (res) {
           return this.onConfirm(template);
-        } else {
-          return of(null);
         }
-      })
-    );
-  }
-
-  private onConfirm(template: BaseTemplateModel): Observable<any> {
-    return this.remove(template).pipe(
-      map(() => this.onSuccess()),
-      catchError(error => {
-        this.onError(error);
-        return throwError(null);
-      })
+        return of(null);
+      }),
     );
   }
 
@@ -61,4 +50,14 @@ export abstract class BaseTemplateDeleteAction extends BaseTemplateAction {
   }
 
   protected abstract remove(template: BaseTemplateModel): Observable<any>;
+
+  private onConfirm(template: BaseTemplateModel): Observable<any> {
+    return this.remove(template).pipe(
+      map(() => this.onSuccess()),
+      catchError(error => {
+        this.onError(error);
+        return throwError(null);
+      }),
+    );
+  }
 }

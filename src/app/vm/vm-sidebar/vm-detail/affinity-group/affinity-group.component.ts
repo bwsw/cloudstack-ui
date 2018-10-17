@@ -12,7 +12,7 @@ export class AffinityGroupComponent {
   @Input()
   public vm: VirtualMachine;
   @Output()
-  public onAffinityGroupChange = new EventEmitter<string>();
+  public affinityGroupChanged = new EventEmitter<string>();
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
@@ -25,15 +25,15 @@ export class AffinityGroupComponent {
 
   private showAffinityGroupDialog(): void {
     this.dialog
-      .open(AffinityGroupSelectorComponent, <MatDialogConfig>{
+      .open(AffinityGroupSelectorComponent, {
         width: '380px',
         data: { vm: this.vm },
         disableClose: true,
-      })
+      } as MatDialogConfig)
       .afterClosed()
       .subscribe((groupId?: string) => {
         if (groupId || groupId === '') {
-          this.onAffinityGroupChange.emit(groupId);
+          this.affinityGroupChanged.emit(groupId);
         }
       });
   }

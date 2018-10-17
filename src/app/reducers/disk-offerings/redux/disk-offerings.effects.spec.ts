@@ -11,7 +11,7 @@ import { TestStore } from '../../../../testutils/ngrx-test-store';
 
 import * as actions from './disk-offerings.actions';
 
-const diskOfferings: Array<DiskOffering> = [
+const diskOfferings: DiskOffering[] = [
   {
     displaytext: 'test snapshot',
     id: 'test-id',

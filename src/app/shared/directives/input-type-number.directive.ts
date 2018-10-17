@@ -31,8 +31,6 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
   // Debounce allows, for example, to enter 11 if the minimum value is 2.
   // Otherwise, the first unit will be changed to a minimum value of 2 and it will be 21
   private setMinValueDebounced = debounce(this.setMinValue, 1000);
-  private onChange = (value: number) => {};
-  private onTouched = () => {};
 
   constructor(private el: ElementRef) {}
 
@@ -74,6 +72,10 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
+  private onChange = (value: number) => {};
+
+  private onTouched = () => {};
+
   private updateValue(value: number): void {
     // This allows you delete last symbol
     if (value == null) {
@@ -82,11 +84,12 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
 
     if (this.isLowerThanMinValue(value)) {
       return this.setMinValueDebounced();
-    } else if (this.isGreaterThanMaxValue(value)) {
-      return this.setMaxValue();
-    } else {
-      this.updateElementValue(value);
     }
+    if (this.isGreaterThanMaxValue(value)) {
+      return this.setMaxValue();
+    }
+
+    this.updateElementValue(value);
   }
 
   private onChangeAndBlurEvents() {

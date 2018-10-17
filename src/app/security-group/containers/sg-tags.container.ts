@@ -14,14 +14,14 @@ import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
   template: `
     <cs-sg-tags
       [entity]="sg$ | async"
-      (onTagAdd)="addTag($event)"
-      (onTagDelete)="deleteTag($event)"
-      (onTagEdit)="editTag($event)"
+      (tagAdded)="addTag($event)"
+      (tagDeleted)="deleteTag($event)"
+      (tagEdited)="editTag($event)"
     ></cs-sg-tags>
   `,
 })
 export class SecurityGroupTagsContainerComponent {
-  readonly sg$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
+  readonly sg$ = this.store.pipe(select(fromSecurityGroups.getSelectedSecurityGroup));
 
   constructor(private store: Store<State>) {}
 

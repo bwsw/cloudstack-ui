@@ -9,12 +9,12 @@ import {
   BaseTemplateService,
   CreateTemplateBaseParams,
   RegisterTemplateBaseParams,
-  TemplateResourceType,
+  templateResourceType,
 } from './base-template.service';
 
 @Injectable()
 @BackendResource({
-  entity: TemplateResourceType.template,
+  entity: templateResourceType.template,
 })
 export class TemplateService extends BaseTemplateService {
   public create(params: CreateTemplateBaseParams): Observable<Template> {
@@ -23,23 +23,20 @@ export class TemplateService extends BaseTemplateService {
       switchMap(template => {
         if (params.groupId) {
           return this.templateTagService.setGroup(template, { id: params.groupId });
-        } else {
-          return of(template);
         }
+        return of(template);
       }),
-      tap(() => this.invalidateCache())
+      tap(() => this.invalidateCache()),
     );
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
-    const requestParams = Object.assign({}, params);
+    const requestParams = {...params};
 
     requestParams['hypervisor'] = requestParams['hypervisor'] || 'KVM';
     requestParams['format'] = requestParams['format'] || 'QCOW2';
     requestParams['requiresHvm'] = requestParams['requiresHvm'] || true;
 
-    return <Observable<Template>>(
-      super.register(requestParams).pipe(tap(() => this.invalidateCache()))
-    );
+    return super.register(requestParams).pipe(tap(() => this.invalidateCache())) as Observable<Template>;
   }
 }

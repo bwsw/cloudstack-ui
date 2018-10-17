@@ -12,7 +12,7 @@ export class SshKeyCreationDialogComponent {
   @Input()
   public isLoading: boolean;
   @Output()
-  public onSshKeyPairCreation = new EventEmitter<SshKeyCreationData>();
+  public sshKeyPairCreated = new EventEmitter<SshKeyCreationData>();
 
   public onSubmit(e): void {
     e.preventDefault();
@@ -21,6 +21,6 @@ export class SshKeyCreationDialogComponent {
       publicKey: this.publicKey,
     };
 
-    this.onSshKeyPairCreation.emit(sshKeyCreationParams);
+    this.sshKeyPairCreated.emit(sshKeyCreationParams);
   }
 }

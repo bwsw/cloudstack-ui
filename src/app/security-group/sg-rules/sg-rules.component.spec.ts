@@ -18,9 +18,8 @@ import { NetworkRuleService } from '../services/network-rule.service';
 import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { LoadingDirective } from '../../shared/directives/loading.directive';
 
-const securityGroupTemplates: Array<
-  Object
-> = require('../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
+// tslint:disable-next-line:max-line-length
+const securityGroupTemplates: Object[] = require('../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
 
 @Injectable()
 class MockRouter {
@@ -104,7 +103,7 @@ describe('Security group firewall rules component', () => {
   };
 
   class SecurityGroupServiceMock {
-    public getList(): Observable<Array<SecurityGroup>> {
+    public getList(): Observable<SecurityGroup[]> {
       return of([mockSecurityGroup]);
     }
   }

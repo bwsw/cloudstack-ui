@@ -15,8 +15,9 @@ import { TimeZone, TimeZoneService } from './time-zone.service';
   ],
 })
 export class TimeZoneComponent implements ControlValueAccessor, OnInit {
+  // tslint:disable-next-line:variable-name
   public _timeZone: TimeZone;
-  public timeZones: Array<TimeZone>;
+  public timeZones: TimeZone[];
 
   constructor(private timeZoneService: TimeZoneService) {}
 

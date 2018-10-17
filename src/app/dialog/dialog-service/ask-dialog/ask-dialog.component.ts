@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { BaseDialogConfiguration } from '../dialog.service';
 
 export interface AskDialogConfiguration extends BaseDialogConfiguration {
-  actions: Array<DialogAction>;
+  actions: DialogAction[];
 }
 
 export interface DialogAction {
@@ -34,12 +34,11 @@ export class AskDialogComponent {
   public get translatedMessage(): Observable<string> {
     if (typeof this.config.message === 'string') {
       return this.translateService.get(this.config.message);
-    } else {
-      return this.translateService.get(
-        this.config.message.translationToken,
-        this.config.message.interpolateParams
-      );
     }
+    return this.translateService.get(
+      this.config.message.translationToken,
+      this.config.message.interpolateParams
+    );
   }
 
   public actionClicked(action: DialogAction): void {

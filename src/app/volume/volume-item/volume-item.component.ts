@@ -12,7 +12,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
   public onClick = new EventEmitter();
   public matMenuTrigger: MatMenuTrigger;
 
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: DiskOffering[];
   public query: string;
 
   constructor(

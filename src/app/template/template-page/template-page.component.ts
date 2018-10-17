@@ -11,7 +11,7 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 })
 export class TemplatePageComponent implements OnInit {
   @Input()
-  public templates: Array<BaseTemplateModel>;
+  public templates: BaseTemplateModel[];
   @Input()
   public fetching: boolean;
 
@@ -28,7 +28,7 @@ export class TemplatePageComponent implements OnInit {
   @Output()
   public updateList = new EventEmitter();
   @Output()
-  public onTemplateDelete = new EventEmitter();
+  public templateDeleted = new EventEmitter();
 
   constructor(
     private router: Router,

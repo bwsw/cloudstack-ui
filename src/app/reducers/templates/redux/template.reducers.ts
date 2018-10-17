@@ -1,11 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { TemplateFilters, TemplateResourceType } from '../../../template/shared/base-template.service';
+import {
+  templateFilters,
+  templateResourceType,
+} from '../../../template/shared/base-template.service';
 import { BaseTemplateModel, resourceType } from '../../../template/shared/base-template.model';
-import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
+import { templateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import * as fromAuth from '../../auth/redux/auth.reducers';
-import { getUserAccount } from '../../auth/redux/auth.reducers';
-import { DefaultTemplateGroupId } from '../../../shared/models/config/image-group.model';
+import { defaultTemplateGroupId } from '../../../shared/models/config/image-group.model';
 import { Utils } from '../../../shared/services/utils/utils.service';
 
 import { configSelectors } from '../../../root-store';
@@ -50,7 +52,7 @@ const initialListState: ListState = adapter.getInitialState({
   loading: false,
   selectedTemplateId: null,
   filters: {
-    selectedViewMode: TemplateResourceType.template,
+    selectedViewMode: templateResourceType.template,
     selectedTypes: [],
     selectedOsFamilies: [],
     selectedZones: [],
@@ -63,7 +65,7 @@ const initialListState: ListState = adapter.getInitialState({
 
 const initialVmCreationTemplatesState: VmCreationTemplatesState = {
   filters: {
-    selectedViewMode: TemplateResourceType.template,
+    selectedViewMode: templateResourceType.template,
     selectedTypes: [],
     selectedOsFamilies: [],
     selectedGroups: [],
@@ -131,7 +133,7 @@ export function listReducer(state = initialListState, action: templateActions.Ac
             tags: action.payload.tags,
           },
         },
-        state
+        state,
       );
     }
     case templateActions.RESET_TEMPLATE_GROUP_SUCCESS: {
@@ -139,10 +141,10 @@ export function listReducer(state = initialListState, action: templateActions.Ac
         {
           id: action.payload.id,
           changes: {
-            tags: action.payload.tags.filter(_ => _.key !== TemplateTagKeys.group),
+            tags: action.payload.tags.filter(_ => _.key !== templateTagKeys.group),
           },
         },
-        state
+        state,
       );
     }
     default: {
@@ -153,7 +155,7 @@ export function listReducer(state = initialListState, action: templateActions.Ac
 
 export function vmCreationListReducer(
   state = initialVmCreationTemplatesState,
-  action: templateActions.Actions | vmActions.Actions
+  action: templateActions.Actions | vmActions.Actions,
 ): VmCreationTemplatesState {
   switch (action.type) {
     case templateActions.DIALOG_TEMPLATE_FILTER_UPDATE: {
@@ -182,11 +184,11 @@ export const getTemplatesEntitiesState = createSelector(getTemplatesState, state
 
 export const getVmCreationListState = createSelector(
   getTemplatesState,
-  state => state.vmCreationList
+  state => state.vmCreationList,
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getTemplatesEntitiesState
+  getTemplatesEntitiesState,
 );
 
 export const isLoading = createSelector(getTemplatesEntitiesState, state => state.loading);
@@ -195,25 +197,25 @@ export const filters = createSelector(getTemplatesEntitiesState, state => state.
 
 export const getSelectedId = createSelector(
   getTemplatesEntitiesState,
-  state => state.selectedTemplateId
+  state => state.selectedTemplateId,
 );
 
 export const getSelectedTemplate = createSelector(
   selectEntities,
   getSelectedId,
-  (entities, selectedId) => entities[selectedId]
+  (entities, selectedId) => entities[selectedId],
 );
 
 export const getVMTemplate = createSelector(
   selectEntities,
   fromVMs.getSelectedVM,
-  (entities, vm) => vm && entities[vm.isoId]
+  (entities, vm) => vm && entities[vm.isoId],
 );
 
 export const getSelectedTemplateTags = createSelector(
   getTemplatesState,
   getSelectedId,
-  (state, selectedId) => state.list.entities[selectedId] && state.list.entities[selectedId].tags
+  (state, selectedId) => state.list.entities[selectedId] && state.list.entities[selectedId].tags,
 );
 
 export const filterSelectedViewMode = createSelector(filters, state => state.selectedViewMode);
@@ -235,22 +237,22 @@ export const vmCreationListFilters = createSelector(getVmCreationListState, stat
 
 export const vmCreationListViewMode = createSelector(
   vmCreationListFilters,
-  state => state.selectedViewMode
+  state => state.selectedViewMode,
 );
 
 export const vmCreationListSelectedTypes = createSelector(
   vmCreationListFilters,
-  state => state.selectedTypes
+  state => state.selectedTypes,
 );
 
 export const vmCreationListSelectedOsFamilies = createSelector(
   vmCreationListFilters,
-  state => state.selectedOsFamilies
+  state => state.selectedOsFamilies,
 );
 
 export const vmCreationListSelectedGroups = createSelector(
   vmCreationListFilters,
-  state => state.selectedGroups
+  state => state.selectedGroups,
 );
 
 export const vmCreationListQuery = createSelector(vmCreationListFilters, state => state.query);
@@ -277,16 +279,16 @@ export const selectByViewModeAndAccounts = createSelector(
 
     return templates.filter(
       (template: BaseTemplateModel) =>
-        selectedViewModeFilter(template) && selectedAccountIdsFilter(template)
+        selectedViewModeFilter(template) && selectedAccountIdsFilter(template),
     );
-  }
+  },
 );
 
 export const selectFilteredTemplates = createSelector(
   selectByViewModeAndAccounts,
   fromOsTypes.selectEntities,
   filters,
-  getUserAccount,
+  fromAuth.getUserAccount,
   configSelectors.get('imageGroups'),
   (templates, osTypesEntities, listFilters, user, imageGroups) => {
     const osFamiliesMap = listFilters.selectedOsFamilies.reduce(
@@ -294,7 +296,7 @@ export const selectFilteredTemplates = createSelector(
         ...m,
         [i]: i,
       }),
-      {}
+      {},
     );
     const zonesMap = listFilters.selectedZones.reduce((m, i) => ({ ...m, [i]: i }), {});
     const typesMap = listFilters.selectedTypes.reduce((m, i) => ({ ...m, [i]: i }), {});
@@ -303,11 +305,11 @@ export const selectFilteredTemplates = createSelector(
 
     const selectedTypesFilter = (template: BaseTemplateModel) => {
       const selfFilter =
-        !!typesMap[TemplateFilters.self] &&
+        !!typesMap[templateFilters.self] &&
         (template.account === user.name && template.domainid === user.domainid);
-      const featuredFilter = typesMap[TemplateFilters.featured] && template.isfeatured;
+      const featuredFilter = typesMap[templateFilters.featured] && template.isfeatured;
       const communityFilter =
-        typesMap[TemplateFilters.community] && template.ispublic && !template.isfeatured;
+        typesMap[templateFilters.community] && template.ispublic && !template.isfeatured;
       return !listFilters.selectedTypes.length || selfFilter || featuredFilter || communityFilter;
     };
 
@@ -324,9 +326,9 @@ export const selectFilteredTemplates = createSelector(
 
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
       if (listFilters.selectedGroups.length) {
-        const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
+        const tag = template.tags.find(_ => _.key === templateTagKeys.group);
         const groupId = tag && tag.value;
-        const showGeneral = listFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
+        const showGeneral = listFilters.selectedGroups.indexOf(defaultTemplateGroupId) !== -1;
         const imageGroup = imageGroups.find(group => group.id === groupId);
         return !!groupsMap[groupId] || (showGeneral && (!imageGroup || !groupId));
       }
@@ -344,14 +346,14 @@ export const selectFilteredTemplates = createSelector(
         selectedTypesFilter(template) &&
         selectedGroupsFilter(template) &&
         selectedOsFamiliesFilter(template) &&
-        queryFilter(template)
+        queryFilter(template),
     );
-  }
+  },
 );
 
 export const selectTemplatesForAction = createSelector(
   selectAll,
-  getUserAccount,
+  fromAuth.getUserAccount,
   fromOsTypes.selectEntities,
   vmCreationListFilters,
   configSelectors.get('imageGroups'),
@@ -362,11 +364,11 @@ export const selectTemplatesForAction = createSelector(
 
     const selectedTypesFilter = (template: BaseTemplateModel) => {
       const selfFilter =
-        !!typesMap[TemplateFilters.self] &&
+        !!typesMap[templateFilters.self] &&
         (template.account === user.name && template.domainid === user.domainid);
-      const featuredFilter = typesMap[TemplateFilters.featured] && template.isfeatured;
+      const featuredFilter = typesMap[templateFilters.featured] && template.isfeatured;
       const communityFilter =
-        typesMap[TemplateFilters.community] && template.ispublic && !template.isfeatured;
+        typesMap[templateFilters.community] && template.ispublic && !template.isfeatured;
       return !vmFilters.selectedTypes.length || selfFilter || featuredFilter || communityFilter;
     };
 
@@ -379,9 +381,9 @@ export const selectTemplatesForAction = createSelector(
 
     const selectedGroupsFilter = (template: BaseTemplateModel) => {
       if (vmFilters.selectedGroups.length) {
-        const tag = template.tags.find(_ => _.key === TemplateTagKeys.group);
+        const tag = template.tags.find(_ => _.key === templateTagKeys.group);
         const groupId = tag && tag.value;
-        const showGeneral = vmFilters.selectedGroups.indexOf(DefaultTemplateGroupId) !== -1;
+        const showGeneral = vmFilters.selectedGroups.indexOf(defaultTemplateGroupId) !== -1;
         const imageGroup = imageGroups.find(group => group.id === groupId);
         return !!groupsMap[groupId] || (showGeneral && (!imageGroup || !groupId));
       }
@@ -402,9 +404,9 @@ export const selectTemplatesForAction = createSelector(
         selectedTypesFilter(template) &&
         selectedOsFamiliesFilter(template) &&
         selectedGroupsFilter(template) &&
-        queryFilter(template)
+        queryFilter(template),
     );
-  }
+  },
 );
 
 export const selectTemplatesForIsoAttachment = createSelector(
@@ -417,7 +419,7 @@ export const selectTemplatesForIsoAttachment = createSelector(
     };
 
     const selectedViewModeFilter = (template: BaseTemplateModel) => {
-      return resourceType(template) === TemplateResourceType.iso;
+      return resourceType(template) === templateResourceType.iso;
     };
 
     const currentAccountFilter = (template: BaseTemplateModel) => {
@@ -432,9 +434,9 @@ export const selectTemplatesForIsoAttachment = createSelector(
       template =>
         selectedZoneFilter(template) &&
         selectedViewModeFilter(template) &&
-        currentAccountFilter(template)
+        currentAccountFilter(template),
     );
-  }
+  },
 );
 
 const filterForVmCreation = (templates, zoneId, account) => {
@@ -451,21 +453,17 @@ const filterForVmCreation = (templates, zoneId, account) => {
   };
 
   return templates.filter(
-    template => selectedZoneFilter(template) && currentAccountFilter(template)
+    template => selectedZoneFilter(template) && currentAccountFilter(template),
   );
 };
 
 const filterForVmCreationWithFilter = (templates, zoneId, account, filter) => {
-  const viewModeStr =
-    filter.selectedViewMode === TemplateResourceType.iso
-      ? filter.selectedViewMode.toUpperCase()
-      : filter.selectedViewMode;
   const selectedViewModeFilter = (template: BaseTemplateModel) => {
     return filter.selectedViewMode === resourceType(template);
   };
 
   return filterForVmCreation(templates, zoneId, account).filter(template =>
-    selectedViewModeFilter(template)
+    selectedViewModeFilter(template),
   );
 };
 
@@ -475,12 +473,12 @@ export const selectFilteredTemplatesForVmCreation = createSelector(
   fromAuth.getUserAccount,
   vmCreationListFilters,
   (templates, zoneId, account, filter) =>
-    filterForVmCreationWithFilter(templates, zoneId, account, filter)
+    filterForVmCreationWithFilter(templates, zoneId, account, filter),
 );
 
 export const numOfTemplatesReadyForVmCreation = createSelector(
   selectAll,
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
-  (templates, zoneId, account) => filterForVmCreation(templates, zoneId, account).length
+  (templates, zoneId, account) => filterForVmCreation(templates, zoneId, account).length,
 );

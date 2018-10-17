@@ -11,39 +11,39 @@ export const noGroup: noGroup = '-1';
 })
 export class VmFilterComponent implements OnInit {
   @Input()
-  public selectedGroupings: Array<Grouping>;
+  public selectedGroupings: Grouping[];
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Input()
-  public groups: Array<any>;
+  public groups: any[];
   @Input()
-  public states: Array<any>;
+  public states: any[];
   @Input()
-  public zones: Array<Zone>;
+  public zones: Zone[];
   @Input()
   public query: string;
   @Input()
-  public accounts: Array<Account>;
+  public accounts: Account[];
   @Input()
-  public selectedZoneIds: Array<string>;
+  public selectedZoneIds: string[];
   @Input()
-  public selectedGroupNames: Array<string>;
+  public selectedGroupNames: string[];
   @Input()
-  public selectedAccountIds: Array<string>;
+  public selectedAccountIds: string[];
   @Input()
-  public selectedStates: Array<any>;
+  public selectedStates: any[];
   @Output()
-  public onQueryChange = new EventEmitter();
+  public queryChanged = new EventEmitter();
   @Output()
-  public onGroupingsChange = new EventEmitter();
+  public groupingsChanged = new EventEmitter();
   @Output()
-  public onZonesChange = new EventEmitter();
+  public zonesChanged = new EventEmitter();
   @Output()
-  public onGroupNamesChange = new EventEmitter();
+  public groupNamesChanged = new EventEmitter();
   @Output()
-  public onAccountsChange = new EventEmitter();
+  public accountsChanged = new EventEmitter();
   @Output()
-  public onStatesChange = new EventEmitter();
+  public statesChanged = new EventEmitter();
 
   public noGroup = noGroup;
 

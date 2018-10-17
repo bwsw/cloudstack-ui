@@ -13,15 +13,9 @@ export class RouterUtilsService {
   public getLocationOrigin(): string {
     if (location.origin) {
       return location.origin;
-    } else {
-      return (
-        '' +
-        location.protocol +
-        '//' +
-        location.hostname +
-        (location.port ? ':' + location.port : '')
-      );
     }
+    const port = location.port ? `:${location.port}` : '';
+    return `${location.protocol}//${location.hostname}${port}`;
   }
 
   public getRedirectionQueryParams(next?: string): NavigationExtras {

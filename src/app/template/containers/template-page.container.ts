@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../reducers/index';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 
@@ -12,12 +12,10 @@ import * as templateActions from '../../reducers/templates/redux/template.action
 })
 export class TemplatePageContainerComponent extends WithUnsubscribe()
   implements OnInit, AfterViewInit {
-  readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplates);
-  readonly isLoading$ = this.store.select(fromTemplates.isLoading);
-  readonly filters$ = this.store.select(fromTemplates.filters);
-
-  readonly query$ = this.store.select(fromTemplates.filterQuery);
-  readonly selectedGroupings$ = this.store.select(fromTemplates.filterSelectedGroupings);
+  readonly templates$ = this.store.pipe(select(fromTemplates.selectFilteredTemplates));
+  readonly isLoading$ = this.store.pipe(select(fromTemplates.isLoading));
+  readonly query$ = this.store.pipe(select(fromTemplates.filterQuery));
+  readonly selectedGroupings$ = this.store.pipe(select(fromTemplates.filterSelectedGroupings));
 
   constructor(private store: Store<State>, private cd: ChangeDetectorRef) {
     super();

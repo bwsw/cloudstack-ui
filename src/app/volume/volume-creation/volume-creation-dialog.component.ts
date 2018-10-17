@@ -16,15 +16,15 @@ export class VolumeCreationDialogComponent {
   @Input()
   public isLoading: boolean;
   @Input()
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: DiskOffering[];
   @Input()
-  public zones: Array<Zone>;
+  public zones: Zone[];
   @Input()
   public maxSize: number;
   @Output()
-  public onVolumeCreate = new EventEmitter<VolumeCreationData>();
+  public volumeCreated = new EventEmitter<VolumeCreationData>();
   @Output()
-  public onZoneUpdated = new EventEmitter<Zone>();
+  public zoneUpdated = new EventEmitter<Zone>();
 
   public diskOffering: DiskOffering;
   public showResizeSlider: boolean;
@@ -46,7 +46,7 @@ export class VolumeCreationDialogComponent {
       delete this.newVolume.size;
     }
 
-    this.onVolumeCreate.emit(this.newVolume);
+    this.volumeCreated.emit(this.newVolume);
   }
 
   public updateDiskOffering(diskOffering: DiskOffering): void {
@@ -56,6 +56,6 @@ export class VolumeCreationDialogComponent {
   }
 
   public updateZone(zoneId: string) {
-    this.onZoneUpdated.emit(this.zones.find(zone => zone.id === zoneId));
+    this.zoneUpdated.emit(this.zones.find(zone => zone.id === zoneId));
   }
 }

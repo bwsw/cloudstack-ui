@@ -27,11 +27,11 @@ export class PulseService {
     vmId: string,
     params: TimeParams,
     forceUpdate = false
-  ): Observable<Array<CpuStats>> {
+  ): Observable<CpuStats[]> {
     return this.request('cputime', vmId, params, forceUpdate);
   }
 
-  public ram(vmId: string, params: TimeParams, forceUpdate = false): Observable<Array<RamStats>> {
+  public ram(vmId: string, params: TimeParams, forceUpdate = false): Observable<RamStats[]> {
     return this.request('ram', vmId, params, forceUpdate);
   }
 
@@ -40,7 +40,7 @@ export class PulseService {
     diskId: string,
     params: TimeParams,
     forceUpdate = false
-  ): Observable<Array<DiskStats>> {
+  ): Observable<DiskStats[]> {
     return this.request('disk', `${vmId}/${diskId}`, params, forceUpdate);
   }
 
@@ -49,7 +49,7 @@ export class PulseService {
     macAddress: string,
     params: TimeParams,
     forceUpdate = false
-  ): Observable<Array<NetworkStats>> {
+  ): Observable<NetworkStats[]> {
     return this.request('network-interface', `${vmId}/${macAddress}`, params, forceUpdate);
   }
 

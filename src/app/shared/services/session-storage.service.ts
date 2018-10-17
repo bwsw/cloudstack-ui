@@ -4,8 +4,8 @@ import { Utils } from './utils/utils.service';
 
 @Injectable()
 export class SessionStorageService extends MemoryStorageService {
-  private isSessionStorage: boolean;
   public sessionStorage: Storage;
+  private isSessionStorage: boolean;
 
   constructor() {
     super();

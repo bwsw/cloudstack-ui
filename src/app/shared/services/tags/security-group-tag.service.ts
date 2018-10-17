@@ -6,38 +6,25 @@ import { MarkForRemovalService } from './mark-for-removal.service';
 import { SecurityGroup, SecurityGroupType } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
-import { SecurityGroupTagKeys } from './security-group-tag-keys';
+import { securityGroupTagKeys } from './security-group-tag-keys';
 
 @Injectable()
 export class SecurityGroupTagService implements EntityTagService {
-  public keys = SecurityGroupTagKeys;
+  public keys = securityGroupTagKeys;
   private readonly resourceType = 'SecurityGroup';
 
-  constructor(
-    private markForRemovalService: MarkForRemovalService,
-    protected tagService: TagService
-  ) {}
+  constructor(private markForRemovalService: MarkForRemovalService, protected tagService: TagService) {}
 
   public markForRemoval(securityGroup: SecurityGroup): Observable<SecurityGroup> {
     return this.markForRemovalService.markForRemoval(securityGroup) as Observable<SecurityGroup>;
   }
 
   public markAsTemplate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
-    return this.tagService.update(
-      securityGroup,
-      this.resourceType,
-      this.keys.type,
-      SecurityGroupType.CustomTemplate
-    );
+    return this.tagService.update(securityGroup, this.resourceType, this.keys.type, SecurityGroupType.CustomTemplate);
   }
 
   public markAsPrivate(securityGroup: SecurityGroup): Observable<SecurityGroup> {
-    return this.tagService.update(
-      securityGroup,
-      this.resourceType,
-      this.keys.type,
-      SecurityGroupType.Private
-    );
+    return this.tagService.update(securityGroup, this.resourceType, this.keys.type, SecurityGroupType.Private);
   }
 
   public convertToShared(securityGroup: SecurityGroup): Observable<SecurityGroup> {
@@ -55,7 +42,7 @@ export class SecurityGroupTagService implements EntityTagService {
             tags: filteredTags,
             type: 'shared',
           };
-        })
+        }),
       );
   }
 }

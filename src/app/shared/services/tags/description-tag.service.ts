@@ -29,7 +29,7 @@ export class DescriptionTagService {
     entityResourceType: string,
     entityTagService: EntityTagService
   ): Observable<Taggable> {
-    const newEntity = Object.assign({}, entity);
+    const newEntity = {...entity};
     return this.tagService
       .remove({
         resourceIds: entity.id,

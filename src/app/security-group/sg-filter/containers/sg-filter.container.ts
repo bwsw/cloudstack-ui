@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 
 import { FilterService } from '../../../shared/services/filter.service';
@@ -21,8 +21,8 @@ const FILTER_KEY = 'securityGroupFilters';
   templateUrl: 'sg-filter.container.html',
 })
 export class SgFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-  public filters$ = this.store.select(fromSecurityGroups.filters);
-  readonly accounts$ = this.store.select(fromAccounts.selectAll);
+  public filters$ = this.store.pipe(select(fromSecurityGroups.filters));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   public viewMode: SecurityGroupViewMode;
 
   public query: string;
@@ -46,14 +46,14 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
     private store: Store<State>,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private sessionStorage: SessionStorageService
+    private sessionStorage: SessionStorageService,
   ) {
     super();
   }
@@ -74,7 +74,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
         viewMode,
         query,
         selectedAccountIds,
-      })
+      }),
     );
 
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters =>
@@ -83,7 +83,7 @@ export class SgFilterContainerComponent extends WithUnsubscribe() implements OnI
         query: filters.query,
         accounts: filters.selectedAccountIds,
         orphan: filters.selectOrphanSG,
-      })
+      }),
     );
   }
 

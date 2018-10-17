@@ -21,19 +21,19 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 })
 export class VmPageComponent implements OnInit {
   @Input()
-  public vms: Array<VirtualMachine>;
+  public vms: VirtualMachine[];
   @Input()
   public query: string;
   @Input()
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   @Input()
   public osTypesMap: NgrxEntities<OsType>;
   @Input()
   public isLoading: boolean;
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Input()
-  public selectedGroupings: Array<Grouping>;
+  public selectedGroupings: Grouping[];
 
   public mode: ViewMode;
   public viewModeKey = 'vmPageViewMode';
@@ -43,7 +43,7 @@ export class VmPageComponent implements OnInit {
     private dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   public ngOnInit(): void {
@@ -52,7 +52,7 @@ export class VmPageComponent implements OnInit {
         filter(Boolean),
         // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
         // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
-        delay(1)
+        delay(1),
       )
       .subscribe(() => this.showSuggestionDialog());
   }
@@ -70,20 +70,20 @@ export class VmPageComponent implements OnInit {
 
   private get shouldShowSuggestionDialog(): Observable<boolean> {
     const dataReceivedAndUpdated$ = combineLatest(
-      this.store.select(fromVMs.isLoading),
-      this.store.select(fromVMs.isLoaded)
+      this.store.pipe(select(fromVMs.isLoading)),
+      this.store.pipe(select(fromVMs.isLoaded)),
     ).pipe(
       map(([loading, loaded]) => !loading && loaded),
       filter(Boolean),
-      first()
+      first(),
     );
 
     return dataReceivedAndUpdated$.pipe(
       withLatestFrom(
         this.store.pipe(select(UserTagsSelectors.getIsAskToCreateVM)),
-        this.store.pipe(select(fromVMs.getVMCount))
+        this.store.pipe(select(fromVMs.getVMCount)),
       ),
-      map(([dataReadyFlag, isAsk, vmCount]) => isAsk && vmCount === 0 && !this.isCreationFormOpen)
+      map(([dataReadyFlag, isAsk, vmCount]) => isAsk && vmCount === 0 && !this.isCreationFormOpen),
     );
   }
 

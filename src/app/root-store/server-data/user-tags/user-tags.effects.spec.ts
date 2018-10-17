@@ -22,9 +22,11 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
   const isListError = listResponse instanceof Error;
   const isCreateError = createRespone instanceof Error;
   const isRemoveError = removeResponce instanceof Error;
+  // tslint:disable:variable-name
   const _listResponse = isListError ? throwError(listResponse) : of(listResponse);
   const _createResponse = isCreateError ? throwError(createRespone) : of(createRespone);
   const _removeResponse = isRemoveError ? throwError(removeResponce) : of(removeResponce);
+  // tslint:enable:variable-name
 
   service.getList.and.returnValue(_listResponse);
   service.create.and.returnValue(_createResponse);

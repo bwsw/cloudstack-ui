@@ -15,7 +15,7 @@ export class ParametersPairComponent {
   @Input()
   public canBeCopy = false;
   @Output()
-  public onButtonClicked = new EventEmitter();
+  public buttonClicked = new EventEmitter();
 
   constructor() {}
 }

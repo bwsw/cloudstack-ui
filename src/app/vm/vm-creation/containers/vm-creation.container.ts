@@ -5,7 +5,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
 import {
-  AccountResourceType,
+  accountResourceType,
   AffinityGroup,
   DiskOffering,
   InstanceGroup,
@@ -15,7 +15,6 @@ import {
 } from '../../../shared/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BaseTemplateModel } from '../../../template/shared';
-import { VmService } from '../../shared/vm.service';
 import { NotSelected, VmCreationState } from '../data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../security-group/vm-creation-security-group-data';
 
@@ -68,26 +67,26 @@ import { getAvailableOfferingsForVmCreation } from '../../selectors';
       (securityRulesChange)="onSecurityRulesChange($event)"
       (affinityGroupChange)="onAffinityGroupChange($event)"
       (instanceGroupChange)="onInstanceGroupChange($event)"
-      (onSshKeyPairChange)="onSshKeyPairChange($event)"
+      (sshKeyPairChanged)="onSshKeyPairChange($event)"
       (zoneChange)="onZoneChange($event)"
       (doStartVmChange)="onDoStartVmChange($event)"
       (agreementChange)="onAgreementChange($event)"
       (cancel)="onCancel()"
       (deploy)="onDeploy($event)"
-      (onVmDeploymentFailed)="showOverlayChange()"
+      (vmDeploymentFailed)="showOverlayChange()"
     ></cs-vm-creation>
   `,
 })
 export class VmCreationContainerComponent implements OnInit {
-  readonly vmFormState$ = this.store.select(fromVMs.getVmFormState);
+  readonly vmFormState$ = this.store.pipe(select(fromVMs.getVmFormState));
   readonly isLoading$ = combineLatest(
     this.store.pipe(select(fromVMs.formIsLoading)),
     this.store.pipe(select(fromZones.isLoading)),
     this.store.pipe(select(fromServiceOfferings.isLoading)),
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
-    this.store.pipe(select(fromAffinityGroups.isLoading))
-  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading === true)));
+    this.store.pipe(select(fromAffinityGroups.isLoading)),
+  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
   readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
@@ -105,9 +104,8 @@ export class VmCreationContainerComponent implements OnInit {
 
   constructor(
     private store: Store<State>,
-    private virtualMachineService: VmService,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<VmCreationContainerComponent>
+    private dialogRef: MatDialogRef<VmCreationContainerComponent>,
   ) {
     this.store.dispatch(new securityGroupActions.LoadSecurityGroupRequest());
     this.store.dispatch(new zoneActions.LoadZonesRequest());
@@ -117,7 +115,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(
-      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType })
+      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
     );
 
     this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
@@ -197,7 +195,7 @@ export class VmCreationContainerComponent implements OnInit {
     return this.store.pipe(
       select(UserTagsSelectors.getLastVMId),
       first(),
-      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`)
+      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`),
     );
   }
 }

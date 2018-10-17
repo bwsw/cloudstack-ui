@@ -14,7 +14,7 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
     ></cs-sg-sidebar>`,
 })
 export class SecurityGroupSidebarContainerComponent implements OnInit {
-  readonly securityGroup$ = this.store.select(fromSecurityGroups.getSelectedSecurityGroup);
+  readonly securityGroup$ = this.store.pipe(select(fromSecurityGroups.getSelectedSecurityGroup));
 
   constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 

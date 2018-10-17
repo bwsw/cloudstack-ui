@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,7 +14,7 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
     ></cs-template-sidebar>`,
 })
 export class BaseTemplateSidebarContainerComponent implements OnInit {
-  public template$ = this.store.select(fromTemplates.getSelectedTemplate);
+  public template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));
 
   constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 

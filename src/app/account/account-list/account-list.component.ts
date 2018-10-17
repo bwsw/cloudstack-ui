@@ -11,9 +11,9 @@ import { AccountRowItemComponent } from '../account/row-item/account-row-item.co
 })
 export class AccountListComponent {
   @Input()
-  public accounts: Array<Account>;
+  public accounts: Account[];
   @Input()
-  public groupings: Array<any>;
+  public groupings: any[];
   @Input()
   public mode: ViewMode;
   @Output()

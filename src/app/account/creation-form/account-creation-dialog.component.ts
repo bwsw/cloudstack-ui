@@ -19,7 +19,7 @@ export class AccountCreationDialogComponent {
   @Input()
   public roles: Role[];
   @Output()
-  public onAccountCreate = new EventEmitter<AccountData>();
+  public accountCreated = new EventEmitter<AccountData>();
 
   constructor(private formBuilder: FormBuilder) {
     this.accountForm = this.formBuilder.group({
@@ -37,7 +37,7 @@ export class AccountCreationDialogComponent {
 
   public onSubmit(): void {
     const accountCreationParams = this.prepareData(this.accountForm.value);
-    this.onAccountCreate.emit(accountCreationParams);
+    this.accountCreated.emit(accountCreationParams);
   }
 
   public prepareData(data: AccountForm): AccountData {

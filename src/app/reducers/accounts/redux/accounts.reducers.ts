@@ -123,9 +123,8 @@ export function reducer(state = initialState, action: accountActions.Actions): S
       if (state.entities[action.payload.accountid]) {
         const users = [...state.entities[action.payload.accountid].user, action.payload];
         return adapter.updateOne({ id: action.payload.accountid, changes: { user: users } }, state);
-      } else {
-        return adapter.addOne(action.payload, state);
       }
+      return adapter.addOne(action.payload, state);
     }
     case accountActions.ACCOUNT_LOAD_USER_KEYS_SUCCESS: {
       const updatedUser: AccountUser = { ...action.payload.user };

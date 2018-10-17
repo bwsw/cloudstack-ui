@@ -70,8 +70,8 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
 
   private authorizeRules(
     securityGroup: SecurityGroup,
-    ingressRules: Array<NetworkRule>,
-    egressRules: Array<NetworkRule>
+    ingressRules: NetworkRule[],
+    egressRules: NetworkRule[]
   ): Observable<SecurityGroup> {
     if (!ingressRules.length && !egressRules.length) {
       return of(securityGroup);
@@ -101,10 +101,10 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   }
 
   private getRuleCreationRequests(
-    rules: Array<NetworkRule>,
+    rules: NetworkRule[],
     ruleType: NetworkRuleType,
     securityGroup: SecurityGroup
-  ): Array<Observable<NetworkRule>> {
+  ): Observable<NetworkRule>[] {
     return rules.map(rule => {
       const ruleCreationRequest = this.getNetworkRuleCreationParams(rule, securityGroup);
       return this.networkRuleService.addRule(ruleType, ruleCreationRequest);

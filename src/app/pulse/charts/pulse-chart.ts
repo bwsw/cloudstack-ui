@@ -1,20 +1,20 @@
 import { ChangeDetectorRef, EventEmitter, Injectable, Input, Output } from '@angular/core';
 import { PulseService } from '../pulse.service';
-import Chart = require('chart.js');
+import chartJs = require('chart.js');
 
-(Chart.defaults.global.elements.line as any).cubicInterpolationMode = 'monotone';
-Chart.defaults.global.elements.point.radius = 0;
-Chart.defaults.global.elements.point.hitRadius = 5;
+(chartJs.defaults.global.elements.line as any).cubicInterpolationMode = 'monotone';
+chartJs.defaults.global.elements.point.radius = 0;
+chartJs.defaults.global.elements.point.hitRadius = 5;
 
 export interface PulseChart {
   id: string;
 
   width?: number;
   height?: number;
-  datasets?: Array<any>;
+  datasets?: any[];
   chartType?: 'line' | 'bar';
   options?: any;
-  labels?: Array<any>;
+  labels?: any[];
 }
 
 export const defaultChartOptions = {
@@ -80,10 +80,10 @@ export const defaultChartConfig = {
   labels: null,
 };
 
-export function getChart(config: Array<any>) {
+export function getChart(config: any[]) {
   return config.map(_ => {
-    const options = Object.assign({}, defaultChartOptions, _.options);
-    return Object.assign({}, defaultChartConfig, { ..._, options });
+    const options = {...defaultChartOptions, ..._.options};
+    return {...defaultChartConfig,  ..._, options};
   });
 }
 
@@ -92,7 +92,7 @@ export abstract class PulseChartComponent {
   @Input()
   public translations;
   @Input()
-  public charts: Array<PulseChart>;
+  public charts: PulseChart[];
   @Input()
   public shift: number;
   @Output()
@@ -105,6 +105,15 @@ export abstract class PulseChartComponent {
 
   constructor(protected pulse: PulseService, protected cd: ChangeDetectorRef) {}
 
+  public resetDatasets() {
+    if (this.charts) {
+      this.charts.forEach(c => (c.datasets = []));
+    }
+    this.cd.markForCheck();
+  }
+
+  public abstract update(params, forceUpdate: boolean);
+
   protected setLoading(loading = true) {
     this.loading = loading;
     if (this.loading) {
@@ -113,7 +122,7 @@ export abstract class PulseChartComponent {
     this.cd.markForCheck();
   }
 
-  protected updateDatasets(setId: string, datasets: Array<any>) {
+  protected updateDatasets(setId: string, datasets: any[]) {
     if (!this.charts) {
       return;
     }
@@ -124,13 +133,4 @@ export abstract class PulseChartComponent {
 
     c.datasets = datasets;
   }
-
-  public resetDatasets() {
-    if (this.charts) {
-      this.charts.forEach(c => (c.datasets = []));
-    }
-    this.cd.markForCheck();
-  }
-
-  public abstract update(params, forceUpdate: boolean);
 }

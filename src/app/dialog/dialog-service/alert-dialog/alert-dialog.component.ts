@@ -19,7 +19,7 @@ export class AlertDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AlertDialogConfiguration>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.config = data.config;
   }
@@ -27,12 +27,11 @@ export class AlertDialogComponent {
   public get translatedMessage(): Observable<string> {
     if (typeof this.config.message === 'string') {
       return this.translateService.get(this.config.message);
-    } else {
-      return this.translateService.get(
-        this.config.message.translationToken,
-        this.config.message.interpolateParams
-      );
     }
+    return this.translateService.get(
+      this.config.message.translationToken,
+      this.config.message.interpolateParams,
+    );
   }
 
   @HostListener('keydown.esc')

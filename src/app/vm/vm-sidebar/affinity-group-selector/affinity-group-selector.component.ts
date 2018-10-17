@@ -13,7 +13,7 @@ import { VirtualMachine } from '../../shared/vm.model';
   styleUrls: ['affinity-group-selector.component.scss'],
 })
 export class AffinityGroupSelectorComponent implements OnInit {
-  public affinityGroups: Array<AffinityGroup>;
+  public affinityGroups: AffinityGroup[];
   public loading: boolean;
   public selectedAffinityGroupName: string;
   public vm: VirtualMachine;
@@ -35,7 +35,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
     return this.vm.affinityGroup.length && this.vm.affinityGroup[0].name;
   }
 
-  public get groupNames(): Array<string> {
+  public get groupNames(): string[] {
     return this.affinityGroups.map(_ => _.name);
   }
 

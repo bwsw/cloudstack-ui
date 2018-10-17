@@ -49,11 +49,11 @@ export class AggregationSelectorComponent {
   @ViewChild('aggregationSelect')
   aggregationSelectControl: AbstractControl;
 
-  selectedScale: { aggregations: Array<any> };
+  selectedScale: { aggregations: any[] };
   selectedShift: string;
   @Input()
   public shiftAmount: number;
-  selectedAggregations: Array<string>;
+  selectedAggregations: string[];
 
   constructor() {
     this.emitShiftChange = debounce(this.emitShiftChange, 300);

@@ -11,7 +11,7 @@ export class TemplateActionsComponent {
   @Input()
   public template: BaseTemplateModel;
   @Input()
-  public actions: Array<BaseTemplateAction>;
+  public actions: BaseTemplateAction[];
   @Output()
   public deleteTemplate = new EventEmitter<BaseTemplateModel>();
 
@@ -26,7 +26,10 @@ export class TemplateActionsComponent {
             this.deleteTemplate.emit(this.template);
           }
         });
+        break;
       }
+      default:
+        break;
     }
   }
 }

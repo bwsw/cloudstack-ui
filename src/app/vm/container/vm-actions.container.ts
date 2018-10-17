@@ -12,16 +12,16 @@ import * as vmActions from '../../reducers/vm/redux/vm.actions';
   template: `
     <cs-vm-actions
       [vm]="vm"
-      (onVmDestroy)="onVmDestroy($event)"
-      (onVmReboot)="onVmReboot($event)"
-      (onVmResetPassword)="onVmResetPassword($event)"
-      (onVmRestore)="onVmRestore($event)"
-      (onVmStart)="onVmStart($event)"
-      (onVmStop)="onVmStop($event)"
-      (onVmExpunge)="onVmExpunge($event)"
-      (onVmRecover)="onVmRecover($event)"
-      (onVmAccess)="onVmAccess($event)"
-      (onVmPulse)="onVmPulse($event)"
+      (vmDestroyed)="onVmDestroy($event)"
+      (vmRebooted)="onVmReboot($event)"
+      (vmResetedPassword)="onVmResetPassword($event)"
+      (vmRestored)="onVmRestore($event)"
+      (vmStarted)="onVmStart($event)"
+      (vmStopped)="onVmStop($event)"
+      (vmExpunged)="onVmExpunge($event)"
+      (vmRecovered)="onVmRecover($event)"
+      (vmAccessed)="onVmAccess($event)"
+      (vmPulse)="onVmPulse($event)"
     >
     </cs-vm-actions>`,
 })

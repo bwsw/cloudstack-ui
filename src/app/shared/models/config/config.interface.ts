@@ -22,11 +22,11 @@ export interface CustomizableConfig {
   /*
    * Virtual machines settings
    */
-  vmColors: Array<{ value: string }>;
+  vmColors: { value: string }[];
   /*
    * Firewall (Security groups) settings
    */
-  securityGroupTemplates: Array<any>;
+  securityGroupTemplates: any[];
   /*
    * Images settings
    */

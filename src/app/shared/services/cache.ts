@@ -1,6 +1,6 @@
 export interface ICache<T> {
   get({}): T;
-  set(CacheEntry): void;
+  set(сacheEntry): void;
 }
 
 export interface CacheEntry<T> {

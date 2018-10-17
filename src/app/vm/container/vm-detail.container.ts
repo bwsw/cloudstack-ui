@@ -26,7 +26,7 @@ const vmDescriptionKey = 'csui.vm.description';
     <cs-instance-group
       [vm]="vm$ | async"
       [groups]="groups$ | async"
-      (onGroupChange)=changeGroup($event)
+      (groupChanged)="changeGroup($event)"
     >
     </cs-instance-group>
     <cs-service-offering-details
@@ -36,19 +36,19 @@ const vmDescriptionKey = 'csui.vm.description';
     </cs-service-offering-details>
     <cs-affinity-group
       [vm]="vm$ | async"
-      (onAffinityGroupChange)="changeAffinityGroup($event)"
+      (affinityGroupChanged)="changeAffinityGroup($event)"
     >
     </cs-affinity-group>
     <cs-vm-detail-template [vm]="vm$ | async"></cs-vm-detail-template>
     <cs-vm-ssh-keypair
       [vm]="vm$ | async"
       [keys]="sshKeys$ | async"
-      (onSshKeyChange)="changeSshKey($event)"
+      (sshKeyChanged)="changeSshKey($event)"
     >
     </cs-vm-ssh-keypair>
     <cs-statistics
       [vm]="vm$ | async"
-      (onStatsUpdate)="updateStats($event)"
+      (statsUpdated)="updateStats($event)"
     ></cs-statistics>
   `,
 })

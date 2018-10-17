@@ -11,7 +11,7 @@ import { ResourceType } from '../../../shared/models/resource-limit.model';
 })
 export class AccountStatisticsComponent {
   @Input()
-  public stats: Array<ResourceCount>;
+  public stats: ResourceCount[];
   @Output()
   public statisticsUpdate = new EventEmitter();
 

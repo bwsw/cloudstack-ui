@@ -9,5 +9,5 @@ export interface AffinityGroup extends BaseModelInterface {
   name: string;
   description: string;
   type: AffinityGroupType;
-  virtualmachineids: Array<string>;
+  virtualmachineids: string[];
 }

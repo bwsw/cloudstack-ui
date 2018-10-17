@@ -7,5 +7,5 @@ import { ProgressLoggerMessage } from '../progress-logger-message/progress-logge
 })
 export class ProgressLoggerComponent {
   @Input()
-  public messages: Array<ProgressLoggerMessage>;
+  public messages: ProgressLoggerMessage[];
 }

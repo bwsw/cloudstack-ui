@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { ServiceOffering, ServiceOfferingParamKey, Tag } from '../../../shared/models';
+import { ServiceOffering, serviceOfferingParamKey, Tag } from '../../../shared/models';
 import {
   CustomComputeOfferingHardwareRestrictions,
   CustomComputeOfferingHardwareValues,
@@ -28,13 +28,13 @@ const getFixedAndCustomOfferingsArrays = (offerings: ServiceOffering[]) => {
 
 const getCustomOfferingHardwareParameters = (
   offering: ServiceOffering,
-  offeringsParameters: CustomComputeOfferingParameters[]
+  offeringsParameters: CustomComputeOfferingParameters[],
 ): CustomComputeOfferingParameters | undefined => {
   return offeringsParameters.find(parameters => parameters.offeringId === offering.id);
 };
 
 const getCustomHardwareValues = (
-  params: CustomComputeOfferingParameters | undefined
+  params: CustomComputeOfferingParameters | undefined,
 ): CustomComputeOfferingHardwareValues | null => {
   if (!params) {
     return null;
@@ -48,7 +48,7 @@ const getCustomHardwareValues = (
 };
 
 const getCustomHardwareRestrictions = (
-  params: CustomComputeOfferingParameters | undefined
+  params: CustomComputeOfferingParameters | undefined,
 ): CustomComputeOfferingHardwareRestrictions | null => {
   if (!params) {
     return null;
@@ -72,10 +72,10 @@ const getCustomHardwareRestrictions = (
 
 const getHardwareValuesFromTags = (
   serviceOffering: ComputeOfferingViewModel,
-  tags: Tag[]
+  tags: Tag[],
 ): CustomComputeOfferingHardwareValues | null => {
   const getValue = param => {
-    const key = `${ServiceOfferingParamKey}.${serviceOffering.id}.${param}`;
+    const key = `${serviceOfferingParamKey}.${serviceOffering.id}.${param}`;
     const tag = tags.find(t => t.key === key);
     return tag && tag.value;
   };
@@ -93,7 +93,8 @@ const getHardwareValuesFromTags = (
 const getValueThatSatisfiesRestrictions = (defaultValue: number, restrictions: HardwareLimits) => {
   if (restrictions.min > defaultValue) {
     return restrictions.min;
-  } else if (defaultValue > restrictions.max) {
+  }
+  if (defaultValue > restrictions.max) {
     return restrictions.max;
   }
 
@@ -111,7 +112,7 @@ export const getComputeOfferingViewModel = createSelector(
     customComputeOfferingParameters,
     defaultRestrictions,
     defaultHardwareValues,
-    tags
+    tags,
   ): ComputeOfferingViewModel[] => {
     const { customOfferings, fixedOfferings } = getFixedAndCustomOfferingsArrays(offerings);
 
@@ -119,7 +120,7 @@ export const getComputeOfferingViewModel = createSelector(
       (offering: ServiceOffering) => {
         const customParameters = getCustomOfferingHardwareParameters(
           offering,
-          customComputeOfferingParameters
+          customComputeOfferingParameters,
         );
         const customHardwareValues = getCustomHardwareValues(customParameters);
         const customHardwareRestrictions = getCustomHardwareRestrictions(customParameters);
@@ -131,15 +132,15 @@ export const getComputeOfferingViewModel = createSelector(
 
         const cpunumber = getValueThatSatisfiesRestrictions(
           prioritizedHardwareValues.cpunumber,
-          prioritizedRestrictions.cpunumber
+          prioritizedRestrictions.cpunumber,
         );
         const cpuspeed = getValueThatSatisfiesRestrictions(
           prioritizedHardwareValues.cpuspeed,
-          prioritizedRestrictions.cpuspeed
+          prioritizedRestrictions.cpuspeed,
         );
         const memory = getValueThatSatisfiesRestrictions(
           prioritizedHardwareValues.memory,
-          prioritizedRestrictions.memory
+          prioritizedRestrictions.memory,
         );
 
         const offeringViewModel: ComputeOfferingViewModel = {
@@ -150,9 +151,9 @@ export const getComputeOfferingViewModel = createSelector(
           customOfferingRestrictions: prioritizedRestrictions,
         };
         return offeringViewModel;
-      }
+      },
     );
 
     return [...fixedOfferings, ...customOfferingsWithMetadata];
-  }
+  },
 );

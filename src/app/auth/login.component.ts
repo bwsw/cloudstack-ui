@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { first } from 'rxjs/operators';
 
 import { AuthService } from '../shared/services/auth.service';
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private storage: LocalStorageService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   public ngOnInit(): void {
@@ -42,8 +42,10 @@ export class LoginComponent implements OnInit {
     this.showDomain = value === 'true';
     const domainFromQueryParams = this.route.snapshot.queryParams['domain'];
     this.store
-      .select(configSelectors.get('defaultDomain'))
-      .pipe(first())
+      .pipe(
+        select(configSelectors.get('defaultDomain')),
+        first(),
+      )
       .subscribe(domainFromConfig => {
         this.domain = domainFromQueryParams || domainFromConfig || '';
       });

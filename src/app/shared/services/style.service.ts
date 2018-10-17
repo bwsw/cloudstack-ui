@@ -6,7 +6,7 @@ export interface Theme {
   primaryColor: string;
 }
 
-export const themes: Array<Theme> = [
+export const themes: Theme[] = [
   {
     name: 'blue-red',
     href: 'css/themes/blue-red.css',
@@ -24,37 +24,35 @@ const preferredTheme = themes[0]; // the blue-red one is default
 @Injectable()
 export class StyleService {
   public styleElement: HTMLLinkElement;
-  private _activeTheme: Theme;
+  private activeTheme: Theme;
 
   constructor() {
     this.initStyleSheet();
+  }
+
+  public updateTheme(theme: Theme) {
+    // to prevent setting the theme when it's already active
+    const hasChanged = this.activeTheme && this.activeTheme.href !== theme.href;
+    // to prevent setting the default theme twice after user is
+    // logged in (when the app loads, the default theme loads with it and
+    // the linkElement has empty href, but the user can explicitly
+    // set the default theme in the tag)
+    const notPreferredAfterLogin = !this.styleElement.href && theme.name !== preferredTheme.name;
+
+    if (hasChanged || notPreferredAfterLogin) {
+      this.styleElement.href = theme.href;
+    }
+    this.activeTheme = theme;
+  }
+
+  public useTheme(themeName: string) {
+    const newTheme = themes.find(theme => theme.name === themeName);
+    this.updateTheme(newTheme);
   }
 
   private initStyleSheet(): void {
     this.styleElement = document.createElement('link');
     this.styleElement.setAttribute('rel', 'stylesheet');
     document.head.appendChild(this.styleElement);
-  }
-
-  public updateTheme(theme: Theme) {
-    const { styleElement, _activeTheme } = this;
-
-    // to prevent setting the theme when it's already active
-    const hasChanged = _activeTheme && _activeTheme.href !== theme.href;
-    // to prevent setting the default theme twice after user is
-    // logged in (when the app loads, the default theme loads with it and
-    // the linkElement has empty href, but the user can explicitly
-    // set the default theme in the tag)
-    const notPreferredAfterLogin = !styleElement.href && theme.name !== preferredTheme.name;
-
-    if (hasChanged || notPreferredAfterLogin) {
-      styleElement.href = theme.href;
-    }
-    this._activeTheme = theme;
-  }
-
-  public useTheme(themeName: string) {
-    const newTheme = themes.find(theme => theme.name === themeName);
-    this.updateTheme(newTheme);
   }
 }

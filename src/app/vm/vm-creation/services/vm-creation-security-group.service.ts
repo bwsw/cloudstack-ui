@@ -24,9 +24,8 @@ export class VmCreationSecurityGroupService {
       return this.securityGroupService
         .createPrivate(data, rules)
         .pipe(map(securityGroup => [{ ...securityGroup }]));
-    } else {
-      return of(state.securityGroupData.securityGroups);
     }
+    return of(state.securityGroupData.securityGroups);
   }
 
   private get name(): string {
@@ -35,7 +34,7 @@ export class VmCreationSecurityGroupService {
 
   private getSecurityGroupCreationRules(
     rules: Rules
-  ): { ingress: Array<NetworkRule>; egress: Array<NetworkRule> } {
+  ): { ingress: NetworkRule[]; egress: NetworkRule[] } {
     return {
       ingress: rules.ingress,
       egress: rules.egress,

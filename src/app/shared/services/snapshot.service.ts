@@ -58,9 +58,9 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
     );
   }
 
-  public getList(volumeId?: string): Observable<Array<Snapshot>> {
+  public getList(volumeId?: string): Observable<Snapshot[]> {
     if (volumeId) {
-      return super.getList({ volumeId: volumeId });
+      return super.getList({ volumeId });
     }
     return super.getList();
   }
@@ -68,7 +68,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
   private getSnapshotCreationParams(volumeId: string, name?: string): any {
     if (name) {
       return {
-        volumeId: volumeId,
+        volumeId,
         name,
       };
     }

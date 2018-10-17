@@ -13,11 +13,11 @@ import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
 
-export const VirtualMachineEntityName = 'VirtualMachine';
+export const virtualMachineEntityName = 'VirtualMachine';
 
 @Injectable()
 @BackendResource({
-  entity: VirtualMachineEntityName,
+  entity: virtualMachineEntityName,
   entityModel: VirtualMachine,
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
@@ -25,7 +25,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     private asyncJobService: AsyncJobService,
     private osTypesService: OsTypeService,
     private volumeService: VolumeService,
-    protected http: HttpClient
+    protected http: HttpClient,
   ) {
     super(http);
   }
@@ -34,24 +34,21 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.getListWithDetails().pipe(map(list => list.find(vm => vm.id === id)));
   }
 
-  public getListWithDetails(params?: {}, lite = false): Observable<Array<VirtualMachine>> {
+  public getListWithDetails(params?: {}, lite = false): Observable<VirtualMachine[]> {
     if (lite) {
       return this.getList(params);
     }
 
-    return forkJoin(
-      this.getList(params),
-      this.volumeService.getList(),
-      this.osTypesService.getList()
-    ).pipe(
+    return forkJoin(this.getList(params), this.volumeService.getList(), this.osTypesService.getList()).pipe(
       map(([vmList, volumes, osTypes]) => {
         vmList.forEach((currentVm, index, vms) => {
-          currentVm = this.addVolumes(currentVm, volumes);
-          currentVm = this.addOsType(currentVm, osTypes);
-          vms[index] = currentVm;
+          let vmWithVolumeAndOsType = currentVm;
+          vmWithVolumeAndOsType = this.addVolumes(vmWithVolumeAndOsType, volumes);
+          vmWithVolumeAndOsType = this.addOsType(vmWithVolumeAndOsType, osTypes);
+          vms[index] = vmWithVolumeAndOsType;
         });
         return vmList;
-      })
+      }),
     );
   }
 
@@ -65,7 +62,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       tap(jogResult => jogResult),
       catchError(error => {
         return throwError(error);
-      })
+      }),
     );
   }
 
@@ -74,7 +71,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       tap(res => res),
       catchError(error => {
         return throwError(error);
-      })
+      }),
     );
   }
 
@@ -82,26 +79,26 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return this.asyncJobService.queryJob(job, this.entity, this.entityModel);
   }
 
-  public getListOfVmsThatUseIso(iso: Iso): Observable<Array<VirtualMachine>> {
+  public getListOfVmsThatUseIso(iso: Iso): Observable<VirtualMachine[]> {
     return this.getListWithDetails().pipe(map(vmList => vmList.filter(vm => vm.isoId === iso.id)));
   }
 
   public addIpToNic(nicId: string): Observable<IpAddress> {
     return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic').pipe(
       switchMap(job => this.asyncJobService.queryJob(job.jobid)),
-      map(result => result.jobresult)
+      map(result => result.jobresult),
     );
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
     return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic').pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid))
+      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
     );
   }
 
   public changeServiceOffering(
     serviceOffering: ServiceOffering,
-    virtualMachine: VirtualMachine
+    virtualMachine: VirtualMachine,
   ): Observable<VirtualMachine> {
     const params = {};
 
@@ -119,7 +116,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
 
     return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
-      map(result => this.prepareModel(result['virtualmachine']))
+      map(result => this.prepareModel(result['virtualmachine'])),
     );
   }
 
@@ -130,7 +127,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   private buildCommandParams(id: string, commandName: string, params?: {}): any {
-    const requestParams = params ? Object.assign({}, params) : {};
+    const requestParams = params ? {...params} : {};
 
     if (commandName === 'restore') {
       requestParams['virtualMachineId'] = id;
@@ -141,13 +138,13 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     return requestParams;
   }
 
-  private addVolumes(vm: VirtualMachine, volumes: Array<Volume>): VirtualMachine {
+  private addVolumes(vm: VirtualMachine, volumes: Volume[]): VirtualMachine {
     const filteredVolumes = volumes.filter((volume: Volume) => volume.virtualmachineid === vm.id);
     vm.volumes = this.sortVolumes(filteredVolumes);
     return vm;
   }
 
-  private sortVolumes(volumes: Array<Volume>): Array<Volume> {
+  private sortVolumes(volumes: Volume[]): Volume[] {
     return volumes.sort((a: Volume, b) => {
       const aIsRoot = a.type === VolumeType.ROOT;
       const bIsRoot = b.type === VolumeType.ROOT;
@@ -161,7 +158,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  private addOsType(vm: VirtualMachine, osTypes: Array<OsType>): VirtualMachine {
+  private addOsType(vm: VirtualMachine, osTypes: OsType[]): VirtualMachine {
     vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
     return vm;
   }

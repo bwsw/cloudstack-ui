@@ -9,7 +9,7 @@ import { ColorPickerComponent } from './color-picker.component';
 describe('Color picker component', () => {
   let fixture;
   let component: ColorPickerComponent;
-  const colors: Array<Color> = [
+  const colors: Color[] = [
     { name: 'red', value: '#F44336', textColor: '#FFFFFF' },
     { name: 'pink', value: '#E91E63', textColor: '#FFFFFF' },
     { name: 'purple', value: '#9C27B0', textColor: '#FFFFFF' },

@@ -12,14 +12,10 @@ import { VmCreationTemplateComponent } from './vm-creation-template.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MockTranslateService } from '../../../../testutils/mocks/mock-translate.service.spec';
 
-const templatesRaw: Array<
-  Template
-> = require('../../../../testutils/mocks/model-services/fixtures/templates.json');
-const isosRaw: Array<
-  Iso
-> = require('../../../../testutils/mocks/model-services/fixtures/isos.json');
+const templatesRaw: Template[] = require('../../../../testutils/mocks/model-services/fixtures/templates.json');
+const isosRaw: Iso[] = require('../../../../testutils/mocks/model-services/fixtures/isos.json');
 
-const templates: Array<BaseTemplateModel> = [...templatesRaw, ...isosRaw];
+const templates: BaseTemplateModel[] = [...templatesRaw, ...isosRaw];
 
 @Component({
   selector: 'cs-test',
@@ -33,7 +29,7 @@ class TestComponent {
   @ViewChild(VmCreationTemplateComponent)
   public vmTemplateComponent: VmCreationTemplateComponent;
   public template: BaseTemplateModel;
-  public templates: Array<BaseTemplateModel>;
+  public templates: BaseTemplateModel[];
 }
 
 describe('VmCreationTemplateComponent', () => {

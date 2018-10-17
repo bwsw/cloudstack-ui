@@ -12,17 +12,19 @@ import * as fromSecurityGroups from '../../../../../reducers/security-groups/red
     <cs-vm-creation-security-group
       [sharedGroups]="sharedGroups$ | async"
       [savedData]="savedData"
-      (onSave)="onSave($event)"
-      (onCancel)="onCancel()"
+      (saved)="onSave($event)"
+      (canceled)="onCancel()"
     ></cs-vm-creation-security-group>`,
 })
 export class VmCreationSecurityGroupContainerComponent {
-  public sharedGroups$ = this.store.select(fromSecurityGroups.selectSecurityGroupsForVmCreation);
+  public sharedGroups$ = this.store.pipe(
+    select(fromSecurityGroups.selectSecurityGroupsForVmCreation),
+  );
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public savedData: VmCreationSecurityGroupData,
     private dialogRef: MatDialogRef<VmCreationSecurityGroupContainerComponent>,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   public onSave(savedData: VmCreationSecurityGroupData): void {

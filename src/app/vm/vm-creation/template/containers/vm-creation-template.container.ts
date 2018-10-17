@@ -1,4 +1,4 @@
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../../reducers/index';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BaseTemplateModel } from '../../../../template/shared/base-template.model';
@@ -12,18 +12,20 @@ import * as fromTemplates from '../../../../reducers/templates/redux/template.re
       name="template"
       class="template-select"
       [ngModel]="template"
-      (change)="change.emit($event)"
+      (changed)="changed.emit($event)"
       [templates]="templates$ | async"
       [numberOfTemplates]="numberOfTemplates$ | async"
     ></cs-vm-creation-template>`,
 })
 export class VmCreationTemplateContainerComponent {
-  readonly templates$ = this.store.select(fromTemplates.selectFilteredTemplatesForVmCreation);
-  readonly numberOfTemplates$ = this.store.select(fromTemplates.numOfTemplatesReadyForVmCreation);
+  readonly templates$ = this.store.pipe(select(fromTemplates.selectFilteredTemplatesForVmCreation));
+  readonly numberOfTemplates$ = this.store.pipe(
+    select(fromTemplates.numOfTemplatesReadyForVmCreation),
+  );
   @Input()
   public template: BaseTemplateModel;
   @Output()
-  public change = new EventEmitter<BaseTemplateModel>();
+  public changed = new EventEmitter<BaseTemplateModel>();
 
   constructor(private store: Store<State>) {}
 }

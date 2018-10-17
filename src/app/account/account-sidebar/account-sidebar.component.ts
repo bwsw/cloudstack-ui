@@ -14,7 +14,7 @@ export class AccountSidebarComponent {
   @Input()
   public entity: Account;
   @Output()
-  public onAccountChanged = new EventEmitter<Account>();
+  public accountChanged = new EventEmitter<Account>();
 
   public get isSelf() {
     return isUserBelongsToAccount(this.authService.user, this.entity);

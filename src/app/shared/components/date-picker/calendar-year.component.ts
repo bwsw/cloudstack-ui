@@ -28,7 +28,7 @@ export class CalendarYearComponent implements AfterViewInit {
   @Input()
   public locale: string;
   @Input()
-  public DateTimeFormat;
+  public dateTimeFormat;
 
   @Output()
   public yearSelected = new EventEmitter<number>();
@@ -45,15 +45,15 @@ export class CalendarYearComponent implements AfterViewInit {
     this.cdr.detach();
   }
 
-  public get years(): Array<string> {
+  public get years(): string[] {
     const minYear = this.minDate.getFullYear();
     const maxYear = this.maxDate.getFullYear();
     const years = [];
     const dateCheck = cloneDate(this.selectedDate);
 
-    for (let year = minYear; year <= maxYear; year++) {
+    for (let year = minYear; year <= maxYear; year += 1) {
       dateCheck.setFullYear(year);
-      const yearFormatted = new this.DateTimeFormat(this.locale, {
+      const yearFormatted = new this.dateTimeFormat(this.locale, {
         year: 'numeric',
       }).format(dateCheck);
 
@@ -76,8 +76,8 @@ export class CalendarYearComponent implements AfterViewInit {
     const selectedYear = this.selectedYearElement.nativeElement;
 
     const containerHeight = calendarYear.clientHeight;
-    const selectedYearNodeHeight = selectedYear.clientHeight || 32;
-    const selectedYearNodeOffsetTop = selectedYear.parentNode.offsetTop;
+    const selectedYearNodeHeight: number = selectedYear.clientHeight || 32;
+    const selectedYearNodeOffsetTop: number = selectedYear.parentNode.offsetTop;
 
     const scrollYOffset =
       selectedYearNodeOffsetTop + selectedYearNodeHeight / 2 - containerHeight / 2;

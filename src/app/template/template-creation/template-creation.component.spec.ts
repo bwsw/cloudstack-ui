@@ -9,7 +9,7 @@ import { MockTranslateService } from '../../../testutils/mocks/mock-translate.se
 import { Account } from '../../shared/models/account.model';
 import { Snapshot } from '../../shared/models/snapshot.model';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { TemplateResourceType } from '../shared/base-template.service';
+import { templateResourceType } from '../shared/base-template.service';
 import { TemplateCreationComponent } from './template-creation.component';
 
 describe('Template creation component', () => {
@@ -27,7 +27,7 @@ describe('Template creation component', () => {
     TestBed.compileComponents().then(() => {
       fixture = TestBed.createComponent(TemplateCreationComponent);
       component = fixture.componentInstance;
-      component.mode = TemplateResourceType.template;
+      component.mode = templateResourceType.template;
       component.account = {} as Account;
       component.osTypes = [];
       component.zones = [];
@@ -80,7 +80,7 @@ describe('Template creation component', () => {
       isdynamicallyscalable: true,
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.template,
+      entity: templateResourceType.template,
     };
 
     component.url = params.url;
@@ -92,7 +92,7 @@ describe('Template creation component', () => {
     component.dynamicallyScalable = true;
 
     fixture.detectChanges();
-    const spyEmit = spyOn(component.onCreateTemplate, 'emit');
+    const spyEmit = spyOn(component.templateCreated, 'emit');
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });
@@ -105,18 +105,18 @@ describe('Template creation component', () => {
       passwordEnabled: true,
       isdynamicallyscalable: true,
       snapshotId: 'snap1',
-      entity: TemplateResourceType.template,
+      entity: templateResourceType.template,
     };
 
     component.name = params.name;
-    component.snapshot = <Snapshot>{ id: 'snap1' };
+    component.snapshot = { id: 'snap1' } as Snapshot;
     component.displayText = params.displayText;
     component.osTypeId = params.osTypeId;
     component.passwordEnabled = true;
     component.dynamicallyScalable = true;
 
     fixture.detectChanges();
-    const spyEmit = spyOn(component.onCreateTemplate, 'emit');
+    const spyEmit = spyOn(component.templateCreated, 'emit');
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });
@@ -128,7 +128,7 @@ describe('Template creation component', () => {
       osTypeId: 'testOS',
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.iso,
+      entity: templateResourceType.iso,
     };
 
     component.url = params.url;
@@ -136,10 +136,10 @@ describe('Template creation component', () => {
     component.displayText = params.displayText;
     component.osTypeId = params.osTypeId;
     component.zoneId = params.zoneId;
-    component.mode = TemplateResourceType.iso;
+    component.mode = templateResourceType.iso;
 
     fixture.detectChanges();
-    const spyEmit = spyOn(component.onCreateTemplate, 'emit');
+    const spyEmit = spyOn(component.templateCreated, 'emit');
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });
@@ -154,7 +154,7 @@ describe('Template creation component', () => {
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.template,
+      entity: templateResourceType.template,
     };
 
     component.templateGroup = { id: 'testG1' };
@@ -167,7 +167,7 @@ describe('Template creation component', () => {
     component.dynamicallyScalable = true;
 
     fixture.detectChanges();
-    const spyEmit = spyOn(component.onCreateTemplate, 'emit');
+    const spyEmit = spyOn(component.templateCreated, 'emit');
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });
@@ -182,7 +182,7 @@ describe('Template creation component', () => {
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.template,
+      entity: templateResourceType.template,
       isextractable: true,
       bootable: true,
       format: 'QCOW2',
@@ -206,7 +206,7 @@ describe('Template creation component', () => {
     component.hypervisor = 'KVM';
 
     fixture.detectChanges();
-    const spyEmit = spyOn(component.onCreateTemplate, 'emit');
+    const spyEmit = spyOn(component.templateCreated, 'emit');
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });
@@ -221,7 +221,7 @@ describe('Template creation component', () => {
       groupId: 'testG1',
       url: 'testUrl',
       zoneId: 'testZone',
-      entity: TemplateResourceType.template,
+      entity: templateResourceType.template,
       isextractable: true,
       bootable: true,
       format: 'QCOW2',
@@ -232,7 +232,7 @@ describe('Template creation component', () => {
       ispublic: true,
     };
 
-    component.account = <Account>{ accounttype: '1' };
+    component.account = { accounttype: '1' } as Account;
 
     component.showAdditional = true;
     component.templateGroup = { id: 'testG1' };
@@ -253,7 +253,7 @@ describe('Template creation component', () => {
     component.isPublic = true;
 
     fixture.detectChanges();
-    const spyEmit = spyOn(component.onCreateTemplate, 'emit');
+    const spyEmit = spyOn(component.templateCreated, 'emit');
     component.onCreate();
     expect(spyEmit).toHaveBeenCalledWith(params);
   });

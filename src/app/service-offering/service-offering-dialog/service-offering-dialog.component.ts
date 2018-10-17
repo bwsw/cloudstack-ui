@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
-import { ComputeOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { ComputeOfferingClass, serviceOfferingType } from '../../shared/models';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
 import { VirtualMachine } from '../../vm/shared/vm.model';
 
@@ -20,9 +20,9 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input()
   public serviceOfferings: ComputeOfferingViewModel[];
   @Input()
-  public classes: Array<ComputeOfferingClass>;
+  public classes: ComputeOfferingClass[];
   @Input()
-  public selectedClasses: Array<string>;
+  public selectedClasses: string[];
   @Input()
   public serviceOfferingId: string;
   @Input()
@@ -30,19 +30,19 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input()
   public virtualMachine: VirtualMachine;
   @Input()
-  public groupings: Array<any>;
+  public groupings: any[];
   @Input()
   public query: string;
   @Input()
   public isVmRunning: boolean;
   @Output()
-  public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
+  public serviceOfferingChanged = new EventEmitter<ComputeOfferingViewModel>();
   @Output()
-  public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
+  public serviceOfferingUpdated = new EventEmitter<ComputeOfferingViewModel>();
   @Output()
-  public viewModeChange = new EventEmitter();
+  public viewModeChanged = new EventEmitter();
   @Output()
-  public selectedClassesChange = new EventEmitter();
+  public selectedClassesChanged = new EventEmitter();
   @Output()
   public queryChange = new EventEmitter();
   public serviceOffering: ComputeOfferingViewModel;
@@ -52,44 +52,37 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public ngOnInit() {
     this.serviceOffering = this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
     if (!this.serviceOffering) {
-      this.viewMode === ServiceOfferingType.fixed
-        ? this.viewModeChange.emit(ServiceOfferingType.custom)
-        : this.viewModeChange.emit(ServiceOfferingType.fixed);
+      this.viewMode === serviceOfferingType.fixed
+        ? this.viewModeChanged.emit(serviceOfferingType.custom)
+        : this.viewModeChanged.emit(serviceOfferingType.fixed);
     }
   }
 
   public ngOnChanges(changes: SimpleChanges) {
     const listChanges = changes.serviceOfferings;
     if (listChanges) {
-      this.serviceOffering =
-        this.serviceOffering || this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
+      this.serviceOffering = this.serviceOffering || this.serviceOfferings.find(_ => _.id === this.serviceOfferingId);
     }
   }
 
   public updateOffering(offering: ComputeOfferingViewModel): void {
     this.serviceOffering = offering;
-    this.onServiceOfferingUpdate.emit(this.serviceOffering);
+    this.serviceOfferingUpdated.emit(this.serviceOffering);
   }
 
   public onChange(): void {
-    this.onServiceOfferingChange.emit(this.serviceOffering);
+    this.serviceOfferingChanged.emit(this.serviceOffering);
   }
 
   public get showRebootMessage(): boolean {
-    return (
-      !this.formMode &&
-      this.serviceOfferings.length &&
-      this.isSelectedOfferingDifferent() &&
-      this.isVmRunning
-    );
+    return !this.formMode && this.serviceOfferings.length && this.isSelectedOfferingDifferent() && this.isVmRunning;
   }
 
   public isSubmitButtonDisabled(): boolean {
     const isOfferingNotSelected = !this.serviceOffering;
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
     const isSelectedOfferingFromDifferentViewMode =
-      this.serviceOffering &&
-      this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
+      this.serviceOffering && this.serviceOffering.iscustomized !== (this.viewMode === serviceOfferingType.custom);
     const isSelectedOfferingDoNotHaveParams =
       this.serviceOffering &&
       !this.serviceOffering.cpunumber &&

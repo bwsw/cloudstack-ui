@@ -74,7 +74,7 @@ describe('Utils service', () => {
   it('should divide', () => {
     divideFixture.forEach(example => {
       expect(
-        Utils.divide(example.enumerator, example.denominator, example.exponent, example.precision)
+        Utils.divide(example.enumerator, example.denominator, example.exponent, example.precision),
       ).toBe(example.result);
     });
   });
@@ -98,7 +98,7 @@ describe('Utils service', () => {
 
     getRouteWithoutQueryParamsFixture.forEach(example => {
       expect(Utils.getRouteWithoutQueryParams(example.routerState as RouterState)).toBe(
-        example.routeWithoutParams
+        example.routeWithoutParams,
       );
     });
   });
@@ -113,9 +113,9 @@ describe('Utils service', () => {
     expect(Utils.convertBooleanToBooleanString(true)).toBe('true');
     expect(Utils.convertBooleanToBooleanString(false)).toBe('false');
 
-    expect(() => Utils.convertBooleanToBooleanString(null)).toThrowError('Invalid argument');
+    expect(Utils.convertBooleanToBooleanString(null)).toBe('false');
 
-    expect(() => Utils.convertBooleanToBooleanString(undefined)).toThrowError('Invalid argument');
+    expect(Utils.convertBooleanToBooleanString(undefined)).toBe('false');
   });
 
   it('should check if color is dark', () => {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 
 import * as fromSnapshots from '../../../reducers/snapshots/redux/snapshot.reducers';
@@ -17,9 +17,9 @@ import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.act
     ></cs-snapshot-sidebar>`,
 })
 export class SnapshotSidebarContainerComponent implements OnInit {
-  readonly snapshot$ = this.store.select(fromSnapshots.getSelectedSnapshot);
-  readonly volumes$ = this.store.select(fromVolumes.selectEntities);
-  readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
+  readonly snapshot$ = this.store.pipe(select(fromSnapshots.getSelectedSnapshot));
+  readonly volumes$ = this.store.pipe(select(fromVolumes.selectEntities));
+  readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
 
   constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 

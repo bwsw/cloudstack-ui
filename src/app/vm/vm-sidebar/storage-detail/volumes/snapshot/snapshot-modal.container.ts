@@ -20,10 +20,10 @@ import { DialogService } from '../../../../../dialog/dialog-service/dialog.servi
   template: `
     <cs-snapshot-modal
       [volume]="volume$ | async"
-      (onTemplateCreate)="onTemplateCreate($event)"
-      (onVolumeCreate)="onVolumeCreate($event)"
-      (onSnapshotRevert)="onSnapshotRevert($event)"
-      (onSnapshotDelete)="onSnapshotDelete($event)"
+      (templateCreated)="onTemplateCreate($event)"
+      (volumeCreated)="onVolumeCreate($event)"
+      (snapshotReverted)="onSnapshotRevert($event)"
+      (snapshotDeleted)="onSnapshotDelete($event)"
     >
     </cs-snapshot-modal>`,
 })

@@ -44,7 +44,7 @@ describe('Base model', () => {
     const derivParams = {
       derivfield: 5,
     };
-    const derivModel = new TestModelDeriv(Object.assign({}, params, derivParams));
+    const derivModel = new TestModelDeriv({...params, ...derivParams});
 
     expect(derivModel.id).toBe(params.id);
     expect(derivModel.field1).toBe(params.testfield1);

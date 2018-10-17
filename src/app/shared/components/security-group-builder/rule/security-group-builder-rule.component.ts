@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IcmpNetworkRule, NetworkProtocol, PortNetworkRule } from '../../../../security-group/network-rule.model';
-import { GetICMPCodeTranslationToken, GetICMPTypeTranslationToken } from '../../../icmp/icmp-types';
+import {
+  IcmpNetworkRule,
+  NetworkProtocol,
+  PortNetworkRule,
+} from '../../../../security-group/network-rule.model';
+import { getICMPCodeTranslationToken, getICMPTypeTranslationToken } from '../../../icmp/icmp-types';
 import { RuleListItem } from '../security-group-builder.component';
 import { CidrUtils } from '../../../utils/cidr-utils';
 
@@ -15,9 +19,7 @@ export class SecurityGroupBuilderRuleComponent {
   @Input()
   public type: string;
   @Output()
-  public onCheckChange = new EventEmitter<RuleListItem>();
-
-  public NetworkProtocols = NetworkProtocol;
+  public checkChanged = new EventEmitter<RuleListItem>();
 
   public get protocolTranslationToken(): string {
     const protocolTranslations = {
@@ -40,12 +42,12 @@ export class SecurityGroupBuilderRuleComponent {
 
   public get icmpTypeTranslationToken(): string {
     const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
-    return GetICMPTypeTranslationToken(icmpRule.icmptype);
+    return getICMPTypeTranslationToken(icmpRule.icmptype);
   }
 
   public get icmpCodeTranslationToken(): string {
     const icmpRule: IcmpNetworkRule = this.item.rule as IcmpNetworkRule;
-    return GetICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
+    return getICMPCodeTranslationToken(icmpRule.icmptype, icmpRule.icmpcode);
   }
 
   public get ruleTranslationToken(): { tooltip: string; name: string } {
@@ -55,12 +57,14 @@ export class SecurityGroupBuilderRuleComponent {
           tooltip: `SECURITY_GROUP_PAGE.RULES.NO_TEXT_${this.item.type.toUpperCase()}_ICMP_RULE_NOMARKUP`,
           name: `SECURITY_GROUP_PAGE.RULES.NO_TEXT_${this.item.type.toUpperCase()}_ICMP_RULE`,
         };
-      } else if (!this.ruleParams['icmpCodeText'] && !!this.ruleParams['icmpTypeText']) {
+      }
+      if (!this.ruleParams['icmpCodeText'] && !!this.ruleParams['icmpTypeText']) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.NO_CODE_${this.item.type.toUpperCase()}_ICMP_RULE_NOMARKUP`,
           name: `SECURITY_GROUP_PAGE.RULES.NO_CODE_${this.item.type.toUpperCase()}_ICMP_RULE`,
         };
-      } else if (this.ruleParams['icmpCodeText'] && this.ruleParams['icmpTypeText']) {
+      }
+      if (this.ruleParams['icmpCodeText'] && this.ruleParams['icmpTypeText']) {
         return {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_ICMP_RULE_NOMARKUP`,
           name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_ICMP_RULE`,
@@ -73,12 +77,11 @@ export class SecurityGroupBuilderRuleComponent {
           tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_NOMARKUP`,
           name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE`,
         };
-      } else {
-        return {
-          tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_PORT_RANGE_NOMARKUP`,
-          name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_PORT_RANGE`,
-        };
       }
+      return {
+        tooltip: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_PORT_RANGE_NOMARKUP`,
+        name: `SECURITY_GROUP_PAGE.RULES.${this.item.type.toUpperCase()}_RULE_PORT_RANGE`,
+      };
     }
   }
 

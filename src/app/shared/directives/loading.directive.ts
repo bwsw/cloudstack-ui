@@ -38,7 +38,7 @@ export class LoadingDirective {
       const cFactory = this.componentFactoryResolver.resolveComponentFactory(LoaderComponent);
       const cRef: ComponentRef<LoaderComponent> = this.viewContainer.createComponent(cFactory);
 
-      this.loaderComponent = <LoaderComponent>cRef.instance;
+      this.loaderComponent = cRef.instance as LoaderComponent;
     }
   }
 }

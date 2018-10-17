@@ -21,9 +21,10 @@ export type DailyPolicy = Time;
 export class DailyPolicyComponent implements ControlValueAccessor {
   @Input()
   public timeFormat: TimeFormat;
+  // tslint:disable-next-line:variable-name
   public _time: Time;
 
-  public periods: Array<DayPeriodName>;
+  public periods: DayPeriodName[];
 
   @Input()
   public get policy(): DailyPolicy {

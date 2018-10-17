@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 import * as fromOsTypes from '../../reducers/templates/redux/ostype.reducers';
@@ -34,14 +34,14 @@ const getGroupName = (vm: VirtualMachine) => {
     ></cs-vm-page>`,
 })
 export class VirtualMachinePageContainerComponent implements OnInit, AfterViewInit {
-  readonly vms$ = this.store.select(fromVMs.selectFilteredVMs);
-  readonly query$ = this.store.select(fromVMs.filterQuery);
-  readonly volumes$ = this.store.select(fromVolumes.selectAll);
-  readonly osTypesMap$ = this.store.select(fromOsTypes.selectEntities);
-  readonly loading$ = this.store.select(fromVMs.isLoading);
-  readonly selectedGroupings$ = this.store.select(fromVMs.filterSelectedGroupings);
+  readonly vms$ = this.store.pipe(select(fromVMs.selectFilteredVMs));
+  readonly query$ = this.store.pipe(select(fromVMs.filterQuery));
+  readonly volumes$ = this.store.pipe(select(fromVolumes.selectAll));
+  readonly osTypesMap$ = this.store.pipe(select(fromOsTypes.selectEntities));
+  readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
+  readonly selectedGroupings$ = this.store.pipe(select(fromVMs.filterSelectedGroupings));
 
-  public groupings: Array<Grouping> = [
+  public groupings: Grouping[] = [
     {
       key: 'zones',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ZONES',
@@ -73,7 +73,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
     private store: Store<State>,
     private authService: AuthService,
     private vmTagService: VmTagService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     if (!this.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');

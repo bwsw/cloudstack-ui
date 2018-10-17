@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DateTimeFormatterService } from '../services/date-time-formatter.service';
 
 @Pipe({
-  name: 'stringifyDate',
+  name: 'csStringifyDate',
 })
 export class StringifyDatePipe implements PipeTransform {
   constructor(private dateTimeFormatterService: DateTimeFormatterService) {}

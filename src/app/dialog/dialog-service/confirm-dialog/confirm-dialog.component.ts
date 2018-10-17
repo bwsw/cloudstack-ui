@@ -33,11 +33,10 @@ export class ConfirmDialogComponent {
   public get translatedMessage(): Observable<string> {
     if (typeof this.config.message === 'string') {
       return this.translateService.get(this.config.message);
-    } else {
-      return this.translateService.get(
-        this.config.message.translationToken,
-        this.config.message.interpolateParams
-      );
     }
+    return this.translateService.get(
+      this.config.message.translationToken,
+      this.config.message.interpolateParams
+    );
   }
 }

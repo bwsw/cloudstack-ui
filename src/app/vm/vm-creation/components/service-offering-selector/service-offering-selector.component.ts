@@ -16,39 +16,30 @@ import { VmCreationServiceOfferingContainerComponent } from '../../service-offer
 })
 export class ServiceOfferingSelectorComponent {
   @Input()
-  public serviceOfferings: Array<ComputeOfferingViewModel>;
+  public serviceOfferings: ComputeOfferingViewModel[];
+  @Input()
+  public serviceOffering: ServiceOffering;
   @Output()
-  public change: EventEmitter<ServiceOffering>;
-
-  private _serviceOffering: ServiceOffering;
+  public changed: EventEmitter<ServiceOffering>;
 
   constructor(private dialog: MatDialog, private translateService: TranslateService) {
-    this.change = new EventEmitter();
-  }
-
-  @Input()
-  public get serviceOffering(): ServiceOffering {
-    return this._serviceOffering;
-  }
-
-  public set serviceOffering(serviceOffering: ServiceOffering) {
-    this._serviceOffering = serviceOffering;
+    this.changed = new EventEmitter();
   }
 
   public onClick() {
     this.dialog
-      .open(VmCreationServiceOfferingContainerComponent, <MatDialogConfig>{
+      .open(VmCreationServiceOfferingContainerComponent, {
         width: '700px',
         disableClose: true,
         data: {
           serviceOffering: this.serviceOffering,
         },
-      })
+      } as MatDialogConfig)
       .afterClosed()
       .pipe(filter(res => Boolean(res)))
       .subscribe(offering => {
         this.serviceOffering = offering;
-        this.change.next(this.serviceOffering);
+        this.changed.next(this.serviceOffering);
       });
   }
 
@@ -57,28 +48,19 @@ export class ServiceOfferingSelectorComponent {
       return of('');
     }
 
-    return this.translateService
-      .get(['UNITS.MB', 'UNITS.MHZ', 'VM_PAGE.VM_CREATION.SERVICE_OFFERING'])
-      .pipe(
-        map(translations => {
-          if (!this.serviceOffering.iscustomized) {
-            return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${
-              this.serviceOffering.name
-            }`;
-          } else {
-            const cpuNumber = this.serviceOffering.cpunumber;
-            const cpuSpeed = this.serviceOffering.cpuspeed;
-            const memory = this.serviceOffering.memory;
-            return (
-              `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${
-                this.serviceOffering.name
-              } - ` +
-              `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${
-                translations['UNITS.MB']
-              }`
-            );
-          }
-        })
-      );
+    return this.translateService.get(['UNITS.MB', 'UNITS.MHZ', 'VM_PAGE.VM_CREATION.SERVICE_OFFERING']).pipe(
+      map(translations => {
+        if (!this.serviceOffering.iscustomized) {
+          return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name}`;
+        }
+        const cpuNumber = this.serviceOffering.cpunumber;
+        const cpuSpeed = this.serviceOffering.cpuspeed;
+        const memory = this.serviceOffering.memory;
+        return (
+          `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name} - ` +
+          `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${translations['UNITS.MB']}`
+        );
+      }),
+    );
   }
 }

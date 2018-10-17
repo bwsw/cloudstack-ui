@@ -18,7 +18,7 @@ export interface NIC extends BaseModelInterface {
   networkname: string;
   nsxlogicalswitch: string;
   nsxlogicalswitchport: string;
-  secondaryip: Array<IpAddress>;
+  secondaryip: IpAddress[];
   traffictype: string;
   type: string;
   virtualmachineid: string;

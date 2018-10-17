@@ -2,22 +2,19 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
+import { VirtualMachine, vmResourceType } from '../../../vm/shared/vm.model';
 import { Color, InstanceGroup, Tag } from '../../models';
 import { Taggable } from '../../interfaces';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
-import { VirtualMachineTagKeys } from './vm-tag-keys';
+import { virtualMachineTagKeys } from './vm-tag-keys';
 
 @Injectable()
 export class VmTagService implements EntityTagService {
-  public keys = VirtualMachineTagKeys;
+  public keys = virtualMachineTagKeys;
 
-  constructor(
-    protected descriptionTagService: DescriptionTagService,
-    protected tagService: TagService
-  ) {}
+  constructor(protected descriptionTagService: DescriptionTagService, protected tagService: TagService) {}
 
   public getColorSync(vm: VirtualMachine): Color {
     const tag = vm.tags.find(_ => _.key === this.keys.color);
@@ -27,40 +24,35 @@ export class VmTagService implements EntityTagService {
   public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
     let tagValue = color.value;
     if (color.textColor) {
-      tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
+      tagValue += `${VirtualMachine.colorDelimiter}${color.textColor}`;
     }
-    return this.tagService.update(vm, VmResourceType, this.keys.color, tagValue);
+    return this.tagService.update(vm, vmResourceType, this.keys.color, tagValue);
   }
 
   public setDescription(vm: VirtualMachine, description: string): Observable<VirtualMachine> {
-    return this.descriptionTagService.setDescription(
-      vm,
-      VmResourceType,
-      description,
-      this
-    ) as Observable<VirtualMachine>;
-  }
-
-  public removeDescription(vm: VirtualMachine): Observable<VirtualMachine> {
-    return this.descriptionTagService.removeDescription(vm, VmResourceType, this) as Observable<
+    return this.descriptionTagService.setDescription(vm, vmResourceType, description, this) as Observable<
       VirtualMachine
     >;
   }
 
+  public removeDescription(vm: VirtualMachine): Observable<VirtualMachine> {
+    return this.descriptionTagService.removeDescription(vm, vmResourceType, this) as Observable<VirtualMachine>;
+  }
+
   public setPassword(vm: VirtualMachine, password: string): Observable<VirtualMachine> {
-    return this.tagService.update(vm, VmResourceType, VirtualMachineTagKeys.passwordTag, password);
+    return this.tagService.update(vm, vmResourceType, virtualMachineTagKeys.passwordTag, password);
   }
 
   public setGroup(vm: VirtualMachine, group: InstanceGroup): Observable<VirtualMachine> {
-    return this.tagService.update(vm, VmResourceType, this.keys.group, group && group.name);
+    return this.tagService.update(vm, vmResourceType, this.keys.group, group && group.name);
   }
 
   public removeGroup(vm: VirtualMachine): Observable<VirtualMachine> {
-    const newVm = Object.assign({}, vm);
+    const newVm = {...vm};
     return this.tagService
       .remove({
         resourceIds: vm.id,
-        resourceType: VmResourceType,
+        resourceType: vmResourceType,
         'tags[0].key': this.keys.group,
         'tags[0].value': vm.instanceGroup.name,
       })
@@ -68,29 +60,28 @@ export class VmTagService implements EntityTagService {
         map(() => {
           newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
           return newVm;
-        })
+        }),
       );
   }
 
   public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {
-    return this.tagService.update(vm, VmResourceType, this.keys.agreementAccepted, true);
+    return this.tagService.update(vm, vmResourceType, this.keys.agreementAccepted, true);
   }
 
-  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
+  public copyTagsToEntity(tags: Tag[], entity: Taggable): Observable<any> {
     const copyRequests = tags.map(tag => {
-      return this.tagService.update(entity, VmResourceType, tag.key, tag.value);
+      return this.tagService.update(entity, vmResourceType, tag.key, tag.value);
     });
 
     if (!copyRequests.length) {
       return of(null);
-    } else {
-      return forkJoin(...copyRequests);
     }
+    return forkJoin(...copyRequests);
   }
 
   private getColorFromColorTag(colorTag: Tag): Color {
     if (colorTag) {
-      const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
+      const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.colorDelimiter);
       return new Color(backgroundColor, backgroundColor, textColor || '');
     }
     return new Color('white', '#FFFFFF', '');

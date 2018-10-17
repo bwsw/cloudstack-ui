@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -46,29 +46,15 @@ const FILTER_KEY = 'snapshotFilters';
     ></cs-snapshots-filter>`,
 })
 export class SnapshotFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly filters$ = this.store.select(fromSnapshots.filters);
-  readonly selectedAccounts$ = this.store.select(fromSnapshots.filterSelectedAccounts);
-  readonly selectedTypes$ = this.store.select(fromSnapshots.filterSelectedTypes);
-  readonly selectedDate$ = this.store.select(fromSnapshots.filterSelectedDate);
-  readonly selectedGroupings$ = this.store.select(fromSnapshots.filterSelectedGroupings);
-  readonly query$ = this.store.select(fromSnapshots.filterQuery);
-  readonly accounts$ = this.store.select(fromAccounts.selectAll);
-  readonly isLoading$ = this.store.select(fromSnapshots.isLoading);
-  readonly firstDayOfWeek = this.store.select(UserTagsSelectors.getFirstDayOfWeek);
-
-  private filterService = new FilterService(
-    {
-      accounts: { type: 'array', defaultOption: [] },
-      types: { type: 'array', defaultOption: [] },
-      date: { type: 'string', defaultOption: moment().toString() },
-      groupings: { type: 'array', defaultOption: [] },
-      query: { type: 'string' },
-    },
-    this.router,
-    this.storage,
-    FILTER_KEY,
-    this.activatedRoute
-  );
+  readonly filters$ = this.store.pipe(select(fromSnapshots.filters));
+  readonly selectedAccounts$ = this.store.pipe(select(fromSnapshots.filterSelectedAccounts));
+  readonly selectedTypes$ = this.store.pipe(select(fromSnapshots.filterSelectedTypes));
+  readonly selectedDate$ = this.store.pipe(select(fromSnapshots.filterSelectedDate));
+  readonly selectedGroupings$ = this.store.pipe(select(fromSnapshots.filterSelectedGroupings));
+  readonly query$ = this.store.pipe(select(fromSnapshots.filterQuery));
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
+  readonly isLoading$ = this.store.pipe(select(fromSnapshots.isLoading));
+  readonly firstDayOfWeek = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
 
   public types = [
     {
@@ -110,12 +96,26 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
     },
   ];
 
+  private filterService = new FilterService(
+    {
+      accounts: { type: 'array', defaultOption: [] },
+      types: { type: 'array', defaultOption: [] },
+      date: { type: 'string', defaultOption: moment().toString() },
+      groupings: { type: 'array', defaultOption: [] },
+      query: { type: 'string' },
+    },
+    this.router,
+    this.storage,
+    FILTER_KEY,
+    this.activatedRoute,
+  );
+
   constructor(
     private store: Store<State>,
     private router: Router,
     private storage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
   }
@@ -133,6 +133,26 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
         query: filters.query,
       });
     });
+  }
+
+  public onAccountsChange(selectedAccounts) {
+    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedAccounts }));
+  }
+
+  public onTypesChange(selectedTypes) {
+    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedTypes }));
+  }
+
+  public onDateChange(selectedDate) {
+    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedDate }));
+  }
+
+  public onGroupingsChange(selectedGroupings) {
+    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedGroupings }));
+  }
+
+  public onQueryChange(query) {
+    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ query }));
   }
 
   private initFilters(): void {
@@ -156,27 +176,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
         selectedDate,
         selectedGroupings,
         query,
-      })
+      }),
     );
-  }
-
-  public onAccountsChange(selectedAccounts) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedAccounts }));
-  }
-
-  public onTypesChange(selectedTypes) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedTypes }));
-  }
-
-  public onDateChange(selectedDate) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedDate }));
-  }
-
-  public onGroupingsChange(selectedGroupings) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ selectedGroupings }));
-  }
-
-  public onQueryChange(query) {
-    this.store.dispatch(new snapshotActions.SnapshotFilterUpdate({ query }));
   }
 }

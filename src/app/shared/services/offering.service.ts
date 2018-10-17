@@ -19,12 +19,12 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
     return super.get(id);
   }
 
-  public getList(params?: any): Observable<Array<T>> {
+  public getList(params?: any): Observable<T[]> {
     if (!params || !params.zone) {
       return super.getList(params);
     }
     const zone = params.zone;
-    const modifiedParams = Object.assign({}, params);
+    const modifiedParams = {...params};
     delete modifiedParams.zone;
 
     return super.getList(modifiedParams).pipe(
@@ -36,10 +36,10 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
   }
 
   public getOfferingsAvailableInZone(
-    offeringList: Array<T>,
+    offeringList: T[],
     offeringAvailability: ServiceOfferingAvailability,
     zone: Zone
-  ): Array<T> {
+  ): T[] {
     if (!offeringAvailability.filterOfferings) {
       return offeringList;
     }

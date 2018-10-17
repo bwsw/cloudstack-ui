@@ -4,7 +4,7 @@ interface ErrorTranslation {
 }
 
 export class ErrorService {
-  private static ErrorMap: Array<ErrorTranslation> = [
+  private static errorMap: ErrorTranslation[] = [
     {
       regex: /Going from existing size of.*/,
       translation: 'ERRORS.VOLUME.NEW_SIZE_IS_LOWER',
@@ -56,7 +56,7 @@ export class ErrorService {
   ];
 
   public static parseError(error: any): any {
-    const err = ErrorService.ErrorMap.find(_ => _.regex.test(error.errortext));
+    const err = ErrorService.errorMap.find(_ => _.regex.test(error.errortext));
     if (!err) {
       error.message = error.errortext;
     } else {

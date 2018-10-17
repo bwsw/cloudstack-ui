@@ -1,22 +1,16 @@
-import { StorageTypes } from '../../shared/models/offering.model';
-import {
-  ComputeOfferingClass,
-  OfferingPolicy,
-  ServiceOffering,
-  ServiceOfferingType,
-  Zone,
-} from '../../shared/models';
+import { storageTypes } from '../../shared/models/offering.model';
+import { ComputeOfferingClass, OfferingPolicy, ServiceOffering, serviceOfferingType, Zone } from '../../shared/models';
 import { ResourcesData, ResourceStats } from '../../shared/services/resource-usage.service';
 import * as serviceOfferingSelectors from './service-offering.selectors';
 
 describe('Service Offering Selectors (VM module)', () => {
   it('should get available offerings', () => {
-    const list = <ServiceOffering[]>[
+    const list = [
       {
         id: '1',
         name: 'off1',
         hosttags: 't1,t2',
-        storagetype: StorageTypes.local,
+        storagetype: storageTypes.local,
         cpunumber: 2,
         memory: 2,
       },
@@ -24,16 +18,16 @@ describe('Service Offering Selectors (VM module)', () => {
         id: '2',
         name: 'off2',
         hosttags: 't1',
-        storagetype: StorageTypes.shared,
+        storagetype: storageTypes.shared,
         cpunumber: 2,
         memory: 2,
       },
-    ];
+    ] as ServiceOffering[];
     const offering = {
       id: '2',
       name: 'off2',
       hosttags: 't1',
-      storagetype: StorageTypes.shared,
+      storagetype: storageTypes.shared,
       cpunumber: 2,
       memory: 2,
     };
@@ -65,19 +59,19 @@ describe('Service Offering Selectors (VM module)', () => {
         {},
         { cpunumber: { min: 1, max: 2 }, memory: { min: 1, max: 2 } },
         policy,
-        <Zone>{ id: '1', localstorageenabled: false },
-        {}
-      )
+        { id: '1', localstorageenabled: false } as Zone,
+        {},
+      ),
     ).toEqual([list[1]]);
   });
 
   it('should filter offerings by classes', () => {
-    const list = <ServiceOffering[]>[
+    const list = [
       {
         id: '1',
         name: 'off1',
         hosttags: 't1,t2',
-        storagetype: StorageTypes.local,
+        storagetype: storageTypes.local,
         cpunumber: 2,
         memory: 2,
       },
@@ -85,21 +79,21 @@ describe('Service Offering Selectors (VM module)', () => {
         id: '2',
         name: 'off2',
         hosttags: 't1',
-        storagetype: StorageTypes.shared,
+        storagetype: storageTypes.shared,
         cpunumber: 2,
         memory: 2,
       },
-    ];
-    const filtered = <ServiceOffering[]>[
+    ] as ServiceOffering[];
+    const filtered = [
       {
         id: '2',
         name: 'off2',
         hosttags: 't1',
-        storagetype: StorageTypes.shared,
+        storagetype: storageTypes.shared,
         cpunumber: 2,
         memory: 2,
       },
-    ];
+    ] as ServiceOffering[];
 
     const soClasses = [
       {
@@ -129,20 +123,18 @@ describe('Service Offering Selectors (VM module)', () => {
     ];
 
     const classesMap = { testClass2: 'testClass2' };
-    const res = list.filter(item =>
-      serviceOfferingSelectors.classesFilter(item, soClasses, classesMap)
-    );
+    const res = list.filter(item => serviceOfferingSelectors.classesFilter(item, soClasses, classesMap));
 
     expect(res).toEqual(filtered);
   });
 
   it('should get filtered offerings', () => {
-    const list = <ServiceOffering[]>[
+    const list = [
       {
         id: '1',
         name: 'off1',
         hosttags: 't1,t2',
-        storagetype: StorageTypes.local,
+        storagetype: storageTypes.local,
         cpunumber: 2,
         memory: 2,
         iscustomized: false,
@@ -151,23 +143,23 @@ describe('Service Offering Selectors (VM module)', () => {
         id: '2',
         name: 'off2',
         hosttags: 't1',
-        storagetype: StorageTypes.shared,
+        storagetype: storageTypes.shared,
         cpunumber: 2,
         memory: 2,
         iscustomized: true,
       },
-    ];
-    const filtered = <ServiceOffering[]>[
+    ] as ServiceOffering[];
+    const filtered = [
       {
         id: '2',
         name: 'off2',
         hosttags: 't1',
-        storagetype: StorageTypes.shared,
+        storagetype: storageTypes.shared,
         cpunumber: 2,
         memory: 2,
         iscustomized: true,
       },
-    ];
+    ] as ServiceOffering[];
 
     const soClasses: ComputeOfferingClass[] = [
       {
@@ -198,26 +190,26 @@ describe('Service Offering Selectors (VM module)', () => {
 
     const selectedClasses = ['testClass2'];
     const query = 'off2';
-    const viewMode = ServiceOfferingType.custom;
+    const viewMode = serviceOfferingType.custom;
 
     const res = serviceOfferingSelectors.selectFilteredOfferings.projector(
       list,
       viewMode,
       selectedClasses,
       query,
-      soClasses
+      soClasses,
     );
 
     expect(res).toEqual(filtered);
   });
 
   it('should get filtered offerings (else branch)', () => {
-    const list = <ServiceOffering[]>[
+    const list = [
       {
         id: '1',
         name: 'off1',
         hosttags: 't1,t2',
-        storagetype: StorageTypes.local,
+        storagetype: storageTypes.local,
         cpunumber: 2,
         memory: 2,
         iscustomized: false,
@@ -226,23 +218,23 @@ describe('Service Offering Selectors (VM module)', () => {
         id: '2',
         name: 'off2',
         hosttags: 't1',
-        storagetype: StorageTypes.shared,
+        storagetype: storageTypes.shared,
         cpunumber: 2,
         memory: 2,
         iscustomized: true,
       },
-    ];
-    const filtered = <ServiceOffering[]>[
+    ] as ServiceOffering[];
+    const filtered = [
       {
         id: '1',
         name: 'off1',
         hosttags: 't1,t2',
-        storagetype: StorageTypes.local,
+        storagetype: storageTypes.local,
         cpunumber: 2,
         memory: 2,
         iscustomized: false,
       },
-    ];
+    ] as ServiceOffering[];
 
     const soClasses = [
       {
@@ -273,14 +265,14 @@ describe('Service Offering Selectors (VM module)', () => {
 
     const selectedClasses = [];
     const query = '';
-    const viewMode = ServiceOfferingType.fixed;
+    const viewMode = serviceOfferingType.fixed;
 
     const res = serviceOfferingSelectors.selectFilteredOfferings.projector(
       list,
       viewMode,
       selectedClasses,
       query,
-      soClasses
+      soClasses,
     );
 
     expect(res).toEqual(filtered);

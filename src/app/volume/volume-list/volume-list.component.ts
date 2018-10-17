@@ -11,9 +11,9 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 })
 export class VolumeListComponent {
   @Input()
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   @Input()
-  public groupings: Array<any>;
+  public groupings: any[];
   @Input()
   public query: string;
   @Input()

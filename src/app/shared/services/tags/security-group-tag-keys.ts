@@ -1,3 +1,3 @@
-export const SecurityGroupTagKeys = {
+export const securityGroupTagKeys = {
   type: 'csui.security-group.type',
 };

@@ -15,10 +15,10 @@ import * as snapshotActions from '../../../../../reducers/snapshots/redux/snapsh
   template: `
     <cs-snapshots
       [volume]="volume"
-      (onTemplateCreate)="onTemplateCreate($event)"
-      (onVolumeCreate)="onVolumeCreate($event)"
-      (onSnapshotRevert)="onSnapshotRevert($event)"
-      (onSnapshotDelete)="onSnapshotDelete($event)"
+      (templateCreated)="onTemplateCreate($event)"
+      (volumeCreated)="onVolumeCreate($event)"
+      (snapshotReverted)="onSnapshotRevert($event)"
+      (snapshotDeleted)="onSnapshotDelete($event)"
     >
     </cs-snapshots>`,
 })

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Snapshot } from '../../../shared/models';
@@ -24,22 +24,22 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
       [groups]="groups$ | async"
       [snapshot]="snapshot"
       [account]="account$ | async"
-      (onCreateTemplate)="onCreate($event)"
+      (templateCreated)="onCreate($event)"
     ></cs-template-creation>`,
 })
 export class TemplateCreationContainerComponent {
-  readonly viewMode$ = this.store.select(fromTemplates.filterSelectedViewMode);
-  readonly account$ = this.store.select(fromAuth.getUserAccount);
-  readonly osTypes$ = this.store.select(fromOsTypes.selectAll);
-  readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly groups$ = this.store.select(configSelectors.get('imageGroups'));
+  readonly viewMode$ = this.store.pipe(select(fromTemplates.filterSelectedViewMode));
+  readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
+  readonly osTypes$ = this.store.pipe(select(fromOsTypes.selectAll));
+  readonly zones$ = this.store.pipe(select(fromZones.selectAll));
+  readonly groups$ = this.store.pipe(select(configSelectors.get('imageGroups')));
 
   public snapshot: Snapshot;
 
   constructor(
     private store: Store<State>,
     public dialogRef: MatDialogRef<TemplateCreationContainerComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any
+    @Inject(MAT_DIALOG_DATA) data: any,
   ) {
     this.snapshot = data.snapshot;
 
@@ -50,7 +50,7 @@ export class TemplateCreationContainerComponent {
 
     if (data.mode) {
       this.store.dispatch(
-        new templateActions.TemplatesFilterUpdate({ selectedViewMode: data.mode })
+        new templateActions.TemplatesFilterUpdate({ selectedViewMode: data.mode }),
       );
     }
   }

@@ -2,7 +2,7 @@
   [tags]="tags$ | async"
   [canAddTag]="!entity.isfeatured"
   [hasPermissions]="hasPermissions"
-  (onTagAdd)="onTagAdd($event)"
-  (onTagEdit)="onTagEdit($event)"
-  (onTagDelete)="onTagDelete($event)"
+  (tagAdded)="onTagAdd($event)"
+  (tagEdited)="onTagEdit($event)"
+  (tagDeleted)="onTagDelete($event)"
 ></cs-tags-view>

@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash/cloneDeep';
 import * as groupBy from 'lodash/groupBy';
 import * as sortBy from 'lodash/sortBy';
@@ -29,31 +37,31 @@ export interface KeyValuePair {
 })
 export class TagsViewComponent implements OnInit, OnChanges {
   @Input()
-  public tags: Array<Tag>;
+  public tags: Tag[];
   @Input()
   public canAddTag = true;
   @Input()
   public hasPermissions = false;
   @Output()
-  public onTagAdd: EventEmitter<Partial<Tag>>;
+  public tagAdded: EventEmitter<Partial<Tag>>;
   @Output()
-  public onTagEdit: EventEmitter<TagEditAction>;
+  public tagEdited: EventEmitter<TagEditAction>;
   @Output()
-  public onTagDelete: EventEmitter<Tag>;
+  public tagDeleted: EventEmitter<Tag>;
 
-  public categories: Array<TagCategory>;
+  public categories: TagCategory[];
   public query: string;
-  public visibleCategories: Array<TagCategory>;
+  public visibleCategories: TagCategory[];
   public showSystemTags = false;
 
   constructor(private dialog: MatDialog, private store: Store<State>) {
-    this.onTagAdd = new EventEmitter<Tag>();
-    this.onTagEdit = new EventEmitter<TagEditAction>();
-    this.onTagDelete = new EventEmitter<Tag>();
+    this.tagAdded = new EventEmitter<Tag>();
+    this.tagEdited = new EventEmitter<TagEditAction>();
+    this.tagDeleted = new EventEmitter<Tag>();
   }
 
   public ngOnInit(): void {
-    this.store.select(UserTagsSelectors.getIsShowSystemTags).subscribe(show => {
+    this.store.pipe(select(UserTagsSelectors.getIsShowSystemTags)).subscribe(show => {
       this.showSystemTags = show;
       this.updateFilterResults();
     });
@@ -77,7 +85,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
         },
       })
       .afterClosed()
-      .subscribe(tag => this.onTagAdd.emit(tag));
+      .subscribe(tag => this.tagAdded.emit(tag));
   }
 
   public editTag(tag: Tag): void {
@@ -86,15 +94,15 @@ export class TagsViewComponent implements OnInit, OnChanges {
       .open(TagEditComponent, {
         width: '375px',
         data: {
+          tag,
           forbiddenKeys,
           title: 'TAGS.EDIT_TAG',
           confirmButtonText: 'COMMON.EDIT',
           categoryName: categoryName(tag),
-          tag,
         },
       })
       .afterClosed()
-      .subscribe(tagEditAction => this.onTagEdit.emit(tagEditAction));
+      .subscribe(tagEditAction => this.tagEdited.emit(tagEditAction));
   }
 
   public onShowSystemTagsChange(): void {
@@ -103,7 +111,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   public removeTag(tag: Tag): void {
-    this.onTagDelete.emit(tag);
+    this.tagDeleted.emit(tag);
   }
 
   public updateResults(): void {
@@ -115,7 +123,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
     this.visibleCategories = this.getFilterResults();
   }
 
-  private getFilterResults(): Array<TagCategory> {
+  private getFilterResults(): TagCategory[] {
     let categories = cloneDeep(this.categories);
 
     categories = categories.filter(category => {
@@ -127,7 +135,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
     return categories;
   }
 
-  private filterTags(tags: Array<Tag>): Array<Tag> {
+  private filterTags(tags: Tag[]): Tag[] {
     return filterWithPredicates(tags, [this.filterTagsBySearch(), this.filterTagsBySystem()]);
   }
 
@@ -146,10 +154,10 @@ export class TagsViewComponent implements OnInit, OnChanges {
     };
   }
 
-  private getCategories(): Array<TagCategory> {
+  private getCategories(): TagCategory[] {
     const groupedTags = groupBy(
       this.tags.map(tag => ({ ...tag, categoryName: categoryName(tag) })),
-      'categoryName'
+      'categoryName',
     );
 
     const categories = Object.keys(groupedTags)

@@ -14,11 +14,11 @@ export class SnapshotFilterComponent implements OnInit {
   @Input()
   public isLoading: boolean;
   @Input()
-  public accounts: Array<Account> = [];
+  public accounts: Account[] = [];
   @Input()
-  public types: Array<any> = [];
+  public types: any[] = [];
   @Input()
-  public availableGroupings: Array<any> = [];
+  public availableGroupings: any[] = [];
   @Input()
   public firstDayOfWeek: number;
 

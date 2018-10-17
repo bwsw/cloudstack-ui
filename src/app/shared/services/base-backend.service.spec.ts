@@ -45,7 +45,7 @@ describe('Base backend service', () => {
 
   it('should create model list', async(
     inject([TestBackendService], testService => {
-      testService.getList().subscribe((res: Array<TestModel>) => {
+      testService.getList().subscribe((res: TestModel[]) => {
         expect(res.length).toBe(test.length);
 
         res.forEach((testModel: TestModel, ind: number) => {
@@ -122,8 +122,8 @@ describe('Base backend service', () => {
 
     const mockResponse = {
       listtestsresponse: {
+        test,
         count: test.length,
-        test: test,
       },
     };
 

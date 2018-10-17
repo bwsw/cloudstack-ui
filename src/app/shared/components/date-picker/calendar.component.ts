@@ -21,7 +21,7 @@ export class CalendarComponent implements OnInit {
   @Input()
   public locale;
   @Input()
-  public DateTimeFormat;
+  public dateTimeFormat;
 
   @Output()
   public dateSelected = new EventEmitter<Date>();
@@ -37,15 +37,15 @@ export class CalendarComponent implements OnInit {
   }
 
   public get dateTimeFormatted(): string {
-    return new this.DateTimeFormat(this.locale, {
+    return new this.dateTimeFormat(this.locale, {
       month: 'long',
       year: 'numeric',
     }).format(this.displayDate);
   }
 
-  public get weekTitles(): Array<string> {
-    return daysArray.map((_event, i) => {
-      return localizedWeekday(this.DateTimeFormat, this.locale, i, this.firstDayOfWeek);
+  public get weekTitles(): string[] {
+    return daysArray.map((event, i) => {
+      return localizedWeekday(this.dateTimeFormat, this.locale, i, this.firstDayOfWeek);
     });
   }
 

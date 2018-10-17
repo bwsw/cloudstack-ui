@@ -36,19 +36,19 @@ const FILTER_KEY = 'vmListFilters';
       [selectedGroupNames]="selectedGroupNames$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedStates]="selectedStates$ | async"
-      (onQueryChange)="onQueryChange($event)"
-      (onZonesChange)="onZonesChange($event)"
-      (onGroupNamesChange)="onGroupNamesChange($event)"
-      (onAccountsChange)="onAccountsChange($event)"
-      (onStatesChange)="onStatesChange($event)"
-      (onGroupingsChange)="onGroupingsChange($event)"
+      (queryChanged)="onQueryChange($event)"
+      (zonesChanged)="onZonesChange($event)"
+      (groupNamesChanged)="onGroupNamesChange($event)"
+      (accountsChanged)="onAccountsChange($event)"
+      (statesChanged)="onStatesChange($event)"
+      (groupingsChanged)="onGroupingsChange($event)"
     ></cs-vm-filter>`,
 })
 export class VMFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   @Input()
-  groupings: Array<Grouping>;
+  groupings: Grouping[];
   @Input()
-  selectedGroupings: Array<Grouping>;
+  selectedGroupings: Grouping[];
 
   readonly filters$ = this.store.pipe(select(fromVMs.filters));
   readonly query$ = this.store.pipe(select(fromVMs.filterQuery));
@@ -94,7 +94,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
@@ -103,10 +103,30 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
     this.onQueryChange = debounce(this.onQueryChange.bind(this), 500);
+  }
+
+  public ngOnInit() {
+    this.store.dispatch(new zoneActions.LoadZonesRequest());
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
+    this.initFilters();
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
+      this.filterService.update({
+        zones: filters.selectedZoneIds,
+        groups: filters.selectedGroupNames,
+        states: filters.selectedStates,
+        groupings: filters.selectedGroupings.map(_ => _.key),
+        query: filters.query,
+        accounts: filters.selectedAccountIds,
+      });
+    });
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   public onQueryChange(query) {
@@ -160,27 +180,7 @@ export class VMFilterContainerComponent extends WithUnsubscribe() implements OnI
         selectedZoneIds,
         selectedAccountIds,
         selectedGroupings,
-      })
+      }),
     );
-  }
-
-  public ngOnInit() {
-    this.store.dispatch(new zoneActions.LoadZonesRequest());
-    this.store.dispatch(new accountActions.LoadAccountsRequest());
-    this.initFilters();
-    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {
-      this.filterService.update({
-        zones: filters.selectedZoneIds,
-        groups: filters.selectedGroupNames,
-        states: filters.selectedStates,
-        groupings: filters.selectedGroupings.map(_ => _.key),
-        query: filters.query,
-        accounts: filters.selectedAccountIds,
-      });
-    });
-  }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
   }
 }

@@ -38,18 +38,19 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
   @Input()
   public popoverPositionY: VerticalConnectionPos;
   @Output()
-  public onPopoverOpen = new EventEmitter<void>();
+  public popoverOpened = new EventEmitter<void>();
   @Output()
-  public onPopoverClose = new EventEmitter<void>();
+  public popoverClosed = new EventEmitter<void>();
 
   private portal: TemplatePortal<any>;
   private overlayRef: OverlayRef | null = null;
+  // tslint:disable-next-line:variable-name
   private _open = false;
 
   constructor(
     private overlay: Overlay,
     private element: ElementRef,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
   ) {}
 
   public ngAfterViewInit(): void {
@@ -103,7 +104,7 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
     if (!this._open) {
       this.createOverlay().attach(this.portal);
       this._open = true;
-      this.onPopoverOpen.emit();
+      this.popoverOpened.emit();
     }
   }
 
@@ -111,7 +112,7 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
     if (this.overlayRef && this._open) {
       this.overlayRef.detach();
       this._open = false;
-      this.onPopoverClose.emit();
+      this.popoverClosed.emit();
     }
   }
 
@@ -148,7 +149,7 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
         {
           overlayX,
           overlayY,
-        }
+        },
       )
       .withFallbackPosition(
         {
@@ -158,7 +159,7 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
         {
           overlayX: fallbackOverlayX,
           overlayY: fallbackOverlayY,
-        }
+        },
       );
   }
 }

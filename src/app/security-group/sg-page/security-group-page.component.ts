@@ -16,7 +16,7 @@ import { NgrxEntities } from '../../shared/interfaces';
 })
 export class SecurityGroupPageComponent {
   @Input()
-  public securityGroups: Array<SecurityGroup>;
+  public securityGroups: SecurityGroup[];
   @Input()
   public isLoading = false;
   @Input()

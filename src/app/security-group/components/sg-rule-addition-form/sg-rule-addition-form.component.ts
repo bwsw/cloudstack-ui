@@ -23,10 +23,10 @@ import {
   startPortValidator,
 } from '../../shared/validators';
 import {
-  GetICMPCodeTranslationToken,
-  GetICMPTypeTranslationToken,
-  GetICMPV6CodeTranslationToken,
-  GetICMPV6TypeTranslationToken,
+  getICMPCodeTranslationToken,
+  getICMPTypeTranslationToken,
+  getICMPV6CodeTranslationToken,
+  getICMPV6TypeTranslationToken,
   IcmpType,
   icmpV4Types,
   icmpV6Types,
@@ -206,19 +206,17 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
         icmpType: icmpModel.icmpType,
         icmpCode: icmpModel.icmpCode,
       };
-    } else {
-      const portsModel = this.portsForm.value;
-      return {
-        ...commonProperties,
-        startPort: portsModel.startPort,
-        endPort: portsModel.endPort,
-      };
     }
+    const portsModel = this.portsForm.value;
+    return {
+      ...commonProperties,
+      startPort: portsModel.startPort,
+      endPort: portsModel.endPort,
+    };
   }
 
   private resetForm() {
-    const paramsForm =
-      this.protocol.value === NetworkProtocol.ICMP ? this.icmpForm : this.portsForm;
+    const paramsForm = this.protocol.value === NetworkProtocol.ICMP ? this.icmpForm : this.portsForm;
     const formState = {
       type: this.type.value,
       protocol: this.protocol.value,
@@ -235,7 +233,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
         filter(Boolean),
         map((protocol: NetworkProtocol) => protocol === NetworkProtocol.ICMP),
         distinctUntilChanged(),
-        filter((isIcmp: boolean) => this.isIcmpProtocol !== isIcmp)
+        filter((isIcmp: boolean) => this.isIcmpProtocol !== isIcmp),
       )
       .subscribe((isIcmp: boolean) => {
         // invokes only if isIcmpProtocol flag changes
@@ -254,7 +252,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
       .pipe(
         map(CidrUtils.getCidrIpVersion),
         distinctUntilChanged(),
-        filter(() => this.isIcmpProtocol === true)
+        filter(() => this.isIcmpProtocol),
       )
       .subscribe(() => {
         // invokes only when cidr change IP version and protocol equals ICMP
@@ -278,19 +276,15 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private onPortsChanges() {
-    this.startPortChanges = this.startPort.valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe((value: number) => {
-        this.duplicatePortForFirstFilling(this.endPort, value);
-        this.endPort.updateValueAndValidity();
-      });
+    this.startPortChanges = this.startPort.valueChanges.pipe(distinctUntilChanged()).subscribe((value: number) => {
+      this.duplicatePortForFirstFilling(this.endPort, value);
+      this.endPort.updateValueAndValidity();
+    });
 
-    this.endPortChanges = this.endPort.valueChanges
-      .pipe(distinctUntilChanged())
-      .subscribe((value: number) => {
-        this.duplicatePortForFirstFilling(this.startPort, value);
-        this.startPort.updateValueAndValidity();
-      });
+    this.endPortChanges = this.endPort.valueChanges.pipe(distinctUntilChanged()).subscribe((value: number) => {
+      this.duplicatePortForFirstFilling(this.startPort, value);
+      this.startPort.updateValueAndValidity();
+    });
   }
 
   private duplicatePortForFirstFilling(port: AbstractControl, portNumber: number) {
@@ -400,9 +394,7 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     if (!cidrIpVersion) {
       return;
     }
-    return cidrIpVersion === IPVersion.ipv6
-      ? GetICMPV6TypeTranslationToken(type)
-      : GetICMPTypeTranslationToken(type);
+    return cidrIpVersion === IPVersion.ipv6 ? getICMPV6TypeTranslationToken(type) : getICMPTypeTranslationToken(type);
   }
 
   private getIcmpCodeTranslationToken(type: number, code: number) {
@@ -411,8 +403,8 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
       return;
     }
     return cidrIpVersion === IPVersion.ipv6
-      ? GetICMPV6CodeTranslationToken(type, code)
-      : GetICMPCodeTranslationToken(type, code);
+      ? getICMPV6CodeTranslationToken(type, code)
+      : getICMPCodeTranslationToken(type, code);
   }
 
   private get type(): AbstractControl | null {

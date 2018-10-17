@@ -7,5 +7,5 @@ import { Volume } from '../../../../shared';
 })
 export class VolumesComponent {
   @Input()
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
 }

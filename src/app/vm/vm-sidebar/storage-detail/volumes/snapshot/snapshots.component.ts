@@ -16,17 +16,17 @@ export class SnapshotsComponent implements OnInit {
   @Input()
   public volume: Volume;
   @Output()
-  public onTemplateCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  public templateCreated: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output()
-  public onVolumeCreate: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  public volumeCreated: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output()
-  public onSnapshotRevert: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  public snapshotReverted: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
   @Output()
-  public onSnapshotDelete: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
-  public actions: Array<Action<Snapshot>>;
+  public snapshotDeleted: EventEmitter<Snapshot> = new EventEmitter<Snapshot>();
+  public actions: Action<Snapshot>[];
   public lastSnapshot: Snapshot;
 
-  constructor(private snapshotActionsService: SnapshotActionService, private dialog: MatDialog) {
+  constructor(snapshotActionsService: SnapshotActionService, private dialog: MatDialog) {
     this.actions = snapshotActionsService.actions;
   }
 
@@ -48,22 +48,23 @@ export class SnapshotsComponent implements OnInit {
   public onAction(action, snapshot: Snapshot) {
     switch (action.command) {
       case SnapshotActions.CreateTemplate: {
-        this.onTemplateCreate.emit(snapshot);
+        this.templateCreated.emit(snapshot);
         break;
       }
       case SnapshotActions.CreateVolume: {
-        this.onVolumeCreate.emit(snapshot);
+        this.volumeCreated.emit(snapshot);
         break;
       }
       case SnapshotActions.Revert: {
-        this.onSnapshotRevert.emit(snapshot);
+        this.snapshotReverted.emit(snapshot);
         break;
       }
       case SnapshotActions.Delete: {
-        this.onSnapshotDelete.emit(snapshot);
+        this.snapshotDeleted.emit(snapshot);
         break;
       }
-    }
+      default:
+        break;
   }
 
   public snapshotCreatedDate(snapshot: Snapshot) {

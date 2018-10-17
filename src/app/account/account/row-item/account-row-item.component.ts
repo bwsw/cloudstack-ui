@@ -14,6 +14,7 @@ export class AccountRowItemComponent extends AccountItemComponent {
   public item: Account;
   @Input()
   public isSelected: (account) => boolean;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter<Account>();
   @ViewChild(MatMenuTrigger)

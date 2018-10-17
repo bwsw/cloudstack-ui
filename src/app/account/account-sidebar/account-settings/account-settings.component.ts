@@ -10,10 +10,10 @@ export class AccountSettingsComponent {
   @Input()
   public account: Account;
   @Input()
-  public configurations: Array<Configuration>;
+  public configurations: Configuration[];
 
   @Output()
-  public onConfigurationEdit = new EventEmitter();
+  public configurationEdited = new EventEmitter();
 
   constructor() {}
 }

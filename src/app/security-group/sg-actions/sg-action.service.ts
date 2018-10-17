@@ -7,7 +7,7 @@ export enum SecurityGroupActionType {
   Convert = 'convert',
 }
 
-const SecurityGroupConvertAction = {
+const securityGroupConvertAction = {
   name: 'SECURITY_GROUP_PAGE.ACTION.CONVERT',
   command: SecurityGroupActionType.Convert,
   icon: 'mdi-transfer',
@@ -15,19 +15,17 @@ const SecurityGroupConvertAction = {
   canActivate: () => true,
 };
 
-const SecurityGroupDeleteAction = {
+const securityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
   icon: 'mdi-delete',
   canShow: (securityGroup: SecurityGroup) =>
-    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate &&
-    securityGroup.virtualmachineids.length === 0,
+    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0,
   canActivate: (securityGroup: SecurityGroup) =>
-    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate &&
-    securityGroup.virtualmachineids.length === 0,
+    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0,
 };
 
-const SecurityGroupShowRulesAction = {
+const securityGroupShowRulesAction = {
   name: 'SECURITY_GROUP_PAGE.ACTION.RULES',
   command: SecurityGroupActionType.View,
   icon: 'mdi-eye',
@@ -36,9 +34,9 @@ const SecurityGroupShowRulesAction = {
 };
 
 export class SecurityGroupActionService {
-  public actions: Array<Action<SecurityGroup>> = [
-    SecurityGroupConvertAction,
-    SecurityGroupShowRulesAction,
-    SecurityGroupDeleteAction,
+  public actions: Action<SecurityGroup>[] = [
+    securityGroupConvertAction,
+    securityGroupShowRulesAction,
+    securityGroupDeleteAction,
   ];
 }

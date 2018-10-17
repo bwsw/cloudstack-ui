@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../../reducers/index';
 import { Snapshot } from '../../../../shared/models/index';
 
@@ -16,7 +16,7 @@ import * as volumeActions from '../../../../reducers/volumes/redux/volumes.actio
     ></cs-create-volume-from-snapshot>`,
 })
 export class CreateVolumeFromSnapshotContainerComponent {
-  readonly isFormLoading$ = this.store.select(fromVolumes.isFormLoading);
+  readonly isFormLoading$ = this.store.pipe(select(fromVolumes.isFormLoading));
   private snapshot: Snapshot;
 
   constructor(private store: Store<State>, @Inject(MAT_DIALOG_DATA) data: any) {
@@ -31,7 +31,7 @@ export class CreateVolumeFromSnapshotContainerComponent {
       new volumeActions.CreateVolumeFromSnapshot({
         name,
         snapshotId: this.snapshot.id,
-      })
+      }),
     );
   }
 }

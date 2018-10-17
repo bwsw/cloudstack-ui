@@ -30,7 +30,7 @@ const stateTranslations = {
 
 export abstract class VmListItemComponent implements OnInit {
   public item: VirtualMachine;
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   public osTypesMap: Dictionary<OsType>;
   public isSelected: (vm: VirtualMachine) => boolean;
   public onClick = new EventEmitter();
@@ -38,7 +38,7 @@ export abstract class VmListItemComponent implements OnInit {
   public query: string;
 
   public color: Color;
-  public gigabyte = Math.pow(2, 10); // to compare with RAM which is in megabytes
+  public gigabyte = 1024; // to compare with RAM which is in megabytes
 
   constructor(private vmTagService: VmTagService) {}
 
@@ -72,16 +72,15 @@ export abstract class VmListItemComponent implements OnInit {
   public get itemClass() {
     const { state } = this.item;
     const error = state === VmState.Error;
-    const destroyed =
-      state === VmState.Destroyed || (state as any) === 'VM_STATE.EXPUNGE_IN_PROGRESS';
+    const destroyed = state === VmState.Destroyed || (state as any) === 'VM_STATE.EXPUNGE_IN_PROGRESS';
 
     return {
+      error,
+      destroyed,
       'card-selected': this.isSelected(this.item),
       'has-text-color': !!this.color && !!this.color.textColor,
       'dark-background': !!this.color && Utils.isColorDark(this.color.value),
       'light-background': !this.color || !Utils.isColorDark(this.color.value),
-      error,
-      destroyed,
     };
   }
 
@@ -102,8 +101,7 @@ export abstract class VmListItemComponent implements OnInit {
 
   public get getDisksSize(): number {
     const filteredVolumes =
-      this.volumes &&
-      this.volumes.filter((volume: Volume) => volume.virtualmachineid === this.item.id);
+      this.volumes && this.volumes.filter((volume: Volume) => volume.virtualmachineid === this.item.id);
     const sizeInBytes =
       (filteredVolumes &&
         filteredVolumes.reduce((acc: number, volume: Volume) => {
@@ -114,11 +112,7 @@ export abstract class VmListItemComponent implements OnInit {
   }
 
   public get getOsDescription(): string {
-    return (
-      this.osTypesMap &&
-      this.osTypesMap[this.item.guestOsId] &&
-      this.osTypesMap[this.item.guestOsId].description
-    );
+    return this.osTypesMap && this.osTypesMap[this.item.guestOsId] && this.osTypesMap[this.item.guestOsId].description;
   }
 
   private updateColor(): void {

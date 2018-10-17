@@ -13,7 +13,7 @@ export class NicComponent {
   @Input()
   public nic: NIC;
   @Output()
-  public onSecondaryIpAdd = new EventEmitter<string>();
+  public secondaryIpAdded = new EventEmitter<string>();
   @Output()
-  public onSecondaryIpRemove = new EventEmitter<IpAddress>();
+  public secondaryIpRemoved = new EventEmitter<IpAddress>();
 }

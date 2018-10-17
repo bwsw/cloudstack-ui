@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../../reducers/index';
 import * as vmActions from '../../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../../reducers/vm/redux/vm.reducers';
@@ -23,13 +23,13 @@ export class VolumeAttachmentContainerComponent implements OnInit {
   public volume: Volume;
   public zoneId: string;
 
-  readonly vms$ = this.store.select(fromVMs.getAttachmentVMs);
-  readonly loading$ = this.store.select(fromVMs.isLoading);
+  readonly vms$ = this.store.pipe(select(fromVMs.getAttachmentVMs));
+  readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
 
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<VolumeAttachmentContainerComponent>,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.volume = data.volume;
     this.zoneId = data.zoneId;
@@ -41,7 +41,7 @@ export class VolumeAttachmentContainerComponent implements OnInit {
       new vmActions.VMAttachmentFilterUpdate({
         account: this.volume.account,
         domainId: this.volume.domainid,
-      })
+      }),
     );
   }
 

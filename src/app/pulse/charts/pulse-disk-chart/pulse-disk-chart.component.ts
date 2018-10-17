@@ -13,7 +13,7 @@ import { finalize } from 'rxjs/operators';
 import { isRoot, Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
-import { humanReadableSize } from '../../unitsUtils';
+import { humanReadableSize } from '../../units-utils';
 import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
 
 @Component({
@@ -28,7 +28,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
   @Output()
   public volumeChange = new EventEmitter();
   public selectedVolume: Volume;
-  public availableVolumes: Array<Volume>;
+  public availableVolumes: Volume[];
 
   constructor(pulse: PulseService, cd: ChangeDetectorRef, private volumeService: VolumeService) {
     super(pulse, cd);
@@ -90,8 +90,8 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
           aggregation: _,
           shift: `${params.shiftAmount}${params.selectedShift || 'w'}`,
         },
-        forceUpdate
-      )
+        forceUpdate,
+      ),
     );
 
     this.setLoading(!forceUpdate);

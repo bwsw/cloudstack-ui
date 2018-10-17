@@ -18,7 +18,7 @@ export interface ApiFormat {
 export const MAX_PAGE_SIZE = 500;
 
 export interface FormattedResponse<M> {
-  list: Array<M>;
+  list: M[];
   meta: {
     count: number;
   };
@@ -73,8 +73,8 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     return this.getList().pipe(map(res => res.find(entity => entity.id === id)));
   }
 
-  public getListAll(params, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    const requestParams = Object.assign({}, this.extendParams(params), { all: true });
+  public getListAll(params, customApiFormat?: ApiFormat): Observable<M[]> {
+    const requestParams = {...this.extendParams(params),  all: true};
     return this.makeGetListObservable(requestParams, customApiFormat).pipe(
       switchMap(result => {
         if (result.meta.count > result.list.length) {
@@ -82,45 +82,40 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
           return forkJoin(
             ...range(2, numberOfCalls + 1).map(page => {
               return this.makeGetListObservable(
-                Object.assign({}, requestParams, {
-                  pageSize: MAX_PAGE_SIZE,
+                {...requestParams, 
                   page,
-                }),
-                customApiFormat
+                  pageSize: MAX_PAGE_SIZE},
+                customApiFormat,
               );
-            })
+            }),
           ).pipe(
-            map((results: Array<FormattedResponse<M>>) => {
+            map((results: FormattedResponse<M>[]) => {
               return results.reduce((memo, res) => {
-                return Object.assign(memo, {
-                  list: memo.list.concat(res.list),
-                });
+                return {...memo, 
+                  list: memo.list.concat(res.list)};
               }, result);
-            })
+            }),
           );
-        } else {
-          return of(result);
         }
+        return of(result);
       }),
-      map(r => r.list)
+      map(r => r.list),
     );
   }
 
-  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<Array<M>> {
-    return this.makeGetListObservable(this.extendParams(params), customApiFormat).pipe(
-      map(r => r.list)
-    );
+  public getList(params?: {}, customApiFormat?: ApiFormat): Observable<M[]> {
+    return this.makeGetListObservable(this.extendParams(params), customApiFormat).pipe(map(r => r.list));
   }
 
   public extendParams(params = {}) {
-    return Object.assign({}, params, { listAll: 'true' });
+    return {...params,  listAll: 'true'};
   }
 
   public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
     const command = (customApiFormat && customApiFormat.command) || CSCommands.Create;
-    const _entity = customApiFormat && customApiFormat.entity;
+    const customEntity = customApiFormat && customApiFormat.entity;
 
-    return this.sendCommand(command, params, _entity).pipe(
+    return this.sendCommand(command, params, customEntity).pipe(
       map(response => {
         const entity = this.entity.toLowerCase();
         if (entity === 'tag' || entity === 'affinitygroup') {
@@ -128,7 +123,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
         }
 
         return this.prepareModel(response[entity] as M);
-      })
+      }),
     );
   }
 
@@ -142,7 +137,8 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
   protected prepareModel(res, entityModel?): M {
     if (entityModel) {
       return new entityModel(res);
-    } else if (this.entityModel) {
+    }
+    if (this.entityModel) {
       return new this.entityModel(res);
     }
     return res;
@@ -198,7 +194,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
   protected sendCommand(command: string, params?: {}, entity?: string): Observable<any> {
     return this.getRequest(command, params, entity).pipe(
       map(res => this.getResponse(res)),
-      catchError(e => this.handleCommandError(e.error))
+      catchError(e => this.handleCommandError(e.error)),
     );
   }
 
@@ -215,17 +211,14 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
 
     const result = response[entity] || [];
     return {
-      list: result.map(m => this.prepareModel(m)) as Array<M>,
+      list: result.map(m => this.prepareModel(m)) as M[],
       meta: {
         count: response.count || 0,
       },
     };
   }
 
-  private makeGetListObservable(
-    params?: {},
-    customApiFormat?: ApiFormat
-  ): Observable<FormattedResponse<M>> {
+  private makeGetListObservable(params?: {}, customApiFormat?: ApiFormat): Observable<FormattedResponse<M>> {
     const cachedRequest = this.requestCache.get(params);
     if (cachedRequest) {
       return cachedRequest;
@@ -234,7 +227,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const entity = customApiFormat && customApiFormat.entity;
     const request = this.sendCommand(command, params, entity).pipe(
       map(response => this.formatGetListResponse(response)),
-      share()
+      share(),
     );
     this.requestCache.set({ params, result: request });
     return request;

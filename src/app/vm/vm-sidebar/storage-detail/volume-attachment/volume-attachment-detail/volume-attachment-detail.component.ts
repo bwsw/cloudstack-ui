@@ -10,9 +10,9 @@ import { VolumeAttachmentDialogComponent } from '../volume-attchment-dialog/volu
 })
 export class VolumeAttachmentDetailComponent {
   @Input()
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   @Output()
-  public onAttach = new EventEmitter<Volume>();
+  public attached = new EventEmitter<Volume>();
 
   public selectedVolume: Volume;
 
@@ -29,7 +29,7 @@ export class VolumeAttachmentDetailComponent {
   }
 
   public attachVolume(): void {
-    this.onAttach.emit(this.selectedVolume);
+    this.attached.emit(this.selectedVolume);
     this.selectedVolume = null;
   }
 }

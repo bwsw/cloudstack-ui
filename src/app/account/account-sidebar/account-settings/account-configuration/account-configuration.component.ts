@@ -11,10 +11,10 @@ export class AccountConfigurationComponent {
   @Input()
   public configuration: Configuration;
   @Output()
-  public onConfigurationEdit: EventEmitter<Configuration>;
+  public configurationEdited: EventEmitter<Configuration>;
 
   constructor(private dialog: MatDialog) {
-    this.onConfigurationEdit = new EventEmitter<Configuration>();
+    this.configurationEdited = new EventEmitter<Configuration>();
   }
 
   public edit(): void {
@@ -27,6 +27,6 @@ export class AccountConfigurationComponent {
         },
       })
       .afterClosed()
-      .subscribe(configurationPair => this.onConfigurationEdit.emit(configurationPair));
+      .subscribe(configurationPair => this.configurationEdited.emit(configurationPair));
   }
 }

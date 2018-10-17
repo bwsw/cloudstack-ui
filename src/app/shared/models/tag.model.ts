@@ -1,11 +1,11 @@
 import { BaseModelInterface } from './base.model';
 
-export const ResourceTypes = {
+export const resourceTypes = {
   USER: 'User',
   VM: 'UserVm',
 };
 
-export const DeletionMark = {
+export const deletionMark = {
   TAG: 'status',
   VALUE: 'removed',
 };

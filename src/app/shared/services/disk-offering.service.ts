@@ -13,16 +13,15 @@ import { ServiceOfferingAvailability } from '../models/config';
   entity: 'DiskOffering',
 })
 export class DiskOfferingService extends OfferingService<DiskOffering> {
-  public getList(params?: any): Observable<Array<DiskOffering>> {
+  public getList(params?: any): Observable<DiskOffering[]> {
     return super.getList(params).pipe(
       map(list => {
         if (!params || params.maxSize === 'Unlimited' || !params.maxSize) {
           return list;
-        } else {
-          return list.filter((offering: DiskOffering) => {
-            return offering.disksize < params.maxSize || offering.iscustomized;
-          });
         }
+        return list.filter((offering: DiskOffering) => {
+          return offering.disksize < params.maxSize || offering.iscustomized;
+        });
       })
     );
   }

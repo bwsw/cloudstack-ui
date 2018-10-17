@@ -4,7 +4,16 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, onErrorResumeNext, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  onErrorResumeNext,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 // tslint:disable-next-line
@@ -13,7 +22,6 @@ import { VolumeResizeContainerComponent } from '../../../shared/actions/volume-a
 import { isRoot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { SnackBarService } from '../../../core/services';
-import { SnapshotService } from '../../../shared/services/snapshot.service';
 import { VolumeTagService } from '../../../shared/services/tags/volume-tag.service';
 import { VolumeResizeData, VolumeService } from '../../../shared/services/volume.service';
 // tslint:disable-next-line
@@ -35,9 +43,9 @@ export class VolumesEffects {
         map((volumes: Volume[]) => {
           return new volumeActions.LoadVolumesResponse(volumes);
         }),
-        catchError(() => of(new volumeActions.LoadVolumesResponse([])))
+        catchError(() => of(new volumeActions.LoadVolumesResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -45,7 +53,7 @@ export class VolumesEffects {
     ofType(volumeActions.CREATE_VOLUME),
     mergeMap((action: volumeActions.CreateVolume) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS'
+        'NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS',
       );
       return this.volumeService.create(action.payload).pipe(
         tap(() => {
@@ -60,16 +68,16 @@ export class VolumesEffects {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.CreateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
   @Effect()
   createVolumeFromSnapshot$: Observable<Action> = this.actions$.pipe(
     ofType(volumeActions.CREATE_VOLUME_FROM_SNAPSHOT),
     mergeMap((action: volumeActions.CreateVolumeFromSnapshot) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS'
+        'NOTIFICATIONS.VOLUME.CREATION_IN_PROGRESS',
       );
       return this.volumeService.createFromSnapshot(action.payload).pipe(
         tap(() => {
@@ -85,9 +93,9 @@ export class VolumesEffects {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.CreateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -95,7 +103,7 @@ export class VolumesEffects {
     ofType(volumeActions.VOLUME_CHANGE_DESCRIPTION),
     mergeMap((action: volumeActions.ChangeDescription) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_IN_PROGRESS'
+        'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_IN_PROGRESS',
       );
 
       return (action.payload.description
@@ -111,9 +119,9 @@ export class VolumesEffects {
           const message = 'NOTIFICATIONS.VOLUME.CHANGE_DESCRIPTION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.VolumeUpdateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -133,12 +141,12 @@ export class VolumesEffects {
           filter(res => Boolean(res)),
           switchMap(virtualMachineId => {
             const notificationId = this.jobsNotificationService.add(
-              'NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS'
+              'NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS',
             );
 
             const params = {
+              virtualMachineId,
               id: action.payload.id,
-              virtualMachineId: virtualMachineId,
             };
             return this.volumeService.attach(params).pipe(
               map((volume: Volume) => {
@@ -150,11 +158,11 @@ export class VolumesEffects {
                 const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
                 this.showNotificationsOnFail(error, message, notificationId);
                 return of(new volumeActions.VolumeUpdateError(error));
-              })
+              }),
             );
-          })
+          }),
         );
-    })
+    }),
   );
 
   @Effect()
@@ -162,7 +170,7 @@ export class VolumesEffects {
     ofType(volumeActions.ATTACH_VOLUME_TO_VM),
     mergeMap((action: volumeActions.AttachVolumeToVM) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS'
+        'NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS',
       );
 
       const params = {
@@ -179,9 +187,9 @@ export class VolumesEffects {
           const message = 'NOTIFICATIONS.VOLUME.ATTACHMENT_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new volumeActions.VolumeUpdateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -195,7 +203,7 @@ export class VolumesEffects {
           filter(res => Boolean(res)),
           switchMap(() => {
             const notificationId = this.jobsNotificationService.add(
-              'NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS'
+              'NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS',
             );
             return this.volumeService.detach(action.payload).pipe(
               switchMap((volume: Volume) => {
@@ -207,11 +215,11 @@ export class VolumesEffects {
                 const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
                 this.showNotificationsOnFail(error, message, notificationId);
                 return of(new volumeActions.VolumeUpdateError(error));
-              })
+              }),
             );
-          })
+          }),
         );
-    })
+    }),
   );
 
   @Effect()
@@ -230,7 +238,7 @@ export class VolumesEffects {
           filter(res => Boolean(res)),
           switchMap((params: VolumeResizeData) => {
             const notificationId = this.jobsNotificationService.add(
-              'NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS'
+              'NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS',
             );
             return this.volumeService.resize(params).pipe(
               map((volume: Volume) => {
@@ -243,11 +251,11 @@ export class VolumesEffects {
                 const message = 'NOTIFICATIONS.VOLUME.RESIZE_FAILED';
                 this.showNotificationsOnFail(error, message, notificationId);
                 return of(new volumeActions.VolumeUpdateError(error));
-              })
+              }),
             );
-          })
+          }),
         );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -259,23 +267,23 @@ export class VolumesEffects {
           data: action.payload,
         })
         .afterClosed();
-    })
+    }),
   );
 
   @Effect()
   deleteVolumes$: Observable<Action> = this.actions$.pipe(
     ofType(volumeActions.DELETE_VOLUMES),
     withLatestFrom(this.store.pipe(select(fromVolumes.selectVolumesWithSnapshots))),
-    map(([action, volumes]: [volumeActions.DeleteVolumes, Array<Volume>]) => {
+    map(([action, volumes]: [volumeActions.DeleteVolumes, Volume[]]) => {
       return [
         volumes.filter(
-          (volume: Volume) => !isRoot(volume) && volume.virtualmachineid === action.payload.vm.id
+          (volume: Volume) => !isRoot(volume) && volume.virtualmachineid === action.payload.vm.id,
         ),
         action.payload.expunged,
       ];
     }),
-    filter(([volumes, expunged]: [Array<Volume>, boolean]) => !!volumes.length),
-    switchMap(([volumes, expunged]: [Array<Volume>, boolean]) =>
+    filter(([volumes, expunged]: [Volume[], boolean]) => !!volumes.length),
+    switchMap(([volumes, expunged]: [Volume[], boolean]) =>
       this.dialog
         .open(VolumeDeleteDialogComponent, {
           data: !!volumes.find(volume => !!volume.snapshots.length),
@@ -285,22 +293,20 @@ export class VolumesEffects {
           filter(res => Boolean(res)),
           mergeMap(params => {
             return volumes.reduce((res: Action[], volume: Volume) => {
-              const detachedVolume = expunged
-                ? Object.assign({}, volume, { virtualmachineid: '' })
-                : volume;
+              const detachedVolume = expunged ? { ...volume, virtualmachineid: '' } : volume;
               if (params.deleteSnapshots && !!volume.snapshots.length) {
                 res.push(
                   new snapshotActions.DeleteSnapshots(detachedVolume.snapshots),
-                  new volumeActions.DeleteVolume(detachedVolume)
+                  new volumeActions.DeleteVolume(detachedVolume),
                 );
               } else {
                 res.push(new volumeActions.DeleteVolume(detachedVolume));
               }
               return res;
             }, []);
-          })
-        )
-    )
+          }),
+        ),
+    ),
   );
 
   @Effect()
@@ -308,7 +314,7 @@ export class VolumesEffects {
     ofType(volumeActions.DELETE_VOLUME),
     mergeMap((action: volumeActions.DeleteVolume) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS'
+        'NOTIFICATIONS.VOLUME.DELETION_IN_PROGRESS',
       );
 
       const remove = removeVolume => {
@@ -322,7 +328,7 @@ export class VolumesEffects {
             const message = 'NOTIFICATIONS.VOLUME.DELETION_FAILED';
             this.showNotificationsOnFail(error, message, notificationId);
             return of(new volumeActions.VolumeUpdateError(error));
-          })
+          }),
         );
       };
 
@@ -335,19 +341,18 @@ export class VolumesEffects {
             const message = 'NOTIFICATIONS.VOLUME.DETACHMENT_FAILED';
             this.showNotificationsOnFail(error, message, notificationId);
             return of(new volumeActions.VolumeUpdateError(error));
-          })
+          }),
         );
       };
 
       if (action.payload.virtualmachineid) {
         return detach(action.payload).pipe(
           filter((a: Action) => a.type === volumeActions.REPLACE_VOLUME),
-          mergeMap(() => remove(action.payload))
+          mergeMap(() => remove(action.payload)),
         );
-      } else {
-        return remove(action.payload);
       }
-    })
+      return remove(action.payload);
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -361,7 +366,7 @@ export class VolumesEffects {
       this.router.navigate(['./storage'], {
         queryParamsHandling: 'preserve',
       });
-    })
+    }),
   );
 
   constructor(
@@ -370,18 +375,17 @@ export class VolumesEffects {
     private volumeService: VolumeService,
     private volumeTagService: VolumeTagService,
     private router: Router,
-    private snapshotService: SnapshotService,
     private snackBarService: SnackBarService,
     private jobsNotificationService: JobsNotificationService,
     private dialog: MatDialog,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.finish({
-        id: jobNotificationId,
         message,
+        id: jobNotificationId,
       });
     }
     this.snackBarService.open(message).subscribe();
@@ -390,8 +394,8 @@ export class VolumesEffects {
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
-        id: jobNotificationId,
         message,
+        id: jobNotificationId,
       });
     }
     this.dialogService.alert({

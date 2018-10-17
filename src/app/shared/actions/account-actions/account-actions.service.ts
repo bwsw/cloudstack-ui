@@ -1,6 +1,6 @@
 import { Account, Action } from '../../models';
 
-const AccountDeleteAction = {
+const accountDeleteAction = {
   name: 'ACCOUNT_ACTION.DELETE',
   command: 'delete',
   icon: 'mdi-delete',
@@ -8,7 +8,7 @@ const AccountDeleteAction = {
   canActivate: (account: Account) => true,
 };
 
-const AccountDisableAction = {
+const accountDisableAction = {
   name: 'ACCOUNT_ACTION.DISABLE',
   command: 'disable',
   icon: 'mdi-minus-circle',
@@ -16,7 +16,7 @@ const AccountDisableAction = {
   canActivate: (account: Account) => account.state !== 'disabled',
 };
 
-const AccountEnableAction = {
+const accountEnableAction = {
   name: 'ACCOUNT_ACTION.ENABLE',
   command: 'enable',
   icon: 'mdi-minus-circle-outline',
@@ -25,9 +25,5 @@ const AccountEnableAction = {
 };
 
 export class AccountActionsService {
-  public actions: Array<Action<Account>> = [
-    AccountDisableAction,
-    AccountEnableAction,
-    AccountDeleteAction,
-  ];
+  public actions: Action<Account>[] = [accountDisableAction, accountEnableAction, accountDeleteAction];
 }

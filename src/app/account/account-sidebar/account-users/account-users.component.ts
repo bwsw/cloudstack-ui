@@ -18,15 +18,15 @@ export class AccountUsersComponent {
   public currentUserId: string;
 
   @Output()
-  public onUserDelete = new EventEmitter<AccountUser>();
+  public userDeleted = new EventEmitter<AccountUser>();
   @Output()
-  public onUserRegenerateKey = new EventEmitter<AccountUser>();
+  public userRegenerateKey = new EventEmitter<AccountUser>();
   @Output()
-  public onLoadUserKeys = new EventEmitter<AccountUser>();
+  public loadUserKeys = new EventEmitter<AccountUser>();
 
   public step: string;
 
-  public get sortedUsers(): Array<AccountUser> {
+  public get sortedUsers(): AccountUser[] {
     return this.account && this.account.user
       ? [...this.account.user].sort((u1, u2) => u1.firstname.localeCompare(u2.firstname))
       : [];
@@ -39,7 +39,7 @@ export class AccountUsersComponent {
   }
 
   public deleteUser(user) {
-    this.onUserDelete.emit(user);
+    this.userDeleted.emit(user);
   }
 
   public editUser(user) {
@@ -47,7 +47,7 @@ export class AccountUsersComponent {
   }
 
   public regenerateKeys(user) {
-    this.onUserRegenerateKey.emit(user);
+    this.userRegenerateKey.emit(user);
     this.setStep(user.id);
   }
 
@@ -68,7 +68,7 @@ export class AccountUsersComponent {
   public openItem(user) {
     this.setStep(user.id);
     if (user.apikey && !user.secretkey) {
-      this.onLoadUserKeys.emit(user);
+      this.loadUserKeys.emit(user);
     }
   }
 
@@ -77,10 +77,10 @@ export class AccountUsersComponent {
       .open(AccountUserEditContainerComponent, {
         width: '375px',
         data: {
+          user,
           title: !user ? 'ACCOUNT_PAGE.USER.CREATE_USER' : null,
           confirmButtonText: !user ? 'COMMON.CREATE' : null,
           account: this.account,
-          user,
         },
       })
       .afterClosed()

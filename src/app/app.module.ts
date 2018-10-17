@@ -35,10 +35,12 @@ import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
 import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
 
+// tslint:disable-next-line:function-name
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
+// tslint:disable-next-line:function-name
 export function InitAppFactory(
   auth: AuthService,
   http: HttpClient,
@@ -160,7 +162,7 @@ export class AppModule {
   }
 
   createNewHosts(cmps) {
-    const components = Array.prototype.map.call(cmps, function(componentNode) {
+    const components = Array.prototype.map.call(cmps, (componentNode) => {
       const newNode = document.createElement(componentNode.tagName);
       const currentDisplay = newNode.style.display;
       newNode.style.display = 'none';
@@ -173,12 +175,11 @@ export class AppModule {
             parentNode.removeChild(componentNode);
           } catch (e) {}
         };
-      } else {
-        return function() {}; // make it callable
       }
+      return function() {}; // make it callable
     });
     return function removeOldHosts() {
-      components.forEach(function(removeOldHost) {
+      components.forEach((removeOldHost) => {
         return removeOldHost();
       });
     };

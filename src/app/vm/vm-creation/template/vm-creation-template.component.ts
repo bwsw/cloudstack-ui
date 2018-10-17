@@ -26,8 +26,9 @@ export class VmCreationTemplateComponent {
   @Input()
   public numberOfTemplates: number;
   @Output()
-  public change = new EventEmitter<BaseTemplateModel>();
+  public changed = new EventEmitter<BaseTemplateModel>();
 
+  // tslint:disable-next-line:variable-name
   private _template: BaseTemplateModel | null;
 
   constructor(private dialog: MatDialog, private translateService: TranslateService) {}
@@ -40,7 +41,7 @@ export class VmCreationTemplateComponent {
     return this.translateService.get(['VM_PAGE.VM_CREATION.OS_TEMPLATE']).pipe(
       map(translations => {
         return `${translations['VM_PAGE.VM_CREATION.OS_TEMPLATE']}: ${this.template.name}`;
-      })
+      }),
     );
   }
 
@@ -48,7 +49,7 @@ export class VmCreationTemplateComponent {
     this.showTemplateSelectionDialog().subscribe(template => {
       if (template) {
         this.template = template;
-        this.change.next(this.template);
+        this.changed.next(this.template);
       }
     });
   }

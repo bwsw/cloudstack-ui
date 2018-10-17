@@ -5,6 +5,7 @@ import { User } from '../../shared/models/user.model';
 import { Account } from '../../shared/models';
 
 class MockAuthService {
+  // tslint:disable-next-line:variable-name
   _user: User;
 
   get user() {

@@ -11,11 +11,11 @@ import { SecurityGroupCreationContainerComponent } from '../containers/security-
 export class SecurityGroupCreationDialogComponent {
   constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute) {
     this.dialog
-      .open(SecurityGroupCreationContainerComponent, <MatDialogConfig>{
+      .open(SecurityGroupCreationContainerComponent, {
         data: {},
         disableClose: true,
         width: '405px',
-      })
+      } as MatDialogConfig)
       .afterClosed()
       .subscribe(() =>
         this.router.navigate(['../'], {

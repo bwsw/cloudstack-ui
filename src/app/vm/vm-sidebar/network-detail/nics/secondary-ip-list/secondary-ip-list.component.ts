@@ -14,9 +14,9 @@ export class SecondaryIpListComponent {
   @Input()
   public nic: NIC;
   @Output()
-  public onSecondaryIpAdd = new EventEmitter<string>();
+  public secondaryIpAdded = new EventEmitter<string>();
   @Output()
-  public onSecondaryIpRemove = new EventEmitter<IpAddress>();
+  public secondaryIpRemoved = new EventEmitter<IpAddress>();
 
   constructor(private dialogService: DialogService) {}
 
@@ -47,10 +47,10 @@ export class SecondaryIpListComponent {
   }
 
   private addSecondaryIp(): void {
-    this.onSecondaryIpAdd.emit(this.nic.id);
+    this.secondaryIpAdded.emit(this.nic.id);
   }
 
   private removeSecondaryIp(secondaryIp: IpAddress): void {
-    this.onSecondaryIpRemove.emit(secondaryIp);
+    this.secondaryIpRemoved.emit(secondaryIp);
   }
 }

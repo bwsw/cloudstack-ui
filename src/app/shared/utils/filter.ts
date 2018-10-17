@@ -1,6 +1,6 @@
 export function filterWithPredicates<M>(
-  values: Array<M>,
-  predicates: Array<(m: M) => boolean>
-): Array<M> {
+  values: M[],
+  predicates: ((m: M) => boolean)[]
+): M[] {
   return values.filter(value => predicates.every(predicate => predicate(value)));
 }

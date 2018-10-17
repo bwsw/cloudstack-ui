@@ -18,10 +18,10 @@ export class FirewallRulesDetailComponent {
     const vmId = this.vm.id;
 
     this.dialog
-      .open(SgRulesContainerComponent, <MatDialogConfig>{
+      .open(SgRulesContainerComponent, {
         width: '880px',
-        data: { securityGroupId: entity.id, vmId },
-      })
+        data: { vmId, securityGroupId: entity.id },
+      } as MatDialogConfig)
       .afterClosed();
   }
 }

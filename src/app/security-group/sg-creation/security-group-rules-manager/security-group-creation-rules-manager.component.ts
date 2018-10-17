@@ -19,6 +19,7 @@ import { SecurityGroupCreationSecurityGroupComponent } from '../security-group-c
 })
 export class SecurityGroupCreationRulesManagerComponent {
   public savedData = new Rules();
+  // tslint:disable-next-line:variable-name
   private _securityGroupRulesManagerData: Rules;
 
   constructor(private dialog: MatDialog) {}

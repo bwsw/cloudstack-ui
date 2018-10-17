@@ -12,7 +12,7 @@ export class MockTagService {
     return of(null);
   }
 
-  public getList(params?: {}): Observable<Array<Tag>> {
+  public getList(params?: {}): Observable<Tag[]> {
     return of([]);
   }
 
@@ -24,7 +24,7 @@ export class MockTagService {
     return of(null);
   }
 
-  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
+  public copyTagsToEntity(tags: Tag[], entity: Taggable): Observable<any> {
     return of(null);
   }
 

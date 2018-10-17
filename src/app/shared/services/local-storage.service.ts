@@ -4,8 +4,8 @@ import { Utils } from './utils/utils.service';
 
 @Injectable()
 export class LocalStorageService extends MemoryStorageService {
-  private isLocalStorage: boolean;
   public localStorage: Storage;
+  private isLocalStorage: boolean;
 
   constructor() {
     super();

@@ -19,9 +19,9 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Input()
   public offeringList: ComputeOfferingViewModel[];
   @Input()
-  public classes: Array<ComputeOfferingClass>;
+  public classes: ComputeOfferingClass[];
   @Input()
-  public selectedClasses: Array<string>;
+  public selectedClasses: string[];
   @Input()
   public query: string;
   @Input()
@@ -33,20 +33,14 @@ export class ServiceOfferingListComponent implements OnChanges {
   @Output()
   public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
 
-  public list: Array<{
+  public list: {
     soClass: ComputeOfferingClass;
     items: MatTableDataSource<ComputeOfferingViewModel>;
-  }>;
+  }[];
   public columnsToDisplay = [];
 
   private mainColumns = ['name', 'cpuCoresNumber', 'cpuSpeed', 'memory', 'networkRate'];
-  private allColumns = [
-    ...this.mainColumns,
-    'diskBytesRead',
-    'diskBytesWrite',
-    'diskIopsRead',
-    'diskIopsWrite',
-  ];
+  private allColumns = [...this.mainColumns, 'diskBytesRead', 'diskBytesWrite', 'diskIopsRead', 'diskIopsWrite'];
 
   constructor(private dialog: MatDialog, private translateService: TranslateService) {}
 
@@ -69,19 +63,6 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
-  private showCustomOfferingDialog(
-    offering: ServiceOffering
-  ): Observable<ComputeOfferingViewModel> {
-    return this.dialog
-      .open(CustomServiceOfferingComponent, {
-        width: '370px',
-        data: {
-          offering,
-        },
-      })
-      .afterClosed();
-  }
-
   public get locale(): Language {
     return this.translateService.currentLang as Language;
   }
@@ -93,15 +74,12 @@ export class ServiceOfferingListComponent implements OnChanges {
   public getName(soClass: ComputeOfferingClass) {
     if (soClass.id === 'common') {
       return 'SERVICE_OFFERING.FILTERS.COMMON';
-    } else {
-      return (soClass && soClass.name && soClass.name[this.locale]) || 'empty';
     }
+    return (soClass && soClass.name && soClass.name[this.locale]) || 'empty';
   }
 
   public getGroupedOfferings() {
-    const showClasses = this.classes.filter(
-      soClass => this.selectedClasses.indexOf(soClass.id) !== -1
-    );
+    const showClasses = this.classes.filter(soClass => this.selectedClasses.indexOf(soClass.id) !== -1);
     if (this.classes.length) {
       this.list = (showClasses.length ? showClasses : this.classes).map(soClass => {
         return {
@@ -125,8 +103,17 @@ export class ServiceOfferingListComponent implements OnChanges {
       return;
     }
 
-    this.columnsToDisplay = showFields.currentValue
-      ? [...this.allColumns, radio]
-      : [...this.mainColumns, radio];
+    this.columnsToDisplay = showFields.currentValue ? [...this.allColumns, radio] : [...this.mainColumns, radio];
+  }
+
+  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
+    return this.dialog
+      .open(CustomServiceOfferingComponent, {
+        width: '370px',
+        data: {
+          offering,
+        },
+      })
+      .afterClosed();
   }
 }

@@ -7,16 +7,16 @@ import { Tag } from '../shared/models';
 import { TagService } from '../shared/services/tags/tag.service';
 import { KeyValuePair, TagEditAction } from './tags-view/tags-view.component';
 
-export abstract class TagsComponent<T extends Taggable> {
+export abstract class TagsComponent {
   public abstract entity: Taggable;
   @Input()
-  public tags: Array<Tag>;
+  public tags: Tag[];
   @Output()
-  public onTagAdd = new EventEmitter<KeyValuePair>();
+  public tagAdded = new EventEmitter<KeyValuePair>();
   @Output()
-  public onTagDelete = new EventEmitter<Tag>();
+  public tagDeleted = new EventEmitter<Tag>();
   @Output()
-  public onTagEdit = new EventEmitter<TagEditAction>();
+  public tagEdited = new EventEmitter<TagEditAction>();
   public resourceType: string;
 
   constructor(protected dialogService: DialogService, protected tagService: TagService) {}
@@ -33,7 +33,7 @@ export abstract class TagsComponent<T extends Taggable> {
         'tags[0].key': tag.key,
         'tags[0].value': tag.value,
       })
-      .subscribe(res => this.onTagAdd.emit(tag), error => this.onError(error));
+      .subscribe(res => this.tagAdded.emit(tag), error => this.onError(error));
   }
 
   public editTag(tagEditAction: TagEditAction): void {
@@ -58,7 +58,7 @@ export abstract class TagsComponent<T extends Taggable> {
     this.tagService
       .remove(oldTagParams)
       .pipe(switchMap(() => this.tagService.create(newTagParams)))
-      .subscribe(res => this.onTagEdit.emit(tagEditAction), error => this.onError(error));
+      .subscribe(res => this.tagEdited.emit(tagEditAction), error => this.onError(error));
   }
 
   public deleteTag(tag: Tag): void {
@@ -68,7 +68,7 @@ export abstract class TagsComponent<T extends Taggable> {
         resourceType: tag.resourcetype,
         'tags[0].key': tag.key,
       })
-      .subscribe(res => this.onTagDelete.emit(tag), error => this.onError(event));
+      .subscribe(res => this.tagDeleted.emit(tag), error => this.onError(event));
   }
 
   protected onError(error: any): void {

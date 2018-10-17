@@ -15,12 +15,12 @@ import * as snapshotActions from '../../../reducers/snapshots/redux/snapshot.act
   template: `
     <cs-volume-actions
       [volume]="volume"
-      (onVolumeDelete)="onVolumeDelete($event)"
-      (onVolumeAttach)="onVolumeAttach($event)"
-      (onVolumeDetach)="onVolumeDetach($event)"
-      (onSnapshotAdd)="onSnapshotAdd($event)"
-      (onVolumeResize)="onVolumeResize($event)"
-      (onVolumeSchedule)="onVolumeSchedule($event)"
+      (volumeDeleted)="onVolumeDelete($event)"
+      (volumeAttached)="onVolumeAttach($event)"
+      (volumeDetached)="onVolumeDetach($event)"
+      (snapshotAdded)="onSnapshotAdd($event)"
+      (volumeResized)="onVolumeResize($event)"
+      (volumeScheduled)="onVolumeSchedule($event)"
     >
     </cs-volume-actions>`,
 })

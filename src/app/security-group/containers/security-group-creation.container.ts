@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { State } from '../../reducers/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
@@ -15,8 +15,8 @@ import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.red
     ></cs-security-group-creation>`,
 })
 export class SecurityGroupCreationContainerComponent {
-  readonly isLoading$ = this.store.select(fromSecurityGroups.isFormLoading);
-  readonly viewMode$ = this.store.select(fromSecurityGroups.viewMode);
+  readonly isLoading$ = this.store.pipe(select(fromSecurityGroups.isFormLoading));
+  readonly viewMode$ = this.store.pipe(select(fromSecurityGroups.viewMode));
 
   constructor(private store: Store<State>) {}
 

@@ -8,12 +8,12 @@ export const enum AccountType {
   DomainAdmin = '2',
 }
 
-export const AccountState = {
+export const accountState = {
   enabled: 'enabled',
   disabled: 'disabled',
 };
 
-export const AccountResourceType = 'Account';
+export const accountResourceType = 'Account';
 
 export interface AccountForm {
   username: string;
@@ -78,7 +78,7 @@ export interface Account extends BaseModelInterface {
   templateavailable: number;
   templatelimit: number;
   templatetotal: number;
-  user: Array<AccountUser>;
+  user: AccountUser[];
   vmavailable: number;
   vmlimit: number;
   vmrunning: number;

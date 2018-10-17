@@ -8,17 +8,17 @@ import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings'
 })
 export class ShhKeyFilterComponent implements OnInit {
   @Input()
-  public accounts: Array<Account>;
+  public accounts: Account[];
   @Input()
-  public selectedAccountIds: Array<string> = [];
+  public selectedAccountIds: string[] = [];
   @Input()
-  public selectedGroupings: Array<Grouping> = [];
+  public selectedGroupings: Grouping[] = [];
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Output()
-  public onGroupingsChange = new EventEmitter<Array<Grouping>>();
+  public groupingsChanged = new EventEmitter<Grouping[]>();
   @Output()
-  public onAccountsChange = new EventEmitter<Array<string>>();
+  public accountsChanged = new EventEmitter<string[]>();
 
   public ngOnInit() {
     this.groupings = reorderAvailableGroupings(this.groupings, this.selectedGroupings);

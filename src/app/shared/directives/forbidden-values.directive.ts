@@ -9,7 +9,7 @@ import { forbiddenValuesValidator } from './forbidden-values-validator';
 })
 export class ForbiddenValuesDirective implements OnInit, Validator {
   @Input()
-  public forbiddenValues: Array<string>;
+  public forbiddenValues: string[];
   private validator = Validators.nullValidator;
 
   public ngOnInit(): void {

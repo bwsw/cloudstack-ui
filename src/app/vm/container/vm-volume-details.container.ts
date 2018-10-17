@@ -19,7 +19,7 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 export class VmVolumeDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
   @Input()
   public volume: Volume;
-  readonly offering$ = this.store.select(fromDiskOfferings.getSelectedOffering);
+  readonly offering$ = this.store.pipe(select(fromDiskOfferings.getSelectedOffering));
 
   constructor(private store: Store<State>) {
     super();

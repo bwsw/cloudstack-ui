@@ -27,7 +27,7 @@ export class MonthlyPolicyComponent implements ControlValueAccessor {
   public timeFormat: TimeFormat;
   public time: Time;
   public dayOfMonth = 1;
-  public daysOfMonth: Array<number> = range(1, 29);
+  public daysOfMonth: number[] = range(1, 29);
 
   public updateTime(value: Time): void {
     if (!isEqual(this.time, value)) {

@@ -25,11 +25,11 @@ export class ServiceOfferingDetailsComponent {
 
   public changeServiceOffering(): void {
     this.dialog
-      .open(ServiceOfferingDialogContainerComponent, <MatDialogConfig>{
+      .open(ServiceOfferingDialogContainerComponent, {
         width: '700px',
         disableClose: true,
         data: { vm: this.vm },
-      })
+      } as MatDialogConfig)
       .afterClosed();
   }
 

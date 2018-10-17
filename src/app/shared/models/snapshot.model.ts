@@ -1,5 +1,5 @@
 import { Taggable } from '../interfaces/taggable.interface';
-import { SnapshotTagKeys } from '../services/tags/snapshot-tag-keys';
+import { snapshotTagKeys } from '../services/tags/snapshot-tag-keys';
 import { BaseModelInterface } from './base.model';
 import { Tag } from './tag.model';
 
@@ -35,7 +35,7 @@ export interface Snapshot extends Taggable, BaseModelInterface {
   virtualmachineid?: string;
   snapshottype: SnapshotType;
   name: string;
-  tags: Array<Tag>;
+  tags: Tag[];
   state: SnapshotStates;
   revertable: boolean;
 }
@@ -49,10 +49,9 @@ export const getSnapshotDescription = (snapshot: Snapshot) => {
     return '';
   }
 
-  const description = snapshot.tags.find(tag => tag.key === SnapshotTagKeys.description);
+  const description = snapshot.tags.find(tag => tag.key === snapshotTagKeys.description);
   if (description) {
     return description.value;
-  } else {
-    return '';
   }
+  return '';
 };

@@ -41,6 +41,7 @@ export class AccountLimitsComponent {
     [ResourceType.SecondaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_LIMIT',
   };
 
+  // tslint:disable-next-line:variable-name
   private _limits: ResourceLimit[];
 
   public onSave(): void {

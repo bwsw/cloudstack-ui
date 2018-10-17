@@ -268,8 +268,8 @@ export class AccountsEffects {
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.finish({
-        id: jobNotificationId,
         message,
+        id: jobNotificationId,
       });
     }
     this.snackBarService.open(message).subscribe();
@@ -278,8 +278,8 @@ export class AccountsEffects {
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
-        id: jobNotificationId,
         message,
+        id: jobNotificationId,
       });
     }
     this.dialogService.alert({

@@ -10,7 +10,7 @@ import { Volume } from '../../../../../shared/models';
 export class VolumeAttachmentDialogComponent implements OnInit {
   public selectedVolume: Volume;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public volumes: Array<Volume>) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public volumes: Volume[]) {}
 
   public ngOnInit(): void {
     if (this.volumes.length) {

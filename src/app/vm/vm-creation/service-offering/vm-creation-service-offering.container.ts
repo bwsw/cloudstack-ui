@@ -21,10 +21,10 @@ import { ServiceOfferingFromMode } from '../../../service-offering/service-offer
       [selectedClasses]="selectedClasses$ | async"
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
-      (onServiceOfferingUpdate)="updateServiceOffering($event)"
-      (onServiceOfferingChange)="changeServiceOffering($event)"
-      (viewModeChange)="onViewModeChange($event)"
-      (selectedClassesChange)="onSelectedClassesChange($event)"
+      (serviceOfferingUpdated)="updateServiceOffering($event)"
+      (serviceOfferingChanged)="changeServiceOffering($event)"
+      (viewModeChanged)="onViewModeChange($event)"
+      (selectedClassesChanged)="onSelectedClassesChange($event)"
       (queryChange)="onQueryChange($event)"
     >
     </cs-service-offering-dialog>`,

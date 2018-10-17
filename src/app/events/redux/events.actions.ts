@@ -14,7 +14,7 @@ export class LoadEventsRequest implements Action {
 export class LoadEventsResponse implements Action {
   type = LOAD_EVENTS_RESPONSE;
 
-  constructor(public payload: Array<Event>) {}
+  constructor(public payload: Event[]) {}
 }
 
 export class EventFilterUpdate implements Action {

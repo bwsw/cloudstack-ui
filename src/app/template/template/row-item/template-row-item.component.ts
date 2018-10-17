@@ -21,6 +21,7 @@ export class TemplateRowItemComponent extends TemplateComponent {
   public searchQuery: () => string;
   @Output()
   public deleteTemplate = new EventEmitter();
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger)

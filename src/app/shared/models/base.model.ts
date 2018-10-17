@@ -1,14 +1,10 @@
-interface IFieldMapper {
-  [key: string]: string;
-}
-
 export interface BaseModelInterface {
   id?: string;
 }
 
 export abstract class BaseModel implements BaseModelInterface {
   public id: string;
-  protected _mapper: IFieldMapper;
+  protected mapper: { [key: string]: string };
 
   constructor(params?: {}) {
     if (params) {
@@ -17,25 +13,25 @@ export abstract class BaseModel implements BaseModelInterface {
   }
 
   public set(key: string, val: string): void {
-    if (!this._mapper || !this._mapper[key]) {
+    if (!this.mapper || !this.mapper[key]) {
       this[key] = val;
       return;
     }
 
-    this[this._mapper[key]] = val;
+    this[this.mapper[key]] = val;
   }
 
   public serialize(): any {
     const model: any = {};
     const reverseMap: any = {};
 
-    if (!this._mapper) {
+    if (!this.mapper) {
       return model;
     }
 
-    for (const key in this._mapper) {
-      if (this._mapper.hasOwnProperty(key)) {
-        reverseMap[this._mapper[key]] = key;
+    for (const key in this.mapper) {
+      if (this.mapper.hasOwnProperty(key)) {
+        reverseMap[this.mapper[key]] = key;
       }
     }
 
@@ -52,7 +48,7 @@ export abstract class BaseModel implements BaseModelInterface {
     return model;
   }
 
-  public get keys(): Array<string> {
+  public get keys(): string[] {
     return Object.keys(this).filter((key: string) => !key.startsWith('_'));
   }
 

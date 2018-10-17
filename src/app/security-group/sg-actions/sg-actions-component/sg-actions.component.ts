@@ -13,16 +13,16 @@ export class SecurityGroupActionsComponent implements OnInit {
   @Input()
   public securityGroup: SecurityGroup;
   @Output()
-  public onSecurityGroupDelete = new EventEmitter<SecurityGroup>();
+  public securityGroupDeleted = new EventEmitter<SecurityGroup>();
   @Output()
-  public onSecurityGroupView = new EventEmitter<SecurityGroup>();
+  public securityGroupViewSelected = new EventEmitter<SecurityGroup>();
   @Output()
-  public onSecurityGroupConvert = new EventEmitter<SecurityGroup>();
+  public securityGroupConverted = new EventEmitter<SecurityGroup>();
   public actions: Action<SecurityGroup>[];
 
   constructor(
     private securityGroupActionService: SecurityGroupActionService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {}
 
   public ngOnInit() {
@@ -36,18 +36,21 @@ export class SecurityGroupActionsComponent implements OnInit {
           .confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_DELETION' })
           .subscribe(res => {
             if (res) {
-              this.onSecurityGroupDelete.emit(this.securityGroup);
+              this.securityGroupDeleted.emit(this.securityGroup);
             }
           });
         break;
       }
       case SecurityGroupActionType.View: {
-        this.onSecurityGroupView.emit(this.securityGroup);
+        this.securityGroupViewSelected.emit(this.securityGroup);
         break;
       }
       case SecurityGroupActionType.Convert: {
-        this.onSecurityGroupConvert.emit(this.securityGroup);
+        this.securityGroupConverted.emit(this.securityGroup);
+        break;
       }
+      default:
+        break;
     }
   }
 }

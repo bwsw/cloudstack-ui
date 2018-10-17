@@ -11,8 +11,10 @@ import { SshKeyItemComponent } from '../ssh-key-item.component';
 export class SshKeyCardItemComponent extends SshKeyItemComponent {
   @Input()
   public item: SSHKeyPair;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter<SSHKeyPair>();
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onRemove = new EventEmitter<SSHKeyPair>();
   @ViewChild(MatMenuTrigger)

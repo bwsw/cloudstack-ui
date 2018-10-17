@@ -10,14 +10,14 @@ import { CacheService } from './cache.service';
 export abstract class BaseBackendCachedService<
   M extends BaseModelInterface
 > extends BaseBackendService<M> {
-  private cache: Cache<Array<M>>;
+  private cache: Cache<M[]>;
 
   constructor(http: HttpClient) {
     super(http);
     this.initDataCache();
   }
 
-  public getList(params?: {}, customApiFormat?: ApiFormat, useCache = true): Observable<Array<M>> {
+  public getList(params?: {}, customApiFormat?: ApiFormat, useCache = true): Observable<M[]> {
     if (useCache) {
       const cachedResult = this.cache.get(params);
       if (cachedResult) {
@@ -46,6 +46,6 @@ export abstract class BaseBackendCachedService<
 
   private initDataCache(): void {
     const cacheTag = `${this.entity}DataCache`;
-    this.cache = CacheService.create<Array<M>>(cacheTag);
+    this.cache = CacheService.create<M[]>(cacheTag);
   }
 }

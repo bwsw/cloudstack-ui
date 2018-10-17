@@ -19,7 +19,7 @@ import { AccountData } from '../../shared/models/account.model';
     <cs-account-creation-dialog
       [domains]="domains"
       [roles]="roles"
-      (onAccountCreate)="accountCreate($event)"
+      (accountCreated)="accountCreate($event)"
     ></cs-account-creation-dialog>
   `,
 })

@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 
 import { MockCacheService } from '../../../testutils/mocks/mock-cache.service.spec';
-import { StorageTypes } from '../models/offering.model';
+import { storageTypes } from '../models/offering.model';
 import { ServiceOffering, ServiceOfferingAvailability, Zone } from '../models';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
@@ -18,7 +18,7 @@ class MockErrorService {
 
 describe('Service-offering service', () => {
   let serviceOfferingService: ServiceOfferingService;
-  const newSO = <ServiceOffering>{
+  const newSO = {
     id: '1',
     name: 'Service Offering',
     displaytext: 'About disk offering',
@@ -29,7 +29,7 @@ describe('Service-offering service', () => {
     iscustomized: false,
     miniops: 1,
     maxiops: 1,
-    storagetype: StorageTypes.local,
+    storagetype: storageTypes.local,
     provisioningtype: '',
     created: new Date().toDateString(),
     cpunumber: 1,
@@ -43,7 +43,7 @@ describe('Service-offering service', () => {
     defaultuse: true,
     deploymentplanner: '',
     domain: 'domainId',
-  };
+  } as ServiceOffering;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,7 +61,7 @@ describe('Service-offering service', () => {
   it('should check offering is available in zone', () => {
     let result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
-      <ServiceOfferingAvailability>{
+      {
         filterOfferings: true,
         zones: {
           1: {
@@ -69,14 +69,14 @@ describe('Service-offering service', () => {
             computeOfferings: [],
           },
         },
-      },
-      <Zone>{ id: '1' }
+      } as ServiceOfferingAvailability,
+      { id: '1' } as Zone,
     );
     expect(result).toBe(false);
 
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
-      <ServiceOfferingAvailability>{
+      {
         filterOfferings: true,
         zones: {
           1: {
@@ -84,14 +84,14 @@ describe('Service-offering service', () => {
             computeOfferings: ['1'],
           },
         },
-      },
-      <Zone>{ id: '1' }
+      } as ServiceOfferingAvailability,
+      { id: '1' } as Zone,
     );
     expect(result).toBe(true);
 
     result = serviceOfferingService['isOfferingAvailableInZone'](
       newSO,
-      <ServiceOfferingAvailability>{
+      {
         filterOfferings: true,
         zones: {
           1: {
@@ -100,8 +100,8 @@ describe('Service-offering service', () => {
             computeOfferings: [],
           },
         },
-      },
-      <Zone>{ id: '1' }
+      } as ServiceOfferingAvailability,
+      { id: '1' } as Zone,
     );
     expect(result).toBe(false);
   });

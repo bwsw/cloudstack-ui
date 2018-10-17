@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
 import { BaseTemplateModel } from '../../shared/base-template.model';
-import { TemplateTagKeys } from '../../../shared/services/tags/template-tag-keys';
+import { templateTagKeys } from '../../../shared/services/tags/template-tag-keys';
 import { TemplateGroupSelectorContainerComponent } from './containers/template-group-selector.container';
-import { DefaultTemplateGroupId, ImageGroup } from '../../../shared/models';
+import { defaultTemplateGroupId, ImageGroup } from '../../../shared/models';
 import { Language } from '../../../shared/types';
 
 @Component({
@@ -30,12 +30,9 @@ export class TemplateGroupComponent {
   }
 
   public get groupName(): string {
-    const tag = this.template.tags.find(t => t.key === TemplateTagKeys.group);
+    const tag = this.template.tags.find(t => t.key === templateTagKeys.group);
     const group = tag && this.groups.find(g => g.id === tag.value);
-    return (
-      (group && ((group.translations && group.translations[this.locale]) || group.id)) ||
-      DefaultTemplateGroupId
-    );
+    return (group && ((group.translations && group.translations[this.locale]) || group.id)) || defaultTemplateGroupId;
   }
 
   public get locale(): Language {

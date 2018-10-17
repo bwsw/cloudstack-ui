@@ -10,7 +10,7 @@ export class TemplateListComponent {
   @Input()
   public radio = false;
   @Input()
-  public templateList: Array<BaseTemplateModel>;
+  public templateList: BaseTemplateModel[];
   @Input()
   public query: string;
   @Input()

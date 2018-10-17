@@ -13,13 +13,13 @@ import { ViewMode } from '../../shared/components/view-mode-switch/view-mode-swi
 })
 export class AccountPageComponent {
   @Input()
-  public accounts: Array<Account> = [];
+  public accounts: Account[] = [];
   @Input()
-  public groupings: Array<any>;
+  public groupings: any[];
   @Input()
   public isLoading: boolean;
   @Input()
-  public selectedGroupings: Array<any> = [];
+  public selectedGroupings: any[] = [];
 
   public mode: ViewMode;
   public viewModeKey = 'accountPageViewMode';

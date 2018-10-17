@@ -12,7 +12,7 @@ import * as fromTemplates from '../../../reducers/templates/redux/template.reduc
     ></cs-template-zones>`,
 })
 export class TemplateZonesContainerComponent {
-  public template$ = this.store.select(fromTemplates.getSelectedTemplate);
+  public template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));
 
   constructor(private store: Store<State>) {}
 }

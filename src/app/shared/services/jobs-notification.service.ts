@@ -16,12 +16,14 @@ export interface JobNotification {
 
 @Injectable()
 export class JobsNotificationService {
-  public notifications: Array<JobNotification>;
+  public notifications: JobNotification[];
   /*
    * pendingJobsCount not included in unseenCompletedJobsCount
    * Only after the end of the pending job, the counter of unseen jobs is increased
    */
+  // tslint:disable-next-line:variable-name
   private readonly _pendingJobsCount$ = new BehaviorSubject<number>(0);
+  // tslint:disable-next-line:variable-name
   private readonly _unseenCompletedJobsCount$ = new BehaviorSubject<number>(0);
 
   public get pendingJobsCount$(): Observable<number> {
@@ -36,7 +38,7 @@ export class JobsNotificationService {
     const id = Utils.getUniqueId();
     const n: JobNotification = {
       id,
-      message: message,
+      message,
       status: INotificationStatus.Pending,
     };
 
@@ -76,9 +78,7 @@ export class JobsNotificationService {
   }
 
   public removeCompleted(): void {
-    this.notifications = this.notifications.filter(
-      (n: JobNotification) => n.status === INotificationStatus.Pending
-    );
+    this.notifications = this.notifications.filter((n: JobNotification) => n.status === INotificationStatus.Pending);
     this._pendingJobsCount$.next(this.notifications.length);
   }
 

@@ -36,23 +36,24 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
   @Input()
   public firstDayOfWeek = 1;
   @Input()
-  public DateTimeFormat = DateTimeFormat;
+  public dateTimeFormat = DateTimeFormat;
   @Input()
   public locale = Language.en;
   @Output()
-  public change = new EventEmitter();
+  public changed = new EventEmitter();
 
   public displayDate: string;
 
+  // tslint:disable-next-line:variable-name
   public _date: Date = new Date();
   private isDialogOpen = false;
 
   constructor(private dialog: MatDialog) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const DateTimeFormatChange = changes['DateTimeFormat'];
-    if (DateTimeFormatChange) {
-      this.displayDate = this._formatDate();
+    const dateTimeFormatChange = changes['dateTimeFormat'];
+    if (dateTimeFormatChange) {
+      this.displayDate = this.formatDate();
     }
   }
 
@@ -65,7 +66,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
 
   public set date(newDate) {
     this._date = new Date(newDate);
-    this.displayDate = this._formatDate();
+    this.displayDate = this.formatDate();
 
     this.propagateChange(this.date);
   }
@@ -95,7 +96,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
       okLabel: this.okLabel,
       cancelLabel: this.cancelLabel,
       firstDayOfWeek: this.firstDayOfWeek,
-      DateTimeFormat: this.DateTimeFormat,
+      DateTimeFormat: this.dateTimeFormat,
       locale: this.locale,
     };
     this.dialog
@@ -109,20 +110,19 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
         this.isDialogOpen = false;
         if (date) {
           this.date = date;
-          this.change.emit(date);
+          this.changed.emit(date);
         }
       });
   }
 
-  private _formatDate(): string {
+  private formatDate(): string {
     if (this.locale) {
-      return new this.DateTimeFormat(this.locale, {
+      return new this.dateTimeFormat(this.locale, {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric',
       }).format(this.date);
-    } else {
-      return formatIso(this.date);
     }
+    return formatIso(this.date);
   }
 }

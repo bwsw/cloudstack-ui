@@ -16,19 +16,19 @@ export class TagComponent {
   @Input()
   public hasPermissions = false;
   @Output()
-  public onTagEdit: EventEmitter<Tag>;
+  public tagEdited: EventEmitter<Tag>;
   @Output()
-  public onTagRemove: EventEmitter<Tag>;
+  public tagRemoved: EventEmitter<Tag>;
 
   public loading: boolean;
 
   constructor(private dialogService: DialogService, private notificationService: SnackBarService) {
-    this.onTagEdit = new EventEmitter<Tag>();
-    this.onTagRemove = new EventEmitter<Tag>();
+    this.tagEdited = new EventEmitter<Tag>();
+    this.tagRemoved = new EventEmitter<Tag>();
   }
 
   public edit(): void {
-    this.onTagEdit.emit(this.tag);
+    this.tagEdited.emit(this.tag);
   }
 
   public showRemoveDialog(): void {
@@ -51,6 +51,6 @@ export class TagComponent {
 
   private remove(): void {
     this.loading = true;
-    this.onTagRemove.emit(this.tag);
+    this.tagRemoved.emit(this.tag);
   }
 }

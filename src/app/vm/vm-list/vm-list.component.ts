@@ -14,13 +14,13 @@ import { NgrxEntities } from '../../shared/interfaces';
 })
 export class VmListComponent implements OnChanges {
   @Input()
-  public vms: Array<VirtualMachine>;
+  public vms: VirtualMachine[];
   @Input()
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   @Input()
   public osTypesMap: NgrxEntities<OsType>;
   @Input()
-  public groupings: Array<any>;
+  public groupings: any[];
   @Input()
   public mode: ViewMode;
   @Input()

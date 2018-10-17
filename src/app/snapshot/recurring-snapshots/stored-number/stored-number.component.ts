@@ -20,6 +20,7 @@ export class StoredNumberComponent implements ControlValueAccessor {
   @Input()
   public max: number;
 
+  // tslint:disable-next-line:variable-name
   public _storedNumber: number;
 
   constructor(private translateService: TranslateService) {}

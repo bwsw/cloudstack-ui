@@ -3,7 +3,7 @@ import { Tag } from '../../shared/models/tag.model';
 
 export interface TagCategory {
   name: string;
-  tags: Array<Tag>;
+  tags: Tag[];
 }
 
 @Component({
@@ -15,35 +15,35 @@ export class TagCategoryComponent {
   @Input()
   public category: TagCategory;
   @Input()
-  public tags: Array<Tag>;
+  public tags: Tag[];
   @Input()
   public query: string;
   @Input()
   public hasPermissions = false;
   @Output()
-  public onTagAdd: EventEmitter<TagCategory>;
+  public tagAdded: EventEmitter<TagCategory>;
   @Output()
-  public onTagEdit: EventEmitter<Tag>;
+  public tagEdited: EventEmitter<Tag>;
   @Output()
-  public onTagDelete: EventEmitter<Tag>;
+  public tagDeleted: EventEmitter<Tag>;
 
   public loading: boolean;
 
   constructor() {
-    this.onTagAdd = new EventEmitter<TagCategory>();
-    this.onTagEdit = new EventEmitter<Tag>();
-    this.onTagDelete = new EventEmitter<Tag>();
+    this.tagAdded = new EventEmitter<TagCategory>();
+    this.tagEdited = new EventEmitter<Tag>();
+    this.tagDeleted = new EventEmitter<Tag>();
   }
 
   public addTag(): void {
-    this.onTagAdd.emit(this.category);
+    this.tagAdded.emit(this.category);
   }
 
   public editTag(tag: Tag): void {
-    this.onTagEdit.emit(tag);
+    this.tagEdited.emit(tag);
   }
 
   public removeTag(tag: Tag): void {
-    this.onTagDelete.emit(tag);
+    this.tagDeleted.emit(tag);
   }
 }

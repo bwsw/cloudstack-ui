@@ -17,21 +17,21 @@ export class SshKeysPageComponent {
   @Input()
   public isLoading = false;
   @Input()
-  public sshKeyList: Array<SSHKeyPair>;
+  public sshKeyList: SSHKeyPair[];
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Input()
-  public accounts: Array<Account>;
+  public accounts: Account[];
   @Input()
   public selectedAccountIds = [];
   @Input()
-  public selectedGroupings: Array<Grouping> = [];
+  public selectedGroupings: Grouping[] = [];
   @Output()
-  public onKeyRemove = new EventEmitter<SSHKeyPair>();
+  public keyRemoved = new EventEmitter<SSHKeyPair>();
   @Output()
-  public onAccountsChange = new EventEmitter<Account[]>();
+  public accountsChanged = new EventEmitter<Account[]>();
   @Output()
-  public onGroupingsChange = new EventEmitter();
+  public groupingsChanged = new EventEmitter();
 
   public mode: ViewMode;
   public viewModeKey = 'sshKeyPageViewMode';
@@ -59,6 +59,6 @@ export class SshKeysPageComponent {
   }
 
   public removeKey(sshKeyPair: SSHKeyPair): void {
-    this.onKeyRemove.emit(sshKeyPair);
+    this.keyRemoved.emit(sshKeyPair);
   }
 }

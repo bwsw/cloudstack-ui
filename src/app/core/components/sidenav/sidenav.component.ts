@@ -30,13 +30,14 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
   public allowConfiguring: boolean;
   public imgUrl = 'url(img/cloudstack_logo_light.png)';
 
-  public routes: Array<SidenavRoute> = cloneDeep(sidenavRoutes);
+  public routes: SidenavRoute[] = cloneDeep(sidenavRoutes);
   public nonDraggableRoutes = nonDraggableRoutes;
 
   public navigationLoaded = false;
   public updatingOrder = false;
   public dragulaContainerName = 'sidebar-bag';
 
+  // tslint:disable-next-line:variable-name
   private _editing = false;
   private hasChanges = false;
 
@@ -44,7 +45,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
     private dragula: DragulaService,
     private routerUtilsService: RouterUtilsService,
     private router: Router,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     super();
   }
@@ -104,14 +105,32 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
     return visibleRouteIds.findIndex(id => id === route.id) >= 0;
   }
 
+  public setUpRoutes() {
+    if (!this.allowConfiguring) {
+      return;
+    }
+
+    this.store
+      .pipe(
+        select(configSelectors.get('configureSidenav')),
+        first(),
+      )
+      .subscribe((sidenavConfiguration: SidenavConfigElement[]) => {
+        const routesMap = this.getRoutesMap();
+        this.routes = sidenavConfiguration.map(confElement => {
+          const route = routesMap[confElement.id];
+          route.visible = confElement.visible;
+          return route;
+        });
+      });
+  }
+
   private setUpDragula(): void {
     this.dragula.setOptions(this.dragulaContainerName, {
       moves: () => this.editing,
     });
 
-    this.dragula.dropModel
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(() => (this.hasChanges = true));
+    this.dragula.dropModel.pipe(takeUntil(this.unsubscribe$)).subscribe(() => (this.hasChanges = true));
   }
 
   private initNavigationOrder() {
@@ -120,7 +139,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
         .pipe(
           select(UserTagsSelectors.getNavigationOrder),
           tap(() => (this.navigationLoaded = true)),
-          filter(Boolean)
+          filter(Boolean),
         )
         .subscribe(tag => {
           const order = this.parseMenuState(tag);
@@ -140,26 +159,6 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
     this._editing = !this._editing;
   }
 
-  public setUpRoutes() {
-    if (!this.allowConfiguring) {
-      return;
-    }
-
-    this.store
-      .pipe(
-        select(configSelectors.get('configureSidenav')),
-        first()
-      )
-      .subscribe((sidenavConfiguration: SidenavConfigElement[]) => {
-        const routesMap = this.getRoutesMap();
-        this.routes = sidenavConfiguration.map(confElement => {
-          const route = routesMap[confElement.id];
-          route.visible = confElement.visible;
-          return route;
-        });
-      });
-  }
-
   private getRoutesMap(): { [id: string]: SidenavRoute } {
     return this.routes.reduce((map, route) => {
       map[route.id] = route;
@@ -172,9 +171,7 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
       return false;
     }
 
-    return order.every(
-      el => el.visible != null && el.id != null && !!this.routes.find(route => route.id === el.id)
-    );
+    return order.every(el => el.visible != null && el.id != null && !!this.routes.find(route => route.id === el.id));
   }
 
   private navigationPredicate(order: NavigationItem[]) {

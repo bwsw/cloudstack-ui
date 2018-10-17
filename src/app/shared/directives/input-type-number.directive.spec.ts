@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { InputTypeNumberDirective } from './input-type-number.directive';
 import { FormsModule } from '@angular/forms';
-
-// workaround! https://github.com/angular/zone.js/issues/1050
-// This declaration used because Angular's fakeAsync and tick functions don't work as expected with lodash's debounce
-declare let Zone: any;
-const async = Zone[Zone.__symbol__('asyncTest')];
-const { fakeAsync, tick } = Zone[Zone.__symbol__('fakeAsyncTest')];
 
 @Component({
   template: `

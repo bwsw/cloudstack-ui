@@ -1,6 +1,6 @@
 import { Component, Optional } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { ListService } from '../list/list.service';
 import { layoutActions, layoutSelectors, State } from '../../../root-store';
 
@@ -10,12 +10,12 @@ import { layoutActions, layoutSelectors, State } from '../../../root-store';
   styleUrls: ['top-bar.component.scss'],
 })
 export class TopBarComponent {
-  public isSidenavVisible$ = this.store.select(layoutSelectors.isSidenavVisible);
+  public isSidenavVisible$ = this.store.pipe(select(layoutSelectors.isSidenavVisible));
 
   constructor(
     @Optional() private listService: ListService,
     private activatedRoute: ActivatedRoute,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   public openSidenav(): void {
@@ -29,8 +29,7 @@ export class TopBarComponent {
   private showSidebarForSG(): boolean {
     if (this.activatedRoute.snapshot.firstChild.firstChild) {
       return this.activatedRoute.snapshot.firstChild.firstChild.routeConfig.path !== 'rules';
-    } else {
-      return true;
     }
+    return true;
   }
 }

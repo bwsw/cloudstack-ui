@@ -38,25 +38,26 @@ export class PolicyListComponent implements OnChanges {
   public timeFormat: TimeFormat;
 
   @Input()
-  public policies: Array<Policy<TimePolicy>>;
+  public policies: Policy<TimePolicy>[];
   @Output()
-  public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
+  public policyDeleted: EventEmitter<Policy<TimePolicy>>;
   @Output()
-  public onPolicyRowClick: EventEmitter<PolicyType>;
+  public policyRowClicked: EventEmitter<PolicyType>;
 
   public policyViews = new MatTableDataSource<PolicyView>([]);
   public columnsToDisplay = ['time', 'period', 'timeZone', 'keep', 'delete'];
 
-  constructor(
-    private policyViewBuilderService: PolicyViewBuilderService,
-    private translateService: TranslateService
-  ) {
-    this.onPolicyDelete = new EventEmitter<Policy<TimePolicy>>();
-    this.onPolicyRowClick = new EventEmitter<PolicyType>();
+  constructor(private policyViewBuilderService: PolicyViewBuilderService, private translateService: TranslateService) {
+    this.policyDeleted = new EventEmitter<Policy<TimePolicy>>();
+    this.policyRowClicked = new EventEmitter<PolicyType>();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.updatePolicyViews();
+  }
+
+  public handlePolicyRowClick(policyView: PolicyView): void {
+    this.policyRowClicked.emit(policyView.type);
   }
 
   private get locale(): string {
@@ -75,21 +76,14 @@ export class PolicyListComponent implements OnChanges {
   }
 
   public deletePolicy(policy: Policy<TimePolicy>): void {
-    this.onPolicyDelete.next(policy);
+    this.policyDeleted.next(policy);
   }
 
   private updatePolicyViews(): void {
     this.policyViews.data = this.getPolicyViews(this.policies, this.dateTimeFormat);
   }
 
-  public handlePolicyRowClick(policyView: PolicyView): void {
-    this.onPolicyRowClick.emit(policyView.type);
-  }
-
-  private getPolicyViews(
-    policies: Array<Policy<TimePolicy>>,
-    dateTimeFormat: DateTimeFormat
-  ): Array<PolicyView> {
+  private getPolicyViews(policies: Policy<TimePolicy>[], dateTimeFormat: DateTimeFormat): PolicyView[] {
     return policies
       .map(policy => {
         return this.policyViewBuilderService.buildPolicyViewFromPolicy(policy, dateTimeFormat);

@@ -42,7 +42,7 @@ export class VolumeService extends BaseBackendService<Volume> {
     super(http);
   }
 
-  public getList(params?: {}): Observable<Array<Volume>> {
+  public getList(params?: {}): Observable<Volume[]> {
     return super
       .getList(params)
       .pipe(map((volumes: Volume[]) => volumes.filter(volume => !isDeleted(volume))));

@@ -16,15 +16,16 @@ import { SecurityGroup } from '../../../../security-group/sg.model';
 })
 export class SecurityGroupSelectorComponent implements ControlValueAccessor {
   @Input()
-  public securityGroups: Array<SecurityGroup>;
-  public _selectedSecurityGroups: Array<SecurityGroup> = [];
+  public securityGroups: SecurityGroup[];
+  // tslint:disable-next-line:variable-name
+  public _selectedSecurityGroups: SecurityGroup[] = [];
 
   @Input()
-  public get selectedSecurityGroups(): Array<SecurityGroup> {
+  public get selectedSecurityGroups(): SecurityGroup[] {
     return this._selectedSecurityGroups;
   }
 
-  public writeValue(value: Array<SecurityGroup>): void {
+  public writeValue(value: SecurityGroup[]): void {
     if (value) {
       this._selectedSecurityGroups = value;
     }
@@ -50,9 +51,7 @@ export class SecurityGroupSelectorComponent implements ControlValueAccessor {
   }
 
   public checkSelectedSG(securityGroupId: string): boolean {
-    const isSelectedItem = this.selectedSecurityGroups.find(
-      securityGroup => securityGroup.id === securityGroupId
-    );
+    const isSelectedItem = this.selectedSecurityGroups.find(securityGroup => securityGroup.id === securityGroupId);
     return !!isSelectedItem;
   }
 }

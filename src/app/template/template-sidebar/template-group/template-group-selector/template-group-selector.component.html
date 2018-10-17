@@ -10,9 +10,9 @@
     [removeLabel]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.REMOVE_FROM_GROUP'"
     [selectPlaceholder]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.CHOOSE_GROUP'"
     [title]="'TEMPLATE_PAGE.SIDEBAR.TEMPLATE_GROUP.CHANGE_TEMPLATE_GROUP'"
-    (onAssigned)="changeGroup($event)"
-    (onCancel)="onCancel()"
-    (onRemoved)="resetGroup()"
+    (assigned)="changeGroup($event)"
+    (canceled)="onCancel()"
+    (removed)="resetGroup()"
   ></cs-create-update-delete-dialog>
 </div>
 <div *loading="!groupNames || loading"></div>

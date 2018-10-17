@@ -16,7 +16,7 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
     protected entityService: BaseBackendService<M>,
     protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   public ngOnInit(): void {
@@ -30,7 +30,7 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
           } else {
             this.onError(error);
           }
-        }
+        },
       );
   }
 
@@ -40,15 +40,15 @@ export abstract class SidebarComponent<M extends BaseModelInterface> implements 
     return tabId === pathLastChild;
   }
 
+  protected loadEntity(id: string): Observable<M> {
+    return this.entityService.get(id);
+  }
+
   private pluckId(): Observable<string> {
     return this.route.params.pipe(
       pluck('id'),
-      filter(id => !!id)
+      filter(id => !!id),
     ) as Observable<string>;
-  }
-
-  protected loadEntity(id: string): Observable<M> {
-    return this.entityService.get(id);
   }
 
   private onEntityDoesNotExist(): void {

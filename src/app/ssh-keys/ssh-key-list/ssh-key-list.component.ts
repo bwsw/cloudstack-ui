@@ -12,13 +12,13 @@ import { Grouping } from '../../shared/models/grouping.model';
 })
 export class SshKeyListComponent {
   @Input()
-  public keys: Array<SSHKeyPair>;
+  public keys: SSHKeyPair[];
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Input()
   public mode: ViewMode;
   @Output()
-  public onRemove = new EventEmitter<SSHKeyPair>();
+  public remove = new EventEmitter<SSHKeyPair>();
   public inputs;
   public outputs;
 
@@ -41,6 +41,6 @@ export class SshKeyListComponent {
   }
 
   public removeKeyPair(sshKeyPair: SSHKeyPair): void {
-    this.onRemove.emit(sshKeyPair);
+    this.remove.emit(sshKeyPair);
   }
 }

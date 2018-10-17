@@ -10,10 +10,10 @@ export class FabComponent {
   @HostBinding('class.open')
   public isOpen: boolean;
   @Output()
-  public click = new EventEmitter<Event>();
+  public clicked = new EventEmitter<Event>();
 
   public onClick(e: Event): void {
     e.stopPropagation();
-    this.click.emit(e);
+    this.clicked.emit(e);
   }
 }

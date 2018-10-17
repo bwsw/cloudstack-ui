@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ import { Account, ResourceLimit } from '../../shared/models';
     <cs-account-settings
       [account]="account$ | async"
       [configurations]="configurations$ | async"
-      (onConfigurationEdit)="onConfigurationEdit($event)"
+      (configurationEdited)="onConfigurationEdit($event)"
     >
     </cs-account-settings>
     <cs-account-limits
@@ -38,10 +38,10 @@ import { Account, ResourceLimit } from '../../shared/models';
     ></cs-account-statistics>`,
 })
 export class AccountDetailsContainerComponent extends WithUnsubscribe() implements OnInit {
-  readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
-  readonly configurations$ = this.store.select(fromConfigurations.selectAll);
-  readonly limits$ = this.store.select(fromResourceLimits.getAllLimits);
-  readonly stats$ = this.store.select(fromResourceCounts.selectAll);
+  readonly account$ = this.store.pipe(select(fromAccounts.getSelectedAccount));
+  readonly configurations$ = this.store.pipe(select(fromConfigurations.selectAll));
+  readonly limits$ = this.store.pipe(select(fromResourceLimits.getAllLimits));
+  readonly stats$ = this.store.pipe(select(fromResourceCounts.selectAll));
 
   public account: Account;
 
@@ -54,7 +54,7 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
       new configurationAction.UpdateConfigurationRequest({
         configuration,
         account: this.account,
-      })
+      }),
     );
   }
 
@@ -67,7 +67,7 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
       new resourceCountAction.LoadResourceCountsRequest({
         account: this.account.name,
         domainid: this.account.domainid,
-      })
+      }),
     );
   }
 
@@ -79,18 +79,18 @@ export class AccountDetailsContainerComponent extends WithUnsubscribe() implemen
           new resourceLimitAction.LoadResourceLimitsRequest({
             account: account.name,
             domainid: account.domainid,
-          })
+          }),
         );
 
         if (this.isAdmin()) {
           this.store.dispatch(
-            new configurationAction.LoadConfigurationsRequest({ accountid: account.id })
+            new configurationAction.LoadConfigurationsRequest({ accountid: account.id }),
           );
           this.store.dispatch(
             new resourceCountAction.LoadResourceCountsRequest({
               account: account.name,
               domainid: account.domainid,
-            })
+            }),
           );
         }
       }

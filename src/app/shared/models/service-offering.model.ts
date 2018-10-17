@@ -16,12 +16,12 @@ export interface ServiceOffering extends Offering {
   deploymentplanner: string;
   domain: string;
   hosttags: string;
-  tags: Array<Tag>;
+  tags: Tag[];
 }
 
-export const ServiceOfferingType = {
+export const serviceOfferingType = {
   fixed: 'Select',
   custom: 'Custom',
 };
 
-export const ServiceOfferingParamKey = userTagKeys.computeOfferingParam;
+export const serviceOfferingParamKey = userTagKeys.computeOfferingParam;

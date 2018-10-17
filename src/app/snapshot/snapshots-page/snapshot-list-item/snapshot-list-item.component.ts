@@ -23,12 +23,13 @@ export class SnapshotListItemComponent extends SnapshotItemComponent {
   public isSelected: (snapshot: Snapshot) => boolean;
   @Input()
   public query: string;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter<Snapshot>();
   @ViewChild(MatMenuTrigger)
   public matMenuTrigger: MatMenuTrigger;
 
-  constructor(private translateService: TranslateService) {
+  constructor(translateService: TranslateService) {
     super(translateService);
   }
 }

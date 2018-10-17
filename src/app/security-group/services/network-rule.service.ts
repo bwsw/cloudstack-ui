@@ -38,8 +38,8 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
     );
   }
 
-  public removeDuplicateRules(rules: Array<NetworkRule>): Array<NetworkRule> {
-    return rules.reduce((acc: Array<NetworkRule>, rule: NetworkRule) => {
+  public removeDuplicateRules(rules: NetworkRule[]): NetworkRule[] {
+    return rules.reduce((acc: NetworkRule[], rule: NetworkRule) => {
       const unique = !acc.some(resultRule => rule.ruleid === resultRule.ruleid);
       return unique ? acc.concat(rule) : acc;
     }, []);

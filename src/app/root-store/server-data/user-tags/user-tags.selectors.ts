@@ -113,5 +113,5 @@ export const getServiceOfferingParamTags = createSelector(
 
 export const getKeyboardLayout = createSelector(
   getUserTagsEntities,
-  (entities): KeyboardLayout => <KeyboardLayout>entities[userTagKeys.keyboardLayoutForVms].value
+  (entities): KeyboardLayout => entities[userTagKeys.keyboardLayoutForVms].value as KeyboardLayout
 );

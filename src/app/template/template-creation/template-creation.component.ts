@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Hypervisor, OsType, Zone } from '../../shared';
 import { Account, ImageGroup, isRootAdmin, Snapshot } from '../../shared/models';
 import { HypervisorService } from '../../shared/services/hypervisor.service';
-import { CreateTemplateBaseParams, TemplateResourceType } from '../shared/base-template.service';
+import { CreateTemplateBaseParams, templateResourceType } from '../shared/base-template.service';
 import { Language } from '../../shared/types';
 
 interface TemplateFormat {
@@ -23,16 +23,16 @@ export class TemplateCreationComponent implements OnInit {
   @Input()
   public account: Account;
   @Input()
-  public osTypes: Array<OsType>;
+  public osTypes: OsType[];
   @Input()
-  public zones: Array<Zone>;
+  public zones: Zone[];
   @Input()
-  public groups: Array<ImageGroup>;
+  public groups: ImageGroup[];
   @Input()
   public snapshot?: Snapshot;
 
   @Output()
-  public onCreateTemplate = new EventEmitter<CreateTemplateBaseParams>();
+  public templateCreated = new EventEmitter<CreateTemplateBaseParams>();
 
   public name: string;
   public displayText: string;
@@ -52,7 +52,7 @@ export class TemplateCreationComponent implements OnInit {
   public passwordEnabled: boolean;
   public dynamicallyScalable: boolean;
 
-  public hypervisors: Array<Hypervisor>;
+  public hypervisors: Hypervisor[];
 
   public formats: TemplateFormat[] = [
     { name: 'VHD', hypervisors: ['XenServer', 'Hyperv', 'KVM'] },
@@ -73,7 +73,7 @@ export class TemplateCreationComponent implements OnInit {
   }
 
   public get TemplateResourceType() {
-    return TemplateResourceType;
+    return templateResourceType;
   }
 
   constructor(private hypervisorService: HypervisorService, private translate: TranslateService) {
@@ -126,12 +126,12 @@ export class TemplateCreationComponent implements OnInit {
       params['snapshotId'] = this.snapshot.id;
     }
 
-    if (this.mode === TemplateResourceType.template) {
+    if (this.mode === templateResourceType.template) {
       params['passwordEnabled'] = this.passwordEnabled;
       params['isdynamicallyscalable'] = this.dynamicallyScalable;
-      params['entity'] = TemplateResourceType.template;
+      params['entity'] = templateResourceType.template;
     } else {
-      params['entity'] = TemplateResourceType.iso;
+      params['entity'] = templateResourceType.iso;
     }
 
     if (this.showAdditional) {
@@ -147,7 +147,7 @@ export class TemplateCreationComponent implements OnInit {
       }
     }
 
-    this.onCreateTemplate.emit(params);
+    this.templateCreated.emit(params);
   }
 
   public get isRootAdmin(): boolean {

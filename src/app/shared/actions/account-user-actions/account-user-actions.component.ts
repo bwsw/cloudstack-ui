@@ -14,19 +14,19 @@ export class AccountUserActionsComponent {
   @Input()
   public user: AccountUser;
   @Output()
-  public onUserEdit: EventEmitter<Account> = new EventEmitter<Account>();
+  public userEdited: EventEmitter<Account> = new EventEmitter<Account>();
   @Output()
-  public onUserChangePassword: EventEmitter<Account> = new EventEmitter<Account>();
+  public userChangedPassword: EventEmitter<Account> = new EventEmitter<Account>();
   @Output()
-  public onUserRegenerateKey: EventEmitter<Account> = new EventEmitter<Account>();
+  public userRegeneratedKey: EventEmitter<Account> = new EventEmitter<Account>();
   @Output()
-  public onUserDelete: EventEmitter<Account> = new EventEmitter<Account>();
+  public userDeleted: EventEmitter<Account> = new EventEmitter<Account>();
 
   public actions: any[];
 
   constructor(
     private userActionService: AccountUserActionsService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {
     this.actions = this.userActionService.actions;
   }
@@ -37,30 +37,34 @@ export class AccountUserActionsComponent {
         .confirm({ message: action.confirmMessage })
         .pipe(
           onErrorResumeNext(),
-          filter(res => Boolean(res))
+          filter(res => Boolean(res)),
         )
         .subscribe(() => {
           switch (action.command) {
             case 'regenerateKey': {
-              this.onUserRegenerateKey.emit(user);
+              this.userRegeneratedKey.emit(user);
               break;
             }
             case 'delete': {
-              this.onUserDelete.emit(user);
+              this.userDeleted.emit(user);
               break;
             }
+            default:
+              break;
           }
         });
     } else {
       switch (action.command) {
         case 'edit': {
-          this.onUserEdit.emit(user);
+          this.userEdited.emit(user);
           break;
         }
         case 'changePassword': {
-          this.onUserChangePassword.emit(user);
+          this.userChangedPassword.emit(user);
           break;
         }
+        default:
+          break;
       }
     }
   }

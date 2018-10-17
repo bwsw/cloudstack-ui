@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -34,12 +34,12 @@ export class SettingsComponent {
     private authService: AuthService,
     private routerUtilsService: RouterUtilsService,
     private dialogService: DialogService,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
   ) {
-    this.settings$ = this.store.select(getSettingsViewModel);
+    this.settings$ = this.store.pipe(select(getSettingsViewModel));
     this.userId = this.authService.user.userid;
     this.userService.getUserKeys(this.userId).subscribe(keys => (this.userKeys = keys));
-    this.apiDocumentationLink$ = this.store.select(configSelectors.get('apiDocLink'));
+    this.apiDocumentationLink$ = this.store.pipe(select(configSelectors.get('apiDocLink')));
     this.apiUrl = this.getApiUrl();
   }
 
@@ -49,7 +49,7 @@ export class SettingsComponent {
       .subscribe(() =>
         this.userService
           .registerKeys(this.userId)
-          .subscribe(keys => (this.userKeys = keys), this.handleError)
+          .subscribe(keys => (this.userKeys = keys), this.handleError),
       );
   }
 
@@ -64,8 +64,8 @@ export class SettingsComponent {
               this.snackBarService
                 .open('SETTINGS.SECURITY.PASSWORD_CHANGED_SUCCESSFULLY')
                 .subscribe(),
-            this.handleError
-          )
+            this.handleError,
+          ),
       );
   }
 

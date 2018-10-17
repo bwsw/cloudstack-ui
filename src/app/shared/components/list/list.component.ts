@@ -11,5 +11,5 @@ export class ListComponent {
   @Input()
   creationEnabled = true;
   @Output()
-  onAction = new EventEmitter();
+  action = new EventEmitter();
 }

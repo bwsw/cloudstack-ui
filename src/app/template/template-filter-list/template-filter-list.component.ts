@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { BaseTemplateModel } from '../shared/base-template.model';
 import { ImageGroup } from '../../shared/models';
-import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
+import { templateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { AuthService } from '../../shared/services/auth.service';
 import { Language } from '../../shared/types';
 
@@ -12,7 +12,7 @@ export const getGroupName = (template: BaseTemplateModel) => {
 };
 
 export const getImageGroupId = (item: BaseTemplateModel) => {
-  const tag = item.tags.find(_ => _.key === TemplateTagKeys.group);
+  const tag = item.tags.find(_ => _.key === templateTagKeys.group);
   return tag && tag.value;
 };
 

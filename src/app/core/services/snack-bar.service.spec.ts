@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 
 import { Component, Directive, NgModule, ViewChild, ViewContainerRef } from '@angular/core';
@@ -40,9 +39,7 @@ class NotificationTestModule {}
 describe('Service: Notification service', () => {
   let notificationService: SnackBarService;
   let mdSnackBar: MatSnackBar;
-  let liveAnnouncer: LiveAnnouncer;
   let overlayContainerElement: HTMLElement;
-  let testViewContainerRef: ViewContainerRef;
   let viewContainerFixture: ComponentFixture<TestComponent>;
 
   beforeEach(async(() => {
@@ -63,19 +60,14 @@ describe('Service: Notification service', () => {
   }));
 
   beforeEach(async(
-    inject(
-      [SnackBarService, MatSnackBar, LiveAnnouncer],
-      (service: SnackBarService, snackBar: MatSnackBar, lAnnouncer: LiveAnnouncer) => {
-        notificationService = service;
-        mdSnackBar = snackBar;
-        liveAnnouncer = lAnnouncer;
-      }
-    )
+    inject([SnackBarService, MatSnackBar], (service: SnackBarService, snackBar: MatSnackBar) => {
+      notificationService = service;
+      mdSnackBar = snackBar;
+    }),
   ));
 
   afterEach(() => {
     overlayContainerElement.innerHTML = '';
-    liveAnnouncer = undefined;
     mdSnackBar = undefined;
     notificationService = undefined;
   });
@@ -84,7 +76,6 @@ describe('Service: Notification service', () => {
     viewContainerFixture = TestBed.createComponent(TestComponent);
 
     viewContainerFixture.detectChanges();
-    testViewContainerRef = viewContainerFixture.componentInstance.childViewContainer;
   });
 
   it('should be defined', () => {

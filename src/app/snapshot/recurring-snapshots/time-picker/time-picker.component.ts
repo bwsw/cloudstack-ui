@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material';
 
-import { padStart } from '../../../shared/utils/padStart';
+import { padStart } from '../../../shared/utils/pad-start';
 import { DayPeriod } from '../day-period/day-period.component';
 import { TimeFormat } from '../../../shared/types';
 
@@ -32,7 +32,9 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   @ViewChild('minuteField')
   public minuteField: MatInput;
 
+  // tslint:disable-next-line:variable-name
   public _hour: number;
+  // tslint:disable-next-line:variable-name
   public _minute: number;
   public period: DayPeriod;
 
@@ -71,17 +73,15 @@ export class TimePickerComponent implements ControlValueAccessor, OnInit {
   public get minHourValue(): number {
     if (this.timeFormat === TimeFormat.hour12) {
       return 1;
-    } else {
-      return 0;
     }
+    return 0;
   }
 
   public get maxHourValue(): number {
     if (this.timeFormat === TimeFormat.hour12) {
       return 12;
-    } else {
-      return 23;
     }
+    return 23;
   }
 
   public updateHour(value: number): void {

@@ -9,28 +9,28 @@ import { AuthService } from '../auth.service';
 import { TagService } from './tag.service';
 import { Tag } from '../../models/tag.model';
 import { SSHKeyPair } from '../../models/ssh-keypair.model';
-import { AccountResourceType } from '../../models/account.model';
+import { accountResourceType } from '../../models/account.model';
 
 @Injectable()
 class MockService {
   public getAccount(params: {}): Observable<Account> {
-    return of(<Account>{
+    return of({
       account: 'Account',
       displayName: '',
       id: '1',
       rpDisplayName: '',
       domainid: 'D1',
-    });
+    } as Account);
   }
 }
 
 @Injectable()
 export class MockAuthService {
   public get user() {
-    return <User>{
+    return {
       account: 'Account',
       domainid: 'D1',
-    };
+    } as User;
   }
 }
 
@@ -63,16 +63,16 @@ describe('Account tag service', () => {
   });
 
   it('should return user', () => {
-    expect(accountTagService.user).toEqual(<User>{ account: 'Account', domainid: 'D1' });
+    expect(accountTagService.user).toEqual({ account: 'Account', domainid: 'D1' } as User);
   });
 
   it('should return ssh-key description', () => {
     spyOn(tagService, 'getTag').and.returnValue(
-      of(<Tag>{ key: 'ssh-key-description', value: 'desc' })
+      of({ key: 'ssh-key-description', value: 'desc' } as Tag),
     );
     spyOn(tagService, 'getValueFromTag').and.returnValue('desc');
     accountTagService
-      .getSshKeyDescription(<SSHKeyPair>{})
+      .getSshKeyDescription({} as SSHKeyPair)
       .subscribe(res => expect(res).toEqual('desc'));
   });
 
@@ -80,13 +80,13 @@ describe('Account tag service', () => {
     spyOn(tagService, 'getTag').and.returnValue(of(null));
     spyOn(tagService, 'getValueFromTag').and.returnValue('desc');
     accountTagService
-      .getSshKeyDescription(<SSHKeyPair>{})
+      .getSshKeyDescription({} as SSHKeyPair)
       .subscribe(res => expect(res).not.toBeDefined());
   });
 
   it('should set ssh-key description', () => {
     spyOn(accountTagService, 'writeTag').and.returnValue(of(true));
-    const key = <SSHKeyPair>{ fingerprint: '123' };
+    const key = { fingerprint: '123' } as SSHKeyPair;
 
     accountTagService
       .setSshKeyDescription(key, 'desc')
@@ -95,8 +95,6 @@ describe('Account tag service', () => {
 
   it('should write tag', () => {
     const spyUpdate = spyOn(tagService, 'update').and.returnValue(of(true));
-    const key = <SSHKeyPair>{ fingerprint: '123' };
-
     accountTagService.writeTag('key', 'value').subscribe(res => expect(res).toBeTruthy());
 
     const account = {
@@ -106,6 +104,6 @@ describe('Account tag service', () => {
       account: 'Account',
       domainid: 'D1',
     };
-    expect(spyUpdate).toHaveBeenCalledWith(account, AccountResourceType, 'key', 'value');
+    expect(spyUpdate).toHaveBeenCalledWith(account, accountResourceType, 'key', 'value');
   });
 });

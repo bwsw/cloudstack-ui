@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SSHKeyPair } from '../../../shared/models';
 import { NotSelected } from '../data/vm-creation-state';
 
-export const NotSelectedSshKey: NotSelected = {
+export const notSelectedSshKey: NotSelected = {
   name: 'VM_PAGE.VM_CREATION.NO_SSH_KEY',
   ignore: true,
 };
@@ -13,13 +13,13 @@ export const NotSelectedSshKey: NotSelected = {
 })
 export class VmCreationSshKeySelectorComponent {
   @Input()
-  public sshKeyPairs: Array<SSHKeyPair | NotSelected>;
+  public sshKeyPairs: (SSHKeyPair | NotSelected)[];
   @Input()
   public sshKeyPair: SSHKeyPair | NotSelected;
   @Output()
   public sshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
 
   public get sshKeyNotSelected(): NotSelected {
-    return NotSelectedSshKey;
+    return notSelectedSshKey;
   }
 }

@@ -22,8 +22,10 @@ export interface HourlyPolicy {
 export class HourlyPolicyComponent implements ControlValueAccessor {
   @ViewChild(MatInput)
   public minuteField: MatInput;
+  // tslint:disable-next-line:variable-name
   public _policy: HourlyPolicy;
 
+  // tslint:disable-next-line:variable-name
   public _minute = 0;
   public minValue = 0;
   public maxValue = 59;

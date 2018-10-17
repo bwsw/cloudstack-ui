@@ -9,37 +9,37 @@ import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings'
 })
 export class VolumeFilterComponent implements OnInit {
   @Input()
-  public zones: Array<Zone>;
+  public zones: Zone[];
   @Input()
-  public types: Array<VolumeType>;
+  public types: VolumeType[];
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Input()
-  public selectedGroupings: Array<Grouping>;
+  public selectedGroupings: Grouping[];
   @Input()
-  public accounts: Array<Account>;
+  public accounts: Account[];
   @Input()
   public query: string;
   @Input()
   public spareOnly: boolean;
   @Input()
-  public selectedZoneIds: Array<string>;
+  public selectedZoneIds: string[];
   @Input()
-  public selectedTypes: Array<string>;
+  public selectedTypes: string[];
   @Input()
-  public selectedAccountIds: Array<string>;
+  public selectedAccountIds: string[];
   @Output()
-  public onQueryChange = new EventEmitter();
+  public queryChanged = new EventEmitter();
   @Output()
-  public onSpareOnlyChange = new EventEmitter();
+  public spareOnlyChanged = new EventEmitter();
   @Output()
-  public onZonesChange = new EventEmitter();
+  public zonesChanged = new EventEmitter();
   @Output()
-  public onAccountsChange = new EventEmitter();
+  public accountsChanged = new EventEmitter();
   @Output()
-  public onTypesChange = new EventEmitter();
+  public typesChanged = new EventEmitter();
   @Output()
-  public onGroupingsChange = new EventEmitter();
+  public groupingsChanged = new EventEmitter();
 
   constructor(private authService: AuthService) {}
 

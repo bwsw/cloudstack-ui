@@ -38,6 +38,7 @@ export interface Capabilities {
 })
 export class AuthService extends BaseBackendService<BaseModelStub> {
   public loggedIn: BehaviorSubject<boolean>;
+  // tslint:disable-next-line:variable-name
   private _user: User | null;
   private capabilities: Capabilities | null;
 
@@ -45,7 +46,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
     protected asyncJobService: AsyncJobService,
     protected storage: LocalStorageService,
     protected http: HttpClient,
-    protected jobsNotificationService: JobsNotificationService
+    protected jobsNotificationService: JobsNotificationService,
   ) {
     super(http);
   }
@@ -73,14 +74,14 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
       tap(res => this.saveUserDataToLocalStorage(res)),
       switchMap(() => this.getCapabilities()),
       tap(() => this.loggedIn.next(true)),
-      catchError(error => this.handleCommandError(error.error))
+      catchError(error => this.handleCommandError(error.error)),
     );
   }
 
   public logout(): Observable<void> {
     return this.postRequest('logout').pipe(
       tap(() => this.setLoggedOut()),
-      catchError(error => throwError('Unable to log out.'))
+      catchError(error => throwError('Unable to log out.')),
     );
   }
 
@@ -126,7 +127,7 @@ export class AuthService extends BaseBackendService<BaseModelStub> {
   private getCapabilities(): Observable<void> {
     return this.sendCommand(CSCommands.ListCapabilities, {}, '').pipe(
       map(({ capability }) => (this.capabilities = capability)),
-      catchError(() => this.logout())
+      catchError(() => this.logout()),
     );
   }
 }

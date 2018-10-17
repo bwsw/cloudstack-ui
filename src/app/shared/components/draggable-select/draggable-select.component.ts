@@ -1,4 +1,5 @@
-/* tslint:disable:use-input-property-decorator use-host-property-decorator */
+/* tslint:disable:use-input-property-decorator use-host-property-decorator no-attribute-parameter-decorator */
+/* tslint:disable:variable-name */
 import { Directionality } from '@angular/cdk/bidi';
 import { ViewportRuler } from '@angular/cdk/overlay';
 import {
@@ -63,10 +64,9 @@ import * as uuid from 'uuid';
   },
   animations: [matSelectAnimations.transformPanel, matSelectAnimations.fadeInContent],
 })
-export class DraggableSelectComponent extends MatSelect
-  implements AfterContentInit, MatFormFieldControl<any> {
+export class DraggableSelectComponent extends MatSelect implements AfterContentInit, MatFormFieldControl<any> {
   @Input()
-  public dragItems: Array<any>;
+  public dragItems: any[];
   public bagId: string = uuid.v4();
 
   constructor(
@@ -84,7 +84,7 @@ export class DraggableSelectComponent extends MatSelect
     @Optional()
     _control: NgControl,
     @Attribute('tabindex') tabIndex: string,
-    @Inject(MAT_SELECT_SCROLL_STRATEGY) _scrollStrategyFactory
+    @Inject(MAT_SELECT_SCROLL_STRATEGY) _scrollStrategyFactory,
   ) {
     super(
       _viewportRuler,
@@ -98,7 +98,7 @@ export class DraggableSelectComponent extends MatSelect
       _parentFormField,
       _control,
       tabIndex,
-      _scrollStrategyFactory
+      _scrollStrategyFactory,
     );
   }
 

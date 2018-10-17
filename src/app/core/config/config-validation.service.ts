@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as AjvCore from 'ajv';
-import { Ajv } from 'ajv';
 import * as AjvUniqueItemProperties from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as AjvErrors from 'ajv-errors';
 import * as omit from 'lodash/omit';
@@ -54,7 +53,7 @@ type ValidationScheme = { readonly [P in keyof Partial<Config>]: object };
 
 @Injectable()
 export class ConfigValidationService {
-  private readonly schemeValidator: Ajv;
+  private readonly schemeValidator: AjvCore.Ajv;
   private readonly schemeMap: ValidationScheme = {
     defaultDomain: validationSchemes.defaultDomain,
     sessionRefreshInterval: validationSchemes.sessionRefreshInterval,
@@ -115,11 +114,10 @@ export class ConfigValidationService {
     const scheme = this.schemeMap[key];
 
     // Condition needed until all schemes not implemented
-    if (scheme) {
-      return this.schemeValidator.validate(scheme, value);
-    } else {
+    if (!scheme) {
       return true;
     }
+    return this.schemeValidator.validate(scheme, value);
   }
 
   private getFixedConfig(userConf: object, errors: ValidationError[]): Partial<Config> {

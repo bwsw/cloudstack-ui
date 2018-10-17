@@ -45,15 +45,15 @@ export class EventListComponent implements OnChanges {
   @Input()
   public isAdmin: boolean;
   @Output()
-  public onDateChange = new EventEmitter<Date>();
+  public dateChange = new EventEmitter<Date>();
   @Output()
-  public onQueryChange = new EventEmitter<string>();
+  public queryChanged = new EventEmitter<string>();
   @Output()
-  public onEventTypesChange = new EventEmitter<Array<string>>();
+  public eventTypesChanged = new EventEmitter<string[]>();
   @Output()
-  public onSelectedLevelsChange = new EventEmitter<Array<string>>();
+  public selectedLevelsChanged = new EventEmitter<string[]>();
   @Output()
-  public onAccountChange = new EventEmitter<Array<string>>();
+  public accountChanged = new EventEmitter<string[]>();
 
   public dataSource: MatTableDataSource<Event>;
   public tableColumns = ['description', 'level', 'type', 'time'];

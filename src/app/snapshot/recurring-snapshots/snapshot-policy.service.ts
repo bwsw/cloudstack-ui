@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { BackendResource } from '../../shared/decorators';
 import { BaseBackendService } from '../../shared/services/base-backend.service';
-import { padStart } from '../../shared/utils/padStart';
+import { padStart } from '../../shared/utils/pad-start';
 import { DayPeriod } from './day-period/day-period.component';
 import { Policy, TimePolicy } from './policy-editor/policy-editor.component';
 import { SnapshotPolicy } from './snapshot-policy.model';
@@ -27,11 +27,11 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
     super(http);
   }
 
-  public getPolicyList(volumeId: string): Observable<Array<Policy<TimePolicy>>> {
+  public getPolicyList(volumeId: string): Observable<Policy<TimePolicy>[]> {
     return super.getList({ volumeId }, { command: 'list', entity: 'SnapshotPolicies' }).pipe(
       map(policies => {
         return policies.map(_ => this.transformPolicy(_));
-      })
+      }),
     );
   }
 
@@ -62,22 +62,19 @@ export class SnapshotPolicyService extends BaseBackendService<SnapshotPolicy> {
           hour: 0,
           minute: time.minute,
         };
-      } else {
-        return time;
       }
-    } else {
-      if (time.hour === 12) {
-        return {
-          hour: 12,
-          minute: time.minute,
-        };
-      } else {
-        return {
-          hour: time.hour + 12,
-          minute: time.minute,
-        };
-      }
+      return time;
     }
+    if (time.hour === 12) {
+      return {
+        hour: 12,
+        minute: time.minute,
+      };
+    }
+    return {
+      hour: time.hour + 12,
+      minute: time.minute,
+    };
   }
 
   private transformPolicyTypeToString(type: PolicyType): string {

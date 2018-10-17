@@ -26,11 +26,11 @@ export class IdleEffects {
     ofType(IdleMonitorActionTypes.StartIdleMonitor),
     withLatestFrom(
       this.store.pipe(select(UserTagsSelectors.getSessionTimeout)),
-      this.store.pipe(select(configSelectors.get('sessionRefreshInterval')))
+      this.store.pipe(select(configSelectors.get('sessionRefreshInterval'))),
     ),
     // timeout = 0 - disable idle monitor
     filter(([action, timeout, refreshInterval]) => timeout > 0),
-    tap(([action, timeout, refreshInterval]) => this.startIdleMonitor(timeout, refreshInterval))
+    tap(([action, timeout, refreshInterval]) => this.startIdleMonitor(timeout, refreshInterval)),
   );
 
   @Effect({ dispatch: false })
@@ -39,27 +39,27 @@ export class IdleEffects {
     refreshInterval: number;
   }> = this.actions$.pipe(
     ofType<UpdateIdleMonitorTimeout>(IdleMonitorActionTypes.UpdateIdleMonitorTimeout),
-    withLatestFrom(this.store.select(configSelectors.get('sessionRefreshInterval'))),
-    map(([action, refreshInterval]) => ({ timeout: action.payload.timeout, refreshInterval })),
+    withLatestFrom(this.store.pipe(select(configSelectors.get('sessionRefreshInterval')))),
+    map(([action, refreshInterval]) => ({ refreshInterval, timeout: action.payload.timeout })),
     tap(({ timeout, refreshInterval }) => {
       if (timeout > 0) {
         this.startIdleMonitor(timeout, refreshInterval);
       } else {
         this.stopIdleMonitor();
       }
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
   stopIdleMonitor$: Observable<Action> = this.actions$.pipe(
     ofType<StopIdleMonitor>(IdleMonitorActionTypes.StopIdleMonitor),
-    tap(() => this.stopIdleMonitor())
+    tap(() => this.stopIdleMonitor()),
   );
 
   @Effect({ dispatch: false })
   refreshSessionRequest$: Observable<Action> = this.actions$.pipe(
     ofType<RefreshSessionRequest>(IdleMonitorActionTypes.RefreshSessionRequest),
-    tap(() => this.tagService.getList({ resourceid: this.authService.user.userid }).subscribe())
+    tap(() => this.tagService.getList({ resourceid: this.authService.user.userid }).subscribe()),
   );
 
   constructor(
@@ -68,7 +68,7 @@ export class IdleEffects {
     private keepalive: Keepalive,
     private store: Store<State>,
     private authService: AuthService,
-    private tagService: TagService
+    private tagService: TagService,
   ) {
     this.setupPersistentIdleServiceParameters();
   }

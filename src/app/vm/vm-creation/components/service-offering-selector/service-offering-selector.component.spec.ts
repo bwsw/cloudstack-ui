@@ -25,7 +25,7 @@ class TestComponent {
   @ViewChild(ServiceOfferingSelectorComponent)
   public serviceOfferingSelectorComponent: ServiceOfferingSelectorComponent;
   public serviceOffering: ServiceOffering;
-  public serviceOfferings: Array<ServiceOffering>;
+  public serviceOfferings: ServiceOffering[];
 }
 
 describe('Test Service offering selector component', () => {
@@ -144,7 +144,7 @@ describe('Test Service offering selector component', () => {
     testComponent.serviceOfferingSelectorComponent.serviceOffering = serviceOfferings[0];
     f.detectChanges();
 
-    spyOn(testComponent.serviceOfferingSelectorComponent.change, 'next');
+    spyOn(testComponent.serviceOfferingSelectorComponent.changed, 'next');
     const button = f.debugElement.query(By.css('button'));
     expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(
       serviceOfferings[0]
@@ -152,8 +152,8 @@ describe('Test Service offering selector component', () => {
     button.nativeElement.click();
     f.detectChanges();
 
-    expect(testComponent.serviceOfferingSelectorComponent.change.next).toHaveBeenCalledTimes(1);
-    expect(testComponent.serviceOfferingSelectorComponent.change.next).toHaveBeenCalledWith(
+    expect(testComponent.serviceOfferingSelectorComponent.changed.next).toHaveBeenCalledTimes(1);
+    expect(testComponent.serviceOfferingSelectorComponent.changed.next).toHaveBeenCalledWith(
       serviceOfferings[1]
     );
     expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(

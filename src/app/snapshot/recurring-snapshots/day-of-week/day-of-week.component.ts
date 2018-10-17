@@ -25,12 +25,13 @@ export interface DayOfWeekName {
   ],
 })
 export class DayOfWeekComponent {
+  // tslint:disable-next-line:variable-name
   public _dayOfWeek: DayOfWeek;
-  readonly daysOfWeek$: Observable<Array<DayOfWeekName>> = this.getDaysOfWeek();
+  readonly daysOfWeek$: Observable<DayOfWeekName[]> = this.getDaysOfWeek();
 
   constructor(private store: Store<State>, private translateService: TranslateService) {}
 
-  private get daysOfWeekList(): Array<DayOfWeekName> {
+  private get daysOfWeekList(): DayOfWeekName[] {
     return [
       { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY' },
       { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY' },
@@ -66,15 +67,15 @@ export class DayOfWeekComponent {
     }
   }
 
-  private getDaysOfWeek(): Observable<Array<DayOfWeekName>> {
+  private getDaysOfWeek(): Observable<DayOfWeekName[]> {
     const dayNames = this.daysOfWeekList.map(day => day.name);
 
     return forkJoin(
       this.store.pipe(
         select(UserTagsSelectors.getFirstDayOfWeek),
-        first()
+        first(),
       ),
-      this.translateService.get(dayNames)
+      this.translateService.get(dayNames),
     ).pipe(
       map(([firstDayOfWeek, translations]) => {
         const daysOfWeek = this.daysOfWeekList;
@@ -87,7 +88,7 @@ export class DayOfWeekComponent {
           dayOfWeek.name = translations[dayOfWeek.name];
           return dayOfWeek;
         });
-      })
+      }),
     );
   }
 }

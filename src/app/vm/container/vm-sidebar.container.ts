@@ -13,7 +13,7 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
   template: `
     <cs-vm-sidebar
       [entity]="vm$ | async"
-      (onColorChange)="changeColor($event)"
+      (colorChanged)="changeColor($event)"
     ></cs-vm-sidebar>`,
 })
 export class VmSidebarContainerComponent implements OnInit {

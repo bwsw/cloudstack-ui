@@ -16,15 +16,7 @@ describe('Filter service', () => {
   }
 
   class ActivateRouteStub {
-    private _testQueryParams: {};
-
-    get testParams(): {} {
-      return this._testQueryParams;
-    }
-
-    set testParams(params: {}) {
-      this._testQueryParams = params;
-    }
+    private testParams: {};
 
     get snapshot(): {} {
       return { queryParams: this.testParams };
@@ -56,7 +48,7 @@ describe('Filter service', () => {
       filterService.update(params);
       tick(5);
       expect(storage.read(testKey)).toBe(JSON.stringify(params));
-    })
+    }),
   ));
 
   it('should not put empty arrays', fakeAsync(
@@ -66,7 +58,7 @@ describe('Filter service', () => {
       filterService.update(params);
       tick(5);
       expect(storage.read(testKey)).toBe(JSON.stringify({ dsa: [5] }));
-    })
+    }),
   ));
 
   it("should handle type 'boolean' correctly", inject(
@@ -93,7 +85,7 @@ describe('Filter service', () => {
       expect(filters.filterBool2).toBe(true);
       expect(filters.filterBool3).toBe(false);
       expect(filters.filterBool4).toBeUndefined();
-    }
+    },
   ));
 
   it("should handle type 'string' correctly", inject(
@@ -131,7 +123,7 @@ describe('Filter service', () => {
       expect(filters.filterString1).toBeUndefined();
       expect(filters.filterString2).toBe(whiteList['filterString2'].defaultOption);
       expect(filters.filterString3).toBe(testParams.filterString3);
-    }
+    },
   ));
 
   it("should handle type 'array' correctly", inject(
@@ -174,7 +166,7 @@ describe('Filter service', () => {
       expect(filters.withOptions).toEqual(['option2']);
       expect(filters.notAnArray).toBeUndefined();
       expect(filters.intersection).toEqual(['option2']);
-    }
+    },
   ));
 
   it('should not return missing filters', inject(
@@ -196,7 +188,7 @@ describe('Filter service', () => {
 
       const filters = filterService.getParams();
       expect(filters).toEqual(queryParams);
-    }
+    },
   ));
 
   it('should create missing filters from localStorage', inject(
@@ -218,8 +210,8 @@ describe('Filter service', () => {
       const filterService = new FilterService(whiteList, router, storage, testKey, activatedRoute);
 
       const filters = filterService.getParams();
-      expect(filters).toEqual(Object.assign({}, queryParams, storageFilters));
-    }
+      expect(filters).toEqual({...queryParams, ...storageFilters});
+    },
   ));
 
   it('should ignore invalid JSON from localStorage', inject(
@@ -242,7 +234,7 @@ describe('Filter service', () => {
       const filters = filterService.getParams();
       expect(filters).toEqual(queryParams);
       expect(storage.read(testKey)).toBeNull();
-    }
+    },
   ));
 
   it('should return default option if requested filter is not present in url or localStorage', inject(
@@ -258,7 +250,7 @@ describe('Filter service', () => {
 
       const filters = filterService.getParams();
       expect(filters).toEqual({ filter: 'default' });
-    }
+    },
   ));
 
   it('should not lookup localStorage if all params are set in the url', inject(
@@ -274,7 +266,7 @@ describe('Filter service', () => {
         JSON.stringify({
           filter: 'fromStorage',
           filter1: false,
-        })
+        }),
       );
       const urlParams = {
         filter: 'fromUrl',
@@ -285,6 +277,6 @@ describe('Filter service', () => {
 
       const filters = filterService.getParams();
       expect(filters).toEqual(urlParams);
-    }
+    },
   ));
 });

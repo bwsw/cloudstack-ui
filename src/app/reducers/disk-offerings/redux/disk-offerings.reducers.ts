@@ -82,7 +82,7 @@ export const getSelectedOffering = createSelector(
 );
 
 const getOfferingsAvailableInZone = (
-  offeringList: Array<DiskOffering>,
+  offeringList: DiskOffering[],
   offeringAvailability: ServiceOfferingAvailability,
   zone: Zone
 ) => {
@@ -109,8 +109,7 @@ export const getAvailableOfferings = createSelector(
     if (zone && availability) {
       const availableOfferings = getOfferingsAvailableInZone(diskOfferings, availability, zone);
       return availableOfferings;
-    } else {
-      return [];
     }
+    return [];
   }
 );

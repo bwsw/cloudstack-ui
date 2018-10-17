@@ -18,7 +18,7 @@ export class TagEditComponent {
   public maxKeyLength = 255;
   public maxValueLength = 255;
 
-  public forbiddenKeys: Array<string>;
+  public forbiddenKeys: string[];
   public title: string;
   public confirmButtonText: string;
   private tag: Tag;
@@ -42,7 +42,8 @@ export class TagEditComponent {
   public get keyFieldErrorMessage(): string {
     if (this.keyField.errors && this.keyField.errors.forbiddenValuesValidator) {
       return 'TAGS.TAG_ALREADY_EXISTS';
-    } else if (this.keyField.errors && this.keyField.errors.pattern) {
+    }
+    if (this.keyField.errors && this.keyField.errors.pattern) {
       return 'TAGS.TAG_START_FROM_SPACE';
     }
 
@@ -56,7 +57,7 @@ export class TagEditComponent {
     };
 
     if (this.tag) {
-      this.dialogRef.close({ oldTag: this.tag, newTag });
+      this.dialogRef.close({ newTag, oldTag: this.tag });
     } else {
       this.dialogRef.close(newTag);
     }

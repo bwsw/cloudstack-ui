@@ -4,7 +4,16 @@ import { MatDialog } from '@angular/material';
 import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, filter, first, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  first,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { SecurityGroupService } from '../../../security-group/services/security-group.service';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
@@ -29,16 +38,16 @@ export class SecurityGroupEffects {
         this.securityGroupService.getList(),
         this.store.pipe(
           select(configSelectors.get('securityGroupTemplates')),
-          first()
+          first(),
         ),
       ]).pipe(
         map(
           ([groups, templates]) =>
-            new securityGroupActions.LoadSecurityGroupResponse(groups.concat(templates))
+            new securityGroupActions.LoadSecurityGroupResponse(groups.concat(templates)),
         ),
-        catchError(() => of(new securityGroupActions.LoadSecurityGroupResponse([])))
+        catchError(() => of(new securityGroupActions.LoadSecurityGroupResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -54,15 +63,15 @@ export class SecurityGroupEffects {
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new securityGroupActions.CreateSecurityGroupError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
   createSecurityGroupSuccess$: Observable<Action> = this.actions$.pipe(
     ofType(securityGroupActions.CREATE_SECURITY_GROUP_SUCCESS),
-    tap(() => this.dialog.closeAll())
+    tap(() => this.dialog.closeAll()),
   );
 
   @Effect()
@@ -78,29 +87,24 @@ export class SecurityGroupEffects {
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new securityGroupActions.DeleteSecurityGroupError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
   deletePrivateSecurityGroup$: Observable<Action> = this.actions$.pipe(
     ofType(securityGroupActions.DELETE_PRIVATE_SECURITY_GROUP),
     withLatestFrom(this.store.pipe(select(fromSecurityGroups.selectAll))),
-    map(
-      ([action, groups]: [
-        securityGroupActions.DeletePrivateSecurityGroup,
-        Array<SecurityGroup>
-      ]) => {
-        const vmGroup = groups.find(
-          (group: SecurityGroup) =>
-            action.payload.securityGroup &&
-            !!action.payload.securityGroup.find(sg => sg.id === group.id) &&
-            getType(group) === SecurityGroupType.Private
-        );
-        return vmGroup;
-      }
-    ),
+    map(([action, groups]: [securityGroupActions.DeletePrivateSecurityGroup, SecurityGroup[]]) => {
+      const vmGroup = groups.find(
+        (group: SecurityGroup) =>
+          action.payload.securityGroup &&
+          !!action.payload.securityGroup.find(sg => sg.id === group.id) &&
+          getType(group) === SecurityGroupType.Private,
+      );
+      return vmGroup;
+    }),
     filter((group: SecurityGroup) => !!group),
     mergeMap((group: SecurityGroup) => {
       return this.deleteSecurityGroup(group).pipe(
@@ -112,9 +116,9 @@ export class SecurityGroupEffects {
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new securityGroupActions.DeleteSecurityGroupError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -128,7 +132,7 @@ export class SecurityGroupEffects {
       this.router.navigate(['./security-group'], {
         queryParamsHandling: 'preserve',
       });
-    })
+    }),
   );
 
   @Effect()
@@ -151,11 +155,11 @@ export class SecurityGroupEffects {
               catchError(error => {
                 this.showNotificationsOnFail(error);
                 return of(new securityGroupActions.ConvertSecurityGroupError(error));
-              })
+              }),
             );
-          })
+          }),
         );
-    })
+    }),
   );
 
   private deleteSuccessMessage = {
@@ -172,7 +176,7 @@ export class SecurityGroupEffects {
     private snackBarService: SnackBarService,
     private router: Router,
     private dialog: MatDialog,
-    private sgTagService: SecurityGroupTagService
+    private sgTagService: SecurityGroupTagService,
   ) {}
 
   public createSecurityGroup({
@@ -186,13 +190,12 @@ export class SecurityGroupEffects {
   private getSecurityGroupCreationRequest(
     mode: string,
     data: any,
-    rules: Rules
+    rules: Rules,
   ): Observable<SecurityGroup> {
     if (mode === SecurityGroupViewMode.Templates) {
       return this.securityGroupService.createTemplate(data, rules);
-    } else {
-      return this.securityGroupService.createShared(data, rules);
     }
+    return this.securityGroupService.createShared(data, rules);
   }
 
   private deleteSecurityGroup(securityGroup: SecurityGroup): Observable<any> {
@@ -205,6 +208,8 @@ export class SecurityGroupEffects {
         return 'NOTIFICATIONS.FIREWALL.TEMPLATE_CREATION_DONE';
       case SecurityGroupViewMode.Shared:
         return 'NOTIFICATIONS.FIREWALL.SHARED_GROUP_CREATION_DONE';
+      default:
+        break;
     }
   }
 

@@ -2,11 +2,16 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatRadioModule, MatTableModule } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+  MatRadioModule,
+  MatTableModule,
+} from '@angular/material';
 
 import { DiskOfferingDialogComponent } from './disk-offering-dialog.component';
 import { MockTranslatePipe } from '../../../../../testutils/mocks/mock-translate.pipe.spec';
-import { DiskOffering } from '../../../models';
 import { StringifyDatePipe } from '../../../pipes';
 import { DateTimeFormatterService } from '../../../services/date-time-formatter.service';
 
@@ -36,8 +41,6 @@ describe('Disk Offering dialog', () => {
     storagetype: 'any',
     provisioningtype: 'any',
   };
-
-  const diskOfferings: Array<DiskOffering> = [diskOffering];
 
   beforeEach(async(() => {
     dialog = jasmine.createSpyObj('MdDialogRef', ['close']);

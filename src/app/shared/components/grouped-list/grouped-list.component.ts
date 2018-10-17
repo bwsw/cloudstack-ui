@@ -12,16 +12,16 @@ export class GroupedListComponent implements OnChanges {
   @Input()
   public component: Type<any>;
   @Input()
-  public list: Array<BaseModelInterface>;
+  public list: BaseModelInterface[];
   @Input()
   public level = 0;
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Input()
   dynamicInputs: { [k: string]: any } = {};
   @Input()
   dynamicOutputs: { [k: string]: Function } = {};
-  public tree: Array<{ items?; name? }>;
+  public tree: { items?; name? }[];
 
   readonly emptyName = 'COMMON.EMPTY_GROUP_NAME';
 

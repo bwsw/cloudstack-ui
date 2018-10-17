@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 
-class MockStore<T> {}
+class MockStore {}
 
 @Injectable()
 class MockStorageService {
@@ -78,7 +78,7 @@ describe('Auth service', () => {
       expect(spyPostRequest).toHaveBeenCalled();
       expect(spyPostRequest).toHaveBeenCalledWith('login', params);
       expect(spyGetResponse).toHaveBeenCalled();
-    })
+    }),
   ));
 
   it('should logout', fakeAsync(
@@ -91,7 +91,7 @@ describe('Auth service', () => {
 
       expect(spySend).toHaveBeenCalled();
       expect(spySend).toHaveBeenCalledWith('logout');
-    })
+    }),
   ));
 
   it('should call getCapabilities if user is define', fakeAsync(
@@ -108,12 +108,12 @@ describe('Auth service', () => {
       expect(spySendCommand).toHaveBeenCalled();
       expect(spySendCommand).toHaveBeenCalledWith('listCapabilities', {}, '');
       expect(testService._user).toEqual(user);
-    })
+    }),
   ));
 
   it('should return Promise if user is undefined', async(
     inject([AuthService], testService => {
       expect(testService.initUser()).toEqual(jasmine.any(Promise));
-    })
+    }),
   ));
 });

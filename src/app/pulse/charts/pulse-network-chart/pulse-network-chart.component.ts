@@ -13,7 +13,7 @@ import { finalize } from 'rxjs/operators';
 import { NIC } from '../../../shared/models/nic.model';
 import { VmService } from '../../../vm/shared/vm.service';
 import { PulseService } from '../../pulse.service';
-import { humanReadableSizeInBits } from '../../unitsUtils';
+import { humanReadableSizeInBits } from '../../units-utils';
 import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
 
 @Component({
@@ -28,7 +28,7 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
   @Output()
   public nicChange = new EventEmitter();
   public selectedNic: NIC;
-  public availableNics: Array<NIC> = [];
+  public availableNics: NIC[] = [];
 
   constructor(pulse: PulseService, cd: ChangeDetectorRef, private vmService: VmService) {
     super(pulse, cd);
@@ -89,8 +89,8 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
           aggregation: _,
           shift: `${params.shiftAmount}${params.selectedShift || 'w'}`,
         },
-        forceUpdate
-      )
+        forceUpdate,
+      ),
     );
 
     this.setLoading(!forceUpdate);

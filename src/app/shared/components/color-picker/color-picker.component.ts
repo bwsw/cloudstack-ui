@@ -1,14 +1,5 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Color } from '../../models';
 import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
@@ -27,7 +18,7 @@ import { PopoverTriggerDirective } from '../popover/popover-trigger.directive';
 })
 export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   @Input()
-  public colors: Array<Color>;
+  public colors: Color[];
   @Input()
   public colorsPerLine: number;
   @Input()
@@ -35,7 +26,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   @Input()
   public hasColorField = true;
   @Output()
-  public change = new EventEmitter<Color>();
+  public changed = new EventEmitter<Color>();
   @ViewChild(PopoverTriggerDirective)
   public popoverTrigger: PopoverTriggerDirective;
 
@@ -60,7 +51,9 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
 
   public colorWidth: number;
 
+  // tslint:disable-next-line:variable-name
   private _selectedColor: Color;
+  // tslint:disable-next-line:variable-name
   private _disabled: boolean;
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -73,7 +66,7 @@ export class ColorPickerComponent implements OnChanges, ControlValueAccessor {
   public selectColor(color: Color): void {
     this.selectedColor = color;
     this.popoverTrigger.closePopover();
-    this.change.emit(this._selectedColor);
+    this.changed.emit(this._selectedColor);
   }
 
   public handlePreviewClick(e: Event): void {

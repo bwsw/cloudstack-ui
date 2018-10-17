@@ -10,7 +10,7 @@ import { VirtualMachine } from '../../shared/vm.model';
   styleUrls: ['instance-group-selector.component.scss'],
 })
 export class InstanceGroupSelectorComponent {
-  public groupNames: Array<string>;
+  public groupNames: string[];
   public vm: VirtualMachine;
   public loading: boolean;
   public modes = Mode;

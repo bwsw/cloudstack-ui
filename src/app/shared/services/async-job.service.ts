@@ -22,8 +22,8 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   public event: Subject<AsyncJob<any>>;
   public pollingInterval: number;
   public immediatePollingInterval: number;
-  private timerIds: Array<any> = [];
-  private jobs: Array<Subject<AsyncJob<any>>> = [];
+  private timerIds: any[] = [];
+  private jobs: Subject<AsyncJob<any>>[] = [];
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -37,13 +37,13 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     const jobObservable = Observable.create(observer => {
       let interval;
       setTimeout(() => {
-        this._queryJob(jobId, observer, entity, entityModel);
+        this.jobRequest(jobId, observer, entity, entityModel);
         interval = setInterval(() => {
           if (jobObservable.isStopped) {
             clearInterval(interval);
             return;
           }
-          this._queryJob(jobId, observer, entity, entityModel, interval);
+          this.jobRequest(jobId, observer, entity, entityModel, interval);
         }, this.pollingInterval);
         this.timerIds.push(interval);
       }, this.immediatePollingInterval);
@@ -61,12 +61,12 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     this.timerIds = [];
   }
 
-  private _queryJob(
+  private jobRequest(
     jobId: string,
     observer: Observer<AsyncJob<any>>,
     entity: string,
     entityModel: any,
-    interval?: any
+    interval?: any,
   ): void {
     this.sendCommand(CSCommands.QueryResult, { jobId })
       .pipe(map(res => res as AsyncJob<typeof entityModel>))
@@ -79,10 +79,12 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
             break;
           case JobStatus.Failed: {
             observer.error(
-              ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult }))
+              ErrorService.parseError(this.getResponse({ error: asyncJob.jobresult })),
             );
             break;
           }
+          default:
+            break;
         }
 
         if (interval) {
@@ -95,12 +97,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   }
 
   private getJobId(job: any): string {
-    let jobId;
-    if (this.isAsyncJob(job)) {
-      jobId = job.jobid;
-    } else {
-      jobId = job.jobid || job;
-    }
+    const jobId = this.isAsyncJob(job) ? job.jobid : job.jobid || job;
 
     if (typeof jobId !== 'string') {
       throw new Error('Unsupported job format');
@@ -115,7 +112,7 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
   private getResult(
     asyncJob: AsyncJob<typeof entityModel>,
     entity = '',
-    entityModel: any = null
+    entityModel: any = null,
   ): any {
     // when response is just success: true/false
     if (asyncJob.jobresult && asyncJob.jobresult.success) {

@@ -9,13 +9,13 @@ import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 })
 export class SshKeypairResetComponent {
   public resettingKeyInProgress = false;
-  public sshKeyList: Array<SSHKeyPair>;
+  public sshKeyList: SSHKeyPair[];
   public selectedSshKeyName: string;
   public preselectedSshKeyName: string;
 
   constructor(
     private dialogRef: MatDialogRef<SshKeypairResetComponent>,
-    @Inject(MAT_DIALOG_DATA) private data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.sshKeyList = data.keys;
     this.preselectedSshKeyName = data.sshKeyName;

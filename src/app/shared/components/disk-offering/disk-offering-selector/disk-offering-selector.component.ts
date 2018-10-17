@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -18,11 +18,12 @@ import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offeri
 })
 export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   @Input()
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: DiskOffering[];
   @Input()
   public required: boolean;
   @Output()
-  public change: EventEmitter<DiskOffering>;
+  public changed: EventEmitter<DiskOffering>;
+  // tslint:disable-next-line:variable-name
   private _diskOffering: DiskOffering;
 
   @Input()
@@ -37,8 +38,8 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
     }
   }
 
-  constructor(private cd: ChangeDetectorRef, private dialog: MatDialog) {
-    this.change = new EventEmitter();
+  constructor(private dialog: MatDialog) {
+    this.changed = new EventEmitter();
   }
 
   public registerOnChange(fn): void {
@@ -68,7 +69,7 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
       .subscribe((offering: DiskOffering) => {
         if (offering) {
           this.diskOffering = offering;
-          this.change.next(offering);
+          this.changed.next(offering);
         }
       });
   }

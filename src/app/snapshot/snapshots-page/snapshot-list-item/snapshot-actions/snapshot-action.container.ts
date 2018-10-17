@@ -12,10 +12,10 @@ import { DialogService } from '../../../../dialog/dialog-service/dialog.service'
   template: `
     <cs-snapshot-action
       [snapshot]="snapshot"
-      (onTemplateCreate)="onTemplateCreate($event)"
-      (onVolumeCreate)="onVolumeCreate($event)"
-      (onSnapshotDelete)="onSnapshotDelete($event)"
-      (onSnapshotRevert)="onSnapshotRevert($event)"
+      (templateCreated)="onTemplateCreate($event)"
+      (volumeCreated)="onVolumeCreate($event)"
+      (snapshotDeleted)="onSnapshotDelete($event)"
+      (snapshotReverted)="onSnapshotRevert($event)"
     >
     </cs-snapshot-action>`,
 })

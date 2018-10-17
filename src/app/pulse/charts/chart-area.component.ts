@@ -8,7 +8,7 @@ import { PulseChart } from './pulse-chart';
 })
 export class ChartAreaComponent {
   @Input()
-  public charts: Array<PulseChart>;
+  public charts: PulseChart[];
   @Input()
   public hasNext: boolean;
   @Input()

@@ -14,7 +14,7 @@ export interface TimeZone {
 export class TimeZoneService {
   constructor(public http: HttpClient) {}
 
-  public get(): Observable<Array<TimeZone>> {
+  public get(): Observable<TimeZone[]> {
     return this.http.get(url).pipe(catchError(() => this.handleError()));
   }
 

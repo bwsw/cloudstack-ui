@@ -12,7 +12,7 @@ export class DateDisplayComponent {
   @Input()
   public selectedDate: Date;
   @Input()
-  public DateTimeFormat;
+  public dateTimeFormat;
   @Input()
   public showMonth = true;
 
@@ -22,13 +22,13 @@ export class DateDisplayComponent {
   public yearClick = new EventEmitter();
 
   public get year(): string {
-    return new this.DateTimeFormat(this.locale, {
+    return new this.dateTimeFormat(this.locale, {
       year: 'numeric',
     }).format(this.selectedDate);
   }
 
   public get dateTime(): string {
-    return new this.DateTimeFormat(this.locale, {
+    return new this.dateTimeFormat(this.locale, {
       month: 'short',
       weekday: 'short',
       day: '2-digit',

@@ -17,6 +17,7 @@ export class VolumeRowItemComponent extends VolumeItemComponent {
   public searchQuery: () => string;
   @Input()
   public item: Volume;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger)
@@ -24,7 +25,7 @@ export class VolumeRowItemComponent extends VolumeItemComponent {
 
   constructor(
     protected diskOfferingService: DiskOfferingService,
-    protected zoneService: ZoneService
+    protected zoneService: ZoneService,
   ) {
     super(diskOfferingService, zoneService);
   }

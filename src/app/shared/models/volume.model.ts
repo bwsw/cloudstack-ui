@@ -1,9 +1,9 @@
-import { VolumeTagKeys } from '../services/tags/volume-tag-keys';
+import { volumeTagKeys } from '../services/tags/volume-tag-keys';
 import { BaseModelInterface } from './base.model';
 import { DiskOffering } from './disk-offering.model';
 import { ServiceOffering } from './service-offering.model';
 import { Snapshot } from './snapshot.model';
-import { DeletionMark, Tag } from './tag.model';
+import { deletionMark, Tag } from './tag.model';
 
 export class VolumeCreationData {
   public name: string;
@@ -44,9 +44,9 @@ export interface Volume extends BaseModelInterface {
   provisioningtype: string;
   serviceOffering: ServiceOffering;
   serviceofferingid: string;
-  snapshots: Array<Snapshot>;
+  snapshots: Snapshot[];
   storagetype: string;
-  tags: Array<Tag>;
+  tags: Tag[];
   type: VolumeType;
   zoneid: string;
   zonename: string;
@@ -57,12 +57,11 @@ export const getDescription = (volume: Volume) => {
     return '';
   }
 
-  const description = volume.tags.find(tag => tag.key === VolumeTagKeys.description);
+  const description = volume.tags.find(tag => tag.key === volumeTagKeys.description);
   if (description) {
     return description.value;
-  } else {
-    return '';
   }
+  return '';
 };
 
 export const isRoot = (volume: Volume) => {
@@ -71,11 +70,11 @@ export const isRoot = (volume: Volume) => {
 
 export const isDeleted = (volume: Volume) => {
   return !!volume.tags.find(
-    tag => tag.key === DeletionMark.TAG && tag.value === DeletionMark.VALUE
+    tag => tag.key === deletionMark.TAG && tag.value === deletionMark.VALUE,
   );
 };
 
-export interface ISnapshotData {
+export interface SnapshotData {
   name: string;
   desc: string;
 }

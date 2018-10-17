@@ -11,5 +11,5 @@ export class VolumeSnapshotDetailsComponent {
   @Input()
   public isLoading: boolean;
   @Output()
-  public onSnapshotAdd = new EventEmitter<Volume>();
+  public snapshotAdded = new EventEmitter<Volume>();
 }

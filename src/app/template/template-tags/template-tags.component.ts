@@ -11,11 +11,11 @@ import { KeyValuePair } from '../../tags/tags-view/tags-view.component';
   selector: 'cs-template-tags',
   templateUrl: 'tags.component.html',
 })
-export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
+export class TemplateTagsComponent extends TagsComponent {
   @Input()
   public entity: BaseTemplateModel;
   @Input()
-  public tags: Array<Tag>;
+  public tags: Tag[];
 
   public get hasPermissions(): boolean {
     return this.entity.account === this.authService.user.account || this.authService.isAdmin();
@@ -24,7 +24,7 @@ export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
   constructor(
     protected dialogService: DialogService,
     protected tagService: TagService,
-    protected authService: AuthService
+    protected authService: AuthService,
   ) {
     super(dialogService, tagService);
   }
@@ -41,6 +41,6 @@ export class TemplateTagsComponent extends TagsComponent<BaseTemplateModel> {
         'tags[0].key': tag.key,
         'tags[0].value': tag.value,
       })
-      .subscribe(res => this.onTagAdd.emit(tag), error => this.onError(error));
+      .subscribe(res => this.tagAdded.emit(tag), error => this.onError(error));
   }
 }

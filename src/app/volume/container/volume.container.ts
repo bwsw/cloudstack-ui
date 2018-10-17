@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../reducers';
 import * as volumeActions from '../../reducers/volumes/redux/volumes.actions';
 import * as snapshotActions from '../../reducers/snapshots/redux/snapshot.actions';
@@ -19,12 +19,12 @@ import { AuthService } from '../../shared/services/auth.service';
     ></cs-volume-page>`,
 })
 export class VolumePageContainerComponent implements OnInit, AfterViewInit {
-  readonly volumes$ = this.store.select(fromVolumes.selectFilteredVolumes);
-  readonly query$ = this.store.select(fromVolumes.filterQuery);
-  readonly loading$ = this.store.select(fromVolumes.isLoading);
-  readonly selectedGroupings$ = this.store.select(fromVolumes.filterSelectedGroupings);
+  readonly volumes$ = this.store.pipe(select(fromVolumes.selectFilteredVolumes));
+  readonly query$ = this.store.pipe(select(fromVolumes.filterQuery));
+  readonly loading$ = this.store.pipe(select(fromVolumes.isLoading));
+  readonly selectedGroupings$ = this.store.pipe(select(fromVolumes.filterSelectedGroupings));
 
-  public groupings: Array<Grouping> = [
+  public groupings: Grouping[] = [
     {
       key: 'zones',
       label: 'VOLUME_PAGE.FILTERS.GROUP_BY_ZONES',
@@ -49,7 +49,7 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<State>,
     private authService: AuthService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     if (!this.isAdmin()) {
       this.groupings = this.groupings.filter(g => g.key !== 'accounts');
@@ -61,15 +61,15 @@ export class VolumePageContainerComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
   }
 
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
+  }
+
   public isAdmin() {
     return this.authService.isAdmin();
   }
 
   private getGroupName(volume: Volume) {
     return volume.domain !== 'ROOT' ? `${volume.domain}/${volume.account}` : volume.account;
-  }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
   }
 }

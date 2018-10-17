@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
 
 import { State } from '../../reducers/index';
@@ -24,8 +24,8 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
       [diskOfferings]="offerings$ | async"
       [maxSize]="maxSize"
       [zones]="zones$ | async"
-      (onVolumeCreate)="createVolume($event)"
-      (onZoneUpdated)="updateZone($event)"
+      (volumeCreated)="createVolume($event)"
+      (zoneUpdated)="updateZone($event)"
     >
     </cs-volume-creation-dialog>`,
 })
@@ -33,24 +33,24 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   @ViewChild(VolumeCreationDialogComponent)
   public volumeCreationDialogComponent: VolumeCreationDialogComponent;
 
-  public loading$ = this.store.select(fromVolumes.isLoading);
-  readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
-  readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly account$ = this.store.select(fromAccounts.selectUserAccount);
+  public loading$ = this.store.pipe(select(fromVolumes.isLoading));
+  readonly offerings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
+  readonly zones$ = this.store.pipe(select(fromZones.selectAll));
+  readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
 
   public maxSize = 2;
 
   constructor(
     public dialogService: DialogService,
     public authService: AuthService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     super();
   }
 
   public ngOnInit() {
     this.store.dispatch(
-      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK })
+      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }),
     );
   }
 
@@ -62,7 +62,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
     this.account$
       .pipe(
         take(1),
-        filter(Boolean)
+        filter(Boolean),
       )
       .subscribe(account => {
         if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
@@ -72,9 +72,9 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
         this.maxSize = account.primarystorageavailable;
         this.store.dispatch(
           new diskOfferingActions.LoadOfferingsRequest({
-            zone: zone,
+            zone,
             maxSize: this.maxSize,
-          })
+          }),
         );
       });
   }

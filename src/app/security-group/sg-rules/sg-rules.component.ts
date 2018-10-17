@@ -25,9 +25,9 @@ export class SgRulesComponent implements OnInit, OnChanges {
   @Input()
   public vmId: string;
   @Output()
-  public onCloseDialog = new EventEmitter();
+  public closeDialog = new EventEmitter();
   @Output()
-  public onFirewallRulesChange = new EventEmitter<SecurityGroup>();
+  public firewallRulesChanged = new EventEmitter<SecurityGroup>();
 
   public selectedIPVersion: string[] = [];
   public selectedTypes: string[] = [];
@@ -40,7 +40,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
 
   public adding: boolean;
 
-  public IPversions = [IPVersion.ipv4, IPVersion.ipv6];
+  public ipVersions = [IPVersion.ipv4, IPVersion.ipv6];
 
   public inputs;
   public outputs;
@@ -52,15 +52,13 @@ export class SgRulesComponent implements OnInit, OnChanges {
       label: 'SECURITY_GROUP_PAGE.FILTERS.TYPES',
       selector: (item: NetworkRule) => item.type,
       name: (item: NetworkRule) =>
-        this.translateService.instant(
-          `SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`
-        ),
+        this.translateService.instant(`SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`),
     },
     {
       key: 'protocols',
       label: 'SECURITY_GROUP_PAGE.FILTERS.PROTOCOLS',
       selector: (item: NetworkRule) => item.protocol,
-      name: (item: NetworkRule) => 'SECURITY_GROUP_PAGE.RULES.' + item.protocol.toUpperCase(),
+      name: (item: NetworkRule) => `SECURITY_GROUP_PAGE.RULES.${item.protocol.toUpperCase()}`,
     },
   ];
 
@@ -76,9 +74,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
   ];
 
   public get isPredefinedTemplate(): boolean {
-    return (
-      this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate
-    );
+    return this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate;
   }
 
   constructor(
@@ -86,7 +82,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
     private notificationService: SnackBarService,
     private translateService: TranslateService,
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
   ) {
     this.adding = false;
   }
@@ -139,7 +135,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
       () => {
         this.notificationService.open('SECURITY_GROUP_PAGE.RULES.FAILED_TO_ADD_RULE').subscribe();
         this.adding = false;
-      }
+      },
     );
   }
 
@@ -156,14 +152,10 @@ export class SgRulesComponent implements OnInit, OnChanges {
         this.filter();
       },
       () => {
-        this.translateService
-          .get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
-          .subscribe(translations => {
-            this.notificationService
-              .open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
-              .subscribe();
-          });
-      }
+        this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']).subscribe(translations => {
+          this.notificationService.open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']).subscribe();
+        });
+      },
     );
   }
 
@@ -193,7 +185,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
                   viewMode: SecurityGroupViewMode.Shared,
                 },
               });
-              this.onCloseDialog.emit();
+              this.closeDialog.emit();
             } else {
               this.changeMode();
             }
@@ -236,17 +228,11 @@ export class SgRulesComponent implements OnInit, OnChanges {
     return rules.filter((rule: NetworkRule) => {
       const filterByIPversion = (item: NetworkRule) => {
         const ruleIPversion =
-          item.cidr && CidrUtils.getCidrIpVersion(item.cidr) === IPVersion.ipv6
-            ? IPVersion.ipv6
-            : IPVersion.ipv4;
-        return (
-          !this.selectedIPVersion.length ||
-          this.selectedIPVersion.find(version => version === ruleIPversion)
-        );
+          item.cidr && CidrUtils.getCidrIpVersion(item.cidr) === IPVersion.ipv6 ? IPVersion.ipv6 : IPVersion.ipv4;
+        return !this.selectedIPVersion.length || this.selectedIPVersion.find(version => version === ruleIPversion);
       };
       const filterByProtocol = (item: NetworkRule) =>
-        !this.selectedProtocols.length ||
-        this.selectedProtocols.find(protocol => protocol === item.protocol);
+        !this.selectedProtocols.length || this.selectedProtocols.find(protocol => protocol === item.protocol);
       const filterByTypes = (item: NetworkRule) =>
         !this.selectedTypes.length || this.selectedTypes.find(type => item.type === type);
 
@@ -260,6 +246,6 @@ export class SgRulesComponent implements OnInit, OnChanges {
       ingressrule: this.ingressRules,
       egressrule: this.egressRules,
     };
-    this.onFirewallRulesChange.emit(updatedSecurityGroup);
+    this.firewallRulesChanged.emit(updatedSecurityGroup);
   }
 }

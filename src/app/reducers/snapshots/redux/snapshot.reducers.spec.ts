@@ -81,8 +81,8 @@ describe('Snapshot Reducer', () => {
     const state = fromSnapshots.listReducer(
       {
         ...initialListState,
+        entities,
         ids: ['2', '1'],
-        entities: entities,
       },
       action
     );

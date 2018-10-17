@@ -10,8 +10,8 @@ import { PopoverTriggerDirective } from './popover-trigger.directive';
   template: `
     <button
       [csPopoverTrigger]="popover"
-      (onPopoverOpen)="openEvents = openEvents + 1"
-      (onPopoverClose)="closeEvents = closeEvents + 1"
+      (popoverOpened)="openEvents = openEvents + 1"
+      (popoverClosed)="closeEvents = closeEvents + 1"
     ></button>
     <cs-popover #popover><div data-id="popover-content">test</div></cs-popover>
   `,
@@ -73,10 +73,10 @@ describe('PopoverTriggerDirective', () => {
     expect(
       fixture.debugElement
         .query(By.css('div[data-id="popover-content"]'))
-        .nativeElement.textContent.trim()
+        .nativeElement.textContent.trim(),
     ).toBe('test');
     expect(
-      overlayContainerElement.querySelector('div[data-id="popover-content"]').textContent.trim()
+      overlayContainerElement.querySelector('div[data-id="popover-content"]').textContent.trim(),
     ).toBe('test');
   });
 

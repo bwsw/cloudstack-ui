@@ -11,18 +11,18 @@ export class VolumeActionsComponent {
   @Input()
   public volume: Volume;
   @Output()
-  public onVolumeDelete = new EventEmitter<Volume>();
+  public volumeDeleted = new EventEmitter<Volume>();
   @Output()
-  public onVolumeResize = new EventEmitter<Volume>();
+  public volumeResized = new EventEmitter<Volume>();
   @Output()
-  public onVolumeAttach = new EventEmitter<Volume>();
+  public volumeAttached = new EventEmitter<Volume>();
   @Output()
-  public onVolumeDetach = new EventEmitter<Volume>();
+  public volumeDetached = new EventEmitter<Volume>();
   @Output()
-  public onSnapshotAdd = new EventEmitter<Volume>();
+  public snapshotAdded = new EventEmitter<Volume>();
   @Output()
-  public onVolumeSchedule = new EventEmitter<Volume>();
-  public actions: Array<any>;
+  public volumeScheduled = new EventEmitter<Volume>();
+  public actions: any[];
 
   constructor(public volumeActionsService: VolumeActionsService) {
     this.actions = this.volumeActionsService.actions;
@@ -31,29 +31,31 @@ export class VolumeActionsComponent {
   public onAction(action, volume: Volume): void {
     switch (action.command) {
       case VolumeAction.DELETE: {
-        this.onVolumeDelete.emit(volume);
+        this.volumeDeleted.emit(volume);
         break;
       }
       case VolumeAction.RESIZE: {
-        this.onVolumeResize.emit(volume);
+        this.volumeResized.emit(volume);
         break;
       }
       case VolumeAction.ATTACH: {
-        this.onVolumeAttach.emit(volume);
+        this.volumeAttached.emit(volume);
         break;
       }
       case VolumeAction.DETACH: {
-        this.onVolumeDetach.emit(volume);
+        this.volumeDetached.emit(volume);
         break;
       }
       case VolumeAction.SNAPSHOT: {
-        this.onSnapshotAdd.emit(volume);
+        this.snapshotAdded.emit(volume);
         break;
       }
       case VolumeAction.SCHEDULE: {
-        this.onVolumeSchedule.emit(volume);
+        this.volumeScheduled.emit(volume);
         break;
       }
+      default:
+        break;
     }
   }
 }

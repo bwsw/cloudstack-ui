@@ -20,20 +20,19 @@ import { IsoActionsService } from '../iso-actions.service';
 export class TemplateActionsContainerComponent implements OnInit {
   @Input()
   public template: BaseTemplateModel;
-  public actions: Array<BaseTemplateAction> = [];
+  public actions: BaseTemplateAction[] = [];
 
   constructor(
     private store: Store<State>,
     private templateActionsService: TemplateActionsService,
-    private isoActionsService: IsoActionsService
+    private isoActionsService: IsoActionsService,
   ) {}
 
   public ngOnInit() {
-    if (this.template && isTemplate(this.template)) {
-      this.actions = this.templateActionsService.actions;
-    } else {
-      this.actions = this.isoActionsService.actions;
-    }
+    this.actions =
+      this.template && isTemplate(this.template)
+        ? this.templateActionsService.actions
+        : this.isoActionsService.actions;
   }
 
   public deleteTemplate(template: BaseTemplateModel) {

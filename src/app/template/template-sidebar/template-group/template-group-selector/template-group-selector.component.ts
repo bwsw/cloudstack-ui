@@ -17,7 +17,7 @@ export class TemplateGroupSelectorComponent implements OnInit {
   public template: BaseTemplateModel;
   @Input()
   public groups: ImageGroup[];
-  public groupNames: Array<string> = [];
+  public groupNames: string[] = [];
   public loading: boolean;
   public modes = Mode;
 
@@ -54,7 +54,7 @@ export class TemplateGroupSelectorComponent implements OnInit {
         (group.translations && group.translations[this.locale] === translation) ||
         group.id === translation
     );
-    this.groupChange.emit({ template: this.template, templateGroup });
+    this.groupChange.emit({ templateGroup, template: this.template });
   }
 
   public resetGroup(): void {

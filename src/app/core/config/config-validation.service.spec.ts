@@ -19,7 +19,7 @@ describe('ConfigValidationService', () => {
     }
   });
 
-  it("should merge user's value if it is correct (only if property has a validator) to resulted config", () => {
+  it('should merge user\'s value if it is correct (only if property has a validator) to resulted config', () => {
     const config: Partial<Config> = {
       defaultDomain: 'develop',
     };
@@ -27,7 +27,7 @@ describe('ConfigValidationService', () => {
     expect(conf.defaultDomain).toBe('develop');
   });
 
-  it("should not merge user's value if it is incorrect (only if property has a validator) to resulted config", () => {
+  it('should not merge user\'s value if it is incorrect (only if property has a validator) to resulted config', () => {
     const config = {
       defaultInterfaceLanguage: 'fr',
       defaultFirstDayOfWeek: 'monday',
@@ -59,7 +59,7 @@ describe('ConfigValidationService', () => {
     expect(conf.defaultInterfaceLanguage).toBe(defaultConfig.defaultInterfaceLanguage);
   });
 
-  it("should log a warning message to the console if a user's key is unknown", () => {
+  it('should log a warning message to the console if a user\'s key is unknown', () => {
     const config = {
       noSuchProperty: true,
     };
@@ -67,7 +67,7 @@ describe('ConfigValidationService', () => {
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
-  it("should log a warning message to the console if a user's value is incorrect", () => {
+  it('should log a warning message to the console if a user\'s value is incorrect', () => {
     const config = {
       defaultFirstDayOfWeek: 'monday',
     };
@@ -75,7 +75,7 @@ describe('ConfigValidationService', () => {
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
-  it("should log a warning message to the console if a user's config is incorrect", () => {
+  it('should log a warning message to the console if a user\'s config is incorrect', () => {
     const config = 'defaultFirstDayOfWeek: "monday"';
     configValidationService.validate(config);
     expect(console.warn).toHaveBeenCalledTimes(1);

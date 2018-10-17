@@ -78,7 +78,7 @@ describe('Async job service', () => {
 
     const requests = httpTestingController.match({});
     const lastRequest = requests.length - 1;
-    for (let i = 0; i < requests.length - 1; i++) {
+    for (let i = 0; i < requests.length - 1; i += 1) {
       requests[i].flush(mockResponse1.body);
     }
     requests[lastRequest].flush(mockResponse2.body);
@@ -100,7 +100,7 @@ describe('Async job service', () => {
 
     const requests = httpTestingController.match({});
     const lastRequest = requests.length - 1;
-    for (let i = 0; i < requests.length - 1; i++) {
+    for (let i = 0; i < requests.length - 1; i += 1) {
       requests[i].flush(mockResponse1.body);
     }
     requests[lastRequest].flush(queryFailedJobResponse.body);

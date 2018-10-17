@@ -26,9 +26,9 @@ export class PolicyEditorComponent {
   @Input()
   policyMode: PolicyType;
   @Output()
-  onPolicySave: EventEmitter<Policy<TimePolicy>>;
+  policySaved: EventEmitter<Policy<TimePolicy>>;
 
-  public Policies = PolicyType;
+  public policyType = PolicyType;
 
   public policy = { minute: 0 };
 
@@ -39,11 +39,11 @@ export class PolicyEditorComponent {
   public storedSnapshots = 1;
 
   constructor() {
-    this.onPolicySave = new EventEmitter<Policy<TimePolicy>>();
+    this.policySaved = new EventEmitter<Policy<TimePolicy>>();
   }
 
   public save(): void {
-    this.onPolicySave.emit({
+    this.policySaved.emit({
       timePolicy: this.policy as TimePolicy,
       timeZone: this.timeZone,
       storedSnapshots: this.storedSnapshots,

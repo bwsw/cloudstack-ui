@@ -28,17 +28,17 @@ export class TagService extends BaseBackendService<Tag> {
     );
   }
 
-  public getList(params?: {}): Observable<Array<Tag>> {
+  public getList(params?: {}): Observable<Tag[]> {
     const customApiFormat = { command: 'list', entity: 'Tag' };
     return super.getList(params, customApiFormat);
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({ resourceid: entity.id, key }).pipe(map(tags => tags[0]));
+    return this.getList({ key, resourceid: entity.id }).pipe(map(tags => tags[0]));
   }
 
   public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-    const newEntity = Object.assign({}, entity);
+    const newEntity = {...entity};
 
     const createObs = this.create({
       resourceIds: newEntity.id,
@@ -49,13 +49,13 @@ export class TagService extends BaseBackendService<Tag> {
       map(() => {
         if (newEntity.tags) {
           const newTags: Tag[] = [...newEntity.tags];
-          newTags.push(<Tag>{
-            resourceid: newEntity.id,
-            resourcetype: entityName,
+          newTags.push({
             key,
             value,
-          });
-          return Object.assign({}, newEntity, { tags: newTags });
+            resourceid: newEntity.id,
+            resourcetype: entityName,
+          } as Tag);
+          return {...newEntity,  tags: newTags};
         }
         return newEntity;
       })

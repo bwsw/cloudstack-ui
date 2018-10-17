@@ -18,12 +18,11 @@ export class ProgressLoggerMessageComponent {
   public get translatedMessage(): Observable<string> {
     if (typeof this.message.text === 'string') {
       return this.translateService.get(this.message.text);
-    } else {
-      return this.translateService.get(
-        this.message.text.translationToken,
-        this.message.text.interpolateParams
-      );
     }
+    return this.translateService.get(
+      this.message.text.translationToken,
+      this.message.text.interpolateParams
+    );
   }
 
   public get isHighlighted(): boolean {
@@ -46,7 +45,7 @@ export class ProgressLoggerMessageComponent {
     return this.status.includes(ProgressLoggerMessageStatus.ErrorMessage);
   }
 
-  private get status(): Array<ProgressLoggerMessageStatus> {
+  private get status(): ProgressLoggerMessageStatus[] {
     return (this.message && this.message.status) || [];
   }
 }

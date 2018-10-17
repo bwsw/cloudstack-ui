@@ -1,5 +1,5 @@
 import { NetworkRule } from './network-rule.model';
-import { SecurityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
+import { securityGroupTagKeys } from '../shared/services/tags/security-group-tag-keys';
 import { Tag } from '../shared/models';
 
 export enum SecurityGroupType {
@@ -35,13 +35,13 @@ export interface SecurityGroup {
 }
 
 export const isCustomTemplate = (securityGroup: SecurityGroup) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
 };
 
 export const isPrivate = (securityGroup: SecurityGroup) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.Private;
 };

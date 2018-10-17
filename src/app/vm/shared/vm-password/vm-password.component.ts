@@ -5,7 +5,6 @@ import { filter, first, tap } from 'rxjs/operators';
 import { VirtualMachine } from '../vm.model';
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
-import { TagService } from '../../../shared/services/tags/tag.service';
 import { SaveVMPassword } from '../../../reducers/vm/redux/vm.actions';
 
 @Component({
@@ -45,11 +44,7 @@ export class VmPasswordComponent implements OnInit {
   public saved = false;
   private isAutoSave: boolean;
 
-  constructor(
-    private dialogService: DialogService,
-    private tagService: TagService,
-    private store: Store<State>
-  ) {}
+  constructor(private dialogService: DialogService, private store: Store<State>) {}
 
   public ngOnInit() {
     this.store
@@ -57,7 +52,7 @@ export class VmPasswordComponent implements OnInit {
         select(UserTagsSelectors.getIsSavePasswordForVMs),
         first(),
         tap(value => (this.isAutoSave = value)),
-        filter(Boolean)
+        filter(Boolean),
       )
       .subscribe(() => this.savePassword());
   }

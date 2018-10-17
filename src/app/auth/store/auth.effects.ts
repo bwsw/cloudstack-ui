@@ -7,7 +7,6 @@ import { mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { AuthActionTypes, IdleLogout, LogoutComplete } from './auth.actions';
 import { RouterUtilsService } from '../../shared/services/router-utils.service';
-import { AuthService } from '../../shared/services/auth.service';
 import { configSelectors, IdleMonitorActions, State, UserTagsActions } from '../../root-store/';
 
 @Injectable()
@@ -16,8 +15,8 @@ export class AuthEffects {
   idleLogout$: Observable<Action> = this.actions$.pipe(
     ofType<IdleLogout>(AuthActionTypes.IdleLogout),
     tap(() =>
-      this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams())
-    )
+      this.router.navigate(['/logout'], this.routerUtilsService.getRedirectionQueryParams()),
+    ),
   );
 
   @Effect()
@@ -27,14 +26,13 @@ export class AuthEffects {
     mergeMap(([action, tags]) => [
       new IdleMonitorActions.StopIdleMonitor(),
       new UserTagsActions.SetDefaultUserTagsDueToLogout({ tags }),
-    ])
+    ]),
   );
 
   constructor(
     private actions$: Actions,
-    private authService: AuthService,
     private router: Router,
     private routerUtilsService: RouterUtilsService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 }

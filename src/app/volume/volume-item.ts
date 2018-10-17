@@ -6,12 +6,9 @@ import { ZoneService } from '../shared/services/zone.service';
 
 export abstract class VolumeItem {
   public item: Volume;
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: DiskOffering[];
 
-  constructor(
-    protected diskOfferingService: DiskOfferingService,
-    protected zoneService: ZoneService
-  ) {}
+  constructor(protected diskOfferingService: DiskOfferingService, protected zoneService: ZoneService) {}
 
   protected loadDiskOfferings(): void {
     let zone;
@@ -19,18 +16,14 @@ export abstract class VolumeItem {
     this.zoneService
       .get(this.item.zoneid)
       .pipe(
-        switchMap((_zone: Zone) => {
-          zone = _zone;
+        switchMap((z: Zone) => {
+          zone = z;
           return this.diskOfferingService.getList({ zoneId: zone.id });
-        })
+        }),
       )
       .subscribe(diskOfferings => {
         this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
-          return this.diskOfferingService.isOfferingAvailableForVolume(
-            diskOffering,
-            this.item,
-            zone
-          );
+          return this.diskOfferingService.isOfferingAvailableForVolume(diskOffering, this.item, zone);
         });
       });
   }

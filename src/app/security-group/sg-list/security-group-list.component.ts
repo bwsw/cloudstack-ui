@@ -16,7 +16,7 @@ import { NgrxEntities } from '../../shared/interfaces';
 })
 export class SecurityGroupListComponent implements OnChanges {
   @Input()
-  public securityGroups: Array<SecurityGroup>;
+  public securityGroups: SecurityGroup[];
   @Input()
   public query: string;
   @Input()
@@ -54,14 +54,16 @@ export class SecurityGroupListComponent implements OnChanges {
                 switch (getType(item)) {
                   case SecurityGroupType.PredefinedTemplate: {
                     return this.translateService.instant(
-                      'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS'
+                      'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS',
                     );
                   }
                   case SecurityGroupType.CustomTemplate: {
                     return this.translateService.instant(
-                      'SECURITY_GROUP_PAGE.LIST.CUSTOM_SECURITY_GROUPS'
+                      'SECURITY_GROUP_PAGE.LIST.CUSTOM_SECURITY_GROUPS',
                     );
                   }
+                  default:
+                    break;
                 }
               },
             },

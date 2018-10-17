@@ -1,16 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { AuthService } from '../../shared/services/auth.service';
-import { Account, AccountState } from '../../shared/models/account.model';
+import { Account, accountState } from '../../shared/models/account.model';
 
 export const stateTranslations = {
-  [AccountState.disabled]: 'ACCOUNT_STATE.DISABLED',
-  [AccountState.enabled]: 'ACCOUNT_STATE.ENABLED',
+  [accountState.disabled]: 'ACCOUNT_STATE.DISABLED',
+  [accountState.enabled]: 'ACCOUNT_STATE.ENABLED',
 };
 
 @Component({
@@ -25,9 +25,9 @@ export const stateTranslations = {
 })
 export class AccountPageContainerComponent extends WithUnsubscribe()
   implements OnInit, AfterViewInit {
-  readonly accounts$ = this.store.select(fromAccounts.selectFilteredAccounts);
-  readonly loading$ = this.store.select(fromAccounts.isLoading);
-  readonly selectedGroupings$ = this.store.select(fromAccounts.filterSelectedGroupings);
+  readonly accounts$ = this.store.pipe(select(fromAccounts.selectFilteredAccounts));
+  readonly loading$ = this.store.pipe(select(fromAccounts.isLoading));
+  readonly selectedGroupings$ = this.store.pipe(select(fromAccounts.filterSelectedGroupings));
 
   public groupings = [
     {
@@ -59,7 +59,7 @@ export class AccountPageContainerComponent extends WithUnsubscribe()
   constructor(
     private store: Store<State>,
     private authService: AuthService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     super();
   }

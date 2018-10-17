@@ -15,9 +15,9 @@ export class SshKeypairComponent {
   @Input()
   public vm: VirtualMachine;
   @Input()
-  public keys: Array<SSHKeyPair>;
+  public keys: SSHKeyPair[];
   @Output()
-  public onSshKeyChange = new EventEmitter();
+  public sshKeyChanged = new EventEmitter();
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
@@ -26,14 +26,14 @@ export class SshKeypairComponent {
 
   public showSshKeypairResetDialog(): void {
     this.dialog
-      .open(SshKeypairResetComponent, <MatDialogConfig>{
+      .open(SshKeypairResetComponent, {
         width: '350px',
         disableClose: true,
         data: { keys: this.keys, sshKeyName: this.vm.keyPair },
-      })
+      } as MatDialogConfig)
       .afterClosed()
       .pipe(filter(res => Boolean(res)))
-      .subscribe(res => this.onSshKeyChange.emit(res));
+      .subscribe(res => this.sshKeyChanged.emit(res));
   }
 
   public get canActivate() {

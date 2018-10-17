@@ -25,7 +25,7 @@ const enum StatsType {
 
 interface StatsItem {
   header: string;
-  bars: Array<StatsBar>;
+  bars: StatsBar[];
 }
 
 interface StatsBar {
@@ -45,7 +45,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   @Input()
   public fetching = false;
   @Input()
-  public accounts: Array<Account>;
+  public accounts: Account[];
   @Input()
   public user: Account;
 
@@ -54,9 +54,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
   public mode = StatsMode.Used;
   public statsType = StatsType.Account;
 
-  private wasOpened = false;
-
-  public statsList: Array<StatsItem> = [
+  public statsList: StatsItem[] = [
     {
       header: 'VM_PAGE.RESOURCE_USAGE.VMS',
       bars: [
@@ -114,10 +112,12 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     },
   ];
 
+  private wasOpened = false;
+
   constructor(
     private authService: AuthService,
     private translateService: TranslateService,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
   ) {
     this.resourceUsage = new ResourceStats();
   }
@@ -166,12 +166,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     return this.getProgress(value, max).toFixed(0);
   }
 
-  public getStatsString(
-    value: number,
-    max: number,
-    units?: string,
-    precision?: number
-  ): Observable<string> {
+  public getStatsString(value: number, max: number, units?: string, precision?: number): Observable<string> {
     if (max !== Infinity) {
       return this.getStatsStringWithRestrictions(value, max, units, precision);
     }
@@ -189,28 +184,19 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     const consumed = Utils.divide(this.resourceUsage[this.getModeKey()].memory, 2, 10);
     const max = Utils.divide(this.resourceUsage.max.memory, 2, 10);
 
-    return this.translateService
-      .get('UNITS.GB')
-      .pipe(switchMap(gb => this.getStatsString(consumed, max, gb, 1)));
+    return this.translateService.get('UNITS.GB').pipe(switchMap(gb => this.getStatsString(consumed, max, gb, 1)));
   }
 
   public get primaryStorage(): Observable<string> {
-    return this.translateService
-      .get('UNITS.GB')
-      .pipe(switchMap(gb => this.getStatsStringFor('primaryStorage', gb)));
+    return this.translateService.get('UNITS.GB').pipe(switchMap(gb => this.getStatsStringFor('primaryStorage', gb)));
   }
 
   public get secondaryStorage(): Observable<string> {
-    return this.translateService
-      .get('UNITS.GB')
-      .pipe(switchMap(gb => this.getStatsStringFor('secondaryStorage', gb)));
+    return this.translateService.get('UNITS.GB').pipe(switchMap(gb => this.getStatsStringFor('secondaryStorage', gb)));
   }
 
   public progressFor(resource: keyof ResourcesData): number {
-    return this.getProgress(
-      this.resourceUsage[this.getModeKey()][resource],
-      this.resourceUsage.max[resource]
-    );
+    return this.getProgress(this.resourceUsage[this.getModeKey()][resource], this.resourceUsage.max[resource]);
   }
 
   public handleCollapse(e: Event): void {
@@ -244,7 +230,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     value: number,
     max: number,
     units?: string,
-    precision?: number
+    precision?: number,
   ): Observable<string> {
     const percents = this.getPercents(value, max);
     const val = precision ? value.toFixed(precision) : value;
@@ -253,11 +239,7 @@ export class VmStatisticsComponent implements OnInit, OnChanges {
     return of(`${val}/${m} ${units || ''} (${percents}%)`);
   }
 
-  private getStatsStringWithNoRestrictions(
-    value: number,
-    units?: string,
-    precision?: number
-  ): Observable<string> {
+  private getStatsStringWithNoRestrictions(value: number, units?: string, precision?: number): Observable<string> {
     if (this.mode === StatsMode.Free) {
       return of('∞');
     }

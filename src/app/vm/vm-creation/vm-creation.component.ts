@@ -52,13 +52,13 @@ export class VmCreationComponent {
   @Input()
   public deploymentInProgress: boolean;
   @Input()
-  public loggerStageList: Array<ProgressLoggerMessage>;
+  public loggerStageList: ProgressLoggerMessage[];
   @Input()
   public deployedVm: VirtualMachine;
   @Input()
   public enoughResources: boolean;
   @Input()
-  public insufficientResources: Array<string>;
+  public insufficientResources: string[];
 
   @Output()
   public displayNameChange = new EventEmitter<string>();
@@ -79,7 +79,7 @@ export class VmCreationComponent {
   @Output()
   public templateChange = new EventEmitter<BaseTemplateModel>();
   @Output()
-  public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
+  public sshKeyPairChanged = new EventEmitter<SSHKeyPair | NotSelected>();
   @Output()
   public doStartVmChange = new EventEmitter<boolean>();
   @Output()
@@ -87,13 +87,13 @@ export class VmCreationComponent {
   @Output()
   public agreementChange = new EventEmitter<boolean>();
   @Output()
-  public onVmDeploymentFailed = new EventEmitter();
+  public vmDeploymentFailed = new EventEmitter();
   @Output()
   public deploy = new EventEmitter<VmCreationState>();
   @Output()
   public cancel = new EventEmitter();
   @Output()
-  public onError = new EventEmitter();
+  public errored = new EventEmitter();
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
@@ -107,8 +107,8 @@ export class VmCreationComponent {
   public takenName: string;
   public maxEntityNameLength = 63;
 
-  public visibleAffinityGroups: Array<AffinityGroup>;
-  public visibleInstanceGroups: Array<InstanceGroup>;
+  public visibleAffinityGroups: AffinityGroup[];
+  public visibleInstanceGroups: InstanceGroup[];
 
   public get nameIsTaken(): boolean {
     return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;

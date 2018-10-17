@@ -1,7 +1,7 @@
 import { Component, forwardRef, Inject, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
 
@@ -27,25 +27,24 @@ import { State, UserTagsSelectors } from '../../root-store';
 })
 export class RecurringSnapshotsComponent implements OnInit {
   public policyMode = PolicyType.Hourly;
-  public policies: Array<Policy<TimePolicy>>;
+  public policies: Policy<TimePolicy>[];
   public loading: boolean;
 
-  readonly timeFormat$: Observable<TimeFormat> = this.store
-    .select(UserTagsSelectors.getTimeFormat)
-    .pipe(
-      map(format => {
-        if (format === TimeFormat.hour24) {
-          return format;
-        }
-        return TimeFormat.hour12;
-      })
-    );
+  readonly timeFormat$: Observable<TimeFormat> = this.store.pipe(
+    select(UserTagsSelectors.getTimeFormat),
+    map(format => {
+      if (format === TimeFormat.hour24) {
+        return format;
+      }
+      return TimeFormat.hour12;
+    }),
+  );
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public volume: Volume,
     private dialogService: DialogService,
     private snapshotPolicyService: SnapshotPolicyService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     this.updatePolicies().subscribe();
   }
@@ -83,12 +82,12 @@ export class RecurringSnapshotsComponent implements OnInit {
       .subscribe(() => {}, error => this.onError(error));
   }
 
-  private updatePolicies(): Observable<Array<Policy<TimePolicy>>> {
+  private updatePolicies(): Observable<Policy<TimePolicy>[]> {
     return this.snapshotPolicyService.getPolicyList(this.volume.id).pipe(
       map(policies => {
         this.policies = policies;
         return policies;
-      })
+      }),
     );
   }
 

@@ -15,7 +15,7 @@ export class ViewModeSwitchComponent implements OnInit {
   @Input()
   key: string;
   @Output()
-  onModeChange = new EventEmitter();
+  modeChanged = new EventEmitter();
 
   public mode = ViewMode.BOX;
 
@@ -24,12 +24,12 @@ export class ViewModeSwitchComponent implements OnInit {
   ngOnInit() {
     const value = parseInt(this.storage.read(this.key), 10);
     this.mode = value ? ViewMode.LIST : ViewMode.BOX;
-    this.onModeChange.emit(this.mode);
+    this.modeChanged.emit(this.mode);
   }
 
   changeMode() {
     this.mode = this.mode === ViewMode.BOX ? ViewMode.LIST : ViewMode.BOX;
     this.storage.write(this.key, this.mode.toString());
-    this.onModeChange.emit(this.mode);
+    this.modeChanged.emit(this.mode);
   }
 }

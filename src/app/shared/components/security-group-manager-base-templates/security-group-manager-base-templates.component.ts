@@ -8,7 +8,7 @@ import { SecurityGroup } from '../../../security-group/sg.model';
 })
 export class SecurityGroupManagerBaseTemplatesComponent {
   @Input()
-  public securityGroups: Array<SecurityGroup>;
+  public securityGroups: SecurityGroup[];
 
   public get securityGroupsLine(): string {
     return this.securityGroups

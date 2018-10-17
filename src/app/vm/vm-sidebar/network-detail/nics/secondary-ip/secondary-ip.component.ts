@@ -10,9 +10,9 @@ export class SecondaryIpComponent {
   @Input()
   public secondaryIp: IpAddress;
   @Output()
-  public onRemove = new EventEmitter<IpAddress>();
+  public removed = new EventEmitter<IpAddress>();
 
   public remove(): void {
-    this.onRemove.emit(this.secondaryIp);
+    this.removed.emit(this.secondaryIp);
   }
 }

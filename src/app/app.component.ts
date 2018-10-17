@@ -9,7 +9,6 @@ import { CacheService } from './shared/services/cache.service';
 import { MemoryStorageService } from './shared/services/memory-storage.service';
 import { SessionStorageService } from './shared/services/session-storage.service';
 import { StyleService } from './shared/services/style.service';
-import { UserService } from './shared/services/user.service';
 import { DateTimeFormatterService } from './shared/services/date-time-formatter.service';
 import { State, UserTagsSelectors } from './root-store';
 
@@ -27,8 +26,7 @@ export class AppComponent implements OnInit {
     private sessionStorage: SessionStorageService,
     private memoryStorage: MemoryStorageService,
     private styleService: StyleService,
-    private userService: UserService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   public ngOnInit(): void {
@@ -59,9 +57,9 @@ export class AppComponent implements OnInit {
         switchMap(() =>
           this.store.pipe(
             select(UserTagsSelectors.getTimeFormat),
-            first()
-          )
-        )
+            first(),
+          ),
+        ),
       )
       .subscribe(format => this.dateTimeFormatterService.updateFormatters(format));
   }

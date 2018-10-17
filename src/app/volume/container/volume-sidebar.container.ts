@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { State } from '../../reducers/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as volumeEvent from '../../reducers/volumes/redux/volumes.actions';
 import { ActivatedRoute } from '@angular/router';
 import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
@@ -13,7 +13,7 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
     ></cs-volume-sidebar>`,
 })
 export class VolumeSidebarContainerComponent implements OnInit {
-  readonly volume$ = this.store.select(fromVolumes.getSelectedVolume);
+  readonly volume$ = this.store.pipe(select(fromVolumes.getSelectedVolume));
 
   constructor(private store: Store<State>, private activatedRoute: ActivatedRoute) {}
 

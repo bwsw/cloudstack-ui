@@ -205,9 +205,11 @@ export const selectFilteredSecurityGroups = createSelector(
           getType(group) === SecurityGroupType.PredefinedTemplate ||
           getType(group) === SecurityGroupType.CustomTemplate
         );
-      } else if (mode === SecurityGroupViewMode.Shared) {
+      }
+      if (mode === SecurityGroupViewMode.Shared) {
         return getType(group) === SecurityGroupType.Shared;
-      } else if (mode === SecurityGroupViewMode.Private) {
+      }
+      if (mode === SecurityGroupViewMode.Private) {
         return getType(group) === SecurityGroupType.Private;
       }
     };

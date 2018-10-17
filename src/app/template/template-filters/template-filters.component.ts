@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
+import { templateFilters, templateResourceType } from '../shared/base-template.service';
 import { Account, Domain, getPath, ImageGroup, OsFamily, OsType, Zone } from '../../shared/models';
 import { NgrxEntities } from '../../shared/interfaces';
 import { AuthService } from '../../shared/services/auth.service';
@@ -21,17 +21,17 @@ export class TemplateFiltersComponent implements OnInit {
   @Input()
   public dialogMode = false;
   @Input()
-  public availableGroupings: Array<any> = [];
+  public availableGroupings: any[] = [];
   @Input()
-  public accounts: Array<Account> = [];
+  public accounts: Account[] = [];
   @Input()
-  public osTypes: Array<OsType> = [];
+  public osTypes: OsType[] = [];
   @Input()
-  public zones: Array<Zone>;
+  public zones: Zone[];
   @Input()
   public domains: NgrxEntities<Domain>;
   @Input()
-  public groups: Array<ImageGroup>;
+  public groups: ImageGroup[];
   @Input()
   public selectedAccountIds: string[];
   @Input()
@@ -71,23 +71,14 @@ export class TemplateFiltersComponent implements OnInit {
   public queryChange = new EventEmitter();
 
   public filterTranslations = {
-    [TemplateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',
-    [TemplateFilters.featured]: 'TEMPLATE_PAGE.FILTERS.FEATURED',
-    [TemplateFilters.community]: 'TEMPLATE_PAGE.FILTERS.COMMUNITY',
+    [templateFilters.self]: 'TEMPLATE_PAGE.FILTERS.SELF',
+    [templateFilters.featured]: 'TEMPLATE_PAGE.FILTERS.FEATURED',
+    [templateFilters.community]: 'TEMPLATE_PAGE.FILTERS.COMMUNITY',
   };
 
-  public osFamilies: Array<OsFamily> = [
-    OsFamily.Linux,
-    OsFamily.Windows,
-    OsFamily.MacOs,
-    OsFamily.Other,
-  ];
+  public osFamilies: OsFamily[] = [OsFamily.Linux, OsFamily.Windows, OsFamily.MacOs, OsFamily.Other];
 
-  public categoryFilters = [
-    TemplateFilters.self,
-    TemplateFilters.featured,
-    TemplateFilters.community,
-  ];
+  public categoryFilters = [templateFilters.self, templateFilters.featured, templateFilters.community];
 
   constructor(private authService: AuthService, private translate: TranslateService) {}
 
@@ -102,10 +93,7 @@ export class TemplateFiltersComponent implements OnInit {
     }
 
     if (this.availableGroupings && this.selectedGroupings) {
-      this.availableGroupings = reorderAvailableGroupings(
-        this.availableGroupings,
-        this.selectedGroupings
-      );
+      this.availableGroupings = reorderAvailableGroupings(this.availableGroupings, this.selectedGroupings);
     }
   }
 
@@ -114,7 +102,7 @@ export class TemplateFiltersComponent implements OnInit {
   }
 
   public get TemplateResourceType() {
-    return TemplateResourceType;
+    return templateResourceType;
   }
 
   public showAccountFilter(): boolean {

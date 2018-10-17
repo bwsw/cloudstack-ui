@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { DiskOffering } from '../../../models';
 import { isRoot, Volume } from '../../../models/volume.model';
@@ -16,9 +24,9 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input()
   public volume: Volume;
   @Input()
-  public diskOfferings: Array<DiskOffering>;
+  public diskOfferings: DiskOffering[];
   @Output()
-  public onDiskResized = new EventEmitter<VolumeResizeData>();
+  public diskResized = new EventEmitter<VolumeResizeData>();
 
   public diskOffering: DiskOffering;
   public newSize: number;
@@ -55,11 +63,9 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
 
   public resizeVolume(): void {
     const includeDiskOffering = this.diskOffering && !isRoot(this.volume);
-    const params: VolumeResizeData = Object.assign(
-      { id: this.volume.id },
-      this.newSize ? { size: this.newSize } : {},
-      includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {}
-    );
-    this.onDiskResized.emit(params);
+    const size = this.newSize ? { size: this.newSize } : {};
+    const diskOffering = includeDiskOffering ? { diskOfferingId: this.diskOffering.id } : {};
+    const params: VolumeResizeData = Object.assign({ id: this.volume.id }, size, diskOffering);
+    this.diskResized.emit(params);
   }
 }

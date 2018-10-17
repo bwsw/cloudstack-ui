@@ -18,12 +18,12 @@ export class CalendarMonthComponent {
   @Input()
   public selectedDate: Date;
   @Input()
-  public DateTimeFormat;
+  public dateTimeFormat;
 
   @Output()
   public dateSelected = new EventEmitter<Date>();
 
-  public get weekElements(): Array<Array<Date>> {
+  public get weekElements(): Date[][] {
     return getWeekArray(this.displayDate, this.firstDayOfWeek);
   }
 
@@ -31,7 +31,7 @@ export class CalendarMonthComponent {
     if (!date) {
       return null;
     }
-    return new this.DateTimeFormat(this.locale, {
+    return new this.dateTimeFormat(this.locale, {
       day: 'numeric',
     }).format(date);
   }
@@ -44,7 +44,7 @@ export class CalendarMonthComponent {
     return isEqualDate(date, new Date());
   }
 
-  public setSelectedDate(_e: Event, day: Date): void {
+  public setSelectedDate(e: Event, day: Date): void {
     if (!day) {
       return;
     }

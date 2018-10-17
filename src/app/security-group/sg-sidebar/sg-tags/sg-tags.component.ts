@@ -8,7 +8,7 @@ import { SecurityGroup } from '../../sg.model';
   selector: 'cs-sg-tags',
   templateUrl: 'sg-tags.component.html',
 })
-export class SecurityGroupTagsComponent extends TagsComponent<SecurityGroup> {
+export class SecurityGroupTagsComponent extends TagsComponent {
   @Input()
   public entity: SecurityGroup;
   public resourceType = 'SecurityGroup';

@@ -24,8 +24,9 @@ export interface DayPeriodName {
   ],
 })
 export class DayPeriodComponent implements ControlValueAccessor, OnInit {
+  // tslint:disable-next-line:variable-name
   public _period: DayPeriod;
-  public periods: Array<DayPeriodName> = [
+  public periods: DayPeriodName[] = [
     { value: DayPeriod.Am, name: 'DATE_TIME.AM' },
     { value: DayPeriod.Pm, name: 'DATE_TIME.PM' },
   ];

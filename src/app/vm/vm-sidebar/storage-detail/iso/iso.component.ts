@@ -15,13 +15,13 @@ export class IsoComponent {
   @Input()
   public iso: Iso;
   @Output()
-  public onIsoAction = new EventEmitter<IsoEvent>();
+  public isoAction = new EventEmitter<IsoEvent>();
 
   public attachIso(): void {
-    this.onIsoAction.emit(IsoEvent.isoAttach);
+    this.isoAction.emit(IsoEvent.isoAttach);
   }
 
   public detachIso(): void {
-    this.onIsoAction.emit(IsoEvent.isoDetach);
+    this.isoAction.emit(IsoEvent.isoDetach);
   }
 }

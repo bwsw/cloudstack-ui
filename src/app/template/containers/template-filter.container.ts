@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import { OsFamily } from '../../shared/models';
-import { TemplateFilters, TemplateResourceType } from '../shared/base-template.service';
+import { templateFilters, templateResourceType } from '../shared/base-template.service';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { configSelectors, State } from '../../root-store';
@@ -20,7 +20,6 @@ import * as accountsActions from '../../reducers/accounts/redux/accounts.actions
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import * as domainActions from '../../reducers/domains/redux/domains.actions';
 import * as fromDomains from '../../reducers/domains/redux/domains.reducers';
-import { AuthService } from '../../shared/services/auth.service';
 
 const FILTER_KEY = 'templateListFilters';
 
@@ -58,18 +57,18 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
   @Input()
   public viewMode: string;
 
-  public osFamilies: Array<OsFamily> = [
+  public osFamilies: OsFamily[] = [
     OsFamily.Linux,
     OsFamily.Windows,
     OsFamily.MacOs,
     OsFamily.Other,
   ];
 
-  public categoryFilters = [TemplateFilters.featured, TemplateFilters.self];
+  public categoryFilters = [templateFilters.featured, templateFilters.self];
 
   private filterService = new FilterService(
     {
-      viewMode: { type: 'string', defaultOption: TemplateResourceType.template },
+      viewMode: { type: 'string', defaultOption: templateResourceType.template },
       accounts: { type: 'array', defaultOption: [] },
       osFamilies: { type: 'array', options: this.osFamilies, defaultOption: [] },
       types: { type: 'array', options: this.categoryFilters, defaultOption: [] },
@@ -81,7 +80,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
@@ -89,8 +88,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
     private router: Router,
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     super();
   }
@@ -148,7 +146,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
     selectedGroupings,
     selectedGroups,
     selectedAccountIds,
-    query
+    query,
   ) {
     this.store.dispatch(
       new templateActions.TemplatesFilterUpdate({
@@ -160,7 +158,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
         selectedGroups,
         selectedAccountIds,
         query,
-      })
+      }),
     );
   }
 
@@ -193,7 +191,7 @@ export class TemplateFilterContainerComponent extends WithUnsubscribe()
       selectedGroupings,
       selectedGroups,
       selectedAccounts,
-      query
+      query,
     );
 
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters => {

@@ -16,7 +16,7 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   @Input()
   public defaultValue: string;
   @Input()
-  public options: Array<string>;
+  public options: string[];
 
   @Input()
   public enableAssign = true;
@@ -44,27 +44,28 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   public title: string;
 
   @Output()
-  public onAssigned: EventEmitter<string>;
+  public assigned: EventEmitter<string>;
   @Output()
-  public onCancel: EventEmitter<void>;
+  public canceled: EventEmitter<void>;
   @Output()
-  public onCreated: EventEmitter<string>;
+  public created: EventEmitter<string>;
   @Output()
-  public onRemoved: EventEmitter<void>;
+  public removed: EventEmitter<void>;
   @ViewChild(MatInput)
   public textField: MatInput;
 
   public loading: boolean;
   public newValue: string;
 
-  private _mode: Mode;
   public modes = Mode;
+  // tslint:disable-next-line:variable-name
+  private _mode: Mode;
 
   constructor() {
-    this.onAssigned = new EventEmitter<string>();
-    this.onCancel = new EventEmitter<void>();
-    this.onCreated = new EventEmitter<string>();
-    this.onRemoved = new EventEmitter<void>();
+    this.assigned = new EventEmitter<string>();
+    this.canceled = new EventEmitter<void>();
+    this.created = new EventEmitter<string>();
+    this.removed = new EventEmitter<void>();
   }
 
   public ngOnInit(): void {
@@ -89,19 +90,19 @@ export class CreateUpdateDeleteDialogComponent implements OnInit {
   }
 
   public cancel(): void {
-    this.onCancel.emit();
+    this.canceled.emit();
   }
 
   public submit(): void {
     switch (this.mode) {
       case Mode.assign:
-        this.onAssigned.emit(this.newValue);
+        this.assigned.emit(this.newValue);
         break;
       case Mode.create:
-        this.onCreated.emit(this.newValue);
+        this.created.emit(this.newValue);
         break;
       case Mode.remove:
-        this.onRemoved.emit();
+        this.removed.emit();
         break;
       default:
         break;

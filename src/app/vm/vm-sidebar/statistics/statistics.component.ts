@@ -10,9 +10,9 @@ export class StatisticsComponent {
   @Input()
   public vm: VirtualMachine;
   @Output()
-  public onStatsUpdate = new EventEmitter();
+  public statsUpdated = new EventEmitter();
 
   public updateStats(): void {
-    this.onStatsUpdate.emit(this.vm);
+    this.statsUpdated.emit(this.vm);
   }
 }

@@ -25,10 +25,10 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
   @Input()
   public vm: VirtualMachine;
   @Output()
-  public onColorChange = new EventEmitter();
+  public colorChanged = new EventEmitter();
 
   public color: Color;
-  public colorList: Array<Color> = [];
+  public colorList: Color[] = [];
 
   // todo set inProgress while color is updating
   public colorUpdateInProgress: boolean;
@@ -49,7 +49,7 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
       });
 
     this.colorSubject.pipe(debounceTime(1000)).subscribe(color => {
-      this.onColorChange.emit(color);
+      this.colorChanged.emit(color);
     });
   }
 

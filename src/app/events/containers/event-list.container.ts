@@ -32,11 +32,11 @@ const FILTER_KEY = 'eventListFilters';
       [accounts]="accounts$ | async"
       [isAdmin]="isAdmin()"
       [selectedAccountIds]="selectedAccountIds$ | async"
-      (onAccountChange)="onAccountChange($event)"
-      (onDateChange)="onDateChange($event)"
-      (onQueryChange)="onQueryChange($event)"
-      (onEventTypesChange)="onEventTypesChange($event)"
-      (onSelectedLevelsChange)="onSelectedLevelsChange($event)"
+      (accountChanged)="onAccountChange($event)"
+      (dateChange)="onDateChange($event)"
+      (queryChanged)="onQueryChange($event)"
+      (eventTypesChanged)="onEventTypesChange($event)"
+      (selectedLevelsChanged)="onSelectedLevelsChange($event)"
     ></cs-event-list>`,
 })
 export class EventListContainerComponent extends WithUnsubscribe() implements OnInit {
@@ -95,15 +95,15 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     this.store.dispatch(new eventAction.EventFilterUpdate({ query }));
   }
 
-  public onEventTypesChange(selectedTypes: Array<string>) {
+  public onEventTypesChange(selectedTypes: string[]) {
     this.store.dispatch(new eventAction.EventFilterUpdate({ selectedTypes }));
   }
 
-  public onSelectedLevelsChange(selectedLevels: Array<string>) {
+  public onSelectedLevelsChange(selectedLevels: string[]) {
     this.store.dispatch(new eventAction.EventFilterUpdate({ selectedLevels }));
   }
 
-  public onAccountChange(selectedAccountIds: Array<string>) {
+  public onAccountChange(selectedAccountIds: string[]) {
     this.store.dispatch(new eventAction.EventFilterUpdate({ selectedAccountIds }));
   }
 

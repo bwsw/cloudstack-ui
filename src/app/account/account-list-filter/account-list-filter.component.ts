@@ -9,15 +9,15 @@ import { reorderAvailableGroupings } from '../../shared/utils/reorder-groupings'
 })
 export class AccountListFilterComponent implements OnInit {
   @Input()
-  public domains: Array<Domain>;
+  public domains: Domain[];
   @Input()
-  public roleTypes: Array<string>;
+  public roleTypes: string[];
   @Input()
-  public roles: Array<Role>;
+  public roles: Role[];
   @Input()
-  public states: Array<string>;
+  public states: string[];
   @Input()
-  public groupings: Array<any>;
+  public groupings: any[];
   @Input()
   public selectedRoleTypes: string[] = [];
   @Input()
@@ -27,17 +27,17 @@ export class AccountListFilterComponent implements OnInit {
   @Input()
   public selectedStates: string[] = [];
   @Input()
-  public selectedGroupings: Array<any> = [];
+  public selectedGroupings: any[] = [];
   @Output()
-  public onDomainsChange = new EventEmitter();
+  public domainsChanged = new EventEmitter();
   @Output()
-  public onRolesChange = new EventEmitter();
+  public rolesChanged = new EventEmitter();
   @Output()
-  public onRoleTypesChange = new EventEmitter();
+  public roleTypesChanged = new EventEmitter();
   @Output()
-  public onStatesChange = new EventEmitter();
+  public statesChanged = new EventEmitter();
   @Output()
-  public onGroupingsChange = new EventEmitter();
+  public groupingsChanged = new EventEmitter();
 
   public stateTranslationToken(state): string {
     return stateTranslations[state];

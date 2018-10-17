@@ -4,10 +4,19 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, onErrorResumeNext, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  onErrorResumeNext,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { ISnapshotData, Snapshot, Volume } from '../../../shared/models';
+import { SnapshotData, Snapshot, Volume } from '../../../shared/models';
 import { JobsNotificationService } from '../../../shared/services/jobs-notification.service';
 import { NgrxEntities } from '../../../shared/interfaces';
 import { SnackBarService } from '../../../core/services';
@@ -30,9 +39,9 @@ export class SnapshotEffects {
     switchMap((action: snapshotActions.LoadSnapshotRequest) => {
       return this.snapshotService.getListAll(action.payload).pipe(
         map((snapshots: Snapshot[]) => new snapshotActions.LoadSnapshotResponse(snapshots)),
-        catchError(() => of(new snapshotActions.LoadSnapshotResponse([])))
+        catchError(() => of(new snapshotActions.LoadSnapshotResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -46,9 +55,9 @@ export class SnapshotEffects {
         .afterClosed()
         .pipe(
           filter(res => Boolean(res)),
-          mergeMap((params: ISnapshotData) => {
+          mergeMap((params: SnapshotData) => {
             const notificationId = this.jobsNotificationService.add(
-              'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS'
+              'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS',
             );
 
             return this.snapshotService.create(action.payload.id, params.name, params.desc).pipe(
@@ -63,11 +72,11 @@ export class SnapshotEffects {
                 const message = 'NOTIFICATIONS.SNAPSHOT.TAKE_FAILED';
                 this.showNotificationsOnFail(error, message, notificationId);
                 return of(new snapshotActions.SnapshotUpdateError(error));
-              })
+              }),
             );
-          })
+          }),
         );
-    })
+    }),
   );
 
   @Effect()
@@ -75,7 +84,7 @@ export class SnapshotEffects {
     ofType(snapshotActions.DELETE_SNAPSHOT),
     mergeMap((action: snapshotActions.DeleteSnapshot) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS'
+        'NOTIFICATIONS.SNAPSHOT.DELETION_IN_PROGRESS',
       );
       return this.snapshotService.remove(action.payload.id).pipe(
         tap(() => {
@@ -89,17 +98,17 @@ export class SnapshotEffects {
           const message = 'NOTIFICATIONS.SNAPSHOT.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new snapshotActions.SnapshotUpdateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
   deleteSnapshots$: Observable<Action> = this.actions$.pipe(
     ofType(snapshotActions.DELETE_SNAPSHOTS),
     mergeMap((action: snapshotActions.DeleteSnapshots) =>
-      action.payload.map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot))
-    )
+      action.payload.map((snapshot: Snapshot) => new snapshotActions.DeleteSnapshot(snapshot)),
+    ),
   );
 
   @Effect()
@@ -107,7 +116,7 @@ export class SnapshotEffects {
     ofType(snapshotActions.REVERT_VOLUME_TO_SNAPSHOT),
     withLatestFrom(
       this.store.pipe(select(fromVolumes.selectEntities)),
-      this.store.pipe(select(fromVMs.selectEntities))
+      this.store.pipe(select(fromVMs.selectEntities)),
     ),
     mergeMap(
       ([action, volumes, vms]: [
@@ -135,7 +144,7 @@ export class SnapshotEffects {
               (isVmRunning ? this.vmEffects.stop(vms[vmId]) : of(null)).pipe(
                 mergeMap(() => {
                   const notificationId = this.jobsNotificationService.add(
-                    'NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS'
+                    'NOTIFICATIONS.SNAPSHOT.REVERT_IN_PROGRESS',
                   );
                   return this.snapshotService.revert(action.payload.id).pipe(
                     tap(() => {
@@ -154,14 +163,14 @@ export class SnapshotEffects {
                       const message = 'NOTIFICATIONS.SNAPSHOT.REVERT_FAILED';
                       this.showNotificationsOnFail(error, message, notificationId);
                       return of(new snapshotActions.SnapshotUpdateError(error));
-                    })
+                    }),
                   );
-                })
-              )
-            )
+                }),
+              ),
+            ),
           );
-      }
-    )
+      },
+    ),
   );
 
   @Effect({ dispatch: false })
@@ -172,8 +181,8 @@ export class SnapshotEffects {
     tap(() =>
       this.router.navigate(['./snapshots'], {
         queryParamsHandling: 'preserve',
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
@@ -185,14 +194,14 @@ export class SnapshotEffects {
     private dialog: MatDialog,
     private vmEffects: VirtualMachinesEffects,
     private router: Router,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
   ) {}
 
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.finish({
-        id: jobNotificationId,
         message,
+        id: jobNotificationId,
       });
     }
     this.snackBarService.open(message).subscribe();
@@ -201,8 +210,8 @@ export class SnapshotEffects {
   private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
     if (jobNotificationId) {
       this.jobsNotificationService.fail({
-        id: jobNotificationId,
         message,
+        id: jobNotificationId,
       });
     }
     this.dialogService.alert({

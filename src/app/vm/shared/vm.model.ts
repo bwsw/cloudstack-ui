@@ -11,7 +11,7 @@ import {
   Volume,
 } from '../../shared/models';
 import { AffinityGroup } from '../../shared/models/affinity-group.model';
-import { VirtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
+import { virtualMachineTagKeys } from '../../shared/services/tags/vm-tag-keys';
 import { BaseTemplateModel } from '../../template/shared';
 
 export enum VmState {
@@ -27,7 +27,7 @@ export enum VmState {
   Expunging = 'Expunging',
 }
 
-export const VmResourceType = 'UserVm';
+export const vmResourceType = 'UserVm';
 
 @ZoneName()
 @FieldMapper({
@@ -56,7 +56,7 @@ export const VmResourceType = 'UserVm';
   passwordenabled: 'passwordEnabled',
 })
 export class VirtualMachine extends BaseModel implements Taggable {
-  public static ColorDelimiter = ';';
+  public static colorDelimiter = ';';
 
   public id: string;
   public displayName: string;
@@ -73,13 +73,13 @@ export class VirtualMachine extends BaseModel implements Taggable {
   public cpuNumber: number;
   public cpuSpeed: number;
   public memory: number;
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   // IP addresses
-  public nic: Array<NIC>;
+  public nic: NIC[];
   // Security Group
-  public securityGroup: Array<SecurityGroup>;
+  public securityGroup: SecurityGroup[];
   // Affinity Group
-  public affinityGroup: Array<AffinityGroup>;
+  public affinityGroup: AffinityGroup[];
   // Zone
   public zoneId: string;
   public zoneName: string;
@@ -105,7 +105,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   public keyPair: string;
   public password: string;
   public passwordEnabled: boolean;
-  public tags: Array<Tag>;
+  public tags: Tag[];
   public instanceGroup: InstanceGroup;
 
   constructor(params?: {}) {
@@ -139,7 +139,7 @@ export class VirtualMachine extends BaseModel implements Taggable {
   }
 
   private initializeInstanceGroup(): void {
-    const group = this.tags.find(tag => tag.key === VirtualMachineTagKeys.group);
+    const group = this.tags.find(tag => tag.key === virtualMachineTagKeys.group);
 
     if (group) {
       this.instanceGroup = new InstanceGroup(group.value);

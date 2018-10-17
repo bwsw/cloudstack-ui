@@ -4,7 +4,7 @@ import { SecurityGroupViewMode } from '../sg-view-mode';
 export interface SecurityGroupFilter {
   viewMode: SecurityGroupViewMode;
   query: string;
-  selectedAccountIds: Array<string>;
+  selectedAccountIds: string[];
   selectOrphanSG: boolean;
 }
 
@@ -15,7 +15,7 @@ export interface SecurityGroupFilter {
 })
 export class SgFilterComponent {
   @Input()
-  public accounts: Array<Account>;
+  public accounts: Account[];
   @Input()
   public orphan: boolean;
   @Output()
@@ -25,13 +25,13 @@ export class SgFilterComponent {
   @Output()
   public vmChange = new EventEmitter<string>();
   @Output()
-  public onAccountsChange = new EventEmitter<Array<string>>();
+  public accountsChanged = new EventEmitter<string[]>();
   @Output()
-  public onOrphanChange = new EventEmitter<boolean>();
+  public orphanChanged = new EventEmitter<boolean>();
 
   public viewMode: SecurityGroupViewMode;
   public query: string;
-  public selectedAccountIds: Array<string>;
+  public selectedAccountIds: string[];
 
   @Input()
   public set filters(filter: SecurityGroupFilter) {

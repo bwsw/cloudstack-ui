@@ -3,10 +3,9 @@ import { async, inject, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AsyncJobService } from '../../shared/services/async-job.service';
 import { TagService } from '../../shared/services/tags/tag.service';
-import { TemplateTagKeys } from '../../shared/services/tags/template-tag-keys';
+import { templateTagKeys } from '../../shared/services/tags/template-tag-keys';
 import { TemplateTagService } from '../../shared/services/tags/template-tag.service';
 import { BaseTemplateService } from './base-template.service';
-import { Template } from './template.model';
 import { TemplateService } from './template.service';
 
 describe('Template service test', () => {
@@ -34,9 +33,7 @@ describe('Template service test', () => {
         });
       });
 
-      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(
-        of(template)
-      );
+      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(of(template));
 
       testService.create(params).subscribe(res => {
         expect(res).toEqual(template);
@@ -45,7 +42,7 @@ describe('Template service test', () => {
       expect(spySend).toHaveBeenCalled();
       expect(spySend).toHaveBeenCalledWith('create', params);
       expect(spyQueryJob).toHaveBeenCalled();
-    })
+    }),
   ));
 
   it('should create with group', async(
@@ -61,7 +58,7 @@ describe('Template service test', () => {
       const template1 = params;
       const template2 = {
         ...params,
-        tags: [{ key: TemplateTagKeys.group, value: 'group1' }],
+        tags: [{ key: templateTagKeys.group, value: 'group1' }],
       };
 
       const spySend = spyOn(testService, 'sendCommand').and.callFake(() => {
@@ -71,13 +68,9 @@ describe('Template service test', () => {
         });
       });
 
-      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(
-        of(template1)
-      );
+      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(of(template1));
       const spySetGroup = spyOn(testService.templateTagService, 'setGroup').and.callThrough();
-      const spyUpdate = spyOn(testService.templateTagService.tagService, 'update').and.returnValue(
-        of(template2)
-      );
+      const spyUpdate = spyOn(testService.templateTagService.tagService, 'update').and.returnValue(of(template2));
 
       testService.create(params).subscribe(res => {
         expect(res).toEqual(template2);
@@ -87,13 +80,8 @@ describe('Template service test', () => {
       expect(spySend).toHaveBeenCalledWith('create', params);
       expect(spyQueryJob).toHaveBeenCalled();
       expect(spySetGroup).toHaveBeenCalled();
-      expect(spyUpdate).toHaveBeenCalledWith(
-        template1,
-        'Template',
-        TemplateTagKeys.group,
-        'group1'
-      );
-    })
+      expect(spyUpdate).toHaveBeenCalledWith(template1, 'Template', templateTagKeys.group, 'group1');
+    }),
   ));
 
   it('should register', async(
@@ -104,21 +92,18 @@ describe('Template service test', () => {
         ostypeid: '123',
         entity: 'Template',
       };
-      const requestParams = Object.assign({}, params, {
+      const requestParams = {...params, 
         hypervisor: 'KVM',
         format: 'QCOW2',
-        requiresHvm: true,
-      });
+        requiresHvm: true};
       const template = params;
-      const spyRegister = spyOn(BaseTemplateService.prototype, 'register').and.returnValue(
-        of(template)
-      );
+      const spyRegister = spyOn(BaseTemplateService.prototype, 'register').and.returnValue(of(template));
 
       testService.register(params).subscribe(res => {
         expect(res).toEqual(template);
       });
 
       expect(spyRegister).toHaveBeenCalledWith(requestParams);
-    })
+    }),
   ));
 });

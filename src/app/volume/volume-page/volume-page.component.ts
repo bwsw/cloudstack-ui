@@ -20,15 +20,15 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
 })
 export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   @Input()
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   @Input()
   public query: string;
   @Input()
   public isLoading: boolean;
   @Input()
-  public groupings: Array<Grouping>;
+  public groupings: Grouping[];
   @Input()
-  public selectedGroupings: Array<Grouping>;
+  public selectedGroupings: Grouping[];
 
   public mode: ViewMode;
   public viewModeKey = 'volumePageViewMode';

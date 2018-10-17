@@ -16,13 +16,14 @@ export class VmListCardItemComponent extends VmListItemComponent {
   @Input()
   public item: VirtualMachine;
   @Input()
-  public volumes: Array<Volume>;
+  public volumes: Volume[];
   @Input()
   public osTypesMap: NgrxEntities<OsType>;
   @Input()
   public query: string;
   @Input()
   public isSelected: (vm: VirtualMachine) => boolean;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onClick = new EventEmitter();
   @ViewChild(MatMenuTrigger)

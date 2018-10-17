@@ -38,7 +38,7 @@ export class PolicyViewBuilderService {
     };
   }
 
-  private get daysOfWeek(): Array<DayOfWeekToken> {
+  private get daysOfWeek(): DayOfWeekToken[] {
     return [
       { value: DayOfWeek.Sunday, name: 'DATE_TIME.DAYS_OF_WEEK.SUNDAY_LOWER' },
       { value: DayOfWeek.Monday, name: 'DATE_TIME.DAYS_OF_WEEK.MONDAY_LOWER' },

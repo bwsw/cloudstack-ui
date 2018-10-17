@@ -22,7 +22,7 @@ import { VolumeType } from '../../models';
       [maxSize]="maxSize"
       [volume]="volume"
       [diskOfferings]="offerings$ | async"
-      (onDiskResized)="resizeDisk($event)"
+      (diskResized)="resizeDisk($event)"
     >
     </cs-volume-resize>`,
 })

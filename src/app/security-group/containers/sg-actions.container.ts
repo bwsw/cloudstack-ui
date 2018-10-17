@@ -12,9 +12,9 @@ import { SecurityGroup } from '../sg.model';
   template: `
     <cs-security-group-actions
       [securityGroup]="securityGroup"
-      (onSecurityGroupView)="onViewSecurityGroup($event)"
-      (onSecurityGroupDelete)="onDeleteSecurityGroup($event)"
-      (onSecurityGroupConvert)="onSecurityGroupConvert($event)"
+      (securityGroupViewSelected)="onViewSecurityGroup($event)"
+      (securityGroupDeleted)="onDeleteSecurityGroup($event)"
+      (securityGroupConverted)="onSecurityGroupConvert($event)"
     ></cs-security-group-actions>`,
 })
 export class SecurityGroupActionsContainerComponent {

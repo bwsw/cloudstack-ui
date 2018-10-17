@@ -10,7 +10,7 @@ export class NicListComponent {
   @Input()
   public vm: VirtualMachine;
   @Output()
-  public onSecondaryIpAdd = new EventEmitter<string>();
+  public secondaryIpAdded = new EventEmitter<string>();
   @Output()
-  public onSecondaryIpRemove = new EventEmitter<IpAddress>();
+  public secondaryIpRemoved = new EventEmitter<IpAddress>();
 }

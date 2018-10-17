@@ -16,10 +16,10 @@ export class SecurityGroupRulesDialogComponent {
   private showDialog(securityGroupId: string) {
     const editMode = !!this.route.snapshot.queryParams.hasOwnProperty('vm');
 
-    this.dialog.open(SgRulesContainerComponent, <MatDialogConfig>{
+    this.dialog.open(SgRulesContainerComponent, {
       width: '910px',
       data: { securityGroupId, editMode },
-    });
+    } as MatDialogConfig);
 
     this.dialog.afterAllClosed.subscribe(() => {
       this.router.navigate(['../../'], { queryParamsHandling: 'preserve', relativeTo: this.route });

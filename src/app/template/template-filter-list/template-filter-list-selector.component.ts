@@ -10,10 +10,8 @@ import { BaseTemplateModel } from '../shared/base-template.model';
   styleUrls: ['template-filter-list-selector.component.scss'],
 })
 export class TemplateFilterListSelectorComponent {
-  private _selectedTemplate: BaseTemplateModel;
   @Input()
-  public templates: Array<BaseTemplateModel>;
-
+  public templates: BaseTemplateModel[];
   @Input()
   public dialogMode = true;
   @Input()
@@ -26,19 +24,18 @@ export class TemplateFilterListSelectorComponent {
   public groupings: any;
   @Input()
   public groups: any;
-
   @Input()
   public fetching;
   @Input()
   public query: string;
   @Input()
-  public selectedTypes: Array<string>;
+  public selectedTypes: string[];
   @Input()
-  public selectedOsFamilies: Array<OsFamily>;
+  public selectedOsFamilies: OsFamily[];
   @Input()
-  public selectedZones: Array<Zone>;
+  public selectedZones: Zone[];
   @Input()
-  public selectedGroups: Array<string>;
+  public selectedGroups: string[];
   @Input()
   public selectedGroupings;
 
@@ -47,22 +44,21 @@ export class TemplateFilterListSelectorComponent {
   @Output()
   public viewModeChange = new EventEmitter();
   @Output()
-  public onQueryChange = new EventEmitter();
+  public queryChanged = new EventEmitter();
   @Output()
-  public onSelectedTypesChange = new EventEmitter();
+  public selectedTypesChanged = new EventEmitter();
   @Output()
-  public onSelectedGroupsChange = new EventEmitter();
+  public selectedGroupsChanged = new EventEmitter();
   @Output()
-  public onSelectedOsFamiliesChange = new EventEmitter();
+  public selectedOsFamiliesChanged = new EventEmitter();
 
   @Input()
   public set selectedTemplate(template: BaseTemplateModel) {
-    this._selectedTemplate = template
-      ? template
-      : this.templates && this.templates.length
-        ? this.templates[0]
-        : null;
+    this._selectedTemplate = template ? template : this.templates && this.templates.length ? this.templates[0] : null;
   }
+
+  // tslint:disable-next-line:variable-name
+  private _selectedTemplate: BaseTemplateModel;
 
   public get selectedTemplate(): BaseTemplateModel {
     return this._selectedTemplate;

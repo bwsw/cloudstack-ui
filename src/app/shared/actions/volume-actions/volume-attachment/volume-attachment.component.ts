@@ -11,11 +11,12 @@ import { VirtualMachine } from '../../../../vm/shared/vm.model';
 export class VolumeAttachmentComponent implements OnInit {
   public virtualMachineId: string;
   @Input()
-  public virtualMachines: Array<VirtualMachine>;
+  public virtualMachines: VirtualMachine[];
   @Input()
   public volume: Volume;
   @Input()
   public zoneId: string;
+  // tslint:disable-next-line:no-output-on-prefix
   @Output()
   public onVirtualMachineId = new EventEmitter();
 

@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Volume } from '../../../../../shared/models/volume.model';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import {
   ResourceStats,
   ResourceUsageService,
@@ -22,8 +21,7 @@ export class SnapshotCreationComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<SnapshotCreationComponent>,
-    @Inject(MAT_DIALOG_DATA) private volume: Volume,
-    private resourceUsageService: ResourceUsageService
+    private resourceUsageService: ResourceUsageService,
   ) {}
 
   public ngOnInit(): void {

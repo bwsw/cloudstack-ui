@@ -14,6 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class SearchComponent implements ControlValueAccessor {
+  // tslint:disable-next-line:variable-name
   public _query: string;
 
   public propagateChange: any = () => {};

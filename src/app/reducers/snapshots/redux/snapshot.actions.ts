@@ -50,7 +50,7 @@ export class DeleteSnapshot implements Action {
 export class DeleteSnapshots implements Action {
   readonly type = DELETE_SNAPSHOTS;
 
-  constructor(public payload: Array<Snapshot>) {}
+  constructor(public payload: Snapshot[]) {}
 }
 
 export class AddSnapshotSuccess implements Action {

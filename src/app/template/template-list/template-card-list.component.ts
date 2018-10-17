@@ -13,7 +13,7 @@ import { TemplateRowItemComponent } from '../template/row-item/template-row-item
 })
 export class TemplateCardListComponent {
   @Input()
-  public templateList: Array<BaseTemplateModel>;
+  public templateList: BaseTemplateModel[];
   @Input()
   public query: string;
   @Input()

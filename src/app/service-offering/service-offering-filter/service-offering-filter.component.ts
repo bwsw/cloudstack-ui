@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ComputeOfferingClass, ServiceOfferingType } from '../../shared/models';
+import { ComputeOfferingClass, serviceOfferingType } from '../../shared/models';
 import { Language } from '../../shared/types';
 
 @Component({
@@ -11,7 +11,7 @@ import { Language } from '../../shared/types';
 })
 export class ServiceOfferingFilterComponent {
   @Input()
-  public classes: Array<ComputeOfferingClass>;
+  public classes: ComputeOfferingClass[];
   @Input()
   public selectedClasses: ComputeOfferingClass[];
   @Input()
@@ -23,7 +23,7 @@ export class ServiceOfferingFilterComponent {
   @Output()
   public queryChange = new EventEmitter<string>();
   @Output()
-  public selectedClassesChange = new EventEmitter<Array<ComputeOfferingClass>>();
+  public selectedClassesChange = new EventEmitter<ComputeOfferingClass[]>();
 
   constructor(private translate: TranslateService) {}
 
@@ -32,7 +32,7 @@ export class ServiceOfferingFilterComponent {
   }
 
   public get ServiceOfferingType() {
-    return ServiceOfferingType;
+    return serviceOfferingType;
   }
 
   public get locale(): Language {
@@ -42,8 +42,7 @@ export class ServiceOfferingFilterComponent {
   public getName(soClass: ComputeOfferingClass) {
     if (soClass.id === 'common') {
       return 'SERVICE_OFFERING.FILTERS.COMMON';
-    } else {
-      return (soClass && soClass.name && soClass.name[this.locale]) || '';
     }
+    return (soClass && soClass.name && soClass.name[this.locale]) || '';
   }
 }

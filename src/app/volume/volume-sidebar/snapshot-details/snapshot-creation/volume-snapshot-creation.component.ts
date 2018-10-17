@@ -10,13 +10,13 @@ export class VolumeSnapshotCreationComponent {
   @Input()
   public volume: Volume;
   @Output()
-  public onSnapshotAdd = new EventEmitter<Volume>();
+  public snapshotAdded = new EventEmitter<Volume>();
 
   public get isVolumeReady(): boolean {
     return this.volume && this.volume.state === VolumeState.Ready;
   }
 
   public addSnapshot(): void {
-    this.onSnapshotAdd.emit(this.volume);
+    this.snapshotAdded.emit(this.volume);
   }
 }

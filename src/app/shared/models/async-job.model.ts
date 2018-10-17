@@ -23,9 +23,8 @@ export const mapCmd = asyncJob => {
   const matches = asyncJob.cmd.match(regex);
   if (matches) {
     return this.formatCommand(asyncJob);
-  } else {
-    return '';
   }
+  return '';
 };
 
 export const formatCommand = asyncJob => {

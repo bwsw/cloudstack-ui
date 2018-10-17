@@ -72,12 +72,12 @@ export class DialogService {
   }
 
   private getDialogConfiguration(config: BaseDialogConfiguration) {
-    const configuration = <MatDialogConfig>{
+    const configuration = {
       data: { config },
       disableClose: config.disableClose,
-    };
+    } as MatDialogConfig;
     return config.width
-      ? Object.assign(configuration, { width: config.width })
-      : Object.assign(configuration, { width: defaultWidth });
+      ? {...configuration,  width: config.width}
+      : {...configuration,  width: defaultWidth};
   }
 }

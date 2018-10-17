@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
 import { State } from '../../../reducers';
@@ -16,14 +16,14 @@ import * as templateActions from '../../../reducers/templates/redux/template.act
     <cs-template-tags
       [entity]="template$ | async"
       [tags]="templateTags$ | async"
-      (onTagAdd)="addTag($event)"
-      (onTagDelete)="deleteTag($event)"
-      (onTagEdit)="editTag($event)"
+      (tagAdded)="addTag($event)"
+      (tagDeleted)="deleteTag($event)"
+      (tagEdited)="editTag($event)"
     ></cs-template-tags>`,
 })
 export class TagsContainerComponent {
-  readonly template$ = this.store.select(fromTemplates.getSelectedTemplate);
-  readonly templateTags$ = this.store.select(fromTemplates.getSelectedTemplateTags);
+  readonly template$ = this.store.pipe(select(fromTemplates.getSelectedTemplate));
+  readonly templateTags$ = this.store.pipe(select(fromTemplates.getSelectedTemplateTags));
 
   constructor(private store: Store<State>) {}
 

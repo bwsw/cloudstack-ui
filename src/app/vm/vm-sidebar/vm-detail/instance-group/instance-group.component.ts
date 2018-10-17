@@ -15,9 +15,9 @@ export class InstanceGroupComponent {
   @Input()
   public vm: VirtualMachine;
   @Input()
-  public groups: Array<InstanceGroup>;
+  public groups: InstanceGroup[];
   @Output()
-  public onGroupChange = new EventEmitter();
+  public groupChanged = new EventEmitter();
 
   constructor(private dialog: MatDialog) {}
 
@@ -34,6 +34,6 @@ export class InstanceGroupComponent {
       })
       .afterClosed()
       .pipe(filter(res => Boolean(res)))
-      .subscribe(group => this.onGroupChange.emit(group));
+      .subscribe(group => this.groupChanged.emit(group));
   }
 }

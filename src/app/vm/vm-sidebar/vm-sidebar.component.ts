@@ -14,7 +14,7 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
   @Input()
   public entity: VirtualMachine;
   @Output()
-  public onColorChange = new EventEmitter();
+  public colorChanged = new EventEmitter();
 
   constructor(
     protected vmService: VmService,

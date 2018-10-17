@@ -72,9 +72,8 @@ export function isUrl(url: string, config: UrlConfig = defaultConfig): boolean {
   const protocols = [http, https, ftp].reduce((total, protocol) => {
     if (protocol) {
       return total.length > 0 ? `${total}|${protocol}` : protocol;
-    } else {
-      return total;
     }
+    return total;
   }, '');
 
   const protocolPart = protocols ? `(?:(?:${protocols})://)` : '';

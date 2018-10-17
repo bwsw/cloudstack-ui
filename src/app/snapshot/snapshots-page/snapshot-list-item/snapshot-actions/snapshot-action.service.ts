@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 
 import { Action, Snapshot, SnapshotStates } from '../../../../shared/models';
-import { TemplateResourceType } from '../../../../template/shared/base-template.service';
+import { templateResourceType } from '../../../../template/shared/base-template.service';
 // tslint:disable-next-line
 import { TemplateCreationContainerComponent } from '../../../../template/template-creation/containers/template-creation.container';
 import { CreateVolumeFromSnapshotContainerComponent } from '../../components/create-volume/create-volume.container';
@@ -15,42 +15,41 @@ export enum SnapshotActions {
   Revert,
 }
 
-const CreateTemplateFromSnapshotAction: Action<Snapshot> = {
+const createTemplateFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_TEMPLATE',
   command: SnapshotActions.CreateTemplate,
   icon: 'mdi-disc',
   canActivate: (snapshot: Snapshot) => snapshot.state === SnapshotStates.BackedUp,
 };
 
-const CreateVolumeFromSnapshotAction: Action<Snapshot> = {
+const createVolumeFromSnapshotAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.CREATE_VOLUME',
   command: SnapshotActions.CreateVolume,
   icon: 'mdi-dns',
   canActivate: (snapshot: Snapshot) => snapshot.state === SnapshotStates.BackedUp,
 };
 
-const SnapshotDeleteAction: Action<Snapshot> = {
+const snapshotDeleteAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.DELETE_SNAPSHOT',
   command: SnapshotActions.Delete,
   icon: 'mdi-delete',
   canActivate: (snapshot: Snapshot) => true,
 };
 
-const SnapshotRevertAction: Action<Snapshot> = {
+const snapshotRevertAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.REVERT_TO_SNAPSHOT',
   command: SnapshotActions.Revert,
   icon: 'mdi-backup-restore',
-  canActivate: (snapshot: Snapshot) =>
-    snapshot.revertable && snapshot.state === SnapshotStates.BackedUp,
+  canActivate: (snapshot: Snapshot) => snapshot.revertable && snapshot.state === SnapshotStates.BackedUp,
 };
 
 @Injectable()
 export class SnapshotActionService {
-  public actions: Array<Action<Snapshot>> = [
-    CreateTemplateFromSnapshotAction,
-    CreateVolumeFromSnapshotAction,
-    SnapshotRevertAction,
-    SnapshotDeleteAction,
+  public actions: Action<Snapshot>[] = [
+    createTemplateFromSnapshotAction,
+    createVolumeFromSnapshotAction,
+    snapshotRevertAction,
+    snapshotDeleteAction,
   ];
 
   constructor(private dialog: MatDialog) {}
@@ -61,8 +60,8 @@ export class SnapshotActionService {
         width: '650px',
         panelClass: 'template-creation-dialog-snapshot',
         data: {
-          mode: TemplateResourceType.template,
           snapshot,
+          mode: templateResourceType.template,
         },
       })
       .afterClosed();
@@ -73,8 +72,8 @@ export class SnapshotActionService {
       .open(CreateVolumeFromSnapshotContainerComponent, {
         width: '405px',
         data: {
-          mode: TemplateResourceType.template,
           snapshot,
+          mode: templateResourceType.template,
         },
       })
       .afterClosed();

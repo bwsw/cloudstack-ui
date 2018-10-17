@@ -34,10 +34,10 @@
     >
       <cs-account-user-actions
         [user]="user"
-        (onUserDelete)="deleteUser($event)"
-        (onUserEdit)="editUser($event)"
-        (onUserChangePassword)="onUserChangePassword($event)"
-        (onUserRegenerateKey)="regenerateKeys($event)"
+        (userDeleted)="deleteUser($event)"
+        (userEdited)="editUser($event)"
+        (userChangedPassword)="onUserChangePassword($event)"
+        (userRegeneratedKey)="regenerateKeys($event)"
       >
       </cs-account-user-actions>
     </mat-menu>

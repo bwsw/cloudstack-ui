@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../reducers';
 import { SSHKeyPair } from '../../../shared/models/ssh-keypair.model';
 import { Grouping } from '../../../shared/models/grouping.model';
@@ -11,7 +11,7 @@ const getGroupName = (sshKey: SSHKeyPair) => {
   return sshKey.domain !== 'ROOT' ? `${sshKey.domain}/${sshKey.account}` : sshKey.account;
 };
 
-export const sshKeyGroupings: Array<Grouping> = [
+export const sshKeyGroupings: Grouping[] = [
   {
     key: 'accounts',
     label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
@@ -27,13 +27,13 @@ export const sshKeyGroupings: Array<Grouping> = [
       [sshKeyList]="sshKeyList$ | async"
       [isLoading]="isLoading$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
-      (onKeyRemove)="removeSshKeyPair($event)"
+      (keyRemoved)="removeSshKeyPair($event)"
     ></cs-ssh-keys-page>`,
 })
 export class SshKeyPageContainerComponent implements OnInit, AfterViewInit {
-  readonly isLoading$ = this.store.select(fromSshKeys.isLoading);
-  readonly sshKeyList$ = this.store.select(fromSshKeys.selectFilteredSshKeys);
-  readonly selectedGroupings$ = this.store.select(fromSshKeys.filterSelectedGroupings);
+  readonly isLoading$ = this.store.pipe(select(fromSshKeys.isLoading));
+  readonly sshKeyList$ = this.store.pipe(select(fromSshKeys.selectFilteredSshKeys));
+  readonly selectedGroupings$ = this.store.pipe(select(fromSshKeys.filterSelectedGroupings));
 
   constructor(private store: Store<State>, private cd: ChangeDetectorRef) {}
 

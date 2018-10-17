@@ -22,17 +22,17 @@ export class AccountActionsComponent {
   @Input()
   public account: Account;
   @Output()
-  public onAccountEnable: EventEmitter<Account> = new EventEmitter<Account>();
+  public accountEnabled: EventEmitter<Account> = new EventEmitter<Account>();
   @Output()
-  public onAccountDisable: EventEmitter<Account> = new EventEmitter<Account>();
+  public accountDisabled: EventEmitter<Account> = new EventEmitter<Account>();
   @Output()
-  public onAccountDelete: EventEmitter<Account> = new EventEmitter<Account>();
+  public accountDeleted: EventEmitter<Account> = new EventEmitter<Account>();
 
   public actions: any[];
 
   constructor(
     private accountActionsService: AccountActionsService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {
     this.actions = this.accountActionsService.actions;
   }
@@ -42,22 +42,24 @@ export class AccountActionsComponent {
       .confirm({ message: action.confirmMessage })
       .pipe(
         onErrorResumeNext(),
-        filter(Boolean)
+        filter(Boolean),
       )
       .subscribe(() => {
         switch (action.command) {
           case 'enable': {
-            this.onAccountEnable.emit(account);
+            this.accountEnabled.emit(account);
             break;
           }
           case 'disable': {
-            this.onAccountDisable.emit(account);
+            this.accountDisabled.emit(account);
             break;
           }
           case 'delete': {
-            this.onAccountDelete.emit(account);
+            this.accountDeleted.emit(account);
             break;
           }
+          default:
+            break;
         }
       });
   }

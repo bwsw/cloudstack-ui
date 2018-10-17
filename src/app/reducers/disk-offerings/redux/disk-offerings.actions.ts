@@ -20,7 +20,7 @@ export class LoadOfferingsResponse implements Action {
 export class LoadDefaultParamsResponse implements Action {
   type = LOAD_DEFAULT_DISK_PARAMS_RESPONSE;
 
-  constructor(public payload: Array<string>) {}
+  constructor(public payload: string[]) {}
 }
 
 export type Actions = LoadOfferingsResponse | LoadOfferingsRequest;

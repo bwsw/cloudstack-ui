@@ -12,14 +12,10 @@ export class ListService {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
-        map(() => this.route.firstChild)
+        map(() => this.route.firstChild),
       )
       .subscribe(activatedRoute => {
-        if (activatedRoute) {
-          this.selectedId = activatedRoute.snapshot.params['id'] || null;
-        } else {
-          this.selectedId = null;
-        }
+        this.selectedId = activatedRoute ? activatedRoute.snapshot.params['id'] || null : null;
       });
   }
 
