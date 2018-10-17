@@ -1,4 +1,4 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export const ResourceTypes = {
   USER: 'User',
@@ -13,7 +13,7 @@ export const DeletionMark = {
 export const defaultCategoryName = 'Common';
 
 // Get rid of BaseModel interface, tags does not have id
-export interface Tag extends BaseModelInterface {
+export interface Tag extends BaseModel {
   account?: string;
   domain?: string;
   domainid?: string;

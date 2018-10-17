@@ -8,7 +8,6 @@ import { NetworkRuleType, SecurityGroup } from '../sg.model';
 import { BackendResource } from '../../shared/decorators/backend-resource.decorator';
 import { BaseBackendCachedService } from '../../shared/services/base-backend-cached.service';
 import { AsyncJobService } from '../../shared/services/async-job.service';
-import { AsyncJob } from '../../shared/models';
 
 
 @Injectable()
@@ -27,7 +26,6 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
     const command = 'authorize';
     return this.sendCommand(`${command};${type}`, data).pipe(
       switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
-      map((job: AsyncJob<any>) => job.jobresult.securitygroup),
       map(securityGroup => {
         return securityGroup[`${type.toLowerCase()}rule`][0];
       }));

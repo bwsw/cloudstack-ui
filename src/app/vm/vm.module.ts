@@ -38,7 +38,6 @@ import { VmVolumeDetailsContainerComponent } from './container/vm-volume-details
 import { VirtualMachinePageContainerComponent } from './container/vm.container';
 import { VmActionsService } from './shared/vm-actions.service';
 import { VmDestroyDialogComponent } from './shared/vm-destroy-dialog/vm-destroy-dialog.component';
-import { VmEntityDeletionService } from './shared/vm-entity-deletion.service';
 import { VmService } from './shared/vm.service';
 import { VmAccessComponent } from './vm-actions/vm-actions-component/vm-access.component';
 import { VmActionsComponent } from './vm-actions/vm-actions-component/vm-actions.component';
@@ -207,7 +206,6 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
   ],
   providers: [
     VmActionsService,
-    VmEntityDeletionService,
     VmService,
     SshAccessService,
     HttpAccessService,

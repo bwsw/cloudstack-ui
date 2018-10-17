@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BackendResource } from '../shared/decorators';
-import { BaseBackendService } from '../shared/services/base-backend.service';
+import { BaseBackendService, FormattedResponse } from '../shared/services/base-backend.service';
 
 import { Event } from './event.model';
 import { HttpClient } from '@angular/common/http';
@@ -19,10 +19,16 @@ export class EventService extends BaseBackendService<Event> {
     super(http);
   }
 
-  protected prepareModel(res, entityModel?): Event {
-    const event = super.prepareModel(res, this.entityModel);
+  protected formatGetListResponse(response: any): FormattedResponse<Event> {
+    const result = super.formatGetListResponse(response);
+    return {
+      list: result.list.map(m => this.prepareEventModel(m)) as Array<Event>,
+      meta: result.meta
+    };
+  }
 
-    event.created = moment(res.created).toDate();
+  private prepareEventModel(event): Event {
+    event.created = moment(event.created).toDate();
     event.time = this.dateTimeFormatterService.stringifyToTime(event.created);
     return event;
   }

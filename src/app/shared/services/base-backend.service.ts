@@ -6,7 +6,7 @@ import * as range from 'lodash/range';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-import { BaseModelInterface } from '../models/base.model';
+import { BaseModel } from '../models/base.model';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -55,10 +55,8 @@ export enum CSCommands {
   UpdateVM = 'updateVM',
 }
 
-export abstract class BaseBackendService<M extends BaseModelInterface> {
+export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
-  protected entityModel?: { new(params?): M };
-
   protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
   constructor(
@@ -126,7 +124,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
         return response;
       }
 
-      return this.prepareModel(response[entity] as M);
+      return response[entity] as M;
     }));
   }
 
@@ -135,15 +133,6 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const entity = customApiFormat && customApiFormat.entity;
 
     return this.sendCommand(command, params, entity);
-  }
-
-  protected prepareModel(res, entityModel?): M {
-    if (entityModel) {
-      return new entityModel(res);
-    } else if (this.entityModel) {
-      return new this.entityModel(res);
-    }
-    return res;
   }
 
   protected buildParams(command: string, params?: {}, entity?: string): HttpParams {
@@ -229,7 +218,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
 
     const result = response[entity] || [];
     return {
-      list: result.map(m => this.prepareModel(m)) as Array<M>,
+      list: result as Array<M>,
       meta: {
         count: response.count || 0
       }

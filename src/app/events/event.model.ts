@@ -1,6 +1,6 @@
-import { BaseModelInterface } from '../shared/models/base.model';
+import { BaseModel } from '../shared/models/base.model';
 
-export interface Event extends BaseModelInterface {
+export interface Event extends BaseModel {
   id: string;
   type: string;
   time: string;

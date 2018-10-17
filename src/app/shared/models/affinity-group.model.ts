@@ -1,4 +1,4 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 
 export enum AffinityGroupType {
@@ -12,7 +12,7 @@ export const AffinityGroupTypesMap = {
 };
 
 
-export interface AffinityGroup extends BaseModelInterface {
+export interface AffinityGroup extends BaseModel {
   id: string;
   name: string;
   type: AffinityGroupType;

@@ -109,6 +109,9 @@
     "VM": {
       "INSUFFICIENT_RESOURCES": "Insufficient resources"
     },
+    "VM_POST_ACTION": {
+      "INVALID_URL": "Invalid URL. Please check values in VM tags"
+    },
     "VOLUME": {
       "NAME_TOO_LONG": "Volume name cannot be longer than {{ val1 }} characters",
       "NEW_SIZE_IS_LOWER": "New size is lower than the current, you need to shrink the volume",
@@ -565,11 +568,21 @@
     "OPEN_VNC_CONSOLE": "Open VNC Console",
     "OPEN_SHELL_CONSOLE": "Open WebShell",
     "OPEN_URL": "Open URL",
+    "VNC_CONSOLE": "VNC console",
+    "SHELL_CONSOLE": "WebShell",
+    "URL": "URL",
     "VM_PASSWORD": "Password",
     "UNKNOWN": "Unknown",
     "LOGIN": "Login",
     "VM": "Virtual machine name",
-    "VM_IP": "IP"
+    "VM_IP": "IP",
+    "SSH_KEY": "SSH key",
+    "PORT": "Port",
+    "IPv4": "IPv4",
+    "IPv6": "IPv6",
+    "CONNECTION_STRING_6": "Connection string (IPv6)",
+    "CONNECTION_STRING_4": "Connection string (IPv4)",
+    "NOT_SET": "Not Set"
   },
   "VOLUME_PAGE": {
     "FILTERS": {

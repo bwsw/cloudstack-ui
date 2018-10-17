@@ -77,8 +77,8 @@ export class SecurityGroupEffects {
     withLatestFrom(this.store.pipe(select(fromSecurityGroups.selectAll))),
     map(([action, groups]: [securityGroupActions.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
       const vmGroup = groups.find((group: SecurityGroup) =>
-        action.payload.securityGroup &&
-        !!action.payload.securityGroup.find(sg => sg.id === group.id) &&
+        action.payload.securitygroup &&
+        !!action.payload.securitygroup.find(sg => sg.id === group.id) &&
         getType(group) === SecurityGroupType.Private
       );
       return vmGroup;
@@ -124,7 +124,7 @@ export class SecurityGroupEffects {
                   const message = 'NOTIFICATIONS.FIREWALL.CONVERT_PRIVATE_TO_SHARED_DONE';
                   this.showNotificationsOnFinish(message);
                 }),
-                map((response: SecurityGroup) => {
+                map(response => {
                   return new securityGroupActions.ConvertSecurityGroupSuccess(response);
                 }),
                 catchError(error => {
