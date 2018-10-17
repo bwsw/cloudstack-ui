@@ -15,7 +15,7 @@
       <mat-form-field>
         <mat-select class="type" formControlName="type">
           <mat-option *ngFor="let type of types" [value]="type">
-            {{ AffinityGroupTypesMap[type] }}
+            {{ type | affinityGroupType }}
           </mat-option>
         </mat-select>
       </mat-form-field>

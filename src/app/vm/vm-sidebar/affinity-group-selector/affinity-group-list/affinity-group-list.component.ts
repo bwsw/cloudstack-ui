@@ -7,7 +7,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { AffinityGroup, AffinityGroupTypesMap } from '../../../../shared/models';
+import { AffinityGroup } from '../../../../shared/models';
 
 
 @Component({
@@ -23,9 +23,6 @@ export class AffinityGroupListComponent implements OnChanges {
   public displayedColumns = ['name', 'type', 'description', 'radioButton'];
   public selectedGroup: AffinityGroup;
 
-  public get AffinityGroupTypesMap() {
-    return AffinityGroupTypesMap;
-  }
   public ngOnChanges(changes: SimpleChanges) {
     const affinityGroups = changes.affinityGroups;
     if (affinityGroups) {

@@ -10,7 +10,7 @@
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef> {{ 'AFFINITY_GROUP.TYPE' | translate }} </th>
         <td [class.preselected]="element.isPreselected && !isVmCreation" mat-cell *matCellDef="let element">
-          <span>{{ AffinityGroupTypesMap[element.type] }}</span>
+          <span>{{ element.type | affinityGroupType }}</span>
         </td>
       </ng-container>
       <ng-container matColumnDef="description">

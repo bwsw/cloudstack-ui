@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MatDialogRef } from '@angular/material';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
-import { AffinityGroup, AffinityGroupType, AffinityGroupTypesMap } from '../../../shared/models';
+import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
 import { AffinityGroupService } from '../../../shared/services/affinity-group.service';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -51,10 +51,6 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   public affinityGroupForm: FormGroup;
   public list: AffinityGroup[];
   public maxEntityNameLength = 63;
-
-  public get AffinityGroupTypesMap() {
-    return AffinityGroupTypesMap;
-  }
 
   constructor(
     private store: Store<State>,
