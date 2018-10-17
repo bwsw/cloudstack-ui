@@ -25,15 +25,13 @@ export class SshKeypairComponent {
   ) {}
 
   public showSshKeypairResetDialog(): void {
-    this.dialog
-      .open(SshKeypairResetComponent, {
-        width: '350px',
-        disableClose: true,
-        data: { keys: this.keys, sshKeyName: this.vm.keyPair },
-      } as MatDialogConfig)
-      .afterClosed()
-      .pipe(filter(res => Boolean(res)))
-      .subscribe(res => this.sshKeyChanged.emit(res));
+    this.dialog.open(SshKeypairResetComponent, <MatDialogConfig>{
+      width: '350px',
+      disableClose: true,
+      data: { keys: this.keys, sshKeyName: this.vm.keypair }
+    }).afterClosed().pipe(
+      filter(res => Boolean(res)))
+      .subscribe(res => this.onSshKeyChange.emit(res));
   }
 
   public get canActivate() {

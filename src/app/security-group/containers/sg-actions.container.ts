@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { State } from '../../reducers';
 import * as securityGroupActions from '../../reducers/security-groups/redux/sg.actions';
-import { SecurityGroup } from '../sg.model';
+import { SecurityGroup, SecurityGroupNative } from '../sg.model';
 
 @Component({
   selector: 'cs-security-group-actions-container',
@@ -35,7 +35,7 @@ export class SecurityGroupActionsContainerComponent {
     return of(securityGroup);
   }
 
-  public onSecurityGroupConvert(securityGroup: SecurityGroup) {
+  public onSecurityGroupConvert(securityGroup: SecurityGroupNative) {
     this.store.dispatch(new securityGroupActions.ConvertSecurityGroup(securityGroup));
   }
 }

@@ -183,7 +183,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     this.invalidateCache();
 
     return this.sendCommand(CSCommands.Register, params).pipe(
-      map(result => this.prepareModel(result[this.entity.toLowerCase()][0])),
+      map(result => result[this.entity.toLowerCase()][0]),
       switchMap(template => {
         if (params.groupId) {
           return this.templateTagService.setGroup(template, { id: params.groupId });
@@ -205,7 +205,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       id: template.id,
       zoneId: template.zoneid,
     }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
       map(() => {
         this.onTemplateRemoved.next(template);
         return template;

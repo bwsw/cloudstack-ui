@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
-
 import { State } from '../../reducers/index';
+import { IpAddress } from '../../shared/models/ip-address.model';
+
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
-import { IpAddress } from '../../shared/models/ip-address.model';
 
 @Component({
   selector: 'cs-storage-details-container',
@@ -23,7 +23,10 @@ import { IpAddress } from '../../shared/models/ip-address.model';
 export class NetworkDetailContainerComponent {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
 
-  constructor(private store: Store<State>) {}
+  constructor(
+    private store: Store<State>,
+  ) {
+  }
 
   public addSecondaryIp(nicId: string) {
     this.vm$.pipe(take(1)).subscribe(vm => {

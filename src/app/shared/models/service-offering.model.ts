@@ -4,19 +4,19 @@ import { userTagKeys } from '../../tags/tag-keys';
 
 export interface ServiceOffering extends Offering {
   created: string;
-  cpunumber: number;
-  cpuspeed: number;
-  memory: number;
-  networkrate: string;
   offerha: boolean;
   limitcpuuse: boolean;
   isvolatile: boolean;
   issystem: boolean;
   defaultuse: boolean;
-  deploymentplanner: string;
-  domain: string;
-  hosttags: string;
-  tags: Tag[];
+  cpunumber?: number;
+  cpuspeed?: number;
+  memory?: number;
+  tags?: Tag[];
+  domain?: string;
+  hosttags?: string;
+  deploymentplanner?: string;
+  networkrate?: string;
 }
 
 export const serviceOfferingType = {

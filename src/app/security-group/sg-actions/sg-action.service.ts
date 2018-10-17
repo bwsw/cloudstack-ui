@@ -1,4 +1,4 @@
-import { getType, SecurityGroup, SecurityGroupType } from '../sg.model';
+import { getType, isSecurityGroupNative, SecurityGroup, SecurityGroupType } from '../sg.model';
 import { Action } from '../../shared/models';
 
 export enum SecurityGroupActionType {
@@ -15,14 +15,17 @@ const securityGroupConvertAction = {
   canActivate: () => true,
 };
 
+const doesGroupHaveNoVirtualMachines = (securityGroup: SecurityGroup) => (
+  isSecurityGroupNative(securityGroup) &&
+  securityGroup.virtualmachineids.length === 0
+);
+
 const securityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
   icon: 'mdi-delete',
-  canShow: (securityGroup: SecurityGroup) =>
-    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0,
-  canActivate: (securityGroup: SecurityGroup) =>
-    getType(securityGroup) !== SecurityGroupType.PredefinedTemplate && securityGroup.virtualmachineids.length === 0,
+  canShow: doesGroupHaveNoVirtualMachines,
+  canActivate: doesGroupHaveNoVirtualMachines
 };
 
 const securityGroupShowRulesAction = {

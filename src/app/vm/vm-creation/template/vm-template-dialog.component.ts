@@ -48,7 +48,10 @@ export class VmTemplateDialogComponent extends TemplateFilterListComponent imple
 
   public selectedTemplate: BaseTemplateModel;
 
-  constructor(translate: TranslateService, authService: AuthService) {
+  constructor(
+    translate: TranslateService,
+    authService: AuthService
+  ) {
     super(translate, authService);
   }
 

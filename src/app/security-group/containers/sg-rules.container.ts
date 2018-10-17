@@ -20,7 +20,6 @@ import * as securityGroupActions from '../../reducers/security-groups/redux/sg.a
 })
 export class SgRulesContainerComponent implements OnInit {
   readonly securityGroup$ = this.store.pipe(select(fromSecurityGroups.getSelectedSecurityGroup));
-
   public id: string;
   public vmId: string;
   public editMode = false;

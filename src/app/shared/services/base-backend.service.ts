@@ -6,7 +6,7 @@ import * as range from 'lodash/range';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 import { ErrorService } from './error.service';
-import { BaseModelInterface } from '../models/base.model';
+import { BaseModel } from '../models/base.model';
 
 export const BACKEND_API_URL = 'client/api';
 
@@ -55,10 +55,8 @@ export enum CSCommands {
   UpdateVM = 'updateVM',
 }
 
-export abstract class BaseBackendService<M extends BaseModelInterface> {
+export abstract class BaseBackendService<M extends BaseModel> {
   protected entity: string;
-  protected entityModel?: { new (params?): M };
-
   protected requestCache: Cache<Observable<FormattedResponse<M>>>;
 
   constructor(protected http: HttpClient) {
@@ -82,7 +80,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
           return forkJoin(
             ...range(2, numberOfCalls + 1).map(page => {
               return this.makeGetListObservable(
-                {...requestParams, 
+                {...requestParams,
                   page,
                   pageSize: MAX_PAGE_SIZE},
                 customApiFormat,
@@ -91,7 +89,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
           ).pipe(
             map((results: FormattedResponse<M>[]) => {
               return results.reduce((memo, res) => {
-                return {...memo, 
+                return {...memo,
                   list: memo.list.concat(res.list)};
               }, result);
             }),
@@ -122,9 +120,8 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
           return response;
         }
 
-        return this.prepareModel(response[entity] as M);
-      }),
-    );
+      return response[entity] as M;
+    }));
   }
 
   public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
@@ -132,16 +129,6 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
     const entity = customApiFormat && customApiFormat.entity;
 
     return this.sendCommand(command, params, entity);
-  }
-
-  protected prepareModel(res, entityModel?): M {
-    if (entityModel) {
-      return new entityModel(res);
-    }
-    if (this.entityModel) {
-      return new this.entityModel(res);
-    }
-    return res;
   }
 
   protected buildParams(command: string, params?: {}, entity?: string): HttpParams {
@@ -211,7 +198,7 @@ export abstract class BaseBackendService<M extends BaseModelInterface> {
 
     const result = response[entity] || [];
     return {
-      list: result.map(m => this.prepareModel(m)) as M[],
+      list: result as M[],
       meta: {
         count: response.count || 0,
       },

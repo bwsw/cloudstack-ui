@@ -209,7 +209,7 @@ export const getSelectedTemplate = createSelector(
 export const getVMTemplate = createSelector(
   selectEntities,
   fromVMs.getSelectedVM,
-  (entities, vm) => vm && entities[vm.isoId],
+  (entities, vm) => vm && entities[vm.isoid]
 );
 
 export const getSelectedTemplateTags = createSelector(
@@ -415,7 +415,7 @@ export const selectTemplatesForIsoAttachment = createSelector(
   fromVMs.getSelectedVM,
   (templates, account, vm) => {
     const selectedZoneFilter = (template: BaseTemplateModel) => {
-      return template.zoneid === vm.zoneId || template.crossZones;
+      return template.zoneid === vm.zoneid || template.crossZones;
     };
 
     const selectedViewModeFilter = (template: BaseTemplateModel) => {

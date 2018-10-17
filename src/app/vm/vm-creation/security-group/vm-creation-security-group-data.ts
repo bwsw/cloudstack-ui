@@ -13,15 +13,12 @@ export class VmCreationSecurityGroupData {
     this.securityGroups = securityGroups;
   }
 
-  public static fromMode(mode: VmCreationSecurityGroupMode): VmCreationSecurityGroupData {
-    return new VmCreationSecurityGroupData(mode);
-  }
-
   public static fromRules(rules: Rules): VmCreationSecurityGroupData {
     return new VmCreationSecurityGroupData(VmCreationSecurityGroupMode.Builder, rules);
   }
 
   public static fromSecurityGroup(securityGroups: SecurityGroup[]): VmCreationSecurityGroupData {
-    return new VmCreationSecurityGroupData(VmCreationSecurityGroupMode.Selector, undefined, securityGroups);
+    return new VmCreationSecurityGroupData(
+      VmCreationSecurityGroupMode.Selector, undefined, securityGroups);
   }
 }

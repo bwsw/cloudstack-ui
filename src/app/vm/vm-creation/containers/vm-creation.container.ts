@@ -9,7 +9,6 @@ import {
   AffinityGroup,
   DiskOffering,
   InstanceGroup,
-  ServiceOffering,
   SSHKeyPair,
   Zone,
 } from '../../../shared/models';
@@ -37,6 +36,7 @@ import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
+import { ComputeOfferingViewModel } from '../../view-models';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -86,7 +86,10 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading)),
-  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
+    this.store.pipe(select(UserTagsSelectors.getIsLoading))
+  ).pipe(
+    map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
+  );
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
   readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
@@ -124,14 +127,14 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit());
+    this.store.dispatch(new vmActions.VmCreationFormInit())
   }
 
   public onDisplayNameChange(displayName: string) {
     this.store.dispatch(new vmActions.VmFormUpdate({ displayName }));
   }
 
-  public onServiceOfferingChange(serviceOffering: ServiceOffering) {
+  public onServiceOfferingChange(serviceOffering: ComputeOfferingViewModel) {
     this.store.dispatch(new vmActions.VmFormUpdate({ serviceOffering }));
   }
 
@@ -194,8 +197,6 @@ export class VmCreationContainerComponent implements OnInit {
   private getDefaultVmName(): Observable<string> {
     return this.store.pipe(
       select(UserTagsSelectors.getLastVMId),
-      first(),
-      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`),
-    );
+      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
   }
 }

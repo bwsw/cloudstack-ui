@@ -19,7 +19,7 @@ export enum IPVersion {
   ipv6 = 'ipv6',
 }
 
-export interface SecurityGroup {
+export interface SecurityGroupNative {
   id: string;
   account: string;
   description: string;
@@ -34,20 +34,34 @@ export interface SecurityGroup {
   preselected?: boolean; // used by custom templates, described in config
 }
 
-export const isCustomTemplate = (securityGroup: SecurityGroup) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
+export interface SecurityGroupTemplate {
+  id: string;
+  name: string;
+  description: string;
+  preselected?: boolean;
+  egressrule: NetworkRule[];
+  ingressrule: NetworkRule[]
+}
+
+export type SecurityGroup = SecurityGroupNative | SecurityGroupTemplate;
+
+export const isSecurityGroupNative = (sg: SecurityGroup): sg is SecurityGroupNative =>
+  ((sg as SecurityGroupNative).tags) != null;
+
+export const isCustomTemplate = (securityGroup: SecurityGroupNative) => {
+  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
 };
 
-export const isPrivate = (securityGroup: SecurityGroup) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
+export const isPrivate = (securityGroup: SecurityGroupNative) => {
+  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.Private;
 };
 
 export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
-  if (securityGroup.id.startsWith('template')) {
+  if (!isSecurityGroupNative(securityGroup)) {
     return SecurityGroupType.PredefinedTemplate;
   }
 
@@ -60,4 +74,8 @@ export const getType = (securityGroup: SecurityGroup): SecurityGroupType => {
   }
 
   return SecurityGroupType.Shared;
+};
+
+export const isDefaultSecurityGroup = (securityGroup: SecurityGroup) => {
+  return securityGroup.name === 'default';
 };

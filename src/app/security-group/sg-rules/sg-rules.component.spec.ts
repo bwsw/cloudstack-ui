@@ -11,7 +11,7 @@ import { MockTranslatePipe } from '../../../testutils/mocks/mock-translate.pipe.
 import { MockTranslateService } from '../../../testutils/mocks/mock-translate.service.spec';
 import { SnackBarService } from '../../core/services';
 import { SecurityGroupService } from '../services/security-group.service';
-import { IPVersion, NetworkRuleType, SecurityGroup } from '../sg.model';
+import { IPVersion, NetworkRuleType, SecurityGroup, SecurityGroupTemplate } from '../sg.model';
 import { SgRulesComponent } from './sg-rules.component';
 import { NetworkProtocol } from '../network-rule.model';
 import { NetworkRuleService } from '../services/network-rule.service';
@@ -19,7 +19,7 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import { LoadingDirective } from '../../shared/directives/loading.directive';
 
 // tslint:disable-next-line:max-line-length
-const securityGroupTemplates: Object[] = require('../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
+const securityGroupTemplates: SecurityGroupTemplate[] = require('../../../testutils/mocks/model-services/fixtures/securityGroupTemplates.json');
 
 @Injectable()
 class MockRouter {

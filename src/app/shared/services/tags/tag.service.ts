@@ -18,14 +18,14 @@ export class TagService extends BaseBackendService<Tag> {
   }
 
   public create(params?: {}): Observable<any> {
-    return super.create(params).pipe(switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)));
+    return super.create(params).pipe(
+      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid, this.entity)));
   }
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params).pipe(
-      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)),
-      catchError(() => of(null))
-    );
+      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid, this.entity)),
+      catchError(() => of(null)));
   }
 
   public getList(params?: {}): Observable<Tag[]> {
@@ -37,8 +37,13 @@ export class TagService extends BaseBackendService<Tag> {
     return this.getList({ key, resourceid: entity.id }).pipe(map(tags => tags[0]));
   }
 
-  public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
-    const newEntity = {...entity};
+  public update<T extends any>( // todo: should be T extends Taggable
+    entity: T,
+    entityName: string,
+    key: string,
+    value: any
+  ): Observable<T> {
+    const newEntity = Object.assign({}, entity);
 
     const createObs = this.create({
       resourceIds: newEntity.id,

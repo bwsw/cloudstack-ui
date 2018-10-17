@@ -60,40 +60,23 @@ export class VmCreationComponent {
   @Input()
   public insufficientResources: string[];
 
-  @Output()
-  public displayNameChange = new EventEmitter<string>();
-  @Output()
-  public serviceOfferingChange = new EventEmitter<ServiceOffering>();
-  @Output()
-  public diskOfferingChange = new EventEmitter<DiskOffering>();
-  @Output()
-  public rootDiskSizeMinChange = new EventEmitter<number>();
-  @Output()
-  public rootDiskSizeChange = new EventEmitter<number>();
-  @Output()
-  public affinityGroupChange = new EventEmitter<AffinityGroup>();
-  @Output()
-  public instanceGroupChange = new EventEmitter<InstanceGroup>();
-  @Output()
-  public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
-  @Output()
-  public templateChange = new EventEmitter<BaseTemplateModel>();
-  @Output()
-  public sshKeyPairChanged = new EventEmitter<SSHKeyPair | NotSelected>();
-  @Output()
-  public doStartVmChange = new EventEmitter<boolean>();
-  @Output()
-  public zoneChange = new EventEmitter<Zone>();
-  @Output()
-  public agreementChange = new EventEmitter<boolean>();
-  @Output()
-  public vmDeploymentFailed = new EventEmitter();
-  @Output()
-  public deploy = new EventEmitter<VmCreationState>();
-  @Output()
-  public cancel = new EventEmitter();
-  @Output()
-  public errored = new EventEmitter();
+  @Output() public displayNameChange = new EventEmitter<string>();
+  @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
+  @Output() public diskOfferingChange = new EventEmitter<DiskOffering>();
+  @Output() public rootDiskSizeMinChange = new EventEmitter<number>();
+  @Output() public rootDiskSizeChange = new EventEmitter<number>();
+  @Output() public affinityGroupChange = new EventEmitter<AffinityGroup>();
+  @Output() public instanceGroupChange = new EventEmitter<InstanceGroup>();
+  @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
+  @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
+  @Output() public sshKeyPairChanged = new EventEmitter<SSHKeyPair | NotSelected>();
+  @Output() public doStartVmChange = new EventEmitter<boolean>();
+  @Output() public zoneChange = new EventEmitter<Zone>();
+  @Output() public agreementChange = new EventEmitter<boolean>();
+  @Output() public vmDeploymentFailed = new EventEmitter();
+  @Output() public deploy = new EventEmitter<VmCreationState>();
+  @Output() public cancel = new EventEmitter();
+  @Output() public errored = new EventEmitter();
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
@@ -110,43 +93,50 @@ export class VmCreationComponent {
   public visibleAffinityGroups: AffinityGroup[];
   public visibleInstanceGroups: InstanceGroup[];
 
-  public get nameIsTaken(): boolean {
+  constructor(
+    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
+    private auth: AuthService,
+  ) {
+  }
+
+  public nameIsTaken(): boolean {
     return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
   }
 
-  public get diskOfferingsAreAllowed(): boolean {
+  public diskOfferingsAreAllowed(): boolean {
     return this.vmCreationState.template && !isTemplate(this.vmCreationState.template);
   }
 
-  public get showResizeSlider(): boolean {
-    return (
-      this.vmCreationState.template &&
-      !isTemplate(this.vmCreationState.template) &&
-      this.showRootDiskResize &&
-      !!this.vmCreationState.rootDiskMinSize
-    );
+  public showResizeSlider(): boolean {
+    const template = isTemplate(this.vmCreationState.template);
+    return template || (!template && this.isCustomizedDiskOffering());
   }
 
-  public get rootDiskSizeLimit(): number {
-    return this.account && this.account.primarystorageavailable;
+  public rootDiskSizeLimit(): number {
+    const primaryStorageAvailable = this.account && this.account.primarystorageavailable;
+    const storageAvailable = Number(primaryStorageAvailable);
+    const maxRootSize = this.auth.getCustomDiskOfferingMaxSize();
+    if (primaryStorageAvailable === 'Unlimited' || isNaN(storageAvailable)) {
+      return maxRootSize;
+    }
+    if (storageAvailable < maxRootSize) {
+      return storageAvailable;
+    }
+    return maxRootSize;
   }
 
-  public get showRootDiskResize(): boolean {
-    return this.vmCreationState.diskOffering && this.vmCreationState.diskOffering.iscustomized;
+  public isCustomizedDiskOffering(): boolean {
+    if (this.vmCreationState.diskOffering) {
+      return this.vmCreationState.diskOffering.iscustomized;
+    }
+    return false;
   }
 
-  public get showSecurityGroups(): boolean {
-    return (
-      this.vmCreationState.zone &&
-      this.vmCreationState.zone.securitygroupsenabled &&
-      this.auth.isSecurityGroupEnabled()
-    );
+  public showSecurityGroups(): boolean {
+    return this.vmCreationState.zone
+      && this.vmCreationState.zone.securitygroupsenabled
+      && this.auth.isSecurityGroupEnabled();
   }
-
-  constructor(
-    public dialogRef: MatDialogRef<VmCreationContainerComponent>,
-    private auth: AuthService
-  ) {}
 
   public changeTemplate(value: BaseTemplateModel) {
     this.agreementChange.emit(value.agreementAccepted);
@@ -181,5 +171,12 @@ export class VmCreationComponent {
   public onVmCreationSubmit(e: any): void {
     e.preventDefault();
     this.deploy.emit(this.vmCreationState);
+  }
+
+  public isSubmitButtonDisabled(isFormValid: boolean): boolean {
+    return !isFormValid
+      || this.nameIsTaken()
+      || !this.vmCreationState.template
+      || !this.vmCreationState.serviceOffering.isAvailableByResources;
   }
 }

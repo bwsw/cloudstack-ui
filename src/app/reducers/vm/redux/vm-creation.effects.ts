@@ -6,14 +6,12 @@ import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
-import { templateResourceType } from '../../../template/shared/base-template.service';
+import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus,
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { Rules } from '../../../shared/components/security-group-builder/rules';
-import { BaseTemplateModel, isTemplate, resourceType } from '../../../template/shared';
+import { BaseTemplateModel, isTemplate } from '../../../template/shared';
 import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
@@ -46,6 +44,7 @@ import * as fromTemplates from '../../templates/redux/template.reducers';
 import * as fromVMs from './vm.reducers';
 import * as fromVMModule from '../../../vm/selectors';
 import { KeyboardLayout } from '../../../shared/types';
+import { ComputeOfferingViewModel } from '../../../vm/view-models';
 
 interface VmCreationParams {
   affinityGroupNames?: string;
@@ -141,17 +140,15 @@ export class VirtualMachineCreationEffects {
   @Effect()
   vmSelectPredefinedSecurityGroups$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_SECURITY_GROUPS_SELECT),
-    withLatestFrom(
-      this.store.pipe(
-        select(fromSecurityGroups.selectPredefinedSecurityGroups),
-        filter(groups => !!groups.length),
-      ),
+    withLatestFrom(this.store.pipe(
+      select(fromSecurityGroups.selectPredefinedSecurityGroups),
+      filter(groups => !!groups.length)),
+      this.store.pipe(select(fromSecurityGroups.selectDefaultSecurityGroup))
     ),
-    map(([action, securityGroups]: [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[]]) => {
+    map(([action, securityGroups, defaultSecurityGroup]:
+           [vmActions.VmInitialSecurityGroupsSelect, SecurityGroup[], SecurityGroup]) => {
       return new vmActions.VmFormUpdate({
-        securityGroupData: VmCreationSecurityGroupData.fromRules(
-          Rules.createWithAllRulesSelected(securityGroups),
-        ),
+        securityGroupData: VmCreationSecurityGroupData.fromSecurityGroup([defaultSecurityGroup])
       });
     }),
   );
@@ -180,26 +177,17 @@ export class VirtualMachineCreationEffects {
       this.store.pipe(select(fromDiskOfferings.selectAll)),
       this.store.pipe(select(configSelectors.get('defaultComputeOffering'))),
     ),
-    map(
-      ([
-        action,
-        vmCreationState,
-        zones,
-        templates,
-        serviceOfferings,
-        diskOfferings,
-        defaultComputeOfferings,
-      ]: [
-        vmActions.VmFormUpdate,
-        VmCreationState,
-        Zone[],
-        BaseTemplateModel[],
-        ServiceOffering[],
-        DiskOffering[],
-        DefaultComputeOffering[]
+    map(([action, vmCreationState, zones, templates, serviceOfferings, diskOfferings, defaultComputeOfferings]: [
+      vmActions.VmFormUpdate,
+      VmCreationState, Zone[],
+      BaseTemplateModel[],
+      ComputeOfferingViewModel[],
+      DiskOffering[],
+      DefaultComputeOffering[]
       ]) => {
-        if (action.payload.zone) {
-          let updates = {};
+
+      if (action.payload.zone) {
+        let updates = {};
 
           const selectedServiceOfferingStillAvailable =
             vmCreationState.serviceOffering &&
@@ -223,35 +211,30 @@ export class VirtualMachineCreationEffects {
           }
         }
 
-        if (action.payload.template) {
-          if (
-            resourceType(action.payload.template) !== templateResourceType.template &&
-            !vmCreationState.diskOffering
-          ) {
-            return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
-          }
+      if (action.payload.template) {
+        if (!isTemplate(action.payload.template) && !vmCreationState.diskOffering) {
+          return new vmActions.VmFormUpdate({ diskOffering: diskOfferings[0] });
         }
 
-        if (action.payload.diskOffering) {
-          if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
-            return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
-          }
+        if (isTemplate(action.payload.template)) {
           const defaultDiskSize = this.auth.getCustomDiskOfferingMinSize() || 1;
-          const minSize = Math.max(
-            Math.ceil(Utils.convertToGb(vmCreationState.template.size)),
-            defaultDiskSize,
-          );
           // e.g. 20000000000 B converts to 20 GB; 200000000 B -> 0.2 GB -> 1 GB; 0 B -> 1 GB
+          const minSize = Math.ceil(Utils.convertToGb(vmCreationState.template.size)) || defaultDiskSize;
           const upd = { rootDiskMinSize: minSize };
-
-          if (
-            !vmCreationState.rootDiskSize ||
-            vmCreationState.rootDiskSize < vmCreationState.rootDiskMinSize
-          ) {
-            return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
-          }
-          return new vmActions.VmFormUpdate(upd);
+          return new vmActions.VmFormUpdate({ ...upd, rootDiskSize: minSize });
         }
+      }
+
+      if (action.payload.diskOffering) {
+        if (action.payload.diskOffering.iscustomized) {
+          const minSize = this.auth.getCustomDiskOfferingMinSize() || 10;
+          return new vmActions.VmFormUpdate({ rootDiskMinSize: minSize, rootDiskSize: minSize });
+        }
+
+        if (!action.payload.diskOffering.iscustomized || !vmCreationState.template) {
+          return new vmActions.VmFormUpdate({ rootDiskMinSize: null });
+        }
+      }
 
         if (vmCreationState.zone) {
           if (!vmCreationState.serviceOffering && serviceOfferings.length) {
@@ -310,65 +293,58 @@ export class VirtualMachineCreationEffects {
     ofType(vmActions.VM_DEPLOYMENT_REQUEST),
     withLatestFrom(this.store.pipe(select(UserTagsSelectors.getKeyboardLayout))),
     switchMap(([action, keyboard]: [vmActions.DeploymentRequest, KeyboardLayout]) => {
-      return this.doCreateAffinityGroup(action.payload).pipe(
-        switchMap(() =>
-          this.doCreateSecurityGroup(action.payload).pipe(
-            switchMap(securityGroups => {
-              if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
-                this.store.dispatch(
-                  new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups),
-                );
-              }
-              this.store.dispatch(
-                new vmActions.DeploymentChangeStatus({
-                  stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED,
-                }),
-              );
+      return this.doCreateAffinityGroup(action.payload)
+        .pipe(
+          switchMap(() => this.doCreateSecurityGroup(action.payload)
+            .pipe(
+              switchMap((securityGroups) => {
+                if (action.payload.securityGroupData.mode === VmCreationSecurityGroupMode.Builder) {
+                  this.store.dispatch(new securityGroupActions.CreateSecurityGroupsSuccess(securityGroups));
+                }
+                this.store.dispatch(new vmActions.DeploymentChangeStatus({
+                  stage: VmDeploymentStage.SG_GROUP_CREATION_FINISHED
+                }));
 
-              this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS });
-              const params = this.getVmCreationParams(action.payload, keyboard, securityGroups);
-              let deployResponse;
+                this.handleDeploymentMessages({stage: VmDeploymentStage.VM_CREATION_IN_PROGRESS});
+                const params = this.getVmCreationParams(action.payload, keyboard, securityGroups);
+                let deployResponse;
 
-              return this.vmService.deploy(params).pipe(
-                switchMap(response => {
-                  deployResponse = response;
-                  return this.vmService.get(deployResponse.id);
-                }),
-                switchMap(vm => {
-                  const temporaryVm = vm;
+                return this.vmService.deploy(params)
+                  .pipe(
+                    switchMap(response => {
+                      deployResponse = response;
+                      return this.vmService.get(deployResponse.id);
+                    }),
+                    switchMap(vm => {
+                      const temporaryVm = vm;
 
-                  if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
-                    temporaryVm.instanceGroup = action.payload.instanceGroup;
-                  }
+                      if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
+                        temporaryVm.instanceGroup = action.payload.instanceGroup;
+                      }
 
-                  temporaryVm.state = VmState.Deploying;
-                  this.handleDeploymentMessages({ stage: VmDeploymentStage.TEMP_VM });
+                      temporaryVm.state = VmState.Deploying;
+                      this.handleDeploymentMessages({stage: VmDeploymentStage.TEMP_VM});
 
-                  this.store.dispatch(new UserTagsActions.IncrementLastVMId());
-                  return this.vmService.registerVmJob(deployResponse);
-                }),
-                switchMap((deployedVm: VirtualMachine) => {
-                  this.handleDeploymentMessages({ stage: VmDeploymentStage.VM_DEPLOYED });
+                      this.store.dispatch(new UserTagsActions.IncrementLastVMId());
+                      return this.vmService.registerVmJob(deployResponse);
+                    }),
+                    switchMap((deployedVm: VirtualMachine) => {
+                      this.handleDeploymentMessages({stage: VmDeploymentStage.VM_DEPLOYED});
 
-                  return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
-                    switchMap(virtualMachine => this.doCopyTags(virtualMachine, action.payload)),
-                  );
-                }),
-                map(vmWithTags => {
-                  if (action.payload.doStartVm) {
-                    vmWithTags.state = VmState.Running;
-                  }
-                  return new vmActions.DeploymentRequestSuccess(vmWithTags);
-                }),
-                catchError(error => of(new vmActions.DeploymentRequestError(error))),
-              );
-            }),
-            catchError(error => of(new vmActions.DeploymentRequestError(error))),
-          ),
-        ),
-      );
-    }),
-  );
+                      return this.doCreateInstanceGroup(deployedVm, action.payload).pipe(
+                        switchMap((virtualMachine) => this.doCopyTags(virtualMachine, action.payload))
+                      )
+                    }),
+                    map((vmWithTags) => {
+                      if (action.payload.doStartVm) {
+                        vmWithTags.state = VmState.Running;
+                      }
+                      return new vmActions.DeploymentRequestSuccess(vmWithTags);
+                    }),
+                    catchError((error) => of(new vmActions.DeploymentRequestError(error))));
+              }),
+              catchError((error) => of(new vmActions.DeploymentRequestError(error))))));
+      }));
 
   @Effect({ dispatch: false })
   changeStatusOfDeployment$ = this.actions$.pipe(
@@ -728,10 +704,10 @@ export class VirtualMachineCreationEffects {
   }
 
   private getPreselectedOffering(
-    offerings: ServiceOffering[],
+    offerings: ComputeOfferingViewModel[],
     zone: Zone,
-    defaultComputeOfferingConfiguration: DefaultComputeOffering[],
-  ): ServiceOffering {
+    defaultComputeOfferingConfiguration: DefaultComputeOffering[]
+  ): ComputeOfferingViewModel {
     const firstOffering = offerings[0];
     const configForCurrentZone = defaultComputeOfferingConfiguration.find(
       config => config.zoneId === zone.id,

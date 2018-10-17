@@ -55,7 +55,7 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   }
 
   public ngOnInit() {
-    this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneId));
+    this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneid));
     this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }));
   }

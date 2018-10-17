@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { State } from '../../reducers';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
-import { SecurityGroup } from '../sg.model';
+import { isSecurityGroupNative, SecurityGroup, SecurityGroupNative } from '../sg.model';
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
 
@@ -26,7 +26,11 @@ export class SecurityGroupTagsContainerComponent {
   constructor(private store: Store<State>) {}
 
   public editTag(tagEditAction: TagEditAction) {
-    this.sg$.pipe(take(1)).subscribe((sg: SecurityGroup) => {
+    this.sg$.pipe(take(1)).subscribe(sg => {
+      if (!isSecurityGroupNative(sg)) {
+        throw new Error('Can not edit tag of a predefined group');
+      }
+
       const newTag: Tag = {
         resourceid: sg.id,
         resourcetype: 'SecurityGroup',
@@ -44,14 +48,22 @@ export class SecurityGroupTagsContainerComponent {
   }
 
   public deleteTag(tag: Tag) {
-    this.sg$.pipe(take(1)).subscribe((sg: SecurityGroup) => {
+    this.sg$.pipe(take(1)).subscribe(sg => {
+      if (!isSecurityGroupNative(sg)) {
+        throw new Error('Can not delete tag of a predefined group');
+      }
+
       const newTags = sg.tags.filter(_ => tag.key !== _.key);
       this.store.dispatch(new sgActions.UpdateSecurityGroup({ ...sg, tags: newTags }));
     });
   }
 
   public addTag(keyValuePair: KeyValuePair) {
-    this.sg$.pipe(take(1)).subscribe((sg: SecurityGroup) => {
+    this.sg$.pipe(take(1)).subscribe(sg => {
+      if (!isSecurityGroupNative(sg)) {
+        throw new Error('Can not add tag to a predefined group');
+      }
+
       const newTag = {
         resourceid: sg.id,
         resourcetype: 'SecurityGroup',

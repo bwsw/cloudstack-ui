@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, pluck, switchMap } from 'rxjs/operators';
 
-import { BaseModelInterface } from '../../models/base.model';
+import { BaseModel } from '../../models/base.model';
 import { BaseBackendService } from '../../services/base-backend.service';
 import { SnackBarService } from '../../../core/services';
 import { EntityDoesNotExistError } from './entity-does-not-exist-error';
 
-export abstract class SidebarComponent<M extends BaseModelInterface> implements OnInit {
+export abstract class SidebarComponent<M extends BaseModel> implements OnInit {
   public entity: M;
   public notFound: boolean;
 

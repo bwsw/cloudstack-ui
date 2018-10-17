@@ -48,6 +48,10 @@ export const customizableProperties: Readonly<CustomizableConfig> = {
    * Firewall (Security groups) settings
    */
   securityGroupTemplates: [],
+  defaultSecurityGroupName: {
+    en: 'default',
+    ru: 'default'
+  },
   /*
   * Images settings
   */

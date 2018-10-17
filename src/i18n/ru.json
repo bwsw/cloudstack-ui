@@ -108,6 +108,9 @@
     "VM": {
       "INSUFFICIENT_RESOURCES": "Недостаточно ресурсов"
     },
+    "VM_POST_ACTION": {
+      "INVALID_URL": "Неподдерживаемый URL. Проверьте значения, задаваемые в тэгах ВМ"
+    },
     "VOLUME": {
       "NAME_TOO_LONG": "Имя диска не может быть длиннее {{ val1 }} символов",
       "NEW_SIZE_IS_LOWER": "Новый размер меньше текущего, необходимо сжать диск",
@@ -118,6 +121,9 @@
     },
     "SNAPSHOT_POLICIES": {
       "HOURLY_TURN_OFF": "Почасовое расписание отключено"
+    },
+    "COMPUTE_OFFERING": {
+      "RESOURCE_LIMIT_EXCEEDED": "Вычислительное предложение не может быть выбрано. Размер выбранного предложения превышает доступные ресурсы аккаунта."
     }
   },
   "NOTIFICATIONS": {
@@ -551,7 +557,9 @@
       "DEPLOYMENT_FINISHED": "Развертывание завершено",
       "OS_TEMPLATE": "ОС шаблон",
       "NO_TEMPLATES": "Нет доступных шаблонов",
-      "NO_OFFERINGS": "Нет доступных сервисных предложений"
+      "NO_OFFERINGS": "Нет доступных сервисных предложений",
+      "GENERAL": "Основные",
+      "ADVANCED": "Дополнительные"
     }
   },
   "VM_POST_ACTION": {
@@ -559,11 +567,21 @@
     "OPEN_VNC_CONSOLE": "Открыть VNC консоль",
     "OPEN_SHELL_CONSOLE": "Открыть WebShell",
     "OPEN_URL": "Открыть URL",
+    "VNC_CONSOLE": "VNC консоль",
+    "SHELL_CONSOLE": "WebShell",
+    "URL": "URL",
     "VM_PASSWORD": "Пароль",
     "UNKNOWN": "Неизвестно",
     "LOGIN": "Логин",
     "VM": "Имя машины",
-    "VM_IP": "IP адрес"
+    "VM_IP": "IP адрес",
+    "SSH_KEY": "SSH ключ",
+    "PORT": "Порт",
+    "IPv4": "IPv4",
+    "IPv6": "IPv6",
+    "CONNECTION_STRING_6": "Строка подключения (IPv6)",
+    "CONNECTION_STRING_4": "Строка подключения (IPv4)",
+    "NOT_SET": "Не задано"
   },
   "VOLUME_PAGE": {
     "FILTERS": {

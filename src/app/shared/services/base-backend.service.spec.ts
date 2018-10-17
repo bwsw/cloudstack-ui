@@ -20,14 +20,13 @@ describe('Base backend service', () => {
     },
   ];
 
-  class TestModel extends BaseModel {
-    public id: string;
-    public field1: string;
+  interface TestModel extends BaseModel {
+    id: string;
+    field1: string;
   }
 
   @BackendResource({
-    entity: 'Test',
-    entityModel: TestModel,
+    entity: 'Test'
   })
   class TestBackendService extends BaseBackendService<TestModel> {
     constructor(http: HttpClient) {
@@ -49,7 +48,6 @@ describe('Base backend service', () => {
         expect(res.length).toBe(test.length);
 
         res.forEach((testModel: TestModel, ind: number) => {
-          expect(testModel instanceof TestModel).toBeTruthy();
           expect(testModel.id).toBe(test[ind].id);
           expect(testModel.field1).toBe(test[ind].field1);
         });
@@ -57,10 +55,9 @@ describe('Base backend service', () => {
     })
   ));
 
-  it('should create model by id', async(
-    inject([TestBackendService], testService => {
-      testService.get(test[1].id).subscribe((res: TestModel) => {
-        expect(res instanceof TestModel).toBeTruthy();
+  it('should create model by id', async(inject([TestBackendService], (testService) => {
+    testService.get(test[1].id)
+      .subscribe((res: TestModel) => {
         expect(res.id).toBe(test[1].id);
         expect(res.field1).toBe(test[1].field1);
       });
@@ -91,12 +88,12 @@ describe('Base backend service', () => {
     const testService = TestBed.get(TestBackendService);
     const testData = test[0];
 
-    testService
-      .getList({ id: testData.id })
-      .subscribe(res => expect(res).toEqual([new TestModel(testData)]));
-    testService
-      .getList({ id: testData.id })
-      .subscribe(res => expect(res).toEqual([new TestModel(testData)]));
+    testService.getList({ id: testData.id }).subscribe(
+      res => expect(res).toEqual([testData as TestModel])
+    );
+    testService.getList({ id: testData.id }).subscribe(
+      res => expect(res).toEqual([testData as TestModel])
+    );
 
     mockBackend = TestBed.get(HttpTestingController);
     const response = mockBackend.expectOne({});
@@ -113,12 +110,12 @@ describe('Base backend service', () => {
 
   it('should merge concurrent requests without parameters', async(() => {
     const testService = TestBed.get(TestBackendService);
-    testService
-      .getList()
-      .subscribe(res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])]));
-    testService
-      .getList()
-      .subscribe(res => expect(res).toEqual([new TestModel(test[0]), new TestModel(test[1])]));
+    testService.getList().subscribe(
+      res => expect(res).toEqual([test[0] as TestModel, test[1] as TestModel])
+    );
+    testService.getList().subscribe(
+      res => expect(res).toEqual([test[0] as TestModel, test[1] as TestModel])
+    );
 
     const mockResponse = {
       listtestsresponse: {
@@ -134,12 +131,12 @@ describe('Base backend service', () => {
 
   it('should not merge concurrent requests with different parameters', async(() => {
     const testService = TestBed.get(TestBackendService);
-    testService
-      .getList({ id: 'id1' })
-      .subscribe(res => expect(res).toEqual([new TestModel(test[0])]));
-    testService
-      .getList({ id: 'id2' })
-      .subscribe(res => expect(res).toEqual([new TestModel(test[1])]));
+    testService.getList({ id: 'id1' }).subscribe(
+      res => expect(res).toEqual([test[0] as TestModel])
+    );
+    testService.getList({ id: 'id2' }).subscribe(
+      res => expect(res).toEqual([test[1] as TestModel])
+    );
     mockBackend = TestBed.get(HttpTestingController);
     const requests = mockBackend.match({});
 

@@ -1,8 +1,9 @@
-<cs-tags-view
-  [tags]="tags$ | async"
-  [canAddTag]="!entity.isfeatured"
-  [hasPermissions]="hasPermissions"
-  (tagAdded)="onTagAdd($event)"
-  (tagEdited)="onTagEdit($event)"
-  (tagDeleted)="onTagDelete($event)"
-></cs-tags-view>
+<div *ngIf="entity">
+  <cs-tags-view
+    [tags]="tags"
+    [hasPermissions]="hasPermissions"
+    (onTagAdd)="addTag($event)"
+    (onTagEdit)="editTag($event)"
+    (onTagDelete)="deleteTag($event)"
+  ></cs-tags-view>
+</div>

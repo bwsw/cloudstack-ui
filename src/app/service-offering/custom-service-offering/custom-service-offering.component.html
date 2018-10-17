@@ -47,6 +47,10 @@
     </mat-form-field>
   </div>
 
+  <span class="error-message" *ngIf="!offering.isAvailableByResources">
+    {{ 'ERRORS.COMPUTE_OFFERING.RESOURCE_LIMIT_EXCEEDED' | translate }}
+  </span>
+
   <div class="mat-dialog-actions">
     <button
       mat-button
@@ -60,7 +64,7 @@
       mat-button
       color="primary"
       type="submit"
-      [disabled]="!hardwareForm.valid"
+      [disabled]="!hardwareForm.valid || !offering.isAvailableByResources"
     >
       {{ 'COMMON.CONFIRM' | translate }}
     </button>

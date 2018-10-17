@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { SecurityGroup } from '../../../security-group/sg.model';
+import { SecurityGroup, SecurityGroupNative } from '../../../security-group/sg.model';
 import { SecurityGroupCreationParams } from '../../../security-group/sg-creation/security-group-creation.component';
 import { VirtualMachine } from '../../../vm/shared/vm.model';
 
@@ -105,13 +105,15 @@ export class DeleteSecurityGroupError implements Action {
 export class ConvertSecurityGroup implements Action {
   readonly type = CONVERT_SECURITY_GROUP;
 
-  constructor(readonly payload: SecurityGroup) {}
+  constructor(readonly payload: SecurityGroupNative) {
+  }
 }
 
 export class ConvertSecurityGroupSuccess implements Action {
   readonly type = CONVERT_SECURITY_GROUP_SUCCESS;
 
-  constructor(readonly payload: SecurityGroup) {}
+  constructor(readonly payload: SecurityGroupNative) {
+  }
 }
 
 export class ConvertSecurityGroupError implements Action {

@@ -59,23 +59,19 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public updateZone(zone: Zone) {
-    this.account$
-      .pipe(
-        take(1),
-        filter(Boolean),
-      )
-      .subscribe(account => {
-        if (account.volumeavailable <= 0 || account.primarystorageavailable < 1) {
+    this.account$.pipe(
+      take(1),
+      filter(Boolean))
+      .subscribe((account) => {
+        if (account.volumeavailable <= 0 || Number(account.primarystorageavailable) <= 0) {
           this.handleInsufficientResources();
           return;
         }
-        this.maxSize = account.primarystorageavailable;
-        this.store.dispatch(
-          new diskOfferingActions.LoadOfferingsRequest({
-            zone,
-            maxSize: this.maxSize,
-          }),
-        );
+        this.maxSize = Number(account.primarystorageavailable);
+        this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
+          zone,
+          maxSize: this.maxSize
+        }));
       });
   }
 

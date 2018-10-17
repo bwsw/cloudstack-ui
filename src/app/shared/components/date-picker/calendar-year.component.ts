@@ -53,11 +53,7 @@ export class CalendarYearComponent implements AfterViewInit {
 
     for (let year = minYear; year <= maxYear; year += 1) {
       dateCheck.setFullYear(year);
-      const yearFormatted = new this.dateTimeFormat(this.locale, {
-        year: 'numeric',
-      }).format(dateCheck);
-
-      years.push(yearFormatted);
+      years.push(dateCheck.getFullYear());
     }
 
     return years;

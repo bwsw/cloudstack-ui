@@ -9,10 +9,8 @@ import { configSelectors, State } from '../../root-store';
 @Injectable()
 export class SshAccessService extends AccessService {
   protected readonly authMode = AuthModeType.SSH;
-
   private readonly webShellAddress = 'cs-extensions/webshell';
   private readonly defaultPort = '22';
-  private readonly defaultLogin = 'root';
   private webShellEnabled: boolean;
 
   constructor(store: Store<State>) {
@@ -34,7 +32,7 @@ export class SshAccessService extends AccessService {
     return `${this.webShellAddress}/?${ip}/${port}/${user}`;
   }
 
-  public isWebShellEnabledForVm(vm): boolean {
+  public isSshAuthMode(vm): boolean {
     if (!vm) {
       return false;
     }
@@ -47,13 +45,28 @@ export class SshAccessService extends AccessService {
     return false;
   }
 
-  private getPort(vm: VirtualMachine): string {
+  public getPort(vm: VirtualMachine): string {
     const portTag = this.getTagValue(vm.tags, virtualMachineTagKeys.sshPortToken);
     return portTag || this.defaultPort;
   }
 
-  private getLogin(vm: VirtualMachine): string {
-    const userTag = this.getTagValue(vm.tags, virtualMachineTagKeys.sshLoginToken);
-    return userTag || this.defaultLogin;
+  public getLogin(vm: VirtualMachine): string {
+    const sshLogin = this.getTagValue(vm.tags, virtualMachineTagKeys.sshLoginToken);
+    const vmLogin = this.getTagValue(vm.tags, virtualMachineTagKeys.loginTag);
+    return sshLogin || vmLogin || this.defaultLogin;
+  };
+
+  public getPassword(vm: VirtualMachine): string {
+    const sshPassword = this.getTagValue(vm.tags, virtualMachineTagKeys.sshPasswordToken);
+    const vmPassword = this.getTagValue(vm.tags, virtualMachineTagKeys.passwordTag);
+    return sshPassword || vmPassword;
+  }
+
+  public getIpv4ConnectionString(vm: VirtualMachine): string {
+    return `ssh -p ${this.getPort(vm)} -u ${this.getLogin(vm)} ${vm.nic[0].ipaddress}`;
+  }
+
+  public getIpv6ConnectionString(vm: VirtualMachine): string {
+    return `ssh -p ${this.getPort(vm)} -u ${this.getLogin(vm)} ${vm.nic[0].ip6address}`;
   }
 }

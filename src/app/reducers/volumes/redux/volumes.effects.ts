@@ -84,10 +84,9 @@ export class VolumesEffects {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         }),
-        map(job => {
-          const createdVolume = job.jobresult['volume'];
+        map((volume: Volume) => {
           this.dialog.closeAll();
-          return new volumeActions.CreateVolumeFromSnapshotSuccess(createdVolume);
+          return new volumeActions.CreateVolumeFromSnapshotSuccess(volume);
         }),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VOLUME.CREATION_FAILED';

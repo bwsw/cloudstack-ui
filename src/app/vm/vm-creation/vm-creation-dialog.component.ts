@@ -13,11 +13,10 @@ export class VmCreationDialogComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.dialog
-      .open(VmCreationContainerComponent, {
-        disableClose: true,
-        width: '680px',
-      })
+    this.dialog.open(VmCreationContainerComponent, {
+      disableClose: true,
+      width: '600px'
+    })
       .afterClosed()
       .subscribe(vm => {
         this.router.navigate(['../'], {

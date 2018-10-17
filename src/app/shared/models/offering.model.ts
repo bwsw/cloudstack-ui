@@ -1,23 +1,23 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export const storageTypes = {
   local: 'local',
   shared: 'shared',
 };
 
-export interface Offering extends BaseModelInterface {
+export interface Offering extends BaseModel {
   id: string;
   name: string;
   displaytext: string;
-  diskBytesReadRate: number;
-  diskBytesWriteRate: number;
-  diskIopsReadRate: number;
-  diskIopsWriteRate: number;
   iscustomized: boolean;
-  miniops: number;
-  maxiops: number;
   storagetype: string;
   provisioningtype: string;
+  diskBytesReadRate?: number;
+  diskBytesWriteRate?: number;
+  diskIopsReadRate?: number;
+  diskIopsWriteRate?: number;
+  miniops?: number;
+  maxiops?: number;
 }
 
 export const isOfferingLocal = (offering: Offering) => offering.storagetype === storageTypes.local;

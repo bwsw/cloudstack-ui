@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { classesFilter } from '../../reducers/service-offerings/redux/service-offerings.reducers';
-import { ComputeOfferingClass, ServiceOffering } from '../../shared/models';
+import { Account, ComputeOfferingClass, ServiceOffering } from '../../shared/models';
 import { CustomServiceOfferingComponent } from '../custom-service-offering/custom-service-offering.component';
 import { Language } from '../../shared/types';
 import { ComputeOfferingViewModel } from '../../vm/view-models';
@@ -16,22 +16,15 @@ import { ComputeOfferingViewModel } from '../../vm/view-models';
   styleUrls: ['service-offering-list.component.scss'],
 })
 export class ServiceOfferingListComponent implements OnChanges {
-  @Input()
-  public offeringList: ComputeOfferingViewModel[];
-  @Input()
-  public classes: ComputeOfferingClass[];
-  @Input()
-  public selectedClasses: string[];
-  @Input()
-  public query: string;
-  @Input()
-  public selectedOffering: ServiceOffering;
-  @Input()
-  public isLoading = false;
-  @Input()
-  public showFields: boolean;
-  @Output()
-  public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
+  @Input() public offeringList: ComputeOfferingViewModel[];
+  @Input() public classes: ComputeOfferingClass[];
+  @Input() public selectedClasses: string[];
+  @Input() public query: string;
+  @Input() public selectedOffering: ComputeOfferingViewModel;
+  @Input() public isLoading = false;
+  @Input() public showFields: boolean;
+  @Input() public account: Account;
+  @Output() public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
 
   public list: {
     soClass: ComputeOfferingClass;
@@ -63,6 +56,17 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
+  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
+    return this.dialog.open(CustomServiceOfferingComponent, {
+      width: '370px',
+      data: {
+        offering,
+        account: this.account
+      }
+    }).afterClosed();
+
+  }
+
   public get locale(): Language {
     return this.translateService.currentLang as Language;
   }
@@ -92,7 +96,7 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
-  public filterOfferings(list: ServiceOffering[], soClass: ComputeOfferingClass) {
+  public filterOfferings(list: ComputeOfferingViewModel[], soClass: ComputeOfferingClass) {
     const classesMap = [soClass].reduce((m, i) => ({ ...m, [i.id]: i }), {});
     return list.filter(offering => classesFilter(offering, this.classes, classesMap));
   }
@@ -104,16 +108,5 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
 
     this.columnsToDisplay = showFields.currentValue ? [...this.allColumns, radio] : [...this.mainColumns, radio];
-  }
-
-  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
-    return this.dialog
-      .open(CustomServiceOfferingComponent, {
-        width: '370px',
-        data: {
-          offering,
-        },
-      })
-      .afterClosed();
   }
 }

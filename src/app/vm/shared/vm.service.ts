@@ -13,12 +13,13 @@ import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
 
+
 export const virtualMachineEntityName = 'VirtualMachine';
+export const nicEntityName = 'Nic';
 
 @Injectable()
 @BackendResource({
-  entity: virtualMachineEntityName,
-  entityModel: VirtualMachine,
+  entity: virtualMachineEntityName
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(
@@ -76,24 +77,22 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public registerVmJob(job: any): Observable<any> {
-    return this.asyncJobService.queryJob(job, this.entity, this.entityModel);
+    return this.asyncJobService.queryJob(job, this.entity);
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<VirtualMachine[]> {
-    return this.getListWithDetails().pipe(map(vmList => vmList.filter(vm => vm.isoId === iso.id)));
+    return this.getListWithDetails().pipe(
+      map(vmList => vmList.filter(vm => vm.isoid === iso.id)));
   }
 
   public addIpToNic(nicId: string): Observable<IpAddress> {
-    return this.sendCommand(CSCommands.AddIpTo, { nicId }, 'Nic').pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
-      map(result => result.jobresult),
-    );
+    return this.sendCommand(CSCommands.AddIpTo, { nicId }, nicEntityName).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, nicEntityName)));
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
-    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, 'Nic').pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid)),
-    );
+    return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, nicEntityName).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, nicEntityName)));
   }
 
   public changeServiceOffering(
@@ -116,14 +115,15 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
 
     return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
-      map(result => this.prepareModel(result['virtualmachine'])),
-    );
+      map(result => result.virtualmachine));
   }
 
   private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {
     const commandName = command;
-
-    return this.sendCommand(commandName, this.buildCommandParams(vm.id, commandName, params));
+    return this.sendCommand(
+      commandName,
+      this.buildCommandParams(vm.id, commandName, params)
+    );
   }
 
   private buildCommandParams(id: string, commandName: string, params?: {}): any {
@@ -158,8 +158,8 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  private addOsType(vm: VirtualMachine, osTypes: OsType[]): VirtualMachine {
-    vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestOsId);
+  private addOsType(vm: VirtualMachine, osTypes: Array<OsType>): VirtualMachine {
+    vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestosid);
     return vm;
   }
 }

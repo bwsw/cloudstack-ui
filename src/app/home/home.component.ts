@@ -27,11 +27,9 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new UserTagsActions.LoadUserTags());
 
-    this.auth.loggedIn
-      .pipe(
-        takeUntil(this.unsubscribe$),
-        filter(isLoggedIn => !!isLoggedIn)
-      )
+    this.auth.loggedIn.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(isLoggedIn => isLoggedIn))
       .subscribe(() => {
         this.store.dispatch(
           new authActions.LoadUserAccountRequest({

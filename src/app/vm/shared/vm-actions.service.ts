@@ -51,8 +51,10 @@ const vmResetPasswordAction = {
   command: VmActions.RESET_PASSWORD,
   icon: 'mdi-key',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
-  canActivate: (vm: VirtualMachine) =>
-    !!vm && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1 && vm.passwordEnabled && isIpAvailable(vm),
+  canActivate: (vm: VirtualMachine) => !!vm
+    && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1
+    && vm.passwordenabled
+    && isIpAvailable(vm)
 };
 
 const vmExpungeAction = {

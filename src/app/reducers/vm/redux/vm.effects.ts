@@ -774,12 +774,11 @@ export class VirtualMachinesEffects {
     ofType(vmActions.ACCESS_VM),
     map((action: vmActions.AccessVm) => action.payload),
     tap((vm: VirtualMachine) => {
-      return this.dialog.open(VmAccessComponent, {
-        width: '550px',
-        data: vm,
-      } as MatDialogConfig);
-    }),
-  );
+      return this.dialog.open(VmAccessComponent, <MatDialogConfig>{
+        width: '700px',
+        data: vm
+      });
+    }));
 
   @Effect({ dispatch: false })
   vmPulse$: Observable<VirtualMachine> = this.actions$.pipe(
@@ -864,8 +863,9 @@ export class VirtualMachinesEffects {
     });
   }
 
-  private start(vm) {
-    const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.VM.START_IN_PROGRESS');
+  private start(vm: VirtualMachine) {
+    const notificationId = this.jobsNotificationService.add(
+      'NOTIFICATIONS.VM.START_IN_PROGRESS');
     this.update(vm, VmState.InProgress);
     return this.vmService.command(vm, CSCommands.Start).pipe(
       tap(runningVm => {
@@ -875,7 +875,7 @@ export class VirtualMachinesEffects {
           this.showPasswordDialog(runningVm, 'VM_PASSWORD.PASSWORD_HAS_BEEN_SET');
         }
       }),
-      map(newVm => new vmActions.UpdateVM(new VirtualMachine({ ...vm, ...newVm }))),
+      map((newVm: VirtualMachine) => new vmActions.UpdateVM(newVm)),
       catchError((error: Error) => {
         const message = 'NOTIFICATIONS.VM.START_FAILED';
         this.showNotificationsOnFail(error, message, notificationId);
@@ -890,8 +890,10 @@ export class VirtualMachinesEffects {
     );
   }
 
-  private update(vm, state: VmState) {
-    this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine({ ...vm, state })));
+  private update(vm: VirtualMachine, state: VmState) {
+    this.store.dispatch(new vmActions.UpdateVM(
+      { ...vm, state }
+    ));
   }
 
   private askToStopVM(vm: VirtualMachine, message: string): Observable<any> {

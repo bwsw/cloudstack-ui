@@ -6,7 +6,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { BackendResource } from '../decorators';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendService, CSCommands } from './base-backend.service';
-import { Account, AsyncJob } from '../models';
+import { Account } from '../models';
 
 @Injectable()
 @BackendResource({
@@ -23,8 +23,8 @@ export class AccountService extends BaseBackendService<Account> {
 
   public removeAccount(account: Account): Observable<Account> {
     return this.sendCommand(CSCommands.Delete, { id: account.id }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job)),
-      switchMap(response => of(account))
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
+      switchMap(() => of(account))
     );
   }
 
@@ -33,8 +33,7 @@ export class AccountService extends BaseBackendService<Account> {
       id: account.id,
       lock: false,
     }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job)),
-      switchMap((response: AsyncJob<any>) => of(response.jobresult.account))
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity))
     );
   }
 

@@ -15,36 +15,22 @@ export enum ServiceOfferingFromMode {
   styleUrls: ['service-offering-dialog.component.scss'],
 })
 export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
-  @Input()
-  public formMode = ServiceOfferingFromMode.CHANGE;
-  @Input()
-  public serviceOfferings: ComputeOfferingViewModel[];
-  @Input()
-  public classes: ComputeOfferingClass[];
-  @Input()
-  public selectedClasses: string[];
-  @Input()
-  public serviceOfferingId: string;
-  @Input()
-  public viewMode: string;
-  @Input()
-  public virtualMachine: VirtualMachine;
-  @Input()
-  public groupings: any[];
-  @Input()
-  public query: string;
-  @Input()
-  public isVmRunning: boolean;
-  @Output()
-  public serviceOfferingChanged = new EventEmitter<ComputeOfferingViewModel>();
-  @Output()
-  public serviceOfferingUpdated = new EventEmitter<ComputeOfferingViewModel>();
-  @Output()
-  public viewModeChanged = new EventEmitter();
-  @Output()
-  public selectedClassesChanged = new EventEmitter();
-  @Output()
-  public queryChange = new EventEmitter();
+  @Input() public formMode = ServiceOfferingFromMode.CHANGE;
+  @Input() public serviceOfferings: ComputeOfferingViewModel[];
+  @Input() public classes: ComputeOfferingClass[];
+  @Input() public selectedClasses: string[];
+  @Input() public serviceOfferingId: string;
+  @Input() public viewMode: string;
+  @Input() public virtualMachine: VirtualMachine;
+  @Input() public groupings: any[];
+  @Input() public query: string;
+  @Input() public account: Account;
+  @Input() public isVmRunning: boolean;
+  @Output() public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
+  @Output() public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
+  @Output() public viewModeChange = new EventEmitter();
+  @Output() public selectedClassesChange = new EventEmitter();
+  @Output() public queryChange = new EventEmitter();
   public serviceOffering: ComputeOfferingViewModel;
   public loading: boolean;
   public showFields = false;
@@ -81,24 +67,31 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   public isSubmitButtonDisabled(): boolean {
     const isOfferingNotSelected = !this.serviceOffering;
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
-    const isSelectedOfferingFromDifferentViewMode =
-      this.serviceOffering && this.serviceOffering.iscustomized !== (this.viewMode === serviceOfferingType.custom);
-    const isSelectedOfferingDoNotHaveParams =
-      this.serviceOffering &&
-      !this.serviceOffering.cpunumber &&
-      !this.serviceOffering.cpuspeed &&
-      !this.serviceOffering.memory;
+    const isNotEnoughResourcesForCurrentOffering = this.serviceOffering && !this.serviceOffering.isAvailableByResources;
+    const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
+      && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
+    const isSelectedOfferingDoNotHaveParams = this.serviceOffering
+      && !this.serviceOffering.cpunumber && !this.serviceOffering.cpuspeed && !this.serviceOffering.memory;
 
     const isSelectedOfferingDifferentFromCurrent =
       this.formMode === ServiceOfferingFromMode.CHANGE && !this.isSelectedOfferingDifferent();
 
-    return (
-      isOfferingNotSelected ||
-      isNoOfferingsInCurrentViewMode ||
-      isSelectedOfferingFromDifferentViewMode ||
-      isSelectedOfferingDoNotHaveParams ||
-      isSelectedOfferingDifferentFromCurrent
-    );
+    return isOfferingNotSelected
+      || isNoOfferingsInCurrentViewMode
+      || isSelectedOfferingFromDifferentViewMode
+      || isSelectedOfferingDoNotHaveParams
+      || isSelectedOfferingDifferentFromCurrent
+      || isNotEnoughResourcesForCurrentOffering;
+  }
+
+  public isSelectedOfferingViewMode(): boolean {
+    if (this.serviceOffering && this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
+      return true;
+    }
+    if (this.serviceOffering && !this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {
+      return true;
+    }
+    return false;
   }
 
   private isSelectedOfferingDifferent(): boolean {
@@ -106,12 +99,12 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
       return true;
     }
 
-    const isDifferentOfferingId = this.virtualMachine.serviceOfferingId !== this.serviceOffering.id;
+    const isDifferentOfferingId = this.virtualMachine.serviceofferingid !== this.serviceOffering.id;
     const isSameCustomOfferingWithDifferentParams =
-      !isDifferentOfferingId &&
-      (this.virtualMachine.cpuNumber !== this.serviceOffering.cpunumber ||
-        this.virtualMachine.cpuSpeed !== this.serviceOffering.cpuspeed ||
-        this.virtualMachine.memory !== this.serviceOffering.memory);
+      !isDifferentOfferingId
+      && (this.virtualMachine.cpunumber !== this.serviceOffering.cpunumber
+      || this.virtualMachine.cpuspeed !== this.serviceOffering.cpuspeed
+      || this.virtualMachine.memory !== this.serviceOffering.memory);
 
     return isDifferentOfferingId || isSameCustomOfferingWithDifferentParams;
   }

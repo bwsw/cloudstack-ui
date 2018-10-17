@@ -1,6 +1,6 @@
 import { TimeZone } from '../components/time-zone/time-zone.service';
 import { AccountUser } from './account-user.model';
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
 export const enum AccountType {
   User = '0',
@@ -39,57 +39,57 @@ export class AccountData {
   networkdomain?: string;
 }
 
-export interface Account extends BaseModelInterface {
+export interface Account extends BaseModel {
   accounttype: AccountType;
-  cpuavailable: number;
-  cpulimit: number;
+  cpuavailable: string;
+  cpulimit: string;
   cputotal: number;
   domain: string;
-  fullDomain: string;
   domainid: string;
   id: string;
-  ipavailable: number;
-  iplimit: number;
+  ipavailable: string;
+  iplimit: string;
   iptotal: number;
   isdefault: false;
-  memoryavailable: number;
-  memorylimit: number;
+  memoryavailable: string;
+  memorylimit: string;
   memorytotal: number;
   name: string;
-  networkavailable: number;
-  networklimit: number;
+  networkavailable: string;
+  networklimit: string;
   networktotal: number;
-  primarystorageavailable: number;
-  primarystoragelimit: number;
+  primarystorageavailable: string;
+  primarystoragelimit: string;
   primarystoragetotal: number;
-  role: string;
   roleid: string;
   rolename: string;
   roletype: string;
-  receivedbytes: number;
-  sentbytes: number;
-  secondarystorageavailable: number;
-  secondarystoragelimit: number;
+  receivedbytes?: number;
+  sentbytes?: number;
+  secondarystorageavailable: string;
+  secondarystoragelimit: string;
   secondarystoragetotal: number;
-  snapshotavailable: number;
-  snapshotlimit: number;
+  snapshotavailable: string;
+  snapshotlimit: string;
   snapshottotal: number;
   state: string;
-  templateavailable: number;
-  templatelimit: number;
+  templateavailable: string;
+  templatelimit: string;
   templatetotal: number;
   user: AccountUser[];
-  vmavailable: number;
-  vmlimit: number;
+  vmavailable: string;
+  vmlimit: string;
   vmrunning: number;
   vmstopped: number;
   vmtotal: number;
-  volumeavailable: number;
-  volumelimit: number;
+  volumeavailable: string;
+  volumelimit: string;
   volumetotal: number;
-  vpcavailable: number;
-  vpclimit: number;
+  vpcavailable: string;
+  vpclimit: string;
   vpctotal: number;
+  role?: string;
+  fullDomain?: string;
 }
 
 export const isAdmin = (account: Account) => account.accounttype !== AccountType.User;

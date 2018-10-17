@@ -146,9 +146,7 @@ export function listReducer(state = initialListState, action: vmActions.Actions)
     }
 
     case vmActions.UPDATE_VM: {
-      return {
-        ...adapter.updateOne({ id: action.payload.id, changes: action.payload }, state),
-      };
+      return adapter.updateOne({ id: action.payload.id, changes: action.payload }, state);
     }
 
     case vmActions.REPLACE_VM: {
@@ -238,10 +236,14 @@ export const selectVmGroups = createSelector(selectAll, vms => {
   return groups ? Object.values(groups) : [];
 });
 
-export const getUsingSGVMs = createSelector(selectAll, fromSGroup.getSelectedId, (vms, sGroupId) => {
-  const sGroupFilter = vm => vm.securityGroup.find(group => group.id === sGroupId);
-  return vms.filter(vm => sGroupFilter(vm));
-});
+export const getUsingSGVMs = createSelector(
+  selectAll,
+  fromSGroup.getSelectedId,
+  (vms: VirtualMachine[], sGroupId: string) => {
+    const sGroupFilter = (vm: VirtualMachine) => vm.securitygroup.find(group => group.id === sGroupId);
+    return vms.filter(vm => sGroupFilter(vm));
+  }
+);
 
 export const getAttachmentVMs = createSelector(selectAll, attachmentFilters, (vms, filter) => {
   const accountFilter = vm => vm.account === filter.account && vm.domainid === filter.domainId;
@@ -276,7 +278,8 @@ export const selectFilteredVMs = createSelector(
       (!vm.instanceGroup && groupNamesMap[noGroup]) ||
       (vm.instanceGroup && groupNamesMap[vm.instanceGroup.name]);
 
-    const selectedZoneIdsFilter = vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneId];
+    const selectedZoneIdsFilter =
+      vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneid];
 
     const selectedAccountIdsFilter = vm =>
       !selectedAccountIds.length || (accountsMap[vm.account] && domainsMap[vm.domainid]);
