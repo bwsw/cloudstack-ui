@@ -64,7 +64,7 @@ export class VmCreationAffinityGroupManagerComponent implements ControlValueAcce
     }).afterClosed()
       .subscribe((res?: string) => {
         if (res) {
-          this.onAffinityGroupChange.emit(res)
+          this.onAffinityGroupChange.emit(res[0])
         }
       });
   }

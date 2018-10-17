@@ -46,6 +46,7 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
     const affinityGroup = changes.affinityGroups.currentValue;
     if (affinityGroup) {
       this.affinityGroups = affinityGroup;
+      this.createForm();
     }
   }
 
@@ -59,6 +60,7 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
       type: this.affinityGroupForm.value.type,
       description: this.affinityGroupForm.value.description
     } as AffinityGroup;
+    this.affinityGroupForm.reset();
     this.onCreateAffinityGroup.emit(newAffinityGroup);
   }
 
@@ -67,8 +69,13 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   }
 
   public submit(): void {
-    const selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
-    selectedGroupIds.push(this.selectedGroup.id);
+    let selectedGroupIds;
+    if (this.isVmCreation) {
+      selectedGroupIds = [this.selectedGroup.id]
+    } else  {
+      selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
+      selectedGroupIds.push(this.selectedGroup.id);
+    }
     this.onSubmit.emit(selectedGroupIds);
   }
 

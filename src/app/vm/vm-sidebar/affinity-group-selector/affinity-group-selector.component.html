@@ -36,11 +36,19 @@
       </button>
     </form>
 
-    <cs-affinity-group-list
-      [affinityGroups]="affinityGroups"
-      [isVmCreation]="isVmCreation"
-      (selectedGroupChange)="changeGroup($event)"
-    ></cs-affinity-group-list>
+    <ng-container *ngIf="isVmCreation; else vmDetails">
+      <cs-vm-creation-affinity-group-list
+        [affinityGroups]="affinityGroups"
+        (selectedGroupChange)="changeGroup($event)"
+      ></cs-vm-creation-affinity-group-list>
+    </ng-container>
+    <ng-template #vmDetails>
+      <cs-vm-details-affinity-group-list
+        [affinityGroups]="affinityGroups"
+        (selectedGroupChange)="changeGroup($event)"
+      ></cs-vm-details-affinity-group-list>
+    </ng-template>
+
   </div>
 
 </mat-dialog-content>

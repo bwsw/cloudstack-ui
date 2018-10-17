@@ -97,7 +97,10 @@ import { ServiceOfferingSelectorComponent } from './vm-creation/components/servi
 import { InstallationSourceDialogComponent } from './vm-creation/template/containers/installation-source-dialog.component';
 import { VmPasswordComponent } from './shared/vm-password/vm-password.component';
 import { HttpAccessService, SshAccessService, VncAccessService } from './services';
-import { AffinityGroupListComponent } from './vm-sidebar/affinity-group-selector/affinity-group-list/affinity-group-list.component';
+import {
+  VmDetailsAffinityGroupListComponent,
+  VmCreationAffinityGroupListComponent
+} from './vm-sidebar/affinity-group-selector';
 import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
 
 // tslint:enable max-line-length
@@ -135,7 +138,8 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     AffinityGroupComponent,
     AffinityGroupSelectorComponent,
     AffinityGroupSelectorContainerComponent,
-    AffinityGroupListComponent,
+    VmDetailsAffinityGroupListComponent,
+    VmCreationAffinityGroupListComponent,
     FirewallRulesDetailComponent,
     FirewallRulesDetailContainerComponent,
     NetworkDetailContainerComponent,
@@ -213,7 +217,8 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
   ],
   entryComponents: [
     AffinityGroupSelectorContainerComponent,
-    AffinityGroupListComponent,
+    VmDetailsAffinityGroupListComponent,
+    VmCreationAffinityGroupListComponent,
     InstanceGroupSelectorComponent,
     VmCreationContainerComponent,
     VmDestroyDialogComponent,
