@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 
-import { VirtualMachine } from '../../../shared/vm.model';
+import { getInstanceGroupName, VirtualMachine } from '../../../shared/vm.model';
 import { InstanceGroupSelectorComponent } from '../../instance-group-selector/instance-group-selector.component';
 import { InstanceGroup } from '../../../../shared/models/instance-group.model';
 
@@ -21,7 +21,7 @@ export class InstanceGroupComponent {
   }
 
   public get groupName(): string {
-    return this.vm && this.vm.instanceGroup && this.vm.instanceGroup.name;
+    return getInstanceGroupName(this.vm);
   }
 
   public changeGroup(): void {

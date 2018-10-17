@@ -1,5 +1,5 @@
 import { VolumeTagKeys } from '../services/tags/volume-tag-keys';
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 import { DiskOffering } from './disk-offering.model';
 import { ServiceOffering } from './service-offering.model';
 import { Snapshot } from './snapshot.model';
@@ -27,7 +27,7 @@ export const volumeTypeNames = {
   [VolumeType.DATADISK]: 'VOLUME_TYPE.DATADISK'
 };
 
-export interface Volume extends BaseModelInterface {
+export interface Volume extends BaseModel {
   id: string;
   account: string;
   created: Date;

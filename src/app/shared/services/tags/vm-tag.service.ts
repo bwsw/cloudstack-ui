@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
+import { getInstanceGroupName, VirtualMachine, VmResourceType } from '../../../vm/shared/vm.model';
 import { Color, InstanceGroup, Tag } from '../../models';
 import { Taggable } from '../../interfaces';
 import { TagService } from './tag.service';
@@ -10,6 +10,7 @@ import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { VirtualMachineTagKeys } from './vm-tag-keys';
 
+const ColorDelimeter = ';';
 
 @Injectable()
 export class VmTagService implements EntityTagService {
@@ -22,14 +23,14 @@ export class VmTagService implements EntityTagService {
   }
 
   public getColorSync(vm: VirtualMachine): Color {
-    const tag = vm.tags.find(_ => _.key === this.keys.color);
+    const tag = vm.tags && vm.tags.find(_ => _.key === this.keys.color);
     return this.getColorFromColorTag(tag);
   }
 
   public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
     let tagValue = color.value;
     if (color.textColor) {
-      tagValue += `${VirtualMachine.ColorDelimiter}${color.textColor}`;
+      tagValue += `${ColorDelimeter}${color.textColor}`;
     }
     return this.tagService.update(
       vm,
@@ -78,7 +79,7 @@ export class VmTagService implements EntityTagService {
       resourceIds: vm.id,
       resourceType: VmResourceType,
       'tags[0].key': this.keys.group,
-      'tags[0].value': vm.instanceGroup.name
+      'tags[0].value': getInstanceGroupName(vm)
     }).pipe(
       map(() => {
         newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
@@ -115,7 +116,7 @@ export class VmTagService implements EntityTagService {
 
   private getColorFromColorTag(colorTag: Tag): Color {
     if (colorTag) {
-      const [backgroundColor, textColor] = colorTag.value.split(VirtualMachine.ColorDelimiter);
+      const [backgroundColor, textColor] = colorTag.value.split(ColorDelimeter);
       return new Color(backgroundColor, backgroundColor, textColor || '');
     }
     return new Color('white', '#FFFFFF', '');

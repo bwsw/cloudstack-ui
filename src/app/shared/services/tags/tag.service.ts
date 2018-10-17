@@ -23,12 +23,12 @@ export class TagService extends BaseBackendService<Tag> {
 
   public create(params?: {}): Observable<any> {
     return super.create(params).pipe(
-      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)));
+      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid, this.entity)));
   }
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params).pipe(
-      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)),
+      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid, this.entity)),
       catchError(() => of(null)));
   }
 

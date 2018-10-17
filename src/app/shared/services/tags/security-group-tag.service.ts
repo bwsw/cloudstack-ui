@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { MarkForRemovalService } from './mark-for-removal.service';
 import { SecurityGroup, SecurityGroupNative, SecurityGroupType } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
@@ -14,13 +13,8 @@ export class SecurityGroupTagService implements EntityTagService {
   private readonly resourceType = 'SecurityGroup';
 
   constructor(
-    private markForRemovalService: MarkForRemovalService,
     protected tagService: TagService
   ) {
-  }
-
-  public markForRemoval(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
-    return this.markForRemovalService.markForRemoval(securityGroup);
   }
 
   public markAsTemplate(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {

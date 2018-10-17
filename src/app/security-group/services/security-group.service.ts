@@ -50,8 +50,4 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         }
       }));
   }
-
-  public markForRemoval(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
-    return this.securityGroupTagService.markForRemoval(securityGroup);
-  }
 }

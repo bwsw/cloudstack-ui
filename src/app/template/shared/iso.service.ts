@@ -14,11 +14,11 @@ import { VirtualMachine } from '../../vm/shared/vm.model';
 export class IsoService extends BaseTemplateService {
   public attach(params: any): Observable<VirtualMachine> {
     return this.sendCommand(CSCommands.Attach, params).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job, 'VirtualMachine', VirtualMachine)));
+      switchMap(iso => this.asyncJobService.queryJob(iso, 'VirtualMachine')));
   }
 
   public detach(params: any): Observable<VirtualMachine> {
     return this.sendCommand(CSCommands.Detach, params).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job, 'VirtualMachine', VirtualMachine)));
+      switchMap(iso => this.asyncJobService.queryJob(iso, 'VirtualMachine')));
   }
 }

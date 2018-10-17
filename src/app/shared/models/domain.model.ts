@@ -1,6 +1,6 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export interface Domain extends BaseModelInterface {
+export interface Domain extends BaseModel {
   cpuavailable: number;
   cpulimit: number;
   cputotal: number;

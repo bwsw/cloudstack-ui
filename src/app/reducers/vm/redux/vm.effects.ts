@@ -741,7 +741,7 @@ export class VirtualMachinesEffects {
     return vm.state === VmState.Stopped;
   }
 
-  private start(vm) {
+  private start(vm: VirtualMachine) {
     const notificationId = this.jobsNotificationService.add(
       'NOTIFICATIONS.VM.START_IN_PROGRESS');
     this.update(vm, VmState.InProgress);
@@ -753,8 +753,7 @@ export class VirtualMachinesEffects {
           this.showPasswordDialog(runningVm, 'VM_PASSWORD.PASSWORD_HAS_BEEN_SET');
         }
       }),
-      map((newVm) => new vmActions.UpdateVM(new VirtualMachine(
-        Object.assign({}, vm, newVm)))),
+      map((newVm: VirtualMachine) => new vmActions.UpdateVM(newVm)),
       catchError((error: Error) => {
         const message = 'NOTIFICATIONS.VM.START_FAILED';
         this.showNotificationsOnFail(error, message, notificationId);
@@ -787,12 +786,10 @@ export class VirtualMachinesEffects {
       }));
   }
 
-  private update(vm, state: VmState) {
-    this.store.dispatch(new vmActions.UpdateVM(new VirtualMachine(Object.assign(
-      {},
-      vm,
-      { state: state }
-    ))));
+  private update(vm: VirtualMachine, state: VmState) {
+    this.store.dispatch(new vmActions.UpdateVM(
+      { ...vm, state }
+    ));
   }
 
   private askToStopVM(vm: VirtualMachine, message: string): Observable<any> {

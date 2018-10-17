@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
 import { State } from '../../../reducers';
-import { Template } from '../../shared';
+import { resourceType, Template } from '../../shared';
 import { Tag } from '../../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../../tags/tags-view/tags-view.component';
 
@@ -59,12 +59,12 @@ export class TagsContainerComponent {
   private createTag(template: Template, keyValuePair: KeyValuePair): Tag {
     return {
       resourceid: template.id,
-      resourcetype: template.resourceType,
+      resourcetype: resourceType(template),
       key: keyValuePair.key,
       value: keyValuePair.value,
       account: template.account,
       domain: template.domain,
-      domainid: template.domainId
+      domainid: template.domainid
     }
   }
 }

@@ -1,6 +1,6 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export class Zone implements BaseModelInterface {
+export interface Zone extends BaseModel {
   id: string;
   name: string;
   securitygroupsenabled: boolean;
