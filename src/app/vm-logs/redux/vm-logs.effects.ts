@@ -14,7 +14,7 @@ import { State } from '../../reducers';
 export class VmLogsEffects {
   @Effect()
   loadVmLogs$: Observable<Action> = this.actions$.pipe(
-    ofType(vmLogsActions.LOAD_VM_LOGS_REQUEST),
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST),
     withLatestFrom(this.store.pipe(select(fromVmLogs.loadVmLogsRequestParams))),
     switchMap(([action, loadVmLogsRequestParams]) => {
       return this.vmLogsService.getList(loadVmLogsRequestParams).pipe(

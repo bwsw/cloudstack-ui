@@ -2,97 +2,92 @@ import { Action } from '@ngrx/store';
 import { VmLog } from '../models/vm-log.model';
 import { Keyword } from '../models/keyword.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
+import { DateObject } from '../models/date-object.model';
+import { VmLogsFilters } from './vm-logs.reducers';
 
-export const LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST';
-export const LOAD_VM_LOGS_RESPONSE = '[VM Logs] LOAD_VM_LOGS_RESPONSE';
-export const VM_LOGS_FILTER_UPDATE = '[VM Logs] VM_LOGS_FILTER_UPDATE';
-export const VM_LOGS_ADD_KEYWORD = '[VM Logs] VM_LOGS_ADD_KEYWORD';
-export const VM_LOGS_REMOVE_KEYWORD = '[VM Logs] VM_LOGS_REMOVE_KEYWORD';
-export const VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE';
-export const VM_LOGS_UPDATE_START_TIME = '[VM Logs] VM_LOGS_UPDATE_START_TIME';
-export const VM_LOGS_UPDATE_END_DATE = '[VM Logs] VM_LOGS_UPDATE_END_DATE';
-export const VM_LOGS_UPDATE_END_TIME = '[VM Logs] VM_LOGS_UPDATE_END_TIME';
-export const VM_LOGS_UPDATE_ACCOUNT_IDS = '[VM Logs] VM_LOGS_UPDATE_ACCOUNT_IDS';
-export const VM_LOGS_TOGGLE_NEWEST_FIRST = '[VM Logs] VM_LOGS_TOGGLE_NEWEST_FIRST';
+export enum VmLogsActionTypes {
+  LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST',
+  LOAD_VM_LOGS_RESPONSE = '[VM Logs] LOAD_VM_LOGS_RESPONSE',
+  VM_LOGS_FILTER_UPDATE = '[VM Logs] VM_LOGS_FILTER_UPDATE',
+  VM_LOGS_ADD_KEYWORD = '[VM Logs] VM_LOGS_ADD_KEYWORD',
+  VM_LOGS_REMOVE_KEYWORD = '[VM Logs] VM_LOGS_REMOVE_KEYWORD',
+  VM_LOGS_UPDATE_START_DATE = '[VM Logs] VM_LOGS_UPDATE_START_DATE',
+  VM_LOGS_UPDATE_START_TIME = '[VM Logs] VM_LOGS_UPDATE_START_TIME',
+  VM_LOGS_UPDATE_END_DATE = '[VM Logs] VM_LOGS_UPDATE_END_DATE',
+  VM_LOGS_UPDATE_END_TIME = '[VM Logs] VM_LOGS_UPDATE_END_TIME',
+  VM_LOGS_UPDATE_ACCOUNT_IDS = '[VM Logs] VM_LOGS_UPDATE_ACCOUNT_IDS',
+  VM_LOGS_TOGGLE_NEWEST_FIRST = '[VM Logs] VM_LOGS_TOGGLE_NEWEST_FIRST'
+}
 
 export class LoadVmLogsRequest implements Action {
-  type = LOAD_VM_LOGS_REQUEST;
-
-  constructor(public payload?: never) {
-  }
-
+  readonly type = VmLogsActionTypes.LOAD_VM_LOGS_REQUEST;
 }
 
 export class LoadVmLogsResponse implements Action {
-  type = LOAD_VM_LOGS_RESPONSE;
+  readonly type = VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE;
 
-  constructor(public payload: Array<VmLog>) {
+  constructor(readonly payload: Array<VmLog>) {
   }
-
 }
 
 export class VmLogsFilterUpdate implements Action {
-  type = VM_LOGS_FILTER_UPDATE;
+  readonly type = VmLogsActionTypes.VM_LOGS_FILTER_UPDATE;
 
-  constructor(public payload: any) { // todo: type this properly
+  constructor(readonly payload: Partial<VmLogsFilters>) {
   }
-
 }
 
 export class VmLogsAddKeyword implements Action {
-  type = VM_LOGS_ADD_KEYWORD;
+  readonly type = VmLogsActionTypes.VM_LOGS_ADD_KEYWORD;
 
-  constructor(public payload: Keyword) {
+  constructor(readonly payload: Keyword) {
   }
 }
 
 export class VmLogsRemoveKeyword implements Action {
-  type = VM_LOGS_REMOVE_KEYWORD;
+  readonly type = VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD;
 
-  constructor(public payload: Keyword) {
+  constructor(readonly payload: Keyword) {
   }
 }
 
 export class VmLogsUpdateStartDate implements Action {
-  type = VM_LOGS_UPDATE_START_DATE;
+  readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE;
 
-  constructor(public payload: Date) {
+  constructor(readonly payload: Date) {
   }
 }
 
 export class VmLogsUpdateStartTime implements Action {
-  type = VM_LOGS_UPDATE_START_TIME;
+  readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_START_TIME;
 
-  constructor(public payload: Time) {
+  constructor(readonly payload: Time) {
   }
 }
 
 export class VmLogsUpdateEndDate implements Action {
-  type = VM_LOGS_UPDATE_END_DATE;
+  readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE;
 
-  constructor(public payload: Date) {
+  constructor(readonly payload: Date) {
   }
 }
 
 export class VmLogsUpdateEndTime implements Action {
-  type = VM_LOGS_UPDATE_END_TIME;
+  readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_END_TIME;
 
-  constructor(public payload: Time) {
+  constructor(readonly payload: Time) {
   }
 }
 
 export class VmLogsUpdateAccountIds implements Action {
-  type = VM_LOGS_UPDATE_ACCOUNT_IDS;
+  readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_ACCOUNT_IDS;
 
-  constructor(public payload: Array<string>) {
+  constructor(readonly payload: Array<string>) {
   }
 }
 
 export class VmLogsToggleNewestFirst implements Action {
-  type = VM_LOGS_TOGGLE_NEWEST_FIRST;
-
-  constructor(public payload?: never) {
-  }
+  readonly type = VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST;
 }
 
 export type Actions =
@@ -100,6 +95,10 @@ export type Actions =
   | LoadVmLogsRequest
   | VmLogsFilterUpdate
   | VmLogsAddKeyword
+  | VmLogsUpdateStartDate
+  | VmLogsUpdateStartTime
+  | VmLogsUpdateEndDate
+  | VmLogsUpdateEndTime
   | VmLogsRemoveKeyword
   | VmLogsUpdateAccountIds
   | VmLogsToggleNewestFirst;
