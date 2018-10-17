@@ -20,7 +20,7 @@ import {
 })
 export class VmCreationAffinityGroupManagerComponent implements ControlValueAccessor {
   @Output() public onAffinityGroupChange = new EventEmitter<string>();
-  public savedData: AffinityGroup;
+  // public savedData: AffinityGroup;
 
   private _affinityGroup: AffinityGroup;
 
@@ -41,7 +41,8 @@ export class VmCreationAffinityGroupManagerComponent implements ControlValueAcce
   }
 
   public writeValue(value: AffinityGroup): void {
-    this.savedData = value;
+  //   // this.savedData = value;
+    this._affinityGroup = value;
   }
 
   public registerOnChange(fn): void {

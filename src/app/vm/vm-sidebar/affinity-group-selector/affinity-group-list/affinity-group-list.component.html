@@ -10,13 +10,13 @@
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef> {{ 'AFFINITY_GROUP.TYPE' | translate }} </th>
         <td [class.preselected]="element.isPreselected && !isVmCreation" mat-cell *matCellDef="let element">
-          <span [innerHTML]="AffinityGroupTypesMap[element.type]"></span>
+          <span>{{ AffinityGroupTypesMap[element.type] }}</span>
         </td>
       </ng-container>
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> {{ 'AFFINITY_GROUP.DESCRIPTION' | translate }} </th>
         <td [class.preselected]="element.isPreselected && !isVmCreation" mat-cell *matCellDef="let element">
-          <span [innerHTML]="element.description"></span>
+          <span>{{ element.description }}</span>
         </td>
       </ng-container>
       <ng-container class="mat-column-radioButton" matColumnDef="radioButton">
@@ -34,7 +34,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row
           *matRowDef="let row; columns: displayedColumns;"
-          (click)="!isDisabledAffinityGroup(row) ? selectedGroupChange.emit(row) : null"
+          (click)="selectGroupChange(row)"
       ></tr>
     </table>
   </div>

@@ -10,8 +10,8 @@
   </button>
   <span class="fancy-select-content">
     <div class="mat-form-field-wrapper template-list">
-      <span *ngIf="affinityGroup; else noAF" class="ellipsis-overflow">{{ affinityGroup.name }}</span>
-      <ng-template #noAF>
+      <span *ngIf="affinityGroup; else noAffinityGroup" class="ellipsis-overflow">{{ affinityGroup.name }}</span>
+      <ng-template #noAffinityGroup>
         {{ 'COMMON.NONE' | translate }}
       </ng-template>
     </div>

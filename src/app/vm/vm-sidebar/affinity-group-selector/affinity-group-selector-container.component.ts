@@ -45,7 +45,7 @@ export class AffinityGroupSelectorContainerComponent {
     this.dialogRef.close();
   }
 
-  public submit(groupIds: string): void {
+  public submit(groupIds: string[]): void {
     this.dialogRef.close(groupIds);
   }
 }

@@ -151,7 +151,7 @@ export class ChangeAffinityGroup implements Action {
 
   constructor(public payload: {
     vm: VirtualMachine,
-    affinityGroupIds: string
+    affinityGroupIds: string[]
   }) {
   }
 }

@@ -94,7 +94,7 @@ export class VmDetailContainerComponent implements OnInit {
     });
   }
 
-  public changeAffinityGroup(affinityGroupIds: string) {
+  public changeAffinityGroup(affinityGroupIds: string[]) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       this.store.dispatch(new vmActions.ChangeAffinityGroup({
         vm,
@@ -105,13 +105,12 @@ export class VmDetailContainerComponent implements OnInit {
 
   public removeAffinityGroup(affinityGroupId: string) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      const newAffinityGroups = vm.affinityGroup.filter(
-        g => g.id.indexOf(affinityGroupId) !== 0
+      const affinityGroupIds = vm.affinitygroup.filter(
+        g => g.id !== affinityGroupId
       ).map(g => g.id);
-      const affinityGroupsIds = newAffinityGroups.join();
       this.store.dispatch(new vmActions.ChangeAffinityGroup({
         vm,
-        affinityGroupIds: affinityGroupsIds
+        affinityGroupIds
       }));
     });
   }

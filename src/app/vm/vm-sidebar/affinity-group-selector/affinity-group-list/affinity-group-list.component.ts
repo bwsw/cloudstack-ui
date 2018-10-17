@@ -32,12 +32,17 @@ export class AffinityGroupListComponent implements OnChanges {
       this.affinityGroups = affinityGroups.currentValue;
     }
   }
+  public selectGroupChange(group: AffinityGroup) {
+    if (!this.isDisabledAffinityGroup(group.id)) {
+      this.selectedGroupChange.emit(group)
+    }
+  }
 
   public isDisabledAffinityGroup(affinityGroupId: string): boolean {
     if (this.isVmCreation) {
       return false;
     }
-    const group = this.affinityGroups.find(af => af.id === affinityGroupId);
+    const group = this.affinityGroups.find(affinityGroup => affinityGroup.id === affinityGroupId);
     return group && group.isPreselected;
   }
 

@@ -43,13 +43,14 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   @Input() public preselectedAffinityGroups: AffinityGroup[];
   @Input() public isVmCreation: boolean;
   @Output() public onCreateAffinityGroup = new EventEmitter<AffinityGroup>();
-  @Output() public onSubmit = new EventEmitter<string>();
+  @Output() public onSubmit = new EventEmitter<string[]>();
   @Output() public onCancel = new EventEmitter();
   public loading: boolean;
   public selectedGroup: AffinityGroup;
   public types = [AffinityGroupType.antiAffinity, AffinityGroupType.affinity];
   public affinityGroupForm: FormGroup;
   public list: AffinityGroup[];
+  public maxEntityNameLength = 63;
 
   public get AffinityGroupTypesMap() {
     return AffinityGroupTypesMap;
@@ -93,14 +94,13 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   public submit(): void {
     const selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
     selectedGroupIds.push(this.selectedGroup.id);
-    const groupIds = selectedGroupIds.join();
-    this.onSubmit.emit(groupIds);
+    this.onSubmit.emit(selectedGroupIds);
   }
 
   private sortList() {
     this.list = this.affinityGroups.map(group => {
       const isPreselected = !!this.preselectedAffinityGroups.find(preselected => preselected.id === group.id);
-      return {...group, isPreselected}
+      return { ...group, isPreselected }
     });
     this.list.sort(sortBySelected)
   }
@@ -109,11 +109,11 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
     this.affinityGroupForm = this.formBuilder.group({
       name: this.formBuilder.control('', [
         Validators.required,
-        Validators.maxLength(63),
+        Validators.maxLength(this.maxEntityNameLength),
         isUniqName(this.affinityGroups)
       ]),
       type: this.formBuilder.control(AffinityGroupType.antiAffinity, [Validators.required]),
-      description: this.formBuilder.control('', [Validators.maxLength(63)])
+      description: this.formBuilder.control('', [Validators.maxLength(this.maxEntityNameLength)])
     });
   }
 }
