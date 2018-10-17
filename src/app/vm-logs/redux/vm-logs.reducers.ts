@@ -125,8 +125,7 @@ export function reducer(
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE: {
-      const act: VmLogsUpdateStartDate = action;
-      const update: DateObject = moment(act.payload).toObject();
+      const { years, months, date } = moment(action.payload).toObject();
 
       return {
         ...state,
@@ -134,9 +133,9 @@ export function reducer(
           ...state.filters,
           startDate: {
             ...state.filters.startDate,
-            years: update.years,
-            months: update.months,
-            date: update.date,
+            years,
+            months,
+            date,
           }
         }
       };
@@ -165,7 +164,7 @@ export function reducer(
     }
 
     case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE: {
-      const update = moment(action.payload).toObject();
+      const { years, months, date } = moment(action.payload).toObject();
 
       return {
         ...state,
@@ -173,9 +172,9 @@ export function reducer(
           ...state.filters,
           endDate: {
             ...state.filters.endDate,
-            years: update.years,
-            months: update.months,
-            date: update.date,
+            years,
+            months,
+            date,
           }
         }
       };
