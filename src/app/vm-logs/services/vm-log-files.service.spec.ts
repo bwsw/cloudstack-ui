@@ -1,14 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, inject, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { VmLogsService } from './vm-logs.service';
+import { VmLogFilesService } from './vm-log-files.service';
 
 describe('VM logs service test', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        VmLogsService,
+        VmLogFilesService,
       ],
       imports: [
         HttpClientTestingModule
@@ -16,28 +16,24 @@ describe('VM logs service test', () => {
     });
   }));
 
-  it('should get logs', async(inject([VmLogsService], (testService) => {
+  it('should get log files', async(inject([VmLogFilesService], (testService) => {
     const params = {
       id: 'test-id'
     };
 
-    const items = [{
+    const vmlogfiles = [{
       file: 'test-file',
-      log: 'test-log',
-      timestamp: 'test-timestamp'
     }];
 
     spyOn(testService, 'sendCommand').and.callFake(() => {
       return of({
-        vmlogs: {
-          count: 1,
-          items,
-        }
+        count: 1,
+        vmlogfiles,
       });
     });
 
     testService.getList(params).subscribe(res => {
-      expect(res).toEqual(items);
+      expect(res).toEqual(vmlogfiles);
     });
   })));
 });

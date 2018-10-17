@@ -2,7 +2,6 @@ import {
   LOAD_VM_LOGS_REQUEST,
   LOAD_VM_LOGS_RESPONSE,
   VM_LOGS_ADD_KEYWORD,
-  VM_LOGS_FILTER_UPDATE,
   VM_LOGS_REMOVE_KEYWORD
 } from './vm-logs.actions';
 import * as fromVmLogs from './vm-logs.reducers';
@@ -48,25 +47,6 @@ describe('VM logs reducer', () => {
     expect(state.entities[state.ids[0]]).toEqual(logs[0]);
     expect(state.entities[state.ids[1]]).toEqual(logs[1]);
     expect(state.loading).toBe(false);
-    expect(state.filters.selectedVmId).toBe(null);
-  });
-
-  it('should update vm id', () => {
-    const selectedVmId = 'test-id';
-    const state = fromVmLogs.reducer(undefined, {
-      type: VM_LOGS_FILTER_UPDATE,
-      payload: {
-        selectedVmId,
-      }
-    });
-
-    expect(state).toEqual({
-      ...initialState,
-      filters: {
-        ...initialState.filters,
-        selectedVmId,
-      }
-    });
   });
 
   it('should add keywords', () => {
@@ -105,43 +85,5 @@ describe('VM logs reducer', () => {
     });
 
     expect(state).toEqual(initialState);
-  });
-
-  it('should select load logs request params without keywords', () => {
-    const id = 'test-id';
-    const keywords = [];
-
-    const params = fromVmLogs.loadVmLogsRequestParams.projector(
-      id,
-      keywords
-    );
-
-    expect(params).toEqual({
-      id,
-      startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000',
-      sort: '-timestamp'
-    })
-  });
-
-  it('should select load logs request params with keywords', () => {
-    const id = 'test-id';
-    const keywords = [
-      { text: 'test-keyword1' },
-      { text: 'test-keyword2' }
-    ];
-
-    const params = fromVmLogs.loadVmLogsRequestParams.projector(
-      id,
-      keywords
-    );
-
-    expect(params).toEqual({
-      id,
-      keywords: 'test-keyword1,test-keyword2',
-      startDate: '1970-01-01T00:00:00.000',
-      endDate: '1970-01-01T00:00:00.000',
-      sort: '-timestamp'
-    });
   });
 });

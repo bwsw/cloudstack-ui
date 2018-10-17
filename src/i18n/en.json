@@ -1441,7 +1441,9 @@
       "KEYWORDS": "Keywords",
       "SHOW_LOGS": "Show logs",
       "START_DATE": "Start date",
-      "END_DATE": "End date"
+      "END_DATE": "End date",
+      "LOG_FILE": "Log file",
+      "LOG_FILE_NOT_SELECTED": "Not selected"
     },
     "LIST": {
       "DATE": "Date",

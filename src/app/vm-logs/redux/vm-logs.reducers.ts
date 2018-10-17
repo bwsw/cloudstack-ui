@@ -3,17 +3,13 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
 import { Keyword } from '../models/keyword.model';
-import { LoadVmLogsRequestParams } from '../models/load-vm-logs-request-params';
 import { DateObject } from '../models/date-object.model';
-import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
-import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
+import { filterSelectedAccountIdas } from './vm-logs-vm.reducers';
 import moment = require('moment');
 
 export interface State extends EntityState<VmLog> {
   loading: boolean,
   filters: {
-    selectedVmId: string,
-    selectedAccountIds: Array<string>,
     keywords: Array<Keyword>,
     startDate: DateObject,
     endDate: DateObject,
@@ -36,8 +32,6 @@ export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
 export const initialState: State = adapter.getInitialState({
   loading: false,
   filters: {
-    selectedVmId: null,
-    selectedAccountIds: [],
     keywords: [],
     startDate: moment()
       .add(-1, 'days')
@@ -71,12 +65,12 @@ export function reducer(
       };
     }
 
-    case vmLogsActions.VM_LOGS_FILTER_UPDATE: {
+    case vmLogsActions.VM_LOGS_UPDATE_KEYWORDS: {
       return {
         ...state,
         filters: {
           ...state.filters,
-          ...action.payload
+          keywords: action.payload
         }
       };
     }
@@ -101,20 +95,20 @@ export function reducer(
       }
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_ACCOUNT_IDS: {
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          selectedAccountIds: action.payload,
-        }
-      }
-    }
-
     case vmLogsActions.LOAD_VM_LOGS_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false
+      };
+    }
+
+    case vmLogsActions.VM_LOGS_UPDATE_START_DATE_TIME: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          startDate: action.payload
+        }
       };
     }
 
@@ -153,6 +147,16 @@ export function reducer(
             hours: action.payload.hour,
             minutes: action.payload.minute,
           }
+        }
+      };
+    }
+
+    case vmLogsActions.VM_LOGS_UPDATE_END_DATE_TIME: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          endDate: action.payload
         }
       };
     }
@@ -227,11 +231,6 @@ export const filters = createSelector(
   state => state.filters
 );
 
-export const filterSelectedVmId = createSelector(
-  filters,
-  state => state.selectedVmId
-);
-
 export const filterKeywords = createSelector(
   filters,
   state => state.keywords
@@ -263,61 +262,3 @@ export const filterEndTime = createSelector(
   })
 );
 
-export const filterSelectedAccountIds = createSelector(
-  filters,
-  state => state.selectedAccountIds
-);
-
-export const selectFilteredVMs = createSelector(
-  fromVMs.selectAll,
-  filterSelectedAccountIds,
-  filterSelectedVmId,
-  fromAccounts.selectAll,
-  (
-    vms,
-    selectedAccountIds,
-    selectedVmId,
-    accounts
-  ) => {
-    const selectedAccounts = accounts.filter(
-      account => selectedAccountIds.find(id => id === account.id));
-    const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
-    const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
-
-    const selectedAccountIdsFilter = vm => !selectedAccountIds.length ||
-      (accountsMap[vm.account] && domainsMap[vm.domainid]);
-
-    const selectedVm = vms.find(vm => vm.id === selectedVmId);
-    const filteredVms = vms.filter(vm => selectedAccountIdsFilter(vm));
-
-    if (!filteredVms.find(vm => vm.id === selectedVmId) && selectedVm) {
-      return filteredVms.concat(selectedVm);
-    }
-
-    return filteredVms;
-  }
-);
-
-export const loadVmLogsRequestParams = createSelector(
-  filterSelectedVmId,
-  filterKeywords,
-  filterStartDate,
-  filterEndDate,
-  (id, keywords, startDate, endDate): LoadVmLogsRequestParams => {
-    const fields = {
-      keywords: keywords.map(keyword => keyword.text).join(','),
-      startDate: moment(startDate).toISOString().slice(0, -1),
-      endDate: moment(endDate).toISOString().slice(0, -1),
-      sort: '-timestamp'
-    };
-
-    return Object.keys(fields).reduce((acc, key) => {
-      const value = fields[key];
-
-      return {
-        ...acc,
-        ...(value ? { [key]: value } : null)
-      };
-    }, { id });
-  }
-);

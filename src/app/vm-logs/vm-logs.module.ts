@@ -13,13 +13,17 @@ import { VmLogsEffects } from './redux/vm-logs.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { VmLogsFilterContainerComponent } from './containers/vm-logs-filter.container';
 import { StoreModule } from '@ngrx/store';
-import { vmLogsReducers } from './redux/vm-logs.reducers';
 import { VmLogsTableComponent } from './vm-logs-table/vm-logs-table.component';
 import { VmLogsTableContainerComponent } from './containers/vm-logs-table.container';
 import { CdkTableModule } from '@angular/cdk/table';
 import { BasePathPipe } from './pipes/base-path.pipe';
 import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
 import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
+import { VmLogFilesService } from './services/vm-log-files.service';
+import { reducer as vmLogsVm } from './redux/vm-logs-vm.reducers';
+import { reducer as vmLogs, vmLogsReducers } from './redux/vm-logs.reducers';
+import { reducer as vmLogFiles, vmLogFilesReducers } from './redux/vm-log-files.reducers';
+
 
 @NgModule({
   imports: [
@@ -29,7 +33,9 @@ import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
     RouterModule,
     MatChipsModule,
     CdkTableModule,
+    StoreModule.forFeature('vmLogsVm', vmLogsVm),
     StoreModule.forFeature('vmLogs', vmLogsReducers),
+    StoreModule.forFeature('vmLogFiles', vmLogFilesReducers),
     EffectsModule.forFeature([VmLogsEffects]),
   ],
   declarations: [
@@ -44,7 +50,8 @@ import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
     DateObjectToDatePipe
   ],
   providers: [
-    VmLogsService
+    VmLogsService,
+    VmLogFilesService
   ]
 })
 export class VmLogsModule {
