@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { VmLog } from '../models/vm-log.model';
 import { Keyword } from '../models/keyword.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
-import { DateObject } from '../models/date-object.model';
 import { VmLogsFilters } from './vm-logs.reducers';
 
 export enum VmLogsActionTypes {
