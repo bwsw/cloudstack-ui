@@ -10,7 +10,6 @@ import {
 import { ComputeOfferingViewModel } from '../../view-models';
 import { configSelectors, UserTagsSelectors } from '../../../root-store';
 import * as computeOffering from '../../../reducers/service-offerings/redux/service-offerings.reducers';
-import * as fromAuth from '../../../reducers/auth/redux/auth.reducers';
 import * as fromVms from '../../../reducers/vm/redux/vm.reducers';
 
 interface Resources {

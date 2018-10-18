@@ -21,6 +21,7 @@ import * as vmActions from '../../vm/redux/vm.actions';
 import * as fromVMs from '../../vm/redux/vm.reducers';
 import * as fromVolumes from '../../volumes/redux/volumes.reducers';
 import * as snapshotActions from './snapshot.actions';
+import * as accountActions from '../../accounts/redux/accounts.actions';
 
 
 @Injectable()
@@ -145,6 +146,11 @@ export class SnapshotEffects {
               }));
           }))));
     }));
+
+  @Effect()
+  CreateVolumeFromSnapshotSuccess$ = this.actions$.pipe(
+    ofType<snapshotActions.RevertVolumeToSnapshotSuccess>(snapshotActions.REVERT_VOLUME_TO_SNAPSHOT_SUCCESS),
+    map(() => new accountActions.LoadAccountsRequest()));
 
   @Effect({ dispatch: false })
   deleteSnapshotSuccess$ = this.actions$.pipe(

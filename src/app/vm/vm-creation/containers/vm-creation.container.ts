@@ -36,8 +36,10 @@ import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import * as fromVMs from '../../../reducers/vm/redux/vm.reducers';
 import * as zoneActions from '../../../reducers/zones/redux/zones.actions';
 import * as fromZones from '../../../reducers/zones/redux/zones.reducers';
+import * as accountActions from '../../../reducers/accounts/redux/accounts.actions'
 import { getAvailableOfferingsForVmCreation } from '../../selectors';
 import { ComputeOfferingViewModel } from '../../view-models';
+import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducers';
 
 @Component({
   selector: 'cs-vm-creation-container',
@@ -102,7 +104,7 @@ export class VmCreationContainerComponent implements OnInit {
   readonly loggerStageList$ = this.store.pipe(select(fromVMs.loggerStageList));
   readonly instanceGroups$ = this.store.pipe(select(fromVMs.selectVmGroups));
   readonly affinityGroups$ = this.store.pipe(select(fromAffinityGroups.selectAll));
-  readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
+  readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
   readonly zones$ = this.store.pipe(select(fromZones.selectAll));
   readonly sshKeyPairs$ = this.store.pipe(select(fromSshKeys.selectSshKeysForAccount));
 
@@ -120,6 +122,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new affinityGroupActions.LoadAffinityGroupsRequest());
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
+    this.store.dispatch(new accountActions.LoadAccountsRequest());
 
     this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
 

@@ -75,16 +75,12 @@ export class VolumeService extends BaseBackendService<Volume> {
 
   public detach(volume: Volume): Observable<Volume> {
     return this.sendCommand(CSCommands.Detach, { id: volume.id }).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      ));
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)));
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand(CSCommands.Attach, data).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      )
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity))
     );
   }
 }

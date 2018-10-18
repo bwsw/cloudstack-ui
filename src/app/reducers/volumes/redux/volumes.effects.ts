@@ -24,6 +24,7 @@ import * as fromVolumes from './volumes.reducers';
 import * as snapshotActions from '../../snapshots/redux/snapshot.actions';
 // tslint:disable-next-line
 import { VolumeDeleteDialogComponent } from '../../../shared/actions/volume-actions/volume-delete/volume-delete-dialog.component';
+import * as accountActions from '../../accounts/redux/accounts.actions'
 
 @Injectable()
 export class VolumesEffects {
@@ -78,6 +79,11 @@ export class VolumesEffects {
           return of(new volumeActions.CreateError(error));
         }));
     }));
+
+  @Effect()
+  CreateVolumeFromSnapshotSuccess$ = this.actions$.pipe(
+    ofType<volumeActions.CreateVolumeFromSnapshotSuccess>(volumeActions.CREATE_VOLUME_FROM_SNAPSHOT_SUCCESS),
+    map(() => new accountActions.LoadAccountsRequest()));
 
   @Effect()
   changeDescription$: Observable<Action> = this.actions$.pipe(
