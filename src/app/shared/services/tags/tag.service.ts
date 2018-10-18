@@ -37,13 +37,13 @@ export class TagService extends BaseBackendService<Tag> {
     return this.getList({ key, resourceid: entity.id }).pipe(map(tags => tags[0]));
   }
 
-  public update<T extends any>( // todo: should be T extends Taggable
-    entity: T,
+  public update(
+    entity: any,
     entityName: string,
     key: string,
     value: any
-  ): Observable<T> {
-    const newEntity = Object.assign({}, entity);
+  ): Observable<any> {
+    const newEntity = { ...entity };
 
     const createObs = this.create({
       resourceIds: newEntity.id,

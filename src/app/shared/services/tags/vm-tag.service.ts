@@ -10,7 +10,7 @@ import { EntityTagService } from './entity-tag-service.interface';
 import { DescriptionTagService } from './description-tag.service';
 import { virtualMachineTagKeys } from './vm-tag-keys';
 
-const ColorDelimeter = ';';
+const colorDelimeter = ';';
 
 @Injectable()
 export class VmTagService implements EntityTagService {
@@ -26,7 +26,7 @@ export class VmTagService implements EntityTagService {
   public setColor(vm: VirtualMachine, color: Color): Observable<VirtualMachine> {
     let tagValue = color.value;
     if (color.textColor) {
-      tagValue += `${ColorDelimeter}${color.textColor}`;
+      tagValue += `${colorDelimeter}${color.textColor}`;
     }
     return this.tagService.update(vm, vmResourceType, this.keys.color, tagValue);
   }
@@ -80,7 +80,7 @@ export class VmTagService implements EntityTagService {
 
   private getColorFromColorTag(colorTag: Tag): Color {
     if (colorTag) {
-      const [backgroundColor, textColor] = colorTag.value.split(ColorDelimeter);
+      const [backgroundColor, textColor] = colorTag.value.split(colorDelimeter);
       return new Color(backgroundColor, backgroundColor, textColor || '');
     }
     return new Color('white', '#FFFFFF', '');

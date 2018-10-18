@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import {
   accountResourceType,
@@ -88,7 +88,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAffinityGroups.isLoading)),
     this.store.pipe(select(UserTagsSelectors.getIsLoading))
   ).pipe(
-    map((loadings: boolean[]) => !!loadings.find(loading => loading === true))
+    map((loadings: boolean[]) => !!loadings.find(loading => loading))
   );
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));

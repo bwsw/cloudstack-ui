@@ -56,17 +56,6 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
   }
 
-  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
-    return this.dialog.open(CustomServiceOfferingComponent, {
-      width: '370px',
-      data: {
-        offering,
-        account: this.account
-      }
-    }).afterClosed();
-
-  }
-
   public get locale(): Language {
     return this.translateService.currentLang as Language;
   }
@@ -108,5 +97,15 @@ export class ServiceOfferingListComponent implements OnChanges {
     }
 
     this.columnsToDisplay = showFields.currentValue ? [...this.allColumns, radio] : [...this.mainColumns, radio];
+  }
+
+  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
+    return this.dialog.open(CustomServiceOfferingComponent, {
+      width: '370px',
+      data: {
+        offering,
+        account: this.account
+      }
+    }).afterClosed();
   }
 }

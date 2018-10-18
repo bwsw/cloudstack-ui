@@ -3,7 +3,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { virtualMachineTagKeys } from '../../../shared/services/tags/vm-tag-keys';
 import { noGroup } from '../../../vm/vm-filter/vm-filter.component';
-import { VirtualMachine } from '../../../vm/shared/vm.model';
+import { getInstanceGroupName, VirtualMachine } from '../../../vm/shared/vm.model';
 import { InstanceGroup, Tag, Zone } from '../../../shared/models';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 import { Rules } from '../../../shared/components/security-group-builder/rules';
@@ -205,7 +205,7 @@ export const getSelectedId = createSelector(getVMsEntitiesState, state => state.
 export const getSelectedVM = createSelector(
   getVMsState,
   getSelectedId,
-  (state, selectedId) => state.list.entities[selectedId],
+  (state, selectedId): VirtualMachine => state.list.entities[selectedId],
 );
 
 export const filters = createSelector(getVMsEntitiesState, state => state.filters);
@@ -269,19 +269,25 @@ export const selectFilteredVMs = createSelector(
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
 
-    const queryFilter = vm => !query || vm.name.toLowerCase().includes(queryLower);
+    const queryFilter = (vm: VirtualMachine) => !query || vm.name.toLowerCase().includes(queryLower);
 
-    const selectedStatesFilter = vm => !selectedStates.length || !!statesMap[vm.state];
+    const selectedStatesFilter = (vm: VirtualMachine) => !selectedStates.length || !!statesMap[vm.state];
 
-    const selectedGroupNamesFilter = vm =>
-      !selectedGroupNames.length ||
-      (!vm.instanceGroup && groupNamesMap[noGroup]) ||
-      (vm.instanceGroup && groupNamesMap[vm.instanceGroup.name]);
+    const selectedGroupNamesFilter = (vm: VirtualMachine) => {
+      const filterUnused = selectedGroupNames.length === 0;
+      if (filterUnused) {
+        return true;
+      }
 
-    const selectedZoneIdsFilter =
-      vm => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneid];
+      const instanceGroupName = getInstanceGroupName(vm) != null ? getInstanceGroupName(vm) : noGroup;
+      const isIstanceGroupNameOneOfSelected = groupNamesMap[instanceGroupName] != null;
 
-    const selectedAccountIdsFilter = vm =>
+      return isIstanceGroupNameOneOfSelected;
+    };
+
+    const selectedZoneIdsFilter = (vm: VirtualMachine) => !selectedZoneIds.length || !!zoneIdsMap[vm.zoneid];
+
+    const selectedAccountIdsFilter = (vm: VirtualMachine) =>
       !selectedAccountIds.length || (accountsMap[vm.account] && domainsMap[vm.domainid]);
 
     return vms.filter(vm => {

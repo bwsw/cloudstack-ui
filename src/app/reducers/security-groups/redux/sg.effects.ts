@@ -96,7 +96,7 @@ export class SecurityGroupEffects {
   deletePrivateSecurityGroup$: Observable<Action> = this.actions$.pipe(
     ofType(securityGroupActions.DELETE_PRIVATE_SECURITY_GROUP),
     withLatestFrom(this.store.pipe(select(fromSecurityGroups.selectAll))),
-    map(([action, groups]: [securityGroupActions.DeletePrivateSecurityGroup, Array<SecurityGroup>]) => {
+    map(([action, groups]: [securityGroupActions.DeletePrivateSecurityGroup, SecurityGroup[]]) => {
       const vmGroup = groups.find((group: SecurityGroup) =>
         action.payload.securitygroup &&
         !!action.payload.securitygroup.find(sg => sg.id === group.id) &&

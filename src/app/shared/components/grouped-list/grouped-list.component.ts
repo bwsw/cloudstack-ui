@@ -15,7 +15,7 @@ export class GroupedListComponent implements OnChanges {
   @Input() public groupings: Grouping[];
   @Input() dynamicInputs: { [k: string]: any } = {};
   @Input() dynamicOutputs: { [k: string]: Function } = {};
-  public tree: { items?, name? }[];
+  public tree: { items?; name? }[];
 
   readonly emptyName = 'COMMON.EMPTY_GROUP_NAME';
 

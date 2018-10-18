@@ -26,10 +26,10 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   @Input() public query: string;
   @Input() public account: Account;
   @Input() public isVmRunning: boolean;
-  @Output() public onServiceOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
-  @Output() public onServiceOfferingUpdate = new EventEmitter<ComputeOfferingViewModel>();
-  @Output() public viewModeChange = new EventEmitter();
-  @Output() public selectedClassesChange = new EventEmitter();
+  @Output() public serviceOfferingChanged = new EventEmitter<ComputeOfferingViewModel>();
+  @Output() public serviceOfferingUpdated = new EventEmitter<ComputeOfferingViewModel>();
+  @Output() public viewModeChanged = new EventEmitter();
+  @Output() public selectedClassesChanged = new EventEmitter();
   @Output() public queryChange = new EventEmitter();
   public serviceOffering: ComputeOfferingViewModel;
   public loading: boolean;
@@ -69,7 +69,7 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
     const isNoOfferingsInCurrentViewMode = !this.serviceOfferings.length;
     const isNotEnoughResourcesForCurrentOffering = this.serviceOffering && !this.serviceOffering.isAvailableByResources;
     const isSelectedOfferingFromDifferentViewMode = this.serviceOffering
-      && this.serviceOffering.iscustomized !== (this.viewMode === ServiceOfferingType.custom);
+      && this.serviceOffering.iscustomized !== (this.viewMode === serviceOfferingType.custom);
     const isSelectedOfferingDoNotHaveParams = this.serviceOffering
       && !this.serviceOffering.cpunumber && !this.serviceOffering.cpuspeed && !this.serviceOffering.memory;
 
@@ -85,10 +85,10 @@ export class ServiceOfferingDialogComponent implements OnInit, OnChanges {
   }
 
   public isSelectedOfferingViewMode(): boolean {
-    if (this.serviceOffering && this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.custom) {
+    if (this.serviceOffering && this.serviceOffering.iscustomized && this.viewMode === serviceOfferingType.custom) {
       return true;
     }
-    if (this.serviceOffering && !this.serviceOffering.iscustomized && this.viewMode === ServiceOfferingType.fixed) {
+    if (this.serviceOffering && !this.serviceOffering.iscustomized && this.viewMode === serviceOfferingType.fixed) {
       return true;
     }
     return false;

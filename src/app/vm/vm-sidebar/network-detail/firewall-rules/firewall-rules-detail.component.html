@@ -7,13 +7,8 @@
   </mat-card-header>
   <mat-card-content>
     <div class="grid security-group mat-card-content-container">
-      <div
-        class="row"
-        *ngFor="let group of vm.securitygroup"
-      >
-        <span class="sg-name">
-          {{ group.name }}
-        </span>
+      <div class="row"*ngFor="let group of vm.securitygroup">
+        <span class="sg-name">{{ group.name }}</span>
         <button
           mat-icon-button
           class="mat-icon-button mat-icon-button--small"

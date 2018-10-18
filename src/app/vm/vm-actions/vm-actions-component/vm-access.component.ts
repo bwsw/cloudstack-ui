@@ -7,7 +7,7 @@ import { VirtualMachine } from '../../shared/vm.model';
 import * as vmActions from '../../../reducers/vm/redux/vm.actions';
 import { State } from '../../../reducers/index';
 import { HttpAccessService, SshAccessService, VncAccessService } from '../../services/index';
-import { isUrl } from '../../../shared/utils/isUrl';
+import { isUrl } from '../../../shared/utils/is-url';
 
 @Component({
   selector: 'cs-vm-access-dialog',

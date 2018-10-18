@@ -22,7 +22,7 @@ export class EventService extends BaseBackendService<Event> {
   protected formatGetListResponse(response: any): FormattedResponse<Event> {
     const result = super.formatGetListResponse(response);
     return {
-      list: result.list.map(m => this.prepareEventModel(m)) as Array<Event>,
+      list: result.list.map(m => this.prepareEventModel(m)) as Event[],
       meta: result.meta
     };
   }

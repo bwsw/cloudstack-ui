@@ -473,7 +473,7 @@ describe('Virtual machine Effects', () => {
     const spyRemoveGroup = spyOn(tagService, 'removeGroup').and.returnValue(of(list[0]));
 
     const action = new vmActions.RemoveInstanceGroup(list[0]);
-    const completion = new vmActions.UpdateVM({ ...list[0], instanceGroup: undefined });
+    const completion = new vmActions.UpdateVM({ ...list[0], tags: [] });
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });

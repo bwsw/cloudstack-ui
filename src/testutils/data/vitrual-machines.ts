@@ -1,6 +1,6 @@
 import { VirtualMachine, VmState } from '../../app/vm';
 
-export const vm: VirtualMachine = <VirtualMachine>{
+export const vm: VirtualMachine = {
   id: 'e3a74eef-46bf-4d77-90e2-fef2c5470ced',
   name: 'vm-admin-12',
   displayname: 'vm-admin-12',
@@ -97,4 +97,4 @@ export const vm: VirtualMachine = <VirtualMachine>{
       domain: 'ROOT'
     }
   ]
-};
+} as VirtualMachine;

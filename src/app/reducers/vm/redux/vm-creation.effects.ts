@@ -6,13 +6,13 @@ import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { Utils } from '../../../shared/services/utils/utils.service';
-import { DialogService, ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
+import { ParametrizedTranslation } from '../../../dialog/dialog-service/dialog.service';
 import {
   ProgressLoggerMessageData,
   ProgressLoggerMessageStatus,
 } from '../../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
 import { BaseTemplateModel, isTemplate } from '../../../template/shared';
-import { AffinityGroupType, DiskOffering, ServiceOffering, Zone } from '../../../shared/models';
+import { AffinityGroupType, DiskOffering, Zone } from '../../../shared/models';
 import { NotSelected, VmCreationState } from '../../../vm/vm-creation/data/vm-creation-state';
 import { VmCreationSecurityGroupData } from '../../../vm/vm-creation/security-group/vm-creation-security-group-data';
 // tslint:disable-next-line
@@ -166,6 +166,7 @@ export class VirtualMachineCreationEffects {
     }),
   );
 
+  // tslint:disable:cyclomatic-complexity
   @Effect()
   vmCreationFormAdjust$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_FORM_ADJUST),
@@ -256,6 +257,7 @@ export class VirtualMachineCreationEffects {
       },
     ),
   );
+  // tslint:enable:cyclomatic-complexity
 
   @Effect()
   preparingForDeploy$ = this.actions$.pipe(
@@ -315,14 +317,7 @@ export class VirtualMachineCreationEffects {
                       deployResponse = response;
                       return this.vmService.get(deployResponse.id);
                     }),
-                    switchMap(vm => {
-                      const temporaryVm = vm;
-
-                      if (action.payload.instanceGroup && action.payload.instanceGroup.name) {
-                        temporaryVm.instanceGroup = action.payload.instanceGroup;
-                      }
-
-                      temporaryVm.state = VmState.Deploying;
+                    switchMap(() => {
                       this.handleDeploymentMessages({stage: VmDeploymentStage.TEMP_VM});
 
                       this.store.dispatch(new UserTagsActions.IncrementLastVMId());

@@ -43,7 +43,6 @@ class MockTagService {
 
 describe('Account tag service', () => {
   let accountTagService: AccountTagService;
-  let accountService: AccountService;
   let tagService: TagService;
 
   beforeEach(() => {
@@ -58,7 +57,6 @@ describe('Account tag service', () => {
     });
 
     accountTagService = TestBed.get(AccountTagService);
-    accountService = TestBed.get(AccountService);
     tagService = TestBed.get(TagService);
   });
 

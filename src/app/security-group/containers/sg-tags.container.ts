@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
 import { State } from '../../reducers';
 import { Tag } from '../../shared/models';
 import { KeyValuePair, TagEditAction } from '../../tags/tags-view/tags-view.component';
-import { isSecurityGroupNative, SecurityGroup, SecurityGroupNative } from '../sg.model';
+import { isSecurityGroupNative } from '../sg.model';
 import * as fromSecurityGroups from '../../reducers/security-groups/redux/sg.reducers';
 import * as sgActions from '../../reducers/security-groups/redux/sg.actions';
 

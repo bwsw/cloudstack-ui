@@ -99,7 +99,6 @@ describe('Snapshot Effects', () => {
   let service: SnapshotService;
   let effects: SnapshotEffects;
   let dialogService: DialogService;
-  let jobNotificationService: JobsNotificationService;
 
   const list: Snapshot[] = snapList;
 
@@ -133,7 +132,6 @@ describe('Snapshot Effects', () => {
     service = TestBed.get(SnapshotService);
     effects = TestBed.get(SnapshotEffects);
     dialogService = TestBed.get(DialogService);
-    jobNotificationService = TestBed.get(JobsNotificationService);
   });
 
   it('should return a collection from LoadSnapshotResponse', () => {

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../../../reducers/vm/redux/vm.reducers';
 import { VmCreationSecurityGroupData } from '../../../security-group/vm-creation-security-group-data';
 

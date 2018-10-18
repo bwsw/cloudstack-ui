@@ -160,8 +160,8 @@ export class BaseChartDirective implements OnDestroy, OnChanges, OnInit {
     }
 
     if ((this.datasets && this.datasets.length) || (datasets && datasets.length)) {
-      datasets = (this.datasets || datasets).map((elm: number, index: number) => {
-        const newElm: any = Object.assign({}, elm);
+      datasets = (this.datasets || datasets).map((elm: any, index: number) => {
+        const newElm: any = { ...elm };
         if (this.colors && this.colors.length) {
           Object.assign(newElm, this.colors[index]);
         } else {

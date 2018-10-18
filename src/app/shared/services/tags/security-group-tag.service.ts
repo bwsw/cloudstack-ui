@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SecurityGroup, SecurityGroupNative, SecurityGroupType } from '../../../security-group/sg.model';
+import { SecurityGroupNative, SecurityGroupType } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
 import { securityGroupTagKeys } from './security-group-tag-keys';

@@ -1,14 +1,9 @@
-export interface ICache<T> {
-  get({}): T;
-  set(сacheEntry): void;
-}
-
 export interface CacheEntry<T> {
   params: {};
   result: T;
 }
 
-export class Cache<T> implements ICache<T> {
+export class Cache<T> {
   private cache: { [key: string]: T } = {};
 
   public get(params: {}): T {

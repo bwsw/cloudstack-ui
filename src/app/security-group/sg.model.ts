@@ -49,13 +49,13 @@ export const isSecurityGroupNative = (sg: SecurityGroup): sg is SecurityGroupNat
   ((sg as SecurityGroupNative).tags) != null;
 
 export const isCustomTemplate = (securityGroup: SecurityGroupNative) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.CustomTemplate;
 };
 
 export const isPrivate = (securityGroup: SecurityGroupNative) => {
-  const typeTag = securityGroup.tags.find(tag => tag.key === SecurityGroupTagKeys.type);
+  const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);
 
   return typeTag && typeTag.value === SecurityGroupType.Private;
 };

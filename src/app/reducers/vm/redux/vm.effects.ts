@@ -1,19 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  flatMap,
-  map,
-  mergeMap,
-  onErrorResumeNext,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { catchError, filter, flatMap, map, mergeMap, onErrorResumeNext, switchMap, tap } from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
@@ -210,7 +201,7 @@ export class VirtualMachinesEffects {
   changeInstanceGroup$: Observable<Action> = this.actions$.pipe(
     ofType(vmActions.VM_CHANGE_INSTANCE_GROUP),
     mergeMap((action: vmActions.ChangeInstanceGroup) => {
-      const newVm: VirtualMachine = { ...action.payload.vm, instanceGroup: action.payload.group };
+      const newVm: VirtualMachine = { ...action.payload.vm };
       const notificationId = this.jobsNotificationService.add(
         'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_IN_PROGRESS',
       );
@@ -244,7 +235,7 @@ export class VirtualMachinesEffects {
           this.showNotificationsOnFinish(message, notificationId);
         }),
         map(vm => {
-          const newVm = { ...vm, instanceGroup: undefined };
+          const newVm: VirtualMachine = { ...vm };
           return new vmActions.UpdateVM(newVm);
         }),
         catchError((error: Error) => {
@@ -774,7 +765,7 @@ export class VirtualMachinesEffects {
     ofType(vmActions.ACCESS_VM),
     map((action: vmActions.AccessVm) => action.payload),
     tap((vm: VirtualMachine) => {
-      return this.dialog.open(VmAccessComponent, <MatDialogConfig>{
+      return this.dialog.open(VmAccessComponent, {
         width: '700px',
         data: vm
       });

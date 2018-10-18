@@ -10,7 +10,7 @@ import { AffinityGroupType } from '../models/affinity-group.model';
 import { AsyncJobService } from './async-job.service';
 import { BaseBackendCachedService } from './base-backend-cached.service';
 import { CSCommands } from './base-backend.service';
-import { VirtualMachineEntityName } from '../../vm/shared/vm.service';
+import { virtualMachineEntityName } from '../../vm/shared/vm.service';
 
 export interface AffinityGroupCreationData {
   name: string;
@@ -38,7 +38,7 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
       id: vmId,
       affinityGroupIds: affinityGroupId
     }).pipe(
-      switchMap(job => this.asyncJob.queryJob(job.jobid, VirtualMachineEntityName)),
+      switchMap(job => this.asyncJob.queryJob(job.jobid, virtualMachineEntityName)),
     );
   }
 }

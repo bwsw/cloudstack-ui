@@ -153,7 +153,7 @@ const getRestrictionsThatSatisfiesResources = (
   if (!isNaN(memoryResource)) {
     maxMemory = restrictions.memory.max > memoryResource ? memoryResource : restrictions.memory.max;
   }
-  return <CustomComputeOfferingHardwareRestrictions>{
+  return {
     ...restrictions,
     cpunumber: {
       min: restrictions.cpunumber.min,
@@ -244,7 +244,7 @@ export const getComputeOfferingForVmEditing = createSelector(
    tags,
    vm): ComputeOfferingViewModel[] => {
     const memoryUsed = vm.memory;
-    const cpuNumberUsed = vm.cpuNumber;
+    const cpuNumberUsed = vm.cpunumber;
 
     const cpuNumber = account && account.cpuavailable === 'Unlimited'
       ? account.cpuavailable

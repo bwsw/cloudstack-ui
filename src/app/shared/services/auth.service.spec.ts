@@ -37,8 +37,6 @@ class MockStorageService {
 }
 
 describe('Auth service', () => {
-  let storageService: LocalStorageService;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -52,7 +50,6 @@ describe('Auth service', () => {
       imports: [HttpClientTestingModule],
     });
 
-    storageService = TestBed.get(LocalStorageService);
   }));
 
   it('should login', fakeAsync(

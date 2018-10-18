@@ -65,6 +65,7 @@ export class SnapshotsComponent implements OnInit {
       }
       default:
         break;
+    }
   }
 
   public snapshotCreatedDate(snapshot: Snapshot) {

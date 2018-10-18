@@ -65,7 +65,7 @@ describe('Test service offering reducer', () => {
     } as any);
     expect(fromSOs.getOfferingsEntitiesState.projector({ list: state })).toBe(state);
     expect(fromSOs.isLoading.projector(state)).toBe(false);
-    expect(fromSOs.getSelectedOffering.projector(state.entities, { serviceOfferingId: 1 })).toEqual({
+    expect(fromSOs.getSelectedOffering.projector(state.entities, { serviceofferingid: 1 })).toEqual({
       id: '1',
       name: 'off1',
     });

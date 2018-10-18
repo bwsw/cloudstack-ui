@@ -4,7 +4,6 @@
   aria-hidden="true"
   (click)="toggle()"
   #origin="cdkOverlayOrigin"
-  #trigger
 >
   <div class="mat-select-value">
     <ng-container *ngIf="empty">&nbsp;</ng-container>
@@ -34,7 +33,6 @@
 >
 
   <div
-    #panel
     class="mat-select-panel draggable-select-panel {{ _getPanelTheme() }}"
     [ngClass]="panelClass"
     [@transformPanel]="multiple ? 'showing-multiple' : 'showing'"

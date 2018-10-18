@@ -158,7 +158,7 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     });
   }
 
-  private addOsType(vm: VirtualMachine, osTypes: Array<OsType>): VirtualMachine {
+  private addOsType(vm: VirtualMachine, osTypes: OsType[]): VirtualMachine {
     vm.osType = osTypes.find((osType: OsType) => osType.id === vm.guestosid);
     return vm;
   }

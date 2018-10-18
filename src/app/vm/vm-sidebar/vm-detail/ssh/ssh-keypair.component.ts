@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { filter } from 'rxjs/operators';
 
 import { SSHKeyPair } from '../../../../shared/models/ssh-keypair.model';
@@ -25,13 +25,13 @@ export class SshKeypairComponent {
   ) {}
 
   public showSshKeypairResetDialog(): void {
-    this.dialog.open(SshKeypairResetComponent, <MatDialogConfig>{
+    this.dialog.open(SshKeypairResetComponent, {
       width: '350px',
       disableClose: true,
       data: { keys: this.keys, sshKeyName: this.vm.keypair }
     }).afterClosed().pipe(
       filter(res => Boolean(res)))
-      .subscribe(res => this.onSshKeyChange.emit(res));
+      .subscribe(res => this.sshKeyChanged.emit(res));
   }
 
   public get canActivate() {

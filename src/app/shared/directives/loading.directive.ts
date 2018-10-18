@@ -1,11 +1,4 @@
-import {
-  ComponentFactoryResolver,
-  ComponentRef,
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { ComponentFactoryResolver, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { LoaderComponent } from '../components/loader/loader.component';
 
 /*
@@ -18,7 +11,6 @@ import { LoaderComponent } from '../components/loader/loader.component';
 })
 export class LoadingDirective {
   private hasView = false;
-  private loaderComponent;
 
   constructor(
     private templateRef: TemplateRef<any>,
@@ -36,9 +28,7 @@ export class LoadingDirective {
     } else if (condition) {
       this.hasView = false;
       const cFactory = this.componentFactoryResolver.resolveComponentFactory(LoaderComponent);
-      const cRef: ComponentRef<LoaderComponent> = this.viewContainer.createComponent(cFactory);
-
-      this.loaderComponent = cRef.instance as LoaderComponent;
+      this.viewContainer.createComponent(cFactory);
     }
   }
 }

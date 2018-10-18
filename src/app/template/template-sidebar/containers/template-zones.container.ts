@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
 
 import * as fromTemplates from '../../../reducers/templates/redux/template.reducers';

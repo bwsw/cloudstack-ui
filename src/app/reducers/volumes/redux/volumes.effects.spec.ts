@@ -113,7 +113,6 @@ class MockStore {
 
 describe('Volume Effects', () => {
   let actions$: TestActions;
-  let store: MockStore;
   let router: Router;
   let volumeService: VolumeService;
   let tagService: VolumeTagService;
@@ -153,7 +152,6 @@ describe('Volume Effects', () => {
       ],
     });
     actions$ = TestBed.get(Actions);
-    store = TestBed.get(Store);
     router = TestBed.get(Router);
     volumeService = TestBed.get(VolumeService);
     tagService = TestBed.get(VolumeTagService);
