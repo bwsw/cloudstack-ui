@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 
 import { Constructor, SimpleClass } from './contructor';
 
-// tslint:disable-next-line:variable-name
+// tslint:disable:variable-name
 export const WithUnsubscribe = <TBase extends Constructor<{}>>(
   Base: TBase = SimpleClass as TBase,
 ) => {
