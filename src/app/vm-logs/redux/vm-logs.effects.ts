@@ -31,10 +31,7 @@ export class VmLogsEffects {
 
   @Effect()
   loadVmLogFiles$: Observable<Action> = this.actions$.pipe(
-    ofType(
-      vmLogsActions.LOAD_VM_LOG_FILES_REQUEST,
-      vmLogsActions.VM_LOGS_UPDATE_VM_ID
-    ),
+    ofType(vmLogsActions.LOAD_VM_LOG_FILES_REQUEST),
     withLatestFrom(this.store.pipe(select(loadVmLogFilesRequestParams))),
     switchMap(([action, params]) => {
       return this.vmLogFilesService.getList(params).pipe(
@@ -44,6 +41,18 @@ export class VmLogsEffects {
         catchError(() => of(new vmLogsActions.LoadVmLogFilesResponse([])))
       );
     })
+  );
+
+  @Effect()
+  loadVmLogFilesOnVmChange$: Observable<Action> = this.actions$.pipe(
+    ofType(vmLogsActions.VM_LOGS_UPDATE_VM_ID),
+    switchMap(() => of(new vmLogsActions.LoadVmLogFilesRequest()))
+  );
+
+  @Effect()
+  resetLogFileOnVmChange$: Observable<Action> = this.actions$.pipe(
+    ofType(vmLogsActions.VM_LOGS_UPDATE_VM_ID),
+    switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null)))
   );
 
   constructor(

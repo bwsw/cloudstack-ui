@@ -40,7 +40,7 @@
       </mat-option>
       <mat-option
         *ngFor="let logFile of logFiles"
-        [value]="logFile"
+        [value]="logFile.file"
       >
         <span [matTooltip]="logFile.file">
           {{ logFile.file | basepath }}

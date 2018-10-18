@@ -6,16 +6,9 @@ import {
 } from './vm-logs.actions';
 import * as fromVmLogs from './vm-logs.reducers';
 import { initialState } from './vm-logs.reducers';
-import moment = require('moment');
 
 
 describe('VM logs reducer', () => {
-  const date = moment(0);
-
-  beforeAll(() => {
-    jasmine.clock().mockDate(date.toDate());
-  });
-
   it('should set loading', () => {
     const state = fromVmLogs.reducer(undefined, { type: LOAD_VM_LOGS_REQUEST });
     expect(state).toEqual({

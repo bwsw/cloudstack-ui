@@ -20,7 +20,7 @@ export class VmLogsFilterComponent {
   @Input() public logFiles: Array<VmLogFile>;
   @Input() public selectedAccountIds: Array<string>;
   @Input() public selectedVmId: string;
-  @Input() public selectedLogFile: VmLogFile;
+  @Input() public selectedLogFile: string;
   @Input() public keywords: Array<Keyword>;
   @Input() public firstDayOfWeek: number;
   @Input() public startDate: Date;

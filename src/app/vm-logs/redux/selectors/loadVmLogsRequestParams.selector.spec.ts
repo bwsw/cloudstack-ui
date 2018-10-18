@@ -1,8 +1,14 @@
-import * as fromVmLogs from '../vm-logs.reducers';
 import { loadVmLogsRequestParams } from './loadVmLogsRequestParams.selector';
+import moment = require('moment');
 
 
 describe('loadVmLogsRequestParams selector', () => {
+  const date = moment(0);
+
+  beforeAll(() => {
+    jasmine.clock().mockDate(date.toDate());
+  });
+
   it('should select load logs request params without keywords', () => {
     const id = 'test-id';
     const keywords = [];

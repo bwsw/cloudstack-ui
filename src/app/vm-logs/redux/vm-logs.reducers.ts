@@ -4,8 +4,8 @@ import { VmLog } from '../models/vm-log.model';
 import * as vmLogsActions from './vm-logs.actions';
 import { Keyword } from '../models/keyword.model';
 import { DateObject } from '../models/date-object.model';
-import { filterSelectedAccountIdas } from './vm-logs-vm.reducers';
 import moment = require('moment');
+
 
 export interface State extends EntityState<VmLog> {
   loading: boolean,
@@ -13,6 +13,7 @@ export interface State extends EntityState<VmLog> {
     keywords: Array<Keyword>,
     startDate: DateObject,
     endDate: DateObject,
+    selectedLogFile: string
   }
 }
 
@@ -32,6 +33,7 @@ export const adapter: EntityAdapter<VmLog> = createEntityAdapter<VmLog>({
 export const initialState: State = adapter.getInitialState({
   loading: false,
   filters: {
+    selectedLogFile: null,
     keywords: [],
     startDate: moment()
       .add(-1, 'days')
@@ -60,7 +62,7 @@ export function reducer(
   switch (action.type) {
     case vmLogsActions.LOAD_VM_LOGS_REQUEST: {
       return {
-        ...state,
+        ...adapter.removeAll(state),
         loading: true
       };
     }
@@ -200,6 +202,16 @@ export function reducer(
       };
     }
 
+    case vmLogsActions.VM_LOGS_UPDATE_LOG_FILE: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          selectedLogFile: action.payload
+        }
+      };
+    }
+
     default: {
       return state;
     }
@@ -262,3 +274,7 @@ export const filterEndTime = createSelector(
   })
 );
 
+export const filterSelectedLogFile = createSelector(
+  filters,
+  state => state.selectedLogFile
+);
