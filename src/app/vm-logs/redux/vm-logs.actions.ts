@@ -3,6 +3,9 @@ import { VmLog } from '../models/vm-log.model';
 
 export const LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST';
 export const LOAD_VM_LOGS_RESPONSE = '[VM Logs] LOAD_VM_LOGS_RESPONSE';
+export const SCROLL_VM_LOGS = '[VM Logs] SCROLL_VM_LOGS';
+export const SCROLL_VM_LOGS_REQUEST = '[VM Logs] SCROLL_VM_LOGS_REQUEST';
+export const SCROLL_VM_LOGS_RESPONSE = '[VM Logs] SCROLL_VM_LOGS_RESPONSE';
 export const VM_LOGS_FILTER_UPDATE = '[VM Logs] VM_LOGS_FILTER_UPDATE';
 export const VM_LOGS_ADD_KEYWORD = '[VM Logs] VM_LOGS_ADD_KEYWORD';
 export const VM_LOGS_REMOVE_KEYWORD = '[VM Logs] VM_LOGS_REMOVE_KEYWORD';
@@ -25,7 +28,27 @@ export class LoadVmLogsResponse implements Action {
 
   constructor(public payload: Array<VmLog> | any) {
   }
+}
 
+export class ScrollVmLogs implements Action {
+  type = SCROLL_VM_LOGS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ScrollVmLogsRequest implements Action {
+  type = SCROLL_VM_LOGS_REQUEST;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class ScrollVmLogsResponse implements Action {
+  type = SCROLL_VM_LOGS_RESPONSE;
+
+  constructor(public payload: any) {
+  }
 }
 
 export class VmLogsFilterUpdate implements Action {
@@ -88,6 +111,8 @@ export class VmLogsUpdateAccountIds implements Action {
 export type Actions =
   LoadVmLogsResponse
   | LoadVmLogsRequest
+  | ScrollVmLogsRequest
+  | ScrollVmLogsResponse
   | VmLogsFilterUpdate
   | VmLogsAddKeyword
   | VmLogsRemoveKeyword

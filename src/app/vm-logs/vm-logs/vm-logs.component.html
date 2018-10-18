@@ -16,11 +16,11 @@
   <!--</button>-->
 <!--</div>-->
 
-<!--<div *ngIf="mode === 'stop' && !newestFirst" class="fab">-->
-  <!--<button mat-fab (click)="onFollow($event)">-->
-    <!--<mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>-->
-  <!--</button>-->
-<!--</div>-->
+<div *ngIf="!scroll" class="fab">
+  <button mat-fab (click)="onScrollToggle($event)">
+    <mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>
+  </button>
+</div>
 
 <!--<div *ngIf="mode === 'stop' && newestFirst" class="fab">-->
   <!--<button mat-fab (click)="onFollow($event)">-->

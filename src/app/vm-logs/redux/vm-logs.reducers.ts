@@ -321,3 +321,11 @@ export const loadVmLogsRequestParams = createSelector(
     }, { id });
   }
 );
+
+export const loadVmLogsScrollRequestParams = createSelector(
+  loadVmLogsRequestParams,
+  (params): LoadVmLogsRequestParams => ({
+    ...params,
+    scroll: 1
+  })
+);

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { VmLog } from '../models/vm-log.model';
-import { Observable } from 'rxjs/index';
+import { Observable, of, throwError } from 'rxjs/index';
 import { BackendResource } from '../../shared/decorators';
-import { BaseBackendService, FormattedResponse } from '../../shared/services/base-backend.service';
+import { BaseBackendService } from '../../shared/services/base-backend.service';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable()
@@ -20,11 +21,31 @@ export class VmLogsService extends BaseBackendService<VmLog> {
     return super.getList(params, customApiFormat);
   }
 
-  protected formatGetListResponse(response: any): FormattedResponse<VmLog> {
+  protected getRequest(
+    command: string,
+    params?: {},
+    entity?: string
+  ): Observable<any> {
+    return super
+      .getRequest(command, params, entity)
+      .pipe(
+        // todo: fix on backend
+        catchError((response) =>  {
+          try {
+            return of(JSON.parse(response.error.text.replace(/\u001b.*\u001b/, '')));
+          } catch {
+            return throwError(response);
+          }
+        })
+      );
+  }
+
+  protected formatGetListResponse(response: any): any {
     const result = response && response.vmlogs && response.vmlogs.items || [];
     return {
       list: result.map(m => this.prepareModel(m)) as Array<VmLog>,
       meta: {
+        scrollid: response.vmlogs.scrollid,
         count: response.vmlogs.count || 0
       }
     };

@@ -238,7 +238,7 @@ export abstract class BaseBackendService<M> {
     };
   }
 
-  private makeGetListObservable(
+  protected makeGetListObservable(
     params?: {},
     customApiFormat?: ApiFormat
   ): Observable<FormattedResponse<M>> {

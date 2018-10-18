@@ -20,6 +20,8 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { BasePathPipe } from './pipes/base-path.pipe';
 import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
 import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
+import { VmLogsScrollService } from './services/vm-logs-scroll.service';
+import { reducer as scrollVmLogs } from './redux/scroll-vm-logs.reducers';
 
 @NgModule({
   imports: [
@@ -30,6 +32,7 @@ import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
     MatChipsModule,
     CdkTableModule,
     StoreModule.forFeature('vmLogs', vmLogsReducers),
+    StoreModule.forFeature('scrollVmLogs', scrollVmLogs),
     EffectsModule.forFeature([VmLogsEffects]),
   ],
   declarations: [
@@ -44,7 +47,8 @@ import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
     DateObjectToDatePipe
   ],
   providers: [
-    VmLogsService
+    VmLogsService,
+    VmLogsScrollService
   ]
 })
 export class VmLogsModule {
