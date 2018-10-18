@@ -36,7 +36,7 @@
       </button>
     </form>
 
-    <ng-container *ngIf="isVmCreation; else vmDetails">
+    <ng-container *ngIf="enablePreselected; else vmDetails">
       <cs-vm-creation-affinity-group-list
         [affinityGroups]="affinityGroups"
         (selectedGroupChange)="changeGroup($event)"

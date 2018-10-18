@@ -18,7 +18,7 @@ import { AffinityGroupListComponent } from './affinity-group-list.component';
 export class VmDetailsAffinityGroupListComponent extends AffinityGroupListComponent {
   @Input() public affinityGroups: AffinityGroup[];
   @Output() public selectedGroupChange = new EventEmitter<AffinityGroup>();
-  public isVmCreation = false;
+  public enablePreselected = true;
   public selectedGroup: AffinityGroup;
 
   public isDisabledAffinityGroup(affinityGroupId: string): boolean {

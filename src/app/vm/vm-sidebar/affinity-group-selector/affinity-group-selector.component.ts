@@ -23,7 +23,7 @@ function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
 export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
   @Input() public affinityGroups: Array<AffinityGroup>;
   @Input() public preselectedAffinityGroups: AffinityGroup[];
-  @Input() public isVmCreation: boolean;
+  @Input() public enablePreselected: boolean;
   @Output() public onCreateAffinityGroup = new EventEmitter<AffinityGroup>();
   @Output() public onSubmit = new EventEmitter<string[]>();
   @Output() public onCancel = new EventEmitter();
@@ -70,7 +70,7 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
 
   public submit(): void {
     let selectedGroupIds;
-    if (this.isVmCreation) {
+    if (this.enablePreselected) {
       selectedGroupIds = [this.selectedGroup.id]
     } else  {
       selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);

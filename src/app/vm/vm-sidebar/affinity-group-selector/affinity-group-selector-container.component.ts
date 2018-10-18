@@ -11,21 +11,21 @@ import * as affinityGroupSelectors from '../../../reducers/affinity-groups/redux
 @Component({
   selector: 'cs-affinity-group-container-selector',
   template: `
-  <cs-affinity-group-selector
-    [affinityGroups]="affinityGroups$ | async"
-    [isVmCreation]="isVmCreation"
-    [preselectedAffinityGroups]="preselectedAffinityGroups"
-    (onCreateAffinityGroup)="createAffinityGroup($event)"
-    (onCancel)="cancel()"
-    (onSubmit)="submit($event)"
-  ></cs-affinity-group-selector>
+    <cs-affinity-group-selector
+      [affinityGroups]="affinityGroups$ | async"
+      [enablePreselected]="enablePreselected"
+      [preselectedAffinityGroups]="preselectedAffinityGroups"
+      (onCreateAffinityGroup)="createAffinityGroup($event)"
+      (onCancel)="cancel()"
+      (onSubmit)="submit($event)"
+    ></cs-affinity-group-selector>
   `,
 })
 export class AffinityGroupSelectorContainerComponent {
   readonly affinityGroups$;
   public types = [AffinityGroupType.antiAffinity, AffinityGroupType.affinity];
   public preselectedAffinityGroups: AffinityGroup[];
-  public isVmCreation: boolean;
+  public enablePreselected: boolean;
 
   constructor(
     private store: Store<State>,
@@ -33,10 +33,10 @@ export class AffinityGroupSelectorContainerComponent {
     private dialogRef: MatDialogRef<AffinityGroupSelectorContainerComponent>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {
-    this.isVmCreation = data.isVmCreation;
+    this.enablePreselected = data.enablePreselected;
     this.preselectedAffinityGroups = data.preselectedAffinityGroups || [];
     this.affinityGroups$ = this.store.pipe(
-      select(affinityGroupSelectors.getSelectSorted(this.preselectedAffinityGroups)));
+      select(affinityGroupSelectors.getSortedAffinityGroups(this.preselectedAffinityGroups)));
   }
 
   public createAffinityGroup(group: AffinityGroup) {

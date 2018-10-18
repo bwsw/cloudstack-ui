@@ -35,7 +35,7 @@ export class AffinityGroupComponent {
     this.dialog.open(AffinityGroupSelectorContainerComponent, <MatDialogConfig>{
       width: '720px',
       data: {
-        isVmCreation: false,
+        enablePreselected: false,
         preselectedAffinityGroups: this.vm.affinitygroup
       },
       disableClose: true
