@@ -20,7 +20,7 @@ const sortBySelected = (a: AffinityGroup, b: AffinityGroup) => {
   }
 };
 
-export const getSelectSorted = (preselectedAffinityGroups: AffinityGroup[] | any) => createSelector(
+export const getSortedAffinityGroups = (preselectedAffinityGroups: AffinityGroup[] | any) => createSelector(
   fromAffinityGroups.selectAll,
   (affinityGroups: AffinityGroup[]): AffinityGroup[] => {
     if (preselectedAffinityGroups) {

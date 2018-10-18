@@ -27,7 +27,7 @@ describe('Affinity Group Selectors', () => {
       }
     ];
 
-    expect(affinityGroupSelectors.getSelectSorted(preselected).projector(
+    expect(affinityGroupSelectors.getSortedAffinityGroups(preselected).projector(
       list,
     ))
       .toEqual(sortedList);
