@@ -30,7 +30,7 @@ export class SshKeypairComponent {
       disableClose: true,
       data: { keys: this.keys, sshKeyName: this.vm.keypair }
     }).afterClosed().pipe(
-      filter(res => Boolean(res)))
+      filter(Boolean))
       .subscribe(res => this.sshKeyChanged.emit(res));
   }
 

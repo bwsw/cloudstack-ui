@@ -58,7 +58,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
       key: 'accounts',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: VirtualMachine) => item.account,
-      name: (item: VirtualMachine) => getGroupName(item),
+      name: getGroupName,
     },
     {
       key: 'colors',

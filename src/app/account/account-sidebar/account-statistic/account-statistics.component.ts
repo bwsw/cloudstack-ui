@@ -39,7 +39,7 @@ export class AccountStatisticsComponent {
       })
       .pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res))
+        filter(Boolean)
       )
       .subscribe(res => this.statisticsUpdate.emit(res));
   }

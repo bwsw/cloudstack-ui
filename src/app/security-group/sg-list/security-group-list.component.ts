@@ -49,7 +49,7 @@ export class SecurityGroupListComponent implements OnChanges {
             {
               key: 'types',
               label: 'SECURITY_GROUP_PAGE.FILTERS.GROUP_BY_TYPES',
-              selector: (item: SecurityGroup) => getType(item),
+              selector: getType,
               name: (item: SecurityGroup) => {
                 switch (getType(item)) {
                   case SecurityGroupType.PredefinedTemplate: {

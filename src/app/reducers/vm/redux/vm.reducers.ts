@@ -241,14 +241,14 @@ export const getUsingSGVMs = createSelector(
   fromSGroup.getSelectedId,
   (vms: VirtualMachine[], sGroupId: string) => {
     const sGroupFilter = (vm: VirtualMachine) => vm.securitygroup.find(group => group.id === sGroupId);
-    return vms.filter(vm => sGroupFilter(vm));
+    return vms.filter(sGroupFilter);
   }
 );
 
 export const getAttachmentVMs = createSelector(selectAll, attachmentFilters, (vms, filter) => {
   const accountFilter = vm => vm.account === filter.account && vm.domainid === filter.domainId;
 
-  return vms.filter(vm => accountFilter(vm));
+  return vms.filter(accountFilter);
 });
 
 export const selectFilteredVMs = createSelector(

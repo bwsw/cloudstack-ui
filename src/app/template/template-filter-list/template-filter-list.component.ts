@@ -38,7 +38,7 @@ export class TemplateFilterListComponent {
       key: 'accounts',
       label: 'TEMPLATE_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: BaseTemplateModel) => item.account,
-      name: (item: BaseTemplateModel) => getGroupName(item),
+      name: getGroupName,
     },
     {
       key: 'groups',

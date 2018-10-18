@@ -194,7 +194,7 @@ describe('volume resize for data disks', () => {
     expect(component.diskResized.emit).toHaveBeenCalledWith({
       id: '1',
       size: newVolumeSize,
-      diskOfferingId: component.diskOffering.id,
+      diskofferingid: component.diskOffering.id,
     });
   });
 });

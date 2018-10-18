@@ -68,7 +68,7 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
     ]);
 
     this.volumeService.getList({ virtualMachineId: this.vmId }).subscribe(volumes => {
-      const rootDiskInd = volumes.findIndex(_ => isRoot(_));
+      const rootDiskInd = volumes.findIndex(isRoot);
       if (rootDiskInd !== -1) {
         const temp = volumes[0];
         volumes[0] = volumes[rootDiskInd];

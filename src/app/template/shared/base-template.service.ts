@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, Observable, of, Subject, throwError } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { AsyncJobService } from '../../shared/services/async-job.service';
@@ -108,7 +108,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
     const filter = params && params.filter ? params.filter : templateFilters.featured;
     return this.getList({ id, filter }).pipe(
       map(templates => templates[0]),
-      catchError(error => throwError(error)),
+      catchError(() => of(null)),
     );
   }
 
@@ -119,7 +119,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
   ): Observable<BaseTemplateModel[]> {
     return this.getListWithDuplicates(params, useCache).pipe(
       map(templates => this.distinctIds(templates)),
-      catchError(err => {
+      catchError(() => {
         return of([]);
       }),
     );
@@ -146,7 +146,7 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
         }
         return templates;
       }),
-      catchError(error => {
+      catchError(() => {
         return of([]);
       }),
     );

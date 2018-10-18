@@ -141,7 +141,7 @@ export class SecurityGroupEffects {
       return this.dialogService
         .confirm({ message: 'DIALOG_MESSAGES.SECURITY_GROUPS.CONFIRM_CONVERT' })
         .pipe(
-          filter(res => Boolean(res)),
+          filter(Boolean),
           switchMap(() => {
             return this.sgTagService.convertToShared(action.payload)
               .pipe(

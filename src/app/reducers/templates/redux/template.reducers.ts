@@ -462,9 +462,7 @@ const filterForVmCreationWithFilter = (templates, zoneId, account, filter) => {
     return filter.selectedViewMode === resourceType(template);
   };
 
-  return filterForVmCreation(templates, zoneId, account).filter(template =>
-    selectedViewModeFilter(template),
-  );
+  return filterForVmCreation(templates, zoneId, account).filter(selectedViewModeFilter);
 };
 
 export const selectFilteredTemplatesForVmCreation = createSelector(
@@ -472,8 +470,7 @@ export const selectFilteredTemplatesForVmCreation = createSelector(
   fromVMs.getVmCreationZoneId,
   fromAuth.getUserAccount,
   vmCreationListFilters,
-  (templates, zoneId, account, filter) =>
-    filterForVmCreationWithFilter(templates, zoneId, account, filter),
+  filterForVmCreationWithFilter,
 );
 
 export const numOfTemplatesReadyForVmCreation = createSelector(

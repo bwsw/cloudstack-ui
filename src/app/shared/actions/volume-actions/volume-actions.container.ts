@@ -41,7 +41,7 @@ export class VolumeActionsContainerComponent {
       })
       .pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res))
+        filter(Boolean)
       )
       .subscribe(() => {
         if (volume.snapshots && !!volume.snapshots.length) {
@@ -49,7 +49,7 @@ export class VolumeActionsContainerComponent {
             .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
             .pipe(
               onErrorResumeNext(),
-              filter(res => Boolean(res))
+              filter(Boolean)
             )
             .subscribe(() =>
               this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots))

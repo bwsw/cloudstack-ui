@@ -36,7 +36,7 @@ export class ServiceOfferingSelectorComponent {
         },
       } as MatDialogConfig)
       .afterClosed()
-      .pipe(filter(res => Boolean(res)))
+      .pipe(filter(Boolean))
       .subscribe(offering => {
         this.serviceOffering = offering;
         this.changed.next(this.serviceOffering);

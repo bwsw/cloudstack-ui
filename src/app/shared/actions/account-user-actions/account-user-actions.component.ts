@@ -37,7 +37,7 @@ export class AccountUserActionsComponent {
         .confirm({ message: action.confirmMessage })
         .pipe(
           onErrorResumeNext(),
-          filter(res => Boolean(res)),
+          filter(Boolean),
         )
         .subscribe(() => {
           switch (action.command) {

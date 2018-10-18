@@ -68,7 +68,7 @@ export class VmActionsContainerComponent {
       .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_START' })
       .pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res))
+        filter(Boolean)
       )
       .subscribe(() => {
         this.store.dispatch(new vmActions.StartVm(vm));
@@ -80,7 +80,7 @@ export class VmActionsContainerComponent {
       .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_STOP' })
       .pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res))
+        filter(Boolean)
       )
       .subscribe(() => {
         this.store.dispatch(new vmActions.StopVm(vm));

@@ -71,7 +71,7 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res))
+        filter(Boolean)
       )
       .subscribe(() => {
         this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));

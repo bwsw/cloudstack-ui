@@ -240,7 +240,7 @@ export const selectFilteredSecurityGroups = createSelector(
     };
 
     return securityGroups
-      .map(sg => renameDefaultSG(sg))
+      .map(renameDefaultSG)
       .filter(group => queryFilter(group)
         && viewModeFilter(group)
         && selectedAccountIdsFilter(group)
@@ -263,7 +263,7 @@ export const selectSecurityGroupsForVmCreation = createSelector(
       return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
     };
     return securityGroups
-      .map(sg => renameDefaultSG(sg))
+      .map(renameDefaultSG)
       .filter((securityGroup) => accountFilter(securityGroup) && onlySharedFilter(securityGroup));
   });
 

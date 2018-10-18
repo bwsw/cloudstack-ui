@@ -201,7 +201,7 @@ export class TagsViewComponent implements OnInit, OnChanges {
   }
 
   private getCategory(groupedTags: any, name: string): TagCategory {
-    const tags = groupedTags[name].filter(tag => keyWithoutCategory(tag));
+    const tags = groupedTags[name].filter(keyWithoutCategory);
     const sortedTags = sortBy(tags, [_ => _.key.toLowerCase()]);
 
     return {

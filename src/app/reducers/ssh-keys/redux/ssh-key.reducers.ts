@@ -179,7 +179,7 @@ export const selectFilteredSshKeys = createSelector(
     const selectedAccountIdsFilter = sshKey =>
       !selectedAccountIds.length || accountDomainMap[`${sshKey.account}_${sshKey.domainid}`];
 
-    return sshKeys.filter(sshKey => selectedAccountIdsFilter(sshKey));
+    return sshKeys.filter(selectedAccountIdsFilter);
   }
 );
 
@@ -187,7 +187,7 @@ export const selectSSHKeys = createSelector(selectAll, fromVMs.getSelectedVM, (s
   const selectedVMFilter = sshKey =>
     vm && vm.account === sshKey.account && vm.domainid === sshKey.domainid;
 
-  return sshKeys.filter(sshKey => selectedVMFilter(sshKey));
+  return sshKeys.filter(selectedVMFilter);
 });
 
 export const selectSshKeysForAccount = createSelector(
@@ -197,6 +197,6 @@ export const selectSshKeysForAccount = createSelector(
     const filterSshKeysByAccount = (sshKey: SSHKeyPair) =>
       account && account.name === sshKey.account && account.domainid === sshKey.domainid;
 
-    return sshKeys.filter((sshKey: SSHKeyPair) => filterSshKeysByAccount(sshKey));
+    return sshKeys.filter(filterSshKeysByAccount);
   }
 );

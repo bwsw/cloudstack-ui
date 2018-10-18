@@ -58,13 +58,13 @@
       "check-separator",
       "check-type"
     ],
-
-
     "prefer-for-of": true,
     "no-conditional-assignment": true,
     "no-duplicate-switch-case": true,
     "no-sparse-arrays": true,
     "no-unused-variable": true,
+    "no-unnecessary-type-assertion": true,
+    "no-unnecessary-callback-wrapper": true,
     "prefer-conditional-expression": true,
     "prefer-object-spread": true,
     "restrict-plus-operands": true,
@@ -75,8 +75,6 @@
     "interface-name": [true, "never-prefix"],
     "no-angle-bracket-type-assertion": true,
     "number-literal-format": true,
-
-
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
@@ -87,19 +85,14 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-
     "no-access-missing-member": false,
-
     "banana-in-box": true,
     "pipe-impure": true,
     "templates-no-negated-async": true,
-
-    "i18n": [true, "check-id", "check-text"],
     "no-attribute-parameter-decorator": true,
     "no-output-named-after-standard-event": true,
     "no-unused-css": true,
     "use-pipe-decorator": true,
-
     "angular-whitespace": [true, "check-interpolation", "check-pipe", "check-semicolon"]
   }
 }

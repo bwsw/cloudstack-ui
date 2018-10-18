@@ -33,7 +33,7 @@ export class InstanceGroupComponent {
         data: { vm: this.vm, groups: groupNames },
       })
       .afterClosed()
-      .pipe(filter(res => Boolean(res)))
+      .pipe(filter(Boolean))
       .subscribe(group => this.groupChanged.emit(group));
   }
 }

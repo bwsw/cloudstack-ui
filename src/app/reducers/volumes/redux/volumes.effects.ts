@@ -137,7 +137,7 @@ export class VolumesEffects {
         })
         .afterClosed()
         .pipe(
-          filter(res => Boolean(res)),
+          filter(Boolean),
           switchMap(virtualMachineId => {
             const notificationId = this.jobsNotificationService.add(
               'NOTIFICATIONS.VOLUME.ATTACHMENT_IN_PROGRESS',
@@ -199,7 +199,7 @@ export class VolumesEffects {
         .confirm({ message: 'DIALOG_MESSAGES.VOLUME.CONFIRM_DETACHMENT' })
         .pipe(
           onErrorResumeNext(),
-          filter(res => Boolean(res)),
+          filter(Boolean),
           switchMap(() => {
             const notificationId = this.jobsNotificationService.add(
               'NOTIFICATIONS.VOLUME.DETACHMENT_IN_PROGRESS',
@@ -234,7 +234,7 @@ export class VolumesEffects {
         })
         .afterClosed()
         .pipe(
-          filter(res => Boolean(res)),
+          filter(Boolean),
           switchMap((params: VolumeResizeData) => {
             const notificationId = this.jobsNotificationService.add(
               'NOTIFICATIONS.VOLUME.RESIZE_IN_PROGRESS',
@@ -289,7 +289,7 @@ export class VolumesEffects {
         })
         .afterClosed()
         .pipe(
-          filter(res => Boolean(res)),
+          filter(Boolean),
           mergeMap(params => {
             return volumes.reduce((res: Action[], volume: Volume) => {
               const detachedVolume = expunged ? { ...volume, virtualmachineid: '' } : volume;

@@ -84,7 +84,7 @@ export class SnapshotFilterContainerComponent extends WithUnsubscribe() implemen
       key: 'accounts',
       label: 'SNAPSHOT_PAGE.FILTERS.GROUP_BY_ACCOUNTS',
       selector: (item: Snapshot) => item.account,
-      name: (item: Snapshot) => getGroupName(item),
+      name: getGroupName,
       hidden: () => !this.authService.isAdmin(),
     },
     {

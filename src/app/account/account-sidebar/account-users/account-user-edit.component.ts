@@ -56,6 +56,6 @@ export class AccountUserEditComponent implements OnInit {
     if (data.timezone) {
       result.timezone = data.timezone.geo;
     }
-    return result as AccountUser;
+    return result;
   }
 }

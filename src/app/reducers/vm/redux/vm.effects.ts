@@ -346,7 +346,7 @@ export class VirtualMachinesEffects {
         })
         .afterClosed()
         .pipe(
-          filter(res => Boolean(res)),
+          filter(Boolean),
           switchMap(params => {
             const inProgressMessage = params.expunge
               ? 'NOTIFICATIONS.VM.EXPUNGE_IN_PROGRESS'
@@ -408,7 +408,7 @@ export class VirtualMachinesEffects {
     mergeMap((action: vmActions.RebootVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_REBOOT' }).pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res)),
+        filter(Boolean),
         switchMap(() => {
           const notificationId = this.jobsNotificationService.add(
             'NOTIFICATIONS.VM.REBOOT_IN_PROGRESS',
@@ -443,7 +443,7 @@ export class VirtualMachinesEffects {
     mergeMap((action: vmActions.RestoreVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE' }).pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res)),
+        filter(Boolean),
         switchMap(() => {
           const notificationId = this.jobsNotificationService.add(
             'NOTIFICATIONS.VM.RESTORE_IN_PROGRESS',
@@ -479,7 +479,7 @@ export class VirtualMachinesEffects {
     mergeMap((action: vmActions.RecoverVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RECOVER' }).pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res)),
+        filter(Boolean),
         switchMap(() => {
           const notificationId = this.jobsNotificationService.add(
             'NOTIFICATIONS.VM.RECOVER_IN_PROGRESS',
@@ -514,7 +514,7 @@ export class VirtualMachinesEffects {
     mergeMap((action: vmActions.ExpungeVm) => {
       return this.dialogService.confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_EXPUNGE' }).pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res)),
+        filter(Boolean),
         switchMap(() => {
           const notificationId = this.jobsNotificationService.add(
             'NOTIFICATIONS.VM.EXPUNGE_IN_PROGRESS',
@@ -656,7 +656,7 @@ export class VirtualMachinesEffects {
         .confirm({ message: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD' })
         .pipe(
           onErrorResumeNext(),
-          filter(res => Boolean(res)),
+          filter(Boolean),
           switchMap(() => {
             if (action.payload.state === VmState.Running) {
               return this.stop(action.payload).pipe(map(() => action));
@@ -829,7 +829,6 @@ export class VirtualMachinesEffects {
         const message = 'NOTIFICATIONS.VM.STOP_DONE';
         this.showNotificationsOnFinish(message, notificationId);
       }),
-      switchMap(newVm => of(newVm)),
       catchError((error: Error) => {
         const message = 'NOTIFICATIONS.VM.STOP_FAILED';
         this.showNotificationsOnFail(error, message, notificationId);
@@ -900,7 +899,7 @@ export class VirtualMachinesEffects {
       })
       .pipe(
         onErrorResumeNext(),
-        filter(res => Boolean(res)),
+        filter(Boolean),
       );
   }
 

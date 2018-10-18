@@ -45,7 +45,7 @@ export class ServiceOfferingListComponent implements OnChanges {
   public selectOffering(offering: ComputeOfferingViewModel): void {
     if (offering.iscustomized) {
       this.showCustomOfferingDialog(offering)
-        .pipe(filter(res => Boolean(res)))
+        .pipe(filter(Boolean))
         .subscribe(customOffering => {
           this.selectedOffering = customOffering;
           this.selectedOfferingChange.emit(this.selectedOffering);

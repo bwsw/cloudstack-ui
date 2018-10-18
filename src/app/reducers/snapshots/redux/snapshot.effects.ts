@@ -54,7 +54,7 @@ export class SnapshotEffects {
         })
         .afterClosed()
         .pipe(
-          filter(res => Boolean(res)),
+          filter(Boolean),
           mergeMap((params: SnapshotData) => {
             const notificationId = this.jobsNotificationService.add(
               'NOTIFICATIONS.SNAPSHOT.TAKE_IN_PROGRESS',
@@ -139,7 +139,7 @@ export class SnapshotEffects {
           })
           .pipe(
             onErrorResumeNext(),
-            filter(res => Boolean(res)),
+            filter(Boolean),
             mergeMap(() =>
               (isVmRunning ? this.vmEffects.stop(vms[vmId]) : of(null)).pipe(
                 mergeMap(() => {

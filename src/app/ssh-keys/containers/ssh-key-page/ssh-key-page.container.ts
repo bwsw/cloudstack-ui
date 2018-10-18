@@ -16,7 +16,7 @@ export const sshKeyGroupings: Grouping[] = [
     key: 'accounts',
     label: 'SSH_KEYS.FILTERS.GROUP_BY_ACCOUNTS',
     selector: (item: SSHKeyPair) => item.account,
-    name: (item: SSHKeyPair) => getGroupName(item),
+    name: getGroupName,
   },
 ];
 
