@@ -209,7 +209,7 @@ export const getSelectedTemplate = createSelector(
 export const getVMTemplate = createSelector(
   selectEntities,
   fromVMs.getSelectedVM,
-  (entities, vm) => vm && entities[vm.isoid]
+  (entities, vm) => vm && entities[vm.isoid],
 );
 
 export const getSelectedTemplateTags = createSelector(

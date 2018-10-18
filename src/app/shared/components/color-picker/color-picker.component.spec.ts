@@ -97,7 +97,7 @@ describe('Color picker component', () => {
     f.whenStable().then(() => {
       const colorPickerComponent = f.debugElement.query(By.directive(ColorPickerComponent));
       expect(colorPickerComponent.componentInstance.selectedColor).toEqual(
-        colors[colors.length - 1]
+        colors[colors.length - 1],
       );
     });
   }));

@@ -14,22 +14,22 @@ export class DescriptionTagService {
     entity: Taggable,
     entityResourceType: string,
     description: string,
-    entityTagService: EntityTagService
+    entityTagService: EntityTagService,
   ): Observable<Taggable> {
     return this.tagService.update(
       entity,
       entityResourceType,
       entityTagService.keys.description,
-      description
+      description,
     );
   }
 
   public removeDescription(
     entity: Taggable,
     entityResourceType: string,
-    entityTagService: EntityTagService
+    entityTagService: EntityTagService,
   ): Observable<Taggable> {
-    const newEntity = {...entity};
+    const newEntity = { ...entity };
     return this.tagService
       .remove({
         resourceIds: entity.id,
@@ -41,7 +41,7 @@ export class DescriptionTagService {
         map(() => {
           newEntity.tags = newEntity.tags.filter(t => entityTagService.keys.description !== t.key);
           return newEntity;
-        })
+        }),
       );
   }
 }

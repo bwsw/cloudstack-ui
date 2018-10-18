@@ -11,12 +11,13 @@ export class VmCreationDialogComponent {
   constructor(
     private dialog: MatDialog,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
-    this.dialog.open(VmCreationContainerComponent, {
-      disableClose: true,
-      width: '600px'
-    })
+    this.dialog
+      .open(VmCreationContainerComponent, {
+        disableClose: true,
+        width: '600px',
+      })
       .afterClosed()
       .subscribe(vm => {
         this.router.navigate(['../'], {

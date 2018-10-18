@@ -57,7 +57,7 @@ export const getOfferingsState = createFeatureSelector<OfferingsState>('disk-off
 export const getOfferingsEntitiesState = createSelector(getOfferingsState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getOfferingsEntitiesState
+  getOfferingsEntitiesState,
 );
 
 export const isLoading = createSelector(getOfferingsEntitiesState, state => state.loading);
@@ -65,7 +65,7 @@ export const isLoading = createSelector(getOfferingsEntitiesState, state => stat
 const isDiskOfferingAvailableInZone = (
   offering: DiskOffering,
   offeringAvailability: ServiceOfferingAvailability,
-  zone: Zone
+  zone: Zone,
 ) => {
   if (offeringAvailability.zones[zone.id]) {
     const isOfferingExist =
@@ -78,13 +78,13 @@ const isDiskOfferingAvailableInZone = (
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVolumes.getSelectedVolume,
-  (entities, volume) => volume && entities[volume.diskofferingid]
+  (entities, volume) => volume && entities[volume.diskofferingid],
 );
 
 const getOfferingsAvailableInZone = (
   offeringList: DiskOffering[],
   offeringAvailability: ServiceOfferingAvailability,
-  zone: Zone
+  zone: Zone,
 ) => {
   if (!offeringAvailability.filterOfferings) {
     return offeringList;
@@ -94,7 +94,7 @@ const getOfferingsAvailableInZone = (
     const offeringAvailableInZone = isDiskOfferingAvailableInZone(
       offering,
       offeringAvailability,
-      zone
+      zone,
     );
     const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(offering);
     return offeringAvailableInZone && localStorageCompatibility;
@@ -111,5 +111,5 @@ export const getAvailableOfferings = createSelector(
       return availableOfferings;
     }
     return [];
-  }
+  },
 );

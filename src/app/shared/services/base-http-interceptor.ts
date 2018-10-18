@@ -53,12 +53,12 @@ export class BaseHttpInterceptor implements HttpInterceptor {
             if (route !== '/login' && route !== '/logout') {
               this.router.navigate(
                 ['/logout'],
-                this.routerUtilsService.getRedirectionQueryParams()
+                this.routerUtilsService.getRedirectionQueryParams(),
               );
             }
           }
-        }
-      )
+        },
+      ),
     );
   }
 }

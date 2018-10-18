@@ -51,7 +51,9 @@ export class SecurityGroupSelectorComponent implements ControlValueAccessor {
   }
 
   public checkSelectedSG(securityGroupId: string): boolean {
-    const isSelectedItem = this.selectedSecurityGroups.find(securityGroup => securityGroup.id === securityGroupId);
+    const isSelectedItem = this.selectedSecurityGroups.find(
+      securityGroup => securityGroup.id === securityGroupId,
+    );
     return !!isSelectedItem;
   }
 }

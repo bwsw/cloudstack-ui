@@ -16,7 +16,7 @@ export class TemplateDeleteAction extends BaseTemplateDeleteAction {
   constructor(
     protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
-    private templateService: TemplateService
+    private templateService: TemplateService,
   ) {
     super(dialogService, jobsNotificationService);
   }

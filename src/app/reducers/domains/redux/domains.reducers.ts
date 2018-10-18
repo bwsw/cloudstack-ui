@@ -78,7 +78,7 @@ export const getDomainsState = createFeatureSelector<DomainsState>('domains');
 export const getDomainsEntitiesState = createSelector(getDomainsState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getDomainsEntitiesState
+  getDomainsEntitiesState,
 );
 
 export const isLoading = createSelector(getDomainsEntitiesState, state => state.loading);

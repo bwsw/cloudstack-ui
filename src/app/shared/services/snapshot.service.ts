@@ -18,7 +18,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
   constructor(
     private asyncJobService: AsyncJobService,
     private snapshotTagService: SnapshotTagService,
-    protected http: HttpClient
+    protected http: HttpClient,
   ) {
     super(http);
   }
@@ -35,7 +35,7 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
         }
 
         return of(snapshot);
-      })
+      }),
     );
   }
 
@@ -46,12 +46,14 @@ export class SnapshotService extends BaseBackendCachedService<Snapshot> {
   public remove(id: string): Observable<any> {
     this.invalidateCache();
     return this.sendCommand(CSCommands.Delete, { id }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
+    );
   }
 
   public revert(id: string): Observable<AsyncJob<Snapshot>> {
     return this.sendCommand(CSCommands.Revert, { id }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
+    );
   }
 
   public getList(volumeId?: string): Observable<Snapshot[]> {

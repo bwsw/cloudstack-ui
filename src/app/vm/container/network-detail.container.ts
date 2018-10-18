@@ -23,10 +23,7 @@ import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
 export class NetworkDetailContainerComponent {
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
 
-  constructor(
-    private store: Store<State>,
-  ) {
-  }
+  constructor(private store: Store<State>) {}
 
   public addSecondaryIp(nicId: string) {
     this.vm$.pipe(take(1)).subscribe(vm => {

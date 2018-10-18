@@ -210,7 +210,7 @@ describe('Filter service', () => {
       const filterService = new FilterService(whiteList, router, storage, testKey, activatedRoute);
 
       const filters = filterService.getParams();
-      expect(filters).toEqual({...queryParams, ...storageFilters});
+      expect(filters).toEqual({ ...queryParams, ...storageFilters });
     },
   ));
 

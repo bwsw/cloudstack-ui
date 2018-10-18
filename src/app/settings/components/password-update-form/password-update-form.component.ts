@@ -58,7 +58,7 @@ export class PasswordUpdateFormComponent {
         password: ['', Validators.required],
         passwordRepeat: ['', Validators.required],
       },
-      { validator: matchPassword }
+      { validator: matchPassword },
     );
   }
 }

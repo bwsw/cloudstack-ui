@@ -15,17 +15,15 @@ const securityGroupConvertAction = {
   canActivate: () => true,
 };
 
-const doesGroupHaveNoVirtualMachines = (securityGroup: SecurityGroup) => (
-  isSecurityGroupNative(securityGroup) &&
-  securityGroup.virtualmachineids.length === 0
-);
+const doesGroupHaveNoVirtualMachines = (securityGroup: SecurityGroup) =>
+  isSecurityGroupNative(securityGroup) && securityGroup.virtualmachineids.length === 0;
 
 const securityGroupDeleteAction = {
   name: 'COMMON.DELETE',
   command: SecurityGroupActionType.Delete,
   icon: 'mdi-delete',
   canShow: doesGroupHaveNoVirtualMachines,
-  canActivate: doesGroupHaveNoVirtualMachines
+  canActivate: doesGroupHaveNoVirtualMachines,
 };
 
 const securityGroupShowRulesAction = {

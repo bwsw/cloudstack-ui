@@ -26,7 +26,7 @@ export class AccountUserEditContainerComponent {
   constructor(
     private dialogRef: MatDialogRef<AccountUserEditContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     this.title = data.title;
     this.user = { ...data.user };

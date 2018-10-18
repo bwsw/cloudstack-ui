@@ -48,7 +48,7 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
@@ -56,7 +56,7 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     private store: Store<State>,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private sessionStorage: SessionStorageService
+    private sessionStorage: SessionStorageService,
   ) {
     super();
   }
@@ -95,14 +95,14 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
       new sshKeyActions.SshKeyFilterUpdate({
         selectedAccountIds,
         selectedGroupings,
-      })
+      }),
     );
 
     this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters =>
       this.filterService.update({
         groupings: filters.selectedGroupings.map(g => g.key),
         accounts: filters.selectedAccountIds,
-      })
+      }),
     );
   }
 }

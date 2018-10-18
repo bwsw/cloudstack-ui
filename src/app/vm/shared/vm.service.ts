@@ -13,13 +13,12 @@ import { Iso } from '../../template/shared';
 import { VirtualMachine } from './vm.model';
 import { IpAddress } from '../../shared/models/ip-address.model';
 
-
 export const virtualMachineEntityName = 'VirtualMachine';
 export const nicEntityName = 'Nic';
 
 @Injectable()
 @BackendResource({
-  entity: virtualMachineEntityName
+  entity: virtualMachineEntityName,
 })
 export class VmService extends BaseBackendService<VirtualMachine> {
   constructor(
@@ -40,7 +39,11 @@ export class VmService extends BaseBackendService<VirtualMachine> {
       return this.getList(params);
     }
 
-    return forkJoin(this.getList(params), this.volumeService.getList(), this.osTypesService.getList()).pipe(
+    return forkJoin(
+      this.getList(params),
+      this.volumeService.getList(),
+      this.osTypesService.getList(),
+    ).pipe(
       map(([vmList, volumes, osTypes]) => {
         vmList.forEach((currentVm, index, vms) => {
           let vmWithVolumeAndOsType = currentVm;
@@ -81,18 +84,19 @@ export class VmService extends BaseBackendService<VirtualMachine> {
   }
 
   public getListOfVmsThatUseIso(iso: Iso): Observable<VirtualMachine[]> {
-    return this.getListWithDetails().pipe(
-      map(vmList => vmList.filter(vm => vm.isoid === iso.id)));
+    return this.getListWithDetails().pipe(map(vmList => vmList.filter(vm => vm.isoid === iso.id)));
   }
 
   public addIpToNic(nicId: string): Observable<IpAddress> {
     return this.sendCommand(CSCommands.AddIpTo, { nicId }, nicEntityName).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid, nicEntityName)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, nicEntityName)),
+    );
   }
 
   public removeIpFromNic(ipId: string): Observable<any> {
     return this.sendCommand(CSCommands.RemoveIpFrom, { id: ipId }, nicEntityName).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid, nicEntityName)));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, nicEntityName)),
+    );
   }
 
   public changeServiceOffering(
@@ -115,19 +119,17 @@ export class VmService extends BaseBackendService<VirtualMachine> {
     }
 
     return this.sendCommand(CSCommands.ChangeServiceFor, params).pipe(
-      map(result => result.virtualmachine));
+      map(result => result.virtualmachine),
+    );
   }
 
   private commandInternal(vm: VirtualMachine, command: string, params?: {}): Observable<any> {
     const commandName = command;
-    return this.sendCommand(
-      commandName,
-      this.buildCommandParams(vm.id, commandName, params)
-    );
+    return this.sendCommand(commandName, this.buildCommandParams(vm.id, commandName, params));
   }
 
   private buildCommandParams(id: string, commandName: string, params?: {}): any {
-    const requestParams = params ? {...params} : {};
+    const requestParams = params ? { ...params } : {};
 
     if (commandName === 'restore') {
       requestParams['virtualMachineId'] = id;

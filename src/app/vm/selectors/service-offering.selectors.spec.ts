@@ -1,5 +1,11 @@
 import { storageTypes } from '../../shared/models/offering.model';
-import { ComputeOfferingClass, OfferingPolicy, ServiceOffering, serviceOfferingType, Zone } from '../../shared/models';
+import {
+  ComputeOfferingClass,
+  OfferingPolicy,
+  ServiceOffering,
+  serviceOfferingType,
+  Zone,
+} from '../../shared/models';
 import { ResourcesData, ResourceStats } from '../../shared/services/resource-usage.service';
 import * as serviceOfferingSelectors from './service-offering.selectors';
 
@@ -123,7 +129,9 @@ describe('Service Offering Selectors (VM module)', () => {
     ];
 
     const classesMap = { testClass2: 'testClass2' };
-    const res = list.filter(item => serviceOfferingSelectors.classesFilter(item, soClasses, classesMap));
+    const res = list.filter(item =>
+      serviceOfferingSelectors.classesFilter(item, soClasses, classesMap),
+    );
 
     expect(res).toEqual(filtered);
   });

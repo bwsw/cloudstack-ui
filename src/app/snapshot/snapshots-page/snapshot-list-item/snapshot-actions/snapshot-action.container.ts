@@ -26,7 +26,7 @@ export class SnapshotActionContainerComponent {
   constructor(
     private dialogService: DialogService,
     private store: Store<State>,
-    private snapshotActionService: SnapshotActionService
+    private snapshotActionService: SnapshotActionService,
   ) {}
 
   public onTemplateCreate(snapshot: Snapshot) {

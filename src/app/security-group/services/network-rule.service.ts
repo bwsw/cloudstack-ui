@@ -24,7 +24,7 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
       switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
       map(securityGroup => {
         return securityGroup[`${type.toLowerCase()}rule`][0];
-      })
+      }),
     );
   }
 
@@ -32,7 +32,7 @@ export class NetworkRuleService extends BaseBackendCachedService<SecurityGroup> 
     this.invalidateCache();
     const command = 'revoke';
     return this.sendCommand(`${command};${type}`, data).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity))
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
     );
   }
 

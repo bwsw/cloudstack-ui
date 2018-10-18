@@ -11,7 +11,7 @@ export class VolumeCreationComponent {
   constructor(
     private dialog: MatDialog,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {
     this.dialog
       .open(VolumeCreationContainerComponent, {

@@ -97,10 +97,11 @@ export class SecurityGroupEffects {
     ofType(securityGroupActions.DELETE_PRIVATE_SECURITY_GROUP),
     withLatestFrom(this.store.pipe(select(fromSecurityGroups.selectAll))),
     map(([action, groups]: [securityGroupActions.DeletePrivateSecurityGroup, SecurityGroup[]]) => {
-      const vmGroup = groups.find((group: SecurityGroup) =>
-        action.payload.securitygroup &&
-        !!action.payload.securitygroup.find(sg => sg.id === group.id) &&
-        getType(group) === SecurityGroupType.Private
+      const vmGroup = groups.find(
+        (group: SecurityGroup) =>
+          action.payload.securitygroup &&
+          !!action.payload.securitygroup.find(sg => sg.id === group.id) &&
+          getType(group) === SecurityGroupType.Private,
       );
       return vmGroup;
     }),
@@ -143,21 +144,20 @@ export class SecurityGroupEffects {
         .pipe(
           filter(Boolean),
           switchMap(() => {
-            return this.sgTagService.convertToShared(action.payload)
-              .pipe(
-                tap(() => {
-                  const message = 'NOTIFICATIONS.FIREWALL.CONVERT_PRIVATE_TO_SHARED_DONE';
-                  this.showNotificationsOnFinish(message);
-                }),
-                map(response => {
-                  return new securityGroupActions.ConvertSecurityGroupSuccess(response);
-                }),
-                catchError(error => {
-                  this.showNotificationsOnFail(error);
-                  return of(new securityGroupActions.ConvertSecurityGroupError(error));
-                })
-              )
-          })
+            return this.sgTagService.convertToShared(action.payload).pipe(
+              tap(() => {
+                const message = 'NOTIFICATIONS.FIREWALL.CONVERT_PRIVATE_TO_SHARED_DONE';
+                this.showNotificationsOnFinish(message);
+              }),
+              map(response => {
+                return new securityGroupActions.ConvertSecurityGroupSuccess(response);
+              }),
+              catchError(error => {
+                this.showNotificationsOnFail(error);
+                return of(new securityGroupActions.ConvertSecurityGroupError(error));
+              }),
+            );
+          }),
         );
     }),
   );

@@ -47,14 +47,14 @@ export class DateTimeFormatterService {
   private updateTimeFormatter(timeFormat: any): void {
     this.timeFormatter = new Intl.DateTimeFormat(
       this.translateService.currentLang,
-      this.getTimeFormatterOptions(timeFormat)
+      this.getTimeFormatterOptions(timeFormat),
     );
   }
 
   private updateDateFormatter(timeFormat: any): void {
     this.dateFormatter = new Intl.DateTimeFormat(
       this.translateService.currentLang,
-      this.getDateFormatterOptions(timeFormat)
+      this.getDateFormatterOptions(timeFormat),
     );
   }
 

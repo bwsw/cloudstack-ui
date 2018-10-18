@@ -78,7 +78,7 @@ export const getResourceLimitsState = createFeatureSelector<ResourceLimitsState>
 
 export const getResourceLimitsEntitiesState = createSelector(
   getResourceLimitsState,
-  state => state.list
+  state => state.list,
 );
 
 export const {

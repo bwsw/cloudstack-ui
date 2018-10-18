@@ -7,7 +7,11 @@ export class VmCreationSecurityGroupData {
   public rules: Rules;
   public securityGroups: SecurityGroup[];
 
-  private constructor(mode?: VmCreationSecurityGroupMode, rules?: Rules, securityGroups?: SecurityGroup[]) {
+  private constructor(
+    mode?: VmCreationSecurityGroupMode,
+    rules?: Rules,
+    securityGroups?: SecurityGroup[],
+  ) {
     this.mode = mode;
     this.rules = rules;
     this.securityGroups = securityGroups;
@@ -19,6 +23,9 @@ export class VmCreationSecurityGroupData {
 
   public static fromSecurityGroup(securityGroups: SecurityGroup[]): VmCreationSecurityGroupData {
     return new VmCreationSecurityGroupData(
-      VmCreationSecurityGroupMode.Selector, undefined, securityGroups);
+      VmCreationSecurityGroupMode.Selector,
+      undefined,
+      securityGroups,
+    );
   }
 }

@@ -37,7 +37,7 @@ export class InstallationSourceDialogComponent {
   readonly viewMode$ = this.store.pipe(select(fromTemplates.vmCreationListViewMode));
   readonly selectedTypes$ = this.store.pipe(select(fromTemplates.vmCreationListSelectedTypes));
   readonly selectedOsFamilies$ = this.store.pipe(
-    select(fromTemplates.vmCreationListSelectedOsFamilies)
+    select(fromTemplates.vmCreationListSelectedOsFamilies),
   );
   readonly selectedGroups$ = this.store.pipe(select(fromTemplates.vmCreationListSelectedGroups));
   readonly query$ = this.store.pipe(select(fromTemplates.vmCreationListQuery));
@@ -47,7 +47,7 @@ export class InstallationSourceDialogComponent {
   constructor(
     private store: Store<State>,
     private dialogRef: MatDialogRef<InstallationSourceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.preselectedTemplate = data.template;
   }

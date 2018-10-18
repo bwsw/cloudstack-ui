@@ -37,7 +37,7 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
     public dialogRef: MatDialogRef<SnapshotModalContainerComponent>,
     private store: Store<State>,
     private dialogService: DialogService,
-    private snapshotActionService: SnapshotActionService
+    private snapshotActionService: SnapshotActionService,
   ) {
     super();
     this.store.dispatch(new volumeActions.LoadSelectedVolume(data.volumeId));
@@ -47,7 +47,7 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
     this.volume$
       .pipe(
         takeUntil(this.unsubscribe$),
-        filter(volume => !!volume)
+        filter(volume => !!volume),
       )
       .subscribe(volume => {
         // todo remove model
@@ -71,7 +71,7 @@ export class SnapshotModalContainerComponent extends WithUnsubscribe() implement
       .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .pipe(
         onErrorResumeNext(),
-        filter(Boolean)
+        filter(Boolean),
       )
       .subscribe(() => {
         this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));

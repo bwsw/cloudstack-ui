@@ -18,11 +18,11 @@ export class AffinityGroupsEffects {
       return this.affinityGroupService.getList().pipe(
         map(
           (affinityGroups: AffinityGroup[]) =>
-            new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups)
+            new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups),
         ),
-        catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([])))
+        catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([]))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private affinityGroupService: AffinityGroupService) {}

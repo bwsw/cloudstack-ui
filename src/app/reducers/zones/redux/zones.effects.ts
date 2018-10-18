@@ -18,9 +18,9 @@ export class ZonesEffects {
         map((zones: Zone[]) => {
           return new zoneActions.LoadZonesResponse(zones);
         }),
-        catchError(() => of(new zoneActions.LoadZonesResponse([])))
+        catchError(() => of(new zoneActions.LoadZonesResponse([]))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private zoneService: ZoneService) {}

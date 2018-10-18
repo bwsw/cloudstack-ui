@@ -12,7 +12,7 @@ export class DatePickerDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<DatePickerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data
+    @Inject(MAT_DIALOG_DATA) public data,
   ) {
     this.config = data.datePickerConfig;
   }

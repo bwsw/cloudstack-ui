@@ -40,7 +40,7 @@ export class VmColorComponent implements OnChanges, OnInit, OnDestroy {
     this.store
       .pipe(
         select(configSelectors.get('vmColors')),
-        first()
+        first(),
       )
       .subscribe(colors => {
         for (const color of colors) {

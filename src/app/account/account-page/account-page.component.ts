@@ -28,7 +28,7 @@ export class AccountPageComponent {
     public listService: ListService,
     public authService: AuthService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   public isAdmin(): boolean {

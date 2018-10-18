@@ -31,12 +31,14 @@ export class TemplateService extends BaseTemplateService {
   }
 
   public register(params: RegisterTemplateBaseParams): Observable<Template> {
-    const requestParams = {...params};
+    const requestParams = { ...params };
 
     requestParams['hypervisor'] = requestParams['hypervisor'] || 'KVM';
     requestParams['format'] = requestParams['format'] || 'QCOW2';
     requestParams['requiresHvm'] = requestParams['requiresHvm'] || true;
 
-    return super.register(requestParams).pipe(tap(() => this.invalidateCache())) as Observable<Template>;
+    return super.register(requestParams).pipe(tap(() => this.invalidateCache())) as Observable<
+      Template
+    >;
   }
 }

@@ -14,10 +14,18 @@ export const snapshotResourceType = 'Snapshot';
 export class SnapshotTagService implements EntityTagService {
   public keys = snapshotTagKeys;
 
-  constructor(protected descriptionTagService: DescriptionTagService, protected tagService: TagService) {}
+  constructor(
+    protected descriptionTagService: DescriptionTagService,
+    protected tagService: TagService,
+  ) {}
 
   public setDescription(snapshot: Snapshot, description: string): Observable<Taggable> {
-    return this.descriptionTagService.setDescription(snapshot, snapshotResourceType, description, this);
+    return this.descriptionTagService.setDescription(
+      snapshot,
+      snapshotResourceType,
+      description,
+      this,
+    );
   }
 
   public markForRemoval(snapshot: Snapshot): Observable<any> {

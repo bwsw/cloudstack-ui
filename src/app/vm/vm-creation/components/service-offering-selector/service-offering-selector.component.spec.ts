@@ -67,7 +67,7 @@ describe('Test Service offering selector component', () => {
 
     const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
-      `VM_PAGE.VM_CREATION.NO_OFFERINGS`
+      `VM_PAGE.VM_CREATION.NO_OFFERINGS`,
     );
     expect(messageContainer.query(By.css('span'))).toBeDefined();
   }));
@@ -84,11 +84,11 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
     expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(
-      serviceOfferings[0]
+      serviceOfferings[0],
     );
 
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
-      `VM_PAGE.VM_CREATION.SERVICE_OFFERING: ${serviceOfferings[0].name}`
+      `VM_PAGE.VM_CREATION.SERVICE_OFFERING: ${serviceOfferings[0].name}`,
     );
   }));
 
@@ -104,13 +104,13 @@ describe('Test Service offering selector component', () => {
     await f.whenStable();
     f.detectChanges();
     expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(
-      serviceOfferings[2]
+      serviceOfferings[2],
     );
 
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
       `VM_PAGE.VM_CREATION.SERVICE_OFFERING: ${serviceOfferings[2].name} - ` +
         `${serviceOfferings[2].cpunumber}x${serviceOfferings[2].cpuspeed} UNITS.MHZ, ` +
-        `${serviceOfferings[2].memory} UNITS.MB`
+        `${serviceOfferings[2].memory} UNITS.MB`,
     );
   }));
 
@@ -122,7 +122,7 @@ describe('Test Service offering selector component', () => {
     f.detectChanges();
 
     expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toBe(
-      serviceOfferings[0]
+      serviceOfferings[0],
     );
 
     const button = f.debugElement.query(By.css('button'));
@@ -147,17 +147,17 @@ describe('Test Service offering selector component', () => {
     spyOn(testComponent.serviceOfferingSelectorComponent.changed, 'next');
     const button = f.debugElement.query(By.css('button'));
     expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(
-      serviceOfferings[0]
+      serviceOfferings[0],
     );
     button.nativeElement.click();
     f.detectChanges();
 
     expect(testComponent.serviceOfferingSelectorComponent.changed.next).toHaveBeenCalledTimes(1);
     expect(testComponent.serviceOfferingSelectorComponent.changed.next).toHaveBeenCalledWith(
-      serviceOfferings[1]
+      serviceOfferings[1],
     );
     expect(testComponent.serviceOfferingSelectorComponent.serviceOffering).toEqual(
-      serviceOfferings[1]
+      serviceOfferings[1],
     );
   });
 });

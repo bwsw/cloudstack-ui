@@ -31,7 +31,7 @@ export class VolumeActionsContainerComponent {
   constructor(
     public dialogService: DialogService,
     public authService: AuthService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   public onVolumeDelete(volume: Volume): void {
@@ -41,7 +41,7 @@ export class VolumeActionsContainerComponent {
       })
       .pipe(
         onErrorResumeNext(),
-        filter(Boolean)
+        filter(Boolean),
       )
       .subscribe(() => {
         if (volume.snapshots && !!volume.snapshots.length) {
@@ -49,10 +49,10 @@ export class VolumeActionsContainerComponent {
             .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_ALL_DELETION' })
             .pipe(
               onErrorResumeNext(),
-              filter(Boolean)
+              filter(Boolean),
             )
             .subscribe(() =>
-              this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots))
+              this.store.dispatch(new snapshotActions.DeleteSnapshots(volume.snapshots)),
             );
         }
         this.store.dispatch(new volumeActions.DeleteVolume(volume));

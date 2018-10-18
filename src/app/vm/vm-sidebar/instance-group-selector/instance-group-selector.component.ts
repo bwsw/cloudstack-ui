@@ -17,7 +17,7 @@ export class InstanceGroupSelectorComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data,
-    public dialogRef: MatDialogRef<InstanceGroupSelectorComponent>
+    public dialogRef: MatDialogRef<InstanceGroupSelectorComponent>,
   ) {
     this.groupNames = data.groups;
     this.vm = data.vm;

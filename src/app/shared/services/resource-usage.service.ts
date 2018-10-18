@@ -106,6 +106,8 @@ export class ResourceUsageService {
       ? { domainId: this.authService.user.domainid }
       : { account: this.authService.user.account };
 
-    return this.accountService.getList(params).pipe(map(accounts => ResourceStats.fromAccount(accounts)));
+    return this.accountService
+      .getList(params)
+      .pipe(map(accounts => ResourceStats.fromAccount(accounts)));
   }
 }

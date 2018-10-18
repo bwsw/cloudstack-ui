@@ -126,7 +126,7 @@ export class ChangeDescription implements Action {
     public payload: {
       vm: VirtualMachine;
       description: string;
-    }
+    },
   ) {}
 }
 
@@ -137,7 +137,7 @@ export class ChangeServiceOffering implements Action {
     public payload: {
       vm: VirtualMachine;
       offering: ServiceOffering;
-    }
+    },
   ) {}
 }
 
@@ -148,7 +148,7 @@ export class ChangeAffinityGroup implements Action {
     public payload: {
       vm: VirtualMachine;
       affinityGroupId: string;
-    }
+    },
   ) {}
 }
 
@@ -159,7 +159,7 @@ export class ChangeInstanceGroup implements Action {
     public payload: {
       vm: VirtualMachine;
       group: InstanceGroup;
-    }
+    },
   ) {}
 }
 
@@ -176,7 +176,7 @@ export class AddSecondaryIp implements Action {
     public payload: {
       vm: VirtualMachine;
       nicId: string;
-    }
+    },
   ) {}
 }
 
@@ -187,7 +187,7 @@ export class RemoveSecondaryIp implements Action {
     public payload: {
       vm: VirtualMachine;
       id: string;
-    }
+    },
   ) {}
 }
 
@@ -198,7 +198,7 @@ export class ChangeVmColor implements Action {
     public payload: {
       vm: VirtualMachine;
       color: Color;
-    }
+    },
   ) {}
 }
 
@@ -221,7 +221,7 @@ export class AttachIso implements Action {
     public payload: {
       id: string;
       virtualMachineId: string;
-    }
+    },
   ) {}
 }
 
@@ -231,7 +231,7 @@ export class DetachIso implements Action {
   constructor(
     public payload: {
       virtualMachineId: string;
-    }
+    },
   ) {}
 }
 
@@ -332,7 +332,7 @@ export class ChangeSshKey implements Action {
     public payload: {
       vm: VirtualMachine;
       keyPair: SSHKeyPair;
-    }
+    },
   ) {}
 }
 
@@ -344,7 +344,7 @@ export class VMUpdateError implements Action {
       vm?: VirtualMachine;
       state?: VmState;
       error: Error;
-    }
+    },
   ) {}
 }
 
@@ -421,7 +421,7 @@ export class DeploymentUpdateLoggerMessage implements Action {
     public payload: {
       messageText: string | ParametrizedTranslation;
       data: Partial<ProgressLoggerMessageData>;
-    }
+    },
   ) {}
 }
 

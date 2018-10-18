@@ -24,7 +24,7 @@ interface DayOfWeekToken {
 export class PolicyViewBuilderService {
   public buildPolicyViewFromPolicy(
     policy: Policy<TimePolicy>,
-    dateStringifyDateTimeFormat: DateTimeFormat
+    dateStringifyDateTimeFormat: DateTimeFormat,
   ): PolicyView {
     return {
       id: policy.id,
@@ -80,7 +80,7 @@ export class PolicyViewBuilderService {
 
   private getTimeString(
     policy: Policy<TimePolicy>,
-    dateStringifyDateTimeFormat: DateTimeFormat
+    dateStringifyDateTimeFormat: DateTimeFormat,
   ): string {
     if (policy.type === PolicyType.Hourly) {
       return (policy.timePolicy.minute || 0).toString();

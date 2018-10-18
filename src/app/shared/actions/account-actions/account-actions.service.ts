@@ -25,5 +25,9 @@ const accountEnableAction = {
 };
 
 export class AccountActionsService {
-  public actions: Action<Account>[] = [accountDisableAction, accountEnableAction, accountDeleteAction];
+  public actions: Action<Account>[] = [
+    accountDisableAction,
+    accountEnableAction,
+    accountDeleteAction,
+  ];
 }

@@ -12,7 +12,7 @@ import { isUrl } from '../../../shared/utils/is-url';
 @Component({
   selector: 'cs-vm-access-dialog',
   templateUrl: 'vm-access.component.html',
-  styleUrls: ['vm-access.component.scss']
+  styleUrls: ['vm-access.component.scss'],
 })
 export class VmAccessComponent {
   public vm: VirtualMachine;
@@ -24,7 +24,7 @@ export class VmAccessComponent {
     public vncAccessService: VncAccessService,
     private store: Store<State>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.vm = data;
   }
@@ -42,15 +42,24 @@ export class VmAccessComponent {
   }
 
   public getVncPassword(vm: VirtualMachine): string {
-    return this.vncAccessService.getPassword(vm) || this.translateService.instant('VM_POST_ACTION.NOT_SET');
+    return (
+      this.vncAccessService.getPassword(vm) ||
+      this.translateService.instant('VM_POST_ACTION.NOT_SET')
+    );
   }
 
   public getUrlPassword(vm: VirtualMachine): string {
-    return this.httpAccessService.getPassword(vm) || this.translateService.instant('VM_POST_ACTION.NOT_SET');
+    return (
+      this.httpAccessService.getPassword(vm) ||
+      this.translateService.instant('VM_POST_ACTION.NOT_SET')
+    );
   }
 
   public getSshPassword(vm: VirtualMachine): string {
-    return this.sshAccessService.getPassword(vm) || this.translateService.instant('VM_POST_ACTION.NOT_SET');
+    return (
+      this.sshAccessService.getPassword(vm) ||
+      this.translateService.instant('VM_POST_ACTION.NOT_SET')
+    );
   }
 
   public isValidUrl(url: string): boolean {

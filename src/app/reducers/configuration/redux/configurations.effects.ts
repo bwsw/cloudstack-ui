@@ -25,10 +25,10 @@ export class ConfigurationEffects {
             map((configurations: Configuration[]) => {
               return new configurationActions.LoadConfigurationsResponse(configurations);
             }),
-            catchError(() => of(new configurationActions.LoadConfigurationsResponse([])))
+            catchError(() => of(new configurationActions.LoadConfigurationsResponse([]))),
           )
         : of(new configurationActions.LoadConfigurationsResponse([]));
-    })
+    }),
   );
 
   @Effect()
@@ -43,9 +43,9 @@ export class ConfigurationEffects {
               accountid: action.payload.account.id,
             });
           }),
-          catchError(error => of(new configurationActions.UpdateConfigurationError(error)))
+          catchError(error => of(new configurationActions.UpdateConfigurationError(error))),
         );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -53,14 +53,14 @@ export class ConfigurationEffects {
     ofType(configurationActions.UPDATE_CONFIGURATIONS_ERROR),
     tap((action: configurationActions.UpdateConfigurationError) => {
       this.handleError(action.payload);
-    })
+    }),
   );
 
   constructor(
     private store: Store<State>,
     private actions$: Actions,
     private configurationService: ConfigurationService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {}
 
   private handleError(error): void {

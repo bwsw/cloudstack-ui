@@ -45,34 +45,34 @@ export function InitAppFactory(
   auth: AuthService,
   http: HttpClient,
   translateService: TranslateService,
-  store: Store<State>
+  store: Store<State>,
 ) {
   return () =>
     store
       .pipe(
         select(configSelectors.isLoaded),
         filter(Boolean),
-        first()
+        first(),
       )
       .toPromise()
       .then(() =>
         store
           .pipe(
             select(configSelectors.get('defaultInterfaceLanguage')),
-            first()
+            first(),
           )
-          .subscribe(lang => translateService.setDefaultLang(lang))
+          .subscribe(lang => translateService.setDefaultLang(lang)),
       )
       .then(() => auth.initUser())
       .then(() =>
         store
           .pipe(
             select(configSelectors.getDefaultUserTags),
-            first()
+            first(),
           )
           .subscribe(tags =>
-            store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({ tags }))
-          )
+            store.dispatch(new UserTagsActions.SetDefaultUserTagsAtStartup({ tags })),
+          ),
       );
 }
 
@@ -162,7 +162,7 @@ export class AppModule {
   }
 
   createNewHosts(cmps) {
-    const components = Array.prototype.map.call(cmps, (componentNode) => {
+    const components = Array.prototype.map.call(cmps, componentNode => {
       const newNode = document.createElement(componentNode.tagName);
       const currentDisplay = newNode.style.display;
       newNode.style.display = 'none';
@@ -179,7 +179,7 @@ export class AppModule {
       return function() {}; // make it callable
     });
     return function removeOldHosts() {
-      components.forEach((removeOldHost) => {
+      components.forEach(removeOldHost => {
         return removeOldHost();
       });
     };

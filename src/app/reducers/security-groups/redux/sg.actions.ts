@@ -105,15 +105,13 @@ export class DeleteSecurityGroupError implements Action {
 export class ConvertSecurityGroup implements Action {
   readonly type = CONVERT_SECURITY_GROUP;
 
-  constructor(readonly payload: SecurityGroupNative) {
-  }
+  constructor(readonly payload: SecurityGroupNative) {}
 }
 
 export class ConvertSecurityGroupSuccess implements Action {
   readonly type = CONVERT_SECURITY_GROUP_SUCCESS;
 
-  constructor(readonly payload: SecurityGroupNative) {
-  }
+  constructor(readonly payload: SecurityGroupNative) {}
 }
 
 export class ConvertSecurityGroupError implements Action {

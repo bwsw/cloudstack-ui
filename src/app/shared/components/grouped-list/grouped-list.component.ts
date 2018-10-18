@@ -9,12 +9,18 @@ import * as groupBy from 'lodash/groupBy';
   styleUrls: ['grouped-list.component.scss'],
 })
 export class GroupedListComponent implements OnChanges {
-  @Input() public component: Type<any>;
-  @Input() public list: BaseModel[];
-  @Input() public level = 0;
-  @Input() public groupings: Grouping[];
-  @Input() dynamicInputs: { [k: string]: any } = {};
-  @Input() dynamicOutputs: { [k: string]: Function } = {};
+  @Input()
+  public component: Type<any>;
+  @Input()
+  public list: BaseModel[];
+  @Input()
+  public level = 0;
+  @Input()
+  public groupings: Grouping[];
+  @Input()
+  dynamicInputs: { [k: string]: any } = {};
+  @Input()
+  dynamicOutputs: { [k: string]: Function } = {};
   public tree: { items?; name? }[];
 
   readonly emptyName = 'COMMON.EMPTY_GROUP_NAME';

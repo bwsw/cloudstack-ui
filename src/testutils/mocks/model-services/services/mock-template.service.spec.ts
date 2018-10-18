@@ -8,7 +8,7 @@ const templates: Template[] = require('../fixtures/templates.json');
 @Injectable()
 export class MockTemplateService {
   constructor(
-    @Inject('mockTemplateServiceConfig') public config: { templates: any; groupedTemplates: any }
+    @Inject('mockTemplateServiceConfig') public config: { templates: any; groupedTemplates: any },
   ) {}
 
   public getList(): Observable<Template[]> {

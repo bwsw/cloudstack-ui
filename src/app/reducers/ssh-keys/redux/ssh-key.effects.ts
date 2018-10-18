@@ -4,7 +4,15 @@ import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, onErrorResumeNext, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  onErrorResumeNext,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 import { SSHKeyPairService } from '../../../shared/services/ssh-keypair.service';
 import { SnackBarService } from '../../../core/services';
@@ -23,9 +31,9 @@ export class SshKeyEffects {
     switchMap((action: sshKeyActions.LoadSshKeyRequest) => {
       return this.sshKeyService.getListAll(action.payload).pipe(
         map((sshKeys: SSHKeyPair[]) => new sshKeyActions.LoadSshKeyResponse(sshKeys)),
-        catchError(() => of(new sshKeyActions.LoadSshKeyResponse([])))
+        catchError(() => of(new sshKeyActions.LoadSshKeyResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -51,11 +59,11 @@ export class SshKeyEffects {
               catchError((error: Error) => {
                 this.showNotificationsOnFail(error);
                 return of(new sshKeyActions.RemoveSshKeyPairErrorAction(error));
-              })
+              }),
             );
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -72,7 +80,7 @@ export class SshKeyEffects {
       this.router.navigate(['./ssh-keys'], {
         queryParamsHandling: 'preserve',
       });
-    })
+    }),
   );
 
   @Effect()
@@ -91,9 +99,9 @@ export class SshKeyEffects {
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
           return of(new sshKeyActions.CreateSshKeyPairErrorAction(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -105,7 +113,7 @@ export class SshKeyEffects {
       } else {
         this.dialog.closeAll();
       }
-    })
+    }),
   );
 
   constructor(
@@ -114,7 +122,7 @@ export class SshKeyEffects {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
   ) {}
 
   private showPrivateKey(privateKey: string): void {

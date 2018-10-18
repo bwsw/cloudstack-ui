@@ -7,7 +7,7 @@ export class MockSnackBarService {
   public open(
     message: string | ParametrizedTranslation,
     action?: string,
-    config?: MatSnackBarConfig
+    config?: MatSnackBarConfig,
   ): Observable<MatSnackBarRef<SimpleSnackBar>> {
     return of({} as MatSnackBarRef<SimpleSnackBar>);
   }

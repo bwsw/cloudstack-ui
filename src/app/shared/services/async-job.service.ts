@@ -65,11 +65,11 @@ export class AsyncJobService extends BaseBackendService<AsyncJob<any>> {
     jobId: string,
     observer: Observer<AsyncJob<any>>,
     entity: string,
-    interval?: any
+    interval?: any,
   ): void {
-    this.sendCommand(CSCommands.QueryResult, { jobId }).pipe(
-      map(res => res as AsyncJob<any>))
-      .subscribe((asyncJob) => {
+    this.sendCommand(CSCommands.QueryResult, { jobId })
+      .pipe(map(res => res as AsyncJob<any>))
+      .subscribe(asyncJob => {
         switch (asyncJob.jobstatus) {
           case JobStatus.InProgress:
             return;

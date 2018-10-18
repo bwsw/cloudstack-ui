@@ -31,10 +31,7 @@ export interface VolumeResizeData {
 export class VolumeService extends BaseBackendService<Volume> {
   public onVolumeResized = new Subject<Volume>();
 
-  constructor(
-    private asyncJobService: AsyncJobService,
-    protected http: HttpClient
-  ) {
+  constructor(private asyncJobService: AsyncJobService, protected http: HttpClient) {
     super(http);
   }
 
@@ -45,10 +42,10 @@ export class VolumeService extends BaseBackendService<Volume> {
   }
 
   public resize(params: VolumeResizeData): Observable<Volume> {
-    return this.sendCommand(CSCommands.Resize, params).pipe(switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      ),
-      tap(jobResult => this.onVolumeResized.next(jobResult)));
+    return this.sendCommand(CSCommands.Resize, params).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
+      tap(jobResult => this.onVolumeResized.next(jobResult)),
+    );
   }
 
   // TODO fix return type
@@ -59,35 +56,31 @@ export class VolumeService extends BaseBackendService<Volume> {
           return of(null);
         }
         return throwError(response);
-      })
+      }),
     );
   }
 
   public create(data: VolumeCreationData): Observable<Volume> {
     return this.sendCommand(CSCommands.Create, data).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job.jobid, this.entity)
-      ));
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
+    );
   }
 
   public createFromSnapshot(data: VolumeFromSnapshotCreationData): Observable<Volume> {
-    return this.sendCommand(CSCommands.Create, data).pipe(switchMap(job =>
-      this.asyncJobService.queryJob(job.jobid, this.entity)
-    ));
+    return this.sendCommand(CSCommands.Create, data).pipe(
+      switchMap(job => this.asyncJobService.queryJob(job.jobid, this.entity)),
+    );
   }
 
   public detach(volume: Volume): Observable<Volume> {
     return this.sendCommand(CSCommands.Detach, { id: volume.id }).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      ));
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
+    );
   }
 
   public attach(data: VolumeAttachmentData): Observable<Volume> {
     return this.sendCommand(CSCommands.Attach, data).pipe(
-      switchMap(job =>
-        this.asyncJobService.queryJob(job, this.entity)
-      )
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
     );
   }
 }

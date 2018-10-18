@@ -24,7 +24,7 @@ export class ViewValuePipe implements PipeTransform {
           default:
             return value;
         }
-      })
+      }),
     );
   }
 }

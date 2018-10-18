@@ -77,11 +77,11 @@ export const getConfigurationsState = createFeatureSelector<ConfigurationsState>
 
 export const getConfigurationsEntitiesState = createSelector(
   getConfigurationsState,
-  state => state.list
+  state => state.list,
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getConfigurationsEntitiesState
+  getConfigurationsEntitiesState,
 );
 
 export const isLoading = createSelector(getConfigurationsEntitiesState, state => state.loading);

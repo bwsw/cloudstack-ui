@@ -64,7 +64,8 @@ import * as uuid from 'uuid';
   },
   animations: [matSelectAnimations.transformPanel, matSelectAnimations.fadeInContent],
 })
-export class DraggableSelectComponent extends MatSelect implements AfterContentInit, MatFormFieldControl<any> {
+export class DraggableSelectComponent extends MatSelect
+  implements AfterContentInit, MatFormFieldControl<any> {
   @Input()
   public dragItems: any[];
   public bagId: string = uuid.v4();

@@ -56,7 +56,10 @@ export class SshKeySidebarComponent extends SidebarComponent<SSHKeyPair> {
             return throwError(new EntityDoesNotExistError());
           }),
           switchMap(sshKeyPair => {
-            return forkJoin(of(sshKeyPair), this.accountTagService.getSshKeyDescription(sshKeyPair));
+            return forkJoin(
+              of(sshKeyPair),
+              this.accountTagService.getSshKeyDescription(sshKeyPair),
+            );
           }),
           map(([sshKeyPair, description]) => {
             this.description = description;

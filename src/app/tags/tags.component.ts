@@ -25,16 +25,14 @@ export abstract class TagsComponent {
     if (!tag) {
       return;
     }
-    this.tagService.create({
-      resourceIds: this.entity.id,
-      resourceType: this.resourceType,
-      'tags[0].key': tag.key,
-      'tags[0].value': tag.value
-    })
-      .subscribe(
-        res => this.tagAdded.emit(tag),
-        error => this.onError(error)
-      );
+    this.tagService
+      .create({
+        resourceIds: this.entity.id,
+        resourceType: this.resourceType,
+        'tags[0].key': tag.key,
+        'tags[0].value': tag.value,
+      })
+      .subscribe(res => this.tagAdded.emit(tag), error => this.onError(error));
   }
 
   public editTag(tagEditAction: TagEditAction): void {

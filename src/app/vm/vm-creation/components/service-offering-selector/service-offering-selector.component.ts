@@ -12,7 +12,7 @@ import { VmCreationServiceOfferingContainerComponent } from '../../service-offer
 @Component({
   selector: 'cs-service-offering-selector',
   templateUrl: 'service-offering-selector.component.html',
-  styleUrls: ['service-offering-selector.component.scss']
+  styleUrls: ['service-offering-selector.component.scss'],
 })
 export class ServiceOfferingSelectorComponent {
   @Input()
@@ -48,19 +48,27 @@ export class ServiceOfferingSelectorComponent {
       return of('');
     }
 
-    return this.translateService.get(['UNITS.MB', 'UNITS.MHZ', 'VM_PAGE.VM_CREATION.SERVICE_OFFERING']).pipe(
-      map(translations => {
-        if (!this.serviceOffering.iscustomized) {
-          return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name}`;
-        }
-        const cpuNumber = this.serviceOffering.cpunumber;
-        const cpuSpeed = this.serviceOffering.cpuspeed;
-        const memory = this.serviceOffering.memory;
-        return (
-          `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${this.serviceOffering.name} - ` +
-          `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${translations['UNITS.MB']}`
-        );
-      }),
-    );
+    return this.translateService
+      .get(['UNITS.MB', 'UNITS.MHZ', 'VM_PAGE.VM_CREATION.SERVICE_OFFERING'])
+      .pipe(
+        map(translations => {
+          if (!this.serviceOffering.iscustomized) {
+            return `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${
+              this.serviceOffering.name
+            }`;
+          }
+          const cpuNumber = this.serviceOffering.cpunumber;
+          const cpuSpeed = this.serviceOffering.cpuspeed;
+          const memory = this.serviceOffering.memory;
+          return (
+            `${translations['VM_PAGE.VM_CREATION.SERVICE_OFFERING']}: ${
+              this.serviceOffering.name
+            } - ` +
+            `${cpuNumber}x${cpuSpeed} ${translations['UNITS.MHZ']}, ${memory} ${
+              translations['UNITS.MB']
+            }`
+          );
+        }),
+      );
   }
 }

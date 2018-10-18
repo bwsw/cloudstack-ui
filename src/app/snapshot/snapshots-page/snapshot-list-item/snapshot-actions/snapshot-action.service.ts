@@ -40,7 +40,8 @@ const snapshotRevertAction: Action<Snapshot> = {
   name: 'SNAPSHOT_PAGE.ACTIONS.REVERT_TO_SNAPSHOT',
   command: SnapshotActions.Revert,
   icon: 'mdi-backup-restore',
-  canActivate: (snapshot: Snapshot) => snapshot.revertable && snapshot.state === SnapshotStates.BackedUp,
+  canActivate: (snapshot: Snapshot) =>
+    snapshot.revertable && snapshot.state === SnapshotStates.BackedUp,
 };
 
 @Injectable()

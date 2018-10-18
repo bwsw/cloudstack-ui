@@ -12,7 +12,7 @@ export class EditAccountConfigurationComponent {
 
   constructor(
     private dialogRef: MatDialogRef<EditAccountConfigurationComponent>,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.name = data.configuration.name;
     this.value = data.configuration.value;

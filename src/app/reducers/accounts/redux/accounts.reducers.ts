@@ -133,14 +133,14 @@ export function reducer(state = initialState, action: accountActions.Actions): S
 
       const users = [
         ...state.entities[action.payload.user.accountid].user.filter(
-          _ => _.id !== action.payload.user.id
+          _ => _.id !== action.payload.user.id,
         ),
         updatedUser,
       ];
 
       return adapter.updateOne(
         { id: action.payload.user.accountid, changes: { user: users } },
-        state
+        state,
       );
     }
     case accountActions.ACCOUNT_USER_UPDATE_SUCCESS: {
@@ -169,20 +169,20 @@ export const getAccountsState = createFeatureSelector<AccountsState>('accounts')
 export const getAccountsEntitiesState = createSelector(getAccountsState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getAccountsEntitiesState
+  getAccountsEntitiesState,
 );
 
 export const isLoading = createSelector(getAccountsEntitiesState, state => state.loading);
 
 export const getSelectedId = createSelector(
   getAccountsEntitiesState,
-  state => state.selectedAccountId
+  state => state.selectedAccountId,
 );
 
 export const getSelectedAccount = createSelector(
   getAccountsState,
   getSelectedId,
-  (state, selectedId) => state.list.entities[selectedId]
+  (state, selectedId) => state.list.entities[selectedId],
 );
 
 export const filters = createSelector(getAccountsEntitiesState, state => state.filters);
@@ -200,7 +200,7 @@ export const filterSelectedGroupings = createSelector(filters, state => state.se
 export const selectUserAccount = createSelector(
   selectEntities,
   fromAuth.getUserAccountId,
-  (accountsMap, accountId) => accountsMap[accountId]
+  (accountsMap, accountId) => accountsMap[accountId],
 );
 
 export const selectFilteredAccounts = createSelector(
@@ -234,7 +234,7 @@ export const selectFilteredAccounts = createSelector(
         selectedRoleNamesFilter(account)
       );
     });
-  }
+  },
 );
 
 export const selectDomainAccounts = createSelector(
@@ -246,5 +246,5 @@ export const selectDomainAccounts = createSelector(
     return accounts.filter(account => {
       return userDomainFilter(account);
     });
-  }
+  },
 );

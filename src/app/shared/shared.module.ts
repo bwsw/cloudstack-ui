@@ -132,7 +132,10 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
 import { BadgeDirective } from './directives/badge/badge.directive';
 import { MaterialModule } from '../material/material.module';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
-import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
+import {
+  RoundStateIndicatorComponent,
+  SquareStateIndicatorComponent,
+} from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
 
 // tslint:enable max-line-length

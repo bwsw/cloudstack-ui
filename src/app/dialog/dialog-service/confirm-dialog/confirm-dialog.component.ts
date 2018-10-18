@@ -20,7 +20,7 @@ export class ConfirmDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogConfiguration>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.config = data.config;
   }
@@ -36,7 +36,7 @@ export class ConfirmDialogComponent {
     }
     return this.translateService.get(
       this.config.message.translationToken,
-      this.config.message.interpolateParams
+      this.config.message.interpolateParams,
     );
   }
 }

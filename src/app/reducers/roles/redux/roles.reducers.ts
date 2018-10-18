@@ -78,11 +78,11 @@ export const getRolesState = createFeatureSelector<RolesState>('roles');
 export const getRolesEntitiesState = createSelector(getRolesState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getRolesEntitiesState
+  getRolesEntitiesState,
 );
 
 export const isLoading = createSelector(getRolesEntitiesState, state => state.loading);
 
 export const roleTypes = createSelector(selectAll, roles =>
-  Array.from(new Set(roles.map(role => role.type)))
+  Array.from(new Set(roles.map(role => role.type))),
 );

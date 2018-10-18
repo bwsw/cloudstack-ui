@@ -47,7 +47,10 @@ export class PolicyListComponent implements OnChanges {
   public policyViews = new MatTableDataSource<PolicyView>([]);
   public columnsToDisplay = ['time', 'period', 'timeZone', 'keep', 'delete'];
 
-  constructor(private policyViewBuilderService: PolicyViewBuilderService, private translateService: TranslateService) {
+  constructor(
+    private policyViewBuilderService: PolicyViewBuilderService,
+    private translateService: TranslateService,
+  ) {
     this.policyDeleted = new EventEmitter<Policy<TimePolicy>>();
     this.policyRowClicked = new EventEmitter<PolicyType>();
   }
@@ -83,7 +86,10 @@ export class PolicyListComponent implements OnChanges {
     this.policyViews.data = this.getPolicyViews(this.policies, this.dateTimeFormat);
   }
 
-  private getPolicyViews(policies: Policy<TimePolicy>[], dateTimeFormat: DateTimeFormat): PolicyView[] {
+  private getPolicyViews(
+    policies: Policy<TimePolicy>[],
+    dateTimeFormat: DateTimeFormat,
+  ): PolicyView[] {
     return policies
       .map(policy => {
         return this.policyViewBuilderService.buildPolicyViewFromPolicy(policy, dateTimeFormat);

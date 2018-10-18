@@ -24,7 +24,9 @@ export class SnackBarService {
     const conf = config ? config : this.snackBarConfig;
 
     return zip(message$, action$).pipe(
-      map(([translatedMessage, translatedAction]) => this.snackBar.open(translatedMessage, translatedAction, conf)),
+      map(([translatedMessage, translatedAction]) =>
+        this.snackBar.open(translatedMessage, translatedAction, conf),
+      ),
     );
   }
 

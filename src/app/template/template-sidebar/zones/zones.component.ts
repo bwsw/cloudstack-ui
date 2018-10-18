@@ -32,7 +32,7 @@ export abstract class BaseTemplateZonesComponent implements OnInit {
             this.entity = template;
             this.checkZones(template);
           },
-          error => this.dialogService.alert({ message: error.message })
+          error => this.dialogService.alert({ message: error.message }),
         );
     }
   }

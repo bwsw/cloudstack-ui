@@ -16,7 +16,10 @@ const colorDelimeter = ';';
 export class VmTagService implements EntityTagService {
   public keys = virtualMachineTagKeys;
 
-  constructor(protected descriptionTagService: DescriptionTagService, protected tagService: TagService) {}
+  constructor(
+    protected descriptionTagService: DescriptionTagService,
+    protected tagService: TagService,
+  ) {}
 
   public getColorSync(vm: VirtualMachine): Color {
     const tag = vm.tags && vm.tags.find(_ => _.key === this.keys.color);
@@ -32,13 +35,18 @@ export class VmTagService implements EntityTagService {
   }
 
   public setDescription(vm: VirtualMachine, description: string): Observable<VirtualMachine> {
-    return this.descriptionTagService.setDescription(vm, vmResourceType, description, this) as Observable<
-      VirtualMachine
-    >;
+    return this.descriptionTagService.setDescription(
+      vm,
+      vmResourceType,
+      description,
+      this,
+    ) as Observable<VirtualMachine>;
   }
 
   public removeDescription(vm: VirtualMachine): Observable<VirtualMachine> {
-    return this.descriptionTagService.removeDescription(vm, vmResourceType, this) as Observable<VirtualMachine>;
+    return this.descriptionTagService.removeDescription(vm, vmResourceType, this) as Observable<
+      VirtualMachine
+    >;
   }
 
   public setPassword(vm: VirtualMachine, password: string): Observable<VirtualMachine> {
@@ -50,17 +58,20 @@ export class VmTagService implements EntityTagService {
   }
 
   public removeGroup(vm: VirtualMachine): Observable<VirtualMachine> {
-    const newVm: VirtualMachine = {...vm};
-    return this.tagService.remove({
-      resourceIds: vm.id,
-      resourceType: vmResourceType,
-      'tags[0].key': this.keys.group,
-      'tags[0].value': getInstanceGroupName(vm)
-    }).pipe(
-      map(() => {
-        newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
-        return newVm;
-      }));
+    const newVm: VirtualMachine = { ...vm };
+    return this.tagService
+      .remove({
+        resourceIds: vm.id,
+        resourceType: vmResourceType,
+        'tags[0].key': this.keys.group,
+        'tags[0].value': getInstanceGroupName(vm),
+      })
+      .pipe(
+        map(() => {
+          newVm.tags = newVm.tags.filter(t => this.keys.group !== t.key);
+          return newVm;
+        }),
+      );
   }
 
   public setAgreement(vm: VirtualMachine): Observable<VirtualMachine> {

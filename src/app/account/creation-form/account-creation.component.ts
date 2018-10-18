@@ -19,7 +19,7 @@ export class AccountCreationComponent {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
           relativeTo: this.route,
-        })
+        }),
       );
   }
 }

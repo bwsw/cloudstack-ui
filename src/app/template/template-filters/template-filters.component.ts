@@ -76,9 +76,18 @@ export class TemplateFiltersComponent implements OnInit {
     [templateFilters.community]: 'TEMPLATE_PAGE.FILTERS.COMMUNITY',
   };
 
-  public osFamilies: OsFamily[] = [OsFamily.Linux, OsFamily.Windows, OsFamily.MacOs, OsFamily.Other];
+  public osFamilies: OsFamily[] = [
+    OsFamily.Linux,
+    OsFamily.Windows,
+    OsFamily.MacOs,
+    OsFamily.Other,
+  ];
 
-  public categoryFilters = [templateFilters.self, templateFilters.featured, templateFilters.community];
+  public categoryFilters = [
+    templateFilters.self,
+    templateFilters.featured,
+    templateFilters.community,
+  ];
 
   constructor(private authService: AuthService, private translate: TranslateService) {}
 
@@ -93,7 +102,10 @@ export class TemplateFiltersComponent implements OnInit {
     }
 
     if (this.availableGroupings && this.selectedGroupings) {
-      this.availableGroupings = reorderAvailableGroupings(this.availableGroupings, this.selectedGroupings);
+      this.availableGroupings = reorderAvailableGroupings(
+        this.availableGroupings,
+        this.selectedGroupings,
+      );
     }
   }
 

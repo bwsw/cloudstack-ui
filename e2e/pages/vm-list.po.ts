@@ -14,6 +14,9 @@ export class VMList extends CloudstackUiPage {
   }
 
   waitVMPropose() {
-    return browser.wait(protractor.ExpectedConditions.presenceOf(element(by.css('.cdk-overlay-pane'))), 5000);
+    return browser.wait(
+      protractor.ExpectedConditions.presenceOf(element(by.css('.cdk-overlay-pane'))),
+      5000,
+    );
   }
 }

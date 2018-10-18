@@ -45,9 +45,8 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
 
   constructor(
     public dialogRef: MatDialogRef<VolumeResizeComponent>,
-    public authService: AuthService
-  ) {
-  }
+    public authService: AuthService,
+  ) {}
 
   public isCustomizedForVolume(diskOffering: DiskOffering): boolean {
     if (diskOffering) {
@@ -84,7 +83,7 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
     const params: VolumeResizeData = {
       id: this.volume.id,
       ...size,
-      ...diskOffering
+      ...diskOffering,
     };
     this.diskResized.emit(params);
   }

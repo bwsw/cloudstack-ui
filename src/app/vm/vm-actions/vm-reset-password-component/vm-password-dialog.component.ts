@@ -17,7 +17,7 @@ export class VmPasswordDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<VmPasswordDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.vm = data.vm;
     const { translationToken } = data;

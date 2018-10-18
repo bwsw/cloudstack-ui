@@ -18,9 +18,9 @@ export class RolesEffects {
         map((roles: Role[]) => {
           return new roleActions.LoadRolesResponse(roles);
         }),
-        catchError(() => of(new roleActions.LoadRolesResponse([])))
+        catchError(() => of(new roleActions.LoadRolesResponse([]))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private roleService: RoleService) {}

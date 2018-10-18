@@ -55,7 +55,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     map(([all, selected]) => {
       const set = new Set(all.concat(selected));
       return [...Array.from(set)];
-    })
+    }),
   );
   readonly date$ = this.store.pipe(select(fromEvents.filterDate));
 
@@ -72,7 +72,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
@@ -80,7 +80,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
     private sessionStorage: SessionStorageService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
 
@@ -142,7 +142,7 @@ export class EventListContainerComponent extends WithUnsubscribe() implements On
         selectedTypes,
         selectedLevels,
         selectedAccountIds,
-      })
+      }),
     );
   }
 }

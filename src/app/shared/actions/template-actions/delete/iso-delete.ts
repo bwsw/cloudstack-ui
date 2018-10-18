@@ -19,7 +19,7 @@ export class IsoDeleteAction extends BaseTemplateDeleteAction {
     protected dialogService: DialogService,
     protected jobsNotificationService: JobsNotificationService,
     private isoService: IsoService,
-    private vmService: VmService
+    private vmService: VmService,
   ) {
     super(dialogService, jobsNotificationService);
   }
@@ -35,7 +35,7 @@ export class IsoDeleteAction extends BaseTemplateDeleteAction {
         }
         this.notificationId = this.jobsNotificationService.add(this.progressMessage);
         return this.isoService.remove(iso);
-      })
+      }),
     );
   }
 

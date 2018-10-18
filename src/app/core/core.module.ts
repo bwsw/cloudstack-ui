@@ -24,11 +24,11 @@ export class CoreModule {
   constructor(
     @Optional()
     @SkipSelf()
-    parentModule: CoreModule
+    parentModule: CoreModule,
   ) {
     if (parentModule) {
       throw new Error(
-        `CoreModule has already been loaded. Import CoreModule in the AppModule only.`
+        `CoreModule has already been loaded. Import CoreModule in the AppModule only.`,
       );
     }
   }

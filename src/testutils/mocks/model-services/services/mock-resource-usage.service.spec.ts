@@ -11,8 +11,8 @@ export class MockResourceUsageService {
       new ResourceStats(
         this.config.value.available,
         this.config.value.consumed,
-        this.config.value.max
-      )
+        this.config.value.max,
+      ),
     );
   }
 }

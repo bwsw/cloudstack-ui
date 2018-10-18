@@ -7,7 +7,10 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import * as uniqBy from 'lodash/uniqBy';
 
-import { templateFilters, templateResourceType } from '../../../template/shared/base-template.service';
+import {
+  templateFilters,
+  templateResourceType,
+} from '../../../template/shared/base-template.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { SnackBarService } from '../../../core/services';
 import { configSelectors, State } from '../../../root-store';
@@ -35,16 +38,25 @@ export class TemplateEffects {
 
       if (this.authService.isAdmin()) {
         filters = [templateFilters.all];
-      } else if (action.payload && action.payload.selectedTypes && action.payload.selectedTypes.length) {
+      } else if (
+        action.payload &&
+        action.payload.selectedTypes &&
+        action.payload.selectedTypes.length
+      ) {
         filters = action.payload.selectedTypes;
       }
 
       return forkJoin(
-        this.templateService.getGroupedTemplates<Template>({}, filters, true).pipe(map(_ => _.toArray())),
+        this.templateService
+          .getGroupedTemplates<Template>({}, filters, true)
+          .pipe(map(_ => _.toArray())),
         this.isoService.getGroupedTemplates<Iso>({}, filters, true).pipe(map(_ => _.toArray())),
       ).pipe(
         withLatestFrom(this.store.pipe(select(configSelectors.get('imageGroups')))),
-        map(([[templates, isos], groups]) => [[uniqBy(templates, 'id'), uniqBy(isos, 'id')], groups]),
+        map(([[templates, isos], groups]) => [
+          [uniqBy(templates, 'id'), uniqBy(isos, 'id')],
+          groups,
+        ]),
         switchMap(([[templates, isos], groups]) => {
           return groups && groups.length
             ? of(new templateActions.LoadTemplatesResponse([...templates, ...isos]))
@@ -64,14 +76,21 @@ export class TemplateEffects {
         ? 'NOTIFICATIONS.ISO.DELETION_IN_PROGRESS'
         : 'NOTIFICATIONS.TEMPLATE.DELETION_IN_PROGRESS';
       const notificationId = this.jobsNotificationService.add(progressMessage);
-      return (isIso ? this.isoService.remove(action.payload) : this.templateService.remove(action.payload)).pipe(
+      return (isIso
+        ? this.isoService.remove(action.payload)
+        : this.templateService.remove(action.payload)
+      ).pipe(
         tap(() => {
-          const message = isIso ? 'NOTIFICATIONS.ISO.DELETION_DONE' : 'NOTIFICATIONS.TEMPLATE.DELETION_DONE';
+          const message = isIso
+            ? 'NOTIFICATIONS.ISO.DELETION_DONE'
+            : 'NOTIFICATIONS.TEMPLATE.DELETION_DONE';
           this.showNotificationsOnFinish(message, notificationId);
         }),
         map(removedTemplate => new templateActions.RemoveTemplateSuccess(removedTemplate)),
         catchError((error: Error) => {
-          const message = isIso ? 'NOTIFICATIONS.ISO.DELETION_FAILED' : 'NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
+          const message = isIso
+            ? 'NOTIFICATIONS.ISO.DELETION_FAILED'
+            : 'NOTIFICATIONS.TEMPLATE.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new templateActions.RemoveTemplateError(error));
         }),
@@ -98,9 +117,14 @@ export class TemplateEffects {
     ofType(templateActions.TEMPLATE_REGISTER),
     switchMap((action: templateActions.RegisterTemplate) => {
       const isIso = action.payload.entity === templateResourceType.iso;
-      return (isIso ? this.isoService.register(action.payload) : this.templateService.register(action.payload)).pipe(
+      return (isIso
+        ? this.isoService.register(action.payload)
+        : this.templateService.register(action.payload)
+      ).pipe(
         tap(() => {
-          const message = isIso ? 'NOTIFICATIONS.ISO.REGISTER_DONE' : 'NOTIFICATIONS.TEMPLATE.REGISTER_DONE';
+          const message = isIso
+            ? 'NOTIFICATIONS.ISO.REGISTER_DONE'
+            : 'NOTIFICATIONS.TEMPLATE.REGISTER_DONE';
           this.showNotificationsOnFinish(message);
         }),
         map(createdTemplate => new templateActions.RegisterTemplateSuccess(createdTemplate)),
@@ -116,7 +140,9 @@ export class TemplateEffects {
   createTemplate$: Observable<Action> = this.actions$.pipe(
     ofType(templateActions.TEMPLATE_CREATE),
     mergeMap((action: templateActions.CreateTemplate) => {
-      const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.TEMPLATE.CREATION_IN_PROGRESS');
+      const notificationId = this.jobsNotificationService.add(
+        'NOTIFICATIONS.TEMPLATE.CREATION_IN_PROGRESS',
+      );
       return this.templateService.create(action.payload).pipe(
         tap(() => {
           const message = 'NOTIFICATIONS.TEMPLATE.CREATION_DONE';

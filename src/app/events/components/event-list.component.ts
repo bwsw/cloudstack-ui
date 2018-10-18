@@ -61,7 +61,7 @@ export class EventListComponent implements OnChanges {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    public translate: TranslateService
+    public translate: TranslateService,
   ) {
     this.dataSource = new MatTableDataSource<Event>([]);
   }

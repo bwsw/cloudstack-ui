@@ -36,7 +36,8 @@ export interface BaseTemplateModel extends BaseModel, Taggable {
   agreementAccepted?: boolean;
 }
 
-export const isTemplate = (template: BaseTemplateModel): boolean => !(template && template.bootable !== undefined);
+export const isTemplate = (template: BaseTemplateModel): boolean =>
+  !(template && template.bootable !== undefined);
 
 export const resourceType = (template: BaseTemplateModel): TemplateResourceType =>
   isTemplate(template) ? TemplateResourceType.Template : TemplateResourceType.Iso;

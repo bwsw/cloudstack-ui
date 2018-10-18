@@ -59,7 +59,7 @@ export class TagsContainerComponent {
       value: keyValuePair.value,
       account: template.account,
       domain: template.domain,
-      domainid: template.domainid
-    }
+      domainid: template.domainid,
+    };
   }
 }

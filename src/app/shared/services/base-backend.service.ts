@@ -72,7 +72,7 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public getListAll(params, customApiFormat?: ApiFormat): Observable<M[]> {
-    const requestParams = {...this.extendParams(params),  all: true};
+    const requestParams = { ...this.extendParams(params), all: true };
     return this.makeGetListObservable(requestParams, customApiFormat).pipe(
       switchMap(result => {
         if (result.meta.count > result.list.length) {
@@ -80,17 +80,21 @@ export abstract class BaseBackendService<M extends BaseModel> {
           return forkJoin(
             ...range(2, numberOfCalls + 1).map(page => {
               return this.makeGetListObservable(
-                {...requestParams,
+                {
+                  ...requestParams,
                   page,
-                  pageSize: MAX_PAGE_SIZE},
+                  pageSize: MAX_PAGE_SIZE,
+                },
                 customApiFormat,
               );
             }),
           ).pipe(
             map((results: FormattedResponse<M>[]) => {
               return results.reduce((memo, res) => {
-                return {...memo,
-                  list: memo.list.concat(res.list)};
+                return {
+                  ...memo,
+                  list: memo.list.concat(res.list),
+                };
               }, result);
             }),
           );
@@ -102,11 +106,13 @@ export abstract class BaseBackendService<M extends BaseModel> {
   }
 
   public getList(params?: {}, customApiFormat?: ApiFormat): Observable<M[]> {
-    return this.makeGetListObservable(this.extendParams(params), customApiFormat).pipe(map(r => r.list));
+    return this.makeGetListObservable(this.extendParams(params), customApiFormat).pipe(
+      map(r => r.list),
+    );
   }
 
   public extendParams(params = {}) {
-    return {...params,  listAll: 'true'};
+    return { ...params, listAll: 'true' };
   }
 
   public create(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
@@ -120,8 +126,9 @@ export abstract class BaseBackendService<M extends BaseModel> {
           return response;
         }
 
-      return response[entity] as M;
-    }));
+        return response[entity] as M;
+      }),
+    );
   }
 
   public remove(params?: {}, customApiFormat?: ApiFormat): Observable<any> {
@@ -205,7 +212,10 @@ export abstract class BaseBackendService<M extends BaseModel> {
     };
   }
 
-  private makeGetListObservable(params?: {}, customApiFormat?: ApiFormat): Observable<FormattedResponse<M>> {
+  private makeGetListObservable(
+    params?: {},
+    customApiFormat?: ApiFormat,
+  ): Observable<FormattedResponse<M>> {
     const cachedRequest = this.requestCache.get(params);
     if (cachedRequest) {
       return cachedRequest;

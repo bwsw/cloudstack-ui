@@ -54,7 +54,11 @@ export class TemplateFilterListSelectorComponent {
 
   @Input()
   public set selectedTemplate(template: BaseTemplateModel) {
-    this._selectedTemplate = template ? template : this.templates && this.templates.length ? this.templates[0] : null;
+    this._selectedTemplate = template
+      ? template
+      : this.templates && this.templates.length
+        ? this.templates[0]
+        : null;
   }
 
   // tslint:disable-next-line:variable-name

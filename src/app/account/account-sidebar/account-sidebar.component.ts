@@ -23,7 +23,7 @@ export class AccountSidebarComponent {
   constructor(
     protected route: ActivatedRoute,
     protected router: Router,
-    protected authService: AuthService
+    protected authService: AuthService,
   ) {}
 
   public tabIsActive(tabId: string) {

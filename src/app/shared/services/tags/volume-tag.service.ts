@@ -13,17 +13,23 @@ export class VolumeTagService {
 
   constructor(
     protected descriptionTagService: DescriptionTagService,
-    protected tagService: TagService
-  ) {
-  }
+    protected tagService: TagService,
+  ) {}
 
   public setDescription(volume: Volume, description: string): Observable<Volume> {
-    return this.descriptionTagService.setDescription(volume, volumeResourceType, description, this) as Observable<
-      Volume
-    >;
+    return this.descriptionTagService.setDescription(
+      volume,
+      volumeResourceType,
+      description,
+      this,
+    ) as Observable<Volume>;
   }
 
   public removeDescription(volume: Volume): Observable<Volume> {
-    return this.descriptionTagService.removeDescription(volume, volumeResourceType, this) as Observable<Volume>;
+    return this.descriptionTagService.removeDescription(
+      volume,
+      volumeResourceType,
+      this,
+    ) as Observable<Volume>;
   }
 }

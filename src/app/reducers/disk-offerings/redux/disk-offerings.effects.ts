@@ -18,9 +18,9 @@ export class DiskOfferingEffects {
         map((offerings: DiskOffering[]) => {
           return new diskOfferingActions.LoadOfferingsResponse(offerings);
         }),
-        catchError(() => of(new diskOfferingActions.LoadOfferingsResponse([])))
+        catchError(() => of(new diskOfferingActions.LoadOfferingsResponse([]))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private offeringService: DiskOfferingService) {}

@@ -1,7 +1,18 @@
 import { Component, forwardRef, Input, ViewChild } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatIconModule, MatInputModule, MatSelectModule, MatTooltipModule } from '@angular/material';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatTooltipModule,
+} from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { AccountCreationDialogComponent } from './account-creation-dialog.component';
 import { Domain } from '../../shared/models/domain.model';

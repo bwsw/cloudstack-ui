@@ -20,7 +20,7 @@ export class SshKeyCreationComponent {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
           relativeTo: this.route,
-        })
+        }),
       );
   }
 }

@@ -49,7 +49,6 @@ describe('Auth service', () => {
       ],
       imports: [HttpClientTestingModule],
     });
-
   }));
 
   it('should login', fakeAsync(

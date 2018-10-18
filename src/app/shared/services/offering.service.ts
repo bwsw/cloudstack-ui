@@ -24,21 +24,21 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
       return super.getList(params);
     }
     const zone = params.zone;
-    const modifiedParams = {...params};
+    const modifiedParams = { ...params };
     delete modifiedParams.zone;
 
     return super.getList(modifiedParams).pipe(
       withLatestFrom(this.store.pipe(select(configSelectors.get('serviceOfferingAvailability')))),
       map(([offeringList, offeringAvailability]) =>
-        this.getOfferingsAvailableInZone(offeringList, offeringAvailability, zone)
-      )
+        this.getOfferingsAvailableInZone(offeringList, offeringAvailability, zone),
+      ),
     );
   }
 
   public getOfferingsAvailableInZone(
     offeringList: T[],
     offeringAvailability: ServiceOfferingAvailability,
-    zone: Zone
+    zone: Zone,
   ): T[] {
     if (!offeringAvailability.filterOfferings) {
       return offeringList;
@@ -48,7 +48,7 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
       const offeringAvailableInZone = this.isOfferingAvailableInZone(
         offering,
         offeringAvailability,
-        zone
+        zone,
       );
       const localStorageCompatibility = zone.localstorageenabled || !isOfferingLocal(offering);
       return offeringAvailableInZone && localStorageCompatibility;
@@ -58,6 +58,6 @@ export abstract class OfferingService<T extends Offering> extends BaseBackendSer
   protected abstract isOfferingAvailableInZone(
     offering: Offering,
     offeringAvailability: ServiceOfferingAvailability,
-    zone: Zone
+    zone: Zone,
   ): boolean;
 }

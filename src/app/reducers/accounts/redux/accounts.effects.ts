@@ -28,9 +28,9 @@ export class AccountsEffects {
         map((accounts: Account[]) => {
           return new accountActions.LoadAccountsResponse(accounts);
         }),
-        catchError(() => of(new accountActions.LoadAccountsResponse([])))
+        catchError(() => of(new accountActions.LoadAccountsResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -42,11 +42,11 @@ export class AccountsEffects {
       volumeActions.VOLUME_CREATE_SUCCESS,
       volumeActions.RESIZE_VOLUME_SUCCESS,
       snapshotActions.ADD_SNAPSHOT_SUCCESS,
-      snapshotActions.DELETE_SNAPSHOT_SUCCESS
+      snapshotActions.DELETE_SNAPSHOT_SUCCESS,
     ),
     map(() => {
       return new accountActions.LoadAccountsRequest();
-    })
+    }),
   );
 
   @Effect()
@@ -54,7 +54,7 @@ export class AccountsEffects {
     ofType(accountActions.DISABLE_ACCOUNT),
     mergeMap((action: accountActions.DisableAccountRequest) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.ACCOUNT.DISABLE_IN_PROGRESS'
+        'NOTIFICATIONS.ACCOUNT.DISABLE_IN_PROGRESS',
       );
       return this.accountService.disableAccount(action.payload).pipe(
         tap(() => {
@@ -66,9 +66,9 @@ export class AccountsEffects {
           const message = 'NOTIFICATIONS.ACCOUNT.DISABLE_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new accountActions.AccountUpdateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -84,9 +84,9 @@ export class AccountsEffects {
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -94,7 +94,7 @@ export class AccountsEffects {
     ofType(accountActions.DELETE_ACCOUNT),
     mergeMap((action: accountActions.DeleteAccountRequest) => {
       const notificationId = this.jobsNotificationService.add(
-        'NOTIFICATIONS.ACCOUNT.DELETION_IN_PROGRESS'
+        'NOTIFICATIONS.ACCOUNT.DELETION_IN_PROGRESS',
       );
       return this.accountService.removeAccount(action.payload).pipe(
         tap(() => {
@@ -106,9 +106,9 @@ export class AccountsEffects {
           const message = 'NOTIFICATIONS.ACCOUNT.DELETION_FAILED';
           this.showNotificationsOnFail(error, message, notificationId);
           return of(new accountActions.AccountUpdateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -124,9 +124,9 @@ export class AccountsEffects {
         catchError((error: Error) => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.CreateError(error));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -134,7 +134,7 @@ export class AccountsEffects {
     ofType(accountActions.ACCOUNT_CREATE_SUCCESS),
     tap((action: accountActions.CreateSuccess) => {
       this.dialog.closeAll();
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -148,7 +148,7 @@ export class AccountsEffects {
       this.router.navigate(['./accounts'], {
         queryParamsHandling: 'preserve',
       });
-    })
+    }),
   );
 
   @Effect()
@@ -164,9 +164,9 @@ export class AccountsEffects {
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   @Effect()
@@ -182,9 +182,9 @@ export class AccountsEffects {
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   @Effect({ dispatch: false })
@@ -192,7 +192,7 @@ export class AccountsEffects {
     ofType(accountActions.ACCOUNT_USER_CREATE_SUCCESS),
     tap(() => {
       this.dialog.closeAll();
-    })
+    }),
   );
 
   @Effect()
@@ -208,9 +208,9 @@ export class AccountsEffects {
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   @Effect()
@@ -227,14 +227,14 @@ export class AccountsEffects {
             new accountActions.AccountLoadUserKeysSuccess({
               user: action.payload,
               userKeys: res,
-            })
+            }),
         ),
         catchError(error => {
           this.showNotificationsOnFail(error);
           return of(new accountActions.AccountUpdateError(error));
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 
   @Effect()
@@ -247,11 +247,11 @@ export class AccountsEffects {
             new accountActions.AccountLoadUserKeysSuccess({
               user: action.payload,
               userKeys: res,
-            })
+            }),
         ),
-        catchError(error => of(new accountActions.AccountUpdateError(error)))
-      )
-    )
+        catchError(error => of(new accountActions.AccountUpdateError(error))),
+      ),
+    ),
   );
 
   constructor(
@@ -262,7 +262,7 @@ export class AccountsEffects {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private snackBarService: SnackBarService,
-    private jobsNotificationService: JobsNotificationService
+    private jobsNotificationService: JobsNotificationService,
   ) {}
 
   private showNotificationsOnFinish(message: string, jobNotificationId?: string) {

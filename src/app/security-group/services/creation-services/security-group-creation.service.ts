@@ -3,7 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../../network-rule.model';
+import {
+  IcmpNetworkRule,
+  NetworkProtocol,
+  NetworkRule,
+  PortNetworkRule,
+} from '../../network-rule.model';
 import { NetworkRuleType, SecurityGroup } from '../../sg.model';
 import { BaseBackendService } from '../../../shared/services/base-backend.service';
 import { SecurityGroupTagService } from '../../../shared/services/tags/security-group-tag.service';
@@ -37,7 +42,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   constructor(
     protected securityGroupTagService: SecurityGroupTagService,
     protected http: HttpClient,
-    private networkRuleService: NetworkRuleService
+    private networkRuleService: NetworkRuleService,
   ) {
     super(http);
   }
@@ -46,10 +51,10 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     const ingressRulesWithPossibleDuplicates = (rules && rules.ingress) || [];
     const egressRulesWithPossibleDuplicates = (rules && rules.egress) || [];
     const ingressRules = this.networkRuleService.removeDuplicateRules(
-      ingressRulesWithPossibleDuplicates
+      ingressRulesWithPossibleDuplicates,
     );
     const egressRules = this.networkRuleService.removeDuplicateRules(
-      egressRulesWithPossibleDuplicates
+      egressRulesWithPossibleDuplicates,
     );
 
     return this.create(data).pipe(
@@ -58,12 +63,12 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
       }),
       switchMap(securityGroup => {
         return this.securityGroupCreationPostAction(securityGroup);
-      })
+      }),
     );
   }
 
   protected securityGroupCreationPostAction(
-    securityGroup: SecurityGroup
+    securityGroup: SecurityGroup,
   ): Observable<SecurityGroup> {
     return of(securityGroup);
   }
@@ -71,7 +76,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   private authorizeRules(
     securityGroup: SecurityGroup,
     ingressRules: NetworkRule[],
-    egressRules: NetworkRule[]
+    egressRules: NetworkRule[],
   ): Observable<SecurityGroup> {
     if (!ingressRules.length && !egressRules.length) {
       return of(securityGroup);
@@ -80,13 +85,13 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
     const ingressRuleCreationRequests = this.getRuleCreationRequests(
       ingressRules,
       NetworkRuleType.Ingress,
-      securityGroup
+      securityGroup,
     );
 
     const egressRuleCreationRequests = this.getRuleCreationRequests(
       egressRules,
       NetworkRuleType.Egress,
-      securityGroup
+      securityGroup,
     );
 
     const ruleCreationRequests = ingressRuleCreationRequests.concat(egressRuleCreationRequests);
@@ -103,7 +108,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
   private getRuleCreationRequests(
     rules: NetworkRule[],
     ruleType: NetworkRuleType,
-    securityGroup: SecurityGroup
+    securityGroup: SecurityGroup,
   ): Observable<NetworkRule>[] {
     return rules.map(rule => {
       const ruleCreationRequest = this.getNetworkRuleCreationParams(rule, securityGroup);
@@ -125,7 +130,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
 
   private getTcpUdpNetworkRuleCreationRequest(
     rule: PortNetworkRule,
-    securityGroup: SecurityGroup
+    securityGroup: SecurityGroup,
   ): TcpUdpNetworkRuleCreationParams {
     return {
       securityGroupId: securityGroup.id,
@@ -139,7 +144,7 @@ export abstract class SecurityGroupCreationService extends BaseBackendService<Se
 
   private getIcmpNetworkRuleCreationRequest(
     rule: IcmpNetworkRule,
-    securityGroup: SecurityGroup
+    securityGroup: SecurityGroup,
   ): IcmpNetworkRuleCreationParams {
     return {
       securityGroupId: securityGroup.id,

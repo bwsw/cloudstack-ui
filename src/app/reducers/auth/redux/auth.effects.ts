@@ -18,9 +18,9 @@ export class UserAccountEffects {
         map((account: Account) => {
           return new authActions.LoadUserAccountResponse(account);
         }),
-        catchError(() => of(new authActions.LoadUserAccountResponse({})))
+        catchError(() => of(new authActions.LoadUserAccountResponse({}))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private accountService: AccountService) {}

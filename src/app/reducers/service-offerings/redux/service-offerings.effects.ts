@@ -18,9 +18,9 @@ export class ServiceOfferingEffects {
         map((offerings: ServiceOffering[]) => {
           return new serviceOfferingActions.LoadOfferingsResponse(offerings);
         }),
-        catchError(() => of(new serviceOfferingActions.LoadOfferingsResponse([])))
+        catchError(() => of(new serviceOfferingActions.LoadOfferingsResponse([]))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private offeringService: ServiceOfferingService) {}

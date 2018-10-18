@@ -71,7 +71,8 @@ describe('Async job service', () => {
   }));
 
   it('job service polls server until a job is resolved', fakeAsync(() => {
-    asyncJobService.queryJob({ jobid: 'resolving-job-id' }, '')
+    asyncJobService
+      .queryJob({ jobid: 'resolving-job-id' }, '')
       .subscribe(() => expect(true).toBeTruthy());
     tick(3000);
 
@@ -86,17 +87,15 @@ describe('Async job service', () => {
   }));
 
   it('should parse failed job correctly', fakeAsync(() => {
-    asyncJobService.queryJob({ jobid: 'failing-job-id' }, '')
-      .subscribe(
-        () => {
-        },
-        (error) => {
-          expect(error).toBeDefined();
-          expect(error.errorcode).toBeDefined();
-          expect(error.errortext).toBeDefined();
-          expect(error.message).toBeDefined();
-        }
-      );
+    asyncJobService.queryJob({ jobid: 'failing-job-id' }, '').subscribe(
+      () => {},
+      error => {
+        expect(error).toBeDefined();
+        expect(error.errorcode).toBeDefined();
+        expect(error.errortext).toBeDefined();
+        expect(error.message).toBeDefined();
+      },
+    );
     tick(3000);
 
     const requests = httpTestingController.match({});

@@ -25,7 +25,7 @@ export class TemplateGroupSelectorContainerComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<TemplateGroupSelectorContainerComponent>,
-    private store: Store<State>
+    private store: Store<State>,
   ) {}
 
   public onGroupChange(templateGroupSettings: { template; templateGroup }) {

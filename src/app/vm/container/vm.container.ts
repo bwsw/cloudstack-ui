@@ -46,7 +46,7 @@ export class VirtualMachinePageContainerComponent implements OnInit, AfterViewIn
       key: 'zones',
       label: 'VM_PAGE.FILTERS.GROUP_BY_ZONES',
       selector: (item: VirtualMachine) => item.zoneid,
-      name: (item: VirtualMachine) => item.zonename
+      name: (item: VirtualMachine) => item.zonename,
     },
     {
       key: 'groups',

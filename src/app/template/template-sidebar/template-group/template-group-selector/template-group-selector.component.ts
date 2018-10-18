@@ -52,7 +52,7 @@ export class TemplateGroupSelectorComponent implements OnInit {
     const templateGroup = Object.values(this.groups).find(
       group =>
         (group.translations && group.translations[this.locale] === translation) ||
-        group.id === translation
+        group.id === translation,
     );
     this.groupChange.emit({ templateGroup, template: this.template });
   }

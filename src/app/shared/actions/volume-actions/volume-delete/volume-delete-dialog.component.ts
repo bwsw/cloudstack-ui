@@ -11,7 +11,7 @@ export class VolumeDeleteDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<VolumeDeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public hasSnapshots: boolean
+    @Inject(MAT_DIALOG_DATA) public hasSnapshots: boolean,
   ) {}
 
   public confirmDestroy(): void {

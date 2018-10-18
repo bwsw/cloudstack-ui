@@ -37,5 +37,5 @@ export {
   // Images settings
   imageGroups,
   // Firewall (Security groups) settings
-  defaultSecurityGroupName
+  defaultSecurityGroupName,
 };

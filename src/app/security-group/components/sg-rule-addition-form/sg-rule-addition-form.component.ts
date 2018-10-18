@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -216,7 +224,8 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private resetForm() {
-    const paramsForm = this.protocol.value === NetworkProtocol.ICMP ? this.icmpForm : this.portsForm;
+    const paramsForm =
+      this.protocol.value === NetworkProtocol.ICMP ? this.icmpForm : this.portsForm;
     const formState = {
       type: this.type.value,
       protocol: this.protocol.value,
@@ -276,15 +285,19 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
   }
 
   private onPortsChanges() {
-    this.startPortChanges = this.startPort.valueChanges.pipe(distinctUntilChanged()).subscribe((value: number) => {
-      this.duplicatePortForFirstFilling(this.endPort, value);
-      this.endPort.updateValueAndValidity();
-    });
+    this.startPortChanges = this.startPort.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((value: number) => {
+        this.duplicatePortForFirstFilling(this.endPort, value);
+        this.endPort.updateValueAndValidity();
+      });
 
-    this.endPortChanges = this.endPort.valueChanges.pipe(distinctUntilChanged()).subscribe((value: number) => {
-      this.duplicatePortForFirstFilling(this.startPort, value);
-      this.startPort.updateValueAndValidity();
-    });
+    this.endPortChanges = this.endPort.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((value: number) => {
+        this.duplicatePortForFirstFilling(this.startPort, value);
+        this.startPort.updateValueAndValidity();
+      });
   }
 
   private duplicatePortForFirstFilling(port: AbstractControl, portNumber: number) {
@@ -394,7 +407,9 @@ export class SGRuleAdditionFormComponent implements OnDestroy {
     if (!cidrIpVersion) {
       return;
     }
-    return cidrIpVersion === IPVersion.ipv6 ? getICMPV6TypeTranslationToken(type) : getICMPTypeTranslationToken(type);
+    return cidrIpVersion === IPVersion.ipv6
+      ? getICMPV6TypeTranslationToken(type)
+      : getICMPTypeTranslationToken(type);
   }
 
   private getIcmpCodeTranslationToken(type: number, code: number) {

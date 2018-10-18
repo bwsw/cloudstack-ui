@@ -56,8 +56,12 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneid));
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
-    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),
+    );
+    this.store.dispatch(
+      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
+    );
   }
 
   ngAfterViewInit() {
@@ -65,11 +69,15 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   }
 
   public onViewModeChange(selectedViewMode: string) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }),
+    );
   }
 
   public onSelectedClassesChange(selectedClasses: string[]) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }),
+    );
   }
 
   public onQueryChange(query: string) {

@@ -1,4 +1,10 @@
-import { ComponentFactoryResolver, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  ComponentFactoryResolver,
+  Directive,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { LoaderComponent } from '../components/loader/loader.component';
 
 /*
@@ -15,7 +21,7 @@ export class LoadingDirective {
   constructor(
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
   ) {}
 
   @Input()

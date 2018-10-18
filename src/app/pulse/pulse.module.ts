@@ -4,7 +4,11 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
 
-import { PulseCpuRamChartComponent, PulseDiskChartComponent, PulseNetworkChartComponent } from './charts/';
+import {
+  PulseCpuRamChartComponent,
+  PulseDiskChartComponent,
+  PulseNetworkChartComponent,
+} from './charts/';
 import { AggregationSelectorComponent } from './charts/aggregation-selector.component';
 import { ChartAreaComponent } from './charts/chart-area.component';
 import { PulseService } from './pulse.service';

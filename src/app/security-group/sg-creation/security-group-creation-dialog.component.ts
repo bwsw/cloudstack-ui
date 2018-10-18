@@ -21,7 +21,7 @@ export class SecurityGroupCreationDialogComponent {
         this.router.navigate(['../'], {
           queryParamsHandling: 'preserve',
           relativeTo: this.route,
-        })
+        }),
       );
   }
 }

@@ -85,7 +85,7 @@ describe('VmCreationTemplateComponent', () => {
 
     const messageContainer = f.debugElement.query(By.css('.mat-form-field-wrapper'));
     expect(messageContainer.nativeElement.textContent.trim()).toBe(
-      `VM_PAGE.VM_CREATION.NO_TEMPLATES`
+      `VM_PAGE.VM_CREATION.NO_TEMPLATES`,
     );
     expect(messageContainer.query(By.css('span.no-templates'))).toBeDefined();
   }));

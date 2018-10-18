@@ -198,13 +198,13 @@ export const isLoaded = createSelector(getVolumesEntitiesState, state => state.l
 
 export const getSelectedId = createSelector(
   getVolumesEntitiesState,
-  state => state.selectedVolumeId
+  state => state.selectedVolumeId,
 );
 
 export const getSelectedVolume = createSelector(
   getVolumesState,
   getSelectedId,
-  (state, selectedId) => state.list.entities[selectedId]
+  (state, selectedId) => state.list.entities[selectedId],
 );
 
 export const filters = createSelector(getVolumesEntitiesState, state => state.filters);
@@ -241,7 +241,7 @@ export const selectVolumesWithSnapshots = createSelector(
         snapshots: snapshotsByVolumeMap[volume.id],
       };
     });
-  }
+  },
 );
 
 export const getSelectedVolumeWithSnapshots = createSelector(
@@ -251,7 +251,7 @@ export const getSelectedVolumeWithSnapshots = createSelector(
     const list = volumes.reduce((m, i) => ({ ...m, [i.id]: i }), {});
 
     return list[selectedId];
-  }
+  },
 );
 
 export const selectSpareOnlyVolumes = createSelector(
@@ -264,9 +264,9 @@ export const selectSpareOnlyVolumes = createSelector(
       vm && (volume.account === vm.account && volume.domainid === vm.domainid);
 
     return volumes.filter(
-      volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume)
+      volume => zoneFilter(volume) && spareOnlyFilter(volume) && accountFilter(volume),
     );
-  }
+  },
 );
 
 export const selectVmVolumes = createSelector(
@@ -279,7 +279,7 @@ export const selectVmVolumes = createSelector(
     return volumes.filter(volume => {
       return virtualMachineIdFilter(volume);
     });
-  }
+  },
 );
 
 export const selectFilteredVolumes = createSelector(
@@ -296,7 +296,7 @@ export const selectFilteredVolumes = createSelector(
     const zoneIdsMap = selectedZoneIds.reduce((m, i) => ({ ...m, [i]: i }), {});
 
     const selectedAccounts = accounts.filter(account =>
-      selectedAccountIds.find(id => id === account.id)
+      selectedAccountIds.find(id => id === account.id),
     );
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
@@ -324,5 +324,5 @@ export const selectFilteredVolumes = createSelector(
         selectedAccountIdsFilter(volume)
       );
     });
-  }
+  },
 );

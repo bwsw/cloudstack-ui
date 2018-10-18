@@ -24,7 +24,7 @@ export class AccountService extends BaseBackendService<Account> {
   public removeAccount(account: Account): Observable<Account> {
     return this.sendCommand(CSCommands.Delete, { id: account.id }).pipe(
       switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
-      switchMap(() => of(account))
+      switchMap(() => of(account)),
     );
   }
 
@@ -32,9 +32,7 @@ export class AccountService extends BaseBackendService<Account> {
     return this.sendCommand(CSCommands.Disable, {
       id: account.id,
       lock: false,
-    }).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job, this.entity))
-    );
+    }).pipe(switchMap(job => this.asyncJobService.queryJob(job, this.entity)));
   }
 
   public enableAccount(account: Account): Observable<Account> {

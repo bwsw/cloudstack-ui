@@ -9,7 +9,7 @@ import { Rules } from '../../../shared/components/security-group-builder/rules';
 export class SecurityGroupCreationSecurityGroupComponent {
   constructor(
     private dialogRef: MatDialogRef<SecurityGroupCreationSecurityGroupComponent>,
-    @Inject(MAT_DIALOG_DATA) public savedData: Rules
+    @Inject(MAT_DIALOG_DATA) public savedData: Rules,
   ) {}
 
   public onSave(): void {

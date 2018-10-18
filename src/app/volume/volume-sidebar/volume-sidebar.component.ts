@@ -22,7 +22,7 @@ export class VolumeSidebarComponent extends SidebarComponent<Volume> {
     protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
     protected router: Router,
-    protected volumeService: VolumeService
+    protected volumeService: VolumeService,
   ) {
     super(volumeService, notificationService, route, router);
   }

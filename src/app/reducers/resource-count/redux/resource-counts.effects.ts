@@ -18,9 +18,9 @@ export class ResourceCountsEffects {
         map((stats: ResourceCount[]) => {
           return new resourceCountActions.LoadResourceCountsResponse(stats);
         }),
-        catchError(() => of(new resourceCountActions.LoadResourceCountsResponse([])))
+        catchError(() => of(new resourceCountActions.LoadResourceCountsResponse([]))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private resourceCountService: ResourceCountService) {}

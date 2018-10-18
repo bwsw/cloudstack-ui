@@ -4,7 +4,7 @@ import { OfferingCompatibilityPolicy, OfferingPolicy } from '../../shared/models
 export class VmCompatibilityPolicy {
   public static getFilter(
     compatibilityPolicy: OfferingCompatibilityPolicy,
-    currentOffering: ServiceOffering
+    currentOffering: ServiceOffering,
   ) {
     const filter = (offering: ServiceOffering) => {
       if (!compatibilityPolicy) {
@@ -21,7 +21,7 @@ export class VmCompatibilityPolicy {
   private static matchHostTags(
     oldTags: string[],
     newTags: string[],
-    compatibilityPolicy: OfferingCompatibilityPolicy
+    compatibilityPolicy: OfferingCompatibilityPolicy,
   ) {
     const ignoreTags = compatibilityPolicy.offeringChangePolicyIgnoreTags;
     if (ignoreTags) {

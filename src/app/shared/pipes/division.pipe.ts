@@ -10,7 +10,7 @@ export class DivisionPipe implements PipeTransform {
     value: number,
     base: number,
     exponent?: number,
-    precision?: number
+    precision?: number,
   ): number | string {
     return Utils.divide(value, base, exponent, precision);
   }

@@ -112,7 +112,10 @@ describe('Snapshot Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, StoreModule.forRoot({ ...fromSnapshots.snapshotReducers })],
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({ ...fromSnapshots.snapshotReducers }),
+      ],
       providers: [
         SnapshotService,
         SnapshotEffects,
@@ -147,7 +150,9 @@ describe('Snapshot Effects', () => {
   });
 
   it('should return an empty collection with error from LoadSnapshotResponse', () => {
-    const spyGetList = spyOn(service, 'getListAll').and.returnValue(throwError(new Error('Error occurred!')));
+    const spyGetList = spyOn(service, 'getListAll').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
     const action = new snapshotActions.LoadSnapshotRequest();
     const completion = new snapshotActions.LoadSnapshotResponse([]);
 
@@ -190,7 +195,9 @@ describe('Snapshot Effects', () => {
   });
 
   it('should catch error while adding a new snapshot', () => {
-    const spyCommand = spyOn(service, 'create').and.returnValue(throwError(new Error('Error occurred!')));
+    const spyCommand = spyOn(service, 'create').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new snapshotActions.AddSnapshot({ id: 'volume-id' } as Volume);
@@ -219,7 +226,9 @@ describe('Snapshot Effects', () => {
   });
 
   it('should catch error while removing a snapshot', () => {
-    const spyCommand = spyOn(service, 'remove').and.returnValue(throwError(new Error('Error occurred!')));
+    const spyCommand = spyOn(service, 'remove').and.returnValue(
+      throwError(new Error('Error occurred!')),
+    );
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new snapshotActions.DeleteSnapshot(snapshots[0]);

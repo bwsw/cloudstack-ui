@@ -151,7 +151,7 @@ export const getSshKeysEntitiesState = createSelector(getSshKeysState, state => 
 export const getSshKeysFormState = createSelector(getSshKeysState, state => state.form);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getSshKeysEntitiesState
+  getSshKeysEntitiesState,
 );
 
 export const filters = createSelector(getSshKeysEntitiesState, state => state.filters);
@@ -180,7 +180,7 @@ export const selectFilteredSshKeys = createSelector(
       !selectedAccountIds.length || accountDomainMap[`${sshKey.account}_${sshKey.domainid}`];
 
     return sshKeys.filter(selectedAccountIdsFilter);
-  }
+  },
 );
 
 export const selectSSHKeys = createSelector(selectAll, fromVMs.getSelectedVM, (sshKeys, vm) => {
@@ -198,5 +198,5 @@ export const selectSshKeysForAccount = createSelector(
       account && account.name === sshKey.account && account.domainid === sshKey.domainid;
 
     return sshKeys.filter(filterSshKeysByAccount);
-  }
+  },
 );

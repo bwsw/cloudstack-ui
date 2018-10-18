@@ -28,17 +28,15 @@ export class AffinityGroupService extends BaseBackendCachedService<AffinityGroup
   }
 
   public create(params: AffinityGroupCreationData): Observable<AffinityGroup> {
-    return super.create(params).pipe(
-      switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity))
-    )
+    return super
+      .create(params)
+      .pipe(switchMap(job => this.asyncJob.queryJob(job.jobid, this.entity)));
   }
 
   public updateForVm(vmId: string, affinityGroupId: string): Observable<VirtualMachine> {
     return this.sendCommand(CSCommands.UpdateVM, {
       id: vmId,
-      affinityGroupIds: affinityGroupId
-    }).pipe(
-      switchMap(job => this.asyncJob.queryJob(job.jobid, virtualMachineEntityName)),
-    );
+      affinityGroupIds: affinityGroupId,
+    }).pipe(switchMap(job => this.asyncJob.queryJob(job.jobid, virtualMachineEntityName)));
   }
 }

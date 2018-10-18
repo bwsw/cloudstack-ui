@@ -76,7 +76,7 @@ export const getOsTypesState = createFeatureSelector<OsTypeState>('osTypes');
 export const getOsTypesEntitiesState = createSelector(getOsTypesState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getOsTypesEntitiesState
+  getOsTypesEntitiesState,
 );
 
 export const isLoading = createSelector(getOsTypesEntitiesState, state => state.loading);

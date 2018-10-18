@@ -18,7 +18,7 @@ export const getSettingsViewModel = createSelector(
     firstDayOfWeek,
     timeFormat,
     theme,
-    keyboardLayout
+    keyboardLayout,
   ): SettingsViewModel => {
     return {
       sessionTimeout,
@@ -29,5 +29,5 @@ export const getSettingsViewModel = createSelector(
       theme,
       keyboardLayout,
     };
-  }
+  },
 );

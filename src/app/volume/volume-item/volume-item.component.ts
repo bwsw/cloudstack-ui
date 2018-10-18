@@ -17,7 +17,7 @@ export class VolumeItemComponent extends VolumeItem implements OnInit, OnChanges
 
   constructor(
     protected diskOfferingService: DiskOfferingService,
-    protected zoneService: ZoneService
+    protected zoneService: ZoneService,
   ) {
     super(diskOfferingService, zoneService);
   }

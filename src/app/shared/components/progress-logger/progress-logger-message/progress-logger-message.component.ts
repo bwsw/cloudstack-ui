@@ -21,7 +21,7 @@ export class ProgressLoggerMessageComponent {
     }
     return this.translateService.get(
       this.message.text.translationToken,
-      this.message.text.interpolateParams
+      this.message.text.interpolateParams,
     );
   }
 

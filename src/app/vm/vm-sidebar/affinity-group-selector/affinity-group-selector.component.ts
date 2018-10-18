@@ -22,7 +22,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
     private affinityGroupService: AffinityGroupService,
     private dialogRef: MatDialogRef<AffinityGroupSelectorComponent>,
     private dialogService: DialogService,
-    @Inject(MAT_DIALOG_DATA) public data
+    @Inject(MAT_DIALOG_DATA) public data,
   ) {
     this.vm = data.vm;
   }
@@ -51,7 +51,7 @@ export class AffinityGroupSelectorComponent implements OnInit {
       })
       .subscribe(
         affinityGroup => this.dialogRef.close(affinityGroup.id),
-        error => this.dialogService.alert({ message: error.message })
+        error => this.dialogService.alert({ message: error.message }),
       );
   }
 

@@ -21,16 +21,18 @@ export class SshKeypairComponent {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ) {}
 
   public showSshKeypairResetDialog(): void {
-    this.dialog.open(SshKeypairResetComponent, {
-      width: '350px',
-      disableClose: true,
-      data: { keys: this.keys, sshKeyName: this.vm.keypair }
-    }).afterClosed().pipe(
-      filter(Boolean))
+    this.dialog
+      .open(SshKeypairResetComponent, {
+        width: '350px',
+        disableClose: true,
+        data: { keys: this.keys, sshKeyName: this.vm.keypair },
+      })
+      .afterClosed()
+      .pipe(filter(Boolean))
       .subscribe(res => this.sshKeyChanged.emit(res));
   }
 

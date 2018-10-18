@@ -29,10 +29,12 @@ export class PostdeploymentComponent {
     },
     {
       name: 'VM_POST_ACTION.OPEN_SHELL_CONSOLE',
-      hidden: (vm) => {
-        return !vm
-          || !this.sshAccessService.isWebShellEnabled()
-          || !this.sshAccessService.isSshAuthMode(vm);
+      hidden: vm => {
+        return (
+          !vm ||
+          !this.sshAccessService.isWebShellEnabled() ||
+          !this.sshAccessService.isSshAuthMode(vm)
+        );
       },
       activate: vm => this.store.dispatch(new vmActions.WebShellVm(vm)),
     },
@@ -46,7 +48,7 @@ export class PostdeploymentComponent {
   constructor(
     private store: Store<State>,
     private httpAccessService: HttpAccessService,
-    private sshAccessService: SshAccessService
+    private sshAccessService: SshAccessService,
   ) {}
 
   public isHttpAuthMode(vm): boolean {

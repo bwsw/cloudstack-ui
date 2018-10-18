@@ -8,7 +8,12 @@ import {
   getICMPV6TypeTranslationToken,
 } from '../../shared/icmp/icmp-types';
 import { IPVersion, NetworkRuleType } from '../sg.model';
-import { IcmpNetworkRule, NetworkProtocol, NetworkRule, PortNetworkRule } from '../network-rule.model';
+import {
+  IcmpNetworkRule,
+  NetworkProtocol,
+  NetworkRule,
+  PortNetworkRule,
+} from '../network-rule.model';
 import { CidrUtils } from '../../shared/utils/cidr-utils';
 
 @Component({
@@ -63,7 +68,10 @@ export class SgRuleComponent {
   }
 
   public get ruleParams(): Object {
-    const ipVersion = CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4 ? IPVersion.ipv4 : IPVersion.ipv6;
+    const ipVersion =
+      CidrUtils.getCidrIpVersion(this.item.cidr) === IPVersion.ipv4
+        ? IPVersion.ipv4
+        : IPVersion.ipv6;
 
     const params = {
       ipVersion,

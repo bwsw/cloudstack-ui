@@ -83,7 +83,7 @@ export function reducer(state = initialState, action: eventActions.Actions): Sta
       const types = Object.keys(
         events.reduce((memo, event) => {
           return { ...memo, [event.type]: event.type };
-        }, {})
+        }, {}),
       );
 
       return {
@@ -111,7 +111,7 @@ export const getEventsState = createFeatureSelector<EventsState>('events');
 export const getEventsEntitiesState = createSelector(getEventsState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getEventsEntitiesState
+  getEventsEntitiesState,
 );
 
 export const isLoading = createSelector(getEventsEntitiesState, state => state.loading);
@@ -174,5 +174,5 @@ export const selectFilteredEvents = createSelector(
         selectedAccountIdsFilter(event)
       );
     });
-  }
+  },
 );

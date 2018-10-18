@@ -33,7 +33,7 @@ export class VmCreationSecurityGroupService {
   }
 
   private getSecurityGroupCreationRules(
-    rules: Rules
+    rules: Rules,
   ): { ingress: NetworkRule[]; egress: NetworkRule[] } {
     return {
       ingress: rules.ingress,

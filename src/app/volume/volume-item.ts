@@ -8,7 +8,10 @@ export abstract class VolumeItem {
   public item: Volume;
   public diskOfferings: DiskOffering[];
 
-  constructor(protected diskOfferingService: DiskOfferingService, protected zoneService: ZoneService) {}
+  constructor(
+    protected diskOfferingService: DiskOfferingService,
+    protected zoneService: ZoneService,
+  ) {}
 
   protected loadDiskOfferings(): void {
     let zone;
@@ -23,7 +26,11 @@ export abstract class VolumeItem {
       )
       .subscribe(diskOfferings => {
         this.diskOfferings = diskOfferings.filter((diskOffering: DiskOffering) => {
-          return this.diskOfferingService.isOfferingAvailableForVolume(diskOffering, this.item, zone);
+          return this.diskOfferingService.isOfferingAvailableForVolume(
+            diskOffering,
+            this.item,
+            zone,
+          );
         });
       });
   }

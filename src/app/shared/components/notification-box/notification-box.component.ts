@@ -19,14 +19,14 @@ export class NotificationBoxComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.notificationCount$ = combineLatest(
       this.jobsNotificationService.unseenCompletedJobsCount$,
-      this.jobsNotificationService.pendingJobsCount$
+      this.jobsNotificationService.pendingJobsCount$,
     ).pipe(map(([unseenCount, pendingCount]) => unseenCount + pendingCount));
 
     this.autoResetCompletedNotification = this.jobsNotificationService.unseenCompletedJobsCount$
       .pipe(
         filter(count => count > 0 && this.isOpen),
         delay(1),
-        tap(() => this.resetCompletedNotificationCount())
+        tap(() => this.resetCompletedNotificationCount()),
       )
       .subscribe();
   }

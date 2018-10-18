@@ -35,7 +35,7 @@ describe('Jobs notification service', () => {
 
       jobsNotifications.finish({ id });
       expect(jobsNotifications.notifications[0].status).toBe(INotificationStatus.Finished);
-    }
+    },
   ));
 
   it('should update the status to "failed"', inject(
@@ -46,7 +46,7 @@ describe('Jobs notification service', () => {
 
       jobsNotifications.fail({ id });
       expect(jobsNotifications.notifications[0].status).toBe(INotificationStatus.Failed);
-    }
+    },
   ));
 
   it('should remove notification by id if it ends', inject(
@@ -67,7 +67,7 @@ describe('Jobs notification service', () => {
       expect(jobsNotificationService.notifications.length).toBe(1);
 
       expect(jobsNotificationService.notifications[0].message).toBe('new job');
-    }
+    },
   ));
 
   it('should remove all finished jobs', inject(
@@ -85,6 +85,6 @@ describe('Jobs notification service', () => {
 
       expect(jobsNotificationService.notifications.length).toBe(1);
       expect(jobsNotificationService.notifications[0].message).toBe('another one');
-    }
+    },
   ));
 });

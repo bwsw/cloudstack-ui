@@ -5,7 +5,12 @@ import { Action } from '@ngrx/store';
 import { defer, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { ConfigActionTypes, LoadConfig, LoadConfigError, LoadConfigSuccess } from './config.actions';
+import {
+  ConfigActionTypes,
+  LoadConfig,
+  LoadConfigError,
+  LoadConfigSuccess,
+} from './config.actions';
 import { ConfigValidationService } from '../../core/config';
 
 @Injectable()
@@ -17,9 +22,9 @@ export class ConfigEffects {
       this.http.get('config/config.json').pipe(
         map(data => this.configValidationService.validate(data)),
         map(config => new LoadConfigSuccess({ config })),
-        catchError(error => of(new LoadConfigError({ error })))
-      )
-    )
+        catchError(error => of(new LoadConfigError({ error }))),
+      ),
+    ),
   );
 
   @Effect()
@@ -30,6 +35,6 @@ export class ConfigEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private configValidationService: ConfigValidationService
+    private configValidationService: ConfigValidationService,
   ) {}
 }

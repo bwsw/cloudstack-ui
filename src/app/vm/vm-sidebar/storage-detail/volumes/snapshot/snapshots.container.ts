@@ -29,7 +29,7 @@ export class SnapshotsContainerComponent {
   constructor(
     private dialogService: DialogService,
     private store: Store<State>,
-    private snapshotActionService: SnapshotActionService
+    private snapshotActionService: SnapshotActionService,
   ) {}
 
   public onTemplateCreate(snapshot: Snapshot) {
@@ -45,7 +45,7 @@ export class SnapshotsContainerComponent {
       .confirm({ message: 'DIALOG_MESSAGES.SNAPSHOT.CONFIRM_DELETION' })
       .pipe(
         onErrorResumeNext(),
-        filter(Boolean)
+        filter(Boolean),
       )
       .subscribe(() => {
         this.store.dispatch(new snapshotActions.DeleteSnapshot(snapshot));

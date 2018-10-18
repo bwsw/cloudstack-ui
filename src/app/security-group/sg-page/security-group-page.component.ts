@@ -36,7 +36,7 @@ export class SecurityGroupPageComponent {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public listService: ListService
+    public listService: ListService,
   ) {}
 
   public get showSidebarDetails(): boolean {

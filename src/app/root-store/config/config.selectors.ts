@@ -35,5 +35,5 @@ export const getDefaultUserTags = createSelector(
           { key: userTagKeys.keyboardLayoutForVms, value: config.keyboardLayoutForVms },
         ]
       : [];
-  }
+  },
 );

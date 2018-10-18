@@ -34,7 +34,8 @@ const vmRestoreAction = {
   command: VmActions.RESTORE,
   icon: 'mdi-backup-restore',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESTORE',
-  canActivate: (vm: VirtualMachine) => !!vm && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1,
+  canActivate: (vm: VirtualMachine) =>
+    !!vm && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1,
 };
 
 const vmDestroyAction = {
@@ -51,10 +52,11 @@ const vmResetPasswordAction = {
   command: VmActions.RESET_PASSWORD,
   icon: 'mdi-key',
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
-  canActivate: (vm: VirtualMachine) => !!vm
-    && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1
-    && vm.passwordenabled
-    && isIpAvailable(vm)
+  canActivate: (vm: VirtualMachine) =>
+    !!vm &&
+    [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1 &&
+    vm.passwordenabled &&
+    isIpAvailable(vm),
 };
 
 const vmExpungeAction = {

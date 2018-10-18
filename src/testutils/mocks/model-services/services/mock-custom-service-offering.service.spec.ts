@@ -9,7 +9,7 @@ export class MockCustomServiceOfferingService {
     public config: {
       customOffering: ServiceOffering;
       customOfferingRestrictionsByZone: CustomComputeOfferingParameters;
-    }
+    },
   ) {}
 
   public getCustomOfferingWithSetParams(): Observable<ServiceOffering> {

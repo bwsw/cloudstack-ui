@@ -37,7 +37,7 @@ export class SnapshotItemComponent {
             ? 'backing-up'
             : state === SnapshotStates.BackedUp
               ? 'backed-up'
-              : state.toLowerCase()
+              : state.toLowerCase(),
       );
   }
 

@@ -19,7 +19,7 @@ export class ResourceCountService extends BaseBackendCachedService<ResourceCount
 
   public updateResourceCount(params: { [key: string]: string }): Observable<ResourceCount[]> {
     return this.sendCommand(CSCommands.Update, params).pipe(
-      map(response => this.formatGetListResponse(response).list)
+      map(response => this.formatGetListResponse(response).list),
     );
   }
 }

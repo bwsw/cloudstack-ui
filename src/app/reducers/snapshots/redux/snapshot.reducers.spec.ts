@@ -84,7 +84,7 @@ describe('Snapshot Reducer', () => {
         entities,
         ids: ['2', '1'],
       },
-      action
+      action,
     );
 
     expect(state.ids).toEqual(['2']);

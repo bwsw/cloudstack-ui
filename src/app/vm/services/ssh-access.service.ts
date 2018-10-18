@@ -54,7 +54,7 @@ export class SshAccessService extends AccessService {
     const sshLogin = this.getTagValue(vm.tags, virtualMachineTagKeys.sshLoginToken);
     const vmLogin = this.getTagValue(vm.tags, virtualMachineTagKeys.loginTag);
     return sshLogin || vmLogin || this.defaultLogin;
-  };
+  }
 
   public getPassword(vm: VirtualMachine): string {
     const sshPassword = this.getTagValue(vm.tags, virtualMachineTagKeys.sshPasswordToken);

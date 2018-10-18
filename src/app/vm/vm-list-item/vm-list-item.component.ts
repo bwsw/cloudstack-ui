@@ -72,7 +72,8 @@ export abstract class VmListItemComponent implements OnInit {
   public get itemClass() {
     const { state } = this.item;
     const error = state === VmState.Error;
-    const destroyed = state === VmState.Destroyed || (state as any) === 'VM_STATE.EXPUNGE_IN_PROGRESS';
+    const destroyed =
+      state === VmState.Destroyed || (state as any) === 'VM_STATE.EXPUNGE_IN_PROGRESS';
 
     return {
       error,
@@ -101,7 +102,8 @@ export abstract class VmListItemComponent implements OnInit {
 
   public get getDisksSize(): number {
     const filteredVolumes =
-      this.volumes && this.volumes.filter((volume: Volume) => volume.virtualmachineid === this.item.id);
+      this.volumes &&
+      this.volumes.filter((volume: Volume) => volume.virtualmachineid === this.item.id);
     const sizeInBytes =
       (filteredVolumes &&
         filteredVolumes.reduce((acc: number, volume: Volume) => {
@@ -112,7 +114,11 @@ export abstract class VmListItemComponent implements OnInit {
   }
 
   public get getOsDescription(): string {
-    return this.osTypesMap && this.osTypesMap[this.item.guestosid] && this.osTypesMap[this.item.guestosid].description;
+    return (
+      this.osTypesMap &&
+      this.osTypesMap[this.item.guestosid] &&
+      this.osTypesMap[this.item.guestosid].description
+    );
   }
 
   private updateColor(): void {

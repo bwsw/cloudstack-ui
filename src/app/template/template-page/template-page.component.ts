@@ -33,7 +33,7 @@ export class TemplatePageComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public listService: ListService
+    public listService: ListService,
   ) {}
 
   public ngOnInit(): void {

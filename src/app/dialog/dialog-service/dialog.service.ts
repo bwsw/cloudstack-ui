@@ -2,9 +2,15 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 
-import { AlertDialogComponent, AlertDialogConfiguration } from './alert-dialog/alert-dialog.component';
+import {
+  AlertDialogComponent,
+  AlertDialogConfiguration,
+} from './alert-dialog/alert-dialog.component';
 import { AskDialogComponent, AskDialogConfiguration } from './ask-dialog/ask-dialog.component';
-import { ConfirmDialogComponent, ConfirmDialogConfiguration } from './confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogConfiguration,
+} from './confirm-dialog/confirm-dialog.component';
 
 const defaultConfirmDialogConfirmText = 'COMMON.YES';
 const defaultConfirmDialogDeclineText = 'COMMON.NO';
@@ -77,7 +83,7 @@ export class DialogService {
       disableClose: config.disableClose,
     } as MatDialogConfig;
     return config.width
-      ? {...configuration,  width: config.width}
-      : {...configuration,  width: defaultWidth};
+      ? { ...configuration, width: config.width }
+      : { ...configuration, width: defaultWidth };
   }
 }

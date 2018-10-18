@@ -65,7 +65,7 @@ export class SnapshotSidebarComponent {
             ? 'backing-up'
             : state === SnapshotStates.BackedUp
               ? 'backed-up'
-              : state.toLowerCase()
+              : state.toLowerCase(),
       );
   }
 }

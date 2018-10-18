@@ -82,8 +82,8 @@ export const defaultChartConfig = {
 
 export function getChart(config: any[]) {
   return config.map(_ => {
-    const options = {...defaultChartOptions, ..._.options};
-    return {...defaultChartConfig,  ..._, options};
+    const options = { ...defaultChartOptions, ..._.options };
+    return { ...defaultChartConfig, ..._, options };
   });
 }
 

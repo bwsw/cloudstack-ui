@@ -1,6 +1,11 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { getSnapshotDescription, Snapshot, SnapshotPageMode, SnapshotType } from '../../../shared/models';
+import {
+  getSnapshotDescription,
+  Snapshot,
+  SnapshotPageMode,
+  SnapshotType,
+} from '../../../shared/models';
 
 import * as snapshotActions from './snapshot.actions';
 import * as volumeActions from '../../volumes/redux/volumes.actions';
@@ -58,7 +63,7 @@ export const snapshotReducers = {
 
 export function listReducer(
   state = initialListState,
-  action: snapshotActions.Actions | volumeActions.Actions
+  action: snapshotActions.Actions | volumeActions.Actions,
 ): ListState {
   switch (action.type) {
     case snapshotActions.LOAD_SNAPSHOT_REQUEST: {
@@ -105,14 +110,14 @@ export const getSnapshotsState = createFeatureSelector<SnapshotState>('snapshots
 export const getSnapshotEntitiesState = createSelector(getSnapshotsState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getSnapshotEntitiesState
+  getSnapshotEntitiesState,
 );
 
 export const isLoading = createSelector(getSnapshotEntitiesState, state => state.loading);
 
 export const getSelectedSnapshot = createSelector(
   getSnapshotEntitiesState,
-  state => state.entities[state.selectedSnapshotId]
+  state => state.entities[state.selectedSnapshotId],
 );
 
 export const filters = createSelector(getSnapshotEntitiesState, state => state.filters);
@@ -145,7 +150,7 @@ export const selectFilteredSnapshots = createSelector(selectAll, filters, (snaps
     !filter.selectedDate ||
     moment(snapshot.created).isBetween(
       moment(filter.selectedDate).startOf('day'),
-      moment(filter.selectedDate).endOf('day')
+      moment(filter.selectedDate).endOf('day'),
     );
 
   const queryLower = filter.query && filter.query.toLowerCase();
@@ -166,6 +171,6 @@ export const selectFilteredSnapshots = createSelector(selectAll, filters, (snaps
       filterByAccount(snapshot) &&
       filterByTypes(snapshot) &&
       filterByDate(snapshot) &&
-      filterByQuery(snapshot)
+      filterByQuery(snapshot),
   );
 });

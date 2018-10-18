@@ -19,9 +19,9 @@ export class ResourceLimitsEffects {
         map((limits: ResourceLimit[]) => {
           return new resourceLimitActions.LoadResourceLimitsResponse(limits);
         }),
-        catchError(() => of(new resourceLimitActions.LoadResourceLimitsResponse([])))
+        catchError(() => of(new resourceLimitActions.LoadResourceLimitsResponse([]))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -32,7 +32,7 @@ export class ResourceLimitsEffects {
       const domainid = action.payload[0].domainid;
 
       const observes = action.payload.map(limit =>
-        this.resourceLimitService.updateResourceLimit(limit)
+        this.resourceLimitService.updateResourceLimit(limit),
       );
 
       return forkJoin(observes).pipe(
@@ -42,9 +42,9 @@ export class ResourceLimitsEffects {
             account,
           });
         }),
-        catchError(error => of(new resourceLimitActions.UpdateResourceLimitsError(error)))
+        catchError(error => of(new resourceLimitActions.UpdateResourceLimitsError(error))),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -52,13 +52,13 @@ export class ResourceLimitsEffects {
     ofType(resourceLimitActions.UPDATE_RESOURCE_LIMITS_ERROR),
     tap((action: resourceLimitActions.UpdateResourceLimitsError) => {
       this.handleError(action.payload);
-    })
+    }),
   );
 
   constructor(
     private actions$: Actions,
     private resourceLimitService: ResourceLimitService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {}
 
   private handleError(error): void {

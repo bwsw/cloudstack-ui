@@ -12,7 +12,7 @@ export class ServiceOfferingService extends OfferingService<ServiceOffering> {
   protected isOfferingAvailableInZone(
     offering: ServiceOffering,
     availability: ServiceOfferingAvailability,
-    zone: Zone
+    zone: Zone,
   ): boolean {
     if (availability.zones[zone.id]) {
       const isOfferingExist =

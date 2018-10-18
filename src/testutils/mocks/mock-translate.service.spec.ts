@@ -19,7 +19,7 @@ export class MockTranslateService {
     }
 
     const result = key.reduce((acc, element) => {
-      return {...acc,  [element]: element};
+      return { ...acc, [element]: element };
     }, {});
 
     return of(result);

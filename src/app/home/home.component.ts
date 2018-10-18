@@ -17,7 +17,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
   public isSidenavVisible$ = this.store.pipe(select(layoutSelectors.isSidenavVisible));
   public allowReorderingSidenav$ = this.store.pipe(
-    select(configSelectors.get('allowReorderingSidenav'))
+    select(configSelectors.get('allowReorderingSidenav')),
   );
 
   constructor(private auth: AuthService, private store: Store<State>) {
@@ -27,15 +27,17 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new UserTagsActions.LoadUserTags());
 
-    this.auth.loggedIn.pipe(
-      takeUntil(this.unsubscribe$),
-      filter(isLoggedIn => isLoggedIn))
+    this.auth.loggedIn
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(isLoggedIn => isLoggedIn),
+      )
       .subscribe(() => {
         this.store.dispatch(
           new authActions.LoadUserAccountRequest({
             name: this.auth.user.account,
             domainid: this.auth.user.domainid,
-          })
+          }),
         );
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });

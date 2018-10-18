@@ -16,7 +16,7 @@ export class AffinityGroupComponent {
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {}
 
   public changeAffinityGroup(): void {

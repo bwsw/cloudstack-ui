@@ -39,7 +39,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
     private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
     private vmService: VmService,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     super();
   }
@@ -50,7 +50,7 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
         filter(Boolean),
         // This delay is needed as a workaround for https://github.com/angular/angular/issues/15634
         // Otherwise you will get an 'ExpressionChangedAfterItHasBeenCheckedError' error
-        delay(1)
+        delay(1),
       )
       .subscribe(() => this.showSuggestionDialog());
   }
@@ -97,22 +97,22 @@ export class VolumePageComponent extends WithUnsubscribe() implements OnInit {
   private get shouldShowSuggestionDialog(): Observable<boolean> {
     const dataReceivedAndUpdated$ = combineLatest(
       this.store.pipe(select(fromVolumes.isLoading)),
-      this.store.pipe(select(fromVolumes.isLoaded))
+      this.store.pipe(select(fromVolumes.isLoaded)),
     ).pipe(
       map(([loading, loaded]) => !loading && loaded),
       filter(Boolean),
-      first()
+      first(),
     );
 
     return dataReceivedAndUpdated$.pipe(
       withLatestFrom(
         this.store.pipe(select(UserTagsSelectors.getIsAskToCreateVolume)),
-        this.store.pipe(select(fromVolumes.getVolumesCount))
+        this.store.pipe(select(fromVolumes.getVolumesCount)),
       ),
       map(
         ([dataReadyFlag, isAsk, volumeCount]) =>
-          isAsk && volumeCount === 0 && !this.isCreationFormOpen
-      )
+          isAsk && volumeCount === 0 && !this.isCreationFormOpen,
+      ),
     );
   }
 

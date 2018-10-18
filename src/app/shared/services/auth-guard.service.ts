@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private routerUtilsService: RouterUtilsService
+    private routerUtilsService: RouterUtilsService,
   ) {}
 
   public canActivate(_, state: RouterStateSnapshot): Observable<boolean> {
@@ -20,11 +20,11 @@ export class AuthGuard implements CanActivate {
         if (!result) {
           this.router.navigate(
             ['/logout'],
-            this.routerUtilsService.getRedirectionQueryParams(state.url)
+            this.routerUtilsService.getRedirectionQueryParams(state.url),
           );
         }
         return result;
-      })
+      }),
     );
   }
 }

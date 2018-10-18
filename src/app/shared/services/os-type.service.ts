@@ -44,7 +44,7 @@ export class OsTypeService extends BaseBackendService<OsType> {
 
         this.osTypes = osTypes;
         return osTypes;
-      })
+      }),
     );
     return this.requestObservable;
   }

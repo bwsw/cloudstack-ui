@@ -78,7 +78,9 @@ export const getOfferingsState = createFeatureSelector<OfferingsState>('service-
 
 export const getOfferingsEntitiesState = createSelector(getOfferingsState, state => state.list);
 
-export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(getOfferingsEntitiesState);
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
+  getOfferingsEntitiesState,
+);
 
 export const isLoading = createSelector(getOfferingsEntitiesState, state => state.loading);
 
@@ -93,13 +95,20 @@ export const filterQuery = createSelector(filters, state => state.query);
 export const getSelectedOffering = createSelector(
   selectEntities,
   fromVMs.getSelectedVM,
-  (entities, vm) => vm && entities[vm.serviceofferingid]
+  (entities, vm) => vm && entities[vm.serviceofferingid],
 );
 
-export const classesFilter = (offering: ServiceOffering, soClasses: ComputeOfferingClass[], classesMap: any) => {
+export const classesFilter = (
+  offering: ServiceOffering,
+  soClasses: ComputeOfferingClass[],
+  classesMap: any,
+) => {
   const classes = soClasses.filter(
     soClass => soClass.computeOfferings && soClass.computeOfferings.indexOf(offering.id) > -1,
   );
   const showGeneral = !!classesMap[defaultComputeOfferingClass.id];
-  return (classes.length && classes.find(soClass => classesMap[soClass.id])) || (showGeneral && !classes.length);
+  return (
+    (classes.length && classes.find(soClass => classesMap[soClass.id])) ||
+    (showGeneral && !classes.length)
+  );
 };

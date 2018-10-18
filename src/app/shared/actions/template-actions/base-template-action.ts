@@ -13,7 +13,7 @@ export abstract class BaseTemplateAction implements Action<BaseTemplateModel> {
 
   constructor(
     protected dialogService: DialogService,
-    protected jobsNotificationService: JobsNotificationService
+    protected jobsNotificationService: JobsNotificationService,
   ) {}
 
   public abstract activate(template: BaseTemplateModel, params?: {}): Observable<any>;

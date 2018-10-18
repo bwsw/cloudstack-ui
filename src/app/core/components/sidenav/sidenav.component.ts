@@ -11,7 +11,13 @@ import { transformHandle, transformLinks } from './sidenav-animations';
 import { NavigationItem, nonDraggableRoutes, SidenavRoute, sidenavRoutes } from './sidenav-routes';
 import { SidenavRouteId } from '../../config';
 import { SidenavConfigElement } from '../../../shared/models/config';
-import { configSelectors, layoutActions, State, UserTagsActions, UserTagsSelectors } from '../../../root-store';
+import {
+  configSelectors,
+  layoutActions,
+  State,
+  UserTagsActions,
+  UserTagsSelectors,
+} from '../../../root-store';
 
 @Component({
   selector: 'cs-sidenav',
@@ -130,7 +136,9 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
       moves: () => this.editing,
     });
 
-    this.dragula.dropModel.pipe(takeUntil(this.unsubscribe$)).subscribe(() => (this.hasChanges = true));
+    this.dragula.dropModel
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(() => (this.hasChanges = true));
   }
 
   private initNavigationOrder() {
@@ -171,7 +179,9 @@ export class SidenavComponent extends WithUnsubscribe() implements OnInit, OnDes
       return false;
     }
 
-    return order.every(el => el.visible != null && el.id != null && !!this.routes.find(route => route.id === el.id));
+    return order.every(
+      el => el.visible != null && el.id != null && !!this.routes.find(route => route.id === el.id),
+    );
   }
 
   private navigationPredicate(order: NavigationItem[]) {

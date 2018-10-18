@@ -94,7 +94,7 @@ export const vm: VirtualMachine = {
       resourceid: 'e3a74eef-46bf-4d77-90e2-fef2c5470ced',
       account: 'admin',
       domainid: '931b7464-63aa-11e8-946f-0242ac110002',
-      domain: 'ROOT'
-    }
-  ]
+      domain: 'ROOT',
+    },
+  ],
 } as VirtualMachine;

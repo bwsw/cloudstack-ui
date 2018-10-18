@@ -19,7 +19,7 @@ export class LogoutComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private store: Store<State>,
-    private routerUtilsService: RouterUtilsService
+    private routerUtilsService: RouterUtilsService,
   ) {}
 
   public ngOnInit(): void {

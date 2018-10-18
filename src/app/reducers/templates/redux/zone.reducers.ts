@@ -76,7 +76,7 @@ export const getZonesState = createFeatureSelector<ZoneState>('zones');
 export const getZonesEntitiesState = createSelector(getZonesState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getZonesEntitiesState
+  getZonesEntitiesState,
 );
 
 export const isLoading = createSelector(getZonesEntitiesState, state => state.loading);

@@ -20,7 +20,7 @@ export class VmSidebarComponent extends SidebarComponent<VirtualMachine> {
     protected vmService: VmService,
     protected notificationService: SnackBarService,
     protected route: ActivatedRoute,
-    protected router: Router
+    protected router: Router,
   ) {
     super(vmService, notificationService, route, router);
   }

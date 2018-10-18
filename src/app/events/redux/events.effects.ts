@@ -21,8 +21,8 @@ export class EventsEffects {
         new event.LoadEventsRequest({
           startDate: formatIso(date),
           endDate: formatIso(date),
-        })
-    )
+        }),
+    ),
   );
 
   @Effect()
@@ -33,9 +33,9 @@ export class EventsEffects {
         map((events: Event[]) => {
           return new event.LoadEventsResponse(events);
         }),
-        catchError(() => of(new event.LoadEventsResponse([])))
+        catchError(() => of(new event.LoadEventsResponse([]))),
       );
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private eventService: EventService) {}

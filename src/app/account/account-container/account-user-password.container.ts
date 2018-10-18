@@ -19,7 +19,7 @@ export class AccountUserPasswordFormContainerComponent {
   constructor(
     private dialogRef: MatDialogRef<AccountUserPasswordFormContainerComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
-    private store: Store<State>
+    private store: Store<State>,
   ) {
     this.user = { ...data.user };
   }
@@ -29,7 +29,7 @@ export class AccountUserPasswordFormContainerComponent {
       new accountActions.AccountUserUpdate({
         ...this.user,
         password,
-      })
+      }),
     );
     this.dialogRef.close();
   }

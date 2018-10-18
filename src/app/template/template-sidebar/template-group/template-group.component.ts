@@ -32,7 +32,10 @@ export class TemplateGroupComponent {
   public get groupName(): string {
     const tag = this.template.tags.find(t => t.key === templateTagKeys.group);
     const group = tag && this.groups.find(g => g.id === tag.value);
-    return (group && ((group.translations && group.translations[this.locale]) || group.id)) || defaultTemplateGroupId;
+    return (
+      (group && ((group.translations && group.translations[this.locale]) || group.id)) ||
+      defaultTemplateGroupId
+    );
   }
 
   public get locale(): Language {

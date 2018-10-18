@@ -1,5 +1,8 @@
 import { serviceOfferingType } from '../../../shared/models';
-import { LOAD_SERVICE_OFFERINGS_REQUEST, LOAD_SERVICE_OFFERINGS_RESPONSE } from './service-offerings.actions';
+import {
+  LOAD_SERVICE_OFFERINGS_REQUEST,
+  LOAD_SERVICE_OFFERINGS_RESPONSE,
+} from './service-offerings.actions';
 import * as fromSOs from './service-offerings.reducers';
 
 describe('Test service offering reducer', () => {
@@ -65,9 +68,11 @@ describe('Test service offering reducer', () => {
     } as any);
     expect(fromSOs.getOfferingsEntitiesState.projector({ list: state })).toBe(state);
     expect(fromSOs.isLoading.projector(state)).toBe(false);
-    expect(fromSOs.getSelectedOffering.projector(state.entities, { serviceofferingid: 1 })).toEqual({
-      id: '1',
-      name: 'off1',
-    });
+    expect(fromSOs.getSelectedOffering.projector(state.entities, { serviceofferingid: 1 })).toEqual(
+      {
+        id: '1',
+        name: 'off1',
+      },
+    );
   });
 });

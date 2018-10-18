@@ -14,7 +14,7 @@ export class SecurityGroupGroupedListComponent extends GroupedListComponent {
 
   protected sortGroups(group1, group2) {
     const systemName = this.translateService.instant(
-      'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS'
+      'SECURITY_GROUP_PAGE.LIST.SYSTEM_SECURITY_GROUPS',
     );
     return group1.name === systemName ? -1 : 1;
   }

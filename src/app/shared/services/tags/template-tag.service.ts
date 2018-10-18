@@ -14,12 +14,25 @@ export class TemplateTagService implements EntityTagService {
 
   constructor(protected tagService: TagService) {}
 
-  public setDownloadUrl(template: BaseTemplateModel, downloadUrl: string): Observable<BaseTemplateModel> {
-    return this.tagService.update(template, resourceType(template), this.keys.downloadUrl, downloadUrl);
+  public setDownloadUrl(
+    template: BaseTemplateModel,
+    downloadUrl: string,
+  ): Observable<BaseTemplateModel> {
+    return this.tagService.update(
+      template,
+      resourceType(template),
+      this.keys.downloadUrl,
+      downloadUrl,
+    );
   }
 
   public setGroup(template: BaseTemplateModel, group: ImageGroup): Observable<BaseTemplateModel> {
-    return this.tagService.update(template, resourceType(template), this.keys.group, group && group.id);
+    return this.tagService.update(
+      template,
+      resourceType(template),
+      this.keys.group,
+      group && group.id,
+    );
   }
 
   public resetGroup(template: BaseTemplateModel): Observable<BaseTemplateModel> {

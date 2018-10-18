@@ -52,7 +52,9 @@ export class SgRulesComponent implements OnInit, OnChanges {
       label: 'SECURITY_GROUP_PAGE.FILTERS.TYPES',
       selector: (item: NetworkRule) => item.type,
       name: (item: NetworkRule) =>
-        this.translateService.instant(`SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`),
+        this.translateService.instant(
+          `SECURITY_GROUP_PAGE.RULES.${item.type.toUpperCase()}_DISPLAY`,
+        ),
     },
     {
       key: 'protocols',
@@ -74,7 +76,9 @@ export class SgRulesComponent implements OnInit, OnChanges {
   ];
 
   public get isPredefinedTemplate(): boolean {
-    return this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate;
+    return (
+      this.securityGroup && getType(this.securityGroup) === SecurityGroupType.PredefinedTemplate
+    );
   }
 
   constructor(
@@ -152,9 +156,13 @@ export class SgRulesComponent implements OnInit, OnChanges {
         this.filter();
       },
       () => {
-        this.translateService.get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']).subscribe(translations => {
-          this.notificationService.open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE']).subscribe();
-        });
+        this.translateService
+          .get(['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
+          .subscribe(translations => {
+            this.notificationService
+              .open(translations['SECURITY_GROUP_PAGE.RULES.FAILED_TO_REMOVE_RULE'])
+              .subscribe();
+          });
       },
     );
   }
@@ -228,11 +236,17 @@ export class SgRulesComponent implements OnInit, OnChanges {
     return rules.filter((rule: NetworkRule) => {
       const filterByIPversion = (item: NetworkRule) => {
         const ruleIPversion =
-          item.cidr && CidrUtils.getCidrIpVersion(item.cidr) === IPVersion.ipv6 ? IPVersion.ipv6 : IPVersion.ipv4;
-        return !this.selectedIPVersion.length || this.selectedIPVersion.find(version => version === ruleIPversion);
+          item.cidr && CidrUtils.getCidrIpVersion(item.cidr) === IPVersion.ipv6
+            ? IPVersion.ipv6
+            : IPVersion.ipv4;
+        return (
+          !this.selectedIPVersion.length ||
+          this.selectedIPVersion.find(version => version === ruleIPversion)
+        );
       };
       const filterByProtocol = (item: NetworkRule) =>
-        !this.selectedProtocols.length || this.selectedProtocols.find(protocol => protocol === item.protocol);
+        !this.selectedProtocols.length ||
+        this.selectedProtocols.find(protocol => protocol === item.protocol);
       const filterByTypes = (item: NetworkRule) =>
         !this.selectedTypes.length || this.selectedTypes.find(type => item.type === type);
 

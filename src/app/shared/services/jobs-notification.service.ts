@@ -78,7 +78,9 @@ export class JobsNotificationService {
   }
 
   public removeCompleted(): void {
-    this.notifications = this.notifications.filter((n: JobNotification) => n.status === INotificationStatus.Pending);
+    this.notifications = this.notifications.filter(
+      (n: JobNotification) => n.status === INotificationStatus.Pending,
+    );
     this._pendingJobsCount$.next(this.notifications.length);
   }
 

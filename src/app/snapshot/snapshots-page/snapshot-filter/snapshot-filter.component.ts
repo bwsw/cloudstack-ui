@@ -50,13 +50,13 @@ export class SnapshotFilterComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    public dateTimeFormatterService: DateTimeFormatterService
+    public dateTimeFormatterService: DateTimeFormatterService,
   ) {}
 
   public ngOnInit() {
     this.availableGroupings = reorderAvailableGroupings(
       this.availableGroupings,
-      this.selectedGroupings
+      this.selectedGroupings,
     );
   }
 }

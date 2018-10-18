@@ -10,7 +10,7 @@ import { SnackBarService } from '../../core/services';
 export class SshPrivateKeyDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public privateKey: string,
-    private notificationService: SnackBarService
+    private notificationService: SnackBarService,
   ) {}
 
   public onCopySuccess(): void {

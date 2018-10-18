@@ -38,21 +38,21 @@ export class VolumeResizeContainerComponent implements OnInit {
     public authService: AuthService,
     private store: Store<State>,
     private dialogRef: MatDialogRef<VolumeResizeContainerComponent>,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
   ) {
     this.volume = data.volume;
   }
 
   public ngOnInit() {
     this.store.dispatch(
-      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK })
+      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }),
     );
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.volume.zoneid));
 
     this.account$
       .pipe(
         take(1),
-        filter(account => !!account)
+        filter(account => !!account),
       )
       .subscribe((account: Account) => {
         this.maxSize = account.primarystorageavailable;

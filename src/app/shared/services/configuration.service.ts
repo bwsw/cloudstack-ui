@@ -18,7 +18,7 @@ export class ConfigurationService extends BaseBackendService<Configuration> {
 
   public updateConfiguration(
     configuration: Configuration,
-    account: Account
+    account: Account,
   ): Observable<Configuration> {
     return this.sendCommand(CSCommands.Update, {
       accountid: account.id,

@@ -6,7 +6,7 @@ import {
   isDefaultSecurityGroup,
   isSecurityGroupNative,
   SecurityGroup,
-  SecurityGroupType
+  SecurityGroupType,
 } from '../../../security-group/sg.model';
 
 import * as fromAccounts from '../../accounts/redux/accounts.reducers';
@@ -69,7 +69,7 @@ export const securityGroupReducers = {
 
 export function listReducer(
   state = initialListState,
-  action: securityGroupActions.Actions
+  action: securityGroupActions.Actions,
 ): ListState {
   switch (action.type) {
     case securityGroupActions.LOAD_SECURITY_GROUP_REQUEST: {
@@ -119,7 +119,7 @@ export function listReducer(
 
 export function formReducer(
   state = initialFormState,
-  action: securityGroupActions.Actions
+  action: securityGroupActions.Actions,
 ): FormState {
   switch (action.type) {
     case securityGroupActions.CREATE_SECURITY_GROUP:
@@ -148,16 +148,16 @@ export const getSecurityGroupsState = createFeatureSelector<SecurityGroupsState>
 
 export const getSecurityGroupsEntitiesState = createSelector(
   getSecurityGroupsState,
-  state => state.list
+  state => state.list,
 );
 
 export const getSecurityGroupsFormState = createSelector(
   getSecurityGroupsState,
-  state => state.form
+  state => state.form,
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getSecurityGroupsEntitiesState
+  getSecurityGroupsEntitiesState,
 );
 
 export const filters = createSelector(getSecurityGroupsEntitiesState, state => state.filters);
@@ -172,13 +172,13 @@ export const filterSelectedAccountIds = createSelector(filters, state => state.s
 
 export const getSelectedId = createSelector(
   getSecurityGroupsEntitiesState,
-  state => state.selectedSecurityGroupId
+  state => state.selectedSecurityGroupId,
 );
 
 export const getSelectedSecurityGroup = createSelector(
   getSecurityGroupsEntitiesState,
   getSelectedId,
-  (state, selectedId) => state.entities[selectedId]
+  (state, selectedId) => state.entities[selectedId],
 );
 
 export const isListLoading = createSelector(getSecurityGroupsEntitiesState, state => state.loading);
@@ -190,7 +190,8 @@ const selectDefaultSecurityGroupName = createSelector(
   UserTagsSelectors.getInterfaceLanguage,
   (names, lang) => {
     return names[lang];
-  });
+  },
+);
 
 export const selectFilteredSecurityGroups = createSelector(
   selectAll,
@@ -204,7 +205,7 @@ export const selectFilteredSecurityGroups = createSelector(
       !queryLower || group.name.toLowerCase().includes(queryLower);
 
     const selectedAccounts = accounts.filter(account =>
-      filter.selectedAccountIds.find(id => id === account.id)
+      filter.selectedAccountIds.find(id => id === account.id),
     );
     const accountsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.name]: i }), {});
     const domainsMap = selectedAccounts.reduce((m, i) => ({ ...m, [i.domainid]: i }), {});
@@ -229,48 +230,55 @@ export const selectFilteredSecurityGroups = createSelector(
       }
     };
 
-    const isOrphan = (group: SecurityGroup) => (
-      filter.selectOrphanSG
-      && mode === SecurityGroupViewMode.Private
-      && isSecurityGroupNative(group)
-    ) ? group.virtualmachineids.length === 0 : true;
+    const isOrphan = (group: SecurityGroup) =>
+      filter.selectOrphanSG &&
+      mode === SecurityGroupViewMode.Private &&
+      isSecurityGroupNative(group)
+        ? group.virtualmachineids.length === 0
+        : true;
 
     const renameDefaultSG = (securityGroup: SecurityGroup) => {
-      return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
+      return isDefaultSecurityGroup(securityGroup)
+        ? { ...securityGroup, name: defaultSecurityGroupName }
+        : securityGroup;
     };
 
     return securityGroups
       .map(renameDefaultSG)
-      .filter(group => queryFilter(group)
-        && viewModeFilter(group)
-        && selectedAccountIdsFilter(group)
-        && isOrphan(group));
-  });
+      .filter(
+        group =>
+          queryFilter(group) &&
+          viewModeFilter(group) &&
+          selectedAccountIdsFilter(group) &&
+          isOrphan(group),
+      );
+  },
+);
 
 export const selectSecurityGroupsForVmCreation = createSelector(
   selectAll,
   fromAuth.getUserAccount,
   selectDefaultSecurityGroupName,
   (securityGroups, account, defaultSecurityGroupName) => {
-    const accountFilter = (securityGroup: SecurityGroup) => (
-      account
-      && isSecurityGroupNative(securityGroup)
-      && securityGroup.account === account.name
-    );
+    const accountFilter = (securityGroup: SecurityGroup) =>
+      account && isSecurityGroupNative(securityGroup) && securityGroup.account === account.name;
     const onlySharedFilter = (securityGroup: SecurityGroup) =>
       getType(securityGroup) === SecurityGroupType.Shared;
     const renameDefaultSG = (securityGroup: SecurityGroup) => {
-      return isDefaultSecurityGroup(securityGroup) ? {...securityGroup, name: defaultSecurityGroupName} : securityGroup;
+      return isDefaultSecurityGroup(securityGroup)
+        ? { ...securityGroup, name: defaultSecurityGroupName }
+        : securityGroup;
     };
     return securityGroups
       .map(renameDefaultSG)
-      .filter((securityGroup) => accountFilter(securityGroup) && onlySharedFilter(securityGroup));
-  });
+      .filter(securityGroup => accountFilter(securityGroup) && onlySharedFilter(securityGroup));
+  },
+);
 
 export const selectPredefinedSecurityGroups = createSelector(
   selectAll,
   (securityGroups: SecurityGroup[]) =>
-    securityGroups.filter(securityGroup => securityGroup.preselected)
+    securityGroups.filter(securityGroup => securityGroup.preselected),
 );
 
 export const selectDefaultSecurityGroup = createSelector(
@@ -278,10 +286,10 @@ export const selectDefaultSecurityGroup = createSelector(
   selectDefaultSecurityGroupName,
   fromAuth.getUserAccount,
   (securityGroups, defaultSecurityGroupName, user) => {
-    const defaultGroup = securityGroups.find((sg: SecurityGroup) => (
-      isSecurityGroupNative(sg)
-      && sg.account === user.name
-      && sg.name === 'default'
-    ));
+    const defaultGroup = securityGroups.find(
+      (sg: SecurityGroup) =>
+        isSecurityGroupNative(sg) && sg.account === user.name && sg.name === 'default',
+    );
     return { ...defaultGroup, name: defaultSecurityGroupName };
-  });
+  },
+);

@@ -14,7 +14,10 @@ export class CloudstackUiPage {
   }
 
   waitUrlContains(expected: string) {
-    return browser.wait(protractor.ExpectedConditions.urlContains(`${browser.baseUrl}/${expected}`), 5000);
+    return browser.wait(
+      protractor.ExpectedConditions.urlContains(`${browser.baseUrl}/${expected}`),
+      5000,
+    );
   }
 
   buttonIsClickable(nameButton: string) {
@@ -22,7 +25,10 @@ export class CloudstackUiPage {
   }
 
   waitRedirect(expected) {
-    return browser.wait(protractor.ExpectedConditions.urlIs(`${browser.baseUrl}/${expected}`), 5000);
+    return browser.wait(
+      protractor.ExpectedConditions.urlIs(`${browser.baseUrl}/${expected}`),
+      5000,
+    );
   }
 
   checkUrlToContain(expected) {

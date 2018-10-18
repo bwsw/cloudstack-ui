@@ -40,7 +40,7 @@ export class SshKeysPageComponent {
     public listService: ListService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   public isAdmin(): boolean {

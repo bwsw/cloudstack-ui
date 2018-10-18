@@ -22,7 +22,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
     protected http: HttpClient,
     private privateSecurityGroupCreation: PrivateSecurityGroupCreationService,
     private sharedSecurityGroupCreation: SharedSecurityGroupCreationService,
-    private templateSecurityGroupCreation: TemplateSecurityGroupCreationService
+    private templateSecurityGroupCreation: TemplateSecurityGroupCreationService,
   ) {
     super(http);
   }
@@ -45,7 +45,7 @@ export class SecurityGroupService extends BaseBackendService<SecurityGroup> {
         if (!result || result.success !== 'true') {
           return throwError(result);
         }
-      })
+      }),
     );
   }
 }

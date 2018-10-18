@@ -62,7 +62,7 @@ export class VmDetailContainerComponent implements OnInit {
     map((vm: VirtualMachine) => {
       const descriptionTag = vm.tags.find(tag => tag.key === vmDescriptionKey);
       return descriptionTag && descriptionTag.value;
-    })
+    }),
   );
 
   constructor(private store: Store<State>) {}
@@ -80,7 +80,7 @@ export class VmDetailContainerComponent implements OnInit {
           new vmActions.ChangeInstanceGroup({
             vm,
             group,
-          })
+          }),
         );
       } else {
         this.store.dispatch(new vmActions.RemoveInstanceGroup(vm));
@@ -94,7 +94,7 @@ export class VmDetailContainerComponent implements OnInit {
         new vmActions.ChangeAffinityGroup({
           vm,
           affinityGroupId,
-        })
+        }),
       );
     });
   }
@@ -105,7 +105,7 @@ export class VmDetailContainerComponent implements OnInit {
         new vmActions.ChangeSshKey({
           vm,
           keyPair,
-        })
+        }),
       );
     });
   }

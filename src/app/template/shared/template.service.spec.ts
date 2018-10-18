@@ -33,7 +33,9 @@ describe('Template service test', () => {
         });
       });
 
-      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(of(template));
+      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(
+        of(template),
+      );
 
       testService.create(params).subscribe(res => {
         expect(res).toEqual(template);
@@ -68,9 +70,13 @@ describe('Template service test', () => {
         });
       });
 
-      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(of(template1));
+      const spyQueryJob = spyOn(testService.asyncJobService, 'queryJob').and.returnValue(
+        of(template1),
+      );
       const spySetGroup = spyOn(testService.templateTagService, 'setGroup').and.callThrough();
-      const spyUpdate = spyOn(testService.templateTagService.tagService, 'update').and.returnValue(of(template2));
+      const spyUpdate = spyOn(testService.templateTagService.tagService, 'update').and.returnValue(
+        of(template2),
+      );
 
       testService.create(params).subscribe(res => {
         expect(res).toEqual(template2);
@@ -80,7 +86,12 @@ describe('Template service test', () => {
       expect(spySend).toHaveBeenCalledWith('create', params);
       expect(spyQueryJob).toHaveBeenCalled();
       expect(spySetGroup).toHaveBeenCalled();
-      expect(spyUpdate).toHaveBeenCalledWith(template1, 'Template', templateTagKeys.group, 'group1');
+      expect(spyUpdate).toHaveBeenCalledWith(
+        template1,
+        'Template',
+        templateTagKeys.group,
+        'group1',
+      );
     }),
   ));
 
@@ -92,12 +103,16 @@ describe('Template service test', () => {
         ostypeid: '123',
         entity: 'Template',
       };
-      const requestParams = {...params, 
+      const requestParams = {
+        ...params,
         hypervisor: 'KVM',
         format: 'QCOW2',
-        requiresHvm: true};
+        requiresHvm: true,
+      };
       const template = params;
-      const spyRegister = spyOn(BaseTemplateService.prototype, 'register').and.returnValue(of(template));
+      const spyRegister = spyOn(BaseTemplateService.prototype, 'register').and.returnValue(
+        of(template),
+      );
 
       testService.register(params).subscribe(res => {
         expect(res).toEqual(template);

@@ -47,14 +47,14 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<VmCreationServiceOfferingContainerComponent>,
     private store: Store<State>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.serviceOffering = data.serviceOffering;
   }
 
   ngOnInit() {
     this.store.dispatch(
-      new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters)
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),
     );
   }
 
@@ -68,13 +68,13 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
 
   public onViewModeChange(selectedViewMode: string) {
     this.store.dispatch(
-      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode })
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }),
     );
   }
 
   public onSelectedClassesChange(selectedClasses: string[]) {
     this.store.dispatch(
-      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses })
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }),
     );
   }
 

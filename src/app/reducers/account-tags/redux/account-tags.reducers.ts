@@ -76,7 +76,7 @@ export const getAccountTagsState = createFeatureSelector<AccountTagsState>('tags
 export const getAccountTagsEntitiesState = createSelector(getAccountTagsState, state => state.list);
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getAccountTagsEntitiesState
+  getAccountTagsEntitiesState,
 );
 
 export const isLoading = createSelector(getAccountTagsEntitiesState, state => state.loading);

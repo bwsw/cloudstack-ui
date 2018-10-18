@@ -40,13 +40,13 @@ export interface SecurityGroupTemplate {
   description: string;
   preselected?: boolean;
   egressrule: NetworkRule[];
-  ingressrule: NetworkRule[]
+  ingressrule: NetworkRule[];
 }
 
 export type SecurityGroup = SecurityGroupNative | SecurityGroupTemplate;
 
 export const isSecurityGroupNative = (sg: SecurityGroup): sg is SecurityGroupNative =>
-  ((sg as SecurityGroupNative).tags) != null;
+  (sg as SecurityGroupNative).tags != null;
 
 export const isCustomTemplate = (securityGroup: SecurityGroupNative) => {
   const typeTag = securityGroup.tags.find(tag => tag.key === securityGroupTagKeys.type);

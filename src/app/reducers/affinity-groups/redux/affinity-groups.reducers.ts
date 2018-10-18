@@ -75,11 +75,11 @@ export const getAffinityGroupsState = createFeatureSelector<AffinityGroupsState>
 
 export const getAffinityGroupEntitiesState = createSelector(
   getAffinityGroupsState,
-  state => state.list
+  state => state.list,
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
-  getAffinityGroupEntitiesState
+  getAffinityGroupEntitiesState,
 );
 
 export const isLoading = createSelector(getAffinityGroupEntitiesState, state => state.loading);

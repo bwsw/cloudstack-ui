@@ -4,7 +4,16 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, flatMap, map, mergeMap, onErrorResumeNext, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  flatMap,
+  map,
+  mergeMap,
+  onErrorResumeNext,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 import { VmPulseComponent } from '../../../pulse/vm-pulse/vm-pulse.component';
@@ -767,9 +776,10 @@ export class VirtualMachinesEffects {
     tap((vm: VirtualMachine) => {
       return this.dialog.open(VmAccessComponent, {
         width: '700px',
-        data: vm
+        data: vm,
       });
-    }));
+    }),
+  );
 
   @Effect({ dispatch: false })
   vmPulse$: Observable<VirtualMachine> = this.actions$.pipe(
@@ -854,8 +864,7 @@ export class VirtualMachinesEffects {
   }
 
   private start(vm: VirtualMachine) {
-    const notificationId = this.jobsNotificationService.add(
-      'NOTIFICATIONS.VM.START_IN_PROGRESS');
+    const notificationId = this.jobsNotificationService.add('NOTIFICATIONS.VM.START_IN_PROGRESS');
     this.update(vm, VmState.InProgress);
     return this.vmService.command(vm, CSCommands.Start).pipe(
       tap(runningVm => {
@@ -881,9 +890,7 @@ export class VirtualMachinesEffects {
   }
 
   private update(vm: VirtualMachine, state: VmState) {
-    this.store.dispatch(new vmActions.UpdateVM(
-      { ...vm, state }
-    ));
+    this.store.dispatch(new vmActions.UpdateVM({ ...vm, state }));
   }
 
   private askToStopVM(vm: VirtualMachine, message: string): Observable<any> {

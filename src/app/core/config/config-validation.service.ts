@@ -69,7 +69,7 @@ export class ConfigValidationService {
     serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
     imageGroups: validationSchemes.imageGroups,
     computeOfferingClasses: validationSchemes.computeOfferingClasses,
-    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName
+    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName,
   };
 
   constructor() {

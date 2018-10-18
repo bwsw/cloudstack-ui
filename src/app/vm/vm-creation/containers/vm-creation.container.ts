@@ -86,10 +86,8 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.pipe(select(fromAuth.isLoading)),
     this.store.pipe(select(fromTemplates.isLoading)),
     this.store.pipe(select(fromAffinityGroups.isLoading)),
-    this.store.pipe(select(UserTagsSelectors.getIsLoading))
-  ).pipe(
-    map((loadings: boolean[]) => !!loadings.find(loading => loading))
-  );
+    this.store.pipe(select(UserTagsSelectors.getIsLoading)),
+  ).pipe(map((loadings: boolean[]) => !!loadings.find(loading => loading)));
   readonly serviceOfferings$ = this.store.pipe(select(getAvailableOfferingsForVmCreation));
   readonly showOverlay$ = this.store.pipe(select(fromVMs.showOverlay));
   readonly deploymentInProgress$ = this.store.pipe(select(fromVMs.deploymentInProgress));
@@ -127,7 +125,7 @@ export class VmCreationContainerComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.store.dispatch(new vmActions.VmCreationFormInit())
+    this.store.dispatch(new vmActions.VmCreationFormInit());
   }
 
   public onDisplayNameChange(displayName: string) {
@@ -197,6 +195,7 @@ export class VmCreationContainerComponent implements OnInit {
   private getDefaultVmName(): Observable<string> {
     return this.store.pipe(
       select(UserTagsSelectors.getLastVMId),
-      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`));
+      map(numberOfVms => `vm-${this.authService.user.username}-${numberOfVms + 1}`),
+    );
   }
 }

@@ -69,7 +69,7 @@ export class DeleteVolumes implements Action {
     public payload: {
       vm: VirtualMachine;
       expunged: boolean;
-    }
+    },
   ) {}
 }
 
@@ -98,7 +98,7 @@ export class AttachVolumeToVM implements Action {
     public payload: {
       volumeId: string;
       virtualMachineId: string;
-    }
+    },
   ) {}
 }
 
@@ -157,7 +157,7 @@ export class ChangeDescription implements Action {
     public payload: {
       volume: Volume;
       description: string;
-    }
+    },
   ) {}
 }
 

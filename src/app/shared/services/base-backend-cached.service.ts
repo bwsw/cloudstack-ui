@@ -7,7 +7,6 @@ import { ApiFormat, BaseBackendService } from './base-backend.service';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 
-
 export abstract class BaseBackendCachedService<M extends BaseModel> extends BaseBackendService<M> {
   private cache: Cache<M[]>;
 
@@ -27,7 +26,7 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
       map(result => {
         this.cache.set({ params, result });
         return result;
-      })
+      }),
     );
   }
 

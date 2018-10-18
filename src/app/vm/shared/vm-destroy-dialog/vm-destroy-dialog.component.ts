@@ -11,7 +11,7 @@ export class VmDestroyDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<VmDestroyDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public canExpunge: boolean
+    @Inject(MAT_DIALOG_DATA) public canExpunge: boolean,
   ) {}
 
   public confirmDestroy(): void {

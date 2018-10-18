@@ -12,17 +12,14 @@ export class SecurityGroupTagService implements EntityTagService {
   public keys = securityGroupTagKeys;
   private readonly resourceType = 'SecurityGroup';
 
-  constructor(
-    protected tagService: TagService
-  ) {
-  }
+  constructor(protected tagService: TagService) {}
 
   public markAsTemplate(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
     return this.tagService.update(
       securityGroup,
       this.resourceType,
       this.keys.type,
-      SecurityGroupType.CustomTemplate
+      SecurityGroupType.CustomTemplate,
     );
   }
 
@@ -31,23 +28,25 @@ export class SecurityGroupTagService implements EntityTagService {
       securityGroup,
       this.resourceType,
       this.keys.type,
-      SecurityGroupType.Private
+      SecurityGroupType.Private,
     );
   }
 
   public convertToShared(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
-    return this.tagService.remove({
-      resourceIds: securityGroup.id,
-      resourceType: this.resourceType,
-      'tags[0].key': this.keys.type
-    }).pipe(
-      map(() => {
-        const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);
-        return {
-          ...securityGroup,
-          tags: filteredTags,
-        };
+    return this.tagService
+      .remove({
+        resourceIds: securityGroup.id,
+        resourceType: this.resourceType,
+        'tags[0].key': this.keys.type,
       })
-    );
+      .pipe(
+        map(() => {
+          const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);
+          return {
+            ...securityGroup,
+            tags: filteredTags,
+          };
+        }),
+      );
   }
 }

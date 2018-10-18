@@ -32,7 +32,7 @@ export class SshKeyFilterUpdate implements Action {
     public payload: {
       selectedGroupings?: Grouping[];
       selectedAccountIds?: string[];
-    }
+    },
   ) {}
 }
 

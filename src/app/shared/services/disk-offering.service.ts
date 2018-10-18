@@ -22,14 +22,14 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
         return list.filter((offering: DiskOffering) => {
           return offering.disksize < params.maxSize || offering.iscustomized;
         });
-      })
+      }),
     );
   }
 
   public isOfferingAvailableForVolume(
     diskOffering: DiskOffering,
     volume: Volume,
-    zone: Zone
+    zone: Zone,
   ): boolean {
     return (
       !isOfferingLocal(diskOffering) ||
@@ -41,7 +41,7 @@ export class DiskOfferingService extends OfferingService<DiskOffering> {
   protected isOfferingAvailableInZone(
     offering: DiskOffering,
     offeringAvailability: ServiceOfferingAvailability,
-    zone: Zone
+    zone: Zone,
   ): boolean {
     if (offeringAvailability.zones[zone.id]) {
       const isOfferingExist =

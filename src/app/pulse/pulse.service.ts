@@ -23,11 +23,7 @@ export class PulseService {
     return this.http.get(`cs-extensions/pulse/permitted-intervals`);
   }
 
-  public cpuTime(
-    vmId: string,
-    params: TimeParams,
-    forceUpdate = false
-  ): Observable<CpuStats[]> {
+  public cpuTime(vmId: string, params: TimeParams, forceUpdate = false): Observable<CpuStats[]> {
     return this.request('cputime', vmId, params, forceUpdate);
   }
 
@@ -39,7 +35,7 @@ export class PulseService {
     vmId: string,
     diskId: string,
     params: TimeParams,
-    forceUpdate = false
+    forceUpdate = false,
   ): Observable<DiskStats[]> {
     return this.request('disk', `${vmId}/${diskId}`, params, forceUpdate);
   }
@@ -48,7 +44,7 @@ export class PulseService {
     vmId: string,
     macAddress: string,
     params: TimeParams,
-    forceUpdate = false
+    forceUpdate = false,
   ): Observable<NetworkStats[]> {
     return this.request('network-interface', `${vmId}/${macAddress}`, params, forceUpdate);
   }

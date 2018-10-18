@@ -19,7 +19,7 @@ export class NotificationsEffects {
         .open(message, actionMessage, { duration: 10000 })
         .pipe(switchMap(snackBarRef => snackBarRef.onAction()))
         .subscribe(() => location.reload());
-    })
+    }),
   );
 
   constructor(private actions$: Actions, private snackBarService: SnackBarService) {}

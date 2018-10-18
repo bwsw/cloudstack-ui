@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -16,15 +24,24 @@ import { ComputeOfferingViewModel } from '../../vm/view-models';
   styleUrls: ['service-offering-list.component.scss'],
 })
 export class ServiceOfferingListComponent implements OnChanges {
-  @Input() public offeringList: ComputeOfferingViewModel[];
-  @Input() public classes: ComputeOfferingClass[];
-  @Input() public selectedClasses: string[];
-  @Input() public query: string;
-  @Input() public selectedOffering: ComputeOfferingViewModel;
-  @Input() public isLoading = false;
-  @Input() public showFields: boolean;
-  @Input() public account: Account;
-  @Output() public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
+  @Input()
+  public offeringList: ComputeOfferingViewModel[];
+  @Input()
+  public classes: ComputeOfferingClass[];
+  @Input()
+  public selectedClasses: string[];
+  @Input()
+  public query: string;
+  @Input()
+  public selectedOffering: ComputeOfferingViewModel;
+  @Input()
+  public isLoading = false;
+  @Input()
+  public showFields: boolean;
+  @Input()
+  public account: Account;
+  @Output()
+  public selectedOfferingChange = new EventEmitter<ComputeOfferingViewModel>();
 
   public list: {
     soClass: ComputeOfferingClass;
@@ -33,7 +50,13 @@ export class ServiceOfferingListComponent implements OnChanges {
   public columnsToDisplay = [];
 
   private mainColumns = ['name', 'cpuCoresNumber', 'cpuSpeed', 'memory', 'networkRate'];
-  private allColumns = [...this.mainColumns, 'diskBytesRead', 'diskBytesWrite', 'diskIopsRead', 'diskIopsWrite'];
+  private allColumns = [
+    ...this.mainColumns,
+    'diskBytesRead',
+    'diskBytesWrite',
+    'diskIopsRead',
+    'diskIopsWrite',
+  ];
 
   constructor(private dialog: MatDialog, private translateService: TranslateService) {}
 
@@ -72,7 +95,9 @@ export class ServiceOfferingListComponent implements OnChanges {
   }
 
   public getGroupedOfferings() {
-    const showClasses = this.classes.filter(soClass => this.selectedClasses.indexOf(soClass.id) !== -1);
+    const showClasses = this.classes.filter(
+      soClass => this.selectedClasses.indexOf(soClass.id) !== -1,
+    );
     if (this.classes.length) {
       this.list = (showClasses.length ? showClasses : this.classes).map(soClass => {
         return {
@@ -96,16 +121,22 @@ export class ServiceOfferingListComponent implements OnChanges {
       return;
     }
 
-    this.columnsToDisplay = showFields.currentValue ? [...this.allColumns, radio] : [...this.mainColumns, radio];
+    this.columnsToDisplay = showFields.currentValue
+      ? [...this.allColumns, radio]
+      : [...this.mainColumns, radio];
   }
 
-  private showCustomOfferingDialog(offering: ServiceOffering): Observable<ComputeOfferingViewModel> {
-    return this.dialog.open(CustomServiceOfferingComponent, {
-      width: '370px',
-      data: {
-        offering,
-        account: this.account
-      }
-    }).afterClosed();
+  private showCustomOfferingDialog(
+    offering: ServiceOffering,
+  ): Observable<ComputeOfferingViewModel> {
+    return this.dialog
+      .open(CustomServiceOfferingComponent, {
+        width: '370px',
+        data: {
+          offering,
+          account: this.account,
+        },
+      })
+      .afterClosed();
   }
 }

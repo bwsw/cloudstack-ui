@@ -6,7 +6,9 @@ import { SecurityGroupNative } from '../../sg.model';
 
 @Injectable()
 export class TemplateSecurityGroupCreationService extends SecurityGroupCreationService {
-  protected securityGroupCreationPostAction(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
+  protected securityGroupCreationPostAction(
+    securityGroup: SecurityGroupNative,
+  ): Observable<SecurityGroupNative> {
     return this.securityGroupTagService.markAsTemplate(securityGroup);
   }
 }
