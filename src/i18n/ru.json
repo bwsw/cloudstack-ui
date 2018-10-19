@@ -1438,6 +1438,8 @@
       "SHOW_LOGS": "Показать логи",
       "START_DATE": "Начальная дата",
       "END_DATE": "Конечная дата",
+      "LOG_FILE": "Журнал",
+      "LOG_FILE_NOT_SELECTED": "Не выбран",
       "NEWEST_FIRST": "Новые сверху"
     },
     "LIST": {

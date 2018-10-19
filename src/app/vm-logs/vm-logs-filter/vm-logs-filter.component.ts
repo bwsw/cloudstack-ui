@@ -5,6 +5,7 @@ import { DateTimeFormatterService } from '../../shared/services/date-time-format
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '../../shared/types';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
+import { VmLogFile } from '../models/vm-log-file.model';
 
 @Component({
   selector: 'cs-vm-logs-filter',
@@ -12,12 +13,12 @@ import { Time } from '../../shared/components/time-picker/time-picker.component'
   styleUrls: ['vm-logs-filter.component.scss']
 })
 export class VmLogsFilterComponent {
-  // public dateTimeFormat = Intl.DateTimeFormat;
-  // public date = new Date();
   @Input() public accounts: Array<Account>;
   @Input() public vms: Array<VirtualMachine>;
+  @Input() public logFiles: Array<VmLogFile>;
   @Input() public selectedAccountIds: Array<string>;
-  @Input() public selectedVmId: Array<string>;
+  @Input() public selectedVmId: string;
+  @Input() public selectedLogFile: string;
   @Input() public keywords: Array<Keyword>;
   @Input() public firstDayOfWeek: number;
   @Input() public startDate: Date;
@@ -27,6 +28,7 @@ export class VmLogsFilterComponent {
   @Input() public newestFirst: boolean;
   @Output() public onAccountsChange = new EventEmitter<Array<string>>();
   @Output() public onVmChange = new EventEmitter<string>();
+  @Output() public onLogFileChange = new EventEmitter<VmLogFile>();
   @Output() public onRefresh = new EventEmitter<void>();
   @Output() public onKeywordAdd = new EventEmitter<Keyword>();
   @Output() public onKeywordRemove = new EventEmitter<Keyword>();
