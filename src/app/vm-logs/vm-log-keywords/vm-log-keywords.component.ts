@@ -3,9 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material';
 import { Keyword } from '../models/keyword.model';
 
-/**
- * @title Chips Autocomplete
- */
+
 @Component({
   selector: 'cs-vm-log-keywords',
   templateUrl: 'vm-log-keywords.component.html',

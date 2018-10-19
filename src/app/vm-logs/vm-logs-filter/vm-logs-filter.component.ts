@@ -24,7 +24,8 @@ export class VmLogsFilterComponent {
   @Input() public startTime: Time;
   @Input() public endDate: Date;
   @Input() public endTime: Time;
-  @Output() public onAccountsChange = new EventEmitter<Array<string>>()
+  @Input() public newestFirst: boolean;
+  @Output() public onAccountsChange = new EventEmitter<Array<string>>();
   @Output() public onVmChange = new EventEmitter<string>();
   @Output() public onRefresh = new EventEmitter<void>();
   @Output() public onKeywordAdd = new EventEmitter<Keyword>();
@@ -33,7 +34,7 @@ export class VmLogsFilterComponent {
   @Output() public onStartTimeChange = new EventEmitter<Time>();
   @Output() public onEndDateChange = new EventEmitter<Date>();
   @Output() public onEndTimeChange = new EventEmitter<Time>();
-  // @Output() public onNewestFirstChange = new EventEmitter();
+  @Output() public onNewestFirstChange = new EventEmitter<void>();
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
