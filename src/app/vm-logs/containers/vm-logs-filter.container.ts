@@ -144,9 +144,9 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     } = this.filterService.getParams();
 
     this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
-    this.store.dispatch(new vmLogActions.VmLogsUpdateKeywords(
-      (keywords || []).map(text => ({ text }))
-    ));
+
+    const wrappedKeywords = (keywords || []).map(text => ({ text }));
+    this.store.dispatch(new vmLogActions.VmLogsUpdateKeywords(wrappedKeywords));
     this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(accounts || []));
 
     if (logFile) {

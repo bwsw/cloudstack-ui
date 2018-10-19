@@ -13,8 +13,6 @@ import { VmLogFile } from '../models/vm-log-file.model';
   styleUrls: ['vm-logs-filter.component.scss']
 })
 export class VmLogsFilterComponent {
-  // public dateTimeFormat = Intl.DateTimeFormat;
-  // public date = new Date();
   @Input() public accounts: Array<Account>;
   @Input() public vms: Array<VirtualMachine>;
   @Input() public logFiles: Array<VmLogFile>;
@@ -37,7 +35,6 @@ export class VmLogsFilterComponent {
   @Output() public onStartTimeChange = new EventEmitter<Time>();
   @Output() public onEndDateChange = new EventEmitter<Date>();
   @Output() public onEndTimeChange = new EventEmitter<Time>();
-  // @Output() public onNewestFirstChange = new EventEmitter();
 
   constructor(
     public dateTimeFormatterService: DateTimeFormatterService,
