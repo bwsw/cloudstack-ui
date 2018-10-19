@@ -9,9 +9,13 @@ import { Subroute } from '../../models';
 })
 export class SectionNavComponent {
   @Input()
-  subroutes: Subroute[];
+  public subroutes: Subroute[];
   @Input()
-  username: string;
+  public username: string;
   @Output()
-  openAppNav = new EventEmitter<boolean>();
+  public menuButtonClicked = new EventEmitter<void>();
+
+  public onMenuButtonClicked(): void {
+    this.menuButtonClicked.emit();
+  }
 }

@@ -10,9 +10,13 @@ import { Route } from '../../models';
 })
 export class AppNavComponent {
   @Input()
-  routes: Route[];
+  public routes: Route[];
   @Input()
-  currentRoute: Route;
+  public currentRoute: Route;
   @Output()
-  close = new EventEmitter<boolean>();
+  public menuButtonClicked = new EventEmitter<void>();
+
+  public onMenuButtonClicked(): void {
+    this.menuButtonClicked.emit();
+  }
 }

@@ -16,5 +16,5 @@ export const appNavRoutes: Route[] = [
     path: '/accounts',
     icon: 'mdi-account-supervisor',
     subroutes: accountsSubroutes,
-  }
+  },
 ];

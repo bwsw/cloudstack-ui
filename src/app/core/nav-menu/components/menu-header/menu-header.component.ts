@@ -8,7 +8,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 })
 export class MenuHeaderComponent {
   @Input()
-  username: string;
+  public username: string;
   @Output()
-  buttonClicked = new EventEmitter<boolean>();
+  public buttonClicked = new EventEmitter<void>();
+
+  public onButtonClicked(): void {
+    this.buttonClicked.emit();
+  }
 }

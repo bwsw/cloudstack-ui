@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import * as flatten from 'lodash/flatten';
 
 import { Route, Subroute } from './models';
 import { appNavRoutes } from './routes';
@@ -33,8 +34,8 @@ export class NavMenuService {
 
   private getCurrentSubroute(): Observable<Subroute> {
     return this.getCurrentSubroutePath().pipe(
-      map(path => {
-        const subroutes = this.getAllSubroutes();
+      withLatestFrom(this.getAllSubroutes()),
+      map(([path, subroutes]) => {
         return subroutes.find(subroute => subroute.path === path)
       })
     );
@@ -43,7 +44,7 @@ export class NavMenuService {
   private getCurrentSubroutePath(): Observable<string> {
     return this.store.pipe(
       select(routerSelectors.getUrl),
-      filter(url => url != null),
+      filter(url => url !== ''),
       map(url => {
         const matches = url.match(/^\/[A-Za-z-]*/);
         return matches[0];
@@ -51,8 +52,10 @@ export class NavMenuService {
     );
   }
 
-  private getAllSubroutes(): Subroute[] {
-    const subroutesArrays = appNavRoutes.map(route => route.subroutes);
-    return [].concat.apply([], subroutesArrays);
+  private getAllSubroutes(): Observable<Subroute[]> {
+    return this.getRoutes().pipe(
+      map(routes => routes.map(route => route.subroutes)),
+      map(arrayOfSubroutes => flatten(arrayOfSubroutes))
+    );
   }
 }

@@ -1,5 +1,5 @@
 <div>
-  <cs-menu-header (buttonClicked)="close.emit(true)"></cs-menu-header>
+  <cs-menu-header (buttonClicked)="onMenuButtonClicked()"></cs-menu-header>
 
   <div class="nav-routes">
     <ng-container *ngFor="let route of routes">
@@ -7,7 +7,7 @@
         class="nav-link"
         [class.link-active]="route.id === currentRoute.id"
         [routerLink]="route.path"
-        (click)="close.emit(true)"
+        (click)="onMenuButtonClicked()"
       >
         <mat-icon [ngClass]="route.icon"></mat-icon>
         {{ route.text | translate }}

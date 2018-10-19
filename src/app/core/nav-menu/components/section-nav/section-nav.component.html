@@ -1,5 +1,5 @@
 <div>
-  <cs-menu-header [username]="username" (buttonClicked)="openAppNav.emit()"></cs-menu-header>
+  <cs-menu-header [username]="username" (buttonClicked)="onMenuButtonClicked()"></cs-menu-header>
 
   <div class="nav-routes">
     <ng-container *ngFor="let route of subroutes">

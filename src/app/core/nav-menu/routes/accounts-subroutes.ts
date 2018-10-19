@@ -18,5 +18,5 @@ export const accountsSubroutes: Subroute[] = [
     path: '/settings',
     icon: 'mdi-settings',
     routeId: 'accounts',
-  }
+  },
 ];

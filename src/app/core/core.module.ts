@@ -28,7 +28,7 @@ import { SnackBarService, NavMenuService } from './services';
   providers: [
     ConfigValidationService,
     SnackBarService,
-    NavMenuService
+    NavMenuService,
   ],
 })
 export class CoreModule {
