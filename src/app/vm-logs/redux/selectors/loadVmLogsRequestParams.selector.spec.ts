@@ -22,7 +22,7 @@ describe('loadVmLogsRequestParams selector', () => {
       id,
       startDate: '1970-01-01T00:00:00.000',
       endDate: '1970-01-01T00:00:00.000',
-      sort: '-timestamp'
+      sort: 'timestamp'
     })
   });
 
@@ -43,6 +43,34 @@ describe('loadVmLogsRequestParams selector', () => {
       keywords: 'test-keyword1,test-keyword2',
       startDate: '1970-01-01T00:00:00.000',
       endDate: '1970-01-01T00:00:00.000',
+      sort: 'timestamp'
+    });
+  });
+
+  const defaultId = 'test-id';
+  const defaultDate = '1970-01-01T00:00:00.000';
+  const defaultSort = 'timestamp';
+  const defaultRequestParams = {
+    id: defaultId,
+    startDate: defaultDate,
+    endDate: defaultDate,
+    sort: defaultSort
+  };
+
+  it('should set sort: -timestamp if newest first = true', () => {
+    const id = 'test-id';
+
+    const params = loadVmLogsRequestParams.projector(
+      id,
+      [],
+      date,
+      date,
+      '',
+      true
+    );
+
+    expect(params).toEqual({
+      ...defaultRequestParams,
       sort: '-timestamp'
     });
   });

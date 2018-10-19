@@ -30,14 +30,14 @@ export function reducer(
   action: vmLogsActions.Actions
 ): State {
   switch (action.type) {
-    case vmLogsActions.LOAD_VM_LOG_FILES_REQUEST: {
+    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOG_FILES_REQUEST: {
       return {
         ...adapter.removeAll(state),
         loading: true
       };
     }
 
-    case vmLogsActions.LOAD_VM_LOG_FILES_RESPONSE: {
+    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOG_FILES_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false

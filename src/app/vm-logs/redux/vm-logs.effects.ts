@@ -17,7 +17,7 @@ import { loadVmLogFilesRequestParams } from './selectors/loadVmLogFilesRequestPa
 export class VmLogsEffects {
   @Effect()
   loadVmLogs$: Observable<Action> = this.actions$.pipe(
-    ofType(vmLogsActions.LOAD_VM_LOGS_REQUEST),
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST),
     withLatestFrom(this.store.pipe(select(loadVmLogsRequestParams))),
     switchMap(([action, params]) => {
       return this.vmLogsService.getList(params).pipe(
@@ -31,7 +31,7 @@ export class VmLogsEffects {
 
   @Effect()
   loadVmLogFiles$: Observable<Action> = this.actions$.pipe(
-    ofType(vmLogsActions.LOAD_VM_LOG_FILES_REQUEST),
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_VM_LOG_FILES_REQUEST),
     withLatestFrom(this.store.pipe(select(loadVmLogFilesRequestParams))),
     switchMap(([action, params]) => {
       return this.vmLogFilesService.getList(params).pipe(
@@ -45,13 +45,13 @@ export class VmLogsEffects {
 
   @Effect()
   loadVmLogFilesOnVmChange$: Observable<Action> = this.actions$.pipe(
-    ofType(vmLogsActions.VM_LOGS_UPDATE_VM_ID),
+    ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
     switchMap(() => of(new vmLogsActions.LoadVmLogFilesRequest()))
   );
 
   @Effect()
   resetLogFileOnVmChange$: Observable<Action> = this.actions$.pipe(
-    ofType(vmLogsActions.VM_LOGS_UPDATE_VM_ID),
+    ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
     switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null)))
   );
 

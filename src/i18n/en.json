@@ -1443,7 +1443,8 @@
       "START_DATE": "Start date",
       "END_DATE": "End date",
       "LOG_FILE": "Log file",
-      "LOG_FILE_NOT_SELECTED": "Not selected"
+      "LOG_FILE_NOT_SELECTED": "Not selected",
+      "NEWEST_FIRST": "Newest first"
     },
     "LIST": {
       "DATE": "Date",

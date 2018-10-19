@@ -1,16 +1,11 @@
-import {
-  LOAD_VM_LOGS_REQUEST,
-  LOAD_VM_LOGS_RESPONSE,
-  VM_LOGS_ADD_KEYWORD,
-  VM_LOGS_REMOVE_KEYWORD
-} from './vm-logs.actions';
+import { VmLogsActionTypes } from './vm-logs.actions';
 import * as fromVmLogs from './vm-logs.reducers';
 import { initialState } from './vm-logs.reducers';
 
 
 describe('VM logs reducer', () => {
   it('should set loading', () => {
-    const state = fromVmLogs.reducer(undefined, { type: LOAD_VM_LOGS_REQUEST });
+    const state = fromVmLogs.reducer(undefined, { type: VmLogsActionTypes.LOAD_VM_LOGS_REQUEST });
     expect(state).toEqual({
       ...initialState,
       loading: true,
@@ -32,7 +27,7 @@ describe('VM logs reducer', () => {
     ];
 
     const state = fromVmLogs.reducer(undefined, {
-      type: LOAD_VM_LOGS_RESPONSE,
+      type: VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE,
       payload: logs
     });
 
@@ -48,7 +43,7 @@ describe('VM logs reducer', () => {
     };
 
     const state = fromVmLogs.reducer(undefined, {
-      type: VM_LOGS_ADD_KEYWORD,
+      type: VmLogsActionTypes.VM_LOGS_ADD_KEYWORD,
       payload: keyword
     });
 
@@ -73,10 +68,30 @@ describe('VM logs reducer', () => {
         keywords: [keyword]
       }
     }, {
-      type: VM_LOGS_REMOVE_KEYWORD,
+      type: VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD,
       payload: keyword
     });
 
     expect(state).toEqual(initialState);
+  });
+
+  it('should toggle newest first', () => {
+    const toggledState = fromVmLogs.reducer(undefined, {
+      type: VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST
+    });
+
+    expect(toggledState).toEqual({
+      ...initialState,
+      filters: {
+        ...initialState.filters,
+        newestFirst: true,
+      }
+    });
+
+    const toggledTwiceState = fromVmLogs.reducer(toggledState, {
+      type: VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST
+    });
+
+    expect(toggledTwiceState).toEqual(initialState);
   });
 });

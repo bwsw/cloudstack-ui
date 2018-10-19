@@ -16,14 +16,14 @@ export function reducer(
   action: vmLogsActions.Actions
 ): State {
   switch (action.type) {
-    case vmLogsActions.VM_LOGS_UPDATE_VM_ID: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID: {
       return {
         ...state,
         selectedVmId: action.payload
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_ACCOUNT_IDS: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_ACCOUNT_IDS: {
       return {
         ...state,
         selectedAccountIds: action.payload

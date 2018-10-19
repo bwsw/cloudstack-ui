@@ -40,6 +40,7 @@ const FILTER_KEY = 'logsFilters';
       [startTime]="startTime$ | async"
       [endDate]="endDate$ | async | dateObjectToDate"
       [endTime]="endTime$ | async"
+      [newestFirst]="newestFirst$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
       (onAccountsChange)="onAccountsChange($event)"
       (onVmChange)="onVmChange($event)"
@@ -51,22 +52,24 @@ const FILTER_KEY = 'logsFilters';
       (onStartTimeChange)="onStartTimeChange($event)"
       (onEndDateChange)="onEndDateChange($event)"
       (onEndTimeChange)="onEndTimeChange($event)"
+      (onNewestFirstChange)="onNewestFirstChange($event)"
     ></cs-vm-logs-filter>`
 })
 export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
   readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogsVm.filterSelectedAccountIds));
-  readonly selectedVmId$ = this.store.pipe(select(fromVmLogsVm.filterSelectedVmId));
-  readonly selectedLogFile$ = this.store.pipe(select(fromVmLogs.filterSelectedLogFile));
   readonly vms$ = this.store.pipe(select(selectFilteredVMs));
-  readonly logFiles$ = this.store.pipe(select(fromVmLogFiles.selectAll));
+  readonly selectedVmId$ = this.store.pipe(select(fromVmLogsVm.filterSelectedVmId));
   readonly keywords$ = this.store.pipe(select(fromVmLogs.filterKeywords));
   readonly startDate$ = this.store.pipe(select(fromVmLogs.filterStartDate));
   readonly startTime$ = this.store.pipe(select(fromVmLogs.filterStartTime));
   readonly endDate$ = this.store.pipe(select(fromVmLogs.filterEndDate));
   readonly endTime$ = this.store.pipe(select(fromVmLogs.filterEndTime));
   readonly firstDayOfWeek$ = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
+  readonly newestFirst$ = this.store.pipe(select(fromVmLogs.filterNewestFirst));
+  readonly selectedLogFile$ = this.store.pipe(select(fromVmLogs.filterSelectedLogFile));
+  readonly logFiles$ = this.store.pipe(select(fromVmLogFiles.selectAll));
 
   private filterService = new FilterService(
     {
@@ -75,7 +78,8 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       keywords: { type: 'array', defaultOption: [] },
       startDate: { type: 'string' },
       endDate: { type: 'string' },
-      logFile: { type: 'string' }
+      logFile: { type: 'string' },
+      newestFirst: { type: 'boolean' }
     },
     this.router,
     this.sessionStorage,
@@ -129,8 +133,12 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new vmLogActions.VmLogsUpdateEndTime(time));
   }
 
-  public onLogFileChange(logFile: VmLogFile) {
+  public onLogFileChange(logFile: string) {
     this.store.dispatch(new vmLogActions.VmLogsUpdateLogFile(logFile));
+  }
+
+  public onNewestFirstChange() {
+    this.store.dispatch(new vmLogActions.VmLogsToggleNewestFirst());
   }
 
   private initFilters(): void {
@@ -140,7 +148,8 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       accounts,
       startDate,
       endDate,
-      logFile
+      logFile,
+      newestFirst
     } = this.filterService.getParams();
 
     this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
@@ -148,6 +157,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     const wrappedKeywords = (keywords || []).map(text => ({ text }));
     this.store.dispatch(new vmLogActions.VmLogsUpdateKeywords(wrappedKeywords));
     this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(accounts || []));
+    this.store.dispatch(new vmLogActions.VmLogsUpdateNewestFirst(newestFirst));
 
     if (logFile) {
       this.store.dispatch(new vmLogActions.VmLogsUpdateLogFile(logFile));
@@ -177,13 +187,14 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       this.endDate$,
       this.selectedVmId$,
       this.selectedAccountIds$,
-      this.selectedLogFile$
+      this.selectedLogFile$,
+      this.newestFirst$
     )
       .pipe(
         takeUntil(this.unsubscribe$),
         debounceTime(100)
       )
-      .subscribe(([keywords, startDate, endDate, vm, accounts, logFile]) => {
+      .subscribe(([keywords, startDate, endDate, vm, accounts, logFile, newestFirst]) => {
         this.filterService.update({
           vm,
           accounts,
@@ -191,6 +202,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
           startDate: moment(startDate).toISOString(),
           endDate: moment(endDate).toISOString(),
           logFile,
+          newestFirst
         });
       });
   }

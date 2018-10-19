@@ -7,14 +7,17 @@ import { DateObject } from '../models/date-object.model';
 import moment = require('moment');
 
 
+export interface VmLogsFilters {
+  keywords: Array<Keyword>,
+  startDate: DateObject,
+  endDate: DateObject,
+  selectedLogFile: string
+  newestFirst: boolean
+};
+
 export interface State extends EntityState<VmLog> {
   loading: boolean,
-  filters: {
-    keywords: Array<Keyword>,
-    startDate: DateObject,
-    endDate: DateObject,
-    selectedLogFile: string
-  }
+  filters: VmLogsFilters
 }
 
 export interface VmLogsState {
@@ -52,6 +55,7 @@ export const initialState: State = adapter.getInitialState({
         milliseconds: 999,
       })
       .toObject(),
+    newestFirst: false
   }
 });
 
@@ -60,14 +64,14 @@ export function reducer(
   action: vmLogsActions.Actions
 ): State {
   switch (action.type) {
-    case vmLogsActions.LOAD_VM_LOGS_REQUEST: {
+    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
       return {
         ...adapter.removeAll(state),
         loading: true
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_KEYWORDS: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_KEYWORDS: {
       return {
         ...state,
         filters: {
@@ -77,7 +81,7 @@ export function reducer(
       };
     }
 
-    case vmLogsActions.VM_LOGS_ADD_KEYWORD: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_ADD_KEYWORD: {
       return {
         ...state,
         filters: {
@@ -87,7 +91,7 @@ export function reducer(
       }
     }
 
-    case vmLogsActions.VM_LOGS_REMOVE_KEYWORD: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_REMOVE_KEYWORD: {
       return {
         ...state,
         filters: {
@@ -97,14 +101,14 @@ export function reducer(
       }
     }
 
-    case vmLogsActions.LOAD_VM_LOGS_RESPONSE: {
+    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_START_DATE_TIME: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE_TIME: {
       return {
         ...state,
         filters: {
@@ -114,8 +118,8 @@ export function reducer(
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_START_DATE: {
-      const update = moment(action.payload).toObject();
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_DATE: {
+      const { years, months, date } = moment(action.payload).toObject();
 
       return {
         ...state,
@@ -123,15 +127,15 @@ export function reducer(
           ...state.filters,
           startDate: {
             ...state.filters.startDate,
-            years: update.years,
-            months: update.months,
-            date: update.date,
+            years,
+            months,
+            date,
           }
         }
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_START_TIME: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_START_TIME: {
       // todo: remove
       if (
         action.payload.hour === state.filters.startDate.hours
@@ -153,7 +157,7 @@ export function reducer(
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_END_DATE_TIME: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE_TIME: {
       return {
         ...state,
         filters: {
@@ -163,8 +167,8 @@ export function reducer(
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_END_DATE: {
-      const update = moment(action.payload).toObject();
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_DATE: {
+      const { years, months, date } = moment(action.payload).toObject();
 
       return {
         ...state,
@@ -172,15 +176,15 @@ export function reducer(
           ...state.filters,
           endDate: {
             ...state.filters.endDate,
-            years: update.years,
-            months: update.months,
-            date: update.date,
+            years,
+            months,
+            date,
           }
         }
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_END_TIME: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_END_TIME: {
       // todo: remove
       if (
         action.payload.hour === state.filters.endDate.hours
@@ -202,12 +206,32 @@ export function reducer(
       };
     }
 
-    case vmLogsActions.VM_LOGS_UPDATE_LOG_FILE: {
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_LOG_FILE: {
       return {
         ...state,
         filters: {
           ...state.filters,
           selectedLogFile: action.payload
+        }
+      };
+    }
+
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_TOGGLE_NEWEST_FIRST: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          newestFirst: !state.filters.newestFirst
+        }
+      }
+    }
+
+    case vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_NEWEST_FIRST: {
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          newestFirst: action.payload
         }
       };
     }
@@ -272,6 +296,11 @@ export const filterEndTime = createSelector(
     hour: state.endDate.hours,
     minute: state.endDate.minutes
   })
+);
+
+export const filterNewestFirst = createSelector(
+  filters,
+  state => state.newestFirst
 );
 
 export const filterSelectedLogFile = createSelector(
