@@ -45,6 +45,7 @@ export class VmCreationComponent {
   @Input() public insufficientResources: Array<string>;
 
   @Output() public displayNameChange = new EventEmitter<string>();
+  @Output() public hostNameChange = new EventEmitter<string>();
   @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
   @Output() public diskOfferingChange = new EventEmitter<DiskOffering>();
   @Output() public rootDiskSizeMinChange = new EventEmitter<number>();
@@ -71,7 +72,8 @@ export class VmCreationComponent {
     primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE'
   };
 
-  public takenName: string;
+  public takenDisplayName: string;
+  public takenHostName: string;
   public maxEntityNameLength = 63;
 
   public visibleAffinityGroups: Array<AffinityGroup>;
@@ -83,8 +85,12 @@ export class VmCreationComponent {
   ) {
   }
 
-  public nameIsTaken(): boolean {
-    return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
+  public displayNameIsTaken(): boolean {
+    return !!this.vmCreationState && this.vmCreationState.displayName === this.takenDisplayName;
+  }
+
+  public hostNameIsTaken(): boolean {
+    return !!this.vmCreationState && this.vmCreationState.name === this.takenHostName;
   }
 
   public diskOfferingsAreAllowed(): boolean {
@@ -159,7 +165,8 @@ export class VmCreationComponent {
 
   public isSubmitButtonDisabled(isFormValid: boolean): boolean {
     return !isFormValid
-      || this.nameIsTaken()
+      || this.displayNameIsTaken()
+      || this.hostNameIsTaken()
       || !this.vmCreationState.template
       || !this.vmCreationState.serviceOffering.isAvailableByResources;
   }

@@ -60,6 +60,7 @@ import { ComputeOfferingViewModel } from '../../view-models';
       [serviceOfferings]="serviceOfferings$ | async"
       [sshKeyPairs]="sshKeyPairs$ | async"
       (displayNameChange)="onDisplayNameChange($event)"
+      (hostNameChange)="onHostNameChange($event)"
       (templateChange)="onTemplateChange($event)"
       (serviceOfferingChange)="onServiceOfferingChange($event)"
       (diskOfferingChange)="onDiskOfferingChange($event)"
@@ -121,7 +122,7 @@ export class VmCreationContainerComponent implements OnInit {
     this.store.dispatch(new serviceOfferingActions.LoadOfferingsRequest());
     this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
 
-    this.getDefaultVmName().subscribe(displayName => this.onDisplayNameChange(displayName));
+    this.getDefaultVmName().subscribe(name => this.onHostNameChange(name));
 
     this.dialogRef.afterClosed().subscribe(() => this.onCancel());
   }
@@ -132,6 +133,10 @@ export class VmCreationContainerComponent implements OnInit {
 
   public onDisplayNameChange(displayName: string) {
     this.store.dispatch(new vmActions.VmFormUpdate({ displayName }));
+  }
+
+  public onHostNameChange(name: string) {
+    this.store.dispatch(new vmActions.VmFormUpdate({ name }));
   }
 
   public onServiceOfferingChange(serviceOffering: ComputeOfferingViewModel) {

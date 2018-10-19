@@ -296,11 +296,11 @@ export const selectPredefinedSecurityGroups = createSelector(
 export const selectDefaultSecurityGroup = createSelector(
   selectAll,
   selectDefaultSecurityGroupName,
-  fromAuth.getUserAccount,
+  fromAccounts.selectUserAccount,
   (securityGroups, defaultSecurityGroupName, user) => {
     const defaultGroup = securityGroups.find((sg: SecurityGroup) => (
       isSecurityGroupNative(sg)
-      && sg.account === user.name
+      && sg.account === (user && user.name)
       && sg.name === 'default'
     ));
     return { ...defaultGroup, name: defaultSecurityGroupName };

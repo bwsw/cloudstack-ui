@@ -89,7 +89,7 @@ import { InstanceGroupComponent } from './vm-sidebar/vm-detail/instance-group/in
 import { ServiceOfferingDetailsComponent } from './vm-sidebar/vm-detail/service-offering-details/service-offering-details.component';
 import { SshKeypairComponent } from './vm-sidebar/vm-detail/ssh/ssh-keypair.component';
 import { VmDetailTemplateComponent } from './vm-sidebar/vm-detail/template/vm-detail-template.component';
-import { VmDetailZoneComponent } from './vm-sidebar/vm-detail/zone/zone.component';
+import { VmDetailComponent } from './vm-sidebar/vm-detail/detail/vm-detail.component';
 import { VmSidebarComponent } from './vm-sidebar/vm-sidebar.component';
 import { VmTagsComponent } from './vm-sidebar/vm-tags/vm-tags.component';
 import { ServiceOfferingSelectorComponent } from './vm-creation/components/service-offering-selector/service-offering-selector.component';
@@ -145,7 +145,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     SshKeypairComponent,
     SshKeypairResetComponent,
     VmDetailTemplateComponent,
-    VmDetailZoneComponent,
+    VmDetailComponent,
     VirtualMachinePageContainerComponent,
     VmPageComponent,
     VmListComponent,

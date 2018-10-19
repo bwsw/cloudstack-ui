@@ -57,6 +57,7 @@ interface VmCreationParams {
   keyboard?: KeyboardLayout;
   keyPair?: string;
   name?: string;
+  displayName?: string;
   securityGroupIds?: string;
   serviceOfferingId?: string;
   rootDiskSize?: number;
@@ -633,7 +634,8 @@ export class VirtualMachineCreationEffects {
 
     params.startVm = state.doStartVm.toString();
     params.keyboard = keyboard;
-    params.name = state.displayName;
+    params.displayName = state.displayName;
+    params.name = state.name;
     params.serviceOfferingId = state.serviceOffering.id;
     params.templateId = state.template.id;
     params.zoneId = state.zone.id;

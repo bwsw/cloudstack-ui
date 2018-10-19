@@ -22,7 +22,7 @@ const vmDescriptionKey = 'csui.vm.description';
       (descriptionChange)="changeDescription($event)"
     >
     </cs-description>
-    <cs-zone [vm]="vm$ | async"></cs-zone>
+    <cs-vm-detail [vm]="vm$ | async"></cs-vm-detail>
     <cs-instance-group
       [vm]="vm$ | async"
       [groups]="groups$ | async"
