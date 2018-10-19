@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { State, UserTagsActions } from '../root-store';
+import { State, UserTagsActions, layoutStore } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
 import { Route, Subroute } from '../core/nav-menu/models';
@@ -20,6 +20,7 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public routes$: Observable<Route[]> = this.navRoutesService.getRoutes();
   public currentRoute$: Observable<Route> = this.navRoutesService.getCurrentRoute();
   public subroutes$: Observable<Subroute[]> = this.navRoutesService.getSubroutes();
+  public showAppNav$: Observable<boolean> = this.store.pipe(select(layoutStore.selectors.getShowAppNav));
   public username: string;
 
   constructor(
@@ -44,5 +45,13 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
         }));
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });
+  }
+
+  public openAppNav() {
+    this.store.dispatch(new layoutStore.actions.OpenAppNav());
+  }
+
+  public closeAppNav() {
+    this.store.dispatch(new layoutStore.actions.CloseAppNav());
   }
 }
