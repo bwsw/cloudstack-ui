@@ -17,7 +17,7 @@ export class VmLogsFilterComponent {
   @Input() public accounts: Array<Account>;
   @Input() public vms: Array<VirtualMachine>;
   @Input() public selectedAccountIds: Array<string>;
-  @Input() public selectedVmId: Array<string>;
+  @Input() public selectedVmId: string;
   @Input() public keywords: Array<Keyword>;
   @Input() public firstDayOfWeek: number;
   @Input() public startDate: Date;

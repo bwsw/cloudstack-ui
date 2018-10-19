@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as vmLogsActions from './vm-logs.actions';
+import { ofType } from '@ngrx/effects';
 
 
 export interface State {
@@ -15,9 +16,16 @@ export function reducer(
   action: vmLogsActions.Actions
 ): State {
   switch (action.type) {
-    case vmLogsActions.LOAD_VM_LOGS_RESPONSE: {
+    case vmLogsActions.LOAD_VM_LOGS_SCROLL_RESPONSE:
+    case vmLogsActions.SCROLL_VM_LOGS_RESPONSE: {
       return {
-        scrollId: action.payload
+        scrollId: action.payload.scrollid
+      };
+    }
+
+    case vmLogsActions.STOP_SCROLL_VM_LOGS: {
+      return {
+        scrollId: null
       };
     }
 

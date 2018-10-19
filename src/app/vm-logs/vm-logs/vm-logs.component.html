@@ -17,7 +17,11 @@
 <!--</div>-->
 
 <div *ngIf="!scroll" class="fab">
-  <button mat-fab (click)="onScrollToggle($event)">
+  <button
+    mat-fab
+    [disabled]="!selectedVmId"
+    (click)="onScroll.emit()"
+  >
     <mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>
   </button>
 </div>
@@ -28,8 +32,11 @@
   <!--</button>-->
 <!--</div>-->
 
-<!--<div *ngIf="mode === 'follow'" class="fab">-->
-  <!--<button mat-fab (click)="onStop($event)">-->
-    <!--<mat-icon class="mdi-cancel"></mat-icon>-->
-  <!--</button>-->
-<!--</div>-->
+<div *ngIf="scroll" class="fab">
+  <button
+    mat-fab
+    (click)="onScrollStop.emit()"
+  >
+    <mat-icon class="mdi-cancel"></mat-icon>
+  </button>
+</div>

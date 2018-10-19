@@ -7,5 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class VmLogsComponent {
   @Input() public scroll: boolean;
-  @Output() public onScrollToggle = new EventEmitter<void>();
+  @Input() public selectedVmId: string;
+  @Output() public onScroll = new EventEmitter<void>();
+  @Output() public onScrollStop = new EventEmitter<void>();
 }

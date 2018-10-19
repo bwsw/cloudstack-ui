@@ -3,8 +3,12 @@ import { Injectable } from '@angular/core';
 import { VmLog } from '../models/vm-log.model';
 import { Observable, of, throwError } from 'rxjs/index';
 import { BackendResource } from '../../shared/decorators';
-import { BaseBackendService } from '../../shared/services/base-backend.service';
+import { ApiFormat, BaseBackendService } from '../../shared/services/base-backend.service';
 import { catchError } from 'rxjs/operators';
+import { ScrollVmLogsList } from '../models/scroll-vm-logs-list';
+import { map } from 'rxjs/internal/operators';
+import { LoadVmLogsRequestParams, LoadVmLogsScrollRequestParams } from '../models/load-vm-logs-request-params';
+import { ScrollVmLogsRequestParams } from '../models/scroll-vm-logs-request-params';
 
 
 @Injectable()
@@ -16,9 +20,23 @@ export class VmLogsService extends BaseBackendService<VmLog> {
     super(http);
   }
 
-  public getList(params?: {}): Observable<Array<VmLog>> {
+  public getList(params: LoadVmLogsRequestParams): Observable<Array<VmLog>> {
     const customApiFormat = { command: 'get;s', entity: 'VmLog' };
     return super.getList(params, customApiFormat);
+  }
+
+  public getScrollList(params: LoadVmLogsScrollRequestParams): Observable<ScrollVmLogsList> {
+    return this.scrollRequest(params, {
+      command: 'get;s',
+      entity: 'VmLog'
+    })
+  }
+
+  public scroll(params: ScrollVmLogsRequestParams): Observable<ScrollVmLogsList> {
+    return this.scrollRequest(params, {
+      command: 'scroll;s',
+      entity: 'VmLog'
+    })
   }
 
   protected getRequest(
@@ -49,6 +67,16 @@ export class VmLogsService extends BaseBackendService<VmLog> {
         count: response.vmlogs.count || 0
       }
     };
+  }
+
+  private scrollRequest(params: any, customApiFormat: ApiFormat): Observable<any> {
+    return this.makeGetListObservable(this.extendParams(params), customApiFormat)
+      .pipe(
+        map(result => ({
+          scrollid: result.meta.scrollid,
+          list: result.list
+        }))
+      );
   }
 }
 

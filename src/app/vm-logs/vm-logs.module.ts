@@ -22,6 +22,7 @@ import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
 import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
 import { VmLogsScrollService } from './services/vm-logs-scroll.service';
 import { reducer as scrollVmLogs } from './redux/scroll-vm-logs.reducers';
+import { VmLogsContainerComponent } from './containers/vm-logs.container';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { reducer as scrollVmLogs } from './redux/scroll-vm-logs.reducers';
   ],
   declarations: [
     VmLogsComponent,
+    VmLogsContainerComponent,
     VmLogsFilterComponent,
     VmLogsFilterContainerComponent,
     VmLogsTableComponent,
@@ -48,7 +50,6 @@ import { reducer as scrollVmLogs } from './redux/scroll-vm-logs.reducers';
   ],
   providers: [
     VmLogsService,
-    VmLogsScrollService
   ]
 })
 export class VmLogsModule {

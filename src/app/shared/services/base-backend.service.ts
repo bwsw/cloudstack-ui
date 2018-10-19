@@ -21,7 +21,8 @@ export const MAX_PAGE_SIZE = 500;
 export interface FormattedResponse<M> {
   list: Array<M>,
   meta: {
-    count: number
+    count: number,
+    [key: string]: any
   }
 }
 

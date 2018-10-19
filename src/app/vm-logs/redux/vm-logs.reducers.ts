@@ -64,7 +64,8 @@ export function reducer(
   action: vmLogsActions.Actions
 ): State {
   switch (action.type) {
-    case vmLogsActions.LOAD_VM_LOGS_REQUEST: {
+    case vmLogsActions.LOAD_VM_LOGS_REQUEST:
+    case vmLogsActions.LOAD_VM_LOGS_SCROLL_REQUEST: {
       return {
         ...state,
         loading: true
@@ -115,6 +116,19 @@ export function reducer(
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false
+      };
+    }
+
+    case vmLogsActions.LOAD_VM_LOGS_SCROLL_RESPONSE: {
+      return {
+        ...adapter.addAll([...action.payload.list], state),
+        loading: false
+      };
+    }
+
+    case vmLogsActions.SCROLL_VM_LOGS_RESPONSE: {
+      return {
+        ...adapter.addMany([...action.payload.list], state)
       };
     }
 
@@ -326,6 +340,7 @@ export const loadVmLogsScrollRequestParams = createSelector(
   loadVmLogsRequestParams,
   (params): LoadVmLogsRequestParams => ({
     ...params,
-    scroll: 1
+    scroll: 5000,
+    pagesize: 100
   })
 );
