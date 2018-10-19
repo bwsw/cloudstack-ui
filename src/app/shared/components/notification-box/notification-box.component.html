@@ -3,8 +3,8 @@
   style="overflow: visible;"
   [csPopoverTrigger]="popover"
   popoverPositionX="end"
-  (onPopoverOpen)="onOpen()"
-  (onPopoverClose)="onClose()"
+  (popoverOpened)="onOpen()"
+  (popoverClosed)="onClose()"
 >
   <div [csBadge]="notificationCount$ | async">
     <mat-icon class="mdi-bell"></mat-icon>

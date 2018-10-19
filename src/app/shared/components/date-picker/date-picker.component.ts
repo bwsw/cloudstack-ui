@@ -19,7 +19,7 @@ interface DatePickerConfig {
   okLabel?: string;
   cancelLabel?: string;
   date?: Date;
-  DateTimeFormat?: Function;
+  dateTimeFormat?: Function;
   firstDayOfWeek?: number;
   locale?: string;
 }
@@ -104,7 +104,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnChanges {
       okLabel: this.okLabel,
       cancelLabel: this.cancelLabel,
       firstDayOfWeek: this.firstDayOfWeek,
-      DateTimeFormat: this.dateTimeFormat,
+      dateTimeFormat: this.dateTimeFormat,
       locale: this.locale,
     };
     this.dialog
