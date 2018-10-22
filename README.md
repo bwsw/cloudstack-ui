@@ -261,6 +261,8 @@ npm install
 To run docker container use:
 
 ```
+docker pull bitworks.software:8443/cloudstack-ui:1.411.22
+
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
