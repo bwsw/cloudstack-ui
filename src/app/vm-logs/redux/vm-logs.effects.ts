@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { concat, Observable, of, timer } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { VmLogsService } from '../services/vm-logs.service';
 import { VmLog } from '../models/vm-log.model';
@@ -11,6 +11,10 @@ import { VmLogFilesService } from '../services/vm-log-files.service';
 import { VmLogFile } from '../models/vm-log-file.model';
 import { loadVmLogsRequestParams } from './selectors/loadVmLogsRequestParams.selector';
 import { loadVmLogFilesRequestParams } from './selectors/loadVmLogFilesRequestParams.selector';
+import { ROUTER_NAVIGATION } from '@ngrx/router-store';
+import { takeUntil } from 'rxjs/internal/operators';
+import { loadAutoUpdateVmLogsRequestParams } from './selectors/load-auto-update-vm-logs-request-params.selector';
+import moment = require('moment');
 
 
 @Injectable()
@@ -53,6 +57,44 @@ export class VmLogsEffects {
   resetLogFileOnVmChange$: Observable<Action> = this.actions$.pipe(
     ofType(vmLogsActions.VmLogsActionTypes.VM_LOGS_UPDATE_VM_ID),
     switchMap(() => of(new vmLogsActions.VmLogsUpdateLogFile(null)))
+  );
+
+  @Effect()
+  stopAutoUpdate$: Observable<Action> = this.actions$.pipe(
+    ofType(ROUTER_NAVIGATION),
+    map(() => new vmLogsActions.DisableAutoUpdate())
+  );
+
+  @Effect()
+  loadAutoUpdateVmLogs$: Observable<Action> = this.actions$.pipe(
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_REQUEST),
+    withLatestFrom(this.store.pipe(select(loadAutoUpdateVmLogsRequestParams))),
+    switchMap(([action, params]) => {
+      return this.vmLogsService.getList(params).pipe(
+        map((vmLogs: VmLog[]) => {
+          return new vmLogsActions.LoadAutoUpdateVmLogsResponse(vmLogs);
+        }),
+        catchError(error => of(new vmLogsActions.LoadAutoUpdateVmLogsError(error)))
+      );
+    })
+  );
+
+  @Effect()
+  enableAutoUpdate$: Observable<Action> = this.actions$.pipe(
+    ofType(vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE),
+    switchMap(() => timer(0, 10000).pipe(
+      takeUntil(this.actions$.pipe(ofType(vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE))),
+      switchMap(() => {
+        const startDate = moment().add(-1, 'minutes').toObject();
+        const endDate = moment().toObject();
+
+        return concat(
+          of(new vmLogsActions.SetAutoUpdateStartDate(startDate)),
+          of(new vmLogsActions.SetAutoUpdateEndDate(endDate)),
+          of(new vmLogsActions.LoadAutoUpdateVmLogsRequest())
+        );
+      }),
+    ))
   );
 
   constructor(

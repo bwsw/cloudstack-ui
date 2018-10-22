@@ -13,7 +13,7 @@ export interface VmLogsFilters {
   endDate: DateObject,
   selectedLogFile: string
   newestFirst: boolean
-};
+}
 
 export interface State extends EntityState<VmLog> {
   loading: boolean,
@@ -64,6 +64,11 @@ export function reducer(
   action: vmLogsActions.Actions
 ): State {
   switch (action.type) {
+    case vmLogsActions.VmLogsActionTypes.ENABLE_AUTO_UPDATE:
+    case vmLogsActions.VmLogsActionTypes.DISABLE_AUTO_UPDATE: {
+      return adapter.removeAll(state);
+    }
+
     case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST: {
       return {
         ...adapter.removeAll(state),
@@ -101,7 +106,8 @@ export function reducer(
       }
     }
 
-    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE: {
+    case vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE:
+    case vmLogsActions.VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE: {
       return {
         ...adapter.addAll([...action.payload], state),
         loading: false

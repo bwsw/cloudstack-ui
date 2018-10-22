@@ -152,7 +152,9 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
       newestFirst
     } = this.filterService.getParams();
 
-    this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
+    if (vm) {
+      this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
+    }
 
     const wrappedKeywords = (keywords || []).map(text => ({ text }));
     this.store.dispatch(new vmLogActions.VmLogsUpdateKeywords(wrappedKeywords));

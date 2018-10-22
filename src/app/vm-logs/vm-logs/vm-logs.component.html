@@ -9,3 +9,32 @@
     <cs-vm-logs-table-container></cs-vm-logs-table-container>
   </ng-container>
 </cs-list>
+
+<div
+  *ngIf="!isAutoUpdateEnabled"
+  class="fab"
+  [matTooltip]="'LOGS_PAGE.FAB.FOLLOW_LOG' | translate"
+  [matTooltipPosition]="'left'"
+>
+  <button
+    mat-fab
+    [disabled]="!selectedVmId"
+    (click)="onAutoUpdate.emit()"
+  >
+    <mat-icon class="mdi-format-vertical-align-bottom"></mat-icon>
+  </button>
+</div>
+
+<div
+  *ngIf="isAutoUpdateEnabled"
+  class="fab"
+  [matTooltip]="'LOGS_PAGE.FAB.STOP_FOLLOWING' | translate"
+  [matTooltipPosition]="'left'"
+>
+  <button
+    mat-fab
+    (click)="onAutoUpdateStop.emit()"
+  >
+    <mat-icon class="mdi-cancel"></mat-icon>
+  </button>
+</div>

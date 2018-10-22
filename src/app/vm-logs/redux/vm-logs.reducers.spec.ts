@@ -13,28 +13,33 @@ describe('VM logs reducer', () => {
   });
 
   it('should set entities', () => {
-    const logs = [
-      {
-        log: 'test-log1',
-        timestamp: 'test-timestamp1',
-        file: 'test-file1'
-      },
-      {
-        log: 'test-log2',
-        timestamp: 'test-timestamp2',
-        file: 'test-file2'
-      }
-    ];
+    [
+      VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE,
+      VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE,
+    ].forEach(type => {
+      const logs = [
+        {
+          log: 'test-log1',
+          timestamp: 'test-timestamp1',
+          file: 'test-file1'
+        },
+        {
+          log: 'test-log2',
+          timestamp: 'test-timestamp2',
+          file: 'test-file2'
+        }
+      ];
 
-    const state = fromVmLogs.reducer(undefined, {
-      type: VmLogsActionTypes.LOAD_VM_LOGS_RESPONSE,
-      payload: logs
+      const state = fromVmLogs.reducer(undefined, {
+        type,
+        payload: logs,
+      } as any);
+
+      expect(state.ids.length).toBe(2);
+      expect(state.entities[state.ids[0]]).toEqual(logs[0]);
+      expect(state.entities[state.ids[1]]).toEqual(logs[1]);
+      expect(state.loading).toBe(false);
     });
-
-    expect(state.ids.length).toBe(2);
-    expect(state.entities[state.ids[0]]).toEqual(logs[0]);
-    expect(state.entities[state.ids[1]]).toEqual(logs[1]);
-    expect(state.loading).toBe(false);
   });
 
   it('should add keywords', () => {
@@ -93,5 +98,26 @@ describe('VM logs reducer', () => {
     });
 
     expect(toggledTwiceState).toEqual(initialState);
+  });
+
+  it('should remove all logs on auto update', () => {
+    [
+      VmLogsActionTypes.ENABLE_AUTO_UPDATE,
+      VmLogsActionTypes.DISABLE_AUTO_UPDATE
+    ].forEach(type => {
+      const state = fromVmLogs.reducer({
+        ...initialState,
+        ids: ['id1'],
+        entities: {
+          id1: {
+            timestamp: 'test1',
+            log: 'test1',
+            file: 'test1'
+          },
+        }
+      }, { type } as any);
+
+      expect(state).toEqual(initialState);
+    });
   });
 });

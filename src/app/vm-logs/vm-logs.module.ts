@@ -20,9 +20,11 @@ import { BasePathPipe } from './pipes/base-path.pipe';
 import { ParseTimestampPipe } from './pipes/parse-timestamp.pipe';
 import { DateObjectToDatePipe } from './pipes/date-object-to-date.pipe';
 import { VmLogFilesService } from './services/vm-log-files.service';
-import { reducer as vmLogsVm } from './redux/vm-logs-vm.reducers';
-import { reducer as vmLogs, vmLogsReducers } from './redux/vm-logs.reducers';
-import { reducer as vmLogFiles, vmLogFilesReducers } from './redux/vm-log-files.reducers';
+import { vmLogsReducers } from './redux/vm-logs.reducers';
+import { vmLogFilesReducers } from './redux/vm-log-files.reducers';
+import { reducer as vmLogsVmReducers } from './redux/vm-logs-vm.reducers';
+import { reducer as vmLogsAutoUpdateReducers } from './redux/vm-logs-auto-update.reducers';
+import { VmLogsContainerComponent } from './containers/vm-logs.container';
 
 
 @NgModule({
@@ -33,9 +35,10 @@ import { reducer as vmLogFiles, vmLogFilesReducers } from './redux/vm-log-files.
     RouterModule,
     MatChipsModule,
     CdkTableModule,
-    StoreModule.forFeature('vmLogsVm', vmLogsVm),
     StoreModule.forFeature('vmLogs', vmLogsReducers),
     StoreModule.forFeature('vmLogFiles', vmLogFilesReducers),
+    StoreModule.forFeature('vmLogsVm', vmLogsVmReducers),
+    StoreModule.forFeature('vmLogsAutoUpdate', vmLogsAutoUpdateReducers),
     EffectsModule.forFeature([VmLogsEffects]),
   ],
   declarations: [
@@ -47,7 +50,8 @@ import { reducer as vmLogFiles, vmLogFilesReducers } from './redux/vm-log-files.
     VmLogKeywordsComponent,
     BasePathPipe,
     ParseTimestampPipe,
-    DateObjectToDatePipe
+    DateObjectToDatePipe,
+    VmLogsContainerComponent,
   ],
   providers: [
     VmLogsService,

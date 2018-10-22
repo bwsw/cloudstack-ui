@@ -8,6 +8,9 @@ import { VmLogFile } from '../models/vm-log-file.model';
 export enum VmLogsActionTypes {
   LOAD_VM_LOGS_REQUEST = '[VM Logs] LOAD_VM_LOGS_REQUEST',
   LOAD_VM_LOGS_RESPONSE = '[VM Logs] LOAD_VM_LOGS_RESPONSE',
+  LOAD_AUTO_UPDATE_VM_LOGS_REQUEST = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_REQUEST',
+  LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE',
+  LOAD_AUTO_UPDATE_VM_LOGS_ERROR = '[VM Logs] LOAD_AUTO_UPDATE_VM_LOGS_ERROR',
   LOAD_VM_LOG_FILES_REQUEST = '[VM Logs] LOAD_VM_LOG_FILES_REQUEST',
   LOAD_VM_LOG_FILES_RESPONSE = '[VM Logs] LOAD_VM_LOG_FILES_RESPONSE',
   VM_LOGS_UPDATE_KEYWORDS = '[VM Logs] VM_LOGS_UPDATE_KEYWORDS',
@@ -24,6 +27,10 @@ export enum VmLogsActionTypes {
   VM_LOGS_TOGGLE_NEWEST_FIRST = '[VM Logs] VM_LOGS_TOGGLE_NEWEST_FIRST',
   VM_LOGS_UPDATE_VM_ID = '[VM_LOGS] VM_LOGS_UPDATE_VM_ID',
   VM_LOGS_UPDATE_LOG_FILE = '[VM Logs] VM_LOGS_UPDATE_LOG_FILE',
+  ENABLE_AUTO_UPDATE = '[VM Logs] ENABLE_AUTO_UPDATE',
+  DISABLE_AUTO_UPDATE = '[VM Logs] DISABLE_AUTO_UPDATE',
+  SET_AUTO_UPDATE_START_DATE = '[VM Logs] SET_AUTO_UPDATE_START_DATE',
+  SET_AUTO_UPDATE_END_DATE = '[VM Logs] SET_AUTO_UPDATE_END_DATE',
 }
 
 export class LoadVmLogsRequest implements Action {
@@ -37,11 +44,25 @@ export class LoadVmLogsResponse implements Action {
   }
 }
 
+export class LoadAutoUpdateVmLogsRequest implements Action {
+  readonly type = VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_REQUEST;
+}
+
+export class LoadAutoUpdateVmLogsResponse implements Action {
+  readonly type = VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_RESPONSE;
+
+  constructor(readonly payload: Array<VmLog>) {}
+}
+
+export class LoadAutoUpdateVmLogsError implements Action {
+  readonly type = VmLogsActionTypes.LOAD_AUTO_UPDATE_VM_LOGS_ERROR;
+
+  constructor(readonly payload: Error) {
+  }
+}
+
 export class LoadVmLogFilesRequest implements Action {
   readonly type = VmLogsActionTypes.LOAD_VM_LOG_FILES_REQUEST;
-
-  constructor(public payload?: never) {
-  }
 }
 
 export class LoadVmLogFilesResponse implements Action {
@@ -54,7 +75,7 @@ export class LoadVmLogFilesResponse implements Action {
 export class VmLogsUpdateKeywords implements Action {
   readonly type = VmLogsActionTypes.VM_LOGS_UPDATE_KEYWORDS;
 
-  constructor(public payload: any) {
+  constructor(public payload: Array<Keyword>) {
   }
 }
 
@@ -146,9 +167,32 @@ export class VmLogsUpdateLogFile implements Action {
   }
 }
 
+export class EnableAutoUpdate implements Action {
+  readonly type = VmLogsActionTypes.ENABLE_AUTO_UPDATE;
+}
+
+export class DisableAutoUpdate implements Action {
+  readonly type = VmLogsActionTypes.DISABLE_AUTO_UPDATE;
+}
+
+export class SetAutoUpdateStartDate implements Action {
+  readonly type = VmLogsActionTypes.SET_AUTO_UPDATE_START_DATE;
+
+  constructor(readonly payload: DateObject) {}
+}
+
+export class SetAutoUpdateEndDate implements Action {
+  readonly type = VmLogsActionTypes.SET_AUTO_UPDATE_END_DATE;
+
+  constructor(readonly payload: DateObject) {}
+}
+
 export type Actions =
   LoadVmLogsResponse
   | LoadVmLogsRequest
+  | LoadAutoUpdateVmLogsRequest
+  | LoadAutoUpdateVmLogsResponse
+  | LoadAutoUpdateVmLogsError
   | LoadVmLogFilesRequest
   | LoadVmLogFilesResponse
   | VmLogsUpdateKeywords
@@ -164,4 +208,8 @@ export type Actions =
   | VmLogsUpdateEndTime
   | VmLogsUpdateLogFile
   | VmLogsUpdateNewestFirst
-  | VmLogsToggleNewestFirst;
+  | VmLogsToggleNewestFirst
+  | EnableAutoUpdate
+  | DisableAutoUpdate
+  | SetAutoUpdateStartDate
+  | SetAutoUpdateEndDate;
