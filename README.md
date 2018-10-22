@@ -31,7 +31,6 @@ Table of Contents
           * [Main commands](#main-commands)
       * [Deployment](#deployment)
           * [Main UI Container](#main-ui-container)
-          * [Assisting object cleanup container](#assisting-object-cleanup-container)
       * [Versioning](#versioning)
       * [Configuration Options](#configuration-options)
    * [Project Sponsors](#project-sponsors)
@@ -284,12 +283,6 @@ Additionally, you can change favicon and CloudStack logo on login screen and in 
 ```
 
 where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on the login screen and `cloudstack_logo_light.png` is the CloudStack logo displayed in the sidebar with the light theme.
-
-### Assisting object cleanup container
-
-Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
-
-Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/) container.
 
 ## Versioning
 
