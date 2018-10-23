@@ -12,9 +12,13 @@ import { VmLogFile } from '../models/vm-log-file.model';
 import { loadVmLogsRequestParams } from './selectors/loadVmLogsRequestParams.selector';
 import { loadVmLogFilesRequestParams } from './selectors/loadVmLogFilesRequestParams.selector';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
-import { takeUntil } from 'rxjs/internal/operators';
+import { filter, takeUntil } from 'rxjs/internal/operators';
 import { loadAutoUpdateVmLogsRequestParams } from './selectors/load-auto-update-vm-logs-request-params.selector';
 import moment = require('moment');
+import * as fromVmLogsAutoUpdate from './vm-logs-auto-update.reducers';
+import { Utils } from '../../shared/services/utils/utils.service';
+import { Router } from '@angular/router';
+import { RouterNavigationAction } from '@ngrx/router-store/src/router_store_module';
 
 
 @Injectable()
@@ -60,9 +64,30 @@ export class VmLogsEffects {
   );
 
   @Effect()
-  stopAutoUpdate$: Observable<Action> = this.actions$.pipe(
+  stopAutoUpdateOnRouterNavigation$: Observable<Action> = this.actions$.pipe(
     ofType(ROUTER_NAVIGATION),
+    withLatestFrom(this.store.pipe(select(fromVmLogsAutoUpdate.selectIsAutoUpdateEnabled))),
+    filter(([action, isAutoUpdateEnabled]: [RouterNavigationAction, boolean]) => {
+      if (!isAutoUpdateEnabled) {
+        return false;
+      }
+
+      const currentUrl = Utils.getRouteWithoutQueryParams(this.router.routerState);
+      const nextUrl = Utils.getRouteWithoutQueryParams({
+        snapshot: {
+          url: action.payload.routerState.url || '',
+        },
+      });
+
+      return currentUrl !== nextUrl;
+    }),
     map(() => new vmLogsActions.DisableAutoUpdate())
+  );
+
+  @Effect()
+  stopAutoUpdateOnShowLogs$: Observable<Action> = this.actions$.pipe(
+    ofType(vmLogsActions.VmLogsActionTypes.LOAD_VM_LOGS_REQUEST),
+    map(() => new vmLogsActions.DisableAutoUpdate()),
   );
 
   @Effect()
@@ -99,6 +124,7 @@ export class VmLogsEffects {
 
   constructor(
     private actions$: Actions,
+    private router: Router,
     private store: Store<State>,
     private vmLogsService: VmLogsService,
     private vmLogFilesService: VmLogFilesService
