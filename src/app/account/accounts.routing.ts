@@ -14,7 +14,7 @@ export const accountsRoutes: Routes = [
     children: [
       {
         path: 'create',
-        component: AccountCreationComponent
+        component: AccountCreationComponent,
       },
       {
         path: ':id',
@@ -24,18 +24,18 @@ export const accountsRoutes: Routes = [
           {
             path: '',
             redirectTo: 'account',
-            pathMatch: 'full'
+            pathMatch: 'full',
           },
           {
             path: 'account',
-            component: AccountDetailsContainerComponent
+            component: AccountDetailsContainerComponent,
           },
           {
             path: 'users',
-            component: AccountUsersContainerComponent
-          }
-        ]
-      }
-    ]
-  }
+            component: AccountUsersContainerComponent,
+          },
+        ],
+      },
+    ],
+  },
 ];

@@ -35,17 +35,8 @@ import { SnapshotsPageComponent } from './snapshots-page/snapshots-page.componen
 import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule,
-    DraggableSelectModule,
-    RouterModule
-  ],
-  exports: [
-    RecurringSnapshotsComponent,
-    SnapshotActionContainerComponent
-  ],
+  imports: [CommonModule, SharedModule, MaterialModule, DraggableSelectModule, RouterModule],
+  exports: [RecurringSnapshotsComponent, SnapshotActionContainerComponent],
   declarations: [
     DayOfWeekComponent,
     HourlyPolicyComponent,
@@ -67,20 +58,15 @@ import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page
     SnapshotSidebarContainerComponent,
     SnapshotSidebarComponent,
     CreateVolumeFromSnapshotContainerComponent,
-    CreateVolumeFromSnapshotComponent
+    CreateVolumeFromSnapshotComponent,
   ],
-  providers: [
-    PolicyViewBuilderService,
-    SnapshotPolicyService,
-    SnapshotActionService
-  ],
+  providers: [PolicyViewBuilderService, SnapshotPolicyService, SnapshotActionService],
   entryComponents: [
     RecurringSnapshotsComponent,
     SnapshotCardItemComponent,
     SnapshotListItemComponent,
     SnapshotActionContainerComponent,
-    CreateVolumeFromSnapshotContainerComponent
-  ]
+    CreateVolumeFromSnapshotContainerComponent,
+  ],
 })
-export class SnapshotModule {
-}
+export class SnapshotModule {}

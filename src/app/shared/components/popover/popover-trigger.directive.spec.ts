@@ -10,21 +10,22 @@ import { PopoverTriggerDirective } from './popover-trigger.directive';
   template: `
     <button
       [csPopoverTrigger]="popover"
-      (onPopoverOpen)="openEvents = openEvents + 1"
-      (onPopoverClose)="closeEvents = closeEvents + 1"
+      (popoverOpened)="openEvents = openEvents + 1"
+      (popoverClosed)="closeEvents = closeEvents + 1"
     ></button>
     <cs-popover #popover><div data-id="popover-content">test</div></cs-popover>
-  `
+  `,
 })
 class TestComponent {
-  @ViewChild(PopoverTriggerDirective) public popover: PopoverTriggerDirective;
+  @ViewChild(PopoverTriggerDirective)
+  public popover: PopoverTriggerDirective;
   public openEvents = 0;
   public closeEvents = 0;
 }
 
 @Component({
   selector: 'cs-test-error',
-  template: '<button csPopoverTrigger></button>'
+  template: '<button csPopoverTrigger></button>',
 })
 class TestErrorComponent {}
 
@@ -33,29 +34,27 @@ describe('PopoverTriggerDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [PopoverModule],
-        declarations: [TestComponent, TestErrorComponent],
-        providers: [
-          {
-            provide: OverlayContainer,
-            useFactory: () => {
-              overlayContainerElement = document.createElement('div');
-              overlayContainerElement.classList.add('cdk-overlay-container');
-              document.body.appendChild(overlayContainerElement);
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [PopoverModule],
+      declarations: [TestComponent, TestErrorComponent],
+      providers: [
+        {
+          provide: OverlayContainer,
+          useFactory: () => {
+            overlayContainerElement = document.createElement('div');
+            overlayContainerElement.classList.add('cdk-overlay-container');
+            document.body.appendChild(overlayContainerElement);
 
-              return { getContainerElement: () => overlayContainerElement };
-            }
-          }
-        ]
-      });
+            return { getContainerElement: () => overlayContainerElement };
+          },
+        },
+      ],
+    });
 
-      fixture = TestBed.createComponent(TestComponent);
-      component = fixture.componentInstance;
-    })
-  );
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+  }));
 
   afterEach(() => document.body.removeChild(overlayContainerElement));
 
@@ -74,12 +73,10 @@ describe('PopoverTriggerDirective', () => {
     expect(
       fixture.debugElement
         .query(By.css('div[data-id="popover-content"]'))
-        .nativeElement.textContent.trim()
+        .nativeElement.textContent.trim(),
     ).toBe('test');
     expect(
-      overlayContainerElement
-        .querySelector('div[data-id="popover-content"]')
-        .textContent.trim()
+      overlayContainerElement.querySelector('div[data-id="popover-content"]').textContent.trim(),
     ).toBe('test');
   });
 
@@ -110,19 +107,16 @@ describe('PopoverTriggerDirective', () => {
     expect(document.body.querySelector('div[data-id="popover-content"]')).toBe(null);
   });
 
-  it(
-    'should emit open and close events',
-    fakeAsync(() => {
-      fixture.detectChanges();
+  it('should emit open and close events', fakeAsync(() => {
+    fixture.detectChanges();
 
-      expect(component.openEvents).toBe(0);
-      expect(component.closeEvents).toBe(0);
+    expect(component.openEvents).toBe(0);
+    expect(component.closeEvents).toBe(0);
 
-      component.popover.openPopover();
-      expect(component.openEvents).toBe(1);
-      expect(component.closeEvents).toBe(0);
-      component.popover.closePopover();
-      expect(component.closeEvents).toBe(1);
-    })
-  );
+    component.popover.openPopover();
+    expect(component.openEvents).toBe(1);
+    expect(component.closeEvents).toBe(0);
+    component.popover.closePopover();
+    expect(component.closeEvents).toBe(1);
+  }));
 });

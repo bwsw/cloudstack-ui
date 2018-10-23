@@ -1,40 +1,34 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { DragulaModule } from 'ng2-dragula';
 
-import { MaterialModule } from '../material/material.module';
-import { SharedModule } from '../shared/shared.module';
-
-import { SidenavComponent } from './components';
-import { SnackBarService } from './services';
 import { ConfigValidationService } from './config';
-
-const COMPONENTS = [
-  SidenavComponent
-];
-
-const SERVICES = [
-  ConfigValidationService,
-  SnackBarService
-];
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../material/material.module';
+import {
+  AppNavComponent,
+  LicenseComponent,
+  MenuHeaderComponent,
+  SectionNavComponent,
+} from './nav-menu/components/';
+import { SnackBarService, NavMenuService } from './services';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule,
-    DragulaModule,
-    RouterModule
-  ],
-  exports: COMPONENTS,
-  declarations: COMPONENTS,
-  providers: SERVICES,
+  imports: [CommonModule, SharedModule, MaterialModule, RouterModule],
+  exports: [AppNavComponent, SectionNavComponent],
+  declarations: [AppNavComponent, SectionNavComponent, LicenseComponent, MenuHeaderComponent],
+  providers: [ConfigValidationService, SnackBarService, NavMenuService],
 })
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(
+    @Optional()
+    @SkipSelf()
+    parentModule: CoreModule,
+  ) {
     if (parentModule) {
-      throw new Error(`CoreModule has already been loaded. Import CoreModule in the AppModule only.`);
+      throw new Error(
+        `CoreModule has already been loaded. Import CoreModule in the AppModule only.`,
+      );
     }
   }
 }

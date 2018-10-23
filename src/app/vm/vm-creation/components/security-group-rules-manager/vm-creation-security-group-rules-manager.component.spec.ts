@@ -11,7 +11,6 @@ import { FancySelectComponent } from '../../../../shared/components';
 import { Rules } from '../../../../shared/components/security-group-builder/rules';
 import { VmCreationSecurityGroupData } from '../../security-group/vm-creation-security-group-data';
 
-
 const mockSg: SecurityGroup = {
   id: '771ebeac-67cb-47a3-a49a-9b96ca0643b4',
   name: 'eeae63c7-1c0e-4ecd-b4a2-505a167b28be-cs-sg',
@@ -40,7 +39,7 @@ const mockSg: SecurityGroup = {
       startport: 1,
       endport: 65535,
       cidr: '0.0.0.0/0',
-    }
+    },
   ],
   egressrule: [
     {
@@ -62,29 +61,33 @@ const mockSg: SecurityGroup = {
       protocol: NetworkProtocol.TCP,
       startport: 1,
       endport: 65535,
-      cidr: '0.0.0.0/0'
-    }
+      cidr: '0.0.0.0/0',
+    },
   ],
   virtualmachinecount: 0,
   virtualmachineids: [],
-  tags: []
+  tags: [],
 };
 
-const mockIngressRules: NetworkRule[] = [{
-  ruleid: 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
-  protocol: NetworkProtocol.UDP,
-  startport: 1,
-  endport: 65535,
-  cidr: '0.0.0.0/0'
-}];
+const mockIngressRules: NetworkRule[] = [
+  {
+    ruleid: 'f7c27f7b-2f3b-4665-8333-89b5aae926e6',
+    protocol: NetworkProtocol.UDP,
+    startport: 1,
+    endport: 65535,
+    cidr: '0.0.0.0/0',
+  },
+];
 
-const mockEgressRules: NetworkRule[] = [{
-  ruleid: '9932b4ee-3201-4cf5-97e3-ccf76ec0a0e9',
-  protocol: NetworkProtocol.UDP,
-  startport: 1,
-  endport: 65535,
-  cidr: '0.0.0.0/0'
-}];
+const mockEgressRules: NetworkRule[] = [
+  {
+    ruleid: '9932b4ee-3201-4cf5-97e3-ccf76ec0a0e9',
+    protocol: NetworkProtocol.UDP,
+    startport: 1,
+    endport: 65535,
+    cidr: '0.0.0.0/0',
+  },
+];
 
 class MockMdDialog {
   public open(): any {
@@ -92,7 +95,7 @@ class MockMdDialog {
     const dialogCloseValue = VmCreationSecurityGroupData.fromRules(rules);
 
     return {
-      afterClosed: () => of(dialogCloseValue)
+      afterClosed: () => of(dialogCloseValue),
     };
   }
 }
@@ -106,12 +109,10 @@ describe('Sg Rules manager component', () => {
       declarations: [
         VmCreationSecurityGroupRulesManagerComponent,
         MockTranslatePipe,
-        FancySelectComponent
+        FancySelectComponent,
       ],
-      providers: [
-        { provide: MatDialog, useClass: MockMdDialog }
-      ],
-      schemas: [NO_ERRORS_SCHEMA]
+      providers: [{ provide: MatDialog, useClass: MockMdDialog }],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     TestBed.compileComponents().then(() => {

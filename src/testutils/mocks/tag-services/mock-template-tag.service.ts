@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 
 import { BaseTemplateModel } from '../../../app/template/shared/base-template.model';
 
-
 @Injectable()
 export class MockTemplateTagService {
   public getDownloadUrl(template: BaseTemplateModel): Observable<string> {

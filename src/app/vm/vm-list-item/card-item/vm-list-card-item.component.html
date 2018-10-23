@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tr>
-        <td>{{ 'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpuNumber, speed: item.cpuSpeed }) }}</td>
+        <td>{{ 'SERVICE_OFFERING.CPU_MHZ' | translate:({ count: item.cpunumber, speed: item.cpuspeed }) }}</td>
         <td>
           <ng-container *ngIf="item.memory < gigabyte">
             {{ 'UNITS.MB_VALUE' | translate:({ value: getMemoryInMb() }) }}

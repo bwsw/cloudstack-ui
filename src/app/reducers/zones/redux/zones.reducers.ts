@@ -1,12 +1,5 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as event from './zones.actions';
 import { Zone } from '../../../shared/models/zone.model';
 
@@ -40,7 +33,7 @@ export const zoneReducers = {
  */
 export const adapter: EntityAdapter<Zone> = createEntityAdapter<Zone>({
   selectId: (item: Zone) => item.id,
-  sortComparer: false
+  sortComparer: false,
 });
 
 /** getInitialState returns the default initial state
@@ -49,22 +42,18 @@ export const adapter: EntityAdapter<Zone> = createEntityAdapter<Zone>({
  */
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  selectedZoneId: null
+  selectedZoneId: null,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_ZONES_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case event.LOAD_ZONES_RESPONSE: {
-
       const zones = action.payload;
 
       return {
@@ -76,17 +65,16 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(zones, state),
-        loading: false
+        loading: false,
       };
     }
 
     case event.LOAD_SELECTED_ZONE: {
       return {
         ...state,
-        selectedZoneId: action.payload
+        selectedZoneId: action.payload,
       };
     }
-
 
     default: {
       return state;
@@ -94,35 +82,20 @@ export function reducer(
   }
 }
 
-
 export const getZonesState = createFeatureSelector<ZonesState>('zones');
 
-export const getZonesEntitiesState = createSelector(
-  getZonesState,
-  state => state.list
-);
+export const getZonesEntitiesState = createSelector(getZonesState, state => state.list);
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getZonesEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getZonesEntitiesState,
-  state => state.loading
 );
 
-export const getSelectedId = createSelector(
-  getZonesEntitiesState,
-  state => state.selectedZoneId
-);
+export const isLoading = createSelector(getZonesEntitiesState, state => state.loading);
+
+export const getSelectedId = createSelector(getZonesEntitiesState, state => state.selectedZoneId);
 
 export const getSelectedZone = createSelector(
   getZonesState,
   getSelectedId,
-  (state, selectedId) => state.list.entities[selectedId]
+  (state, selectedId) => state.list.entities[selectedId],
 );
-
-

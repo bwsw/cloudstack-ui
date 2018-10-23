@@ -35,10 +35,10 @@
       <p><b>{{ 'VM_POST_ACTION.PORT' | translate }}:</b> {{ sshAccessService.getPort(vm) }}</p>
       <p><b>{{ 'VM_POST_ACTION.LOGIN' | translate }}:</b> {{ sshAccessService.getLogin(vm) }}</p>
       <p><b>{{ 'VM_POST_ACTION.VM_PASSWORD' | translate }}:</b> {{ getSshPassword(vm) }}</p>
-      <p *ngIf="vm.keyPair">
+      <p *ngIf="vm.keypair">
         <b>{{ 'VM_POST_ACTION.SSH_KEY' | translate }}: </b>
         <span>
-          {{ vm.keyPair }}
+          {{ vm.keypair }}
         </span>
       </p>
 

@@ -69,21 +69,9 @@
   "defaultTimeFormat": "hour24",
   "defaultTheme": "blue-red",
   "sessionTimeout": 30,
-  "allowReorderingSidenav": true,
-  "configureSidenav": [
-    { "id": "VMS" },
-    { "id": "VOLUMES", "visible": true },
-    { "id": "TEMPLATES", "visible": true },
-    { "id": "SNAPSHOTS", "visible": true },
-    { "id": "SGS", "visible": true },
-    { "id": "EVENTS", "visible": true },
-    { "id": "SSH", "visible": true },
-    { "id": "ACCOUNTS", "visible": true },
-    { "id": "SETTINGS", "visible": true }
-  ],
   "customComputeOfferingParameters": [
     {
-      "offeringId": "73cdef05-d01f-49ad-8ecb-4f2ffd7d8e26",
+      "offeringId": "REPLACE_WITH_ID",
       "cpunumber": {
         "min": 2,
         "max": 8,
@@ -103,8 +91,8 @@
   ],
   "defaultComputeOffering": [
     {
-      "zoneId": "415db026-1135-496e-9383-0c820a75694e",
-      "offeringId": "f216bd08-947a-4022-8271-c29e9acfffb9"
+      "zoneId": "REPLACE_WITH_ID",
+      "offeringId": "REPLACE_WITH_ID"
     }
   ],
   "offeringCompatibilityPolicy": {
@@ -122,9 +110,7 @@
         "ru": "Описание класса - 1",
         "en": "Class description - 1"
       },
-      "computeOfferings": [
-        "9c81af12-f15b-41f0-9dec-2a837e1dec29"
-      ]
+      "computeOfferings": ["REPLACE_WITH_ID"]
     },
     {
       "id": "classId-2",
@@ -136,17 +122,15 @@
         "ru": "Описание класса - 2",
         "en": "Class description - 2"
       },
-      "computeOfferings": [
-        "9c81af12-f15b-41f0-9dec-2a837e1dec29"
-      ]
+      "computeOfferings": ["REPLACE_WITH_ID"]
     }
   ],
   "serviceOfferingAvailability": {
     "filterOfferings": true,
     "zones": {
-      "415db026-1135-496e-9383-0c820a75694e": {
-        "diskOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1d23er"],
-        "computeOfferings": ["9c81af12-f15b-41f0-9dec-2a837e1dec29"]
+      "REPLACE_WITH_ID": {
+        "diskOfferings": ["REPLACE_WITH_ID"],
+        "computeOfferings": ["REPLACE_WITH_ID"]
       }
     }
   },

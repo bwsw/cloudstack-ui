@@ -5,7 +5,7 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
 import { Color } from '../../../shared/models';
@@ -18,14 +18,17 @@ import { Theme } from '../../../shared/services/style.service';
     <cs-color-picker
       [colors]="colors"
       [selectedColor]="selectedColor"
-      (change)="onSelectionChange($event)"
+      (changed)="onSelectionChange($event)"
     ></cs-color-picker>
-  `
+  `,
 })
 export class ThemeSelectorComponent implements OnChanges {
-  @Input() themes: Theme[];
-  @Input() currentThemeName: string;
-  @Output() selectionChange = new EventEmitter<Theme>();
+  @Input()
+  themes: Theme[];
+  @Input()
+  currentThemeName: string;
+  @Output()
+  selectionChange = new EventEmitter<Theme>();
   public colors: Color[];
   public selectedColor: Color;
 
@@ -39,8 +42,8 @@ export class ThemeSelectorComponent implements OnChanges {
   }
 
   public onSelectionChange(color: Color) {
-   const selectedTheme = this.themes.find(theme => theme.primaryColor === color.value);
-   this.selectionChange.emit(selectedTheme);
+    const selectedTheme = this.themes.find(theme => theme.primaryColor === color.value);
+    this.selectionChange.emit(selectedTheme);
   }
 
   private setColors(themes: Theme[]) {

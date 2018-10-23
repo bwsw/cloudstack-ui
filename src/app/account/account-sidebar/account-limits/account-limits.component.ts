@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import * as cloneDeep from 'lodash/cloneDeep';
 
-
 import { ResourceLimit, ResourceType } from '../../../shared/models';
-
 
 @Component({
   selector: 'cs-account-limits',
   templateUrl: 'account-limits.component.html',
   styleUrls: ['account-limits.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountLimitsComponent {
   @Input()
@@ -21,8 +19,10 @@ export class AccountLimitsComponent {
     return this._limits;
   }
 
-  @Input() public isAdmin: boolean;
-  @Output() public limitsUpdate = new EventEmitter<ResourceLimit[]>();
+  @Input()
+  public isAdmin: boolean;
+  @Output()
+  public limitsUpdate = new EventEmitter<ResourceLimit[]>();
   public isEdit = false;
   public localLimits: ResourceLimit[] = [];
 
@@ -41,6 +41,7 @@ export class AccountLimitsComponent {
     [ResourceType.SecondaryStorage]: 'ACCOUNT_PAGE.CONFIGURATION.SSTORAGE_LIMIT',
   };
 
+  // tslint:disable-next-line:variable-name
   private _limits: ResourceLimit[];
 
   public onSave(): void {
@@ -60,18 +61,18 @@ export class AccountLimitsComponent {
     }
     return {
       ...limit,
-      max: Infinity
+      max: Infinity,
     };
   }
 
   private setInfinityToNoLimit(limit: ResourceLimit & { max: string | number }) {
     if (
-      limit.max === Infinity
-      || (typeof limit.max === 'string' && (limit.max as string).toLowerCase() === 'infinity')
+      limit.max === Infinity ||
+      (typeof limit.max === 'string' && (limit.max as string).toLowerCase() === 'infinity')
     ) {
       return {
         ...limit,
-        max: -1
+        max: -1,
       };
     }
     return limit;

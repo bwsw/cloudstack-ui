@@ -1,4 +1,4 @@
 export enum VmCreationSecurityGroupMode {
   Builder,
-  Selector
+  Selector,
 }

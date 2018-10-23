@@ -6,8 +6,8 @@
     <cs-policy-list
       [timeFormat]="timeFormat$ | async"
       [policies]="policies"
-      (onPolicyDelete)="deletePolicy($event)"
-      (onPolicyRowClick)="changeTab($event)"
+      (policyDeleted)="deletePolicy($event)"
+      (policyRowClicked)="changeTab($event)"
     ></cs-policy-list>
   </div>
   <div *ngIf="!policies?.length" class="list">{{ 'SNAPSHOT_POLICIES.NO_RESULTS' | translate }}</div>
@@ -21,7 +21,7 @@
         <cs-policy-editor
           [timeFormat]="timeFormat$ | async"
           [policyMode]="policyMode"
-          (onPolicySave)="addPolicy($event)"
+          (policySaved)="addPolicy($event)"
         ></cs-policy-editor>
       </div>
     </mat-tab>
@@ -30,7 +30,7 @@
         <cs-policy-editor
           [timeFormat]="timeFormat$ | async"
           [policyMode]="policyMode"
-          (onPolicySave)="addPolicy($event)"
+          (policySaved)="addPolicy($event)"
         ></cs-policy-editor>
       </div>
     </mat-tab>
@@ -39,7 +39,7 @@
         <cs-policy-editor
           [timeFormat]="timeFormat$ | async"
           [policyMode]="policyMode"
-          (onPolicySave)="addPolicy($event)"
+          (policySaved)="addPolicy($event)"
         ></cs-policy-editor>
       </div>
     </mat-tab>
@@ -48,7 +48,7 @@
         <cs-policy-editor
           [timeFormat]="timeFormat$ | async"
           [policyMode]="policyMode"
-          (onPolicySave)="addPolicy($event)"
+          (policySaved)="addPolicy($event)"
         ></cs-policy-editor>
       </div>
     </mat-tab>

@@ -12,31 +12,30 @@ import * as debounce from 'lodash/debounce';
 export const INPUT_NUMBER_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => InputTypeNumberDirective),
-  multi: true
+  multi: true,
 };
 
 @Directive({
   selector: 'input[type=number]',
-  providers: [INPUT_NUMBER_ACCESSOR]
+  providers: [INPUT_NUMBER_ACCESSOR],
 })
 export class InputTypeNumberDirective implements ControlValueAccessor {
-  @Input('csMinValue') minValue: string | number = null;
-  @Input('csMaxValue') maxValue: string | number = null;
-  @Input() step = '1';
+  @Input('csMinValue')
+  minValue: string | number = null;
+  @Input('csMaxValue')
+  maxValue: string | number = null;
+  @Input()
+  step = '1';
   private floatNumbersRegEx: RegExp = /(?!-)[^\d.]*/g; // Remove all symbols expect digit symbols, "-", "."
   private integerNumbersRegEx: RegExp = /(?!-)[^\d]*/g; // Remove all symbols expect digit symbols, "-"
   // Debounce allows, for example, to enter 11 if the minimum value is 2.
   // Otherwise, the first unit will be changed to a minimum value of 2 and it will be 21
   private setMinValueDebounced = debounce(this.setMinValue, 1000);
-  private onChange = (value: number) => {
-  }
-  private onTouched = () => {
-  }
 
-  constructor(private el: ElementRef) {
-  }
+  constructor(private el: ElementRef) {}
 
-  @HostListener('input') onInputEvent() {
+  @HostListener('input')
+  onInputEvent() {
     this.setMinValueDebounced.cancel();
     const initialValue = this.el.nativeElement.value;
     // Workaround! If user enter "-" in empty input or "." then initialValue = ''
@@ -50,11 +49,13 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
     this.updateValue(value);
   }
 
-  @HostListener('change') onChangeEvent() {
+  @HostListener('change')
+  onChangeEvent() {
     this.onChangeAndBlurEvents();
   }
 
-  @HostListener('blur') onBlurEvent() {
+  @HostListener('blur')
+  onBlurEvent() {
     this.onChangeAndBlurEvents();
     this.onTouched();
   }
@@ -71,6 +72,10 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
+  private onChange = (value: number) => {};
+
+  private onTouched = () => {};
+
   private updateValue(value: number): void {
     // This allows you delete last symbol
     if (value == null) {
@@ -79,11 +84,12 @@ export class InputTypeNumberDirective implements ControlValueAccessor {
 
     if (this.isLowerThanMinValue(value)) {
       return this.setMinValueDebounced();
-    } else if (this.isGreaterThanMaxValue(value)) {
-      return this.setMaxValue();
-    } else {
-      this.updateElementValue(value);
     }
+    if (this.isGreaterThanMaxValue(value)) {
+      return this.setMaxValue();
+    }
+
+    this.updateElementValue(value);
   }
 
   private onChangeAndBlurEvents() {

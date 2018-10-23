@@ -1,7 +1,6 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-
-export interface Role extends BaseModelInterface {
+export interface Role extends BaseModel {
   description: string;
   id: string;
   name: string;

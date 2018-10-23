@@ -14,8 +14,9 @@ export const volumeRoutes: Routes = [
     children: [
       {
         path: 'create',
-        component: VolumeCreationComponent
-      }, {
+        component: VolumeCreationComponent,
+      },
+      {
         path: ':id',
         component: VolumeSidebarContainerComponent,
         canActivate: [AuthGuard],
@@ -23,18 +24,18 @@ export const volumeRoutes: Routes = [
           {
             path: '',
             redirectTo: 'volume',
-            pathMatch: 'full'
+            pathMatch: 'full',
           },
           {
             path: 'volume',
-            component: VolumeDetailsContainerComponent
+            component: VolumeDetailsContainerComponent,
           },
           {
             path: 'snapshots',
-            component: VolumeSnapshotDetailsContainerComponent
-          }
-        ]
-      }
-    ]
-  }
+            component: VolumeSnapshotDetailsContainerComponent,
+          },
+        ],
+      },
+    ],
+  },
 ];

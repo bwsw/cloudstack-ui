@@ -6,8 +6,8 @@
     <cs-service-offering-filter
       [classes]="classes"
       [viewMode]="viewMode"
-      (viewModeChange)="viewModeChange.emit($event)"
-      (selectedClassesChange)="selectedClassesChange.emit($event)"
+      (viewModeChange)="viewModeChanged.emit($event)"
+      (selectedClassesChange)="selectedClassesChanged.emit($event)"
       (queryChange)="queryChange.emit($event)"
     ></cs-service-offering-filter>
     <cs-service-offering-list

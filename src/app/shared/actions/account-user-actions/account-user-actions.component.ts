@@ -8,51 +8,63 @@ import { AccountUser } from '../../models/account-user.model';
 
 @Component({
   selector: 'cs-account-user-actions',
-  templateUrl: 'account-user-actions.component.html'
+  templateUrl: 'account-user-actions.component.html',
 })
 export class AccountUserActionsComponent {
-  @Input() public user: AccountUser;
-  @Output() public onUserEdit: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onUserChangePassword: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onUserRegenerateKey: EventEmitter<Account> = new EventEmitter<Account>();
-  @Output() public onUserDelete: EventEmitter<Account> = new EventEmitter<Account>();
+  @Input()
+  public user: AccountUser;
+  @Output()
+  public userEdited: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public userChangedPassword: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public userRegeneratedKey: EventEmitter<Account> = new EventEmitter<Account>();
+  @Output()
+  public userDeleted: EventEmitter<Account> = new EventEmitter<Account>();
 
   public actions: any[];
 
   constructor(
     private userActionService: AccountUserActionsService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
   ) {
     this.actions = this.userActionService.actions;
   }
 
   public activateAction(action, user) {
     if (action.confirmMessage) {
-      this.dialogService.confirm({ message: action.confirmMessage }).pipe(
-        onErrorResumeNext(),
-        filter(res => Boolean(res)))
+      this.dialogService
+        .confirm({ message: action.confirmMessage })
+        .pipe(
+          onErrorResumeNext(),
+          filter(Boolean),
+        )
         .subscribe(() => {
           switch (action.command) {
             case 'regenerateKey': {
-              this.onUserRegenerateKey.emit(user);
+              this.userRegeneratedKey.emit(user);
               break;
             }
             case 'delete': {
-              this.onUserDelete.emit(user);
+              this.userDeleted.emit(user);
               break;
             }
+            default:
+              break;
           }
         });
     } else {
       switch (action.command) {
         case 'edit': {
-          this.onUserEdit.emit(user);
+          this.userEdited.emit(user);
           break;
         }
         case 'changePassword': {
-          this.onUserChangePassword.emit(user);
+          this.userChangedPassword.emit(user);
           break;
         }
+        default:
+          break;
       }
     }
   }

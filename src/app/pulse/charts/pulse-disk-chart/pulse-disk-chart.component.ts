@@ -5,7 +5,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -13,27 +13,24 @@ import { finalize } from 'rxjs/operators';
 import { isRoot, Volume } from '../../../shared/models/volume.model';
 import { VolumeService } from '../../../shared/services/volume.service';
 import { PulseService } from '../../pulse.service';
-import { humanReadableSize } from '../../unitsUtils';
+import { humanReadableSize } from '../../units-utils';
 import { defaultChartOptions, getChart, PulseChartComponent } from '../pulse-chart';
-
 
 @Component({
   selector: 'cs-pulse-disk-chart',
   templateUrl: './pulse-disk-chart.component.html',
   styleUrls: ['./pulse-disk-chart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PulseDiskChartComponent extends PulseChartComponent implements OnInit {
-  @Input() public vmId: string;
-  @Output() public volumeChange = new EventEmitter();
+  @Input()
+  public vmId: string;
+  @Output()
+  public volumeChange = new EventEmitter();
   public selectedVolume: Volume;
-  public availableVolumes: Array<Volume>;
+  public availableVolumes: Volume[];
 
-  constructor(
-    pulse: PulseService,
-    cd: ChangeDetectorRef,
-    private volumeService: VolumeService
-  ) {
+  constructor(pulse: PulseService, cd: ChangeDetectorRef, private volumeService: VolumeService) {
     super(pulse, cd);
   }
 
@@ -55,97 +52,100 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
                     return !!humanReadableSize(val, true)
                       ? `${humanReadableSize(val, true)}/s`
                       : null;
-                  }
-                }
-              }
-            ]
-          }
-        }
+                  },
+                },
+              },
+            ],
+          },
+        },
       },
       { id: 'iops' },
       {
         id: 'errors',
         labels: [],
-        chartType: 'bar'
-      }
+        chartType: 'bar',
+      },
     ]);
 
-    this.volumeService
-      .getList({ virtualMachineId: this.vmId })
-      .subscribe(volumes => {
-        const rootDiskInd = volumes.findIndex(_ => isRoot(_));
-        if (rootDiskInd !== -1) {
-          const temp = volumes[0];
-          volumes[0] = volumes[rootDiskInd];
-          volumes[rootDiskInd] = temp;
-        }
-        this.availableVolumes = volumes;
-        this.selectedVolume = this.availableVolumes[0];
-        this.cd.markForCheck();
-      });
+    this.volumeService.getList({ virtualMachineId: this.vmId }).subscribe(volumes => {
+      const rootDiskInd = volumes.findIndex(isRoot);
+      if (rootDiskInd !== -1) {
+        const temp = volumes[0];
+        volumes[0] = volumes[rootDiskInd];
+        volumes[rootDiskInd] = temp;
+      }
+      this.availableVolumes = volumes;
+      this.selectedVolume = this.availableVolumes[0];
+      this.cd.markForCheck();
+    });
   }
 
   public update(params, forceUpdate) {
     const requests = params.selectedAggregations.map(_ =>
-      this.pulse.disk(params.vmId, this.selectedVolume.id, {
-        range: params.selectedScale.range,
-        aggregation: _,
-        shift: `${params.shiftAmount}${params.selectedShift || 'w'}`
-      }, forceUpdate)
+      this.pulse.disk(
+        params.vmId,
+        this.selectedVolume.id,
+        {
+          range: params.selectedScale.range,
+          aggregation: _,
+          shift: `${params.shiftAmount}${params.selectedShift || 'w'}`,
+        },
+        forceUpdate,
+      ),
     );
 
     this.setLoading(!forceUpdate);
-    forkJoin(...requests).pipe(
-      finalize(() => this.setLoading(false)))
+    // todo
+    // tslint:disable-next-line:deprecation
+    forkJoin(...requests)
+      .pipe(finalize(() => this.setLoading(false)))
       .subscribe(data => {
         const sets = {
           bytes: [],
           iops: [],
-          errors: []
+          errors: [],
         };
         data.forEach((res: any, ind) => {
           const aggregation = params.selectedAggregations[ind];
           const readBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
-              y: +_.readBytes
+              y: +_.readBytes,
             })),
-            label: `${this.translations['DISK_READ']} ${aggregation}`
+            label: `${this.translations['DISK_READ']} ${aggregation}`,
           };
           const writeBytes = {
             data: res.map(_ => ({
               x: new Date(_.time),
-              y: +_.writeBytes
+              y: +_.writeBytes,
             })),
-            label: `${this.translations['DISK_WRITE']} ${aggregation}`
+            label: `${this.translations['DISK_WRITE']} ${aggregation}`,
           };
           sets.bytes.push(readBytes, writeBytes);
-
 
           const readIops = {
             data: res.map(_ => ({
               x: new Date(_.time),
-              y: +_.readIOPS
+              y: +_.readIOPS,
             })),
-            label: `${this.translations['DISK_READ_IOPS']} ${aggregation}`
+            label: `${this.translations['DISK_READ_IOPS']} ${aggregation}`,
           };
           const writeIops = {
             data: res.map(_ => ({
               x: new Date(_.time),
-              y: +_.writeIOPS
+              y: +_.writeIOPS,
             })),
-            label: `${this.translations['DISK_WRITE_IOPS']} ${aggregation}`
+            label: `${this.translations['DISK_WRITE_IOPS']} ${aggregation}`,
           };
 
           sets.iops.push(readIops, writeIops);
 
-
           const errors = {
             data: res.map(_ => ({
               x: new Date(_.time),
-              y: +_.ioErrors
+              y: +_.ioErrors,
             })),
-            label: `${this.translations['DISK_IO_ERRORS']} ${aggregation}`
+            label: `${this.translations['DISK_IO_ERRORS']} ${aggregation}`,
           };
           sets.errors.push(errors);
         });

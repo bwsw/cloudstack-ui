@@ -1,6 +1,6 @@
 <div class="mat-dialog-title">
   <cs-date-display
-    [DateTimeFormat]="DateTimeFormat"
+    [dateTimeFormat]="dateTimeFormat"
     [locale]="locale"
     [selectedDate]="selectedDate"
     [showMonth]="displayMonth"
@@ -34,7 +34,7 @@
       <cs-calendar-month
         [locale]="locale"
         [firstDayOfWeek]="firstDayOfWeek"
-        [DateTimeFormat]="DateTimeFormat"
+        [dateTimeFormat]="dateTimeFormat"
         [displayDate]="displayDate"
         [selectedDate]="selectedDate"
         (dateSelected)="onDateSelected($event)"
@@ -43,7 +43,7 @@
     <cs-calendar-year
       *ngIf="!displayMonth"
       [locale]="locale"
-      [DateTimeFormat]="DateTimeFormat"
+      [dateTimeFormat]="dateTimeFormat"
       [selectedDate]="selectedDate"
       [minDate]="minDate"
       [maxDate]="maxDate"

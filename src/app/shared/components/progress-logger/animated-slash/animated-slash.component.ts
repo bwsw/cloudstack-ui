@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-
 @Component({
   selector: 'cs-animated-slash',
-  template: '{{ slash }}'
+  template: '{{ slash }}',
 })
 export class AnimatedSlashComponent implements OnInit {
   private state = 0;

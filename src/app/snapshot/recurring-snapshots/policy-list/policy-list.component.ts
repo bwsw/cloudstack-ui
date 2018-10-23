@@ -5,7 +5,7 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MatTableDataSource } from '@angular/material';
@@ -15,7 +15,6 @@ import { PolicyViewBuilderService } from './policy-view-builder.service';
 import { PolicyType } from '../snapshot-policy-type';
 import { TimeFormat } from '../../../shared/types';
 import DateTimeFormat = Intl.DateTimeFormat;
-
 
 interface PolicyView {
   id: string;
@@ -32,28 +31,36 @@ interface PolicyView {
   selector: 'cs-policy-list',
   templateUrl: 'policy-list.component.html',
   styleUrls: ['policy-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PolicyListComponent implements OnChanges {
-  @Input() public timeFormat: TimeFormat;
+  @Input()
+  public timeFormat: TimeFormat;
 
-  @Input() public policies: Array<Policy<TimePolicy>>;
-  @Output() public onPolicyDelete: EventEmitter<Policy<TimePolicy>>;
-  @Output() public onPolicyRowClick: EventEmitter<PolicyType>;
+  @Input()
+  public policies: Policy<TimePolicy>[];
+  @Output()
+  public policyDeleted: EventEmitter<Policy<TimePolicy>>;
+  @Output()
+  public policyRowClicked: EventEmitter<PolicyType>;
 
   public policyViews = new MatTableDataSource<PolicyView>([]);
   public columnsToDisplay = ['time', 'period', 'timeZone', 'keep', 'delete'];
 
   constructor(
     private policyViewBuilderService: PolicyViewBuilderService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {
-    this.onPolicyDelete = new EventEmitter<Policy<TimePolicy>>();
-    this.onPolicyRowClick = new EventEmitter<PolicyType>();
+    this.policyDeleted = new EventEmitter<Policy<TimePolicy>>();
+    this.policyRowClicked = new EventEmitter<PolicyType>();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.updatePolicyViews();
+  }
+
+  public handlePolicyRowClick(policyView: PolicyView): void {
+    this.policyRowClicked.emit(policyView.type);
   }
 
   private get locale(): string {
@@ -63,7 +70,7 @@ export class PolicyListComponent implements OnChanges {
   private get dateTimeFormat(): DateTimeFormat {
     const options: Intl.DateTimeFormatOptions = {
       hour: 'numeric',
-      minute: 'numeric'
+      minute: 'numeric',
     };
 
     options.hour12 = this.timeFormat === TimeFormat.hour12 || this.timeFormat === TimeFormat.AUTO;
@@ -72,27 +79,21 @@ export class PolicyListComponent implements OnChanges {
   }
 
   public deletePolicy(policy: Policy<TimePolicy>): void {
-    this.onPolicyDelete.next(policy);
+    this.policyDeleted.next(policy);
   }
 
   private updatePolicyViews(): void {
     this.policyViews.data = this.getPolicyViews(this.policies, this.dateTimeFormat);
   }
 
-  public handlePolicyRowClick(policyView: PolicyView): void {
-    this.onPolicyRowClick.emit(policyView.type);
-  }
-
   private getPolicyViews(
-    policies: Array<Policy<TimePolicy>>,
-    dateTimeFormat: DateTimeFormat
-  ): Array<PolicyView> {
-    return policies.map(policy => {
-      return this.policyViewBuilderService.buildPolicyViewFromPolicy(
-        policy,
-        dateTimeFormat
-      );
-    })
+    policies: Policy<TimePolicy>[],
+    dateTimeFormat: DateTimeFormat,
+  ): PolicyView[] {
+    return policies
+      .map(policy => {
+        return this.policyViewBuilderService.buildPolicyViewFromPolicy(policy, dateTimeFormat);
+      })
       .sort((a, b) => this.policyViewComparator(a, b));
   }
 

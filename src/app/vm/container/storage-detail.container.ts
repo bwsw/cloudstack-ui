@@ -26,16 +26,15 @@ import * as fromVolumes from '../../reducers/volumes/redux/volumes.reducers';
     ></cs-volumes>
     <cs-volume-attachment-detail
       [volumes]="allVolumes$ | async"
-      (onAttach)="onVolumeAttach($event)"
+      (attached)="onVolumeAttach($event)"
     ></cs-volume-attachment-detail>
     <cs-iso
       [iso]="iso$ | async"
-      (onIsoAction)="handleIsoAction($event)"
+      (isoAction)="handleIsoAction($event)"
     ></cs-iso>
-  `
+  `,
 })
 export class StorageDetailContainerComponent implements OnInit, AfterViewInit {
-
   readonly vm$ = this.store.pipe(select(fromVMs.getSelectedVM));
   readonly allVolumes$ = this.store.pipe(select(fromVolumes.selectSpareOnlyVolumes));
   readonly volumes$ = this.store.pipe(select(fromVolumes.selectVmVolumes));
@@ -45,16 +44,26 @@ export class StorageDetailContainerComponent implements OnInit, AfterViewInit {
     private store: Store<State>,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private cd: ChangeDetectorRef
-  ) {
+    private cd: ChangeDetectorRef,
+  ) {}
+
+  public ngOnInit() {
+    this.store.dispatch(new volumeActions.LoadVolumesRequest());
+    this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
+  }
+
+  public ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   public onVolumeAttach(volume: Volume): void {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      this.store.dispatch(new volumeActions.AttachVolumeToVM({
-        volumeId: volume.id,
-        virtualMachineId: vm.id
-      }));
+      this.store.dispatch(
+        new volumeActions.AttachVolumeToVM({
+          volumeId: volume.id,
+          virtualMachineId: vm.id,
+        }),
+      );
     });
   }
 
@@ -68,41 +77,44 @@ export class StorageDetailContainerComponent implements OnInit, AfterViewInit {
   }
 
   private attachIsoDialog(): void {
-    this.vm$.pipe(take(1), switchMap((vm: VirtualMachine) => {
-      return this.dialog.open(IsoAttachmentComponent, {
-        width: '650px',
-        data: { zoneId: vm.zoneId }
-      })
-        .afterClosed().pipe(
-          filter(iso => !!iso),
-          tap((iso: Iso) => {
-            this.store.dispatch(new vmActions.AttachIso({
-              id: iso.id,
-              virtualMachineId: vm.id
-            }));
-          }));
-    })).subscribe();
+    this.vm$
+      .pipe(
+        take(1),
+        switchMap((vm: VirtualMachine) => {
+          return this.dialog
+            .open(IsoAttachmentComponent, {
+              width: '650px',
+              data: { zoneId: vm.zoneid },
+            })
+            .afterClosed()
+            .pipe(
+              filter(iso => !!iso),
+              tap((iso: Iso) => {
+                this.store.dispatch(
+                  new vmActions.AttachIso({
+                    id: iso.id,
+                    virtualMachineId: vm.id,
+                  }),
+                );
+              }),
+            );
+        }),
+      )
+      .subscribe();
   }
 
   private detachIsoDialog(): void {
-    this.dialogService.confirm({
-      message: 'DIALOG_MESSAGES.ISO.CONFIRM_DETACHMENT'
-    }).pipe(
-      onErrorResumeNext(),
-      filter(res => !!res),
-      switchMap(() => this.vm$.pipe(take(1))))
-      .subscribe((vm) => {
+    this.dialogService
+      .confirm({
+        message: 'DIALOG_MESSAGES.ISO.CONFIRM_DETACHMENT',
+      })
+      .pipe(
+        onErrorResumeNext(),
+        filter(res => !!res),
+        switchMap(() => this.vm$.pipe(take(1))),
+      )
+      .subscribe(vm => {
         this.store.dispatch(new vmActions.DetachIso({ virtualMachineId: vm.id }));
       });
   }
-
-  public ngOnInit() {
-    this.store.dispatch(new volumeActions.LoadVolumesRequest());
-    this.store.dispatch(new snapshotActions.LoadSnapshotRequest());
-  }
-
-  public ngAfterViewInit() {
-    this.cd.detectChanges();
-  }
-
 }

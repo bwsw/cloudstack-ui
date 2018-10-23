@@ -1,11 +1,4 @@
 <div class="top-bar">
-  <div
-    *ngIf="!(isSidenavVisible$ | async)"
-    class="drawer-button"
-    (click)="openSidenav()"
-  >
-    <mat-icon class="mdi-menu"></mat-icon>
-  </div>
   <div class="top-bar-content">
     <ng-content></ng-content>
   </div>
