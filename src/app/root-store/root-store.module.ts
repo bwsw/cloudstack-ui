@@ -16,6 +16,7 @@ import { IdleEffects } from './idle-monitor';
 import { NotificationsEffects } from './notifications';
 
 import { ConfigStoreModule } from './config';
+import { LayoutStoreModule } from './layout/layout-store.module';
 import { UserTagsStoreModule } from './server-data/user-tags';
 
 const reducers = {
@@ -27,6 +28,7 @@ const EFFECTS = [IdleEffects, NotificationsEffects];
 @NgModule({
   imports: [
     ConfigStoreModule,
+    LayoutStoreModule,
     UserTagsStoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(EFFECTS),

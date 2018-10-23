@@ -8,6 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DragulaModule } from 'ng2-dragula';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { select, Store } from '@ngrx/store';
+import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
 import { filter, first, take } from 'rxjs/operators';
 
 import { AccountModule } from './account/accounts.module';
@@ -33,7 +34,6 @@ import { AppComponent } from './app.component';
 
 import { AuthService } from './shared/services/auth.service';
 import { BaseHttpInterceptor } from './shared/services/base-http-interceptor';
-import { createInputTransfer, removeNgStyles } from '@angularclass/hmr';
 
 // tslint:disable-next-line:function-name
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {

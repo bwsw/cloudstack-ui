@@ -51,10 +51,6 @@ export enum UserTagsActionTypes {
   UpdateThemeSuccess = '[Resource tags API] Update "csui.user.theme" tag success',
   UpdateThemeError = '[Resource tags API] Update "csui.user.theme" tag error',
 
-  UpdateNavigationOrder = '[Sidenav] Update "csui.user.navigation-order" tag',
-  UpdateNavigationOrderSuccess = '[Resource tags API] Update "csui.user.navigation-order" tag success',
-  UpdateNavigationOrderError = '[Resource tags API] Update "csui.user.navigation-order" tag error',
-
   UpdateKeyboardLayoutForVms = '[Settings Page] Update "csui.user.vm-keyboard-layout" tag',
   UpdateKeyboardLayoutForVmsSuccess = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag success',
   UpdateKeyboardLayoutForVmsError = '[Resource tags API] Update "csui.user.vm-keyboard-layout" tag error',
@@ -67,12 +63,7 @@ export enum UserTagsActionTypes {
   IncrementLastVMIdSuccess = '[Resource tags API] Increment "csui.user.last-vm-id" tag success',
   IncrementLastVMIdError = '[Resource tags API] Increment "csui.user.last-vm-id" tag error',
 
-  // This Actions needed to be in the user tags because sidenav status works through user tags
-  // These actions will be exported through layoutActions
-  OpenSidenav = '[Layout] Open Sidenav',
-  CloseSidenav = '[Layout] Close Sidenav',
-
-  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag',
+  UpdateCustomServiceOfferingParams = '[VM creation] Set "csui.user.service-offering.param" tag'
 }
 
 // We need SetDefaultUserTags actions to set values from default and user configs
@@ -305,26 +296,6 @@ export class UpdateThemeError implements Action {
   constructor(readonly payload: { error: Error }) {}
 }
 
-// Navigation order
-
-export class UpdateNavigationOrder implements Action {
-  readonly type = UserTagsActionTypes.UpdateNavigationOrder;
-
-  constructor(readonly payload: { value: string }) {}
-}
-
-export class UpdateNavigationOrderSuccess implements Action {
-  readonly type = UserTagsActionTypes.UpdateNavigationOrderSuccess;
-
-  constructor(readonly payload: { key: string; value: string }) {}
-}
-
-export class UpdateNavigationOrderError implements Action {
-  readonly type = UserTagsActionTypes.UpdateNavigationOrderError;
-
-  constructor(readonly payload: { error: Error }) {}
-}
-
 // Keyboard
 
 export class UpdateKeyboardLayoutForVms implements Action {
@@ -383,16 +354,6 @@ export class IncrementLastVMIdError implements Action {
   constructor(readonly payload: { error: Error }) {}
 }
 
-// Sidenav actions
-
-export class OpenSidenav implements Action {
-  readonly type = UserTagsActionTypes.OpenSidenav;
-}
-
-export class CloseSidenav implements Action {
-  readonly type = UserTagsActionTypes.CloseSidenav;
-}
-
 export class UpdateCustomServiceOfferingParams implements Action {
   readonly type = UserTagsActionTypes.UpdateCustomServiceOfferingParams;
 
@@ -435,9 +396,6 @@ export type UserTagsActionsUnion =
   | UpdateTheme
   | UpdateThemeSuccess
   | UpdateThemeError
-  | UpdateNavigationOrder
-  | UpdateNavigationOrderSuccess
-  | UpdateNavigationOrderError
   | UpdateKeyboardLayoutForVms
   | UpdateKeyboardLayoutForVmsSuccess
   | UpdateKeyboardLayoutForVmsError
@@ -447,6 +405,4 @@ export type UserTagsActionsUnion =
   | IncrementLastVMId
   | IncrementLastVMIdSuccess
   | IncrementLastVMIdError
-  | OpenSidenav
-  | CloseSidenav
   | UpdateCustomServiceOfferingParams;

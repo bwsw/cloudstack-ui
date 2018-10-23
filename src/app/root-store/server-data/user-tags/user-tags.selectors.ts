@@ -81,14 +81,6 @@ export const getIsShowSystemTags = createSelector(
   },
 );
 
-export const isSidenavVisible = createSelector(
-  getUserTagsEntities,
-  (entities): boolean => {
-    const value = entities[userTagKeys.sidenavVisible].value;
-    return convertToBoolean(value);
-  },
-);
-
 export const getTimeFormat = createSelector(
   getUserTagsEntities,
   (entities): TimeFormat => entities[userTagKeys.timeFormat].value as TimeFormat,
@@ -97,11 +89,6 @@ export const getTimeFormat = createSelector(
 export const getTheme = createSelector(
   getUserTagsEntities,
   (entities): string => entities[userTagKeys.theme].value,
-);
-
-export const getNavigationOrder = createSelector(
-  getUserTagsEntities,
-  (entities): string => entities[userTagKeys.navigationOrder].value,
 );
 
 export const getServiceOfferingParamTags = createSelector(

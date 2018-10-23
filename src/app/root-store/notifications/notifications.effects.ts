@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { SnackBarService } from '../../core/services';
+import { SnackBarService } from '../../core/services/snack-bar.service';
 import { UserTagsActionTypes } from '../server-data/user-tags/user-tags.actions';
 
 @Injectable()

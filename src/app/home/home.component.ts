@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { configSelectors, layoutSelectors, State, UserTagsActions } from '../root-store';
+import { State, UserTagsActions, layoutStore } from '../root-store';
 import { AuthService } from '../shared/services/auth.service';
 import { WithUnsubscribe } from '../utils/mixins/with-unsubscribe';
-import { getName } from '../shared/models';
+import { Route, Subroute } from '../core/nav-menu/models';
+import { NavMenuService } from '../core/services';
 import * as authActions from '../reducers/auth/redux/auth.actions';
 
 @Component({
@@ -15,13 +17,19 @@ import * as authActions from '../reducers/auth/redux/auth.actions';
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
-  public isSidenavVisible$ = this.store.pipe(select(layoutSelectors.isSidenavVisible));
-  public allowReorderingSidenav$ = this.store.pipe(
-    select(configSelectors.get('allowReorderingSidenav')),
-  );
+  public routes$: Observable<Route[]> = this.navRoutesService.getRoutes();
+  public currentRoute$: Observable<Route> = this.navRoutesService.getCurrentRoute();
+  public subroutes$: Observable<Subroute[]> = this.navRoutesService.getSubroutes();
+  public showAppNav$: Observable<boolean> = this.store.pipe(select(layoutStore.selectors.getShowAppNav));
+  public username: string;
 
-  constructor(private auth: AuthService, private store: Store<State>) {
+  constructor(
+    private auth: AuthService,
+    private store: Store<State>,
+    private navRoutesService: NavMenuService,
+  ) {
     super();
+    this.username = this.auth.user ? this.auth.user.username : '';
   }
 
   public ngOnInit(): void {
@@ -43,7 +51,11 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
       });
   }
 
-  public get title(): string {
-    return this.auth.user ? getName(this.auth.user) : '';
+  public openAppNav() {
+    this.store.dispatch(new layoutStore.actions.OpenAppNav());
+  }
+
+  public closeAppNav() {
+    this.store.dispatch(new layoutStore.actions.CloseAppNav());
   }
 }
