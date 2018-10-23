@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { takeUntil, debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { State } from '../../reducers';
 import { FilterService } from '../../shared/services/filter.service';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
@@ -9,13 +9,18 @@ import { WithUnsubscribe } from '../../utils/mixins/with-unsubscribe';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as vmLogActions from '../redux/vm-logs.actions';
 import * as fromVMs from '../../reducers/vm/redux/vm.reducers';
+import * as fromVmLogsVm from '../redux/vm-logs-vm.reducers';
 import * as fromVmLogs from '../redux/vm-logs.reducers';
+import * as fromVmLogFiles from '../redux/vm-log-files.reducers';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { Keyword } from '../models/keyword.model';
 import { Time } from '../../shared/components/time-picker/time-picker.component';
 import { UserTagsSelectors } from '../../root-store';
-import moment = require('moment');
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
+import { combineLatest } from 'rxjs';
+import moment = require('moment');
+import { VmLogFile } from '../models/vm-log-file.model';
+import { selectFilteredVMs } from '../redux/selectors/filteredVms.selector';
 
 const FILTER_KEY = 'logsFilters';
 
@@ -26,16 +31,20 @@ const FILTER_KEY = 'logsFilters';
       *loading="loading$ | async"
       [accounts]="accounts$ | async"
       [vms]="vms$ | async"
+      [logFiles]="logFiles$ | async"
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedVmId]="selectedVmId$ | async"
+      [selectedLogFile]="selectedLogFile$ | async"
       [keywords]="keywords$ | async"
       [startDate]="startDate$ | async | dateObjectToDate"
       [startTime]="startTime$ | async"
       [endDate]="endDate$ | async | dateObjectToDate"
       [endTime]="endTime$ | async"
+      [newestFirst]="newestFirst$ | async"
       [firstDayOfWeek]="firstDayOfWeek$ | async"
       (onAccountsChange)="onAccountsChange($event)"
       (onVmChange)="onVmChange($event)"
+      (onLogFileChange)="onLogFileChange($event)"
       (onRefresh)="onRefresh()"
       (onKeywordAdd)="onKeywordAdd($event)"
       (onKeywordRemove)="onKeywordRemove($event)"
@@ -43,28 +52,34 @@ const FILTER_KEY = 'logsFilters';
       (onStartTimeChange)="onStartTimeChange($event)"
       (onEndDateChange)="onEndDateChange($event)"
       (onEndTimeChange)="onEndTimeChange($event)"
+      (onNewestFirstChange)="onNewestFirstChange($event)"
     ></cs-vm-logs-filter>`
 })
 export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements OnInit, AfterViewInit {
-  readonly filters$ = this.store.pipe(select(fromVmLogs.filters));
   readonly loading$ = this.store.pipe(select(fromVMs.isLoading));
   readonly accounts$ = this.store.pipe(select(fromAccounts.selectAll));
-  readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogs.filterSelectedAccountIds));
-  readonly vms$ = this.store.pipe(select(fromVmLogs.selectFilteredVMs));
-  readonly selectedVmId$ = this.store.pipe(select(fromVmLogs.filterSelectedVmId));
+  readonly selectedAccountIds$ = this.store.pipe(select(fromVmLogsVm.filterSelectedAccountIds));
+  readonly vms$ = this.store.pipe(select(selectFilteredVMs));
+  readonly selectedVmId$ = this.store.pipe(select(fromVmLogsVm.filterSelectedVmId));
   readonly keywords$ = this.store.pipe(select(fromVmLogs.filterKeywords));
   readonly startDate$ = this.store.pipe(select(fromVmLogs.filterStartDate));
   readonly startTime$ = this.store.pipe(select(fromVmLogs.filterStartTime));
   readonly endDate$ = this.store.pipe(select(fromVmLogs.filterEndDate));
   readonly endTime$ = this.store.pipe(select(fromVmLogs.filterEndTime));
   readonly firstDayOfWeek$ = this.store.pipe(select(UserTagsSelectors.getFirstDayOfWeek));
+  readonly newestFirst$ = this.store.pipe(select(fromVmLogs.filterNewestFirst));
+  readonly selectedLogFile$ = this.store.pipe(select(fromVmLogs.filterSelectedLogFile));
+  readonly logFiles$ = this.store.pipe(select(fromVmLogFiles.selectAll));
 
   private filterService = new FilterService(
     {
       vm: { type: 'string' },
+      accounts: { type: 'array', defaultOption: [] },
       keywords: { type: 'array', defaultOption: [] },
       startDate: { type: 'string' },
       endDate: { type: 'string' },
+      logFile: { type: 'string' },
+      newestFirst: { type: 'boolean' }
     },
     this.router,
     this.sessionStorage,
@@ -87,9 +102,7 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
   }
 
   public onVmChange(selectedVmId: string) {
-    this.store.dispatch(new vmLogActions.VmLogsFilterUpdate({
-      selectedVmId
-    }));
+    this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(selectedVmId));
   }
 
   public onRefresh() {
@@ -120,33 +133,76 @@ export class VmLogsFilterContainerComponent extends WithUnsubscribe() implements
     this.store.dispatch(new vmLogActions.VmLogsUpdateEndTime(time));
   }
 
-  private initFilters(): void {
-    const params = this.filterService.getParams();
+  public onLogFileChange(logFile: string) {
+    this.store.dispatch(new vmLogActions.VmLogsUpdateLogFile(logFile));
+  }
 
-    this.store.dispatch(new vmLogActions.VmLogsFilterUpdate({
-      selectedVmId: params['vm'],
-      keywords: (params['keywords'] || []).map(text => ({ text })),
-      selectedAccountIds: params['accounts'] || [],
-      ...(params['startDate'] ? { startDate: moment(params['startDate']).toObject() } : null),
-      ...(params['endDate'] ? { endDate: moment(params['endDate']).toObject() } : null)
-    }));
+  public onNewestFirstChange() {
+    this.store.dispatch(new vmLogActions.VmLogsToggleNewestFirst());
+  }
+
+  private initFilters(): void {
+    const {
+      vm,
+      keywords,
+      accounts,
+      startDate,
+      endDate,
+      logFile,
+      newestFirst
+    } = this.filterService.getParams();
+
+    this.store.dispatch(new vmLogActions.VmLogsUpdateVmId(vm));
+
+    const wrappedKeywords = (keywords || []).map(text => ({ text }));
+    this.store.dispatch(new vmLogActions.VmLogsUpdateKeywords(wrappedKeywords));
+    this.store.dispatch(new vmLogActions.VmLogsUpdateAccountIds(accounts || []));
+    this.store.dispatch(new vmLogActions.VmLogsUpdateNewestFirst(newestFirst));
+
+    if (logFile) {
+      this.store.dispatch(new vmLogActions.VmLogsUpdateLogFile(logFile));
+    }
+
+    if (startDate) {
+      this.store.dispatch(new vmLogActions.VmLogsUpdateStartDateTime(
+        moment(startDate).toObject()
+      ));
+    }
+
+    if (endDate) {
+      this.store.dispatch(new vmLogActions.VmLogsUpdateEndDateTime(
+        moment(endDate).toObject()
+      ));
+    }
   }
 
   public ngOnInit() {
     this.store.dispatch(new vmActions.LoadVMsRequest());
     this.store.dispatch(new accountActions.LoadAccountsRequest());
     this.initFilters();
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$),
-      debounceTime(100)
+
+    combineLatest(
+      this.keywords$,
+      this.startDate$,
+      this.endDate$,
+      this.selectedVmId$,
+      this.selectedAccountIds$,
+      this.selectedLogFile$,
+      this.newestFirst$
     )
-      .subscribe(filters => {
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        debounceTime(100)
+      )
+      .subscribe(([keywords, startDate, endDate, vm, accounts, logFile, newestFirst]) => {
         this.filterService.update({
-          vm: filters.selectedVmId,
-          keywords: filters.keywords.map(keyword => keyword.text),
-          accounts: filters.selectedAccountIds,
-          startDate: moment(filters.startDate).toISOString(),
-          endDate: moment(filters.endDate).toISOString(),
+          vm,
+          accounts,
+          keywords: keywords.map(keyword => keyword.text),
+          startDate: moment(startDate).toISOString(),
+          endDate: moment(endDate).toISOString(),
+          logFile,
+          newestFirst
         });
       });
   }
