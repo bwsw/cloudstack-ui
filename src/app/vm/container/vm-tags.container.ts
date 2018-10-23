@@ -44,7 +44,7 @@ export class VmTagsContainerComponent {
 
   public deleteTag(tag: Tag) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
-      const newTags = { ...[], ...vm.tags }.filter(t => tag.key !== t.key);
+      const newTags = (vm.tags || []).filter(t => tag.key !== t.key);
       this.store.dispatch(new vmActions.UpdateVM({ ...vm, tags: newTags }));
     });
   }

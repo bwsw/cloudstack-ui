@@ -98,7 +98,7 @@ export class SgRulesComponent implements OnInit, OnChanges {
     };
 
     this.outputs = {
-      onRemove: ({ type, id }) => this.removeRule({ type, id }),
+      removed: ({ type, id }) => this.removeRule({ type, id }),
     };
   }
 
