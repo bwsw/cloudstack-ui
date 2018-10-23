@@ -60,21 +60,10 @@ export function reducer(state = initialState, action: UserTagsActionsUnion): Use
     case UserTagsActionTypes.UpdateShowSystemTagsSuccess:
     case UserTagsActionTypes.UpdateTimeFormatSuccess:
     case UserTagsActionTypes.UpdateThemeSuccess:
-    case UserTagsActionTypes.UpdateNavigationOrderSuccess:
     case UserTagsActionTypes.SetSPFAVMSuccess:
     case UserTagsActionTypes.UpdateKeyboardLayoutForVmsSuccess:
     case UserTagsActionTypes.IncrementLastVMIdSuccess: {
       const update: Update<Tag> = { id: action.payload.key, changes: action.payload };
-      return adapter.updateOne(update, state);
-    }
-
-    case UserTagsActionTypes.OpenSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'true' } };
-      return adapter.updateOne(update, state);
-    }
-
-    case UserTagsActionTypes.CloseSidenav: {
-      const update: Update<Tag> = { id: userTagKeys.sidenavVisible, changes: { value: 'false ' } };
       return adapter.updateOne(update, state);
     }
 
