@@ -240,7 +240,7 @@ export class VolumesEffects {
     filter(([volumes, expunged]: [Array<Volume>, boolean]) => !!volumes.length),
     switchMap(([volumes, expunged]: [Array<Volume>, boolean]) =>
       this.dialog.open(VolumeDeleteDialogComponent, {
-        data: !!volumes.find(volume => !!volume.snapshots.length)
+        data: !!volumes.find(volume => volume.snapshots && !!volume.snapshots.length)
       }).afterClosed().pipe(
         filter(res => Boolean(res)),
         mergeMap((params) => {
