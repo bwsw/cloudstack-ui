@@ -1,7 +1,7 @@
-import * as layoutActions from './layout.actions';
-import * as layoutSelectors from './layout.selectors';
+import * as selectors from './layout.selectors';
+import * as actions from './layout.actions';
 
 export {
-  layoutActions,
-  layoutSelectors
-};
+  actions,
+  selectors,
+}
