@@ -86,6 +86,8 @@ export class VmTagService implements EntityTagService {
     if (!copyRequests.length) {
       return of(null);
     }
+    // todo
+    // tslint:disable-next-line:deprecation
     return forkJoin(...copyRequests);
   }
 

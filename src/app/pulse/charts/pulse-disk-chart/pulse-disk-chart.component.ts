@@ -95,6 +95,8 @@ export class PulseDiskChartComponent extends PulseChartComponent implements OnIn
     );
 
     this.setLoading(!forceUpdate);
+    // todo
+    // tslint:disable-next-line:deprecation
     forkJoin(...requests)
       .pipe(finalize(() => this.setLoading(false)))
       .subscribe(data => {

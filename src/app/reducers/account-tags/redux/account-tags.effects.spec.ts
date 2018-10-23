@@ -26,6 +26,8 @@ export class TestActions extends Actions {
   }
 
   public set stream(source: Observable<Tag>) {
+    // todo
+    // tslint:disable-next-line
     this.source = source;
   }
 }

@@ -238,6 +238,8 @@ export abstract class BaseTemplateService extends BaseBackendCachedService<BaseT
       templateObservables.push(templates);
     }
 
+    // todo
+    // tslint:disable-next-line:deprecation
     return forkJoin(...templateObservables).pipe(
       map(data => {
         const obj = {};

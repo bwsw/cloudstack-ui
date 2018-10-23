@@ -105,6 +105,8 @@ export class TestActions extends Actions {
   }
 
   public set stream(source: Observable<VirtualMachine>) {
+    // todo
+    // tslint:disable-next-line
     this.source = source;
   }
 }

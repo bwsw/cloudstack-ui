@@ -138,28 +138,32 @@ export class PopoverTriggerDirective implements AfterViewInit, OnDestroy {
     const fallbackOverlayY =
       overlayY === 'top' ? 'bottom' : overlayY === 'bottom' ? 'top' : 'center';
 
-    return this.overlay
-      .position()
-      .connectedTo(
-        this.element,
-        {
-          originX: 'center',
-          originY: 'bottom',
-        },
-        {
-          overlayX,
-          overlayY,
-        },
-      )
-      .withFallbackPosition(
-        {
-          originX: 'center',
-          originY: 'top',
-        },
-        {
-          overlayX: fallbackOverlayX,
-          overlayY: fallbackOverlayY,
-        },
-      );
+    return (
+      this.overlay
+        .position()
+        // todo
+        // tslint:disable-next-line:deprecation
+        .connectedTo(
+          this.element,
+          {
+            originX: 'center',
+            originY: 'bottom',
+          },
+          {
+            overlayX,
+            overlayY,
+          },
+        )
+        .withFallbackPosition(
+          {
+            originX: 'center',
+            originY: 'top',
+          },
+          {
+            overlayX: fallbackOverlayX,
+            overlayY: fallbackOverlayY,
+          },
+        )
+    );
   }
 }

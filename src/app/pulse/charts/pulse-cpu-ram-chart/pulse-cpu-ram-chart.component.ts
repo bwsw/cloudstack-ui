@@ -85,6 +85,8 @@ export class PulseCpuRamChartComponent extends PulseChartComponent implements On
     );
     if (cpuRequests.length) {
       this.setLoading(!forceUpdate);
+      // todo
+      // tslint:disable-next-line:deprecation
       forkJoin(forkJoin(...cpuRequests), forkJoin(...ramRequests))
         .pipe(finalize(() => this.setLoading(false)))
         .subscribe(

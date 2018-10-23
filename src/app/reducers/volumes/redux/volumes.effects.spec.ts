@@ -93,6 +93,8 @@ export class TestActions extends Actions {
   }
 
   public set stream(source: Observable<Volume>) {
+    // todo
+    // tslint:disable-next-line
     this.source = source;
   }
 }

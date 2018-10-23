@@ -94,6 +94,8 @@ export class PulseNetworkChartComponent extends PulseChartComponent implements O
     );
 
     this.setLoading(!forceUpdate);
+    // todo
+    // tslint:disable-next-line:deprecation
     forkJoin(...requests)
       .pipe(finalize(() => this.setLoading(false)))
       .subscribe(data => {

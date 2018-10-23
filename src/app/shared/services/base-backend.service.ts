@@ -77,6 +77,8 @@ export abstract class BaseBackendService<M extends BaseModel> {
       switchMap(result => {
         if (result.meta.count > result.list.length) {
           const numberOfCalls = Math.ceil(result.meta.count / MAX_PAGE_SIZE);
+          // todo
+          // tslint:disable-next-line:deprecation
           return forkJoin(
             ...range(2, numberOfCalls + 1).map(page => {
               return this.makeGetListObservable(
