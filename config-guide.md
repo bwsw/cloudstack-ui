@@ -20,9 +20,6 @@ You can see examples of the configurations in the [config-example.json](https://
   * [Default Time Format](#default-time-format)
   * [Default Theme](#default-theme)
   * [Session Timeout](#session-timeout)
-* [Menu Settings](#menu-settings)
-  * [Allow Reordering Sidenav](#allow-reordering-sidenav)
-  * [Configure Sidenav](#configure-sidenav)
 * [Service Offering Setting](#service-offering-setting)
   * [Custom Compute Offering Parameters](#custom-compute-offering-parameters)
   * [Default Compute Offering](#default-compute-offering)
@@ -245,36 +242,6 @@ The default value is `30`.
 For example,
 ```
 "sessionTimeout": 30
-```
-
-## Menu Settings
-
-### Allow Reordering Sidenav
-A boolean value which allows or forbids a user to reorder links in the left-side menu. 
-```
- "allowReorderingSidenav": false
-```
-
-### Configure Sidenav
-Allows you to predefine the order and visibility of menu elements. 
-The order and the presence of the left-side menu elements is determined by the order of the elements in the array. 
-The VMS menu element can not be made invisible, the visibility property will be ignored.
-For the configuration, you must specify all menu elements and the "allowReorderingSidenav" parameter must be true.
-
-For example (default values),
-```
-"allowReorderingSidenav": true,
-"configureSidenav": [
-    { "id": "VMS", "visible": true },
-    { "id": "VOLUMES", "visible": true },
-    { "id": "TEMPLATES", "visible": true },
-    { "id": "SNAPSHOTS", "visible": true },
-    { "id": "SGS", "visible": true },
-    { "id": "EVENTS", "visible": true },
-    { "id": "SSH", "visible": true },
-    { "id": "ACCOUNTS", "visible": true },
-    { "id": "SETTINGS", "visible": true }
-  ]
 ```
 
 ## Service Offering Setting

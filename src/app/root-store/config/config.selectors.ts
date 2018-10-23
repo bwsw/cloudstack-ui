@@ -31,11 +31,9 @@ export const getDefaultUserTags = createSelector(
       { key: userTagKeys.lang, value: config.defaultInterfaceLanguage },
       { key: userTagKeys.lastVMId, value: `${config.lastVMId}` },
       { key: userTagKeys.sessionTimeout, value: `${config.sessionTimeout}` },
-      { key: userTagKeys.sidenavVisible, value: `${config.isSidenavVisible}` },
       { key: userTagKeys.showSystemTags, value: `${config.showSystemTags}` },
       { key: userTagKeys.timeFormat, value: config.defaultTimeFormat },
       { key: userTagKeys.theme, value: config.defaultTheme },
-      { key: userTagKeys.navigationOrder, value: config.navigationOrder },
       { key: userTagKeys.keyboardLayoutForVms, value: config.keyboardLayoutForVms }
     ] : [];
   }

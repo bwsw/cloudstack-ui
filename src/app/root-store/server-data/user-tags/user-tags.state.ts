@@ -29,7 +29,6 @@ const initialIds = [
   userTagKeys.showSystemTags,
   userTagKeys.timeFormat,
   userTagKeys.theme,
-  userTagKeys.navigationOrder
 ];
 
 const initialEntities = {
@@ -72,10 +71,6 @@ const initialEntities = {
   [userTagKeys.theme]: {
     key: userTagKeys.theme,
     value: defaultConfig.defaultTheme
-  },
-  [userTagKeys.navigationOrder]: {
-    key: userTagKeys.navigationOrder,
-    value: defaultConfig.navigationOrder
   },
   [userTagKeys.keyboardLayoutForVms]: {
     key: userTagKeys.keyboardLayoutForVms,
