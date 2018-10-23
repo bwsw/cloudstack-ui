@@ -71,7 +71,7 @@ export class StorageDetailContainerComponent implements OnInit, AfterViewInit {
     this.vm$.pipe(take(1), switchMap((vm: VirtualMachine) => {
       return this.dialog.open(IsoAttachmentComponent, {
         width: '650px',
-        data: { zoneId: vm.zoneId }
+        data: { zoneId: vm.zoneid }
       })
         .afterClosed().pipe(
           filter(iso => !!iso),

@@ -19,12 +19,19 @@ Table of Contents
          * [Resource usage bar](#resource-usage-bar)
          * [Storage](#storage)
          * [Images](#images)
+         * [Snapshots](#snapshots)
          * [Firewall](#firewall)
          * [Activity log](#activity-log)
          * [Accounts](#accounts)
    * [Documentation](#documentation)
+      * [User Guide](#user-guide)
       * [Getting started guide](#getting-started-guide)
+          * [Prerequisites](#prerequisites)
+          * [Download and install dependencies](#download-and-install-dependencies)
+          * [Main commands](#main-commands)
       * [Deployment](#deployment)
+          * [Main UI Container](#main-ui-container)
+      * [Versioning](#versioning)
       * [Configuration Options](#configuration-options)
    * [Project Sponsors](#project-sponsors)
       * [How to Contribute](#how-to-contribute)
@@ -254,11 +261,13 @@ npm install
 To run docker container use:
 
 ```
+docker pull bitworks.software:8443/cloudstack-ui:1.411.22
+
 docker run -d -p 80:80 --name cloudstack-ui \
            -e CLIENT_ENDPOINT=http://cloudstack/client \
            -e BASE_HREF=base_href \
            -v /path/to/config.json:/static/config/config.json \
-           bwsw/cloudstack-ui:1.411.22
+           bitworks.software:8443/cloudstack-ui:1.411.22
 ```
 
 `http://cloudstack/client` - URL of CloudStack client endpoint (e.g. http://host:8080/client)
@@ -276,12 +285,6 @@ Additionally, you can change favicon and CloudStack logo on login screen and in 
 ```
 
 where the `favicon.ico` is the favicon, `cloudstack_logo.png` is the logo displayed on the login screen and `cloudstack_logo_light.png` is the CloudStack logo displayed in the sidebar with the light theme.
-
-### Assisting object cleanup container
-
-Some operations implemented in the UI require "delayed" activities, so we use additional cleaner container that cleans objects marked for the removal.
-
-Download and start [bwsw/cloudstack-ui-cleaner](https://hub.docker.com/r/bwsw/cloudstack-ui-cleaner/) container.
 
 ## Versioning
 
@@ -303,7 +306,7 @@ You can customize the application by providing your own configuration file confi
 
 The project is currently supported by [Bitworks Software](https://bitworks.software/).
 
-![Bitworks Software](https://raw.githubusercontent.com/bwsw/bwsw.github.io/master/15047882.png)
+![Bitworks Software](https://github.com/bwsw/cloudstack-ui/blob/master/screens/15047882.png)
 
 ## How to Contribute
 

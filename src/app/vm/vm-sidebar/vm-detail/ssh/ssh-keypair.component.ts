@@ -27,7 +27,7 @@ export class SshKeypairComponent {
     this.dialog.open(SshKeypairResetComponent, <MatDialogConfig>{
       width: '350px',
       disableClose: true,
-      data: { keys: this.keys, sshKeyName: this.vm.keyPair }
+      data: { keys: this.keys, sshKeyName: this.vm.keypair }
     }).afterClosed().pipe(
       filter(res => Boolean(res)))
       .subscribe(res => this.onSshKeyChange.emit(res));

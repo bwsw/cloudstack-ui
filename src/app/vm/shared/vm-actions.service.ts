@@ -58,7 +58,7 @@ const VmResetPasswordAction = {
   confirmMessage: 'DIALOG_MESSAGES.VM.CONFIRM_RESET_PASSWORD',
   canActivate: (vm: VirtualMachine) => !!vm
     && [VmState.Running, VmState.Stopped].indexOf(vm.state) !== -1
-    && vm.passwordEnabled
+    && vm.passwordenabled
     && isIpAvailable(vm)
 };
 

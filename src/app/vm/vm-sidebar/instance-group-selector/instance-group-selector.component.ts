@@ -1,14 +1,8 @@
-import {
-  Component,
-  Inject
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Mode } from '../../../shared/components/create-update-delete-dialog/create-update-delete-dialog.component';
 import { InstanceGroup } from '../../../shared/models';
-import { VirtualMachine } from '../../shared/vm.model';
+import { getInstanceGroupName, VirtualMachine } from '../../shared/vm.model';
 
 @Component({
   selector: 'cs-instance-group-selector',
@@ -28,7 +22,7 @@ export class InstanceGroupSelectorComponent {
   }
 
   public get groupName(): string {
-    return this.vm.instanceGroup && this.vm.instanceGroup.name;
+    return getInstanceGroupName(this.vm);
   }
 
   public changeGroup(name: string): void {

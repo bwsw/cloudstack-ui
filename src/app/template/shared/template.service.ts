@@ -20,7 +20,7 @@ import {
 export class TemplateService extends BaseTemplateService {
   public create(params: CreateTemplateBaseParams): Observable<Template> {
     return this.sendCommand(CSCommands.Create, params).pipe(
-      switchMap(job => this.asyncJobService.queryJob(job, this.entity, this.entityModel)),
+      switchMap(job => this.asyncJobService.queryJob(job, this.entity)),
       switchMap(template => {
         if (params.groupId) {
           return this.templateTagService.setGroup(template, { id: params.groupId });

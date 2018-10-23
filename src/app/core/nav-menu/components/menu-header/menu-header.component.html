@@ -1,0 +1,12 @@
+<div class="menu-header">
+  <button mat-icon-button (click)="onButtonClicked()">
+    <mat-icon class="mdi-menu"></mat-icon>
+  </button>
+
+  <img class="logo" src="img/cloudstack_logo_light.png" alt="CloudStack logo">
+
+  <div class="account-info" *ngIf="username != null">
+    <mat-icon class="mdi-account"></mat-icon>
+    {{ username }}
+  </div>
+</div>

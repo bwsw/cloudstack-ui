@@ -21,7 +21,6 @@ export class VmPasswordDialogComponent {
   ) {
     this.vm = data.vm;
     const { translationToken } = data;
-
     this.message = {
       translationToken,
       interpolateParams: {

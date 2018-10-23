@@ -96,6 +96,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
+            "sourceMap": true,
             "styles": [
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
               "src/style/app.scss"

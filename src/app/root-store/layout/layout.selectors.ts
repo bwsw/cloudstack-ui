@@ -1,3 +1,10 @@
-import * as UserTagsSelectors from '../server-data/user-tags/user-tags.selectors';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-export const isSidenavVisible = UserTagsSelectors.isSidenavVisible;
+import { featureStoreName, LayoutState } from './layout.reducer';
+
+const getLayoutState = createFeatureSelector<LayoutState>(featureStoreName);
+
+export const getShowAppNav = createSelector(
+  getLayoutState,
+  (state: LayoutState) => state.showAppNav
+);

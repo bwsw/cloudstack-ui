@@ -326,7 +326,7 @@ describe('Virtual machine Effects', () => {
       offering: <ServiceOffering>{},
       vm: list[0]
     });
-    const completion = new vmActions.UpdateVM(new VirtualMachine(list[0]));
+    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -385,7 +385,7 @@ describe('Virtual machine Effects', () => {
       affinityGroupId: 'af1_id',
       vm: list[0]
     });
-    const completion = new vmActions.UpdateVM(new VirtualMachine(list[0]));
+    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -619,7 +619,7 @@ describe('Virtual machine Effects', () => {
     spyOn(dialogService, 'confirm').and.returnValue(of(true));
 
     const action = new vmActions.StartVm(list[1]);
-    const completion = new vmActions.UpdateVM(new VirtualMachine(list[1]));
+    const completion = new vmActions.UpdateVM(list[1] as VirtualMachine);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -1024,7 +1024,7 @@ describe('Virtual machine Effects', () => {
       keyPair: <SSHKeyPair>{},
       vm: list[0]
     });
-    const completion = new vmActions.UpdateVM(new VirtualMachine(list[0]));
+    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
@@ -1100,7 +1100,7 @@ describe('Virtual machine Effects', () => {
     spyOn(matDialog, 'open');
 
     const action = new vmActions.ResetPasswordVm(list[0]);
-    const completion = new vmActions.UpdateVM(new VirtualMachine(list[0]));
+    const completion = new vmActions.UpdateVM(list[0] as VirtualMachine);
 
     actions$.stream = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
