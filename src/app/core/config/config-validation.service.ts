@@ -60,8 +60,10 @@ export class ConfigValidationService {
   private readonly schemeValidator: Ajv;
   private readonly schemeMap: ValidationScheme = {
     defaultDomain: validationSchemes.defaultDomain,
+    apiDocLink: validationSchemes.apiDocLink,
     sessionRefreshInterval: validationSchemes.sessionRefreshInterval,
     extensions: validationSchemes.extensions,
+    vmColors: validationSchemes.vmColors,
     defaultFirstDayOfWeek: validationSchemes.defaultFirstDayOfWeek,
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
@@ -72,7 +74,9 @@ export class ConfigValidationService {
     serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
     imageGroups: validationSchemes.imageGroups,
     computeOfferingClasses: validationSchemes.computeOfferingClasses,
-    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName
+    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName,
+    offeringCompatibilityPolicy: validationSchemes.offeringCompatibilityPolicy,
+    securityGroupTemplates: validationSchemes.securityGroupTemplates,
   };
 
   constructor() {
@@ -116,13 +120,7 @@ export class ConfigValidationService {
 
   private isValidValue(key: string, value: any) {
     const scheme = this.schemeMap[key];
-
-    // Condition needed until all schemes not implemented
-    if (scheme) {
-      return this.schemeValidator.validate(scheme, value);
-    } else {
-      return true;
-    }
+    return this.schemeValidator.validate(scheme, value);
   }
 
   private getFixedConfig(userConf: object, errors: ValidationError[]): Partial<Config> {
