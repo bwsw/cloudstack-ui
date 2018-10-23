@@ -1,5 +1,5 @@
 <cs-list
-  (onAction)="showCreationDialog()"
+  (action)="showCreationDialog()"
   [isOpen]="listService?.hasSelected()"
 >
 
@@ -8,7 +8,7 @@
   <ng-container *loading="!templates?.length && fetching" cs-list>
     <div class="switch-panel">
       <cs-view-mode-switch
-        (onModeChange)="changeMode($event)"
+        (modeChanged)="changeMode($event)"
         [key]="viewModeKey">
       </cs-view-mode-switch>
     </div>
@@ -19,7 +19,7 @@
       [templateList]="templates"
       [groupings]="groupings"
       [mode]="mode"
-      (deleteTemplate)="onTemplateDelete.emit($event)"
+      (deleteTemplate)="templateDeleted.emit($event)"
     >
     </cs-template-card-list>
 

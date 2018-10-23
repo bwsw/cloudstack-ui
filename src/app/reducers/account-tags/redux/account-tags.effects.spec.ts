@@ -15,50 +15,9 @@ import { TagService } from '../../../shared/services/tags/tag.service';
 import { AccountTagService } from '../../../shared/services/tags/account-tag.service';
 
 @Injectable()
-class MockAsyncJobService {
-  public completeAllJobs(): void {
-  }
-}
-
-@Injectable()
 class MockTagService {
-  public getList(): void {
-  }
-  public setServiceOfferingParams(): void {
-  }
-}
-
-
-@Injectable()
-class MockStorageService {
-  private storage: any = {
-    user: {
-      userid: '1'
-    }
-  };
-
-  public write(key: string, value: string): void {
-    this.storage[key] = value;
-  }
-
-  public read(key: string): string {
-    return this.storage[key] || null;
-  }
-
-  public remove(key: string): void {
-    delete this.storage[key];
-  }
-
-  public resetInMemoryStorage(): void {
-    this.storage = {};
-  }
-}
-
-class MockMatDialog {
-  public open(): void {
-  }
-  public closeAll(): void {
-  }
+  public getList(): void {}
+  public setServiceOfferingParams(): void {}
 }
 
 export class TestActions extends Actions {
@@ -67,6 +26,8 @@ export class TestActions extends Actions {
   }
 
   public set stream(source: Observable<Tag>) {
+    // todo
+    // tslint:disable-next-line
     this.source = source;
   }
 }
@@ -75,23 +36,19 @@ export function getActions() {
   return new TestActions();
 }
 
-
 describe('Account tags Effects', () => {
   let actions$: TestActions;
   let service: TagService;
-  let accountService: AccountTagService;
-  let dialogService: DialogService;
 
   let effects: AccountTagsEffects;
 
-  const list: Array<Tag> = [];
-
+  const list: Tag[] = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({ ...fromAccountTags.accountTagsReducers}),
+        StoreModule.forRoot({ ...fromAccountTags.accountTagsReducers }),
       ],
       providers: [
         AccountTagsEffects,
@@ -99,12 +56,10 @@ describe('Account tags Effects', () => {
         { provide: TagService, useClass: MockTagService },
         { provide: AccountTagService, useClass: MockTagService },
         { provide: DialogService, useClass: MockDialogService },
-      ]
+      ],
     });
     actions$ = TestBed.get(Actions);
     service = TestBed.get(TagService);
-    accountService = TestBed.get(AccountTagService);
-    dialogService = TestBed.get(DialogService);
     effects = TestBed.get(AccountTagsEffects);
   });
 
@@ -122,8 +77,7 @@ describe('Account tags Effects', () => {
   });
 
   it('should return an empty collection from LoadAccountTagsResponse', () => {
-    const spyGetList = spyOn(service, 'getList').and
-      .returnValue(throwError(new Error('Error occurred!')));
+    spyOn(service, 'getList').and.returnValue(throwError(new Error('Error occurred!')));
 
     const action = new accountTagActions.LoadAccountTagsRequest();
     const completion = new accountTagActions.LoadAccountTagsResponse([]);

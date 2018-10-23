@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 @BackendResource({
-  entity: 'Zone'
+  entity: 'Zone',
 })
 export class ZoneService extends BaseBackendCachedService<Zone> {
   constructor(protected http: HttpClient) {

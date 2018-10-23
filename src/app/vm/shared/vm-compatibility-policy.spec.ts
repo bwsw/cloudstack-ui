@@ -9,19 +9,19 @@ describe('VmCompatibilityPolicy', () => {
   it('should filter offering based on policy (contains all)', () => {
     const policy = {
       offeringChangePolicy: OfferingPolicy.CONTAINS_ALL,
-      offeringChangePolicyIgnoreTags: ['t3']
+      offeringChangePolicyIgnoreTags: ['t3'],
     };
     const currentOffering1: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2,t3'
+      hosttags: 't1,t2,t3',
     };
     const currentOffering2: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2,t4'
+      hosttags: 't1,t2,t4',
     };
     const newOffering: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2'
+      hosttags: 't1,t2',
     };
 
     const filter1 = VmCompatibilityPolicy.getFilter(policy, currentOffering1);
@@ -34,19 +34,19 @@ describe('VmCompatibilityPolicy', () => {
   it('should filter offering based on policy (exactly match)', () => {
     const policy = {
       offeringChangePolicy: OfferingPolicy.EXACTLY_MATCH,
-      offeringChangePolicyIgnoreTags: ['t2']
+      offeringChangePolicyIgnoreTags: ['t2'],
     };
     const currentOffering1: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2,t3'
+      hosttags: 't1,t2,t3',
     };
     const currentOffering2: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2'
+      hosttags: 't1,t2',
     };
     const newOffering: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2'
+      hosttags: 't1,t2',
     };
 
     const filter1 = VmCompatibilityPolicy.getFilter(policy, currentOffering1);
@@ -59,15 +59,15 @@ describe('VmCompatibilityPolicy', () => {
   it('should filter offering based on policy', () => {
     const policy = {
       offeringChangePolicy: OfferingPolicy.NO_RESTRICTIONS,
-      offeringChangePolicyIgnoreTags: ['t2']
+      offeringChangePolicyIgnoreTags: ['t2'],
     };
     const currentOffering: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2,t3'
+      hosttags: 't1,t2,t3',
     };
     const newOffering: ServiceOffering = {
       ...serviceOffering,
-      hosttags: 't1,t2'
+      hosttags: 't1,t2',
     };
 
     const filter = VmCompatibilityPolicy.getFilter(policy, currentOffering);

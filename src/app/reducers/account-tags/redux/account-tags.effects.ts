@@ -15,12 +15,10 @@ export class AccountTagsEffects {
     switchMap((action: actions.LoadAccountTagsRequest) => {
       return this.tagService.getList(action.payload).pipe(
         map(tags => new actions.LoadAccountTagsResponse(tags)),
-        catchError(() => of(new actions.LoadAccountTagsResponse([]))));
-    }));
+        catchError(() => of(new actions.LoadAccountTagsResponse([]))),
+      );
+    }),
+  );
 
-  constructor(
-    private actions$: Actions,
-    private tagService: TagService
-  ) {
-  }
+  constructor(private actions$: Actions, private tagService: TagService) {}
 }

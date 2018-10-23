@@ -14,8 +14,7 @@ import {
 import { UserTagsEffects } from './user-tags.effects';
 import { userTagKeys } from '../../../tags/tag-keys';
 
-class StoreStub {
-}
+class StoreStub {}
 
 function createTagServiceStub(listResponse: any, createRespone: any, removeResponce: any) {
   const service = jasmine.createSpyObj('tagService', ['getList', 'create', 'remove']);
@@ -23,9 +22,11 @@ function createTagServiceStub(listResponse: any, createRespone: any, removeRespo
   const isListError = listResponse instanceof Error;
   const isCreateError = createRespone instanceof Error;
   const isRemoveError = removeResponce instanceof Error;
+  // tslint:disable:variable-name
   const _listResponse = isListError ? throwError(listResponse) : of(listResponse);
   const _createResponse = isCreateError ? throwError(createRespone) : of(createRespone);
   const _removeResponse = isRemoveError ? throwError(removeResponce) : of(removeResponce);
+  // tslint:enable:variable-name
 
   service.getList.and.returnValue(_listResponse);
   service.create.and.returnValue(_createResponse);
@@ -73,8 +74,8 @@ describe('User tags effects', () => {
     const expected = cold('b', {
       b: new UpdateLastVMIdSuccess({
         key: userTagKeys.lastVMId,
-        value: '5'
-      })
+        value: '5',
+      }),
     });
     expect(effects.updateLastVmId$).toBeObservable(expected);
   });
@@ -90,8 +91,8 @@ describe('User tags effects', () => {
     const expected = cold('b', {
       b: new UpdateLastVMIdSuccess({
         key: userTagKeys.lastVMId,
-        value: '5'
-      })
+        value: '5',
+      }),
     });
     expect(effects.updateLastVmId$).toBeObservable(expected);
   });

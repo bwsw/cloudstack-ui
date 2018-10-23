@@ -8,25 +8,19 @@ export const LOAD_DEFAULT_DISK_PARAMS_RESPONSE = '[OFFERINGS] LOAD_DEFAULT_DISK_
 export class LoadOfferingsRequest implements Action {
   type = LOAD_DISK_OFFERINGS_REQUEST;
 
-  constructor(public payload?: any) {
-  }
-
+  constructor(public payload?: any) {}
 }
 
 export class LoadOfferingsResponse implements Action {
   type = LOAD_DISK_OFFERINGS_RESPONSE;
 
-  constructor(public payload:  any ) {
-  }
-
+  constructor(public payload: any) {}
 }
 
 export class LoadDefaultParamsResponse implements Action {
   type = LOAD_DEFAULT_DISK_PARAMS_RESPONSE;
 
-  constructor(public payload: Array<string> ) {
-  }
+  constructor(public payload: string[]) {}
 }
 
-export type Actions = LoadOfferingsResponse
-  | LoadOfferingsRequest;
+export type Actions = LoadOfferingsResponse | LoadOfferingsRequest;

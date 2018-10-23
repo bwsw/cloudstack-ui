@@ -16,7 +16,7 @@ export const vmRoutes: Routes = [
     children: [
       {
         path: 'create',
-        component: VmCreationDialogComponent
+        component: VmCreationDialogComponent,
       },
       {
         path: ':id',
@@ -26,26 +26,30 @@ export const vmRoutes: Routes = [
           {
             path: '',
             redirectTo: 'vm',
-            pathMatch: 'full'
-          }, {
+            pathMatch: 'full',
+          },
+          {
             path: 'vm',
             component: VmDetailContainerComponent,
-            canActivate: [AuthGuard]
-          }, {
+            canActivate: [AuthGuard],
+          },
+          {
             path: 'disks',
             component: StorageDetailContainerComponent,
-            canActivate: [AuthGuard]
-          }, {
+            canActivate: [AuthGuard],
+          },
+          {
             path: 'network',
             component: NetworkDetailContainerComponent,
-            canActivate: [AuthGuard]
-          }, {
+            canActivate: [AuthGuard],
+          },
+          {
             path: 'tags',
             component: VmTagsContainerComponent,
-            canActivate: [AuthGuard]
-          }
-        ]
-      }
-    ]
-  }
+            canActivate: [AuthGuard],
+          },
+        ],
+      },
+    ],
+  },
 ];

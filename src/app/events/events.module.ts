@@ -19,15 +19,8 @@ import { EventListComponent } from './components/event-list.component';
     MaterialModule,
     StoreModule.forFeature('events', reducers),
     EffectsModule.forFeature([EventsEffects]),
-
   ],
-  declarations: [
-    EventListContainerComponent,
-    EventListComponent,
-  ],
-  providers: [
-    EventService
-  ]
+  declarations: [EventListContainerComponent, EventListComponent],
+  providers: [EventService],
 })
-export class EventsModule {
-}
+export class EventsModule {}

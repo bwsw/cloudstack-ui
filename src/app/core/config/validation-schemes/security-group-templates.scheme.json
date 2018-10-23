@@ -61,9 +61,7 @@
     },
     "RulesArray": {
       "type": "array",
-      "uniqueItemProperties": [
-        "ruleid"
-      ],
+      "uniqueItemProperties": ["ruleid"],
       "errorMessage": {
         "uniqueItemProperties": "should NOT contain objects with the same ruleId"
       },

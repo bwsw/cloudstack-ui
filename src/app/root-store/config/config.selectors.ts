@@ -6,15 +6,10 @@ import { userTagKeys } from '../../tags/tag-keys';
 
 const getConfigState = createFeatureSelector<ConfigState>('config');
 
-export const isLoaded = createSelector(
-  getConfigState,
-  (state: ConfigState) => state.isLoaded
-);
+export const isLoaded = createSelector(getConfigState, (state: ConfigState) => state.isLoaded);
 
-export const get = <T extends keyof Config>(key: T) => createSelector(
-  getConfigState,
-  (state: ConfigState): Config[T] => state.config[key as string]
-);
+export const get = <T extends keyof Config>(key: T) =>
+  createSelector(getConfigState, (state: ConfigState): Config[T] => state.config[key as string]);
 
 export const getDefaultUserTags = createSelector(
   getConfigState,

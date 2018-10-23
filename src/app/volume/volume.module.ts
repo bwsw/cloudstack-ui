@@ -45,7 +45,6 @@ import { VolumeSnapshotDetailsContainerComponent } from './container/volume-snap
 import { virtualMachineReducers } from '../reducers/vm/redux/vm.reducers';
 import { VolumeGroupedListComponent } from './volume-list/volume-grouped-list.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -66,7 +65,7 @@ import { VolumeGroupedListComponent } from './volume-list/volume-grouped-list.co
       ZonesEffects,
       DiskOfferingEffects,
       UserAccountEffects,
-      SnapshotEffects
+      SnapshotEffects,
     ]),
   ],
   declarations: [
@@ -90,15 +89,9 @@ import { VolumeGroupedListComponent } from './volume-list/volume-grouped-list.co
     VolumeCardItemComponent,
     VolumeRowItemComponent,
     VolumeListComponent,
-    VolumeGroupedListComponent
+    VolumeGroupedListComponent,
   ],
-  exports: [
-    VolumePageComponent
-  ],
-  entryComponents: [
-    VolumeCreationComponent,
-    VolumeCreationContainerComponent,
-  ]
+  exports: [VolumePageComponent],
+  entryComponents: [VolumeCreationComponent, VolumeCreationContainerComponent],
 })
-export class VolumeModule {
-}
+export class VolumeModule {}

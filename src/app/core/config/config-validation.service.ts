@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as AjvCore from 'ajv';
-import { Ajv } from 'ajv';
 import * as AjvUniqueItemProperties from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as AjvErrors from 'ajv-errors';
 import * as omit from 'lodash/omit';
@@ -12,12 +11,11 @@ import * as validationSchemes from './validation-schemes';
 enum ErrorType {
   InvalidConfig,
   InvalidKey,
-  InvalidValue
+  InvalidValue,
 }
 
 abstract class ValidationError {
-  protected constructor(readonly type: ErrorType, readonly message: string) {
-  }
+  protected constructor(readonly type: ErrorType, readonly message: string) {}
 
   public getErrorText(): string {
     return `Configuration warning:\n${this.message}`;
@@ -51,13 +49,11 @@ class InvalidValueError extends ValidationError {
   }
 }
 
-type ValidationScheme = {
-  readonly [P in keyof Partial<Config>]: object;
-}
+type ValidationScheme = { readonly [P in keyof Partial<Config>]: object };
 
 @Injectable()
 export class ConfigValidationService {
-  private readonly schemeValidator: Ajv;
+  private readonly schemeValidator: AjvCore.Ajv;
   private readonly schemeMap: ValidationScheme = {
     defaultDomain: validationSchemes.defaultDomain,
     apiDocLink: validationSchemes.apiDocLink,

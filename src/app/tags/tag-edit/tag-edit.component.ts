@@ -3,14 +3,14 @@ import { NgModel } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { defaultCategoryName, Tag } from '../../shared/models';
 
-
 @Component({
   selector: 'cs-tag-edit',
   templateUrl: 'tag-edit.component.html',
-  styleUrls: ['tag-edit.component.scss']
+  styleUrls: ['tag-edit.component.scss'],
 })
 export class TagEditComponent {
-  @ViewChild('keyField') public keyField: NgModel;
+  @ViewChild('keyField')
+  public keyField: NgModel;
 
   public loading: boolean;
   public key: string;
@@ -18,16 +18,13 @@ export class TagEditComponent {
   public maxKeyLength = 255;
   public maxValueLength = 255;
 
-  public forbiddenKeys: Array<string>;
+  public forbiddenKeys: string[];
   public title: string;
   public confirmButtonText: string;
   private tag: Tag;
   private categoryName: string;
 
-  constructor(
-    private dialogRef: MatDialogRef<TagEditComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
-  ) {
+  constructor(private dialogRef: MatDialogRef<TagEditComponent>, @Inject(MAT_DIALOG_DATA) data) {
     this.forbiddenKeys = data.forbiddenKeys;
     this.title = data.title;
     this.confirmButtonText = data.confirmButtonText;
@@ -45,7 +42,8 @@ export class TagEditComponent {
   public get keyFieldErrorMessage(): string {
     if (this.keyField.errors && this.keyField.errors.forbiddenValuesValidator) {
       return 'TAGS.TAG_ALREADY_EXISTS';
-    } else if (this.keyField.errors && this.keyField.errors.pattern) {
+    }
+    if (this.keyField.errors && this.keyField.errors.pattern) {
       return 'TAGS.TAG_START_FROM_SPACE';
     }
 
@@ -55,11 +53,11 @@ export class TagEditComponent {
   public onTagUpdate(): void {
     const newTag = {
       key: this.key,
-      value: this.value
+      value: this.value,
     };
 
     if (this.tag) {
-      this.dialogRef.close({ oldTag: this.tag, newTag });
+      this.dialogRef.close({ newTag, oldTag: this.tag });
     } else {
       this.dialogRef.close(newTag);
     }

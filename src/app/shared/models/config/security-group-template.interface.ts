@@ -6,5 +6,5 @@ export interface SecurityGroupTemplate {
   description: string;
   preselected?: boolean;
   egressrule: NetworkRule[];
-  ingressrule: NetworkRule[]
+  ingressrule: NetworkRule[];
 }

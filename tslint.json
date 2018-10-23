@@ -1,90 +1,43 @@
 {
-  "rulesDirectory": [
-    "node_modules/codelyzer"
-  ],
+  "extends": ["tslint-config-airbnb", "tslint-config-prettier"],
+  "rulesDirectory": ["node_modules/codelyzer"],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
-    "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
-    "curly": true,
-    "eofline": true,
+    "deprecation": {
+      "severity": "warn"
+    },
     "forin": true,
-    "import-blacklist": [
-      true
-    ],
+    "import-blacklist": [true, "rxjs/Rx", "lodash"],
     "import-spacing": true,
-    "indent": [
-      true,
-      "spaces"
-    ],
     "interface-over-type-literal": true,
     "label-position": true,
-    "max-line-length": [
-      true,
-      120
-    ],
     "member-access": false,
     "member-ordering": [
       true,
-      "static-before-instance",
-      "variables-before-functions"
+      {
+        "order": "fields-first"
+      }
     ],
     "no-arg": true,
     "no-bitwise": true,
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
-    "no-construct": true,
+    "no-console": [true, "log", "debug", "info", "time", "timeEnd", "trace"],
     "no-debugger": true,
     "no-duplicate-super": true,
     "no-empty": false,
     "no-empty-interface": true,
-    "no-eval": true,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
+    "no-inferrable-types": [true, "ignore-params"],
     "no-misused-new": true,
     "no-non-null-assertion": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
     "no-use-before-declare": true,
-    "no-var-keyword": true,
     "object-literal-sort-keys": false,
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-catch",
-      "check-else",
-      "check-whitespace"
-    ],
-    "prefer-const": true,
-    "quotemark": [
-      true,
-      "single"
-    ],
-    "radix": true,
-    "semicolon": [
-      "always"
-    ],
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
+    "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
     "typedef-whitespace": [
       true,
       {
@@ -96,27 +49,33 @@
       }
     ],
     "unified-signatures": true,
-    "variable-name": false,
     "whitespace": [
       true,
       "check-branch",
       "check-decl",
       "check-operator",
+      "check-preblock",
       "check-separator",
       "check-type"
     ],
-    "directive-selector": [
-      true,
-      "attribute",
-      "cs",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "cs",
-      "kebab-case"
-    ],
+    "prefer-for-of": true,
+    "no-conditional-assignment": true,
+    "no-duplicate-switch-case": true,
+    "no-sparse-arrays": true,
+    "no-unused-variable": true,
+    "no-unnecessary-type-assertion": true,
+    "no-unnecessary-callback-wrapper": true,
+    "prefer-conditional-expression": true,
+    "prefer-object-spread": true,
+    "restrict-plus-operands": true,
+    "switch-default": true,
+    "use-isnan": true,
+    "cyclomatic-complexity": true,
+    "file-name-casing": [true, "kebab-case"],
+    "interface-name": [true, "never-prefix"],
+    "no-angle-bracket-type-assertion": true,
+    "number-literal-format": true,
+    "no-output-on-prefix": true,
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -126,6 +85,14 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "no-access-missing-member": false
+    "no-access-missing-member": false,
+    "banana-in-box": true,
+    "pipe-impure": true,
+    "templates-no-negated-async": true,
+    "no-attribute-parameter-decorator": true,
+    "no-output-named-after-standard-event": true,
+    "no-unused-css": true,
+    "use-pipe-decorator": true,
+    "angular-whitespace": [true, "check-interpolation", "check-pipe", "check-semicolon"]
   }
 }

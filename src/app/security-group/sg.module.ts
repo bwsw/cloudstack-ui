@@ -54,7 +54,6 @@ import { SecurityGroupTagsComponent } from './sg-sidebar/sg-tags/sg-tags.compone
 import { SecurityGroupTagsContainerComponent } from './containers/sg-tags.container';
 import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/sg-rule-addition-form.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -63,7 +62,7 @@ import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/
     DynamicModule.withComponents([
       SecurityGroupCardItemComponent,
       SecurityGroupRowItemComponent,
-      SgRuleComponent
+      SgRuleComponent,
     ]),
     RouterModule,
     DraggableSelectModule,
@@ -77,7 +76,7 @@ import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/
     SecurityGroupPageContainerComponent,
     SecurityGroupPageComponent,
     SecurityGroupSidebarContainerComponent,
-    SecurityGroupDetailsContainerComponent
+    SecurityGroupDetailsContainerComponent,
   ],
   declarations: [
     SecurityGroupActionsContainerComponent,
@@ -106,7 +105,7 @@ import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/
     SecurityGroupSidebarComponent,
     SecurityGroupRulesDialogComponent,
     SecurityGroupGroupedListComponent,
-    SGRuleAdditionFormComponent
+    SGRuleAdditionFormComponent,
   ],
   providers: [
     NetworkRuleService,
@@ -114,13 +113,12 @@ import { SGRuleAdditionFormComponent } from './components/sg-rule-addition-form/
     SecurityGroupActionService,
     PrivateSecurityGroupCreationService,
     SharedSecurityGroupCreationService,
-    TemplateSecurityGroupCreationService
+    TemplateSecurityGroupCreationService,
   ],
   entryComponents: [
     SecurityGroupCreationContainerComponent,
     SgRulesContainerComponent,
-    SecurityGroupCreationSecurityGroupComponent
-  ]
+    SecurityGroupCreationSecurityGroupComponent,
+  ],
 })
-export class SecurityGroupModule {
-}
+export class SecurityGroupModule {}

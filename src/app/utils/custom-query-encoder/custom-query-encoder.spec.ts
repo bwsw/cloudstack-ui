@@ -1,7 +1,6 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { CustomQueryEncoder } from './custom-query-encoder';
 
-
 describe('Custom query encoder', () => {
   let encoder: HttpUrlEncodingCodec;
 

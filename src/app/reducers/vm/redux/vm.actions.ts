@@ -53,7 +53,8 @@ export const VM_FORM_ADJUST = '[VM creation] VM_FORM_ADJUST';
 export const VM_INITIAL_ZONE_SELECT = '[VM creation] VM_INITIAL_ZONE_SELECT';
 export const VM_SECURITY_GROUPS_SELECT = '[VM creation] VM_SECURITY_GROUPS_SELECT';
 export const VM_CREATION_STATE_UPDATE = '[VM creation] VM_CREATION_STATE_UPDATE';
-export const VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE = '[VM creation] VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE';
+export const VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE =
+  '[VM creation] VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE';
 
 export const DEPLOY_VM = '[VM deployment] DEPLOY_VM';
 export const VM_DEPLOYMENT_REQUEST = '[VM deployment] VM_DEPLOYMENT_REQUEST';
@@ -61,7 +62,8 @@ export const VM_DEPLOYMENT_REQUEST_SUCCESS = '[VM deployment] VM_DEPLOYMENT_REQU
 export const VM_DEPLOYMENT_REQUEST_ERROR = '[VM deployment] VM_DEPLOYMENT_REQUEST_ERROR';
 export const VM_DEPLOYMENT_CHANGE_STATUS = '[VM deployment] VM_DEPLOYMENT_CHANGE_STATUS';
 export const VM_DEPLOYMENT_ADD_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_ADD_LOGGER_MESSAGE';
-export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE = '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
+export const VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE =
+  '[VM deployment] VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE';
 export const VM_DEPLOYMENT_INIT_ACTION_LIST = '[VM deployment] VM_DEPLOYMENT_INIT_ACTION_LIST';
 export const VM_DEPLOYMENT_COPY_TAGS = '[VM deployment] VM_DEPLOYMENT_COPY_TAGS';
 
@@ -72,434 +74,401 @@ export const SAVE_VM_PASSWORD_ERROR = '[Resource tag API] Save VM password error
 export class LoadVMsRequest implements Action {
   type = LOAD_VMS_REQUEST;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class LoadVMRequest implements Action {
   type = LOAD_VM_REQUEST;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class LoadVirtualMachine implements Action {
   readonly type = LOAD_VIRTUAL_MACHINE;
 
-  constructor(public payload: { id: string }) {
-  }
+  constructor(public payload: { id: string }) {}
 }
 
 export class VirtualMachineLoaded implements Action {
   readonly type = VIRTUAL_MACHINE_LOADED;
 
-  constructor(public payload: { vm: VirtualMachine }) {
-  }
+  constructor(public payload: { vm: VirtualMachine }) {}
 }
 
 export class LoadVMsResponse implements Action {
   type = LOAD_VMS_RESPONSE;
 
-  constructor(public payload: VirtualMachine[]) {
-  }
+  constructor(public payload: VirtualMachine[]) {}
 }
 
 export class VMFilterUpdate implements Action {
   type = VM_FILTER_UPDATE;
 
-  constructor(public payload: { [key: string]: any }) {
-  }
+  constructor(public payload: { [key: string]: any }) {}
 }
 
 export class VMAttachmentFilterUpdate implements Action {
   type = VM_ATTACHMENT_FILTER_UPDATE;
 
-  constructor(public payload: { [key: string]: any }) {
-  }
-
+  constructor(public payload: { [key: string]: any }) {}
 }
 
 export class LoadSelectedVM implements Action {
   type = LOAD_SELECTED_VM;
 
-  constructor(public payload: string) {
-  }
+  constructor(public payload: string) {}
 }
 
 export class ChangeDescription implements Action {
   type = VM_CHANGE_DESCRIPTION;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    description: string
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      description: string;
+    },
+  ) {}
 }
 
 export class ChangeServiceOffering implements Action {
   type = VM_CHANGE_SERVICE_OFFERING;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    offering: ServiceOffering
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      offering: ServiceOffering;
+    },
+  ) {}
 }
 
 export class ChangeAffinityGroup implements Action {
   type = VM_CHANGE_AFFINITY_GROUP;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    affinityGroupId: string
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      affinityGroupId: string;
+    },
+  ) {}
 }
 
 export class ChangeInstanceGroup implements Action {
   type = VM_CHANGE_INSTANCE_GROUP;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    group: InstanceGroup
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      group: InstanceGroup;
+    },
+  ) {}
 }
 
 export class RemoveInstanceGroup implements Action {
   type = VM_REMOVE_INSTANCE_GROUP;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class AddSecondaryIp implements Action {
   type = VM_ADD_SECONDARY_IP;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    nicId: string
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      nicId: string;
+    },
+  ) {}
 }
 
 export class RemoveSecondaryIp implements Action {
   type = VM_REMOVE_SECONDARY_IP;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    id: string
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      id: string;
+    },
+  ) {}
 }
 
 export class ChangeVmColor implements Action {
   type = VM_CHANGE_COLOR;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    color: Color
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      color: Color;
+    },
+  ) {}
 }
 
 export class UpdateVM implements Action {
   readonly type = UPDATE_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class ReplaceVM implements Action {
   readonly type = REPLACE_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class AttachIso implements Action {
   readonly type = ATTACH_ISO;
 
-  constructor(public payload: {
-    id: string,
-    virtualMachineId: string
-  }) {
-  }
+  constructor(
+    public payload: {
+      id: string;
+      virtualMachineId: string;
+    },
+  ) {}
 }
 
 export class DetachIso implements Action {
   readonly type = DETACH_ISO;
 
-  constructor(public payload: {
-    virtualMachineId: string
-  }) {
-  }
+  constructor(
+    public payload: {
+      virtualMachineId: string;
+    },
+  ) {}
 }
 
 export class StopVm implements Action {
   readonly type = STOP_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class StartVm implements Action {
   readonly type = START_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class RestoreVm implements Action {
   readonly type = RESTORE_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class ResetPasswordVm implements Action {
   readonly type = RESET_PASSWORD_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class RebootVm implements Action {
   readonly type = REBOOT_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class DestroyVm implements Action {
   readonly type = DESTROY_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class RecoverVm implements Action {
   readonly type = RECOVER_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class AccessVm implements Action {
   readonly type = ACCESS_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class WebShellVm implements Action {
   readonly type = WEB_SHELL_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class PulseVm implements Action {
   readonly type = PULSE_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class ConsoleVm implements Action {
   readonly type = CONSOLE_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class OpenUrlVm implements Action {
   readonly type = OPEN_URL_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class ExpungeVm implements Action {
   readonly type = EXPUNGE_VM;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class ExpungeVmSuccess implements Action {
   readonly type = EXPUNGE_VM_SUCCESS;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class DeploymentRequestSuccess implements Action {
   readonly type = VM_DEPLOYMENT_REQUEST_SUCCESS;
 
-  constructor(public payload: VirtualMachine) {
-  }
+  constructor(public payload: VirtualMachine) {}
 }
 
 export class ChangeSshKey implements Action {
   readonly type = CHANGE_SSH_KEY;
 
-  constructor(public payload: {
-    vm: VirtualMachine,
-    keyPair: SSHKeyPair
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm: VirtualMachine;
+      keyPair: SSHKeyPair;
+    },
+  ) {}
 }
 
 export class VMUpdateError implements Action {
   readonly type = VM_UPDATE_ERROR;
 
-  constructor(public payload: {
-    vm?: VirtualMachine,
-    state?: VmState,
-    error: Error
-  }) {
-  }
+  constructor(
+    public payload: {
+      vm?: VirtualMachine;
+      state?: VmState;
+      error: Error;
+    },
+  ) {}
 }
 
 export class VmFormUpdate implements Action {
   type = VM_FORM_UPDATE;
 
-  constructor(public payload?: Partial<VmCreationState>) {
-  }
+  constructor(public payload?: Partial<VmCreationState>) {}
 }
 
 export class VmFormAdjust implements Action {
   type = VM_FORM_ADJUST;
 
-  constructor(public payload?: Partial<VmCreationState>) {
-  }
+  constructor(public payload?: Partial<VmCreationState>) {}
 }
 
 export class VmCreationStateUpdate implements Action {
   type = VM_CREATION_STATE_UPDATE;
 
-  constructor(public payload: Partial<FormState>) {
-  }
+  constructor(public payload: Partial<FormState>) {}
 }
 
 export class VmCreationEnoughResourceUpdateState implements Action {
   type = VM_CREATION_ENOUGH_RESOURCE_STATE_UPDATE;
 
-  constructor(public payload: boolean) {
-  }
+  constructor(public payload: boolean) {}
 }
 
 export class VmInitialZoneSelect implements Action {
   type = VM_INITIAL_ZONE_SELECT;
 
-  constructor(public payload?: boolean) {
-  }
+  constructor(public payload?: boolean) {}
 }
 
 export class VmInitialSecurityGroupsSelect implements Action {
   type = VM_SECURITY_GROUPS_SELECT;
 
-  constructor(public payload?: boolean) {
-  }
+  constructor(public payload?: boolean) {}
 }
 
 export class DeployVm implements Action {
   type = DEPLOY_VM;
 
-  constructor(public payload: VmCreationState) {
-  }
+  constructor(public payload: VmCreationState) {}
 }
 
 export class VmCreationFormInit implements Action {
   type = VM_FORM_INIT;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class VmCreationFormClean implements Action {
   type = VM_FORM_CLEAN;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class DeploymentAddLoggerMessage implements Action {
   type = VM_DEPLOYMENT_ADD_LOGGER_MESSAGE;
 
-  constructor(public payload?: ProgressLoggerMessageData) {
-  }
+  constructor(public payload?: ProgressLoggerMessageData) {}
 }
 
 export class DeploymentChangeStatus implements Action {
   type = VM_DEPLOYMENT_CHANGE_STATUS;
 
-  constructor(public payload?: VmDeploymentMessage) {
-  }
+  constructor(public payload?: VmDeploymentMessage) {}
 }
 
 export class DeploymentUpdateLoggerMessage implements Action {
   type = VM_DEPLOYMENT_UPDATE_LOGGER_MESSAGE;
 
-  constructor(public payload: {
-    messageText: string | ParametrizedTranslation,
-    data: Partial<ProgressLoggerMessageData>
-  }) {
-  }
+  constructor(
+    public payload: {
+      messageText: string | ParametrizedTranslation;
+      data: Partial<ProgressLoggerMessageData>;
+    },
+  ) {}
 }
 
 export class DeploymentInitActionList implements Action {
   type = VM_DEPLOYMENT_INIT_ACTION_LIST;
 
-  constructor(public payload: ProgressLoggerMessageData[]) {
-  }
+  constructor(public payload: ProgressLoggerMessageData[]) {}
 }
 
 export class DeploymentRequest implements Action {
   type = VM_DEPLOYMENT_REQUEST;
 
-  constructor(public payload: VmCreationState) {
-  }
+  constructor(public payload: VmCreationState) {}
 }
 
 export class DeploymentRequestError implements Action {
   type = VM_DEPLOYMENT_REQUEST_ERROR;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class VmDeploymentCopyTags implements Action {
   type = VM_DEPLOYMENT_COPY_TAGS;
 
-  constructor(public payload: Tag[]) {
-  }
+  constructor(public payload: Tag[]) {}
 }
 
 export class SaveVMPassword implements Action {
   readonly type = SAVE_VM_PASSWORD;
 
-  constructor(public payload: { vm: VirtualMachine, password: string }) {
-  }
+  constructor(public payload: { vm: VirtualMachine; password: string }) {}
 }
 
 export class SaveVMPasswordSuccess implements Action {
   readonly type = SAVE_VM_PASSWORD_SUCCESS;
 
-  constructor(public payload: { vmId: string, password: string }) {
-  }
+  constructor(public payload: { vmId: string; password: string }) {}
 }
 
 export class SaveVMPasswordError implements Action {
   readonly type = SAVE_VM_PASSWORD_ERROR;
 
-  constructor(public payload: { error: Error }) {
-  }
+  constructor(public payload: { error: Error }) {}
 }
 
-
-export type Actions = LoadVMsRequest
+export type Actions =
+  | LoadVMsRequest
   | LoadVMsResponse
   | LoadVirtualMachine
   | VirtualMachineLoaded

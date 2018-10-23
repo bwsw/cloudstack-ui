@@ -9,8 +9,8 @@ export function integerValidator(): ValidatorFn {
     }
     return {
       integerValidator: {
-        valid: false
-      }
+        valid: false,
+      },
     };
   };
 }

@@ -6,7 +6,7 @@ import { ListService } from '../list/list.service';
 @Component({
   selector: 'cs-top-bar',
   templateUrl: 'top-bar.component.html',
-  styleUrls: ['top-bar.component.scss']
+  styleUrls: ['top-bar.component.scss'],
 })
 export class TopBarComponent {
   constructor(
@@ -16,16 +16,13 @@ export class TopBarComponent {
   }
 
   public get sidebarOpen(): boolean {
-    return this.listService
-      ? this.listService.hasSelected() && this.showSidebarForSG()
-      : false;
+    return this.listService ? this.listService.hasSelected() && this.showSidebarForSG() : false;
   }
 
   private showSidebarForSG(): boolean {
     if (this.activatedRoute.snapshot.firstChild.firstChild) {
       return this.activatedRoute.snapshot.firstChild.firstChild.routeConfig.path !== 'rules';
-    } else {
-      return true;
     }
+    return true;
   }
 }

@@ -9,7 +9,7 @@ import {
   InstanceGroup,
   ServiceOffering,
   SSHKeyPair,
-  Zone
+  Zone,
 } from '../../shared/models';
 import { BaseTemplateModel, isTemplate } from '../../template/shared';
 import { VirtualMachine } from '../shared/vm.model';
@@ -26,41 +26,74 @@ import { ProgressLoggerMessage } from '../../shared/components/progress-logger/p
   styleUrls: ['vm-creation.component.scss'],
 })
 export class VmCreationComponent {
-  @Input() public account: Account;
-  @Input() public vmCreationState: VmCreationState;
-  @Input() public instanceGroupList: InstanceGroup[];
-  @Input() public affinityGroupList: AffinityGroup[];
-  @Input() public diskOfferings: DiskOffering[];
-  @Input() public zones: Zone[];
-  @Input() public sshKeyPairs: SSHKeyPair[];
-  @Input() public serviceOfferings: ServiceOffering[];
+  @Input()
+  public account: Account;
+  @Input()
+  public vmCreationState: VmCreationState;
+  @Input()
+  public instanceGroupList: InstanceGroup[];
+  @Input()
+  public affinityGroupList: AffinityGroup[];
+  @Input()
+  public diskOfferings: DiskOffering[];
+  @Input()
+  public zones: Zone[];
+  @Input()
+  public sshKeyPairs: SSHKeyPair[];
+  @Input()
+  public serviceOfferings: ServiceOffering[];
 
-  @Input() public fetching: boolean;
-  @Input() public diskOfferingsAreLoading: boolean;
-  @Input() public showOverlay: boolean;
-  @Input() public deploymentInProgress: boolean;
-  @Input() public loggerStageList: Array<ProgressLoggerMessage>;
-  @Input() public deployedVm: VirtualMachine;
-  @Input() public enoughResources: boolean;
-  @Input() public insufficientResources: Array<string>;
+  @Input()
+  public fetching: boolean;
+  @Input()
+  public diskOfferingsAreLoading: boolean;
+  @Input()
+  public showOverlay: boolean;
+  @Input()
+  public deploymentInProgress: boolean;
+  @Input()
+  public loggerStageList: ProgressLoggerMessage[];
+  @Input()
+  public deployedVm: VirtualMachine;
+  @Input()
+  public enoughResources: boolean;
+  @Input()
+  public insufficientResources: string[];
 
-  @Output() public displayNameChange = new EventEmitter<string>();
-  @Output() public serviceOfferingChange = new EventEmitter<ServiceOffering>();
-  @Output() public diskOfferingChange = new EventEmitter<DiskOffering>();
-  @Output() public rootDiskSizeMinChange = new EventEmitter<number>();
-  @Output() public rootDiskSizeChange = new EventEmitter<number>();
-  @Output() public affinityGroupChange = new EventEmitter<AffinityGroup>();
-  @Output() public instanceGroupChange = new EventEmitter<InstanceGroup>();
-  @Output() public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
-  @Output() public templateChange = new EventEmitter<BaseTemplateModel>();
-  @Output() public onSshKeyPairChange = new EventEmitter<SSHKeyPair | NotSelected>();
-  @Output() public doStartVmChange = new EventEmitter<boolean>();
-  @Output() public zoneChange = new EventEmitter<Zone>();
-  @Output() public agreementChange = new EventEmitter<boolean>();
-  @Output() public onVmDeploymentFailed = new EventEmitter();
-  @Output() public deploy = new EventEmitter<VmCreationState>();
-  @Output() public cancel = new EventEmitter();
-  @Output() public onError = new EventEmitter();
+  @Output()
+  public displayNameChange = new EventEmitter<string>();
+  @Output()
+  public serviceOfferingChange = new EventEmitter<ServiceOffering>();
+  @Output()
+  public diskOfferingChange = new EventEmitter<DiskOffering>();
+  @Output()
+  public rootDiskSizeMinChange = new EventEmitter<number>();
+  @Output()
+  public rootDiskSizeChange = new EventEmitter<number>();
+  @Output()
+  public affinityGroupChange = new EventEmitter<AffinityGroup>();
+  @Output()
+  public instanceGroupChange = new EventEmitter<InstanceGroup>();
+  @Output()
+  public securityRulesChange = new EventEmitter<VmCreationSecurityGroupData>();
+  @Output()
+  public templateChange = new EventEmitter<BaseTemplateModel>();
+  @Output()
+  public sshKeyPairChanged = new EventEmitter<SSHKeyPair | NotSelected>();
+  @Output()
+  public doStartVmChange = new EventEmitter<boolean>();
+  @Output()
+  public zoneChange = new EventEmitter<Zone>();
+  @Output()
+  public agreementChange = new EventEmitter<boolean>();
+  @Output()
+  public vmDeploymentFailed = new EventEmitter();
+  @Output()
+  public deploy = new EventEmitter<VmCreationState>();
+  @Output()
+  public cancel = new EventEmitter();
+  @Output()
+  public errored = new EventEmitter();
 
   public insufficientResourcesErrorMap = {
     instances: 'VM_PAGE.VM_CREATION.INSTANCES',
@@ -68,20 +101,19 @@ export class VmCreationComponent {
     volumes: 'VM_PAGE.VM_CREATION.VOLUMES',
     cpus: 'VM_PAGE.VM_CREATION.CPUS',
     memory: 'VM_PAGE.VM_CREATION.MEMORY',
-    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE'
+    primaryStorage: 'VM_PAGE.VM_CREATION.PRIMARY_STORAGE',
   };
 
   public takenName: string;
   public maxEntityNameLength = 63;
 
-  public visibleAffinityGroups: Array<AffinityGroup>;
-  public visibleInstanceGroups: Array<InstanceGroup>;
+  public visibleAffinityGroups: AffinityGroup[];
+  public visibleInstanceGroups: InstanceGroup[];
 
   constructor(
     public dialogRef: MatDialogRef<VmCreationContainerComponent>,
     private auth: AuthService,
-  ) {
-  }
+  ) {}
 
   public nameIsTaken(): boolean {
     return !!this.vmCreationState && this.vmCreationState.displayName === this.takenName;
@@ -117,9 +149,11 @@ export class VmCreationComponent {
   }
 
   public showSecurityGroups(): boolean {
-    return this.vmCreationState.zone
-      && this.vmCreationState.zone.securitygroupsenabled
-      && this.auth.isSecurityGroupEnabled();
+    return (
+      this.vmCreationState.zone &&
+      this.vmCreationState.zone.securitygroupsenabled &&
+      this.auth.isSecurityGroupEnabled()
+    );
   }
 
   public changeTemplate(value: BaseTemplateModel) {
@@ -130,7 +164,7 @@ export class VmCreationComponent {
   public changeInstanceGroup(groupName: string): void {
     const val = groupName.toLowerCase();
     this.visibleInstanceGroups = this.instanceGroupList.filter(
-      g => g.name.toLowerCase().indexOf(val) === 0
+      g => g.name.toLowerCase().indexOf(val) === 0,
     );
 
     const existingGroup = this.getInstanceGroup(groupName);
@@ -145,7 +179,7 @@ export class VmCreationComponent {
   public changeAffinityGroup(groupName: string): void {
     const val = groupName.toLowerCase();
     this.visibleAffinityGroups = this.affinityGroupList.filter(
-      g => g.name.toLowerCase().indexOf(val) === 0
+      g => g.name.toLowerCase().indexOf(val) === 0,
     );
     const existingGroup = this.affinityGroupList.find(group => group.name === groupName);
 
@@ -158,9 +192,11 @@ export class VmCreationComponent {
   }
 
   public isSubmitButtonDisabled(isFormValid: boolean): boolean {
-    return !isFormValid
-      || this.nameIsTaken()
-      || !this.vmCreationState.template
-      || !this.vmCreationState.serviceOffering.isAvailableByResources;
+    return (
+      !isFormValid ||
+      this.nameIsTaken() ||
+      !this.vmCreationState.template ||
+      !this.vmCreationState.serviceOffering.isAvailableByResources
+    );
   }
 }

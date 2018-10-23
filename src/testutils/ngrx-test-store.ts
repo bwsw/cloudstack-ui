@@ -18,6 +18,5 @@ export class TestStore<T> {
     return this.state.asObservable();
   }
 
-  dispatch(action: any) {
-  }
+  dispatch(action: any) {}
 }

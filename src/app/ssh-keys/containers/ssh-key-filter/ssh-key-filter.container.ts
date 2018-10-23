@@ -27,13 +27,12 @@ const FILTER_KEY = 'sshKeyListFilters';
       [selectedAccountIds]="selectedAccountIds$ | async"
       [selectedGroupings]="selectedGroupings$ | async"
       [groupings]="groupings"
-      (onGroupingsChange)="onGroupingsChange($event)"
-      (onAccountsChange)="onAccountsChange($event)"
-    ></cs-ssh-key-filter>`
+      (groupingsChanged)="onGroupingsChange($event)"
+      (accountsChanged)="onAccountsChange($event)"
+    ></cs-ssh-key-filter>`,
 })
 export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements OnInit {
-
-  public groupings: Array<Grouping> = sshKeyGroupings;
+  public groupings: Grouping[] = sshKeyGroupings;
 
   readonly filters$ = this.store.pipe(select(fromSshKeys.filters));
   readonly loading$ = this.store.pipe(select(fromSshKeys.isLoading));
@@ -43,13 +42,13 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
 
   private filterService = new FilterService(
     {
-      'accounts': { type: 'array', defaultOption: [] },
-      'groupings': { type: 'array', defaultOption: [] }
+      accounts: { type: 'array', defaultOption: [] },
+      groupings: { type: 'array', defaultOption: [] },
     },
     this.router,
     this.sessionStorage,
     FILTER_KEY,
-    this.activatedRoute
+    this.activatedRoute,
   );
 
   constructor(
@@ -57,16 +56,16 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
     private store: Store<State>,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private sessionStorage: SessionStorageService
+    private sessionStorage: SessionStorageService,
   ) {
     super();
   }
 
-  public onGroupingsChange(selectedGroupings: Array<Grouping>) {
+  public onGroupingsChange(selectedGroupings: Grouping[]) {
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedGroupings }));
   }
 
-  public onAccountsChange(selectedAccountIds: Array<string>) {
+  public onAccountsChange(selectedAccountIds: string[]) {
     this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({ selectedAccountIds }));
   }
 
@@ -92,16 +91,18 @@ export class ShhKeyFilterContainerComponent extends WithUnsubscribe() implements
 
     const selectedAccountIds = params['accounts'];
 
-    this.store.dispatch(new sshKeyActions.SshKeyFilterUpdate({
-      selectedAccountIds,
-      selectedGroupings
-    }));
+    this.store.dispatch(
+      new sshKeyActions.SshKeyFilterUpdate({
+        selectedAccountIds,
+        selectedGroupings,
+      }),
+    );
 
-    this.filters$.pipe(
-      takeUntil(this.unsubscribe$))
-      .subscribe(filters => this.filterService.update({
-        'groupings': filters.selectedGroupings.map(g => g.key),
-        'accounts': filters.selectedAccountIds
-      }));
+    this.filters$.pipe(takeUntil(this.unsubscribe$)).subscribe(filters =>
+      this.filterService.update({
+        groupings: filters.selectedGroupings.map(g => g.key),
+        accounts: filters.selectedAccountIds,
+      }),
+    );
   }
 }

@@ -8,27 +8,23 @@ import { Route, Subroute } from './models';
 import { appNavRoutes } from './routes';
 import { routerSelectors, State } from '../../root-store';
 
-
 @Injectable()
 export class NavMenuService {
-  constructor(private store: Store<State>) {
-  }
+  constructor(private store: Store<State>) {}
 
   public getRoutes(): Observable<Route[]> {
     return of(appNavRoutes);
   }
 
   public getSubroutes(): Observable<Subroute[]> {
-    return this.getCurrentRoute().pipe(
-      map(route => route.subroutes)
-    );
+    return this.getCurrentRoute().pipe(map(route => route.subroutes));
   }
 
   public getCurrentRoute(): Observable<Route> {
     return this.getCurrentSubroute().pipe(
       filter(subroute => !!subroute),
       withLatestFrom(this.getRoutes()),
-      map(([subroute, routes]) => routes.find(route => route.id === subroute.routeId))
+      map(([subroute, routes]) => routes.find(route => route.id === subroute.routeId)),
     );
   }
 
@@ -36,8 +32,8 @@ export class NavMenuService {
     return this.getCurrentSubroutePath().pipe(
       withLatestFrom(this.getAllSubroutes()),
       map(([path, subroutes]) => {
-        return subroutes.find(subroute => subroute.path === path)
-      })
+        return subroutes.find(subroute => subroute.path === path);
+      }),
     );
   }
 
@@ -55,7 +51,7 @@ export class NavMenuService {
   private getAllSubroutes(): Observable<Subroute[]> {
     return this.getRoutes().pipe(
       map(routes => routes.map(route => route.subroutes)),
-      map(arrayOfSubroutes => flatten(arrayOfSubroutes))
+      map(flatten),
     );
   }
 }

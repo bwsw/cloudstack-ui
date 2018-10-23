@@ -13,7 +13,7 @@ import * as authActions from '../reducers/auth/redux/auth.actions';
 @Component({
   selector: 'cs-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public disableSecurityGroups = false;
@@ -35,14 +35,18 @@ export class HomeComponent extends WithUnsubscribe() implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new UserTagsActions.LoadUserTags());
 
-    this.auth.loggedIn.pipe(
-      takeUntil(this.unsubscribe$),
-      filter(isLoggedIn => isLoggedIn))
+    this.auth.loggedIn
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(isLoggedIn => isLoggedIn),
+      )
       .subscribe(() => {
-        this.store.dispatch(new authActions.LoadUserAccountRequest({
-          name: this.auth.user.account,
-          domainid: this.auth.user.domainid
-        }));
+        this.store.dispatch(
+          new authActions.LoadUserAccountRequest({
+            name: this.auth.user.account,
+            domainid: this.auth.user.domainid,
+          }),
+        );
         this.disableSecurityGroups = this.auth.isSecurityGroupEnabled();
       });
   }

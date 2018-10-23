@@ -9,28 +9,10 @@ import { DialogService } from './dialog.service';
 import { MaterialModule } from '../../material/material.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MaterialModule,
-    TranslateModule,
-  ],
-  exports: [
-    ConfirmDialogComponent,
-    AlertDialogComponent,
-    AskDialogComponent
-  ],
-  declarations: [
-    ConfirmDialogComponent,
-    AlertDialogComponent,
-    AskDialogComponent
-  ],
-  providers: [
-    DialogService,
-  ],
-  entryComponents: [
-    ConfirmDialogComponent,
-    AlertDialogComponent,
-    AskDialogComponent
-  ],
+  imports: [CommonModule, MaterialModule, TranslateModule],
+  exports: [ConfirmDialogComponent, AlertDialogComponent, AskDialogComponent],
+  declarations: [ConfirmDialogComponent, AlertDialogComponent, AskDialogComponent],
+  providers: [DialogService],
+  entryComponents: [ConfirmDialogComponent, AlertDialogComponent, AskDialogComponent],
 })
-export class DialogModule { }
+export class DialogModule {}

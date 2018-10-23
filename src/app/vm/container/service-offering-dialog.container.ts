@@ -5,14 +5,14 @@ import { DialogService } from '../../dialog/dialog-service/dialog.service';
 import * as accountTagsActions from '../../reducers/account-tags/redux/account-tags.actions';
 import { State } from '../../reducers';
 // tslint:disable-next-line
-import { Account, AccountResourceType } from '../../shared/models/account.model';
+import { Account, accountResourceType } from '../../shared/models/account.model';
 import { VirtualMachine, VmState } from '../shared/vm.model';
 import { configSelectors, UserTagsActions } from '../../root-store';
 import * as serviceOfferingActions from '../../reducers/service-offerings/redux/service-offerings.actions';
 import * as fromServiceOfferings from '../../reducers/service-offerings/redux/service-offerings.reducers';
 import * as vmActions from '../../reducers/vm/redux/vm.actions';
 import * as zoneActions from '../../reducers/zones/redux/zones.actions';
-import { selectFilteredOfferings } from '../selectors'
+import { selectFilteredOfferings } from '../selectors';
 
 @Component({
   selector: 'cs-service-offering-dialog-container',
@@ -25,11 +25,11 @@ import { selectFilteredOfferings } from '../selectors'
       [query]="query$ | async"
       [isVmRunning]="isVmRunning()"
       [virtualMachine]="virtualMachine"
-      [serviceOfferingId]="virtualMachine.serviceOfferingId"
-      (onServiceOfferingChange)="changeServiceOffering($event)"
-      (onServiceOfferingUpdate)="updateServiceOffering($event)"
-      (viewModeChange)="onViewModeChange($event)"
-      (selectedClassesChange)="onSelectedClassesChange($event)"
+      [serviceOfferingId]="virtualMachine.serviceofferingid"
+      (serviceOfferingChanged)="changeServiceOffering($event)"
+      (serviceOfferingUpdated)="updateServiceOffering($event)"
+      (viewModeChanged)="onViewModeChange($event)"
+      (selectedClassesChanged)="onSelectedClassesChange($event)"
       (queryChange)="onQueryChange($event)"
     >
     </cs-service-offering-dialog>`,
@@ -49,15 +49,19 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
     public dialogService: DialogService,
     public dialogRef: MatDialogRef<ServiceOfferingDialogContainerComponent>,
     private store: Store<State>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.virtualMachine = data.vm;
   }
 
   public ngOnInit() {
     this.store.dispatch(new zoneActions.LoadSelectedZone(this.virtualMachine.zoneid));
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
-    this.store.dispatch(new accountTagsActions.LoadAccountTagsRequest({ resourcetype: AccountResourceType }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),
+    );
+    this.store.dispatch(
+      new accountTagsActions.LoadAccountTagsRequest({ resourcetype: accountResourceType }),
+    );
   }
 
   ngAfterViewInit() {
@@ -65,11 +69,15 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   }
 
   public onViewModeChange(selectedViewMode: string) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }),
+    );
   }
 
   public onSelectedClassesChange(selectedClasses: string[]) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }),
+    );
   }
 
   public onQueryChange(query: string) {
@@ -83,10 +91,12 @@ export class ServiceOfferingDialogContainerComponent implements OnInit, AfterVie
   }
 
   public changeServiceOffering(serviceOffering) {
-    this.store.dispatch(new vmActions.ChangeServiceOffering({
-      vm: this.virtualMachine,
-      offering: serviceOffering
-    }));
+    this.store.dispatch(
+      new vmActions.ChangeServiceOffering({
+        vm: this.virtualMachine,
+        offering: serviceOffering,
+      }),
+    );
     this.dialogRef.close();
   }
 

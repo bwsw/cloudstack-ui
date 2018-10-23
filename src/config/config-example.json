@@ -110,9 +110,7 @@
         "ru": "Описание класса - 1",
         "en": "Class description - 1"
       },
-      "computeOfferings": [
-        "REPLACE_WITH_ID"
-      ]
+      "computeOfferings": ["REPLACE_WITH_ID"]
     },
     {
       "id": "classId-2",
@@ -124,9 +122,7 @@
         "ru": "Описание класса - 2",
         "en": "Class description - 2"
       },
-      "computeOfferings": [
-        "REPLACE_WITH_ID"
-      ]
+      "computeOfferings": ["REPLACE_WITH_ID"]
     }
   ],
   "serviceOfferingAvailability": {

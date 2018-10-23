@@ -5,12 +5,7 @@
   "items": {
     "type": "object",
     "additionalProperties": false,
-    "required": [
-      "offeringId",
-      "cpunumber",
-      "cpuspeed",
-      "memory"
-    ],
+    "required": ["offeringId", "cpunumber", "cpuspeed", "memory"],
     "properties": {
       "offeringId": {
         "type": "string"

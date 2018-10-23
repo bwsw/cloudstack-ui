@@ -1,12 +1,5 @@
-import {
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
-import {
-  Volume,
-  VolumeType,
-} from '../../../../../shared';
+import { Component, Input, OnInit } from '@angular/core';
+import { Volume, VolumeType } from '../../../../../shared';
 
 @Component({
   selector: 'cs-volume',
@@ -14,10 +7,11 @@ import {
   styleUrls: ['volume.component.scss'],
 })
 export class VolumeComponent implements OnInit {
-  @Input() public volume: Volume;
-
+  @Input()
+  public volume: Volume;
 
   public expandDetails: boolean;
+  // tslint:disable-next-line:variable-name
   private _loading = false;
 
   public ngOnInit(): void {
