@@ -12,7 +12,7 @@ import * as event from './resource-limits.actions';
  * any additional interface properties.
  */
 export interface State extends EntityState<ResourceLimit> {
-  loading: boolean
+  loading: boolean;
 }
 
 export interface ResourceLimitsState {
@@ -35,7 +35,7 @@ const sortByResourceTypes = (a: ResourceLimit, b: ResourceLimit) => a.resourcety
  */
 export const adapter: EntityAdapter<ResourceLimit> = createEntityAdapter<ResourceLimit>({
   selectId: (item: ResourceLimit) => item.resourcetype.toString(),
-  sortComparer: sortByResourceTypes
+  sortComparer: sortByResourceTypes,
 });
 
 /** getInitialState returns the default initial state
@@ -43,18 +43,15 @@ export const adapter: EntityAdapter<ResourceLimit> = createEntityAdapter<Resourc
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_RESOURCE_LIMITS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case event.LOAD_RESOURCE_LIMITS_RESPONSE: {
@@ -67,10 +64,9 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll([...action.payload], state),
-        loading: false
+        loading: false,
       };
     }
-
 
     default: {
       return state;
@@ -78,12 +74,11 @@ export function reducer(
   }
 }
 
-
 export const getResourceLimitsState = createFeatureSelector<ResourceLimitsState>('resourceLimits');
 
 export const getResourceLimitsEntitiesState = createSelector(
   getResourceLimitsState,
-  state => state.list
+  state => state.list,
 );
 
 export const {
@@ -93,7 +88,4 @@ export const {
   selectTotal,
 } = adapter.getSelectors(getResourceLimitsEntitiesState);
 
-export const isLoading = createSelector(
-  getResourceLimitsEntitiesState,
-  state => state.loading
-);
+export const isLoading = createSelector(getResourceLimitsEntitiesState, state => state.loading);

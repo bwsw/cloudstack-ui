@@ -5,7 +5,7 @@ import {
   Input,
   Output,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MatOptionSelectionChange, MatSelectChange } from '@angular/material';
@@ -15,7 +15,7 @@ import * as debounce from 'lodash/debounce';
   selector: 'cs-aggregation-selector',
   templateUrl: 'aggregation-selector.component.html',
   styles: [
-      `
+    `
       .aggregation-select {
         margin: 30px 10px 20px;
       }
@@ -27,25 +27,33 @@ import * as debounce from 'lodash/debounce';
       .shift-select {
         width: 100px;
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AggregationSelectorComponent {
-  @Input() permittedIntervals: any;
-  @Output() scaleChange = new EventEmitter();
-  @Output() aggregationsChange = new EventEmitter<MatOptionSelectionChange>();
-  @Output() refreshHandle = new EventEmitter<any>();
-  @Output() shiftChange = new EventEmitter<string>();
-  @Output() shiftAmountChange = new EventEmitter<number>();
+  @Input()
+  permittedIntervals: any;
+  @Output()
+  scaleChange = new EventEmitter();
+  @Output()
+  aggregationsChange = new EventEmitter<MatOptionSelectionChange>();
+  @Output()
+  refreshHandle = new EventEmitter<any>();
+  @Output()
+  shiftChange = new EventEmitter<string>();
+  @Output()
+  shiftAmountChange = new EventEmitter<number>();
 
-  @ViewChild('aggregationSelect') aggregationSelectControl: AbstractControl;
+  @ViewChild('aggregationSelect')
+  aggregationSelectControl: AbstractControl;
 
-  selectedScale: { aggregations: Array<any> };
+  selectedScale: { aggregations: any[] };
   selectedShift: string;
-  @Input() public shiftAmount: number;
-  selectedAggregations: Array<string>;
+  @Input()
+  public shiftAmount: number;
+  selectedAggregations: string[];
 
   constructor() {
     this.emitShiftChange = debounce(this.emitShiftChange, 300);

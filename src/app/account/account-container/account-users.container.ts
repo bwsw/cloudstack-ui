@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as accountActions from '../../reducers/accounts/redux/accounts.actions';
 import * as fromAccounts from '../../reducers/accounts/redux/accounts.reducers';
 import { State } from '../../reducers/index';
@@ -12,19 +12,15 @@ import { AuthService } from '../../shared/services/auth.service';
       [account]="account$ | async"
       [isAdmin]="isAdmin()"
       [currentUserId]="currentUserId()"
-      (onUserRegenerateKey)="generateUserKeys($event)"
-      (onUserDelete)="deleteUser($event)"
-      (onLoadUserKeys)="loadUserKeys($event)"
-    ></cs-account-users>`
+      (userRegenerateKey)="generateUserKeys($event)"
+      (userDeleted)="deleteUser($event)"
+      (loadUserKeys)="loadUserKeys($event)"
+    ></cs-account-users>`,
 })
 export class AccountUsersContainerComponent {
-  readonly account$ = this.store.select(fromAccounts.getSelectedAccount);
+  readonly account$ = this.store.pipe(select(fromAccounts.getSelectedAccount));
 
-  constructor(
-    private store: Store<State>,
-    private authService: AuthService
-  ) {
-  }
+  constructor(private store: Store<State>, private authService: AuthService) {}
 
   public isAdmin() {
     return this.authService.isAdmin();

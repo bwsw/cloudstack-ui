@@ -6,17 +6,23 @@ import { SecurityGroupListItemComponent } from '../security-group-list-item.comp
 import { VirtualMachine } from '../../../vm';
 import { NgrxEntities } from '../../../shared/interfaces';
 
-
 @Component({
   selector: 'cs-security-group-card-item',
   templateUrl: 'security-group-card-item.component.html',
-  styleUrls: ['security-group-card-item.component.scss']
+  styleUrls: ['security-group-card-item.component.scss'],
 })
 export class SecurityGroupCardItemComponent extends SecurityGroupListItemComponent {
-  @Input() public item: SecurityGroup;
-  @Input() public searchQuery: () => string;
-  @Input() public isSelected: (securityGroup) => boolean;
-  @Input() public vmList: NgrxEntities<VirtualMachine>;
-  @Output() public onClick = new EventEmitter();
-  @ViewChild(MatMenuTrigger) public matMenuTrigger: MatMenuTrigger;
+  @Input()
+  public item: SecurityGroup;
+  @Input()
+  public searchQuery: () => string;
+  @Input()
+  public isSelected: (securityGroup) => boolean;
+  @Input()
+  public vmList: NgrxEntities<VirtualMachine>;
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output()
+  public onClick = new EventEmitter();
+  @ViewChild(MatMenuTrigger)
+  public matMenuTrigger: MatMenuTrigger;
 }

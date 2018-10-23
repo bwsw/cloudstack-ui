@@ -12,10 +12,10 @@
       [selectPlaceholder]="'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.CHOOSE_GROUP'"
       [textFieldPlaceholder]="'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.ENTER_GROUP_NAME'"
       [title]="'VM_PAGE.VM_DETAILS.INSTANCE_GROUP.CHANGE_INSTANCE_GROUP'"
-      (onAssigned)="changeGroup($event)"
-      (onCancel)="onCancel()"
-      (onCreated)="changeGroup($event)"
-      (onRemoved)="removeGroup()"
+      (assigned)="changeGroup($event)"
+      (canceled)="onCancel()"
+      (created)="changeGroup($event)"
+      (removed)="removeGroup()"
     ></cs-create-update-delete-dialog>
   </ng-container>
 </div>

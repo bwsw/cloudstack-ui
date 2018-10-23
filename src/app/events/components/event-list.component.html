@@ -6,16 +6,16 @@
         [okLabel]="'COMMON.OK' | translate"
         [locale]="locale"
         [firstDayOfWeek]="firstDayOfWeek"
-        [DateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
+        [dateTimeFormat]="dateTimeFormatterService.dateTimeFormat"
         [cancelLabel]="'COMMON.CANCEL' | translate"
         [ngModel]="date"
-        (change)="onDateChange.emit($event)"
+        (changed)="dateChange.emit($event)"
       ></cs-date-picker>
       <mat-form-field>
         <mat-select
           class="level-selector"
           [ngModel]="selectedLevels"
-          (selectionChange)="onSelectedLevelsChange.emit($event.value)"
+          (selectionChange)="selectedLevelsChanged.emit($event.value)"
           multiple="true"
           [placeholder]="'EVENT_PAGE.SELECT_LEVELS' | translate"
         >
@@ -30,7 +30,7 @@
       <mat-form-field>
         <mat-select
           [ngModel]="selectedTypes"
-          (selectionChange)="onEventTypesChange.emit($event.value)"
+          (selectionChange)="eventTypesChanged.emit($event.value)"
           multiple="true"
           [placeholder]="'EVENT_PAGE.SELECT_TYPES' | translate"
         >
@@ -47,7 +47,7 @@
           multiple="true"
           [placeholder]="'VM_PAGE.FILTERS.SELECT_ACCOUNTS' | translate"
           [(ngModel)]="selectedAccountIds"
-          (selectionChange)="onAccountChange.emit($event.value)"
+          (selectionChange)="accountChanged.emit($event.value)"
         >
           <mat-option
             *ngFor="let account of accounts"
@@ -58,7 +58,7 @@
       </mat-form-field>
       <cs-search
         [ngModel]="query"
-        (ngModelChange)="onQueryChange.emit($event)"
+        (ngModelChange)="queryChanged.emit($event)"
       ></cs-search>
     </div>
   </cs-top-bar>

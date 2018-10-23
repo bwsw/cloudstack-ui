@@ -10,16 +10,7 @@ import { LoginComponent } from './login.component';
 import { LogoutComponent } from './logout.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    MaterialModule,
-    EffectsModule.forFeature([AuthEffects])
-  ],
-  declarations: [
-    LoginComponent,
-    LogoutComponent
-  ]
+  imports: [CommonModule, SharedModule, MaterialModule, EffectsModule.forFeature([AuthEffects])],
+  declarations: [LoginComponent, LogoutComponent],
 })
-export class AuthModule {
-}
+export class AuthModule {}

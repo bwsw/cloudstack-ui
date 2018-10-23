@@ -1,6 +1,6 @@
-import { BaseModelInterface } from './base.model';
+import { BaseModel } from './base.model';
 
-export interface SSHKeyPair extends BaseModelInterface {
+export interface SSHKeyPair extends BaseModel {
   name: string;
   fingerprint: string;
   privatekey: string;

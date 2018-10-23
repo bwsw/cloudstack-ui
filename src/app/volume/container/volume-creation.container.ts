@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { filter, take } from 'rxjs/operators';
 
 import { State } from '../../reducers/index';
@@ -16,7 +16,6 @@ import { VolumeCreationDialogComponent } from '../volume-creation/volume-creatio
 import { Zone } from '../../shared/models/zone.model';
 import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model';
 
-
 @Component({
   selector: 'cs-volume-creation-container',
   template: `
@@ -25,18 +24,19 @@ import { VolumeCreationData, VolumeType } from '../../shared/models/volume.model
       [diskOfferings]="offerings$ | async"
       [maxSize]="maxSize"
       [zones]="zones$ | async"
-      (onVolumeCreate)="createVolume($event)"
-      (onZoneUpdated)="updateZone($event)"
+      (volumeCreated)="createVolume($event)"
+      (zoneUpdated)="updateZone($event)"
     >
     </cs-volume-creation-dialog>`,
 })
 export class VolumeCreationContainerComponent extends WithUnsubscribe() implements OnInit {
-  @ViewChild(VolumeCreationDialogComponent) public volumeCreationDialogComponent: VolumeCreationDialogComponent;
+  @ViewChild(VolumeCreationDialogComponent)
+  public volumeCreationDialogComponent: VolumeCreationDialogComponent;
 
-  public loading$ = this.store.select(fromVolumes.isLoading);
-  readonly offerings$ = this.store.select(fromDiskOfferings.selectAll);
-  readonly zones$ = this.store.select(fromZones.selectAll);
-  readonly account$ = this.store.select(fromAccounts.selectUserAccount);
+  public loading$ = this.store.pipe(select(fromVolumes.isLoading));
+  readonly offerings$ = this.store.pipe(select(fromDiskOfferings.selectAll));
+  readonly zones$ = this.store.pipe(select(fromZones.selectAll));
+  readonly account$ = this.store.pipe(select(fromAccounts.selectUserAccount));
 
   public maxSize = 2;
 
@@ -49,7 +49,9 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public ngOnInit() {
-    this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }));
+    this.store.dispatch(
+      new diskOfferingActions.LoadOfferingsRequest({ type: VolumeType.DATADISK }),
+    );
   }
 
   public createVolume(data: VolumeCreationData) {
@@ -57,19 +59,23 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
   }
 
   public updateZone(zone: Zone) {
-    this.account$.pipe(
-      take(1),
-      filter(Boolean))
-      .subscribe((account) => {
+    this.account$
+      .pipe(
+        take(1),
+        filter(Boolean),
+      )
+      .subscribe(account => {
         if (account.volumeavailable <= 0 || Number(account.primarystorageavailable) <= 0) {
           this.handleInsufficientResources();
           return;
         }
         this.maxSize = Number(account.primarystorageavailable);
-        this.store.dispatch(new diskOfferingActions.LoadOfferingsRequest({
-          zone: zone,
-          maxSize: this.maxSize
-        }));
+        this.store.dispatch(
+          new diskOfferingActions.LoadOfferingsRequest({
+            zone,
+            maxSize: this.maxSize,
+          }),
+        );
       });
   }
 

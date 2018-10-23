@@ -2,9 +2,12 @@ import { ServiceOffering } from '../../shared/models';
 import { OfferingCompatibilityPolicy, OfferingPolicy } from '../../shared/models/config';
 
 export class VmCompatibilityPolicy {
-  public static getFilter(compatibilityPolicy: OfferingCompatibilityPolicy, currentOffering: ServiceOffering) {
+  public static getFilter(
+    compatibilityPolicy: OfferingCompatibilityPolicy,
+    currentOffering: ServiceOffering,
+  ) {
     const filter = (offering: ServiceOffering) => {
-        if (!compatibilityPolicy) {
+      if (!compatibilityPolicy) {
         return true;
       }
       const oldTags = currentOffering.hosttags ? currentOffering.hosttags.split(',') : [];
@@ -16,14 +19,16 @@ export class VmCompatibilityPolicy {
   }
 
   private static matchHostTags(
-    oldTags: Array<string>,
-    newTags: Array<string>,
-    compatibilityPolicy: OfferingCompatibilityPolicy
+    oldTags: string[],
+    newTags: string[],
+    compatibilityPolicy: OfferingCompatibilityPolicy,
   ) {
     const ignoreTags = compatibilityPolicy.offeringChangePolicyIgnoreTags;
     if (ignoreTags) {
+      // tslint:disable:no-parameter-reassignment
       oldTags = this.filterTags(oldTags, ignoreTags);
       newTags = this.filterTags(newTags, ignoreTags);
+      // tslint:enable:no-parameter-reassignment
     }
     switch (compatibilityPolicy.offeringChangePolicy) {
       case OfferingPolicy.CONTAINS_ALL: {
@@ -41,9 +46,9 @@ export class VmCompatibilityPolicy {
 
   private static filterTags(tags, ignoreTags) {
     return tags.filter(t => ignoreTags.indexOf(t) === -1);
-  };
+  }
 
-  private static includeTags(oldTags: Array<string>, newTags: Array<string>) {
+  private static includeTags(oldTags: string[], newTags: string[]) {
     return !oldTags.find(tag => newTags.indexOf(tag) === -1);
-  };
+  }
 }

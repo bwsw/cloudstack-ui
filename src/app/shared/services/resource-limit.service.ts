@@ -7,10 +7,9 @@ import { BackendResource } from '../decorators/backend-resource.decorator';
 import { ResourceLimit } from '../models/resource-limit.model';
 import { CSCommands } from './base-backend.service';
 
-
 @Injectable()
 @BackendResource({
-  entity: 'ResourceLimit'
+  entity: 'ResourceLimit',
 })
 export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit> {
   constructor(protected http: HttpClient) {
@@ -23,7 +22,7 @@ export class ResourceLimitService extends BaseBackendCachedService<ResourceLimit
       resourceType: resourceLimit.resourcetype,
       max: resourceLimit.max,
       domainid: resourceLimit.domainid,
-      account: resourceLimit.account
+      account: resourceLimit.account,
     });
   }
 }

@@ -1,7 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { Snapshot } from '../../../app/shared/models/snapshot.model';
 
-
 export class MockSnapshotTagService {
   public getDescription(snapshot: Snapshot): Observable<string> {
     return of('');

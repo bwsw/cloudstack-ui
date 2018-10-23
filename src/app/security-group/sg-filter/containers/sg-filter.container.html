@@ -3,6 +3,6 @@
   [accounts]="accounts$ | async"
   (queryChange)="onQueryChange($event)"
   (viewModeChange)="onViewModeChange($event)"
-  (onAccountsChange)="onAccountsChange($event)"
-  (onOrphanChange)="onOrphanChange($event)"
+  (accountsChanged)="onAccountsChange($event)"
+  (orphanChanged)="onOrphanChange($event)"
 ></cs-sg-filter>

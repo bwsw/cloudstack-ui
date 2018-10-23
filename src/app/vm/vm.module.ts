@@ -198,13 +198,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     InstallationSourceDialogComponent,
     VmPasswordComponent,
   ],
-  providers: [
-    VmActionsService,
-    VmService,
-    SshAccessService,
-    HttpAccessService,
-    VncAccessService
-  ],
+  providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
     AffinityGroupSelectorComponent,
     InstanceGroupSelectorComponent,
@@ -221,8 +215,7 @@ import { HttpAccessService, SshAccessService, VncAccessService } from './service
     PostdeploymentComponent,
     VmPasswordDialogComponent,
     VmAccessComponent,
-    ServiceOfferingDialogContainerComponent
-  ]
+    ServiceOfferingDialogContainerComponent,
+  ],
 })
-export class VmModule {
-}
+export class VmModule {}

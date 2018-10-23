@@ -1,0 +1,18 @@
+<div>
+  <cs-menu-header [username]="username" (buttonClicked)="onMenuButtonClicked()"></cs-menu-header>
+
+  <div class="nav-routes">
+    <ng-container *ngFor="let route of subroutes">
+      <a [routerLink]="route.path" class="nav-link" routerLinkActive="link-active">
+        <mat-icon [ngClass]="route.icon"></mat-icon>
+        {{ route.text | translate }}
+      </a>
+    </ng-container>
+    <a class="nav-link" routerLink="/logout">
+      <mat-icon class="mdi-exit-to-app"></mat-icon>
+      {{ 'NAVIGATION_SIDEBAR.LOGOUT' | translate }}
+    </a>
+  </div>
+</div>
+
+<cs-license></cs-license>

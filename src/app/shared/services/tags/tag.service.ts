@@ -8,47 +8,39 @@ import { Tag } from '../../models';
 import { AsyncJobService } from '../async-job.service';
 import { BaseBackendService } from '../base-backend.service';
 
-
 @Injectable()
 @BackendResource({
-  entity: 'Tag'
+  entity: 'Tag',
 })
 export class TagService extends BaseBackendService<Tag> {
-  constructor(
-    private asyncJob: AsyncJobService,
-    protected http: HttpClient
-  ) {
+  constructor(private asyncJob: AsyncJobService, protected http: HttpClient) {
     super(http);
   }
 
   public create(params?: {}): Observable<any> {
-    return super.create(params).pipe(
-      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)));
+    return super
+      .create(params)
+      .pipe(switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid, this.entity)));
   }
 
   public remove(params?: {}): Observable<any> {
     return super.remove(params).pipe(
-      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid)),
-      catchError(() => of(null)));
+      switchMap(tagJob => this.asyncJob.queryJob(tagJob.jobid, this.entity)),
+      catchError(() => of(null)),
+    );
   }
 
-  public getList(params?: {}): Observable<Array<Tag>> {
+  public getList(params?: {}): Observable<Tag[]> {
     const customApiFormat = { command: 'list', entity: 'Tag' };
     return super.getList(params, customApiFormat);
   }
 
   public getTag(entity: any, key: string): Observable<Tag> {
-    return this.getList({ resourceid: entity.id, key }).pipe(
-      map(tags => tags[0]));
+    return this.getList({ key, resourceid: entity.id }).pipe(map(tags => tags[0]));
   }
 
-  public update<T extends any>( // todo: should be T extends Taggable
-    entity: T,
-    entityName: string,
-    key: string,
-    value: any
-  ): Observable<T> {
-    const newEntity = Object.assign({}, entity);
+  public update(entity: any, entityName: string, key: string, value: any): Observable<any> {
+    const newEntity = { ...entity };
 
     const createObs = this.create({
       resourceIds: newEntity.id,
@@ -59,20 +51,17 @@ export class TagService extends BaseBackendService<Tag> {
       map(() => {
         if (newEntity.tags) {
           const newTags: Tag[] = [...newEntity.tags];
-          newTags.push(<Tag>{
+          newTags.push({
+            key,
+            value,
             resourceid: newEntity.id,
             resourcetype: entityName,
-            key,
-            value
-          });
-          return Object.assign(
-            {},
-            newEntity,
-            { tags: newTags }
-          );
+          } as Tag);
+          return { ...newEntity, tags: newTags };
         }
         return newEntity;
-      }));
+      }),
+    );
 
     return this.getTag(newEntity, key).pipe(
       switchMap(tag => {
@@ -80,12 +69,14 @@ export class TagService extends BaseBackendService<Tag> {
           resourceIds: newEntity.id,
           resourceType: entityName,
           'tags[0].key': key,
-          'tags[0].value': tag.value || ''
+          'tags[0].value': tag.value || '',
         }).pipe(
-          map(() => newEntity.tags = newEntity.tags.filter(t => tag.key !== t.key)),
-          switchMap(() => createObs));
+          map(() => (newEntity.tags = newEntity.tags.filter(t => tag.key !== t.key))),
+          switchMap(() => createObs),
+        );
       }),
-      catchError(() => createObs));
+      catchError(() => createObs),
+    );
   }
 
   public getValueFromTag(tag: Tag): any {

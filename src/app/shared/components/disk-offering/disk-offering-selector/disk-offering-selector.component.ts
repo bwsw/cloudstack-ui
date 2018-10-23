@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -12,14 +12,18 @@ import { DiskOfferingDialogComponent } from '../disk-offering-dialog/disk-offeri
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DiskOfferingSelectorComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DiskOfferingSelectorComponent implements ControlValueAccessor {
-  @Input() public diskOfferings: Array<DiskOffering>;
-  @Input() public required: boolean;
-  @Output() public change: EventEmitter<DiskOffering>;
+  @Input()
+  public diskOfferings: DiskOffering[];
+  @Input()
+  public required: boolean;
+  @Output()
+  public changed: EventEmitter<DiskOffering>;
+  // tslint:disable-next-line:variable-name
   private _diskOffering: DiskOffering;
 
   @Input()
@@ -34,21 +38,17 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
     }
   }
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private dialog: MatDialog) {
-    this.change = new EventEmitter();
+  constructor(private dialog: MatDialog) {
+    this.changed = new EventEmitter();
   }
 
   public registerOnChange(fn): void {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   public writeValue(diskOffering: DiskOffering): void {
     if (diskOffering) {
@@ -57,18 +57,19 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor {
   }
 
   public changeOffering(): void {
-    this.dialog.open(DiskOfferingDialogComponent, {
-      width: '750px',
-      data: {
-        diskOfferings: this.diskOfferings,
-        diskOffering: this._diskOffering,
-      }
-    })
+    this.dialog
+      .open(DiskOfferingDialogComponent, {
+        width: '750px',
+        data: {
+          diskOfferings: this.diskOfferings,
+          diskOffering: this._diskOffering,
+        },
+      })
       .afterClosed()
       .subscribe((offering: DiskOffering) => {
         if (offering) {
           this.diskOffering = offering;
-          this.change.next(offering);
+          this.changed.next(offering);
         }
       });
   }

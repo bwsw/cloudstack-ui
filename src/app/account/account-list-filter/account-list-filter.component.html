@@ -4,7 +4,7 @@
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_DOMAINS' | translate"
       [ngModel]="selectedDomainIds"
-      (selectionChange)="onDomainsChange.emit($event.value)"
+      (selectionChange)="domainsChanged.emit($event.value)"
     >
       <mat-option *ngFor="let domain of domains" [value]="domain.id">{{ domain.name }}
       </mat-option>
@@ -15,7 +15,7 @@
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLES' | translate"
       [ngModel]="selectedRoleNames"
-      (selectionChange)="onRolesChange.emit($event.value)"
+      (selectionChange)="rolesChanged.emit($event.value)"
     >
       <mat-option *ngFor="let role of roles" [value]="role.name">{{ role.name }}
       </mat-option>
@@ -26,7 +26,7 @@
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_ROLE_TYPES' | translate"
       [ngModel]="selectedRoleTypes"
-      (selectionChange)="onRoleTypesChange.emit($event.value)"
+      (selectionChange)="roleTypesChanged.emit($event.value)"
     >
       <mat-option *ngFor="let roleType of roleTypes" [value]="roleType">{{ roleType }}
       </mat-option>
@@ -37,7 +37,7 @@
       multiple="true"
       [placeholder]="'ACCOUNT_PAGE.FILTERS.SELECT_STATES' | translate"
       [ngModel]="selectedStates"
-      (selectionChange)="onStatesChange.emit($event.value)"
+      (selectionChange)="statesChanged.emit($event.value)"
     >
       <mat-option *ngFor="let state of states" [value]="state">{{
         stateTranslationToken(state) | translate }}
@@ -50,7 +50,7 @@
       [placeholder]="'ACCOUNT_PAGE.FILTERS.GROUP_BY' | translate"
       [ngModel]="selectedGroupings"
       [dragItems]="groupings"
-      (ngModelChange)="onGroupingsChange.emit($event)"
+      (ngModelChange)="groupingsChanged.emit($event)"
     >
       <mat-option *ngFor="let g of groupings" [value]="g">
         {{ g.label | translate }}

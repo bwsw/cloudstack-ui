@@ -1,3 +1,3 @@
-export const VolumeTagKeys = {
+export const volumeTagKeys = {
   description: 'csui.volume.description',
 };

@@ -1,7 +1,7 @@
 export interface IcmpType {
-  type: number,
-  codes: number[],
-  text?: string
+  type: number;
+  codes: number[];
+  text?: string;
 }
 
 // CloudStack docs:
@@ -70,21 +70,21 @@ export const icmpV6Types: IcmpType[] = [
   { type: 161, codes: [0, 1, 2, 3, 4] },
   { type: 200, codes: [0] },
   { type: 201, codes: [0] },
-  { type: 255, codes: [0] }
+  { type: 255, codes: [0] },
 ];
 
-export const GetICMPTypeTranslationToken = (type: number) => {
+export const getICMPTypeTranslationToken = (type: number) => {
   return `SECURITY_GROUP_PAGE.ICMP_TYPES.${type}.description`;
 };
 
-export const GetICMPCodeTranslationToken = (type: number, code: number) => {
+export const getICMPCodeTranslationToken = (type: number, code: number) => {
   return `SECURITY_GROUP_PAGE.ICMP_TYPES.${type}.codes.${code}`;
 };
 
-export const GetICMPV6TypeTranslationToken = (type: number) => {
+export const getICMPV6TypeTranslationToken = (type: number) => {
   return `SECURITY_GROUP_PAGE.ICMP_V6_TYPES.${type}.description`;
 };
 
-export const GetICMPV6CodeTranslationToken = (type: number, code: number) => {
+export const getICMPV6CodeTranslationToken = (type: number, code: number) => {
   return `SECURITY_GROUP_PAGE.ICMP_V6_TYPES.${type}.codes.${code}`;
 };

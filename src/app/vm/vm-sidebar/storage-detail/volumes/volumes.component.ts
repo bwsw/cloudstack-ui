@@ -1,13 +1,11 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Volume } from '../../../../shared';
 
 @Component({
   selector: 'cs-volumes',
-  templateUrl: 'volumes.component.html'
+  templateUrl: 'volumes.component.html',
 })
 export class VolumesComponent {
-  @Input() public volumes: Array<Volume>;
+  @Input()
+  public volumes: Volume[];
 }
