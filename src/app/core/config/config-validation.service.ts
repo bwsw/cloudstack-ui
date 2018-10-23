@@ -56,8 +56,10 @@ export class ConfigValidationService {
   private readonly schemeValidator: AjvCore.Ajv;
   private readonly schemeMap: ValidationScheme = {
     defaultDomain: validationSchemes.defaultDomain,
+    apiDocLink: validationSchemes.apiDocLink,
     sessionRefreshInterval: validationSchemes.sessionRefreshInterval,
     extensions: validationSchemes.extensions,
+    vmColors: validationSchemes.vmColors,
     defaultFirstDayOfWeek: validationSchemes.defaultFirstDayOfWeek,
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
@@ -69,6 +71,8 @@ export class ConfigValidationService {
     imageGroups: validationSchemes.imageGroups,
     computeOfferingClasses: validationSchemes.computeOfferingClasses,
     defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName,
+    offeringCompatibilityPolicy: validationSchemes.offeringCompatibilityPolicy,
+    securityGroupTemplates: validationSchemes.securityGroupTemplates,
   };
 
   constructor() {
@@ -112,11 +116,6 @@ export class ConfigValidationService {
 
   private isValidValue(key: string, value: any) {
     const scheme = this.schemeMap[key];
-
-    // Condition needed until all schemes not implemented
-    if (!scheme) {
-      return true;
-    }
     return this.schemeValidator.validate(scheme, value);
   }
 
