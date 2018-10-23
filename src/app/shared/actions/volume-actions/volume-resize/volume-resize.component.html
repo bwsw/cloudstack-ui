@@ -18,6 +18,7 @@
         [storageAvailable]="storageAvailable"
         [diskOfferings]="diskOfferings"
         [diskOffering]="diskOffering"
+        (changeSize)="updateSize($event)"
         (change)="updateDiskOffering($event)"
       ></cs-disk-offering-selector>
     </div>

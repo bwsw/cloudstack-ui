@@ -35,7 +35,8 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   @Input() public min: number;
   @Input() public newSize: number;
   @Input() public storageAvailable: string;
-  @Output() public change: EventEmitter<DiskOffering>;
+  @Output() public change = new EventEmitter();
+  @Output() public changeSize = new EventEmitter<number>();
   public max: number;
   private _diskOffering: DiskOffering;
 
@@ -56,8 +57,7 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
     private dialog: MatDialog,
     private authService: AuthService
   ) {
-      this.change = new EventEmitter();
-      this.setMaxSizeValue()
+    this.setMaxSizeValue()
   }
 
   public ngOnChanges(changes: SimpleChanges) {

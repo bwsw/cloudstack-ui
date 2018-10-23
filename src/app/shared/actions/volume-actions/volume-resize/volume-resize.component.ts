@@ -63,6 +63,10 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
     return (this.diskOfferings && this.diskOfferings.length > 0) || isRoot(this.volume);
   }
 
+  public updateSize(value: number): void {
+    this.newSize = value;
+  }
+
   public updateDiskOffering(value: DiskOffering): void {
     this.diskOffering = value;
   }
