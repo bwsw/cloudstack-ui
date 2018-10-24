@@ -73,13 +73,10 @@ Please, note that a virtual machine is created with a root disk so you do not ne
 To create a new VM click the "Create" button |create icon| at the bottom-right corner. 
 
 .. figure:: _static/VMs_Create4.png
-
    
 The *New virtual machine* form contains two tabs: *General* and *Advanced*. 
 
 In the *General* tab the following fields should be filled in:
-
-.. note:: Required fields are marked with an asterisk (*).
 
 .. note:: Required fields are marked with an asterisk (*).
 
@@ -194,7 +191,7 @@ If the selected disk offering has a custom disk size (it is set by Administrator
 
 .. figure:: _static/VMs_Create_DO_ChangeSize2.png
 
-.. The system checks the amount of available account resources. In case a selected disk offering does not fit the amount of available account resources, a warning message appears saying the offering cannot be selected. 
+.. note:: The system checks the amount of available account resources. In case a selected disk offering does not fit the amount of available account resources, a warning message appears saying the offering cannot be selected. 
 
 Find more about disk offerings in the `official documentation <http://docs.cloudstack.apache.org/en/4.11.1.0/adminguide/service_offerings.html?highlight=disk%20offerings#compute-and-disk-service-offerings>`_.
 
