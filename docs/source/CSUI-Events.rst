@@ -4,7 +4,7 @@ Activity log
 -----------------
 .. Contents::
 
-In the *Activity log* section you can see user activity in the account. Event search by main parameters - date and keywords - is supported to make it easier to find a necessary event for a specific date or type. 
+In the *Accounts*-*Activity log* section you can see user activity in the account. Event search by main parameters - date and keywords - is supported to make it easier to find a necessary event for a specific date or type. 
 
 Events List
 ~~~~~~~~~~~~~~~~
@@ -12,7 +12,7 @@ Events in the Activity log are listed in a chronological order from the latest t
 
 A user can view activities for his/her user only. An Administrator can see events for all accounts in the domain. 
 
-.. figure:: _static/Events_List.png
+.. figure:: _static/Events_List1.png
 
 The following information for each event is presented in the list:
 
