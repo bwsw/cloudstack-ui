@@ -1,6 +1,6 @@
 .. _Log_View:
 
-View Logs
+View logs
 =============
 
 .. warning:: The section is under development!
