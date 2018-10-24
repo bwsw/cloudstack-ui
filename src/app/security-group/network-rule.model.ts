@@ -1,7 +1,7 @@
 export enum NetworkProtocol {
   TCP = 'tcp',
   UDP = 'udp',
-  ICMP = 'icmp'
+  ICMP = 'icmp',
 }
 
 interface NetworkRuleBase {
@@ -22,4 +22,3 @@ export interface PortNetworkRule extends NetworkRuleBase {
 }
 
 export type NetworkRule = IcmpNetworkRule | PortNetworkRule;
-

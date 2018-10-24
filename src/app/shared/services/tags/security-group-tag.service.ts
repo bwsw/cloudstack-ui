@@ -2,27 +2,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SecurityGroup, SecurityGroupNative, SecurityGroupType } from '../../../security-group/sg.model';
+import { SecurityGroupNative, SecurityGroupType } from '../../../security-group/sg.model';
 import { TagService } from './tag.service';
 import { EntityTagService } from './entity-tag-service.interface';
-import { SecurityGroupTagKeys } from './security-group-tag-keys';
+import { securityGroupTagKeys } from './security-group-tag-keys';
 
 @Injectable()
 export class SecurityGroupTagService implements EntityTagService {
-  public keys = SecurityGroupTagKeys;
+  public keys = securityGroupTagKeys;
   private readonly resourceType = 'SecurityGroup';
 
-  constructor(
-    protected tagService: TagService
-  ) {
-  }
+  constructor(protected tagService: TagService) {}
 
   public markAsTemplate(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
     return this.tagService.update(
       securityGroup,
       this.resourceType,
       this.keys.type,
-      SecurityGroupType.CustomTemplate
+      SecurityGroupType.CustomTemplate,
     );
   }
 
@@ -31,23 +28,25 @@ export class SecurityGroupTagService implements EntityTagService {
       securityGroup,
       this.resourceType,
       this.keys.type,
-      SecurityGroupType.Private
+      SecurityGroupType.Private,
     );
   }
 
   public convertToShared(securityGroup: SecurityGroupNative): Observable<SecurityGroupNative> {
-    return this.tagService.remove({
-      resourceIds: securityGroup.id,
-      resourceType: this.resourceType,
-      'tags[0].key': this.keys.type
-    }).pipe(
-      map(() => {
-        const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);
-        return {
-          ...securityGroup,
-          tags: filteredTags,
-        };
+    return this.tagService
+      .remove({
+        resourceIds: securityGroup.id,
+        resourceType: this.resourceType,
+        'tags[0].key': this.keys.type,
       })
-    );
+      .pipe(
+        map(() => {
+          const filteredTags = securityGroup.tags.filter(_ => this.keys.type !== _.key);
+          return {
+            ...securityGroup,
+            tags: filteredTags,
+          };
+        }),
+      );
   }
 }

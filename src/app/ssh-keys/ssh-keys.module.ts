@@ -52,12 +52,8 @@ import { SshKeysPageComponent } from './ssh-keys-page/ssh-keys-page.component';
     SshPrivateKeyDialogComponent,
     SshKeySidebarComponent,
     SshKeyFingerprintComponent,
-    ShhKeyFilterComponent
+    ShhKeyFilterComponent,
   ],
-  entryComponents: [
-    SShKeyCreationDialogContainerComponent,
-    SshPrivateKeyDialogComponent
-  ]
+  entryComponents: [SShKeyCreationDialogContainerComponent, SshPrivateKeyDialogComponent],
 })
-export class SshKeysModule {
-}
+export class SshKeysModule {}

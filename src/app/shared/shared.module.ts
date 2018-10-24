@@ -44,6 +44,7 @@ import {
   FabComponent,
   FancySelectComponent,
   InputGroupComponent,
+  KeyboardsComponent,
   ListComponent,
   NoResultsComponent,
   NotificationBoxComponent,
@@ -53,7 +54,7 @@ import {
   SliderComponent,
   TopBarComponent,
   VmStatisticsComponent,
-  KeyboardsComponent
+  KeyboardsComponent,
 } from './components';
 import { CharacterCountComponent } from './components/character-count-textfield/character-count.component';
 import { CreateUpdateDeleteDialogComponent } from './components/create-update-delete-dialog/create-update-delete-dialog.component';
@@ -87,7 +88,7 @@ import {
   StringifyTimePipe,
   ViewValuePipe,
   VolumeSortPipe,
-  AffinityGroupTypePipe
+  AffinityGroupTypePipe,
 } from './pipes';
 import { AccountService } from './services/account.service';
 import { AffinityGroupService } from './services/affinity-group.service';
@@ -133,19 +134,17 @@ import { DiskOfferingDialogComponent } from './components/disk-offering/disk-off
 import { BadgeDirective } from './directives/badge/badge.directive';
 import { MaterialModule } from '../material/material.module';
 import { InputTypeNumberDirective } from './directives/input-type-number.directive';
-import { RoundStateIndicatorComponent, SquareStateIndicatorComponent } from './components/state-indicator';
+import {
+  RoundStateIndicatorComponent,
+  SquareStateIndicatorComponent,
+} from './components/state-indicator';
 import { UrlDirective } from './validators/directives';
 
 // tslint:enable max-line-length
 
-const SHARED_DIRECTIVES = [
-  UrlDirective,
-  InputTypeNumberDirective
-];
+const SHARED_DIRECTIVES = [UrlDirective, InputTypeNumberDirective];
 
-const SHARED_COMPONENTS = [
-  ClipboardButtonComponent
-];
+const SHARED_COMPONENTS = [ClipboardButtonComponent];
 
 @NgModule({
   imports: [
@@ -226,7 +225,7 @@ const SHARED_COMPONENTS = [
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
-    KeyboardsComponent
+    KeyboardsComponent,
   ],
   entryComponents: [
     DatePickerDialogComponent,
@@ -236,7 +235,7 @@ const SHARED_COMPONENTS = [
     VolumeResizeComponent,
     VolumeDeleteDialogComponent,
     SecurityGroupBuilderComponent,
-    DiskOfferingDialogComponent
+    DiskOfferingDialogComponent,
   ],
   declarations: [
     AccountActionsComponent,
@@ -315,7 +314,7 @@ const SHARED_COMPONENTS = [
     SHARED_COMPONENTS,
     RoundStateIndicatorComponent,
     SquareStateIndicatorComponent,
-    KeyboardsComponent
+    KeyboardsComponent,
   ],
   providers: [
     AccountService,
@@ -364,8 +363,7 @@ const SHARED_COMPONENTS = [
     ZoneService,
     HypervisorService,
     TimeZoneService,
-    AccountUserActionsService
-  ]
+    AccountUserActionsService,
+  ],
 })
-export class SharedModule {
-}
+export class SharedModule {}

@@ -2,7 +2,6 @@ import { Observable, of } from 'rxjs';
 
 import { Volume } from '../../../app/shared/models/volume.model';
 
-
 export class MockVolumeTagService {
   public getDescription(volume: Volume): Observable<string> {
     return of('');

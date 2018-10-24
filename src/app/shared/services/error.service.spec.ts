@@ -5,16 +5,14 @@ import { ErrorService } from './error.service';
 describe('Error service', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [
-        ErrorService
-      ],
+      providers: [ErrorService],
     });
   }));
 
   it('should create error translation', () => {
     const error = {
       errorcode: 430,
-      errortext: 'Going from existing size of 434 to size of 23 would shrink the volume.'
+      errortext: 'Going from existing size of 434 to size of 23 would shrink the volume.',
     };
 
     const parsedError = ErrorService.parseError(error);
@@ -25,7 +23,7 @@ describe('Error service', () => {
   it('should create error params', () => {
     const error = {
       errorcode: 430,
-      errortext: 'The vm with hostName test already exists in the network domain'
+      errortext: 'The vm with hostName test already exists in the network domain',
     };
 
     const parsedError = ErrorService.parseError(error);
@@ -38,7 +36,7 @@ describe('Error service', () => {
   it('should fallback to the errortext if no translation is set', () => {
     const error = {
       errorcode: 430,
-      errortext: 'Unknown error text'
+      errortext: 'Unknown error text',
     };
 
     const parsedError = ErrorService.parseError(error);

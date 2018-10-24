@@ -71,7 +71,7 @@ import { AccountCreationComponent } from './creation-form/account-creation.compo
       RolesEffects,
       ConfigurationEffects,
       ResourceLimitsEffects,
-      ResourceCountsEffects
+      ResourceCountsEffects,
     ]),
   ],
   declarations: [
@@ -101,17 +101,14 @@ import { AccountCreationComponent } from './creation-form/account-creation.compo
     AccountUserEditComponent,
     AccountUserEditContainerComponent,
     AccountUserPasswordFormComponent,
-    AccountUserPasswordFormContainerComponent
+    AccountUserPasswordFormContainerComponent,
   ],
   entryComponents: [
     EditAccountConfigurationComponent,
     AccountCreationContainerComponent,
     AccountUserEditContainerComponent,
-    AccountUserPasswordFormContainerComponent
+    AccountUserPasswordFormContainerComponent,
   ],
-  exports: [
-    AccountPageComponent
-  ]
+  exports: [AccountPageComponent],
 })
-export class AccountModule {
-}
+export class AccountModule {}

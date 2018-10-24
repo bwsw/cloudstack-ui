@@ -7,20 +7,15 @@ import { ApiFormat, BaseBackendService } from './base-backend.service';
 import { Cache } from './cache';
 import { CacheService } from './cache.service';
 
-
 export abstract class BaseBackendCachedService<M extends BaseModel> extends BaseBackendService<M> {
-  private cache: Cache<Array<M>>;
+  private cache: Cache<M[]>;
 
   constructor(http: HttpClient) {
     super(http);
     this.initDataCache();
   }
 
-  public getList(
-    params?: {},
-    customApiFormat?: ApiFormat,
-    useCache = true
-  ): Observable<Array<M>> {
+  public getList(params?: {}, customApiFormat?: ApiFormat, useCache = true): Observable<M[]> {
     if (useCache) {
       const cachedResult = this.cache.get(params);
       if (cachedResult) {
@@ -31,7 +26,8 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
       map(result => {
         this.cache.set({ params, result });
         return result;
-      }));
+      }),
+    );
   }
 
   public create(params?: {}): Observable<any> {
@@ -39,8 +35,7 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
   }
 
   public remove(params?: {}): Observable<any> {
-    return super.remove(params).pipe(
-      tap(() => this.invalidateCache()));
+    return super.remove(params).pipe(tap(() => this.invalidateCache()));
   }
 
   public invalidateCache(): void {
@@ -49,6 +44,6 @@ export abstract class BaseBackendCachedService<M extends BaseModel> extends Base
 
   private initDataCache(): void {
     const cacheTag = `${this.entity}DataCache`;
-    this.cache = CacheService.create<Array<M>>(cacheTag);
+    this.cache = CacheService.create<M[]>(cacheTag);
   }
 }

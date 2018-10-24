@@ -1,4 +1,3 @@
-// console.log all actions
 import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
@@ -6,10 +5,13 @@ import { State } from './state';
 import { environment } from '../../environments/environment';
 import { AuthActionTypes } from '../auth/store/auth.actions';
 
+// console.log all actions
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
-  return function (state: State, action: any): State {
+  return function(state: State, action: any): State {
+    // tslint:disable:no-console
     console.log('state', state);
     console.log('action', action);
+    // tslint:enable:no-console
 
     return reducer(state, action);
   };
@@ -17,16 +19,17 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 
 // clear store if user logs out
 export function logout(reducer: ActionReducer<State>) {
-  return function (state: State, action: any): State {
+  return function(state: State, action: any): State {
     if (action.type === AuthActionTypes.LogoutComplete) {
       // Keep config state because it common for all users
       const configState = state['config'];
+      // tslint:disable-next-line:no-parameter-reassignment
       state = {} as State;
       state['config'] = configState;
     }
 
     return reducer(state, action);
-  }
+  };
 }
 
 // used by hmr to keep state between reloads

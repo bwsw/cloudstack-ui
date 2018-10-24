@@ -1,12 +1,5 @@
-import {
-  createFeatureSelector,
-  createSelector
-} from '@ngrx/store';
-import {
-  createEntityAdapter,
-  EntityAdapter,
-  EntityState
-} from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import * as event from './resource-counts.actions';
 import { ResourceCount } from '../../../shared/models/resource-count.model';
 
@@ -18,7 +11,7 @@ import { ResourceCount } from '../../../shared/models/resource-count.model';
  * any additional interface properties.
  */
 export interface State extends EntityState<ResourceCount> {
-  loading: boolean
+  loading: boolean;
 }
 
 export interface ResourceCountsState {
@@ -39,7 +32,7 @@ export const resourceCountsReducers = {
  */
 export const adapter: EntityAdapter<ResourceCount> = createEntityAdapter<ResourceCount>({
   selectId: (item: ResourceCount) => item.resourcetype.toString(),
-  sortComparer: false
+  sortComparer: false,
 });
 
 /** getInitialState returns the default initial state
@@ -47,22 +40,18 @@ export const adapter: EntityAdapter<ResourceCount> = createEntityAdapter<Resourc
  * additional properties can also be defined.
  */
 export const initialState: State = adapter.getInitialState({
-  loading: false
+  loading: false,
 });
 
-export function reducer(
-  state = initialState,
-  action: event.Actions
-): State {
+export function reducer(state = initialState, action: event.Actions): State {
   switch (action.type) {
     case event.LOAD_RESOURCE_COUNTS_REQUEST: {
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     }
     case event.LOAD_RESOURCE_COUNTS_RESPONSE: {
-
       const resourceCounts = action.payload;
 
       return {
@@ -74,10 +63,9 @@ export function reducer(
          * sort each record upon entry into the sorted array.
          */
         ...adapter.addAll(resourceCounts, state),
-        loading: false
+        loading: false,
       };
     }
-
 
     default: {
       return state;
@@ -85,24 +73,15 @@ export function reducer(
   }
 }
 
-
 export const getResourceCountsState = createFeatureSelector<ResourceCountsState>('resourceCounts');
 
 export const getResourceCountsEntitiesState = createSelector(
   getResourceCountsState,
-  state => state.list
+  state => state.list,
 );
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = adapter.getSelectors(getResourceCountsEntitiesState);
-
-export const isLoading = createSelector(
+export const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors(
   getResourceCountsEntitiesState,
-  state => state.loading
 );
 
-
+export const isLoading = createSelector(getResourceCountsEntitiesState, state => state.loading);

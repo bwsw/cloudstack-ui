@@ -16,73 +16,64 @@ export const SSH_KEY_PAIR_CREATE_ERROR = '[SshKeys] SSH_KEY_PAIR_CREATE_ERROR';
 export class LoadSshKeyRequest implements Action {
   readonly type = LOAD_SSH_KEYS_REQUEST;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class LoadSshKeyResponse implements Action {
   readonly type = LOAD_SSH_KEYS_RESPONSE;
 
-  constructor(public payload: SSHKeyPair[]) {
-  }
+  constructor(public payload: SSHKeyPair[]) {}
 }
 
 export class SshKeyFilterUpdate implements Action {
   readonly type = SSH_KEY_FILTER_UPDATE;
 
-  constructor(public payload: {
-    selectedGroupings?: Grouping[],
-    selectedAccountIds?: string[]
-  }) {
-  }
+  constructor(
+    public payload: {
+      selectedGroupings?: Grouping[];
+      selectedAccountIds?: string[];
+    },
+  ) {}
 }
 
 export class RemoveSshKeyPair implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE;
 
-  constructor(public payload: SSHKeyPair) {
-  }
+  constructor(public payload: SSHKeyPair) {}
 }
 
 export class RemoveSshKeyPairSuccessAction implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE_SUCCESS;
 
-  constructor(public payload: SSHKeyPair) {
-  }
+  constructor(public payload: SSHKeyPair) {}
 }
-
 
 export class RemoveSshKeyPairErrorAction implements Action {
   readonly type = SSH_KEY_PAIR_REMOVE_ERROR;
 
-  constructor(public payload?: Error) {
-  }
+  constructor(public payload?: Error) {}
 }
 
 export class CreateSshKeyPair implements Action {
   readonly type = SSH_KEY_PAIR_CREATE;
 
-  constructor(public payload: SshKeyCreationData) {
-  }
+  constructor(public payload: SshKeyCreationData) {}
 }
 
 export class CreateSshKeyPairSuccessAction implements Action {
   readonly type = SSH_KEY_PAIR_CREATE_SUCCESS;
 
-  constructor(public payload: SSHKeyPair) {
-  }
+  constructor(public payload: SSHKeyPair) {}
 }
 
 export class CreateSshKeyPairErrorAction implements Action {
   readonly type = SSH_KEY_PAIR_CREATE_ERROR;
 
-  constructor(public payload: Error) {
-  }
+  constructor(public payload: Error) {}
 }
 
-
 export type Actions =
-  LoadSshKeyRequest
+  | LoadSshKeyRequest
   | LoadSshKeyResponse
   | SshKeyFilterUpdate
   | RemoveSshKeyPair

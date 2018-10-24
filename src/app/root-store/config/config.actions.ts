@@ -15,18 +15,13 @@ export class LoadConfig implements Action {
 export class LoadConfigSuccess implements Action {
   readonly type = ConfigActionTypes.LoadConfigSuccess;
 
-  constructor(readonly payload: { config: Config }) {
-  }
+  constructor(readonly payload: { config: Config }) {}
 }
 
 export class LoadConfigError implements Action {
   readonly type = ConfigActionTypes.LoadConfigError;
 
-  constructor(readonly payload: { error: Error }) {
-  }
+  constructor(readonly payload: { error: Error }) {}
 }
 
-export type ConfigActionsUnion =
-  | LoadConfig
-  | LoadConfigSuccess
-  | LoadConfigError;
+export type ConfigActionsUnion = LoadConfig | LoadConfigSuccess | LoadConfigError;

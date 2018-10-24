@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import { AsyncJob, mapCmd } from './async-job.model';
 
-
 describe('AsyncJob model', () => {
   class TestModel {
     public id: string;
@@ -16,7 +15,7 @@ describe('AsyncJob model', () => {
     jobresult: testModel,
     jobresulttype: '',
     jobresultcode: 3,
-    jobinstancetype: ''
+    jobinstancetype: '',
   } as AsyncJob<TestModel>;
 
   it('should return result if cmd is undefined', () => {

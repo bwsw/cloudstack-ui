@@ -9,12 +9,12 @@ import { DateTimeFormatterService } from '../shared/services/date-time-formatter
 
 @Injectable()
 @BackendResource({
-  entity: 'Event'
+  entity: 'Event',
 })
 export class EventService extends BaseBackendService<Event> {
   constructor(
     protected http: HttpClient,
-    private dateTimeFormatterService: DateTimeFormatterService
+    private dateTimeFormatterService: DateTimeFormatterService,
   ) {
     super(http);
   }
@@ -22,8 +22,8 @@ export class EventService extends BaseBackendService<Event> {
   protected formatGetListResponse(response: any): FormattedResponse<Event> {
     const result = super.formatGetListResponse(response);
     return {
-      list: result.list.map(m => this.prepareEventModel(m)) as Array<Event>,
-      meta: result.meta
+      list: result.list.map(m => this.prepareEventModel(m)),
+      meta: result.meta,
     };
   }
 

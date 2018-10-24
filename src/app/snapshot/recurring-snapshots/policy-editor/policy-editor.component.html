@@ -6,27 +6,27 @@
   <div [ngSwitch]="policyMode">
     <cs-hourly-policy
       name="hourlyPolicy"
-      *ngSwitchCase="Policies.Hourly"
+      *ngSwitchCase="policyType.Hourly"
       [(ngModel)]="policy"
     ></cs-hourly-policy>
 
     <cs-daily-policy
       name="dailyPolicy"
-      *ngSwitchCase="Policies.Daily"
+      *ngSwitchCase="policyType.Daily"
       [(ngModel)]="policy"
       [timeFormat]="timeFormat"
     ></cs-daily-policy>
 
     <cs-weekly-policy
       name="weeklyPolicy"
-      *ngSwitchCase="Policies.Weekly"
+      *ngSwitchCase="policyType.Weekly"
       [(ngModel)]="policy"
       [timeFormat]="timeFormat"
     ></cs-weekly-policy>
 
     <cs-monthly-policy
       name="monthlyPolicy"
-      *ngSwitchCase="Policies.Monthly"
+      *ngSwitchCase="policyType.Monthly"
       [(ngModel)]="policy"
       [timeFormat]="timeFormat"
     ></cs-monthly-policy>

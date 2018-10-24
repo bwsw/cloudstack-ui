@@ -10,39 +10,35 @@ export const CREATE_AFFINITY_GROUP_SUCCESS = '[AFFINITY GROUPS] CREATE_AFFINITY_
 export class LoadAffinityGroupsRequest implements Action {
   type = LOAD_AFFINITY_GROUPS_REQUEST;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class LoadAffinityGroupsResponse implements Action {
   type = LOAD_AFFINITY_GROUPS_RESPONSE;
 
-  constructor(public payload: Array<AffinityGroup>) {
-  }
+  constructor(public payload: AffinityGroup[]) {}
 }
 
 export class CreateAffinityGroup implements Action {
   type = CREATE_AFFINITY_GROUP;
 
-  constructor(public payload: AffinityGroup) {
-  }
+  constructor(public payload: AffinityGroup) {}
 }
 
 export class CreateAffinityGroupError implements Action {
   type = CREATE_AFFINITY_GROUP_ERROR;
 
-  constructor(public payload: Error) {
-  }
+  constructor(public payload: Error) {}
 }
 
 export class CreateAffinityGroupSuccess implements Action {
   type = CREATE_AFFINITY_GROUP_SUCCESS;
 
-  constructor(public payload: AffinityGroup) {
-  }
+  constructor(public payload: AffinityGroup) {}
 }
 
-export type Actions = LoadAffinityGroupsRequest
+export type Actions =
+  | LoadAffinityGroupsRequest
   | LoadAffinityGroupsResponse
   | CreateAffinityGroup
   | CreateAffinityGroupSuccess

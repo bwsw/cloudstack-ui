@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { Tag } from '../../../app/shared/models/tag.model';
 import { Taggable } from '../../../app/shared/interfaces/taggable.interface';
 
-
 export class MockTagService {
   public create(params?: {}): Observable<any> {
     return of(null);
@@ -13,7 +12,7 @@ export class MockTagService {
     return of(null);
   }
 
-  public getList(params?: {}): Observable<Array<Tag>> {
+  public getList(params?: {}): Observable<Tag[]> {
     return of([]);
   }
 
@@ -25,7 +24,7 @@ export class MockTagService {
     return of(null);
   }
 
-  public copyTagsToEntity(tags: Array<Tag>, entity: Taggable): Observable<any> {
+  public copyTagsToEntity(tags: Tag[], entity: Taggable): Observable<any> {
     return of(null);
   }
 

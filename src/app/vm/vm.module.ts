@@ -99,7 +99,7 @@ import { VmPasswordComponent } from './shared/vm-password/vm-password.component'
 import { HttpAccessService, SshAccessService, VncAccessService } from './services';
 import {
   VmDetailsAffinityGroupListComponent,
-  VmCreationAffinityGroupListComponent
+  VmCreationAffinityGroupListComponent,
 } from './vm-sidebar/affinity-group-selector';
 import { VmCreationAffinityGroupManagerComponent } from './vm-creation/components/affinity-group-manager/vm-creation-affinity-group-manager.component';
 
@@ -208,13 +208,7 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     InstallationSourceDialogComponent,
     VmPasswordComponent,
   ],
-  providers: [
-    VmActionsService,
-    VmService,
-    SshAccessService,
-    HttpAccessService,
-    VncAccessService
-  ],
+  providers: [VmActionsService, VmService, SshAccessService, HttpAccessService, VncAccessService],
   entryComponents: [
     AffinityGroupSelectorContainerComponent,
     VmDetailsAffinityGroupListComponent,
@@ -233,8 +227,7 @@ import { VmCreationAffinityGroupManagerComponent } from './vm-creation/component
     PostdeploymentComponent,
     VmPasswordDialogComponent,
     VmAccessComponent,
-    ServiceOfferingDialogContainerComponent
-  ]
+    ServiceOfferingDialogContainerComponent,
+  ],
 })
-export class VmModule {
-}
+export class VmModule {}

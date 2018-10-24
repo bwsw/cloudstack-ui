@@ -1,36 +1,37 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import {
-  getWeekArray,
-  isEqualDate,
-  getFirstDayOfMonth
-} from './dateUtils';
-
+import { getFirstDayOfMonth, getWeekArray, isEqualDate } from './dateUtils';
 
 @Component({
   selector: 'cs-calendar-month',
   templateUrl: 'calendar-month.component.html',
   styleUrls: ['calendar-month.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarMonthComponent {
-  @Input() public locale: string;
-  @Input() public firstDayOfWeek: number;
-  @Input() public displayDate: Date;
-  @Input() public selectedDate: Date;
-  @Input() public DateTimeFormat;
+  @Input()
+  public locale: string;
+  @Input()
+  public firstDayOfWeek: number;
+  @Input()
+  public displayDate: Date;
+  @Input()
+  public selectedDate: Date;
+  @Input()
+  public dateTimeFormat;
 
-  @Output() public dateSelected = new EventEmitter<Date>();
+  @Output()
+  public dateSelected = new EventEmitter<Date>();
 
-  public get weekElements(): Array<Array<Date>> {
+  public get weekElements(): Date[][] {
     return getWeekArray(this.displayDate, this.firstDayOfWeek);
   }
 
-  public getDay(date): string|null {
+  public getDay(date): string | null {
     if (!date) {
       return null;
     }
-    return new this.DateTimeFormat(this.locale, {
+    return new this.dateTimeFormat(this.locale, {
       day: 'numeric',
     }).format(date);
   }
@@ -43,7 +44,7 @@ export class CalendarMonthComponent {
     return isEqualDate(date, new Date());
   }
 
-  public setSelectedDate(_e: Event, day: Date): void {
+  public setSelectedDate(e: Event, day: Date): void {
     if (!day) {
       return;
     }

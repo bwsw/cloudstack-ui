@@ -1,5 +1,5 @@
 <cs-list
-  (onAction)="showCreationDialog()"
+  (action)="showCreationDialog()"
   [isOpen]="listService.hasSelected() && showSidebarDetails"
   [creationEnabled]="isCreationEnabled"
 >
@@ -12,7 +12,7 @@
   <ng-container *loading="isLoading" cs-list>
     <div class="switch-panel">
       <cs-view-mode-switch
-        (onModeChange)="changeMode($event)"
+        (modeChanged)="changeMode($event)"
         [key]="viewModeKey"
       >
       </cs-view-mode-switch>

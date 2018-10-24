@@ -10,7 +10,6 @@ import { StateIndicator } from './state-indicator';
       [ngClass]="state"
     ></div>
   `,
-  styleUrls: ['./state-indicator.scss', './square-state-indicator.component.scss']
+  styleUrls: ['./state-indicator.scss', './square-state-indicator.component.scss'],
 })
-export class SquareStateIndicatorComponent extends StateIndicator {
-}
+export class SquareStateIndicatorComponent extends StateIndicator {}

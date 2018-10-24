@@ -9,7 +9,7 @@ import { Account } from '../models/account.model';
 
 @Injectable()
 @BackendResource({
-  entity: 'Configuration'
+  entity: 'Configuration',
 })
 export class ConfigurationService extends BaseBackendService<Configuration> {
   constructor(protected http: HttpClient) {
@@ -18,12 +18,12 @@ export class ConfigurationService extends BaseBackendService<Configuration> {
 
   public updateConfiguration(
     configuration: Configuration,
-    account: Account
+    account: Account,
   ): Observable<Configuration> {
     return this.sendCommand(CSCommands.Update, {
       accountid: account.id,
       name: configuration.name,
-      value: configuration.value
+      value: configuration.value,
     });
   }
 }

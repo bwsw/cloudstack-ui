@@ -28,13 +28,17 @@ export class SnapshotItemComponent {
       SnapshotStates.BackingUp,
       SnapshotStates.Allocated,
       SnapshotStates.Creating,
-      SnapshotStates.Error
-    ].filter(state => this.item.state === state)
-      .map((state) => (state === SnapshotStates.BackingUp)
-        ? 'backing-up'
-        : state === SnapshotStates.BackedUp
-          ? 'backed-up'
-          : state.toLowerCase());
+      SnapshotStates.Error,
+    ]
+      .filter(state => this.item.state === state)
+      .map(
+        state =>
+          state === SnapshotStates.BackingUp
+            ? 'backing-up'
+            : state === SnapshotStates.BackedUp
+              ? 'backed-up'
+              : state.toLowerCase(),
+      );
   }
 
   public get snapshotCreated() {
@@ -42,14 +46,13 @@ export class SnapshotItemComponent {
   }
 
   public get volumeName() {
-    return (this.volumes
-      && this.volumes[this.item.volumeid]
-      && this.volumes[this.item.volumeid].name)
-      || this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED');
+    return (
+      (this.volumes && this.volumes[this.item.volumeid] && this.volumes[this.item.volumeid].name) ||
+      this.translate.instant('SNAPSHOT_PAGE.CARD.VOLUME_DELETED')
+    );
   }
 
-  constructor(private translate: TranslateService) {
-  }
+  constructor(private translate: TranslateService) {}
 
   public handleClick(e: MouseEvent): void {
     e.stopPropagation();

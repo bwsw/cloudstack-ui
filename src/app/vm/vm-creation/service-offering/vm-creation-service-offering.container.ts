@@ -23,13 +23,13 @@ import * as fromAccounts from '../../../reducers/accounts/redux/accounts.reducer
       [viewMode]="viewMode$ | async"
       [query]="query$ | async"
       [account]="account$ | async"
-      (onServiceOfferingUpdate)="updateServiceOffering($event)"
-      (onServiceOfferingChange)="changeServiceOffering($event)"
-      (viewModeChange)="onViewModeChange($event)"
-      (selectedClassesChange)="onSelectedClassesChange($event)"
+      (serviceOfferingUpdated)="updateServiceOffering($event)"
+      (serviceOfferingChanged)="changeServiceOffering($event)"
+      (viewModeChanged)="onViewModeChange($event)"
+      (selectedClassesChanged)="onSelectedClassesChange($event)"
       (queryChange)="onQueryChange($event)"
     >
-    </cs-service-offering-dialog>`
+    </cs-service-offering-dialog>`,
 })
 export class VmCreationServiceOfferingContainerComponent implements OnInit, AfterViewInit {
   readonly offerings$ = this.store.pipe(select(selectFilteredOfferingsForVmCreation));
@@ -47,13 +47,15 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
     @Inject(MAT_DIALOG_DATA) data,
     public dialogRef: MatDialogRef<VmCreationServiceOfferingContainerComponent>,
     private store: Store<State>,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.serviceOffering = data.serviceOffering;
   }
 
   ngOnInit() {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate(fromServiceOfferings.initialFilters),
+    );
   }
 
   ngAfterViewInit() {
@@ -65,11 +67,15 @@ export class VmCreationServiceOfferingContainerComponent implements OnInit, Afte
   }
 
   public onViewModeChange(selectedViewMode: string) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedViewMode }),
+    );
   }
 
   public onSelectedClassesChange(selectedClasses: string[]) {
-    this.store.dispatch(new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }));
+    this.store.dispatch(
+      new serviceOfferingActions.ServiceOfferingsFilterUpdate({ selectedClasses }),
+    );
   }
 
   public onQueryChange(query: string) {

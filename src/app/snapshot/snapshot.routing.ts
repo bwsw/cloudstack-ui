@@ -3,7 +3,6 @@ import { AuthGuard } from '../shared/services/auth-guard.service';
 import { SnapshotSidebarContainerComponent } from './snapshots-page/snapshot-sidebar/snapshot-sidebar.container';
 import { SnapshotsPageContainerComponent } from './snapshots-page/snapshots-page.container';
 
-
 export const snapshotRoutes: Routes = [
   {
     path: 'snapshots',
@@ -13,8 +12,8 @@ export const snapshotRoutes: Routes = [
       {
         path: ':id',
         component: SnapshotSidebarContainerComponent,
-        canActivate: [AuthGuard]
-      }
-    ]
-  }
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
 ];

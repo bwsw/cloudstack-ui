@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as AjvCore from 'ajv';
-import { Ajv } from 'ajv';
 import * as AjvUniqueItemProperties from 'ajv-keywords/keywords/uniqueItemProperties';
 import * as AjvErrors from 'ajv-errors';
 import * as omit from 'lodash/omit';
@@ -12,12 +11,11 @@ import * as validationSchemes from './validation-schemes';
 enum ErrorType {
   InvalidConfig,
   InvalidKey,
-  InvalidValue
+  InvalidValue,
 }
 
 abstract class ValidationError {
-  protected constructor(readonly type: ErrorType, readonly message: string) {
-  }
+  protected constructor(readonly type: ErrorType, readonly message: string) {}
 
   public getErrorText(): string {
     return `Configuration warning:\n${this.message}`;
@@ -51,17 +49,17 @@ class InvalidValueError extends ValidationError {
   }
 }
 
-type ValidationScheme = {
-  readonly [P in keyof Partial<Config>]: object;
-}
+type ValidationScheme = { readonly [P in keyof Partial<Config>]: object };
 
 @Injectable()
 export class ConfigValidationService {
-  private readonly schemeValidator: Ajv;
+  private readonly schemeValidator: AjvCore.Ajv;
   private readonly schemeMap: ValidationScheme = {
     defaultDomain: validationSchemes.defaultDomain,
+    apiDocLink: validationSchemes.apiDocLink,
     sessionRefreshInterval: validationSchemes.sessionRefreshInterval,
     extensions: validationSchemes.extensions,
+    vmColors: validationSchemes.vmColors,
     defaultFirstDayOfWeek: validationSchemes.defaultFirstDayOfWeek,
     defaultInterfaceLanguage: validationSchemes.defaultInterfaceLanguage,
     defaultTimeFormat: validationSchemes.defaultTimeFormat,
@@ -72,7 +70,9 @@ export class ConfigValidationService {
     serviceOfferingAvailability: validationSchemes.serviceOfferingAvailability,
     imageGroups: validationSchemes.imageGroups,
     computeOfferingClasses: validationSchemes.computeOfferingClasses,
-    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName
+    defaultSecurityGroupName: validationSchemes.defaultSecurityGroupName,
+    offeringCompatibilityPolicy: validationSchemes.offeringCompatibilityPolicy,
+    securityGroupTemplates: validationSchemes.securityGroupTemplates,
   };
 
   constructor() {
@@ -116,13 +116,7 @@ export class ConfigValidationService {
 
   private isValidValue(key: string, value: any) {
     const scheme = this.schemeMap[key];
-
-    // Condition needed until all schemes not implemented
-    if (scheme) {
-      return this.schemeValidator.validate(scheme, value);
-    } else {
-      return true;
-    }
+    return this.schemeValidator.validate(scheme, value);
   }
 
   private getFixedConfig(userConf: object, errors: ValidationError[]): Partial<Config> {

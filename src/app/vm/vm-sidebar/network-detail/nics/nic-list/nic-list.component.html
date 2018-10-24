@@ -2,6 +2,6 @@
   *ngFor="let nic of vm?.nic; let i = index"
   [name]="'VM_PAGE.NETWORK_DETAILS.NIC_NAME' | translate:{ value: i + 1 }"
   [nic]="nic"
-  (onSecondaryIpAdd)="onSecondaryIpAdd.emit($event)"
-  (onSecondaryIpRemove)="onSecondaryIpRemove.emit($event)"
+  (secondaryIpAdded)="secondaryIpAdded.emit($event)"
+  (secondaryIpRemoved)="secondaryIpRemoved.emit($event)"
 ></cs-nic>

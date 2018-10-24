@@ -1,7 +1,7 @@
 import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
-  selector: '[csBadge]'
+  selector: '[csBadge]',
 })
 export class BadgeDirective {
   @HostBinding('class.badge')
@@ -10,5 +10,7 @@ export class BadgeDirective {
   }
 
   // tslint:disable-next-line
-  @HostBinding('attr.data-badge') @Input('csBadge') public count: string;
+  @HostBinding('attr.data-badge')
+  @Input('csBadge')
+  public count: string;
 }

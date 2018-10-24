@@ -4,7 +4,6 @@ import * as isEqual from 'lodash/isEqual';
 import { DayOfWeek, TimeFormat } from '../../../../shared/types';
 import { Time } from '../../time-picker/time-picker.component';
 
-
 export interface WeeklyPolicy extends Time {
   dayOfWeek: DayOfWeek;
 }
@@ -17,12 +16,13 @@ export interface WeeklyPolicy extends Time {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => WeeklyPolicyComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class WeeklyPolicyComponent implements ControlValueAccessor {
-  @Input() public timeFormat: TimeFormat;
+  @Input()
+  public timeFormat: TimeFormat;
 
   public time: Time;
   public dayOfWeek: DayOfWeek = DayOfWeek.Monday;
@@ -39,8 +39,7 @@ export class WeeklyPolicyComponent implements ControlValueAccessor {
     this.writeValue(this.policy);
   }
 
-  public propagateChange: any = () => {
-  };
+  public propagateChange: any = () => {};
 
   @Input()
   public get policy(): WeeklyPolicy {
@@ -51,7 +50,7 @@ export class WeeklyPolicyComponent implements ControlValueAccessor {
     this.time = {
       hour: value.hour,
       minute: value.minute,
-      period: value.period
+      period: value.period,
     };
     this.dayOfWeek = value.dayOfWeek;
     this.propagateChange(this.policy);
@@ -61,8 +60,7 @@ export class WeeklyPolicyComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  public registerOnTouched(): void {
-  }
+  public registerOnTouched(): void {}
 
   public writeValue(value: any): void {
     if (value) {

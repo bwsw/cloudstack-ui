@@ -9,7 +9,6 @@ import { OsTypeService } from '../../../shared/services/os-type.service';
 
 import * as osTypesActions from './ostype.actions';
 
-
 @Injectable()
 export class OsTypeEffects {
   @Effect()
@@ -18,12 +17,10 @@ export class OsTypeEffects {
     switchMap((action: osTypesActions.LoadOsTypesRequest) => {
       return this.osTypesService.getList(action.payload).pipe(
         map((osTypes: OsType[]) => new osTypesActions.LoadOsTypesResponse(osTypes)),
-        catchError(() => of(new osTypesActions.LoadOsTypesResponse([]))));
-    }));
+        catchError(() => of(new osTypesActions.LoadOsTypesResponse([]))),
+      );
+    }),
+  );
 
-  constructor(
-    private actions$: Actions,
-    private osTypesService: OsTypeService
-  ) {
-  }
+  constructor(private actions$: Actions, private osTypesService: OsTypeService) {}
 }
