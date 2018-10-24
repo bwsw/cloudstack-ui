@@ -1,4 +1,13 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { DiskOffering } from '../../../models/index';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material';
@@ -39,6 +48,7 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   @Output()
   public changeSize = new EventEmitter<number>();
   public max: number;
+  // tslint:disable-next-line
   private _diskOffering: DiskOffering;
 
   @Input()
