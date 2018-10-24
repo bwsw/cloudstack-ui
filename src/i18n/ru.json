@@ -403,7 +403,7 @@
         "hosttags": "Теги хоста"
       },
       "AFFINITY_GROUP": {
-        "TITLE": "Аффинитетная группа",
+        "TITLE": "Аффинитетные группы",
         "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
         "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
         "SELECT_AFFINITY_GROUP": "Изменение группы",

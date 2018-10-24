@@ -33,7 +33,7 @@ export class AffinityGroupComponent {
 
   private showAffinityGroupDialog(): void {
     this.dialog.open(AffinityGroupSelectorContainerComponent, <MatDialogConfig>{
-      width: '720px',
+      width: '650px',
       data: {
         enablePreselected: false,
         preselectedAffinityGroups: this.vm.affinitygroup

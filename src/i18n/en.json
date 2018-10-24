@@ -403,7 +403,7 @@
         "hosttags": "Host tags"
       },
       "AFFINITY_GROUP": {
-        "TITLE": "Affinity Group",
+        "TITLE": "Affinity Groups",
         "NO_AFFINITY_GROUP": "No affinity group",
         "NO_AFFINITY_GROUPS": "No affinity groups",
         "SELECT_AFFINITY_GROUP": "Select affinity group",

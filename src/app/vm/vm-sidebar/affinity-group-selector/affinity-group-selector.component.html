@@ -1,3 +1,11 @@
+<mat-card-header>
+  <mat-card-title>
+    <h3 class="mat-dialog-title">
+      {{ 'VM_PAGE.VM_DETAILS.AFFINITY_GROUP.SELECT_AFFINITY_GROUP' | translate }}
+    </h3>
+  </mat-card-title>
+</mat-card-header>
+
 <mat-dialog-content>
   <div *loading="!affinityGroups || loading">
     <form [formGroup]="affinityGroupForm" (ngSubmit)="createGroup()">
@@ -44,14 +52,13 @@
     </ng-container>
     <ng-template #vmDetails>
       <cs-vm-details-affinity-group-list
-        [affinityGroups]="affinityGroups"
+        [affinityGroups]="sortedAffinityGroups"
         (selectedGroupChange)="changeGroup($event)"
-      ></cs-vm-details-affinity-group-list>
+      ></cs-vm-details-affinity-group-list>ф
     </ng-template>
-
   </div>
-
 </mat-dialog-content>
+
 <div class="mat-dialog-actions">
   <button
     mat-button

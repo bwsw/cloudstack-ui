@@ -53,7 +53,7 @@ export class VmCreationAffinityGroupManagerComponent implements ControlValueAcce
   public showDialog(): void {
     const preselectedAffinityGroups = this.affinityGroup ? [this.affinityGroup] : [];
     this.dialog.open(AffinityGroupSelectorContainerComponent, <MatDialogConfig>{
-      width: '720px' ,
+      width: '650px' ,
       data: {
         enablePreselected: true,
         preselectedAffinityGroups

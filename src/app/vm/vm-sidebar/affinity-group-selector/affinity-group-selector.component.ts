@@ -21,7 +21,8 @@ function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
   styleUrls: ['affinity-group-selector.component.scss']
 })
 export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
-  @Input() public affinityGroups: Array<AffinityGroup>;
+  @Input() public affinityGroups: AffinityGroup[];
+  @Input() public sortedAffinityGroups: AffinityGroup[];
   @Input() public preselectedAffinityGroups: AffinityGroup[];
   @Input() public enablePreselected: boolean;
   @Output() public onCreateAffinityGroup = new EventEmitter<AffinityGroup>();

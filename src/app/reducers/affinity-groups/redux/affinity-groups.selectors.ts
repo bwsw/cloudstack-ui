@@ -19,8 +19,7 @@ const sortBySelected = (a: AffinityGroup, b: AffinityGroup) => {
     return 1;
   }
 };
-
-export const getSortedAffinityGroups = (preselectedAffinityGroups: AffinityGroup[] | any) => createSelector(
+export const getAffinityGroups = (preselectedAffinityGroups: AffinityGroup[] | any) => createSelector(
   fromAffinityGroups.selectAll,
   (affinityGroups: AffinityGroup[]): AffinityGroup[] => {
     if (preselectedAffinityGroups) {
@@ -28,8 +27,13 @@ export const getSortedAffinityGroups = (preselectedAffinityGroups: AffinityGroup
         const isPreselected = !!preselectedAffinityGroups.find(preselected => preselected.id === group.id);
         return { ...group, isPreselected }
       });
-      list.sort(sortBySelected);
       return list;
     }
     return affinityGroups;
+  });
+
+export const getSortedAffinityGroups = (preselectedAffinityGroups: AffinityGroup[] | any) => createSelector(
+  getAffinityGroups(preselectedAffinityGroups),
+  (affinityGroups: AffinityGroup[]): AffinityGroup[] => {
+      return affinityGroups.sort(sortBySelected);
   });

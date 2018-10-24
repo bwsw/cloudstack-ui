@@ -18,6 +18,7 @@
           <button
             class="button-18px"
             mat-icon-button
+            [disabled]="!canActivate"
             (click)="showRemoveDialog(affinityGroup.id)"
           >
             <mat-icon class="mdi-delete"></mat-icon>
@@ -33,7 +34,7 @@
     </div>
     <mat-card-actions>
       <button
-        [matTooltip]="'COMMON.EDIT' | translate"
+        [matTooltip]="'COMMON.ADD' | translate"
         matTooltipPosition="above"
         mat-icon-button
         [disabled]="!canActivate"

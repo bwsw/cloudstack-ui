@@ -9,7 +9,7 @@ import { AffinityGroup } from '../../../../shared/models';
 export abstract class AffinityGroupListComponent implements OnChanges {
   protected affinityGroups: AffinityGroup[];
   protected selectedGroupChange = new EventEmitter<AffinityGroup>();
-  public displayedColumns = ['name', 'type', 'description', 'radioButton'];
+  public displayedColumns = ['name', 'type', 'radioButton'];
   public selectedGroup: AffinityGroup;
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -19,15 +19,10 @@ export abstract class AffinityGroupListComponent implements OnChanges {
     }
   }
 
-  public selectGroupChange(group: AffinityGroup) {
-    if (!this.isDisabledAffinityGroup(group.id)) {
-      this.selectedGroupChange.emit(group)
-    }
-  }
-
   public abstract isDisabledAffinityGroup(affinityGroupId: string): boolean;
 
-  public selectAffinityGroup(affinityGroupId: string) {
-    this.selectedGroup = this.affinityGroups.find(group => group.id === affinityGroupId);
+  public selectAffinityGroup(group: AffinityGroup): void {
+    this.selectedGroup = this.affinityGroups.find(ag => ag.id === group.id);
+    this.selectedGroupChange.emit(group)
   }
 }

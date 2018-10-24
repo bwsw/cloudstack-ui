@@ -19,7 +19,6 @@ export class VmDetailsAffinityGroupListComponent extends AffinityGroupListCompon
   @Input() public affinityGroups: AffinityGroup[];
   @Output() public selectedGroupChange = new EventEmitter<AffinityGroup>();
   public enablePreselected = true;
-  public selectedGroup: AffinityGroup;
 
   public isDisabledAffinityGroup(affinityGroupId: string): boolean {
     const group = this.affinityGroups.find(affinityGroup => affinityGroup.id === affinityGroupId);

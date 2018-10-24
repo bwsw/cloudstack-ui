@@ -13,6 +13,7 @@ import * as affinityGroupSelectors from '../../../reducers/affinity-groups/redux
   template: `
     <cs-affinity-group-selector
       [affinityGroups]="affinityGroups$ | async"
+      [sortedAffinityGroups]="sortedAffinityGroups$ | async"
       [enablePreselected]="enablePreselected"
       [preselectedAffinityGroups]="preselectedAffinityGroups"
       (onCreateAffinityGroup)="createAffinityGroup($event)"
@@ -23,6 +24,7 @@ import * as affinityGroupSelectors from '../../../reducers/affinity-groups/redux
 })
 export class AffinityGroupSelectorContainerComponent {
   readonly affinityGroups$;
+  readonly sortedAffinityGroups$;
   public types = [AffinityGroupType.antiAffinity, AffinityGroupType.affinity];
   public preselectedAffinityGroups: AffinityGroup[];
   public enablePreselected: boolean;
@@ -35,8 +37,11 @@ export class AffinityGroupSelectorContainerComponent {
   ) {
     this.enablePreselected = data.enablePreselected;
     this.preselectedAffinityGroups = data.preselectedAffinityGroups || [];
-    this.affinityGroups$ = this.store.pipe(
+
+    this.sortedAffinityGroups$ = this.store.pipe(
       select(affinityGroupSelectors.getSortedAffinityGroups(this.preselectedAffinityGroups)));
+    this.affinityGroups$ = this.store.pipe(
+      select(affinityGroupSelectors.getAffinityGroups(this.preselectedAffinityGroups)));
   }
 
   public createAffinityGroup(group: AffinityGroup) {

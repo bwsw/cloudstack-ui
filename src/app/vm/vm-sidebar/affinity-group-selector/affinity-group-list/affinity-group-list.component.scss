@@ -5,6 +5,8 @@ table {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    max-width: 100px;
+    padding-right: 10px;
   }
 }
 
@@ -22,5 +24,14 @@ th, td {
 }
 
 .preselected {
-  background-color: #e0e0e0;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-dialog-content {
+  height: 500px;
+  overflow: auto;
+}
+
+tr {
+  cursor: pointer;
 }

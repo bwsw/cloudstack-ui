@@ -25,6 +25,9 @@ export class VmCreationAffinityGroupListComponent extends AffinityGroupListCompo
   }
 
   public isSelectedAffinityGroup(affinityGroup: AffinityGroup): boolean {
+    if (this.selectedGroup) {
+      return this.selectedGroup.id === affinityGroup.id;
+    }
     return affinityGroup.isPreselected;
   }
 }
