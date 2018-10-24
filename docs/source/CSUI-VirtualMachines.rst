@@ -18,11 +18,9 @@ Virtual Machines List
 
 At this page, you can see the list of your virtual machines available to your user only.
 
-.. figure:: _static/VMs_List_User1.png
+.. figure:: _static/VMs_List_User2.png
 
-If you are a Domain Administrator you can see the virtual machines of all users in your account. Or select all accounts in the "Select accounts" option above the list to see the virtual machines for the whole domain.
-
-.. figure:: _static/VMs_List_Admin1.png
+If you are a Domain Administrator you can see the virtual machines of all users in the domain. 
    
 You can change the data representation of existing virtual machines from "card" to "list". We have added the switch |view icon|/|box icon| in the upper-right corner of each section. This improvement gives a user an opportunity to work with data in each specific section in a more convenient way.
 
@@ -50,7 +48,7 @@ Filtering of Virtual Machines
 
 The filtering and search tool will help you to find a virtual machine in the list. 
 
-.. figure:: _static/VMs_FilterAndSearch_User1.png
+.. figure:: _static/VMs_FilterAndSearch_User2.png
    
 You can filter the VM list by accounts (available for Domain Administrators) and/or zones and/or groups and/or states. In the drop-down lists tick the filtering parameters and see the immediate result.
 
@@ -267,7 +265,7 @@ The message will show the list of all creation steps and the virtual machine inf
 
 The system will ask you if you wish to save passwords to VM tags by default for the virtual machines created in the future. Click "Yes" and the "Save VM password by default" option will be activated in the account settings:
 
-.. figure:: _static/Settings_SavePass1.png
+.. figure:: _static/Settings_SavePass2.png
 
 It means the password will be saved to tags automatically for all created virtual machines.
 
@@ -306,7 +304,7 @@ VM Action Box
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Once a VM instance is created, you can stop, restart, or delete it as needed. These actions are available under the "Actions" button |actions icon| to the right from each virtual machine in the list. 
 
-.. figure:: _static/VMs_ActionBox1.png
+.. figure:: _static/VMs_ActionBox2.png
    
 It allows performing the following actions with the VM:
 
@@ -348,7 +346,7 @@ Click "Save" to save the password for this VM. It will activate the "Save VM pas
 
 - Access VM - Opens an "Access VM" dialog window which allows to view VM name and IP, view and save a password for the VM and access the VM via the VNC console. 
 
-.. figure:: _static/AccessVM.png
+.. figure:: _static/AccessVM_OpenConsole3.png
 
 In the :ref:`VM_Access` section you can find more information on accessing a VM.
 
@@ -740,21 +738,97 @@ If you create a non-system tag, it will be saved in a new card. If you have ente
 
 Access a Virtual Machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Depending on the installation source (ISO or a Template) the system allows getting an access to the VM interaction interface. Currently, the following options are supported:
+Depending on the installation source (ISO or a Template) and tags determined for a VM, the system allows getting an access to the VM interaction interface. Currently, the following access modes are supported:
 
-- Open VNC console - This button under the "Access VM" action allows opening a console.
+- Via a VNC console - active by default for all VMs;  
 
-.. figure:: _static/AccessVM_OpenConsole2.png
+- Via WebShell;
 
-- WebShell if VM has a ``csui.vm.auth-mode`` tag with SSH value. To find more information on accessing VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the detailed instructions on the deployment of WebShell Plugin at the :ref:`Webshell_Plugin` page.
+- Via URL.
 
-.. figure:: _static/AccessVM_WebShell1.png
+Selecting "Access VM" in the VM action list, you open a modal window with three tabs. In active tab(s) you can view detailed information for the access option(s) enabled for this machine.
+If an access mode is not available for the machine, the tab is inactive. All three options can be enabled at the same time for one machine.
 
-- Access via HTTP if VM has a ``csui.vm.auth-mode`` tag with HTTP value. To configure access to VM via HTTP, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+In each tab you can click on a corresponding link to open a VNC console/Webshell/URL.
 
-.. figure:: _static/AccessVM_OpenURL2.png
+Below you will find more information on each access mode.
 
-You can choose the way you like and make necessary settings.
+VNC console
+""""""""""""""""
+This tab contains the following details: 
+
+- Login;
+
+- Password (if available);
+
+- Open VNC console link that opens a console to access the VM.
+
+.. figure:: _static/AccessVM_OpenConsole3.png
+
+WebShell
+""""""""""""""""""""""
+This tab is active if the access via WebShell is enabled. It is determined by the following tags in VM's template::
+
+ csui.vm.auth-mode = SSH
+ csui.vm.ssh.login = login
+ csui.vm.ssh.password = password
+ csui.vm.ssh.port = port
+
+This tab displays the following details: 
+
+- Connection String (IPv4)
+
+- Connection String (IPv6)
+
+- IPv4
+
+- IPv6
+
+- Port
+
+- Login
+
+- Password
+
+- SSH Key
+
+- Open WebShell - a clickable link to open a WebShell console.
+
+To find more information on accessing a VM via WebShell, please, refer to the `page <https://github.com/bwsw/cloudstack-ui/wiki/WebShell-Plugin>`_. See the detailed instructions on the deployment of WebShell Plugin at the :ref:`Webshell_Plugin` page.
+
+.. figure:: _static/AccessVM_WebShell2.png
+
+URL
+"""""""""""""""
+Under this tab you can access a VM via HTTP/HTTPS URL.
+This mode is defined by the tags::
+
+ csui.vm.auth-mode = HTTP
+ csui.vm.http.protocol = HTTP|HTTPS
+ csui.vm.http.port =
+ csui.vm.http.path =
+ csui.vm.http.login =
+ csui.vm.http.password =
+
+.. note:: If no ``csui.vm.http.port`` is defined, then default values are used:
+            
+            - for HTTPS protocol: 443
+            
+            - for HTTP protocol: 80 
+
+This tab displays the following information:
+
+- Login;
+
+- Password (if available);
+
+- Open URL with a clickable URL. 
+
+To configure access to VM via HTTP/HTTPS, please, refer to `page <https://github.com/bwsw/cloudstack-ui/wiki/Tags>`_.
+
+.. figure:: _static/AccessVM_OpenURL3.png
+
+To close the modal window click "CLOSE".
 
 .. |bell icon| image:: _static/bell_icon.png
 .. |refresh icon| image:: _static/refresh_icon.png
