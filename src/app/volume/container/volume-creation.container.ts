@@ -66,7 +66,7 @@ export class VolumeCreationContainerComponent extends WithUnsubscribe() implemen
       this.store.dispatch(
         new diskOfferingActions.LoadOfferingsRequest({
           maxSize,
-          zone: zone,
+          zone,
         }),
       );
     });

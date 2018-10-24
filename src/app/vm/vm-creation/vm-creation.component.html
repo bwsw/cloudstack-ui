@@ -112,7 +112,7 @@
                 <div *ngIf="diskOfferingsAreAllowed()">
                   <cs-disk-offering-selector
                     name="diskOffering"
-                    [storageAvailable]="account.primarystorageavailable"
+                    [availableStorage]="account.primarystorageavailable"
                     [min]="minSize"
                     [diskOfferings]="diskOfferings"
                     [account]="account"

@@ -21,7 +21,7 @@ import { VolumeType } from '../../models';
     <cs-volume-resize
       [maxSize]="maxSize"
       [volume]="volume"
-      [storageAvailable]="storageAvailable$ | async"
+      [availableStorage]="availableStorage$ | async"
       [diskOfferings]="offerings$ | async"
       (diskResized)="resizeDisk($event)"
     >
@@ -30,7 +30,7 @@ import { VolumeType } from '../../models';
 export class VolumeResizeContainerComponent implements OnInit {
   readonly offerings$ = this.store.pipe(select(fromDiskOfferings.getAvailableOfferings));
   readonly account$ = this.store.pipe(select(fromAuth.getUserAccount));
-  readonly storageAvailable$ = this.account$.pipe(
+  readonly availableStorage$ = this.account$.pipe(
     filter(Boolean),
     map((account: Account) => account.primarystorageavailable),
   );

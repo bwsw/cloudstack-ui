@@ -27,9 +27,9 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
   @Input()
   public diskOfferings: DiskOffering[];
   @Input()
-  public storageAvailable: string;
+  public availableStorage: string;
   @Output()
-  public onDiskResized = new EventEmitter<VolumeResizeData>();
+  public diskResized = new EventEmitter<VolumeResizeData>();
 
   public diskOffering: DiskOffering;
   public newSize: number;
@@ -91,6 +91,6 @@ export class VolumeResizeComponent implements OnInit, OnChanges {
       ...size,
       ...diskOffering,
     };
-    this.onDiskResized.emit(params);
+    this.diskResized.emit(params);
   }
 }

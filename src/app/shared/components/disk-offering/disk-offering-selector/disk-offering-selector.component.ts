@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
@@ -34,19 +33,19 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   @Input()
   public account: Account;
   @Input()
-  public isShowSlider = false;
+  public enableSlider = false;
   @Input()
-  public isShowSelector = true;
+  public enableSelector = true;
   @Input()
   public min: number;
   @Input()
   public newSize: number;
   @Input()
-  public storageAvailable: string;
+  public availableStorage: string;
   @Output()
-  public change = new EventEmitter();
+  public changed = new EventEmitter();
   @Output()
-  public changeSize = new EventEmitter<number>();
+  public changedSize = new EventEmitter<number>();
   public max: number;
   // tslint:disable-next-line
   private _diskOffering: DiskOffering;
@@ -63,12 +62,8 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
     }
   }
 
-  constructor(
-    private cd: ChangeDetectorRef,
-    private authService: AuthService,
-    private dialog: MatDialog,
-  ) {
-    this.change = new EventEmitter();
+  constructor(private authService: AuthService, private dialog: MatDialog) {
+    this.changed = new EventEmitter();
     this.setMaxSizeValue();
   }
 
@@ -99,14 +94,14 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
         data: {
           diskOfferings: this.diskOfferings,
           diskOffering: this._diskOffering,
-          storageAvailable: this.storageAvailable,
+          storageAvailable: this.availableStorage,
         },
       })
       .afterClosed()
       .subscribe((offering: DiskOffering) => {
         if (offering) {
           this.diskOffering = offering;
-          this.change.next(offering);
+          this.changed.next(offering);
         }
       });
   }
@@ -114,10 +109,9 @@ export class DiskOfferingSelectorComponent implements ControlValueAccessor, OnCh
   private setMaxSizeValue() {
     const customDiskOfferingMaxSize = this.authService.getCustomDiskOfferingMaxSize();
     this.min = this.min ? this.min : this.authService.getCustomDiskOfferingMinSize();
-    if (isNaN(Number(this.storageAvailable))) {
+    if (isNaN(Number(this.availableStorage))) {
       this.max = customDiskOfferingMaxSize;
-    } else {
-      this.max = Math.min(customDiskOfferingMaxSize, Number(this.storageAvailable));
     }
+    this.max = Math.min(customDiskOfferingMaxSize, Number(this.availableStorage));
   }
 }

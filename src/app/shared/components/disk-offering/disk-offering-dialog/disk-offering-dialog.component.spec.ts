@@ -24,6 +24,7 @@ class MockConfigServiceDateTimeFormatterService {
 }
 
 class MockAuthService {
+  // tslint:disable-next-line
   _user: User;
 
   get user() {

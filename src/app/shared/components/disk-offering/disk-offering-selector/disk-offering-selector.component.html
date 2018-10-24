@@ -1,4 +1,4 @@
-<ng-container *ngIf="isShowSelector">
+<ng-container *ngIf="enableSelector">
   <div class="top-row">
     <h4 class="disk-offerings">{{ 'VM_PAGE.VM_CREATION.DISK_OFFERING' | translate }}</h4>
 
@@ -17,12 +17,12 @@
 </ng-container>
 
 <cs-slider
-  *ngIf="isShowSlider"
+  *ngIf="enableSlider"
   name="new-size"
   [min]="min"
   [max]="max"
   [label]="'VM_PAGE.STORAGE_DETAILS.VOLUME_RESIZE.NEW_SIZE' | translate"
   [ngModel]="newSize"
-  (ngModelChange)="changeSize.next($event)"
+  (ngModelChange)="changedSize.next($event)"
   [units]="'UNITS.GB' | translate"
 ></cs-slider>

@@ -39,10 +39,10 @@
       </div>
       <cs-disk-offering-selector
         name="diskOffering"
-        [isShowSelector]="diskOfferings?.length"
-        [isShowSlider]="showResizeSlider && minSize"
+        [enableSelector]="diskOfferings?.length"
+        [enableSlider]="showResizeSlider && minSize"
         [min]="minSize"
-        [storageAvailable]="storageAvailable"
+        [availableStorage]="storageAvailable"
         [newSize]="newVolume.size"
         [diskOfferings]="diskOfferings"
         [account]="account"

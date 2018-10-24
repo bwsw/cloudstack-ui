@@ -1,3 +1,5 @@
+@import '../../../style/_variables';
+
 :host {
   display: block;
 
@@ -21,7 +23,8 @@
     transform: none;
   }
 
-  mat-progress-bar, .overlay-content {
+  mat-progress-bar,
+  .overlay-content {
     width: 500px;
   }
 }
@@ -107,7 +110,6 @@ h4 {
   position: relative;
 }
 
-
 .sg-rules-manager {
   width: 100%;
 }
@@ -137,5 +139,5 @@ mat-tab-group {
 }
 
 .error-message {
-  color: #f44336;
+  color: $error-message-color;
 }
