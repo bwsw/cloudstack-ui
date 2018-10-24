@@ -39,6 +39,8 @@ export function reducer(state = initialState, action: any): State {
           }, []),
         };
       }
+
+      break;
     }
 
     default: {
