@@ -3,6 +3,8 @@
 View Logs
 =============
 
+.. warning:: The section is under development!
+
 .. Contents::
 
 In the *Virtual Machines*-*View Logs* section a user can see logs for VMs in the system. Log files to display can be selected by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
