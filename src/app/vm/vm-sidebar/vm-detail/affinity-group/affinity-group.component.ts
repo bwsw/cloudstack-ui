@@ -45,11 +45,6 @@ export class AffinityGroupComponent {
       });
   }
 
-  public getAffinityGroupType(id: string): string {
-    const affinityGroup = this.affinityGroups.find(group => group.id === id);
-    return affinityGroup && affinityGroupTypesMap[affinityGroup.type];
-  }
-
   private removeAffinityGroup(id: string) {
     this.affinityGroupRemoved.emit(id);
   }

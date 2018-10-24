@@ -11,7 +11,7 @@
   <span class="fancy-select-content">
     <div class="mat-form-field-wrapper template-list">
       <ng-container *ngIf="affinityGroup; else noAffinityGroup">
-        <span class="name-container"><span class="ellipsis-overflow">{{ affinityGroup.name }} </span>: {{ affinityGroup.type }}</span>
+        <span class="name-container"><span class="ellipsis-overflow">{{ affinityGroup.name }} </span>: {{ affinityGroup.type | csAffinityGroupType }}</span>
       </ng-container>
       <ng-template #noAffinityGroup>
         {{ 'COMMON.NONE' | translate }}
