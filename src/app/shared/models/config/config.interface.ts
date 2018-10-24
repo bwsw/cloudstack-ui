@@ -1,4 +1,3 @@
-import { SidenavConfigElement } from './sidenav-config-element.interface';
 import { ServiceOfferingAvailability } from './service-offering-availability.interface';
 import { OfferingCompatibilityPolicy } from './offering-compatibility-policy.interface';
 import { ComputeOfferingClass } from './compute-offering-class.interface';
@@ -41,11 +40,6 @@ export interface CustomizableConfig {
   defaultTimeFormat: string;
   defaultTheme: string;
   sessionTimeout: number;
-  /*
-   * Menu settings
-   */
-  allowReorderingSidenav: boolean;
-  configureSidenav: SidenavConfigElement[];
   /*
    * Service offering setting
    */
