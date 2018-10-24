@@ -1,20 +1,24 @@
 .. _Log_View:
 
 View Logs
------------------
+=============
+
 .. Contents::
 
 In the *Virtual Machines*-*View Logs* section a user can see logs for VMs in the system. Log files to display can be selected by setting up main parameters - a virtual machine and a date for which a user wishes to see the logs. Optionally, you can specify a time period and keywords to filter the log files.
 
 Filtering of Logs
-"""""""""""""""""""""""""
+-----------------------
 To view logs in the list, please, set up the filtering parameters.
 
 Select the following parameters in the provided order from drop-down lists:
 
 - Accounts * - Allows Administrators to select logs for a specific account/accounts. Select in the drop-down list an account or a number of accounts.
+
 - VM * - Allows selecting logs for a specific VM. Choose a VM you wish in the drop-down list.
+
 - Log files * - Allows selecting logs by log files. Choose a log file in the drop-down list.
+
 - Date - Allows selecting logs for a specific period. Click |date icon| and in the appeared calendar choose the start and end dates to see the logs for. By default, the system shows logs for the last day.
 
 .. figure:: _static/Logs_Datepicker.png 
@@ -32,8 +36,7 @@ The logs will be displayed in accordance with the chosen period.
 You can change filtering parameters and refresh the list of logs by clicking "Show logs".
 
 Sorting of Logs
-"""""""""""""""""""""""""""
-
+---------------------------
 The sorting tool allows viewing the newest logs first in the list. Enable the checkbox to the right.
 
 .. figure:: _static/Logs_Newest.png
@@ -45,7 +48,7 @@ Use the search tool to find logs by keywords. Enter keywords one by one delimiti
 To delete any word in the list click |remove icon| next to it.
 
 View Logs List
-"""""""""""""""""""""""
+--------------------------
 By clicking "Show logs", a user can view log files corresponding to the filtering parameters. Logs in the *View Logs* are listed in a chronological order from the earliest till the latest. 
 
 By default, the system shows logs for the last day. 
@@ -60,9 +63,7 @@ The following information for each log file is presented in the list:
 - File 
 - Text
 
-.. Refresh the List of Logs
-""""""""""""""""""""""""""
-To update the list of logs click "Refresh" to see the latest logs for the selected filtering parameters.
+.. Refresh the List of Logs - To update the list of logs click "Refresh" to see the latest logs for the selected filtering parameters.
 
 .. Follow Logs
 .. """"""""""""""""""
