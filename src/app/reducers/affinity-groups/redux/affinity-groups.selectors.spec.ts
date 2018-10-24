@@ -26,21 +26,21 @@ describe('Affinity Group Selectors', () => {
 
     const sortedList = [
       {
-        id: '1',
-        name: 'af1',
-        type: AffinityGroupType.affinity,
-        isPreselected: false,
-      },
-      {
         id: '2',
         name: 'af2',
         type: AffinityGroupType.affinity,
         isPreselected: true,
       },
+      {
+        id: '1',
+        name: 'af1',
+        type: AffinityGroupType.affinity,
+        isPreselected: false,
+      },
     ] as AffinityGroup[];
 
-    expect(affinityGroupSelectors.getAffinityGroups(preselected).projector(list)).toEqual(
-      sortedList,
-    );
+    expect(
+      affinityGroupSelectors.getSortedAffinityGroupsForVmDetails.projector(list, preselected),
+    ).toEqual(sortedList);
   });
 });

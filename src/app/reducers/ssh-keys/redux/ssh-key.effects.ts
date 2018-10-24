@@ -57,7 +57,7 @@ export class SshKeyEffects {
               }),
               map(() => new sshKeyActions.RemoveSshKeyPairSuccessAction(action.payload)),
               catchError((error: Error) => {
-                this.showNotificationsOnFail(error);
+                this.dialogService.showNotificationsOnFail(error);
                 return of(new sshKeyActions.RemoveSshKeyPairErrorAction(error));
               }),
             );
@@ -97,7 +97,7 @@ export class SshKeyEffects {
         }),
         map(createdKey => new sshKeyActions.CreateSshKeyPairSuccessAction(createdKey)),
         catchError((error: Error) => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new sshKeyActions.CreateSshKeyPairErrorAction(error));
         }),
       );
@@ -137,14 +137,5 @@ export class SshKeyEffects {
 
   private showNotificationsOnFinish(message: string) {
     this.snackBarService.open(message).subscribe();
-  }
-
-  private showNotificationsOnFail(error: any) {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params,
-      },
-    });
   }
 }

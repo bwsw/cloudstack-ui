@@ -8,12 +8,13 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { AffinityGroup, AffinityGroupType } from '../../../shared/models';
+import { AffinityGroup, AffinityGroupType, emptyAffinityGroup } from '../../../shared/models';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 function isUniqName(affinityGroups: AffinityGroup[]): ValidatorFn {
   return function(control: FormControl) {
-    const nameIsTaken = affinityGroups.find(group => group.name === control.value);
+    const nameIsTaken =
+      affinityGroups && affinityGroups.find(group => group.name === control.value);
     return nameIsTaken ? { nameIsTaken: true } : undefined;
   };
 }
@@ -76,6 +77,8 @@ export class AffinityGroupSelectorComponent implements OnInit, OnChanges {
     let selectedGroupIds;
     if (this.enablePreselected) {
       selectedGroupIds = [this.selectedGroup.id];
+    } else if (this.selectedGroup.id === emptyAffinityGroup) {
+      selectedGroupIds = [];
     } else {
       selectedGroupIds = this.preselectedAffinityGroups.map(group => group.id);
       selectedGroupIds.push(this.selectedGroup.id);

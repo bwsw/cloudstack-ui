@@ -10,6 +10,8 @@ export const affinityGroupTypesMap = {
   'host affinity': 'affinity',
 };
 
+export const emptyAffinityGroup = 'NO_AFFINITY_GROUP';
+
 export interface AffinityGroup extends BaseModel {
   id: string;
   name: string;

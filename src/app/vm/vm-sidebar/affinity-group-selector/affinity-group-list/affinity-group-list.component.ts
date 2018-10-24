@@ -1,5 +1,5 @@
 import { EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { AffinityGroup } from '../../../../shared/models';
+import { AffinityGroup, emptyAffinityGroup } from '../../../../shared/models';
 
 export abstract class AffinityGroupListComponent implements OnChanges {
   public displayedColumns = ['name', 'type', 'radioButton'];
@@ -12,6 +12,10 @@ export abstract class AffinityGroupListComponent implements OnChanges {
     if (affinityGroups) {
       this.affinityGroups = affinityGroups.currentValue;
     }
+  }
+
+  public get emptyAffinityGroup() {
+    return emptyAffinityGroup;
   }
 
   public abstract isDisabledAffinityGroup(affinityGroupId: string): boolean;

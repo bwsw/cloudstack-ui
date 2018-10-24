@@ -70,7 +70,7 @@ export class VirtualMachinesEffects {
         map((vms: VirtualMachine[]) => new vmActions.UpdateVM(vms[0])),
         catchError(error => {
           const message = 'NOTIFICATIONS.VM.FETCH_STATISTICS_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
       );
@@ -106,7 +106,7 @@ export class VirtualMachinesEffects {
         map(vm => new vmActions.UpdateVM(vm)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VM.CHANGE_DESCRIPTION_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
       );
@@ -143,7 +143,7 @@ export class VirtualMachinesEffects {
           }),
           catchError((error: Error) => {
             const message = 'NOTIFICATIONS.VM.CHANGE_SERVICE_OFFERING_FAILED';
-            this.showNotificationsOnFail(error, message, notificationId);
+            this.dialogService.showNotificationsOnFail(error, message, notificationId);
             return of(
               new vmActions.VMUpdateError({
                 error,
@@ -191,7 +191,7 @@ export class VirtualMachinesEffects {
               }),
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VM.CHANGE_AFFINITY_GROUP_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(
                   new vmActions.VMUpdateError({
                     error,
@@ -223,7 +223,7 @@ export class VirtualMachinesEffects {
         map(vm => new vmActions.UpdateVM(vm)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VM.CHANGE_INSTANCE_GROUP_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
       );
@@ -249,7 +249,7 @@ export class VirtualMachinesEffects {
         }),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VM.REMOVE_INSTANCE_GROUP_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
       );
@@ -267,7 +267,7 @@ export class VirtualMachinesEffects {
         }),
         map(() => new vmActions.LoadVirtualMachine({ id: action.payload.vm.id })),
         catchError((error: Error) => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(null);
         }),
       );
@@ -285,7 +285,7 @@ export class VirtualMachinesEffects {
         }),
         map(() => new vmActions.LoadVirtualMachine({ id: action.payload.vm.id })),
         catchError((error: Error) => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(null);
         }),
       );
@@ -303,7 +303,7 @@ export class VirtualMachinesEffects {
         }),
         map(vm => new vmActions.UpdateVM(vm)),
         catchError((error: Error) => {
-          this.showNotificationsOnFail(error);
+          this.dialogService.showNotificationsOnFail(error);
           return of(new vmActions.VMUpdateError({ error }));
         }),
       );
@@ -324,7 +324,7 @@ export class VirtualMachinesEffects {
         map(vm => new vmActions.UpdateVM(vm)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VM.STOP_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(
             new vmActions.VMUpdateError({
               error,
@@ -396,7 +396,7 @@ export class VirtualMachinesEffects {
                   const message = params.expunge
                     ? 'NOTIFICATIONS.VM.EXPUNGE_FAILED'
                     : 'NOTIFICATIONS.VM.DESTROY_FAILED';
-                  this.showNotificationsOnFail(error, message, notificationId);
+                  this.dialogService.showNotificationsOnFail(error, message, notificationId);
                   return of(
                     new vmActions.VMUpdateError({
                       error,
@@ -431,7 +431,7 @@ export class VirtualMachinesEffects {
             map(vm => new vmActions.UpdateVM(vm)),
             catchError((error: Error) => {
               const message = 'NOTIFICATIONS.VM.REBOOT_FAILED';
-              this.showNotificationsOnFail(error, message, notificationId);
+              this.dialogService.showNotificationsOnFail(error, message, notificationId);
               return of(
                 new vmActions.VMUpdateError({
                   error,
@@ -467,7 +467,7 @@ export class VirtualMachinesEffects {
             map(newVm => new vmActions.UpdateVM(newVm)),
             catchError((error: Error) => {
               const message = 'NOTIFICATIONS.VM.RESTORE_FAILED';
-              this.showNotificationsOnFail(error, message, notificationId);
+              this.dialogService.showNotificationsOnFail(error, message, notificationId);
               return of(
                 new vmActions.VMUpdateError({
                   error,
@@ -502,7 +502,7 @@ export class VirtualMachinesEffects {
             map(res => new vmActions.UpdateVM(res.virtualmachine)),
             catchError((error: Error) => {
               const message = 'NOTIFICATIONS.VM.RECOVER_FAILED';
-              this.showNotificationsOnFail(error, message, notificationId);
+              this.dialogService.showNotificationsOnFail(error, message, notificationId);
               return of(
                 new vmActions.VMUpdateError({
                   error,
@@ -549,7 +549,7 @@ export class VirtualMachinesEffects {
             .pipe(
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VM.EXPUNGE_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(new vmActions.VMUpdateError({ error }));
               }),
             );
@@ -573,7 +573,7 @@ export class VirtualMachinesEffects {
         map(vm => new vmActions.UpdateVM(vm)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.ISO.ATTACHMENT_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
       );
@@ -595,7 +595,7 @@ export class VirtualMachinesEffects {
         map(vm => new vmActions.ReplaceVM(vm)),
         catchError((error: Error) => {
           const message = 'NOTIFICATIONS.VM.DETACHMENT_FAILED';
-          this.showNotificationsOnFail(error, message, notificationId);
+          this.dialogService.showNotificationsOnFail(error, message, notificationId);
           return of(new vmActions.VMUpdateError({ error }));
         }),
       );
@@ -642,7 +642,7 @@ export class VirtualMachinesEffects {
               }),
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VM.CHANGE_SSH_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(
                   new vmActions.VMUpdateError({
                     error,
@@ -702,7 +702,7 @@ export class VirtualMachinesEffects {
               }),
               catchError((error: Error) => {
                 const message = 'NOTIFICATIONS.VM.RESET_PASSWORD_FAILED';
-                this.showNotificationsOnFail(error, message, notificationId);
+                this.dialogService.showNotificationsOnFail(error, message, notificationId);
                 return of(
                   new vmActions.VMUpdateError({
                     error,
@@ -841,7 +841,7 @@ export class VirtualMachinesEffects {
       }),
       catchError((error: Error) => {
         const message = 'NOTIFICATIONS.VM.STOP_FAILED';
-        this.showNotificationsOnFail(error, message, notificationId);
+        this.dialogService.showNotificationsOnFail(error, message, notificationId);
         return of(
           new vmActions.VMUpdateError({
             vm,
@@ -877,7 +877,7 @@ export class VirtualMachinesEffects {
       map((newVm: VirtualMachine) => new vmActions.UpdateVM(newVm)),
       catchError((error: Error) => {
         const message = 'NOTIFICATIONS.VM.START_FAILED';
-        this.showNotificationsOnFail(error, message, notificationId);
+        this.dialogService.showNotificationsOnFail(error, message, notificationId);
         return of(
           new vmActions.VMUpdateError({
             error,
@@ -918,20 +918,5 @@ export class VirtualMachinesEffects {
       });
     }
     this.snackBarService.open(message).subscribe();
-  }
-
-  private showNotificationsOnFail(error: any, message?: string, jobNotificationId?: string) {
-    if (jobNotificationId) {
-      this.jobsNotificationService.fail({
-        message,
-        id: jobNotificationId,
-      });
-    }
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params,
-      },
-    });
   }
 }

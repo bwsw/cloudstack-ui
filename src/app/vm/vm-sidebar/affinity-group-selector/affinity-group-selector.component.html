@@ -23,7 +23,7 @@
       <mat-form-field>
         <mat-select class="type" formControlName="type">
           <mat-option *ngFor="let type of types" [value]="type">
-            {{ type | affinityGroupType }}
+            {{ type | csAffinityGroupType }}
           </mat-option>
         </mat-select>
       </mat-form-field>

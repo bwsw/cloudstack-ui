@@ -107,8 +107,8 @@ export class VmDetailContainerComponent implements OnInit {
   public removeAffinityGroup(affinityGroupId: string) {
     this.vm$.pipe(take(1)).subscribe((vm: VirtualMachine) => {
       const affinityGroupIds = vm.affinitygroup
-        .filter(g => g.id !== affinityGroupId)
-        .map(g => g.id);
+        .map(g => g.id)
+        .filter(groupId => groupId !== affinityGroupId);
       this.store.dispatch(
         new vmActions.ChangeAffinityGroup({
           vm,

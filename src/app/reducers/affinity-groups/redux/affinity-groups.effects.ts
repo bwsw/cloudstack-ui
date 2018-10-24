@@ -12,15 +12,19 @@ import { DialogService } from '../../../dialog/dialog-service/dialog.service';
 
 @Injectable()
 export class AffinityGroupsEffects {
-
   @Effect()
   loadAffinityGroups$: Observable<Action> = this.actions$.pipe(
     ofType(affinityGroupActions.LOAD_AFFINITY_GROUPS_REQUEST),
     switchMap((action: affinityGroupActions.LoadAffinityGroupsRequest) => {
       return this.affinityGroupService.getList().pipe(
-        map((affinityGroups: AffinityGroup[]) => new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups)),
-        catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([]))));
-    }));
+        map(
+          (affinityGroups: AffinityGroup[]) =>
+            new affinityGroupActions.LoadAffinityGroupsResponse(affinityGroups),
+        ),
+        catchError(() => of(new affinityGroupActions.LoadAffinityGroupsResponse([]))),
+      );
+    }),
+  );
 
   @Effect()
   createAffinityGroup$: Observable<Action> = this.actions$.pipe(
@@ -29,24 +33,16 @@ export class AffinityGroupsEffects {
       return this.affinityGroupService.create(action.payload).pipe(
         map(ag => new affinityGroupActions.CreateAffinityGroupSuccess(ag)),
         catchError(error => {
-          this.showNotificationsOnFail(error);
-          return of(new affinityGroupActions.CreateAffinityGroupError(error))
-        }));
-    }));
+          this.dialogService.showNotificationsOnFail(error);
+          return of(new affinityGroupActions.CreateAffinityGroupError(error));
+        }),
+      );
+    }),
+  );
 
   constructor(
     private actions$: Actions,
     private affinityGroupService: AffinityGroupService,
     private dialogService: DialogService,
-  ) {
-  }
-
-  private showNotificationsOnFail(error) {
-    this.dialogService.alert({
-      message: {
-        translationToken: error.message,
-        interpolateParams: error.params
-      }
-    });
-  }
+  ) {}
 }

@@ -404,7 +404,7 @@
       },
       "AFFINITY_GROUP": {
         "TITLE": "Аффинитетные группы",
-        "NO_AFFINITY_GROUP": "Нет аффинитетных групп",
+        "NO_AFFINITY_GROUP": "Нет аффинитетной группы",
         "NO_AFFINITY_GROUPS": "Нет аффинитетных групп",
         "SELECT_AFFINITY_GROUP": "Изменение группы",
         "CREATE_NEW_GROUP": "Создать новую",
