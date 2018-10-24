@@ -4,7 +4,7 @@ Activity log
 -----------------
 .. Contents::
 
-In the *Accounts*-*Activity log* section you can see user activity in the account. Event search by main parameters - date and keywords - is supported to make it easier to find a necessary event for a specific date or type. 
+In the *Accounts* -> *Activity log* section you can see user activity in the account. Event search by main parameters - date and keywords - is supported to make it easier to find a necessary event for a specific date or type. 
 
 Events List
 ~~~~~~~~~~~~~~~~
