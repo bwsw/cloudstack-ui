@@ -19,7 +19,6 @@ import { VmCreationContainerComponent } from './containers/vm-creation.container
 import { AuthService } from '../../shared/services/auth.service';
 // tslint:disable-next-line
 import { ProgressLoggerMessage } from '../../shared/components/progress-logger/progress-logger-message/progress-logger-message';
-import { isCustomized } from '../../shared/models/offering.model';
 
 @Component({
   selector: 'cs-vm-creation',
