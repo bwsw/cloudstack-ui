@@ -20,7 +20,7 @@ Here is the documentation structure:
    CSUI-Snapshots
    CSUI-Firewall
    CSUI-SSHkeys
-   CSUI-ViewLogs 
+   CSUI-LogView
    CSUI-Accounts
    CSUI-Events
    CSUI-Settings
